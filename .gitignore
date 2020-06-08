@@ -1,8 +1,10 @@
 client/node_modules/
-
+tmp/
 Backend/__pycache__/
 Backend/venv/
-Backend/uploadedFiles/requests/
+Backend/resource/stock_news_data/
+Backend/enviroments.py
+Backend/test.py
 
 # Compiled source #
 ###################

@@ -1,24 +1,39 @@
 
-from json import dumps
+import time, signal
+from datetime import timedelta
 import yfinance as yf
-import data_modification as data_modification
 from yahoo_fin import stock_info as si
 from flask import Flask, request, abort, jsonify, make_response
 from flask_json import FlaskJSON, JsonError, json_response, as_json
+from time import sleep
+
+#custom imports
+import data_modification as data_modification
+import stock_news
+import RepeatedTimer as rt
 
 
 #yf.pdr_override()
 app = Flask(__name__)
 FlaskJSON(app)
 
+StockNews = stock_news.StockNews()
+
+#-----------------------------------
+@app.route('/economics/news')
+def getEconomicNews():
+    try:
+        return json_response(stockNews=StockNews.getJsonDataFromFile())
+    except Exception as e:
+        print(e)
+        raise JsonError(status=500, error='Failed to get economic news')
 
 #------------------------------------
 # DATA
-
-#Valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
-#Valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
 @app.route('/ticker/chart_data')
 def getChartDataWithPeriod():
+    # Valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
+    # Valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
     try:
         symbol = request.args.get('symbol')
         period = request.args.get('period')
@@ -52,7 +67,7 @@ def getLivePrice():
 
 #----------------------------------------
 # GET DATA INTO TABLES --> TOP LOSERS / GAINERS / ACTIVE + WATCHLIST DATA
-@app.route('/ticker/dat_top_gains')
+@app.route('/ticker/day_top_gains')
 def getTopGains():
     try:
         topGainers = si.get_day_gainers()[0:10]
@@ -149,6 +164,7 @@ def getTickerStat():
 #------------------------------------------------
 # ANALYSIS
 
+#TODO
 @app.route('/ticker/analysis')
 def getAnalystsInfo():
     symbol = ''
@@ -160,7 +176,7 @@ def getAnalystsInfo():
         print(e)
         raise JsonError(status=400, error='Could not find analysis for ticker {0}'.format(symbol))
 
-
+#TODO
 @app.route('/ticker/recommendation')
 def getRecommendations():
     symbol = ''
@@ -173,7 +189,7 @@ def getRecommendations():
         print(e)
         raise JsonError(status=400, error='Could not find any recommendation for ticker {0}'.format(symbol))
 
-
+#TODO
 @app.route('/ticker/sustainability')
 def getSustainability():
     symbol = ''
@@ -226,9 +242,12 @@ def getIncomeStatement():
         print(e)
         raise JsonError(status=400, error='Could not find income statement for ticker {0}'.format(symbol))
 
+
+
 if __name__ == '__main__':
     app.run()
-
+    #hour = 60 * 60
+    #rt.RepeatedTimer(hour, StockNews.fetchAndSaveNews())
 
 
 '''
