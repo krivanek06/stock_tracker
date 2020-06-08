@@ -1,15 +1,11 @@
+
+
 def getPercentigeChangeInVolume(data):
     return round((100 / data['Avg Vol (3 month)'] * data['Volume'] - 100), 2)
-
 
 def removeKeys(data, keys):
     for k in keys:
         del data[k]
-
-
-# ROUND DATA
-''' FORMATING DATA '''
-
 
 def formatTopGainersOrLoosersOrActive(data):
     res = []
