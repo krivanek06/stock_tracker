@@ -17,14 +17,7 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {MatPasswordStrengthModule} from '@angular-material-extensions/password-strength';
 import {LoginComponent} from './core/components/login/login.component';
-import {StoreModule} from '@ngrx/store';
-import {routerReducer, StoreRouterConnectingModule} from '@ngrx/router-store';
-import * as fromLoader from './core/store/loading/loader.reducer';
-import * as fromAuth from './core/store/auth/auth.reducer';
-import {EffectsModule} from '@ngrx/effects';
-import {AuthEffects} from './core/store/auth/auth.effects';
-import {StoreDevtoolsModule} from '@ngrx/store-devtools';
-import {RouterCustomSerializer} from './core/utils/router.serializer';
+import {AngularFireStorageModule} from '@angular/fire/storage';
 
 
 @NgModule({
@@ -34,7 +27,7 @@ import {RouterCustomSerializer} from './core/utils/router.serializer';
   ],
   imports: [
     BrowserModule,
-    // AppNgrxModule,
+    AppNgrxModule,
     CommonModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -45,47 +38,22 @@ import {RouterCustomSerializer} from './core/utils/router.serializer';
     MaterialModule.forRoot(),
     MatPasswordStrengthModule.forRoot(),
 
-    StoreModule.forRoot({
-      router: routerReducer,
-      loader: fromLoader.reducer,
-      auth: fromAuth.reducer
-    }, {
-      runtimeChecks: {
-        strictStateImmutability: true,
-        strictActionImmutability: true,
-        strictStateSerializability: true,
-        strictActionSerializability: true,
-      }
-    }),
-    EffectsModule.forRoot([
-      AuthEffects
-    ]),
-    StoreDevtoolsModule.instrument({
-      maxAge: 10, // Retains last 25 states
-      logOnly: environment.production, // Restrict extension to log-only mode
-    }),
-    StoreRouterConnectingModule.forRoot({
-      stateKey: 'router',
-      serializer: RouterCustomSerializer
-    }),
-
     // Firebase
     AngularFireModule.initializeApp(environment.firebase), //  as ModuleWithProviders<AngularFireModule>
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AngularFireStorageModule,
     NgxAuthFirebaseUIModule.forRoot(
       environment.firebase,
       null,
       {
         enableFirestoreSync: true,
-        toastMessageOnAuthSuccess: true,
         toastMessageOnAuthError: true,
         authGuardLoggedInURL: 'dashboard'
       }
     ),
 
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -55,8 +55,10 @@
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
+// import './zone-flags.ts';
 import 'zone.js/dist/zone';  // Included with Angular CLI.
-
+(window as any).global = window; // Cannot access 'NgbModal' before initialization
+// (window as any).__Zone_disable_toString = true; // Zone will not patch Function.prototype.toStrin
 
 /***************************************************************************************************
  * APPLICATION IMPORTS

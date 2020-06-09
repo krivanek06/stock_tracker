@@ -6,9 +6,13 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {MaterialModule} from '../material.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AngularFireStorageModule} from '@angular/fire/storage';
+import {ConfirmDialogComponent} from './components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    ConfirmDialogComponent,
+  ],
   imports: [
     CommonModule,
     NgxAuthFirebaseUIModule,
@@ -18,6 +22,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     RouterModule,
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AngularFireStorageModule
   ],
   exports: [
     NgxAuthFirebaseUIModule,
@@ -27,6 +32,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     RouterModule,
     AngularFirestoreModule,
     AngularFireAuthModule,
-  ]
+    AngularFireStorageModule,
+    ConfirmDialogComponent
+  ],
+  entryComponents: [ConfirmDialogComponent],
 })
 export class SharedModule { }
