@@ -1,4 +1,5 @@
 client/node_modules/
+client/src/environments
 tmp/
 Backend/__pycache__/
 Backend/venv/
