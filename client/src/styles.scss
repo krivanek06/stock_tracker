@@ -1,0 +1,17 @@
+@import '~@angular/material/theming';
+
+// import datepicker range
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+mat-icon {
+  font-family: 'Material Icons' !important;
+}
+
+.material-icons.color_green {
+  color: #00FF00;
+}
+
+.material-icons.color_white {
+  color: #FFFFFF;
+}
