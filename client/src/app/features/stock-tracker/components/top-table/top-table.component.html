@@ -1,0 +1,75 @@
+<div class="mat-elevation-z0">
+
+  <mat-table [dataSource]="dataSource" [trackBy]="trackBy" matSort>
+
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element">  {{ element.symbol }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="currentPrice">
+      <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
+      <mat-cell *matCellDef="let element"
+                [ngClass]="{
+                  'positive-number': element.currentPriceChange >= 0,
+                  'negative-number': element.currentPriceChange <= 0
+                }">
+        {{ element.currentPrice }} ( {{ element.currentPriceChange }}% )
+
+        <!-- triangle -->
+        <div [ngClass]="{
+        'triangle-up': element.currentPriceChange >= 0,
+        'triangle-down': element.currentPriceChange <= 0
+        }">
+        </div>
+
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="volumeChange">
+      <mat-header-cell *matHeaderCellDef>Volume</mat-header-cell>
+      <mat-cell *matCellDef="let element"
+                [ngClass]="{
+                  'positive-number': element.volumeChange >= 0,
+                  'negative-number': element.volumeChange <= 0
+                }">
+        {{ element.volumeChange }}%
+
+        <!-- triangle -->
+        <div [ngClass]="{
+        'triangle-up': element.volumeChange >= 0,
+        'triangle-down': element.volumeChange <= 0
+        }">
+        </div>
+
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="peRatio">
+      <mat-header-cell *matHeaderCellDef>PE</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.peRatio }}</mat-cell>
+    </ng-container>
+
+
+    <!-- [routerLink]="['/requests/request_details']"
+                [queryParams]="{request_id : element.id}" -->
+    <ng-container matColumnDef="details">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <div class="grid-buttons">
+          <span class="material-icons white-scaling-icon">bar_chart</span>
+          <span class="material-icons white-scaling-icon">favorite</span>
+          <span class="material-icons white-scaling-icon">forward</span>
+        </div>
+      </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>
+
+
+

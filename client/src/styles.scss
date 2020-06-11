@@ -4,6 +4,12 @@
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
 mat-icon {
   font-family: 'Material Icons' !important;
 }
@@ -14,4 +20,13 @@ mat-icon {
 
 .material-icons.color_white {
   color: #FFFFFF;
+}
+
+.page-content{
+  width: calc(100% - 120px);
+  position: relative;
+  min-height: 100vh;
+  background-color: #303030;
+  padding: 20px;
+  float: right;
 }

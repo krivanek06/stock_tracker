@@ -1,8 +1,11 @@
+<div class="login_container">
+  <ngx-auth-firebaseui
+    [guestEnabled]="true"
+    [providers]="['google']"
+    (onError)="log($event)"
+    (onSuccess)="login()">
 
-<ngx-auth-firebaseui-login
-  [providers]="['google']"
-  (onError)="log($event)"
-  (onSuccess)="login()">
+  </ngx-auth-firebaseui>
 
-</ngx-auth-firebaseui-login>
+</div>
 

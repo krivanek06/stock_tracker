@@ -7,11 +7,20 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import {MaterialModule} from '../material.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AngularFireStorageModule} from '@angular/fire/storage';
-import {ConfirmDialogComponent} from './components/confirm-dialog/confirm-dialog.component';
+import {ConfirmDialogComponent} from './components/presentation/confirm-dialog/confirm-dialog.component';
+import { NavigationComponent } from './components/smart/navigation/navigation.component';
+import { ChartsModule } from 'ng2-charts';
+import { BasicChartComponent } from './components/presentation/basic-chart/basic-chart.component';
+import { BasicChartTimelineButtonsComponent } from './components/presentation/basic-chart-timeline-buttons/basic-chart-timeline-buttons.component';
+import { LoaderSpinnerComponent } from './components/presentation/loader-spinner/loader-spinner.component';
 
 @NgModule({
   declarations: [
     ConfirmDialogComponent,
+    NavigationComponent,
+    BasicChartComponent,
+    BasicChartTimelineButtonsComponent,
+    LoaderSpinnerComponent,
   ],
   imports: [
     CommonModule,
@@ -22,7 +31,8 @@ import {ConfirmDialogComponent} from './components/confirm-dialog/confirm-dialog
     RouterModule,
     AngularFirestoreModule,
     AngularFireAuthModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    ChartsModule
   ],
   exports: [
     NgxAuthFirebaseUIModule,
@@ -33,7 +43,13 @@ import {ConfirmDialogComponent} from './components/confirm-dialog/confirm-dialog
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
-    ConfirmDialogComponent
+    ChartsModule,
+
+    ConfirmDialogComponent,
+    NavigationComponent,
+    BasicChartComponent,
+    BasicChartTimelineButtonsComponent,
+    LoaderSpinnerComponent
   ],
   entryComponents: [ConfirmDialogComponent],
 })

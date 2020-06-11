@@ -1,0 +1,34 @@
+<app-navigation>
+
+</app-navigation>
+
+
+<div class="page-content">
+  <div class="page-content-main">
+    <!-- main charts -> S&P 500 , DOW 30 -->
+    <div class="page-content-rows">
+      <app-dashboard-chart-container [name]="'S&P 500'" [symbol]="'^GSPC'"></app-dashboard-chart-container>
+      <app-dashboard-chart-container [name]="'DOW 30'" [symbol]="'^DJI'"></app-dashboard-chart-container>
+    </div>
+
+    <!-- news -->
+    <div class="page-content-news">
+      <ng-container *ngIf="articles$ | async as articles">
+        <ng-container *ngIf="articles.wallStreetNews as wallStreet">
+          <app-market-article
+            *ngFor="let article of wallStreet.articles"
+            [article]="article"
+          >
+          </app-market-article>
+        </ng-container>
+
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="page-content-top">
+    <app-dashboard-top-table-container></app-dashboard-top-table-container>
+  </div>
+
+
+</div>

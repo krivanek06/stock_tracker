@@ -1,0 +1,48 @@
+
+.navigation_container {
+  width: 100px;
+  position: fixed;
+  height: 100vh;
+  background-color: #303030;
+}
+
+.navigation_background {
+  z-index: -1;
+  width: 80px;
+  position: fixed;
+  height: 100vh;
+}
+
+.grid-navigation-buttons-container {
+  display: grid;
+  grid-gap: 15px;
+  width: 0px;
+  /*grid-template-columns: 50px;*/
+  margin-top: 40px;
+  margin-left: 8px;
+  position: relative;
+}
+
+.white-icon {
+  color: white;
+}
+
+.navigation_icon {
+  transition: All 0.45s ease-out;
+  /*position: fixed;*/
+  background-color: #1A77D4;
+  cursor: pointer;
+  font-size: 50px;
+
+  &:hover {
+    transform: scale(1.15);
+    color: #cbc265;
+  }
+}
+
+#log_out_icon {
+  position: absolute;
+  bottom: 15px;
+  left: 2px;
+}
+

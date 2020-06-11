@@ -1,0 +1,10 @@
+
+<div class="grid-wrapper">
+  <span class="un" (click)="click('1d')" [ngClass]="{'un-active': '1d' === timeline}">1 day</span>
+  <span class="un" (click)="click('5d')" [ngClass]="{'un-active': '5d' === timeline}">5 days</span>
+  <span class="un" (click)="click('1mo')" [ngClass]="{'un-active': '1mo' === timeline}">1 month</span>
+  <span class="un" (click)="click('6mo')" [ngClass]="{'un-active': '6mo' === timeline}">6 months</span>
+  <span class="un" (click)="click('1y')" [ngClass]="{'un-active': '1y' === timeline}">1 year</span>
+  <span class="un" (click)="click('5y')" [ngClass]="{'un-active': '5y' === timeline}">5 years</span>
+  <span class="un" (click)="click('max')" [ngClass]="{'un-active': 'max' === timeline}">Max</span>
+</div>
