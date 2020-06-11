@@ -1,0 +1,18 @@
+
+
+<div class="page-table-container">
+  <app-top-table
+    class="white-separator"
+    [data]="getTopGains$ | async">
+  </app-top-table>
+
+  <app-top-table
+    class="white-separator"
+    [data]="getTopLosers$ | async">
+  </app-top-table>
+
+  <app-top-table
+    [data]="getTopActive$ | async">
+  </app-top-table>
+
+</div>

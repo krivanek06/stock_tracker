@@ -33,6 +33,7 @@ export class AuthEffects {
 
   logout$: Observable<Action> = createEffect(() => this.actions$.pipe(
     ofType(authAction.logout),
+    tap(() => this.afAuth.signOut()),
     tap(() => this.router.navigate(['/login'])),
     map(() => authAction.notAuthenticated()),
   ));

@@ -1,0 +1,47 @@
+.article-panel-container{
+  position: relative;
+  width: 100%;
+  height: 150px;
+}
+
+.article-information-container{
+  display: grid;
+  margin-top: 10px;
+  grid-gap: 5px;
+  grid-template-columns: 1fr 3fr;
+}
+
+.article-image-parent{
+  position: relative;
+  width: 120px;
+  height: 75px;
+}
+
+.article-image{
+  width: 100%;
+  height: 100%;
+}
+
+.article-information{
+  word-wrap: break-spaces;
+}
+
+.article-information-inline{
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.article-publisher-information{
+  position: absolute;
+  color: #fefefe;
+  bottom: 5px;
+  right: 10px;
+}
+
+.white{
+  color: white;
+}
+
+a{
+  color: #1A77D4;
+}

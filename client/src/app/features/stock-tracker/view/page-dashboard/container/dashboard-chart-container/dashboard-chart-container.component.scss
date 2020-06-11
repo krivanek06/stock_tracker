@@ -1,0 +1,24 @@
+.chart-data-container{
+  position: relative;
+}
+
+.ticker-name{
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  color: white;
+  font-size: 16px;
+}
+
+.timeline-buttons{
+  position: relative;
+  width: 70%;
+  margin: auto;
+  margin-top: 5px;
+}
+
+
+.spinner-container{
+  height: 250px;
+  text-align: center;
+}

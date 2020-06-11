@@ -1,12 +1,13 @@
 
 import time, signal
 from datetime import timedelta
+
 import yfinance as yf
 from yahoo_fin import stock_info as si
 from flask import Flask, request, abort, jsonify, make_response
 from flask_json import FlaskJSON, JsonError, json_response, as_json
 from time import sleep
-
+from flask_cors import CORS
 #custom imports
 import data_modification as data_modification
 import stock_news
@@ -16,11 +17,15 @@ import RepeatedTimer as rt
 #yf.pdr_override()
 app = Flask(__name__)
 FlaskJSON(app)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
+# CUSTOM singleton
 StockNews = stock_news.StockNews()
 
+
+
 #-----------------------------------
-@app.route('/economics/news')
+@app.route('/api/economics/news')
 def getEconomicNews():
     try:
         return json_response(stockNews=StockNews.getJsonDataFromFile())
@@ -30,25 +35,33 @@ def getEconomicNews():
 
 #------------------------------------
 # DATA
-@app.route('/ticker/chart_data')
+@app.route('/api/ticker/chart_data')
 def getChartDataWithPeriod():
     # Valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
     # Valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
     try:
         symbol = request.args.get('symbol')
         period = request.args.get('period')
-        if period == '1d' or period == '5d':
+        if period == '1d':
             chart_data = yf.download(tickers=symbol, period=period, interval="5m")
-        else:
+        elif period == '5d':
+            chart_data = yf.download(tickers=symbol, period=period, interval="1h")
+        elif period in ['1mo', '3mo', '6mo']:
             chart_data = yf.download(tickers=symbol, period=period, interval="1d")
-            #chart_data['daily_return'] = str(round(((chart_data.get('Adj Close') / chart_data.get('Adj Close').shift(1)) - 1) * 100, 2))
+        elif period in ['1y', '2y', '5y']:
+            chart_data = yf.download(tickers=symbol, period=period, interval="1wk")
+        else:
+            chart_data = yf.download(tickers=symbol, period=period, interval="1mo")
 
-        chart_data['current_price'] = chart_data['Adj Close']
+        chart_data['currentPercentReturn'] = round(((chart_data.get('Adj Close') / chart_data.get('Adj Close').shift(1)) - 1) * 100, 2)
+        chart_data['currentPercentReturn'][0] = 0 # NaN -> 0
+        chart_data['currentPrice'] = chart_data['Adj Close']
 
         # remove unnecessary data
         data_modification.removeKeys(chart_data, ['High', 'Low', 'Open', 'Close', 'Adj Close'])
-        chart_data = data_modification.formatChartData(chart_data)
-        return json_response(chartData=chart_data)
+        chart_data = data_modification.formatChartData(chart_data, period in ['1d', '5d'])
+        #return json_response(chartData=chart_data)
+        return jsonify(chartData=chart_data)
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding chart data')
@@ -67,7 +80,7 @@ def getLivePrice():
 
 #----------------------------------------
 # GET DATA INTO TABLES --> TOP LOSERS / GAINERS / ACTIVE + WATCHLIST DATA
-@app.route('/ticker/day_top_gains')
+@app.route('/api/ticker/day_top_gains')
 def getTopGains():
     try:
         topGainers = si.get_day_gainers()[0:10]
@@ -79,7 +92,7 @@ def getTopGains():
         print(e)
         raise JsonError(status=500, error='Failed to get top gainers')
 
-@app.route('/ticker/day_top_losers')
+@app.route('/api/ticker/day_top_losers')
 def getTopLosers():
     try:
         topLosers = si.get_day_losers()[0:10]
@@ -92,7 +105,7 @@ def getTopLosers():
         raise JsonError(status=500, error='Failed to get top losers')
 
 
-@app.route('/ticker/day_most_active')
+@app.route('/api/ticker/day_most_active')
 def getMostActive():
     try:
         mostActive = si.get_day_most_active()[0:10]
@@ -104,8 +117,19 @@ def getMostActive():
         print(e)
         raise JsonError(status=500, error='Failed to get most active')
 
+@app.route('/api/ticker/day_top_cryto')
+def getTopCrypto():
+    try:
+        topCrypto = si.get_top_crypto()[0:10]
+        res = data_modification.formatCrypto(topCrypto)
+        return json_response(topCrypto=res)
+    except Exception as e:
+        print(e)
+        raise JsonError(status=500, error='Failed to get top crypto')
 
-@app.route('/ticker/watchlist_summary')
+
+
+@app.route('/api/ticker/watchlist_summary')
 def getWatchlistTickerSummary():
     symbol = ''
     try:
@@ -123,7 +147,7 @@ def getWatchlistTickerSummary():
 #------------------------------------------------
 # statistics
 
-@app.route('/ticker/info')
+@app.route('/api/ticker/info')
 def getTickerInfo():
     symbol = ''
     try:
@@ -136,7 +160,7 @@ def getTickerInfo():
         raise JsonError(status=400, error='Could not find stats for ticker {0}'.format(symbol))
 
 
-@app.route('/ticker/summary')
+@app.route('/api/ticker/summary')
 def getTickerSummary():
     symbol = ''
     try:
@@ -148,7 +172,7 @@ def getTickerSummary():
         raise JsonError(status=400, error='Could not find summary for ticker {0}'.format(symbol))
 
 
-@app.route('/ticker/stat')
+@app.route('/api/ticker/stat')
 def getTickerStat():
     symbol = ''
     try:
@@ -165,7 +189,7 @@ def getTickerStat():
 # ANALYSIS
 
 #TODO
-@app.route('/ticker/analysis')
+@app.route('/api/ticker/analysis')
 def getAnalystsInfo():
     symbol = ''
     try:
@@ -177,7 +201,7 @@ def getAnalystsInfo():
         raise JsonError(status=400, error='Could not find analysis for ticker {0}'.format(symbol))
 
 #TODO
-@app.route('/ticker/recommendation')
+@app.route('/api/ticker/recommendation')
 def getRecommendations():
     symbol = ''
     try:
@@ -190,7 +214,7 @@ def getRecommendations():
         raise JsonError(status=400, error='Could not find any recommendation for ticker {0}'.format(symbol))
 
 #TODO
-@app.route('/ticker/sustainability')
+@app.route('/api/ticker/sustainability')
 def getSustainability():
     symbol = ''
     try:
@@ -205,7 +229,7 @@ def getSustainability():
 #------------------------------------------------
 # SHEETS
 
-@app.route('/ticker/balance_sheet')
+@app.route('/api/ticker/balance_sheet')
 def getBalanceSheet():
     symbol = ''
     try:
@@ -217,7 +241,7 @@ def getBalanceSheet():
         print(e)
         raise JsonError(status=400, error='Could not find balance sheet for ticker {0}'.format(symbol))
 
-@app.route('/ticker/cash_flow')
+@app.route('/api/ticker/cash_flow')
 def getCashFlow():
     symbol = ''
     try:
@@ -230,7 +254,7 @@ def getCashFlow():
         raise JsonError(status=400, error='Could not find cash flow data for ticker {0}'.format(symbol))
 
 
-@app.route('/ticker/income_statement')
+@app.route('/api/ticker/income_statement')
 def getIncomeStatement():
     symbol = ''
     try:

@@ -49,7 +49,7 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
       {
         enableFirestoreSync: true,
         toastMessageOnAuthError: true,
-        authGuardLoggedInURL: 'dashboard'
+        /*authGuardLoggedInURL: 'dashboard'*/
       }
     ),
 

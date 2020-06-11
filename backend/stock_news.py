@@ -20,24 +20,28 @@ class StockNews:
         wallStreet_news = get('http://newsapi.org/v2/everything?domains=wsj.com&apiKey=' + self.API_KEY)
         apple_news = get('http://newsapi.org/v2/everything?q=apple&from=2020-06-07&to=2020-06-07&sortBy=popularity&apiKey=' + self.API_KEY)
 
-        with open(self.FOLDER + "/" + self.BUSINESS_FILENAME, "w+", encoding='utf-8') as f:
-            json.dump(business_news.json(), f, ensure_ascii=False, indent=4)
+        #with open(self.FOLDER + "/" + self.BUSINESS_FILENAME, "w+", encoding='utf-8') as f:
+        #    json.dump(business_news.json(), f, ensure_ascii=False, indent=4)
 
         with open(self.FOLDER + "/" + self.WALL_STREET_FILENAME, "w+", encoding='utf-8') as f:
             json.dump(wallStreet_news.json(), f, ensure_ascii=False, indent=4)
 
-        with open(self.FOLDER + "/" + self.APPLE_FILENAME, "w+", encoding='utf-8') as f:
-            json.dump(apple_news.json(), f, ensure_ascii=False, indent=4)
+        #with open(self.FOLDER + "/" + self.APPLE_FILENAME, "w+", encoding='utf-8') as f:
+        #    json.dump(apple_news.json(), f, ensure_ascii=False, indent=4)
 
     def getJsonDataFromFile(self):
         result = {}
-        with open(self.FOLDER + "/" + self.BUSINESS_FILENAME, encoding='utf-8') as f:
-            result[self.BUSINESS_FILENAME[:-5]] = json.load(f)
+        #with open(self.FOLDER + "/" + self.BUSINESS_FILENAME, encoding='utf-8') as f:
+        #    result[self.BUSINESS_FILENAME[:-5]] = json.load(f)
 
         with open(self.FOLDER + "/" + self.WALL_STREET_FILENAME, encoding='utf-8') as f:
-            result[self.WALL_STREET_FILENAME[:-5]] = json.load(f)
+            result['wallStreetNews'] = json.load(f)
 
-        with open(self.FOLDER + "/" + self.APPLE_FILENAME, encoding='utf-8') as f:
-            result[self.APPLE_FILENAME[:-5]] = json.load(f)
+
+        #with open(self.FOLDER + "/" + self.APPLE_FILENAME, encoding='utf-8') as f:
+        #    result[self.APPLE_FILENAME[:-5]] = json.load(f)
+        for key in result.keys():
+            for art in result[key]['articles']:
+                del art['content']
 
         return result

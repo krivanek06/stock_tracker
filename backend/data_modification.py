@@ -1,4 +1,5 @@
-
+from datetime import datetime
+import math
 
 def getPercentigeChangeInVolume(data):
     return round((100 / data['Avg Vol (3 month)'] * data['Volume'] - 100), 2)
@@ -9,18 +10,27 @@ def removeKeys(data, keys):
 
 def formatTopGainersOrLoosersOrActive(data):
     res = []
+    for i in range(len(data['Symbol'])):
+        tmp = {}
+        tmp['symbol'] = str(data['Symbol'][i])
+        tmp['name'] = str(data['Name'][i])
+        tmp['currentPrice'] = float(round(data['Price (Intraday)'][i], 2))
+        tmp['currentPriceChange'] = float(round(data['% Change'][i], 2))
+        tmp['volumeChange'] = float(round(data['volume_change'][i], 2))
+        tmp['peRatio'] = -1 if math.isnan(data['PE Ratio (TTM)'][i]) else float(data['PE Ratio (TTM)'][i])
+
+        res.append(tmp)
+    return res
+
+
+def formatCrypto(data):
+    res = []
     for i in range(10):
         tmp = {}
         tmp['symbol'] = str(data['Symbol'][i])
         tmp['name'] = str(data['Name'][i])
-        tmp['current_price'] = float(round(data['Price (Intraday)'][i], 2))
-        tmp['current_price_change'] = float(round(data['% Change'][i], 2))
-        tmp['volume_change'] = float(round(data['volume_change'][i], 2))
-
-        try:
-            tmp['pe_ratio'] = float(data['PE Ratio (TTM)'][i])
-        except:
-            tmp['pe_ratio'] = -1
+        tmp['currentPrice'] = float(round(data['Price (Intraday)'][i], 2))
+        tmp['currentPriceChange'] = float(round(data['% Change'][i], 2))
 
         res.append(tmp)
     return res
@@ -41,17 +51,18 @@ def formatWatchList(data):
     return res
 
 
-def formatChartData(data):
-    res = []
-    timestamp = data['current_price'].keys()
+def formatChartData(data, includeMinutes = True):
+    res = {'currentTime': [], 'currentPrice': [], 'currentVolumeInMillion': [], 'currentPercentReturn': []}
+    timestamp = data['currentPrice'].keys()
     for i in range(len(timestamp)):
-        tmp = {}
-        tmp['timestamp'] = float(timestamp[i].timestamp() * 1000) # milliseconds
-        tmp['current_price'] = float(round(data['current_price'][i], 2))
-        tmp['volume'] = float(data['Volume'][i])
-        if 'daily_return' in data:
-            tmp['daily_return'] = float(data['daily_return'][i])
-        res.append(tmp)
+        tmpDate = datetime.fromtimestamp(timestamp[i].timestamp())
+        tmpDate = tmpDate.strftime("%d/%m/%Y %H:%M") if includeMinutes else tmpDate.strftime("%d/%m/%Y").split(' ')[0]
+
+        res['currentTime'].append(tmpDate)
+        res['currentPrice'].append(float(round(data['currentPrice'][i], 2)))
+        res['currentVolumeInMillion'].append(float(round(data['Volume'][i] / 1000000, 2)))
+        res['currentPercentReturn'].append(float(data['currentPercentReturn'][i]))
+
     return res
 
 

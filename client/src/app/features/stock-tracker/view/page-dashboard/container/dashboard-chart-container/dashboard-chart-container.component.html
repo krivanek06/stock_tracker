@@ -1,0 +1,31 @@
+<!-- chart data with timeline buttons -->
+<div class="chart-data-container">
+  <div class="ticker-name">
+    {{ name }}
+  </div>
+
+    <app-basic-chart *ngIf="chartData$ | async as data; else showSpinner"
+                     [lineChartData]="[
+                        {data: data.currentPercentReturn, label: 'Points % diff', hidden: true},
+                        {data: data.currentPrice, label: 'Points'},
+                        {data: data.currentVolumeInMillion, label: 'Volume in million',  hidden: true}
+                      ]"
+                     [lineChartLabels]="data.currentTime"
+                     [height]="'250'">
+    </app-basic-chart>
+
+
+  <!-- else show spinner -->
+  <ng-template #showSpinner>
+    <div class="spinner-container">
+      <app-loader-spinner></app-loader-spinner>
+    </div>
+  </ng-template>
+
+
+  <div class="timeline-buttons">
+    <app-basic-chart-timeline-buttons (clickedEmitter)="updateChart($event)">
+    </app-basic-chart-timeline-buttons>
+  </div>
+</div>
+
