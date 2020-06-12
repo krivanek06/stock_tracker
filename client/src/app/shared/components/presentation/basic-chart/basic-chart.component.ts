@@ -23,8 +23,8 @@ export class BasicChartComponent implements OnInit {
   // Labels shown on the x-axis
   @Input() lineChartLabels: Label[];
 
-  @Input() height = '300px';
-  @Input() width = '100%';
+  @Input() height = '300'; // in px
+  @Input() width = '100'; // in %
 
 
   // Define chart options
@@ -36,16 +36,7 @@ export class BasicChartComponent implements OnInit {
   }
 
   // Define colors of chart segments
-  lineChartColors: Color[] = [
-    { // dark grey
-      backgroundColor: 'rgba(77,83,96,0.2)',
-      borderColor: 'rgba(77,83,96,1)',
-    },
-    { // red
-      backgroundColor: 'rgba(255,0,0,0.3)',
-      borderColor: 'red',
-    }
-  ];
+  @Input() lineChartColors: Color[] = [];
 
 
   ngOnInit(): void {

@@ -7,4 +7,7 @@ export interface IChartData {
   currentPrice: number[];
   currentTime: string[];
   currentVolumeInMillion: number[];
+  totalReturn: number;
+  livePrice: number;
+  livePriceDiff: number;
 }
