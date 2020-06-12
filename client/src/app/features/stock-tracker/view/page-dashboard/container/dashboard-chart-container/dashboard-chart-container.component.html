@@ -1,19 +1,49 @@
 <!-- chart data with timeline buttons -->
 <div class="chart-data-container">
-  <div class="ticker-name">
-    {{ name }}
-  </div>
 
-    <app-basic-chart *ngIf="chartData$ | async as data; else showSpinner"
-                     [lineChartData]="[
+  <ng-container *ngIf="chartData$ | async as data; else showSpinner">
+    <!-- stock name -->
+    <div class="ticker-name-container">
+      {{ name }}
+    </div>
+
+    <!-- actual stock price  -->
+    <div class="ticker-movement-container">
+      <div class="ticker-price">
+        {{ data.livePrice }}
+      </div>
+
+      <!-- stock price change in number from start to end -->
+      <div class="bigger-font"
+           [ngClass]="{
+            'positive-number': data.totalReturn > 0,
+            'negative-number':  data.totalReturn < 0}">
+        <ng-container *ngIf="data.totalReturn >= 0">+{{ data.livePriceDiff }}</ng-container>
+        <ng-container *ngIf="data.totalReturn < 0">{{ data.livePriceDiff }}</ng-container>
+      </div>
+
+      <!-- stock price change in % from start to end -->
+      <span class="bigger-font"
+          [ngClass]="{
+            'positive-number': data.totalReturn > 0,
+            'negative-number':  data.totalReturn < 0}">
+        <ng-container *ngIf="data.totalReturn >= 0">(+{{ data.totalReturn }}%)</ng-container>
+        <ng-container *ngIf="data.totalReturn < 0">({{ data.totalReturn }}%)</ng-container>
+      </span>
+      <div [ngClass]="{'triangle-up': data.totalReturn > 0, 'triangle-down':  data.totalReturn < 0}"></div>
+    </div>
+
+    <!-- actual chart-->
+    <app-basic-chart [lineChartData]="[
+                        {data: data.currentPrice, label: 'Points' },
                         {data: data.currentPercentReturn, label: 'Points % diff', hidden: true},
-                        {data: data.currentPrice, label: 'Points'},
                         {data: data.currentVolumeInMillion, label: 'Volume in million',  hidden: true}
                       ]"
+                     [lineChartColors]="data.totalReturn < 0? [lineChartColors[0]]: [lineChartColors[1]]"
                      [lineChartLabels]="data.currentTime"
                      [height]="'250'">
     </app-basic-chart>
-
+  </ng-container>
 
   <!-- else show spinner -->
   <ng-template #showSpinner>
@@ -23,6 +53,7 @@
   </ng-template>
 
 
+  <!-- chart timeline buttons -->
   <div class="timeline-buttons">
     <app-basic-chart-timeline-buttons (clickedEmitter)="updateChart($event)">
     </app-basic-chart-timeline-buttons>

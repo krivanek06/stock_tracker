@@ -38,15 +38,15 @@ def formatCrypto(data):
 
 def formatWatchList(data):
     res = {}
-    res['52_Week_Range'] = str(data['52 Week Range'])
-    res['Earnings_Date'] = str(data['Earnings Date'])
+    res['WeekRange52'] = str(data['52 Week Range'])
+    res['earningsDate'] = str(data['Earnings Date'])
     res['symbol'] = str(data['symbol'])
-    res['Ex_Dividend_Date'] = str(data['Ex-Dividend Date'])
-    res['Forward_Dividend_&_Yield'] = str(data['Forward Dividend & Yield'])
-    res['current_price_change'] = float(round(100 / data['Previous Close'] * data['Quote Price'] - 100, 2))
-    res['current_price'] = float(round(data['Quote Price'], 2))
-    res['1y_Target_Est'] = float(data['1y Target Est'])
-    res['1y_Target_Est_change'] = float(round(100 / data['1y Target Est'] * data['Quote Price'] - 100, 2))
+    res['exDividendDate'] = str(data['Ex-Dividend Date'])
+    res['forwardDividendAndYield'] = str(data['Forward Dividend & Yield'])
+    res['currentPriceChange'] = float(round(100 / data['Previous Close'] * data['Quote Price'] - 100, 2))
+    res['currentPrice'] = float(round(data['Quote Price'], 2))
+    res['TargetEst1y'] = float(data['1y Target Est'])
+    res['TargetEstChange1y'] = float(round(100 / data['1y Target Est'] * data['Quote Price'] - 100, 2))
 
     return res
 
@@ -54,14 +54,22 @@ def formatWatchList(data):
 def formatChartData(data, includeMinutes = True):
     res = {'currentTime': [], 'currentPrice': [], 'currentVolumeInMillion': [], 'currentPercentReturn': []}
     timestamp = data['currentPrice'].keys()
+
+    # total % return from start to end
+    res['totalReturn'] = float(round(100 / data['Open'][0] * data['currentPrice'][len(data['currentPrice']) - 1] - 100, 2))
+    # difference in price form start to end
+    res['livePriceDiff'] = round(data['currentPrice'][-1] - data['Open'][0], 2)
+    res['livePrice'] = round(data['currentPrice'][-1], 2)
+
+
     for i in range(len(timestamp)):
         tmpDate = datetime.fromtimestamp(timestamp[i].timestamp())
         tmpDate = tmpDate.strftime("%d/%m/%Y %H:%M") if includeMinutes else tmpDate.strftime("%d/%m/%Y").split(' ')[0]
 
         res['currentTime'].append(tmpDate)
-        res['currentPrice'].append(float(round(data['currentPrice'][i], 2)))
-        res['currentVolumeInMillion'].append(float(round(data['Volume'][i] / 1000000, 2)))
-        res['currentPercentReturn'].append(float(data['currentPercentReturn'][i]))
+        res['currentPrice'].append(round(data['currentPrice'][i], 2))
+        res['currentVolumeInMillion'].append(round(data['Volume'][i] / 1000000, 2))
+        res['currentPercentReturn'].append(data['currentPercentReturn'][i])
 
     return res
 

@@ -45,10 +45,10 @@ def getChartDataWithPeriod():
         if period == '1d':
             chart_data = yf.download(tickers=symbol, period=period, interval="5m")
         elif period == '5d':
-            chart_data = yf.download(tickers=symbol, period=period, interval="1h")
-        elif period in ['1mo', '3mo', '6mo']:
+            chart_data = yf.download(tickers=symbol, period=period, interval="30m")
+        elif period in ['1mo', '3mo', '6mo', '1y']:
             chart_data = yf.download(tickers=symbol, period=period, interval="1d")
-        elif period in ['1y', '2y', '5y']:
+        elif period in ['2y', '5y']:
             chart_data = yf.download(tickers=symbol, period=period, interval="1wk")
         else:
             chart_data = yf.download(tickers=symbol, period=period, interval="1mo")
@@ -58,10 +58,9 @@ def getChartDataWithPeriod():
         chart_data['currentPrice'] = chart_data['Adj Close']
 
         # remove unnecessary data
-        data_modification.removeKeys(chart_data, ['High', 'Low', 'Open', 'Close', 'Adj Close'])
+        #data_modification.removeKeys(chart_data, ['High', 'Low', 'Open', 'Close', 'Adj Close'])
         chart_data = data_modification.formatChartData(chart_data, period in ['1d', '5d'])
-        #return json_response(chartData=chart_data)
-        return jsonify(chartData=chart_data)
+        return json_response(chartData=chart_data)
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding chart data')

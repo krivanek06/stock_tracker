@@ -1,13 +1,24 @@
+@import "../../../../../../shared/style/positive-negative-numbers";
+
 .chart-data-container{
   position: relative;
 }
 
-.ticker-name{
+.ticker-name-container{
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  font-size: 22px;
+  display: inline-flex;
+  color: #ffd20a;
+}
+
+.ticker-movement-container{
   position: absolute;
   top: 10px;
   right: 20px;
-  color: white;
   font-size: 16px;
+  display: inline-flex;
 }
 
 .timeline-buttons{
@@ -17,6 +28,17 @@
   margin-top: 5px;
 }
 
+.ticker-price{
+  color: white;
+  font-size: 20px;
+  margin-right: 15px;
+  margin-top: -3px;
+}
+
+.bigger-font{
+  margin-right: 3px;
+  font-size: 18px;
+}
 
 .spinner-container{
   height: 250px;

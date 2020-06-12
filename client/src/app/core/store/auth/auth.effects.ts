@@ -8,6 +8,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {Observable, of} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import * as authAction from './auth.action';
+import {FirebaseApiService} from '../../api/firebase-api.service';
 
 @Injectable()
 export class AuthEffects {
@@ -15,17 +16,17 @@ export class AuthEffects {
               private router: Router,
               private store: Store<AppState>,
               private afAuth: AngularFireAuth,
-              private afs: AngularFirestore) {
+              private firebaseApiService: FirebaseApiService) {
   }
 
 
   getUser$: Observable<Action> = createEffect(() => this.actions$.pipe(
     ofType(authAction.getUser),
     switchMap(() => this.afAuth.authState.pipe(
-       switchMap(auth => this.afs.doc(`users/${auth.uid}`).valueChanges().pipe(
+      switchMap(auth => this.firebaseApiService.getUserDoc(auth.uid).valueChanges().pipe(
         map(payload => authAction.authenticated({payload})),
         tap(() => this.router.navigate(['/dashboard'])),
-       )),
+      )),
       catchError(() => of(authAction.logout()))
     ))
   ));
