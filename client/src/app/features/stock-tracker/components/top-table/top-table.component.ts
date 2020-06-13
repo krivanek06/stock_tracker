@@ -1,6 +1,7 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {TopTableData} from '../../model/tableModel';
+import {ChartDataIdentification} from '../../model/chartModel';
 
 @Component({
   selector: 'app-top-table',
@@ -14,6 +15,10 @@ export class TopTableComponent implements OnInit, OnChanges {
 
   @Input() data: TopTableData[] = [];
   @Input() showOnlyNameAndPrice = false;
+
+  @Output() showChartEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
+  @Output() addFavouritesEmitter: EventEmitter<string> = new EventEmitter<string>();
+  @Output() showDetailsEmitter: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() {
   }
@@ -30,6 +35,18 @@ export class TopTableComponent implements OnInit, OnChanges {
 
   trackBy(index: number, item: any) {
     return item.symbol;
+  }
+
+  showChart(name: string, symbol: string) {
+    this.showChartEmitter.emit({name, symbol});
+  }
+
+  addFavourites(symbol: string) {
+    this.addFavouritesEmitter.emit(symbol);
+  }
+
+  showDetails(symbol: string) {
+    this.showDetailsEmitter.emit(symbol);
   }
 
 }

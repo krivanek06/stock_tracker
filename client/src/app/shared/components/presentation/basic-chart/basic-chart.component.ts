@@ -14,8 +14,6 @@ export class BasicChartComponent implements OnInit {
   // Define type of chart
   @Input() lineChartType = 'line';
 
-  // font color will be white
-  @Input() darkMode = true;
 
   // Array of different segments in chart -> {data: data, label: label}
   @Input() lineChartData: ChartDataSets[];
@@ -25,29 +23,21 @@ export class BasicChartComponent implements OnInit {
 
   @Input() height = '300'; // in px
   @Input() width = '100'; // in %
-
+  @Input() lineChartColors: Color[] = [];
 
   // Define chart options
-  lineChartOptions: ChartOptions = {
-    responsive: true,
-  };
+  lineChartOptions: ChartOptions;
 
   constructor() {
   }
 
-  // Define colors of chart segments
-  @Input() lineChartColors: Color[] = [];
-
 
   ngOnInit(): void {
-    if (this.darkMode) {
-      this.applyDarkMode();
-    }
-
+    this.applyDarkMode();
   }
 
 
-  applyDarkMode(): void {
+  applyDarkMode() {
     this.lineChartOptions = {
       responsive: true,
       maintainAspectRatio: false,
@@ -86,5 +76,6 @@ export class BasicChartComponent implements OnInit {
       }
     };
   }
+
 
 }

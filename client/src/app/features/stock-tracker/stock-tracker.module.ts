@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardComponent } from './view/page-dashboard/dashboard/dashboard.component';
+import { DashboardComponent } from './view/dashboard/dashboard.component';
 import {SharedModule} from '../../shared/shared.module';
 import {RouterModule, Routes} from '@angular/router';
-import { DashboardChartContainerComponent } from './view/page-dashboard/container/dashboard-chart-container/dashboard-chart-container.component';
+import {TimelineChartComponent, TimelineChartContainerDialogComponent} from './container/timeline-chart-container/timeline-chart.component';
 import { TopTableComponent } from './components/top-table/top-table.component';
-import { DashboardTopTableContainerComponent } from './view/page-dashboard/container/dashboard-top-table-container/dashboard-top-table-container.component';
+import { DashboardTopTableContainerComponent } from './container/dashboard-top-table-container/dashboard-top-table-container.component';
 import { MarketArticleComponent } from './components/market-article/market-article.component';
 import {StoreModule} from '@ngrx/store';
 
@@ -14,17 +14,18 @@ import {EffectsModule} from '@ngrx/effects';
 import {StockTrackerEffects} from './store/stockWatchlist.effects';
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent, pathMatch: 'full' },
-  { path: '**', redirectTo: '' }
+  { path: 'dashboard', component: DashboardComponent, pathMatch: 'full' },
+  { path: '**', redirectTo: 'dashboard' }
 ];
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    DashboardChartContainerComponent,
+    TimelineChartComponent,
     TopTableComponent,
     DashboardTopTableContainerComponent,
-    MarketArticleComponent
+    MarketArticleComponent,
+    TimelineChartContainerDialogComponent
   ],
   imports: [
     CommonModule,
@@ -32,6 +33,9 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     EffectsModule.forFeature([StockTrackerEffects]),
     StoreModule.forFeature('stockTracker', fromStockTracker.reducer)
+  ],
+  entryComponents: [
+    TimelineChartContainerDialogComponent
   ]
 })
 export class StockTrackerModule { }
