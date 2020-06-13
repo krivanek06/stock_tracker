@@ -7,11 +7,11 @@ const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
   {
-    path: 'dashboard',
+    path: 'stock',
     loadChildren: () => import('./features/stock-tracker/stock-tracker.module').then(mod => mod.StockTrackerModule),
     canActivate: [LoggedInGuard]
   },
-  {path: '**', redirectTo: 'login'}
+  {path: '**', redirectTo: 'stock'}
 ];
 
 @NgModule({

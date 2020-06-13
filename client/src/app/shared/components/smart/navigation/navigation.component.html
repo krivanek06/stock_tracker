@@ -1,29 +1,12 @@
-<div class="navigation_container">
-  <img src="../../../../../assets/navigation_background.png" class="navigation_background"/>
+<nav class="nav-container">
+  <div class="nav-links-container">
+    <a routerLink="/stock/dashboard" class="nav-link sector-font-color" routerLinkActive="active-link">Dashboard</a>
+    <a routerLink="/stock/favourites" class="nav-link sector-font-color" routerLinkActive="active-link">Favourites</a>
 
-
-  <div class='grid-navigation-buttons-container'>
-    <span class="material-icons white-icon navigation_icon" routerLink='/dashboard'>
-            home
-    </span>
-
-
-    <span class="material-icons white-icon navigation_icon" routerLink='/favourites'>
-            star_rate
-    </span>
-
-
-    <span class="material-icons white-icon navigation_icon">
-            search
-     </span>
+    <div class="nav-logout sector-font-color" (click)="logOut()">
+      <span>
+        LogOut
+      </span>
+    </div>
   </div>
-
-
-  <span class="material-icons white-icon navigation_icon"
-        id='log_out_icon'
-        (click)="logOut()">
-            login
-  </span>
-
-
-</div>
+</nav>

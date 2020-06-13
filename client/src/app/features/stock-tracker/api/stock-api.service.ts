@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {StockTrackerModule} from '../stock-tracker.module';
 import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {IChartData, IChartDataWrapper} from '../model/chartModel';
+import {TimelineChartData, TimelineChartDataWrapper} from '../model/chartModel';
 import {environment} from '../../../../environments/environment';
 import {map, retry, tap} from 'rxjs/operators';
 import {TopActive, TopCrypto, TopGains, TopLosers, TopStockTableData, TopTableData} from '../model/tableModel';
@@ -15,9 +15,9 @@ export class StockApiService {
 
   constructor(private http: HttpClient) { }
 
-  getChartDataForSymbol(symbol: string, period: string = '1d'): Observable<IChartData>{
+  getChartDataForSymbol(symbol: string, period: string = '1d'): Observable<TimelineChartData>{
     const params = new HttpParams().set('symbol', symbol).set('period', period);
-    return this.http.get<IChartDataWrapper>(`${environment.stockAPI}/ticker/chart_data`, {params})
+    return this.http.get<TimelineChartDataWrapper>(`${environment.stockAPI}/ticker/chart_data`, {params})
       .pipe(
         map(res => res.chartData),
         retry(2)

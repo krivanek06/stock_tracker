@@ -9,7 +9,7 @@
     </ng-container>
 
     <ng-container matColumnDef="currentPrice">
-      <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef class="sector-font-color">Price</mat-header-cell>
       <mat-cell *matCellDef="let element"
                 [ngClass]="{
                   'positive-number': element.currentPriceChange >= 0,
@@ -28,7 +28,7 @@
     </ng-container>
 
     <ng-container matColumnDef="volumeChange">
-      <mat-header-cell *matHeaderCellDef>Volume</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef class="sector-font-color">Volume</mat-header-cell>
       <mat-cell *matCellDef="let element"
                 [ngClass]="{
                   'positive-number': element.volumeChange >= 0,
@@ -47,20 +47,28 @@
     </ng-container>
 
     <ng-container matColumnDef="peRatio">
-      <mat-header-cell *matHeaderCellDef>PE</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef class="sector-font-color">PE</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{ element.peRatio }}</mat-cell>
     </ng-container>
 
 
-    <!-- [routerLink]="['/requests/request_details']"
-                [queryParams]="{request_id : element.id}" -->
+    <!-- interactive buttons -> chart / favourites / details -->
     <ng-container matColumnDef="details">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let element">
         <div class="grid-buttons">
-          <span class="material-icons white-scaling-icon">bar_chart</span>
-          <span class="material-icons white-scaling-icon">favorite</span>
-          <span class="material-icons white-scaling-icon">forward</span>
+          <span class="material-icons white-scaling-icon"
+                (click)="showChart(element.name, element.symbol)">
+            bar_chart
+          </span>
+          <span class="material-icons white-scaling-icon"
+                (click)="addFavourites(element.symbol)">
+            favorite
+          </span>
+          <span class="material-icons white-scaling-icon"
+                (click)="showDetails(element.symbol)">
+            forward
+          </span>
         </div>
       </mat-cell>
     </ng-container>

@@ -1,8 +1,8 @@
-export interface IChartDataWrapper {
-  chartData: IChartData;
+export interface TimelineChartDataWrapper {
+  chartData: TimelineChartData;
 }
 
-export interface IChartData {
+export interface TimelineChartData {
   currentPercentReturn: number[];
   currentPrice: number[];
   currentTime: string[];
@@ -10,4 +10,10 @@ export interface IChartData {
   totalReturn: number;
   livePrice: number;
   livePriceDiff: number;
+}
+
+
+export interface ChartDataIdentification {
+  symbol: string;
+  name: string;
 }
