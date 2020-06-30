@@ -14,17 +14,14 @@ export class TopTableComponent implements OnInit, OnChanges {
   displayedColumns = ['name', 'currentPrice', 'volumeChange', 'peRatio', 'details'];
 
   @Input() data: TopTableData[] = [];
-  @Input() showOnlyNameAndPrice = false;
 
   @Output() showChartEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
-  @Output() addFavouritesEmitter: EventEmitter<string> = new EventEmitter<string>();
-  @Output() showDetailsEmitter: EventEmitter<string> = new EventEmitter<string>();
+  @Output() addFavouritesEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
 
   constructor() {
   }
 
   ngOnInit(): void {
-    this.displayedColumns = this.showOnlyNameAndPrice ? ['name', 'currentPrice'] : this.displayedColumns;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -41,12 +38,9 @@ export class TopTableComponent implements OnInit, OnChanges {
     this.showChartEmitter.emit({name, symbol});
   }
 
-  addFavourites(symbol: string) {
-    this.addFavouritesEmitter.emit(symbol);
+  addFavourites(name: string, symbol: string) {
+    this.addFavouritesEmitter.emit({name, symbol});
   }
 
-  showDetails(symbol: string) {
-    this.showDetailsEmitter.emit(symbol);
-  }
 
 }
