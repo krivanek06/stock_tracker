@@ -6,12 +6,12 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Observable, of} from 'rxjs';
 import {catchError, combineLatest, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-import {AppState} from '../../../core/model/appState';
-import {FirebaseApiService} from '../../../core/api/firebase-api.service';
-import {StockWatchListTable} from '../model/tableModel';
+import {AppState} from '../../../../core/model/appState';
+import {FirebaseApiService} from '../../../../core/api/firebase-api.service';
+import {StockWatchListTable} from '../../model/tableModel';
 
-import * as fromAuth from '../../../core/store/auth/auth.reducer';
-import * as stockWatchlistAction from './stockWatchlist.action';
+import * as fromAuth from '../../../../core/store/auth/auth.reducer';
+import * as stockWatchlistAction from './stockWatchListFirebase.action';
 
 @Injectable()
 export class StockTrackerEffects {

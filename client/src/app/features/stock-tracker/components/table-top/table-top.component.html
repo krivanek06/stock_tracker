@@ -62,11 +62,12 @@
             bar_chart
           </span>
           <span class="material-icons white-scaling-icon"
-                (click)="addFavourites(element.symbol)">
+                (click)="addFavourites(element.name, element.symbol)">
             favorite
           </span>
           <span class="material-icons white-scaling-icon"
-                (click)="showDetails(element.symbol)">
+                [routerLink]="['/stock/details']"
+                [queryParams]="{symbol : element.symbol}">
             forward
           </span>
         </div>
