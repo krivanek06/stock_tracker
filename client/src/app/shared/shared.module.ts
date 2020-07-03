@@ -13,6 +13,9 @@ import { ChartsModule } from 'ng2-charts';
 import { BasicChartComponent } from './components/presentation/basic-chart/basic-chart.component';
 import { BasicChartTimelineButtonsComponent } from './components/presentation/basic-chart-timeline-buttons/basic-chart-timeline-buttons.component';
 import { LoaderSpinnerComponent } from './components/presentation/loader-spinner/loader-spinner.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import {IonicModule} from '@ionic/angular';
+
 
 @NgModule({
   declarations: [
@@ -32,7 +35,9 @@ import { LoaderSpinnerComponent } from './components/presentation/loader-spinner
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
-    ChartsModule
+    ChartsModule,
+    FlexLayoutModule,
+    IonicModule
   ],
   exports: [
     NgxAuthFirebaseUIModule,
@@ -44,6 +49,8 @@ import { LoaderSpinnerComponent } from './components/presentation/loader-spinner
     AngularFireAuthModule,
     AngularFireStorageModule,
     ChartsModule,
+    FlexLayoutModule,
+    IonicModule,
 
     ConfirmDialogComponent,
     NavigationComponent,
@@ -54,3 +61,5 @@ import { LoaderSpinnerComponent } from './components/presentation/loader-spinner
   entryComponents: [ConfirmDialogComponent],
 })
 export class SharedModule { }
+
+

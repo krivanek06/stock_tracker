@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {Store} from '@ngrx/store';
-import {AppState} from '../../model/appState';
-import * as authAction from '../../store/auth/auth.action';
+import {AppState} from '@capacitor/core';
+import * as authAction from '../../core/store/auth/auth.action';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  templateUrl: './login.page.html',
+  styleUrls: ['./login.page.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginPage implements OnInit {
 
   constructor(private store: Store<AppState>) { }
 
@@ -22,4 +22,5 @@ export class LoginComponent implements OnInit {
   login(){
     this.store.dispatch(authAction.getUser());
   }
+
 }
