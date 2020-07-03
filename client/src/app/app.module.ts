@@ -16,14 +16,14 @@ import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {MatPasswordStrengthModule} from '@angular-material-extensions/password-strength';
-import {LoginComponent} from './core/components/login/login.component';
 import {AngularFireStorageModule} from '@angular/fire/storage';
+import { IonicModule } from '@ionic/angular';
+import { LayoutsModule } from './layouts/layouts.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +37,7 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
     FormsModule,
     MaterialModule.forRoot(),
     MatPasswordStrengthModule.forRoot(),
+    LayoutsModule,
 
     // Firebase
     AngularFireModule.initializeApp(environment.firebase), //  as ModuleWithProviders<AngularFireModule>
@@ -52,6 +53,7 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
         authGuardLoggedInURL: 'login',
       }
     ),
+    IonicModule.forRoot(),
 
   ],
   bootstrap: [AppComponent]
