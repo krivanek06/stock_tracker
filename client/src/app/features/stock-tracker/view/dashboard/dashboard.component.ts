@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {StockApiService} from '../../api/stock-api.service';
+import {StockApiService} from '../../endpoints/stock-api.service';
 import {combineLatest, from, Observable, of} from 'rxjs';
 import {TimelineChartData} from '../../model/chartModel';
 import {TopStockTableData} from '../../model/tableModel';
@@ -10,7 +10,7 @@ import {AppState} from '../../../../core/model/appState';
 import {getUser} from '../../../../core/store/auth/auth.action';
 import {switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {user} from '../../../../core/store/auth/auth.reducer';
-import {getUserWatchLists} from '../../store/stockWatchlist.action';
+import {getUserWatchLists} from '../../store/stockWatchList/stockWatchList.action';
 
 
 @Component({

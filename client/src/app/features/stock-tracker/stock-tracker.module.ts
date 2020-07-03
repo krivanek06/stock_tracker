@@ -1,41 +1,57 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { DashboardComponent } from './view/dashboard/dashboard.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {DashboardComponent} from './view/dashboard/dashboard.component';
 import {SharedModule} from '../../shared/shared.module';
 import {RouterModule, Routes} from '@angular/router';
 import {TimelineChartComponent, TimelineChartContainerDialogComponent} from './container/timeline-chart-container/timeline-chart.component';
-import { TopTableComponent } from './components/top-table/top-table.component';
-import { DashboardTopTableContainerComponent } from './container/dashboard-top-table-container/dashboard-top-table-container.component';
-import { MarketArticleComponent } from './components/market-article/market-article.component';
+import {TableTopComponent} from './components/table-top/table-top.component';
+import {DashboardTopTableContainerComponent} from './container/dashboard-top-table-container/dashboard-top-table-container.component';
+import {MarketArticleComponent} from './components/market-article/market-article.component';
 import {StoreModule} from '@ngrx/store';
-
-import * as fromStockTracker from './store/stockWatchlist.reducer';
 import {EffectsModule} from '@ngrx/effects';
-import {StockTrackerEffects} from './store/stockWatchlist.effects';
+import {StockWatchList} from './store/stockWatchList/stockWatchList.effects';
+import {DetailsComponent} from './view/details/details.component';
+import {WatchlistComponent} from './view/watchlist/watchlist.component';
+import { WatchlistModalContainerComponent } from './container/watchlist-selector-modal-container/watchlist-modal-container.component';
+
+
+import * as fromStockTracker from './store';
+import { TableWatchlistComponent } from './components/table-watchlist/table-watchlist.component';
+import { WatchlistTablesContainerComponent } from './container/watchlist-tables-container/watchlist-tables-container.component';
 
 const routes: Routes = [
-  { path: 'dashboard', component: DashboardComponent, pathMatch: 'full' },
-  { path: '**', redirectTo: 'dashboard' }
+  {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
+  {path: 'dashboard', component: DashboardComponent},
+  {path: 'watchlist', component: WatchlistComponent},
+  {path: 'details', component: DetailsComponent},
+  {path: '**', redirectTo: 'dashboard'}
 ];
 
 @NgModule({
   declarations: [
     DashboardComponent,
     TimelineChartComponent,
-    TopTableComponent,
+    TableTopComponent,
     DashboardTopTableContainerComponent,
     MarketArticleComponent,
-    TimelineChartContainerDialogComponent
+    TimelineChartContainerDialogComponent,
+    DetailsComponent,
+    WatchlistComponent,
+    WatchlistModalContainerComponent,
+    TableWatchlistComponent,
+    WatchlistTablesContainerComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
     RouterModule.forChild(routes),
-    EffectsModule.forFeature([StockTrackerEffects]),
-    StoreModule.forFeature('stockTracker', fromStockTracker.reducer)
+    EffectsModule.forFeature([StockWatchList]),
+    StoreModule.forFeature('stockTrackerModule', fromStockTracker.reducers)
   ],
   entryComponents: [
-    TimelineChartContainerDialogComponent
+    TimelineChartContainerDialogComponent,
+    WatchlistModalContainerComponent
   ]
 })
-export class StockTrackerModule { }
+export class StockTrackerModule {
+}

@@ -17,7 +17,6 @@ export class BasicChartTimelineButtonsComponent implements OnInit {
   }
 
   click(timeline: string) {
-    console.log(timeline);
     this.timeline = timeline;
     this.clickedEmitter.emit(timeline);
   }

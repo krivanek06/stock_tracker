@@ -1,7 +1,7 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import {interval, Observable} from 'rxjs';
 import {ChartDataIdentification, TimelineChartData} from '../../model/chartModel';
-import {StockApiService} from '../../api/stock-api.service';
+import {StockApiService} from '../../endpoints/stock-api.service';
 import {Color} from 'ng2-charts';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
