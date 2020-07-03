@@ -24,14 +24,19 @@ export interface TopTableData {
 }
 
 
-export interface TopStockTableData extends TopTableData{
+export interface TopStockTableData extends TopTableData {
   peRatio: number;
   volumeChange: number;
 }
 
 
 // -----------------------------------------
-// Firebase stockWatchlist
+// Stock summary into tables
+
+export interface StockWatchTableDataWrapper {
+  stockTableData: StockTableData;
+}
+
 export interface StockWatchListTable {
   id?: string;
   name: string;
@@ -42,14 +47,15 @@ export interface StockWatchListTable {
 
 
 export interface StockTableData {
-  TargetEst1y: number;
-  TargetEstChange1y: number;
-  WeekRange52: string;
+  targetEst1y: number;
+  targetEstChange1y: number;
+  weekRange52: string;
   currentPrice: number;
   currentPriceChange: number;
   earningsDate: string;
   exDividendDate: string;
   forwardDividendAndYield: string;
   symbol: string;
+  name?: string;
 }
 

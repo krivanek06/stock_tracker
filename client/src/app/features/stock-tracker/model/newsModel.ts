@@ -1,6 +1,6 @@
 
 export interface MarketNewsWrapper {
-  stockNews: MarketNews;
+  economicNews: MarketNews;
 }
 
 export interface MarketNews {

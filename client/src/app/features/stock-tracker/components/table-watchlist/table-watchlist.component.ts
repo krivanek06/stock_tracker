@@ -1,19 +1,21 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {TopTableData} from '../../model/tableModel';
+import {StockTableData, StockWatchListTable, TopTableData} from '../../model/tableModel';
 import {ChartDataIdentification} from '../../model/chartModel';
 
 @Component({
-  selector: 'app-table-top',
-  templateUrl: './table-top.component.html',
-  styleUrls: ['./table-top.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-table-watchlist',
+  templateUrl: './table-watchlist.component.html',
+  styleUrls: ['./table-watchlist.component.scss']
 })
-export class TableTopComponent implements OnInit, OnChanges {
+export class TableWatchlistComponent implements OnInit, OnChanges {
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
-  displayedColumns = ['name', 'currentPrice', 'volumeChange', 'peRatio', 'details'];
+  displayedColumns = ['symbol', 'currentPrice', 'targetEst1y', 'weekRange52', 'earningsDate', 'exDividendDate', 'details'];
+  editing = false;
+  editedName: string;
 
-  @Input() data: TopTableData[] = [];
+  @Input() data: StockTableData[] = [];
+  @Input() name: string;
 
   @Output() showChartEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
   @Output() addFavouritesEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
@@ -30,8 +32,13 @@ export class TableTopComponent implements OnInit, OnChanges {
     });
   }
 
-  trackBy(index: number, item: any) {
-    return item.symbol;
+  editWatchListName() {
+    console.log(this.editedName, this.name);
+  }
+
+  toggleEdit() {
+    this.editing = !this.editing;
+    this.editedName = this.name;
   }
 
   showChart(name: string, symbol: string) {
@@ -41,6 +48,5 @@ export class TableTopComponent implements OnInit, OnChanges {
   addFavourites(name: string, symbol: string) {
     this.addFavouritesEmitter.emit({name, symbol});
   }
-
 
 }

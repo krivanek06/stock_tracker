@@ -1,4 +1,3 @@
-<!--<div class="article-panel-container" *ngIf="article">-->
 <ng-container *ngIf="article">
   <div class="article-information-container">
     <div class="article-image-parent">
@@ -15,12 +14,7 @@
         {{article.description}}
       </div>
     </div>
-
   </div>
 
-  <div class="article-publisher-information">
-    {{article.publishedAt}} <br>
-    {{article?.author}}
-  </div>
+
 </ng-container>
-<!--</div>-->
