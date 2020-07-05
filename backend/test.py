@@ -1,37 +1,35 @@
-
-
-import datetime
+import websocket
+import alpaca_trade_api as tradeapi
+from requests import get
 import yfinance as yf
-import requests
-from datetime import date, timedelta
 from yahoo_fin import stock_info as si
-import data_modification as data_modification
-import stock_news as sn
-import math
+from ExternalAPI import Finhub
 
-print('*********************') # ^DJI , ^GSPC
+print('*********************')  # ^DJI , ^GSPC
 
 
-symbol = 'ONGC'
-#balanceSheet = si.get_balance_sheet(symbol)
+import websocket
 
+def on_message(ws, message):
+    print(message)
 
-stocks = ['^GSPC', '^DJI']
+def on_error(ws, error):
+    print(error)
 
+def on_close(ws):
+    print("### closed ###")
 
-print("starting...")
+def on_open(ws):
+    ws.send('{"type":"subscribe","symbol":"AAPL"}')
+    ws.send('{"type":"subscribe","symbol":"AMZN"}')
+    ws.send('{"type":"subscribe","symbol":"BINANCE:BTCUSDT"}')
+    ws.send('{"type":"subscribe","symbol":"IC MARKETS:1"}')
 
-#print(si.get_top_crypto())
-chart_data = yf.download(tickers='BTC-USD', period='1d', interval="1mo")
-d = si.get_top_crypto()[0:1]
-print(d.keys())
-print(chart_data.keys())
-
-chart_data = yf.download(tickers='UBER', period='1d', interval="1mo")
-print(chart_data.keys())
-#print(chart_data)
-#topGainers = si.get_day_gainers()[0:10]
-#topGainers['volume_change'] = data_modification.getPercentigeChangeInVolume(topGainers)
-#data_modification.removeKeys(topGainers, ['Change', 'Market Cap', 'Avg Vol (3 month)', 'Volume'])
-
-#print(topGainers)
+if __name__ == "__main__":
+    websocket.enableTrace(True)
+    ws = websocket.WebSocketApp("wss://ws.finnhub.io?token=brsrc5vrh5r9dg9d77pg",
+                              on_message = on_message,
+                              on_error = on_error,
+                              on_close = on_close)
+    ws.on_open = on_open
+    ws.run_forever()

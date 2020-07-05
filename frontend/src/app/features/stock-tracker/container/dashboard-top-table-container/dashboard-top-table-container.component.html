@@ -1,0 +1,31 @@
+<div class="page-table-container">
+  <!-- Top Daily gainers -->
+  <div class="white-separator page-table">
+    <h3 class="page-table-name positive-number">Top Daily gainers</h3>
+    <app-table-top
+      [data]="getTopGains$ | async"
+      (addFavouritesEmitter)="showWatchlist($event)"
+      (showChartEmitter)="showChart($event)">
+    </app-table-top>
+  </div>
+
+  <!-- Top Daily losers -->
+  <div class="white-separator page-table">
+    <h3 class="page-table-name negative-number">Top daily losers</h3>
+    <app-table-top
+      [data]="getTopLosers$ | async"
+      (addFavouritesEmitter)="showWatchlist($event)"
+      (showChartEmitter)="showChart($event)">
+    </app-table-top>
+  </div>
+
+  <!-- Top Daily active -->
+  <div class="white-separator page-table">
+    <h3 class="page-table-name sector-font-color">Top daily active</h3>
+    <app-table-top
+      [data]="getTopActive$ | async"
+      (addFavouritesEmitter)="showWatchlist($event)"
+      (showChartEmitter)="showChart($event)">
+    </app-table-top>
+  </div>
+</div>

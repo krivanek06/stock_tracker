@@ -92,26 +92,32 @@ class YahooFinanceDataModification:
         for k in data:
             tmp = {}
             for period in data[k]:
-                tmp[period] = [-1 if type(v) is float and math.isnan(v) else v for v in data[k][period]]
+                tmp[period] = [str(-999) if type(v) is float and math.isnan(v) else v for v in data[k][period]]
             container[k] = tmp
 
         # save growth
-        res['growthEstimates']['quarter'] = {'current': container['Growth Estimates'][symbol][0],
-                                             'next': container['Growth Estimates'][symbol][1]}
-        res['growthEstimates']['year'] = {'current': container['Growth Estimates'][symbol][2],
-                                             'next': container['Growth Estimates'][symbol][3]}
-        res['growthEstimates']['fiveYear'] = {'current': container['Growth Estimates'][symbol][5],
-                                             'next': container['Growth Estimates'][symbol][4]}
+        res['growthEstimates']['quarter'] = {'current': container['Growth Estimates'][symbol][0][:-1],
+                                             'next': container['Growth Estimates'][symbol][1][:-1]}
+        res['growthEstimates']['year'] = {'current': container['Growth Estimates'][symbol][2][:-1],
+                                             'next': container['Growth Estimates'][symbol][3][:-1]}
+        res['growthEstimates']['fiveYear'] = {'current': container['Growth Estimates'][symbol][5][:-1],
+                                             'next': container['Growth Estimates'][symbol][4][:-1]}
 
         #save revenue
         for k in container['Revenue Estimate'].keys():
             tmp = {}
             tmp['numberOfAnalysis'] = container['Revenue Estimate'][k][0]
-            tmp['average'] = container['Revenue Estimate'][k][1]
-            tmp['low'] = container['Revenue Estimate'][k][2]
-            tmp['high'] = container['Revenue Estimate'][k][3]
+            tmp['average_string'] = container['Revenue Estimate'][k][1]
+            tmp['low_string'] = container['Revenue Estimate'][k][2]
+            tmp['high_string'] = container['Revenue Estimate'][k][3]
             tmp['yearAgo'] = container['Revenue Estimate'][k][4]
-            tmp['growth'] = container['Revenue Estimate'][k][5]
+
+            # format -12.1M -> -12.1
+            tmp['growth'] = container['Revenue Estimate'][k][5][:-1]
+            tmp['average'] = container['Revenue Estimate'][k][1][:-1]
+            tmp['low'] = container['Revenue Estimate'][k][2][:-1]
+            tmp['high'] = container['Revenue Estimate'][k][3][:-1]
+
             tmp['timeEstimation'] = k
             if k.startswith('Current Qtr.'):
                 res['revenueEstimate']['currentQuarter'] = tmp
@@ -126,13 +132,13 @@ class YahooFinanceDataModification:
         res['earnings']['dates'] = [datetime.strptime(k, '%m/%d/%Y').strftime('%d/%m/%Y') for k in container['Earnings History'].keys() if not k.startswith('Earnings')]
         res['earnings']['epsActual'] = []
         res['earnings']['epsEst'] = []
-        res['earnings']['epsPctDiff'] = []
+        #res['earnings']['epsPctDiff'] = []
         for k in container['Earnings History'].keys():
             if k.startswith('Earnings'):
                 continue
             res['earnings']['epsActual'].append(container['Earnings History'][k][1])
             res['earnings']['epsEst'].append(container['Earnings History'][k][0])
-            res['earnings']['epsPctDiff'].append(container['Earnings History'][k][3])
+            #res['earnings']['epsPctDiff'].append(container['Earnings History'][k][3])
 
         # EPS estimate current and next quarter
         for k in container['Earnings Estimate'].keys():
