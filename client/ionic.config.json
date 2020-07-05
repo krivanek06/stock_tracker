@@ -1,7 +1,0 @@
-{
-  "name": "stock_tracker",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
-}
