@@ -1,0 +1,52 @@
+<mat-dialog-content>
+
+  <!-- display all stock watchList names -->
+  <div *ngFor="let watchList of stockWatchListTable$ | async"
+       (click)="addSymbolToWatchlist(watchList.id)"
+       class="watchlist-name-container">
+    {{ watchList.name }}
+    <div class="watchlist-number" [ngStyle]="{'color':watchList.stocks.length === 20 ? 'red' : 'white' }">
+      [ {{watchList.stocks.length}} / 20 ]
+    </div>
+  </div>
+
+
+  <!-- container form to create new watchlist -->
+  <ng-container *ngIf="inputForm">
+    <div class="form-container">
+      <form [formGroup]="inputForm">
+        <!--name of watchlist -->
+        <mat-form-field>
+          <input matInput placeholder="Add stock watch list name" formControlName="watchlistName">
+
+          <mat-error *ngIf="watchlistName.errors?.required">Please define watchlist name</mat-error>
+          <mat-error *ngIf="watchlistName.hasError('maxlength')">Maximum allowed letters are 20</mat-error>
+        </mat-form-field>
+
+
+        <div class="submit-deny-buttons">
+          <!-- create new watchlist button  -->
+          <img src="../../../../../assets/green_ok_pipe.png"
+               alt="create stock watchlist img"
+               class="white-scaling-icon"
+               (click)="createWatchList()"/>
+
+          <!-- remove input button  -->
+          <img src="../../../../../assets/cross_x.png"
+               alt="remove stock watchlist img"
+               class="white-scaling-icon"
+               (click)="removeInput()"/>
+        </div>
+
+      </form>
+    </div>
+  </ng-container>
+
+  <!-- button to show form for new watchlist -->
+  <div class="watchlist-create">
+    <span class="material-icons watchlist-create-button white-scaling-icon" (click)="addInput()">
+      add
+    </span>
+  </div>
+
+</mat-dialog-content>
