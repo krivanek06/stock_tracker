@@ -1,0 +1,18 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Next week earnigns</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    
+    <ion-item  *ngFor='let earning of earnings'>
+      <ion-label>{{ earning.symbol }}</ion-label>
+      <ion-label>{{ earning.date }}</ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label class="ion-text-center"> == END == </ion-label>
+    </ion-item>
+
+  </ion-card-content>
+</ion-card>

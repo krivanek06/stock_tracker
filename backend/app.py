@@ -38,7 +38,7 @@ def getIPOlist():
 @app.route('/api/economics/earnings')
 def getEarningsCalendarForTwoWeeks():
     try:
-        return json_response(ipo=Finhub.getEarningsCalendarForOneWeeks())
+        return json_response(earnings=Finhub.getEarningsCalendarForOneWeeks())
     except Exception as e:
         print(e)
         raise JsonError(status=400, error='Could not find any earnings')

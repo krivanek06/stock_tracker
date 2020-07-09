@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { LoginPage } from './login.page';
 import {SharedModule} from '../../shared/shared.module';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
+    FlexLayoutModule,
     RouterModule.forChild(routes),
     SharedModule
   ],

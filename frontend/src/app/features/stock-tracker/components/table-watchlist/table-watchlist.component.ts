@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {StockTableData, StockWatchListTable, TopTableData} from '../../model/tableModel';
-import {ChartDataIdentification} from '../../model/chartModel';
+import {ChartDataIdentification} from '../../../../shared/model/chartModel';
 
 @Component({
   selector: 'app-table-watchlist',

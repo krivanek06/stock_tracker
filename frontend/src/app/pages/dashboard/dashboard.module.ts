@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { DashboardPage } from './dashboard.page';
 import {StockTrackerModule} from '../../features/stock-tracker/stock-tracker.module';
 import {AppRoutingModule} from '../../app-routing.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     StockTrackerModule,
+    SharedModule,
     RouterModule.forChild(routes)
   ],
   declarations: [DashboardPage]

@@ -1,0 +1,12 @@
+<div class="collection ion-padding">
+    <ion-card *ngFor="let article of articles" [href]="article.url">
+        <ion-card-content>
+            <ion-img [src]="article.urlToImage" appDefaultImg></ion-img>
+
+            <div class="myOverlay">
+                {{ article.title }}
+            </div>
+
+        </ion-card-content>
+    </ion-card>
+</div>

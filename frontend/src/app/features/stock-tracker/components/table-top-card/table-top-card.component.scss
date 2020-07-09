@@ -1,0 +1,74 @@
+@import "../../../../shared/style/positive-negative-numbers";
+:host{
+  ion-card{
+    padding: 15px 20px;
+  }
+}
+
+  mat-header-row {
+    min-height: 38px;
+    border-bottom: 0;
+    padding: 0 5px;
+    cursor: pointer;
+    transition: All 0.4s ease-out;
+  }
+
+  .mat-table {
+    overflow: hidden;
+  }
+
+  mat-header-cell {
+    font-weight: bold;
+    font-size: 16px;
+    background-color: #111111;
+  }
+
+  mat-cell:last-of-type, mat-footer-cell:last-of-type, mat-header-cell:last-of-type {
+    padding-right: 0 !important;
+  }
+
+  mat-cell {
+    position: relative;
+    font-size: 14px;
+    color: #d8d8d8;
+  }
+
+  mat-footer-row, mat-row {
+    min-height: 40px;
+    background-color: #111111;
+    border-bottom-width: 0;
+  }
+
+  mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-type {
+    padding-left: 0 !important;
+  }
+
+
+
+
+  .mat-row:hover {
+    background-color: #282828;
+    transform: scale(0.96);
+
+  }
+
+  span {
+    font-size: 28px;
+  }
+
+
+
+  /* grid column distribution */
+  /*.mat-column-name {
+    flex: 0 0 20%;
+  }
+
+  .mat-column-currentPrice {
+    flex: 0 0 35%;
+  }
+
+  .mat-column-volumeChange {
+    flex: 0 0 25%;
+  }*/
+
+

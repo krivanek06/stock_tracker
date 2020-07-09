@@ -1,32 +1,21 @@
-.page-content-main{
-  margin-top: 20px;
-  margin-bottom: 25px;
-  display: grid;
-  grid-gap: 20px;
-  grid-auto-rows: 650px; /*1fr;*/
-  grid-template-columns: 70fr 30fr;
-}
+:host {
+  .left-screen{
+    position: relative;
+    float: left;
+    width: 75%;
+    padding: 20px;
+    margin-right: 15px;
+  }
 
-.page-content-rows{
-  display: grid;
-  grid-gap: 25px;
-  grid-auto-columns: 1fr;
-}
+  .right-screen{
+    float: left;
+    width: 20%;
+    height: 90vh;
+    overflow: scroll;
+  }
 
-.page-content-top{
-  position: relative;
-  padding: 5px 20px 5px 20px;
-  border-top: 1px solid white;
-}
-
-
-.page-content-news{
-  overflow-y: scroll;
-  padding: 20px;
-  border-left: 1px solid white;
-}
-
-::-webkit-scrollbar {
-  width: 0;
-  background: transparent; /* make scrollbar transparent */
+  ::-webkit-scrollbar {
+    width: 0;
+    background: transparent; /* make scrollbar transparent */
+  }
 }
