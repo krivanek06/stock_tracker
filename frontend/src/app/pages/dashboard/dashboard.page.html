@@ -1,53 +1,27 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Dashboard</ion-title>
-  </ion-toolbar>
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Dashboard</ion-title>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Dashboard2</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
+<ion-content class="ion-padding">
 
 
-  </div>
+    <div class="left-screen">
+        <!-- live charts -->
+        <app-dashboard-chart-container></app-dashboard-chart-container>
+
+        <!-- top table -->
+        <app-dashboard-top-table-container></app-dashboard-top-table-container>
+    </div>
+
+    <div class="right-screen">
+        <!-- news articles -->
+        <app-dashboard-news-container></app-dashboard-news-container>
+    </div>
+
+
 </ion-content>
-
-
-
-
-<!--
-</ion-split-pane>
-  <div class="page-content-main">
-    <div class="page-content-rows">
-      <app-timeline-chart-container [name]="'S&P 500'" [symbol]="'^GSPC'"></app-timeline-chart-container>
-      <app-timeline-chart-container [name]="'DOW 30'" [symbol]="'^DJI'"></app-timeline-chart-container>
-    </div>
-
-
-    <div class="page-content-news">
-      <ng-container *ngIf="articles$ | async as articles">
-        <ng-container *ngIf="articles.wallStreetNews as wallStreet">
-          <app-market-article
-            *ngFor="let article of wallStreet.articles"
-            [article]="article"
-          >
-          </app-market-article>
-        </ng-container>
-
-      </ng-container>
-    </div>
-  </div>
-
-  <div class="page-content-top">
-    <app-dashboard-top-table-container></app-dashboard-top-table-container>
-  </div>
-
--->

@@ -1,0 +1,53 @@
+<ion-card>
+    <ion-card-header>
+        <ion-card-title>
+            {{ name }}
+        </ion-card-title>
+    </ion-card-header>
+<ion-card-content>
+
+
+<div class="mat-elevation-z0">
+
+    <mat-table [dataSource]="dataSource" [trackBy]="trackBy">
+
+
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let element">  {{ element.symbol }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="currentPrice">
+        <mat-header-cell *matHeaderCellDef class="sector-font-color">Price</mat-header-cell>
+        <mat-cell *matCellDef="let element"
+                  [ngClass]="{
+                  'positive-number': element.currentPriceChange >= 0,
+                  'negative-number': element.currentPriceChange <= 0
+                }">
+            {{ element.currentPrice }} ( {{ element.currentPriceChange }}% )
+
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="volumeChange">
+        <mat-header-cell *matHeaderCellDef class="sector-font-color">Volume</mat-header-cell>
+        <mat-cell *matCellDef="let element"
+                  [ngClass]="{
+                  'positive-number': element.volumeChange >= 0,
+                  'negative-number': element.volumeChange <= 0
+                }">
+            {{ element.volumeChange }}%
+
+
+        </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+</div>
+
+
+</ion-card-content>
+</ion-card>

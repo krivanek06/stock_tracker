@@ -1,0 +1,38 @@
+.price-card-container{
+  width: 400px;
+  position: relative;
+  height: 100px
+}
+
+.price-container{
+  position: relative;
+  margin-left: 10px;
+
+}
+
+.price-subtitle{
+  font-size: 14px;
+  color: #8b8b8b;
+}
+
+.price-title{
+  font-size: 20px;
+  color: #ffffff;
+}
+
+.price-up{
+  color: #038A00;
+  font-size: 15px;
+}
+
+.price-down{
+  color: #C30D0D;
+  font-size: 15px;
+}
+
+.price-image{
+  height: 75px;
+  width: 75px;
+  float: left;
+  margin-right: 20px;
+}

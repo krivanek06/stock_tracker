@@ -1,14 +1,6 @@
 
-export interface MarketNewsWrapper {
-  economicNews: MarketNews;
-}
-
-export interface MarketNews {
-  wallStreetNews: NewsArticleWrapper;
-}
-
 export interface NewsArticleWrapper {
-  articles: NewsArticle[];
+  economicNews: NewsArticle[];
 }
 
 export interface NewsArticle {

@@ -28,8 +28,15 @@ class Finhub:
         nextTwoWeeks = nextTwoWeeks.strftime('%Y-%m-%d')
 
         params = {'token': self.FINHUB_SECRET_KEY, 'to': nextTwoWeeks, 'from': today}
-        return get('https://finnhub.io/api/v1/calendar/earnings', params=params).json()
-
+        req =  get('https://finnhub.io/api/v1/calendar/earnings', params=params).json()
+        res = []
+        for earnigns in req['earningsCalendar']:
+            res.append({
+                 'date': datetime.strptime(earnigns['date'], '%Y-%m-%d').strftime('%d.%m.%y'),
+                 'symbol': earnigns['symbol']
+                }
+            )
+        return res
 
     def getRecomendationForSymbol(self, symbol):
         params = {'token': self.FINHUB_SECRET_KEY, 'symbol': symbol}

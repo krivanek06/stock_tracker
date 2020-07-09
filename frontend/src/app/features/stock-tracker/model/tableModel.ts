@@ -25,7 +25,6 @@ export interface TopTableData {
 
 
 export interface TopStockTableData extends TopTableData {
-  peRatio: number;
   volumeChange: number;
 }
 

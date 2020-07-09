@@ -1,30 +1,27 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {NgxAuthFirebaseUIModule} from 'ngx-auth-firebaseui';
-import {RouterModule} from '@angular/router';
-import {AngularFirestoreModule} from '@angular/fire/firestore';
-import {AngularFireAuthModule} from '@angular/fire/auth';
-import {MaterialModule} from '../material.module';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {AngularFireStorageModule} from '@angular/fire/storage';
-import {ConfirmDialogComponent} from './components/presentation/confirm-dialog/confirm-dialog.component';
-import { NavigationComponent } from './components/smart/navigation/navigation.component';
-// import { ChartsModule } from 'ng2-charts';
-import { BasicChartComponent } from './components/presentation/basic-chart/basic-chart.component';
-import { BasicChartTimelineButtonsComponent } from './components/presentation/basic-chart-timeline-buttons/basic-chart-timeline-buttons.component';
-import { LoaderSpinnerComponent } from './components/presentation/loader-spinner/loader-spinner.component';
-// import { FlexLayoutModule } from '@angular/flex-layout';
-import {IonicModule} from '@ionic/angular';
-import { HighchartsChartComponent } from 'highcharts-angular';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { NgxAuthFirebaseUIModule } from "ngx-auth-firebaseui";
+import { RouterModule } from "@angular/router";
+import { AngularFirestoreModule } from "@angular/fire/firestore";
+import { AngularFireAuthModule } from "@angular/fire/auth";
+import { MaterialModule } from "../material.module";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { AngularFireStorageModule } from "@angular/fire/storage";
+import { ConfirmDialogComponent } from "./components/presentation/confirm-dialog/confirm-dialog.component";
+import { LoaderSpinnerComponent } from "./components/presentation/loader-spinner/loader-spinner.component";
+import { IonicModule } from "@ionic/angular";
+import { HighchartsChartModule } from "highcharts-angular";
+import { DefaultImgDirective } from './directive/default-img.directive';
+import {FinancialChartTimelineButtonsComponent} from './components/financial-chart-timeline-buttons/financial-chart-timeline-buttons.component';
+import {FinancialChartComponent} from './components/financial-chart/financial-chart.component';
 
 @NgModule({
   declarations: [
     ConfirmDialogComponent,
-    NavigationComponent,
-    BasicChartComponent,
-    BasicChartTimelineButtonsComponent,
     LoaderSpinnerComponent,
-    HighchartsChartComponent
+    DefaultImgDirective,
+    FinancialChartTimelineButtonsComponent,
+    FinancialChartComponent
   ],
   imports: [
     CommonModule,
@@ -36,9 +33,8 @@ import { HighchartsChartComponent } from 'highcharts-angular';
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
-    // ChartsModule,
-    // FlexLayoutModule,
-    IonicModule
+    HighchartsChartModule,
+    IonicModule,
   ],
   exports: [
     NgxAuthFirebaseUIModule,
@@ -49,19 +45,14 @@ import { HighchartsChartComponent } from 'highcharts-angular';
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
-    HighchartsChartComponent,
-    // ChartsModule,
-    // FlexLayoutModule,
     IonicModule,
-
+    HighchartsChartModule,
     ConfirmDialogComponent,
-    NavigationComponent,
-    BasicChartComponent,
-    BasicChartTimelineButtonsComponent,
-    LoaderSpinnerComponent
+    LoaderSpinnerComponent,
+    DefaultImgDirective,
+    FinancialChartTimelineButtonsComponent,
+    FinancialChartComponent
   ],
   entryComponents: [ConfirmDialogComponent],
 })
-export class SharedModule { }
-
-
+export class SharedModule {}

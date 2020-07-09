@@ -1,12 +1,10 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
 
-
 * {
   padding: 0;
   margin: 0;
 }
-
 
 /** Ionic CSS Variables **/
 :root {
@@ -191,7 +189,6 @@
     --ion-item-background: #000000;
   }
 
-
   /*
    * Material Design Dark Theme
    * -------------------------------------------
@@ -237,29 +234,58 @@
 /* CUSTOM DARK SCHEME */
 
 :root {
+  ion-card {
+    padding: 5px 10px;
+    ion-card-content{
+      padding: 10px;
+    }
+  }
+
+
   .dark-theme {
+    ion-card {
+      --background: #111111 ;
+      --color: #b8b8b8 ;
+
+      ion-card-header {
+        --background: #111111 ;
+
+        ion-card-title {
+          --color: #FFFFFF ;
+        }
+        ion-card-subtitle {
+          --color: #b8b8b8 ;
+        }
+      }
+      ion-card-content {
+        ion-item {
+          --background: #111111 ;
+          --color: #b8b8b8 ;
+        }
+      }
+    }
     ion-content {
-      --background: #2C2C2C !important;
-      --color: #979797 !important;
+      --background: #2c2c2c ;
+      --color: #979797 ;
     }
 
     ion-toolbar {
-      --background: #202020 !important;
+      --background: #111111 !important;
       --color: #979797 !important;
     }
 
     ion-menu {
-      --background: #151515 !important;
+      --background: #111111 !important;
 
       ion-content {
-        --background: #151515 !important;
+        --background: #111111 !important;
 
         ion-list {
-          background: #151515 !important;
+          background: #111111 !important;
         }
 
         ion-item {
-          --background: #151515 !important;
+          --background: #111111 !important;
           --color: #979797 !important;
         }
       }

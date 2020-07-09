@@ -1,0 +1,31 @@
+<ion-card class="price-card-container">
+    <ion-card-content>
+        <div class="price-image">
+            <ion-img src="../../../../assets/price_range.png"></ion-img>
+        </div>
+        <div class="price-container">
+            <div class="price-subtitle"> Price range</div>
+            <ng-container *ngIf="priceRangeFirst">
+                <div class="price-title"> ${{ priceRangeFirst  | number}}  - ${{priceRangeLast | number}}</div>
+                <div [ngClass]="{
+                      'price-up':  priceRangeLast - priceRangeFirst  >= 0,
+                      'price-down':  priceRangeLast - priceRangeFirst  < 0
+                      }">
+                    {{ priceRangeFirst - priceRangeLast | number }}   ({{ 100 / this.priceRangeFirst * this.priceRangeLast - 100 | number}}% )
+                    <ion-icon
+                            name="trending-up-outline"
+                            slot="end"
+                            class='upside-icon'
+                            *ngIf="priceRangeLast - priceRangeFirst >= 0"
+                    ></ion-icon>
+                    <ion-icon
+                            name="trending-down-outline"
+                            slot="end"
+                            class='downside-icon'
+                            *ngIf="priceRangeLast - priceRangeFirst < 0"
+                    ></ion-icon>
+                </div>
+            </ng-container>
+        </div>
+    </ion-card-content>
+</ion-card>

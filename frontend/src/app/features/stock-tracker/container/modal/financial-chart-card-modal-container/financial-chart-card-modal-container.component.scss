@@ -1,0 +1,16 @@
+:host {
+  ion-header{
+    background: #111111;
+    ion-toolbar{
+      padding: 5px;
+      --background: #111111 !important;
+    }
+  }
+  ion-header::after {
+    background-image: none;
+  }
+
+  ion-content {
+    --background: #111111;
+  }
+}

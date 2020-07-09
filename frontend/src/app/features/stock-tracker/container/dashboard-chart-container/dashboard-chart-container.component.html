@@ -1,0 +1,35 @@
+<div class="container">
+
+    <div class="chart-info">
+        <div class="item">
+            <app-stock-price-card
+                    [name]="'S&P 500'"
+                    [price]="currentPrice">
+            </app-stock-price-card>
+        </div>
+        <div class="item">
+            <app-stock-price-range-card
+                    [priceRangeFirst]="priceRange?.priceRangeFirst"
+                    [priceRangeLast]="priceRange?.priceRangeLast">
+            </app-stock-price-range-card>
+        </div>
+    </div>
+
+    <!-- SP 500 chart -->
+    <div class="chart">
+        <div class="button-container">
+            <app-financial-chart-timeline-buttons
+                    (selectedPeriodEmitter)="loadChartData($event)">
+            </app-financial-chart-timeline-buttons>
+        </div>
+
+        <app-financial-chart
+            #SpChart
+            (priceRangeEmitter)="changePriceRange($event)"
+            [price]="price"
+            [volume]="volume">
+        </app-financial-chart>
+    </div>
+
+
+</div>

@@ -2,6 +2,7 @@ import yfinance as yf
 from yahoo_fin import stock_info as si
 from datetime import datetime
 import math
+import time
 
 class YahooFinance:
     def __init__(self):
@@ -194,29 +195,38 @@ class YahooFinanceDataModification:
             tmp['currentPrice'] = float(round(data['Price (Intraday)'][i], 2))
             tmp['currentPriceChange'] = float(round(data['% Change'][i], 2))
             tmp['volumeChange'] = float(round(data['volume_change'][i], 2))
-            tmp['peRatio'] = -1 if math.isnan(data['PE Ratio (TTM)'][i]) else float(data['PE Ratio (TTM)'][i])
+            #tmp['peRatio'] = -1 if math.isnan(data['PE Ratio (TTM)'][i]) else float(data['PE Ratio (TTM)'][i])
 
             res.append(tmp)
         return res
 
     def formatChartData(self, data, includeMinutes):
-        res = {'currentTime': [], 'currentPrice': [], 'currentVolumeInMillion': [], 'currentPercentReturn': []}
+        #res = {'currentTime': [], 'currentPrice': [], 'currentVolumeInMillion': [], 'currentPercentReturn': []}
+        res = {'price': [], 'volume': [], 'change': [], 'livePrice': 0}
         timestamp = data['currentPrice'].keys()
 
         # total % return from start to end
-        res['totalReturn'] = float(round(100 / data['Open'][0] * data['currentPrice'][len(data['currentPrice']) - 1] - 100, 2))
+        #res['totalReturn'] = float(round(100 / data['Open'][0] * data['currentPrice'][len(data['currentPrice']) - 1] - 100, 2))
         # difference in price form start to end
-        res['livePriceDiff'] = round(data['currentPrice'][-1] - data['Open'][0], 2)
+        #res['livePriceDiff'] = round(data['currentPrice'][-1] - data['Open'][0], 2)
         res['livePrice'] = round(data['currentPrice'][-1], 2)
 
         for i in range(len(timestamp)):
-            tmpDate = datetime.fromtimestamp(timestamp[i].timestamp())
-            tmpDate = tmpDate.strftime("%d/%m/%Y %H:%M") if includeMinutes else tmpDate.strftime("%d/%m/%Y").split(' ')[0]
+            #print(timestamp[i])
+            #tmpDate = datetime.fromtimestamp(timestamp[i].timestamp())
+            #tmpDate = datetime.strptime(timestamp[i], "%m/%d/%Y %H:%M").timestamp()
+            tmpDate = timestamp[i].timestamp() * 1000
 
-            res['currentTime'].append(tmpDate)
-            res['currentPrice'].append(round(data['currentPrice'][i], 2))
-            res['currentVolumeInMillion'].append(round(data['Volume'][i] / 1000000, 2))
-            res['currentPercentReturn'].append(data['currentPercentReturn'][i])
+            #tmpDate = tmpDate.strftime("%d/%m/%Y %H:%M") if includeMinutes else tmpDate.strftime("%d/%m/%Y").split(' ')[0]
+            res['price'].append([tmpDate, round(data['currentPrice'][i], 2)])
+            res['volume'].append([tmpDate, 0 if math.isnan(data['Volume'][i]) else int(data['Volume'][i])])
+            res['change'].append([tmpDate, round(data['currentPercentReturn'][i], 2)])
+
+            #res['currentTime'].append(tmpDate)
+            #res['currentPrice'].append(round(data['currentPrice'][i], 2))
+            #res['currentVolumeInMillion'].append(round(data['Volume'][i] / 1000000, 2))
+            #res['currentVolumeInMillion'].append(str(data['Volume'][i]) )
+            #res['currentPercentReturn'].append(data['currentPercentReturn'][i])
 
         return res
 
