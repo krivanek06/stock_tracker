@@ -236,22 +236,27 @@
 :root {
   ion-card {
     padding: 5px 10px;
+    ion-card-header{
+      padding: 5px;
+    }
     ion-card-content{
       padding: 10px;
     }
+
+
   }
 
 
   .dark-theme {
     ion-card {
-      --background: #111111 ;
+      --background: linear-gradient(180deg, rgb(0, 3, 32) 0%, rgb(0, 8, 62) 100%);
       --color: #b8b8b8 ;
 
       ion-card-header {
-        --background: #111111 ;
+        --background-color: transparent;
 
         ion-card-title {
-          --color: #FFFFFF ;
+          --color: #c0bcbc ;
         }
         ion-card-subtitle {
           --color: #b8b8b8 ;
@@ -259,33 +264,40 @@
       }
       ion-card-content {
         ion-item {
-          --background: #111111 ;
+          --background-color: transparent;
           --color: #b8b8b8 ;
         }
       }
     }
+    ion-header{
+      ion-toolbar {
+        --background: linear-gradient(180deg, rgb(1, 18, 49) 0%, rgb(1, 0, 60) 55%, rgb(3, 1, 75) 100%);
+        --color: #979797 !important;
+      }
+    }
     ion-content {
-      --background: #2c2c2c ;
+      --background: linear-gradient(90deg, rgb(0, 18, 49) 0%, rgb(2, 1, 56) 55%, rgb(1, 0, 34) 100%);
       --color: #979797 ;
     }
-
-    ion-toolbar {
-      --background: #111111 !important;
-      --color: #979797 !important;
+    ion-toolbar{
+      --background: transparent;
     }
 
+
+
+
     ion-menu {
-      --background: #111111 !important;
+      --background: #010128 !important;
 
       ion-content {
-        --background: #111111 !important;
+        --background: #010128 !important;
 
         ion-list {
-          background: #111111 !important;
+          background: #010128 !important;
         }
 
         ion-item {
-          --background: #111111 !important;
+          --background: #010128 !important;
           --color: #979797 !important;
         }
       }

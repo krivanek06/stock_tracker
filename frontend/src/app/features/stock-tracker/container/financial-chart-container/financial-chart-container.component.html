@@ -3,7 +3,7 @@
     <div class="chart-info">
         <div class="item">
             <app-stock-price-card
-                    [name]="'S&P 500'"
+                    [name]="name"
                     [price]="currentPrice">
             </app-stock-price-card>
         </div>
@@ -24,7 +24,7 @@
         </div>
 
         <app-financial-chart
-            #SpChart
+            #myChart
             (priceRangeEmitter)="changePriceRange($event)"
             [price]="price"
             [volume]="volume">

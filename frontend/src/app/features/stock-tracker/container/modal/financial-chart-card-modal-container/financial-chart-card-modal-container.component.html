@@ -1,18 +1,26 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="end">
-      <ion-button color="danger" (click)="dismissModal()">
-        <ion-icon name="close-outline"></ion-icon>
-        Close
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button color="warning"
+                        [routerLink]="['/menu/stock-details/' + chartDataIdentification.symbol]"
+                        (click)="dismissModal()">
+                <ion-icon name="information-circle-outline"></ion-icon>
+                Details
+            </ion-button>
+        </ion-buttons>
 
-  <!--
-  <app-financial-chart [symbol]="chartDataIdentification.symbol" [name]="chartDataIdentification.name">
-  </app-financial-chart>-->
+
+        <ion-buttons slot="end">
+            <ion-button color="danger" (click)="dismissModal()">
+                <ion-icon name="close-outline"></ion-icon>
+                Close
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+
+    <app-financial-chart-container
+            [symbol]="chartDataIdentification.symbol"
+            [name]="chartDataIdentification.name">
+    </app-financial-chart-container>
 
 </ion-content>
