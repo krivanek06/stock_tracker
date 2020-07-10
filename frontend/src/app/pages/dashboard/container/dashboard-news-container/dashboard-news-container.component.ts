@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs';
-import {NewsArticle} from '../../model/newsModel';
-import {StockApiService} from '../../endpoints/stock-api.service';
+import {NewsArticle} from '../../../../features/stock-tracker/model/newsModel';
+import {StockApiService} from '../../../../features/stock-tracker/endpoints/stock-api.service';
 
 @Component({
   selector: 'app-dashboard-news-container',

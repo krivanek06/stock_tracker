@@ -3,7 +3,6 @@
     <app-table-top-card
             [name]="'Top daily gainers'"
             [data]="getTopGains$ | async"
-            (addFavouritesEmitter)="showWatchlist($event)"
             (showChartEmitter)="showChart($event)">
     </app-table-top-card>
 
@@ -11,7 +10,6 @@
     <app-table-top-card
             [name]="'Top daily losers'"
             [data]="getTopLosers$ | async"
-            (addFavouritesEmitter)="showWatchlist($event)"
             (showChartEmitter)="showChart($event)">
     </app-table-top-card>
 
@@ -20,7 +18,6 @@
     <app-table-top-card
             [name]="'Top daily active'"
             [data]="getTopActive$ | async"
-            (addFavouritesEmitter)="showWatchlist($event)"
             (showChartEmitter)="showChart($event)">
     </app-table-top-card>
 </div>

@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {StockApiService} from '../../endpoints/stock-api.service';
+import {StockApiService} from '../../../../features/stock-tracker/endpoints/stock-api.service';
 import {MatDialog} from '@angular/material/dialog';
-import {WatchlistModalContainerComponent} from '../modal/watchlist-selector-modal-container/watchlist-modal-container.component';
+import {WatchlistModalContainerComponent} from '../../../../features/stock-tracker/container/modal/watchlist-selector-modal-container/watchlist-modal-container.component';
 import {ChartDataIdentification} from '../../../../shared/model/chartModel';
-import {TopStockTableData} from '../../model/tableModel';
-import {ModalController} from '@ionic/angular';
-import {FinancialChartCardModalContainerComponent} from '../modal/financial-chart-card-modal-container/financial-chart-card-modal-container.component';
+import {TopStockTableData} from '../../../../features/stock-tracker/model/tableModel';
+import {ModalController, PopoverController} from '@ionic/angular';
+import {FinancialChartCardModalContainerComponent} from '../../../../features/stock-tracker/container/modal/financial-chart-card-modal-container/financial-chart-card-modal-container.component';
 
 @Component({
     selector: 'app-dashboard-top-table-container',
@@ -19,7 +19,7 @@ export class DashboardTopTableContainerComponent implements OnInit {
     getTopLosers$: Observable<TopStockTableData[]>;
 
     constructor(private stockAPI: StockApiService,
-                private modalController: ModalController) {
+                private popoverController: PopoverController) {
     }
 
     ngOnInit(): void {
@@ -29,18 +29,20 @@ export class DashboardTopTableContainerComponent implements OnInit {
     }
 
     async showChart(chartDataIdentification: ChartDataIdentification) {
-        const modal = await this.modalController.create({
+        const popover = await this.popoverController.create({
             component: FinancialChartCardModalContainerComponent,
-            componentProps: {chartDataIdentification}
+            componentProps:  {chartDataIdentification},
+            translucent: true,
         });
-        return await modal.present();
+        popover.style.cssText = '--min-width: 70%; --max-width: 70%;';
+        return await popover.present();
     }
 
-    async showWatchlist(chartDataIdentification: ChartDataIdentification) {
+   /* async showWatchlist(chartDataIdentification: ChartDataIdentification) {
         const modal = await this.modalController.create({
             component: WatchlistModalContainerComponent,
             componentProps: {chartDataIdentification}
         });
         return await modal.present();
-    }
+    }*/
 }

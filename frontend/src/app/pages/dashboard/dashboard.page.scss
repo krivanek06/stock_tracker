@@ -3,7 +3,6 @@
     position: relative;
     float: left;
     width: 75%;
-    padding: 20px;
     margin-right: 15px;
   }
 
@@ -11,11 +10,23 @@
     float: left;
     width: 20%;
     height: 90vh;
-    overflow: scroll;
   }
 
-  ::-webkit-scrollbar {
-    width: 0;
-    background: transparent; /* make scrollbar transparent */
+  @media (max-width: 1000px) {
+    .left-screen{
+      width: 100%;
+      margin-right: 0;
+    }
+    .right-screen{
+      width: 100%;
+      height: auto;
+    }
+
+
   }
+
+ /* ::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  } */
 }

@@ -24,7 +24,7 @@ const routes: Routes = [
                 loadChildren: () => import('../watchlist/watchlist.module').then(m => m.WatchlistPageModule)
             },
             {
-                path: 'stock-details',
+                path: 'stock-details/:symbol',
                 canActivate: [LoggedInGuard],
                 loadChildren: () => import('../stock-details/stock-details.module').then(m => m.StockDetailsPageModule)
             },

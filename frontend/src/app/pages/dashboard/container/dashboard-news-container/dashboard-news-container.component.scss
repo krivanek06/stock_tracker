@@ -1,0 +1,33 @@
+:host{
+  .title-container{
+    display: inline-flex;
+  }
+  .title{
+    font-size: 28px;
+    align-self: center;
+  }
+
+  ion-img{
+    height: 35px;
+    width: 35px;
+    float: left;
+    margin-right: 10px;
+  }
+
+  .news-container{
+    margin-top: 10px;
+    height: 85vh;
+    overflow: scroll;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  }
+
+  @media (max-width: 1000px) {
+    .news-container{
+      overflow: visible;
+    }
+  }
+}

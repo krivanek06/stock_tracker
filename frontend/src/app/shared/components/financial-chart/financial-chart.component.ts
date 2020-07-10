@@ -37,6 +37,10 @@ export class FinancialChartComponent implements OnInit {
 
     @Input() price: any[];
     @Input() volume: any[];
+    @Input() positive: boolean; // determine chart color
+
+    private startingColor: string;
+    private endingColor: string;
 
 
     // Define chart options
@@ -79,8 +83,9 @@ export class FinancialChartComponent implements OnInit {
     }
 
     updateChart() {
-        this.chart.series[0].setData(this.price);
-        this.chart.series[1].setData(this.volume);
+       // this.chart.series[0].setData(this.price);
+       // this.chart.series[1].setData(this.volume);
+        this.initChart(this.price, this.volume);
     }
 
     recalculatePriceRange(priceRange: number[]) {
@@ -92,24 +97,48 @@ export class FinancialChartComponent implements OnInit {
         this.chartOptions = {
             chart: {
                 backgroundColor: 'transparent',
-                height: 500,
+                height: 400,
+                type: 'area',
             },
             scrollbar: {
                 enabled: false,
             },
-            legend: {enabled: true},
-            plotOptions: {series: {dataLabels: {enabled: false}}},
+            legend: {enabled: false},
+            plotOptions: {
+                area: {
+                    fillColor: {
+                        linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
+                        stops: [
+                            [0, 'rgba(232,0,24,1)'],
+                            [1, 'rgba(0,20,82,0.37048322747067575)']
+                        ]
+                    },
+                    marker: {
+                        radius: 2
+                    },
+                    lineWidth: 1,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
+                },
+                areaspline: {
+                    threshold: null
+                }
+            },
             series: [
                 {
                     data: price,
-                    color: '#144BFF',
+                    color: 'rgba(232,0,24,1)',
                     name: 'price',
                 },
                 {
                     type: 'column',
                     yAxis: 1,
                     data: volume,
-                    color: '#EE0DB2',
+                    color: '#f08800',
                     name: 'volume',
                 },
             ],

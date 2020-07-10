@@ -17,7 +17,6 @@ export class TableTopCardComponent implements OnInit, OnChanges {
   @Input() name: string;
 
   @Output() showChartEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
-  @Output() addFavouritesEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
 
   constructor() {
   }
@@ -37,10 +36,6 @@ export class TableTopCardComponent implements OnInit, OnChanges {
 
   showChart(name: string, symbol: string) {
     this.showChartEmitter.emit({name, symbol});
-  }
-
-  addFavourites(name: string, symbol: string) {
-    this.addFavouritesEmitter.emit({name, symbol});
   }
 
 
