@@ -1,0 +1,9 @@
+@import "../../../style/price-card";
+
+:host{
+  ion-icon{
+    position: absolute;
+    font-size: 23px;
+    margin-left: 5px;
+  }
+}

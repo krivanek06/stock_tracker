@@ -1,0 +1,64 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title class="ion-text-start ion-padding">
+      Income statement
+    </ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+
+    <ion-list *ngIf="incomeStatement">
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel"></ion-label>
+        <ion-label *ngFor="let d of incomeStatement.date">{{ d }}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Total revenue </ion-label>
+        <ion-label *ngFor="let d of incomeStatement.Total_Revenue">{{ d | millionOrBillion }}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel"> Cost of revenue </ion-label>
+        <ion-label *ngFor="let d of incomeStatement.Cost_of_Revenue">{{ d | millionOrBillion  }}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel"> Gross profit </ion-label>
+        <ion-label *ngFor="let d of incomeStatement.Gross_Profit">{{ d | millionOrBillion }}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel"> Net income from continuing op.  </ion-label>
+        <ion-label *ngFor="let d of incomeStatement.Net_Income_from_Continuing_And_Discontinued_Operation">{{ d | millionOrBillion }}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Operating income </ion-label>
+        <ion-label *ngFor="let d of incomeStatement.Operating_Income">{{ d | millionOrBillion }}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel"> Net interest income</ion-label>
+        <ion-label *ngFor="let d of incomeStatement.Net_Interest_Income">{{ d | millionOrBillion }}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel"> Operating expense</ion-label>
+        <ion-label *ngFor="let d of incomeStatement.Operating_Expense">{{ d | millionOrBillion }}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel"> Other income expense</ion-label>
+        <ion-label *ngFor="let d of incomeStatement.Other_Income_Expense">{{ d | millionOrBillion }}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel"> Total expenses</ion-label>
+        <ion-label *ngFor="let d of incomeStatement.Total_Expenses">{{ d | millionOrBillion }}</ion-label>
+      </ion-item>
+
+
+    </ion-list>
+  </ion-card-content>
+</ion-card>
+

@@ -1,11 +1,12 @@
 frontend/node_modules/
 frontend/src/environments
 tmp/
-Backend/__pycache__/
-Backend/venv/
-Backend/resource/stock_news_data/
-Backend/enviroments.py
-Backend/test.py
+backend/private_data/
+backend/__pycache__/
+backend/venv/
+backend/resource/stock_news_data/
+backend/enviroments.py
+backend/test.py
 
 # Compiled source #
 ###################

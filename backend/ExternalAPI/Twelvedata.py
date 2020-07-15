@@ -1,5 +1,5 @@
 import os
-import enviroments
+from private_data import enviroments
 from requests import get
 
 class Twelvedata:

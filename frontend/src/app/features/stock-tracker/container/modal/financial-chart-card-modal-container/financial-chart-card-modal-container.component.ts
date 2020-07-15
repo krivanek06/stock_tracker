@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ModalController, NavParams, PopoverController} from '@ionic/angular';
-import {ChartDataIdentification, TimelineChartData} from '../../../../../shared/model/chartModel';
+import {ChartDataIdentification, TimelineChartData} from '../../../../../shared/models/chartModel';
 import {StockApiService} from '../../../endpoints/stock-api.service';
 import {FinancialChartComponent} from '../../../../../shared/components/financial-chart/financial-chart.component';
 import {Observable} from 'rxjs';

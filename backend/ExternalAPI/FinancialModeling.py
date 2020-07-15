@@ -1,5 +1,5 @@
 import os
-import enviroments
+from private_data import enviroments
 from requests import get
 
 # how to send only once reuest / hour for top gainers / loosers , etc. ?

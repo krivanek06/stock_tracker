@@ -6,6 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { StockDetailsPage } from './stock-details.page';
+import {StockTrackerModule} from '../../features/stock-tracker/stock-tracker.module';
+import {SharedModule} from '../../shared/shared.module';
 
 const routes: Routes = [
   {
@@ -15,12 +17,14 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RouterModule.forChild(routes)
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        RouterModule.forChild(routes),
+        StockTrackerModule,
+        SharedModule
+    ],
   declarations: [StockDetailsPage]
 })
 export class StockDetailsPageModule {}

@@ -1,13 +1,66 @@
+<!-- buttons -->
+<div class="button-container">
+    <ion-button
+            size="small"
+            shape="round"
+            fill="outline"
+            (click)="loadIntervalData('1d')"
+            [color]="selectedPeriod === '1d' ? 'light' : 'primary'"
+    >1 day
+    </ion-button
+    >
+    <ion-button
+            size="small"
+            shape="round"
+            fill="outline"
+            (click)="loadIntervalData('1mo')"
+            [color]="selectedPeriod === '1mo' ? 'light' : 'primary'"
+    >1 month
+    </ion-button>
+    <ion-button
+            size="small"
+            shape="round"
+            fill="outline"
+            (click)="loadIntervalData('6mo')"
+            [color]="selectedPeriod === '6mo' ? 'light' : 'primary'">
+        6 months
+    </ion-button>
+    <ion-button
+            size="small"
+            shape="round"
+            fill="outline"
+            (click)="loadIntervalData('1y')"
+            [color]="selectedPeriod === '1y' ? 'light' : 'primary'"
+    >1 year
+    </ion-button>
+    <ion-button
+            size="small"
+            shape="round"
+            fill="outline"
+            (click)="loadIntervalData('5y')"
+            [color]="selectedPeriod === '5y' ? 'light' : 'primary'"
+    >5 years
+    </ion-button>
+    <ion-button
+            size="small"
+            shape="round"
+            fill="outline"
+            (click)="loadIntervalData('max')"
+            [color]="selectedPeriod === 'max' ? 'light' : 'primary'"
+    >max
+    </ion-button>
+</div>
 
 
+<!-- chart -->
 <highcharts-chart
-    id="container"
-    [Highcharts]="Highcharts"
-    [constructorType]="'stockChart'"
-    [options]="chartOptions"
-    [callbackFunction]="chartCallback"
-    [(update)]="updateFromInput"
-    [oneToOne]="true"
-    style="display: flex; width: 100%; height: 400px;"
+        id="container"
+        [Highcharts]="Highcharts"
+        [constructorType]="'stockChart'"
+        [options]="chartOptions"
+        [callbackFunction]="chartCallback"
+        [(update)]="updateFromInput"
+        [oneToOne]="true"
+        style="display: flex; width: 100%; height: 400px;"
 >
 </highcharts-chart>

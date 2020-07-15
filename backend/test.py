@@ -1,16 +1,47 @@
 import websocket
 import alpaca_trade_api as tradeapi
 from requests import get
-import yfinance as yf
 from yahoo_fin import stock_info as si
-from ExternalAPI import Finhub
+from ExternalAPI import StockNews, YahooFinance, Finhub, Twelvedata
+from Services import StockDetailsService
 import requests
+import time
+from threading import Thread
+import queue
+from private_data import enviroments
 
-#crypto = si.get_top_crypto()
-#for k in crypto.keys():
-#    print(crypto[k])
+from datetime import datetime
 
 
-r = requests.get('https://finnhub.io/api/v1/news?category=general&token=brsrc5vrh5r9dg9d77pg').json()
-for h in r:
-    print(h)
+StockNews = StockNews.StockNews()
+YahooFinanceGlobal = YahooFinance.YahooFinance()
+Finhub = Finhub.Finhub()
+Twelvedata = Twelvedata.Twelvedata()
+
+
+stockDetailsService =  StockDetailsService.StockDetailsService()
+
+
+
+'''
+
+
+res = db.collection('users').where('displayName' , '==','admin').get()
+print(res)
+
+
+'''
+start_time = time.time()
+
+symbol = 'MSFT'
+res = YahooFinanceGlobal.getAnalystsInfo(symbol)
+
+for r in res:
+    print(r, res[r])
+
+#db.collection('stockData').add(merge)
+
+
+
+elapsed_time = time.time() - start_time
+print(elapsed_time)

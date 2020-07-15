@@ -1,9 +1,8 @@
 import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {StockApiService} from '../../endpoints/stock-api.service';
-import {PriceRangeData} from '../../../../shared/model/chartModel';
+import {PriceRangeData} from '../../../../shared/models/chartModel';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {FinancialChartTimelineButtonsComponent} from '../../../../shared/components/financial-chart-timeline-buttons/financial-chart-timeline-buttons.component';
 import {FinancialChartComponent} from '../../../../shared/components/financial-chart/financial-chart.component';
 
 @Component({
