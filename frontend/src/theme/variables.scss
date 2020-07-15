@@ -234,6 +234,7 @@
 /* CUSTOM DARK SCHEME */
 
 :root {
+
   ion-card {
     padding: 5px 10px;
     ion-card-header{
@@ -241,6 +242,19 @@
     }
     ion-card-content{
       padding: 10px;
+      ion-list{
+        ion-item{
+          font-size: 15px;
+          --padding-start: 0;
+          --padding-end: 0;
+          --inner-padding-start: 0;
+          --inner-padding-end: 0;
+          --min-height: 30px;
+          ion-label{
+            font-size: 15px;
+          }
+        }
+      }
     }
 
 
@@ -248,6 +262,12 @@
 
 
   .dark-theme {
+    ion-item {
+      --background: transparent;
+      --border-style: none;
+      --color: #b8b8b8 ;
+    }
+
     ion-card {
       --background: linear-gradient(180deg, rgb(0, 3, 32) 0%, rgb(0, 8, 62) 100%);
       --color: #b8b8b8 ;
@@ -263,9 +283,13 @@
         }
       }
       ion-card-content {
-        ion-item {
-          --background-color: transparent;
-          --color: #b8b8b8 ;
+        ion-list{
+          background: transparent;
+          ion-item {
+            --background: transparent;
+            --border-style: none;
+            --color: #b8b8b8 ;
+          }
         }
       }
     }

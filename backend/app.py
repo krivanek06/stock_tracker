@@ -5,6 +5,7 @@ from flask_json import FlaskJSON, JsonError, json_response
 from flask_cors import CORS
 #custom imports
 from ExternalAPI import StockNews, YahooFinance, Finhub, Twelvedata
+from Services import StockDetailsService
 
 #yf.pdr_override()
 app = Flask(__name__)
@@ -16,6 +17,7 @@ StockNews = StockNews.StockNews()
 YahooFinance = YahooFinance.YahooFinance()
 Finhub = Finhub.Finhub()
 Twelvedata = Twelvedata.Twelvedata()
+stockDetails = StockDetailsService.StockDetailsService()
 
 #-----------------------------------
 #Economic data
@@ -26,7 +28,7 @@ def getEconomicNews():
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Failed to get economic news')
-
+'''
 @app.route('/api/economics/ipo')
 def getIPOlist():
     try:
@@ -34,7 +36,7 @@ def getIPOlist():
     except Exception as e:
         print(e)
         raise JsonError(status=400, error='Could not find IPO data')
-
+'''
 @app.route('/api/economics/earnings')
 def getEarningsCalendarForTwoWeeks():
     try:
@@ -55,14 +57,6 @@ def getChartDataWithPeriod():
         print(e)
         raise JsonError(status=500, error='Error while finding chart data')
 
-
-@app.route('/api/ticker/news')
-def getStockNews():
-    try:
-        return json_response(stockNews=Finhub.getNewsForSymbol(request.args.get('symbol')))
-    except Exception as e:
-        print(e)
-        raise JsonError(status=400, error='Could not find any news for data')
 
 @app.route('/api/ticker/search_symbol')
 def searchSymbol():
@@ -117,49 +111,79 @@ def getWatchlistTickerSummary():
         raise JsonError(status=400, error='Could not find summary for ticker')
 
 
+@app.route('/api/ticker/details/fundamentals')
+def getStockFundamentals():
+    try:
+        return json_response(stockDetails=stockDetails.getStockDetails(request.args.get('symbol')))
+    except Exception as e:
+        print(e)
+        raise JsonError(status=500, error='An error occurred on the server side, please contact administrator to '
+                                          'check logs ')
 
+@app.route('/api/ticker/details/news')
+def getStockNews():
+    try:
+        return json_response(**Finhub.getNewsForSymbol(request.args.get('symbol')))
+    except Exception as e:
+        print(e)
+        raise JsonError(status=500, error='Could not find any news for data')
 
 #------------------------------------------------
-# statistics
+# statistics & analysis
 
-@app.route('/api/ticker/info')
+'''
+@app.route('/api/ticker/details/info')
 def getTickerInfo():
     try:
         return json_response(tickerInfo=YahooFinance.getTickerInfo(request.args.get('symbol')))
     except Exception as e:
         print(e)
         raise JsonError(status=400, error='Could not find info for ticker')
+'''
 
-
-@app.route('/api/ticker/stat')
+'''
+@app.route('/api/ticker/details/stat')
 def getTickerStat():
     try:
         return json_response(tickerStat=YahooFinance.getTickerStat(request.args.get('symbol')))
     except Exception as e:
         print(e)
         raise JsonError(status=400, error='Could not find stats for ticker')
+'''
 
-#------------------------------------------------
-# ANALYSIS
-
-@app.route('/api/ticker/analysis')
+'''
+@app.route('/api/ticker/details/analysis')
 def getAnalystsInfo():
     try:
         return json_response(analysis=YahooFinance.getAnalystsInfo(request.args.get('symbol')))
     except Exception as e:
         print(e)
         raise JsonError(status=400, error='Could not find analysis for ticker')
+'''
 
-@app.route('/api/ticker/recommendation')
+'''
+@app.route('/api/ticker/details/recommendation')
 def getRecommendations():
     try:
         return json_response(recomendation=Finhub.getRecomendationForSymbol(request.args.get('symbol')))
     except Exception as e:
         print(e)
         raise JsonError(status=400, error='Could not find any recommendation for ticker')
+'''
 
+'''
+@app.route('/api/ticker/details/mergeInfo')
+def getMergedDetailsInfo():
+    try:
+        return json_response(mergeInfo=YahooFinance.getMergedFundamentals(request.args.get('symbol')))
+    except Exception as e:
+        print(e)
+        raise JsonError(status=500, error='Server failed to return detailed information about stock symbol')
+'''
 #------------------------------------------------
 # SHEETS
+
+'''
 @app.route('/api/ticker/balance_sheet')
 def getBalanceSheet():
     try:
@@ -184,7 +208,7 @@ def getIncomeStatement():
     except Exception as e:
         print(e)
         raise JsonError(status=400, error='Could not find income statement for ticker')
-
+'''
 
 
 if __name__ == '__main__':
@@ -193,27 +217,3 @@ if __name__ == '__main__':
     #rt.RepeatedTimer(hour, StockNews.fetchAndSaveNews())
 
 
-'''
-WatchList:
-    - si.get_quote_table('MSFT') - (100 / prevClose * Quote Price) - 100 -> % price change
-
-detaily MSFT:
-    - summary
-        - si.get_quote_table('MSFT') - summary stats 
-        - si.get_data('ccl', start_date="2020-06-03", end_date="2020-06-05") - graf cien + volume
-        - msft.info // msft = yf.Ticker("MSFT")
-        - si.get_stats('ccl') // https://finance.yahoo.com/quote/CCL/key-statistics?p=CCL
-    - analytics
-        - si.get_analysts_info('ccl')
-        - msft.get_recommendations() // msft = yf.Ticker("MSFT")
-        - msft.sustainability ???  // msft = yf.Ticker("MSFT")
-    - Sheets -> Balance sheet + CashFlow + Income statement (pod sebou v tabulkach)
-        - si.get_balance_sheet('MSFT')
-        - si.get_cash_flow('MSFT')
-        - si.get_income_statement('MSFT')
-
-
-- alternatives - top gainers / loosers
-                - https://financialmodelingprep.com/api/v3/stock/gainers?apikey=demo
-                - https://financialmodelingprep.com/developer/docs/
-'''

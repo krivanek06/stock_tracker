@@ -2,7 +2,7 @@ import {
     Component,
     Input,
     OnInit,
-    Output, EventEmitter,
+    Output, EventEmitter, SimpleChanges, OnChanges,
 } from '@angular/core';
 
 import * as Highcharts from 'highcharts/highstock';
@@ -14,7 +14,7 @@ import HFullScreen from 'highcharts/modules/full-screen';
 import HStockTools from 'highcharts/modules/stock-tools';
 import HighchartsMoreModule from 'highcharts/highcharts-more';
 import NetworkgraphModule from 'highcharts/modules/networkgraph';
-import {PriceRangeData} from '../../model/chartModel';
+import {PriceRangeData} from '../../models/chartModel';
 
 // import HC_exporting from 'highcharts/modules/exporting';
 
@@ -24,6 +24,7 @@ HAnnotationsAdvanced(Highcharts);
 HPriceIndicator(Highcharts);
 HFullScreen(Highcharts);
 HStockTools(Highcharts);
+HighchartsMoreModule(Highcharts);
 
 // HC_exporting(Highcharts)
 
@@ -32,8 +33,10 @@ HStockTools(Highcharts);
     templateUrl: './financial-chart.component.html',
     styleUrls: ['./financial-chart.component.scss'],
 })
-export class FinancialChartComponent implements OnInit {
+export class FinancialChartComponent implements OnInit, OnChanges {
     @Output() priceRangeEmitter: EventEmitter<PriceRangeData> = new EventEmitter<PriceRangeData>();
+    @Output() selectedPeriodEmitter: EventEmitter<string> = new EventEmitter<string>();
+
 
     @Input() price: any[];
     @Input() volume: any[];
@@ -41,6 +44,9 @@ export class FinancialChartComponent implements OnInit {
 
     private startingColor: string;
     private endingColor: string;
+
+    selectedPeriod = "1y";
+
 
 
     // Define chart options
@@ -59,8 +65,14 @@ export class FinancialChartComponent implements OnInit {
         };
     }
 
-    // update by new data to corresponding timeline
+
     loadIntervalData(period: string) {
+        this.selectedPeriod = period;
+        this.selectedPeriodEmitter.emit(this.selectedPeriod);
+    }
+
+    // update by new data to corresponding timeline
+    ___loadIntervalData(period: string) {
         /* this.selectedPeriod = period;
          console.log(this.selectedPeriod);
          this.chart.showLoading("Loading data from server...");
@@ -74,18 +86,21 @@ export class FinancialChartComponent implements OnInit {
            });*/
     }
 
-    ngOnInit() {
-        this.initChart(this.price, this.volume);
+    ngOnChanges(changes: SimpleChanges): void {
+        console.log('FinancialChartComponent', this.price);
+        this.initChart();
+    }
 
+    ngOnInit() {
         setTimeout(() => {
             window.dispatchEvent(new Event('resize'));
         }, 300);
     }
 
     updateChart() {
-       // this.chart.series[0].setData(this.price);
-       // this.chart.series[1].setData(this.volume);
-        this.initChart(this.price, this.volume);
+       this.chart.series[0].setData(this.price);
+       this.chart.series[1].setData(this.volume);
+      //  this.initChart(this.price, this.volume);
     }
 
     recalculatePriceRange(priceRange: number[]) {
@@ -93,12 +108,12 @@ export class FinancialChartComponent implements OnInit {
     }
 
 
-    initChart(price, volume) {
+    initChart() {
         this.chartOptions = {
             chart: {
                 backgroundColor: 'transparent',
                 height: 400,
-                type: 'area',
+                type: 'area', // area
             },
             scrollbar: {
                 enabled: false,
@@ -130,14 +145,14 @@ export class FinancialChartComponent implements OnInit {
             },
             series: [
                 {
-                    data: price,
+                    data: this.price,
                     color: 'rgba(232,0,24,1)',
                     name: 'price',
                 },
                 {
                     type: 'column',
                     yAxis: 1,
-                    data: volume,
+                    data: this.volume,
                     color: '#f08800',
                     name: 'volume',
                 },

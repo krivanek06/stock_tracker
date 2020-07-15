@@ -1,3 +1,5 @@
+@import "../../../../theme/customVariables";
+
 .price-card-container{
   width: 400px;
   position: relative;
@@ -16,17 +18,17 @@
 }
 
 .price-title{
-  font-size: 20px;
+  font-size: 18px;
   color: #ffffff;
 }
 
 .price-up{
-  color: #038A00;
+  color: #{$price-up}; /* #{$price-down} #038A00;*/
   font-size: 15px;
 }
 
 .price-down{
-  color: #C30D0D;
+  color: #{$price-down};
   font-size: 15px;
 }
 

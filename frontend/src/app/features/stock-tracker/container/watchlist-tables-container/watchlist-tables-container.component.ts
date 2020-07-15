@@ -7,7 +7,7 @@ import { Observable } from "rxjs";
 import { StockWatchListTable } from "../../model/tableModel";
 
 import * as fromStockWatchList from "../../store/stockWatchList/stockWatchList.reducer";
-import { ChartDataIdentification } from "../../../../shared/model/chartModel";
+import { ChartDataIdentification } from "../../../../shared/models/chartModel";
 
 @Component({
   selector: "app-watchlist-tables-container",

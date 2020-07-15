@@ -1,8 +1,8 @@
-import yfinance as yf
+
+from downloaded_libs import yfinance as yf
 from yahoo_fin import stock_info as si
-from datetime import datetime
 import math
-import time
+from datetime import datetime
 
 class YahooFinance:
     def __init__(self):
@@ -66,15 +66,21 @@ class YahooFinance:
 
     def getBalanceSheet(self, symbol):
         balanceSheet = si.get_balance_sheet(symbol)
-        return self.yahooFinanceDataModification.formatSheetData(balanceSheet)
+        return {'balanceSheet': self.yahooFinanceDataModification.formatSheetData(balanceSheet)}
 
     def getCashFlow(self, symbol):
         cashFlow = si.get_cash_flow(symbol)
-        return self.yahooFinanceDataModification.formatSheetData(cashFlow)
+        return {'cashFlow': self.yahooFinanceDataModification.formatSheetData(cashFlow)}
 
     def getIncomeStatement(self, symbol):
         incomeStatement = si.get_income_statement(symbol)
-        return self.yahooFinanceDataModification.formatSheetData(incomeStatement)
+        data = self.yahooFinanceDataModification.formatSheetData(incomeStatement)
+        # typescript cloud not recognize
+        if 'Net_Income_from_Continuing_&_Discontinued_Operation' in data:
+            print('delete')
+            data['Net_Income_from_Continuing_And_Discontinued_Operation'] = data['Net_Income_from_Continuing_&_Discontinued_Operation']
+            del data['Net_Income_from_Continuing_&_Discontinued_Operation']
+        return {'incomeStatement': data}
 
     def getTopCrypto(self):
         #TODO
@@ -83,29 +89,140 @@ class YahooFinance:
 
     def getAnalystsInfo(self, symbol):
         analysis = si.get_analysts_info(symbol)
-        return self.yahooFinanceDataModification.modifyAnalysis(analysis, symbol)
+        return {'analysis': self.yahooFinanceDataModification.modifyAnalysis(analysis, symbol)}
+
+
 
 class YahooFinanceDataModification:
 
+    def modifyCustomMakeDeepInfo(self, merge):
+        # calculate PE
+        pe = 0
+        if 'earnings' in  merge['analysis'] and 'epsActual' in merge['analysis']['earnings']:
+            for value in merge['analysis']['earnings']['epsActual']:
+                pe += float(value)
+        pe = round(merge['currentPrice'] / pe, 2) if pe != 0 else None
+
+        # compose result
+        result = {'overview': {
+            'logoUrl': merge.get('logo_url', None),
+            'summary': merge.get('longBusinessSummary', None),
+            'currentPrice': merge.get('currentPrice', None),
+            'weekHigh52': float(merge.get('WeekHigh52', None)),
+            'weekLow52': float(merge.get('WeekLow52', None)),
+            'previousClose': merge.get('previousClose', None)
+        }, 'basicInfo': {
+            'shortName': merge.get('shortName', None),
+            'industry': merge.get('industry', None),
+            'sector': merge.get('sector', None),
+            'fullTimeEmployees': merge.get('fullTimeEmployees', None),
+            'exchangeTimezoneName': merge.get('exchangeTimezoneName', None),
+            'website': merge.get('website', None),
+            'address1': merge.get('address1', None),
+            'city': merge.get('city', None),
+            'zip': merge.get('zip', None),
+            'state': merge.get('state', None),
+            'country': merge.get('country', None)
+        }, 'moneyInfo': {
+            'marketCap': merge.get('MarketCap(intraday)', None),
+            'revenueTTM': merge.get('Revenue(ttm)', None),
+            'grossProfitTTM': merge.get('GrossProfit(ttm)', None),
+            'netIncomeAvitoCommonTTM': merge.get('NetIncomeAvitoCommon(ttm)', None),
+            'totalCashMRQ': merge.get('TotalCash(mrq)', None),
+            'totalDebtMRQ': merge.get('TotalDebt(mrq)', None),
+            'operatingCashFlowTTM': merge.get('OperatingCashFlow(ttm)', None),
+            'leveredFreeCashFlowTTM': merge.get('LeveredFreeCashFlow(ttm)', None),
+            'ebitda': merge.get('EBITDA', None)
+        }, 'dividendInfo': {
+            'dividendDate': merge.get('DividendDate', None),
+            'exDividendDate': merge.get('ExDividendDate', None),
+            'payoutRatio': merge.get('PayoutRatio', None),
+            'forwardAnnualDividendRate': merge.get('ForwardAnnualDividendRate', None),
+            'forwardAnnualDividendYield': merge.get('ForwardAnnualDividendYield', None),
+            'trailingAnnualDividendRate': merge.get('TrailingAnnualDividendRate', None),
+            'trailingAnnualDividendYield': merge.get('TrailingAnnualDividendYield', None),
+            'fiveYearAverageDividendYield': merge.get('YearAverageDividendYield5', None)
+        }, 'ratioInfo': {
+            'pe': pe,
+            'forwardPE':  float(merge['ForwardPE']) if merge.get('ForwardPE', None) is not None else None,
+            'trailingPE': float(merge['TrailingPE']) if merge.get('TrailingPE', None) is not None else None,
+            'pegRatioFiveYearExpected': float(merge['PEGRatio(5yrexpected)'])  if merge.get('PEGRatio(5yrexpected)', None) is not None else None,
+            'bookValuePerShareMRQ': float(merge['BookValuePerShare(mrq)'])  if merge.get('BookValuePerShare(mrq)', None) is not None else None,
+            'priceToBookMRQ': float(merge['PriceBook(mrq)'])  if merge.get('PriceBook(mrq)', None) is not None else None,
+            'priceToSalesTTM': float(merge['PriceSales(ttm)'])  if merge.get('PriceSales(ttm)', None) is not None else None,
+            'revenuePerShareTTM':  float(merge['RevenuePerShare(ttm)'])  if merge.get('RevenuePerShare(ttm)', None) is not None else None,
+            'totalCashPerShareMRQ':  float(merge['TotalCashPerShare(mrq)'])  if merge.get('TotalCashPerShare(mrq)', None) is not None else None,
+            'enterpriseValueToRevenue': float(merge['EnterpriseValueRevenue'])  if merge.get('EnterpriseValueRevenue', None) is not None else None,
+            'enterpriseValueToEBITDA': float(merge['EnterpriseValueEBITDA'])  if merge.get('EnterpriseValueEBITDA', None) is not None else None,
+            'totalDebtToEquityMRQ':  float(merge['TotalDebtEquity(mrq)'])  if merge.get('TotalDebtEquity(mrq)', None) is not None else None
+        }, 'percentageInfo': {
+            'profitMargin': merge.get('ProfitMargin', None),
+            'operatingMarginTTM': merge.get('OperatingMargin(ttm)', None),
+            'quarterlyRevenueGrowthYOY': merge.get('QuarterlyRevenueGrowth(yoy)', None),
+            'quarterlyEarningsGrowthYOY': merge.get('QuarterlyEarningsGrowth(yoy)', None),
+            'returnOnAssetsTTM': merge.get('ReturnonAssets(ttm)', None),
+            'returnOnEquityTTM': merge.get('ReturnonEquity(ttm)', None),
+
+            'profitMarginNumber': 0 if merge.get('ProfitMargin', None) is None else float(merge['ProfitMargin'][:-1]),
+            'operatingMarginTTMNumber': 0 if merge.get('OperatingMargin(ttm)', None) is None else float(merge['OperatingMargin(ttm)'][:-1]),
+            'quarterlyRevenueGrowthYOYNumber': 0 if merge.get('QuarterlyRevenueGrowth(yoy)', None) is None else float(merge['QuarterlyRevenueGrowth(yoy)'][:-1]),
+            'quarterlyEarningsGrowthYOYNumber': 0 if merge.get('QuarterlyEarningsGrowth(yoy)', None) is None else float(merge['QuarterlyEarningsGrowth(yoy)'][:-1]),
+            'returnOnAssetsTTMNumber': 0 if merge.get('ReturnonAssets(ttm)', None) is None else float(merge['ReturnonAssets(ttm)'][:-1]),
+            'returnOnEquityTTMNumber': 0 if merge.get('ReturnonEquity(ttm)', None) is None else float(merge['ReturnonEquity(ttm)'][:-1])
+        }, 'chartInfo': {
+            'volumeInfo': {
+                'volume': merge.get('volume', None),
+                'averageVolume': merge.get('averageVolume', None),
+                'prctDiff': 0 if merge.get('volume', None) is None or merge.get('averageVolume', None) is None else round(100 / merge['averageVolume'] * merge['volume'], 2)
+
+            },
+            'targetInfo': {
+                'currentPrice': merge.get('currentPrice', None),
+                'targetEst1y': merge.get('targetEst1y', None),
+                'prctDiff': 0 if merge.get('targetEstChange1y', None) is None else round(100 - merge['targetEstChange1y'],2)
+            },
+            'assetsToDebtInfo': {
+                'totalAssets': merge['balanceSheet'].get('Total_Assets', [None])[0],
+                'totalDebt': merge['balanceSheet'].get('Total_Debt', [None])[0],
+                'prctDiff': 0 if  merge['balanceSheet'].get('Total_Assets', [None])[0] is None or
+                                  merge['balanceSheet'].get('Total_Debt', [None])[0] is None else
+                                    round( 100 / (merge['balanceSheet']['Total_Debt'][0] + merge['balanceSheet']['Total_Assets'][0] ) *
+                                           merge['balanceSheet']['Total_Assets'][0], 2)
+            },
+            'equityToAssets': {
+                'totalAssets': merge['balanceSheet'].get('Total_Assets', [None])[0],
+                'totalEquity': merge['balanceSheet'].get('Total_Equity_Gross_Minority_Interest', [None])[0],
+                'prctDiff': 0 if merge['balanceSheet'].get('Total_Assets', [None])[0] is None or
+                                 merge['balanceSheet'].get('Total_Equity_Gross_Minority_Interest', [None])[0] is None else
+                                round(100 / merge['balanceSheet']['Total_Assets'][0] * merge['balanceSheet']['Total_Equity_Gross_Minority_Interest'][0], 2)
+            }
+        }
+        }
+
+        return result
+
     def modifyAnalysis(self, data, symbol):
         container = {} # tmp container for modified data
-        res = {'growthEstimates': {}, 'revenueEstimate': {}, 'earnings': {}}
+        res = {'growthEstimatesPercent': {}, 'revenueEstimate': {}, 'earnings': {}}
         for k in data:
             tmp = {}
             for period in data[k]:
-                tmp[period] = [str(-999) if type(v) is float and math.isnan(v) else v for v in data[k][period]]
+                tmp[period] = [None if type(v) is float and math.isnan(v) else v for v in data[k][period]]
             container[k] = tmp
 
         # save growth
-        res['growthEstimates']['quarter'] = {'current': container['Growth Estimates'][symbol][0][:-1],
-                                             'next': container['Growth Estimates'][symbol][1][:-1]}
-        res['growthEstimates']['year'] = {'current': container['Growth Estimates'][symbol][2][:-1],
-                                             'next': container['Growth Estimates'][symbol][3][:-1]}
-        res['growthEstimates']['fiveYear'] = {'current': container['Growth Estimates'][symbol][5][:-1],
-                                             'next': container['Growth Estimates'][symbol][4][:-1]}
+        res['growthEstimatesPercent']['quarter'] = {'current': float(container['Growth Estimates'][symbol][0][:-1]),
+                                             'next': float(container['Growth Estimates'][symbol][1][:-1])}
+        res['growthEstimatesPercent']['year'] = {'current': float(container['Growth Estimates'][symbol][2][:-1]),
+                                             'next': float(container['Growth Estimates'][symbol][3][:-1])}
+        res['growthEstimatesPercent']['fiveYear'] = {'current': float(container['Growth Estimates'][symbol][5][:-1]),
+                                             'next': float(container['Growth Estimates'][symbol][4][:-1])}
 
         #save revenue
         for k in container['Revenue Estimate'].keys():
+            if k == 'Revenue Estimate':
+                continue
+
             tmp = {}
             tmp['numberOfAnalysis'] = container['Revenue Estimate'][k][0]
             tmp['average_string'] = container['Revenue Estimate'][k][1]
@@ -113,11 +230,11 @@ class YahooFinanceDataModification:
             tmp['high_string'] = container['Revenue Estimate'][k][3]
             tmp['yearAgo'] = container['Revenue Estimate'][k][4]
 
-            # format -12.1M -> -12.1
-            tmp['growth'] = container['Revenue Estimate'][k][5][:-1]
-            tmp['average'] = container['Revenue Estimate'][k][1][:-1]
-            tmp['low'] = container['Revenue Estimate'][k][2][:-1]
-            tmp['high'] = container['Revenue Estimate'][k][3][:-1]
+            # format -12.1M -> -12.1, replace negative sign
+            tmp['growthPercent'] = None if container['Revenue Estimate'][k][5] is None else float(container['Revenue Estimate'][k][5][:-1])
+            tmp['average'] = None if container['Revenue Estimate'][k][1] is None else float(container['Revenue Estimate'][k][1][:-1])
+            tmp['low'] =  None if container['Revenue Estimate'][k][2] is None else float(container['Revenue Estimate'][k][2][:-1])
+            tmp['high'] = None if container['Revenue Estimate'][k][3] is None else float(container['Revenue Estimate'][k][3][:-1])
 
             tmp['timeEstimation'] = k
             if k.startswith('Current Qtr.'):
@@ -137,8 +254,8 @@ class YahooFinanceDataModification:
         for k in container['Earnings History'].keys():
             if k.startswith('Earnings'):
                 continue
-            res['earnings']['epsActual'].append(container['Earnings History'][k][1])
-            res['earnings']['epsEst'].append(container['Earnings History'][k][0])
+            res['earnings']['epsActual'].append(float(container['Earnings History'][k][1]))
+            res['earnings']['epsEst'].append(float(container['Earnings History'][k][0]))
             #res['earnings']['epsPctDiff'].append(container['Earnings History'][k][3])
 
         # EPS estimate current and next quarter
@@ -148,7 +265,7 @@ class YahooFinanceDataModification:
 
             res['earnings']['dates'].append(k)
             #res['earnings']['epsActual'].append(str(-99))
-            res['earnings']['epsEst'].append(str(container['Earnings Estimate'][k][1]))
+            res['earnings']['epsEst'].append(float(container['Earnings Estimate'][k][1]))
             #res['earnings']['epsPctDiff'].append(str(-99))
         return res
 
@@ -257,6 +374,8 @@ class YahooFinanceDataModification:
         res['currentPrice'] = float(round(data['Quote Price'], 2))
         res['targetEst1y'] = float(data['1y Target Est'])
         res['targetEstChange1y'] = float(round(100 / data['1y Target Est'] * data['Quote Price'] - 100, 2))
+        res['weekRange52Min'] = float(res['weekRange52'].split(' - ')[0])
+        res['weekRange52Max'] = float(res['weekRange52'].split(' - ')[1])
 
         # check for NaN
         self.formatNanValues(res)
@@ -266,7 +385,7 @@ class YahooFinanceDataModification:
     def formatNanValues(self, data):
         for k in data.keys():
             if type(data[k]) is float and math.isnan(data[k]):
-                data[k] = -1
+                data[k] = None
 
     # balance sheet / cash flow / income statement
     def formatSheetData(self, data):
@@ -286,3 +405,4 @@ class YahooFinanceDataModification:
                         result[tmpDictKey].append(0)
 
         return result
+

@@ -1,0 +1,71 @@
+<ion-card>
+    <ion-card-header>
+        <ion-card-title class="ion-text-start ion-padding">
+            Ratio
+        </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+        <ion-list *ngIf="ratioInfo">
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">PE</ion-label>
+                <ion-label> {{ ratioInfo.pe }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Trailing PE</ion-label>
+                <ion-label> {{ ratioInfo.trailingPE }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Forward PE</ion-label>
+                <ion-label> {{ ratioInfo.forwardPE }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">PEG</ion-label>
+                <ion-label> {{ ratioInfo.pegRatioFiveYearExpected }}</ion-label>
+            </ion-item>
+
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Book value per share (mrq)</ion-label>
+                <ion-label> {{ ratioInfo.bookValuePerShareMRQ }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Price to book (mrq)</ion-label>
+                <ion-label> {{ ratioInfo.priceToBookMRQ }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Price to Sale (ttm)</ion-label>
+                <ion-label> {{ ratioInfo.priceToSalesTTM }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Total debt to equity (mrq)</ion-label>
+                <ion-label> {{ ratioInfo.totalDebtToEquityMRQ }}</ion-label>
+            </ion-item>
+
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Revenue per share (ttm)</ion-label>
+                <ion-label> {{ ratioInfo.revenuePerShareTTM }}</ion-label>
+            </ion-item>
+
+           <!-- <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Enterprise value to revenue</ion-label>
+                <ion-label> {{ ratioInfo.enterpriseValueToRevenue }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Enterprise value to EBITDA</ion-label>
+                <ion-label> {{ ratioInfo.enterpriseValueToEBITDA }}</ion-label>
+            </ion-item> -->
+
+
+        </ion-list>
+    </ion-card-content>
+</ion-card>

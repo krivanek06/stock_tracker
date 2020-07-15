@@ -6,8 +6,8 @@ import { StockApiService } from "../../features/stock-tracker/endpoints/stock-ap
 import { Store } from "@ngrx/store";
 import { AppState } from "../../core/model/appState";
 import { FirebaseApiService } from "../../core/api/firebase-api.service";
-import { Earnings } from "src/app/features/stock-tracker/model/symbolModel";
-import { TimelineChartData } from "src/app/shared/model/chartModel";
+import { EarningsCalendar } from "src/app/features/stock-tracker/model/earningsCalendarModel";
+import { TimelineChartData } from "src/app/shared/models/chartModel";
 import {TopStockTableData, TopTableData} from '../../features/stock-tracker/model/tableModel';
 
 @Component({
@@ -17,7 +17,7 @@ import {TopStockTableData, TopTableData} from '../../features/stock-tracker/mode
 })
 export class DashboardPage implements OnInit {
 
-  earnings$: Observable<Earnings[]>;
+  earnings$: Observable<EarningsCalendar[]>;
 
   constructor(
     private stockAPI: StockApiService,

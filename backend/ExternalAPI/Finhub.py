@@ -1,5 +1,5 @@
 import os
-import enviroments
+from private_data import enviroments
 from requests import get
 from datetime import datetime
 from dateutil import relativedelta
@@ -8,17 +8,14 @@ class Finhub:
     def __init__(self):
         self.FINHUB_SECRET_KEY = os.environ['FINHUB_SECRET_KEY']
 
+    '''
     def getIpoOneMonthCalendar(self):
         today = datetime.today()
         nextmonth = today + relativedelta.relativedelta(months=1)
         params = {'token': self.FINHUB_SECRET_KEY, 'from': today, 'to': nextmonth}
         return get('https://finnhub.io/api/v1/calendar/ipo', params=params).json()
+    '''
 
-    '''
-    def getEarningsForSymbol(self, symbol):
-        params = {'token': self.FINHUB_SECRET_KEY, 'symbol': symbol}
-        return get('https://finnhub.io/api/v1/stock/earnings', params=params)
-    '''
 
     def getEarningsCalendarForOneWeeks(self):
         today = datetime.today()
@@ -40,7 +37,8 @@ class Finhub:
 
     def getRecomendationForSymbol(self, symbol):
         params = {'token': self.FINHUB_SECRET_KEY, 'symbol': symbol}
-        return get('https://finnhub.io/api/v1/stock/recommendation', params=params).json()[0:10]
+        recommendation = get('https://finnhub.io/api/v1/stock/recommendation', params=params).json()[0:8]
+        return {'recommendation': recommendation}
 
     def getNewsForSymbol(self, symbol):
         today = datetime.today()
@@ -50,4 +48,4 @@ class Finhub:
         lastWeek = lastWeek.strftime('%Y-%m-%d')
 
         params = {'token': self.FINHUB_SECRET_KEY, 'symbol': symbol, 'from': lastWeek, 'to': today}
-        return get('https://finnhub.io/api/v1/company-news', params=params).json()
+        return {'stockNews': get('https://finnhub.io/api/v1/company-news', params=params).json()}

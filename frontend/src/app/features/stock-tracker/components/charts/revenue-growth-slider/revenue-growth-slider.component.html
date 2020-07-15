@@ -1,0 +1,22 @@
+<div class="revenue-container" *ngIf="revenueEst">
+    <!-- additional info -->
+    <div class="ion-text-wrap">
+        <div class="ion-float-start">
+            <span class="highlight">{{revenueEst.timeEstimation}}</span>
+            <span *ngIf="revenueEst.growthPercent >=0" class="growth-up"> +{{ revenueEst.growthPercent}}%</span>
+            <span *ngIf="revenueEst.growthPercent < 0" class="growth-down"> {{ revenueEst.growthPercent}}%</span>
+        </div>
+        <span class="ion-float-end">
+            <span class="highlight">Year ago: </span>
+            {{revenueEst.yearAgo}}
+        </span>
+    </div>
+    <!-- range chart -->
+    <app-fixed-range-slider [min]="revenueEst.low "
+                            [max]="revenueEst.high"
+                            [value]="revenueEst.average"
+                            [maxDisplayName]="revenueEst.high_string"
+                            [minDisplayName]="revenueEst.low_string"
+                            [valueDisplayName]="revenueEst.average_string">
+    </app-fixed-range-slider>
+</div>

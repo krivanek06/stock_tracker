@@ -1,6 +1,6 @@
 import os
 from requests import get
-import enviroments
+from private_data import enviroments
 import json
 from datetime import datetime
 from dateutil import relativedelta
@@ -11,8 +11,9 @@ class StockNews:
         self.API_KEY = os.environ.get('NEWS_API_KEY')
         self.BUSINESS_FILENAME = "business_news.json"
         self.FOLDER = 'resource/stock_news_data'
-        self.lastFetchedTimestamp = None
+        self.lastFetchedTimestamp = None # fetch news if older than 6 hours
 
+        # create folder if does not exists
         if not os.path.exists(self.FOLDER):
             os.makedirs(self.FOLDER)
 

@@ -4,6 +4,7 @@ import {AppState} from '../../core/model/appState';
 import {Observable} from 'rxjs';
 import {IUser} from '../../core/model/userModel';
 import {user} from '../../core/store/auth/auth.reducer';
+import {logout} from '../../core/store/auth/auth.action';
 
 @Component({
     selector: 'app-menu',
@@ -51,6 +52,10 @@ export class MenuPage implements OnInit {
         if (path !== undefined) {
             this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
         }
+    }
+
+    logout(){
+        this.store.dispatch(logout());
     }
 
 }

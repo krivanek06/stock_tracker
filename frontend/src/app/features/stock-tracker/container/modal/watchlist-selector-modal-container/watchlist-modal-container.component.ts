@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {ChartDataIdentification} from '../../../../../shared/model/chartModel';
+import {ChartDataIdentification} from '../../../../../shared/models/chartModel';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {StockTrackerState} from '../../../store';
