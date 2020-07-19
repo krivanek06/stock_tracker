@@ -3,15 +3,11 @@
          [min]="!min ? 0 : min"
          [max]="!max ? value : max"
          [value]="!value ? 0 : value"
-         [matTooltip]="'Current value: ' + valueDisplayName"
-         matTooltipPosition="right"
-         matTooltipClass="custom-tooltip"
-         matTooltipShowDelay="150"
          class="slider"
          disabled>
 </ion-item>
 
 <div class="range-values-container">
-  <span class="low-est"> {{minDisplayName}}</span>
-  <span class="high-est"> {{ maxDisplayName}}</span>
+  <span class="low-est">Low: {{minDisplayName}}</span>
+  <span class="high-est">High: {{ maxDisplayName}}</span>
 </div>

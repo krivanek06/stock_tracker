@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { StockDetailsPage } from './stock-details.page';
 import {StockTrackerModule} from '../../features/stock-tracker/stock-tracker.module';
 import {SharedModule} from '../../shared/shared.module';
+import {OverviewWithChartContainerComponent} from './container/overview-with-chart-container/overview-with-chart-container.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,9 @@ const routes: Routes = [
         StockTrackerModule,
         SharedModule
     ],
-  declarations: [StockDetailsPage]
+  declarations: [
+      StockDetailsPage,
+      OverviewWithChartContainerComponent
+  ]
 })
 export class StockDetailsPageModule {}

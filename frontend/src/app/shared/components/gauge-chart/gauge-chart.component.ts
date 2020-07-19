@@ -18,7 +18,6 @@ export class GaugeChartComponent implements OnInit, OnChanges {
     @Input() endingPoint: number;
     @Input() currentPoint: number;
     @Input() displayValue: number;
-    @Input() chartTitle: string;
 
     // chart options
     Highcharts: typeof Highcharts = Highcharts;

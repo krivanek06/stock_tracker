@@ -40,12 +40,27 @@ class Finhub:
         recommendation = get('https://finnhub.io/api/v1/stock/recommendation', params=params).json()[0:8]
         return {'recommendation': recommendation}
 
-    def getNewsForSymbol(self, symbol):
+    def getNewsForSymbol(self, symbol, timestampUntil = None):
         today = datetime.today()
         lastWeek = today - relativedelta.relativedelta(weeks=1)
-
         today = today.strftime('%Y-%m-%d')
-        lastWeek = lastWeek.strftime('%Y-%m-%d')
 
-        params = {'token': self.FINHUB_SECRET_KEY, 'symbol': symbol, 'from': lastWeek, 'to': today}
-        return {'stockNews': get('https://finnhub.io/api/v1/company-news', params=params).json()}
+        # do not want older than 1 weeks news
+        if timestampUntil is None or timestampUntil < lastWeek.timestamp():
+            dateUntil = lastWeek.strftime('%Y-%m-%d')
+        else:
+            dateUntil = datetime.fromtimestamp(timestampUntil).strftime('%Y-%m-%d')
+
+        print('news time fetching from date ', dateUntil)
+
+        params = {'token': self.FINHUB_SECRET_KEY, 'symbol': symbol, 'from': dateUntil, 'to': today}
+        newsArray = get('https://finnhub.io/api/v1/company-news', params=params).json()
+        for article in newsArray:
+            if 'www' in article['source']:
+                article['sourceName'] = article['source'].split('.')[1].capitalize() # if https://www.axb.com
+            elif 'https' in article['source']:
+                article['sourceName'] = article['source'].split('.')[0][8:].capitalize()  # if https://axb.com
+            else:
+                article['sourceName'] =  article['source'].capitalize()
+
+        return {'stockNews': newsArray}

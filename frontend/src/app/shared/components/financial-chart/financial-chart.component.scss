@@ -1,9 +1,23 @@
+@import "../../../../theme/customVariables";
+
 :host {
-  .button-container {
-    float: right;
-    margin-right: 15px;
-    margin-bottom: 10px;
+  .price-movement-container{
+    position: absolute;
+    top: 90px;
+    left: 30px;
+  }
+}
+
+highcharts-chart::ng-deep {
+  .highcharts-container,
+  .highcharts-container svg {
+    width: 100% !important;
+    height: 100% !important;
+    display: inline-block !important;
   }
 
-
+  .highcharts-stocktools-wrapper,
+  .highcharts-bindings-wrapper{
+    display: none;
+  }
 }

@@ -6,7 +6,7 @@ from datetime import datetime
 from dateutil import relativedelta
 
 
-class StockNews:
+class EconomicNews:
     def __init__(self):
         self.API_KEY = os.environ.get('NEWS_API_KEY')
         self.BUSINESS_FILENAME = "business_news.json"

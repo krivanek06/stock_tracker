@@ -7,36 +7,28 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
-    <ion-grid>
-        <ion-row>
-            <ion-col size-xl="4" offset-xl="1" size-md="5" size="12">
-                <!-- basic info -> buy / sell / favourites buttons -->
-                <app-details-overview-card [overview]="stockDetails?.fundamentals.overview"
-                                           [basicInfo]="stockDetails?.fundamentals.basicInfo">
-                </app-details-overview-card>
-            </ion-col>
-            <ion-col size-xl="6" size-md="7" size="12">
-                <!-- stock chart -->
-                <app-financial-chart [price]="chartData?.price" [volume]="chartData?.volume"></app-financial-chart>
-            </ion-col>
-        </ion-row>
+<ion-content class="ion-padding">
+    <app-overview-with-chart-container
+            [basicInfo]="stockDetails?.fundamentals.basicInfo"
+            [overview]="stockDetails?.fundamentals.overview">
+    </app-overview-with-chart-container>
 
+    <ion-grid>
         <!-- Money info / Dividends/ ratio / percentage -->
         <ion-row>
-            <ion-col size-xl="3" size="6">
+            <ion-col size-xl="3" size-md="6" size="12">
                 <app-details-money-info
                         [moneyInfo]="stockDetails?.fundamentals.moneyInfo"></app-details-money-info>
             </ion-col>
-            <ion-col size-xl="3" size="6">
+            <ion-col size-xl="3" size-md="6" size="12">
                 <app-details-ratio-info
                         [ratioInfo]="stockDetails?.fundamentals.ratioInfo"></app-details-ratio-info>
             </ion-col>
-            <ion-col size-xl="3" size="6">
+            <ion-col size-xl="3" size-md="6" size="12">
                 <app-details-percentage-info
                         [percentageInfo]="stockDetails?.fundamentals.percentageInfo"></app-details-percentage-info>
             </ion-col>
-            <ion-col size-xl="3" size="6">
+            <ion-col size-xl="3" size-md="6" size="12">
                 <app-details-dividend-info
                         [dividendInfo]="stockDetails?.fundamentals.dividendInfo"></app-details-dividend-info>
             </ion-col>
@@ -45,65 +37,50 @@
 
         <ion-row>
             <!-- revenue estimation -->
-            <ion-col size-md="5" size="12">
-                <ion-title class="ion-text-start ion-padding">
-                    Revenue growth estimation
-                </ion-title>
-
-                <app-revenue-growth-slider
-                        [revenueEst]="stockDetails?.analysis.revenueEstimate.currentQuarter">
-                </app-revenue-growth-slider>
-                <app-revenue-growth-slider
-                        [revenueEst]="stockDetails?.analysis.revenueEstimate.currentYear">
-                </app-revenue-growth-slider>
-                <app-revenue-growth-slider
-                        [revenueEst]="stockDetails?.analysis.revenueEstimate.nextQuarter">
-                </app-revenue-growth-slider>
-                <app-revenue-growth-slider
-                        [revenueEst]="stockDetails?.analysis.revenueEstimate.nextYear">
-                </app-revenue-growth-slider>
+            <ion-col size-xl="5" size="12">
+                <app-details-revenue-growth-slider-card [revenueEst]="stockDetails?.analysis.revenueEstimate"></app-details-revenue-growth-slider-card>
             </ion-col>
-            <ion-col size-md="7" size="12">
+            <ion-col size-xl="7" size="12">
                 <ion-row>
-                    <ion-col size="6">
-                        <app-gauge-chart
-                                [displayValue]="stockDetails?.fundamentals.chartInfo.targetInfo.prctDiff"
+                    <ion-col size-sm="6" size="12">
+                        <app-gauge-chart-card
+                                [displayValue]="stockDetails?.fundamentals.overview.targetEst1yPercent"
                                 [startingPoint]="0"
                                 [chartTitle]="'1y target to current price'"
-                                [endingPoint]="stockDetails?.fundamentals.chartInfo.targetInfo.targetEst1y"
-                                [currentPoint]="stockDetails?.fundamentals.chartInfo.targetInfo.currentPrice">
-                        </app-gauge-chart>
+                                [endingPoint]="stockDetails?.fundamentals.overview.targetEst1y"
+                                [currentPoint]="stockDetails?.fundamentals.overview.currentPrice">
+                        </app-gauge-chart-card>
                     </ion-col>
-                    <ion-col size="6">
-                        <app-gauge-chart
+                    <ion-col size-sm="6" size="12">
+                        <app-gauge-chart-card
                                 [displayValue]="stockDetails?.fundamentals.chartInfo.assetsToDebtInfo.prctDiff"
                                 [startingPoint]="0"
                                 [chartTitle]="'Assets to debt'"
                                 [endingPoint]="stockDetails?.fundamentals.chartInfo.assetsToDebtInfo.totalAssets +
                                                 stockDetails?.fundamentals.chartInfo.assetsToDebtInfo.totalDebt"
                                 [currentPoint]="stockDetails?.fundamentals.chartInfo.assetsToDebtInfo.totalAssets">
-                        </app-gauge-chart>
+                        </app-gauge-chart-card>
                     </ion-col>
                 </ion-row>
                 <ion-row>
-                    <ion-col size="6">
-                        <app-gauge-chart
-                                [displayValue]="stockDetails?.fundamentals.chartInfo.volumeInfo.prctDiff"
+                    <ion-col size-sm="6" size="12">
+                        <app-gauge-chart-card
+                                [displayValue]="stockDetails?.fundamentals.overview.volumePercent"
                                 [startingPoint]="0"
                                 [chartTitle]="'Today volume to average'"
-                                [endingPoint]="stockDetails?.fundamentals.chartInfo.volumeInfo.averageVolume"
-                                [currentPoint]="stockDetails?.fundamentals.chartInfo.volumeInfo.volume">
-                        </app-gauge-chart>
+                                [endingPoint]="stockDetails?.fundamentals.overview.averageVolume"
+                                [currentPoint]="stockDetails?.fundamentals.overview.volume">
+                        </app-gauge-chart-card>
                     </ion-col>
 
-                    <ion-col size="6">
-                        <app-gauge-chart
+                    <ion-col size-sm="6" size="12">
+                        <app-gauge-chart-card
                                 [displayValue]="stockDetails?.fundamentals.chartInfo.equityToAssets.prctDiff"
                                 [startingPoint]="0"
                                 [chartTitle]="'Equity to assets'"
                                 [endingPoint]="stockDetails?.fundamentals.chartInfo.equityToAssets.totalAssets"
                                 [currentPoint]="stockDetails?.fundamentals.chartInfo.equityToAssets.totalEquity">
-                        </app-gauge-chart>
+                        </app-gauge-chart-card>
                     </ion-col>
                 </ion-row>
             </ion-col>
@@ -117,35 +94,41 @@
                 <app-earnings-chart [earnings]="stockDetails?.analysis.earnings"></app-earnings-chart>
             </ion-col>
             <ion-col size-xl="4.5" size-md="6" size="12">
-                <app-recommendation-chart [recommendations]="stockDetails?.recommendation"></app-recommendation-chart>
+                <app-recommendation-chart
+                        [recommendations]="stockDetails?.recommendation"></app-recommendation-chart>
             </ion-col>
             <ion-col size-xl="3.5" size-md="6" size="12">
-                <app-growth-chart [growthEst]="stockDetails?.analysis.growthEstimatesPercent"></app-growth-chart>
+                <app-growth-chart
+                        [growthEst]="stockDetails?.analysis.growthEstimatesPercent"></app-growth-chart>
             </ion-col>
         </ion-row>
 
 
         <!-- balance sheet / cash flow / financial statement -->
         <ion-row>
-            <ion-col size-lg="4" size="12">
-                <app-details-balance-sheet [balanceSheet]="stockDetails?.balanceSheet"></app-details-balance-sheet>
+            <ion-col size="12" size-lg="10" offset-lg="1"  size-xl="4" offset-xl="0">
+                <app-details-balance-sheet
+                        [balanceSheet]="stockDetails?.balanceSheet"></app-details-balance-sheet>
             </ion-col>
-            <ion-col size-lg="4" size="12">
+            <ion-col size="12" size-lg="10" offset-lg="1"  size-xl="4" offset-xl="0">
                 <app-details-income-statement
                         [incomeStatement]="stockDetails?.incomeStatement"></app-details-income-statement>
             </ion-col>
-            <ion-col size-lg="4" size="12">
+            <ion-col size="12" size-lg="10" offset-lg="1"  size-xl="4" offset-xl="0">
                 <app-details-cash-flow [cashflow]="stockDetails?.cashFlow"></app-details-cash-flow>
             </ion-col>
         </ion-row>
 
-        <!-- news -->
-        <ion-row>
-            <ion-col size="12">
-                news
-            </ion-col>
-        </ion-row>
-
-
     </ion-grid>
+
+
+    <!-- stock news -->
+    <div class="news-container ion-hide-md-down" *ngIf="stockDetails?.stockNewsSnippets">
+        <app-article *ngFor="let article of stockDetails.stockNewsSnippets" [article]="article"></app-article>
+    </div>
+
+    <div class="news-container ion-hide-md-up" *ngIf="stockDetails?.stockNewsSnippets">
+        <app-article-cards  *ngFor="let article of stockDetails.stockNewsSnippets" [article]="article"></app-article-cards>
+    </div>
+
 </ion-content>

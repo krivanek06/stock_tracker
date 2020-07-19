@@ -77,7 +77,6 @@ class YahooFinance:
         data = self.yahooFinanceDataModification.formatSheetData(incomeStatement)
         # typescript cloud not recognize
         if 'Net_Income_from_Continuing_&_Discontinued_Operation' in data:
-            print('delete')
             data['Net_Income_from_Continuing_And_Discontinued_Operation'] = data['Net_Income_from_Continuing_&_Discontinued_Operation']
             del data['Net_Income_from_Continuing_&_Discontinued_Operation']
         return {'incomeStatement': data}
@@ -95,7 +94,29 @@ class YahooFinance:
 
 class YahooFinanceDataModification:
 
-    def modifyCustomMakeDeepInfo(self, merge):
+    def createOverviewDict(self, merge):
+        result = {
+            'logoUrl': merge.get('logo_url', None),
+            'summary': merge.get('longBusinessSummary', None),
+            'symbol': merge.get('symbol', None),
+            'volume': merge.get('volume', None),
+            'averageVolume': merge.get('averageVolume', None),
+            'volumePercent': merge.get('volumePercent', None),
+            'currentPrice': merge.get('currentPrice', None),
+            'currentPriceChange': merge.get('currentPriceChange', None),
+            'weekHigh52': merge.get('weekRange52Max', None),
+            'weekLow52': merge.get('weekRange52Min', None),
+            'previousClose': merge.get('previousClosedPrice', None),
+            'peRatioTTM': merge.get('peRatioTTM', None),
+            'targetEst1y': merge.get('targetEst1y', None),
+            'targetEst1yPercent': merge.get('targetEst1yPercent', None),
+            'earningsDate': merge.get('earningsDate', None),
+            'exDividendDate': merge.get('exDividendDate', None),
+            'forwardDividendAndYield': merge.get('forwardDividendAndYield', None)
+        }
+        return result
+
+    def modifyCustomMakeDeepInfo(self, merge, symbol):
         # calculate PE
         pe = 0
         if 'earnings' in  merge['analysis'] and 'epsActual' in merge['analysis']['earnings']:
@@ -104,14 +125,9 @@ class YahooFinanceDataModification:
         pe = round(merge['currentPrice'] / pe, 2) if pe != 0 else None
 
         # compose result
-        result = {'overview': {
-            'logoUrl': merge.get('logo_url', None),
-            'summary': merge.get('longBusinessSummary', None),
-            'currentPrice': merge.get('currentPrice', None),
-            'weekHigh52': float(merge.get('WeekHigh52', None)),
-            'weekLow52': float(merge.get('WeekLow52', None)),
-            'previousClose': merge.get('previousClose', None)
-        }, 'basicInfo': {
+        result = {
+        'overview': self.createOverviewDict(merge),
+        'basicInfo': {
             'shortName': merge.get('shortName', None),
             'industry': merge.get('industry', None),
             'sector': merge.get('sector', None),
@@ -143,7 +159,7 @@ class YahooFinanceDataModification:
             'trailingAnnualDividendYield': merge.get('TrailingAnnualDividendYield', None),
             'fiveYearAverageDividendYield': merge.get('YearAverageDividendYield5', None)
         }, 'ratioInfo': {
-            'pe': pe,
+            'customPE': pe,
             'forwardPE':  float(merge['ForwardPE']) if merge.get('ForwardPE', None) is not None else None,
             'trailingPE': float(merge['TrailingPE']) if merge.get('TrailingPE', None) is not None else None,
             'pegRatioFiveYearExpected': float(merge['PEGRatio(5yrexpected)'])  if merge.get('PEGRatio(5yrexpected)', None) is not None else None,
@@ -170,17 +186,6 @@ class YahooFinanceDataModification:
             'returnOnAssetsTTMNumber': 0 if merge.get('ReturnonAssets(ttm)', None) is None else float(merge['ReturnonAssets(ttm)'][:-1]),
             'returnOnEquityTTMNumber': 0 if merge.get('ReturnonEquity(ttm)', None) is None else float(merge['ReturnonEquity(ttm)'][:-1])
         }, 'chartInfo': {
-            'volumeInfo': {
-                'volume': merge.get('volume', None),
-                'averageVolume': merge.get('averageVolume', None),
-                'prctDiff': 0 if merge.get('volume', None) is None or merge.get('averageVolume', None) is None else round(100 / merge['averageVolume'] * merge['volume'], 2)
-
-            },
-            'targetInfo': {
-                'currentPrice': merge.get('currentPrice', None),
-                'targetEst1y': merge.get('targetEst1y', None),
-                'prctDiff': 0 if merge.get('targetEstChange1y', None) is None else round(100 - merge['targetEstChange1y'],2)
-            },
             'assetsToDebtInfo': {
                 'totalAssets': merge['balanceSheet'].get('Total_Assets', [None])[0],
                 'totalDebt': merge['balanceSheet'].get('Total_Debt', [None])[0],
@@ -372,8 +377,14 @@ class YahooFinanceDataModification:
         res['forwardDividendAndYield'] = str(data['Forward Dividend & Yield'])
         res['currentPriceChange'] = float(round(100 / data['Previous Close'] * data['Quote Price'] - 100, 2))
         res['currentPrice'] = float(round(data['Quote Price'], 2))
+        res['previousClosedPrice'] = float(round(data['Previous Close'], 2))
         res['targetEst1y'] = float(data['1y Target Est'])
-        res['targetEstChange1y'] = float(round(100 / data['1y Target Est'] * data['Quote Price'] - 100, 2))
+        res['volume'] = float(data['Volume'])
+        res['averageVolume'] = float(data['Avg. Volume'])
+        res['volumePercent'] = float(round(100 / data['Avg. Volume'] * data['Volume'], 2))
+        res['earningsDate'] = data['Earnings Date']
+        res['peRatioTTM'] = data['PE Ratio (TTM)']
+        res['targetEst1yPercent'] = float(round(100 / data['1y Target Est'] * data['Quote Price'], 2))
         res['weekRange52Min'] = float(res['weekRange52'].split(' - ')[0])
         res['weekRange52Max'] = float(res['weekRange52'].split(' - ')[1])
 

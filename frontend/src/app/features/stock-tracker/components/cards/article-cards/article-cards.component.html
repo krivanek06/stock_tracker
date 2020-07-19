@@ -1,10 +1,10 @@
 <div class="collection">
-    <ion-card *ngFor="let article of articles" [href]="article.url">
+    <ion-card [href]="article.url" target="_blank" rel="noopener noreferrer">
         <ion-card-content>
-            <ion-img [src]="article.urlToImage" appDefaultImg></ion-img>
+            <ion-img [src]="article.image" appDefaultImg></ion-img>
 
             <div class="myOverlay">
-                {{ article.title }}
+                {{ article.headline }}
             </div>
 
         </ion-card-content>

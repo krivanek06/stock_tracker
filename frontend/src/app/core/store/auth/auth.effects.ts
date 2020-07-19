@@ -12,32 +12,32 @@ import {FirebaseApiService} from '../../api/firebase-api.service';
 
 @Injectable()
 export class AuthEffects {
-  constructor(private actions$: Actions,
-              private router: Router,
-              private store: Store<AppState>,
-              private afAuth: AngularFireAuth,
-              private firebaseApiService: FirebaseApiService) {
-  }
+    constructor(private actions$: Actions,
+                private router: Router,
+                private store: Store<AppState>,
+                private afAuth: AngularFireAuth,
+                private firebaseApiService: FirebaseApiService) {
+    }
 
 
-  getUser$: Observable<Action> = createEffect(() => this.actions$.pipe(
-    ofType(authAction.getUser),
-    switchMap(() => this.afAuth.authState.pipe(
-      switchMap(auth => this.firebaseApiService.getUserDoc(auth.uid).valueChanges().pipe(
-        map(payload => authAction.authenticated({payload})),
-        tap(() => this.router.navigate(['/menu/stock-details/MSFT'])),
-      )),
-      catchError(() => of(authAction.logout()))
-    ))
-  ));
+    getUser$: Observable<Action> = createEffect(() => this.actions$.pipe(
+        ofType(authAction.getUser),
+        switchMap(() => this.afAuth.authState.pipe(
+            switchMap(auth => this.firebaseApiService.getUserDoc(auth.uid).valueChanges().pipe(
+                map(payload => authAction.authenticated({payload})),
+                tap(() => this.router.navigate(['/menu/stock-details/MSFT'])),
+            )),
+            catchError(() => of(authAction.logout()))
+        ))
+    ));
 
 
-  logout$: Observable<Action> = createEffect(() => this.actions$.pipe(
-    ofType(authAction.logout),
-    tap(() => this.afAuth.signOut()),
-    tap(() => this.router.navigate(['/login'])),
-    map(() => authAction.notAuthenticated()),
-  ));
+    logout$: Observable<Action> = createEffect(() => this.actions$.pipe(
+        ofType(authAction.logout),
+        tap(() => this.afAuth.signOut()),
+        tap(() => this.router.navigate(['/login'])),
+        map(() => authAction.notAuthenticated()),
+    ));
 
 
 }

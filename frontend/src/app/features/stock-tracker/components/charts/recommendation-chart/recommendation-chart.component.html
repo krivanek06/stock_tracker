@@ -1,10 +1,17 @@
-<ion-title class="ion-text-start ion-padding">
-    Recommendation
-</ion-title>
+<ion-card>
+    <ion-card-header>
+        <ion-card-title class="ion-text-center ion-padding-start ion-padding-top">
+            Recommendation
+        </ion-card-title>
+    </ion-card-header>
 
-<highcharts-chart [Highcharts]="Highcharts"
-                  [options]="chartOptions"
-                  [callbackFunction]="chartCallback"
-                  [(update)]="updateFromInput"
-                  style="width: 100%; height: 38vh; display: flex;">
-</highcharts-chart>
+    <ion-card-content>
+
+        <highcharts-chart [Highcharts]="Highcharts"
+                          [options]="chartOptions"
+                          [callbackFunction]="chartCallback"
+                          [(update)]="updateFromInput"
+                          style="width: 100%; height: 38vh; display: block;">
+        </highcharts-chart>
+    </ion-card-content>
+</ion-card>

@@ -1,8 +1,3 @@
-export interface StockDetailsWrapper {
-    stockDetails: StockDetails;
-}
-
-
 export interface StockDetails {
     fundamentals: Fundamentals;
     analysis: Analysis;
@@ -10,9 +5,7 @@ export interface StockDetails {
     cashFlow: CashFlow;
     incomeStatement: IncomeStatement;
     recommendation: Recommendations[];
-    fundamendalsLastUpdate: Date;
-    overviewLastUpdate: Date;
-    symbol: string;
+    stockNewsSnippets: StockArticle[];
 }
 
 export interface Recommendations {
@@ -138,17 +131,15 @@ export interface Fundamentals {
     chartInfo: ChartInfo;
     dividendInfo: DividendInfo;
     moneyInfo: MoneyInfo;
-    overview: OverView;
     percentageInfo: PercentageInfo;
     ratioInfo: RatioInfo;
+    overview: OverView;
 }
 
 
 export interface ChartInfo {
     assetsToDebtInfo: AssetsToDebtInfo;
     equityToAssets: EquityToAssets;
-    targetInfo: TargetInfo;
-    volumeInfo: VolumeInfo;
 }
 
 export interface AssetsToDebtInfo {
@@ -163,25 +154,12 @@ export interface EquityToAssets {
     prctDiff?: number;
 }
 
-export interface VolumeInfo {
-    averageVolume?: number;
-    volume?: number;
-    prctDiff?: number;
-}
-
-
-export interface TargetInfo {
-    currentPrice?: number;
-    targetEst1y?: number;
-    prctDiff?: number;
-}
-
 export interface RatioInfo {
     bookValuePerShareMRQ?: number;
     enterpriseValueToEBITDA?: number;
     enterpriseValueToRevenue?: number;
     forwardPE?: number;
-    pe?: number;
+    customPE?: number;
     pegRatioFiveYearExpected?: number;
     priceToBookMRQ?: number;
     priceToSalesTTM?: number;
@@ -209,11 +187,22 @@ export interface PercentageInfo {
 
 export interface OverView {
     currentPrice: number;
+    currentPriceChange: number;
     logoUrl?: string;
     previousClose: number;
     summary?: string;
     weekHigh52: number;
     weekLow52: number;
+    symbol: string;
+    volume?: number;
+    averageVolume: number;
+    volumePercent: number;
+    earningsDate: string;
+    exDividendDate: string;
+    forwardDividendAndYield: string;
+    peRatioTTM?: number;
+    targetEst1y?: number;
+    targetEst1yPercent?: number;
 }
 
 export interface MoneyInfo {
@@ -251,4 +240,20 @@ export interface BasicInfo {
     state?: string;
     website: string;
     zip: string;
+}
+
+
+export interface StockArticleWrapper {
+    stockNews: StockArticle[];
+}
+
+export interface StockArticle {
+    datetime: string;
+    headline: string;
+    image: string;
+    related: string;
+    source: string;
+    sourceName: string;
+    summary: string;
+    url: string;
 }

@@ -22,19 +22,3 @@ export interface NewsArticleSource {
 
 // ----------------------------
 // Stock news
-
-export interface StockNewsWrapper {
-    stockNews: StockNews;
-}
-
-export interface StockNews {
-    category: string;
-    datetime: number;
-    headline: string;
-    id: number;
-    image: string;
-    related: string;
-    source: string;
-    summary: string;
-    url: string;
-}
