@@ -1,0 +1,25 @@
+<ion-card>
+    <ion-card-header>
+        <ion-card-title class="ion-text-center ion-padding-start ion-padding-top">
+            Revenue growth estimation
+        </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+        <ng-container *ngIf="revenueEst">
+            <app-revenue-growth-slider
+                    [revenueEst]="revenueEst.currentQuarter">
+            </app-revenue-growth-slider>
+            <app-revenue-growth-slider
+                    [revenueEst]="revenueEst.currentYear">
+            </app-revenue-growth-slider>
+            <app-revenue-growth-slider
+                    [revenueEst]="revenueEst.nextQuarter">
+            </app-revenue-growth-slider>
+            <app-revenue-growth-slider
+                    [revenueEst]="revenueEst.nextYear">
+            </app-revenue-growth-slider>
+        </ng-container>
+    </ion-card-content>
+</ion-card>

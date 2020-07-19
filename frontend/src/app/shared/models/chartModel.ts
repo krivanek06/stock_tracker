@@ -4,16 +4,10 @@ export interface TimelineChartDataWrapper {
 }
 
 export interface TimelineChartData {
-  /*currentPercentReturn: number[];
-  currentPrice: number[];
-  currentTime: string[];
-  currentVolumeInMillion: number[];
-  totalReturn: number;
-  livePriceDiff: number;*/
   livePrice: number;
   change: any[];
   price: any[];
-  volume: any;
+  volume: any[];
 }
 
 

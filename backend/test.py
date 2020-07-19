@@ -2,10 +2,11 @@ import websocket
 import alpaca_trade_api as tradeapi
 from requests import get
 from yahoo_fin import stock_info as si
-from ExternalAPI import StockNews, YahooFinance, Finhub, Twelvedata
-from Services import StockDetailsService
+from ExternalAPI import EconomicNews, YahooFinance, Finhub, Twelvedata
+from Services import StockDetailsService, FirestoreService
 import requests
 import time
+from firebase_admin import firestore
 from threading import Thread
 import queue
 from private_data import enviroments
@@ -13,7 +14,7 @@ from private_data import enviroments
 from datetime import datetime
 
 
-StockNews = StockNews.StockNews()
+StockNews = EconomicNews.EconomicNews()
 YahooFinanceGlobal = YahooFinance.YahooFinance()
 Finhub = Finhub.Finhub()
 Twelvedata = Twelvedata.Twelvedata()
@@ -31,17 +32,23 @@ print(res)
 
 
 '''
+
+
 start_time = time.time()
 
-symbol = 'MSFT'
-res = YahooFinanceGlobal.getAnalystsInfo(symbol)
+db = FirestoreService.FirestoreService().initFirestore()
 
-for r in res:
-    print(r, res[r])
+stockNewsArray = [news for news in db.collection('stockData').document('MSFT').collection('stockNews')
+                .order_by('datetime', direction=firestore.firestore.Query.DESCENDING)
+                .limit(10)
+                .stream() ]
+print(len(stockNewsArray))
+for n in stockNewsArray:
+    print(n.to_dict())
 
-#db.collection('stockData').add(merge)
 
-
+for doc in stockNewsArray:
+    doc.reference.delete()
 
 elapsed_time = time.time() - start_time
 print(elapsed_time)

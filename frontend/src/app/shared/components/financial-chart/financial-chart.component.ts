@@ -34,19 +34,15 @@ HighchartsMoreModule(Highcharts);
     styleUrls: ['./financial-chart.component.scss'],
 })
 export class FinancialChartComponent implements OnInit, OnChanges {
-    @Output() priceRangeEmitter: EventEmitter<PriceRangeData> = new EventEmitter<PriceRangeData>();
     @Output() selectedPeriodEmitter: EventEmitter<string> = new EventEmitter<string>();
-
 
     @Input() price: any[];
     @Input() volume: any[];
-    @Input() positive: boolean; // determine chart color
 
-    private startingColor: string;
-    private endingColor: string;
+    startingPrice: number;
+    endingPrice: number;
 
-    selectedPeriod = "1y";
-
+    selectedPeriod = '1y';
 
 
     // Define chart options
@@ -98,13 +94,15 @@ export class FinancialChartComponent implements OnInit, OnChanges {
     }
 
     updateChart() {
-       this.chart.series[0].setData(this.price);
-       this.chart.series[1].setData(this.volume);
-      //  this.initChart(this.price, this.volume);
+        // this.chart.series[0].setData(this.price);
+        // this.chart.series[1].setData(this.volume);
+        //  this.initChart(this.price, this.volume);
     }
 
     recalculatePriceRange(priceRange: number[]) {
-        this.priceRangeEmitter.emit({priceRangeFirst: priceRange[0], priceRangeLast: priceRange[priceRange.length - 1]});
+        this.startingPrice = priceRange[0];
+        this.endingPrice = priceRange[priceRange.length - 1];
+        //  this.priceRangeEmitter.emit({priceRangeFirst: priceRange[0], priceRangeLast: priceRange[priceRange.length - 1]});
     }
 
 
@@ -114,15 +112,21 @@ export class FinancialChartComponent implements OnInit, OnChanges {
                 backgroundColor: 'transparent',
                 height: 400,
                 type: 'area', // area
+                panning: {
+                    enable: true
+                }
             },
             scrollbar: {
                 enabled: false,
+            },
+            credits: {
+                enabled: false
             },
             legend: {enabled: false},
             plotOptions: {
                 area: {
                     fillColor: {
-                        linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
+                        linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1},
                         stops: [
                             [0, 'rgba(232,0,24,1)'],
                             [1, 'rgba(0,20,82,0.37048322747067575)']

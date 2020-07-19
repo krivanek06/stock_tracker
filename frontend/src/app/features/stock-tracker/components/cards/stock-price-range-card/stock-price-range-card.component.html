@@ -15,13 +15,11 @@
                     <ion-icon
                             name="trending-up-outline"
                             slot="end"
-                            class='upside-icon'
                             *ngIf="priceRangeLast - priceRangeFirst >= 0"
-                    ></ion-icon>
+                    ></ion-icon> <!-- class='upside-icon' -->
                     <ion-icon
                             name="trending-down-outline"
                             slot="end"
-                            class='downside-icon'
                             *ngIf="priceRangeLast - priceRangeFirst < 0"
                     ></ion-icon>
                 </div>

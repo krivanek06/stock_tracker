@@ -1,6 +1,6 @@
 <ion-card>
     <ion-card-header>
-        <ion-card-title class="ion-text-start ion-padding">
+        <ion-card-title class="ion-text-center ion-padding-start ion-padding-top">
             Ratio
         </ion-card-title>
     </ion-card-header>
@@ -9,8 +9,8 @@
 
         <ion-list *ngIf="ratioInfo">
             <ion-item>
-                <ion-label position="fixed" class="fixedLabel">PE</ion-label>
-                <ion-label> {{ ratioInfo.pe }}</ion-label>
+                <ion-label position="fixed" class="fixedLabel">Custom PE</ion-label>
+                <ion-label> {{ ratioInfo.customPE }}</ion-label>
             </ion-item>
 
             <ion-item>

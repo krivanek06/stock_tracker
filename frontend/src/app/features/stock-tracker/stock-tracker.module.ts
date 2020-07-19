@@ -29,6 +29,10 @@ import {RevenueGrowthSliderComponent} from './components/charts/revenue-growth-s
 
 // reducers
 import * as fromStockTracker from "./store";
+import {DetailsSummaryModalComponent} from './components/modal/details-summary-modal/details-summary-modal.component';
+import {ArticleComponent} from './components/flat/article/article.component';
+import {DetailsRevenueGrowthSliderCardComponent} from './components/cards/details-revenue-growth-slider-card/details-revenue-growth-slider-card.component';
+
 
 
 @NgModule({
@@ -54,7 +58,10 @@ import * as fromStockTracker from "./store";
     DetailsIncomeStatementComponent,
     DetailsCashFlowComponent,
     DetailsBalanceSheetComponent,
-    RevenueGrowthSliderComponent
+    RevenueGrowthSliderComponent,
+    DetailsSummaryModalComponent,
+    ArticleComponent,
+    DetailsRevenueGrowthSliderCardComponent
   ],
   imports: [
     CommonModule,
@@ -84,12 +91,16 @@ import * as fromStockTracker from "./store";
     DetailsIncomeStatementComponent,
     DetailsCashFlowComponent,
     DetailsBalanceSheetComponent,
-    RevenueGrowthSliderComponent
+    RevenueGrowthSliderComponent,
+    DetailsSummaryModalComponent,
+    ArticleComponent,
+    DetailsRevenueGrowthSliderCardComponent
 
   ],
   entryComponents: [
     WatchlistModalContainerComponent,
-    FinancialChartCardModalContainerComponent
+    FinancialChartCardModalContainerComponent,
+    DetailsSummaryModalComponent
   ],
 })
 export class StockTrackerModule {}

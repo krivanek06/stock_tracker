@@ -58,6 +58,14 @@ export class RecommendationChartComponent implements OnInit, OnChanges {
                     text: null
                 }
             },
+            legend: {
+                itemStyle: {
+                    color: '#8f8f8f',
+                },
+                itemHoverStyle: {
+                    color: '#b8b8b8'
+                }
+            },
             tooltip: {
                 headerFormat: null,
                 backgroundColor: '#232323',
@@ -65,7 +73,7 @@ export class RecommendationChartComponent implements OnInit, OnChanges {
                     fontSize: '14px',
                     color: '#D9D8D8',
                 },
-                pointFormat: '<span styles="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+                pointFormat: '<span style="font-size: 14px; color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
                 shared: true
             },
             plotOptions: {
@@ -80,10 +88,10 @@ export class RecommendationChartComponent implements OnInit, OnChanges {
                     }
                 }
             },
-            allowPointSelect: false,
-            legend: {
-                enabled: true
+            credits: {
+                enabled: false
             },
+            allowPointSelect: false,
             series: [
                 {
                     name: 'Strong Buy',

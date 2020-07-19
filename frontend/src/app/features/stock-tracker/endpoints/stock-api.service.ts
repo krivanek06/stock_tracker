@@ -22,8 +22,8 @@ import {
     TopTableData,
 } from '../model/tableModel';
 import {EarningsCalendar, EarningsCalendarWrapper} from '../model/earningsCalendarModel';
-import {NewsArticle, NewsArticleWrapper, StockNews, StockNewsWrapper} from '../model/newsModel';
-import {StockDetails, StockDetailsWrapper} from '../model/stockDetails';
+import {NewsArticle, NewsArticleWrapper} from '../model/newsModel';
+import {StockArticle, StockArticleWrapper, StockDetails} from '../model/stockDetails';
 
 @Injectable({
     providedIn: StockTrackerModule,
@@ -112,18 +112,19 @@ export class StockApiService {
 
     getStockDetails(symbol: string): Observable<StockDetails> {
         const params = new HttpParams().set('symbol', symbol);
-        return this.http.get<StockDetailsWrapper>
+        return this.http.get<StockDetails>
         (`${environment.stockAPI}/ticker/details/fundamentals`, {params})
             .pipe(
                 tap(res => console.log('eeeeeeee')),
-                map(res => res.stockDetails)
             );
     }
 
 
-    getStockNews(symbol: string): Observable<StockNews> {
-        const params = new HttpParams().set('symbol', symbol);
-        return this.http.get<StockNewsWrapper>(`${environment.stockAPI}/ticker/details/news`, {params})
+    getStockNews(symbol: string, olderThan: number): Observable<StockArticle[]> {
+        const params = new HttpParams()
+            .set('symbol', symbol)
+            .set('olderThan', String(olderThan));
+        return this.http.get<StockArticleWrapper>(`${environment.stockAPI}/ticker/details/stockNews`, {params})
             .pipe(
                 tap(res => console.log('eeeeeeee')),
                 map(res => res.stockNews)

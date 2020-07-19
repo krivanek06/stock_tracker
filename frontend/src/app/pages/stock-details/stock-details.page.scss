@@ -1,10 +1,14 @@
 :host{
   ion-col{
-    padding: 10px;
-    border: 1px solid black;
-
-    /* delete */
-    min-height: 100px;
-    text-align: center;
+    padding: 4px;
   }
+
+  .news-container{
+    column-count: 2;
+    padding: 20px;
+    @media (min-width: 0px) and (max-width: 1600px) {
+      column-count: 1;
+    }
+  }
+
 }

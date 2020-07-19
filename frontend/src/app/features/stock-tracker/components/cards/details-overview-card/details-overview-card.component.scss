@@ -1,19 +1,19 @@
 @import "../../../../../../theme/customVariables";
 
 :host{
-  .price-up{
-    color: #{$price-up}; /* #{$price-down} #038A00;*/
-    font-size: 15px;
-  }
-
-  .price-down{
-    color: #{$price-down};
-    font-size: 15px;
-  }
 
   .fixedLabel {
     min-width: 35% !important;
     max-width: 35% !important;
+  }
+
+  ion-button{
+    max-width: 200px;
+  }
+
+  ion-img{
+    height: 75%;
+    display: inline-block;
   }
 
 }

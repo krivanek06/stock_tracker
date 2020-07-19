@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 
 import * as Highcharts from 'highcharts/highstock';
 import HighchartsMoreModule from 'highcharts/highcharts-more';
@@ -29,23 +29,24 @@ export class EarningsChartComponent implements OnInit, OnChanges {
         };
     }
 
+
     ngOnChanges(changes: SimpleChanges): void {
         console.log('EarningsChartComponent', this.earnings);
         this.initChart();
-        /*setTimeout(() => {
-            this.chart.reflow();
-        }, 300);*/
+
 
         setTimeout(() => {
+            console.log('resize');
+            if (!!this.chart) {
+                this.chart.reflow();
+            }
             window.dispatchEvent(new Event('resize'));
         }, 300);
     }
 
 
     ngOnInit() {
-        /*    setTimeout(() => {
-                window.dispatchEvent(new Event('resize'));
-            }, 300);*/
+        this.initChart();
     }
 
 
@@ -68,13 +69,16 @@ export class EarningsChartComponent implements OnInit, OnChanges {
                 useHTML: true,
                 shared: true,
                 pointFormat: null,
-                headerFormat: '<b>{point.key} : {point.y}</b>',
+                headerFormat: '<b>{point.x}</br> {point.key} : {point.y}</b>',
                 style: {
                     color: '#5485aa',
                 },
             },
             legend: {
-                enabled: false
+                enabled: false,
+                itemStyle: {
+                    color: '#8f8f8f',
+                },
             },
             xAxis: {
                 gridLineWidth: 0,

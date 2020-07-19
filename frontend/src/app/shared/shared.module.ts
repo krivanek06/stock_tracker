@@ -15,15 +15,21 @@ import {FinancialChartComponent} from './components/financial-chart/financial-ch
 import {GaugeChartComponent} from './components/gauge-chart/gauge-chart.component';
 import {FixedRangeSliderComponent} from './components/fixed-range-slider/fixed-range-slider.component';
 import { MillionOrBillionPipe } from './pipes/millionOrBillion.pipe';
+import {TimeAgoPipe} from 'time-ago-pipe';
+import {GaugeChartCardComponent} from './components/gauge-chart-card/gauge-chart-card.component';
+import {FinancialChartCardComponent} from './components/financial-chart-card/financial-chart-card.component';
 
 @NgModule({
     declarations: [
+        TimeAgoPipe,
         ConfirmDialogComponent,
         FixedRangeSliderComponent,
         DefaultImgDirective,
         FinancialChartComponent,
         GaugeChartComponent,
         MillionOrBillionPipe,
+        GaugeChartCardComponent,
+        FinancialChartCardComponent
     ],
     imports: [
         CommonModule,
@@ -39,6 +45,7 @@ import { MillionOrBillionPipe } from './pipes/millionOrBillion.pipe';
         IonicModule,
     ],
     exports: [
+        TimeAgoPipe,
         NgxAuthFirebaseUIModule,
         MaterialModule,
         ReactiveFormsModule,
@@ -55,6 +62,8 @@ import { MillionOrBillionPipe } from './pipes/millionOrBillion.pipe';
         FinancialChartComponent,
         GaugeChartComponent,
         MillionOrBillionPipe,
+        GaugeChartCardComponent,
+        FinancialChartCardComponent
     ],
     entryComponents: [ConfirmDialogComponent],
 })

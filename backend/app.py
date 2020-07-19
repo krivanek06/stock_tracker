@@ -1,10 +1,8 @@
-import yfinance as yf
-from yahoo_fin import stock_info as si
 from flask import Flask, request
 from flask_json import FlaskJSON, JsonError, json_response
 from flask_cors import CORS
 #custom imports
-from ExternalAPI import StockNews, YahooFinance, Finhub, Twelvedata
+from ExternalAPI import EconomicNews, YahooFinance, Finhub, Twelvedata
 from Services import StockDetailsService
 
 #yf.pdr_override()
@@ -13,7 +11,7 @@ FlaskJSON(app)
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # CUSTOM singleton
-StockNews = StockNews.StockNews()
+StockNews = EconomicNews.EconomicNews()
 YahooFinance = YahooFinance.YahooFinance()
 Finhub = Finhub.Finhub()
 Twelvedata = Twelvedata.Twelvedata()
@@ -114,101 +112,22 @@ def getWatchlistTickerSummary():
 @app.route('/api/ticker/details/fundamentals')
 def getStockFundamentals():
     try:
-        return json_response(stockDetails=stockDetails.getStockDetails(request.args.get('symbol')))
+        return json_response(**stockDetails.getStockDetails(request.args.get('symbol')))
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='An error occurred on the server side, please contact administrator to '
                                           'check logs ')
 
-@app.route('/api/ticker/details/news')
+
+@app.route('/api/ticker/details/stockNews')
 def getStockNews():
     try:
-        return json_response(**Finhub.getNewsForSymbol(request.args.get('symbol')))
+        symbol = request.args.get('symbol')
+        olderThan = int(request.args.get('olderThan'))
+        return json_response(**stockDetails.getStockNewsFromFirestore(symbol, olderThan))
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Could not find any news for data')
-
-#------------------------------------------------
-# statistics & analysis
-
-'''
-@app.route('/api/ticker/details/info')
-def getTickerInfo():
-    try:
-        return json_response(tickerInfo=YahooFinance.getTickerInfo(request.args.get('symbol')))
-    except Exception as e:
-        print(e)
-        raise JsonError(status=400, error='Could not find info for ticker')
-'''
-
-'''
-@app.route('/api/ticker/details/stat')
-def getTickerStat():
-    try:
-        return json_response(tickerStat=YahooFinance.getTickerStat(request.args.get('symbol')))
-    except Exception as e:
-        print(e)
-        raise JsonError(status=400, error='Could not find stats for ticker')
-'''
-
-'''
-@app.route('/api/ticker/details/analysis')
-def getAnalystsInfo():
-    try:
-        return json_response(analysis=YahooFinance.getAnalystsInfo(request.args.get('symbol')))
-    except Exception as e:
-        print(e)
-        raise JsonError(status=400, error='Could not find analysis for ticker')
-'''
-
-'''
-@app.route('/api/ticker/details/recommendation')
-def getRecommendations():
-    try:
-        return json_response(recomendation=Finhub.getRecomendationForSymbol(request.args.get('symbol')))
-    except Exception as e:
-        print(e)
-        raise JsonError(status=400, error='Could not find any recommendation for ticker')
-'''
-
-'''
-@app.route('/api/ticker/details/mergeInfo')
-def getMergedDetailsInfo():
-    try:
-        return json_response(mergeInfo=YahooFinance.getMergedFundamentals(request.args.get('symbol')))
-    except Exception as e:
-        print(e)
-        raise JsonError(status=500, error='Server failed to return detailed information about stock symbol')
-'''
-#------------------------------------------------
-# SHEETS
-
-'''
-@app.route('/api/ticker/balance_sheet')
-def getBalanceSheet():
-    try:
-        return json_response(balanceSheet=YahooFinance.getBalanceSheet(request.args.get('symbol')))
-    except Exception as e:
-        print(e)
-        raise JsonError(status=400, error='Could not find balance sheet for ticker')
-
-@app.route('/api/ticker/cash_flow')
-def getCashFlow():
-    try:
-        return json_response(cashFlow=YahooFinance.getCashFlow(request.args.get('symbol')))
-    except Exception as e:
-        print(e)
-        raise JsonError(status=400, error='Could not find cash flow data for ticker')
-
-
-@app.route('/api/ticker/income_statement')
-def getIncomeStatement():
-    try:
-        return json_response(incomeStatement=YahooFinance.getIncomeStatement(request.args.get('symbol')))
-    except Exception as e:
-        print(e)
-        raise JsonError(status=400, error='Could not find income statement for ticker')
-'''
 
 
 if __name__ == '__main__':
