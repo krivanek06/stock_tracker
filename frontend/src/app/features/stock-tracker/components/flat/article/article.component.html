@@ -19,7 +19,7 @@
         </ion-label>
 
         <ion-label class="ion-text-wrap">
-            {{ article.summary }}
+            {{  (article.summary .length>255)? (article.summary  | slice:0:255)+'..':(article.summary )}}
         </ion-label>
 
     </ion-label>

@@ -31,12 +31,10 @@ export class EarningsChartComponent implements OnInit, OnChanges {
 
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log('EarningsChartComponent', this.earnings);
         this.initChart();
 
 
         setTimeout(() => {
-            console.log('resize');
             if (!!this.chart) {
                 this.chart.reflow();
             }
@@ -81,6 +79,13 @@ export class EarningsChartComponent implements OnInit, OnChanges {
                 },
             },
             xAxis: {
+                labels: {
+                    enabled: true,
+                    style: {
+                        color: '#cecece',
+                        font: '12px Trebuchet MS, Verdana, sans-serif'
+                    }
+                },
                 gridLineWidth: 0,
                 minorGridLineWidth: 0,
                 categories: !this.earnings ? [] : this.earnings.dates,
@@ -89,18 +94,15 @@ export class EarningsChartComponent implements OnInit, OnChanges {
             yAxis: {
                 startOnTick: false,
                 endOnTick: false,
-                labels: {
-                    enabled: true
-                },
                 title: {
                     text: null
                 },
             },
             series: [{
-                data: !this.earnings ? [] : this.earnings.epsEst.map(x => ['Earnings expected', x, 5]),
+                data: !this.earnings ? [] : this.earnings.epsEst.map(x => ['Earnings expected', x, 2]),
                 marker: {
                     fillColor: {
-                        radialGradient: {cx: 0.4, cy: 0.3, r: 0.7},
+                        radialGradient: {cx: 0.2, cy: 0.3, r: 0.7},
                         stops: [
                             [0, 'rgba(255,255,255,0.65)'],
                             [1, 'rgba(255,255,255,0.65)']
@@ -108,7 +110,7 @@ export class EarningsChartComponent implements OnInit, OnChanges {
                     }
                 }
             }, {
-                data: !this.earnings ? [] : this.earnings.epsActual.map(x => ['Earnings actual', x, 5]),
+                data: !this.earnings ? [] : this.earnings.epsActual.map(x => ['Earnings actual', x, 2]),
                 marker: {
                     fillColor: {
                         radialGradient: {cx: 0.4, cy: 0.3, r: 0.7},

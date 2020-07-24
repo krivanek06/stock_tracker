@@ -3,7 +3,7 @@ import {StockApiService} from '../../endpoints/stock-api.service';
 import {PriceRangeData} from '../../../../shared/models/chartModel';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {FinancialChartComponent} from '../../../../shared/components/financial-chart/financial-chart.component';
+import {FinancialChartComponent} from '../../../../shared/components/charts/financial-chart/financial-chart.component';
 
 @Component({
     selector: 'app-financial-chart-container',
@@ -19,7 +19,6 @@ export class FinancialChartContainerComponent implements OnInit, OnDestroy {
 
     @Input() symbol: string;
     @Input() name: string;
-    @ViewChild('myChart') SpChart: FinancialChartComponent;
 
     constructor(private stockAPI: StockApiService) {
     }
@@ -40,8 +39,6 @@ export class FinancialChartContainerComponent implements OnInit, OnDestroy {
             this.currentPrice = res.livePrice;
             this.volume = res.volume;
             this.price = res.price;
-
-            this.SpChart.updateChart();
         });
     }
 

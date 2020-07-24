@@ -1,9 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../core/model/appState';
-import {Observable} from 'rxjs';
-import {IUser} from '../../core/model/userModel';
-import {user} from '../../core/store/auth/auth.reducer';
 import {logout} from '../../core/store/auth/auth.action';
 
 @Component({
@@ -30,6 +27,11 @@ export class MenuPage implements OnInit {
             icon: 'trending-up-outline'
         },
         {
+            title: 'Profile',
+            url: '/menu/profile',
+            icon: 'person-outline'
+        },
+        {
             title: 'About',
             url: '/menu/about',
             icon: 'help-circle-outline'
@@ -41,20 +43,18 @@ export class MenuPage implements OnInit {
         },
     ];
 
-    user$: Observable<IUser>;
 
     constructor(private store: Store<AppState>) {
     }
 
     ngOnInit() {
-        this.user$ = this.store.select(user);
         const path = window.location.pathname.split('/menu/')[1];
         if (path !== undefined) {
             this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
         }
     }
 
-    logout(){
+    logout() {
         this.store.dispatch(logout());
     }
 

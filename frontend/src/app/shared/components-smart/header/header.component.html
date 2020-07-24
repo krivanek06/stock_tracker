@@ -1,0 +1,24 @@
+<ion-header>
+    <ion-toolbar>
+
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+
+        <ion-item>
+            <ion-label class="search-bar-container">
+                <ion-searchbar style="width: 90%"></ion-searchbar>
+            </ion-label>
+            <ion-label class="ion-text-end ">
+                <ion-icon name="mail" class="divider-space clickable"></ion-icon>
+                <ion-icon name="notifications" class="divider-space clickable"></ion-icon>
+                <span *ngIf="user$ | async as user"
+                      class="ion-margin-end divider-space">
+                  {{ user.displayName }}
+                </span>
+            </ion-label>
+        </ion-item>
+
+
+    </ion-toolbar>
+</ion-header>

@@ -28,7 +28,6 @@ export class RecommendationChartComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log('RecommendationChartComponent', this.recommendations);
         this.initChart();
     }
 
@@ -48,7 +47,13 @@ export class RecommendationChartComponent implements OnInit, OnChanges {
                 text: null
             },
             xAxis: {
-                categories: !this.recommendations ? [] : this.recommendations.map(rec => rec.period)
+                labels: {
+                    style: {
+                        color: '#cecece',
+                        font: '12px Trebuchet MS, Verdana, sans-serif'
+                    }
+                },
+                categories: !this.recommendations ? [] : this.recommendations.map(rec => new  Date (rec.period).toString().split(' ')[1])
             },
             yAxis: {
                 min: 0,

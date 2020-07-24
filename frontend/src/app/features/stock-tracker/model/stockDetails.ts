@@ -1,12 +1,60 @@
 export interface StockDetails {
-    fundamentals: Fundamentals;
+    basicInfo: BasicInfo;
+    chartInfo: ChartInfo;
+    dividend: Dividend;
     analysis: Analysis;
     balanceSheet: BalanceSheet;
     cashFlow: CashFlow;
+    overview: OverView;
+    perShare: PerShare;
+    valuation: Valuation;
+    financialStrength: FinancialStrength;
+    financialReports: FinancialReportNames[];
+    financialStrengthRatio: FinancialStrengthRatio;
     incomeStatement: IncomeStatement;
     recommendation: Recommendations[];
     stockNewsSnippets: StockArticle[];
 }
+
+export interface PerShare{
+    bookValuePerShareMRQ?: number;
+    cashFlowPerShareAnnual?: number;
+    cashFlowPerShareTTM?: number;
+    cashPerSharePerShareAnnual?: number;
+    cashPerSharePerShareQuarterly?: number;
+    ebitdPerShareTTM?: number;
+    freeCashFlowPerShareTTM?: number;
+    revenuePerShareTTM?: number;
+    tangibleBookValuePerShareQuarterly?: number;
+    totalCashPerShareMRQ?: number;
+}
+
+export interface FinancialStrengthRatio {
+    currentRatioQuarterly?: number;
+    freeOperatingCashFlowToRevenue5Y?: number;
+    longTermDebtToEquityQuarterly?: number;
+    quickRatioQuarterly?: number;
+    totalDebtToEquityAnnual?: number;
+    totalDebtToEquityQuarterly: number;
+}
+
+export interface FinancialStrength {
+    ebitda: string;
+    grossProfitTTM?: string;
+    leveredFreeCashFlowTTM?: string;
+    marketCap: string;
+    netIncomeAvitoCommonTTM?: string;
+    operatingCashFlowTTM?: string;
+    revenueTTM?: string;
+    totalCashMRQ?: string;
+    totalDebtMRQ?: string;
+}
+
+export interface FinancialReportNames {
+    collection: string;
+    name: string;
+}
+
 
 export interface Recommendations {
     buy: number;
@@ -126,20 +174,47 @@ export interface Analysis {
     earnings: Earnings;
 }
 
-export interface Fundamentals {
-    basicInfo: BasicInfo;
-    chartInfo: ChartInfo;
-    dividendInfo: DividendInfo;
-    moneyInfo: MoneyInfo;
-    percentageInfo: PercentageInfo;
-    ratioInfo: RatioInfo;
-    overview: OverView;
-}
+
 
 
 export interface ChartInfo {
     assetsToDebtInfo: AssetsToDebtInfo;
     equityToAssets: EquityToAssets;
+    effectiveness: Effectiveness;
+    margin: Margin;
+    otherGrowthInformation: OtherGrowthInformation;
+    profitMargin: ProfitMargin;
+}
+
+export interface ProfitMargin {
+    expenseTTM: number;
+    netProfitMarginTTM: number;
+}
+
+export interface OtherGrowthInformation {
+    bookValueShareGrowth5Y?: number;
+    capitalSpendingGrowth5Y?: number;
+    dividendGrowthRate5Y?: number;
+    epsGrowth5Y?: number;
+    epsGrowthQuarterlyYOY?: number;
+    quarterlyRevenueGrowthYOY?: number;
+    revenueGrowthTTMYoy?: number;
+    revenueShareGrowth5Y?: number;
+}
+
+export interface Margin {
+    grossMarginTTM: number;
+    netMarginGrowth5Y: number;
+    netProfitMargin5Y: number;
+    netProfitMarginTTM: number;
+    operatingMarginTTM: number;
+    pretaxMarginTTM: number;
+}
+
+export interface Effectiveness {
+    returnOnAssetsTTM: number;
+    returnOnEquityTTM: number;
+    returnOnInvestmentsTTM: number;
 }
 
 export interface AssetsToDebtInfo {
@@ -154,71 +229,41 @@ export interface EquityToAssets {
     prctDiff?: number;
 }
 
-export interface RatioInfo {
-    bookValuePerShareMRQ?: number;
+export interface Valuation {
+    currentEvToFreeCashFlowAnnual?: number;
+    currentEvToFreeCashFlowTTM?: number;
     enterpriseValueToEBITDA?: number;
     enterpriseValueToRevenue?: number;
     forwardPE?: number;
     customPE?: number;
+    peRatioTTM?: number;
     pegRatioFiveYearExpected?: number;
     priceToBookMRQ?: number;
     priceToSalesTTM?: number;
-    revenuePerShareTTM?: number;
-    totalCashPerShareMRQ?: number;
-    totalDebtToEquityMRQ?: number;
     trailingPE?: number;
 }
 
-export interface PercentageInfo {
-    operatingMarginTTM: string;
-    profitMargin: string;
-    quarterlyEarningsGrowthYOY: string;
-    quarterlyRevenueGrowthYOY: string;
-    returnOnAssetsTTM: string;
-    returnOnEquityTTM: string;
 
-    operatingMarginTTMNumber: number;
-    profitMarginNumber: number;
-    quarterlyEarningsGrowthYOYNumber: number;
-    quarterlyRevenueGrowthYOYNumber: number;
-    returnOnAssetsTTMNumber: number;
-    returnOnEquityTTMNumber: number;
-}
 
 export interface OverView {
     currentPrice: number;
     currentPriceChange: number;
-    logoUrl?: string;
     previousClose: number;
-    summary?: string;
     weekHigh52: number;
     weekLow52: number;
     symbol: string;
-    volume?: number;
-    averageVolume: number;
-    volumePercent: number;
     earningsDate: string;
     exDividendDate: string;
     forwardDividendAndYield: string;
-    peRatioTTM?: number;
     targetEst1y?: number;
     targetEst1yPercent?: number;
 }
 
-export interface MoneyInfo {
-    ebitda?: string;
-    grossProfitTTM?: string;
-    leveredFreeCashFlowTTM?: string;
-    marketCap?: string;
-    netIncomeAvitoCommonTTM?: string;
-    operatingCashFlowTTM?: string;
-    revenueTTM?: string;
-    totalCashMRQ?: string;
-    totalDebtMRQ?: string;
-}
 
-export interface DividendInfo {
+export interface Dividend {
     dividendDate?: string;
+    dividendPerShare5Y?: number;
+    dividendPerShareAnnual?: number;
     exDividendDate?: string;
     fiveYearAverageDividendYield?: string;
     forwardAnnualDividendRate?: string;
@@ -240,6 +285,12 @@ export interface BasicInfo {
     state?: string;
     website: string;
     zip: string;
+    netIncomeEmployeeAnnual: number;
+    revenueEmployeeAnnual: number;
+    sharesOutstanding: number;
+    summary: string;
+    symbol: string;
+    logoUrl: string;
 }
 
 

@@ -1,0 +1,25 @@
+@import "../../../../theme/customVariables";
+
+:host{
+  .search-bar-container{
+    width: 65%;
+  }
+
+  .divider-space{
+    font-size: 19px;
+    padding-left: 15px;
+    margin-left: 15px;
+    border-left: 1px solid #6e6e6e;
+  }
+
+  ion-searchbar{
+    /* --background: #1a2649;*/
+    --background: transparent;
+    /*  --border-radius: 25px;*/
+    --color: #959595;
+    --box-shadow: none;
+    --icon-color: #6c6c6c;
+    --placeholder-opacity: 0.7;
+  }
+
+}
