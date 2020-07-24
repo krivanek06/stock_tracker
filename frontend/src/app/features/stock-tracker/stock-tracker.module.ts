@@ -6,7 +6,7 @@ import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
 import { StockWatchList } from "./store/stockWatchList/stockWatchList.effects";
 import { WatchlistModalContainerComponent } from "./container/modal/watchlist-selector-modal-container/watchlist-modal-container.component";
-import { TableWatchlistComponent } from "./components/cards/table-watchlist/table-watchlist.component";
+import { TableWatchlistComponent } from "./components/table-watchlist/table-watchlist.component";
 import { WatchlistTablesContainerComponent } from "./container/watchlist-tables-container/watchlist-tables-container.component";
 import { ArticleCardsComponent } from "./components/cards/article-cards/article-cards.component";
 import { EarningsCardComponent } from "./components/cards/earnings-card/earnings-card.component";
@@ -15,16 +15,15 @@ import {StockPriceRangeCardComponent} from './components/cards/stock-price-range
 import {StockPriceCardComponent} from './components/cards/stock-price-card/stock-price-card.component';
 import {FinancialChartContainerComponent} from './container/financial-chart-container/financial-chart-container.component';
 import {DetailsOverviewCardComponent} from './components/cards/details-overview-card/details-overview-card.component';
-import {DetailsDividendInfoComponent} from './components/cards/details-dividend-info/details-dividend-info.component';
-import {DetailsMoneyInfoComponent} from './components/cards/details-money-info/details-money-info.component';
-import {DetailsPercentageInfoComponent} from './components/cards/details-percentage-info/details-percentage-info.component';
-import {DetailsRatioInfoComponent} from './components/cards/details-ratio-info/details-ratio-info.component';
+import {DetailsDividendCardComponent} from './components/cards/details-dividend-card/details-dividend-card.component';
+import {DetailsValuationCardComponent} from './components/cards/details-valuation-card/details-valuation-card.component';
+import {DetailsFinancialStrengthCardComponent} from './components/cards/details-financial-strength-card/details-financial-strength-card.component';
+import {DetailsPerShareCardComponent} from './components/cards/details-per-share-card/details-per-share-card.component';
 import {EarningsChartComponent} from './components/charts/earnings-chart/earnings-chart.component';
 import {RecommendationChartComponent} from './components/charts/recommendation-chart/recommendation-chart.component';
-import {GrowthChartComponent} from './components/charts/growth-chart/growth-chart.component';
-import {DetailsIncomeStatementComponent} from './components/cards/details-income-statement/details-income-statement.component';
-import {DetailsCashFlowComponent} from './components/cards/details-cash-flow/details-cash-flow.component';
-import {DetailsBalanceSheetComponent} from './components/cards/details-balance-sheet/details-balance-sheet.component';
+import {DetailsIncomeStatementCardComponent} from './components/cards/details-income-statement-card/details-income-statement-card.component';
+import {DetailsCashFlowCardComponent} from './components/cards/details-cash-flow-card/details-cash-flow-card.component';
+import {DetailsBalanceSheetCardComponent} from './components/cards/details-balance-sheet-card/details-balance-sheet-card.component';
 import {RevenueGrowthSliderComponent} from './components/charts/revenue-growth-slider/revenue-growth-slider.component';
 
 // reducers
@@ -32,6 +31,9 @@ import * as fromStockTracker from "./store";
 import {DetailsSummaryModalComponent} from './components/modal/details-summary-modal/details-summary-modal.component';
 import {ArticleComponent} from './components/flat/article/article.component';
 import {DetailsRevenueGrowthSliderCardComponent} from './components/cards/details-revenue-growth-slider-card/details-revenue-growth-slider-card.component';
+import {DetialsFinancialStrengthRatioCardComponent} from './components/cards/detials-financial-strength-ratio-card/detials-financial-strength-ratio-card.component';
+import {DetailsFinancialReportNamesCardComponent} from './components/cards/details-financial-report-names-card/details-financial-report-names-card.component';
+import {DetailsFinancialReportModalComponent} from './components/modal/details-financial-report-modal/details-financial-report-modal.component';
 
 
 
@@ -48,20 +50,22 @@ import {DetailsRevenueGrowthSliderCardComponent} from './components/cards/detail
     StockPriceCardComponent,
     FinancialChartContainerComponent,
     DetailsOverviewCardComponent,
-    DetailsDividendInfoComponent,
-    DetailsMoneyInfoComponent,
-    DetailsPercentageInfoComponent,
-    DetailsRatioInfoComponent,
+    DetailsDividendCardComponent,
+    DetailsValuationCardComponent,
+    DetailsFinancialStrengthCardComponent,
+    DetailsPerShareCardComponent,
     EarningsChartComponent,
     RecommendationChartComponent,
-    GrowthChartComponent,
-    DetailsIncomeStatementComponent,
-    DetailsCashFlowComponent,
-    DetailsBalanceSheetComponent,
+    DetailsIncomeStatementCardComponent,
+    DetailsCashFlowCardComponent,
+    DetailsBalanceSheetCardComponent,
     RevenueGrowthSliderComponent,
     DetailsSummaryModalComponent,
     ArticleComponent,
-    DetailsRevenueGrowthSliderCardComponent
+    DetailsRevenueGrowthSliderCardComponent,
+    DetialsFinancialStrengthRatioCardComponent,
+    DetailsFinancialReportNamesCardComponent,
+    DetailsFinancialReportModalComponent
   ],
   imports: [
     CommonModule,
@@ -81,26 +85,29 @@ import {DetailsRevenueGrowthSliderCardComponent} from './components/cards/detail
     StockPriceCardComponent,
     FinancialChartContainerComponent,
     DetailsOverviewCardComponent,
-    DetailsDividendInfoComponent,
-    DetailsMoneyInfoComponent,
-    DetailsPercentageInfoComponent,
-    DetailsRatioInfoComponent,
+    DetailsDividendCardComponent,
+    DetailsValuationCardComponent,
+    DetailsFinancialStrengthCardComponent,
+    DetailsPerShareCardComponent,
     EarningsChartComponent,
     RecommendationChartComponent,
-    GrowthChartComponent,
-    DetailsIncomeStatementComponent,
-    DetailsCashFlowComponent,
-    DetailsBalanceSheetComponent,
+    DetailsIncomeStatementCardComponent,
+    DetailsCashFlowCardComponent,
+    DetailsBalanceSheetCardComponent,
     RevenueGrowthSliderComponent,
     DetailsSummaryModalComponent,
     ArticleComponent,
-    DetailsRevenueGrowthSliderCardComponent
+    DetailsRevenueGrowthSliderCardComponent,
+    DetialsFinancialStrengthRatioCardComponent,
+    DetailsFinancialReportNamesCardComponent,
+    DetailsFinancialReportModalComponent
 
   ],
   entryComponents: [
     WatchlistModalContainerComponent,
     FinancialChartCardModalContainerComponent,
-    DetailsSummaryModalComponent
+    DetailsSummaryModalComponent,
+    DetailsFinancialReportModalComponent
   ],
 })
 export class StockTrackerModule {}

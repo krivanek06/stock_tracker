@@ -4,7 +4,6 @@ import {Observable, Subject} from 'rxjs';
 import {StockArticle, StockDetails} from '../../features/stock-tracker/model/stockDetails';
 import {ActivatedRoute} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
-import {TimelineChartData} from '../../shared/models/chartModel';
 
 @Component({
     selector: 'app-stock-details',
@@ -24,11 +23,25 @@ export class StockDetailsPage implements OnInit, OnDestroy {
     ngOnInit() {
         const symbol = this.route.snapshot.paramMap.get('symbol');
 
-        /*this.stockApiService.getStockNews(symbol).pipe(
-            takeUntil(this.destroy$)
-        ).subscribe(articles => {
-            this.stockArticles = articles;
-        });*/
+
+       /* const socket = new WebSocket('wss://ws.finnhub.io?token=brsrc5vrh5r9dg9d77pg'); // 'chat-1.0'
+
+        socket.onopen = () => {
+            console.log('open');
+            socket.send(JSON.stringify({type: 'subscribe', symbol: 'BINANCE:BTCUSDT'}));
+        };
+
+        socket.onmessage = (e) => {
+            console.log(e);
+            console.log('message', JSON.parse(e.data));
+            console.log('------------');
+            // socket.close();
+        };
+
+        socket.onclose = () => {
+            console.log('close');
+        };*/
+
 
         this.stockApiService.getStockDetails(symbol).pipe(
             takeUntil(this.destroy$)

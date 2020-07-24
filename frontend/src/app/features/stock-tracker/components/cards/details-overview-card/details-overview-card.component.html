@@ -1,10 +1,10 @@
 <ion-card>
     <ion-card-content>
-        <ion-grid *ngIf="overview">
+        <ion-grid *ngIf="overview && basicInfo">
             <ion-row>
                 <!-- logo -->
                 <ion-col size="4">
-                    <ion-img [src]="overview.logoUrl" (click)="clickedCompanyImage()" class="clickable"></ion-img>
+                    <ion-img [src]="basicInfo.logoUrl" (click)="clickedCompanyImage()" class="clickable"></ion-img>
                 </ion-col>
                 <!-- buy / sell / favourite button -->
                 <ion-col size="8" style="display: inline-grid;" class="ion-padding-start ion-padding-end">
@@ -37,7 +37,7 @@
         </ion-grid>
 
 
-        <ion-list *ngIf="basicInfo" style="margin-top: 20px;" >
+        <ion-list *ngIf="basicInfo && overview" style="margin-top: 16px;" >
            <ion-item>
                 <ion-label position="fixed" class="fixedLabel">Name</ion-label>
                 <ion-label style="font-weight: bold; color: #b46305;"> {{ basicInfo.shortName }}</ion-label>
@@ -58,8 +58,8 @@
             </ion-item>
 
             <ion-item>
-                <ion-label position="fixed" class="fixedLabel">Industry</ion-label>
-                <ion-label> {{ basicInfo.industry }}</ion-label>
+                <ion-label position="fixed" class="fixedLabel">Shares outstanding</ion-label>
+                <ion-label> {{ basicInfo.sharesOutstanding | numberFormatter}}</ion-label>
             </ion-item>
 
             <ion-item>
@@ -73,9 +73,19 @@
             </ion-item>
 
             <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Employee income</ion-label>
+                <ion-label> {{ basicInfo.netIncomeEmployeeAnnual | numberFormatter}}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Employee revenue</ion-label>
+                <ion-label> {{ basicInfo.revenueEmployeeAnnual | numberFormatter }}</ion-label>
+            </ion-item>
+
+          <!--  <ion-item>
                 <ion-label position="fixed" class="fixedLabel">Exchange</ion-label>
                 <ion-label> {{ basicInfo.exchangeTimezoneName }}</ion-label>
-            </ion-item>
+            </ion-item> -->
 
             <ion-item>
                 <ion-label position="fixed" class="fixedLabel">Residence</ion-label>

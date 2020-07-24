@@ -1,0 +1,13 @@
+<ion-card [style.height.px]="cardHeight">
+    <ion-card-header>
+        <ion-card-title class="ion-text-center ion-padding-start ion-padding-top">
+            {{ chartTitle}}
+        </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+        <app-pie-chart
+                [height]="height"
+                [data]="data">
+        </app-pie-chart>
+    </ion-card-content>
+</ion-card>

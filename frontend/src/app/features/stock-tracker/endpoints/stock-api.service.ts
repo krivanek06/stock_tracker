@@ -24,6 +24,7 @@ import {
 import {EarningsCalendar, EarningsCalendarWrapper} from '../model/earningsCalendarModel';
 import {NewsArticle, NewsArticleWrapper} from '../model/newsModel';
 import {StockArticle, StockArticleWrapper, StockDetails} from '../model/stockDetails';
+import {FinancialReport} from '../model/financialReportModel';
 
 @Injectable({
     providedIn: StockTrackerModule,
@@ -129,5 +130,13 @@ export class StockApiService {
                 tap(res => console.log('eeeeeeee')),
                 map(res => res.stockNews)
             );
+    }
+
+
+    getFinancialReport(symbol: string, financialReportName: string): Observable<FinancialReport>{
+        const params = new HttpParams()
+            .set('symbol', symbol)
+            .set('financialReportName', financialReportName);
+        return this.http.get<FinancialReport>(`${environment.stockAPI}/ticker/details/financial_report`,{params});
     }
 }

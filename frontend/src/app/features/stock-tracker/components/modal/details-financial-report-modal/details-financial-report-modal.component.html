@@ -1,0 +1,60 @@
+<ion-content *ngIf="financialReport$ | async as financialReport">
+    <ion-toolbar>
+        <ion-title class="ion-text-start ion-padding">
+            Financial report {{ financialReport.form }}, symbol {{ financialReport.symbol }}
+        </ion-title>
+
+        <ion-buttons slot="end">
+            <ion-button color="danger" (click)="dismissModal()">
+                <ion-icon name="close-outline"></ion-icon>
+                Close
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+
+    <ion-toolbar>
+        <ion-title size="small">
+            Date: {{ financialReport.endDate }} - {{ financialReport.startDate }}
+        </ion-title>
+    </ion-toolbar>
+
+    <!-- balance sheet -->
+    <ion-list>
+        <ion-list-header lines="full">
+            <ion-label>
+                Balance sheet
+            </ion-label>
+        </ion-list-header>
+        <ion-item *ngFor="let content of financialReport.report.bs">
+            <ion-label position="fixed" class="fixedLabel">{{ content.label }}</ion-label>
+            <ion-label position="fixed" class="fixedLabel">{{ content.value  }}</ion-label>
+        </ion-item>
+    </ion-list>
+
+    <!-- cash flow-->
+    <ion-list>
+        <ion-list-header>
+            <ion-label>
+                Cash flow
+            </ion-label>
+        </ion-list-header>
+        <ion-item *ngFor="let content of financialReport.report.cf">
+            <ion-label position="fixed" class="fixedLabel">{{ content.label }}</ion-label>
+            <ion-label position="fixed" class="fixedLabel">{{ content.value  }}</ion-label>
+        </ion-item>
+    </ion-list>
+
+    <!-- income statement -->
+    <ion-list>
+        <ion-list-header>
+            <ion-label>
+                Income statement
+            </ion-label>
+        </ion-list-header>
+        <ion-item *ngFor="let content of financialReport.report.ic">
+            <ion-label position="fixed" class="fixedLabel">{{ content.label }}</ion-label>
+            <ion-label position="fixed" class="fixedLabel">{{ content.value  }}</ion-label>
+        </ion-item>
+    </ion-list>
+
+</ion-content>

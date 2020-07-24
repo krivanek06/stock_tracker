@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {OverView} from '../../../model/stockDetails';
+import {BasicInfo, OverView} from '../../../model/stockDetails';
 import {NavParams, PopoverController} from '@ionic/angular';
 
 @Component({
@@ -8,12 +8,12 @@ import {NavParams, PopoverController} from '@ionic/angular';
     styleUrls: ['./details-summary-modal.component.scss'],
 })
 export class DetailsSummaryModalComponent implements OnInit {
-    overView: OverView;
+    basicInfo: BasicInfo;
 
     constructor(private popoverController: PopoverController,
                 private navParams: NavParams) {
-        this.overView = this.navParams.get('overView');
-        console.log('pop up', this.overView);
+        this.basicInfo = this.navParams.get('basicInfo');
+        console.log('pop up', this.basicInfo);
     }
 
     ngOnInit() {

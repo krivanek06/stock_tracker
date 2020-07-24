@@ -40,17 +40,15 @@ class StockDetailsService:
 
 
         # modify overview each 45 min because of volume
-        halfHourBefore = (datetime.today() - relativedelta.relativedelta(minutes=45)).replace(tzinfo=utc)
+        fourtyFiveMinutesBefore = (datetime.today() - relativedelta.relativedelta(minutes=45)).replace(tzinfo=utc)
 
-        if halfHourBefore > stockDetailsDict['overViewLastUpdate'].replace(tzinfo=utc):
+        if fourtyFiveMinutesBefore > stockDetailsDict['overViewLastUpdate'].replace(tzinfo=utc):
             print('update overview for ', symbol)
             summary = self.yahooFinance.getTickerSummary(symbol)
-            summary['longBusinessSummary'] = stockDetailsDict['details']['fundamentals']['overview']['summary']
-            summary['logo_url'] = stockDetailsDict['details']['fundamentals']['overview']['logoUrl']
 
             # create overview object same as was saved in firestore
             overview = self.yahooFinanceDataModification.createOverviewDict(summary)
-            update = {'details.fundamentals.overview':  overview, 'overViewLastUpdate': datetime.today()}
+            update = {'details.overview':  overview, 'overViewLastUpdate': datetime.today()}
 
             self.__modifyDetailsToFirebase(symbol, update)
 
@@ -71,6 +69,15 @@ class StockDetailsService:
                 .limit(10)
                 .get() ]
         return {'stockNews': stockNewsArray}
+
+    def getStockFinancialReport(self, symbol, financialReportName):
+        return self.db.collection('stockData').document(symbol).collection('stockFinancialReports').document(financialReportName).get().to_dict()
+
+
+    # --------------------------------------------------------------------
+    # --------------------------------------------------------------------
+    # private methods
+
 
     '''
         if news does not exists in firestore fetch news 7 days old
@@ -138,10 +145,21 @@ class StockDetailsService:
         t1.daemon = True
         t1.start()
 
+    def __saveFinancialReportsToFirebase(self, symbol, reports):
+        def __saveFinancialReports(symbol ,reports):
+            for report in reports:
+                report['source'] = 'Finnhub'
+                self.db.collection('stockData').document(symbol).collection('stockFinancialReports').document(str(report['year'])).set(report)
+
+        t1 = threading.Thread(target=__saveFinancialReports, args=(symbol, reports))
+        t1.daemon = True
+        t1.start()
+
 
     '''
-        init all details information about stock, fetch news up to 7 days
-        and save 15 latest news into array for lower reads
+        - init all details information about stock, 
+        - fetch news up to 7 days and save 15 latest news into array for lower reads
+        - fetch all 10-K yearly financial reports for stock
     '''
     def __initialStockDetailsIntoFirestore(self, symbol):
         print('initial fetching stock details for symbol ', symbol)
@@ -150,7 +168,8 @@ class StockDetailsService:
             'detailsLastUpdate': datetime.today(),
             'overViewLastUpdate': datetime.today(),
             'newsLastUpdate': datetime.today(),
-            'newsLastDelete': datetime.today()
+            'newsLastDelete': datetime.today(),
+            'financialReportsLastUpdate': datetime.today()
         })
 
         que = Queue()
@@ -189,6 +208,51 @@ class StockDetailsService:
         t4 = Thread(target=lambda q, arg1: q.put(self.yahooFinance.getCashFlow(arg1)), args=(que, symbol))
         t5 = Thread(target=lambda q, arg1: q.put(self.yahooFinance.getAnalystsInfo(arg1)), args=(que, symbol))
         t6 = Thread(target=lambda q, arg1: q.put(self.finhub.getRecomendationForSymbol(arg1)), args=(que, symbol))
+        t7 = Thread(target=lambda q, arg1: q.put(self.finhub.getStockYearlyFinancialReport(arg1)), args=(que, symbol))
+
+        # start threads
+        t1.start()
+        t2.start()
+        t3.start()
+        t4.start()
+        t5.start()
+        t6.start()
+        t7.start()
+
+        # wait threads to finish
+        t1.join()
+        t2.join()
+        t3.join()
+        t4.join()
+        t5.join()
+        t6.join()
+        t7.join()
+
+        # get result from threads into one dict
+        merge = {**que.get(), **que.get(), **que.get(), **que.get(), **que.get(), **que.get(), **que.get()}
+
+        # extract financial report into sub collection
+        financialReports = merge['financialReports']
+
+        self.__saveFinancialReportsToFirebase(symbol, financialReports)
+
+        merge['financialReports'] = [{
+            'collection': str(report['year']),
+            'name': report['form'] + ' ' + str(report['year'])
+        } for report in financialReports]
+
+        return {'details': merge}
+
+    def __getStockMergedFundamentals(self, symbol):
+        que = Queue()
+
+        # declare threads
+        t1 = Thread(target=lambda q, arg1: q.put(self.yahooFinance.getTickerSummary(arg1)), args=(que, symbol))
+        t2 = Thread(target=lambda q, arg1: q.put(self.yahooFinance.getTickerInfo(arg1)), args=(que, symbol))
+        t3 = Thread(target=lambda q, arg1: q.put(self.yahooFinance.getTickerStat(arg1)), args=(que, symbol))
+        t4 = Thread(target=lambda q, arg1: q.put(self.yahooFinance.getAnalystsInfo(arg1)), args=(que, symbol))
+        t5 = Thread(target=lambda q, arg1: q.put(self.yahooFinance.getBalanceSheet(arg1)), args=(que, symbol))
+        t6 = Thread(target=lambda q, arg1: q.put(self.finhub.getStockMetrics(arg1)), args=(que, symbol))
 
         # start threads
         t1.start()
@@ -206,49 +270,6 @@ class StockDetailsService:
         t5.join()
         t6.join()
 
-        # get result from threads in random order
-        res1 = que.get()
-        res2 = que.get()
-        res3 = que.get()
-        res4 = que.get()
-        res5 = que.get()
-        res6 = que.get()
-
-        # merge data into one dict
-        merge = {**res1, **res2, **res3, **res4, **res5, **res6}
-        return {'details': merge}
-
-    def __getStockMergedFundamentals(self, symbol):
-        que = Queue()
-
-        # declare threads
-        t1 = Thread(target=lambda q, arg1: q.put(self.yahooFinance.getTickerSummary(arg1)), args=(que, symbol))
-        t2 = Thread(target=lambda q, arg1: q.put(self.yahooFinance.getTickerInfo(arg1)), args=(que, symbol))
-        t3 = Thread(target=lambda q, arg1: q.put(self.yahooFinance.getTickerStat(arg1)), args=(que, symbol))
-        t4 = Thread(target=lambda q, arg1: q.put(self.yahooFinance.getAnalystsInfo(arg1)), args=(que, symbol))
-        t5 = Thread(target=lambda q, arg1: q.put(self.yahooFinance.getBalanceSheet(arg1)), args=(que, symbol))
-
-        # start threads
-        t1.start()
-        t2.start()
-        t3.start()
-        t4.start()
-        t5.start()
-
-        # wait threads to finish
-        t1.join()
-        t2.join()
-        t3.join()
-        t4.join()
-        t5.join()
-
         # return value from threads and merge everything in one dict
-        info = que.get()
-        summary = que.get()
-        analysis = que.get()
-        stat = que.get()
-        balanceSheet = que.get()
-
-        # merge stuff
-        merge = {**info, **summary, **analysis, **stat, **balanceSheet}
-        return {'fundamentals': self.yahooFinanceDataModification.modifyCustomMakeDeepInfo(merge, symbol)}
+        merge = {**que.get(), **que.get(), **que.get(), **que.get(), **que.get(), **que.get()}
+        return self.yahooFinanceDataModification.modifyCustomMakeDeepInfo(merge)
