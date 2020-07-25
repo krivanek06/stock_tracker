@@ -7,11 +7,11 @@ import {Recommendations} from '../../../model/stockDetails';
 HighchartsMoreModule(Highcharts);
 
 @Component({
-    selector: 'app-recommendation-chart',
-    templateUrl: './recommendation-chart.component.html',
-    styleUrls: ['./recommendation-chart.component.scss'],
+    selector: 'app-details-recommendation-chart-card',
+    templateUrl: './details-recommendation-chart-card.component.html',
+    styleUrls: ['./details-recommendation-chart-card.component.scss'],
 })
-export class RecommendationChartComponent implements OnInit, OnChanges {
+export class DetailsRecommendationChartCardComponent implements OnInit, OnChanges {
     @Input() recommendations: Recommendations[];
 
     Highcharts: typeof Highcharts = Highcharts;

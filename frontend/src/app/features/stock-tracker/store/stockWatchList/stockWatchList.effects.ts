@@ -10,8 +10,7 @@ import {StockWatchListTable} from '../../model/tableModel';
 
 import * as fromAuth from '../../../../core/store/auth/auth.reducer';
 import * as stockWatchlistAction from './stockWatchList.action';
-import {StockApiService} from '../../endpoints/stock-api.service';
-import {StockFirebaseService} from '../../endpoints/stock-firebase.service';
+import {StockApiService} from '../../../../core/api/stock-api.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Injectable()
@@ -20,7 +19,7 @@ export class StockWatchList {
               private store: Store<AppState>,
               private snackBar: MatSnackBar,
               private stockApiService: StockApiService,
-              private stockFirebaseService: StockFirebaseService,
+              private stockFirebaseService: FirebaseApiService,
               private firebaseApiService: FirebaseApiService) {
   }
 

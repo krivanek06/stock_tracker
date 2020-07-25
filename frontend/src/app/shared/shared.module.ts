@@ -24,6 +24,7 @@ import {BarChartCardComponent} from './components/cards/bar-chart-card/bar-chart
 import {BarChartComponent} from './components/charts/bar-chart/bar-chart.component';
 import {HeaderComponent} from './components-smart/header/header.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import {FixedRangeSliderWithTimeComponent} from './components/charts/fixed-range-slider-with-time/fixed-range-slider-with-time.component';
 
 @NgModule({
     declarations: [
@@ -40,7 +41,8 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
         PieChartCardComponent,
         BarChartCardComponent,
         BarChartComponent,
-        HeaderComponent
+        HeaderComponent,
+        FixedRangeSliderWithTimeComponent
     ],
     imports: [
         CommonModule,
@@ -81,7 +83,8 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
         PieChartCardComponent,
         BarChartCardComponent,
         BarChartComponent,
-        HeaderComponent
+        HeaderComponent,
+        FixedRangeSliderWithTimeComponent
     ],
     entryComponents: [ConfirmDialogComponent],
 })

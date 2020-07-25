@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FinancialReport} from '../../../model/financialReportModel';
 import {ModalController, NavParams, PopoverController} from '@ionic/angular';
-import {StockApiService} from '../../../endpoints/stock-api.service';
+import {StockApiService} from '../../../../../core/api/stock-api.service';
 import {Observable} from 'rxjs';
 
 @Component({

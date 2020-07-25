@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {StockTrackerModule} from '../stock-tracker.module';
+import {StockTrackerModule} from '../../features/stock-tracker/stock-tracker.module';
 import {
     HttpClient,
     HttpParams,
@@ -8,8 +8,8 @@ import {Observable} from 'rxjs';
 import {
     TimelineChartData,
     TimelineChartDataWrapper,
-} from '../../../shared/models/chartModel';
-import {environment} from '../../../../environments/environment';
+} from '../../shared/models/chartModel';
+import {environment} from '../../../environments/environment';
 import {map, retry, tap} from 'rxjs/operators';
 import {
     StockTableData,
@@ -20,11 +20,11 @@ import {
     TopLosers,
     TopStockTableData,
     TopTableData,
-} from '../model/tableModel';
-import {EarningsCalendar, EarningsCalendarWrapper} from '../model/earningsCalendarModel';
-import {NewsArticle, NewsArticleWrapper} from '../model/newsModel';
-import {StockArticle, StockArticleWrapper, StockDetails} from '../model/stockDetails';
-import {FinancialReport} from '../model/financialReportModel';
+} from '../../features/stock-tracker/model/tableModel';
+import {EarningsCalendar, EarningsCalendarWrapper} from '../../features/stock-tracker/model/earningsCalendarModel';
+import {NewsArticle, NewsArticleWrapper} from '../../features/stock-tracker/model/newsModel';
+import {StockArticle, StockArticleWrapper, StockDetails} from '../../features/stock-details-feature/model/stockDetails';
+import {FinancialReport} from '../../features/stock-details-feature/model/financialReportModel';
 
 @Injectable({
     providedIn: StockTrackerModule,

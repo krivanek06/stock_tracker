@@ -14,6 +14,7 @@ import {FifthRowContainerComponent} from './container/fifth-row-container/fifth-
 import {SixthRowContainerComponent} from './container/sixth-row-container/sixth-row-container.component';
 import {SeventhRowContainerComponent} from './container/seventh-row-container/seventh-row-container.component';
 import {EigthRowContainerComponent} from './container/eigth-row-container/eigth-row-container.component';
+import {StockDetailsFeatureModule} from '../../features/stock-details-feature/stock-details-feature.module';
 
 const routes: Routes = [
     {
@@ -29,7 +30,8 @@ const routes: Routes = [
         IonicModule,
         RouterModule.forChild(routes),
         StockTrackerModule,
-        SharedModule
+        SharedModule,
+        StockDetailsFeatureModule
     ],
     declarations: [
         StockDetailsPage,

@@ -1,7 +1,7 @@
-@import "../../../../../../theme/customVariables";
+@import "../../../../../theme/customVariables";
 
 :host {
-  .revenue-container{
+  .container{
     position: relative;
     margin-bottom: 22px;
     font-size: 14px;
@@ -10,7 +10,7 @@
   .highlight{
     font-weight: bold;
   }
-  .revenue-time-est{
+  .time-est{
     @media (max-width: 530px) {
       width: 100%;
       text-align: center;
