@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {StockDetails} from '../../../../features/stock-tracker/model/stockDetails';
+import {StockDetails} from '../../../../features/stock-details-feature/model/stockDetails';
 
 @Component({
   selector: 'app-sixth-row-container',

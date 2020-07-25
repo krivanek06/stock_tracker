@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {StockApiService} from '../../features/stock-tracker/endpoints/stock-api.service';
+import {StockApiService} from '../../core/api/stock-api.service';
 import {Observable, Subject} from 'rxjs';
-import {StockArticle, StockDetails} from '../../features/stock-tracker/model/stockDetails';
+import {StockArticle, StockDetails} from '../../features/stock-details-feature/model/stockDetails';
 import {ActivatedRoute} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
 

@@ -1,0 +1,29 @@
+<div class="container">
+
+    <!-- additional info -->
+    <div class="ion-text-wrap">
+        <div class="ion-float-start time-est">
+            <span style="margin-right: 10px">{{timeEstimation}}</span>
+        </div>
+         <div class="ion-float-start">
+             <span style="margin-right: 5px" class="highlight"> Avg.: {{ valueDisplayName }}</span>
+             <span *ngIf="growthPercent >=0" class="price-up"> +{{ growthPercent}}%</span>
+             <span *ngIf="growthPercent < 0" class="price-down"> {{ growthPercent}}%</span>
+         </div>
+         <span class="ion-float-end">
+             <span class="highlight">Year ago: </span>
+             {{yearAgo}}
+         </span>
+     </div>
+
+
+
+    <!-- range chart -->
+    <app-fixed-range-slider [min]="min"
+                            [max]="max"
+                            [value]="value"
+                            [maxDisplayName]="maxDisplayName"
+                            [minDisplayName]="minDisplayName"
+                            [valueDisplayName]="valueDisplayName">
+    </app-fixed-range-slider>
+</div>

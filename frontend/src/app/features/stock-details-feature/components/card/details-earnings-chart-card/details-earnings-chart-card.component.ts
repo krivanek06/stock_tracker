@@ -7,11 +7,11 @@ import {Earnings} from '../../../model/stockDetails';
 HighchartsMoreModule(Highcharts);
 
 @Component({
-    selector: 'app-earnings-chart',
-    templateUrl: './earnings-chart.component.html',
-    styleUrls: ['./earnings-chart.component.scss'],
+    selector: 'app-details-earnings-chart-card',
+    templateUrl: './details-earnings-chart-card.component.html',
+    styleUrls: ['./details-earnings-chart-card.component.scss'],
 })
-export class EarningsChartComponent implements OnInit, OnChanges {
+export class DetailsEarningsChartCardComponent implements OnInit, OnChanges {
     @Input() earnings: Earnings;
 
 
