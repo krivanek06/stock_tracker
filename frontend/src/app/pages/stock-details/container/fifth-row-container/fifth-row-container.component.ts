@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {StockDetails} from '../../../../features/stock-tracker/model/stockDetails';
-import {PopoverController} from '@ionic/angular';
+import {ModalController, PopoverController} from '@ionic/angular';
 import {DetailsFinancialReportModalComponent} from '../../../../features/stock-tracker/components/modal/details-financial-report-modal/details-financial-report-modal.component';
 import {StockApiService} from '../../../../features/stock-tracker/endpoints/stock-api.service';
 import {Subject} from 'rxjs';
@@ -13,7 +13,7 @@ import {Subject} from 'rxjs';
 export class FifthRowContainerComponent implements OnInit {
     @Input() stockDetails: StockDetails;
 
-    constructor(private popoverController: PopoverController) {
+    constructor(private popoverController: ModalController) {
     }
 
     ngOnInit() {
@@ -23,9 +23,9 @@ export class FifthRowContainerComponent implements OnInit {
         const popover = await this.popoverController.create({
             component: DetailsFinancialReportModalComponent,
             componentProps: {symbol: this.stockDetails.basicInfo.symbol, financialReport},
-            translucent: true
+            cssClass: 'custom-modal'
         });
-        popover.style.cssText = '--min-width: 65%; --max-width: 65%;';
+       // popover.style.cssText = '--min-width: 65%; --max-width: 65%;';
         return await popover.present();
     }
 

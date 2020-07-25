@@ -61,16 +61,17 @@ export class EarningsChartComponent implements OnInit, OnChanges {
                 enabled: false
             },
             tooltip: {
-                backgroundColor: '#fff',
                 borderWidth: 1,
                 shadow: true,
                 useHTML: true,
-                shared: true,
                 pointFormat: null,
-                headerFormat: '<b>{point.x}</br> {point.key} : {point.y}</b>',
+                headerFormat: '<b>{point.x}</br> <span style="color:#008F88">{point.key}</span> : {point.y}</b>',
+                backgroundColor: '#232323',
                 style: {
-                    color: '#5485aa',
+                    fontSize: '14px',
+                    color: '#D9D8D8',
                 },
+                shared: true
             },
             legend: {
                 enabled: false,

@@ -48,7 +48,14 @@ export class PieChartComponent implements OnInit, OnChanges {
         text: this.title,
       },
       tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        headerFormat: null,
+        backgroundColor: '#232323',
+        style: {
+          fontSize: '14px',
+          color: '#D9D8D8',
+        },
+        shared: true,
+        pointFormat: '<span style="color:{point.color}; font-weight: bold">{point.name}</span> :<b>{point.percentage:.1f} %</b><br/>'
       },
       accessibility: {
         point: {

@@ -19,6 +19,8 @@ export class GaugeChartComponent implements OnInit, OnChanges {
     @Input() currentPoint: number;
     @Input() displayValue: number;
     @Input() height = 350;
+    @Input() tooltipName = 'Current value';
+
 
     // chart options
     Highcharts: typeof Highcharts = Highcharts;
@@ -73,8 +75,15 @@ export class GaugeChartComponent implements OnInit, OnChanges {
 
             tooltip: {
                 enabled: true,
+                headerFormat: null,
+                backgroundColor: '#232323',
+                style: {
+                    fontSize: '14px',
+                    color: '#D9D8D8',
+                },
+                shared: true,
                 formatter:  (tooltip) => {
-                    return `<span style="color: blue;">${this.currentPoint}</span>`;
+                    return `<span style="color: #008F88; font-weight: bold">${this.tooltipName}</span> : <b>${this.displayValue}%</b>`;
                 }
             },
 
@@ -109,13 +118,13 @@ export class GaugeChartComponent implements OnInit, OnChanges {
                 name: null,
                 data: [this.currentPoint],
                 dataLabels: {
-                    formatter:  (tooltip) => {
+                    formatter: (tooltip) => {
                         return `<span style="color: grey; font-size: 14px">${this.displayValue}%</span>`;
                     }
-                   /* format:
-                        '<div styles="text-align:center">' +
-                        '<span styles="font-size:20px">y</span><br/>'+
-                        '</div>'*/
+                    /* format:
+                         '<div styles="text-align:center">' +
+                         '<span styles="font-size:20px">y</span><br/>'+
+                         '</div>'*/
                 },
                 tooltip: {
                     valueSuffix: null, // km/h

@@ -13,6 +13,7 @@ export class GaugeChartCardComponent implements OnInit {
   @Input() chartTitle: string;
   @Input() height = 350;
   @Input() cardHeight = 500;
+  @Input() tooltipName = 'Current value';
 
   constructor() { }
 

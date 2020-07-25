@@ -21,7 +21,13 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 
-
+/* scroll */
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+    suppressScrollX: true
+};
+/*----------------*/
 
 @NgModule({
     declarations: [AppComponent],
@@ -59,6 +65,7 @@ import {AppRoutingModule} from './app-routing.module';
         StatusBar,
         SplashScreen,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+        {provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG},
 
     ],
     bootstrap: [AppComponent]

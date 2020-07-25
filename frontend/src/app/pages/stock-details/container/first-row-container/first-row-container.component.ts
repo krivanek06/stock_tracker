@@ -5,7 +5,7 @@ import {takeUntil} from 'rxjs/operators';
 import {StockApiService} from '../../../../features/stock-tracker/endpoints/stock-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {Subject} from 'rxjs';
-import {PopoverController} from '@ionic/angular';
+import {ModalController, PopoverController} from '@ionic/angular';
 import {DetailsSummaryModalComponent} from '../../../../features/stock-tracker/components/modal/details-summary-modal/details-summary-modal.component';
 
 @Component({
@@ -22,7 +22,7 @@ export class FirstRowContainerComponent implements OnInit, OnDestroy {
     symbol: string;
 
     constructor(private stockApiService: StockApiService,
-                private popoverController: PopoverController,
+                private modalController: ModalController,
                 private route: ActivatedRoute) {
     }
 
@@ -45,12 +45,11 @@ export class FirstRowContainerComponent implements OnInit, OnDestroy {
     }
 
     async showSummary() {
-        const popover = await this.popoverController.create({
+        const popover = await this.modalController.create({
             component: DetailsSummaryModalComponent,
             componentProps: {basicInfo: this.stockDetails.basicInfo},
-            translucent: true,
+            cssClass: 'custom-modal'
         });
-        popover.style.cssText = '--min-width: 70%; --max-width: 70%;';
         return await popover.present();
     }
 }

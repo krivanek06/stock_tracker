@@ -29,7 +29,7 @@
               [chartTitle]="'Assets to debt'"
               [data]="[
                       {name: 'Assets', y: stockDetails?.chartInfo.assetsToDebtInfo.totalAssets},
-                      {name: 'Debt', y: stockDetails?.chartInfo.assetsToDebtInfo.totalDebt}
+                      {name: 'Debt', y: stockDetails?.chartInfo.assetsToDebtInfo.totalDebt, sliced: true, selected: true}
                   ]">
       </app-pie-chart-card>
 
