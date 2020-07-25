@@ -1,30 +1,44 @@
-<ion-menu contentId="main-content" type="overlay">
-    <ion-content>
-        <ion-list id="inbox-list">
-            <ng-container *ngIf="user$ | async as user">
-                <ion-avatar>
-                    <img [src]="user.photoURL" alt="user's image">
-                </ion-avatar>
-                <ion-note>{{ user.displayName }}</ion-note>
-            </ng-container>
+<ion-split-pane contentId="main-content" when="md">
+    <ion-menu contentId="main-content" style="border: none;"> <!-- type="overlay" -->
+        <ion-content class="ion-padding-horizontal">
+
+            <ion-toolbar>
+                <ion-title class="app-title">
+                    Stock tracker
+                </ion-title>
+            </ion-toolbar>
+
+            <ion-list>
 
 
-            <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-                <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none"
-                          detail="false" [class.selected]="selectedIndex == i">
-                    <ion-icon slot="start" [ios]="p.icon + '-outline'" [name]="p.icon"></ion-icon>
-                    <ion-label>{{ p.title }}</ion-label>
+                <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
+                    <ion-item (click)="selectedIndex = i"
+                              class="ion-no-padding clickable"
+                              routerDirection="root"
+                              [routerLink]="[p.url]"
+                              lines="none"
+                              detail="false"
+                              [class.selected]="selectedIndex == i">
+                        <ion-icon slot="start" [ios]="p.icon + '-outline'" [name]="p.icon"></ion-icon>
+                        <ion-label class="ion-margin-start">{{ p.title }}</ion-label>
+                    </ion-item>
+                </ion-menu-toggle>
+            </ion-list>
+
+
+            <ion-menu-toggle auto-hide="false" class="log-out-button">
+                <ion-item (click)="logout()" class="ion-no-padding clickable" routerLink="/login">
+                    <ion-icon name="log-out-outline"></ion-icon>
+                    <ion-label class="ion-margin-start">LogOut</ion-label>
                 </ion-item>
             </ion-menu-toggle>
-        </ion-list>
 
-        <ion-list>
-            <ion-button (click)="logout()">
-                logout
-            </ion-button>
-        </ion-list>
 
-    </ion-content>
-</ion-menu>
+        </ion-content>
+    </ion-menu>
 
-<ion-router-outlet id="main-content"></ion-router-outlet>
+
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+
+</ion-split-pane>
+

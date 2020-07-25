@@ -12,10 +12,10 @@ CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # CUSTOM singleton
 StockNews = EconomicNews.EconomicNews()
-YahooFinance = YahooFinance.YahooFinance()
-Finhub = Finhub.Finhub()
-Twelvedata = Twelvedata.Twelvedata()
 stockDetails = StockDetailsService.StockDetailsService()
+Finhub = Finhub.Finhub()
+YahooFinance = YahooFinance.YahooFinance()
+Twelvedata = Twelvedata.Twelvedata()
 
 #-----------------------------------
 #Economic data
@@ -90,7 +90,7 @@ def getMostActive():
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Failed to get most active')
-
+'''
 @app.route('/api/ticker/day_top_cryto')
 def getTopCrypto():
     try:
@@ -98,8 +98,8 @@ def getTopCrypto():
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Failed to get top crypto')
-
-
+'''
+'''
 @app.route('/api/ticker/watchlist_summary')
 def getWatchlistTickerSummary():
     try:
@@ -107,7 +107,16 @@ def getWatchlistTickerSummary():
     except Exception as e:
         print(e)
         raise JsonError(status=400, error='Could not find summary for ticker')
+'''
 
+@app.route('/api/ticker/details/financial_report')
+def getStockFinancialReport():
+    try:
+        return json_response(**stockDetails.getStockFinancialReport(request.args.get('symbol'), request.args.get('financialReportName')))
+    except Exception as e:
+        print(e)
+        raise JsonError(status=500, error='An error occurred on the server side when getting financial report, '
+                                          'please contact administrator to check logs ')
 
 @app.route('/api/ticker/details/fundamentals')
 def getStockFundamentals():
@@ -115,8 +124,8 @@ def getStockFundamentals():
         return json_response(**stockDetails.getStockDetails(request.args.get('symbol')))
     except Exception as e:
         print(e)
-        raise JsonError(status=500, error='An error occurred on the server side, please contact administrator to '
-                                          'check logs ')
+        raise JsonError(status=500, error='An error occurred on the server side when getting fundamentals, '
+                                          'please contact administrator to check logs ')
 
 
 @app.route('/api/ticker/details/stockNews')

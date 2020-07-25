@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {NewsArticle} from '../../../model/newsModel';
-import {StockArticle} from '../../../model/stockDetails';
+import {StockArticle} from '../../../../stock-details-feature/model/stockDetails';
 
 @Component({
   selector: 'app-article-cards',

@@ -1,0 +1,74 @@
+<ion-card>
+    <ion-card-header>
+        <ion-card-title class="ion-text-center ion-padding-start ion-padding-top">
+            Financial strength
+        </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+        <ion-list *ngIf="financialStrength">
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Market cap.</ion-label>
+                <ion-label> {{ financialStrength.marketCap }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Revenue ttm.</ion-label>
+                <ion-label> {{ financialStrength.revenueTTM }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Gross profit ttm.</ion-label>
+                <ion-label> {{ financialStrength.grossProfitTTM }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Total cash mrq.</ion-label>
+                <ion-label> {{ financialStrength.totalCashMRQ }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Total debt mrq.</ion-label>
+                <ion-label> {{ financialStrength.totalDebtMRQ }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Operating cash flow ttm.</ion-label>
+                <ion-label> {{ financialStrength.operatingCashFlowTTM }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Levered free cash flow ttm.</ion-label>
+                <ion-label> {{ financialStrength.leveredFreeCashFlowTTM }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Net income avito com. ttm.</ion-label>
+                <ion-label> {{ financialStrength.netIncomeAvitoCommonTTM }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">EBITDA</ion-label>
+                <ion-label> {{ financialStrength.ebitda }}</ion-label>
+            </ion-item>
+
+
+
+
+
+            <!--<ion-item>
+                <ion-label position="fixed" class="fixedLabel"> Return on equity (ttm)</ion-label>
+                <ion-label [ngClass]="{
+                  'price-up': percentageInfo.returnOnEquityTTMNumber >= 0,
+                  'price-down': percentageInfo.returnOnEquityTTMNumber < 0
+                   }"> {{ percentageInfo.returnOnEquityTTM }}
+                    <ion-icon name="trending-up-outline" slot="end" *ngIf="percentageInfo.returnOnEquityTTMNumber >= 0"></ion-icon>
+                    <ion-icon name="trending-down-outline" slot="end" *ngIf="percentageInfo.returnOnEquityTTMNumber < 0"></ion-icon>
+                </ion-label>
+            </ion-item>-->
+
+
+        </ion-list>
+    </ion-card-content>
+</ion-card>

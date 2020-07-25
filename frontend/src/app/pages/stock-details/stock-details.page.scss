@@ -1,14 +1,8 @@
-:host{
-  ion-col{
-    padding: 4px;
-  }
 
-  .news-container{
-    column-count: 2;
-    padding: 20px;
-    @media (min-width: 0px) and (max-width: 1600px) {
-      column-count: 1;
-    }
+
+:host{
+  .information-content{
+    padding: 10px 50px 10px 35px;
   }
 
 }

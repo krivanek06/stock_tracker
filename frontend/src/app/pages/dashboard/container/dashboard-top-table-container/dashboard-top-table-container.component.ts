@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {StockApiService} from '../../../../features/stock-tracker/endpoints/stock-api.service';
+import {StockApiService} from '../../../../core/api/stock-api.service';
 import {MatDialog} from '@angular/material/dialog';
 import {WatchlistModalContainerComponent} from '../../../../features/stock-tracker/container/modal/watchlist-selector-modal-container/watchlist-modal-container.component';
 import {ChartDataIdentification} from '../../../../shared/models/chartModel';

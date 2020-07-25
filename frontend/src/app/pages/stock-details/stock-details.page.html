@@ -1,134 +1,39 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
-        </ion-buttons>
-        <ion-title>Stock Details</ion-title>
-    </ion-toolbar>
-</ion-header>
-
-<ion-content class="ion-padding">
-    <app-overview-with-chart-container
-            [basicInfo]="stockDetails?.fundamentals.basicInfo"
-            [overview]="stockDetails?.fundamentals.overview">
-    </app-overview-with-chart-container>
-
-    <ion-grid>
-        <!-- Money info / Dividends/ ratio / percentage -->
-        <ion-row>
-            <ion-col size-xl="3" size-md="6" size="12">
-                <app-details-money-info
-                        [moneyInfo]="stockDetails?.fundamentals.moneyInfo"></app-details-money-info>
-            </ion-col>
-            <ion-col size-xl="3" size-md="6" size="12">
-                <app-details-ratio-info
-                        [ratioInfo]="stockDetails?.fundamentals.ratioInfo"></app-details-ratio-info>
-            </ion-col>
-            <ion-col size-xl="3" size-md="6" size="12">
-                <app-details-percentage-info
-                        [percentageInfo]="stockDetails?.fundamentals.percentageInfo"></app-details-percentage-info>
-            </ion-col>
-            <ion-col size-xl="3" size-md="6" size="12">
-                <app-details-dividend-info
-                        [dividendInfo]="stockDetails?.fundamentals.dividendInfo"></app-details-dividend-info>
-            </ion-col>
-        </ion-row>
+<app-header></app-header>
 
 
-        <ion-row>
-            <!-- revenue estimation -->
-            <ion-col size-xl="5" size="12">
-                <app-details-revenue-growth-slider-card [revenueEst]="stockDetails?.analysis.revenueEstimate"></app-details-revenue-growth-slider-card>
-            </ion-col>
-            <ion-col size-xl="7" size="12">
-                <ion-row>
-                    <ion-col size-sm="6" size="12">
-                        <app-gauge-chart-card
-                                [displayValue]="stockDetails?.fundamentals.overview.targetEst1yPercent"
-                                [startingPoint]="0"
-                                [chartTitle]="'1y target to current price'"
-                                [endingPoint]="stockDetails?.fundamentals.overview.targetEst1y"
-                                [currentPoint]="stockDetails?.fundamentals.overview.currentPrice">
-                        </app-gauge-chart-card>
-                    </ion-col>
-                    <ion-col size-sm="6" size="12">
-                        <app-gauge-chart-card
-                                [displayValue]="stockDetails?.fundamentals.chartInfo.assetsToDebtInfo.prctDiff"
-                                [startingPoint]="0"
-                                [chartTitle]="'Assets to debt'"
-                                [endingPoint]="stockDetails?.fundamentals.chartInfo.assetsToDebtInfo.totalAssets +
-                                                stockDetails?.fundamentals.chartInfo.assetsToDebtInfo.totalDebt"
-                                [currentPoint]="stockDetails?.fundamentals.chartInfo.assetsToDebtInfo.totalAssets">
-                        </app-gauge-chart-card>
-                    </ion-col>
-                </ion-row>
-                <ion-row>
-                    <ion-col size-sm="6" size="12">
-                        <app-gauge-chart-card
-                                [displayValue]="stockDetails?.fundamentals.overview.volumePercent"
-                                [startingPoint]="0"
-                                [chartTitle]="'Today volume to average'"
-                                [endingPoint]="stockDetails?.fundamentals.overview.averageVolume"
-                                [currentPoint]="stockDetails?.fundamentals.overview.volume">
-                        </app-gauge-chart-card>
-                    </ion-col>
+<ion-content class="ion-no-padding">
 
-                    <ion-col size-sm="6" size="12">
-                        <app-gauge-chart-card
-                                [displayValue]="stockDetails?.fundamentals.chartInfo.equityToAssets.prctDiff"
-                                [startingPoint]="0"
-                                [chartTitle]="'Equity to assets'"
-                                [endingPoint]="stockDetails?.fundamentals.chartInfo.equityToAssets.totalAssets"
-                                [currentPoint]="stockDetails?.fundamentals.chartInfo.equityToAssets.totalEquity">
-                        </app-gauge-chart-card>
-                    </ion-col>
-                </ion-row>
-            </ion-col>
+    <perfect-scrollbar>
+        <div class="information-content" *ngIf="stockDetails; else showSpinner">
+            <!-- basic info + overview | financial chart -->
+            <app-first-row-container [stockDetails]="stockDetails"></app-first-row-container>
 
-        </ion-row>
+            <!-- financial strength | valuation | financial growth -->
+            <app-second-row-container [stockDetails]="stockDetails"></app-second-row-container>
 
+            <!-- dividends | financial per share | margin -->
+            <app-third-row-container [stockDetails]="stockDetails"></app-third-row-container>
 
-        <!-- analytics -> earnigns / recomendation / PE / growth  -->
-        <ion-row>
-            <ion-col size-xl="4" size="12">
-                <app-earnings-chart [earnings]="stockDetails?.analysis.earnings"></app-earnings-chart>
-            </ion-col>
-            <ion-col size-xl="4.5" size-md="6" size="12">
-                <app-recommendation-chart
-                        [recommendations]="stockDetails?.recommendation"></app-recommendation-chart>
-            </ion-col>
-            <ion-col size-xl="3.5" size-md="6" size="12">
-                <app-growth-chart
-                        [growthEst]="stockDetails?.analysis.growthEstimatesPercent"></app-growth-chart>
-            </ion-col>
-        </ion-row>
+            <!-- financial ratio | effectiveness | current price to 1y target | equity to assets -->
+            <app-fourth-row-container [stockDetails]="stockDetails"></app-fourth-row-container>
 
+            <!-- revenue growth est. | recommendation | financial reports -->
+            <app-fifth-row-container [stockDetails]="stockDetails"></app-fifth-row-container>
 
-        <!-- balance sheet / cash flow / financial statement -->
-        <ion-row>
-            <ion-col size="12" size-lg="10" offset-lg="1"  size-xl="4" offset-xl="0">
-                <app-details-balance-sheet
-                        [balanceSheet]="stockDetails?.balanceSheet"></app-details-balance-sheet>
-            </ion-col>
-            <ion-col size="12" size-lg="10" offset-lg="1"  size-xl="4" offset-xl="0">
-                <app-details-income-statement
-                        [incomeStatement]="stockDetails?.incomeStatement"></app-details-income-statement>
-            </ion-col>
-            <ion-col size="12" size-lg="10" offset-lg="1"  size-xl="4" offset-xl="0">
-                <app-details-cash-flow [cashflow]="stockDetails?.cashFlow"></app-details-cash-flow>
-            </ion-col>
-        </ion-row>
+            <!-- earnings | company growth | assets to debt -->
+            <app-sixth-row-container [stockDetails]="stockDetails"></app-sixth-row-container>
 
-    </ion-grid>
+            <!-- balance sheet | cash flow | financial statement -->
+            <app-seventh-row-container [stockDetails]="stockDetails"></app-seventh-row-container>
 
+            <!-- stock news -->
+            <app-eigth-row-container [stockDetails]="stockDetails"></app-eigth-row-container>
 
-    <!-- stock news -->
-    <div class="news-container ion-hide-md-down" *ngIf="stockDetails?.stockNewsSnippets">
-        <app-article *ngFor="let article of stockDetails.stockNewsSnippets" [article]="article"></app-article>
-    </div>
+        </div>
+    </perfect-scrollbar>
 
-    <div class="news-container ion-hide-md-up" *ngIf="stockDetails?.stockNewsSnippets">
-        <app-article-cards  *ngFor="let article of stockDetails.stockNewsSnippets" [article]="article"></app-article-cards>
-    </div>
-
+    <ng-template #showSpinner>
+        <ion-spinner color="primary"></ion-spinner>
+    </ng-template>
 </ion-content>
+

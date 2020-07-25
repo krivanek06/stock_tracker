@@ -237,20 +237,24 @@
 
   ion-card {
     padding: 5px 10px;
-    ion-card-header{
+
+    ion-card-header {
       padding: 5px;
     }
-    ion-card-content{
+
+    ion-card-content {
       padding: 10px;
-      ion-list{
-        ion-item{
+
+      ion-list {
+        ion-item {
           font-size: 15px;
           --padding-start: 0;
           --padding-end: 0;
           --inner-padding-start: 0;
           --inner-padding-end: 0;
           --min-height: 30px;
-          ion-label{
+
+          ion-label {
             font-size: 15px;
           }
         }
@@ -265,65 +269,86 @@
     ion-item {
       --background: transparent;
       --border-style: none;
-      --color: #b8b8b8 ;
+      --color: #b8b8b8;
+    }
+
+    ion-content {
+      ion-list {
+        background: transparent;
+
+        ion-list-header {
+          ion-label {
+            --color: #b8b8b8;
+          }
+        }
+
+        ion-item {
+          --color: #979797;
+        }
+      }
     }
 
     ion-card {
       --background: linear-gradient(180deg, rgb(0, 3, 32) 0%, rgb(0, 8, 62) 100%);
-      --color: #b8b8b8 ;
+      --color: #b8b8b8;
 
       ion-card-header {
         --background-color: transparent;
 
         ion-card-title {
-          --color: #996a05 ;
+          --color: #996a05;
           font-weight: bold;
         }
+
         ion-card-subtitle {
-          --color: #b8b8b8 ;
+          --color: #b8b8b8;
         }
       }
+
       ion-card-content {
-        ion-list{
+        ion-list {
           background: transparent;
+
           ion-item {
             --background: transparent;
             --border-style: none;
-            --color: #b8b8b8 ;
+            --color: #b8b8b8;
           }
         }
       }
     }
-    ion-header{
+
+    ion-header {
       ion-toolbar {
-        --background: linear-gradient(180deg, rgb(1, 18, 49) 0%, rgb(1, 0, 60) 55%, rgb(3, 1, 75) 100%);
+        /* --background: linear-gradient(180deg, rgb(1, 18, 49) 0%, rgb(1, 0, 60) 55%, rgb(3, 1, 75) 100%);*/
+        --background: #05052f !important;
         --color: #979797 !important;
       }
     }
+
     ion-content {
       --background: linear-gradient(90deg, rgb(0, 18, 49) 0%, rgb(2, 1, 56) 55%, rgb(1, 0, 34) 100%);
-      --color: #979797 ;
+      --color: #979797;
     }
-    ion-toolbar{
+
+    ion-toolbar {
       --background: transparent;
     }
 
 
-
-
     ion-menu {
-      --background: #010128 !important;
+      --background: #05052f !important;
 
       ion-content {
-        --background: #010128 !important;
+        --background: #05052f !important;
 
         ion-list {
-          background: #010128 !important;
+          background: #05052f !important;
         }
 
         ion-item {
-          --background: #010128 !important;
-          --color: #979797 !important;
+          --background: #05052f !important;
+          --color: #adadad !important;
         }
       }
     }

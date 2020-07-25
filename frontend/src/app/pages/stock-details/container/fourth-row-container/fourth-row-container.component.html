@@ -1,0 +1,47 @@
+<ion-grid>
+
+    <ion-row>
+        <ion-col size-lg="3" size-md="6" size="12">
+            <app-detials-financial-strength-ratio-card
+                    [financialStrengthRatio]="stockDetails?.financialStrengthRatio"></app-detials-financial-strength-ratio-card>
+        </ion-col>
+        <ion-col size-lg="4" size-md="6" size="12">
+            <ng-container *ngIf="stockDetails?.chartInfo">
+                <app-bar-chart-card
+                        [heightPx]="196"
+                        [chartTitle]="'Effectiveness'"
+                        [data]="[
+                              {name: 'ROA', y: stockDetails.chartInfo.effectiveness.returnOnAssetsTTM},
+                              {name: 'ROE', y: stockDetails.chartInfo.effectiveness.returnOnEquityTTM},
+                              {name: 'ROI ', y: stockDetails.chartInfo.effectiveness.returnOnInvestmentsTTM}
+                          ]">
+                </app-bar-chart-card>
+            </ng-container>
+        </ion-col>
+
+        <ion-col size-lg="2.5" size-md="6" size="12">
+            <app-gauge-chart-card
+                    [tooltipName]="'Completed'"
+                    [cardHeight]="276"
+                    [height]="165"
+                    [displayValue]="stockDetails?.overview.targetEst1yPercent"
+                    [startingPoint]="0"
+                    [chartTitle]="'Current price to 1y target'"
+                    [endingPoint]="stockDetails?.overview.targetEst1y"
+                    [currentPoint]="stockDetails?.overview.currentPrice">
+            </app-gauge-chart-card>
+        </ion-col>
+        <ion-col size-lg="2.5" size-md="6" size="12">
+            <app-gauge-chart-card
+                    [tooltipName]="'Equity to assets'"
+                    [cardHeight]="276"
+                    [height]="165"
+                    [displayValue]="stockDetails?.chartInfo.equityToAssets.prctDiff"
+                    [startingPoint]="0"
+                    [chartTitle]="'Equity to assets'"
+                    [endingPoint]="stockDetails?.chartInfo.equityToAssets.totalAssets"
+                    [currentPoint]="stockDetails?.chartInfo.equityToAssets.totalEquity">
+            </app-gauge-chart-card>
+        </ion-col>
+    </ion-row>
+</ion-grid>
