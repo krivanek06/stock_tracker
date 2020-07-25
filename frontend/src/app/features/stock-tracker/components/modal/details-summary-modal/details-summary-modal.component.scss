@@ -1,11 +1,9 @@
+@import "../../../../../shared/styles/modal.ionic";
+
 :host {
   .fixedLabel {
     min-width: 25% !important;
     max-width: 25% !important;
   }
 
-  ion-img{
-    width: 70%;
-    height: 70%;
-  }
 }

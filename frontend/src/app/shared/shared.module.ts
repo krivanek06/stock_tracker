@@ -23,6 +23,7 @@ import {PieChartCardComponent} from './components/cards/pie-chart-card/pie-chart
 import {BarChartCardComponent} from './components/cards/bar-chart-card/bar-chart-card.component';
 import {BarChartComponent} from './components/charts/bar-chart/bar-chart.component';
 import {HeaderComponent} from './components-smart/header/header.component';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 @NgModule({
     declarations: [
@@ -53,6 +54,7 @@ import {HeaderComponent} from './components-smart/header/header.component';
         AngularFireStorageModule,
         HighchartsChartModule,
         IonicModule,
+        PerfectScrollbarModule,
     ],
     exports: [
         TimeAgoPipe,
@@ -60,6 +62,7 @@ import {HeaderComponent} from './components-smart/header/header.component';
         MaterialModule,
         ReactiveFormsModule,
         FormsModule,
+        PerfectScrollbarModule,
         RouterModule,
         AngularFirestoreModule,
         AngularFireAuthModule,

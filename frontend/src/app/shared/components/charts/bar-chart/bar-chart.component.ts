@@ -84,6 +84,12 @@ export class BarChartComponent implements OnInit, OnChanges {
 
             tooltip: {
                 headerFormat: null,
+                backgroundColor: '#232323',
+                style: {
+                    fontSize: '14px',
+                    color: '#D9D8D8',
+                },
+                shared: true,
                 pointFormat: '<span style="color:{point.color}; font-weight: bold">{point.name}</span> :<b>{point.y:.2f}%</b><br/>'
             },
 

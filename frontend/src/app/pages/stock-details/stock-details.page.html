@@ -1,36 +1,39 @@
 <app-header></app-header>
 
+
 <ion-content class="ion-no-padding">
 
+    <perfect-scrollbar>
+        <div class="information-content" *ngIf="stockDetails; else showSpinner">
+            <!-- basic info + overview | financial chart -->
+            <app-first-row-container [stockDetails]="stockDetails"></app-first-row-container>
 
-    <div class="information-content" *ngIf="stockDetails; else showSpinner">
-        <!-- basic info + overview | financial chart -->
-        <app-first-row-container [stockDetails]="stockDetails"></app-first-row-container>
+            <!-- financial strength | valuation | financial growth -->
+            <app-second-row-container [stockDetails]="stockDetails"></app-second-row-container>
 
-        <!-- financial strength | valuation | financial growth -->
-        <app-second-row-container [stockDetails]="stockDetails"></app-second-row-container>
+            <!-- dividends | financial per share | margin -->
+            <app-third-row-container [stockDetails]="stockDetails"></app-third-row-container>
 
-        <!-- dividends | financial per share | margin -->
-        <app-third-row-container [stockDetails]="stockDetails"></app-third-row-container>
+            <!-- financial ratio | effectiveness | current price to 1y target | equity to assets -->
+            <app-fourth-row-container [stockDetails]="stockDetails"></app-fourth-row-container>
 
-        <!-- financial ratio | effectiveness | current price to 1y target | equity to assets -->
-        <app-fourth-row-container [stockDetails]="stockDetails"></app-fourth-row-container>
+            <!-- revenue growth est. | recommendation | financial reports -->
+            <app-fifth-row-container [stockDetails]="stockDetails"></app-fifth-row-container>
 
-        <!-- revenue growth est. | recommendation | financial reports -->
-        <app-fifth-row-container [stockDetails]="stockDetails"></app-fifth-row-container>
+            <!-- earnings | company growth | assets to debt -->
+            <app-sixth-row-container [stockDetails]="stockDetails"></app-sixth-row-container>
 
-        <!-- earnings | recommendation | company growth -->
-        <app-sixth-row-container [stockDetails]="stockDetails"></app-sixth-row-container>
+            <!-- balance sheet | cash flow | financial statement -->
+            <app-seventh-row-container [stockDetails]="stockDetails"></app-seventh-row-container>
 
-        <!-- balance sheet | cash flow | financial statement -->
-        <app-seventh-row-container [stockDetails]="stockDetails"></app-seventh-row-container>
+            <!-- stock news -->
+            <app-eigth-row-container [stockDetails]="stockDetails"></app-eigth-row-container>
 
-        <!-- stock news -->
-        <app-eigth-row-container [stockDetails]="stockDetails"></app-eigth-row-container>
-
-    </div>
+        </div>
+    </perfect-scrollbar>
 
     <ng-template #showSpinner>
         <ion-spinner color="primary"></ion-spinner>
     </ng-template>
 </ion-content>
+

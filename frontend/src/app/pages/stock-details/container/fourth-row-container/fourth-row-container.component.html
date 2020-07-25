@@ -21,6 +21,7 @@
 
         <ion-col size-lg="2.5" size-md="6" size="12">
             <app-gauge-chart-card
+                    [tooltipName]="'Completed'"
                     [cardHeight]="276"
                     [height]="165"
                     [displayValue]="stockDetails?.overview.targetEst1yPercent"
@@ -32,6 +33,7 @@
         </ion-col>
         <ion-col size-lg="2.5" size-md="6" size="12">
             <app-gauge-chart-card
+                    [tooltipName]="'Equity to assets'"
                     [cardHeight]="276"
                     [height]="165"
                     [displayValue]="stockDetails?.chartInfo.equityToAssets.prctDiff"

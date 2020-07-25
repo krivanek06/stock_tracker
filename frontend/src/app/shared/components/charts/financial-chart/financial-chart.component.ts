@@ -103,7 +103,6 @@ export class FinancialChartComponent implements OnInit, OnChanges {
         this.chartOptions = {
             chart: {
                 backgroundColor: 'transparent',
-                height: 400,
                 type: 'area', // area
                 panning: {
                     enable: true
@@ -164,13 +163,16 @@ export class FinancialChartComponent implements OnInit, OnChanges {
                 inputEnabled: false,
             },
             tooltip: {
-                backgroundColor: '#fff',
                 borderWidth: 1,
-                shadow: true,
-                useHTML: true,
+                headerFormat: null,
+                backgroundColor: '#232323',
                 style: {
-                    color: '#5485aa',
+                    fontSize: '14px',
+                    color: '#D9D8D8',
                 },
+                shared: true,
+                pointFormat: '<span style="color:{point.color}; font-weight: bold">{series.name}</span> :<b>{point.y:.2f}</b><br/>'
+              /*  pointFormat: '<span style="font-weight: bold; color:{series.color};">{point.name}</span> :<b>{point.y:.2f}</b>'*/
             },
             xAxis: {
                 labels: {

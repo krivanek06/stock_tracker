@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {BasicInfo, OverView} from '../../../model/stockDetails';
-import {NavParams, PopoverController} from '@ionic/angular';
+import {ModalController, NavParams} from '@ionic/angular';
 
 @Component({
     selector: 'app-details-summary-modal',
@@ -10,7 +10,7 @@ import {NavParams, PopoverController} from '@ionic/angular';
 export class DetailsSummaryModalComponent implements OnInit {
     basicInfo: BasicInfo;
 
-    constructor(private popoverController: PopoverController,
+    constructor(private modalController: ModalController,
                 private navParams: NavParams) {
         this.basicInfo = this.navParams.get('basicInfo');
         console.log('pop up', this.basicInfo);
@@ -20,7 +20,7 @@ export class DetailsSummaryModalComponent implements OnInit {
     }
 
     dismissModal() {
-        this.popoverController.dismiss();
+        this.modalController.dismiss();
     }
 
 }
