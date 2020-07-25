@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { getUserWatchLists } from "../../features/stock-tracker/store/stockWatchList/stockWatchList.action";
 import { Observable } from "rxjs";
 import { NewsArticle } from "../../features/stock-tracker/model/newsModel";
-import { StockApiService } from "../../features/stock-tracker/endpoints/stock-api.service";
+import { StockApiService } from "../../core/api/stock-api.service";
 import { Store } from "@ngrx/store";
 import { AppState } from "../../core/model/appState";
 import { FirebaseApiService } from "../../core/api/firebase-api.service";

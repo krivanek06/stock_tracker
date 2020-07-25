@@ -1,0 +1,19 @@
+@import "../../../../../../theme/customVariables";
+
+:host{
+
+  .fixedLabel {
+    min-width: 40% !important;
+    max-width: 40% !important;
+  }
+
+  ion-button{
+    max-width: 200px;
+  }
+
+  ion-img{
+    height: 75%;
+    display: inline-block;
+  }
+
+}

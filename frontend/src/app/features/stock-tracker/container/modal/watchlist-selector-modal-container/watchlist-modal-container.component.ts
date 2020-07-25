@@ -10,7 +10,7 @@ import {StockWatchListState} from '../../../store/stockWatchList/stockWatchList.
 import * as fromStockWatchList from '../../../store/stockWatchList/stockWatchList.reducer';
 import * as stockWatchListAction from '../../../store/stockWatchList/stockWatchList.action';
 import {StockWatchListTable} from '../../../model/tableModel';
-import {StockApiService} from '../../../endpoints/stock-api.service';
+import {StockApiService} from '../../../../../core/api/stock-api.service';
 import {ModalController, NavParams} from '@ionic/angular';
 
 

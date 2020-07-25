@@ -1,0 +1,19 @@
+ion-content {
+  ion-toolbar {
+    ion-title {
+      color: #9fa0a6;
+    }
+  }
+  ion-list{
+    ion-list-header{
+      border: 0;
+      ion-label{
+        font-size: 22px;
+        color: #b8b8b8;
+      }
+    }
+    ion-item{
+      height: 37px;
+    }
+  }
+}

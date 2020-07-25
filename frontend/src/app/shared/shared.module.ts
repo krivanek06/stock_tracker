@@ -7,17 +7,24 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import {MaterialModule} from '../material.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AngularFireStorageModule} from '@angular/fire/storage';
-import {ConfirmDialogComponent} from './components/presentation/confirm-dialog/confirm-dialog.component';
+import {ConfirmDialogComponent} from './components/dialog/confirm-dialog/confirm-dialog.component';
 import {IonicModule} from '@ionic/angular';
 import {HighchartsChartModule} from 'highcharts-angular';
 import {DefaultImgDirective} from './directives/default-img.directive';
-import {FinancialChartComponent} from './components/financial-chart/financial-chart.component';
-import {GaugeChartComponent} from './components/gauge-chart/gauge-chart.component';
-import {FixedRangeSliderComponent} from './components/fixed-range-slider/fixed-range-slider.component';
-import { MillionOrBillionPipe } from './pipes/millionOrBillion.pipe';
+import {FinancialChartComponent} from './components/charts/financial-chart/financial-chart.component';
+import {GaugeChartComponent} from './components/charts/gauge-chart/gauge-chart.component';
+import {FixedRangeSliderComponent} from './components/charts/fixed-range-slider/fixed-range-slider.component';
+import { NumberFormatterPipe } from './pipes/numberFormatter.pipe';
 import {TimeAgoPipe} from 'time-ago-pipe';
-import {GaugeChartCardComponent} from './components/gauge-chart-card/gauge-chart-card.component';
-import {FinancialChartCardComponent} from './components/financial-chart-card/financial-chart-card.component';
+import {GaugeChartCardComponent} from './components/cards/gauge-chart-card/gauge-chart-card.component';
+import {FinancialChartCardComponent} from './components/cards/financial-chart-card/financial-chart-card.component';
+import {PieChartComponent} from './components/charts/pie-chart/pie-chart.component';
+import {PieChartCardComponent} from './components/cards/pie-chart-card/pie-chart-card.component';
+import {BarChartCardComponent} from './components/cards/bar-chart-card/bar-chart-card.component';
+import {BarChartComponent} from './components/charts/bar-chart/bar-chart.component';
+import {HeaderComponent} from './components-smart/header/header.component';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import {FixedRangeSliderWithTimeComponent} from './components/charts/fixed-range-slider-with-time/fixed-range-slider-with-time.component';
 
 @NgModule({
     declarations: [
@@ -27,9 +34,15 @@ import {FinancialChartCardComponent} from './components/financial-chart-card/fin
         DefaultImgDirective,
         FinancialChartComponent,
         GaugeChartComponent,
-        MillionOrBillionPipe,
+        NumberFormatterPipe,
         GaugeChartCardComponent,
-        FinancialChartCardComponent
+        FinancialChartCardComponent,
+        PieChartComponent,
+        PieChartCardComponent,
+        BarChartCardComponent,
+        BarChartComponent,
+        HeaderComponent,
+        FixedRangeSliderWithTimeComponent
     ],
     imports: [
         CommonModule,
@@ -43,6 +56,7 @@ import {FinancialChartCardComponent} from './components/financial-chart-card/fin
         AngularFireStorageModule,
         HighchartsChartModule,
         IonicModule,
+        PerfectScrollbarModule,
     ],
     exports: [
         TimeAgoPipe,
@@ -50,6 +64,7 @@ import {FinancialChartCardComponent} from './components/financial-chart-card/fin
         MaterialModule,
         ReactiveFormsModule,
         FormsModule,
+        PerfectScrollbarModule,
         RouterModule,
         AngularFirestoreModule,
         AngularFireAuthModule,
@@ -61,9 +76,15 @@ import {FinancialChartCardComponent} from './components/financial-chart-card/fin
         DefaultImgDirective,
         FinancialChartComponent,
         GaugeChartComponent,
-        MillionOrBillionPipe,
+        NumberFormatterPipe,
         GaugeChartCardComponent,
-        FinancialChartCardComponent
+        FinancialChartCardComponent,
+        PieChartComponent,
+        PieChartCardComponent,
+        BarChartCardComponent,
+        BarChartComponent,
+        HeaderComponent,
+        FixedRangeSliderWithTimeComponent
     ],
     entryComponents: [ConfirmDialogComponent],
 })

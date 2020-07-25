@@ -1,0 +1,31 @@
+<ion-grid>
+  <ion-row>
+    <ion-col size-xl="3" size-md="6" size="12">
+      <app-details-financial-strength-card
+              [financialStrength]="stockDetails?.financialStrength"></app-details-financial-strength-card>
+    </ion-col>
+    <ion-col size-xl="3" size-md="6" size="12">
+      <app-details-valuation-card [valuation]="stockDetails?.valuation"></app-details-valuation-card>
+    </ion-col>
+    <ion-col size-xl="6" size="12">
+      <ng-container *ngIf="stockDetails?.chartInfo">
+        <app-bar-chart-card
+                [heightPx]="315"
+                [chartTitle]="'Financial growth'"
+                [data]="[
+                                {name: 'Revenue growth ttm. yoy', y: stockDetails.chartInfo.otherGrowthInformation.revenueGrowthTTMYoy},
+                                {name: 'Revenue growth quarterly yoy', y: stockDetails.chartInfo.otherGrowthInformation.quarterlyRevenueGrowthYOY},
+                                {name: 'EPS growth 5y', y: stockDetails.chartInfo.otherGrowthInformation.epsGrowth5Y},
+                                {name: 'EPS growth quarterly yoy', y: stockDetails.chartInfo.otherGrowthInformation.epsGrowthQuarterlyYOY},
+                                {name: 'Capital spending growth yoy', y: stockDetails.chartInfo.otherGrowthInformation.capitalSpendingGrowth5Y},
+                                {name: 'Book value per share growth 5y', y: stockDetails.chartInfo.otherGrowthInformation.bookValueShareGrowth5Y},
+                                {name: 'Revenue per share growth 5y', y: stockDetails.chartInfo.otherGrowthInformation.revenueShareGrowth5Y},
+                                {name: 'Dividend growth rate 5y', y: stockDetails.chartInfo.otherGrowthInformation.dividendGrowthRate5Y}
+                            ]">
+        </app-bar-chart-card>
+      </ng-container>
+    </ion-col>
+
+
+  </ion-row>
+</ion-grid>

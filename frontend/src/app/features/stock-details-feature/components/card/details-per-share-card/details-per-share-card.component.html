@@ -1,0 +1,62 @@
+<ion-card>
+    <ion-card-header>
+        <ion-card-title class="ion-text-center ion-padding-start ion-padding-top">
+            Financial per share
+        </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+        <ion-list *ngIf="perShare">
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Revenue per share ttm.</ion-label>
+                <ion-label> {{ perShare.revenuePerShareTTM }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Cash flow per share ttm.</ion-label>
+                <ion-label> {{ perShare.cashFlowPerShareTTM }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Cash flow per share an.</ion-label>
+                <ion-label> {{ perShare.cashFlowPerShareAnnual }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Cash per share mrq.</ion-label>
+                <ion-label> {{ perShare.cashPerSharePerShareQuarterly }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Cash per share an.</ion-label>
+                <ion-label> {{ perShare.cashPerSharePerShareAnnual }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">FCF per share ttm.</ion-label>
+                <ion-label> {{ perShare.freeCashFlowPerShareTTM }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">BV. per share mrq.</ion-label>
+                <ion-label> {{ perShare.bookValuePerShareMRQ }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">tangible BV per share mrq.</ion-label>
+                <ion-label> {{ perShare.tangibleBookValuePerShareQuarterly }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">EBITDA per share ttm.</ion-label>
+                <ion-label> {{ perShare.ebitdPerShareTTM }}</ion-label>
+            </ion-item>
+
+
+
+
+        </ion-list>
+    </ion-card-content>
+</ion-card>

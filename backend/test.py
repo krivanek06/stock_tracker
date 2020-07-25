@@ -12,8 +12,8 @@ import queue
 from private_data import enviroments
 
 from datetime import datetime
-
-
+from queue import Queue
+import threading
 StockNews = EconomicNews.EconomicNews()
 YahooFinanceGlobal = YahooFinance.YahooFinance()
 Finhub = Finhub.Finhub()
@@ -24,31 +24,30 @@ stockDetailsService =  StockDetailsService.StockDetailsService()
 
 
 
-'''
+myTime = time.time()
 
 
-res = db.collection('users').where('displayName' , '==','admin').get()
-print(res)
+print('start')
 
 
-'''
+res = get('https://finnhub.io/api/v1/stock/financials-reported?symbol=MSFT&metric=all&token=brsrc5vrh5r9dg9d77pg').json()['data'][0:25]
+#res = get('https://finnhub.io/api/v1/stock/financials-reported?symbol=AAPL&token=brsrc5vrh5r9dg9d77pg').json()
+#for r in res:
+#    print(r)
 
 
-start_time = time.time()
+r = stockDetailsService.getStockFinancialReport('MSFT', '2019')
+print(r)
 
-db = FirestoreService.FirestoreService().initFirestore()
-
-stockNewsArray = [news for news in db.collection('stockData').document('MSFT').collection('stockNews')
-                .order_by('datetime', direction=firestore.firestore.Query.DESCENDING)
-                .limit(10)
-                .stream() ]
-print(len(stockNewsArray))
-for n in stockNewsArray:
-    print(n.to_dict())
+print(time.time() - myTime)
 
 
-for doc in stockNewsArray:
-    doc.reference.delete()
 
-elapsed_time = time.time() - start_time
-print(elapsed_time)
+
+
+
+#res = get('https://finnhub.io/api/v1/stock/metric?symbol=AAPL&metric=all&token=brsrc5vrh5r9dg9d77pg').json()
+#for k,v in r.items(): #res['metric']
+#    print(k, v)
+
+

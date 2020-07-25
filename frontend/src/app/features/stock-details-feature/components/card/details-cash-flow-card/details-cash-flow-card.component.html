@@ -1,0 +1,62 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title class="ion-text-center ion-padding-start ion-padding-top">
+      Cash flow
+    </ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+
+    <ion-list *ngIf="cashflow">
+      <ion-item>
+        <ion-label  position="fixed" class="fixedLabel"></ion-label>
+        <ion-label *ngFor="let d of cashflow.date">{{ d  }}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel"> Free cash flow</ion-label>
+        <ion-label *ngFor="let d of cashflow.Free_Cash_Flow">{{ d | numberFormatter }}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label  position="fixed" class="fixedLabel">End cash </ion-label>
+        <ion-label *ngFor="let d of cashflow.End_Cash_Position">{{ d | numberFormatter }}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label  position="fixed" class="fixedLabel">Capital expenditure </ion-label>
+        <ion-label *ngFor="let d of cashflow.Capital_Expenditure">{{ d | numberFormatter }}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel"> Investing cash flow</ion-label>
+        <ion-label *ngFor="let d of cashflow.Investing_Cash_Flow">{{ d | numberFormatter }}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Financial cash flow </ion-label>
+        <ion-label *ngFor="let d of cashflow.Financing_Cash_Flow">{{ d | numberFormatter }}</ion-label>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel"> Operating cash flow</ion-label>
+        <ion-label *ngFor="let d of cashflow.Operating_Cash_Flow">{{ d | numberFormatter }}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel"> Repayment of debt</ion-label>
+        <ion-label *ngFor="let d of cashflow.Repayment_of_Debt">{{ d | numberFormatter }}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel"> Purchase of stock</ion-label>
+        <ion-label *ngFor="let d of cashflow.Repurchase_of_Capital_Stock">{{ d | numberFormatter }}</ion-label>
+      </ion-item>
+
+
+
+
+    </ion-list>
+  </ion-card-content>
+</ion-card>
+

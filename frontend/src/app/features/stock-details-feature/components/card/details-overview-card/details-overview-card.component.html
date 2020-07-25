@@ -1,0 +1,109 @@
+<ion-card>
+    <ion-card-content>
+        <ion-grid *ngIf="overview && basicInfo">
+            <ion-row>
+                <!-- logo -->
+                <ion-col size="4">
+                    <ion-img [src]="basicInfo.logoUrl" (click)="clickedCompanyImage()" class="clickable"></ion-img>
+                </ion-col>
+                <!-- buy / sell / favourite button -->
+                <ion-col size="8" style="display: inline-grid;" class="ion-padding-start ion-padding-end">
+                    <ion-button color="success" class="ion-margin-bottom" (click)="buySymbol()">
+                        Buy
+                    </ion-button>
+                    <ion-button color="danger" class="ion-margin-bottom" (click)="sellSymbol()">
+                        Sell
+                    </ion-button>
+                    <ion-button color="warning" class="ion-margin-bottom" (click)="addToFavourites()">
+                        Add to favourites
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+
+            <!-- 52 week price range -->
+            <ion-row style="margin-top: 5px;">
+                <ion-col size="12" class="ion-align-items-center">
+                    <ion-title class="ion-text-center">52 week range</ion-title>
+                    <app-fixed-range-slider [min]="overview.weekLow52"
+                                            [max]="overview.weekHigh52"
+                                            [value]="overview.currentPrice"
+                                            [valueDisplayName]="overview.currentPrice + '$'"
+                                            [minDisplayName]="overview.weekLow52 + '$'"
+                                            [maxDisplayName]="overview.weekHigh52 + '$'"
+                    >
+                    </app-fixed-range-slider>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+
+        <ion-list *ngIf="basicInfo && overview" style="margin-top: 16px;" >
+           <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Name</ion-label>
+                <ion-label style="font-weight: bold; color: #b46305;"> {{ basicInfo.shortName }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Price</ion-label>
+                <ion-label>
+                    <span class="ion-margin-end">{{overview.currentPrice | currency}}</span >
+                    <span  [ngClass]="{
+                        'price-up': overview.currentPrice - overview.previousClose >= 0,
+                        'price-down': overview.currentPrice - overview.previousClose < 0}"
+                    >
+                        {{ overview.currentPrice - overview.previousClose | currency }}
+                        ({{ 100 / overview.previousClose * overview.currentPrice - 100 | number }}%)
+                    </span >
+                </ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Shares outstanding</ion-label>
+                <ion-label> {{ basicInfo.sharesOutstanding | numberFormatter}}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Sector</ion-label>
+                <ion-label> {{ basicInfo.sector }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Employees</ion-label>
+                <ion-label> {{ basicInfo.fullTimeEmployees }}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Employee income</ion-label>
+                <ion-label> {{ basicInfo.netIncomeEmployeeAnnual | numberFormatter}}</ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Employee revenue</ion-label>
+                <ion-label> {{ basicInfo.revenueEmployeeAnnual | numberFormatter }}</ion-label>
+            </ion-item>
+
+          <!--  <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Exchange</ion-label>
+                <ion-label> {{ basicInfo.exchangeTimezoneName }}</ion-label>
+            </ion-item> -->
+
+            <ion-item>
+                <ion-label position="fixed" class="fixedLabel">Residence</ion-label>
+                <ion-label>
+                    {{ basicInfo.city }},
+                    <span *ngIf="basicInfo.state"> {{ basicInfo.state }}, </span>
+                    {{ basicInfo.country }}
+                </ion-label>
+            </ion-item>
+
+            <ion-item [href]="basicInfo.website"  class="clickable"  target="_blank" rel="noopener noreferrer">
+                <ion-label position="fixed" class="fixedLabel">Website</ion-label>
+                <ion-label style="color: #045aff"> {{ basicInfo.website }}</ion-label>
+            </ion-item>
+
+
+        </ion-list>
+
+
+    </ion-card-content>
+</ion-card>
