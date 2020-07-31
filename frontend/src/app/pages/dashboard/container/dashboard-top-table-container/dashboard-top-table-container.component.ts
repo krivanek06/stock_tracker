@@ -2,11 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {StockApiService} from '../../../../core/api/stock-api.service';
 import {MatDialog} from '@angular/material/dialog';
-import {WatchlistModalContainerComponent} from '../../../../features/stock-tracker/container/modal/watchlist-selector-modal-container/watchlist-modal-container.component';
+import {WatchlistPickerModalContainerComponent} from '../../../../features/stock-watchlist-feature/container/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
 import {ChartDataIdentification} from '../../../../shared/models/chartModel';
-import {TopStockTableData} from '../../../../features/stock-tracker/model/tableModel';
+import {TopStockTableData} from '../../../../features/stock-watchlist-feature/model/tableModel';
 import {ModalController, PopoverController} from '@ionic/angular';
-import {FinancialChartCardModalContainerComponent} from '../../../../features/stock-tracker/container/modal/financial-chart-card-modal-container/financial-chart-card-modal-container.component';
+import {FinancialChartCardModalContainerComponent} from '../../../../features/stock-tracker-feature/container/modal/financial-chart-card-modal-container/financial-chart-card-modal-container.component';
 
 @Component({
     selector: 'app-dashboard-top-table-container',

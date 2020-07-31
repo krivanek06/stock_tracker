@@ -57,7 +57,6 @@ export class FinancialChartComponent implements OnInit, OnChanges {
         const self = this;
 
         this.chartCallback = (chart) => {
-            console.log('chartCallback', chart);
             self.chart = chart;
         };
     }

@@ -21,7 +21,7 @@ export class DetailsOverviewCardComponent implements OnInit {
 
 
     ngOnInit() {
-        console.log(this.overview);
+
     }
 
     buySymbol() {

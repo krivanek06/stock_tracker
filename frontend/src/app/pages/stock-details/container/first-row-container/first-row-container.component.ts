@@ -7,6 +7,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Subject} from 'rxjs';
 import {ModalController, PopoverController} from '@ionic/angular';
 import {DetailsSummaryModalComponent} from '../../../../features/stock-details-feature/components/modal/details-summary-modal/details-summary-modal.component';
+import {WatchlistPickerModalContainerComponent} from '../../../../features/stock-watchlist-feature/container/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
 
 @Component({
     selector: 'app-first-row-container',
@@ -45,12 +46,21 @@ export class FirstRowContainerComponent implements OnInit, OnDestroy {
     }
 
     async showSummary() {
-        const popover = await this.modalController.create({
+        const modal = await this.modalController.create({
             component: DetailsSummaryModalComponent,
             componentProps: {basicInfo: this.stockDetails.basicInfo},
             cssClass: 'custom-modal'
         });
-        return await popover.present();
+        return await modal.present();
+    }
+
+    async showWatchlist() {
+        const modal = await this.modalController.create({
+            component: WatchlistPickerModalContainerComponent,
+            componentProps: {symbol: this.symbol},
+            cssClass: 'custom-modal'
+        });
+        return await modal.present();
     }
 }
 

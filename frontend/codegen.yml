@@ -1,0 +1,14 @@
+# Where to get schema data
+schema:
+  - http://localhost:4000/graphql/
+# The client side queries to turn into services
+# everything -> src/**/*.graphql
+documents:
+  - src/graphql/watchlist.graphql
+# Where to output the services and the list of plugins
+generates:
+  ./src/app/core/services/private/watchlistGraphql.service.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-apollo-angular

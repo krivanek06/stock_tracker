@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs';
-import {NewsArticle} from '../../../../features/stock-tracker/model/newsModel';
+import {NewsArticle} from '../../../../features/stock-tracker-feature/model/newsModel';
 import {StockApiService} from '../../../../core/api/stock-api.service';
 
 @Component({

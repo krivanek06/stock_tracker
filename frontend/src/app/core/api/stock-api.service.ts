@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {StockTrackerModule} from '../../features/stock-tracker/stock-tracker.module';
+import {StockWatchlistModule} from '../../features/stock-watchlist-feature/stock-watchlist.module';
 import {
     HttpClient,
     HttpParams,
@@ -12,22 +12,20 @@ import {
 import {environment} from '../../../environments/environment';
 import {map, retry, tap} from 'rxjs/operators';
 import {
-    StockTableData,
-    StockWatchTableDataWrapper,
     TopActive,
     TopCrypto,
     TopGains,
     TopLosers,
     TopStockTableData,
     TopTableData,
-} from '../../features/stock-tracker/model/tableModel';
-import {EarningsCalendar, EarningsCalendarWrapper} from '../../features/stock-tracker/model/earningsCalendarModel';
-import {NewsArticle, NewsArticleWrapper} from '../../features/stock-tracker/model/newsModel';
+} from '../../features/stock-watchlist-feature/model/tableModel';
+import {EarningsCalendar, EarningsCalendarWrapper} from '../../features/stock-tracker-feature/model/earningsCalendarModel';
+import {NewsArticle, NewsArticleWrapper} from '../../features/stock-tracker-feature/model/newsModel';
 import {StockArticle, StockArticleWrapper, StockDetails} from '../../features/stock-details-feature/model/stockDetails';
 import {FinancialReport} from '../../features/stock-details-feature/model/financialReportModel';
 
 @Injectable({
-    providedIn: StockTrackerModule,
+    providedIn: 'root',
 })
 export class StockApiService {
     constructor(private http: HttpClient) {
@@ -100,7 +98,7 @@ export class StockApiService {
             .pipe(map((res) => res.earnings));
     }
 
-    getStockTableData(symbol: string): Observable<StockTableData> {
+   /* getStockTableData(symbol: string): Observable<StockTableData> {
         const params = new HttpParams().set('symbol', symbol);
         return this.http
             .get<StockWatchTableDataWrapper>(
@@ -108,7 +106,7 @@ export class StockApiService {
                 {params}
             )
             .pipe(map((res) => res.stockTableData));
-    }
+    }*/
 
 
     getStockDetails(symbol: string): Observable<StockDetails> {

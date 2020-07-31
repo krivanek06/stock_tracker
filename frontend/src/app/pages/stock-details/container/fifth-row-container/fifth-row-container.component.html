@@ -1,17 +1,17 @@
 <ion-grid>
   <ion-row>
 
-    <ion-col size-lg="5" size="12">
+    <ion-col size-xl="5" size="12">
       <app-details-revenue-growth-slider-card
               [revenueEst]="stockDetails?.analysis.revenueEstimate">
       </app-details-revenue-growth-slider-card>
     </ion-col>
-    <ion-col size-lg="5" size-md="6" size="12">
+    <ion-col size-xl="5" size-md="9" size="12">
       <app-details-recommendation-chart-card
               [recommendations]="stockDetails?.recommendation">
       </app-details-recommendation-chart-card>
     </ion-col>
-    <ion-col size-lg="2"  size-md="6" size="12">
+    <ion-col size-xl="2" size-md="3" size="12">
       <app-details-financial-report-names-card
               [financialReports]="stockDetails?.financialReports"
               (financialReportEmitter)="showFinancialReport($event)">
