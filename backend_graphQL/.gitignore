@@ -1,0 +1,4 @@
+node_modules/
+firebase_key.json
+lib/
+src/enviroment.ts

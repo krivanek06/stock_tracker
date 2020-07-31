@@ -4,6 +4,7 @@
             <!-- basic info -> buy / sell / favourites buttons -->
             <app-details-overview-card [overview]="stockDetails.overview"
                                        [basicInfo]="stockDetails.basicInfo"
+                                       (favouritesEmitter)="showWatchlist()"
                                        (showSummaryEmitter)="showSummary()">
             </app-details-overview-card>
         </ion-col>

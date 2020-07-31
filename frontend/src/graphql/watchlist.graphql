@@ -1,0 +1,61 @@
+## FRAGMENTS
+fragment StockWatchlistInformation on  StockWatchlist{
+    id
+    documentId
+    timestamp
+    stocks
+    stocksOverview {
+        id
+        symbol
+        currentPrice
+        weekHigh52
+        weekLow52
+        previousClose
+        earningsDate
+        exDividendDate
+        forwardDividendAndYield
+        targetEst1y
+    }
+}
+
+
+## QUERY
+query userStcokWatchlists($uid: String!) {
+  stockWatchlist(uid: $uid) {
+      ...StockWatchlistInformation
+  }
+}
+
+
+## MUTATION
+mutation CreateStockWatchlist($identifier: StockWatchlistCommonData!) {
+  createStockWatchlist(identifier: $identifier) {
+      ...StockWatchlistInformation
+  }
+}
+
+
+mutation AddStockIntoWatchlist($identifier: StockWatchlistIdentifier!){
+  addStockIntoStockWatchlist(identifier: $identifier ){
+      id
+      symbol
+      currentPrice
+      weekHigh52
+      weekLow52
+      previousClose
+      earningsDate
+      exDividendDate
+      forwardDividendAndYield
+      targetEst1y
+ }
+
+}
+
+mutation RemoveStockFromWatchlist($identifier: StockWatchlistIdentifier!){
+  removeStockFromStockWatchlist(identifier: $identifier )
+}
+
+
+mutation DeleteUserWatchlist($identifier: StockWatchlistIdentifier!){
+  deleteWatchlist(identifier: $identifier )
+}

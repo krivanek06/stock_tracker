@@ -4,7 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {Routes, RouterModule} from '@angular/router';
 import {IonicModule} from '@ionic/angular';
 import {StockDetailsPage} from './stock-details.page';
-import {StockTrackerModule} from '../../features/stock-tracker/stock-tracker.module';
+import {StockWatchlistModule} from '../../features/stock-watchlist-feature/stock-watchlist.module';
 import {SharedModule} from '../../shared/shared.module';
 import {FirstRowContainerComponent} from './container/first-row-container/first-row-container.component';
 import {SecondRowContainerComponent} from './container/second-row-container/second-row-container.component';
@@ -15,6 +15,7 @@ import {SixthRowContainerComponent} from './container/sixth-row-container/sixth-
 import {SeventhRowContainerComponent} from './container/seventh-row-container/seventh-row-container.component';
 import {EigthRowContainerComponent} from './container/eigth-row-container/eigth-row-container.component';
 import {StockDetailsFeatureModule} from '../../features/stock-details-feature/stock-details-feature.module';
+import {StockTrackerFeatureModule} from '../../features/stock-tracker-feature/stock-tracker-feature.module';
 
 const routes: Routes = [
     {
@@ -29,9 +30,10 @@ const routes: Routes = [
         FormsModule,
         IonicModule,
         RouterModule.forChild(routes),
-        StockTrackerModule,
+        StockWatchlistModule,
         SharedModule,
-        StockDetailsFeatureModule
+        StockDetailsFeatureModule,
+        StockTrackerFeatureModule
     ],
     declarations: [
         StockDetailsPage,
