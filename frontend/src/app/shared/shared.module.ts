@@ -25,6 +25,7 @@ import {BarChartComponent} from './components/charts/bar-chart/bar-chart.compone
 import {HeaderComponent} from './components-smart/header/header.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import {FixedRangeSliderWithTimeComponent} from './components/charts/fixed-range-slider-with-time/fixed-range-slider-with-time.component';
+import {ApolloModule} from 'apollo-angular';
 
 @NgModule({
     declarations: [
@@ -57,6 +58,7 @@ import {FixedRangeSliderWithTimeComponent} from './components/charts/fixed-range
         HighchartsChartModule,
         IonicModule,
         PerfectScrollbarModule,
+        ApolloModule
     ],
     exports: [
         TimeAgoPipe,
@@ -84,6 +86,7 @@ import {FixedRangeSliderWithTimeComponent} from './components/charts/fixed-range
         BarChartCardComponent,
         BarChartComponent,
         HeaderComponent,
+        ApolloModule,
         FixedRangeSliderWithTimeComponent
     ],
     entryComponents: [ConfirmDialogComponent],

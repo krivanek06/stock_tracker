@@ -99,6 +99,7 @@ class YahooFinanceDataModification:
             # 'volume': merge.get('volume', None),
             # 'averageVolume': merge.get('averageVolume', None),
             # 'volumePercent': merge.get('volumePercent', None),
+            'id': merge.get('symbol', None),
             'symbol': merge.get('symbol', None),
             'currentPrice': merge.get('currentPrice', None),
             'currentPriceChange': merge.get('currentPriceChange', None),
