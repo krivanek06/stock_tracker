@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { WatchlistPage } from './watchlist.page';
-import {StockTrackerModule} from '../../features/stock-tracker/stock-tracker.module';
+import {StockWatchlistModule} from '../../features/stock-watchlist-feature/stock-watchlist.module';
 
 const routes: Routes = [
   {
@@ -20,7 +20,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    StockTrackerModule,
+    StockWatchlistModule,
     RouterModule.forChild(routes)
   ],
   declarations: [WatchlistPage]

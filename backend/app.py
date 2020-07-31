@@ -99,15 +99,15 @@ def getTopCrypto():
         print(e)
         raise JsonError(status=500, error='Failed to get top crypto')
 '''
-'''
-@app.route('/api/ticker/watchlist_summary')
+
+@app.route('/api/ticker/details/overview')
 def getWatchlistTickerSummary():
     try:
-        return json_response(stockTableData=YahooFinance.getTickerSummary(request.args.get('symbol')))
+        return json_response(**stockDetails.getStockStockOverview(request.args.get('symbol')))
     except Exception as e:
         print(e)
         raise JsonError(status=400, error='Could not find summary for ticker')
-'''
+
 
 @app.route('/api/ticker/details/financial_report')
 def getStockFinancialReport():
