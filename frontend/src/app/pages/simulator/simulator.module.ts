@@ -1,26 +1,29 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {Routes, RouterModule} from '@angular/router';
 
-import { IonicModule } from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 
-import { SimulatorPage } from './simulator.page';
+import {SimulatorPage} from './simulator.page';
+import {SharedModule} from '../../shared/shared.module';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: SimulatorPage
-  }
+    {
+        path: '',
+        component: SimulatorPage
+    }
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RouterModule.forChild(routes)
-  ],
-  declarations: [SimulatorPage]
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        SharedModule,
+        RouterModule.forChild(routes)
+    ],
+    declarations: [SimulatorPage]
 })
-export class SimulatorPageModule {}
+export class SimulatorPageModule {
+}

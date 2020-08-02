@@ -66,7 +66,7 @@ export class PieChartComponent implements OnInit, OnChanges {
         pie: {
           allowPointSelect: true,
           cursor: 'pointer',
-          colors: ['#2FA811', '#B60808'],
+          // colors: [, ''],
           dataLabels: {
             enabled: true,
             format: '<b>{point.name}</b><br>{point.percentage:.1f} %',

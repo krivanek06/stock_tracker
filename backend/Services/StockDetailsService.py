@@ -20,7 +20,7 @@ class StockDetailsService:
     '''
         Return overview if in firestore, else load from yahoo finance
         Side effect -> start thread to save fundamentals into firestore if does not exist
-    '''
+    
     def getStockStockOverview(self, symbol):
         stockDetailsDict = self.db.collection('stockData').document(symbol).get().to_dict()
         if stockDetailsDict is not None and 'details' in stockDetailsDict and 'overview' in stockDetailsDict['details']:
@@ -37,6 +37,8 @@ class StockDetailsService:
 
 
         return overview
+    '''
+
 
     '''
         return details with latest 10 news
@@ -191,7 +193,6 @@ class StockDetailsService:
             'overViewLastUpdate': datetime.today(),
             'newsLastUpdate': datetime.today(),
             'newsLastDelete': datetime.today(),
-            'symbol': symbol,
             'financialReportsLastUpdate': datetime.today()
         })
 
@@ -210,6 +211,7 @@ class StockDetailsService:
 
         stockNewsArray = merge['stockNews']
         details = merge['details']
+        details['id'] = symbol
         details['stockNewsSnippets'] = stockNewsArray[:15]
 
         self.__modifyDetailsToFirebase(symbol, {'details': details})

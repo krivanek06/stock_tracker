@@ -1,13 +1,23 @@
 import {Injectable} from '@angular/core';
 import {
     AddStockIntoWatchlistGQL,
-    CreateStockWatchlistGQL, CreateStockWatchlistMutation, Maybe,
-    StockWatchlistIdentifier, StockWatchlistInformationFragment, UserStcokWatchlistsDocument,
-    UserStcokWatchlistsGQL, UserStcokWatchlistsQuery
+    AddStockIntoWatchlistMutation,
+    CreateStockWatchlistGQL,
+    CreateStockWatchlistMutation,
+    DeleteUserWatchlistGQL,
+    Maybe,
+    QueryUserStockWatchlistsDocument,
+    QueryUserStockWatchlistsGQL,
+    QueryUserStockWatchlistsQuery,
+    RemoveStockFromWatchlistGQL,
+    RenameStockWatchlistGQL,
+    StockWatchlistIdentifier,
+    StockWatchlistInformationFragment,
 } from '../private/watchlistGraphql.service';
 import {map, shareReplay} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {FetchResult} from 'apollo-link';
+import {IonicDialogService} from '../../../shared/services/ionic-dialog.service';
 
 @Injectable({
     providedIn: 'root'
@@ -16,52 +26,54 @@ export class WatchlistService {
 
     constructor(private createStockWatchlistGQL: CreateStockWatchlistGQL,
                 private addStockIntoWatchlistGQL: AddStockIntoWatchlistGQL,
-                private userStockWatchlistsGQL: UserStcokWatchlistsGQL) {
+                private deleteUserWatchlistGQL: DeleteUserWatchlistGQL,
+                private renameStockWatchlistGQL: RenameStockWatchlistGQL,
+                private removeStockFromWatchlistGQL: RemoveStockFromWatchlistGQL,
+                private queryUserStockWatchlistsGQL: QueryUserStockWatchlistsGQL) {
     }
 
 
     getUserStockWatchlists(userId: string): Observable<Array<Maybe<{ __typename?: 'StockWatchlist' } & StockWatchlistInformationFragment>> | null> {
-        return this.userStockWatchlistsGQL.watch({
+        return this.queryUserStockWatchlistsGQL.watch({
             uid: userId
         }).valueChanges.pipe(
-            map(res => res.data.stockWatchlist)
+            map(res => res.data.queryUserStockWatchlists)
         );
     }
 
     createWatchList(identifier: StockWatchlistIdentifier): Observable<FetchResult<CreateStockWatchlistMutation>> {
         return this.createStockWatchlistGQL.mutate({
                 identifier: {
-                    id: identifier.id,
-                    userId: identifier.userId
+                    userId: identifier.userId,
+                    additionalData: identifier.additionalData
                 },
             }, {
                 optimisticResponse: {
                     __typename: 'Mutation',
                     createStockWatchlist: {
                         __typename: 'StockWatchlist',
-                        id: identifier.id,
+                        name: identifier.additionalData,
                         timestamp: new Date().getTime(),
-                        documentId: undefined,
-                        stocksOverview: [],
-                        stocks: []
-
+                        id: 'test',
+                        stocks: [],
+                        stocksDetails: []
                     }
                 },
                 update: (store, {data: {createStockWatchlist}}) => {
                     // fetch user's watchlist array from cache
-                    const data = store.readQuery<UserStcokWatchlistsQuery>({
-                        query: UserStcokWatchlistsDocument,
+                    const data = store.readQuery<QueryUserStockWatchlistsQuery>({
+                        query: QueryUserStockWatchlistsDocument,
                         variables: {
                             uid: identifier.userId
                         }
                     });
 
                     // add newly created watchlist into array
-                    data.stockWatchlist = [...data.stockWatchlist, createStockWatchlist];
+                    data.queryUserStockWatchlists = [...data.queryUserStockWatchlists, createStockWatchlist];
 
                     // update cache
                     store.writeQuery({
-                        query: UserStcokWatchlistsDocument,
+                        query: QueryUserStockWatchlistsDocument,
                         variables: {
                             uid: identifier.userId
                         },
@@ -73,49 +85,165 @@ export class WatchlistService {
         );
     }
 
+    renameStockWatchlist(identifier: StockWatchlistIdentifier) {
+        return this.renameStockWatchlistGQL.mutate({
+            identifier: {
+                id: identifier.id,
+                userId: identifier.userId,
+                additionalData: identifier.additionalData
+            },
+        }, {
+            optimisticResponse: {
+                __typename: 'Mutation',
+                renameStockWatchlist: true
+            },
+            update: (store, {data: {renameStockWatchlist}}) => {
+                const data = store.readQuery<QueryUserStockWatchlistsQuery>({
+                    query: QueryUserStockWatchlistsDocument,
+                    variables: {
+                        uid: identifier.userId,
+                    }
+                });
+                const watchlist = data.queryUserStockWatchlists.find(list => list.id === identifier.id);
+                console.log(`renaming ${watchlist.name} into ${identifier.additionalData}`);
+                watchlist.name = identifier.additionalData;
 
-    addSymbolToWatchlist(identifier: StockWatchlistIdentifier): Observable<FetchResult<CreateStockWatchlistMutation>> {
+                // update watchlist inside cache
+                store.writeQuery({
+                    query: QueryUserStockWatchlistsDocument,
+                    variables: {
+                        uid: identifier.userId
+                    },
+                    data
+                });
+            }
+        });
+    }
+
+    deleteUserWatchlist(identifier: StockWatchlistIdentifier) {
+        return this.deleteUserWatchlistGQL.mutate({
+            identifier: {
+                id: identifier.id,
+                userId: identifier.userId,
+                additionalData: identifier.additionalData
+            },
+        }, {
+            optimisticResponse: {
+                __typename: 'Mutation',
+                deleteWatchlist: true
+            },
+            update: (store, {data: {deleteWatchlist}}) => {
+                const data = store.readQuery<QueryUserStockWatchlistsQuery>({
+                    query: QueryUserStockWatchlistsDocument,
+                    variables: {
+                        uid: identifier.userId
+                    }
+                });
+                data.queryUserStockWatchlists = data.queryUserStockWatchlists.filter(x => x.id !== identifier.id);
+                console.log('deleting document : ', identifier.id);
+
+                // update watchlist inside cache
+                store.writeQuery({
+                    query: QueryUserStockWatchlistsDocument,
+                    variables: {
+                        uid: identifier.userId
+                    },
+                    data
+                });
+            }
+        });
+    }
+
+
+    removeStockFromWatchlist(identifier: StockWatchlistIdentifier) {
+        return this.removeStockFromWatchlistGQL.mutate({
+            identifier: {
+                id: identifier.id,
+                userId: identifier.userId,
+                additionalData: identifier.additionalData
+            },
+        }, {
+            optimisticResponse: {
+                __typename: 'Mutation',
+                removeStockFromStockWatchlist: true
+            },
+            update: (store, {data: {removeStockFromStockWatchlist}}) => {
+                const data = store.readQuery<QueryUserStockWatchlistsQuery>({
+                    query: QueryUserStockWatchlistsDocument,
+                    variables: {
+                        uid: identifier.userId
+                    }
+                });
+                const watchlist = data.queryUserStockWatchlists.find(list => list.id === identifier.id);
+                // filter out removing stock
+                watchlist.stocks = watchlist.stocks.filter(x => x !== identifier.additionalData);
+                watchlist.stocksDetails = watchlist.stocksDetails.filter(x => x.id !== identifier.additionalData);
+
+                // update watchlist inside cache
+                store.writeQuery({
+                    query: QueryUserStockWatchlistsDocument,
+                    variables: {
+                        uid: identifier.userId
+                    },
+                    data
+                });
+            }
+        });
+    }
+
+
+    addSymbolToWatchlist(identifier: StockWatchlistIdentifier): Observable<FetchResult<AddStockIntoWatchlistMutation>> {
         return this.addStockIntoWatchlistGQL.mutate({
             identifier: {
                 id: identifier.id,
-                documentId: identifier.documentId,
                 userId: identifier.userId,
-                stockName: identifier.stockName
+                additionalData: identifier.additionalData
             }
         }, {
             optimisticResponse: {
                 __typename: 'Mutation',
                 addStockIntoStockWatchlist: {
-                    __typename: 'OverView',
+                    __typename: 'StockDetails',
                     id: 'TEST',
-                    symbol: identifier.stockName,
-                    currentPrice: 123,
-                    earningsDate: '12.5',
-                    exDividendDate: '12.5',
-                    forwardDividendAndYield: '12.5',
-                    previousClose: 56,
-                    targetEst1y: 45,
-                    weekHigh52: 22,
-                    weekLow52: 33
+                    basicInfo: {
+                        __typename: 'BasicInfo',
+                        industry: 'test',
+                        logoUrl: 'test',
+                        sector: 'test',
+                        shortName: 'test',
+                        website: 'test'
+                    },
+                    overview: {
+                        __typename: 'OverView',
+                        symbol: identifier.additionalData,
+                        currentPrice: -1,
+                        earningsDate: 'test',
+                        exDividendDate: 'test',
+                        forwardDividendAndYield: 'test',
+                        previousClose: -1,
+                        targetEst1y: -1,
+                        weekHigh52: -1,
+                        weekLow52: -1
+                    }
                 }
 
             },
             update: (store, {data: {addStockIntoStockWatchlist}}) => {
-                const data = store.readQuery<UserStcokWatchlistsQuery>({
-                    query: UserStcokWatchlistsDocument,
+                const data = store.readQuery<QueryUserStockWatchlistsQuery>({
+                    query: QueryUserStockWatchlistsDocument,
                     variables: {
                         uid: identifier.userId
                     }
                 });
-                const watchlist = data.stockWatchlist.find(list => list.documentId === identifier.documentId);
-
+                const watchlist = data.queryUserStockWatchlists.find(list => list.id === identifier.id);
+                console.log('adding addStockIntoStockWatchlist into watchlist', addStockIntoStockWatchlist);
                 // update watchlist with stock information
-                watchlist.stocks = [...watchlist.stocks, identifier.stockName];
-                watchlist.stocksOverview = [...watchlist.stocksOverview, addStockIntoStockWatchlist];
+                watchlist.stocks = [...watchlist.stocks, identifier.additionalData];
+                watchlist.stocksDetails = [...watchlist.stocksDetails, addStockIntoStockWatchlist];
 
                 // update watchlist inside cache
                 store.writeQuery({
-                    query: UserStcokWatchlistsDocument,
+                    query: QueryUserStockWatchlistsDocument,
                     variables: {
                         uid: identifier.userId
                     },
@@ -124,4 +252,6 @@ export class WatchlistService {
             },
         });
     }
+
+
 }

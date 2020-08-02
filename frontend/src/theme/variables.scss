@@ -1,5 +1,6 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
+@import "./src/app/shared/styles/custom-variable";
 
 * {
   padding: 0;
@@ -269,7 +270,7 @@
     ion-item {
       --background: transparent;
       --border-style: none;
-      --color: #b8b8b8;
+      --color: #{$default-word};
     }
 
     ion-content {
@@ -278,30 +279,30 @@
 
         ion-list-header {
           ion-label {
-            --color: #b8b8b8;
+            --color: #{$default-word};
           }
         }
 
         ion-item {
-          --color: #979797;
+          --color: #{$default-word};
         }
       }
     }
 
     ion-card {
       --background: linear-gradient(180deg, rgb(0, 3, 32) 0%, rgb(0, 8, 62) 100%);
-      --color: #b8b8b8;
+      --color: #{$default-word};
 
       ion-card-header {
         --background-color: transparent;
 
         ion-card-title {
-          --color: #996a05;
+          --color: #{$orange-title-light};
           font-weight: bold;
         }
 
         ion-card-subtitle {
-          --color: #b8b8b8;
+          --color: #{$default-word};
         }
       }
 
@@ -312,7 +313,7 @@
           ion-item {
             --background: transparent;
             --border-style: none;
-            --color: #b8b8b8;
+            --color: #{$default-word};
           }
         }
       }
@@ -321,14 +322,14 @@
     ion-header {
       ion-toolbar {
         /* --background: linear-gradient(180deg, rgb(1, 18, 49) 0%, rgb(1, 0, 60) 55%, rgb(3, 1, 75) 100%);*/
-        --background: #05052f !important;
-        --color: #979797 !important;
+        --background: #{$background-blue} !important;
+        --color: #{$default-word} !important;
       }
     }
 
     ion-content {
       --background: linear-gradient(90deg, rgb(0, 18, 49) 0%, rgb(2, 1, 56) 55%, rgb(1, 0, 34) 100%);
-      --color: #979797;
+      --color: #{$default-word};
     }
 
     ion-toolbar {
@@ -337,18 +338,18 @@
 
 
     ion-menu {
-      --background: #05052f !important;
+      --background: #{$background-blue} !important;
 
       ion-content {
-        --background: #05052f !important;
+        --background: #{$background-blue} !important;
 
         ion-list {
-          background: #05052f !important;
+          background: #{$background-blue} !important;
         }
 
         ion-item {
-          --background: #05052f !important;
-          --color: #adadad !important;
+          --background: #{$background-blue} !important;
+          --color: #{$default-word} !important;
         }
       }
     }

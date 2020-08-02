@@ -5,10 +5,10 @@ export interface StockData {
     newsLastDelete: Date
     newsLastUpdate: Date
     overViewLastUpdate: Date
-    symbol: string;
 }
 
 export interface StockDetails {
+    id: string;
     basicInfo: BasicInfo;
     chartInfo: ChartInfo;
     dividend: Dividend;
