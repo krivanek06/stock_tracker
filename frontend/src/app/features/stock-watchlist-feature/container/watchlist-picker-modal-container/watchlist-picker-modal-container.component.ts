@@ -1,14 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ModalController, NavParams} from '@ionic/angular';
-import {
-    AddStockIntoWatchlistGQL,
-    CreateStockWatchlistGQL, UserStcokWatchlistsQuery,
-    UserStcokWatchlistsGQL, UserStcokWatchlistsDocument,
-} from '../../../../core/services/private/watchlistGraphql.service';
-import {map, tap} from 'rxjs/operators';
 import {StockWatchlist, StockWatchlistIdentifier} from '../../model/tableModel';
-import gql from 'graphql-tag';
 import {WatchlistService} from '../../../../core/services/public/watchlist.service';
 
 @Component({
@@ -17,25 +9,21 @@ import {WatchlistService} from '../../../../core/services/public/watchlist.servi
     styleUrls: ['./watchlist-picker-modal-container.component.scss']
 })
 export class WatchlistPickerModalContainerComponent implements OnInit {
-    inputForm: FormGroup;
     symbol: string;
-    showForm = false;
 
     private DELETE_THIS_LATER = '7eYTErOxXugeHg4JHLS1L5ZKosK2';
 
-    constructor(private formBuilder: FormBuilder,
-                private navParams: NavParams,
+    constructor(private navParams: NavParams,
                 private watchlistService: WatchlistService,
                 private modalController: ModalController) {
         this.symbol = this.navParams.get('symbol');
     }
 
-    stockWatchListTable$ = this.watchlistService.getUserStockWatchlists(this.DELETE_THIS_LATER);
+    stockWatchLists$ = this.watchlistService.getUserStockWatchlists(this.DELETE_THIS_LATER);
 
 
     ngOnInit(): void {
-        this.stockWatchListTable$.subscribe(console.log); // delete later
-        this.initFormGroup();
+        this.stockWatchLists$.subscribe(console.log); // delete later
     }
 
 
@@ -46,7 +34,7 @@ export class WatchlistPickerModalContainerComponent implements OnInit {
     addSymbolToWatchlist(watchListId: string, documentId: string) {
         const identifier: StockWatchlistIdentifier = {
             userId: this.DELETE_THIS_LATER,
-            stockName: this.symbol,
+            additionalData: this.symbol,
             documentId,
             id: watchListId
         };
@@ -57,39 +45,11 @@ export class WatchlistPickerModalContainerComponent implements OnInit {
     }
 
 
-    createWatchList() {
-        if (this.inputForm.invalid) {
-            console.log('invalid form');
-            return;
-        }
-
-        this.watchlistService.createWatchList({userId: this.DELETE_THIS_LATER, id: this.watchlistName.value})
+    createWatchList(watchlistName: string) {
+        this.watchlistService.createWatchList({userId: this.DELETE_THIS_LATER, additionalData: watchlistName})
             .subscribe(res => {
                 console.log(res);
             });
-
-
-        this.initFormGroup();
-    }
-
-
-    initFormGroup() {
-        this.inputForm = this.formBuilder.group({
-            watchlistName: ['', [
-                Validators.required,
-                Validators.maxLength(20)
-            ]]
-        });
-    }
-
-    toggleShowFormButton() {
-        this.showForm = !this.showForm;
-        this.initFormGroup();
-    }
-
-
-    get watchlistName() {
-        return this.inputForm.get('watchlistName');
     }
 
 }

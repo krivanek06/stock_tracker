@@ -25,9 +25,34 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+@import "./app/shared/styles/custom-variable";
 
+// class to add for each modal
 .custom-modal .modal-wrapper {
   @media (min-width: 800px) {
     width: 65% !important;
   }
 }
+
+// class to add for each alert
+.my-custom-alert-class .alert-wrapper {
+  background: #{$background-blue};
+
+  .alert-message {
+    color: #dadada;
+  }
+  @media (min-width: 800px) {
+    min-width: 550px !important;
+  }
+}
+
+
+// class to add for each ion-content
+.content-padding {
+  padding: 16px;
+  @media (max-width: 800px) {
+    padding: 2px;
+  }
+}
+
+

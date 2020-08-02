@@ -7,7 +7,6 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import {MaterialModule} from '../material.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AngularFireStorageModule} from '@angular/fire/storage';
-import {ConfirmDialogComponent} from './components/dialog/confirm-dialog/confirm-dialog.component';
 import {IonicModule} from '@ionic/angular';
 import {HighchartsChartModule} from 'highcharts-angular';
 import {DefaultImgDirective} from './directives/default-img.directive';
@@ -22,15 +21,16 @@ import {PieChartComponent} from './components/charts/pie-chart/pie-chart.compone
 import {PieChartCardComponent} from './components/cards/pie-chart-card/pie-chart-card.component';
 import {BarChartCardComponent} from './components/cards/bar-chart-card/bar-chart-card.component';
 import {BarChartComponent} from './components/charts/bar-chart/bar-chart.component';
-import {HeaderComponent} from './components-smart/header/header.component';
+import {HeaderComponent} from './components/components-smart/header/header.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import {FixedRangeSliderWithTimeComponent} from './components/charts/fixed-range-slider-with-time/fixed-range-slider-with-time.component';
 import {ApolloModule} from 'apollo-angular';
+import {VariablePieChartComponent} from './components/charts/variable-pie-chart/variable-pie-chart.component';
+import {InlineInputFormComponent} from './components/forms/inline-input-form/inline-input-form.component';
 
 @NgModule({
     declarations: [
         TimeAgoPipe,
-        ConfirmDialogComponent,
         FixedRangeSliderComponent,
         DefaultImgDirective,
         FinancialChartComponent,
@@ -43,7 +43,9 @@ import {ApolloModule} from 'apollo-angular';
         BarChartCardComponent,
         BarChartComponent,
         HeaderComponent,
-        FixedRangeSliderWithTimeComponent
+        InlineInputFormComponent,
+        FixedRangeSliderWithTimeComponent,
+        VariablePieChartComponent
     ],
     imports: [
         CommonModule,
@@ -73,7 +75,6 @@ import {ApolloModule} from 'apollo-angular';
         AngularFireStorageModule,
         IonicModule,
         HighchartsChartModule,
-        ConfirmDialogComponent,
         FixedRangeSliderComponent,
         DefaultImgDirective,
         FinancialChartComponent,
@@ -87,9 +88,10 @@ import {ApolloModule} from 'apollo-angular';
         BarChartComponent,
         HeaderComponent,
         ApolloModule,
+        VariablePieChartComponent,
+        InlineInputFormComponent,
         FixedRangeSliderWithTimeComponent
-    ],
-    entryComponents: [ConfirmDialogComponent],
+    ]
 })
 export class SharedModule {
 }

@@ -5,9 +5,9 @@ import {userResolvers } from './user/user.resolver';
 import * as admin from 'firebase-admin';
 import { watchlistResolvers } from './watchlist/watchlist.resolver';
 import { queryUser } from './user/user.query';
-import { queryUsersStockWatchlist } from './watchlist/watchlist.query';
-import { createStockWatchlist, addStockIntoStockWatchlist, removeStockFromStockWatchlist, deleteWatchlist } from './watchlist/watchlist.mutation';
-import { StockWatchlistIdentifier, StockWatchlistCommonData } from './watchlist/watchList.model';
+import { queryUserStockWatchlists as queryUserStockWatchlists, queryUserStockWatchlistById } from './watchlist/watchlist.query';
+import { createStockWatchlist, addStockIntoStockWatchlist, removeStockFromStockWatchlist, deleteWatchlist, renameStockWatchlist } from './watchlist/watchlist.mutation';
+import { StockWatchlistIdentifier } from './watchlist/watchList.model';
 
 const serviceAccount = require('../firebase_key.json');
 
@@ -23,16 +23,18 @@ const mainTypeDefs = gql`
 
   ###### QUERY
   type Query {
-      user(uid: String!): User
-      stockWatchlist(uid: String!): [StockWatchlist]
+      queryUser(uid: String!): User
+      queryUserStockWatchlists(uid: String!): [StockWatchlist]
+      queryUserStockWatchlistById(uid: String!, documentId: String!): StockWatchlist
   }
 
   #### MUTATION
   type Mutation {
-        createStockWatchlist( identifier: StockWatchlistCommonData!): StockWatchlist
-        addStockIntoStockWatchlist(identifier: StockWatchlistIdentifier!): OverView
-        removeStockFromStockWatchlist(identifier: StockWatchlistIdentifier!): Boolean
+        createStockWatchlist( identifier: StockWatchlistIdentifier!): StockWatchlist
+        renameStockWatchlist(identifier: StockWatchlistIdentifier!): Boolean
         deleteWatchlist(identifier: StockWatchlistIdentifier!): Boolean
+        addStockIntoStockWatchlist(identifier: StockWatchlistIdentifier!): StockDetails
+        removeStockFromStockWatchlist(identifier: StockWatchlistIdentifier!): Boolean
   }
 `;
 
@@ -40,14 +42,16 @@ const mainTypeDefs = gql`
 
 const mainResolver = {
   Query: {
-    user: async (_: null, args: { uid: string }) => await queryUser(args.uid),
-    stockWatchlist: async (_: null, args: { uid: string }) => await queryUsersStockWatchlist(args.uid)
+    queryUser: async (_: null, args: { uid: string }) => await queryUser(args.uid),
+    queryUserStockWatchlists: async (_: null, args: { uid: string }) => await queryUserStockWatchlists(args.uid),
+    queryUserStockWatchlistById: async (_: null, args: { uid: string, documentId: string }) => await queryUserStockWatchlistById(args.uid, args.documentId)
   },
   Mutation: {
-    createStockWatchlist: async (_, args: {identifier: StockWatchlistCommonData} ) => await createStockWatchlist(args.identifier),
+    createStockWatchlist: async (_, args: {identifier: StockWatchlistIdentifier} ) => await createStockWatchlist(args.identifier),
+    renameStockWatchlist: async (_, args: {identifier: StockWatchlistIdentifier} ) => await renameStockWatchlist(args.identifier),
+    deleteWatchlist: async (_, args: {identifier: StockWatchlistIdentifier} ) => await deleteWatchlist(args.identifier),
     addStockIntoStockWatchlist: async (_, args: {identifier: StockWatchlistIdentifier} ) => await addStockIntoStockWatchlist(args.identifier),
-    removeStockFromStockWatchlist: async (_, args: {identifier: StockWatchlistIdentifier} ) => await removeStockFromStockWatchlist(args.identifier),
-    deleteWatchlist: async (_, args: {identifier: StockWatchlistIdentifier} ) => await deleteWatchlist(args.identifier)
+    removeStockFromStockWatchlist: async (_, args: {identifier: StockWatchlistIdentifier} ) => await removeStockFromStockWatchlist(args.identifier)
   }
 
 };

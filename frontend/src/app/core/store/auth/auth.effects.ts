@@ -25,7 +25,7 @@ export class AuthEffects {
         switchMap(() => this.afAuth.authState.pipe(
             switchMap(auth => this.firebaseApiService.getUserDoc(auth.uid).valueChanges().pipe(
                 map(payload => authAction.authenticated({payload})),
-                tap(() => this.router.navigate(['/menu/stock-details/MSFT'])),
+                tap(() => this.router.navigate(['/menu/watchlist'])),
             )),
             catchError(() => of(authAction.logout()))
         ))

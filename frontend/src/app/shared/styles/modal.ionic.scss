@@ -1,8 +1,10 @@
+@import "./custom-variable";
+
 ion-content {
   ion-toolbar {
     ion-title {
       font-size: 22px;
-      color: #e6a310;
+      color: #{$orange-title-light};
     }
   }
   ion-list{
@@ -10,7 +12,7 @@ ion-content {
       border: 0;
       ion-label{
         font-size: 22px;
-        color: #e6a310;
+        color: #{$orange-title-light};
       }
     }
     ion-item{

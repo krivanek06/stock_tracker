@@ -13,7 +13,7 @@
 
 
     <!-- display all stock watchList names -->
-    <ion-item *ngFor="let watchList of stockWatchListTable$ | async"
+    <ion-item *ngFor="let watchList of stockWatchLists$ | async"
               button
               class="watchlist-name-container"
               (click)="addSymbolToWatchlist(watchList.id, watchList.documentId)"
@@ -23,38 +23,15 @@
         <ion-label>
             {{ watchList.id }}
         </ion-label>
-        <span [ngStyle]="{'color':watchList.stocks.length === 20 ? 'red' : 'white' }">
-          [ {{watchList?.stocks.length }} / 20 ]
+        <span style="color: white;">
+            [ {{watchList?.stocks.length }} ]
         </span>
     </ion-item>
 
+    <!-- form to create watchlist -->
+    <div class="ion-text-center" style="margin-top: 40px;">
+        <app-watchlist-creation (creationEmitter)="createWatchList($event)"></app-watchlist-creation>
+    </div>
 
-    <!-- container form to create new watchlist -->
-    <ion-item [hidden]="!showForm" style="margin-top: 30px;">
-        <ion-label class="fixedLabel">
-            <form [formGroup]="inputForm">
-                <ion-item>
-                    <!--name of watchlist -->
-
-                    <!-- <mat-error *ngIf="watchlistName.errors?.required">Please define watchlist name</mat-error>
-                       <mat-error *ngIf="watchlistName.hasError('maxlength')">Maximum allowed letters are 20</mat-error> -->
-                    <ion-input type="text" formControlName="watchlistName" placeholder="Define watchlist name"></ion-input>
-                </ion-item>
-
-            </form>
-        </ion-label>
-
-        <ion-label class="submit-deny-buttons ion-margin-start">
-            <ion-icon name="checkmark-circle" class="submit-deny-button positive-button" (click)="createWatchList()"></ion-icon>
-            <ion-icon name="close-circle" class="submit-deny-button negative-button" (click)="toggleShowFormButton()"></ion-icon>
-        </ion-label>
-    </ion-item>
-
-    <!-- button to show form for new watchlist -->
-    <ion-item *ngIf="!showForm" class="ion-margin-top">
-        <ion-label class="ion-text-center">
-            <ion-icon name="add-circle" (click)="toggleShowFormButton()" style="font-size: 50px" class="clickable"></ion-icon>
-        </ion-label>
-    </ion-item>
 
 </ion-content>

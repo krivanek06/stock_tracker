@@ -1,7 +1,4 @@
-$price-down: '#C30D0D';
-$price-down-lighter: '#fe0505';
-$price-up: '#038A00';
-$price-up-lighter: '#05cb01';
+@import "./custom-variable";
 
 
 
@@ -37,10 +34,27 @@ $price-up-lighter: '#05cb01';
   }
 }
 
+.orange-button{
+  color: #{$orange-title-medium} !important;
+  transition: All 0.3s ease-out;
+  cursor: pointer;
+  &:hover {
+    color: #{$orange-title-light} !important;
+    transform: scale(0.90);
+  }
+}
+
 .clickable{
   transition: All 0.3s ease-out;
   cursor: pointer;
   &:hover{
-    transform: scale(0.94);
+    transform: scale(0.90);
+  }
+}
+
+.regularFont {
+  font-size: 14px;
+  @media (max-width: 800px) {
+    font-size: 12px;
   }
 }
