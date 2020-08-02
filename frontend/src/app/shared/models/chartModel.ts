@@ -16,6 +16,11 @@ export interface ChartDataIdentification {
   name: string;
 }
 
+export interface DocumentIdentification {
+  documentId: string;
+  additionalInfo: string;
+}
+
 export interface PriceRangeData {
   priceRangeFirst: number;
   priceRangeLast: number;

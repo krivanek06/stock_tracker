@@ -8,14 +8,6 @@ import {
 import { ActivatedRoute } from "@angular/router";
 import { takeUntil } from "rxjs/operators";
 import { Apollo } from "apollo-angular";
-import gql from "graphql-tag";
-import {
-  UserStcokWatchlistsGQL,
-  Mutation,
-  MutationCreateStockWatchlistArgs,
-  CreateStockWatchlistGQL,
-} from "src/app/core/services/private/watchlistGraphql.service";
-
 @Component({
   selector: "app-stock-details",
   templateUrl: "./stock-details.page.html",
@@ -29,8 +21,6 @@ export class StockDetailsPage implements OnInit, OnDestroy {
 
   constructor(
     private stockApiService: StockApiService,
-    private watchlistService: UserStcokWatchlistsGQL,
-    private createStockWatchlistService: CreateStockWatchlistGQL,
     private apollo: Apollo,
     private route: ActivatedRoute
   ) {}

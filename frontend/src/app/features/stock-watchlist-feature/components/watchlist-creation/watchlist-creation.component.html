@@ -1,0 +1,16 @@
+<ng-container *ngIf="showForm">
+    <app-inline-input-form
+            (creationEmitter)="createWatchList($event)"
+            (closingEmitter)="toggleShowFormButton()">
+    </app-inline-input-form>
+</ng-container>
+
+<ion-button *ngIf="!showForm"
+            (click)="toggleShowFormButton()"
+            color="#b4800e"
+            class="orange-button"
+            fill="outline"
+            shape="round">
+    <ion-icon name="add-circle" slot="start" style="margin-right: 5px;"></ion-icon>
+    Create watchlist
+</ion-button>

@@ -1,4 +1,5 @@
 export interface StockDetails {
+    id: string;
     basicInfo: BasicInfo;
     chartInfo: ChartInfo;
     dividend: Dividend;
@@ -251,7 +252,6 @@ export interface OverView {
     previousClose: number;
     weekHigh52: number;
     weekLow52: number;
-    id: string;
     symbol: string;
     earningsDate: string;
     exDividendDate: string;

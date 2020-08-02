@@ -17,7 +17,7 @@ export class MenuPage implements OnInit {
             icon: 'grid-outline'
         },
         {
-            title: 'Watch list',
+            title: 'Watchlist',
             url: '/menu/watchlist',
             icon: 'stats-chart-outline'
         },
@@ -49,6 +49,7 @@ export class MenuPage implements OnInit {
 
     ngOnInit() {
         const path = window.location.pathname.split('/menu/')[1];
+        console.log('path', path);
         if (path !== undefined) {
             this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
         }

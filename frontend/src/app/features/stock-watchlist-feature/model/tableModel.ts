@@ -33,7 +33,7 @@ export interface StockWatchlistIdentifier {
   id: string;
   userId: string;
   documentId?: string;
-  stockName?: string;
+  additionalData?: string;
 }
 
 export interface StockWatchlist {

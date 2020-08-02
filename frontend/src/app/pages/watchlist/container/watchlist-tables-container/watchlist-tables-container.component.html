@@ -1,0 +1,8 @@
+<div class="create-watchlist-button">
+    <app-watchlist-creation (creationEmitter)="createWatchList($event)"></app-watchlist-creation>
+</div>
+
+<div class="watchlist-container">
+    <app-watchlist-table-with-sector-chart-container [stockWatchlist]="stockWatchLists$ | async">
+    </app-watchlist-table-with-sector-chart-container>
+</div>
