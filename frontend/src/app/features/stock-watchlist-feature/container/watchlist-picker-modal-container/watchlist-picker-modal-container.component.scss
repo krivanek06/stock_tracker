@@ -1,5 +1,4 @@
 @import "../../../../shared/styles/modal.ionic";
-@import "../../../../shared/styles/priceColors";
 @import "../../../../shared/styles/tooltip";
 
 
@@ -21,16 +20,10 @@
     }
   }
 
-  .fixedLabel{
-    min-width: 80%;
-    max-width: 80%
-  }
 
 
-  .submit-deny-buttons {
-    font-size: 35px !important;
-    margin-right: 8px;
-  }
+
+
 }
 
 

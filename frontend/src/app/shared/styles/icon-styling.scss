@@ -1,0 +1,6 @@
+@import "./custom-variable";
+
+.grey-regular-icon{
+  font-size: 28px;
+  color: #{$default-word};
+}

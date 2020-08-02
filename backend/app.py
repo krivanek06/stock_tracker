@@ -98,7 +98,7 @@ def getTopCrypto():
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Failed to get top crypto')
-'''
+
 
 @app.route('/api/ticker/details/overview')
 def getWatchlistTickerSummary():
@@ -107,7 +107,7 @@ def getWatchlistTickerSummary():
     except Exception as e:
         print(e)
         raise JsonError(status=400, error='Could not find summary for ticker')
-
+'''
 
 @app.route('/api/ticker/details/financial_report')
 def getStockFinancialReport():

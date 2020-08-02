@@ -1,0 +1,27 @@
+:host {
+  .watchlist-container {
+    padding: 20px;
+    padding-left: 100px;
+  }
+
+  .create-watchlist-button {
+    margin-left: 35px;
+    margin-top: 20px;
+  }
+
+  @media (max-width: 1500px) {
+    .watchlist-container {
+      padding-left: 40px;
+    }
+  }
+
+  @media (max-width: 1050px) {
+    .watchlist-container {
+      padding: 2px;
+      text-align: -webkit-center;
+    }
+    .create-watchlist-button {
+      margin-left: 10px;
+    }
+  }
+}

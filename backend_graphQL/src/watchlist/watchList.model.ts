@@ -1,17 +1,14 @@
-
 export interface StockWatchlistCommonData {
-  id: string; // watchlist name
   userId: string;
-  documentId?: string;
+  id?: string; // documentID for stockWatchlist
 }
 
-export interface StockWatchlist extends StockWatchlistCommonData{
-    stocks: string[];
-    timestamp: number;
-  }
+export interface StockWatchlist extends StockWatchlistCommonData {
+  name: string;
+  stocks: string[];
+  timestamp: number;
+}
 
-
-
-export interface StockWatchlistIdentifier extends StockWatchlistCommonData{
-    stockName: string;
+export interface StockWatchlistIdentifier extends StockWatchlistCommonData {
+  additionalData: string;
 }

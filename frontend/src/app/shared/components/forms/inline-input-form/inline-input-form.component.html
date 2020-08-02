@@ -1,0 +1,16 @@
+<ion-item>
+  <!-- inline form -->
+    <ion-label [style.min-width.%]="widthInPercent" [style.max-width.%]="widthInPercent">
+        <ion-item>
+            <ion-input type="text" placeholder="Define watchlist name" class="not-working-input" [(ngModel)]="watchlistName"></ion-input>
+        </ion-item>
+    </ion-label>
+
+    <!-- approve / deny buttons -->
+    <ion-button class="submit-deny-buttons clickable" (click)="emitCreation()">
+        <ion-icon name="checkmark-circle" class="positive-button"  slot="icon-only"></ion-icon>
+    </ion-button>
+    <ion-button class="submit-deny-buttons clickable" (click)="emitClosing()">
+        <ion-icon name="close-circle" class="negative-button"  slot="icon-only"></ion-icon>
+    </ion-button>
+</ion-item>
