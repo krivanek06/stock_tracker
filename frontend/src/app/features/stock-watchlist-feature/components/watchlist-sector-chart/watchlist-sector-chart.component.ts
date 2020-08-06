@@ -1,10 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {Maybe, StockDetails, StockMainDetailsFragment} from '../../../../core/services/private/watchlistGraphql.service';
 
 @Component({
     selector: 'app-watchlist-sector-chart',
     templateUrl: './watchlist-sector-chart.component.html',
     styleUrls: ['./watchlist-sector-chart.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WatchlistSectorChartComponent implements OnInit {
     @Input() stockDetails: Array<Maybe<{ __typename?: 'StockDetails' } & StockMainDetailsFragment>>;

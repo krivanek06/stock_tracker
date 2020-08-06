@@ -1,0 +1,11 @@
+.hideOn450PxDown{
+  @media (max-width: 450px) {
+    display: none;
+  }
+}
+
+.hideOn400PxDown{
+  @media (max-width: 400px) {
+    display: none;
+  }
+}

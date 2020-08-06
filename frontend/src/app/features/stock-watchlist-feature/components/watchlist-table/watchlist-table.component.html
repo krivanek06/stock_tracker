@@ -7,7 +7,7 @@
         <!-- header info -->
         <ion-label style="padding-left: 10px;" *ngIf="!editing">
             <p class="table-header">{{ stockWatchlist.name }}   [ {{ stockWatchlist.stocks.length }} ]</p>
-            <p>Created at {{ stockWatchlist.timestamp |  date: 'dd/MM/yyyy' }}</p>
+            <p class="table-header-timestamp">Created at {{ stockWatchlist.timestamp |  date: 'dd/MM/yyyy' }}</p>
         </ion-label>
 
         <!-- form to edit watchlist name -->
@@ -32,45 +32,73 @@
     </ion-list-header>
 
     <!-- table attributes -->
-    <ion-item style="font-weight: bold;" class="ion-margin-top ion-no-padding">
+    <ion-item style="font-weight: bold;" class="ion-margin-top ion-no-padding hideOn450PxDown">
         <ion-label position="fixed" class="symbol-image-attribute"></ion-label>
-        <ion-label position="fixed" style="min-width: 80px; max-width: 80px;">Symbol</ion-label>
-        <ion-label position="fixed" style="min-width: 80px; max-width: 80px;"> Price</ion-label>
-        <ion-label position="fixed" style="min-width: 150px; max-width: 150px;" class="ion-hide-md-down"> 52 week
+        <ion-label position="fixed" class="stockInfo-name-title">Symbol</ion-label>
+        <ion-label position="fixed" class="stockInfo-price" > Price</ion-label>
+        <ion-label position="fixed" class="stockInfo-change"> Daily change
+        </ion-label>
+        <ion-label position="fixed" style="min-width: 150px; max-width: 150px;" class="ion-hide-lg-down"> 52 week
             range
         </ion-label>
-        <ion-label position="fixed" style="min-width: 250px; max-width: 250px;" class="ion-hide-sm-down"> Earnings
+        <ion-label position="fixed" style="min-width: 250px; max-width: 250px;" class="stockInfo-earnings"> Earnings
             date
         </ion-label>
     </ion-item>
 
     <!-- table data -->
-    <ion-item *ngFor="let stockInfo of stockWatchlist.stocksDetails" class="ion-no-padding">
+    <ion-item *ngFor="let stockInfo of stockWatchlist.stocksDetails"
+              class="ion-no-padding stockInfo-container"
+              (click)="detailsClicked(stockInfo.id)">
         <ion-button>
             <ion-img [src]="stockInfo.basicInfo.logoUrl"
                      class="symbol-image "
                      (click)="showChart(stockInfo.basicInfo.shortName, stockInfo.id)">
             </ion-img>
         </ion-button>
-        <ion-label position="fixed" style="min-width: 80px; max-width: 80px;">
+        <!-- stock name -->
+        <ion-label position="fixed" class="stockInfo-name" >
             {{ stockInfo.id }}
         </ion-label>
-        <ion-label position="fixed" style="min-width: 80px; max-width: 80px;">
+        <!-- current price -->
+        <ion-label position="fixed" class="stockInfo-price increment" > <!-- [@marketValueChange]="'positive'" -->
             {{ stockInfo.overview.currentPrice | currency}}
         </ion-label>
-        <ion-label position="fixed" style="min-width: 150px; max-width: 150px;" class="ion-hide-md-down">
+
+        <!-- daily change -->
+        <ion-label position="fixed"
+                   class="stockInfo-change"
+                   [ngClass]="{
+                    'price-up': stockInfo.overview.currentPrice - stockInfo.overview.previousClose >= 0,
+                    'price-down': stockInfo.overview.currentPrice - stockInfo.overview.previousClose < 0
+                     }">
+
+            {{ stockInfo.overview.currentPrice - stockInfo.overview.previousClose | currency}}
+            ({{ ((stockInfo.overview.currentPrice - stockInfo.overview.previousClose) / stockInfo.overview.previousClose) | percent: '1.2' }}
+            )
+            <ion-icon name="trending-up-outline"
+                      class="price-icon "
+                      *ngIf="stockInfo.overview.currentPrice - stockInfo.overview.previousClose >= 0"></ion-icon>
+            <ion-icon name="trending-down-outline"
+                      class="price-icon"
+                      *ngIf="stockInfo.overview.currentPrice - stockInfo.overview.previousClose < 0"></ion-icon>
+        </ion-label>
+        <!-- 52 week range -->
+        <ion-label position="fixed" style="min-width: 150px; max-width: 150px;" class="ion-hide-lg-down">
             {{ stockInfo.overview.weekLow52 | currency }} - {{ stockInfo.overview.weekHigh52 | currency }}
         </ion-label>
-        <ion-label position="fixed" style="min-width: 250px; max-width: 250px;" class="ion-hide-sm-down">
+        <!-- earnings date -->
+        <ion-label position="fixed" class="stockInfo-earnings">
             {{ stockInfo.overview.earningsDate }}
         </ion-label>
+        <!-- details button -->
         <ion-button shape="round"
                     fill="outline"
-                    class="regularFont clickable ion-margin-end"
+                    class="clickable hideOn400PxDown details-button"
                     (click)="detailsClicked(stockInfo.id)">
             Details
         </ion-button>
-        <ion-button class="negative-button" (click)="deleteSymbolFromWatchlist(stockInfo.id)">
+        <ion-button class="negative-button clickable hideOn450PxDown" (click)="deleteSymbolFromWatchlist(stockInfo.id)">
             <ion-icon name="trash-bin" style="font-size: 28px;"></ion-icon>
         </ion-button>
     </ion-item>

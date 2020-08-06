@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../core/model/appState';
 import {logout} from '../../core/store/auth/auth.action';
-
 @Component({
     selector: 'app-menu',
     templateUrl: './menu.page.html',
