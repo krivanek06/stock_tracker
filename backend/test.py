@@ -26,28 +26,25 @@ stockDetailsService =  StockDetailsService.StockDetailsService()
 
 myTime = time.time()
 
+import websocket
 
-print('start')
+def on_message(ws, message):
+    print(message)
 
+def on_error(ws, error):
+    print(error)
 
-res = get('https://finnhub.io/api/v1/stock/financials-reported?symbol=MSFT&metric=all&token=brsrc5vrh5r9dg9d77pg').json()['data'][0:25]
-#res = get('https://finnhub.io/api/v1/stock/financials-reported?symbol=AAPL&token=brsrc5vrh5r9dg9d77pg').json()
-#for r in res:
-#    print(r)
+def on_close(ws):
+    print("### closed ###")
 
+def on_open(ws):
+    ws.send('{"type":"subscribe","symbol":"AAPL"}')
 
-r = stockDetailsService.getStockFinancialReport('MSFT', '2019')
-print(r)
-
-print(time.time() - myTime)
-
-
-
-
-
-
-#res = get('https://finnhub.io/api/v1/stock/metric?symbol=AAPL&metric=all&token=brsrc5vrh5r9dg9d77pg').json()
-#for k,v in r.items(): #res['metric']
-#    print(k, v)
-
-
+if __name__ == "__main__":
+    websocket.enableTrace(True)
+    ws = websocket.WebSocketApp("wss://ws.finnhub.io?token=brsrc5vrh5r9dg9d77pg",
+                              on_message = on_message,
+                              on_error = on_error,
+                              on_close = on_close)
+    ws.on_open = on_open
+    ws.run_forever()

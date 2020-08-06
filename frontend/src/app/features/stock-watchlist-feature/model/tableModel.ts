@@ -32,7 +32,6 @@ export interface TopStockTableData extends TopTableData {
 export interface StockWatchlistIdentifier {
   id: string;
   userId: string;
-  documentId?: string;
   additionalData?: string;
 }
 

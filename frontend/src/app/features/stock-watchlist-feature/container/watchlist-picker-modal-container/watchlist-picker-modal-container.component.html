@@ -16,7 +16,7 @@
     <ion-item *ngFor="let watchList of stockWatchLists$ | async"
               button
               class="watchlist-name-container"
-              (click)="addSymbolToWatchlist(watchList.id, watchList.documentId)"
+              (click)="addSymbolToWatchlist(watchList.id)"
               [matTooltip]="watchList.stocks.join('\n')"
               matTooltipClass="custom-tooltip-absolute-right-top"
               matTooltipShowDelay="150">

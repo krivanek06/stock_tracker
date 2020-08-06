@@ -10,35 +10,88 @@ import {
     QueryUserStockWatchlistsGQL,
     QueryUserStockWatchlistsQuery,
     RemoveStockFromWatchlistGQL,
-    RenameStockWatchlistGQL,
+    RenameStockWatchlistGQL, StockMainDetailsFragment, StockMainDetailsFragmentDoc,
     StockWatchlistIdentifier,
     StockWatchlistInformationFragment,
 } from '../private/watchlistGraphql.service';
-import {map, shareReplay} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {filter, map, shareReplay, takeUntil} from 'rxjs/operators';
+import {Observable, Subject} from 'rxjs';
 import {FetchResult} from 'apollo-link';
-import {IonicDialogService} from '../../../shared/services/ionic-dialog.service';
+import {ApolloQueryResult} from 'apollo-client';
+import {MarketPriceWebsocketService} from './market-price-websocket.service';
+import {Apollo} from 'apollo-angular';
 
 @Injectable({
     providedIn: 'root'
 })
 export class WatchlistService {
+    destroy$: Subject<boolean>;
 
     constructor(private createStockWatchlistGQL: CreateStockWatchlistGQL,
                 private addStockIntoWatchlistGQL: AddStockIntoWatchlistGQL,
                 private deleteUserWatchlistGQL: DeleteUserWatchlistGQL,
                 private renameStockWatchlistGQL: RenameStockWatchlistGQL,
                 private removeStockFromWatchlistGQL: RemoveStockFromWatchlistGQL,
-                private queryUserStockWatchlistsGQL: QueryUserStockWatchlistsGQL) {
+                private queryUserStockWatchlistsGQL: QueryUserStockWatchlistsGQL,
+                private marketPriceWebsocket: MarketPriceWebsocketService,
+                private apollo: Apollo) {
     }
 
 
-    getUserStockWatchlists(userId: string): Observable<Array<Maybe<{ __typename?: 'StockWatchlist' } & StockWatchlistInformationFragment>> | null> {
+    getUserStockWatchlists(userId?: string): Observable<Array<Maybe<{ __typename?: 'StockWatchlist' } & StockWatchlistInformationFragment>> | null> {
         return this.queryUserStockWatchlistsGQL.watch({
-            uid: userId
+            uid: '7eYTErOxXugeHg4JHLS1L5ZKosK2'
         }).valueChanges.pipe(
             map(res => res.data.queryUserStockWatchlists)
         );
+    }
+
+    // get all distinct symbols
+    async startWatchlistRealTimeSubscription(): Promise<void> {
+        this.destroy$ = new Subject<boolean>();
+
+        const watchlists = await this.queryUserStockWatchlistsGQL.fetch({uid: '7eYTErOxXugeHg4JHLS1L5ZKosK2'}).toPromise();
+
+        // initialise websocket subscription for stocks
+        const stockArrays = watchlists.data.queryUserStockWatchlists.map(watchlist => watchlist.stocks);
+        const distinctStocks = [...new Set([].concat(...stockArrays))] as string[];
+
+        console.log('distinctStocks', distinctStocks);
+        distinctStocks.forEach(stockName => this.marketPriceWebsocket.createSubscribeForSymbol(stockName));
+
+        // update cache by received value from websockets
+        this.marketPriceWebsocket.getSubscribedSymbolsResult()
+            .pipe(
+                filter(value => !!value),
+                takeUntil(this.destroy$)
+            )
+            .subscribe(res => {
+                // read stock details from cache and update price
+                const fragment = this.apollo.getClient().readFragment({
+                    id: `StockDetails:${res.s}`,
+                    fragment: StockMainDetailsFragmentDoc
+                }) as StockMainDetailsFragment;
+
+
+                // write data back to cache
+                this.apollo.getClient().writeFragment({
+                    id: `StockDetails:${res.s}`,
+                    fragment: StockMainDetailsFragmentDoc,
+                    data: {
+                        ...fragment,
+                        overview: {...fragment.overview, currentPrice: res.p}
+                    }
+                });
+
+                // trigger UI update -> should not work like this
+                this.getUserStockWatchlists().pipe(takeUntil(this.destroy$)).subscribe();
+            });
+    }
+
+    endWatchlistRealTimeSubscription(): void {
+        this.destroy$.next(true);
+        this.destroy$.complete();
+        this.marketPriceWebsocket.closeConnection();
     }
 
     createWatchList(identifier: StockWatchlistIdentifier): Observable<FetchResult<CreateStockWatchlistMutation>> {
