@@ -19,7 +19,7 @@ export class WatchlistCreationComponent implements OnInit {
 
     createWatchList(watchlistName: string) {
         this.creationEmitter.emit(watchlistName);
-        this.toggleShowFormButton();
+        this.showForm = false;
     }
 
 

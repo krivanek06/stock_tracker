@@ -21,6 +21,9 @@ export class MarketPriceWebsocketService {
     // contains last change price
     private subscription$: BehaviorSubject<MarketSymbolResult> = new BehaviorSubject<MarketSymbolResult>(null);
 
+    // prevent multiple initializations
+    private isSocketInitialized = true;
+
 
     constructor() {
         console.log('MarketPriceWebsocketService called');
@@ -32,37 +35,51 @@ export class MarketPriceWebsocketService {
         return this.subscription$.asObservable();
     }
 
-    createSubscribeForSymbol(symbol: string) {
-        if (!this.socket) {
-            console.log('uninitialized websocket connection');
+    async createSubscribeForSymbol(symbol: string) {
+        if (!this.isSocketInitialized) {
             this.initialiseWebsocketConnection();
         }
+
+        while (!this.socket || this.socket.readyState !== 1) {
+            console.log('waiting for websocket inicialization');
+            await this.sleep(10000);
+        }
+
         if (this.subscribedSymbols.includes(symbol)) {
             console.log(`already subscribing for ${symbol}`);
             return;
         }
 
         this.subscribedSymbols = [...this.subscribedSymbols, symbol];
-        console.log(' this.subscribedSymbols', this.subscribedSymbols);
 
-        this.socket.addEventListener('open', () => {
-            console.log('websocket sending subscription for symbol ', symbol);
-            this.socket.send(JSON.stringify({type: 'subscribe', symbol}));
-        });
+        console.log('websocket sending subscription for symbol ', symbol);
+        this.socket.send(JSON.stringify({type: 'subscribe', symbol}));
 
+
+    }
+
+    private sleep(ms): Promise<void> {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
 
     private initialiseWebsocketConnection() {
-        console.log('initialiseWebsocketConnection');
-        // this.subscription$ = new BehaviorSubject<MarketSymbolResult>(null);
-        // this.socket = new WebSocket(`wss://ws.finnhub.io?token=${environment.finnhubKEY}`);
-        // this.subscribedSymbols = [];
+        this.isSocketInitialized = true;
+        if (this.socket.readyState === 1) {
+            console.log('websockets ready state 1, no need to initialise');
+            return;
+        }
+        console.log('initialise Websocket Connection');
+        this.socket = new WebSocket(`wss://ws.finnhub.io?token=${environment.finnhubKEY}`);
+
+
+        this.socket.onopen = (e) => {
+            console.log('websocket open');
+        };
 
         // if message arrive, emit behaviour subject
         this.socket.onmessage = (e) => {
             const result = JSON.parse(e.data)?.data as Array<MarketSymbolResult>;
-            console.log(result);
             if (result && result.length > 0) {
                 const marketSymbol = result[0] as MarketSymbolResult;
                 this.subscription$.next(marketSymbol);
@@ -71,8 +88,18 @@ export class MarketPriceWebsocketService {
 
         // on close unsubscribe for all symbols
         this.socket.onclose = () => {
+            this.isSocketInitialized = false;
             this.subscribedSymbols.forEach(symbol => this.socket.send(JSON.stringify({type: 'unsubscribe', symbol})));
-            console.log('closing websocket connection');
+            console.log('Unsubscribed for symbols. Socket is closed');
+
+        };
+
+        this.socket.onerror = (err) => {
+            console.error('Socket encountered error: ', err.type, 'Reconnect in 1s');
+
+            setTimeout(() => {
+                this.initialiseWebsocketConnection();
+            }, 1000);
         };
 
     }
@@ -82,7 +109,7 @@ export class MarketPriceWebsocketService {
         console.log('close websocket connection');
         this.subscribedSymbols = [];
         this.socket.close();
-        /*this.subscription$.next(null);
-        this.subscription$.complete();*/
+        this.subscription$.next(null);
+        /*this.subscription$.complete();*/
     }
 }
