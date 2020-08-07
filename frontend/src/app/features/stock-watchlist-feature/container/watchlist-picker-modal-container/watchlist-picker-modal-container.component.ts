@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
 import {ModalController, NavParams} from '@ionic/angular';
 import {StockWatchlist, StockWatchlistIdentifier} from '../../model/tableModel';
 import {WatchlistService} from '../../../../core/services/public/watchlist.service';
@@ -6,7 +6,8 @@ import {WatchlistService} from '../../../../core/services/public/watchlist.servi
 @Component({
     selector: 'app-watchlist-picker-modal-container',
     templateUrl: './watchlist-picker-modal-container.component.html',
-    styleUrls: ['./watchlist-picker-modal-container.component.scss']
+    styleUrls: ['./watchlist-picker-modal-container.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WatchlistPickerModalContainerComponent implements OnInit {
     symbol: string;
@@ -31,11 +32,10 @@ export class WatchlistPickerModalContainerComponent implements OnInit {
         this.modalController.dismiss();
     }
 
-    addSymbolToWatchlist(watchListId: string, documentId: string) {
+    addSymbolToWatchlist(watchListId: string) {
         const identifier: StockWatchlistIdentifier = {
             userId: this.DELETE_THIS_LATER,
             additionalData: this.symbol,
-            documentId,
             id: watchListId
         };
         this.watchlistService.addSymbolToWatchlist(identifier)

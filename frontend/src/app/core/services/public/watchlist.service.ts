@@ -10,36 +10,47 @@ import {
     QueryUserStockWatchlistsGQL,
     QueryUserStockWatchlistsQuery,
     RemoveStockFromWatchlistGQL,
-    RenameStockWatchlistGQL,
+    RenameStockWatchlistGQL, StockMainDetailsFragment, StockMainDetailsFragmentDoc,
     StockWatchlistIdentifier,
     StockWatchlistInformationFragment,
 } from '../private/watchlistGraphql.service';
-import {map, shareReplay} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {filter, map, shareReplay, takeUntil} from 'rxjs/operators';
+import {Observable, Subject} from 'rxjs';
 import {FetchResult} from 'apollo-link';
-import {IonicDialogService} from '../../../shared/services/ionic-dialog.service';
+import {ApolloQueryResult} from 'apollo-client';
+import {MarketPriceWebsocketService} from './market-price-websocket.service';
+import {Apollo} from 'apollo-angular';
 
 @Injectable({
     providedIn: 'root'
 })
 export class WatchlistService {
-
     constructor(private createStockWatchlistGQL: CreateStockWatchlistGQL,
                 private addStockIntoWatchlistGQL: AddStockIntoWatchlistGQL,
                 private deleteUserWatchlistGQL: DeleteUserWatchlistGQL,
                 private renameStockWatchlistGQL: RenameStockWatchlistGQL,
                 private removeStockFromWatchlistGQL: RemoveStockFromWatchlistGQL,
-                private queryUserStockWatchlistsGQL: QueryUserStockWatchlistsGQL) {
+                private queryUserStockWatchlistsGQL: QueryUserStockWatchlistsGQL,
+                private marketPriceWebsocket: MarketPriceWebsocketService,
+                private apollo: Apollo) {
     }
 
 
-    getUserStockWatchlists(userId: string): Observable<Array<Maybe<{ __typename?: 'StockWatchlist' } & StockWatchlistInformationFragment>> | null> {
+    getUserStockWatchlists(userId?: string): Observable<Array<Maybe<{ __typename?: 'StockWatchlist' } & StockWatchlistInformationFragment>> | null> {
         return this.queryUserStockWatchlistsGQL.watch({
-            uid: userId
+            uid: '7eYTErOxXugeHg4JHLS1L5ZKosK2'
         }).valueChanges.pipe(
             map(res => res.data.queryUserStockWatchlists)
         );
     }
+
+    async getDistinctStocks(): Promise<string[]> {
+        const watchlists = await this.queryUserStockWatchlistsGQL.fetch({uid: '7eYTErOxXugeHg4JHLS1L5ZKosK2'}).toPromise();
+        const stockArrays = watchlists.data.queryUserStockWatchlists.map(watchlist => watchlist.stocks);
+        const distinctStocks = [...new Set([].concat(...stockArrays))] as string[];
+        return distinctStocks;
+    }
+
 
     createWatchList(identifier: StockWatchlistIdentifier): Observable<FetchResult<CreateStockWatchlistMutation>> {
         return this.createStockWatchlistGQL.mutate({

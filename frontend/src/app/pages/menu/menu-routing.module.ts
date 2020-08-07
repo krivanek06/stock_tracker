@@ -29,6 +29,11 @@ const routes: Routes = [
                 loadChildren: () => import('../stock-details/stock-details.module').then(m => m.StockDetailsPageModule)
             },
             {
+                path: 'profile',
+                canActivate: [LoggedInGuard],
+                loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
+            },
+            {
                 path: 'simulator',
                 canActivate: [LoggedInGuard],
                 loadChildren: () => import('../simulator/simulator.module').then(m => m.SimulatorPageModule)

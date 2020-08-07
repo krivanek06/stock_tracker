@@ -2,20 +2,20 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SharedModule} from '../../shared/shared.module';
 import {WatchlistPickerModalContainerComponent} from './container/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
-import {WatchlistTableComponent} from './components/watchlist-table/watchlist-table.component';
-import {WatchlistTableWithSectorChartContainerComponent} from './container/watchlist-table-with-sector-chart-container/watchlist-table-with-sector-chart-container.component';
+import {WatchlistTableHeaderComponent} from './components/watchlist-table-header/watchlist-table-header.component';
 import {WatchlistSectorChartComponent} from './components/watchlist-sector-chart/watchlist-sector-chart.component';
 import {WatchlistCreationComponent} from './components/watchlist-creation/watchlist-creation.component';
 import {StockTrackerFeatureModule} from '../stock-tracker-feature/stock-tracker-feature.module';
+import {WatchlistTableBodyItemComponent} from './components/watchlist-table-body-item/watchlist-table-body-item.component';
 
 
 @NgModule({
     declarations: [
         WatchlistPickerModalContainerComponent,
-        WatchlistTableComponent,
-        WatchlistTableWithSectorChartContainerComponent,
+        WatchlistTableHeaderComponent,
         WatchlistSectorChartComponent,
-        WatchlistCreationComponent
+        WatchlistCreationComponent,
+        WatchlistTableBodyItemComponent
     ],
     imports: [
         CommonModule,
@@ -24,10 +24,10 @@ import {StockTrackerFeatureModule} from '../stock-tracker-feature/stock-tracker-
     ],
     exports: [
         WatchlistPickerModalContainerComponent,
-        WatchlistTableComponent,
-        WatchlistTableWithSectorChartContainerComponent,
+        WatchlistTableHeaderComponent,
         WatchlistSectorChartComponent,
-        WatchlistCreationComponent
+        WatchlistCreationComponent,
+        WatchlistTableBodyItemComponent
     ],
     entryComponents: [
         WatchlistPickerModalContainerComponent,
