@@ -27,6 +27,22 @@
 
 @import "./app/shared/styles/custom-variable";
 
+
+* {
+  font-size: 15px;
+  @media (max-width: 750px) {
+    font-size: 13px;
+  }
+  @media (max-width: 550px) {
+    font-size: 12px;
+  }
+
+  ion-icon{
+    font-size: 25px;
+  }
+
+}
+
 // class to add for each modal
 .custom-modal .modal-wrapper {
   @media (min-width: 800px) {
@@ -41,6 +57,7 @@
   .alert-message {
     color: #dadada;
   }
+
   @media (min-width: 800px) {
     min-width: 550px !important;
   }

@@ -24,9 +24,7 @@ import {AppRoutingModule} from './app-routing.module';
 /* scroll */
 import {PERFECT_SCROLLBAR_CONFIG} from 'ngx-perfect-scrollbar';
 import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
-import {HttpLink, HttpLinkModule} from 'apollo-angular-link-http';
-import {APOLLO_OPTIONS, ApolloModule} from 'apollo-angular';
-import {InMemoryCache} from 'apollo-cache-inmemory';
+import {GraphQlModule} from './graph-ql.module';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -44,10 +42,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         ReactiveFormsModule,
         HttpClientModule,
         FormsModule,
-        HttpLinkModule,
-        ApolloModule,
         MaterialModule.forRoot(),
-
+        GraphQlModule,
         // Firebase
         AngularFireModule.initializeApp(environment.firebase), //  as ModuleWithProviders<AngularFireModule>
         AngularFirestoreModule,
@@ -73,19 +69,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         SplashScreen,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
         {provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG},
-        {
-            provide: APOLLO_OPTIONS,
-            useFactory: (httpLink: HttpLink) => {
-                return {
-                    cache: new InMemoryCache(),
-                    link: httpLink.create({
-                        uri: 'http://localhost:4000/'
-                    })
-                };
-            },
-            deps: [HttpLink]
-        }
-
     ],
     bootstrap: [AppComponent]
 })

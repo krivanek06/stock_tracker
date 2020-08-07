@@ -10,6 +10,8 @@ export const queryUserStockWatchlists = async (userId: string) => {
             .collection('stockWatchlist')
             .where('userId', '==', userId)
             .get();
+
+            console.log('queryUserStockWatchlists', watchlistDoc.size);
         
         return watchlistDoc.docs.map(list => { return { ...list.data(), id: list.id } }) as StockWatchlist[];
     } catch (error) {

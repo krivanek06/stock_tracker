@@ -1,12 +1,21 @@
 :host {
   .watchlist-container {
-    padding: 20px;
-    padding-left: 100px;
+    padding: 20px 20px 20px 60px;
   }
 
   .create-watchlist-button {
     margin-left: 35px;
     margin-top: 20px;
+  }
+
+  .sector-chart-container {
+    display: contents;
+  }
+
+  @media (max-width: 1350px) {
+    .sector-chart-container {
+      display: none;
+    }
   }
 
   @media (max-width: 1500px) {
@@ -15,7 +24,7 @@
     }
   }
 
-  @media (max-width: 1050px) {
+  @media (max-width: 1020px) {
     .watchlist-container {
       padding: 2px;
       text-align: -webkit-center;
@@ -23,5 +32,17 @@
     .create-watchlist-button {
       margin-left: 10px;
     }
+    .center-text {
+      text-align: -webkit-center;
+    }
+
   }
+
+  @media (max-width: 450px) {
+    .center-text {
+      text-align: left;
+    }
+  }
+
+
 }

@@ -11,6 +11,13 @@ ion-item ion-icon, ion-item ion-label {
   color: #616e7e;
 }
 
+ion-item ion-label{
+  font-size: 17px;
+  @media (max-width: 550px) {
+    font-size: 15px;
+  }
+}
+
 .log-out-button{
   position: absolute;
   bottom: 25px;
@@ -19,8 +26,14 @@ ion-item ion-icon, ion-item ion-label {
 
 
 ion-menu{
-  min-width: 200px!important;
-  max-width: 200px!important;
+  min-width: 225px!important;
+  max-width: 225px!important;
+}
+
+.toggle-button{
+  margin-top: -10px;
+  margin-left: -10px;
+  color: #616e7e;
 }
 
 ion-menu.md ion-item.selected ion-icon,

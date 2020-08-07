@@ -2,45 +2,32 @@
 
 
 
-
-
 .price-up{
   color: #{$price-up};
-  font-size: 15px;
 }
 
 .price-down{
   color: #{$price-down};
-  font-size: 15px;
 }
 
 .positive-button{
   color: #{$price-up};
-  transition: All 0.3s ease-out;
-  cursor: pointer;
   &:hover {
     color: #{$price-up-lighter};
-    transform: scale(0.90);
   }
 }
 
 .negative-button{
   color: #{$price-down};
-  transition: All 0.3s ease-out;
-  cursor: pointer;
   &:hover {
     color: #{$price-down-lighter};
-    transform: scale(0.90);
   }
 }
 
 .orange-button{
   color: #{$orange-title-medium} !important;
-  transition: All 0.3s ease-out;
-  cursor: pointer;
   &:hover {
     color: #{$orange-title-light} !important;
-    transform: scale(0.90);
   }
 }
 
@@ -49,12 +36,5 @@
   cursor: pointer;
   &:hover{
     transform: scale(0.90);
-  }
-}
-
-.regularFont {
-  font-size: 14px;
-  @media (max-width: 800px) {
-    font-size: 12px;
   }
 }

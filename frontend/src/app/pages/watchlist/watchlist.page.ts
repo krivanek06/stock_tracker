@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import {WatchlistService} from '../../core/services/public/watchlist.service';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-watchlist',
-  templateUrl: './watchlist.page.html',
-  styleUrls: ['./watchlist.page.scss'],
+    selector: 'app-watchlist',
+    templateUrl: './watchlist.page.html',
+    styleUrls: ['./watchlist.page.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WatchlistPage implements OnInit {
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+
+
+
+    }
 
 }
