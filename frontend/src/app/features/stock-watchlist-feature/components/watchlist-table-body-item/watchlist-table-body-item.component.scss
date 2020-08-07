@@ -1,27 +1,11 @@
-@import "../../../../shared/styles/custom-variable";
 @import "../../../../shared/styles/button-styling";
 @import "../../../../shared/styles/icon-styling";
 @import "../../../../shared/styles/general-styling";
 @import "../../../../shared/styles/resolution-styling";
 
+
+
 :host {
-
-  .increment {
-    animation-duration: 1.5s;
-    animation-name: positive-background;
-  }
-
-  @keyframes positive-background {
-    from {
-      background: #2dd36f;
-    }
-
-    to {
-      background: transparent;
-    }
-  }
-
-  /*--------------------------*/
 
   .symbol-image {
     max-width: 55px !important;
@@ -44,43 +28,6 @@
     }
   }
 
-  .symbol-image-attribute{
-    min-width: 70px !important;
-    max-width: 70px !important;
-    @media (max-width: 750px) {
-      min-width: 65px !important;
-      max-width: 65px !important;
-    }
-  }
-
-  .table-header{
-    font-size: 20px;
-    font-weight: bold;
-    color: #{$orange-title-dark};
-    @media (max-width: 750px) {
-      font-size: 18px;
-    }
-  }
-
-  .table-header-timestamp{
-    font-size: 14px;
-    @media (max-width: 750px) {
-      font-size: 11px;
-    }
-  }
-
-  .watchlist-edit-container{
-    padding-left: 30px;
-    min-width: 100%;
-    max-width: 100%;
-    display: contents;
-  }
-
-  .watchlist-edit-input{
-    min-width: 70%;
-    max-width: 70%;
-  }
-
 
   ion-button{
     --background: transparent;
@@ -94,15 +41,6 @@
     @media (max-width: 750px) {
       min-width: 50px;
       max-width: 50px;
-    }
-  }
-
-  .stockInfo-name-title{
-    min-width: 80px;
-    max-width: 80px;
-    @media (max-width: 750px) {
-      min-width: 55px;
-      max-width: 55px;
     }
   }
 

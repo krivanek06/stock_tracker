@@ -3,14 +3,18 @@
         <ion-content class="ion-padding-horizontal">
 
             <ion-toolbar>
+                <ion-menu-toggle slot="start" class="toggle-button">
+                    <ion-menu-button autoHide="false" style="font-size: 25px;" ></ion-menu-button>
+                </ion-menu-toggle>
+
                 <ion-title class="app-title">
                     Stock tracker
                 </ion-title>
+
             </ion-toolbar>
 
+            <!-- navigation -->
             <ion-list>
-
-
                 <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
                     <ion-item (click)="selectedIndex = i"
                               class="ion-no-padding clickable"
@@ -25,7 +29,7 @@
                 </ion-menu-toggle>
             </ion-list>
 
-
+            <!-- logout button -->
             <ion-menu-toggle auto-hide="false" class="log-out-button">
                 <ion-item (click)="logout()" class="ion-no-padding clickable" routerLink="/login">
                     <ion-icon name="log-out-outline"></ion-icon>

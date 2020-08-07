@@ -1,0 +1,58 @@
+<ion-item class="ion-no-padding stockInfo-container" (click)="detailsItemClicked()">
+    <ion-button>
+        <ion-img [src]="logoUrl" class="symbol-image " (click)="imageClicked()">
+        </ion-img>
+    </ion-button>
+
+    <!-- stock name -->
+    <ion-label position="fixed" class="stockInfo-name">
+        {{ symbol }}
+    </ion-label>
+
+    <!-- current price -->
+    <ion-label position="fixed" class="stockInfo-price" [@marketValueChange]="newCurrentPrice">
+      {{ currentPrice | currency }}
+    </ion-label>
+
+    <!-- daily change -->
+    <ion-label position="fixed"
+               class="stockInfo-change"
+               [ngClass]="{
+                    'price-up': currentPrice - previousClose >= 0,
+                    'price-down': currentPrice - previousClose < 0
+                     }">
+
+        {{ currentPrice - previousClose | currency}}
+        ({{ ((currentPrice - previousClose) / previousClose) | percent: '1.2' }})
+        <ion-icon name="trending-up-outline"
+                  class="price-icon "
+                  *ngIf="currentPrice - previousClose >= 0"></ion-icon>
+        <ion-icon name="trending-down-outline"
+                  class="price-icon"
+                  *ngIf="currentPrice - previousClose < 0"></ion-icon>
+    </ion-label>
+
+    <!-- 52 week range -->
+    <ion-label position="fixed" style="min-width: 150px; max-width: 150px;" class="ion-hide-lg-down">
+        {{ weekLow52 | currency }} - {{ weekHigh52 | currency }}
+    </ion-label>
+
+    <!-- earnings date -->
+    <ion-label position="fixed" class="stockInfo-earnings">
+        {{ earningsDate }}
+    </ion-label>
+
+    <!-- details button -->
+    <ion-button shape="round"
+                fill="outline"
+                class="clickable hideOn400PxDown details-button"
+                (click)="detailsButtonClicked()">
+        Details
+    </ion-button>
+
+    <!-- trash delete button -->
+    <ion-button class="negative-button clickable hideOn450PxDown" (click)="deleteSymbolClicked()">
+        <ion-icon name="trash-bin" style="font-size: 28px;"></ion-icon>
+    </ion-button>
+
+</ion-item>

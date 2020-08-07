@@ -25,8 +25,6 @@ import {Apollo} from 'apollo-angular';
     providedIn: 'root'
 })
 export class WatchlistService {
-    destroy$: Subject<boolean>;
-
     constructor(private createStockWatchlistGQL: CreateStockWatchlistGQL,
                 private addStockIntoWatchlistGQL: AddStockIntoWatchlistGQL,
                 private deleteUserWatchlistGQL: DeleteUserWatchlistGQL,
@@ -46,53 +44,13 @@ export class WatchlistService {
         );
     }
 
-    // get all distinct symbols
-    async startWatchlistRealTimeSubscription(): Promise<void> {
-        this.destroy$ = new Subject<boolean>();
-
+    async getDistinctStocks(): Promise<string[]> {
         const watchlists = await this.queryUserStockWatchlistsGQL.fetch({uid: '7eYTErOxXugeHg4JHLS1L5ZKosK2'}).toPromise();
-
-        // initialise websocket subscription for stocks
         const stockArrays = watchlists.data.queryUserStockWatchlists.map(watchlist => watchlist.stocks);
         const distinctStocks = [...new Set([].concat(...stockArrays))] as string[];
-
-        console.log('distinctStocks', distinctStocks);
-        distinctStocks.forEach(stockName => this.marketPriceWebsocket.createSubscribeForSymbol(stockName));
-
-        // update cache by received value from websockets
-        this.marketPriceWebsocket.getSubscribedSymbolsResult()
-            .pipe(
-                filter(value => !!value),
-                takeUntil(this.destroy$)
-            )
-            .subscribe(res => {
-                // read stock details from cache and update price
-                const fragment = this.apollo.getClient().readFragment({
-                    id: `StockDetails:${res.s}`,
-                    fragment: StockMainDetailsFragmentDoc
-                }) as StockMainDetailsFragment;
-
-
-                // write data back to cache
-                this.apollo.getClient().writeFragment({
-                    id: `StockDetails:${res.s}`,
-                    fragment: StockMainDetailsFragmentDoc,
-                    data: {
-                        ...fragment,
-                        overview: {...fragment.overview, currentPrice: res.p}
-                    }
-                });
-
-                // trigger UI update -> should not work like this
-                this.getUserStockWatchlists().pipe(takeUntil(this.destroy$)).subscribe();
-            });
+        return distinctStocks;
     }
 
-    endWatchlistRealTimeSubscription(): void {
-        this.destroy$.next(true);
-        this.destroy$.complete();
-        this.marketPriceWebsocket.closeConnection();
-    }
 
     createWatchList(identifier: StockWatchlistIdentifier): Observable<FetchResult<CreateStockWatchlistMutation>> {
         return this.createStockWatchlistGQL.mutate({
