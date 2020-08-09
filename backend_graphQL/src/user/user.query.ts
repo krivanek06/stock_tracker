@@ -10,6 +10,7 @@ export const queryUser = async (uid: string) => {
             .doc(`users/${uid}`)
             .get();
         const user = userDoc.data() as User | undefined;
+
         return user || new ValidationError('User ID not found');
     } catch (error) {
         throw new ApolloError(error);

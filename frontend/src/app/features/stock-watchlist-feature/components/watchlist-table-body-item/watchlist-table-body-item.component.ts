@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import {ChartDataIdentification} from '../../../../shared/models/chartModel';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {marketValueChange} from '../../../../shared/animation/marketValueChange.animation';
+import {marketValueChange} from '../../../../shared/animations/marketValueChange.animation';
 
 
 interface CustomValueChange {
@@ -33,7 +33,7 @@ interface CustomValueChange {
 export class WatchlistTableBodyItemComponent implements OnInit, OnChanges {
     private isMobile = false;
 
-    // saving values when websocket change current price to trigger animation
+    // saving values when websocket change current price to trigger animations
     previousCurrentPrice = 0;
     newCurrentPrice = 0;
 

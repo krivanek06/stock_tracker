@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 
 import {MenuPage} from './menu.page';
-import {LoggedInGuard} from 'ngx-auth-firebaseui';
+import {AuthGuard} from '../../features/auth-feature/guards/auth.guard';
 
 const routes: Routes = [
     {
@@ -15,37 +15,37 @@ const routes: Routes = [
             },
             {
                 path: 'dashboard',
-                canActivate: [LoggedInGuard],
+                canActivate: [AuthGuard],
                 loadChildren: () => import('../dashboard/dashboard.module').then(m => m.DashboardPageModule)
             },
             {
                 path: 'watchlist',
-                canActivate: [LoggedInGuard],
+                canActivate: [AuthGuard],
                 loadChildren: () => import('../watchlist/watchlist.module').then(m => m.WatchlistPageModule)
             },
             {
                 path: 'stock-details/:symbol',
-                canActivate: [LoggedInGuard],
+                canActivate: [AuthGuard],
                 loadChildren: () => import('../stock-details/stock-details.module').then(m => m.StockDetailsPageModule)
             },
             {
                 path: 'profile',
-                canActivate: [LoggedInGuard],
+                canActivate: [AuthGuard],
                 loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
             },
             {
                 path: 'simulator',
-                canActivate: [LoggedInGuard],
+                canActivate: [AuthGuard],
                 loadChildren: () => import('../simulator/simulator.module').then(m => m.SimulatorPageModule)
             },
             {
                 path: 'about',
-                canActivate: [LoggedInGuard],
+                canActivate: [AuthGuard],
                 loadChildren: () => import('../about/about.module').then(m => m.AboutPageModule)
             },
             {
                 path: 'admin',
-                canActivate: [LoggedInGuard],
+                canActivate: [AuthGuard],
                 loadChildren: () => import('../admin/admin.module').then(m => m.AdminPageModule)
             },
         ]

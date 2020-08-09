@@ -1,5 +1,5 @@
 import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {StockApiService} from '../../../../core/api/stock-api.service';
+import {StockApiService} from '../../../../api/stock-api.service';
 import {PriceRangeData} from '../../../../shared/models/chartModel';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
