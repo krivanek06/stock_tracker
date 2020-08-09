@@ -41,13 +41,6 @@ query queryUserStockWatchlists($uid: String!) {
     }
 }
 
-query queryUserStockWatchlistById($uid: String!, $documentId: String!) {
-    queryUserStockWatchlistById(uid: $uid, documentId: $documentId) {
-        ...StockWatchlistInformation
-    }
-}
-
-
 
 ## MUTATION
 ##---------------------------

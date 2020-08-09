@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {StockDetails} from '../../../../features/stock-details-feature/model/stockDetails';
 import {ModalController, PopoverController} from '@ionic/angular';
 import {DetailsFinancialReportModalComponent} from '../../../../features/stock-details-feature/components/modal/details-financial-report-modal/details-financial-report-modal.component';
-import {StockApiService} from '../../../../core/api/stock-api.service';
+import {StockApiService} from '../../../../api/stock-api.service';
 import {Subject} from 'rxjs';
 
 @Component({

@@ -1,0 +1,19 @@
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+
+    <ion-list>
+        <ion-item>
+            <ion-icon name="person" slot="start" class="ion-margin-end"></ion-icon>
+            <ion-input formControlName="username" type="text" placeholder="username"></ion-input>
+        </ion-item>
+
+
+        <ion-item>
+            <ion-icon name="lock-closed" class="ion-margin-end"></ion-icon>
+            <ion-input formControlName="password" type="text" placeholder="password"></ion-input>
+        </ion-item>
+
+    </ion-list>
+
+    <ion-button color="medium" shape="full" expand="block" type="submit">Sign In</ion-button>
+
+</form>

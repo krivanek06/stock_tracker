@@ -10,7 +10,7 @@ import {
     SimpleChanges
 } from '@angular/core';
 import {ChartDataIdentification, DocumentIdentification} from '../../../../shared/models/chartModel';
-import {StockWatchlistInformationFragment} from '../../../../core/services/private/watchlistGraphql.service';
+import {StockWatchlistInformationFragment} from '../../../../api/customGraphql.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({

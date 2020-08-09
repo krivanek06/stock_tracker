@@ -19,7 +19,7 @@ export const queryUserStockWatchlists = async (userId: string) => {
     }
 }
 
-
+/*
 export const queryUserStockWatchlistById = async(userId, documentId) => {
     try {
         const watchlistDoc = await admin
@@ -44,4 +44,4 @@ export const queryUserStockWatchlistById = async(userId, documentId) => {
     } catch (error) {
         throw new ApolloError(error);
     }
-}
+}*/

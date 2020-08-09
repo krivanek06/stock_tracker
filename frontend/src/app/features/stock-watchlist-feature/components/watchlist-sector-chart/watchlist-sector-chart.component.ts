@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {Maybe, StockDetails, StockMainDetailsFragment} from '../../../../core/services/private/watchlistGraphql.service';
+import {Maybe, StockDetails, StockMainDetailsFragment} from '../../../../api/customGraphql.service';
 
 @Component({
     selector: 'app-watchlist-sector-chart',

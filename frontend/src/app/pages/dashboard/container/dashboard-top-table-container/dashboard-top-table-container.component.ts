@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {StockApiService} from '../../../../core/api/stock-api.service';
+import {StockApiService} from '../../../../api/stock-api.service';
 import {MatDialog} from '@angular/material/dialog';
-import {WatchlistPickerModalContainerComponent} from '../../../../features/stock-watchlist-feature/container/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
+import {WatchlistPickerModalContainerComponent} from '../../../../features/stock-watchlist-feature/containers/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
 import {ChartDataIdentification} from '../../../../shared/models/chartModel';
 import {TopStockTableData} from '../../../../features/stock-watchlist-feature/model/tableModel';
 import {ModalController, PopoverController} from '@ionic/angular';
