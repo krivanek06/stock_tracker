@@ -1,25 +1,4 @@
-
-<div class="login_container">
-  <ngx-auth-firebaseui
-    [guestEnabled]="true"
-    [providers]="['google']"
-    (onError)="log($event)"
-    (onSuccess)="login()">
-
-  </ngx-auth-firebaseui>
-
+<div class="authentication-container">
+<app-authentication-container></app-authentication-container>
 </div>
-<!--
-<ion-card>
-  <ion-card-content>
-    <ngx-auth-firebaseui
-            [guestEnabled]="true"
-            [providers]="['google']"
-            (onError)="log($event)"
-            (onSuccess)="login()">
 
-    </ngx-auth-firebaseui>
-  </ion-card-content>
-</ion-card>
-
--->

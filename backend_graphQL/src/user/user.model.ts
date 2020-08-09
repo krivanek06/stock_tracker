@@ -4,6 +4,8 @@ export interface User {
     email: string;
     photoURL: string;
     providerId: string;
+    nickname: string;
+    locale: string;
 
   }
   

@@ -32,7 +32,7 @@ export const createStockWatchlist = async (identifier: StockWatchlistIdentifier)
 
     const documentRef = await admin.firestore().collection("stockWatchlist").add(watchlist);
  
-    await sleep(3000);
+
     return {...watchlist, id: documentRef.id};
   } catch (error) {
     throw new ApolloError(error);
@@ -73,8 +73,6 @@ export const addStockIntoStockWatchlist = async (identifier: StockWatchlistIdent
 
     const stockDetails = await response.json() as StockDetails;
     
-    
-    await sleep(3000);
 
     // add stock into watchlist
     watchlist.stocks = [...watchlist.stocks, identifier.additionalData];
@@ -86,13 +84,6 @@ export const addStockIntoStockWatchlist = async (identifier: StockWatchlistIdent
   }
 };
 
-
-function sleep(ms) {
-    return new Promise((resolve) => {
-      console.log('sleeping');
-      setTimeout(resolve, ms);
-    });
-  }   
 
 export const removeStockFromStockWatchlist = async (identifier: StockWatchlistIdentifier) => {
   try {
@@ -124,8 +115,6 @@ export const removeStockFromStockWatchlist = async (identifier: StockWatchlistId
     watchlist.stocks = filtered;
     await watchlistRef.update({ stocks: filtered });
 
-    await sleep(3000);
-
     return true;
   } catch (error) {
     throw new ApolloError(error);
@@ -155,8 +144,6 @@ export const deleteWatchlist = async (identifier: StockWatchlistIdentifier) => {
     }
 
     await watchlistRef.delete();
-
-    await sleep(3000);
 
     return true;
   } catch (error) {
@@ -190,7 +177,6 @@ export const renameStockWatchlist = async (identifier: StockWatchlistIdentifier)
       
       // rename in firestore
       await watchlistRef.update({id: identifier.additionalData})  
-      await sleep(3000);
   
       return true;
     } catch (error) {

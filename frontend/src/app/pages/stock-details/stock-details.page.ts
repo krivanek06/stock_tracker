@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { StockApiService } from "../../core/api/stock-api.service";
+import { StockApiService } from "../../api/stock-api.service";
 import { Observable, Subject } from "rxjs";
 import {
   StockArticle,

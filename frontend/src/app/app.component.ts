@@ -1,11 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Store} from '@ngrx/store';
-import {AppState} from './core/model/appState';
 import {Platform} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
-import {getUser} from './core/store/auth/auth.action';
-import {ThemeService} from './core/services/theme.service';
+import {ThemeService} from './shared/services/theme.service';
 
 @Component({
     selector: 'app-root',
@@ -14,7 +11,6 @@ import {ThemeService} from './core/services/theme.service';
 })
 export class AppComponent implements OnInit {
     constructor(
-        private store: Store<AppState>,
         private platform: Platform,
         private splashScreen: SplashScreen,
         private statusBar: StatusBar,
@@ -33,7 +29,5 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.store.subscribe(console.log);
-        this.store.dispatch(getUser());
     }
 }

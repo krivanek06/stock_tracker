@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Store} from '@ngrx/store';
-import {AppState} from '../../core/model/appState';
-import {logout} from '../../core/store/auth/auth.action';
+import {Apollo} from 'apollo-angular';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {Router} from '@angular/router';
+
 @Component({
     selector: 'app-menu',
     templateUrl: './menu.page.html',
@@ -43,7 +44,9 @@ export class MenuPage implements OnInit {
     ];
 
 
-    constructor(private store: Store<AppState>) {
+    constructor(private apollo: Apollo,
+                private afAuth: AngularFireAuth,
+                private router: Router) {
     }
 
     ngOnInit() {
@@ -54,8 +57,10 @@ export class MenuPage implements OnInit {
         }
     }
 
-    logout() {
-        this.store.dispatch(logout());
+    async logout() {
+        await this.apollo.getClient().clearStore();
+        await this.afAuth.signOut();
+        await this.router.navigate(['/login']);
     }
 
 }
