@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnChanges, OnDestroy, OnInit, ViewRef} from '@angular/core';
-import {WatchlistService} from '../../../../core/services/public/watchlist.service';
+import {WatchlistService} from '../../../../features/stock-watchlist-feature/services/watchlist.service';
 import {IonicDialogService} from '../../../../shared/services/ionic-dialog.service';
 import {Router} from '@angular/router';
 import {ModalController} from '@ionic/angular';
@@ -10,8 +10,8 @@ import {
     QueryUserStockWatchlistsDocument, StockMainDetailsFragment,
     StockMainDetailsFragmentDoc,
     StockWatchlistInformationFragment
-} from '../../../../core/services/private/watchlistGraphql.service';
-import {MarketPriceWebsocketService} from '../../../../core/services/public/market-price-websocket.service';
+} from '../../../../api/customGraphql.service';
+import {MarketPriceWebsocketService} from '../../../../shared/services/market-price-websocket.service';
 import {Apollo} from 'apollo-angular';
 import {Observable, Subject} from 'rxjs';
 import {filter, takeUntil} from 'rxjs/operators';
@@ -79,7 +79,7 @@ export class WatchlistTablesContainerComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        console.log('ngOnDestroy on watchlist table container');
+        console.log('ngOnDestroy on watchlist table containers');
         clearInterval(this.interval);
         this.marketPriceWebsocket.closeConnection();
         this.destroy$.next(true);

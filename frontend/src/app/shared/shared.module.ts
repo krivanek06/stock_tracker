@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {NgxAuthFirebaseUIModule} from 'ngx-auth-firebaseui';
 import {RouterModule} from '@angular/router';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuthModule} from '@angular/fire/auth';
@@ -21,7 +20,7 @@ import {PieChartComponent} from './components/charts/pie-chart/pie-chart.compone
 import {PieChartCardComponent} from './components/cards/pie-chart-card/pie-chart-card.component';
 import {BarChartCardComponent} from './components/cards/bar-chart-card/bar-chart-card.component';
 import {BarChartComponent} from './components/charts/bar-chart/bar-chart.component';
-import {HeaderComponent} from './components/components-smart/header/header.component';
+import {HeaderComponent} from './components/header/header.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import {FixedRangeSliderWithTimeComponent} from './components/charts/fixed-range-slider-with-time/fixed-range-slider-with-time.component';
 import {ApolloModule} from 'apollo-angular';
@@ -49,7 +48,6 @@ import {InlineInputFormComponent} from './components/forms/inline-input-form/inl
     ],
     imports: [
         CommonModule,
-        NgxAuthFirebaseUIModule,
         MaterialModule,
         ReactiveFormsModule,
         FormsModule,
@@ -64,7 +62,6 @@ import {InlineInputFormComponent} from './components/forms/inline-input-form/inl
     ],
     exports: [
         TimeAgoPipe,
-        NgxAuthFirebaseUIModule,
         MaterialModule,
         ReactiveFormsModule,
         FormsModule,
