@@ -15,7 +15,7 @@ import {SixthRowContainerComponent} from './container/sixth-row-container/sixth-
 import {SeventhRowContainerComponent} from './container/seventh-row-container/seventh-row-container.component';
 import {EigthRowContainerComponent} from './container/eigth-row-container/eigth-row-container.component';
 import {StockDetailsFeatureModule} from '../../features/stock-details-feature/stock-details-feature.module';
-import {StockTrackerFeatureModule} from '../../features/stock-tracker-feature/stock-tracker-feature.module';
+import {StockDataFeatureModule} from '../../features/stock-data-feature/stock-data-feature.module';
 
 const routes: Routes = [
     {
@@ -33,7 +33,7 @@ const routes: Routes = [
         StockWatchlistModule,
         SharedModule,
         StockDetailsFeatureModule,
-        StockTrackerFeatureModule
+        StockDataFeatureModule
     ],
     declarations: [
         StockDetailsPage,

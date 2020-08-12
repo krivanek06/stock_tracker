@@ -5,7 +5,7 @@ import {WatchlistPickerModalContainerComponent} from './containers/watchlist-pic
 import {WatchlistTableHeaderComponent} from './components/watchlist-table-header/watchlist-table-header.component';
 import {WatchlistSectorChartComponent} from './components/watchlist-sector-chart/watchlist-sector-chart.component';
 import {WatchlistCreationComponent} from './components/watchlist-creation/watchlist-creation.component';
-import {StockTrackerFeatureModule} from '../stock-tracker-feature/stock-tracker-feature.module';
+import {StockDataFeatureModule} from '../stock-data-feature/stock-data-feature.module';
 import {WatchlistTableBodyItemComponent} from './components/watchlist-table-body-item/watchlist-table-body-item.component';
 
 
@@ -20,7 +20,7 @@ import {WatchlistTableBodyItemComponent} from './components/watchlist-table-body
     imports: [
         CommonModule,
         SharedModule,
-        StockTrackerFeatureModule
+        StockDataFeatureModule
     ],
     exports: [
         WatchlistPickerModalContainerComponent,

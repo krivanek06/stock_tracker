@@ -1,0 +1,19 @@
+@import "../../../../shared/styles/button-styling";
+
+:host {
+  ion-img {
+    width: 350px;
+    max-height: 200px;
+  }
+
+  .fixedLabel {
+    min-width: 375px !important;
+    max-width: 375px !important;
+  }
+
+  .article-container {
+    padding: 10px;
+    display: inline-block;
+  }
+
+}

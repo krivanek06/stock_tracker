@@ -4,6 +4,5 @@
 </div>
 
 <div class="news-container ion-hide-md-up" *ngIf="stockDetails?.stockNewsSnippets">
-  <app-article-cards *ngFor="let article of stockDetails.stockNewsSnippets"
-                     [article]="article"></app-article-cards>
+  <app-article-cards *ngFor="let article of stockDetails.stockNewsSnippets" [article]="article"></app-article-cards>
 </div>

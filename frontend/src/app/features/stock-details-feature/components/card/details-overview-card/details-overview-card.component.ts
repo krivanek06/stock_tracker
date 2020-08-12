@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {BasicInfo, OverView} from '../../../model/stockDetails';
-import {PriceRangeData} from '../../../../../shared/models/chartModel';
 
 @Component({
     selector: 'app-details-overview-card',

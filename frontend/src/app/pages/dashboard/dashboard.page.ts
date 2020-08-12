@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
 import { StockApiService } from "../../api/stock-api.service";
-import { EarningsCalendar } from "src/app/features/stock-tracker-feature/model/earningsCalendarModel";
+import { EarningsCalendar } from "src/app/features/stock-data-feature/model/earningsCalendarModel";
 @Component({
   selector: "app-dashboard",
   templateUrl: "./dashboard.page.html",

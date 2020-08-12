@@ -4,7 +4,7 @@ import {IonicDialogService} from '../../../../shared/services/ionic-dialog.servi
 import {Router} from '@angular/router';
 import {ModalController} from '@ionic/angular';
 import {ChartDataIdentification, DocumentIdentification} from '../../../../shared/models/chartModel';
-import {FinancialChartCardModalContainerComponent} from '../../../../features/stock-tracker-feature/container/modal/financial-chart-card-modal-container/financial-chart-card-modal-container.component';
+import {FinancialChartCardModalContainerComponent} from '../../../../features/stock-data-feature/container/modal/financial-chart-card-modal-container/financial-chart-card-modal-container.component';
 import {Maybe} from 'graphql/jsutils/Maybe';
 import {
     QueryUserStockWatchlistsDocument, StockMainDetailsFragment,
