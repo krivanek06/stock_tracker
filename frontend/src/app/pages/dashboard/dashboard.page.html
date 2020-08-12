@@ -1,20 +1,7 @@
 <app-header></app-header>
 
 <ion-content class="ion-padding">
-
-
-    <div class="left-screen">
-        <!-- live charts -->
-        <app-financial-chart-container [symbol]="'^GSPC'" [name]="'S&P 500'"></app-financial-chart-container>
-
-        <!-- top table -->
-        <app-dashboard-top-table-container></app-dashboard-top-table-container>
-    </div>
-
-    <div class="right-screen">
-        <!-- news articles -->
-        <app-dashboard-news-container></app-dashboard-news-container>
-    </div>
+    <app-dashboard-charts-container></app-dashboard-charts-container>
 
 
 </ion-content>

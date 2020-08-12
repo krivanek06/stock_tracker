@@ -26,6 +26,9 @@ import {FixedRangeSliderWithTimeComponent} from './components/charts/fixed-range
 import {ApolloModule} from 'apollo-angular';
 import {VariablePieChartComponent} from './components/charts/variable-pie-chart/variable-pie-chart.component';
 import {InlineInputFormComponent} from './components/forms/inline-input-form/inline-input-form.component';
+import {LineChartComponent} from './components/charts/line-chart/line-chart.component';
+import {LineChartCardComponent} from './components/cards/line-chart-card/line-chart-card.component';
+import {GenericChartCardComponent} from './components/cards/generic-chart-card/generic-chart-card.component';
 
 @NgModule({
     declarations: [
@@ -44,7 +47,10 @@ import {InlineInputFormComponent} from './components/forms/inline-input-form/inl
         HeaderComponent,
         InlineInputFormComponent,
         FixedRangeSliderWithTimeComponent,
-        VariablePieChartComponent
+        VariablePieChartComponent,
+        LineChartComponent,
+        LineChartCardComponent,
+        GenericChartCardComponent
     ],
     imports: [
         CommonModule,
@@ -87,7 +93,10 @@ import {InlineInputFormComponent} from './components/forms/inline-input-form/inl
         ApolloModule,
         VariablePieChartComponent,
         InlineInputFormComponent,
-        FixedRangeSliderWithTimeComponent
+        FixedRangeSliderWithTimeComponent,
+        LineChartComponent,
+        LineChartCardComponent,
+        GenericChartCardComponent
     ]
 })
 export class SharedModule {

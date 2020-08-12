@@ -1,0 +1,67 @@
+<ion-grid>
+    <ion-row>
+        <ion-col size="12" size-lg="6">
+            <app-financial-chart-container [symbol]="'^GSPC'" [name]="'S&P 500'"></app-financial-chart-container>
+        </ion-col>
+        <ion-col size="12" size-lg="6">
+            <ng-container *ngIf="investorSentimentData$ | async as data">
+                <app-generic-chart-card [chartTitle]="'Investor sentiment'">
+                    <app-line-chart
+                            [series]="[
+                                  {name: 'Bullish', data: data.Bullish},
+                                  {name: 'Neutral', data: data.Neutral},
+                                  {name: 'Bearish', data: data.Bearish}
+                                ]"
+                            [timestamp]="data.timestamp">
+                    </app-line-chart>
+                </app-generic-chart-card>
+            </ng-container>
+        </ion-col>
+    </ion-row>
+
+    <ng-container *ngIf="sp500StatisticsData$ | async as data">
+        <ion-row>
+            <ion-col size="12" size-lg="4">
+                <app-generic-chart-card [chartTitle]="'S&P 500 Earnings yield'">
+                    <app-line-chart [series]="[{name: 'Earnings yield', data: data.earningsYieldMonth} ]"
+                                    [timestamp]="data.timestamp"></app-line-chart>
+                </app-generic-chart-card>
+            </ion-col>
+            <ion-col size="12" size-lg="4">
+                <app-generic-chart-card [chartTitle]="'S&P 500 Dividends'">
+                    <app-line-chart [series]="[{name: 'Dividend', data: data.dividendPerMonth} ]"
+                                    [timestamp]="data.timestamp"></app-line-chart>
+                </app-generic-chart-card>
+            </ion-col>
+
+
+            <ion-col size="12" size-lg="4">
+                <app-generic-chart-card [chartTitle]="'S&P 500 Dividend yield'">
+                    <app-line-chart [series]="[{name: 'Dividend yield', data: data.dividendYieldMonth} ]"
+                                    [timestamp]="data.timestamp"></app-line-chart>
+                </app-generic-chart-card>
+            </ion-col>
+        </ion-row>
+
+    </ng-container>
+</ion-grid>
+
+
+<!--
+<ng-container *ngIf="sp500StatisticsData$ | async as data">
+                <app-generic-chart-card [chartTitle]="'Investor sentiment'">
+                    <app-line-chart [series]="[
+                       {name: 'Earnings yield', data: data.earningsYieldMonth},
+                       {name: 'Dividend', data: data.dividendPerMonth},
+                       {name: 'Dividend yield', data: data.dividendYieldMonth},
+                       {name: 'PE ratio', data: data.peRatioMonth},
+                       {name: 'Price to book', data: data.priceToBookQrt},
+                       {name: 'Price to sale', data: data.priceToSaleQrt},
+                       {name: 'Sales growth', data: data.salesGrowthQrt}
+                     ]"
+                        [timestamp]="data.timestamp">
+                    </app-line-chart>
+                </app-generic-chart-card>
+            </ng-container>
+
+-->

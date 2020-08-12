@@ -6,23 +6,16 @@ import {
 } from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {
-    TimelineChartData,
-    TimelineChartDataWrapper,
+    HistoricalChartData,
+    ChartDataWrapper,
 } from '../shared/models/chartModel';
 import {environment} from '../../environments/environment';
 import {map, retry, tap} from 'rxjs/operators';
-import {
-    TopActive,
-    TopCrypto,
-    TopGains,
-    TopLosers,
-    TopStockTableData,
-    TopTableData,
-} from '../features/stock-watchlist-feature/model/tableModel';
-import {EarningsCalendar, EarningsCalendarWrapper} from '../features/stock-tracker-feature/model/earningsCalendarModel';
-import {NewsArticle, NewsArticleWrapper} from '../features/stock-tracker-feature/model/newsModel';
+import {EarningsCalendar, EarningsCalendarWrapper} from '../features/stock-data-feature/model/earningsCalendarModel';
+import {NewsArticle, NewsArticleWrapper} from '../features/stock-data-feature/model/newsModel';
 import {StockArticle, StockArticleWrapper, StockDetails} from '../features/stock-details-feature/model/stockDetails';
 import {FinancialReport} from '../features/stock-details-feature/model/financialReportModel';
+import {TopActive, TopCrypto, TopGains, TopLosers, TopStockTableData, TopTableData} from '../features/stock-data-feature/model/dataModel';
 
 @Injectable({
     providedIn: 'root',
@@ -31,21 +24,7 @@ export class StockApiService {
     constructor(private http: HttpClient) {
     }
 
-    getChartDataForSymbol(
-        symbol: string,
-        period: string = '1d'
-    ): Observable<TimelineChartData> {
-        const params = new HttpParams().set('symbol', symbol).set('period', period);
-        return this.http
-            .get<TimelineChartDataWrapper>(
-                `${environment.stockAPI}/ticker/chart_data`,
-                {params}
-            )
-            .pipe(
-                map((res) => res.chartData),
-                retry(2)
-            );
-    }
+
 
     getTopGains(): Observable<TopStockTableData[]> {
         return this.http
@@ -98,16 +77,6 @@ export class StockApiService {
             .pipe(map((res) => res.earnings));
     }
 
-   /* getStockTableData(symbol: string): Observable<StockTableData> {
-        const params = new HttpParams().set('symbol', symbol);
-        return this.http
-            .get<StockWatchTableDataWrapper>(
-                `${environment.stockAPI}/ticker/watchlist_summary`,
-                {params}
-            )
-            .pipe(map((res) => res.stockTableData));
-    }*/
-
 
     getStockDetails(symbol: string): Observable<StockDetails> {
         const params = new HttpParams().set('symbol', symbol);
@@ -119,22 +88,10 @@ export class StockApiService {
     }
 
 
-    getStockNews(symbol: string, olderThan: number): Observable<StockArticle[]> {
-        const params = new HttpParams()
-            .set('symbol', symbol)
-            .set('olderThan', String(olderThan));
-        return this.http.get<StockArticleWrapper>(`${environment.stockAPI}/ticker/details/stockNews`, {params})
-            .pipe(
-                tap(res => console.log('eeeeeeee')),
-                map(res => res.stockNews)
-            );
-    }
-
-
-    getFinancialReport(symbol: string, financialReportName: string): Observable<FinancialReport>{
+    getFinancialReport(symbol: string, financialReportName: string): Observable<FinancialReport> {
         const params = new HttpParams()
             .set('symbol', symbol)
             .set('financialReportName', financialReportName);
-        return this.http.get<FinancialReport>(`${environment.stockAPI}/ticker/details/financial_report`,{params});
+        return this.http.get<FinancialReport>(`${environment.stockAPI}/ticker/details/financial_report`, {params});
     }
 }
