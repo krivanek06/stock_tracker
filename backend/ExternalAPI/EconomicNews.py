@@ -4,7 +4,7 @@ from private_data import enviroments
 import json
 from datetime import datetime
 from dateutil import relativedelta
-
+import time
 
 class EconomicNews:
     def __init__(self):
@@ -19,10 +19,20 @@ class EconomicNews:
 
     # fetch stock news each 4-6 hours
     def __fetchAndSaveNews(self):
-        business_news = get('http://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=' + self.API_KEY)
+        business_news = get('http://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=' + self.API_KEY).json()['articles']
+        #print(business_news)
+        # format data fot same object as news for stock details
+        result = [{
+            'datetime': datetime.strptime(d['publishedAt'], "%Y-%m-%dT%H:%M:%SZ").timestamp(), #
+            'headline': d['title'],
+            'sourceName': d['source'].get('name'),
+            'summary': d['description'],
+            'url': d['url'],
+            'image': d['urlToImage']
+        } for d in business_news]
 
         with open(self.FOLDER + "/" + self.BUSINESS_FILENAME, "w+", encoding='utf-8') as f:
-            json.dump(business_news.json(), f, ensure_ascii=False, indent=4)
+            json.dump(result, f, ensure_ascii=False, indent=4)
 
     def getJsonDataFromFile(self):
         # fetch news if older than 6 hours
@@ -32,12 +42,7 @@ class EconomicNews:
             self.__fetchAndSaveNews()
             print('fetched')
 
-        result = {}
         with open(self.FOLDER + "/" + self.BUSINESS_FILENAME, encoding='utf-8') as f:
             result = json.load(f) # [self.BUSINESS_FILENAME[:-5]]
 
-        # remove content
-        for art in result['articles']:
-            del art['content']
-
-        return result['articles']
+        return result

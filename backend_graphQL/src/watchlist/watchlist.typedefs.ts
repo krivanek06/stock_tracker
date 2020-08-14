@@ -28,7 +28,7 @@ export const watchlistTypeDefs = gql`
         financialStrengthRatio: FinancialStrengthRatio
         incomeStatement: IncomeStatement
         recommendation: [Recommendations]
-        stockNewsSnippets: [StockArticle]
+        stockNewsSnippets: [NewsArticle]
     }
 
     type PerShare{
@@ -306,17 +306,10 @@ export const watchlistTypeDefs = gql`
         logoUrl: String
     }
 
-
-    type StockArticleWrapper {
-        stockNews: [StockArticle]
-    }
-
-    type StockArticle {
+    type NewsArticle {
         datetime: String
         headline: String
         image: String
-        related: String
-        source: String
         sourceName: String
         summary: String
         url: String

@@ -198,6 +198,8 @@ export class FinancialChartComponent implements OnInit, OnChanges {
                     resize: {
                         enabled: true,
                     },
+                    startOnTick: false,
+                    endOnTick: false,
                 },
                 {
                     title: false,
@@ -208,6 +210,8 @@ export class FinancialChartComponent implements OnInit, OnChanges {
                     top: '75%',
                     height: '25%',
                     offset: 0,
+                    startOnTick: false,
+                    endOnTick: false,
                 },
             ],
         };

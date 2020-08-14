@@ -1,5 +1,5 @@
-<ion-card>
-  <ion-card-header>
+<ion-card [style.height.px]="cardHeight">
+  <ion-card-header *ngIf="chartTitle">
     <ion-card-title class="ion-text-center ion-padding-start ion-padding-top">
       {{ chartTitle}}
     </ion-card-title>
