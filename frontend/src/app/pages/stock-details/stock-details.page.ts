@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { StockApiService } from "../../api/stock-api.service";
+import { StockFundamentalsApiService } from "../../api/stock-fundamentals-api.service";
 import { Observable, Subject } from "rxjs";
 import {
-  StockArticle,
   StockDetails,
 } from "../../features/stock-details-feature/model/stockDetails";
 import { ActivatedRoute } from "@angular/router";
 import { takeUntil } from "rxjs/operators";
 import { Apollo } from "apollo-angular";
+
 @Component({
   selector: "app-stock-details",
   templateUrl: "./stock-details.page.html",
@@ -17,10 +17,9 @@ export class StockDetailsPage implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   stockDetails: StockDetails;
-  stockArticles: StockArticle[];
 
   constructor(
-    private stockApiService: StockApiService,
+    private stockApiService: StockFundamentalsApiService,
     private apollo: Apollo,
     private route: ActivatedRoute
   ) {}

@@ -1,3 +1,6 @@
+import {NewsArticle} from '../../stock-data-feature/model/newsModel';
+
+
 export interface StockDetails {
     id: string;
     basicInfo: BasicInfo;
@@ -14,7 +17,7 @@ export interface StockDetails {
     financialStrengthRatio: FinancialStrengthRatio;
     incomeStatement: IncomeStatement;
     recommendation: Recommendations[];
-    stockNewsSnippets: StockArticle[];
+    stockNewsSnippets: NewsArticle[];
 }
 
 export interface PerShare{
@@ -292,20 +295,4 @@ export interface BasicInfo {
     summary: string;
     symbol: string;
     logoUrl: string;
-}
-
-
-export interface StockArticleWrapper {
-    stockNews: StockArticle[];
-}
-
-export interface StockArticle {
-    datetime: string;
-    headline: string;
-    image: string;
-    related: string;
-    source: string;
-    sourceName: string;
-    summary: string;
-    url: string;
 }

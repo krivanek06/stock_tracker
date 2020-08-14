@@ -1,0 +1,16 @@
+@import "../../../../shared/styles/button-styling";
+
+:host {
+  .symbol-gap{
+    min-width: 30% !important;
+    max-width: 30% !important;
+  }
+  .price-gap {
+    min-width: 22% !important;
+    max-width: 22% !important;
+  }
+  .price-change-gap{
+    min-width: 25% !important;
+    max-width: 25% !important;
+  }
+}

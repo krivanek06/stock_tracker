@@ -9,7 +9,7 @@ import {
     Output,
     SimpleChanges
 } from '@angular/core';
-import {ChartDataIdentification} from '../../../../shared/models/chartModel';
+import {ChartDataIdentification} from '../../../../shared/models/sharedModel';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {marketValueChange} from '../../../../shared/animations/marketValueChange.animation';
 

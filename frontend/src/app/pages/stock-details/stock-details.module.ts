@@ -13,9 +13,9 @@ import {FourthRowContainerComponent} from './container/fourth-row-container/four
 import {FifthRowContainerComponent} from './container/fifth-row-container/fifth-row-container.component';
 import {SixthRowContainerComponent} from './container/sixth-row-container/sixth-row-container.component';
 import {SeventhRowContainerComponent} from './container/seventh-row-container/seventh-row-container.component';
-import {EigthRowContainerComponent} from './container/eigth-row-container/eigth-row-container.component';
+import {NewsArticlesContainerComponent} from '../../features/stock-data-feature/container/news-articles-container/news-articles-container.component';
 import {StockDetailsFeatureModule} from '../../features/stock-details-feature/stock-details-feature.module';
-import {StockTrackerFeatureModule} from '../../features/stock-tracker-feature/stock-tracker-feature.module';
+import {StockDataFeatureModule} from '../../features/stock-data-feature/stock-data-feature.module';
 
 const routes: Routes = [
     {
@@ -33,7 +33,7 @@ const routes: Routes = [
         StockWatchlistModule,
         SharedModule,
         StockDetailsFeatureModule,
-        StockTrackerFeatureModule
+        StockDataFeatureModule
     ],
     declarations: [
         StockDetailsPage,
@@ -44,7 +44,6 @@ const routes: Routes = [
         FifthRowContainerComponent,
         SixthRowContainerComponent,
         SeventhRowContainerComponent,
-        EigthRowContainerComponent,
     ]
 })
 export class StockDetailsPageModule {

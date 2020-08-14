@@ -3,8 +3,8 @@ import {WatchlistService} from '../../../../features/stock-watchlist-feature/ser
 import {IonicDialogService} from '../../../../shared/services/ionic-dialog.service';
 import {Router} from '@angular/router';
 import {ModalController} from '@ionic/angular';
-import {ChartDataIdentification, DocumentIdentification} from '../../../../shared/models/chartModel';
-import {FinancialChartCardModalContainerComponent} from '../../../../features/stock-tracker-feature/container/modal/financial-chart-card-modal-container/financial-chart-card-modal-container.component';
+import {ChartDataIdentification, DocumentIdentification} from '../../../../shared/models/sharedModel';
+import {FinancialChartModalContainerComponent} from '../../../../features/stock-data-feature/container/modal/financial-chart-modal-container/financial-chart-modal-container.component';
 import {Maybe} from 'graphql/jsutils/Maybe';
 import {
     QueryUserStockWatchlistsDocument, StockMainDetailsFragment,
@@ -94,7 +94,7 @@ export class WatchlistTablesContainerComponent implements OnInit, OnDestroy {
 
     async showChartForSymbol(chartDataIdentification: ChartDataIdentification) {
         const modal = await this.modalController.create({
-            component: FinancialChartCardModalContainerComponent,
+            component: FinancialChartModalContainerComponent,
             componentProps: {chartDataIdentification},
             cssClass: 'custom-modal'
         });
