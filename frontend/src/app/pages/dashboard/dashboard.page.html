@@ -1,20 +1,15 @@
 <app-header></app-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-no-padding">
+    <perfect-scrollbar>
+        <div class="content-padding">
+            <app-market-movement-container></app-market-movement-container>
 
+            <app-sp500-charts-container></app-sp500-charts-container>
 
-    <div class="left-screen">
-        <!-- live charts -->
-        <app-financial-chart-container [symbol]="'^GSPC'" [name]="'S&P 500'"></app-financial-chart-container>
+            <app-economic-charts-container></app-economic-charts-container>
 
-        <!-- top table -->
-        <app-dashboard-top-table-container></app-dashboard-top-table-container>
-    </div>
-
-    <div class="right-screen">
-        <!-- news articles -->
-        <app-dashboard-news-container></app-dashboard-news-container>
-    </div>
-
-
+            <!--  <app-news-articles-container [newsArticles]="newsArticles$ | async"></app-news-articles-container> -->
+        </div>
+    </perfect-scrollbar>
 </ion-content>

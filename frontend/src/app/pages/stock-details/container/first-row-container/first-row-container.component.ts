@@ -1,13 +1,13 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {BasicInfo, EquityToAssets, OverView, ProfitMargin, StockDetails} from '../../../../features/stock-details-feature/model/stockDetails';
-import {TimelineChartData} from '../../../../shared/models/chartModel';
+import {StockDetails} from '../../../../features/stock-details-feature/model/stockDetails';
 import {takeUntil} from 'rxjs/operators';
-import {StockApiService} from '../../../../api/stock-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {Subject} from 'rxjs';
-import {ModalController, PopoverController} from '@ionic/angular';
+import {ModalController} from '@ionic/angular';
 import {DetailsSummaryModalComponent} from '../../../../features/stock-details-feature/components/modal/details-summary-modal/details-summary-modal.component';
 import {WatchlistPickerModalContainerComponent} from '../../../../features/stock-watchlist-feature/containers/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
+import {ChartDataApiService} from '../../../../api/chart-data-api.service';
+import {HistoricalChartData} from '../../../../features/stock-data-feature/model/chartDataModel';
 
 @Component({
     selector: 'app-first-row-container',
@@ -19,10 +19,10 @@ export class FirstRowContainerComponent implements OnInit, OnDestroy {
 
     @Input() stockDetails: StockDetails;
 
-    chartData: TimelineChartData;
+    chartData: HistoricalChartData;
     symbol: string;
 
-    constructor(private stockApiService: StockApiService,
+    constructor(private chartDataService: ChartDataApiService,
                 private modalController: ModalController,
                 private route: ActivatedRoute) {
     }
@@ -38,7 +38,7 @@ export class FirstRowContainerComponent implements OnInit, OnDestroy {
     }
 
     loadChartData(period: string = '1y') {
-        this.stockApiService.getChartDataForSymbol(this.symbol, period).pipe(
+        this.chartDataService.getHistoricalDataForSymbol(this.symbol, period).pipe(
             takeUntil(this.destroy$)
         ).subscribe(res => {
             this.chartData = res;

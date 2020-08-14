@@ -1,0 +1,97 @@
+<ion-grid>
+    <ion-row>
+        <ion-col size="12">
+            <ng-container *ngIf="treasuryYieldCurveRates$ | async as data">
+                <app-generic-chart
+                        [chartTitle]="'Treasury yield curve rates'"
+                        [heightPx]="chartHeight"
+                        [showLegend]="true"
+                        [series]="[
+                          {name: '6 months', data: data['6_MO']},
+                          {name: '1 year', data: data['1_YR']},
+                          {name: '5 years', data: data['5_YR']},
+                          {name: '10 years', data: data['10_YR']},
+                          {name: '20 years', data: data['20_YR']},
+                          {name: '30 years', data: data['30_YR']}
+                        ]">
+                </app-generic-chart>
+            </ng-container>
+        </ion-col>
+    </ion-row>
+
+    <ion-row>
+        <ion-col size="12" size-lg="6">
+            <ng-container *ngIf="investorSentimentData$ | async as data">
+                <app-generic-chart
+                        [chartTitle]="'Investor sentiment'"
+                        [heightPx]="chartHeight"
+                        [showLegend]="true"
+                        [series]="[
+                          {name: 'Bullish', data: data.Bullish | number},
+                          {name: 'Neutral', data: data.Neutral | number},
+                          {name: 'Bearish', data: data.Bearish | number}
+                        ]">
+                </app-generic-chart>
+            </ng-container>
+        </ion-col>
+        <ion-col size="12" size-lg="6">
+            <ng-container *ngIf="miseryIndex$ | async as data">
+                <app-generic-chart
+                        [chartTitle]="'Misery index'"
+                        [heightPx]="chartHeight"
+                        [showLegend]="true"
+                        [series]="[
+                          {name: 'Unemployment rate', data: data.Unemployment_Rate},
+                          {name: 'Inflation rate', data: data.Inflation_Rate},
+                          {name: 'Misery index', data: data.Misery_Index}
+                        ]">
+                </app-generic-chart>
+            </ng-container>
+        </ion-col>
+
+    </ion-row>
+
+
+    <ion-row>
+        <ng-container *ngIf="employmentData$ | async as data">
+
+            <ion-col size="12" size-lg="3" size-md="6">
+                <app-generic-chart
+                        [chartTitle]="'Government industry'"
+                        [heightPx]="175"
+                        [chartType]="'area'"
+                        [series]="[ {name: 'Government', data: data.governmentIndustry.chartData} ]">
+                </app-generic-chart>
+            </ion-col>
+
+            <ion-col size="12" size-lg="3" size-md="6">
+                <app-generic-chart
+                        [chartTitle]="'Private industry'"
+                        [heightPx]="175"
+                        [chartType]="'area'"
+                        [series]="[ {name: 'Private', data: data.privateIndustry.chartData}  ]">
+                </app-generic-chart>
+            </ion-col>
+
+            <ion-col size="12" size-lg="3" size-md="6">
+                <app-generic-chart
+                        [chartTitle]="'Service providing industry'"
+                        [heightPx]="175"
+                        [chartType]="'area'"
+                        [series]="[ {name: 'Service providers', data: data.serviceProvidingIndustry.chartData} ]">
+                </app-generic-chart>
+            </ion-col>
+
+            <ion-col size="12" size-lg="3" size-md="6">
+                <app-generic-chart
+                        [chartTitle]="'Goods producing industry'"
+                        [heightPx]="175"
+                        [chartType]="'area'"
+                        [series]="[ {name: 'Goods producers', data: data.goodProducingIndustry.chartData} ]">
+                </app-generic-chart>
+            </ion-col>
+
+        </ng-container>
+    </ion-row>
+
+</ion-grid>

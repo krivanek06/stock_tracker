@@ -4,7 +4,7 @@
 <ion-content class="ion-no-padding">
 
     <perfect-scrollbar>
-        <div class="information-content" *ngIf="stockDetails; else showSpinner">
+        <div class="content-padding" *ngIf="stockDetails; else showSpinner">
             <!-- basic info + overview | financial chart -->
             <app-first-row-container [stockDetails]="stockDetails"></app-first-row-container>
 
@@ -27,7 +27,7 @@
             <app-seventh-row-container [stockDetails]="stockDetails"></app-seventh-row-container>
 
             <!-- stock news -->
-            <app-eigth-row-container [stockDetails]="stockDetails"></app-eigth-row-container>
+            <app-news-articles-container [newsArticles]="stockDetails.stockNewsSnippets"></app-news-articles-container>
 
         </div>
     </perfect-scrollbar>

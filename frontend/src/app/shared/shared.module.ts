@@ -14,11 +14,7 @@ import {GaugeChartComponent} from './components/charts/gauge-chart/gauge-chart.c
 import {FixedRangeSliderComponent} from './components/charts/fixed-range-slider/fixed-range-slider.component';
 import { NumberFormatterPipe } from './pipes/numberFormatter.pipe';
 import {TimeAgoPipe} from 'time-ago-pipe';
-import {GaugeChartCardComponent} from './components/cards/gauge-chart-card/gauge-chart-card.component';
-import {FinancialChartCardComponent} from './components/cards/financial-chart-card/financial-chart-card.component';
 import {PieChartComponent} from './components/charts/pie-chart/pie-chart.component';
-import {PieChartCardComponent} from './components/cards/pie-chart-card/pie-chart-card.component';
-import {BarChartCardComponent} from './components/cards/bar-chart-card/bar-chart-card.component';
 import {BarChartComponent} from './components/charts/bar-chart/bar-chart.component';
 import {HeaderComponent} from './components/header/header.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -26,6 +22,8 @@ import {FixedRangeSliderWithTimeComponent} from './components/charts/fixed-range
 import {ApolloModule} from 'apollo-angular';
 import {VariablePieChartComponent} from './components/charts/variable-pie-chart/variable-pie-chart.component';
 import {InlineInputFormComponent} from './components/forms/inline-input-form/inline-input-form.component';
+import {GenericChartComponent} from './components/charts/generic-chart/generic-chart.component';
+import {GenericChartCardComponent} from './components/cards/generic-chart-card/generic-chart-card.component';
 
 @NgModule({
     declarations: [
@@ -35,16 +33,14 @@ import {InlineInputFormComponent} from './components/forms/inline-input-form/inl
         FinancialChartComponent,
         GaugeChartComponent,
         NumberFormatterPipe,
-        GaugeChartCardComponent,
-        FinancialChartCardComponent,
         PieChartComponent,
-        PieChartCardComponent,
-        BarChartCardComponent,
         BarChartComponent,
         HeaderComponent,
         InlineInputFormComponent,
         FixedRangeSliderWithTimeComponent,
-        VariablePieChartComponent
+        VariablePieChartComponent,
+        GenericChartComponent,
+        GenericChartCardComponent
     ],
     imports: [
         CommonModule,
@@ -77,17 +73,15 @@ import {InlineInputFormComponent} from './components/forms/inline-input-form/inl
         FinancialChartComponent,
         GaugeChartComponent,
         NumberFormatterPipe,
-        GaugeChartCardComponent,
-        FinancialChartCardComponent,
         PieChartComponent,
-        PieChartCardComponent,
-        BarChartCardComponent,
         BarChartComponent,
         HeaderComponent,
         ApolloModule,
         VariablePieChartComponent,
         InlineInputFormComponent,
-        FixedRangeSliderWithTimeComponent
+        FixedRangeSliderWithTimeComponent,
+        GenericChartComponent,
+        GenericChartCardComponent
     ]
 })
 export class SharedModule {

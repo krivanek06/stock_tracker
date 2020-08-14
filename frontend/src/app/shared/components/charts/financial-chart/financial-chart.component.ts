@@ -13,8 +13,6 @@ import HPriceIndicator from 'highcharts/modules/price-indicator';
 import HFullScreen from 'highcharts/modules/full-screen';
 import HStockTools from 'highcharts/modules/stock-tools';
 import HighchartsMoreModule from 'highcharts/highcharts-more';
-import NetworkgraphModule from 'highcharts/modules/networkgraph';
-import {PriceRangeData} from '../../../models/chartModel';
 
 // import HC_exporting from 'highcharts/modules/exporting';
 
@@ -178,7 +176,7 @@ export class FinancialChartComponent implements OnInit, OnChanges {
                     enabled: true,
                     style: {
                         color: '#cecece',
-                        font: '12px Trebuchet MS, Verdana, sans-serif'
+                        font: '11px Trebuchet MS, Verdana, sans-serif'
                     }
                 },
                 events: {
@@ -200,6 +198,8 @@ export class FinancialChartComponent implements OnInit, OnChanges {
                     resize: {
                         enabled: true,
                     },
+                    startOnTick: false,
+                    endOnTick: false,
                 },
                 {
                     title: false,
@@ -210,6 +210,8 @@ export class FinancialChartComponent implements OnInit, OnChanges {
                     top: '75%',
                     height: '25%',
                     offset: 0,
+                    startOnTick: false,
+                    endOnTick: false,
                 },
             ],
         };

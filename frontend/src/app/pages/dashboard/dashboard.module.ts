@@ -1,17 +1,14 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
 import {Routes, RouterModule} from '@angular/router';
-
-import {IonicModule} from '@ionic/angular';
-
 import {DashboardPage} from './dashboard.page';
 import {StockWatchlistModule} from '../../features/stock-watchlist-feature/stock-watchlist.module';
-import {AppRoutingModule} from '../../app-routing.module';
 import {SharedModule} from 'src/app/shared/shared.module';
-import {DashboardNewsContainerComponent} from './container/dashboard-news-container/dashboard-news-container.component';
-import {DashboardTopTableContainerComponent} from './container/dashboard-top-table-container/dashboard-top-table-container.component';
-import {StockTrackerFeatureModule} from '../../features/stock-tracker-feature/stock-tracker-feature.module';
+import {StockDataFeatureModule} from '../../features/stock-data-feature/stock-data-feature.module';
+import {MarketMovementContainerComponent} from './container/market-movement-container/market-movement-container.component';
+import {Sp500ChartsContainerComponent} from './container/sp500-charts-container/sp500-charts-container.component';
+import {EconomicChartsContainerComponent} from './container/economic-charts-container/economic-charts-container.component';
+import {StockDetailsPageModule} from '../stock-details/stock-details.module';
 
 const routes: Routes = [
     {
@@ -23,17 +20,16 @@ const routes: Routes = [
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule,
-        IonicModule,
         StockWatchlistModule,
         SharedModule,
         RouterModule.forChild(routes),
-        StockTrackerFeatureModule
+        StockDataFeatureModule,
     ],
     declarations: [
         DashboardPage,
-        DashboardTopTableContainerComponent,
-        DashboardNewsContainerComponent,
+        MarketMovementContainerComponent,
+        Sp500ChartsContainerComponent,
+        EconomicChartsContainerComponent
     ]
 })
 export class DashboardPageModule {

@@ -1,0 +1,41 @@
+<ion-card>
+    <ion-card-header>
+        <ion-card-title class="ion-text-center ion-padding-start ion-padding-top">
+            {{ title }}
+        </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+        <ion-list>
+            <ion-item *ngFor="let data of symbolMovementData">
+
+                <ion-label position="fixed" class="symbol-gap">
+                  {{ data.symbol }}
+                </ion-label>
+
+                <ion-label position="fixed" class="price-gap">
+                    {{ data.currentPrice | currency  }}
+                </ion-label>
+                <ion-label position="fixed" class="price-change-gap"
+                           [ngClass]="{ 'price-up': data.currentPriceChange  >= 0, 'price-down': data.currentPriceChange  < 0}">
+                    {{ data.currentPriceChange | number}}%
+                </ion-label>
+
+              <!--  <ion-label position="fixed" class="price-gap">
+                    <span class="ion-margin-end">{{ data.currentPrice | currency  }}</span>
+                    <span [ngClass]="{ 'price-up': data.currentPrice  >= 0, 'price-down': data.currentPrice  < 0}">
+                        {{ data.currentPriceChange | number}}%
+                    </span>
+                </ion-label> -->
+
+              <ion-label >
+                <ion-icon name="add-outline"
+                          class="clickable"
+                          (click)="showMoreInformation(data.symbol, data.name)">
+                </ion-icon>
+              </ion-label>
+
+            </ion-item>
+        </ion-list>
+    </ion-card-content>
+</ion-card>

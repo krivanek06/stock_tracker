@@ -1,50 +1,37 @@
-import websocket
-import alpaca_trade_api as tradeapi
-from requests import get
-from yahoo_fin import stock_info as si
-from ExternalAPI import EconomicNews, YahooFinance, Finhub, Twelvedata
-from Services import StockDetailsService, FirestoreService
-import requests
+from ExternalAPI import EconomicNews, YahooFinance, Finhub, Twelvedata, Quandl
+from Services.fundamentals import FundamentalsService
 import time
-from firebase_admin import firestore
-from threading import Thread
-import queue
-from private_data import enviroments
+import quandl
 
-from datetime import datetime
-from queue import Queue
-import threading
 StockNews = EconomicNews.EconomicNews()
 YahooFinanceGlobal = YahooFinance.YahooFinance()
 Finhub = Finhub.Finhub()
 Twelvedata = Twelvedata.Twelvedata()
 
+Quandl = Quandl.Quandl()
+stockDetailsService =  FundamentalsService.FundamentalsService()
 
-stockDetailsService =  StockDetailsService.StockDetailsService()
+
+t = time.time()
+print('start')
+
+'''
+# university of michigan - https://www.quandl.com/data/UMICH-Consumer-Sentiment?page=4
+ProbabilityOfLoosingAJob = quandl.get("UMICH/SOC17")
+buyingConditionForHouse = quandl.get("UMICH/SOC41")
+sellingConditionForHouse = quandl.get("UMICH/SOC43")
+consumerSentiment = quandl.get("UMICH/SOC1")
+buyingConditionForVehicle = quandl.get("UMICH/SOC37")
+financialSituationComparedFiveYearsAgo = quandl.get("UMICH/SOC10")
+householdFinancialSituation = quandl.get("UMICH/SOC9")
+'''
+
+
+#res = Quandl.getMiseryIndex()
+#res = Quandl.getBitcoinData()
+res = Quandl.getEmploymentData()
+print(res.keys())
 
 
 
-myTime = time.time()
-
-import websocket
-
-def on_message(ws, message):
-    print(message)
-
-def on_error(ws, error):
-    print(error)
-
-def on_close(ws):
-    print("### closed ###")
-
-def on_open(ws):
-    ws.send('{"type":"subscribe","symbol":"AAPL"}')
-
-if __name__ == "__main__":
-    websocket.enableTrace(True)
-    ws = websocket.WebSocketApp("wss://ws.finnhub.io?token=brsrc5vrh5r9dg9d77pg",
-                              on_message = on_message,
-                              on_error = on_error,
-                              on_close = on_close)
-    ws.on_open = on_open
-    ws.run_forever()
+print('end',  time.time() - t)

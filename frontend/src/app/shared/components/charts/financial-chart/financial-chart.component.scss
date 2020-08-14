@@ -20,4 +20,8 @@ highcharts-chart::ng-deep {
   .highcharts-bindings-wrapper{
     display: none;
   }
+
+  ion-button{
+    height: 25px;
+  }
 }

@@ -23,7 +23,7 @@ export interface StockDetails {
     financialStrengthRatio: FinancialStrengthRatio;
     incomeStatement: IncomeStatement;
     recommendation: Recommendations[];
-    stockNewsSnippets: StockArticle[];
+    stockNewsSnippets: NewsArticle[];
 }
 
 export interface PerShare{
@@ -304,16 +304,10 @@ export interface BasicInfo {
 }
 
 
-export interface StockArticleWrapper {
-    stockNews: StockArticle[];
-}
-
-export interface StockArticle {
+export interface NewsArticle {
     datetime: string;
     headline: string;
     image: string;
-    related: string;
-    source: string;
     sourceName: string;
     summary: string;
     url: string;

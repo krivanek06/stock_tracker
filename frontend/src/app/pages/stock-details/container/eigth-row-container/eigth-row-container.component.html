@@ -1,9 +1,0 @@
-<!-- stock news -->
-<div class="news-container ion-hide-md-down" *ngIf="stockDetails?.stockNewsSnippets">
-  <app-article *ngFor="let article of stockDetails.stockNewsSnippets" [article]="article"></app-article>
-</div>
-
-<div class="news-container ion-hide-md-up" *ngIf="stockDetails?.stockNewsSnippets">
-  <app-article-cards *ngFor="let article of stockDetails.stockNewsSnippets"
-                     [article]="article"></app-article-cards>
-</div>
