@@ -1,25 +1,30 @@
-import { Component, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
-import { StockApiService } from "../../api/stock-api.service";
-import { EarningsCalendar } from "src/app/features/stock-data-feature/model/earningsCalendarModel";
+import {Component, OnInit} from '@angular/core';
+import {Observable} from 'rxjs';
+import {StockFundamentalsApiService} from '../../api/stock-fundamentals-api.service';
+import {EarningsCalendar} from '../../features/stock-data-feature/model/chartDataModel';
+import {SearchDataApiService} from '../../api/search-data-api.service';
+import {NewsArticle} from '../../features/stock-data-feature/model/newsModel';
+
 @Component({
-  selector: "app-dashboard",
-  templateUrl: "./dashboard.page.html",
-  styleUrls: ["./dashboard.page.scss"],
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.page.html',
+    styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
 
-  earnings$: Observable<EarningsCalendar[]>;
+    earnings$: Observable<EarningsCalendar[]>;
+    newsArticles$: Observable<NewsArticle[]>;
 
-  constructor(
-    private stockAPI: StockApiService
-  ) {}
+    constructor(
+        private searchDataApiService: SearchDataApiService
+    ) {
+    }
 
-  ngOnInit(): void {
+    ngOnInit(): void {
 
-    this.earnings$ = this.stockAPI.getEarningsCalendar();
-    // this.firebaseApiService.getUserWatchLists('7eYTErOxXugeHg4JHLS1L5ZKosK2').valueChanges().subscribe(x => console.log('x', x));
-   // this.store.dispatch(getUserWatchLists());
+        this.newsArticles$ = this.searchDataApiService.getMarketNew();
+        this.newsArticles$.subscribe(x => console.log({x}))
 
-  }
+    }
+
 }

@@ -1,7 +1,15 @@
 <app-header></app-header>
 
-<ion-content class="ion-padding">
-    <app-dashboard-charts-container></app-dashboard-charts-container>
+<ion-content class="ion-no-padding">
+    <perfect-scrollbar>
+        <div class="content-padding">
+            <app-market-movement-container></app-market-movement-container>
 
+            <app-sp500-charts-container></app-sp500-charts-container>
 
+            <app-economic-charts-container></app-economic-charts-container>
+
+            <!--  <app-news-articles-container [newsArticles]="newsArticles$ | async"></app-news-articles-container> -->
+        </div>
+    </perfect-scrollbar>
 </ion-content>

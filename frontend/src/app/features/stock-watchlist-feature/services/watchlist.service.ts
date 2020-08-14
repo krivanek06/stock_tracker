@@ -30,9 +30,7 @@ export class WatchlistService {
                 private deleteUserWatchlistGQL: DeleteUserWatchlistGQL,
                 private renameStockWatchlistGQL: RenameStockWatchlistGQL,
                 private removeStockFromWatchlistGQL: RemoveStockFromWatchlistGQL,
-                private queryUserStockWatchlistsGQL: QueryUserStockWatchlistsGQL,
-                private marketPriceWebsocket: MarketPriceWebsocketService,
-                private apollo: Apollo) {
+                private queryUserStockWatchlistsGQL: QueryUserStockWatchlistsGQL) {
     }
 
 

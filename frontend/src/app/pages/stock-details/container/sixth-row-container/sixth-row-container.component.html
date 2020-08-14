@@ -8,10 +8,10 @@
         </ion-col>
         <ion-col size-xl="4.25" size="12">
             <ng-container *ngIf="stockDetails?.analysis">
-                <app-bar-chart-card
-                        [heightPx]="256"
-                        [chartTitle]="'Company growth'"
-                        [data]="[
+                <app-generic-chart-card [chartTitle]="'Company growth'">
+                    <app-bar-chart
+                            [heightPx]="256"
+                            [data]="[
                       {name: 'Past 5y', y: stockDetails?.analysis.growthEstimatesPercent.fiveYear.current},
                       {name: 'Next 5y', y: stockDetails?.analysis.growthEstimatesPercent.fiveYear.next},
                       {name: 'Current year', y: stockDetails?.analysis.growthEstimatesPercent.year.current},
@@ -19,20 +19,20 @@
                       {name: 'Current quarter', y: stockDetails?.analysis.growthEstimatesPercent.quarter.current},
                       {name: 'Next quarter', y: stockDetails?.analysis.growthEstimatesPercent.quarter.next}
                   ]">
-                </app-bar-chart-card>
+                    </app-bar-chart>
+                </app-generic-chart-card>
             </ng-container>
         </ion-col>
         <ion-col size-xl="3.75" size="12">
-            <app-pie-chart-card
-                    [cardHeight]="335"
-                    [height]="275"
-                    [chartTitle]="'Assets to debt'"
-                    [data]="[
+            <app-generic-chart-card [cardHeight]="335" [chartTitle]="'Assets to debt'">
+                <app-pie-chart
+                        [height]="275"
+                        [data]="[
                       {name: 'Assets', y: stockDetails?.chartInfo.assetsToDebtInfo.totalAssets, color: '#2FA811'},
                       {name: 'Debt', y: stockDetails?.chartInfo.assetsToDebtInfo.totalDebt, sliced: true, selected: true, color: '#B60808'}
                   ]">
-            </app-pie-chart-card>
-
+                </app-pie-chart>
+            </app-generic-chart-card>
         </ion-col>
     </ion-row>
 </ion-grid>

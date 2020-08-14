@@ -1,7 +1,7 @@
 import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {ChartDataService} from '../../../../api/chart-data.service';
+import {ChartDataApiService} from '../../../../api/chart-data-api.service';
 
 @Component({
     selector: 'app-financial-chart-container',
@@ -17,7 +17,7 @@ export class FinancialChartContainerComponent implements OnInit, OnDestroy {
     @Input() symbol: string;
     @Input() name: string;
 
-    constructor(private chartDataService: ChartDataService) {
+    constructor(private chartDataService: ChartDataApiService) {
     }
 
     ngOnInit() {

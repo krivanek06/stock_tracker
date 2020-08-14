@@ -1,14 +1,12 @@
 
 
-
-<app-financial-chart-card
-        [cardHeight]="544"
-        [height]="442"
-        [chartTitle]="name"
-        (selectedPeriodEmitter)="loadChartData($event)"
-        [price]="price"
-        [volume]="volume">
-</app-financial-chart-card>
-
+<app-generic-chart-card [chartTitle]="name"> <!--  [cardHeight]="544" -->
+    <app-financial-chart
+            (selectedPeriodEmitter)="loadChartData($event)"
+            [volume]="volume"
+            [height]="325"
+            [price]="price">
+    </app-financial-chart>
+</app-generic-chart-card>
 
 

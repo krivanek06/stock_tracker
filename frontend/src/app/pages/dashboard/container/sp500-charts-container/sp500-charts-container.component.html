@@ -1,0 +1,77 @@
+<div>
+    <ion-item>
+        <ion-label>
+            S&P 500 statistics
+        </ion-label>
+    </ion-item>
+
+
+    <ion-grid *ngIf="sp500StatisticsData$ | async as data">
+        <ion-row>
+            <ion-col size="12" size-lg="4">
+                <app-generic-chart
+                        [chartTitle]="'S&P 500 Earnings yield'"
+                        [series]="[{name: 'Earnings yield', data: data.earningsYield.chartData} ]"
+                        [chartType]="'area'"
+                        [heightPx]="175">
+                </app-generic-chart>
+            </ion-col>
+            <ion-col size="12" size-lg="4">
+                <app-generic-chart
+                        [chartTitle]="'S&P 500 Dividends'"
+                        [series]="[{name: 'Dividend', data: data.dividends.chartData} ]"
+                        [chartType]="'area'"
+                        [heightPx]="175">
+                </app-generic-chart>
+            </ion-col>
+
+
+            <ion-col size="12" size-lg="4">
+                <app-generic-chart
+                        [chartTitle]="'S&P 500 Dividend yield'"
+                        [series]="[{name: 'Dividend yield', data: data.dividendYield.chartData} ]"
+                        [chartType]="'area'"
+                        [heightPx]="175">
+                </app-generic-chart>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col size="12" size-lg="3">
+                <app-generic-chart
+                        [chartTitle]="'PE ratio'"
+                        [series]="[{name: 'PE ratio', data: data.peRatio.chartData} ]"
+                        [chartType]="'area'"
+                        [heightPx]="175">
+                </app-generic-chart>
+            </ion-col>
+            <ion-col size="12" size-lg="3">
+                <app-generic-chart
+                        [chartTitle]="'Price to book'"
+                        [series]="[{name: 'Price to book', data: data.priceToBook.chartData} ]"
+                        [chartType]="'area'"
+                        [heightPx]="175">
+                </app-generic-chart>
+            </ion-col>
+
+
+            <ion-col size="12" size-lg="3">
+                <app-generic-chart
+                        [chartTitle]="'Price to sale'"
+                        [series]="[{name: 'Price to sale', data: data.priceToSale.chartData} ]"
+                        [chartType]="'area'"
+                        [heightPx]="175">
+                </app-generic-chart>
+            </ion-col>
+
+            <ion-col size="12" size-lg="3">
+                <app-generic-chart
+                        [chartTitle]="'Sales growth'"
+                        [series]="[{name: 'Sales growth', data: data.salesGrowth.chartData} ]"
+                        [chartType]="'area'"
+                        [heightPx]="175">
+                </app-generic-chart>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</div>

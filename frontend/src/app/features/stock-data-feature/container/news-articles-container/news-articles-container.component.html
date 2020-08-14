@@ -1,0 +1,9 @@
+<!-- large device -->
+<div class="news-container ion-hide-md-down" *ngIf="newsArticles">
+  <app-article *ngFor="let article of newsArticles" [article]="article"></app-article>
+</div>
+
+<!-- cards on small device -->
+<div class="news-container ion-hide-md-up" *ngIf="newsArticles">
+  <app-article-cards *ngFor="let article of newsArticles" [article]="article"></app-article-cards>
+</div>

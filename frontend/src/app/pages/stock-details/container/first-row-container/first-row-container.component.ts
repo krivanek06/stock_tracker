@@ -1,14 +1,13 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {BasicInfo, EquityToAssets, OverView, ProfitMargin, StockDetails} from '../../../../features/stock-details-feature/model/stockDetails';
-import {HistoricalChartData} from '../../../../shared/models/chartModel';
+import {StockDetails} from '../../../../features/stock-details-feature/model/stockDetails';
 import {takeUntil} from 'rxjs/operators';
-import {StockApiService} from '../../../../api/stock-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {Subject} from 'rxjs';
-import {ModalController, PopoverController} from '@ionic/angular';
+import {ModalController} from '@ionic/angular';
 import {DetailsSummaryModalComponent} from '../../../../features/stock-details-feature/components/modal/details-summary-modal/details-summary-modal.component';
 import {WatchlistPickerModalContainerComponent} from '../../../../features/stock-watchlist-feature/containers/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
-import {ChartDataService} from '../../../../api/chart-data.service';
+import {ChartDataApiService} from '../../../../api/chart-data-api.service';
+import {HistoricalChartData} from '../../../../features/stock-data-feature/model/chartDataModel';
 
 @Component({
     selector: 'app-first-row-container',
@@ -23,7 +22,7 @@ export class FirstRowContainerComponent implements OnInit, OnDestroy {
     chartData: HistoricalChartData;
     symbol: string;
 
-    constructor(private chartDataService: ChartDataService,
+    constructor(private chartDataService: ChartDataApiService,
                 private modalController: ModalController,
                 private route: ActivatedRoute) {
     }

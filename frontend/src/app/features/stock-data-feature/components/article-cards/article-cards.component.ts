@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {NewsArticle} from '../../model/newsModel';
-import {StockArticle} from '../../../stock-details-feature/model/stockDetails';
 
 @Component({
   selector: 'app-article-cards',
@@ -8,7 +7,7 @@ import {StockArticle} from '../../../stock-details-feature/model/stockDetails';
   styleUrls: ['./article-cards.component.scss'],
 })
 export class ArticleCardsComponent implements OnInit {
-  @Input() article: StockArticle;
+  @Input() article: NewsArticle;
 
   constructor() {}
 

@@ -1,17 +1,17 @@
 <ion-grid>
-  <ion-row>
-    <ion-col size-xl="3" size-md="6" size="12">
-      <app-details-dividend-card [dividendInfo]="stockDetails?.dividend"></app-details-dividend-card>
-    </ion-col>
-    <ion-col size-xl="3" size-md="6" size="12">
-      <app-details-per-share-card [perShare]="stockDetails?.perShare"></app-details-per-share-card>
-    </ion-col>
-    <ion-col size-xl="6" size="12">
-      <ng-container *ngIf="stockDetails?.chartInfo">
-        <app-bar-chart-card
-                [heightPx]="315"
-                [chartTitle]="'Margin'"
-                [data]="[
+    <ion-row>
+        <ion-col size-xl="3" size-md="6" size="12">
+            <app-details-dividend-card [dividendInfo]="stockDetails?.dividend"></app-details-dividend-card>
+        </ion-col>
+        <ion-col size-xl="3" size-md="6" size="12">
+            <app-details-per-share-card [perShare]="stockDetails?.perShare"></app-details-per-share-card>
+        </ion-col>
+        <ion-col size-xl="6" size="12">
+            <ng-container *ngIf="stockDetails?.chartInfo">
+                <app-generic-chart-card [chartTitle]="'Margin'">
+                    <app-bar-chart
+                            [heightPx]="315"
+                            [data]="[
                              {name: 'Gross margin ttm.', y: stockDetails.chartInfo.margin.grossMarginTTM},
                              {name: 'Net margin growth 5y', y: stockDetails.chartInfo.margin.netMarginGrowth5Y},
                              {name: 'Net profit margin 5y', y: stockDetails.chartInfo.margin.netProfitMargin5Y},
@@ -19,8 +19,9 @@
                              {name: 'Operating margin ttm.', y: stockDetails.chartInfo.margin.operatingMarginTTM},
                              {name: 'Pretax margin ttm.', y: stockDetails.chartInfo.margin.pretaxMarginTTM}
                          ]">
-        </app-bar-chart-card>
-      </ng-container>
-    </ion-col>
-  </ion-row>
+                    </app-bar-chart>
+                </app-generic-chart-card>
+            </ng-container>
+        </ion-col>
+    </ion-row>
 </ion-grid>
