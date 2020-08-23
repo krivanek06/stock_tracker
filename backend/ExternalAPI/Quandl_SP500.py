@@ -16,41 +16,41 @@ class Quandl_SP500(Quandl):
         self.PriceToSaleQrtFolder = 'sp500_data_priceToSaleQrt.json'
 
 
-    def getPriceToSaleQrt(self, numberOfDataSet, allData):
-        return self._generatInformationProvider(numberOfDataSet, allData, self.PriceToSaleQrtFolder, 'MULTPL/SP500_PSR_QUARTER')
+    def getPriceToSaleQrt(self, numberOfDataSet=None):
+        return self._generatInformationProvider(numberOfDataSet, self.PriceToSaleQrtFolder, 'MULTPL/SP500_PSR_QUARTER')
 
-    def getBookValueQrt(self, numberOfDataSet, allData):
-        return self._generatInformationProvider(numberOfDataSet, allData, self.BookValueQrtFolder, 'MULTPL/SP500_BVPS_QUARTER')
+    def getBookValueQrt(self, numberOfDataSet=None):
+        return self._generatInformationProvider(numberOfDataSet, self.BookValueQrtFolder, 'MULTPL/SP500_BVPS_QUARTER')
 
-    def getSalesGrowthQrt(self, numberOfDataSet, allData):
-        return self._generatInformationProvider(numberOfDataSet, allData, self.SalesGrowthQrtFolder, 'MULTPL/SP500_SALES_GROWTH_QUARTER')
+    def getSalesGrowthQrt(self, numberOfDataSet=None):
+        return self._generatInformationProvider(numberOfDataSet, self.SalesGrowthQrtFolder, 'MULTPL/SP500_SALES_GROWTH_QUARTER')
 
-    def getDividendPerMonth(self, numberOfDataSet, allData):
-        return self._generatInformationProvider(numberOfDataSet, allData, self.DividendPerMonthFolder, 'MULTPL/SP500_DIV_MONTH')
+    def getDividendPerMonth(self, numberOfDataSet=None):
+        return self._generatInformationProvider(numberOfDataSet, self.DividendPerMonthFolder, 'MULTPL/SP500_DIV_MONTH')
 
-    def getPriceToBookQrt(self, numberOfDataSet, allData):
-        return self._generatInformationProvider(numberOfDataSet, allData, self.PriceToBookQrtFolder, 'MULTPL/SP500_PBV_RATIO_QUARTER')
+    def getPriceToBookQrt(self, numberOfDataSet=None):
+        return self._generatInformationProvider(numberOfDataSet, self.PriceToBookQrtFolder, 'MULTPL/SP500_PBV_RATIO_QUARTER')
 
-    def getEarningsYieldMonth(self, numberOfDataSet, allData):
-        return self._generatInformationProvider(numberOfDataSet, allData, self.EarningsYieldMonthFolder, 'MULTPL/SP500_EARNINGS_YIELD_MONTH')
+    def getEarningsYieldMonth(self, numberOfDataSet=None):
+        return self._generatInformationProvider(numberOfDataSet, self.EarningsYieldMonthFolder, 'MULTPL/SP500_EARNINGS_YIELD_MONTH')
 
-    def getDividendYieldMonth(self, numberOfDataSet, allData):
-        return self._generatInformationProvider(numberOfDataSet, allData, self.DividendYieldMonthFolder, 'MULTPL/SP500_DIV_YIELD_MONTH')
+    def getDividendYieldMonth(self, numberOfDataSet=None):
+        return self._generatInformationProvider(numberOfDataSet, self.DividendYieldMonthFolder, 'MULTPL/SP500_DIV_YIELD_MONTH')
 
-    def getPeRatioMonth(self, numberOfDataSet, allData):
-        return self._generatInformationProvider(numberOfDataSet, allData, self.PeRatioMonthFolder, 'MULTPL/SP500_PE_RATIO_MONTH')
+    def getPeRatioMonth(self, numberOfDataSet=None):
+        return self._generatInformationProvider(numberOfDataSet, self.PeRatioMonthFolder, 'MULTPL/SP500_PE_RATIO_MONTH')
 
 
     def getPartialDataFromAllCategory(self):
         numberOfDataSet = 25
         result = {
-            'priceToSale': self.getPriceToSaleQrt(numberOfDataSet, False),
-            'bookValue': self.getBookValueQrt(numberOfDataSet, False),
-            'salesGrowth': self.getSalesGrowthQrt(numberOfDataSet, False),
-            'dividends': self.getDividendPerMonth(numberOfDataSet, False),
-            'priceToBook': self.getPriceToBookQrt(numberOfDataSet, False),
-            'earningsYield': self.getEarningsYieldMonth(numberOfDataSet, False),
-            'dividendYield': self.getDividendYieldMonth(numberOfDataSet, False),
-            'peRatio': self.getPeRatioMonth(numberOfDataSet, False)
+            'priceToSale': self.getPriceToSaleQrt(numberOfDataSet),
+            'bookValue': self.getBookValueQrt(numberOfDataSet),
+            'salesGrowth': self.getSalesGrowthQrt(numberOfDataSet),
+            'dividends': self.getDividendPerMonth(numberOfDataSet),
+            'priceToBook': self.getPriceToBookQrt(numberOfDataSet),
+            'earningsYield': self.getEarningsYieldMonth(numberOfDataSet),
+            'dividendYield': self.getDividendYieldMonth(numberOfDataSet),
+            'peRatio': self.getPeRatioMonth(numberOfDataSet)
         }
         return result

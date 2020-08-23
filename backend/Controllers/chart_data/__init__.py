@@ -13,9 +13,11 @@ YahooFinance = YahooFinance.YahooFinance()
 Quandl = Quandl.Quandl()
 
 def __parseArgs():
-    numberOfDataSet = int(request.args.get('numberOfDataSet'))
-    allData = request.args.get('allData') == 'True' or request.args.get('allData') == 'true'
-    return numberOfDataSet, allData
+    try:
+        numberOfDataSet = int(request.args.get('numberOfDataSet'))
+        return numberOfDataSet
+    except:
+        return None
 
 
 @app.route('/historical_data')
@@ -33,8 +35,8 @@ def getStockHistoricalDataWithPeriod():
 @app.route('/investor_sentiment')
 def getInvestorSentiment():
     try:
-        numberOfDataSet, allData = __parseArgs()
-        return json_response(chartData=Quandl.getInvestorSentiment(numberOfDataSet, allData))
+        numberOfDataSet = __parseArgs()
+        return json_response(chartData=Quandl.getInvestorSentiment(numberOfDataSet), multipleData=True)
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding chart data for investors sentiments')
@@ -42,8 +44,8 @@ def getInvestorSentiment():
 @app.route('/treasury_yield_curve_rates')
 def getTreasuryYieldCurveRates():
     try:
-        numberOfDataSet, allData = __parseArgs()
-        return json_response(chartData=Quandl.getTreasuryYieldCurveRates(numberOfDataSet, allData))
+        numberOfDataSet = __parseArgs()
+        return json_response(chartData=Quandl.getTreasuryYieldCurveRates(numberOfDataSet), multipleData=True)
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding chart data for treasury yield curve rates')
@@ -52,8 +54,8 @@ def getTreasuryYieldCurveRates():
 @app.route('/misery_index')
 def getMiseryIndex():
     try:
-        numberOfDataSet, allData = __parseArgs()
-        return json_response(chartData=Quandl.getMiseryIndex(numberOfDataSet, allData))
+        numberOfDataSet = __parseArgs()
+        return json_response(chartData=Quandl.getMiseryIndex(numberOfDataSet), multipleData=True)
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding chart data for misery index')

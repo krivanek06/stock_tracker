@@ -1,5 +1,8 @@
+
+
 <highcharts-chart [Highcharts]="Highcharts"
                   [options]="chartOptions"
+                  [constructorType]=" showTimelineSlider ? 'stockChart' :'' "
                   [callbackFunction]="chartCallback"
                   [(update)]="updateFromInput"
                   style="width: 100%; display: block;"

@@ -1,9 +1,0 @@
-:host {
-  .news-container{
-    column-count: 2;
-    padding: 20px;
-    @media (min-width: 0px) and (max-width: 1600px) {
-      column-count: 1;
-    }
-  }
-}

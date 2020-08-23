@@ -1,10 +1,10 @@
 <ion-content>
-    <ion-toolbar>
+    <ion-item class="ion-margin-bottom">
         <ion-buttons slot="start">
             <ion-button color="warning"
                         [routerLink]="['/menu/stock-details/' + chartDataIdentification.symbol]"
                         (click)="dismissModal()">
-                <ion-icon name="information-circle-outline"></ion-icon>
+                <ion-icon name="information-circle-outline" style="margin-right: 5px"></ion-icon>
                 Details
             </ion-button>
         </ion-buttons>
@@ -16,9 +16,10 @@
                 Close
             </ion-button>
         </ion-buttons>
-    </ion-toolbar>
+    </ion-item>
 
     <app-financial-chart-container
+            [height]="450"
             [symbol]="chartDataIdentification.symbol"
             [name]="chartDataIdentification.name">
     </app-financial-chart-container>

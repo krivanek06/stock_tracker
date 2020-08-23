@@ -10,17 +10,12 @@ CORS(app, resources={r"*": {"origins": "*"}})
 
 
 Quandl_SP500 = Quandl_SP500.Quandl_SP500()
-def __parseArgs():
-    numberOfDataSet = int(request.args.get('numberOfDataSet'))
-    allData = request.args.get('allData') == 'True' or request.args.get('allData') == 'true'
-    return numberOfDataSet, allData
 
 
 @app.route('/priceToSale')
 def getPriceToSaleQrt():
     try:
-        numberOfDataSet, allData = __parseArgs()
-        return json_response(**Quandl_SP500.getPriceToSaleQrt(numberOfDataSet, allData))
+        return json_response(**Quandl_SP500.getPriceToSaleQrt())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding price to sale for sp500')
@@ -29,8 +24,7 @@ def getPriceToSaleQrt():
 @app.route('/bookValue')
 def getBookValueQrt():
     try:
-        numberOfDataSet, allData = __parseArgs()
-        return json_response(**Quandl_SP500.getBookValueQrt(numberOfDataSet, allData))
+        return json_response(**Quandl_SP500.getBookValueQrt())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding book value for sp500')
@@ -39,8 +33,7 @@ def getBookValueQrt():
 @app.route('/salesGrowth')
 def getSalesGrowthQrt():
     try:
-        numberOfDataSet, allData = __parseArgs()
-        return json_response(**Quandl_SP500.getSalesGrowthQrt(numberOfDataSet, allData))
+        return json_response(**Quandl_SP500.getSalesGrowthQrt())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding sales growth for sp500')
@@ -48,8 +41,7 @@ def getSalesGrowthQrt():
 @app.route('/dividend')
 def getDividendPerMonth():
     try:
-        numberOfDataSet, allData = __parseArgs()
-        return json_response(**Quandl_SP500.getDividendPerMonth(numberOfDataSet, allData))
+        return json_response(**Quandl_SP500.getDividendPerMonth())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding dividend for sp500')
@@ -57,8 +49,7 @@ def getDividendPerMonth():
 @app.route('/priceToBook')
 def getPriceToBookQrt():
     try:
-        numberOfDataSet, allData = __parseArgs()
-        return json_response(**Quandl_SP500.getPriceToBookQrt(numberOfDataSet, allData))
+        return json_response(**Quandl_SP500.getPriceToBookQrt())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding price to book for sp500')
@@ -66,8 +57,7 @@ def getPriceToBookQrt():
 @app.route('/earningsYield')
 def getEarningsYieldMonth():
     try:
-        numberOfDataSet, allData = __parseArgs()
-        return json_response(**Quandl_SP500.getEarningsYieldMonth(numberOfDataSet, allData))
+        return json_response(**Quandl_SP500.getEarningsYieldMonth())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding earnings yield for sp500')
@@ -75,8 +65,7 @@ def getEarningsYieldMonth():
 @app.route('/dividendYield')
 def getDividendYieldMonth():
     try:
-        numberOfDataSet, allData = __parseArgs()
-        return json_response(**Quandl_SP500.getDividendYieldMonth(numberOfDataSet, allData))
+        return json_response(**Quandl_SP500.getDividendYieldMonth())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding dividend yield for sp500')
@@ -84,8 +73,7 @@ def getDividendYieldMonth():
 @app.route('/peRatio')
 def getPeRatioMonth():
     try:
-        numberOfDataSet, allData = __parseArgs()
-        return json_response(**Quandl_SP500.getPeRatioMonth(numberOfDataSet, allData))
+        return json_response(**Quandl_SP500.getPeRatioMonth())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding PE ratio for sp500')

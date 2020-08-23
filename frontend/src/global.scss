@@ -47,6 +47,7 @@
 .custom-modal .modal-wrapper {
   @media (min-width: 800px) {
     width: 65% !important;
+    height: 600px !important;
   }
 }
 
@@ -67,9 +68,15 @@
 // class to add for each ion-content
 .content-padding {
   /*padding: 16px;*/
-  padding: 10px 50px 10px 20px;
+  padding: 10px 75px 10px 20px;
+  @media (max-width: 1400px) {
+    padding: 10px 40px 10px 20px;
+  }
   @media (max-width: 800px) {
-    padding: 2px;
+    padding: 10px 15px 5px 5px;
+  }
+  @media (max-width: 475px) {
+    padding: 2px 8px 5px 2px;
   }
 }
 

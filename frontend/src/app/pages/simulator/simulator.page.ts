@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ChartType} from '../../shared/models/sharedModel';
 
 @Component({
   selector: 'app-simulator',
@@ -6,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./simulator.page.scss'],
 })
 export class SimulatorPage implements OnInit {
-
   constructor() { }
 
   ngOnInit() {
