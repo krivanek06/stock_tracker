@@ -1,8 +1,10 @@
 frontend/node_modules/
 frontend/src/environments
+frontend/package-lock.json
 tmp/
 backend/private_data/
 *__pycache__*
+*/__pycache__/*
 backend/venv/
 backend/resource/*
 backend/enviroments.py

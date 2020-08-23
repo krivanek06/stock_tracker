@@ -1,8 +1,7 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {StockDetails} from '../../../../features/stock-details-feature/model/stockDetails';
-import {takeUntil} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
-import {Subject} from 'rxjs';
+import {Observable} from 'rxjs';
 import {ModalController} from '@ionic/angular';
 import {DetailsSummaryModalComponent} from '../../../../features/stock-details-feature/components/modal/details-summary-modal/details-summary-modal.component';
 import {WatchlistPickerModalContainerComponent} from '../../../../features/stock-watchlist-feature/containers/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
@@ -14,12 +13,10 @@ import {HistoricalChartData} from '../../../../features/stock-data-feature/model
     templateUrl: './first-row-container.component.html',
     styleUrls: ['./first-row-container.component.scss'],
 })
-export class FirstRowContainerComponent implements OnInit, OnDestroy {
-    private destroy$: Subject<boolean> = new Subject<boolean>();
-
+export class FirstRowContainerComponent implements OnInit {
     @Input() stockDetails: StockDetails;
 
-    chartData: HistoricalChartData;
+    chartData$: Observable<HistoricalChartData>;
     symbol: string;
 
     constructor(private chartDataService: ChartDataApiService,
@@ -32,17 +29,8 @@ export class FirstRowContainerComponent implements OnInit, OnDestroy {
         this.loadChartData();
     }
 
-    ngOnDestroy() {
-        this.destroy$.next(true);
-        this.destroy$.unsubscribe();
-    }
-
     loadChartData(period: string = '1y') {
-        this.chartDataService.getHistoricalDataForSymbol(this.symbol, period).pipe(
-            takeUntil(this.destroy$)
-        ).subscribe(res => {
-            this.chartData = res;
-        });
+        this.chartData$ = this.chartDataService.getHistoricalDataForSymbol(this.symbol, period);
     }
 
     async showSummary() {

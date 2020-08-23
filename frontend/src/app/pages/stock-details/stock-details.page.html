@@ -4,7 +4,7 @@
 <ion-content class="ion-no-padding">
 
     <perfect-scrollbar>
-        <div class="content-padding" *ngIf="stockDetails; else showSpinner">
+        <div class="content-padding" *ngIf="stockDetails$ | async as stockDetails; else showSpinner">
             <!-- basic info + overview | financial chart -->
             <app-first-row-container [stockDetails]="stockDetails"></app-first-row-container>
 
@@ -27,13 +27,17 @@
             <app-seventh-row-container [stockDetails]="stockDetails"></app-seventh-row-container>
 
             <!-- stock news -->
-            <app-news-articles-container [newsArticles]="stockDetails.stockNewsSnippets"></app-news-articles-container>
-
+            <div class="news-container">
+                <app-article-cards *ngFor="let article of stockDetails.stockNewsSnippets" [article]="article"></app-article-cards>
+            </div>
         </div>
     </perfect-scrollbar>
 
+    <!-- spinner -->
     <ng-template #showSpinner>
-        <ion-spinner color="primary"></ion-spinner>
+        <div class="spinner-container">
+            <ion-spinner color="primary"></ion-spinner>
+        </div>
     </ng-template>
 </ion-content>
 

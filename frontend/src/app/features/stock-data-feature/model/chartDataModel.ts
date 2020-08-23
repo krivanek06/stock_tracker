@@ -46,6 +46,11 @@ export interface ChartData {
     chartData: number[][];
 }
 
+export interface ChartDataArray {
+    name: string;
+    data: number[][];
+}
+
 export interface SP500PartialData {
     priceToSale: ChartData;
     bookValue: ChartData;

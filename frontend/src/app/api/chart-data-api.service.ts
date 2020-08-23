@@ -27,9 +27,7 @@ export class ChartDataApiService {
 
     getInvestorSentiment(allData: boolean = false): Observable<InvestorSentimentData> {
         const numberOfDataSet = 40;
-        const params = new HttpParams()
-            .set('numberOfDataSet', String(numberOfDataSet))
-            .set('allData', String(allData));
+        const params = new HttpParams().set('numberOfDataSet', String(numberOfDataSet));
         return this.http.get<any>(`${environment.stockAPI}/chart_data/investor_sentiment`, {params}).pipe(
             map(res => res.chartData as InvestorSentimentData)
         );
@@ -37,9 +35,7 @@ export class ChartDataApiService {
 
     getTreasuryYieldCurveRates(allData: boolean = false): Observable<TreasuryYieldCurveRatesData> {
         const numberOfDataSet = 250;
-        const params = new HttpParams()
-            .set('numberOfDataSet', String(numberOfDataSet))
-            .set('allData', String(allData));
+        const params = new HttpParams().set('numberOfDataSet', String(numberOfDataSet));
         return this.http.get<any>(`${environment.stockAPI}/chart_data/treasury_yield_curve_rates`, {params}).pipe(
             map(res => res.chartData as TreasuryYieldCurveRatesData)
         );
@@ -47,9 +43,7 @@ export class ChartDataApiService {
 
     getMiseryIndex(allData: boolean = false): Observable<MiseryIndexData> {
         const numberOfDataSet = 40;
-        const params = new HttpParams()
-            .set('numberOfDataSet', String(numberOfDataSet))
-            .set('allData', String(allData));
+        const params = new HttpParams().set('numberOfDataSet', String(numberOfDataSet));
         return this.http.get<any>(`${environment.stockAPI}/chart_data/misery_index`, {params}).pipe(
             map(res => res.chartData as MiseryIndexData)
         );

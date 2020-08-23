@@ -1,5 +1,23 @@
-
+@import "../../../../shared/styles/button-styling";
 :host {
+  // label
+  .article-big-image {
+    width: 350px;
+    max-height: 200px;
+  }
+
+  .fixedLabel {
+    min-width: 375px !important;
+    max-width: 375px !important;
+  }
+
+  .article-container {
+    padding: 10px;
+    display: inline-block;
+  }
+
+
+  // cards
   .myOverlay {
     width: 100%;
     position: absolute;

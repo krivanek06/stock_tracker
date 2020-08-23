@@ -1,6 +1,6 @@
 <!-- timeline buttons -->
 
-<ion-item>
+<ion-item class="ion-margin-bottom">
     <ion-label class="ion-justify-content-between" style="display: inline-flex;  flex-flow: row wrap;">
         <ion-button
                 size="small"
@@ -55,12 +55,12 @@
 </ion-item>
 
 <!-- chart price movement -->
+
 <ion-label *ngIf="startingPrice && endingPrice" class="price-movement-container">
     <span class="ion-margin-end"> {{startingPrice | currency }} -  {{ endingPrice | currency }}</span>
     <span [ngClass]="{
-                        'price-up': endingPrice - startingPrice >= 0,
-                        'price-down': endingPrice - startingPrice < 0}"
-    >
+     'price-up': endingPrice - startingPrice >= 0,
+     'price-down': endingPrice - startingPrice < 0}">
                        {{ endingPrice - startingPrice | currency  }}
         ({{ 100 / startingPrice * endingPrice - 100 | number }}%)
      </span>

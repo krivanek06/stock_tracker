@@ -22,6 +22,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {PERFECT_SCROLLBAR_CONFIG} from 'ngx-perfect-scrollbar';
 import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 import {GraphQlModule} from './graph-ql.module';
+import {TimeagoModule} from 'ngx-timeago';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -47,6 +48,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         AngularFireStorageModule,
 
         BrowserModule,
+        TimeagoModule.forRoot(),
         IonicModule.forRoot(),
         AppRoutingModule,
     ],

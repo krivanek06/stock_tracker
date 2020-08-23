@@ -34,24 +34,18 @@ class FundamentalsService:
 
         print('getting details from firestore for symbol ', symbol)
 
-        # updating stock news into firestore
+        # updating stock news into firestore every 8 hours
         lastestStockNews = self.__getUpToDateStockNews(symbol, stockDetailsDict['newsLastUpdate'])
         if lastestStockNews is not None:
-            lastestStockNews = lastestStockNews['stockNews']
-            self.__modifyStockNewsToFirebase(symbol, lastestStockNews, stockDetailsDict['newsLastDelete'].replace(tzinfo=utc))
-            stockDetailsDict['details']['stockNewsSnippets'] = lastestStockNews[0:15] + stockDetailsDict['details']['stockNewsSnippets'][0 : 15 - len(lastestStockNews) ]
+            stockDetailsDict['details']['stockNewsSnippets'] =  lastestStockNews['stockNews']
             self.__modifyDetailsToFirebase(symbol, {'details.stockNewsSnippets': stockDetailsDict['details']['stockNewsSnippets']})
 
 
-        # modify overview each 45 min because of volume
-        fourtyFiveMinutesBefore = (datetime.today() - relativedelta.relativedelta(minutes=45)).replace(tzinfo=utc)
-
-        if fourtyFiveMinutesBefore > stockDetailsDict['overViewLastUpdate'].replace(tzinfo=utc):
+        # modify overview at the start of each day
+        if (datetime.today().replace(tzinfo=utc) - stockDetailsDict['overViewLastUpdate'].replace(tzinfo=utc)).days > 0:
             print('update overview for ', symbol)
-            summary = self.yahooFinance.getTickerSummary(symbol)
-
-            # create overview object same as was saved in firestore
-            overview = self.yahooFinanceDataModification.createOverviewDict(summary)
+            overview = self.yahooFinance.getTickerSummary(symbol)
+            overview = self.yahooFinanceDataModification.createOverviewDict(overview)
             update = {'details.overview':  overview, 'overViewLastUpdate': datetime.today()}
 
             self.__modifyDetailsToFirebase(symbol, update)
@@ -60,20 +54,6 @@ class FundamentalsService:
         return stockDetailsDict['details']
 
 
-
-    '''
-       Get 10 stock news for symbol from firestore older than specified timestamp
-    '''
-    def getStockNewsFromFirestore(self, symbol, timestamp):
-        print('get news by older than ', timestamp, '  for symbol ', symbol)
-        stockNewsCollection = self.db.collection('stockData').document(symbol).collection('stockNews')
-
-        stockNewsArray = [news.to_dict() for news in stockNewsCollection
-                .where('datetime', '<', int(timestamp))
-                .order_by('datetime', direction=firestore.firestore.Query.DESCENDING)
-                .limit(10)
-                .get() ]
-        return {'stockNews': stockNewsArray}
 
     def getStockFinancialReport(self, symbol, financialReportName):
         return self.db.collection('stockData').document(symbol).collection('stockFinancialReports').document(financialReportName).get().to_dict()
@@ -85,62 +65,16 @@ class FundamentalsService:
 
 
     '''
-        if news does not exists in firestore fetch news 7 days old
-        if latest is older than 6 hours, fetch news in this day and filter which has higher timestamp than latest in firestore
+       get stock news if does not exists or older than 8 hours
     '''
     def __getUpToDateStockNews(self, symbol, newsLastUpdate = None):
-        sixHoursBefore = (datetime.today() - relativedelta.relativedelta(hours=6)).replace(tzinfo=utc)
+        sixHoursBefore = (datetime.today() - relativedelta.relativedelta(hours=8)).replace(tzinfo=utc)
 
         if newsLastUpdate is None or sixHoursBefore > newsLastUpdate.replace(tzinfo=utc):
-            lastTimestamp = [news.to_dict()['datetime'] for news in self.db.collection('stockData').document(symbol).collection('stockNews')
-                                        .order_by('datetime', direction=firestore.firestore.Query.DESCENDING)
-                                        .limit(1)
-                                        .get()]
-
-            lastTimestamp = lastTimestamp[0] if len(lastTimestamp) > 0 else None
-            stockNewsFinhubArray = self.finhub.getNewsForSymbol(symbol, lastTimestamp)['stockNews']
-            stockNewsFinhubArray = [e for e in stockNewsFinhubArray if e['datetime'] > lastTimestamp] if lastTimestamp is not None else stockNewsFinhubArray
-
-            testTimestamp = stockNewsFinhubArray[0]['datetime'] if len(stockNewsFinhubArray) > 0 else 0
-            print('fetching fresh news for symbol ', symbol, ' distinct news ',
-                  len(stockNewsFinhubArray), ' distinct news first timestamp ', testTimestamp, ' our timestamp', lastTimestamp)
-
+            stockNewsFinhubArray = self.finhub.getNewsForSymbol(symbol)['stockNews']
             return {'stockNews': stockNewsFinhubArray}
         return None
 
-
-
-
-    '''
-        create a thread which will save news into firestore
-        and check if last delete is older than 2 weeks.
-        If last delete is older then delete older than 7 days
-    '''
-    def __modifyStockNewsToFirebase(self, symbol, stockNewsArray, lastDelete = None):
-        def __saveCurrentNewsIntoFirestore(symbol, persistNews):
-            print('saving news into firestore, size : ', len(persistNews), ' for symbol ', symbol)
-            self.db.collection('stockData').document(symbol).update( {'newsLastUpdate': datetime.today()})
-            for stockNews in persistNews:
-                self.db.collection('stockData').document(symbol).collection('stockNews').add(stockNews)
-
-        def __removeOldNewsInFirestore(symbol, lastDelete):
-            if lastDelete is not None:
-                sevenDaysBefore = (datetime.today() - relativedelta.relativedelta(days=7)).replace(tzinfo=utc)
-                if sevenDaysBefore > lastDelete:
-                    print('last delete time' , lastDelete, 'deleting older than ', sevenDaysBefore, ' news for symbol ', symbol)
-                    oldNewsDocs = self.db.collection('stockData').document(symbol).collection('stockNews').where('datetime', '<', sevenDaysBefore.timestamp()).stream()
-                    for doc in oldNewsDocs:
-                        doc.reference.delete()
-                    self.db.collection('stockData').document(symbol).update({'newsLastDelete': datetime.today()})
-
-        t1 = threading.Thread(target=__saveCurrentNewsIntoFirestore, args=(symbol, stockNewsArray))
-        t2 = threading.Thread(target=__removeOldNewsInFirestore, args=(symbol, lastDelete))
-
-        t1.daemon = True
-        t2.daemon = True
-
-        t1.start()
-        t2.start()
 
     def __modifyDetailsToFirebase(self, symbol, details):
         def __updateStockDetails(symbol, details):
@@ -173,7 +107,6 @@ class FundamentalsService:
             'detailsLastUpdate': datetime.today(),
             'overViewLastUpdate': datetime.today(),
             'newsLastUpdate': datetime.today(),
-            'newsLastDelete': datetime.today(),
             'financialReportsLastUpdate': datetime.today()
         })
 
@@ -190,13 +123,12 @@ class FundamentalsService:
 
         merge = {**que.get(), **que.get()}
 
-        stockNewsArray = merge['stockNews']
         details = merge['details']
         details['id'] = symbol
-        details['stockNewsSnippets'] = stockNewsArray[:15]
+        details['stockNewsSnippets'] = merge['stockNews']
 
         self.__modifyDetailsToFirebase(symbol, {'details': details})
-        self.__modifyStockNewsToFirebase(symbol, stockNewsArray)
+        # self.__modifyStockNewsToFirebase(symbol, stockNewsArray)
 
         return details
 

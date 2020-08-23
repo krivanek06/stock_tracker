@@ -16,6 +16,7 @@ export class FinancialChartContainerComponent implements OnInit, OnDestroy {
 
     @Input() symbol: string;
     @Input() name: string;
+    @Input() height = 300;
 
     constructor(private chartDataService: ChartDataApiService) {
     }

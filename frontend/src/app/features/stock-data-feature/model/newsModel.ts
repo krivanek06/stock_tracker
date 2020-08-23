@@ -3,7 +3,7 @@ export interface NewsArticleWrapper {
 }
 
 export interface NewsArticle {
-    datetime: string;
+    datetime: number;
     headline: string;
     image: string;
     sourceName: string;

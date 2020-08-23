@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {Maybe, StockDetails, StockMainDetailsFragment} from '../../../../api/customGraphql.service';
+import {ChartType} from '../../../../shared/models/sharedModel';
 
 @Component({
     selector: 'app-watchlist-sector-chart',
@@ -11,6 +12,7 @@ export class WatchlistSectorChartComponent implements OnInit {
     @Input() stockDetails: Array<Maybe<{ __typename?: 'StockDetails' } & StockMainDetailsFragment>>;
 
     sectorPairs = [];
+    ChartType = ChartType;
 
     constructor() {
     }

@@ -1,6 +1,9 @@
 @import "../../../../../shared/styles/button-styling";
 
 :host{
+  ion-card{
+    height: 100%;
+  }
 
   .fixedLabel {
     min-width: 40% !important;
