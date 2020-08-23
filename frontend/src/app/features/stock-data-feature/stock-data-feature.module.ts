@@ -3,10 +3,9 @@ import {CommonModule} from '@angular/common';
 import {ArticleCardsComponent} from './components/article-cards/article-cards.component';
 import {FinancialChartModalContainerComponent} from './container/modal/financial-chart-modal-container/financial-chart-modal-container.component';
 import {FinancialChartContainerComponent} from './container/financial-chart-container/financial-chart-container.component';
-import {ArticleComponent} from './components/article/article.component';
 import {SharedModule} from '../../shared/shared.module';
 import {SymbolMovementTableCardComponent} from './components/symbol-movement-table-card/symbol-movement-table-card.component';
-import {NewsArticlesContainerComponent} from './container/news-articles-container/news-articles-container.component';
+import {EconomicChartModalContainerComponent} from './container/modal/economic-chart-modal-container/economic-chart-modal-container.component';
 
 
 @NgModule({
@@ -14,9 +13,8 @@ import {NewsArticlesContainerComponent} from './container/news-articles-containe
         ArticleCardsComponent,
         FinancialChartModalContainerComponent,
         FinancialChartContainerComponent,
-        ArticleComponent,
         SymbolMovementTableCardComponent,
-        NewsArticlesContainerComponent
+        EconomicChartModalContainerComponent
     ],
     imports: [
         CommonModule,
@@ -26,10 +24,12 @@ import {NewsArticlesContainerComponent} from './container/news-articles-containe
         FinancialChartModalContainerComponent,
         FinancialChartContainerComponent,
         SymbolMovementTableCardComponent,
-        NewsArticlesContainerComponent
+        EconomicChartModalContainerComponent,
+        ArticleCardsComponent
     ],
     entryComponents: [
         FinancialChartModalContainerComponent,
+        EconomicChartModalContainerComponent
     ],
 })
 export class StockDataFeatureModule {

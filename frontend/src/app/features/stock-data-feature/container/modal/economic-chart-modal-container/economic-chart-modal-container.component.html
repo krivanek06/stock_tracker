@@ -1,0 +1,22 @@
+<ion-content>
+    <ion-item class="ion-margin-bottom">
+        <ion-buttons slot="end">
+            <ion-button color="danger" (click)="dismissModal()">
+                <ion-icon name="close-outline"></ion-icon>
+                Close
+            </ion-button>
+        </ion-buttons>
+    </ion-item>
+
+    <div *ngIf="series.length > 0" class="ion-padding">
+        <app-generic-chart
+                #GenericChart
+                [showTimelineSlider]="true"
+                [chartTitle]="initialName"
+                [heightPx]="425"
+                [showLegend]="true"
+                [series]="series">
+        </app-generic-chart>
+    </div>
+
+</ion-content>

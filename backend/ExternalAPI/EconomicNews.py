@@ -20,6 +20,9 @@ class EconomicNews:
     # fetch stock news each 4-6 hours
     def __fetchAndSaveNews(self):
         business_news = get('http://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=' + self.API_KEY).json()['articles']
+        # filter only those which has image and description
+        business_news_valid = [article for article in business_news if article['description'] and article['urlToImage']]
+
         #print(business_news)
         # format data fot same object as news for stock details
         result = [{
@@ -29,7 +32,7 @@ class EconomicNews:
             'summary': d['description'],
             'url': d['url'],
             'image': d['urlToImage']
-        } for d in business_news]
+        } for d in business_news_valid]
 
         with open(self.FOLDER + "/" + self.BUSINESS_FILENAME, "w+", encoding='utf-8') as f:
             json.dump(result, f, ensure_ascii=False, indent=4)

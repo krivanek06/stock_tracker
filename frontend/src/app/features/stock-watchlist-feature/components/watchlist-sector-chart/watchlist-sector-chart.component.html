@@ -1,4 +1,6 @@
-<app-variable-pie-chart
-        [height]="350"
-        [data]="sectorPairs">
-</app-variable-pie-chart>
+<app-generic-chart
+        [heightPx]="350"
+        [chartType]="ChartType.pie"
+        [showLegend]="true"
+        [series]="[{data: sectorPairs, innerSize: '20%', minPointSize: 10}]">
+</app-generic-chart>
