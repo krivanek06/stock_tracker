@@ -13,36 +13,36 @@ class Quandl_Bitcoin(Quandl):
         self.TransactionFeesFolder = 'bitcoin_transactionFeesUSD.json'
 
 
-    def getTransactionFeesUSD(self, numberOfDataSet, allData):
-        return self._generatInformationProvider(numberOfDataSet, allData, self.TransactionFeesFolder, 'BCHAIN/TRFUS')
+    def getTransactionFeesUSD(self, numberOfDataSet=None):
+        return self._generatInformationProvider(numberOfDataSet, self.TransactionFeesFolder, 'BCHAIN/TRFUS')
 
-    def getTransactionTime(self, numberOfDataSet, allData):
-        return self._generatInformationProvider(numberOfDataSet, allData, self.TransactionTimeFolder, 'BCHAIN/ATRCT')
+    def getTransactionTime(self, numberOfDataSet=None):
+        return self._generatInformationProvider(numberOfDataSet, self.TransactionTimeFolder, 'BCHAIN/ATRCT')
 
-    def getMarketCap(self, numberOfDataSet, allData):
-        return self._generatInformationProvider(numberOfDataSet, allData, self.MarketCapFolder, 'BCHAIN/MKTCP')
+    def getMarketCap(self, numberOfDataSet=None):
+        return self._generatInformationProvider(numberOfDataSet, self.MarketCapFolder, 'BCHAIN/MKTCP')
 
-    def getCostPerTransaction(self, numberOfDataSet, allData):
-        return self._generatInformationProvider(numberOfDataSet, allData, self.CostPerTransactionFolder, 'BCHAIN/CPTRA')
+    def getCostPerTransaction(self, numberOfDataSet=None):
+        return self._generatInformationProvider(numberOfDataSet, self.CostPerTransactionFolder, 'BCHAIN/CPTRA')
 
-    def getNumberOfTransactionsPerDay(self, numberOfDataSet, allData):
-        return self._generatInformationProvider(numberOfDataSet, allData, self.NumberOfTransactionsPerDayFolder, 'BCHAIN/NTRAN')
+    def getNumberOfTransactionsPerDay(self, numberOfDataSet=None):
+        return self._generatInformationProvider(numberOfDataSet, self.NumberOfTransactionsPerDayFolder, 'BCHAIN/NTRAN')
 
-    def getExchangeTradingVolume(self, numberOfDataSet, allData):
-        return self._generatInformationProvider(numberOfDataSet, allData, self.ExchangeTradingVolumeFolder,'BCHAIN/TRVOU')
+    def getExchangeTradingVolume(self, numberOfDataSet=None):
+        return self._generatInformationProvider(numberOfDataSet, self.ExchangeTradingVolumeFolder,'BCHAIN/TRVOU')
 
-    def getMarketPrice(self, numberOfDataSet, allData):
-        return self._generatInformationProvider(numberOfDataSet, allData, self.MarketPriceFolder, 'BCHAIN/MKPRU')
+    def getMarketPrice(self, numberOfDataSet=None):
+        return self._generatInformationProvider(numberOfDataSet, self.MarketPriceFolder, 'BCHAIN/MKPRU')
 
     def getPartialDataFromAllCategory(self):
         numberOfDataSet = 75
         result = {
-            'transactionFees': self.getTransactionFeesUSD(numberOfDataSet, False),
-            'transactionTime': self.getTransactionTime(numberOfDataSet, False),
-            'marketCap': self.getMarketCap(numberOfDataSet, False),
-            'costPerTransaction': self.getCostPerTransaction(numberOfDataSet, False),
-            'transactionsPerDay': self.getNumberOfTransactionsPerDay(numberOfDataSet, False),
-            'tradingVolume': self.getExchangeTradingVolume(numberOfDataSet, False),
-            'marketPrice': self.getMarketPrice(numberOfDataSet, False),
+            'transactionFees': self.getTransactionFeesUSD(numberOfDataSet),
+            'transactionTime': self.getTransactionTime(numberOfDataSet),
+            'marketCap': self.getMarketCap(numberOfDataSet),
+            'costPerTransaction': self.getCostPerTransaction(numberOfDataSet),
+            'transactionsPerDay': self.getNumberOfTransactionsPerDay(numberOfDataSet),
+            'tradingVolume': self.getExchangeTradingVolume(numberOfDataSet),
+            'marketPrice': self.getMarketPrice(numberOfDataSet),
         }
         return result

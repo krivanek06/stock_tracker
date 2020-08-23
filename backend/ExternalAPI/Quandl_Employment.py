@@ -11,24 +11,24 @@ class Quandl_Employment(Quandl):
         self.GoodsProducingIndustryFolder = 'employment_goodsProducingIndustry.json'
         self.PrivateIndustryFolder = 'employment_privateIndustry.json'
 
-    def getGovernmentIndustry(self, numberOfDataSet, allData):
-        return self._generatInformationProvider(numberOfDataSet, allData, self.GovernmentIndustryFolder, 'BLSE/CES9000000001')
+    def getGovernmentIndustry(self, numberOfDataSet = None):
+        return self._generatInformationProvider(numberOfDataSet, self.GovernmentIndustryFolder, 'BLSE/CES9000000001')
 
-    def getServiceProvidingIndustry(self, numberOfDataSet, allData):
-        return self._generatInformationProvider(numberOfDataSet, allData, self.ServiceProvidingIndustryFolder, 'BLSE/CES0700000001')
+    def getServiceProvidingIndustry(self, numberOfDataSet = None):
+        return self._generatInformationProvider(numberOfDataSet, self.ServiceProvidingIndustryFolder, 'BLSE/CES0700000001')
 
-    def getGoodsProducingIndustry(self, numberOfDataSet, allData):
-        return self._generatInformationProvider(numberOfDataSet, allData, self.GoodsProducingIndustryFolder, 'BLSE/CES0600000001')
+    def getGoodsProducingIndustry(self, numberOfDataSet = None):
+        return self._generatInformationProvider(numberOfDataSet, self.GoodsProducingIndustryFolder, 'BLSE/CES0600000001')
 
-    def getPrivateIndustry(self, numberOfDataSet, allData):
-        return self._generatInformationProvider(numberOfDataSet, allData, self.PrivateIndustryFolder, 'BLSE/CES0500000001')
+    def getPrivateIndustry(self, numberOfDataSet=None):
+        return self._generatInformationProvider(numberOfDataSet, self.PrivateIndustryFolder, 'BLSE/CES0500000001')
 
     def getPartialDataFromAllCategory(self):
         numberOfDataSet = 25
         result = {
-            'governmentIndustry': self.getGovernmentIndustry(numberOfDataSet, False),
-            'serviceProvidingIndustry': self.getServiceProvidingIndustry(numberOfDataSet, False),
-            'goodProducingIndustry': self.getGoodsProducingIndustry(numberOfDataSet, False),
-            'privateIndustry': self.getPrivateIndustry(numberOfDataSet, False)
+            'governmentIndustry': self.getGovernmentIndustry(numberOfDataSet),
+            'serviceProvidingIndustry': self.getServiceProvidingIndustry(numberOfDataSet),
+            'goodProducingIndustry': self.getGoodsProducingIndustry(numberOfDataSet),
+            'privateIndustry': self.getPrivateIndustry(numberOfDataSet)
         }
         return result

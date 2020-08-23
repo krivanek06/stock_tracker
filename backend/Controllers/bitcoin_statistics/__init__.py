@@ -11,16 +11,11 @@ CORS(app, resources={r"*": {"origins": "*"}})
 
 Quandl_Bitcoin = Quandl_Bitcoin.Quandl_Bitcoin()
 
-def __parseArgs():
-    numberOfDataSet = int(request.args.get('numberOfDataSet'))
-    allData = request.args.get('allData') == 'True' or request.args.get('allData') == 'true'
-    return numberOfDataSet, allData
 
 @app.route('/costPerTransaction')
 def getCostPerTransaction():
     try:
-        numberOfDataSet, allData = __parseArgs()
-        return json_response(**Quandl_Bitcoin.getCostPerTransaction(numberOfDataSet, allData))
+        return json_response(**Quandl_Bitcoin.getCostPerTransaction())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding cost per transaction for bitcoin')
@@ -28,8 +23,7 @@ def getCostPerTransaction():
 @app.route('/exchangeTradingVolume')
 def getExchangeTradingVolume():
     try:
-        numberOfDataSet, allData = __parseArgs()
-        return json_response(**Quandl_Bitcoin.getExchangeTradingVolume(numberOfDataSet, allData))
+        return json_response(**Quandl_Bitcoin.getExchangeTradingVolume())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding exchange trading volume for bitcoin')
@@ -37,8 +31,7 @@ def getExchangeTradingVolume():
 @app.route('/marketCap')
 def getMarketCap():
     try:
-        numberOfDataSet, allData = __parseArgs()
-        return json_response(**Quandl_Bitcoin.getMarketCap(numberOfDataSet, allData))
+        return json_response(**Quandl_Bitcoin.getMarketCap())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding market cap for bitcoin')
@@ -47,8 +40,7 @@ def getMarketCap():
 @app.route('/marketPrice')
 def getMarketPrice():
     try:
-        numberOfDataSet, allData = __parseArgs()
-        return json_response(**Quandl_Bitcoin.getMarketPrice(numberOfDataSet, allData))
+        return json_response(**Quandl_Bitcoin.getMarketPrice())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding market price for bitcoin')
@@ -57,8 +49,7 @@ def getMarketPrice():
 @app.route('/numberOfTransactionsPerDay')
 def getNumberOfTransactionsPerDay():
     try:
-        numberOfDataSet, allData = __parseArgs()
-        return json_response(**Quandl_Bitcoin.getNumberOfTransactionsPerDay(numberOfDataSet, allData))
+        return json_response(**Quandl_Bitcoin.getNumberOfTransactionsPerDay())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding number of transaction per day for bitcoin')
@@ -67,8 +58,7 @@ def getNumberOfTransactionsPerDay():
 @app.route('/transactionFeesUSD')
 def getTransactionFeesUSD():
     try:
-        numberOfDataSet, allData = __parseArgs()
-        return json_response(**Quandl_Bitcoin.getTransactionFeesUSD(numberOfDataSet, allData))
+        return json_response(**Quandl_Bitcoin.getTransactionFeesUSD())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding transaction fees for bitcoin')
@@ -77,8 +67,7 @@ def getTransactionFeesUSD():
 @app.route('/transactionTime')
 def getTransactionTime():
     try:
-        numberOfDataSet, allData = __parseArgs()
-        return json_response(**Quandl_Bitcoin.getTransactionTime(numberOfDataSet, allData))
+        return json_response(**Quandl_Bitcoin.getTransactionTime())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding transaction time for bitcoin')

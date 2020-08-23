@@ -3,4 +3,25 @@
   max-width: fit-content;
 }
 
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 80vh;
+}
+
+ion-spinner {
+  width: 50px !important;
+  height: 50px !important;
+}
+
+.news-container{
+  column-count: 2;
+  padding: 20px;
+  @media (min-width: 0px) and (max-width: 1600px) {
+    column-count: 1;
+  }
+}
 

@@ -1,37 +1,44 @@
-<!-- earnings | recommendation | company growth -->
-
 <ion-grid>
     <ion-row>
         <ion-col size-xl="4" size="12">
             <app-details-earnings-chart-card
                     [earnings]="stockDetails?.analysis.earnings"></app-details-earnings-chart-card>
         </ion-col>
-        <ion-col size-xl="4.25" size="12">
+        <ion-col size-xl="4.25" size-md="9" size="12">
             <ng-container *ngIf="stockDetails?.analysis">
                 <app-generic-chart-card [chartTitle]="'Company growth'">
-                    <app-bar-chart
+                    <app-generic-chart
+                            [chartType]="ChartType.column"
                             [heightPx]="256"
-                            [data]="[
-                      {name: 'Past 5y', y: stockDetails?.analysis.growthEstimatesPercent.fiveYear.current},
-                      {name: 'Next 5y', y: stockDetails?.analysis.growthEstimatesPercent.fiveYear.next},
-                      {name: 'Current year', y: stockDetails?.analysis.growthEstimatesPercent.year.current},
-                      {name: 'Next year', y: stockDetails?.analysis.growthEstimatesPercent.year.next},
-                      {name: 'Current quarter', y: stockDetails?.analysis.growthEstimatesPercent.quarter.current},
-                      {name: 'Next quarter', y: stockDetails?.analysis.growthEstimatesPercent.quarter.next}
-                  ]">
-                    </app-bar-chart>
+                            [series]="[{
+                                colorByPoint: true,
+                                 data:[
+                                    {name: 'Past 5y', y: stockDetails?.analysis.growthEstimatesPercent.fiveYear.current},
+                                    {name: 'Next 5y', y: stockDetails?.analysis.growthEstimatesPercent.fiveYear.next},
+                                    {name: 'Current year', y: stockDetails?.analysis.growthEstimatesPercent.year.current},
+                                    {name: 'Next year', y: stockDetails?.analysis.growthEstimatesPercent.year.next},
+                                    {name: 'Current quarter', y: stockDetails?.analysis.growthEstimatesPercent.quarter.current},
+                                    {name: 'Next quarter', y: stockDetails?.analysis.growthEstimatesPercent.quarter.next}
+                                  ]
+                          }]">
+                    </app-generic-chart>
                 </app-generic-chart-card>
             </ng-container>
         </ion-col>
-        <ion-col size-xl="3.75" size="12">
+        <ion-col size-xl="3.75" size-md="3" size="12">
             <app-generic-chart-card [cardHeight]="335" [chartTitle]="'Assets to debt'">
-                <app-pie-chart
-                        [height]="275"
-                        [data]="[
-                      {name: 'Assets', y: stockDetails?.chartInfo.assetsToDebtInfo.totalAssets, color: '#2FA811'},
-                      {name: 'Debt', y: stockDetails?.chartInfo.assetsToDebtInfo.totalDebt, sliced: true, selected: true, color: '#B60808'}
-                  ]">
-                </app-pie-chart>
+                <app-generic-chart
+                        [chartType]="ChartType.pie"
+                        [heightPx]="275"
+                        [showLegend]="true"
+                        [series]="[{
+                            name: 'Share',
+                            data: [
+                            {name: 'Assets', y: stockDetails?.chartInfo.assetsToDebtInfo.totalAssets, color: '#2FA811'},
+                            {name: 'Debt', y: stockDetails?.chartInfo.assetsToDebtInfo.totalDebt, sliced: true, selected: true, color: '#B60808'}
+                         ]
+                      }]">
+                </app-generic-chart>
             </app-generic-chart-card>
         </ion-col>
     </ion-row>

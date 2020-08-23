@@ -37,6 +37,7 @@ export class FinancialChartComponent implements OnInit, OnChanges {
     @Input() price: any[];
     @Input() volume: any[];
     @Input() height = 350;
+    @Input() chartTitle: string;
 
     startingPrice: number;
     endingPrice: number;
@@ -81,7 +82,10 @@ export class FinancialChartComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        this.initChart();
+        if (!!this.price) {
+            this.recalculatePriceRange(this.price);
+            this.initChart();
+        }
     }
 
     ngOnInit() {
@@ -93,16 +97,42 @@ export class FinancialChartComponent implements OnInit, OnChanges {
     recalculatePriceRange(priceRange: number[]) {
         this.startingPrice = priceRange[0];
         this.endingPrice = priceRange[priceRange.length - 1];
+        this.changeColor();
+
     }
 
+    private changeColor() {
+        this.chartOptions = {
+            ...this.chartOptions,
+            plotOptions: {
+                area: {
+                    fillColor: {
+                        linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1},
+                        stops: [
+                            [0, this.endingPrice > this.startingPrice ? 'rgb(50,232,28)' : 'rgba(232,0,24,1)'],
+                            [1, 'rgba(0,20,82,0.37048322747067575)']
+                        ]
+                    }
+                }
+            }
+        };
 
-    initChart() {
+    }
+
+    private initChart() {
         this.chartOptions = {
             chart: {
                 backgroundColor: 'transparent',
                 type: 'area', // area
                 panning: {
                     enable: true
+                }
+            },
+            title: {
+                text: this.chartTitle,
+                align: 'right',
+                style: {
+                    color: '#bababa'
                 }
             },
             scrollbar: {
@@ -117,7 +147,7 @@ export class FinancialChartComponent implements OnInit, OnChanges {
                     fillColor: {
                         linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1},
                         stops: [
-                            [0, 'rgba(232,0,24,1)'],
+                            [0, this.endingPrice > this.startingPrice ? 'rgb(50,232,28)' : 'rgba(232,0,24,1)'],
                             [1, 'rgba(0,20,82,0.37048322747067575)']
                         ]
                     },
@@ -139,7 +169,7 @@ export class FinancialChartComponent implements OnInit, OnChanges {
             series: [
                 {
                     data: this.price,
-                    color: 'rgba(232,0,24,1)',
+                    // color: this.endingPrice > this.startingPrice ? 'rgb(50,232,28)' : 'rgba(232,0,24,1)',
                     name: 'price',
                 },
                 {
@@ -161,17 +191,18 @@ export class FinancialChartComponent implements OnInit, OnChanges {
             },
             tooltip: {
                 borderWidth: 1,
-                headerFormat: null,
+                // headerFormat: null,
                 backgroundColor: '#232323',
                 style: {
                     fontSize: '14px',
                     color: '#D9D8D8',
                 },
                 shared: true,
-                pointFormat: '<span style="color:{point.color}; font-weight: bold">{series.name}</span> :<b>{point.y:.2f}</b><br/>'
-              /*  pointFormat: '<span style="font-weight: bold; color:{series.color};">{point.name}</span> :<b>{point.y:.2f}</b>'*/
+                xDateFormat: '%d-%m-%Y',
+               //  pointFormat: '<span style="color:{point.color}; font-weight: bold">{series.name}</span> :<b>{point.y:.2f}</b><br/>'
             },
             xAxis: {
+                // type: 'datetime',
                 labels: {
                     enabled: true,
                     style: {
@@ -183,7 +214,7 @@ export class FinancialChartComponent implements OnInit, OnChanges {
                     afterSetExtremes: (e) =>
                         this.recalculatePriceRange(e.target.series[0].processedYData),
                 },
-                minRange: 3600 * 1000, // one hour
+                //minRange: 3600 * 1000, // one hour
             },
             yAxis: [
                 {

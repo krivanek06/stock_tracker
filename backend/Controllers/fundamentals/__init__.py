@@ -30,18 +30,6 @@ def getStockFundamentals():
                                           'please contact administrator to check logs ')
 
 
-@app.route('/stockNews')
-def getStockNews():
-    try:
-        symbol = request.args.get('symbol')
-        olderThan = int(request.args.get('olderThan'))
-        return json_response(**fundamentals.getStockNewsFromFirestore(symbol, olderThan))
-    except Exception as e:
-        print(e)
-        raise JsonError(status=500, error='Could not find any news for data')
-
-
-
 
 if __name__ == '__main__':
     print('Fundamentals controller app is running')
