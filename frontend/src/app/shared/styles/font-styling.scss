@@ -1,0 +1,6 @@
+@import "./custom-variable";
+
+.fs-title-2{
+  font-size: 20px;
+  color: #{$orange-title-medium};
+}

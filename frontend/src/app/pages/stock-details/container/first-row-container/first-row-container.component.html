@@ -17,6 +17,7 @@
                     *ngIf="chartData$ | async as chartData">
                 <app-financial-chart
                         [height]="415"
+                        [showYAxis]="true"
                         (selectedPeriodEmitter)="loadChartData($event)"
                         [price]="chartData?.price"
                         [volume]="chartData?.volume">

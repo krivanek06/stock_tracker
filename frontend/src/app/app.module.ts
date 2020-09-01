@@ -8,7 +8,6 @@ import {CommonModule} from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import {MaterialModule} from './material.module';
 import {environment} from '../environments/environment';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
@@ -39,7 +38,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         ReactiveFormsModule,
         HttpClientModule,
         FormsModule,
-        MaterialModule.forRoot(),
         GraphQlModule,
         // Firebase
         AngularFireModule.initializeApp(environment.firebase), //  as ModuleWithProviders<AngularFireModule>

@@ -30,11 +30,8 @@
 
 * {
   font-size: 15px;
-  @media (max-width: 750px) {
+  @media (max-width: 900px) {
     font-size: 13px;
-  }
-  @media (max-width: 550px) {
-    font-size: 12px;
   }
 
   ion-icon{
@@ -47,7 +44,7 @@
 .custom-modal .modal-wrapper {
   @media (min-width: 800px) {
     width: 65% !important;
-    height: 600px !important;
+    height: 650px !important;
   }
 }
 
@@ -72,7 +69,7 @@
   @media (max-width: 1400px) {
     padding: 10px 40px 10px 20px;
   }
-  @media (max-width: 800px) {
+  @media (max-width: 1275px) {
     padding: 10px 15px 5px 5px;
   }
   @media (max-width: 475px) {

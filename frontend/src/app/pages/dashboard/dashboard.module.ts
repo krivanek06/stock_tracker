@@ -9,6 +9,7 @@ import {MarketMovementContainerComponent} from './container/market-movement-cont
 import {Sp500ChartsContainerComponent} from './container/sp500-charts-container/sp500-charts-container.component';
 import {EconomicChartsContainerComponent} from './container/economic-charts-container/economic-charts-container.component';
 import {StockDetailsPageModule} from '../stock-details/stock-details.module';
+import {DashboardNewsComponent} from './container/dashboard-news/dashboard-news.component';
 
 const routes: Routes = [
     {
@@ -29,7 +30,8 @@ const routes: Routes = [
         DashboardPage,
         MarketMovementContainerComponent,
         Sp500ChartsContainerComponent,
-        EconomicChartsContainerComponent
+        EconomicChartsContainerComponent,
+        DashboardNewsComponent
     ]
 })
 export class DashboardPageModule {

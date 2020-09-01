@@ -38,6 +38,7 @@ export class FinancialChartComponent implements OnInit, OnChanges {
     @Input() volume: any[];
     @Input() height = 350;
     @Input() chartTitle: string;
+    @Input() showYAxis = false;
 
     startingPrice: number;
     endingPrice: number;
@@ -82,8 +83,8 @@ export class FinancialChartComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (!!this.price) {
-            this.recalculatePriceRange(this.price);
+        if (!!this.price && this.price.length > 0) {
+            this.recalculatePriceRange([this.price[0][1], this.price[this.price.length - 1][1]]);
             this.initChart();
         }
     }
@@ -199,7 +200,8 @@ export class FinancialChartComponent implements OnInit, OnChanges {
                 },
                 shared: true,
                 xDateFormat: '%d-%m-%Y',
-               //  pointFormat: '<span style="color:{point.color}; font-weight: bold">{series.name}</span> :<b>{point.y:.2f}</b><br/>'
+                valueDecimals: 2
+                //  pointFormat: '<span style="color:{point.color}; font-weight: bold">{series.name}</span> :<b>{point.y:.2f}</b><br/>'
             },
             xAxis: {
                 // type: 'datetime',
@@ -218,31 +220,34 @@ export class FinancialChartComponent implements OnInit, OnChanges {
             },
             yAxis: [
                 {
-                    title: false,
+                    title: {
+                        text: ''
+                    },
                     gridLineWidth: 0,
+                    minorTickInterval: 'auto',
+                    tickPixelInterval: 15,
                     minorGridLineWidth: 0,
                     allowDecimals: true,
-                    labels: {
-                        align: 'left',
-                    },
                     height: '75%',
                     resize: {
                         enabled: true,
                     },
-                    startOnTick: false,
+                    startOnTick: true,
                     endOnTick: false,
+                    opposite: false,
+                    visible: this.showYAxis
                 },
                 {
-                    title: false,
-                    gridLineWidth: 0,
-                    labels: {
-                        align: 'left',
+                    title: {
+                        text: ''
                     },
+                    gridLineWidth: 0,
                     top: '75%',
                     height: '25%',
                     offset: 0,
                     startOnTick: false,
                     endOnTick: false,
+                    visible: false
                 },
             ],
         };

@@ -88,7 +88,7 @@ export class WatchlistTableBodyItemComponent implements OnInit, OnChanges {
             return;
         }
 
-        this.detailsItemClickedEmitter.emit(this.createChartDataIdentification());
+       // this.detailsItemClickedEmitter.emit(this.createChartDataIdentification());
     }
 
     @HostListener('window:resize', ['$event'])

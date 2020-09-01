@@ -1,49 +1,68 @@
 
 from downloaded_libs import yfinance as yf
 from yahoo_fin import stock_info as si
-import math
+from math import isnan
+from Services import FileManagerService
 from datetime import datetime
 
 class YahooFinance:
     def __init__(self):
+       self.__FOLDER = 'resource/other'
+       self.TopGainersFolder = 'top_gainers.json'
+       self.TopLossesFolder = 'top_losses.json'
+       self.TopActiveFolder = 'top_active.json'
        self.yahooFinanceDataModification = YahooFinanceDataModification()
+       self.fileManagerService = FileManagerService.FileManagerService(self.__FOLDER)
 
     # Valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
     # Valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
     def getChartDataWithPeriod(self, symbol, period):
         if period == '1d':
-            chart_data = yf.download(tickers=symbol, period=period, interval="5m")
+            chart_data = yf.download(tickers=symbol, period=period, interval="1m")
         elif period == '5d':
             chart_data = yf.download(tickers=symbol, period=period, interval="30m")
-        elif period in ['1mo', '3mo', '6mo', '1y']:
+        elif period in ['1mo', '3mo']:
+            chart_data = yf.download(tickers=symbol, period=period, interval="1h")
+        elif period in ['6mo', '1y']:
             chart_data = yf.download(tickers=symbol, period=period, interval="1d")
         elif period in ['2y', '5y']:
             chart_data = yf.download(tickers=symbol, period=period, interval="1wk")
         else:
             chart_data = yf.download(tickers=symbol, period=period, interval="1mo")
 
-        chart_data['currentPercentReturn'] = round(((chart_data.get('Adj Close') / chart_data.get('Adj Close').shift(1)) - 1) * 100, 2)
-        chart_data['currentPercentReturn'][0] = 0 # NaN -> 0
-        chart_data['currentPrice'] = chart_data['Adj Close']
-
-        # remove unnecessary data
-        chart_data = self.yahooFinanceDataModification.formatChartData(chart_data, period in ['1d', '5d'])
+        chart_data = self.yahooFinanceDataModification.formatChartData(chart_data)
         return chart_data
 
+    # download data each hour
     def getTopGains(self):
+        lastModification = self.fileManagerService.getDocumentLastModification(self.TopGainersFolder)
+        if lastModification is not None and lastModification[1] == 0:
+            return self.fileManagerService.getJsonFile(self.TopGainersFolder)
         topGainers = si.get_day_gainers()[0:10]
-        topGainers['volume_change'] = self.yahooFinanceDataModification.getPercentigeChangeInVolume(topGainers)
-        return self.yahooFinanceDataModification.formatTopGainersOrLoosersOrActive(topGainers)
+        topGainers = self.yahooFinanceDataModification.formatTopGainersOrLoosersOrActive(topGainers)
+        self.fileManagerService.saveFile(self.TopGainersFolder, topGainers)
+        return topGainers
 
+    # download data each hour
     def getTopLosers(self):
-        topLosers = si.get_day_losers()[0:10]
-        topLosers['volume_change'] = self.yahooFinanceDataModification.getPercentigeChangeInVolume(topLosers)
-        return self.yahooFinanceDataModification.formatTopGainersOrLoosersOrActive(topLosers)
+        lastModification = self.fileManagerService.getDocumentLastModification(self.TopLossesFolder)
+        if lastModification is not None and lastModification[1] == 0:
+            return self.fileManagerService.getJsonFile(self.TopLossesFolder)
 
-    def getMostActive(self):
+        topLosers = si.get_day_losers()[0:10]
+        topLosers = self.yahooFinanceDataModification.formatTopGainersOrLoosersOrActive(topLosers)
+        self.fileManagerService.saveFile(self.TopLossesFolder, topLosers)
+        return topLosers
+
+    def getTopActive(self):
+        lastModification = self.fileManagerService.getDocumentLastModification(self.TopActiveFolder)
+        if lastModification is not None and lastModification[1] == 0:
+            return self.fileManagerService.getJsonFile(self.TopActiveFolder)
+
         mostActive = si.get_day_most_active()[0:10]
-        mostActive['volume_change'] = self.yahooFinanceDataModification.getPercentigeChangeInVolume(mostActive)
-        return self.yahooFinanceDataModification.formatTopGainersOrLoosersOrActive(mostActive)
+        mostActive = self.yahooFinanceDataModification.formatTopGainersOrLoosersOrActive(mostActive)
+        self.fileManagerService.saveFile(self.TopActiveFolder, mostActive)
+        return mostActive
 
     def getTickerSummary(self, symbol):
         data = si.get_quote_table(symbol)
@@ -254,7 +273,7 @@ class YahooFinanceDataModification:
         for k in data:
             tmp = {}
             for period in data[k]:
-                tmp[period] = [None if type(v) is float and math.isnan(v) else v for v in data[k][period]]
+                tmp[period] = [None if type(v) is float and isnan(v) else v for v in data[k][period]]
             container[k] = tmp
 
         # save growth
@@ -353,9 +372,6 @@ class YahooFinanceDataModification:
 
         return res
 
-    def getPercentigeChangeInVolume(self, data):
-        return round((100 / data['Avg Vol (3 month)'] * data['Volume'] - 100), 2)
-
     def formatTopGainersOrLoosersOrActive(self, data):
         res = []
         for i in range(len(data['Symbol'])):
@@ -364,23 +380,28 @@ class YahooFinanceDataModification:
             tmp['name'] = str(data['Name'][i])
             tmp['currentPrice'] = float(round(data['Price (Intraday)'][i], 2))
             tmp['currentPriceChange'] = float(round(data['% Change'][i], 2))
-            tmp['volumeChange'] = float(round(data['volume_change'][i], 2))
+            #tmp['volumeChange'] = float(round(data['volume_change'][i], 2))
             #tmp['peRatio'] = -1 if math.isnan(data['PE Ratio (TTM)'][i]) else float(data['PE Ratio (TTM)'][i])
 
             res.append(tmp)
         return res
 
-    def formatChartData(self, data, includeMinutes):
+    def formatChartData(self, data):
         res = {'price': [], 'volume': [], 'change': [], 'livePrice': 0}
-        timestamp = data['currentPrice'].keys()
 
-        res['livePrice'] = round(data['currentPrice'][-1], 2)
+        data['currentPercentReturn'] = round( ((data.get('Adj Close') / data.get('Adj Close').shift(1)) - 1) * 100, 2)
+        res['livePrice'] = round(data['Adj Close'][-1], 2)
+
+        timestamp = data['Adj Close'].keys()
 
         for i in range(len(timestamp)):
+            if isnan(data['Adj Close'][i]) or isnan(data['Volume'][i]) or isnan(data['currentPercentReturn'][i]):
+                continue
+
             tmpDate = timestamp[i].timestamp() * 1000
 
-            res['price'].append([tmpDate, round(data['currentPrice'][i], 2)])
-            res['volume'].append([tmpDate, 0 if math.isnan(data['Volume'][i]) else int(data['Volume'][i])])
+            res['price'].append([tmpDate, round(data['Adj Close'][i], 2)])
+            res['volume'].append([tmpDate, 0 if isnan(data['Volume'][i]) else int(data['Volume'][i])])
             res['change'].append([tmpDate, round(data['currentPercentReturn'][i], 2)])
 
         return res
@@ -428,7 +449,7 @@ class YahooFinanceDataModification:
 
     def formatNanValues(self, data):
         for k in data.keys():
-            if type(data[k]) is float and math.isnan(data[k]):
+            if type(data[k]) is float and isnan(data[k]):
                 data[k] = None
 
     # balance sheet / cash flow / income statement

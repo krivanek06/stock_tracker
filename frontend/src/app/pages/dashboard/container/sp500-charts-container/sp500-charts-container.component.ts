@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {SP500PartialData} from '../../../../features/stock-data-feature/model/chartDataModel';
+import {SP500PartialData} from '../../../../shared/models/chartDataModel';
 import {Sp500StatisticsApiService} from '../../../../api/sp500-statistics-api.service';
 import {ModalController} from '@ionic/angular';
-import {EconomicChartModalContainerComponent} from '../../../../features/stock-data-feature/container/modal/economic-chart-modal-container/economic-chart-modal-container.component';
+import {EconomicChartModalContainerComponent} from '../../../../shared/containers/modal/economic-chart-modal-container/economic-chart-modal-container.component';
 import {ChartType} from '../../../../shared/models/sharedModel';
 import * as chartData from '../../../../shared/models/endpoints';
 
@@ -11,6 +11,7 @@ import * as chartData from '../../../../shared/models/endpoints';
     selector: 'app-sp500-charts-container',
     templateUrl: './sp500-charts-container.component.html',
     styleUrls: ['./sp500-charts-container.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Sp500ChartsContainerComponent implements OnInit {
     sp500StatisticsData$: Observable<SP500PartialData>;

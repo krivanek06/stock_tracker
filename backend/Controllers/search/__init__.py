@@ -1,7 +1,7 @@
 from flask import Flask, request
 from flask_json import FlaskJSON, JsonError, json_response
 from flask_cors import CORS
-from ExternalAPI import EconomicNews, YahooFinance, Finhub, Twelvedata
+from ExternalAPI import EconomicNews, YahooFinance, Finhub
 
 app = Flask(__name__)
 FlaskJSON(app)
@@ -11,7 +11,6 @@ CORS(app, resources={r"*": {"origins": "*"}})
 StockNews = EconomicNews.EconomicNews()
 Finhub = Finhub.Finhub()
 YahooFinance = YahooFinance.YahooFinance()
-Twelvedata = Twelvedata.Twelvedata()
 
 
 @app.route('/news')
@@ -38,16 +37,16 @@ def getEarningsCalendarForTwoWeeks():
         return json_response(earnings=Finhub.getEarningsCalendarForOneWeeks())
     except Exception as e:
         print(e)
-        raise JsonError(status=400, error='Could not find any earnings')
+        raise JsonError(status=500, error='Could not find any earnings')
 
 
 @app.route('/search_symbol')
 def searchSymbol():
     try:
-        return json_response(data=Twelvedata.searchSymbol(request.args.get('symbol')))
+        return json_response(data=Finhub.searchSymbol(request.args.get('symbol').upper()))
     except Exception as e:
         print(e)
-        raise JsonError(status=400, error='Could not search any stock for symbol')
+        raise JsonError(status=500, error='Could not search any stock for symbol')
 
 
 @app.route('/day_top_gains')
@@ -70,7 +69,7 @@ def getTopLosers():
 @app.route('/day_most_active')
 def getMostActive():
     try:
-        return json_response(data=YahooFinance.getMostActive())
+        return json_response(data=YahooFinance.getTopActive())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Failed to get most active')

@@ -3,19 +3,36 @@ from private_data import enviroments
 from requests import get
 from datetime import datetime
 from dateutil import relativedelta
+from Services import FileManagerService
 
 class Finhub:
     def __init__(self):
         self.FINHUB_SECRET_KEY = os.environ['FINHUB_SECRET_KEY']
+        self.__FOLDER = 'resource/other'
+        self.SEARCH_US_EXCHANGE_FOLDER = 'us_exchange.json'
 
-    '''
+        self.fileManagerService = FileManagerService.FileManagerService(self.__FOLDER)
+
     def getIpoOneMonthCalendar(self):
         today = datetime.today()
         nextmonth = today + relativedelta.relativedelta(months=1)
         params = {'token': self.FINHUB_SECRET_KEY, 'from': today, 'to': nextmonth}
         return get('https://finnhub.io/api/v1/calendar/ipo', params=params).json()
-    '''
 
+    def searchSymbol(self, symbolPrefix):
+        exchangeUSLastModification = self.fileManagerService.getDocumentLastModification(self.SEARCH_US_EXCHANGE_FOLDER)
+        exchangeUS = self.fileManagerService.getJsonFile(self.SEARCH_US_EXCHANGE_FOLDER)
+        # update once per week
+        if exchangeUSLastModification is None or exchangeUSLastModification[0] > 7:
+            params = {'token': self.FINHUB_SECRET_KEY, 'exchange': 'US'}
+            exchangeUS = get('https://finnhub.io/api/v1/stock/symbol', params=params).json()
+            for data in exchangeUS:
+                data['displayName'] = '[' + data['symbol'] + ']' + ' ' + data['description']
+            self.fileManagerService.saveFile(self.SEARCH_US_EXCHANGE_FOLDER, exchangeUS)
+
+        result = [k for k in exchangeUS if k['symbol'].startswith(symbolPrefix)][0:6]
+
+        return result
 
     def getEarningsCalendarForOneWeeks(self):
         today = datetime.today()

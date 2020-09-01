@@ -31,7 +31,7 @@ export const createStockWatchlist = async (identifier: StockWatchlistIdentifier)
     };
 
     const documentRef = await admin.firestore().collection("stockWatchlist").add(watchlist);
- 
+    await sleep(4000);
 
     return {...watchlist, id: documentRef.id};
   } catch (error) {
@@ -68,11 +68,10 @@ export const addStockIntoStockWatchlist = async (identifier: StockWatchlistIdent
 
     // get fundaments from custom server
     const response = await fetch(
-      `${stockDataAPI}/ticker/details/fundamentals?symbol=${identifier.additionalData}`
+      `${stockDataAPI}/fundamentals/all?symbol=${identifier.additionalData}`
     );
 
     const stockDetails = await response.json() as StockDetails;
-    
 
     // add stock into watchlist
     watchlist.stocks = [...watchlist.stocks, identifier.additionalData];
@@ -184,3 +183,8 @@ export const renameStockWatchlist = async (identifier: StockWatchlistIdentifier)
     }
   };
   
+
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }

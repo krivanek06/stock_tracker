@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuthModule} from '@angular/fire/auth';
-import {MaterialModule} from '../material.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {IonicModule} from '@ionic/angular';
@@ -12,15 +11,18 @@ import {DefaultImgDirective} from './directives/default-img.directive';
 import {FinancialChartComponent} from './components/charts/financial-chart/financial-chart.component';
 import {GaugeChartComponent} from './components/charts/gauge-chart/gauge-chart.component';
 import {FixedRangeSliderComponent} from './components/charts/fixed-range-slider/fixed-range-slider.component';
-import { NumberFormatterPipe } from './pipes/numberFormatter.pipe';
-import {HeaderComponent} from './components/header/header.component';
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import {NumberFormatterPipe} from './pipes/numberFormatter.pipe';
+import {HeaderComponent} from './containers/header/header.component';
+import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {FixedRangeSliderWithTimeComponent} from './components/charts/fixed-range-slider-with-time/fixed-range-slider-with-time.component';
 import {ApolloModule} from 'apollo-angular';
 import {InlineInputFormComponent} from './components/forms/inline-input-form/inline-input-form.component';
 import {GenericChartComponent} from './components/charts/generic-chart/generic-chart.component';
 import {GenericChartCardComponent} from './components/cards/generic-chart-card/generic-chart-card.component';
 import {TimeagoClock, TimeagoFormatter, TimeagoIntl, TimeagoModule} from 'ngx-timeago';
+import {FinancialChartModalContainerComponent} from './containers/modal/financial-chart-modal-container/financial-chart-modal-container.component';
+import {FinancialChartContainerComponent} from './containers/financial-chart-container/financial-chart-container.component';
+import {EconomicChartModalContainerComponent} from './containers/modal/economic-chart-modal-container/economic-chart-modal-container.component';
 
 @NgModule({
     declarations: [
@@ -33,11 +35,13 @@ import {TimeagoClock, TimeagoFormatter, TimeagoIntl, TimeagoModule} from 'ngx-ti
         InlineInputFormComponent,
         FixedRangeSliderWithTimeComponent,
         GenericChartComponent,
-        GenericChartCardComponent
+        GenericChartCardComponent,
+        FinancialChartModalContainerComponent,
+        FinancialChartContainerComponent,
+        EconomicChartModalContainerComponent,
     ],
     imports: [
         CommonModule,
-        MaterialModule,
         ReactiveFormsModule,
         FormsModule,
         RouterModule,
@@ -52,7 +56,6 @@ import {TimeagoClock, TimeagoFormatter, TimeagoIntl, TimeagoModule} from 'ngx-ti
     ],
     exports: [
         TimeagoModule,
-        MaterialModule,
         ReactiveFormsModule,
         FormsModule,
         PerfectScrollbarModule,
@@ -72,7 +75,14 @@ import {TimeagoClock, TimeagoFormatter, TimeagoIntl, TimeagoModule} from 'ngx-ti
         InlineInputFormComponent,
         FixedRangeSliderWithTimeComponent,
         GenericChartComponent,
-        GenericChartCardComponent
+        GenericChartCardComponent,
+        FinancialChartModalContainerComponent,
+        FinancialChartContainerComponent,
+        EconomicChartModalContainerComponent,
+    ],
+    entryComponents: [
+        FinancialChartModalContainerComponent,
+        EconomicChartModalContainerComponent
     ]
 })
 export class SharedModule {

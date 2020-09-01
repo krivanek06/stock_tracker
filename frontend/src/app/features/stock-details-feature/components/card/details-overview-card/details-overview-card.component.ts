@@ -1,10 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {BasicInfo, OverView} from '../../../model/stockDetails';
 
 @Component({
     selector: 'app-details-overview-card',
     templateUrl: './details-overview-card.component.html',
     styleUrls: ['./details-overview-card.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailsOverviewCardComponent implements OnInit {
     @Input() overview: OverView;

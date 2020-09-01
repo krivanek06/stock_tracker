@@ -9,10 +9,7 @@
 
             <app-economic-charts-container></app-economic-charts-container>
 
-            <!-- stock news -->
-            <div class="news-container">
-                <app-article-cards *ngFor="let article of newsArticles$ | async" [article]="article"></app-article-cards>
-            </div>
+            <app-dashboard-news></app-dashboard-news>
         </div>
     </perfect-scrollbar>
 </ion-content>

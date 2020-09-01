@@ -12,7 +12,7 @@ import {
     RemoveStockFromWatchlistGQL,
     RenameStockWatchlistGQL, StockMainDetailsFragment, StockMainDetailsFragmentDoc,
     StockWatchlistIdentifier,
-    StockWatchlistInformationFragment,
+    StockWatchlistInformationFragment, StockWatchlistInformationFragmentDoc,
 } from '../../../api/customGraphql.service';
 import {filter, map, shareReplay, takeUntil} from 'rxjs/operators';
 import {Observable, Subject} from 'rxjs';
@@ -107,23 +107,21 @@ export class WatchlistService {
                 renameStockWatchlist: true
             },
             update: (store, {data: {renameStockWatchlist}}) => {
-                const data = store.readQuery<QueryUserStockWatchlistsQuery>({
-                    query: QueryUserStockWatchlistsDocument,
-                    variables: {
-                        uid: identifier.userId,
-                    }
+                const watchlist = store.readFragment<StockWatchlistInformationFragment>({
+                    id: `StockWatchlist:${identifier.id}`,
+                    fragment: StockWatchlistInformationFragmentDoc,
+                    fragmentName: 'StockWatchlistInformation'
                 });
-                const watchlist = data.queryUserStockWatchlists.find(list => list.id === identifier.id);
-                console.log(`renaming ${watchlist.name} into ${identifier.additionalData}`);
+
+                // update watchlist with stock information
                 watchlist.name = identifier.additionalData;
 
                 // update watchlist inside cache
-                store.writeQuery({
-                    query: QueryUserStockWatchlistsDocument,
-                    variables: {
-                        uid: identifier.userId
-                    },
-                    data
+                store.writeFragment({
+                    id: `StockWatchlist:${identifier.id}`,
+                    fragment: StockWatchlistInformationFragmentDoc,
+                    fragmentName: 'StockWatchlistInformation',
+                    data: watchlist
                 });
             }
         });
@@ -177,24 +175,22 @@ export class WatchlistService {
                 removeStockFromStockWatchlist: true
             },
             update: (store, {data: {removeStockFromStockWatchlist}}) => {
-                const data = store.readQuery<QueryUserStockWatchlistsQuery>({
-                    query: QueryUserStockWatchlistsDocument,
-                    variables: {
-                        uid: identifier.userId
-                    }
+                const watchlist = store.readFragment<StockWatchlistInformationFragment>({
+                    id: `StockWatchlist:${identifier.id}`,
+                    fragment: StockWatchlistInformationFragmentDoc,
+                    fragmentName: 'StockWatchlistInformation'
                 });
-                const watchlist = data.queryUserStockWatchlists.find(list => list.id === identifier.id);
-                // filter out removing stock
+
+                // update watchlist with stock information
                 watchlist.stocks = watchlist.stocks.filter(x => x !== identifier.additionalData);
                 watchlist.stocksDetails = watchlist.stocksDetails.filter(x => x.id !== identifier.additionalData);
 
                 // update watchlist inside cache
-                store.writeQuery({
-                    query: QueryUserStockWatchlistsDocument,
-                    variables: {
-                        uid: identifier.userId
-                    },
-                    data
+                store.writeFragment({
+                    id: `StockWatchlist:${identifier.id}`,
+                    fragment: StockWatchlistInformationFragmentDoc,
+                    fragmentName: 'StockWatchlistInformation',
+                    data: watchlist
                 });
             }
         });
@@ -213,7 +209,7 @@ export class WatchlistService {
                 __typename: 'Mutation',
                 addStockIntoStockWatchlist: {
                     __typename: 'StockDetails',
-                    id: 'TEST',
+                    id: identifier.additionalData,
                     basicInfo: {
                         __typename: 'BasicInfo',
                         industry: 'test',
@@ -238,25 +234,22 @@ export class WatchlistService {
 
             },
             update: (store, {data: {addStockIntoStockWatchlist}}) => {
-                const data = store.readQuery<QueryUserStockWatchlistsQuery>({
-                    query: QueryUserStockWatchlistsDocument,
-                    variables: {
-                        uid: identifier.userId
-                    }
+                const watchlist = store.readFragment<StockWatchlistInformationFragment>({
+                    id: `StockWatchlist:${identifier.id}`,
+                    fragment: StockWatchlistInformationFragmentDoc,
+                    fragmentName: 'StockWatchlistInformation'
                 });
-                const watchlist = data.queryUserStockWatchlists.find(list => list.id === identifier.id);
-                console.log('adding addStockIntoStockWatchlist into watchlist', addStockIntoStockWatchlist);
+
                 // update watchlist with stock information
                 watchlist.stocks = [...watchlist.stocks, identifier.additionalData];
                 watchlist.stocksDetails = [...watchlist.stocksDetails, addStockIntoStockWatchlist];
 
                 // update watchlist inside cache
-                store.writeQuery({
-                    query: QueryUserStockWatchlistsDocument,
-                    variables: {
-                        uid: identifier.userId
-                    },
-                    data
+                store.writeFragment({
+                    id: `StockWatchlist:${identifier.id}`,
+                    fragment: StockWatchlistInformationFragmentDoc,
+                    fragmentName: 'StockWatchlistInformation',
+                    data: watchlist
                 });
             },
         });

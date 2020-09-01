@@ -6,7 +6,7 @@ import {ModalController} from '@ionic/angular';
 import {DetailsSummaryModalComponent} from '../../../../features/stock-details-feature/components/modal/details-summary-modal/details-summary-modal.component';
 import {WatchlistPickerModalContainerComponent} from '../../../../features/stock-watchlist-feature/containers/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
 import {ChartDataApiService} from '../../../../api/chart-data-api.service';
-import {HistoricalChartData} from '../../../../features/stock-data-feature/model/chartDataModel';
+import {HistoricalChartData} from '../../../../shared/models/chartDataModel';
 
 @Component({
     selector: 'app-first-row-container',

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {LoginIUser} from '../../model/userModel';
 import {AuthFeatureService} from '../../services/auth-feature.service';
 import {Router} from '@angular/router';
@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
     selector: 'app-authentication-container',
     templateUrl: './authentication-container.component.html',
     styleUrls: ['./authentication-container.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AuthenticationContainerComponent implements OnInit {
     showLogin = true;

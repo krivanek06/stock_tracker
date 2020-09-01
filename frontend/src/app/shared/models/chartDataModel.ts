@@ -1,3 +1,9 @@
+
+export interface SearchStocks {
+    displayName: string;
+    symbol: string;
+}
+
 /* ----- SYMBOL MOVEMENT ---------- */
 export interface SymbolMovementWrapper {
     data: SymbolMovementData[];

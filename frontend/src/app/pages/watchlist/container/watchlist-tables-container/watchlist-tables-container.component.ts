@@ -4,7 +4,7 @@ import {IonicDialogService} from '../../../../shared/services/ionic-dialog.servi
 import {Router} from '@angular/router';
 import {ModalController} from '@ionic/angular';
 import {ChartDataIdentification, DocumentIdentification} from '../../../../shared/models/sharedModel';
-import {FinancialChartModalContainerComponent} from '../../../../features/stock-data-feature/container/modal/financial-chart-modal-container/financial-chart-modal-container.component';
+import {FinancialChartModalContainerComponent} from '../../../../shared/containers/modal/financial-chart-modal-container/financial-chart-modal-container.component';
 import {Maybe} from 'graphql/jsutils/Maybe';
 import {
     QueryUserStockWatchlistsDocument, StockMainDetailsFragment,
@@ -51,6 +51,7 @@ export class WatchlistTablesContainerComponent implements OnInit, OnDestroy {
 
         this.initSubscriptionForWatchlist();
 
+        // websockets update view
         this.interval = setInterval(() => {
             if (this.cdr && !(this.cdr as ViewRef).destroyed) {
                 this.cdr.detectChanges();

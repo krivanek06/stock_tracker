@@ -6,7 +6,7 @@ import {map, retry} from 'rxjs/operators';
 import {
     HistoricalChartData, InvestorSentimentData, MiseryIndexData,
     TreasuryYieldCurveRatesData
-} from '../features/stock-data-feature/model/chartDataModel';
+} from '../shared/models/chartDataModel';
 
 @Injectable({
     providedIn: 'root'

@@ -68,15 +68,17 @@
 
 
 <!-- chart -->
-<highcharts-chart
-        id="container"
-        [Highcharts]="Highcharts"
-        [constructorType]="'stockChart'"
-        [options]="chartOptions"
-        [callbackFunction]="chartCallback"
-        [(update)]="updateFromInput"
-        [oneToOne]="true"
-        style="display: block; width: 100%"
-        [style.height.px]="height"
->
-</highcharts-chart>
+<ng-container *ngIf="price && price.length > 0">
+    <highcharts-chart
+            id="container"
+            [Highcharts]="Highcharts"
+            [constructorType]="'stockChart'"
+            [options]="chartOptions"
+            [callbackFunction]="chartCallback"
+            [(update)]="updateFromInput"
+            [oneToOne]="true"
+            style="display: block; width: 100%"
+            [style.height.px]="height"
+    >
+    </highcharts-chart>
+</ng-container>
