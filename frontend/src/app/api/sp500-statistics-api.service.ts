@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {ChartData, SP500PartialData} from '../features/stock-data-feature/model/chartDataModel';
+import {ChartData, SP500PartialData} from '../shared/models/chartDataModel';
 
 @Injectable({
   providedIn: 'root'

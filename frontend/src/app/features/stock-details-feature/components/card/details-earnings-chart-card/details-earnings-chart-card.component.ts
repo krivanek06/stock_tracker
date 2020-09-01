@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 
 import * as Highcharts from 'highcharts/highstock';
 import HighchartsMoreModule from 'highcharts/highcharts-more';
@@ -10,6 +10,7 @@ HighchartsMoreModule(Highcharts);
     selector: 'app-details-earnings-chart-card',
     templateUrl: './details-earnings-chart-card.component.html',
     styleUrls: ['./details-earnings-chart-card.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailsEarningsChartCardComponent implements OnInit, OnChanges {
     @Input() earnings: Earnings;

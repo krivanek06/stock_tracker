@@ -1,4 +1,9 @@
 <ion-grid>
+    <ion-item>
+        <ion-label class="fs-title-2">
+            Treasury yield curve rates
+        </ion-label>
+    </ion-item>
     <ion-row>
         <!-- Treasury yield -->
         <ion-col size="12" class="clickable-card" (click)="showTreasuryYieldCurveRates()">
@@ -21,6 +26,11 @@
         </ion-col>
     </ion-row>
 
+    <ion-item>
+        <ion-label class="fs-title-2">
+            Economic outlook
+        </ion-label>
+    </ion-item>
     <ion-row>
         <!-- investor sentiment -->
         <ion-col size="12" size-md="6" class="clickable-card" (click)="showInvestorSentiment()">
@@ -59,6 +69,12 @@
 
 
     <!-- employment data -->
+    <ion-item>
+        <ion-label class="fs-title-2">
+            Employment
+        </ion-label>
+    </ion-item>
+
     <ion-row>
         <ng-container *ngIf="employmentData$ | async as data">
             <ion-col size="12" size-lg="3" size-sm="6" class="clickable-card" (click)="showGovernmentIndustry()">

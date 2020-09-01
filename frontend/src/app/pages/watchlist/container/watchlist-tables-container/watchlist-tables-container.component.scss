@@ -12,6 +12,11 @@
     display: contents;
   }
 
+  .center-text {
+    text-align: left;
+    display: inline-flex;
+  }
+
   @media (max-width: 1500px) {
     .sector-chart-container {
       display: none;
@@ -24,6 +29,13 @@
     }
   }
 
+  @media (max-width: 1275px) {
+    .watchlist-container {
+      padding-left: 15px;
+    }
+  }
+
+
   @media (max-width: 1020px) {
     .watchlist-container {
       padding: 2px;
@@ -32,17 +44,6 @@
     .create-watchlist-button {
       margin-left: 10px;
     }
-    .center-text {
-      text-align: -webkit-center;
-    }
-
   }
-
-  @media (max-width: 450px) {
-    .center-text {
-      text-align: left;
-    }
-  }
-
 
 }

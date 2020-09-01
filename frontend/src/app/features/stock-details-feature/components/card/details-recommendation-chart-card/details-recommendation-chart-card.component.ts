@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 
 import * as Highcharts from 'highcharts/highstock';
 import HighchartsMoreModule from 'highcharts/highcharts-more';
@@ -10,6 +10,7 @@ HighchartsMoreModule(Highcharts);
     selector: 'app-details-recommendation-chart-card',
     templateUrl: './details-recommendation-chart-card.component.html',
     styleUrls: ['./details-recommendation-chart-card.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailsRecommendationChartCardComponent implements OnInit, OnChanges {
     @Input() recommendations: Recommendations[];

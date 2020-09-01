@@ -1,21 +1,21 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
-import {Observable} from 'rxjs';
-import {ChartData, ChartDataArray, HistoricalChartData} from '../../../model/chartDataModel';
-import {ChartDataIdentification} from '../../../../../shared/models/sharedModel';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {ChartData, ChartDataArray, HistoricalChartData} from '../../../models/chartDataModel';
 import {ModalController, NavParams} from '@ionic/angular';
-import {ChartDataApiService} from '../../../../../api/chart-data-api.service';
 import {HttpClient} from '@angular/common/http';
-import {environment} from '../../../../../../environments/environment';
+import {environment} from '../../../../../environments/environment';
 import {map} from 'rxjs/operators';
-import {GenericChartComponent} from '../../../../../shared/components/charts/generic-chart/generic-chart.component';
+import {GenericChartComponent} from '../../../components/charts/generic-chart/generic-chart.component';
+import {ChartType} from '../../../models/sharedModel';
 
 
 @Component({
     selector: 'app-economic-chart-modal-container',
     templateUrl: './economic-chart-modal-container.component.html',
     styleUrls: ['./economic-chart-modal-container.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EconomicChartModalContainerComponent implements OnInit {
+    ChartType = ChartType;
     series: ChartDataArray[] = [];
 
     initialEndpoint: string;
@@ -25,6 +25,7 @@ export class EconomicChartModalContainerComponent implements OnInit {
 
     constructor(private navParams: NavParams,
                 private modalController: ModalController,
+                private cd: ChangeDetectorRef,
                 private http: HttpClient) {
         this.initialEndpoint = this.navParams.get('initialEndpoint');
         this.initialName = this.navParams.get('initialName');
@@ -49,6 +50,7 @@ export class EconomicChartModalContainerComponent implements OnInit {
                 const chartData = data[key] as ChartDataArray;
                 this.series = [...this.series, {name: chartData.name, data: chartData.data}];
             }
+            this.cd.detectChanges();
         });
     }
 

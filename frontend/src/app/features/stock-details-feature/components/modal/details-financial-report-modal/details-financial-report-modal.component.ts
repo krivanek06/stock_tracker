@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {FinancialReport} from '../../../model/financialReportModel';
 import {ModalController, NavParams, PopoverController} from '@ionic/angular';
 import {StockFundamentalsApiService} from '../../../../../api/stock-fundamentals-api.service';
@@ -8,6 +8,7 @@ import {Observable} from 'rxjs';
     selector: 'app-details-financial-report-modal',
     templateUrl: './details-financial-report-modal.component.html',
     styleUrls: ['./details-financial-report-modal.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailsFinancialReportModalComponent implements OnInit {
     financialReport$: Observable<FinancialReport>;

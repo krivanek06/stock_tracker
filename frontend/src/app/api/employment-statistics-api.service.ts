@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {ChartData, EmploymentPartialData} from '../features/stock-data-feature/model/chartDataModel';
+import {ChartData, EmploymentPartialData} from '../shared/models/chartDataModel';
 import {environment} from '../../environments/environment';
 
 @Injectable({

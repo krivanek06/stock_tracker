@@ -1,11 +1,12 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {SymbolMovementData} from '../../model/chartDataModel';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {SymbolMovementData} from '../../../../shared/models/chartDataModel';
 import {ChartDataIdentification} from '../../../../shared/models/sharedModel';
 
 @Component({
     selector: 'app-symbol-movement-table-card',
     templateUrl: './symbol-movement-table-card.component.html',
     styleUrls: ['./symbol-movement-table-card.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SymbolMovementTableCardComponent implements OnInit {
     @Input() title: string;

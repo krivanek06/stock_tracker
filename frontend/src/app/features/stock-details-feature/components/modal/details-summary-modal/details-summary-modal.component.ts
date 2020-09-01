@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {BasicInfo, OverView} from '../../../model/stockDetails';
 import {ModalController, NavParams} from '@ionic/angular';
 
@@ -6,6 +6,7 @@ import {ModalController, NavParams} from '@ionic/angular';
     selector: 'app-details-summary-modal',
     templateUrl: './details-summary-modal.component.html',
     styleUrls: ['./details-summary-modal.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailsSummaryModalComponent implements OnInit {
     basicInfo: BasicInfo;

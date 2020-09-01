@@ -1,6 +1,6 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import * as Highcharts from 'highcharts/highstock';
-import {ChartDataArray} from '../../../../features/stock-data-feature/model/chartDataModel';
+import {ChartDataArray} from '../../../models/chartDataModel';
 import {ChartType} from '../../../models/sharedModel';
 
 
@@ -8,6 +8,7 @@ import {ChartType} from '../../../models/sharedModel';
     selector: 'app-generic-chart',
     templateUrl: './generic-chart.component.html',
     styleUrls: ['./generic-chart.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GenericChartComponent implements OnInit, OnChanges {
 
@@ -17,6 +18,8 @@ export class GenericChartComponent implements OnInit, OnChanges {
     @Input() showLegend = false;
     @Input() chartTitle: string;
     @Input() showTimelineSlider = false;
+    @Input() showYAxis = false;
+    @Input() enableLegendTogging = false;
 
     Highcharts: typeof Highcharts = Highcharts;
     chart;
@@ -73,6 +76,13 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 title: false,
                 startOnTick: false,
                 endOnTick: false,
+
+                opposite: false,
+                gridLineWidth: 1,
+                minorTickInterval: 'auto',
+                tickPixelInterval: 40,
+                minorGridLineWidth: 0,
+                visible: this.showYAxis
             },
             xAxis: {
                 type: 'datetime',
@@ -81,6 +91,15 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 }
             },
             plotOptions: {
+                series: {
+                    events: {
+                        legendItemClick: (e) => {
+                            if (!this.enableLegendTogging) {
+                                e.preventDefault(); // prevent toggling series visibility
+                            }
+                        },
+                    },
+                },
                 area: {
                     marker: {
                         radius: 2
@@ -142,7 +161,14 @@ export class GenericChartComponent implements OnInit, OnChanges {
             legend: {
                 enabled: this.showLegend,
                 itemStyle: {
-                    color: '#acacac'
+                    color: '#acacac',
+                    cursor: this.enableLegendTogging ? 'pointer' : 'default',
+                },
+                itemHoverStyle: {
+                    color: this.enableLegendTogging ? '#241eaa' : '#acacac'
+                },
+                itemHiddenStyle: {
+                    color: this.enableLegendTogging ? '#494949' : '#acacac'
                 }
             },
             accessibility: {
@@ -160,6 +186,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
                     color: '#D9D8D8',
                 },
                 shared: true,
+                valueDecimals: 2
                 // pointFormat: '<span style="color:{point.color}; font-weight: bold">{series.name}</span> :<b>{point.y:.2f}</b><br/>'
             },
 
@@ -171,48 +198,6 @@ export class GenericChartComponent implements OnInit, OnChanges {
         };
     }
 
-    /* private initVariablePieChart() {
-         this.chartOptions = {
-             ...this.chartOptions,
-             tooltip: {
-                 headerFormat: null,
-                 backgroundColor: '#232323',
-                 style: {
-                     fontSize: '14px',
-                     color: '#D9D8D8',
-                 },
-                 // shared: true,
-                 pointFormat: '<span style="color:{point.color}; font-weight: bold">\u25CF {point.name}</span><br/>' +
-                     'Amount: <b>{point.y} ({point.percentage:.1f} %)</b><br/>'
-             },
-             accessibility: {
-                 point: {
-                     valueSuffix: '%'
-                 }
-             },
-             plotOptions: {
-                 variablepie: {
-                     // allowPointSelect: true,
-                     cursor: 'pointer',
-                     // colors: [, ''],
-                     dataLabels: {
-                         enabled: true,
-                         format: '<b>{point.name}</b>',
-                         style: {
-                             fontSize: '13px',
-                             color: '#e5e5e5',
-                         },
-                         filter: {
-                             property: 'percentage',
-                             operator: '>',
-                             value: 4
-                         }
-                     }
-                 }
-             },
-         };
-     }*/
-
     private initColumnChart() {
         this.chartOptions = {
             ...this.chartOptions,
@@ -221,7 +206,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 labels: {
                     style: {
                         color: '#cecece',
-                        font: '12px Trebuchet MS, Verdana, sans-serif'
+                        font: '11px Trebuchet MS, Verdana, sans-serif'
                     }
                 },
             },
@@ -243,7 +228,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
                     color: '#D9D8D8',
                 },
                 shared: true,
-                pointFormat: '<span style="color:{point.color}; font-weight: bold">{point.name}</span> :<b>{point.y:.2f}%</b><br/>'
+                pointFormat: '<span style="color:{point.color}; font-weight: bold">{point.name}</span> : <b>{point.y:.2f}%</b><br/>'
             },
         };
 

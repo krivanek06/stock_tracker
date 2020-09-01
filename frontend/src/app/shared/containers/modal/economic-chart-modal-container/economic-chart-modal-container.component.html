@@ -11,9 +11,12 @@
     <div *ngIf="series.length > 0" class="ion-padding">
         <app-generic-chart
                 #GenericChart
+                [showYAxis]="true"
+                [chartType]="ChartType.line"
                 [showTimelineSlider]="true"
+                [enableLegendTogging]="true"
                 [chartTitle]="initialName"
-                [heightPx]="425"
+                [heightPx]="450"
                 [showLegend]="true"
                 [series]="series">
         </app-generic-chart>

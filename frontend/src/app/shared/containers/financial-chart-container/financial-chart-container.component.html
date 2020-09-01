@@ -1,5 +1,7 @@
+
 <app-financial-chart
         [chartTitle]="name"
+        [showYAxis]="showYAxis"
         (selectedPeriodEmitter)="loadChartData($event)"
         [volume]="volume"
         [height]="height"

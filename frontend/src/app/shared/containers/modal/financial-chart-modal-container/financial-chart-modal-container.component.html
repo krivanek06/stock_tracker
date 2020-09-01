@@ -18,10 +18,12 @@
         </ion-buttons>
     </ion-item>
 
-    <app-financial-chart-container
-            [height]="450"
-            [symbol]="chartDataIdentification.symbol"
-            [name]="chartDataIdentification.name">
-    </app-financial-chart-container>
-
+    <div class="financial-chart-container">
+        <app-financial-chart-container
+                [showYAxis]="true"
+                [height]="450"
+                [symbol]="chartDataIdentification.symbol"
+                [name]="chartDataIdentification.name">
+        </app-financial-chart-container>
+    </div>
 </ion-content>

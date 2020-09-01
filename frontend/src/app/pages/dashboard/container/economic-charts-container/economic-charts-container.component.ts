@@ -1,14 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {
     EmploymentPartialData,
     InvestorSentimentData, MiseryIndexData,
     TreasuryYieldCurveRatesData
-} from '../../../../features/stock-data-feature/model/chartDataModel';
+} from '../../../../shared/models/chartDataModel';
 import {ChartDataApiService} from '../../../../api/chart-data-api.service';
 import {EmploymentStatisticsApiService} from '../../../../api/employment-statistics-api.service';
 import {ChartType} from '../../../../shared/models/sharedModel';
-import {EconomicChartModalContainerComponent} from '../../../../features/stock-data-feature/container/modal/economic-chart-modal-container/economic-chart-modal-container.component';
+import {EconomicChartModalContainerComponent} from '../../../../shared/containers/modal/economic-chart-modal-container/economic-chart-modal-container.component';
 import {ModalController} from '@ionic/angular';
 import * as chartData from '../../../../shared/models/endpoints';
 
@@ -16,6 +16,7 @@ import * as chartData from '../../../../shared/models/endpoints';
     selector: 'app-economic-charts-container',
     templateUrl: './economic-charts-container.component.html',
     styleUrls: ['./economic-charts-container.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EconomicChartsContainerComponent implements OnInit {
     investorSentimentData$: Observable<InvestorSentimentData>;

@@ -1,14 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ModalController, NavParams} from '@ionic/angular';
-import {ChartDataIdentification} from '../../../../../shared/models/sharedModel';
+import {ChartDataIdentification} from '../../../models/sharedModel';
 import {Observable} from 'rxjs';
-import {ChartDataApiService} from '../../../../../api/chart-data-api.service';
-import {HistoricalChartData} from '../../../model/chartDataModel';
+import {ChartDataApiService} from '../../../../api/chart-data-api.service';
+import {HistoricalChartData} from '../../../models/chartDataModel';
 
 @Component({
   selector: 'app-financial-chart-modal-container',
   templateUrl: './financial-chart-modal-container.component.html',
   styleUrls: ['./financial-chart-modal-container.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FinancialChartModalContainerComponent implements OnInit {
   chartData$: Observable<HistoricalChartData>;
