@@ -1,0 +1,18 @@
+:host{
+  .page-container{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(180deg, rgb(0, 3, 32) 0%, rgb(0, 8, 62) 100%);
+  }
+
+  .authentication-container{
+    width: 50%;
+    align-self: center;
+    @media (max-width: 650px) {
+      width: 100%;
+    }
+  }
+
+}

@@ -1,0 +1,50 @@
+<ion-list *ngIf="stockWatchlist">
+    <ion-list-header>
+        <!-- edit button -->
+        <ion-button (click)="toggleEdit()" class="clickable">
+            <ion-icon name="pencil" class="grey-regular-icon"></ion-icon>
+        </ion-button>
+        <!-- header info -->
+        <ion-label style="padding-left: 10px;" *ngIf="!editing">
+            <p class="table-header">{{ stockWatchlist.name }}   [ {{ stockWatchlist.stocks.length }} ]</p>
+            <p class="table-header-timestamp">Created at {{ stockWatchlist.timestamp |  date: 'dd/MM/yyyy' }}</p>
+        </ion-label>
+
+        <!-- form to edit watchlist name -->
+        <ion-item [hidden]="!editing" class="watchlist-edit-container">
+            <ion-label position="fixed" class="watchlist-edit-input">
+                <app-inline-input-form
+                        [label]="'Define watchlist name'"
+                        [widthInPercent]="70"
+                        (creationEmitter)="editWatchlistName($event)"
+                        (closingEmitter)="toggleEdit()">
+                </app-inline-input-form>
+            </ion-label>
+            <ion-label class=" content-fit ion-text-end">
+                <ion-button shape="round"
+                            color="#fafafa"
+                            fill="outline"
+                            class="regularFont negative-button"
+                            (click)="deleteWatchlist()">
+                    Delete watchlist
+                </ion-button>
+            </ion-label>
+        </ion-item>
+    </ion-list-header>
+
+    <!-- table attributes -->
+    <ion-item style="font-weight: bold;" class="ion-margin-top ion-no-padding ion-hide-sm-down">
+        <ion-label position="fixed" class="symbol-image-attribute"></ion-label>
+        <ion-label position="fixed" class="stockInfo-name-title">Symbol</ion-label>
+        <ion-label position="fixed" class="stockInfo-price"> Price</ion-label>
+        <ion-label position="fixed" class="stockInfo-change"> Daily change
+        </ion-label>
+        <ion-label position="fixed" style="min-width: 150px; max-width: 150px;" class="ion-hide-lg-down"> 52 week
+            range
+        </ion-label>
+        <ion-label position="fixed" class="stockInfo-earnings ion-hide-sm-down"> Earnings
+            date
+        </ion-label>
+    </ion-item>
+
+</ion-list>

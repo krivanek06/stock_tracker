@@ -1,0 +1,31 @@
+query queryUser($uid: String!) {
+    queryUser(uid: $uid) {
+        uid,
+        displayName,
+        email,
+        photoURL,
+        nickname,
+        locale,
+        userPrivateData {
+            finnhubKey
+        }
+    }
+}
+
+mutation updateUserPrivateData($uid: String!, $userPrivateDataInput: UserPrivateDataInput!) {
+    updateUserPrivateData(uid: $uid, userPrivateDataInput: $userPrivateDataInput) {
+        finnhubKey
+    }
+}
+
+mutation updateUserData($userInput: UserInput!) {
+    updateUserData(user: $userInput) {
+        uid,
+        displayName,
+        email,
+        photoURL,
+        nickname
+    }
+}
+
+
