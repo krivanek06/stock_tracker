@@ -1,0 +1,12 @@
+
+schema:
+  - http://localhost:4000/graphql/
+# everything -> src/graphql/watchlist.graphql
+documents:
+  - src/**/*.graphql
+generates:
+  ./src/app/api/customGraphql.service.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-apollo-angular

@@ -1,0 +1,15 @@
+__pycache__/
+downloaded_libs/yfinance/__pycache__/
+/__pycache__/
+.idea
+resource/
+
+
+.git
+*.gitignore
+
+*.mo
+*.pyc
+*.swp
+*.swo
+*.~
