@@ -30,6 +30,14 @@ def getStockFundamentals():
                                           'please contact administrator to check logs ')
 
 
+@app.route('/summary')
+def getStockSummary():
+    try:
+        return json_response(**fundamentals.getStockSummary(request.args.get('symbol')))
+    except Exception as e:
+        print(e)
+        raise JsonError(status=500, error='An error occurred on the server side when getting summary')
+
 if __name__ == '__main__':
     print('Fundamentals controller app is running')
     app.run()

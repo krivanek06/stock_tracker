@@ -63,14 +63,14 @@ class YahooFinanceRequester:
         result = utils.parseMultipleDropdownTables(site)
         livePrice = self.get_live_price(ticker)
 
-        result['weekRange52Min'] = float(result['WeekRange'].split(' - ')[0])
-        result['weekRange52Max'] = float(result['WeekRange'].split(' - ')[1])
+        result['weekRange52Min'] = float(result['FiveTwoWeekRange'].split(' - ')[0])
+        result['weekRange52Max'] = float(result['FiveTwoWeekRange'].split(' - ')[1])
         try:
-            result['targetEst1yPercent'] = float(round(100 / float(result['yTargetEst']) * result['regularMarketPrice'], 2))
-            result['volumePercent'] = float(round(100 / float(result['AvgVolume'].replace(',', '')) * float(result['Volume'].replace(',', '')), 2))
+            result['targetEst1yPercent'] = float(round(100 / float(result['OneyTargetEst']) * livePrice['marketPrice'], 2))
+            #result['volumePercent'] = float(round(100 / float(result['AvgVolume'].replace(',', '')) * float(result['Volume'].replace(',', '')), 2))
         except:
             result['targetEst1yPercent'] = None
-            result['volumePercent'] = None
+            #result['volumePercent'] = None
 
         return {**result, **livePrice, **{'symbol': ticker}}
 
@@ -190,8 +190,8 @@ class YahooFinanceRequester:
     def get_live_price(self, ticker):
         data = get('https://query1.finance.yahoo.com/v8/finance/chart/' + ticker + '?interval=1d').json()
         result = {
-            'regularMarketPrice': data['chart']['result'][0]['meta']['regularMarketPrice'],
-            'chartPreviousClose': data['chart']['result'][0]['meta']['chartPreviousClose']
+            'marketPrice': data['chart']['result'][0]['meta']['regularMarketPrice'],
+            'previousClose': data['chart']['result'][0]['meta']['chartPreviousClose']
         }
         return result
 

@@ -3,55 +3,17 @@ import {NewsArticle} from '../../stock-data-feature/model/newsModel';
 
 export interface StockDetails {
     id: string;
-    basicInfo: BasicInfo;
-    chartInfo: ChartInfo;
-    dividend: Dividend;
     analysis: Analysis;
     balanceSheet: BalanceSheet;
     cashFlow: CashFlow;
-    overview: OverView;
-    perShare: PerShare;
-    valuation: Valuation;
-    financialStrength: FinancialStrength;
-    financialReports: FinancialReportNames[];
-    financialStrengthRatio: FinancialStrengthRatio;
     incomeStatement: IncomeStatement;
+    financialReports: FinancialReportNames[];
+    stats: Stats;
     recommendation: Recommendations[];
-    stockNewsSnippets: NewsArticle[];
-}
-
-export interface PerShare{
-    bookValuePerShareMRQ?: number;
-    cashFlowPerShareAnnual?: number;
-    cashFlowPerShareTTM?: number;
-    cashPerSharePerShareAnnual?: number;
-    cashPerSharePerShareQuarterly?: number;
-    ebitdPerShareTTM?: number;
-    freeCashFlowPerShareTTM?: number;
-    revenuePerShareTTM?: number;
-    tangibleBookValuePerShareQuarterly?: number;
-    totalCashPerShareMRQ?: number;
-}
-
-export interface FinancialStrengthRatio {
-    currentRatioQuarterly?: number;
-    freeOperatingCashFlowToRevenue5Y?: number;
-    longTermDebtToEquityQuarterly?: number;
-    quickRatioQuarterly?: number;
-    totalDebtToEquityAnnual?: number;
-    totalDebtToEquityQuarterly: number;
-}
-
-export interface FinancialStrength {
-    ebitda: string;
-    grossProfitTTM?: string;
-    leveredFreeCashFlowTTM?: string;
-    marketCap: string;
-    netIncomeAvitoCommonTTM?: string;
-    operatingCashFlowTTM?: string;
-    revenueTTM?: string;
-    totalCashMRQ?: string;
-    totalDebtMRQ?: string;
+    stockNews: NewsArticle[];
+    companyData: CompanyData;
+    summary: Summary;
+    metric: Metric;
 }
 
 export interface FinancialReportNames {
@@ -59,6 +21,15 @@ export interface FinancialReportNames {
     name: string;
 }
 
+export interface CompanyData {
+    defaultKeyStatistics: DefaultKeyStatistics;
+    earnings: Earnings;
+    esgScores: EsgScores;
+    financialData: FinancialData;
+    pageViews: PageViews;
+    summaryProfile: SummaryProfile;
+    upgradeDowngradeHistory: UpgradeDowngradeHistory;
+}
 
 export interface Recommendations {
     buy: number;
@@ -71,228 +42,547 @@ export interface Recommendations {
 }
 
 export interface IncomeStatement {
-    Basic_Average_Shares: number[];
-    Basic_EPS: number[];
-    Cost_of_Revenue: number[];
-    Diluted_Average_Shares: number[];
-    Diluted_EPS: number[];
-    Diluted_NI_Available_to_Com_Stockholders: number[];
-    Gross_Profit: number[];
-    Interest_Expense: number[];
-    Net_Income_Common_Stockholders: number[];
-    Net_Income_from_Continuing_And_Discontinued_Operation: number[];
-    Net_Income_from_Continuing_Operation_Net_Minority_Interest: number[];
-    Net_Interest_Income: number[];
-    Net_Non_Operating_Interest_Income_Expense: number[];
-    Normalized_EBITDA: number[];
-    Normalized_Income: number[];
-    Operating_Expense: number[];
-    Operating_Income: number[];
-    Other_Income_Expense: number[];
-    Pretax_Income: number[];
-    Reconciled_Cost_of_Revenue: number[];
-    Reconciled_Depreciation: number[];
-    Tax_Effect_of_Unusual_Items: number[];
-    Tax_Provision: number[];
-    Tax_Rate_for_Calcs: number[];
-    Total_Expenses: number[];
-    Total_Operating_Income_as_Reported: number[];
-    Total_Revenue: number[];
-    Total_Unusual_Items: number[];
-    Total_Unusual_Items_Excluding_Goodwill: number[];
-    date: string[];
+    incomeStatementHistoryQuarterly: IncomeStatementData[];
+    incomeStatementHistoryYearly: IncomeStatementData[];
+}
+
+
+export interface IncomeStatementData {
+    costOfRevenue: number;
+    discontinuedOperations?: number;
+    ebit: number;
+    effectOfAccountingCharges?: number;
+    endDate: number;
+    extraordinaryItems: number;
+    grossProfit: number;
+    incomeBeforeTax: number;
+    incomeTaxExpense: number;
+    interestExpense: number;
+    netIncome: number;
+    netIncomeApplicableToCommonShares: number;
+    netIncomeFromContinuingOps: number;
+    operatingIncome: number;
+    otherOperatingExpenses: number;
+    researchDevelopment?: number;
+    sellingGeneralAdministrative: number;
+    totalOperatingExpenses: number;
+    totalOtherIncomeExpenseNet: number;
+    totalRevenue: number;
 }
 
 export interface CashFlow {
-    Capital_Expenditure: number[];
-    End_Cash_Position: number[];
-    Financing_Cash_Flow: number[];
-    Free_Cash_Flow: number[];
-    Investing_Cash_Flow: number[];
-    Issuance_of_Capital_Stock: number[];
-    Issuance_of_Debt: number[];
-    Operating_Cash_Flow: number[];
-    Repayment_of_Debt: number[];
-    Repurchase_of_Capital_Stock: number[];
-    date: string[];
+    cashflowStatementHistoryQuarterly: CashFlowData[];
+    cashflowStatementHistoryYearly: CashFlowData[];
+}
+
+export interface CashFlowData {
+    capitalExpenditures: number;
+    changeInCash: number;
+    changeToAccountReceivables: number;
+    changeToInventory: number;
+    changeToLiabilities: number;
+    changeToNetincome: number;
+    changeToOperatingActivities: number;
+    depreciation: number;
+    dividendsPaid: number;
+    endDate: number;
+    investments: number;
+    maxAge: number;
+    netBorrowings: number;
+    netIncome: number;
+    otherCashflowsFromFinancingActivities: number;
+    otherCashflowsFromInvestingActivities: number;
+    repurchaseOfStock: number;
+    totalCashFromFinancingActivities: number;
+    totalCashFromOperatingActivities: number;
+    totalCashflowsFromInvestingActivities: number;
 }
 
 export interface BalanceSheet {
-    Capital_Lease_Obligations: number[];
-    Common_Stock_Equity: number[];
-    Invested_Capital: number[];
-    Net_Debt: number[];
-    Net_Tangible_Assets: number[];
-    Ordinary_Shares_Number: number[];
-    Share_Issued: number[];
-    Tangible_Book_Value: number[];
-    Total_Assets: number[];
-    Total_Capitalization: number[];
-    Total_Debt: number[];
-    Total_Equity_Gross_Minority_Interest: number[];
-    Total_Liabilities_Net_Minority_Interest: number[];
-    Working_Capital: number[];
-    date: string[];
+    balanceSheetHistoryQuarterly: BalanceSheetData[];
+    balanceSheetHistoryYearly: BalanceSheetData[];
+}
+
+export interface BalanceSheetData {
+    accountsPayable: number;
+    cash: number;
+    commonStock: number;
+    endDate: number;
+    inventory: number;
+    longTermDebt: number;
+    longTermInvestments: number;
+    maxAge: number;
+    netReceivables: number;
+    netTangibleAssets: number;
+    otherAssets: number;
+    otherCurrentAssets: number;
+    otherCurrentLiab: number;
+    otherLiab: number;
+    otherStockholderEquity: number;
+    propertyPlantEquipment: number;
+    retainedEarnings: number;
+    shortLongTermDebt: number;
+    shortTermInvestments: number;
+    totalAssets: number;
+    totalCurrentAssets: number;
+    totalCurrentLiabilities: number;
+    totalLiab: number;
+    totalStockholderEquity: number;
+    treasuryStock: number;
 }
 
 export interface RevenueEstimate {
-    currentQuarter: RevenueEstimateData;
-    currentYear: RevenueEstimateData;
-    nextQuarter: RevenueEstimateData;
-    nextYear: RevenueEstimateData;
+    AvgEstimate: string;
+    AvgEstimateNumber: number;
+    HighEstimate: string;
+    HighEstimateNumber: number;
+    LowEstimate: string;
+    LowEstimateNumber: number;
+    NoofAnalysts: number;
+    SalesGrowthyearest: string;
+    YearAgoSales: string;
+    name: string;
 }
 
-export interface RevenueEstimateData {
-    average: number;
-    high?: number;
-    low?: number;
-    growthPercent: number;
-    average_string: string;
-    high_string?: string;
-    low_string?: string;
-    numberOfAnalysis: number;
-    timeEstimation: string;
-    yearAgo: string;
-}
 
-export interface GrowthEstimatesPercent {
-    fiveYear: GrowthEstimatesPercentData;
-    quarter: GrowthEstimatesPercentData;
-    year: GrowthEstimatesPercentData;
-}
-
-export interface GrowthEstimatesPercentData {
-    current: number;
-    next: number;
-}
-
-export interface Earnings {
-    dates: string[];
-    epsActual: number[];
-    epsEst: number[];
+export interface GrowthEstimates {
+    CurrentQtr: string;
+    CurrentQtrPrct: number;
+    CurrentYear: string;
+    CurrentYearPrct: number;
+    NextFiveYearsperannum: string;
+    NextFiveYearsperannumPrct: number;
+    NextQtr: string;
+    NextQtrPrct: number;
+    NextYear: string;
+    NextYearPrct: number;
+    PastFiveYearsperannum: string;
+    PastFiveYearsperannumPrct: number;
+    name: string;
 }
 
 export interface Analysis {
-    growthEstimatesPercent: GrowthEstimatesPercent;
-    revenueEstimate: RevenueEstimate;
-    earnings: Earnings;
+    GrowthEstimates: GrowthEstimates;
+    RevenueEstimate: RevenueEstimate[];
+}
+
+export interface DefaultKeyStatistics {
+    FiveTwoWeekChange: number; // *100
+    SandPFiveTwoWeekChange: number; // *100
+    // annualHoldingsTurnover?: number;
+    // annualReportExpenseRatio?: number;
+    // beta": 1.284838,
+    // betaThreeYear": null,
+    bookValue: number;
+    // category": null,
+    dateShortInterest: number;
+    earningsQuarterlyGrowth: number; // *100
+    enterpriseToEbitda: number;
+    enterpriseToRevenue: number;
+    enterpriseValue: number;
+    fiveYearAverageReturn?: number;
+    floatShares: number;
+    forwardEps: number;
+    forwardPE: number;
+    // fundFamily?: number;
+    // fundInceptionDate?: number;
+    heldPercentInsiders: number; // *100
+    heldPercentInstitutions: number; // *100
+    // lastCapGain?: number;
+    // lastDividendValue?: number;
+    lastFiscalYearEnd: number;
+    lastSplitDate: number;
+    lastSplitFactor: string;
+    // legalType": null,
+    // morningStarOverallRating": null,
+    // morningStarRiskRating": null,
+    mostRecentQuarter: number;
+    netIncomeToCommon: number;
+    nextFiscalYearEnd: number;
+    pegRatio: number;
+    priceHint: number;
+    priceToBook: number;
+    // priceToSalesTrailingOneTwoMonths": null,
+    profitMargins: number; // *100
+    // revenueQuarterlyGrowth": null,
+    sharesOutstanding: number;
+    // sharesPercentSharesOut": 0.0055,
+    sharesShort: number;
+    sharesShortPreviousMonthDate: number;
+    sharesShortPriorMonth: number;
+    // shortPercentOfFloat": 0.0055,
+    shortRatio: number;
+    // threeYearAverageReturn": null,
+    // totalAssets": null,
+    trailingEps: number;
+    // yield": null,
+    // ytdReturn": null
+}
+
+export interface Earnings {
+    earningsChart: EarningsChart;
+    financialCurrency: string;
+    financialsChart: FinancialsChart;
+}
+
+export interface EarningsChart {
+    currentQuarterEstimate: number;
+    currentQuarterEstimateDate: string;
+    currentQuarterEstimateYear: number;
+    earningsDate: number[];
+    quarterly: EarningsChartData[];
+}
+
+export interface EarningsChartData {
+    actual: number;
+    date: string;
+    estimate: number;
+}
+
+export interface FinancialsChart {
+    quarterly: FinancialsChartData;
+    yearly: FinancialsChartData;
+}
+
+export interface FinancialsChartData {
+    date: string;
+    earnings: number;
+    revenue: number;
 }
 
 
-
-
-export interface ChartInfo {
-    assetsToDebtInfo: AssetsToDebtInfo;
-    equityToAssets: EquityToAssets;
-    effectiveness: Effectiveness;
-    margin: Margin;
-    otherGrowthInformation: OtherGrowthInformation;
-    profitMargin: ProfitMargin;
+export interface EsgScores {
+    adult: boolean;
+    alcoholic: boolean;
+    animalTesting: boolean;
+    catholic: boolean;
+    coal: boolean;
+    controversialWeapons: boolean;
+    // environmentPercentile": null,
+    environmentScore: number;
+    esgPerformance: string;
+    furLeather: boolean;
+    gambling: boolean;
+    gmo: boolean;
+    // governancePercentile": null,
+    governanceScore: number;
+    highestControversy: number;
+    maxAge: number;
+    militaryContract: boolean;
+    nuclear: boolean;
+    palmOil: boolean;
+    peerCount: number;
+    peerEnvironmentPerformance: {
+        avg: number;
+        max: number;
+        min: number;
+    };
+    peerEsgScorePerformance: {
+        avg: number;
+        max: number;
+        min: number;
+    };
+    peerGovernancePerformance: {
+        avg: number;
+        max: number;
+        min: number;
+    };
+    peerGroup: string;
+    peerHighestControversyPerformance: {
+        avg: number;
+        max: number;
+        min: number;
+    };
+    peerSocialPerformance: {
+        avg: number;
+        max: number;
+        min: number;
+    };
+    percentile: number;
+    pesticides: boolean;
+    ratingMonth: number;
+    ratingYear: number;
+    relatedControversy: string[];
+    smallArms: boolean;
+    // socialPercentile": null,
+    socialScore: number;
+    tobacco: boolean;
+    totalEsg: number;
 }
 
-export interface ProfitMargin {
-    expenseTTM: number;
-    netProfitMarginTTM: number;
-}
-
-export interface OtherGrowthInformation {
-    bookValueShareGrowth5Y?: number;
-    capitalSpendingGrowth5Y?: number;
-    dividendGrowthRate5Y?: number;
-    epsGrowth5Y?: number;
-    epsGrowthQuarterlyYOY?: number;
-    quarterlyRevenueGrowthYOY?: number;
-    revenueGrowthTTMYoy?: number;
-    revenueShareGrowth5Y?: number;
-}
-
-export interface Margin {
-    grossMarginTTM: number;
-    netMarginGrowth5Y: number;
-    netProfitMargin5Y: number;
-    netProfitMarginTTM: number;
-    operatingMarginTTM: number;
-    pretaxMarginTTM: number;
-}
-
-export interface Effectiveness {
-    returnOnAssetsTTM: number;
-    returnOnEquityTTM: number;
-    returnOnInvestmentsTTM: number;
-}
-
-export interface AssetsToDebtInfo {
-    totalAssets?: number;
-    totalDebt?: number;
-    prctDiff?: number;
-}
-
-export interface EquityToAssets {
-    totalAssets: number;
-    totalEquity: number;
-    prctDiff?: number;
-}
-
-export interface Valuation {
-    currentEvToFreeCashFlowAnnual?: number;
-    currentEvToFreeCashFlowTTM?: number;
-    enterpriseValueToEBITDA?: number;
-    enterpriseValueToRevenue?: number;
-    forwardPE?: number;
-    customPE?: number;
-    peRatioTTM?: number;
-    pegRatioFiveYearExpected?: number;
-    priceToBookMRQ?: number;
-    priceToSalesTTM?: number;
-    trailingPE?: number;
-}
-
-
-
-export interface OverView {
+export interface FinancialData {
     currentPrice: number;
-    currentPriceChange: number;
-    previousClose: number;
-    weekHigh52: number;
-    weekLow52: number;
-    symbol: string;
-    earningsDate: string;
-    exDividendDate: string;
-    forwardDividendAndYield: string;
-    targetEst1y?: number;
-    targetEst1yPercent?: number;
+    currentRatio: number;
+    debtToEquity: number;
+    ebitda: number;
+    ebitdaMargins: number; // *100
+    financialCurrency: string;
+    freeCashflow: number;
+    grossMargins: number; // *100
+    grossProfits: number;
+    numberOfAnalystOpinions: number;
+    operatingCashflow: number;
+    operatingMargins: number; // *100
+    profitMargins: number; // *100
+    quickRatio: number;
+    recommendationKey: string;
+    recommendationMean: number;
+    returnOnAssets: number; // *100
+    returnOnEquity: number; // *100
+    revenueGrowth: number; // *100
+    revenuePerShare: number;
+    targetHighPrice: number;
+    targetLowPrice: number;
+    targetMeanPrice: number;
+    targetMedianPrice: number;
+    totalCash: number;
+    totalCashPerShare: number;
+    totalDebt: number;
+    totalRevenue: number;
+}
+
+export interface PageViews {
+    longTermTrend: string;
+    midTermTrend: string;
+    shortTermTrend: string;
 }
 
 
-export interface Dividend {
-    dividendDate?: string;
-    dividendPerShare5Y?: number;
-    dividendPerShareAnnual?: number;
-    exDividendDate?: string;
-    fiveYearAverageDividendYield?: string;
-    forwardAnnualDividendRate?: string;
-    forwardAnnualDividendYield?: string;
-    payoutRatio?: string;
-    trailingAnnualDividendRate?: string;
-    trailingAnnualDividendYield?: string;
-}
-
-export interface BasicInfo {
+export interface SummaryProfile {
     address1: string;
     city: string;
     country: string;
-    exchangeTimezoneName: string;
+    fax: string;
     fullTimeEmployees: number;
     industry: string;
+    logo_url: string;
+    longBusinessSummary: string;
+    phone: string;
     sector: string;
-    shortName: string;
-    state?: string;
+    state: string;
     website: string;
     zip: string;
-    netIncomeEmployeeAnnual: number;
-    revenueEmployeeAnnual: number;
-    sharesOutstanding: number;
-    summary: string;
+}
+
+export interface UpgradeDowngradeHistory {
+    history: UpgradeDowngradeHistoryData[];
+}
+
+export interface UpgradeDowngradeHistoryData {
+    action: string;
+    epochGradeDate: number;
+    firm: string;
+    fromGrade: string;
+    toGrade: string;
+}
+
+export interface Stats {
+    AvgVolOnedayThree: string;
+    BookValuePerSharemrq: string;
+    CurrentRatiomrq: string;
+    DilutedEPSttm: string;
+    DividendDateThree: string;
+    EBITDA: string;
+    EnterpriseValueEBITDASix: string[];
+    EnterpriseValueRevenueThree: string[];
+    EnterpriseValueThree: string[];
+    ExDividendDateFour: string;
+    FiveDayMovingAverageThree: string;
+    FiveTwoWeekChangeThree: string;
+    FiveTwoWeekHighThree: string;
+    FiveTwoWeekLowThree: string;
+    FiveYearAverageDividendYieldFour: string;
+    Float: string;
+    ForwardAnnualDividendYieldFour: string;
+    ForwardPEOne: string[];
+    GrossProfitttm: string;
+    LastSplitDateThree: string;
+    LastSplitFactorTwo: string;
+    LeveredFreeCashFlowttm: string;
+    MarketCapintradayFive: string[];
+    MostRecentQuartermrq: string;
+    NetIncomeAvitoCommonttm: string;
+    OperatingMarginttm: string;
+    PEGRatioFiveyrexpectedOne: string[];
+    PayoutRatioFour: string;
+    PctHeldbyInsidersOne: string;
+    PctHeldbyInstitutionsOne: string;
+    PriceBookmrq: string[];
+    PriceSalesttm: string[];
+    QuarterlyEarningsGrowthyoy: string;
+    QuarterlyRevenueGrowthyoy: string;
+    ReturnonEquityttm: string;
+    RevenuePerSharettm: string;
+    SPFiveFiveTwoWeekChangeThree: string;
+    SharesOutstandingFive: string;
+    SharesShortAugOneThreeTwoTwoFour: string;
+    SharesShortpriormonthJulOneFourTwoTwoFour: string;
+    ShortPctofFloatAugOneThreeTwoTwoFour: string;
+    ShortPctofSharesOutstandingAugOneThreeTwoTwoFour: string;
+    ShortRatioAugOneThreeTwoTwoFour: string;
+    TotalCashPerSharemrq: string;
+    TotalDebtEquitymrq: string;
+    TotalDebtmrq: string;
+    TrailingAnnualDividendRateThree: string;
+    TrailingAnnualDividendYieldThree: string;
+    TrailingPE: string[];
+    TwoDayMovingAverageThree: string;
+    dateTime: string[];
+}
+
+export interface Summary {
+    AvgVolume: string;
+    EPSTTM: string;
+    EarningsDate: string;
+    ExDividendDate: string;
+    FiveTwoWeekRange: string;
+    ForwardDividendYield: string;
+    OneyTargetEst: number;
+    Open: string;
+    PERatioTTM: string;
+    Volume: string;
+    currency: string;
+    industry: string;
+    logo_url: string;
+    marketPrice: number;
+    previousClose: number;
+    recommendationKey: string;
+    recommendationMean: number;
+    sector: string;
     symbol: string;
-    logoUrl: string;
+    targetEstOneyPercent: number;
+    weekRangeFiveTwoMax: number;
+    weekRangeFiveTwoMin: number;
+}
+
+export interface Metric {
+    FiveDayPriceReturnDaily: number;
+    FiveTwoWeekHigh: number;
+    FiveTwoWeekHighDate: string;
+    FiveTwoWeekLow: number;
+    FiveTwoWeekLowDate: string;
+    FiveTwoWeekPriceReturnDaily: number;
+    OneDayAverageTradingVolume: number;
+    OneThreeWeekPriceReturnDaily: number;
+    ThreeMonthAverageTradingVolume: number;
+    TwoSixWeekPriceReturnDaily: number;
+    assetTurnoverAnnual: number;
+    assetTurnoverTTM: number;
+    beta: number;
+    bookValuePerShareAnnual: number;
+    bookValuePerShareQuarterly: number;
+    bookValueShareGrowthFiveY: number;
+    capitalSpendingGrowthFiveY: number;
+    cashFlowPerShareAnnual: number;
+    cashFlowPerShareTTM: number;
+    cashPerSharePerShareAnnual: number;
+    cashPerSharePerShareQuarterly: number;
+    currentDividendYieldTTM: number;
+    currentEvfreeCashFlowAnnual: number;
+    currentEvfreeCashFlowTTM: number;
+    currentRatioAnnual: number;
+    currentRatioQuarterly: number;
+    dividendGrowthRateFiveY: number;
+    dividendPerShareAnnual: number;
+    dividendPerShareFiveY: number;
+    dividendYieldFiveY: number;
+    dividendYieldIndicatedAnnual: number;
+    dividendsPerShareTTM: number;
+    ebitdPerShareTTM: number;
+    ebitdaCagrFiveY: number;
+    ebitdaInterimCagrFiveY: number;
+    epsBasicExclExtraItemsAnnual: number;
+    epsBasicExclExtraItemsTTM: number;
+    epsExclExtraItemsAnnual: number;
+    epsExclExtraItemsTTM: number;
+    epsGrowthFiveY: number;
+    epsGrowthQuarterlyYoy: number;
+    epsGrowthTTMYoy: number;
+    epsGrowthThreeY: number;
+    epsInclExtraItemsAnnual: number;
+    epsInclExtraItemsTTM: number;
+    epsNormalizedAnnual: number;
+    focfCagrFiveY: number;
+    freeCashFlowAnnual: number;
+    freeCashFlowPerShareTTM: number;
+    freeCashFlowTTM: number;
+    freeOperatingCashFlowrevenueFiveY: number;
+    freeOperatingCashFlowrevenueTTM: number;
+    grossMarginAnnual: number;
+    grossMarginFiveY: number;
+    grossMarginTTM: number;
+    inventoryTurnoverAnnual: number;
+    inventoryTurnoverTTM: number;
+    longTermDebtequityAnnual: number;
+    longTermDebtequityQuarterly: number;
+    marketCapitalization: number;
+    monthToDatePriceReturnDaily: number;
+    netDebtAnnual: number;
+    netDebtInterim: number;
+    netIncomeEmployeeAnnual: number;
+    netIncomeEmployeeTTM: number;
+    netInterestCoverageAnnual: number;
+    netInterestCoverageTTM: number;
+    netMarginGrowthFiveY: number;
+    netProfitMarginAnnual: number;
+    netProfitMarginFiveY: number;
+    netProfitMarginTTM: number;
+    operatingMarginAnnual: number;
+    operatingMarginFiveY: number;
+    operatingMarginTTM: number;
+    payoutRatioAnnual: number;
+    payoutRatioTTM: number;
+    pbAnnual: number;
+    pbQuarterly: number;
+    pcfShareTTM: number;
+    peBasicExclExtraTTM: number;
+    peExclExtraAnnual: number;
+    peExclExtraHighTTM: number;
+    peExclExtraTTM: number;
+    peExclLowTTM: number;
+    peInclExtraTTM: number;
+    peNormalizedAnnual: number;
+    pfcfShareAnnual: number;
+    pfcfShareTTM: number;
+    pretaxMarginAnnual: number;
+    pretaxMarginFiveY: number;
+    pretaxMarginTTM: number;
+    priceRelativeToSPFiveFiveTwoWeek: number;
+    priceRelativeToSPFiveFourWeek: number;
+    priceRelativeToSPFiveOneThreeWeek: number;
+    priceRelativeToSPFiveTwoSixWeek: number;
+    priceRelativeToSPFiveYtd: number;
+    psAnnual: number;
+    psTTM: number;
+    ptbvAnnual: number;
+    ptbvQuarterly: number;
+    quickRatioAnnual: number;
+    quickRatioQuarterly: number;
+    receivablesTurnoverAnnual: number;
+    receivablesTurnoverTTM: number;
+    revenueEmployeeAnnual: number;
+    revenueEmployeeTTM: number;
+    revenueGrowthFiveY: number;
+    revenueGrowthQuarterlyYoy: number;
+    revenueGrowthTTMYoy: number;
+    revenueGrowthThreeY: number;
+    revenuePerShareAnnual: number;
+    revenuePerShareTTM: number;
+    revenueShareGrowthFiveY: number;
+    roaRfy: number;
+    roaaFiveY: number;
+    roaeFiveY: number;
+    roaeTTM: number;
+    roeRfy: number;
+    roeTTM: number;
+    roiAnnual: number;
+    roiFiveY: number;
+    roiTTM: number;
+    tangibleBookValuePerShareAnnual: number;
+    tangibleBookValuePerShareQuarterly: number;
+    tbvCagrFiveY: number;
+    totalDebtCagrFiveY: number;
+    totalDebttotalEquityAnnual: number;
+    totalDebttotalEquityQuarterly: number;
+    yearToDatePriceReturnDaily: number;
 }
