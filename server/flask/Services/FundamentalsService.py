@@ -37,7 +37,6 @@ class FundamentalsService:
                 'details.stockNewsSnippets': stockDetailsDict['details']['stockNewsSnippets']})
 
         print('get stock fundamentals -> done')
-        print(stockDetailsDict)
         return stockDetailsDict['details']
 
     def getStockFinancialReport(self, symbol, financialReportName):
