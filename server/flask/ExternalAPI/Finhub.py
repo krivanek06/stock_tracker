@@ -1,8 +1,9 @@
 import os
 from private_data import enviroments
 from requests import get
-from datetime import datetime, timedelta
+from datetime import datetime
 from Services import FileManagerService
+from dateutil.relativedelta import relativedelta
 
 class Finhub:
     def __init__(self):
@@ -14,7 +15,7 @@ class Finhub:
 
     def getIpoOneMonthCalendar(self):
         today = datetime.today()
-        nextmonth = today + timedelta(months=1)
+        nextmonth = today + relativedelta(months=1)
         params = {'token': self.FINHUB_SECRET_KEY, 'from': today, 'to': nextmonth}
         return get('https://finnhub.io/api/v1/calendar/ipo', params=params).json()
 
@@ -35,7 +36,7 @@ class Finhub:
 
     def getEarningsCalendarForOneWeeks(self):
         today = datetime.today()
-        nextTwoWeeks = today + timedelta(weeks=1)
+        nextTwoWeeks = today + relativedelta(weeks=1)
 
         today = today.strftime('%Y-%m-%d')
         nextTwoWeeks = nextTwoWeeks.strftime('%Y-%m-%d')
@@ -68,7 +69,7 @@ class Finhub:
 
     def getNewsForSymbol(self, symbol):
         today = datetime.today().strftime('%Y-%m-%d')
-        lastWeek = (datetime.today() - timedelta(weeks=1)).strftime('%Y-%m-%d')
+        lastWeek = (datetime.today() - relativedelta(weeks=1)).strftime('%Y-%m-%d')
 
         params = {'token': self.FINHUB_SECRET_KEY, 'symbol': symbol, 'from': lastWeek, 'to': today}
         newsArray = get('https://finnhub.io/api/v1/company-news', params=params).json()

@@ -5,13 +5,17 @@ from requests import get
     transform {'Test (With % is)' : 55} -> {'Test_With_Pct_is' : 55} 
 '''
 unsupportedCharacter =  {'-': '', '/': '', '*': '', '%': 'Pct', '&': '', ',': '', ' ': '', '(': '', ')': '', '.': '',
-                         '1': '', '0': '', '2': '', '3': '', "4": '', '5': '', '6': '', '7': '', '8': '', '9': ''}
+                         '1': 'One', '0': '', '2': 'Two', '3': 'Three', "4": 'Four', '5': 'Five', '6': 'Six', '7': 'Seven',
+                         '8': 'Eight', '9': 'Nine'}
 
 def changeUnsupportedCharactersForDictKey(data):
     res = {}
     for k, v in data.items():
+        if isinstance(v, dict):
+            v = changeUnsupportedCharactersForDictKey(v)
         k = k.translate(str.maketrans(unsupportedCharacter))
         res[k] = v
+
     return res
 
 
@@ -30,7 +34,7 @@ def force_float_skipping_last_char(value):
     try:
         return float(value[0:-1])
     except:
-        return value
+        return 0
 
 
 def parseMultipleDropdownTables(site):
