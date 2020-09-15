@@ -39,17 +39,18 @@ export class EconomicChartModalContainerComponent implements OnInit {
      *  }
      */
     ngOnInit() {
-        this.http.get<any>(`${environment.stockAPI}/${this.initialEndpoint}`).pipe(
-            map(result => result.multipleData ? result.chartData : result)
+        this.http.get<ChartData>(`${environment.stockAPI}/${this.initialEndpoint}`).pipe(
+            map(result => result.result)
         ).subscribe(data => {
-            for (const key of Object.keys(data)) {
+            /*for (const key of Object.keys(data)) {
                 if (key === 'status') {
                     continue;
                 }
 
                 const chartData = data[key] as ChartDataArray;
                 this.series = [...this.series, {name: chartData.name, data: chartData.data}];
-            }
+            }*/
+            this.series = data;
             this.cd.detectChanges();
         });
     }

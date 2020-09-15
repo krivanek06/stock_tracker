@@ -1,13 +1,13 @@
 <ion-item class="ion-no-padding stockInfo-container">
     <ng-container (click)="detailsItemClicked()">
         <ion-button>
-            <ion-img [src]="logoUrl" class="symbol-image " (click)="imageClicked()">
+            <ion-img [src]="summary.logo_url" class="symbol-image " (click)="imageClicked()">
             </ion-img>
         </ion-button>
 
         <!-- stock name -->
         <ion-label position="fixed" class="stockInfo-name">
-            {{ symbol }}
+            {{ summary.symbol }}
         </ion-label>
 
         <!-- current price -->
@@ -19,28 +19,28 @@
         <ion-label position="fixed"
                    class="stockInfo-change"
                    [ngClass]="{
-                    'price-up': currentPrice - previousClose >= 0,
-                    'price-down': currentPrice - previousClose < 0
+                    'price-up': currentPrice - summary.previousClose >= 0,
+                    'price-down': currentPrice - summary.previousClose < 0
                      }">
 
-            {{ currentPrice - previousClose | currency}}
-            ({{ ((currentPrice - previousClose) / previousClose) | percent: '1.2' }})
+            {{ currentPrice - summary.previousClose | currency}}
+            ({{ ((currentPrice - summary.previousClose) / summary.previousClose) | percent: '1.2' }})
             <ion-icon name="trending-up-outline"
                       class="price-icon "
-                      *ngIf="currentPrice - previousClose >= 0"></ion-icon>
+                      *ngIf="currentPrice - summary.previousClose >= 0"></ion-icon>
             <ion-icon name="trending-down-outline"
                       class="price-icon"
-                      *ngIf="currentPrice - previousClose < 0"></ion-icon>
+                      *ngIf="currentPrice - summary.previousClose < 0"></ion-icon>
         </ion-label>
 
         <!-- 52 week range -->
         <ion-label position="fixed" style="min-width: 150px; max-width: 150px;" class="ion-hide-lg-down">
-            {{ weekLow52 | currency }} - {{ weekHigh52 | currency }}
+            {{ summary.weekRangeFiveTwoMin | currency }} - {{ summary.weekRangeFiveTwoMax | currency }}
         </ion-label>
 
         <!-- earnings date -->
         <ion-label position="fixed" class="stockInfo-earnings ion-hide-sm-down">
-            {{ earningsDate }}
+            {{ summary.EarningsDate }}
         </ion-label>
     </ng-container>
 

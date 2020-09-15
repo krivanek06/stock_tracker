@@ -83,5 +83,5 @@ def getPartialDataFromAllCategory():
     try:
         return json_response(**Quandl_SP500.getPartialDataFromAllCategory())
     except Exception as e:
-        print(e)
+        print('error', e)
         raise JsonError(status=500, error='Error while finding partial data for all category for S&P 500 statistics')

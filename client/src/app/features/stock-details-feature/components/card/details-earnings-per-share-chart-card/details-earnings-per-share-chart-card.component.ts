@@ -1,20 +1,32 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    OnChanges,
+    OnInit,
+    SimpleChanges
+} from '@angular/core';
 
 import * as Highcharts from 'highcharts/highstock';
 import HighchartsMoreModule from 'highcharts/highcharts-more';
-import {Earnings} from '../../../model/stockDetails';
+import {Earnings, EarningsChart} from '../../../model/stockDetails';
 
 HighchartsMoreModule(Highcharts);
 
 @Component({
-    selector: 'app-details-earnings-chart-card',
-    templateUrl: './details-earnings-chart-card.component.html',
-    styleUrls: ['./details-earnings-chart-card.component.scss'],
+    selector: 'app-details-earnings-per-share-chart-card',
+    templateUrl: './details-earnings-per-share-chart-card.component.html',
+    styleUrls: ['./details-earnings-per-share-chart-card.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DetailsEarningsChartCardComponent implements OnInit, OnChanges {
-    @Input() earnings: Earnings;
+export class DetailsEarningsPerShareChartCardComponent implements OnInit, OnChanges {
+    @Input() earnings: EarningsChart;
 
+
+    private earnignsDates: string[] = [];
+    private actualEarnings: number[] = [];
+    private estimatedEarnigns: number[] = [];
 
     // chart options
     Highcharts: typeof Highcharts = Highcharts;
@@ -32,6 +44,13 @@ export class DetailsEarningsChartCardComponent implements OnInit, OnChanges {
 
 
     ngOnChanges(changes: SimpleChanges): void {
+        if (this.earnings) {
+            this.earnignsDates = [...this.earnings.quarterly.map(data => data.date),
+                this.earnings.currentQuarterEstimateDate + this.earnings.currentQuarterEstimateYear];
+            this.actualEarnings = this.earnings.quarterly.map(data => data.actual);
+            this.actualEarnings = [...this.earnings.quarterly.map(data => data.estimate), this.earnings.currentQuarterEstimate];
+        }
+
         this.initChart();
 
 
@@ -90,7 +109,7 @@ export class DetailsEarningsChartCardComponent implements OnInit, OnChanges {
                 },
                 gridLineWidth: 0,
                 minorGridLineWidth: 0,
-                categories: !this.earnings ? [] : this.earnings.dates,
+                categories: this.earnignsDates,
             },
 
             yAxis: {
@@ -101,7 +120,7 @@ export class DetailsEarningsChartCardComponent implements OnInit, OnChanges {
                 },
             },
             series: [{
-                data: !this.earnings ? [] : this.earnings.epsEst.map(x => ['Earnings expected', x, 2]),
+                data: this.estimatedEarnigns.map(x => ['Earnings expected', x, 2]),
                 marker: {
                     fillColor: {
                         radialGradient: {cx: 0.2, cy: 0.3, r: 0.7},
@@ -112,7 +131,7 @@ export class DetailsEarningsChartCardComponent implements OnInit, OnChanges {
                     }
                 }
             }, {
-                data: !this.earnings ? [] : this.earnings.epsActual.map(x => ['Earnings actual', x, 2]),
+                data: this.actualEarnings.map(x => ['Earnings actual', x, 2]),
                 marker: {
                     fillColor: {
                         radialGradient: {cx: 0.4, cy: 0.3, r: 0.7},

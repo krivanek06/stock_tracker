@@ -25,6 +25,13 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+/* table */
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/material.scss';
+@import '~@swimlane/ngx-datatable/themes/dark.scss';
+@import '~@swimlane/ngx-datatable/themes/bootstrap.scss';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+
 @import "./app/shared/styles/custom-variable";
 
 
@@ -65,15 +72,15 @@
 // class to add for each ion-content
 .content-padding {
   /*padding: 16px;*/
-  padding: 10px 75px 10px 20px;
+  padding: 10px 75px 50px 20px;
   @media (max-width: 1400px) {
-    padding: 10px 40px 10px 20px;
+    padding: 10px 40px 50px 20px;
   }
   @media (max-width: 1275px) {
-    padding: 10px 15px 5px 5px;
+    padding: 10px 15px 50px 5px;
   }
   @media (max-width: 475px) {
-    padding: 2px 8px 5px 2px;
+    padding: 2px 8px 25px 2px;
   }
 }
 

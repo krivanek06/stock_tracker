@@ -1,5 +1,4 @@
 from os import environ
-from private_data import enviroments
 from Services import FileManagerService
 from calendar import timegm
 from ExternalAPI import utils
@@ -33,8 +32,9 @@ class Quandl:
 
     def _generatInformationProvider(self, numberOfDataSet, folder, quandalKey, customKeys=None):
         # check if already cashed and not older than 3 days
+
         lastModification = self.fileManagerService.getDocumentLastModification(folder)
-        if lastModification is not None and lastModification[0] < 5:
+        if lastModification is not None and lastModification[1] < 5:
             data = self.fileManagerService.getJsonFile(folder)
         else:
             params = {'download_type': 'full', 'api_key': self.APIKEY}
@@ -68,7 +68,7 @@ class Quandl:
 
         # example of block -> [ "1948-01-31", 3.4, 10.23, 13.63 ]
         for block in data['data']:
-            timestamp = timegm(datetime.strptime(block[0], "%Y-%m-%d").utctimetuple())
+            timestamp = timegm(datetime.strptime(block[0], "%Y-%m-%d").utctimetuple()) * 1000  # milliseconds
             for i in range(len(block[1:])):
                 result[keys[i]].append([timestamp, block[i + 1]])
 

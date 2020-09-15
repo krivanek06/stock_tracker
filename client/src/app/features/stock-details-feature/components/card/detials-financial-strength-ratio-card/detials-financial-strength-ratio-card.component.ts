@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {FinancialStrengthRatio} from '../../../model/stockDetails';
 
 @Component({
   selector: 'app-detials-financial-strength-ratio-card',
@@ -8,7 +7,7 @@ import {FinancialStrengthRatio} from '../../../model/stockDetails';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetialsFinancialStrengthRatioCardComponent implements OnInit {
-  @Input() financialStrengthRatio: FinancialStrengthRatio;
+  // @Input() financialStrengthRatio: FinancialStrengthRatio;
 
   constructor() { }
 

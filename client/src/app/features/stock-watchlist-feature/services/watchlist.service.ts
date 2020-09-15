@@ -10,7 +10,7 @@ import {
     QueryUserStockWatchlistsGQL,
     QueryUserStockWatchlistsQuery,
     RemoveStockFromWatchlistGQL,
-    RenameStockWatchlistGQL, StockMainDetailsFragment, StockMainDetailsFragmentDoc,
+    RenameStockWatchlistGQL,
     StockWatchlistIdentifier,
     StockWatchlistInformationFragment, StockWatchlistInformationFragmentDoc,
 } from '../../../api/customGraphql.service';
@@ -33,7 +33,7 @@ export class WatchlistService {
 
     getUserStockWatchlists(userId?: string): Observable<Array<Maybe<{ __typename?: 'StockWatchlist' } & StockWatchlistInformationFragment>> | null> {
         return this.queryUserStockWatchlistsGQL.watch({
-            uid: '7eYTErOxXugeHg4JHLS1L5ZKosK2'
+            uid: userId
         }).valueChanges.pipe(
             map(res => res.data.queryUserStockWatchlists)
         );
@@ -62,7 +62,7 @@ export class WatchlistService {
                         timestamp: new Date().getTime(),
                         id: 'test',
                         stocks: [],
-                        stocksDetails: []
+                        summary: undefined
                     }
                 },
                 update: (store, {data: {createStockWatchlist}}) => {
@@ -180,7 +180,7 @@ export class WatchlistService {
 
                 // update watchlist with stock information
                 watchlist.stocks = watchlist.stocks.filter(x => x !== identifier.additionalData);
-                watchlist.stocksDetails = watchlist.stocksDetails.filter(x => x.id !== identifier.additionalData);
+                watchlist.summary = watchlist.summary.filter(x => x.symbol !== identifier.additionalData);
 
                 // update watchlist inside cache
                 store.writeFragment({
@@ -205,28 +205,23 @@ export class WatchlistService {
             optimisticResponse: {
                 __typename: 'Mutation',
                 addStockIntoStockWatchlist: {
-                    __typename: 'StockDetails',
-                    id: identifier.additionalData,
-                    basicInfo: {
-                        __typename: 'BasicInfo',
-                        industry: 'test',
-                        logoUrl: 'test',
-                        sector: 'test',
-                        shortName: 'test',
-                        website: 'test'
-                    },
-                    overview: {
-                        __typename: 'OverView',
-                        symbol: identifier.additionalData,
-                        currentPrice: -1,
-                        earningsDate: 'test',
-                        exDividendDate: 'test',
-                        forwardDividendAndYield: 'test',
-                        previousClose: -1,
-                        targetEst1y: -1,
-                        weekHigh52: -1,
-                        weekLow52: -1
-                    }
+                    __typename: 'Summary',
+                    symbol: identifier.additionalData,
+                    currency: 'USD',
+                    EarningsDate: new Date().toISOString(),
+                    EPSTTM: '-1',
+                    ExDividendDate: '-1',
+                    FiveTwoWeekRange: '-1',
+                    industry: 'None',
+                    logo_url: '',
+                    marketPrice: -1,
+                    OneyTargetEst: -1,
+                    PERatioTTM: '-1',
+                    previousClose: -1,
+                    recommendationKey: '-1',
+                    recommendationMean: -1,
+                    sector: 'None',
+                    targetEstOneyPercent: -1
                 }
 
             },
@@ -239,7 +234,7 @@ export class WatchlistService {
 
                 // update watchlist with stock information
                 watchlist.stocks = [...watchlist.stocks, identifier.additionalData];
-                watchlist.stocksDetails = [...watchlist.stocksDetails, addStockIntoStockWatchlist];
+                watchlist.summary = [...watchlist.summary, addStockIntoStockWatchlist];
 
                 // update watchlist inside cache
                 store.writeFragment({

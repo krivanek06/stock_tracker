@@ -11,7 +11,7 @@
             <ion-col size="12" size-md="4" size-lg="4" class="clickable-card" (click)="showEarningsYield()">
                 <app-generic-chart
                         [chartTitle]="'Earnings yield'"
-                        [series]="[{name: 'Earnings yield', data: data.earningsYield.chartData} ]"
+                        [series]="data.earningsYield.result"
                         [chartType]="ChartType.area"
                         [heightPx]="175">
                 </app-generic-chart>
@@ -19,7 +19,7 @@
             <ion-col size="12" size-md="4" size-sm="6" size-lg="4" class="clickable-card" (click)="showDividends()">
                 <app-generic-chart
                         [chartTitle]="'Dividends'"
-                        [series]="[{name: 'Dividend', data: data.dividends.chartData} ]"
+                        [series]="data.dividends.result"
                         [chartType]="ChartType.area"
                         [heightPx]="175">
                 </app-generic-chart>
@@ -27,7 +27,7 @@
             <ion-col size="12" size-md="4" size-sm="6"  size-lg="4" class="clickable-card" (click)="showDividendsYield()">
                 <app-generic-chart
                         [chartTitle]="'Dividend yield'"
-                        [series]="[{name: 'Dividend yield', data: data.dividendYield.chartData} ]"
+                        [series]="data.dividendYield.result"
                         [chartType]="ChartType.area"
                         [heightPx]="175">
                 </app-generic-chart>
@@ -38,7 +38,7 @@
             <ion-col size="12" size-sm="6" size-lg="3" class="clickable-card" (click)="showPeRatio()">
                 <app-generic-chart
                         [chartTitle]="'PE ratio'"
-                        [series]="[{name: 'PE ratio', data: data.peRatio.chartData} ]"
+                        [series]="data.peRatio.result"
                         [chartType]="ChartType.area"
                         [heightPx]="175">
                 </app-generic-chart>
@@ -46,7 +46,7 @@
             <ion-col size="12" size-sm="6" size-lg="3" class="clickable-card" (click)="showPriceToBook()">
                 <app-generic-chart
                         [chartTitle]="'Price to book'"
-                        [series]="[{name: 'Price to book', data: data.priceToBook.chartData} ]"
+                        [series]="data.priceToBook.result"
                         [chartType]="ChartType.area"
                         [heightPx]="175">
                 </app-generic-chart>
@@ -56,7 +56,7 @@
             <ion-col size="12" size-sm="6" size-lg="3" class="clickable-card" (click)="showPriceToSale()">
                 <app-generic-chart
                         [chartTitle]="'Price to sale'"
-                        [series]="[{name: 'Price to sale', data: data.priceToSale.chartData} ]"
+                        [series]="data.priceToSale.result"
                         [chartType]="ChartType.area"
                         [heightPx]="175">
                 </app-generic-chart>
@@ -65,7 +65,7 @@
             <ion-col size="12" size-sm="6" size-lg="3" class="clickable-card" (click)="showSalesGrowth()">
                 <app-generic-chart
                         [chartTitle]="'Sales growth'"
-                        [series]="[{name: 'Sales growth', data: data.salesGrowth.chartData} ]"
+                        [series]="data.salesGrowth.result"
                         [chartType]="ChartType.area"
                         [heightPx]="175">
                 </app-generic-chart>

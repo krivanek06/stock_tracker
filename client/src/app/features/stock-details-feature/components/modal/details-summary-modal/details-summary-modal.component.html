@@ -1,7 +1,7 @@
 <ion-content class="ion-padding">
     <ion-toolbar>
         <ion-title class="ion-text-start">
-            Company summary ({{ basicInfo.symbol }})
+            Company summary ({{ symbol }})
         </ion-title>
         <ion-buttons slot="end">
             <ion-button color="danger" (click)="dismissModal()">
@@ -11,9 +11,9 @@
         </ion-buttons>
     </ion-toolbar>
 
-    <ion-img [src]="basicInfo.logoUrl" class="ion-float-start ion-margin-end"></ion-img>
+    <ion-img [src]="summaryProfile.logo_url" class="ion-float-start ion-margin-end"></ion-img>
 
-    <ion-textarea> {{ basicInfo.summary }}</ion-textarea>
+    <ion-textarea> {{ summaryProfile.longBusinessSummary }}</ion-textarea>
 
 
 </ion-content>

@@ -2,7 +2,7 @@
     <ion-item class="ion-margin-bottom">
         <ion-buttons slot="start">
             <ion-button color="warning"
-                        [routerLink]="['/menu/stock-details/' + chartDataIdentification.symbol]"
+                        [routerLink]="['/menu/stock-details/statistics?symbol=' + chartDataIdentification.symbol]"
                         (click)="dismissModal()">
                 <ion-icon name="information-circle-outline" style="margin-right: 5px"></ion-icon>
                 Details

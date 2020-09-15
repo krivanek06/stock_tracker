@@ -23,6 +23,7 @@ import {FinancialChartModalContainerComponent} from './containers/modal/financia
 import {FinancialChartContainerComponent} from './containers/financial-chart-container/financial-chart-container.component';
 import {EconomicChartModalContainerComponent} from './containers/modal/economic-chart-modal-container/economic-chart-modal-container.component';
 import {RelativeTimePipe} from './pipes/relatimeTime.pipe';
+import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 
 @NgModule({
     declarations: [
@@ -53,6 +54,7 @@ import {RelativeTimePipe} from './pipes/relatimeTime.pipe';
         IonicModule,
         PerfectScrollbarModule,
         ApolloModule,
+        NgxDatatableModule
     ],
     exports: [
         ReactiveFormsModule,
@@ -79,6 +81,7 @@ import {RelativeTimePipe} from './pipes/relatimeTime.pipe';
         FinancialChartModalContainerComponent,
         FinancialChartContainerComponent,
         EconomicChartModalContainerComponent,
+        NgxDatatableModule
     ],
     entryComponents: [
         FinancialChartModalContainerComponent,

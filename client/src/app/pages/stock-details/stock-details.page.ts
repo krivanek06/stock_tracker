@@ -1,33 +1,18 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {StockFundamentalsApiService} from '../../api/stock-fundamentals-api.service';
-import {Observable, Subject} from 'rxjs';
-import {
-    StockDetails,
-} from '../../features/stock-details-feature/model/stockDetails';
-import {ActivatedRoute} from '@angular/router';
-import {Apollo} from 'apollo-angular';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 
 @Component({
     selector: 'app-stock-details',
     templateUrl: './stock-details.page.html',
     styleUrls: ['./stock-details.page.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StockDetailsPage implements OnInit {
 
-    stockDetails$: Observable<StockDetails>;
-    test = false;
-
-    constructor(
-        private stockApiService: StockFundamentalsApiService,
-        private apollo: Apollo,
-        private route: ActivatedRoute
-    ) {
+    constructor() {
     }
 
     ngOnInit() {
-        const symbol = this.route.snapshot.paramMap.get('symbol');
 
-        this.stockDetails$ = this.stockApiService.getStockDetails(symbol);
     }
 
 }

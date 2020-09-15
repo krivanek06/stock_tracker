@@ -7,59 +7,61 @@
 
   <ion-card-content>
 
-    <ion-list *ngIf="dividendInfo">
+    <ion-list>
       <ion-item>
         <ion-label position="fixed" class="fixedLabel">Ex-dividend date</ion-label>
-        <ion-label> {{ dividendInfo.exDividendDate }}</ion-label>
+        <ion-label> {{ dividends?.exDividendDate }}</ion-label>
       </ion-item>
 
-      <ion-item>
+      <!--<ion-item>
         <ion-label position="fixed" class="fixedLabel">Dividend date</ion-label>
-        <ion-label> {{ dividendInfo.dividendDate }}</ion-label>
+        <ion-label> {{ dividends.dividendDate }}</ion-label>
+      </ion-item>-->
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Forward dividend yield</ion-label>
+        <ion-label> {{ dividends.ForwardDividendYield }}</ion-label>
       </ion-item>
 
       <ion-item>
-        <ion-label position="fixed" class="fixedLabel">Dividend per share (an.)</ion-label>
-        <ion-label> {{ dividendInfo.dividendPerShareAnnual }}</ion-label>
+        <ion-label position="fixed" class="fixedLabel">Forward dividend yield ttm.</ion-label>
+        <ion-label> {{ dividends.currentDividendYieldTTM | number}}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Trailing annual dividend yield</ion-label>
+        <ion-label> {{ dividends.trailingAnnualDividendYield | number}}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Trailing annual dividend rate</ion-label>
+        <ion-label> {{ dividends.trailingAnnualDividendRate | number}}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Dividend yield 5y</ion-label>
+        <ion-label> {{ dividends.dividendYieldFiveY | number}}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Dividend growth rate 5y</ion-label>
+        <ion-label> {{ dividends.dividendGrowthRateFiveY | number}}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Dividend per share an.</ion-label>
+        <ion-label> {{ dividends.dividendPerShareAnnual | number}}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Dividend per share ttm.</ion-label>
+        <ion-label> {{ dividends.dividendsPerShareTTM | number}}</ion-label>
       </ion-item>
 
       <ion-item>
         <ion-label position="fixed" class="fixedLabel">Dividend per share 5y</ion-label>
-        <ion-label> {{ dividendInfo.dividendPerShare5Y }}</ion-label>
+        <ion-label> {{ dividends.dividendPerShareFiveY | number}}</ion-label>
       </ion-item>
-
-      <ion-item>
-        <ion-label position="fixed" class="fixedLabel">Payout ratio</ion-label>
-        <ion-label> {{ dividendInfo.payoutRatio }}</ion-label>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="fixed" class="fixedLabel">Forward dividend rate</ion-label>
-        <ion-label> {{ dividendInfo.forwardAnnualDividendRate }}</ion-label>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="fixed" class="fixedLabel">Forward dividend yield</ion-label>
-        <ion-label> {{ dividendInfo.forwardAnnualDividendRate }}</ion-label>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="fixed" class="fixedLabel">Trailing dividend rate</ion-label>
-        <ion-label> {{ dividendInfo.trailingAnnualDividendRate }}</ion-label>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="fixed" class="fixedLabel">Trailing dividend yield</ion-label>
-        <ion-label> {{ dividendInfo.trailingAnnualDividendYield }}</ion-label>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="fixed" class="fixedLabel">Average dividend yield 5y</ion-label>
-        <ion-label> {{ dividendInfo.fiveYearAverageDividendYield }}</ion-label>
-      </ion-item>
-
-
-
 
     </ion-list>
   </ion-card-content>

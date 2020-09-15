@@ -1,0 +1,437 @@
+# Write your query or mutation here
+
+## QUERY
+##---------------------------
+
+fragment balanceSheetDataFragment on BalanceSheetData {
+    accountsPayable
+    cash
+    commonStock
+    endDate
+    inventory
+    longTermDebt
+    longTermInvestments
+    maxAge
+    netReceivables
+    netTangibleAssets
+    otherAssets
+    otherCurrentAssets
+    otherCurrentLiab
+    otherLiab
+    otherStockholderEquity
+    propertyPlantEquipment
+    retainedEarnings
+    shortLongTermDebt
+    shortTermInvestments
+    totalAssets
+    totalCurrentAssets
+    totalCurrentLiabilities
+    totalLiab
+    totalStockholderEquity
+    treasuryStock
+}
+
+fragment cashFlowDataFragment on CashFlowData {
+    capitalExpenditures
+    changeInCash
+    changeToAccountReceivables
+    changeToInventory
+    changeToLiabilities
+    changeToNetincome
+    changeToOperatingActivities
+    depreciation
+    dividendsPaid
+    endDate
+    investments
+    maxAge
+    netBorrowings
+    netIncome
+    otherCashflowsFromFinancingActivities
+    otherCashflowsFromInvestingActivities
+    repurchaseOfStock
+    totalCashFromFinancingActivities
+    totalCashFromOperatingActivities
+    totalCashflowsFromInvestingActivities
+}
+
+fragment incomeStatementData on IncomeStatementData {
+    costOfRevenue
+    discontinuedOperations
+    ebit
+    effectOfAccountingCharges
+    endDate
+    extraordinaryItems
+    grossProfit
+    incomeBeforeTax
+    incomeTaxExpense
+    interestExpense
+    netIncome
+    netIncomeApplicableToCommonShares
+    netIncomeFromContinuingOps
+    operatingIncome
+    otherOperatingExpenses
+    researchDevelopment
+    sellingGeneralAdministrative
+    totalOperatingExpenses
+    totalOtherIncomeExpenseNet
+    totalRevenue
+}
+
+query queryStockDetails($symbol: String!) {
+    queryStockDetails(symbol: $symbol) {
+        id,
+        analysis {
+            GrowthEstimates {
+                CurrentQtr,
+                CurrentQtrPrct,
+                CurrentYear,
+                CurrentYearPrct,
+                NextFiveYearsperannum,
+                NextFiveYearsperannumPrct,
+                NextQtr,
+                NextQtrPrct,
+                NextYear,
+                NextYearPrct,
+                PastFiveYearsperannum,
+                PastFiveYearsperannumPrct,
+                name
+            }
+        }
+        balanceSheet {
+            balanceSheetHistoryQuarterly {
+                ...balanceSheetDataFragment
+            }
+            balanceSheetHistoryYearly {
+                ...balanceSheetDataFragment
+            }
+        }
+        cashFlow {
+            cashflowStatementHistoryQuarterly {
+                ...cashFlowDataFragment
+            }
+            cashflowStatementHistoryYearly {
+                ...cashFlowDataFragment
+            }
+        }
+        incomeStatement {
+            incomeStatementHistoryQuarterly {
+                ...incomeStatementData
+            }
+            incomeStatementHistoryYearly {
+                ...incomeStatementData
+            }
+        }
+        financialReports {
+            collection
+            name
+        }
+        stats {
+            MarketCapintradayFive
+            PriceSalesttm
+        }
+        recommendation {
+            buy
+            hold
+            period
+            sell
+            strongBuy
+            strongSell
+            symbol
+        }
+        stockNews {
+            datetime
+            headline
+            image
+            sourceName
+            summary
+            url
+        }
+        companyData {
+            defaultKeyStatistics {
+                FiveTwoWeekChange
+                SandPFiveTwoWeekChange
+                bookValue
+                dateShortInterest
+                earningsQuarterlyGrowth
+                enterpriseToEbitda
+                enterpriseToRevenue
+                enterpriseValue
+                fiveYearAverageReturn
+                floatShares
+                forwardEps
+                forwardPE
+                heldPercentInsiders
+                heldPercentInstitutions
+                lastFiscalYearEnd
+                lastSplitDate
+                lastSplitFactor
+                mostRecentQuarter
+                netIncomeToCommon
+                nextFiscalYearEnd
+                pegRatio
+                priceHint
+                priceToBook
+                profitMargins
+                sharesOutstanding
+                sharesShort
+                sharesShortPreviousMonthDate
+                sharesShortPriorMonth
+                shortRatio
+                trailingEps
+            }
+            earnings {
+                earningsChart {
+                    currentQuarterEstimate
+                    currentQuarterEstimateDate
+                    currentQuarterEstimateYear
+                    earningsDate
+                    quarterly {
+                        actual
+                        date
+                        estimate
+                    }
+                }
+                financialCurrency
+                financialsChart {
+                    quarterly {
+                        date
+                        earnings
+                        revenue
+                    }
+                    yearly {
+                        date
+                        earnings
+                        revenue
+                    }
+                }
+            }
+            financialData {
+                currentPrice
+                currentRatio
+                debtToEquity
+                ebitda
+                ebitdaMargins
+                financialCurrency
+                freeCashflow
+                grossMargins
+                grossProfits
+                FloatOfAnalystOpinions
+                operatingCashflow
+                operatingMargins
+                profitMargins
+                quickRatio
+                recommendationKey
+                recommendationMean
+                returnOnAssets
+                returnOnEquity
+                revenueGrowth
+                revenuePerShare
+                targetHighPrice
+                targetLowPrice
+                targetMeanPrice
+                targetMedianPrice
+                totalCash
+                totalCashPerShare
+                totalDebt
+                totalRevenue
+            }
+            pageViews {
+                longTermTrend
+                midTermTrend
+                shortTermTrend
+            }
+            summaryProfile {
+                address1
+                city
+                country
+                fax
+                fullTimeEmployees
+                industry
+                logo_url
+                longBusinessSummary
+                phone
+                sector
+                state
+                website
+                zip
+            }
+            upgradeDowngradeHistory{
+                history {
+                    action
+                    epochGradeDate
+                    firm
+                    fromGrade
+                    toGrade
+                }
+            }
+        }
+        summary {
+            AvgVolume
+            EPSTTM
+            EarningsDate
+            ExDividendDate
+            FiveTwoWeekRange
+            ForwardDividendYield
+            OneyTargetEst
+            Open
+            PERatioTTM
+            Volume
+            currency
+            industry
+            logo_url
+            marketPrice
+            previousClose
+            recommendationKey
+            recommendationMean
+            sector
+            symbol
+            targetEstOneyPercent
+            weekRangeFiveTwoMax
+            weekRangeFiveTwoMin
+            currencySymbol
+            shortName
+            longName
+            marketCap
+            weekRangeFiveTwoMax
+            weekRangeFiveTwoMin
+        }
+        metric {
+            FiveDayPriceReturnDaily
+            FiveTwoWeekHigh
+            FiveTwoWeekHighDate
+            FiveTwoWeekLow
+            FiveTwoWeekLowDate
+            FiveTwoWeekPriceReturnDaily
+            OneDayAverageTradingVolume
+            OneThreeWeekPriceReturnDaily
+            ThreeMonthAverageTradingVolume
+            TwoSixWeekPriceReturnDaily
+            assetTurnoverAnnual
+            assetTurnoverTTM
+            beta
+            bookValuePerShareAnnual
+            bookValuePerShareQuarterly
+            bookValueShareGrowthFiveY
+            capitalSpendingGrowthFiveY
+            cashFlowPerShareAnnual
+            cashFlowPerShareTTM
+            cashPerSharePerShareAnnual
+            cashPerSharePerShareQuarterly
+            currentEvfreeCashFlowAnnual
+            currentEvfreeCashFlowTTM
+            currentRatioAnnual
+            currentRatioQuarterly
+            ebitdPerShareTTM
+            ebitdaCagrFiveY
+            ebitdaInterimCagrFiveY
+            epsBasicExclExtraItemsAnnual
+            epsBasicExclExtraItemsTTM
+            epsExclExtraItemsAnnual
+            epsExclExtraItemsTTM
+            epsGrowthFiveY
+            epsGrowthQuarterlyYoy
+            epsGrowthTTMYoy
+            epsGrowthThreeY
+            epsInclExtraItemsAnnual
+            epsInclExtraItemsTTM
+            epsNormalizedAnnual
+            focfCagrFiveY
+            freeCashFlowAnnual
+            freeCashFlowPerShareTTM
+            freeCashFlowTTM
+            freeOperatingCashFlowrevenueFiveY
+            freeOperatingCashFlowrevenueTTM
+            grossMarginAnnual
+            grossMarginFiveY
+            grossMarginTTM
+            inventoryTurnoverAnnual
+            inventoryTurnoverTTM
+            longTermDebtequityAnnual
+            longTermDebtequityQuarterly
+            marketCapitalization
+            monthToDatePriceReturnDaily
+            netDebtAnnual
+            netDebtInterim
+            netIncomeEmployeeAnnual
+            netIncomeEmployeeTTM
+            netInterestCoverageAnnual
+            netInterestCoverageTTM
+            netMarginGrowthFiveY
+            netProfitMarginAnnual
+            netProfitMarginFiveY
+            netProfitMarginTTM
+            operatingMarginAnnual
+            operatingMarginFiveY
+            operatingMarginTTM
+            payoutRatioAnnual
+            payoutRatioTTM
+            pbAnnual
+            pbQuarterly
+            pcfShareTTM
+            peBasicExclExtraTTM
+            peExclExtraAnnual
+            peExclExtraHighTTM
+            peExclExtraTTM
+            peExclLowTTM
+            peInclExtraTTM
+            peNormalizedAnnual
+            pfcfShareAnnual
+            pfcfShareTTM
+            pretaxMarginAnnual
+            pretaxMarginFiveY
+            pretaxMarginTTM
+            priceRelativeToSPFiveFiveTwoWeek
+            priceRelativeToSPFiveFourWeek
+            priceRelativeToSPFiveOneThreeWeek
+            priceRelativeToSPFiveTwoSixWeek
+            priceRelativeToSPFiveYtd
+            psAnnual
+            psTTM
+            ptbvAnnual
+            ptbvQuarterly
+            quickRatioAnnual
+            quickRatioQuarterly
+            receivablesTurnoverAnnual
+            receivablesTurnoverTTM
+            revenueEmployeeAnnual
+            revenueEmployeeTTM
+            revenueGrowthFiveY
+            revenueGrowthQuarterlyYoy
+            revenueGrowthTTMYoy
+            revenueGrowthThreeY
+            revenuePerShareAnnual
+            revenuePerShareTTM
+            revenueShareGrowthFiveY
+            roaRfy
+            roaaFiveY
+            roaeFiveY
+            roaeTTM
+            roeRfy
+            roeTTM
+            roiAnnual
+            roiFiveY
+            roiTTM
+            tangibleBookValuePerShareAnnual
+            tangibleBookValuePerShareQuarterly
+            tbvCagrFiveY
+            totalDebtCagrFiveY
+            totalDebttotalEquityAnnual
+            totalDebttotalEquityQuarterly
+            yearToDatePriceReturnDaily
+        }
+        dividends {
+            currentDividendYieldTTM
+            dividendGrowthRateFiveY
+            dividendPerShareAnnual
+            dividendPerShareFiveY
+            dividendYieldFiveY
+            dividendYieldIndicatedAnnual
+            dividendsPerShareTTM
+            exDividendDate
+            trailingAnnualDividendRate
+            trailingAnnualDividendYield
+            ForwardDividendYield
+        }
+    }
+}
+

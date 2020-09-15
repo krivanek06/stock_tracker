@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {Maybe, StockDetails, StockMainDetailsFragment} from '../../../../api/customGraphql.service';
 import {ChartType} from '../../../../shared/models/sharedModel';
+import {Summary} from "../../../../api/customGraphql.service";
 
 @Component({
     selector: 'app-watchlist-sector-chart',
@@ -9,7 +9,7 @@ import {ChartType} from '../../../../shared/models/sharedModel';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WatchlistSectorChartComponent implements OnInit {
-    @Input() stockDetails: Array<Maybe<{ __typename?: 'StockDetails' } & StockMainDetailsFragment>>;
+    @Input() summary: Summary[];
 
     sectorPairs = [];
     ChartType = ChartType;
@@ -21,8 +21,8 @@ export class WatchlistSectorChartComponent implements OnInit {
 
         // from stock details creates -> [{name: 'Technology', y: 5}, {name: 'Cruise', y: 2} ... ]
         const helper = [];
-        this.stockDetails.forEach(stock => {
-            helper[stock.basicInfo.sector] = helper[stock.basicInfo.sector] + 1 || 1;
+        this.summary.forEach(stock => {
+            helper[stock.sector] = helper[stock.sector] + 1 || 1;
         });
         for (const [key, value] of Object.entries(helper)) {
             this.sectorPairs = [...this.sectorPairs, {name: key, y: value}];

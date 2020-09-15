@@ -1,9 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {
+    ChartDataArray,
     EmploymentPartialData,
-    InvestorSentimentData, MiseryIndexData,
-    TreasuryYieldCurveRatesData
 } from '../../../../shared/models/chartDataModel';
 import {ChartDataApiService} from '../../../../api/chart-data-api.service';
 import {EmploymentStatisticsApiService} from '../../../../api/employment-statistics-api.service';
@@ -19,10 +18,10 @@ import * as chartData from '../../../../shared/models/endpoints';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EconomicChartsContainerComponent implements OnInit {
-    investorSentimentData$: Observable<InvestorSentimentData>;
+    investorSentimentData$: Observable<ChartDataArray[]>;
     employmentData$: Observable<EmploymentPartialData>;
-    treasuryYieldCurveRates$: Observable<TreasuryYieldCurveRatesData>;
-    miseryIndex$: Observable<MiseryIndexData>;
+    treasuryYieldCurveRates$: Observable<ChartDataArray[]>;
+    miseryIndex$: Observable<ChartDataArray[]>;
 
     chartHeight = 250;
     ChartType = ChartType;

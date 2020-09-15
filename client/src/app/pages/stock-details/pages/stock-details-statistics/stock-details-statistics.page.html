@@ -1,0 +1,16 @@
+<perfect-scrollbar>
+    <div class="content-padding" *ngIf="details$ | async as details">
+
+        <app-statistics [stockDetails]="details"></app-statistics>
+
+
+        <!-- news -->
+        <div class="news-container">
+            <app-article-cards
+                    *ngFor="let article of details.queryStockDetails.stockNews"
+                    [article]="article">
+            </app-article-cards>
+        </div>
+
+    </div>
+</perfect-scrollbar>

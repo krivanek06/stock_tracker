@@ -2,6 +2,7 @@ import {gql} from 'apollo-server';
 
 
 export const userTypeDefs = gql`
+    # type 
     type User {
         uid: ID!
         displayName: String
@@ -18,7 +19,7 @@ export const userTypeDefs = gql`
         finnhubKey: String
     }
 
-
+    # Input
     input UserInput {
         uid: ID!
         displayName: String

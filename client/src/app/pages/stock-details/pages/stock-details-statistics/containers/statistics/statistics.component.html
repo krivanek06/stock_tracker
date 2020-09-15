@@ -1,0 +1,233 @@
+<ion-grid>
+  <ion-row>
+    <ion-col size-lg="5" offset-lg="0" offset-md="0.5" size-md="11" size="12">
+      <!-- basic info -> buy / sell / favourites buttons -->
+      <app-details-overview-card [stockDetails]="stockDetails"
+                                 (favouritesEmitter)="showWatchlist()"
+                                 (showSummaryEmitter)="showSummary()">
+      </app-details-overview-card>
+    </ion-col>
+
+    <ion-col size-lg="7" offset-lg="0" offset-md="0.5" size-md="11" size="12">
+      <!-- stock chart -->
+      <app-generic-chart-card
+              [chartTitle]="stockDetails.queryStockDetails.summary.longName"
+              [cardHeight]="550"
+              *ngIf="chartData$ | async as chartData">
+        <app-financial-chart
+                [height]="415"
+                [showYAxis]="true"
+                (selectedPeriodEmitter)="loadChartData($event)"
+                [price]="chartData?.price"
+                [volume]="chartData?.volume">
+        </app-financial-chart>
+      </app-generic-chart-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+
+<!-- second
+<ion-grid>
+  <ion-row>
+    <ion-col size-lg="3" size-md="5.5" offset-lg="0" offset-md="0.5" size-sm="6" size="12">
+      <app-details-financial-strength-card
+              [financialStrength]="stockDetails?.financialStrength"></app-details-financial-strength-card>
+    </ion-col>
+    <ion-col size-lg="3" size-md="5.5" size-sm="6" size="12">
+      <app-details-valuation-card [valuation]="stockDetails?.valuation"></app-details-valuation-card>
+    </ion-col>
+    <ion-col size-lg="6" offset-lg="0" offset-md="0.5" size-md="11" size="12">
+      <ng-container *ngIf="stockDetails?.chartInfo">
+        <app-generic-chart-card [chartTitle]="'Financial growth'">
+          <app-generic-chart
+                  [chartType]="ChartType.column"
+                  [heightPx]="315"
+                  [showYAxis]="true"
+                  [series]="[{
+                             colorByPoint: true,
+                             data:[
+                                {name: 'Revenue growth ttm. yoy', y: stockDetails.chartInfo.otherGrowthInformation.revenueGrowthTTMYoy},
+                                {name: 'Revenue growth quarterly yoy', y: stockDetails.chartInfo.otherGrowthInformation.quarterlyRevenueGrowthYOY},
+                                {name: 'EPS growth 5y', y: stockDetails.chartInfo.otherGrowthInformation.epsGrowth5Y},
+                                {name: 'EPS growth quarterly yoy', y: stockDetails.chartInfo.otherGrowthInformation.epsGrowthQuarterlyYOY},
+                                {name: 'Capital spending growth yoy', y: stockDetails.chartInfo.otherGrowthInformation.capitalSpendingGrowth5Y},
+                                {name: 'Book value per share growth 5y', y: stockDetails.chartInfo.otherGrowthInformation.bookValueShareGrowth5Y},
+                                {name: 'Revenue per share growth 5y', y: stockDetails.chartInfo.otherGrowthInformation.revenueShareGrowth5Y},
+                                {name: 'Dividend growth rate 5y', y: stockDetails.chartInfo.otherGrowthInformation.dividendGrowthRate5Y}
+                              ]
+                          }]">
+          </app-generic-chart>
+        </app-generic-chart-card>
+      </ng-container>
+    </ion-col>
+
+
+  </ion-row>
+</ion-grid>-->
+
+
+<!-- third
+<ion-grid>
+  <ion-row>
+    <ion-col size-lg="3" size-md="5.5"  offset-lg="0" offset-md="0.5" size-sm="6" size="12">
+      <app-details-dividend-card [dividendInfo]="stockDetails?.dividend"></app-details-dividend-card>
+    </ion-col>
+    <ion-col size-lg="3" size-md="5.5"  size-sm="6" size="12">
+      <app-details-per-share-card [perShare]="stockDetails?.perShare"></app-details-per-share-card>
+    </ion-col>
+    <ion-col size-lg="6" offset-lg="0" offset-md="0.5" size-md="11" size="12">
+      <ng-container *ngIf="stockDetails?.chartInfo">
+        <app-generic-chart-card [chartTitle]="'Margin'">
+          <app-generic-chart
+                  [chartType]="ChartType.column"
+                  [heightPx]="315"
+                  [showYAxis]="true"
+                  [series]="[{
+                                colorByPoint: true,
+                                 data:[
+                                 {name: 'Gross margin ttm.', y: stockDetails.chartInfo.margin.grossMarginTTM},
+                                 {name: 'Net margin growth 5y', y: stockDetails.chartInfo.margin.netMarginGrowth5Y},
+                                 {name: 'Net profit margin 5y', y: stockDetails.chartInfo.margin.netProfitMargin5Y},
+                                 {name: 'Net profit margin ttm.', y: stockDetails.chartInfo.margin.netProfitMarginTTM},
+                                 {name: 'Operating margin ttm.', y: stockDetails.chartInfo.margin.operatingMarginTTM},
+                                 {name: 'Pretax margin ttm.', y: stockDetails.chartInfo.margin.pretaxMarginTTM}
+                              ]
+                          }]">
+          </app-generic-chart>
+        </app-generic-chart-card>
+      </ng-container>
+    </ion-col>
+  </ion-row>
+</ion-grid>-->
+
+
+<!-- fourth row
+<ion-grid>
+
+  <ion-row>
+    <ion-col size-lg="3" size-md="5.5"  offset-lg="0" offset-md="0.5" size-sm="6" size="12">
+      <app-detials-financial-strength-ratio-card
+              [financialStrengthRatio]="stockDetails?.financialStrengthRatio"></app-detials-financial-strength-ratio-card>
+    </ion-col>
+    <ion-col size-lg="4" size-md="5.5"  size-sm="6"  size="12">
+      <ng-container *ngIf="stockDetails?.chartInfo">
+        <app-generic-chart-card [chartTitle]="'Effectiveness'">
+          <app-generic-chart
+                  [chartType]="ChartType.column"
+                  [heightPx]="196"
+                  [showYAxis]="true"
+                  [series]="[{
+                             colorByPoint: true,
+                             data:[
+                                  {name: 'ROA', y: stockDetails.chartInfo.effectiveness.returnOnAssetsTTM},
+                                  {name: 'ROE', y: stockDetails.chartInfo.effectiveness.returnOnEquityTTM},
+                                  {name: 'ROI ', y: stockDetails.chartInfo.effectiveness.returnOnInvestmentsTTM}
+                              ]
+                          }]">
+          </app-generic-chart>
+        </app-generic-chart-card>
+      </ng-container>
+    </ion-col>
+
+    <ion-col size-lg="2.5" size-md="5.5"  offset-lg="0" offset-md="0.5" size-sm="6"  size="12">
+      <app-generic-chart-card [cardHeight]="276" [chartTitle]="'Current price to 1y target'">
+        <app-gauge-chart
+                [tooltipName]="'Completed'"
+                [height]="165"
+                [displayValue]="stockDetails?.overview.targetEst1yPercent"
+                [startingPoint]="0"
+                [endingPoint]="stockDetails?.overview.targetEst1y"
+                [currentPoint]="stockDetails?.overview.currentPrice">
+        </app-gauge-chart>
+      </app-generic-chart-card>
+    </ion-col>
+    <ion-col size-lg="2.5" size-md="5.5"  size-sm="6" size="12">
+      <app-generic-chart-card [cardHeight]="276" [chartTitle]="'Equity to assets'">
+        <app-gauge-chart
+                [tooltipName]="'Equity to assets'"
+                [height]="165"
+                [displayValue]="stockDetails?.chartInfo.equityToAssets.prctDiff"
+                [startingPoint]="0"
+                [endingPoint]="stockDetails?.chartInfo.equityToAssets.totalAssets"
+                [currentPoint]="stockDetails?.chartInfo.equityToAssets.totalEquity">
+        </app-gauge-chart>
+      </app-generic-chart-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>-->
+
+
+<!-- fifth row
+<ion-grid>
+  <ion-row>
+
+    <ion-col size-xl="5" size="12">
+      <app-details-revenue-growth-slider-card
+              [revenueEst]="stockDetails?.analysis.revenueEstimate">
+      </app-details-revenue-growth-slider-card>
+    </ion-col>
+    <ion-col size-xl="5" size-md="9" size="12">
+      <app-details-recommendation-chart-card
+              [recommendations]="stockDetails?.recommendation">
+      </app-details-recommendation-chart-card>
+    </ion-col>
+    <ion-col size-xl="2" size-md="3" size="12">
+      <app-details-financial-report-names-card
+              [financialReports]="stockDetails?.financialReports"
+              (financialReportEmitter)="showFinancialReport($event)">
+      </app-details-financial-report-names-card>
+    </ion-col>
+
+
+  </ion-row>
+</ion-grid>-->
+
+
+<!-- sixth row
+<ion-grid>
+  <ion-row>
+    <ion-col size-xl="4" size="12">
+      <app-details-earnings-per-share-chart-card
+              [earnings]="stockDetails?.analysis.earnings"></app-details-earnings-per-share-chart-card>
+    </ion-col>
+    <ion-col size-xl="4.25" size-md="9" size="12">
+      <ng-container *ngIf="stockDetails?.analysis">
+        <app-generic-chart-card [chartTitle]="'Company growth'">
+          <app-generic-chart
+                  [chartType]="ChartType.column"
+                  [heightPx]="256"
+                  [showYAxis]="true"
+                  [series]="[{
+                                colorByPoint: true,
+                                 data:[
+                                    {name: 'Past 5y', y: stockDetails?.analysis.growthEstimatesPercent.fiveYear.current},
+                                    {name: 'Next 5y', y: stockDetails?.analysis.growthEstimatesPercent.fiveYear.next},
+                                    {name: 'Current year', y: stockDetails?.analysis.growthEstimatesPercent.year.current},
+                                    {name: 'Next year', y: stockDetails?.analysis.growthEstimatesPercent.year.next},
+                                    {name: 'Current quarter', y: stockDetails?.analysis.growthEstimatesPercent.quarter.current},
+                                    {name: 'Next quarter', y: stockDetails?.analysis.growthEstimatesPercent.quarter.next}
+                                  ]
+                          }]">
+          </app-generic-chart>
+        </app-generic-chart-card>
+      </ng-container>
+    </ion-col>
+    <ion-col size-xl="3.75" size-md="3" size="12">
+      <app-generic-chart-card [cardHeight]="335" [chartTitle]="'Assets to debt'">
+        <app-generic-chart
+                [chartType]="ChartType.pie"
+                [heightPx]="275"
+                [showLegend]="true"
+                [series]="[{
+                            name: 'Share',
+                            data: [
+                            {name: 'Assets', y: stockDetails?.chartInfo.assetsToDebtInfo.totalAssets, color: '#2FA811'},
+                            {name: 'Debt', y: stockDetails?.chartInfo.assetsToDebtInfo.totalDebt, sliced: true, selected: true, color: '#B60808'}
+                         ]
+                      }]">
+        </app-generic-chart>
+      </app-generic-chart-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>-->

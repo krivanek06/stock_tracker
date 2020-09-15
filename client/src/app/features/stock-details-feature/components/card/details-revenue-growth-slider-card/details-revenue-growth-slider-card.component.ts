@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {RevenueEstimate, RevenueEstimateData} from '../../../model/stockDetails';
+import {RevenueEstimate} from '../../../model/stockDetails';
 
 @Component({
   selector: 'app-details-revenue-growth-slider-card',

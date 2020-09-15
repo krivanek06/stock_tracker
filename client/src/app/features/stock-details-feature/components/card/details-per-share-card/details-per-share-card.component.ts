@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {PerShare} from '../../../model/stockDetails';
 
 @Component({
   selector: 'app-details-per-share-card',
@@ -8,7 +7,7 @@ import {PerShare} from '../../../model/stockDetails';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailsPerShareCardComponent implements OnInit {
-  @Input() perShare: PerShare;
+  // @Input() perShare: PerShare;
 
   constructor() { }
 

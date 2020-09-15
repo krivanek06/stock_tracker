@@ -1,19 +1,20 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {BalanceSheet} from '../../../model/stockDetails';
+import {BalanceSheet, BalanceSheetData} from '../../../model/stockDetails';
 
 @Component({
-  selector: 'app-details-balance-sheet-card',
-  templateUrl: './details-balance-sheet-card.component.html',
-  styleUrls: ['./details-balance-sheet-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-details-balance-sheet-card',
+    templateUrl: './details-balance-sheet-card.component.html',
+    styleUrls: ['./details-balance-sheet-card.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailsBalanceSheetCardComponent implements OnInit {
-  @Input() balanceSheet: BalanceSheet;
+    @Input() balanceSheets: BalanceSheetData[];
 
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit() {}
-
+    ngOnInit() {
+    }
 
 
 }

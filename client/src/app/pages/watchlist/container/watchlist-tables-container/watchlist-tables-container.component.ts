@@ -1,20 +1,24 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnChanges, OnDestroy, OnInit, ViewRef} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    SimpleChanges,
+    ViewRef
+} from '@angular/core';
 import {WatchlistService} from '../../../../features/stock-watchlist-feature/services/watchlist.service';
 import {IonicDialogService} from '../../../../shared/services/ionic-dialog.service';
 import {Router} from '@angular/router';
 import {ModalController} from '@ionic/angular';
 import {ChartDataIdentification, DocumentIdentification} from '../../../../shared/models/sharedModel';
 import {FinancialChartModalContainerComponent} from '../../../../shared/containers/modal/financial-chart-modal-container/financial-chart-modal-container.component';
-import {Maybe} from 'graphql/jsutils/Maybe';
-import {
-    QueryUserStockWatchlistsDocument, StockMainDetailsFragment,
-    StockMainDetailsFragmentDoc,
-    StockWatchlistInformationFragment
-} from '../../../../api/customGraphql.service';
+import {StockWatchlistInformationFragment} from '../../../../api/customGraphql.service';
 import {MarketPriceWebsocketService} from '../../../../shared/services/market-price-websocket.service';
-import {Apollo} from 'apollo-angular';
-import {Observable, Subject} from 'rxjs';
+import {Subject} from 'rxjs';
 import {filter, takeUntil} from 'rxjs/operators';
+import Maybe from "graphql/tsutils/Maybe";
 
 @Component({
     selector: 'app-watchlist-tables-container',
@@ -22,7 +26,7 @@ import {filter, takeUntil} from 'rxjs/operators';
     styleUrls: ['./watchlist-tables-container.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WatchlistTablesContainerComponent implements OnInit, OnDestroy {
+export class WatchlistTablesContainerComponent implements OnInit, OnDestroy, OnChanges {
     private DELETE_THIS_LATER = '7eYTErOxXugeHg4JHLS1L5ZKosK2';
     private interval: any;
     private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -70,10 +74,10 @@ export class WatchlistTablesContainerComponent implements OnInit, OnDestroy {
 
             // update price change
             for (const watchlist of this.stockWatchlists) {
-                const objIndex = watchlist.stocksDetails.findIndex(obj => obj.id === res.s);
+                const objIndex = watchlist.summary.findIndex(obj => obj.symbol === res.s);
 
                 if (objIndex !== -1) {
-                    watchlist.stocksDetails[objIndex].overview.currentPrice = res.p;
+                    watchlist.summary[objIndex].marketPrice = res.p;
                 }
             }
         });
@@ -116,7 +120,7 @@ export class WatchlistTablesContainerComponent implements OnInit, OnDestroy {
     }
 
     redirectToDetails(data: ChartDataIdentification) {
-        this.router.navigate([`/menu/stock-details/${data.symbol}`]);
+        this.router.navigate([`/menu/stock-details/statistics`], {queryParams: {symbol: data.symbol}});
     }
 
     renameWatchlist(data: DocumentIdentification) {
@@ -138,6 +142,10 @@ export class WatchlistTablesContainerComponent implements OnInit, OnDestroy {
                 additionalData: undefined
             }).subscribe(() => this.ionicDialogService.presentToast('Watchlist has been deleted'));
         }
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        console.log('watchlist table', changes);
     }
 
 }

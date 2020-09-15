@@ -18,30 +18,3 @@ export const queryUserStockWatchlists = async (userId: string) => {
         throw new ApolloError(error);
     }
 }
-
-/*
-export const queryUserStockWatchlistById = async(userId, documentId) => {
-    try {
-        const watchlistDoc = await admin
-            .firestore()
-            .collection('stockWatchlist')
-            .doc(documentId)
-            .get();
-
-        const watchlist: StockWatchlist ={ ...watchlistDoc.data() as StockWatchlist, id: watchlistDoc.id };
-        
-      // was not found
-      if (!watchlist) {
-        throw new ApolloError("Cloud not access watchlist, probably does not exists");
-      }
-  
-      // watchlist not mine
-      if (watchlist.userId !== userId) {
-        throw new ApolloError( "You are trying to access someone else watchlist. Request denied." );
-      }
-        
-        return watchlist;
-    } catch (error) {
-        throw new ApolloError(error);
-    }
-}*/

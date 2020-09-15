@@ -14,7 +14,7 @@ import {DetialsFinancialStrengthRatioCardComponent} from './components/card/deti
 import {DetailsFinancialReportNamesCardComponent} from './components/card/details-financial-report-names-card/details-financial-report-names-card.component';
 import {DetailsFinancialReportModalComponent} from './components/modal/details-financial-report-modal/details-financial-report-modal.component';
 import {DetailsSummaryModalComponent} from './components/modal/details-summary-modal/details-summary-modal.component';
-import {DetailsEarningsChartCardComponent} from './components/card/details-earnings-chart-card/details-earnings-chart-card.component';
+import {DetailsEarningsPerShareChartCardComponent} from './components/card/details-earnings-per-share-chart-card/details-earnings-per-share-chart-card.component';
 import {SharedModule} from '../../shared/shared.module';
 
 
@@ -34,7 +34,7 @@ import {SharedModule} from '../../shared/shared.module';
         DetailsFinancialReportNamesCardComponent,
         DetailsFinancialReportModalComponent,
         DetailsSummaryModalComponent,
-        DetailsEarningsChartCardComponent
+        DetailsEarningsPerShareChartCardComponent
     ],
     imports: [
         CommonModule,
@@ -55,7 +55,7 @@ import {SharedModule} from '../../shared/shared.module';
         DetailsFinancialReportNamesCardComponent,
         DetailsFinancialReportModalComponent,
         DetailsSummaryModalComponent,
-        DetailsEarningsChartCardComponent
+        DetailsEarningsPerShareChartCardComponent
     ],
     entryComponents: [
         DetailsSummaryModalComponent,

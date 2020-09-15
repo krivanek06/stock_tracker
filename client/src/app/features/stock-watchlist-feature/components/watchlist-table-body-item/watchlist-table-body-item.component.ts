@@ -12,6 +12,7 @@ import {
 import {ChartDataIdentification} from '../../../../shared/models/sharedModel';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {marketValueChange} from '../../../../shared/animations/marketValueChange.animation';
+import {Maybe, StockSummaryFragmentFragment, Summary} from "../../../../api/customGraphql.service";
 
 
 interface CustomValueChange {
@@ -34,17 +35,10 @@ export class WatchlistTableBodyItemComponent implements OnInit, OnChanges {
     private isMobile = false;
 
     // saving values when websocket change current price to trigger animations
-    previousCurrentPrice = 0;
     newCurrentPrice = 0;
 
-    @Input() symbol: string;
-    @Input() shortName: string;
+    @Input() summary: Summary;
     @Input() currentPrice: number;
-    @Input() previousClose: number;
-    @Input() logoUrl: string;
-    @Input() weekLow52: number;
-    @Input() weekHigh52: number;
-    @Input() earningsDate: string;
 
     @Output() deleteSymbolClickedEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
     @Output() detailsButtonClickedEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
@@ -56,12 +50,15 @@ export class WatchlistTableBodyItemComponent implements OnInit, OnChanges {
 
 
     ngOnChanges(changes: any): void {
-        const currentPrice = changes.currentPrice as CustomValueChange;
-        if (!!currentPrice?.firstChange) {
-            return;
+        try {
+            const change = changes.currentPrice as CustomValueChange;
+            if (!!change?.firstChange) {
+                return;
+            }
+            this.newCurrentPrice = change.currentValue;
+        }catch (e){
+            console.log('error in watch table body ', e)
         }
-        this.previousCurrentPrice = currentPrice.previousValue;
-        this.newCurrentPrice = currentPrice.currentValue;
 
     }
 
@@ -88,7 +85,7 @@ export class WatchlistTableBodyItemComponent implements OnInit, OnChanges {
             return;
         }
 
-       // this.detailsItemClickedEmitter.emit(this.createChartDataIdentification());
+        // this.detailsItemClickedEmitter.emit(this.createChartDataIdentification());
     }
 
     @HostListener('window:resize', ['$event'])
@@ -97,6 +94,6 @@ export class WatchlistTableBodyItemComponent implements OnInit, OnChanges {
     }
 
     private createChartDataIdentification(): ChartDataIdentification {
-        return {symbol: this.symbol, name: this.shortName};
+        return {symbol: this.summary.symbol, name: this.summary.longName};
     }
 }

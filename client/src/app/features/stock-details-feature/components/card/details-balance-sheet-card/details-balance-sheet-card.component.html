@@ -1,70 +1,40 @@
 <ion-card>
     <ion-card-header>
         <ion-card-title class="ion-text-center ion-padding-start ion-padding-top">
-          Balance sheet
+            Balance sheet
         </ion-card-title>
     </ion-card-header>
     <ion-card-content>
 
-        <ion-list *ngIf="balanceSheet">
-            <ion-item>
-                <ion-label position="fixed" class="fixedLabel"></ion-label>
-                <ion-label *ngFor="let d of balanceSheet.date">{{ d  }}</ion-label>
-            </ion-item>
-
-            <ion-item>
-                <ion-label position="fixed" class="fixedLabel"> Total assets </ion-label>
-                <ion-label *ngFor="let d of balanceSheet.Total_Assets">{{ d | numberFormatter }}</ion-label>
-            </ion-item>
-
-            <ion-item>
-                <ion-label position="fixed" class="fixedLabel"> Net tangible assets</ion-label>
-                <ion-label *ngFor="let d of balanceSheet.Net_Tangible_Assets">{{ d | numberFormatter }}</ion-label>
-            </ion-item>
-
-            <ion-item>
-                <ion-label position="fixed" class="fixedLabel"> Total debt </ion-label>
-                <ion-label *ngFor="let d of balanceSheet.Total_Debt">{{ d | numberFormatter }}</ion-label>
-            </ion-item>
-
-            <ion-item>
-                <ion-label position="fixed" class="fixedLabel"> Net debt </ion-label>
-                <ion-label *ngFor="let d of balanceSheet.Net_Debt">{{ d | numberFormatter }}</ion-label>
-            </ion-item>
-
-            <ion-item>
-                <ion-label position="fixed" class="fixedLabel"> Total capitalization </ion-label>
-                <ion-label *ngFor="let d of balanceSheet.Total_Capitalization">{{ d | numberFormatter }}</ion-label>
-            </ion-item>
-
-            <ion-item>
-                <ion-label position="fixed" class="fixedLabel"> Working capital </ion-label>
-                <ion-label *ngFor="let d of balanceSheet.Working_Capital">{{ d | numberFormatter }}</ion-label>
-            </ion-item>
-
-            <ion-item>
-                <ion-label position="fixed" class="fixedLabel"> Invested capital </ion-label>
-                <ion-label *ngFor="let d of balanceSheet.Invested_Capital">{{ d | numberFormatter }}</ion-label>
-            </ion-item>
-
-          <!--  <ion-item>
-                <ion-label position="fixed" class="fixedLabel"> Capital lease obligations </ion-label>
-                <ion-label *ngFor="let d of balanceSheet.Capital_Lease_Obligations">{{ d | millionOrBillion }}</ion-label>
-            </ion-item> -->
-
-
-            <ion-item>
-                <ion-label position="fixed" class="fixedLabel"> Total equity </ion-label>
-                <ion-label *ngFor="let d of balanceSheet.Total_Equity_Gross_Minority_Interest">{{ d | numberFormatter}}</ion-label>
-            </ion-item>
-
-            <ion-item>
-                <ion-label position="fixed" class="fixedLabel"> Total liabilities </ion-label>
-                <ion-label *ngFor="let d of balanceSheet.Total_Liabilities_Net_Minority_Interest">{{ d | numberFormatter}}</ion-label>
-            </ion-item>
-
-
-        </ion-list>
     </ion-card-content>
 </ion-card>
 
+<!--
+
+  "accountsPayable": 35325000000,
+                "cash": 33383000000,
+                "commonStock": 48696000000,
+                "endDate": 1593216000,
+                "inventory": 3978000000,
+                "longTermDebt": 94048000000,
+                "longTermInvestments": 100592000000,
+                "maxAge": 1,
+                "netReceivables": 32075000000,
+                "netTangibleAssets": 72282000000,
+                "otherAssets": 32836000000,
+                "otherCurrentAssets": 10987000000,
+                "otherCurrentLiab": 39945000000,
+                "otherLiab": 47606000000,
+                "otherStockholderEquity": -550000000,
+                "propertyPlantEquipment": 43851000000,
+                "retainedEarnings": 24136000000,
+                "shortLongTermDebt": 7509000000,
+                "shortTermInvestments": 59642000000,
+                "totalAssets": 317344000000,
+                "totalCurrentAssets": 140065000000,
+                "totalCurrentLiabilities": 95318000000,
+                "totalLiab": 245062000000,
+                "totalStockholderEquity": 72282000000,
+                "treasuryStock": -550000000
+
+-->

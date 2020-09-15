@@ -1,4 +1,4 @@
-import { StockDetails } from './stockDetails.model';
+import { Summary } from './../stockDetails/stockDetails.model';
 import * as admin from "firebase-admin";
 import { User } from "../user/user.model";
 import { ApolloError, ValidationError } from "apollo-server";
@@ -7,6 +7,7 @@ import {
   StockWatchlistIdentifier,
 } from "./watchList.model";
 import { stockDataAPI } from "../enviroment";
+import { StockDetails } from "../stockDetails/stockDetails.model";
 
 const fetch = require("node-fetch");
 
@@ -67,11 +68,9 @@ export const addStockIntoStockWatchlist = async (identifier: StockWatchlistIdent
     }
 
     // get fundaments from custom server
-    const response = await fetch(
-      `${stockDataAPI}/fundamentals/all?symbol=${identifier.additionalData}`
-    );
+    const response = await fetch( `${stockDataAPI}/fundamentals/summary?symbol=${identifier.additionalData}`);
 
-    const stockDetails = await response.json() as StockDetails;
+    const stockDetails = await response.json() as Summary;
 
     // add stock into watchlist
     watchlist.stocks = [...watchlist.stocks, identifier.additionalData];

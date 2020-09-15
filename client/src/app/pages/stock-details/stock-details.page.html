@@ -3,41 +3,14 @@
 
 <ion-content class="ion-no-padding">
 
-    <perfect-scrollbar>
-        <div class="content-padding" *ngIf="stockDetails$ | async as stockDetails; else showSpinner">
-            <!-- basic info + overview | financial chart -->
-            <app-first-row-container [stockDetails]="stockDetails"></app-first-row-container>
 
-            <!-- financial strength | valuation | financial growth -->
-            <app-second-row-container [stockDetails]="stockDetails"></app-second-row-container>
+    <ion-router-outlet></ion-router-outlet>
 
-            <!-- dividends | financial per share | margin -->
-            <app-third-row-container [stockDetails]="stockDetails"></app-third-row-container>
-
-            <!-- financial ratio | effectiveness | current price to 1y target | equity to assets -->
-            <app-fourth-row-container [stockDetails]="stockDetails"></app-fourth-row-container>
-
-            <!-- revenue growth est. | recommendation | financial reports -->
-            <app-fifth-row-container [stockDetails]="stockDetails"></app-fifth-row-container>
-
-            <!-- earnings | company growth | assets to debt -->
-            <app-sixth-row-container [stockDetails]="stockDetails"></app-sixth-row-container>
-
-            <!-- balance sheet | cash flow | financial statement -->
-            <app-seventh-row-container [stockDetails]="stockDetails"></app-seventh-row-container>
-
-            <!-- stock news -->
-            <div class="news-container">
-                <app-article-cards *ngFor="let article of stockDetails.stockNewsSnippets" [article]="article"></app-article-cards>
-            </div>
-        </div>
-    </perfect-scrollbar>
-
-    <!-- spinner -->
+    <!-- spinner
     <ng-template #showSpinner>
         <div class="spinner-container">
             <ion-spinner color="primary"></ion-spinner>
         </div>
-    </ng-template>
+    </ng-template> -->
 </ion-content>
 

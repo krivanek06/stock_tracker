@@ -10,6 +10,11 @@ import { queryUserStockWatchlists as queryUserStockWatchlists } from './watchlis
 import { createStockWatchlist, addStockIntoStockWatchlist, removeStockFromStockWatchlist, deleteWatchlist, renameStockWatchlist } from './watchlist/watchlist.mutation';
 import { StockWatchlistIdentifier } from './watchlist/watchList.model';
 import { updateUserData, updateUserPrivateData } from './user/user.mutation';
+import { queryStockDetails } from './stockDetails/stockDetails.query';
+import { stockDetailsTypeDefs } from './stockDetails/stockDetails.typedefs';
+
+global.fetch = require("node-fetch");
+
 
 const serviceAccount = require('../firebase_key.json');
 
@@ -25,9 +30,12 @@ const mainTypeDefs = gql`
 
   ###### QUERY
   type Query {
+      # user
       queryUser(uid: String!): User
+      # watchlist
       queryUserStockWatchlists(uid: String!): [StockWatchlist]
-     ## queryUserStockWatchlistById(uid: String!, documentId: String!): StockWatchlist
+      # details
+      queryStockDetails(symbol: String!): StockDetails
   }
 
   #### MUTATION
@@ -40,7 +48,7 @@ const mainTypeDefs = gql`
         createStockWatchlist( identifier: StockWatchlistIdentifier!): StockWatchlist
         renameStockWatchlist(identifier: StockWatchlistIdentifier!): Boolean
         deleteWatchlist(identifier: StockWatchlistIdentifier!): Boolean
-        addStockIntoStockWatchlist(identifier: StockWatchlistIdentifier!): StockDetails
+        addStockIntoStockWatchlist(identifier: StockWatchlistIdentifier!): Summary
         removeStockFromStockWatchlist(identifier: StockWatchlistIdentifier!): Boolean
   }
 `;
@@ -51,8 +59,9 @@ const mainResolver = {
   Query: {
     queryUser: async (_: null, args: { uid: string }) => await queryUser(args.uid),
     queryUserStockWatchlists: async (_: null, args: { uid: string }) => await queryUserStockWatchlists(args.uid),
-   // queryUserStockWatchlistById: async (_: null, args: { uid: string, documentId: string }) => await queryUserStockWatchlistById(args.uid, args.documentId)
-  },
+    queryStockDetails: async (_: null, args: {symbol: string}) => await queryStockDetails(args.symbol),
+   },
+
   Mutation: {
     // for user
     updateUserData: async (_, args: {user: User} ) => await updateUserData(args.user),
@@ -78,7 +87,7 @@ const resolvers = {
 
 
 const server = new ApolloServer({
-    typeDefs: [mainTypeDefs, userTypeDefs, watchlistTypeDefs],
+    typeDefs: [mainTypeDefs, userTypeDefs, watchlistTypeDefs, stockDetailsTypeDefs],
     resolvers,
     introspection: true
 });

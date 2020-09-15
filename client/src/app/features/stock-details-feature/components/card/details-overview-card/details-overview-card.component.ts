@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {BasicInfo, OverView} from '../../../model/stockDetails';
+import {QueryStockDetailsQuery} from "../../../../../api/customGraphql.service";
 
 @Component({
     selector: 'app-details-overview-card',
@@ -8,8 +8,7 @@ import {BasicInfo, OverView} from '../../../model/stockDetails';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailsOverviewCardComponent implements OnInit {
-    @Input() overview: OverView;
-    @Input() basicInfo: BasicInfo;
+    @Input() stockDetails: QueryStockDetailsQuery;
 
     @Output() buyEmitter: EventEmitter<any> = new EventEmitter<any>();
     @Output() sellEmitter: EventEmitter<any> = new EventEmitter<any>();
