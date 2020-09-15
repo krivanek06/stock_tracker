@@ -13,14 +13,7 @@
                         [heightPx]="chartHeight"
                         [showLegend]="true"
                         [chartType]="ChartType.line"
-                        [series]="[
-                          {name: '6 months', data: data['6_MO']},
-                          {name: '1 year', data: data['1_YR']},
-                          {name: '5 years', data: data['5_YR']},
-                          {name: '10 years', data: data['10_YR']},
-                          {name: '20 years', data: data['20_YR']},
-                          {name: '30 years', data: data['30_YR']}
-                        ]">
+                        [series]="data">
                 </app-generic-chart>
             </ng-container>
         </ion-col>
@@ -40,11 +33,7 @@
                         [heightPx]="chartHeight"
                         [showLegend]="true"
                         [chartType]="ChartType.line"
-                        [series]="[
-                          {name: 'Bullish', data: data.Bullish},
-                          {name: 'Neutral', data: data.Neutral},
-                          {name: 'Bearish', data: data.Bearish}
-                        ]">
+                        [series]="data">
                 </app-generic-chart>
             </ng-container>
         </ion-col>
@@ -56,11 +45,7 @@
                         [heightPx]="chartHeight"
                         [showLegend]="true"
                         [chartType]="ChartType.line"
-                        [series]="[
-                          {name: 'Unemployment rate', data: data.Unemployment_Rate},
-                          {name: 'Inflation rate', data: data.Inflation_Rate},
-                          {name: 'Misery index', data: data.Misery_Index}
-                        ]">
+                        [series]="data">
                 </app-generic-chart>
             </ng-container>
         </ion-col>
@@ -82,7 +67,7 @@
                         [chartTitle]="'Government industry'"
                         [heightPx]="175"
                         [chartType]="ChartType.area"
-                        [series]="[ {name: 'Government', data: data.governmentIndustry.chartData} ]">
+                        [series]="data.governmentIndustry.result">
                 </app-generic-chart>
             </ion-col>
 
@@ -91,7 +76,7 @@
                         [chartTitle]="'Private industry'"
                         [heightPx]="175"
                         [chartType]="ChartType.area"
-                        [series]="[ {name: 'Private', data: data.privateIndustry.chartData}  ]">
+                        [series]="data.privateIndustry.result">
                 </app-generic-chart>
             </ion-col>
 
@@ -100,7 +85,7 @@
                         [chartTitle]="'Service providing industry'"
                         [heightPx]="175"
                         [chartType]="ChartType.area"
-                        [series]="[ {name: 'Service providers', data: data.serviceProvidingIndustry.chartData} ]">
+                        [series]="data.serviceProvidingIndustry.result">
                 </app-generic-chart>
             </ion-col>
 
@@ -109,7 +94,7 @@
                         [chartTitle]="'Goods producing industry'"
                         [heightPx]="175"
                         [chartType]="ChartType.area"
-                        [series]="[ {name: 'Goods producers', data: data.goodProducingIndustry.chartData} ]">
+                        [series]="data.goodProducingIndustry.result">
                 </app-generic-chart>
             </ion-col>
 

@@ -1,71 +1,68 @@
 ## FRAGMENTS
 ##---------------------------
-fragment StockMainDetails on StockDetails {
-    id
-    overview {
-        symbol
-        currentPrice
-        weekHigh52
-        weekLow52
-        previousClose
-        earningsDate
-        exDividendDate
-        forwardDividendAndYield
-        targetEst1y
-    }
-    basicInfo {
-        sector
-        industry
-        logoUrl
-        shortName
-        website
-    }
+# Write your query or mutation here
+
+fragment StockSummaryFragment on Summary {
+  EPSTTM
+  EarningsDate
+  ExDividendDate
+  FiveTwoWeekRange
+  OneyTargetEst
+  PERatioTTM
+  currency
+  industry
+  logo_url
+  marketPrice
+  previousClose
+  recommendationKey
+  recommendationMean
+  sector
+  targetEstOneyPercent
+  symbol
+  weekRangeFiveTwoMax
+  weekRangeFiveTwoMin
 }
 
-fragment StockWatchlistInformation on  StockWatchlist{
-    id
-    name
-    timestamp
-    stocks
-    stocksDetails {
-        ...StockMainDetails
-    }
+fragment StockWatchlistInformation on StockWatchlist {
+  id
+  name
+  timestamp
+  stocks
+  summary {
+    ...StockSummaryFragment
+  }
 }
-
 
 ## QUERY
 ##---------------------------
 query queryUserStockWatchlists($uid: String!) {
-    queryUserStockWatchlists(uid: $uid) {
-        ...StockWatchlistInformation
-    }
+  queryUserStockWatchlists(uid: $uid) {
+    ...StockWatchlistInformation
+  }
 }
-
 
 ## MUTATION
 ##---------------------------
 mutation CreateStockWatchlist($identifier: StockWatchlistIdentifier!) {
-    createStockWatchlist(identifier: $identifier) {
-        ...StockWatchlistInformation
-    }
+  createStockWatchlist(identifier: $identifier) {
+    ...StockWatchlistInformation
+  }
 }
 
-
-mutation AddStockIntoWatchlist($identifier: StockWatchlistIdentifier!){
-    addStockIntoStockWatchlist(identifier: $identifier ){
-        ...StockMainDetails
-    }
+mutation AddStockIntoWatchlist($identifier: StockWatchlistIdentifier!) {
+  addStockIntoStockWatchlist(identifier: $identifier) {
+    ...StockSummaryFragment
+  }
 }
 
-mutation RemoveStockFromWatchlist($identifier: StockWatchlistIdentifier!){
-    removeStockFromStockWatchlist(identifier: $identifier )
+mutation RemoveStockFromWatchlist($identifier: StockWatchlistIdentifier!) {
+  removeStockFromStockWatchlist(identifier: $identifier)
 }
 
-
-mutation DeleteUserWatchlist($identifier: StockWatchlistIdentifier!){
-    deleteWatchlist(identifier: $identifier )
+mutation DeleteUserWatchlist($identifier: StockWatchlistIdentifier!) {
+  deleteWatchlist(identifier: $identifier)
 }
 
 mutation RenameStockWatchlist($identifier: StockWatchlistIdentifier!) {
-    renameStockWatchlist(identifier: $identifier)
+  renameStockWatchlist(identifier: $identifier)
 }

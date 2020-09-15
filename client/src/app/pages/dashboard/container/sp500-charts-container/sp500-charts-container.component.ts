@@ -24,6 +24,7 @@ export class Sp500ChartsContainerComponent implements OnInit {
 
     ngOnInit() {
         this.sp500StatisticsData$ = this.sp500StatisticsApiService.getPartialDataFromAllCategory();
+        this.sp500StatisticsData$.subscribe(x => console.log('sp500StatisticsData$', x))
     }
 
     async showEarningsYield() {
@@ -31,27 +32,27 @@ export class Sp500ChartsContainerComponent implements OnInit {
     }
 
     async showSalesGrowth() {
-      await this.createEconomicChartModal(chartData.salesGrowthAPI.link, chartData.salesGrowthAPI.name);
+        await this.createEconomicChartModal(chartData.salesGrowthAPI.link, chartData.salesGrowthAPI.name);
     }
 
     async showPriceToSale() {
-      await this.createEconomicChartModal(chartData.priceToSaleAPI.link, chartData.priceToSaleAPI.name);
+        await this.createEconomicChartModal(chartData.priceToSaleAPI.link, chartData.priceToSaleAPI.name);
     }
 
     async showPriceToBook() {
-      await this.createEconomicChartModal(chartData.priceToBookAPI.link, chartData.priceToBookAPI.name);
+        await this.createEconomicChartModal(chartData.priceToBookAPI.link, chartData.priceToBookAPI.name);
     }
 
     async showPeRatio() {
-      await this.createEconomicChartModal(chartData.peRatioAPI.link, chartData.peRatioAPI.name);
+        await this.createEconomicChartModal(chartData.peRatioAPI.link, chartData.peRatioAPI.name);
     }
 
     async showDividendsYield() {
-      await this.createEconomicChartModal(chartData.dividendYieldAPI.link, chartData.dividendYieldAPI.name);
+        await this.createEconomicChartModal(chartData.dividendYieldAPI.link, chartData.dividendYieldAPI.name);
     }
 
     async showDividends() {
-      await this.createEconomicChartModal(chartData.dividendAPI.link, chartData.dividendAPI.name);
+        await this.createEconomicChartModal(chartData.dividendAPI.link, chartData.dividendAPI.name);
     }
 
 

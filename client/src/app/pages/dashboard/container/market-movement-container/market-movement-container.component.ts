@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {InvestorSentimentData, SymbolMovementData} from '../../../../shared/models/chartDataModel';
+import {SymbolMovementData} from '../../../../shared/models/chartDataModel';
 import {SearchDataApiService} from '../../../../api/search-data-api.service';
 import {ChartDataIdentification} from '../../../../shared/models/sharedModel';
 import {ModalController} from '@ionic/angular';

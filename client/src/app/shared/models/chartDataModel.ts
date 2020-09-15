@@ -10,10 +10,16 @@ export interface SymbolMovementWrapper {
 }
 
 export interface SymbolMovementData {
-    currentPrice: number;
-    currentPriceChange: number;
-    name: string;
-    symbol: string;
+    AvgVolThreemonth: string;
+    Change: string;
+    FiveTwoWeekRange: string;
+    MarketCap: string;
+    Name: string;
+    PERatioTTM: string;
+    PctChange: string;
+    PriceIntraday: string;
+    Symbol: string;
+    Volume: string;
 }
 
 /* ------- CHART DATA ----------------- */
@@ -25,36 +31,14 @@ export interface HistoricalChartData {
     volume: any[];
 }
 
-export interface MiseryIndexData {
-    Unemployment_Rate: number[];
-    Inflation_Rate: number[];
-    Misery_Index: number[];
-}
 
-
-export interface TreasuryYieldCurveRatesData {
-    '6_MO': number[][];
-    '1_YR': number[][];
-    '5_YR': number[][];
-    '10_YR': number[][];
-    '20_YR': number[][];
-    '30_YR': number[][];
-}
-
-export interface InvestorSentimentData {
-    Bullish: number[][];
-    Neutral: number[][];
-    Bearish: number[][];
-}
-
-// [ [timestamp, value], [timestamp, value].. ]
 export interface ChartData {
-    chartData: number[][];
+    result: ChartDataArray[];
 }
 
 export interface ChartDataArray {
     name: string;
-    data: number[][];
+    data: number[][]; // [ [timestamp, value], [timestamp, value].. ]
 }
 
 export interface SP500PartialData {

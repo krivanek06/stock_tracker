@@ -2,7 +2,7 @@
     <app-watchlist-creation (creationEmitter)="createWatchList($event)"></app-watchlist-creation>
 </div>
 
-<div class="watchlist-container" *ngIf="stockWatchlists.length > 0"> <!-- *ngIf="stockWatchLists$ | async as stockWatchlists" -->
+<div class="watchlist-container" *ngIf="stockWatchlists.length > 0">
     <ion-item *ngFor="let watchlist of stockWatchlists" class="ion-margin-top ion-align-items-start center-text">
         <ion-label style="min-width: fit-content;" >
             <app-watchlist-table-header
@@ -12,15 +12,9 @@
             </app-watchlist-table-header>
 
             <app-watchlist-table-body-item
-                    *ngFor="let stockInfo of watchlist.stocksDetails"
-                    [symbol]="stockInfo.id"
-                    [earningsDate]="stockInfo.overview.earningsDate"
-                    [logoUrl]="stockInfo.basicInfo.logoUrl"
-                    [previousClose]="stockInfo.overview.previousClose"
-                    [shortName]="stockInfo.basicInfo.shortName"
-                    [weekHigh52]="stockInfo.overview.weekHigh52"
-                    [weekLow52]="stockInfo.overview.weekLow52"
-                    [currentPrice]="stockInfo.overview.currentPrice"
+                    *ngFor="let summary of watchlist.summary"
+                    [summary]="summary"
+                    [currentPrice]="summary.marketPrice"
                     (deleteSymbolClickedEmitter)="deleteSymbolFromDocument($event, watchlist.id)"
                     (imageClickedEmitter)="showChartForSymbol($event)"
                     (detailsButtonClickedEmitter)="redirectToDetails($event)"
@@ -28,7 +22,7 @@
             </app-watchlist-table-body-item>
         </ion-label>
         <ion-label class="sector-chart-container ion-padding" *ngIf="watchlist.stocks.length > 0">
-            <app-watchlist-sector-chart style="align-self: center;" [stockDetails]="watchlist.stocksDetails"></app-watchlist-sector-chart>
+            <app-watchlist-sector-chart style="align-self: center;" [summary]="watchlist.summary"></app-watchlist-sector-chart>
         </ion-label>
     </ion-item>
 </div>

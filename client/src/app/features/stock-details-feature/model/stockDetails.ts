@@ -14,6 +14,7 @@ export interface StockDetails {
     companyData: CompanyData;
     summary: Summary;
     metric: Metric;
+    dividends: Dividens;
 }
 
 export interface FinancialReportNames {
@@ -250,7 +251,6 @@ export interface FinancialsChartData {
     revenue: number;
 }
 
-
 export interface EsgScores {
     adult: boolean;
     alcoholic: boolean;
@@ -272,32 +272,12 @@ export interface EsgScores {
     nuclear: boolean;
     palmOil: boolean;
     peerCount: number;
-    peerEnvironmentPerformance: {
-        avg: number;
-        max: number;
-        min: number;
-    };
-    peerEsgScorePerformance: {
-        avg: number;
-        max: number;
-        min: number;
-    };
-    peerGovernancePerformance: {
-        avg: number;
-        max: number;
-        min: number;
-    };
+    peerEnvironmentPerformance: Calculation;
+    peerEsgScorePerformance: Calculation;
+    peerGovernancePerformance: Calculation;
     peerGroup: string;
-    peerHighestControversyPerformance: {
-        avg: number;
-        max: number;
-        min: number;
-    };
-    peerSocialPerformance: {
-        avg: number;
-        max: number;
-        min: number;
-    };
+    peerHighestControversyPerformance: Calculation;
+    peerSocialPerformance: Calculation;
     percentile: number;
     pesticides: boolean;
     ratingMonth: number;
@@ -308,6 +288,12 @@ export interface EsgScores {
     socialScore: number;
     tobacco: boolean;
     totalEsg: number;
+}
+
+export interface Calculation {
+    avg: number;
+    max: number;
+    min: number;
 }
 
 export interface FinancialData {
@@ -386,7 +372,6 @@ export interface Stats {
     EnterpriseValueEBITDASix: string[];
     EnterpriseValueRevenueThree: string[];
     EnterpriseValueThree: string[];
-    ExDividendDateFour: string;
     FiveDayMovingAverageThree: string;
     FiveTwoWeekChangeThree: string;
     FiveTwoWeekHighThree: string;
@@ -423,8 +408,6 @@ export interface Stats {
     TotalCashPerSharemrq: string;
     TotalDebtEquitymrq: string;
     TotalDebtmrq: string;
-    TrailingAnnualDividendRateThree: string;
-    TrailingAnnualDividendYieldThree: string;
     TrailingPE: string[];
     TwoDayMovingAverageThree: string;
     dateTime: string[];
@@ -453,6 +436,25 @@ export interface Summary {
     targetEstOneyPercent: number;
     weekRangeFiveTwoMax: number;
     weekRangeFiveTwoMin: number;
+    currencySymbol: string;
+    shortName: string;
+    longName: string;
+    marketCap: string;
+}
+
+
+export interface Dividens {
+    currentDividendYieldTTM: number;
+    dividendGrowthRateFiveY: number;
+    dividendPerShareAnnual: number;
+    dividendPerShareFiveY: number;
+    dividendYieldFiveY: number;
+    dividendYieldIndicatedAnnual: number;
+    dividendsPerShareTTM: number;
+    exDividendDate: string;
+    trailingAnnualDividendRate: string;
+    trailingAnnualDividendYield: string;
+    ForwardDividendYield: string;
 }
 
 export interface Metric {
@@ -477,17 +479,10 @@ export interface Metric {
     cashFlowPerShareTTM: number;
     cashPerSharePerShareAnnual: number;
     cashPerSharePerShareQuarterly: number;
-    currentDividendYieldTTM: number;
     currentEvfreeCashFlowAnnual: number;
     currentEvfreeCashFlowTTM: number;
     currentRatioAnnual: number;
     currentRatioQuarterly: number;
-    dividendGrowthRateFiveY: number;
-    dividendPerShareAnnual: number;
-    dividendPerShareFiveY: number;
-    dividendYieldFiveY: number;
-    dividendYieldIndicatedAnnual: number;
-    dividendsPerShareTTM: number;
     ebitdPerShareTTM: number;
     ebitdaCagrFiveY: number;
     ebitdaInterimCagrFiveY: number;

@@ -1,9 +1,6 @@
 import os
 from requests import get
-from private_data import enviroments
-import json
 from datetime import datetime
-from dateutil import relativedelta
 from Services import FileManagerService
 
 class EconomicNews:

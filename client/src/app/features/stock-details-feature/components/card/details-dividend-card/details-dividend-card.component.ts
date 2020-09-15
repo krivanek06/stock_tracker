@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {Dividend} from '../../../model/stockDetails';
+import {Dividens} from "../../../model/stockDetails";
 
 @Component({
   selector: 'app-details-dividend-card',
@@ -8,7 +8,7 @@ import {Dividend} from '../../../model/stockDetails';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailsDividendCardComponent implements OnInit {
-  @Input() dividendInfo: Dividend;
+  @Input() dividends: Dividens;
 
   constructor() { }
 

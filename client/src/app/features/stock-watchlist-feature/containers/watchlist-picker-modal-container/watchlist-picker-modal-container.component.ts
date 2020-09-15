@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
 import {ModalController, NavParams} from '@ionic/angular';
-import {StockWatchlist, StockWatchlistIdentifier} from '../../model/watchlistModel';
+import {StockWatchlistIdentifier} from '../../model/watchlistModel';
 import {WatchlistService} from '../../services/watchlist.service';
 
 @Component({

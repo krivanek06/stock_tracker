@@ -1,9 +1,9 @@
 import os
-from private_data import enviroments
 from requests import get
 from datetime import datetime
 from Services import FileManagerService
 from dateutil.relativedelta import relativedelta
+from private_data import enviroments
 
 class Finhub:
     def __init__(self):

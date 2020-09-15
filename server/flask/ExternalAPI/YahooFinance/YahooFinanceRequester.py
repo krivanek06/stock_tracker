@@ -12,10 +12,10 @@ class use to retrieve data from yahoo_fin lib.
 Created for not importing libs like : pandas / numpy for more lightweight docker container
 '''
 
+
 class YahooFinanceRequester:
     def __init__(self):
         self.helperClass = CustomYahooFinHelper()
-
 
     '''Downloads list of tickers currently listed in the S&P 500 
     def tickers_sp500():
@@ -66,33 +66,19 @@ class YahooFinanceRequester:
         result['weekRange52Min'] = float(result['FiveTwoWeekRange'].split(' - ')[0])
         result['weekRange52Max'] = float(result['FiveTwoWeekRange'].split(' - ')[1])
         try:
-            result['targetEst1yPercent'] = float(round(100 / float(result['OneyTargetEst']) * livePrice['marketPrice'], 2))
-            #result['volumePercent'] = float(round(100 / float(result['AvgVolume'].replace(',', '')) * float(result['Volume'].replace(',', '')), 2))
+            result['targetEst1yPercent'] = float(
+                round(100 / float(result['OneyTargetEst']) * livePrice['marketPrice'], 2))
+            # result['volumePercent'] = float(round(100 / float(result['AvgVolume'].replace(',', '')) * float(result['Volume'].replace(',', '')), 2))
         except:
             result['targetEst1yPercent'] = None
-            #result['volumePercent'] = None
+            # result['volumePercent'] = None
 
         return {**result, **livePrice, **{'symbol': ticker}}
-
 
     def get_stats(self, ticker):
         stats_site = "https://finance.yahoo.com/quote/" + ticker + "/key-statistics?p=" + ticker
         return utils.parseMultipleDropdownTables(stats_site)
 
-
-    '''
-    def get_stats_valuation(ticker):
-        stats_site = "https://finance.yahoo.com/quote/" + ticker + \
-                     "/key-statistics?p=" + ticker
-
-        tables = pd.read_html(stats_site)
-
-        tables = [table for table in tables if "Trailing P/E" in table.iloc[:, 0].tolist()]
-
-        table = tables[0].reset_index(drop=True)
-
-        return table
-    '''
     def get_income_statement(self, ticker):
         income_site = "https://finance.yahoo.com/quote/" + ticker + "/financials?p=" + ticker
         json_info = self.helperClass.parse_json(income_site)
@@ -126,47 +112,6 @@ class YahooFinanceRequester:
 
         return result
 
-    # return balance sheet, cash flow statement, and income statement
-    '''
-    def get_financials(ticker, yearly=True, quarterly=True):
-        if not yearly and not quarterly:
-            raise AssertionError("yearly or quarterly must be True")
-
-        financials_site = "https://finance.yahoo.com/quote/" + ticker + \
-                          "/financials?p=" + ticker
-
-        json_info = _parse_json(financials_site)
-
-        result = {}
-
-        if yearly:
-            temp = json_info["incomeStatementHistory"]["incomeStatementHistory"]
-            table = _parse_table(temp)
-            result["yearly_income_statement"] = table
-
-            temp = json_info["balanceSheetHistory"]["balanceSheetStatements"]
-            table = _parse_table(temp)
-            result["yearly_balance_sheet"] = table
-
-            temp = json_info["cashflowStatementHistory"]["cashflowStatements"]
-            table = _parse_table(temp)
-            result["yearly_cash_flow"] = table
-
-        if quarterly:
-            temp = json_info["incomeStatementHistoryQuarterly"]["incomeStatementHistory"]
-            table = _parse_table(temp)
-            result["quarterly_income_statement"] = table
-
-            temp = json_info["balanceSheetHistoryQuarterly"]["balanceSheetStatements"]
-            table = _parse_table(temp)
-            result["quarterly_balance_sheet"] = table
-
-            temp = json_info["cashflowStatementHistoryQuarterly"]["cashflowStatements"]
-            table = _parse_table(temp)
-            result["quarterly_cash_flow"] = table
-
-        return result
-    '''
     '''
     def get_holders(ticker):
         holders_site = "https://finance.yahoo.com/quote/" + \
@@ -189,6 +134,7 @@ class YahooFinanceRequester:
 
     def get_live_price(self, ticker):
         data = get('https://query1.finance.yahoo.com/v8/finance/chart/' + ticker + '?interval=1d').json()
+        print('get_live_price', data)
         result = {
             'marketPrice': data['chart']['result'][0]['meta']['regularMarketPrice'],
             'previousClose': data['chart']['result'][0]['meta']['chartPreviousClose']
@@ -249,11 +195,13 @@ class YahooFinanceRequester:
         # format data
         result = {'price': [], 'volume': [], 'change': [], 'livePrice': price[-1]}
         for i in range(len(timestamp)):
-            result['price'].append([timestamp[i], price[i]])
-            result['volume'].append([timestamp[i], volume[i]])
-            result['price'].append([timestamp[i], 0 if i == 0 else round(((price[i] / price[i-1]) - 1) * 100, 2)])
+            milliseconds = timestamp[i] * 1000
+            result['price'].append([milliseconds, price[i]])
+            result['volume'].append([milliseconds, volume[i]])
+            result['price'].append([milliseconds, 0 if i == 0 else round(((price[i] / price[i - 1]) - 1) * 100, 2)])
 
         return result
+
     '''
     def get_top_crypto(self):
 
@@ -289,108 +237,6 @@ class YahooFinanceRequester:
         return df
     '''
 
-    '''
-    def get_dividends(ticker, start_date=None, end_date=None, index_as_date=True):
-
-        # build and connect to URL
-        site, params = build_url(ticker, start_date, end_date, "1d")
-        resp = requests.get(site, params=params)
-
-        if not resp.ok:
-            raise AssertionError(resp.json())
-
-        # get JSON response
-        data = resp.json()
-
-        # check if there is data available for dividends
-        if "dividends" not in data["chart"]["result"][0]['events']:
-            raise AssertionError("There is no data available on dividends, or none have been granted")
-
-        # get the dividend data
-        frame = pd.DataFrame(data["chart"]["result"][0]['events']['dividends'])
-
-        frame = frame.transpose()
-
-        frame.index = pd.to_datetime(frame.index, unit="s")
-        frame.index = frame.index.map(lambda dt: dt.floor("d"))
-
-        # sort in to chronological order
-        frame = frame.sort_index()
-
-        frame['ticker'] = ticker.upper()
-
-        # remove old date column
-        frame = frame.drop(columns='date')
-
-        frame = frame.rename({'amount': 'dividend'}, axis='columns')
-
-        if not index_as_date:
-            frame = frame.reset_index()
-            frame.rename(columns={"index": "date"}, inplace=True)
-
-        return frame
-    '''
-    '''
-    def get_splits(ticker, start_date=None, end_date=None, index_as_date=True):
-        # build and connect to URL
-        site, params = build_url(ticker, start_date, end_date, "1d")
-        resp = requests.get(site, params=params)
-
-        if not resp.ok:
-            raise AssertionError(resp.json())
-
-        # get JSON response
-        data = resp.json()
-
-        # check if there is data available for splits
-        if "splits" not in data["chart"]["result"][0]['events']:
-            raise AssertionError("There is no data available on stock splits, or none have occured")
-
-        # get the split data
-        frame = pd.DataFrame(data["chart"]["result"][0]['events']['splits'])
-
-        frame = frame.transpose()
-
-        frame.index = pd.to_datetime(frame.index, unit="s")
-        frame.index = frame.index.map(lambda dt: dt.floor("d"))
-
-        # sort in to chronological order
-        frame = frame.sort_index()
-
-        frame['ticker'] = ticker.upper()
-
-        # remove unnecessary columns
-        frame = frame.drop(columns=['date', 'denominator', 'numerator'])
-
-        if not index_as_date:
-            frame = frame.reset_index()
-            frame.rename(columns={"index": "date"}, inplace=True)
-
-        return frame
-    '''
-    '''
-    def get_earnings(ticker):
-        financials_site = "https://finance.yahoo.com/quote/" + ticker + \
-                          "/financials?p=" + ticker
-
-        json_info = _parse_json(financials_site)
-
-        temp = json_info["earnings"]
-
-        result = {}
-
-        result["quarterly_results"] = pd.DataFrame.from_dict(temp["earningsChart"]["quarterly"])
-
-        result["yearly_revenue_earnings"] = pd.DataFrame.from_dict(temp["financialsChart"]["yearly"])
-
-        result["quarterly_revenue_earnings"] = pd.DataFrame.from_dict(temp["financialsChart"]["quarterly"])
-
-        return result
-    '''
-
-
-
-
 
 class CustomYahooFinHelper:
     def __init__(self):
@@ -399,6 +245,7 @@ class CustomYahooFinHelper:
     '''
         parse whole html sites
     '''
+
     def parse_json(self, url):
         html = get(url=url).text
 
@@ -461,7 +308,7 @@ class CustomYahooFinHelper:
             if "QuoteSummaryStore" not in html:
                 return {}
 
-        json_str = html.split('root.App.main =')[1].split( '(this)')[0].split(';\n}')[0].strip()
+        json_str = html.split('root.App.main =')[1].split('(this)')[0].split(';\n}')[0].strip()
         data = loads(json_str)['context']['dispatcher']['stores']['QuoteSummaryStore']
 
         # return data

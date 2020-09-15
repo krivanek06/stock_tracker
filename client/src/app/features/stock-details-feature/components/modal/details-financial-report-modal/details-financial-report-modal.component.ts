@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {FinancialReport} from '../../../model/financialReportModel';
-import {ModalController, NavParams, PopoverController} from '@ionic/angular';
-import {StockFundamentalsApiService} from '../../../../../api/stock-fundamentals-api.service';
+import {ModalController, NavParams} from '@ionic/angular';
 import {Observable} from 'rxjs';
+import {StockDetailsService} from "../../../services/stock-details.service";
 
 @Component({
     selector: 'app-details-financial-report-modal',
@@ -14,7 +14,7 @@ export class DetailsFinancialReportModalComponent implements OnInit {
     financialReport$: Observable<FinancialReport>;
 
     constructor(private modalController: ModalController,
-                private stockAPI: StockFundamentalsApiService,
+                private stockAPI: StockDetailsService,
                 private navParams: NavParams) {
     }
 

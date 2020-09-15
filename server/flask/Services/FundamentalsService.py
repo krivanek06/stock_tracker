@@ -32,9 +32,9 @@ class FundamentalsService:
         # updating stock news into firestore every 8 hours
         lastestStockNews = self.__getUpToDateStockNews(symbol, stockDetailsDict['newsLastUpdate'])
         if lastestStockNews is not None:
-            stockDetailsDict['details']['stockNewsSnippets'] = lastestStockNews['stockNews']
-            self.__modifyDetailsToFirebase(symbol, {
-                'details.stockNewsSnippets': stockDetailsDict['details']['stockNewsSnippets']})
+            stockDetailsDict['details']['stockNews'] = lastestStockNews['stockNews']
+            self.db.collection('stockData').document(symbol).update({ 'newsLastUpdate': datetime.today(), })
+            self.__modifyDetailsToFirebase(symbol, { 'details.stockNews': stockDetailsDict['details']['stockNews']})
 
         print('get stock fundamentals -> done')
         return stockDetailsDict['details']
@@ -48,6 +48,7 @@ class FundamentalsService:
         if summary is None:
             summary = {'details': self.__initialStockDetailsIntoFirestore(symbol)}
         return summary['details']['summary']
+
     # --------------------------------------------------------------------
     # --------------------------------------------------------------------
     # private methods
@@ -60,6 +61,7 @@ class FundamentalsService:
         sixHoursBefore = (datetime.today() - timedelta(hours=8)).replace(tzinfo=utc)
 
         if newsLastUpdate is None or sixHoursBefore > newsLastUpdate.replace(tzinfo=utc):
+            print('fetching news')
             stockNewsFinhubArray = self.finhub.getNewsForSymbol(symbol)['stockNews']
             return {'stockNews': stockNewsFinhubArray}
         return None
@@ -110,64 +112,25 @@ class FundamentalsService:
         return data
 
     def __modifyFetchedStockDetails(self, symbol, data):
-        # extract financial report into sub collection and rewrite its object
-        financialReports = data['financialReports']
-        data['financialReports'] = [{
-            'collection': str(report['year']),
-            'name': report['form'] + ' ' + str(report['year'])
-        } for report in financialReports]
-
         data['id'] = symbol
-        # -----------------------------
+        data = utils.changeUnsupportedCharactersForDictKey(data)
+        dataFormatter = FundamentalServiceFormatter(data)
 
-        # format Analysis
-        data['analysis']['GrowthEstimates'] = data['analysis']['GrowthEstimates'][0]
-        GrowthEstimates = data['analysis']['GrowthEstimates']
-        for k in list(GrowthEstimates.keys()):
-            if k != 'name':
-                GrowthEstimates[k + 'Prct'] = utils.force_float_skipping_last_char(GrowthEstimates[k])
 
-        RevenueEstimate = data['analysis']['RevenueEstimate']
-        for tmp in RevenueEstimate:
-            tmp['AvgEstimateNumber'] = utils.force_float_skipping_last_char(tmp['AvgEstimate'])
-            tmp['HighEstimateNumber'] = utils.force_float_skipping_last_char(tmp['HighEstimate'])
-            tmp['LowEstimateNumber'] = utils.force_float_skipping_last_char(tmp['LowEstimate'])
-            # if "HighEstimate": "1.48B" and "LowEstimate": "2M"
-            if tmp['LowEstimate'] != 'N/A' and tmp['HighEstimate'][-1] != tmp['LowEstimate'][-1]:
-                tmp['HighEstimateNumber'] = tmp['HighEstimateNumber'] * 1000
-        # -------------------------------
+        # format data
+        dataFormatter.formatFinancialReports()
+        dataFormatter.formatAnalysis()
+        dataFormatter.formatSummary()
+        dataFormatter.formatDividends()
 
-        # format summary
-        data['summary']['recommendationKey'] = data['companyData']['financialData']['recommendationKey']
-        data['summary']['recommendationMean'] = data['companyData']['financialData']['recommendationMean']
-        data['summary']['currency'] = data['companyData']['summaryDetail']['currency']
-        data['summary']['logo_url'] = data['companyData']['summaryProfile']['logo_url']
-        data['summary']['sector'] = data['companyData']['summaryProfile']['sector']
-        data['summary']['industry'] = data['companyData']['summaryProfile']['industry']
-        data['summary']['OneyTargetEst'] = utils.force_float(data['summary']['OneyTargetEst'])
+        # remove data
+        dataFormatter.removeUnnecessaryData()
 
-        # -------------------------------
-        # remove unnecessary data
-        del data['summary']['Ask']
-        del data['summary']['BetaFiveYMonthly']
-        del data['summary']['Bid']
-        del data['analysis']['EarningsEstimate']
-        del data['analysis']['EarningsHistory']
-        del data['analysis']['EPSRevisions']
-        del data['analysis']['EPSTrend']
-        del data['companyData']['calendarEvents']
-        del data['companyData']['recommendationTrend']
-        del data['companyData']['financialsTemplate']
-        del data['summary']["Day'sRange"]
-        del data['companyData']['quoteType']
-        del data['companyData']['price']
-        del data['companyData']['summaryDetail']
-        return utils.changeUnsupportedCharactersForDictKey(data)
+        return data
 
     '''
         fetch all details about one stock, call method to fetch fundamentals
     '''
-
     def __fetchStockDetails(self, symbol):
         que = Queue()
         # declare threads
@@ -215,3 +178,89 @@ class FundamentalsService:
                  **que.get(), **que.get(), **que.get(), **que.get()}
 
         return merge
+
+
+
+class FundamentalServiceFormatter:
+    def __init__(self, data):
+        self.data = data
+
+    def formatAnalysis(self):
+        self.data['analysis']['GrowthEstimates'] = self.data['analysis']['GrowthEstimates'][0]
+        GrowthEstimates = self.data['analysis']['GrowthEstimates']
+        for k in list(GrowthEstimates.keys()):
+            if k != 'name':
+                GrowthEstimates[k + 'Prct'] = utils.force_float_skipping_last_char(GrowthEstimates[k])
+
+        RevenueEstimate = self.data['analysis']['RevenueEstimate']
+        for tmp in RevenueEstimate:
+            tmp['AvgEstimateNumber'] = utils.force_float_skipping_last_char(tmp['AvgEstimate'])
+            tmp['HighEstimateNumber'] = utils.force_float_skipping_last_char(tmp['HighEstimate'])
+            tmp['LowEstimateNumber'] = utils.force_float_skipping_last_char(tmp['LowEstimate'])
+            # if "HighEstimate": "1.48B" and "LowEstimate": "2M"
+            if tmp['LowEstimate'] != 'N/A' and tmp['HighEstimate'][-1] != tmp['LowEstimate'][-1]:
+                tmp['HighEstimateNumber'] = tmp['HighEstimateNumber'] * 1000
+
+    def formatSummary(self):
+        self.data['summary']['recommendationKey'] = self.data['companyData']['financialData']['recommendationKey']
+        self.data['summary']['recommendationMean'] = self.data['companyData']['financialData']['recommendationMean']
+        self.data['summary']['currency'] = self.data['companyData']['summaryDetail']['currency']
+        self.data['summary']['logo_url'] = self.data['companyData']['summaryProfile']['logo_url']
+        self.data['summary']['sector'] = self.data['companyData']['summaryProfile']['sector']
+        self.data['summary']['industry'] = self.data['companyData']['summaryProfile']['industry']
+        self.data['summary']['OneyTargetEst'] = utils.force_float(self.data['summary']['OneyTargetEst'])
+        self.data['summary']['currencySymbol'] = self.data['companyData']['price']['currencySymbol']
+        self.data['summary']['shortName'] = self.data['companyData']['price']['shortName']
+        self.data['summary']['longName'] = self.data['companyData']['price']['longName']
+        self.data['summary']['marketCap'] = self.data['companyData']['price']['marketCap']
+
+
+    def formatDividends(self):
+        self.data['dividends'] = {
+            'dividendGrowthRateFiveY': self.data['metric']['dividendGrowthRateFiveY'],
+            'currentDividendYieldTTM': self.data['metric']['currentDividendYieldTTM'],
+            'dividendPerShareAnnual': self.data['metric']['dividendPerShareAnnual'],
+            'dividendPerShareFiveY': self.data['metric']['dividendPerShareFiveY'],
+            'dividendYieldFiveY': self.data['metric']['dividendYieldFiveY'],
+            'dividendYieldIndicatedAnnual': self.data['metric']['dividendYieldIndicatedAnnual'],
+            'dividendsPerShareTTM': self.data['metric']['dividendsPerShareTTM'],
+            'exDividendDate': self.data['summary']['ExDividendDate'],
+            'ForwardDividendYield': self.data['summary']['ForwardDividendYield'],
+            'trailingAnnualDividendRate': self.data['stats']['TrailingAnnualDividendRateThree'],
+            'trailingAnnualDividendYield': self.data['stats']['TrailingAnnualDividendYieldThree']
+        }
+
+    def formatFinancialReports(self):
+        # extract financial report into sub collection and rewrite its object
+        financialReports = self.data['financialReports']
+        self.data['financialReports'] = [{
+            'collection': str(report['year']),
+            'name': report['form'] + ' ' + str(report['year'])
+        } for report in financialReports]
+
+    def removeUnnecessaryData(self):
+        del self.data['summary']['Ask']
+        del self.data['summary']['BetaFiveYMonthly']
+        del self.data['summary']['Bid']
+        del self.data['analysis']['EarningsEstimate']
+        del self.data['analysis']['EarningsHistory']
+        del self.data['analysis']['EPSRevisions']
+        del self.data['analysis']['EPSTrend']
+        del self.data['companyData']['calendarEvents']
+        del self.data['companyData']['recommendationTrend']
+        del self.data['companyData']['financialsTemplate']
+        del self.data['summary']["Day'sRange"]
+        del self.data['companyData']['quoteType']
+        del self.data['companyData']['price']
+        del self.data['companyData']['summaryDetail']
+
+        del self.data['metric']['dividendGrowthRateFiveY']
+        del self.data['metric']['currentDividendYieldTTM']
+        del self.data['metric']['dividendPerShareAnnual']
+        del self.data['metric']['dividendPerShareFiveY']
+        del self.data['metric']['dividendYieldFiveY']
+        del self.data['metric']['dividendYieldIndicatedAnnual']
+        del self.data['metric']['dividendsPerShareTTM']
+        del self.data['stats']['ForwardAnnualDividendYieldFour']
+        del self.data['stats']['TrailingAnnualDividendRateThree']
+        del self.data['stats']['TrailingAnnualDividendYieldThree']
