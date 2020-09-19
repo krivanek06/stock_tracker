@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {IncomeStatement} from '../../../model/stockDetails';
 
 @Component({
   selector: 'app-details-income-statement-card',
@@ -8,7 +7,7 @@ import {IncomeStatement} from '../../../model/stockDetails';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailsIncomeStatementCardComponent implements OnInit {
-  @Input() incomeStatement: IncomeStatement;
+  @Input() incomeStatement: any;
 
   constructor() { }
 

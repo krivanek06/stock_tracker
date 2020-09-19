@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 
 import * as Highcharts from 'highcharts/highstock';
 import HighchartsMore from 'highcharts/highcharts-more';
@@ -12,12 +12,13 @@ HighchartsSolidGauge(Highcharts);
     selector: 'app-gauge-chart',
     templateUrl: './gauge-chart.component.html',
     styleUrls: ['./gauge-chart.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GaugeChartComponent implements OnInit, OnChanges {
     @Input() startingPoint: number;
     @Input() endingPoint: number;
     @Input() currentPoint: number;
-    @Input() displayValue: number;
+    @Input() displayValue: any;
     @Input() height = 350;
     @Input() tooltipName = 'Current value';
 

@@ -1,11 +1,24 @@
 <perfect-scrollbar>
     <div class="content-padding" *ngIf="details$ | async as details">
 
+        <ion-segment color="primary"
+                     class="ion-justify-content-end ion-padding-vertical"
+                     [value]="segmentValue"
+                     (ionChange)="segmentChanged($event)">
+            <ion-segment-button value="statistics" layout="icon-start">
+                <ion-label>Statistics</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="financial" layout="icon-start">
+                <ion-label>Financial</ion-label>
+            </ion-segment-button>
+        </ion-segment>
+
+        <!-- statistics -->
         <app-statistics [stockDetails]="details"></app-statistics>
 
 
         <!-- news -->
-        <div class="news-container">
+        <div class="news-container" *ngIf="details.queryStockDetails.stockNews.length > 0">
             <app-article-cards
                     *ngFor="let article of details.queryStockDetails.stockNews"
                     [article]="article">

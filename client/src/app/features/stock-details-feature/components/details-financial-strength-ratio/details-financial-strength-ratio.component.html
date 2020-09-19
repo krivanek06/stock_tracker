@@ -1,0 +1,42 @@
+<ion-list *ngIf="stockDetails.queryStockDetails as details">
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Current ratio</ion-label>
+        <ion-label> {{ details.metric.currentRatioQuarterly | number: '1.2-2' }}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Quick ratio</ion-label>
+        <ion-label> {{ details.metric.quickRatioQuarterly | number: '1.2-2' }}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Short ratio</ion-label>
+        <ion-label> {{ details.companyData.defaultKeyStatistics.shortRatio | number: '1.2-2'}}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">OCF to revenue ttm.</ion-label>
+        <ion-label> {{ details.metric.freeOperatingCashFlowrevenueTTM | number: '1.2-2'}}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Long term Debt/Equity</ion-label>
+        <ion-label> {{ details.metric.longTermDebtequityQuarterly | number: '1.2-2'}}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Total Debt/Equity</ion-label>
+        <ion-label> {{ details.metric.totalDebttotalEquityQuarterly | number: '1.2-2'}}</ion-label>
+    </ion-item>
+
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Net Income/Common</ion-label>
+        <ion-label> {{ details.companyData.defaultKeyStatistics.netIncomeToCommon | numberFormatter }}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Net fiscal year end</ion-label>
+        <ion-label> {{ details.companyData.defaultKeyStatistics.nextFiscalYearEnd  | numberFormatter }}</ion-label>
+    </ion-item>
+</ion-list>

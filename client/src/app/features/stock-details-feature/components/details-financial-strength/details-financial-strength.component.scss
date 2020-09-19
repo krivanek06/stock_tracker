@@ -1,0 +1,22 @@
+@import "../../../../shared/styles/button-styling";
+
+:host {
+  .fixedLabel {
+    min-width: 65% !important;
+    max-width: 65% !important;
+  }
+
+  .price-up{
+    color: #{$price-up};
+  }
+
+  .price-down{
+    color: #{price-down};
+  }
+
+  ion-icon{
+    position: absolute;
+    font-size: 23px;
+    margin-left: 5px;
+  }
+}

@@ -4,8 +4,8 @@
             <ion-title class="ion-text-start ion-padding">
                 Financial report {{ financialReport.form }}, symbol {{ financialReport.symbol }} <br>
                 <span style="font-size: 12px">
-                 Date: {{ financialReport.startDate | date: 'dd/MM/yyyy' }}
-                    - {{ financialReport.endDate | date: 'dd/MM/yyyy' }}
+                 Date: {{ financialReport.startDate | date: 'dd.MM.yyyy' }}
+                    - {{ financialReport.endDate | date: 'dd.MM.yyyy' }}
             </span>
             </ion-title>
             <ion-buttons slot="end">
@@ -26,7 +26,7 @@
             </ion-list-header>
 
             <!-- empty balance sheet -->
-            <ion-item *ngIf="financialReport.report.cf.length === 0; else showBalanceSheet">
+            <ion-item *ngIf="financialReport.report.bs.length === 0; else showBalanceSheet">
                 <ion-label class="ion-text-center">
                     No data in balance sheet has been found
                 </ion-label>

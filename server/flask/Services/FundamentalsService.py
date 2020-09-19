@@ -25,7 +25,7 @@ class FundamentalsService:
         stockDetailsDict = self.db.collection('stockData').document(symbol).get().to_dict()
         twoWeeksBefore = (datetime.today() - timedelta(weeks=2)).replace(tzinfo=utc)
 
-        # No record in firestore, first time fetch
+        # No record in firestore, first time fetch or older than 2 weeks
         if stockDetailsDict is None or twoWeeksBefore > stockDetailsDict['detailsLastUpdate'].replace(tzinfo=utc):
             return self.__initialStockDetailsIntoFirestore(symbol)
 
@@ -116,16 +116,16 @@ class FundamentalsService:
         data = utils.changeUnsupportedCharactersForDictKey(data)
         dataFormatter = FundamentalServiceFormatter(data)
 
-
         # format data
         dataFormatter.formatFinancialReports()
         dataFormatter.formatAnalysis()
         dataFormatter.formatSummary()
         dataFormatter.formatDividends()
+        dataFormatter.formatEarningsFinancialChart()
+        data['recommendation'].reverse()
 
         # remove data
         dataFormatter.removeUnnecessaryData()
-
         return data
 
     '''
@@ -186,49 +186,80 @@ class FundamentalServiceFormatter:
         self.data = data
 
     def formatAnalysis(self):
-        self.data['analysis']['GrowthEstimates'] = self.data['analysis']['GrowthEstimates'][0]
-        GrowthEstimates = self.data['analysis']['GrowthEstimates']
-        for k in list(GrowthEstimates.keys()):
-            if k != 'name':
-                GrowthEstimates[k + 'Prct'] = utils.force_float_skipping_last_char(GrowthEstimates[k])
+        try:
+            self.data['analysis']['GrowthEstimates'] = self.data['analysis']['GrowthEstimates'][0]
+            GrowthEstimates = self.data['analysis']['GrowthEstimates']
+            for k in list(GrowthEstimates.keys()):
+                if k != 'name':
+                    GrowthEstimates[k + 'Prct'] = utils.force_float_skipping_last_char(GrowthEstimates[k])
 
-        RevenueEstimate = self.data['analysis']['RevenueEstimate']
-        for tmp in RevenueEstimate:
-            tmp['AvgEstimateNumber'] = utils.force_float_skipping_last_char(tmp['AvgEstimate'])
-            tmp['HighEstimateNumber'] = utils.force_float_skipping_last_char(tmp['HighEstimate'])
-            tmp['LowEstimateNumber'] = utils.force_float_skipping_last_char(tmp['LowEstimate'])
-            # if "HighEstimate": "1.48B" and "LowEstimate": "2M"
-            if tmp['LowEstimate'] != 'N/A' and tmp['HighEstimate'][-1] != tmp['LowEstimate'][-1]:
-                tmp['HighEstimateNumber'] = tmp['HighEstimateNumber'] * 1000
+            RevenueEstimate = self.data['analysis']['RevenueEstimate']
+            for tmp in RevenueEstimate:
+                tmp['AvgEstimateNumber'] = utils.force_float_skipping_last_char(tmp['AvgEstimate'])
+                tmp['HighEstimateNumber'] = utils.force_float_skipping_last_char(tmp['HighEstimate'])
+                tmp['LowEstimateNumber'] = utils.force_float_skipping_last_char(tmp['LowEstimate'])
+                tmp['SalesGrowthyearestNumber'] = utils.force_float_skipping_last_char(tmp['SalesGrowthyearest'])
+                # if "HighEstimate": "1.48B" and "LowEstimate": "2M"
+                if tmp['LowEstimate'] != 'N/A' and tmp['HighEstimate'][-1] != tmp['LowEstimate'][-1]:
+                    tmp['HighEstimateNumber'] = tmp['HighEstimateNumber'] * 1000
+        except Exception as e:
+            print('formatAnalysis exception: ' + str(e))
+            pass
+
+    def formatEarningsFinancialChart(self):
+        try:
+            for period in ['quarterly', 'yearly']:
+                tmp = self.data['companyData']['earnings']['financialsChart'][period]
+                self.data['companyData']['earnings']['financialsChart'][period] = {
+                    'categories': [data['date'] for data in tmp],
+                    'series': [{
+                        'name': 'Revenue',
+                        'data': [d['revenue'] for d in tmp]
+                    }, {
+                        'name': 'Earnings',
+                        'data': [d['earnings'] for d in tmp]
+                    }]
+                }
+        except Exception as e:
+            print('formatEarningsFinancialChart exception: ' + str(e))
+            pass
 
     def formatSummary(self):
-        self.data['summary']['recommendationKey'] = self.data['companyData']['financialData']['recommendationKey']
-        self.data['summary']['recommendationMean'] = self.data['companyData']['financialData']['recommendationMean']
-        self.data['summary']['currency'] = self.data['companyData']['summaryDetail']['currency']
-        self.data['summary']['logo_url'] = self.data['companyData']['summaryProfile']['logo_url']
-        self.data['summary']['sector'] = self.data['companyData']['summaryProfile']['sector']
-        self.data['summary']['industry'] = self.data['companyData']['summaryProfile']['industry']
-        self.data['summary']['OneyTargetEst'] = utils.force_float(self.data['summary']['OneyTargetEst'])
-        self.data['summary']['currencySymbol'] = self.data['companyData']['price']['currencySymbol']
-        self.data['summary']['shortName'] = self.data['companyData']['price']['shortName']
-        self.data['summary']['longName'] = self.data['companyData']['price']['longName']
-        self.data['summary']['marketCap'] = self.data['companyData']['price']['marketCap']
+        try:
+            self.data['summary']['recommendationKey'] = self.data['companyData']['financialData']['recommendationKey']
+            self.data['summary']['recommendationMean'] = self.data['companyData']['financialData']['recommendationMean']
+            self.data['summary']['currency'] = self.data['companyData']['summaryDetail']['currency']
+            self.data['summary']['logo_url'] = self.data['companyData']['summaryProfile']['logo_url']
+            self.data['summary']['sector'] = self.data['companyData']['summaryProfile']['sector']
+            self.data['summary']['industry'] = self.data['companyData']['summaryProfile']['industry']
+            self.data['summary']['OneyTargetEst'] = utils.force_float(self.data['summary']['OneyTargetEst'])
+            self.data['summary']['currencySymbol'] = self.data['companyData']['price']['currencySymbol']
+            self.data['summary']['shortName'] = self.data['companyData']['price']['shortName']
+            self.data['summary']['longName'] = self.data['companyData']['price']['longName']
+            self.data['summary']['marketCap'] = self.data['companyData']['price']['marketCap']
+        except Exception as e:
+            print('formatSummary exception: ' + str(e))
+            pass
 
 
     def formatDividends(self):
-        self.data['dividends'] = {
-            'dividendGrowthRateFiveY': self.data['metric']['dividendGrowthRateFiveY'],
-            'currentDividendYieldTTM': self.data['metric']['currentDividendYieldTTM'],
-            'dividendPerShareAnnual': self.data['metric']['dividendPerShareAnnual'],
-            'dividendPerShareFiveY': self.data['metric']['dividendPerShareFiveY'],
-            'dividendYieldFiveY': self.data['metric']['dividendYieldFiveY'],
-            'dividendYieldIndicatedAnnual': self.data['metric']['dividendYieldIndicatedAnnual'],
-            'dividendsPerShareTTM': self.data['metric']['dividendsPerShareTTM'],
-            'exDividendDate': self.data['summary']['ExDividendDate'],
-            'ForwardDividendYield': self.data['summary']['ForwardDividendYield'],
-            'trailingAnnualDividendRate': self.data['stats']['TrailingAnnualDividendRateThree'],
-            'trailingAnnualDividendYield': self.data['stats']['TrailingAnnualDividendYieldThree']
-        }
+        try:
+            self.data['dividends'] = {
+                'dividendGrowthRateFiveY': self.data['metric']['dividendGrowthRateFiveY'],
+                'currentDividendYieldTTM': self.data['metric']['currentDividendYieldTTM'],
+                'dividendPerShareAnnual': self.data['metric']['dividendPerShareAnnual'],
+                'dividendPerShareFiveY': self.data['metric']['dividendPerShareFiveY'],
+                'dividendYieldFiveY': self.data['metric']['dividendYieldFiveY'],
+                'dividendYieldIndicatedAnnual': self.data['metric']['dividendYieldIndicatedAnnual'],
+                'dividendsPerShareTTM': self.data['metric']['dividendsPerShareTTM'],
+                'exDividendDate': self.data['summary']['ExDividendDate'],
+                'ForwardDividendYield': self.data['summary']['ForwardDividendYield'],
+                'trailingAnnualDividendRate': self.data['stats']['TrailingAnnualDividendRateThree'],
+                'trailingAnnualDividendYield': self.data['stats']['TrailingAnnualDividendYieldThree']
+            }
+        except Exception as e:
+            print('formatDividends exception: ' + str(e))
+            pass
 
     def formatFinancialReports(self):
         # extract financial report into sub collection and rewrite its object
@@ -239,28 +270,31 @@ class FundamentalServiceFormatter:
         } for report in financialReports]
 
     def removeUnnecessaryData(self):
-        del self.data['summary']['Ask']
-        del self.data['summary']['BetaFiveYMonthly']
-        del self.data['summary']['Bid']
-        del self.data['analysis']['EarningsEstimate']
-        del self.data['analysis']['EarningsHistory']
-        del self.data['analysis']['EPSRevisions']
-        del self.data['analysis']['EPSTrend']
-        del self.data['companyData']['calendarEvents']
-        del self.data['companyData']['recommendationTrend']
-        del self.data['companyData']['financialsTemplate']
-        del self.data['summary']["Day'sRange"]
-        del self.data['companyData']['quoteType']
-        del self.data['companyData']['price']
-        del self.data['companyData']['summaryDetail']
+        try:
+            del self.data['summary']['Ask']
+            del self.data['summary']['BetaFiveYMonthly']
+            del self.data['summary']['Bid']
+            del self.data['analysis']['EarningsEstimate']
+            del self.data['analysis']['EarningsHistory']
+            del self.data['analysis']['EPSRevisions']
+            del self.data['analysis']['EPSTrend']
+            del self.data['companyData']['calendarEvents']
+            del self.data['companyData']['recommendationTrend']
+            del self.data['companyData']['financialsTemplate']
+            del self.data['summary']["Day'sRange"]
+            del self.data['companyData']['quoteType']
+            del self.data['companyData']['price']
+            del self.data['companyData']['summaryDetail']
 
-        del self.data['metric']['dividendGrowthRateFiveY']
-        del self.data['metric']['currentDividendYieldTTM']
-        del self.data['metric']['dividendPerShareAnnual']
-        del self.data['metric']['dividendPerShareFiveY']
-        del self.data['metric']['dividendYieldFiveY']
-        del self.data['metric']['dividendYieldIndicatedAnnual']
-        del self.data['metric']['dividendsPerShareTTM']
-        del self.data['stats']['ForwardAnnualDividendYieldFour']
-        del self.data['stats']['TrailingAnnualDividendRateThree']
-        del self.data['stats']['TrailingAnnualDividendYieldThree']
+            del self.data['metric']['dividendGrowthRateFiveY']
+            del self.data['metric']['currentDividendYieldTTM']
+            del self.data['metric']['dividendPerShareAnnual']
+            del self.data['metric']['dividendPerShareFiveY']
+            del self.data['metric']['dividendYieldFiveY']
+            del self.data['metric']['dividendYieldIndicatedAnnual']
+            del self.data['metric']['dividendsPerShareTTM']
+            del self.data['stats']['ForwardAnnualDividendYieldFour']
+            del self.data['stats']['TrailingAnnualDividendRateThree']
+            del self.data['stats']['TrailingAnnualDividendYieldThree']
+        except Exception as e:
+            print('Exception in removeUnnecessaryData: ' + str(e))

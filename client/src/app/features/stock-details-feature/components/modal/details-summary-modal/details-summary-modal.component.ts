@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import { SummaryProfile} from '../../../model/stockDetails';
 import {ModalController, NavParams} from '@ionic/angular';
 
 @Component({
@@ -9,14 +8,15 @@ import {ModalController, NavParams} from '@ionic/angular';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailsSummaryModalComponent implements OnInit {
-    summaryProfile: SummaryProfile;
+    logo: string;
+    summary: string;
     symbol: string;
 
     constructor(private modalController: ModalController,
                 private navParams: NavParams) {
-        this.summaryProfile = this.navParams.get('summaryProfile');
+        this.logo = this.navParams.get('logo');
+        this.summary = this.navParams.get('summary');
         this.symbol = this.navParams.get('symbol');
-        console.log('pop up', this.summaryProfile);
     }
 
     ngOnInit() {
