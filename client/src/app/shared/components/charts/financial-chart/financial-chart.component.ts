@@ -236,6 +236,7 @@ export class FinancialChartComponent implements OnInit, OnChanges {
                     endOnTick: false,
                     opposite: false,
                     visible: this.showYAxis
+                   // min: 0
                 },
                 {
                     title: {

@@ -1,6 +1,5 @@
 
 // ------------------------
-import {Summary} from "../../stock-details-feature/model/stockDetails";
 
 export interface StockWatchlistIdentifier {
   id: string;

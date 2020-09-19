@@ -1,22 +1,14 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {RevenueEstimate} from '../../../../api/customGraphql.service';
 
 @Component({
   selector: 'app-fixed-range-slider-with-time',
   templateUrl: './fixed-range-slider-with-time.component.html',
   styleUrls: ['./fixed-range-slider-with-time.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FixedRangeSliderWithTimeComponent implements OnInit {
-  @Input() timeEstimation: string;
-  @Input() yearAgo: string;
-  @Input() growthPercent: number;
-
-  @Input() min: number;
-  @Input() max: number;
-  @Input() value: number;
-
-  @Input() minDisplayName: string;
-  @Input() maxDisplayName: string;
-  @Input() valueDisplayName: string;
+  @Input() revenuEst: RevenueEstimate;
 
   constructor() { }
 

@@ -1,0 +1,34 @@
+<ion-item>
+    <!-- Short term -->
+    <ion-label style="display: flex; margin-right: 6px;" class="ion-align-items-center">
+        <div style="display: grid;">
+            <ion-text style="font-weight: bold">Short term</ion-text>
+            <ion-text>2W - 6W</ion-text>
+        </div>
+        <ion-icon *ngIf="trend.shortTermTrend === 'UP'" class="upgrade" name="caret-up-outline"></ion-icon>
+        <ion-icon *ngIf="trend.shortTermTrend === 'NEUTRAL'" class="neutral" name="caret-up-outline"></ion-icon>
+        <ion-icon *ngIf="trend.shortTermTrend === 'DOWN'" class="downgrade" name="caret-down-outline"></ion-icon>
+    </ion-label>
+
+    <!-- Mid term -->
+    <ion-label style="display: flex; margin-right: 6px;" class="ion-align-items-center">
+        <div style="display: grid;">
+            <ion-text style="font-weight: bold">Mid term</ion-text>
+            <ion-text>6W - 9M</ion-text>
+        </div>
+        <ion-icon *ngIf="trend.midTermTrend === 'UP'" class="upgrade" name="caret-up-outline"></ion-icon>
+        <ion-icon *ngIf="trend.midTermTrend === 'NEUTRAL'" class="neutral" name="caret-up-outline"></ion-icon>
+        <ion-icon *ngIf="trend.midTermTrend === 'DOWN'" class="downgrade" name="caret-down-outline"></ion-icon>
+    </ion-label>
+
+    <!-- Long term -->
+    <ion-label style="display: flex;" class="ion-align-items-center">
+        <div style="display: grid;">
+            <ion-text style="font-weight: bold">Long term</ion-text>
+            <ion-text>9M+</ion-text>
+        </div>
+        <ion-icon *ngIf="trend.longTermTrend === 'UP'" class="upgrade" name="caret-up-outline"></ion-icon>
+        <ion-icon *ngIf="trend.longTermTrend === 'NEUTRAL'" class="neutral" name="caret-up-outline"></ion-icon>
+        <ion-icon *ngIf="trend.longTermTrend === 'DOWN'" class="downgrade" name="caret-down-outline"></ion-icon>
+    </ion-label>
+</ion-item>

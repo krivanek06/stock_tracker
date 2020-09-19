@@ -1,9 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 
 @Component({
     selector: 'app-fixed-range-slider',
     templateUrl: './fixed-range-slider.component.html',
     styleUrls: ['./fixed-range-slider.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FixedRangeSliderComponent implements OnInit {
     @Input() min: number;
@@ -12,7 +13,6 @@ export class FixedRangeSliderComponent implements OnInit {
 
     @Input() minDisplayName: string;
     @Input() maxDisplayName: string;
-    @Input() valueDisplayName: string;
 
     constructor() {
     }

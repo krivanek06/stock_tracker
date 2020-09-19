@@ -149,6 +149,7 @@ export interface RevenueEstimate {
     LowEstimateNumber: number;
     NoofAnalysts: number;
     SalesGrowthyearest: string;
+    SalesGrowthyearestNumber: number;
     YearAgoSales: string;
     name: string;
 }
@@ -254,11 +255,14 @@ export interface FinancialsChart {
 }
 
 export interface FinancialsChartData {
-    date: string;
-    earnings: number;
-    revenue: number;
+    categories: string[];
+    series: Series[];
 }
 
+export interface Series {
+    data: number[];
+    name: string;
+}
 
 export interface EsgScores {
     adult: boolean;
@@ -448,7 +452,7 @@ export interface Summary {
     currencySymbol: string;
     shortName: string;
     longName: string;
-    marketCap: string;
+    marketCap: number;
 }
 
 

@@ -1,10 +1,10 @@
-<div class="news-container">
-
-  <ion-item>
+<ion-item>
     <ion-label class="fs-title-2">
-      Market news
+        Market news
     </ion-label>
-  </ion-item>
+</ion-item>
 
-  <app-article-cards *ngFor="let article of newsArticles$ | async" [article]="article"></app-article-cards>
+
+<div class="news-container">
+    <app-article-cards *ngFor="let article of newsArticles$ | async" [article]="article"></app-article-cards>
 </div>

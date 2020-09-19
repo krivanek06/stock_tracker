@@ -1,0 +1,30 @@
+@import "../../../../shared/styles/custom-variable";
+
+:host{
+  .downgrade{
+    font-weight: bold;
+    color: #{$price-down};
+    font-size: 51px;
+    @media  (max-width: 450px) {
+      font-size: 30px;
+    }
+  }
+
+  .upgrade{
+    font-weight: bold;
+    color: #{$price-up};
+    font-size: 51px;
+    @media  (max-width: 450px) {
+      font-size: 30px;
+    }
+  }
+
+  .neutral{
+    font-weight: bold;
+    color: #{$default-word};
+    font-size: 51px;
+    @media  (max-width: 450px) {
+      font-size: 30px;
+    }
+  }
+}

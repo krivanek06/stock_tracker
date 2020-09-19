@@ -1,0 +1,47 @@
+<ion-list *ngIf="stockDetails.queryStockDetails as details">
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Revenue per share ttm.</ion-label>
+        <ion-label> {{ details.metric.revenuePerShareTTM | number: '1.2-2'}}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">BV per share qrt.</ion-label>
+        <ion-label> {{ details.metric.bookValuePerShareQuarterly | number: '1.2-2'}}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">BV per share ann.</ion-label>
+        <ion-label> {{ details.metric.bookValuePerShareAnnual | number: '1.2-2'}}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">TBV per share qrt.</ion-label>
+        <ion-label> {{ details.metric.tangibleBookValuePerShareQuarterly | number: '1.2-2'}}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">TBV per share ann.</ion-label>
+        <ion-label> {{ details.metric.tangibleBookValuePerShareAnnual | number: '1.2-2'}}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Cash per share qrt.</ion-label>
+        <ion-label> {{ details.metric.cashPerSharePerShareQuarterly | number: '1.2-2'}}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">CF per share ttm.</ion-label>
+        <ion-label> {{ details.metric.cashFlowPerShareTTM | number: '1.2-2'}}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">FCF per share ttm.</ion-label>
+        <ion-label> {{ details.metric.freeCashFlowPerShareTTM | number: '1.2-2'}}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">EBITDA per share ttm.</ion-label>
+        <ion-label> {{ details.metric.ebitdPerShareTTM | number: '1.2-2'}}</ion-label>
+    </ion-item>
+
+</ion-list>

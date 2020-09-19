@@ -1,0 +1,17 @@
+<ion-list>
+    <ion-item *ngFor="let data of history.history">
+        <ion-label class="ion-hide-sm-down">{{ data.epochGradeDate * 1000 | relativeTime}}</ion-label>
+        <ion-label> {{ data.firm }}</ion-label>
+        <ion-label [ngClass]="{
+              'downgrade': data.action === 'down',
+              'upgrade': data.action === 'up'
+            }" style="display: flex;">
+
+            <ng-container *ngIf="data.fromGrade"> {{ data.fromGrade }} -> </ng-container>
+            <ion-text class="ion-margin-end">{{ data.toGrade }}</ion-text>
+
+            <ion-icon *ngIf="data.action === 'up'" class="upgrade" name="caret-up-outline"></ion-icon>
+            <ion-icon *ngIf="data.action === 'down'" class="downgrade" name="caret-down-outline"></ion-icon>
+        </ion-label>
+    </ion-item>
+</ion-list>

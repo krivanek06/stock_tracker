@@ -1,3 +1,4 @@
+/*
 import {NewsArticle} from '../../stock-data-feature/model/newsModel';
 
 
@@ -581,3 +582,4 @@ export interface Metric {
     totalDebttotalEquityQuarterly: number;
     yearToDatePriceReturnDaily: number;
 }
+*/

@@ -96,6 +96,19 @@ query queryStockDetails($symbol: String!) {
                 PastFiveYearsperannumPrct,
                 name
             }
+            RevenueEstimate {
+                AvgEstimate
+                AvgEstimateNumber
+                HighEstimate
+                HighEstimateNumber
+                LowEstimate
+                LowEstimateNumber
+                NoofAnalysts
+                SalesGrowthyearest
+                SalesGrowthyearestNumber
+                YearAgoSales
+                name
+            }
         }
         balanceSheet {
             balanceSheetHistoryQuarterly {
@@ -128,6 +141,7 @@ query queryStockDetails($symbol: String!) {
         stats {
             MarketCapintradayFive
             PriceSalesttm
+            LeveredFreeCashFlowttm
         }
         recommendation {
             buy
@@ -194,14 +208,18 @@ query queryStockDetails($symbol: String!) {
                 financialCurrency
                 financialsChart {
                     quarterly {
-                        date
-                        earnings
-                        revenue
+                        categories
+                        series{
+                            data
+                            name
+                        }
                     }
                     yearly {
-                        date
-                        earnings
-                        revenue
+                        categories
+                        series{
+                            data
+                            name
+                        }
                     }
                 }
             }
@@ -280,6 +298,7 @@ query queryStockDetails($symbol: String!) {
             industry
             logo_url
             marketPrice
+            marketCap
             previousClose
             recommendationKey
             recommendationMean

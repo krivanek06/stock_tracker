@@ -135,13 +135,14 @@ export const stockDetailsTypeDefs = gql`
 
     type RevenueEstimate {
         AvgEstimate: String
-        AvgEstimateFloat: Float
+        AvgEstimateNumber: Float
         HighEstimate: String
-        HighEstimateFloat: Float
+        HighEstimateNumber: Float
         LowEstimate: String
-        LowEstimateFloat: Float
+        LowEstimateNumber: Float
         NoofAnalysts: Float
         SalesGrowthyearest: String
+        SalesGrowthyearestNumber: Float
         YearAgoSales: String
         name: String
     }
@@ -247,9 +248,13 @@ export const stockDetailsTypeDefs = gql`
     }
 
     type FinancialsChartData {
-        date: String
-        earnings: Float
-        revenue: Float
+        categories: [String]
+        series: [Series]
+    }
+
+    type Series {
+        data: [Float]
+        name: String
     }
 
 
@@ -442,7 +447,7 @@ export const stockDetailsTypeDefs = gql`
         currencySymbol: String
         shortName: String
         longName: String
-        marketCap: String
+        marketCap: Float
     }
 
 

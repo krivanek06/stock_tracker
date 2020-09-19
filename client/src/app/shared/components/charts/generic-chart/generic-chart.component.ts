@@ -20,12 +20,13 @@ export class GenericChartComponent implements OnInit, OnChanges {
     @Input() showTimelineSlider = false;
     @Input() showYAxis = false;
     @Input() enableLegendTogging = false;
+    @Input() categories: string[];
 
     Highcharts: typeof Highcharts = Highcharts;
     chart;
     updateFromInput = false;
     chartCallback;
-    chartOptions = {}; //  : Highcharts.Options
+    chartOptions: any = {}; //  : Highcharts.Options
     constructor() {
         const self = this;
 
@@ -46,9 +47,23 @@ export class GenericChartComponent implements OnInit, OnChanges {
         if (this.chartType === ChartType.column) {
             this.initColumnChart();
         }
-        /*if (this.chartType === ChartType.variablepie) {
-            this.initVariablePieChart();
-        }*/
+
+        if (this.categories) {
+            this.chartOptions.xAxis.categories = this.categories;
+            this.chartOptions.plotOptions.series.dataLabels.enabled = false;
+            this.chartOptions = {
+                ...this.chartOptions,
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+            };
+        }
+
     }
 
     ngOnInit() {
@@ -211,6 +226,10 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 },
             },
             plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                },
                 series: {
                     borderWidth: 0,
                     dataLabels: {

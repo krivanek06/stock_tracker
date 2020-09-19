@@ -1,0 +1,13 @@
+@import "../../../../shared/styles/custom-variable";
+
+:host{
+  .downgrade{
+    font-weight: bold;
+    color: #{$price-down};
+  }
+
+  .upgrade{
+    font-weight: bold;
+    color: #{$price-up};
+  }
+}

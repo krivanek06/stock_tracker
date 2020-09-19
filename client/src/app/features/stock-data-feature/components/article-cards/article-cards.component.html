@@ -9,10 +9,11 @@
         </ion-label>
 
         <ion-label>
-            <ion-card-subtitle class="ion-text-wrap">
-                <ion-icon name="globe-outline"></ion-icon>
-                <p>{{ article.sourceName }} {{ article.datetime * 1000 | relativeTime }}</p>
-            </ion-card-subtitle>
+            <ion-text class="ion-text-wrap ion-align-items-center" style="display: flex;">
+                <ion-icon name="globe-outline" class="ion-margin-end"></ion-icon>
+                {{ article.sourceName }} {{ article.datetime * 1000 | relativeTime }}
+            </ion-text>
+
 
             <ion-label class="ion-text-wrap">
                 <b> {{ article.headline }} </b>
@@ -27,6 +28,11 @@
 
     <!-- small screen -->
     <ion-card [href]="article.url" target="_blank" rel="noopener noreferrer" class="ion-hide-md-up">
+        <ion-text class="ion-text-wrap ion-align-items-center" style="display: flex;">
+            <ion-icon name="globe-outline" class="ion-margin-end"></ion-icon>
+            {{ article.sourceName }} {{ article.datetime * 1000 | relativeTime }}
+        </ion-text>
+
         <ion-card-content>
             <ion-img [src]="article.image" appDefaultImg></ion-img>
 
