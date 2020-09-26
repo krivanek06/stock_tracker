@@ -1,14 +1,16 @@
-version: "3.7"
+version: "3.8"
 
 services: 
     graphql:
         build: ./graphql
         container_name: graphql
         restart: always
-        ports: 
-            - 18081:18081
+        environment:
+            - PORT=18081
+        expose: 
+            - 18081
         networks:
-            - app-network
+            - stock_tracker_network
 
     flask:
         build: ./flask
@@ -21,7 +23,7 @@ services:
         expose: 
             - 18080
         networks:
-            - app-network
+            - stock_tracker_network
     
     nginx:
         build: ./nginx
@@ -30,8 +32,8 @@ services:
         ports: 
             - "5001:5001"
         networks:
-            - app-network
+            - stock_tracker_network
 
 networks:
-    app-network:
+    stock_tracker_network:
         driver: bridge
