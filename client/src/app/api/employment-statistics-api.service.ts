@@ -8,7 +8,7 @@ import {environment} from '../../environments/environment';
     providedIn: 'root'
 })
 export class EmploymentStatisticsApiService {
-    private employmentURL = `${environment.stockAPI}/chart_data/employment_statistics`;
+    private employmentURL = `${environment.marketDataAPI}/chart_data/employment_statistics`;
     constructor(private http: HttpClient) {
     }
 

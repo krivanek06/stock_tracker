@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {Apollo, APOLLO_OPTIONS, ApolloModule} from 'apollo-angular';
 import {HttpLink, HttpLinkModule} from 'apollo-angular-link-http';
 import {InMemoryCache} from 'apollo-cache-inmemory';
+import {environment} from '../environments/environment';
 
 
 @NgModule({
@@ -21,7 +22,7 @@ import {InMemoryCache} from 'apollo-cache-inmemory';
         return {
           cache: new InMemoryCache(),
           link: httpLink.create({
-            uri: 'http://localhost:4000/'
+            uri: environment.graphql
           })
         };
       },

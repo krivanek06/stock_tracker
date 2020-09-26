@@ -27,7 +27,6 @@ import Maybe from "graphql/tsutils/Maybe";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WatchlistTablesContainerComponent implements OnInit, OnDestroy, OnChanges {
-    private DELETE_THIS_LATER = '7eYTErOxXugeHg4JHLS1L5ZKosK2';
     private interval: any;
     private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -43,7 +42,7 @@ export class WatchlistTablesContainerComponent implements OnInit, OnDestroy, OnC
 
 
     ngOnInit() {
-        this.watchlistService.getUserStockWatchlists(this.DELETE_THIS_LATER).pipe(
+        this.watchlistService.getUserStockWatchlists().pipe(
             takeUntil(this.destroy$)
         ).subscribe(
             res => {
@@ -93,7 +92,7 @@ export class WatchlistTablesContainerComponent implements OnInit, OnDestroy, OnC
 
 
     createWatchList(watchlistName: string) {
-        this.watchlistService.createWatchList({userId: this.DELETE_THIS_LATER, additionalData: watchlistName})
+        this.watchlistService.createWatchList( watchlistName)
             .subscribe(res => this.ionicDialogService.presentToast('Symbol deleted from watchlist'));
     }
 
@@ -111,36 +110,27 @@ export class WatchlistTablesContainerComponent implements OnInit, OnDestroy, OnC
             `Do your really wanna remove ${data.name} from your watchlist ?`);
 
         if (confirmation) {
-            this.watchlistService.removeStockFromWatchlist({
-                additionalData: data.symbol,
-                id: documentId,
-                userId: this.DELETE_THIS_LATER,
-            }).subscribe(x => this.ionicDialogService.presentToast('Symbol deleted from watchlist'));
+            this.watchlistService.removeStockFromWatchlist(documentId, data.symbol)
+                .subscribe(x => this.ionicDialogService.presentToast('Symbol deleted from watchlist'));
         }
     }
 
     redirectToDetails(data: ChartDataIdentification) {
-        this.router.navigate([`/menu/stock-details/statistics`], {queryParams: {symbol: data.symbol}});
+        this.router.navigate([`/menu/stock-details/statistics/${data.symbol}`]);
     }
 
     renameWatchlist(data: DocumentIdentification) {
-        this.watchlistService.renameStockWatchlist({
-            additionalData: data.additionalInfo,
-            id: data.documentId,
-            userId: this.DELETE_THIS_LATER
-        }).subscribe(e => this.ionicDialogService.presentToast('Watchlist has been renamed'));
+        this.watchlistService.renameStockWatchlist(data.documentId, data.additionalInfo)
+            .subscribe(e => this.ionicDialogService.presentToast('Watchlist has been renamed'));
     }
 
-    async deleteWatchlist(data: string) {
+    async deleteWatchlist(watchlistId: string) {
         const confirmation = await this.ionicDialogService.presentAlertConfirm(
             `Do your really want to delete your entire watchlist ?`);
 
         if (confirmation) {
-            this.watchlistService.deleteUserWatchlist({
-                userId: this.DELETE_THIS_LATER,
-                id: data,
-                additionalData: undefined
-            }).subscribe(() => this.ionicDialogService.presentToast('Watchlist has been deleted'));
+            this.watchlistService.deleteUserWatchlist(watchlistId)
+                .subscribe(() => this.ionicDialogService.presentToast('Watchlist has been deleted'));
         }
     }
 

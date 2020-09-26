@@ -39,7 +39,7 @@ export class EconomicChartModalContainerComponent implements OnInit {
      *  }
      */
     ngOnInit() {
-        this.http.get<ChartData>(`${environment.stockAPI}/${this.initialEndpoint}`).pipe(
+        this.http.get<ChartData>(`${environment.marketDataAPI}/${this.initialEndpoint}`).pipe(
             map(result => result.result)
         ).subscribe(data => {
             /*for (const key of Object.keys(data)) {

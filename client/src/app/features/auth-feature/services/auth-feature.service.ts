@@ -27,7 +27,6 @@ export class AuthFeatureService {
 
     getUser(): Observable<IUser> {
         return this.afAuth.authState.pipe(
-            tap(x => console.log('auth state', x)),
             switchMap(user => {
                 if (user) {
                     return this.queryUserGQL.watch({

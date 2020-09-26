@@ -70,7 +70,6 @@ import { ValueStateDirective } from './directives/value-state.directive';
         HighchartsChartModule,
         FixedRangeSliderComponent,
         DefaultImgDirective,
-        FinancialChartComponent,
         GaugeChartComponent,
         NumberFormatterPipe,
         RelativeTimePipe,

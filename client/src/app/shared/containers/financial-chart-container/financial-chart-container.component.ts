@@ -37,7 +37,6 @@ export class FinancialChartContainerComponent implements OnInit, OnDestroy {
         this.chartDataService.getHistoricalDataForSymbol(this.symbol, period).pipe(
             takeUntil(this.destroy$)
         ).subscribe(res => {
-            console.log(res);
             this.currentPrice = res.livePrice;
             this.volume = res.volume;
             this.price = res.price;

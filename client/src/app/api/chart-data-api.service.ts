@@ -18,7 +18,7 @@ export class ChartDataApiService {
 
     getHistoricalDataForSymbol(symbol: string, period: string = '1d'): Observable<HistoricalChartData> {
         const params = new HttpParams().set('symbol', symbol).set('period', period);
-        return this.http.get<HistoricalChartData>(`${environment.stockAPI}/chart_data/historical_data`,
+        return this.http.get<HistoricalChartData>(`${environment.marketDataAPI}/chart_data/historical_data`,
             {params}).pipe(
             retry(2)
         );
@@ -28,7 +28,7 @@ export class ChartDataApiService {
     getInvestorSentiment(): Observable<ChartDataArray[]> {
         const numberOfDataSet = 40;
         const params = new HttpParams().set('numberOfDataSet', String(numberOfDataSet));
-        return this.http.get<ChartData>(`${environment.stockAPI}/chart_data/investor_sentiment`, {params}).pipe(
+        return this.http.get<ChartData>(`${environment.marketDataAPI}/chart_data/investor_sentiment`, {params}).pipe(
             map(res => res.result)
         );
     }
@@ -36,7 +36,7 @@ export class ChartDataApiService {
     getTreasuryYieldCurveRates(): Observable<ChartDataArray[]> {
         const numberOfDataSet = 250;
         const params = new HttpParams().set('numberOfDataSet', String(numberOfDataSet));
-        return this.http.get<ChartData>(`${environment.stockAPI}/chart_data/treasury_yield_curve_rates`, {params}).pipe(
+        return this.http.get<ChartData>(`${environment.marketDataAPI}/chart_data/treasury_yield_curve_rates`, {params}).pipe(
             map(res => res.result)
         );
     }
@@ -44,7 +44,7 @@ export class ChartDataApiService {
     getMiseryIndex(): Observable<ChartDataArray[]> {
         const numberOfDataSet = 40;
         const params = new HttpParams().set('numberOfDataSet', String(numberOfDataSet));
-        return this.http.get<ChartData>(`${environment.stockAPI}/chart_data/misery_index`, {params}).pipe(
+        return this.http.get<ChartData>(`${environment.marketDataAPI}/chart_data/misery_index`, {params}).pipe(
             map(res => res.result)
         );
     }

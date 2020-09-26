@@ -30,7 +30,7 @@ export class StockDetailsService {
     const params = new HttpParams()
         .set('symbol', symbol)
         .set('financialReportName', financialReportName);
-    return this.http.get<FinancialReport>(`${environment.stockAPI}/fundamentals/financial_report`, {params});
+    return this.http.get<FinancialReport>(`${environment.marketDataAPI}/fundamentals/financial_report`, {params});
   }
 
 }

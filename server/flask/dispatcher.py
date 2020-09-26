@@ -13,15 +13,16 @@ from Controllers.employment_statistics import app as employment_statistics
 
 app = Flask(__name__)
 FlaskJSON(app)
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+#CORS(app, resources={r"*": {"origins": "*"}})
+CORS(app, automatic_options=True)
 
 app.wsgi_app = DispatcherMiddleware(NotFound(), {
-    "/api/fundamentals": fundamentals,
-    '/api/chart_data': chart_data,
-    '/api/chart_data/sp500_statistics': sp500_statistics,
-    '/api/chart_data/bitcoin_statistics': bitcoin_statistics,
-    '/api/chart_data/employment_statistics': employment_statistics,
-    '/api/search': search
+    "/fundamentals": fundamentals,
+    '/chart_data': chart_data,
+    '/chart_data/sp500_statistics': sp500_statistics,
+    '/chart_data/bitcoin_statistics': bitcoin_statistics,
+    '/chart_data/employment_statistics': employment_statistics,
+    '/search': search
 })
 
 # https://stackoverflow.com/questions/30906489/how-to-implement-flask-application-dispatching-by-path-with-wsgi/30915745

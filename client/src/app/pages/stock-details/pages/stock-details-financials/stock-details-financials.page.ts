@@ -1,18 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-stock-details-financials',
   templateUrl: './stock-details-financials.page.html',
   styleUrls: ['./stock-details-financials.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StockDetailsFinancialsPage implements OnInit {
 
-  constructor(private route: ActivatedRoute) { }
+  constructor() { }
 
   ngOnInit() {
-    const symbol = this.route.snapshot.queryParamMap.get('symbol')
-    console.log('symbol', symbol)
+
   }
 
 }
