@@ -32,7 +32,6 @@ export const createStockWatchlist = async (identifier: StockWatchlistIdentifier)
     };
 
     const documentRef = await admin.firestore().collection("stockWatchlist").add(watchlist);
-    await sleep(4000);
 
     return {...watchlist, id: documentRef.id};
   } catch (error) {

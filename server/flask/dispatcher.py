@@ -14,7 +14,7 @@ from Controllers.employment_statistics import app as employment_statistics
 app = Flask(__name__)
 FlaskJSON(app)
 #CORS(app, resources={r"*": {"origins": "*"}})
-CORS(app, automatic_options=True)
+#CORS(app, automatic_options=True)
 
 app.wsgi_app = DispatcherMiddleware(NotFound(), {
     "/fundamentals": fundamentals,
