@@ -1,8 +1,13 @@
 import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
+    EventEmitter,
     Input,
+    OnChanges,
     OnInit,
-    Output, EventEmitter, SimpleChanges, OnChanges,
+    Output,
+    SimpleChanges,
 } from '@angular/core';
 
 import * as Highcharts from 'highcharts/highstock';
@@ -15,14 +20,14 @@ import HStockTools from 'highcharts/modules/stock-tools';
 import HighchartsMoreModule from 'highcharts/highcharts-more';
 
 // import HC_exporting from 'highcharts/modules/exporting';
-
+/*
 HIndicatorsAll(Highcharts);
 HDragPanes(Highcharts);
 HAnnotationsAdvanced(Highcharts);
 HPriceIndicator(Highcharts);
 HFullScreen(Highcharts);
 HStockTools(Highcharts);
-HighchartsMoreModule(Highcharts);
+HighchartsMoreModule(Highcharts);*/
 
 // HC_exporting(Highcharts)
 
@@ -30,6 +35,7 @@ HighchartsMoreModule(Highcharts);
     selector: 'app-financial-chart',
     templateUrl: './financial-chart.component.html',
     styleUrls: ['./financial-chart.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FinancialChartComponent implements OnInit, OnChanges {
     @Output() selectedPeriodEmitter: EventEmitter<string> = new EventEmitter<string>();
@@ -52,7 +58,7 @@ export class FinancialChartComponent implements OnInit, OnChanges {
     updateFromInput = true;
     chartCallback;
     chartOptions = {}; //  : Highcharts.Options
-    constructor() {
+    constructor(private cd: ChangeDetectorRef) {
         // save chart into varaible
         const self = this;
 
@@ -99,7 +105,7 @@ export class FinancialChartComponent implements OnInit, OnChanges {
         this.startingPrice = priceRange[0];
         this.endingPrice = priceRange[priceRange.length - 1];
         this.changeColor();
-
+        this.cd.detectChanges(); // rerender UI
     }
 
     private changeColor() {
@@ -236,7 +242,7 @@ export class FinancialChartComponent implements OnInit, OnChanges {
                     endOnTick: false,
                     opposite: false,
                     visible: this.showYAxis
-                   // min: 0
+                    // min: 0
                 },
                 {
                     title: {

@@ -21,7 +21,7 @@ export class SearchDataApiService {
 
     getTopGains(): Observable<SymbolMovementData[]> {
         return this.http
-            .get<SymbolMovementWrapper>(`${environment.stockAPI}/search/day_top_gains`)
+            .get<SymbolMovementWrapper>(`${environment.marketDataAPI}/search/day_top_gains`)
             .pipe(
                 map((res) => res.data),
                 retry(2)
@@ -30,7 +30,7 @@ export class SearchDataApiService {
 
     getTopLosers(): Observable<SymbolMovementData[]> {
         return this.http
-            .get<SymbolMovementWrapper>(`${environment.stockAPI}/search/day_top_losers`)
+            .get<SymbolMovementWrapper>(`${environment.marketDataAPI}/search/day_top_losers`)
             .pipe(
                 map((res) => res.data),
                 retry(2)
@@ -39,7 +39,7 @@ export class SearchDataApiService {
 
     getTopActive(): Observable<SymbolMovementData[]> {
         return this.http
-            .get<SymbolMovementWrapper>(`${environment.stockAPI}/search/day_most_active`)
+            .get<SymbolMovementWrapper>(`${environment.marketDataAPI}/search/day_most_active`)
             .pipe(
                 map((res) => res.data),
                 retry(2)
@@ -48,7 +48,7 @@ export class SearchDataApiService {
 
     getTopCrypto(): Observable<SymbolMovementData[]> {
         return this.http
-            .get<SymbolMovementWrapper>(`${environment.stockAPI}/search/day_top_cryto`)
+            .get<SymbolMovementWrapper>(`${environment.marketDataAPI}/search/day_top_cryto`)
             .pipe(
                 map((res) => res.data),
                 retry(2)
@@ -57,7 +57,7 @@ export class SearchDataApiService {
 
     getMarketNew(): Observable<NewsArticle[]> {
         return this.http
-            .get<NewsArticleWrapper>(`${environment.stockAPI}/search/news`)
+            .get<NewsArticleWrapper>(`${environment.marketDataAPI}/search/news`)
             .pipe(
                 map((res) => res.economicNews),
                 retry(2)
@@ -66,13 +66,13 @@ export class SearchDataApiService {
 
     getEarningsCalendar(): Observable<EarningsCalendar[]> {
         return this.http
-            .get<EarningsCalendarWrapper>(`${environment.stockAPI}/search/earnings`)
+            .get<EarningsCalendarWrapper>(`${environment.marketDataAPI}/search/earnings`)
             .pipe(map((res) => res.earnings));
     }
 
     searchStockSymbol(prefix: string): Observable<SearchStocks[]> {
         const params = new HttpParams().set('symbol', prefix);
-        return this.http.get<any>(`${environment.stockAPI}/search/search_symbol`, {params}).pipe(
+        return this.http.get<any>(`${environment.marketDataAPI}/search/search_symbol`, {params}).pipe(
             map(res => res.data as SearchStocks[]),
             distinctUntilChanged()
         );

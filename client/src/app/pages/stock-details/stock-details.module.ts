@@ -16,12 +16,12 @@ const routes: Routes = [
                 pathMatch: 'full'
             },*/
             {
-                path: 'statistics',
+                path: 'statistics/:symbol',
                 loadChildren: () => import('./pages/stock-details-statistics/stock-details-statistics.module')
                     .then(m => m.StockDetailsStatisticsPageModule)
             },
             {
-                path: 'financials',
+                path: 'financials/:symbol',
                 loadChildren: () => import('./pages/stock-details-financials/stock-details-financials.module')
                     .then(m => m.StockDetailsFinancialsPageModule)
             }

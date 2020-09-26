@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
 import {ModalController, NavParams} from '@ionic/angular';
-import {StockWatchlistIdentifier} from '../../model/watchlistModel';
 import {WatchlistService} from '../../services/watchlist.service';
 
 @Component({
@@ -12,15 +11,13 @@ import {WatchlistService} from '../../services/watchlist.service';
 export class WatchlistPickerModalContainerComponent implements OnInit {
     symbol: string;
 
-    private DELETE_THIS_LATER = '7eYTErOxXugeHg4JHLS1L5ZKosK2';
-
     constructor(private navParams: NavParams,
                 private watchlistService: WatchlistService,
                 private modalController: ModalController) {
         this.symbol = this.navParams.get('symbol');
     }
 
-    stockWatchLists$ = this.watchlistService.getUserStockWatchlists(this.DELETE_THIS_LATER);
+    stockWatchLists$ = this.watchlistService.getUserStockWatchlists();
 
 
     ngOnInit(): void {
@@ -33,12 +30,7 @@ export class WatchlistPickerModalContainerComponent implements OnInit {
     }
 
     addSymbolToWatchlist(watchListId: string) {
-        const identifier: StockWatchlistIdentifier = {
-            userId: this.DELETE_THIS_LATER,
-            additionalData: this.symbol,
-            id: watchListId
-        };
-        this.watchlistService.addSymbolToWatchlist(identifier)
+        this.watchlistService.addSymbolToWatchlist(watchListId,  this.symbol)
             .subscribe(res => {
                 console.log(res);
             });
@@ -46,7 +38,7 @@ export class WatchlistPickerModalContainerComponent implements OnInit {
 
 
     createWatchList(watchlistName: string) {
-        this.watchlistService.createWatchList({userId: this.DELETE_THIS_LATER, additionalData: watchlistName})
+        this.watchlistService.createWatchList(watchlistName)
             .subscribe(res => {
                 console.log(res);
             });

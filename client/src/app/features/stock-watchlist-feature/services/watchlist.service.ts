@@ -12,17 +12,20 @@ import {
     RemoveStockFromWatchlistGQL,
     RenameStockWatchlistGQL,
     StockWatchlistIdentifier,
-    StockWatchlistInformationFragment, StockWatchlistInformationFragmentDoc,
+    StockWatchlistInformationFragment,
+    StockWatchlistInformationFragmentDoc,
 } from '../../../api/customGraphql.service';
-import {filter, map, shareReplay, takeUntil} from 'rxjs/operators';
-import {Observable, Subject} from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 import {FetchResult} from 'apollo-link';
+import {AuthFeatureService} from '../../auth-feature/services/auth-feature.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class WatchlistService {
-    constructor(private createStockWatchlistGQL: CreateStockWatchlistGQL,
+    constructor(private authService: AuthFeatureService,
+                private createStockWatchlistGQL: CreateStockWatchlistGQL,
                 private addStockIntoWatchlistGQL: AddStockIntoWatchlistGQL,
                 private deleteUserWatchlistGQL: DeleteUserWatchlistGQL,
                 private renameStockWatchlistGQL: RenameStockWatchlistGQL,
@@ -31,220 +34,232 @@ export class WatchlistService {
     }
 
 
-    getUserStockWatchlists(userId?: string): Observable<Array<Maybe<{ __typename?: 'StockWatchlist' } & StockWatchlistInformationFragment>> | null> {
-        return this.queryUserStockWatchlistsGQL.watch({
-            uid: userId
-        }).valueChanges.pipe(
-            map(res => res.data.queryUserStockWatchlists)
+    getUserStockWatchlists(): Observable<Array<Maybe<{ __typename?: 'StockWatchlist' } & StockWatchlistInformationFragment>> | null> {
+        return this.authService.getUser().pipe(
+            switchMap(user => this.queryUserStockWatchlistsGQL.watch({
+                uid: user.uid
+            }).valueChanges.pipe(
+                map(res => res.data.queryUserStockWatchlists)
+            ))
         );
     }
 
     async getDistinctStocks(): Promise<string[]> {
-        const watchlists = await this.queryUserStockWatchlistsGQL.fetch({uid: '7eYTErOxXugeHg4JHLS1L5ZKosK2'}).toPromise();
+        const userId = await this.authService.getUser().toPromise();
+        const watchlists = await this.queryUserStockWatchlistsGQL.fetch({uid: userId.uid}).toPromise();
         const stockArrays = watchlists.data.queryUserStockWatchlists.map(watchlist => watchlist.stocks);
-        const distinctStocks = [...new Set([].concat(...stockArrays))] as string[];
-        return distinctStocks;
+        return [...new Set([].concat(...stockArrays))] as string[]; // distinct stocks
     }
 
 
-    createWatchList(identifier: StockWatchlistIdentifier): Observable<FetchResult<CreateStockWatchlistMutation>> {
-        return this.createStockWatchlistGQL.mutate({
+    createWatchList(watchlistName: string): Observable<FetchResult<CreateStockWatchlistMutation>> {
+        return this.authService.getUser().pipe(
+            switchMap(user => this.createStockWatchlistGQL.mutate({
+                    identifier: {
+                        userId: user.uid,
+                        additionalData: watchlistName
+                    },
+                }, {
+                    optimisticResponse: {
+                        __typename: 'Mutation',
+                        createStockWatchlist: {
+                            __typename: 'StockWatchlist',
+                            name: watchlistName,
+                            timestamp: new Date().getTime(),
+                            id: 'test',
+                            stocks: [],
+                            summary: undefined
+                        }
+                    },
+                    update: (store, {data: {createStockWatchlist}}) => {
+                        // fetch user's watchlist array from cache
+                        const data = store.readQuery<QueryUserStockWatchlistsQuery>({
+                            query: QueryUserStockWatchlistsDocument,
+                            variables: {
+                                uid: user.uid
+                            }
+                        });
+
+                        // add newly created watchlist into array
+                        data.queryUserStockWatchlists = [...data.queryUserStockWatchlists, createStockWatchlist];
+
+                        // update cache
+                        store.writeQuery({
+                            query: QueryUserStockWatchlistsDocument,
+                            variables: {
+                                uid: user.uid
+                            },
+                            data
+                        });
+
+                    }
+                }
+            ))
+        );
+    }
+
+    renameStockWatchlist(watchlistId: string, newWatchlistName: string) {
+        return this.authService.getUser().pipe(
+            switchMap(user => this.renameStockWatchlistGQL.mutate({
                 identifier: {
-                    userId: identifier.userId,
-                    additionalData: identifier.additionalData
+                    id: watchlistId,
+                    userId: user.uid,
+                    additionalData: newWatchlistName
                 },
             }, {
                 optimisticResponse: {
                     __typename: 'Mutation',
-                    createStockWatchlist: {
-                        __typename: 'StockWatchlist',
-                        name: identifier.additionalData,
-                        timestamp: new Date().getTime(),
-                        id: 'test',
-                        stocks: [],
-                        summary: undefined
-                    }
+                    renameStockWatchlist: true
                 },
-                update: (store, {data: {createStockWatchlist}}) => {
-                    // fetch user's watchlist array from cache
-                    const data = store.readQuery<QueryUserStockWatchlistsQuery>({
-                        query: QueryUserStockWatchlistsDocument,
-                        variables: {
-                            uid: identifier.userId
-                        }
+                update: (store, {data: {renameStockWatchlist}}) => {
+                    const watchlist = store.readFragment<StockWatchlistInformationFragment>({
+                        id: `StockWatchlist:${watchlistId}`,
+                        fragment: StockWatchlistInformationFragmentDoc,
+                        fragmentName: 'StockWatchlistInformation'
                     });
 
-                    // add newly created watchlist into array
-                    data.queryUserStockWatchlists = [...data.queryUserStockWatchlists, createStockWatchlist];
+                    // update watchlist with stock information
+                    watchlist.name = newWatchlistName;
 
-                    // update cache
-                    store.writeQuery({
-                        query: QueryUserStockWatchlistsDocument,
-                        variables: {
-                            uid: identifier.userId
-                        },
-                        data
+                    // update watchlist inside cache
+                    store.writeFragment({
+                        id: `StockWatchlist:${watchlistId}`,
+                        fragment: StockWatchlistInformationFragmentDoc,
+                        fragmentName: 'StockWatchlistInformation',
+                        data: watchlist
                     });
-
                 }
-            }
+            }))
         );
     }
 
-    renameStockWatchlist(identifier: StockWatchlistIdentifier) {
-        return this.renameStockWatchlistGQL.mutate({
-            identifier: {
-                id: identifier.id,
-                userId: identifier.userId,
-                additionalData: identifier.additionalData
-            },
-        }, {
-            optimisticResponse: {
-                __typename: 'Mutation',
-                renameStockWatchlist: true
-            },
-            update: (store, {data: {renameStockWatchlist}}) => {
-                const watchlist = store.readFragment<StockWatchlistInformationFragment>({
-                    id: `StockWatchlist:${identifier.id}`,
-                    fragment: StockWatchlistInformationFragmentDoc,
-                    fragmentName: 'StockWatchlistInformation'
-                });
+    deleteUserWatchlist(watchlistId: string) {
+        return this.authService.getUser().pipe(
+            switchMap(user => this.deleteUserWatchlistGQL.mutate({
+                identifier: {
+                    id: watchlistId,
+                    userId: user.uid,
+                    additionalData: undefined
+                },
+            }, {
+                optimisticResponse: {
+                    __typename: 'Mutation',
+                    deleteWatchlist: true
+                },
+                update: (store, {data: {deleteWatchlist}}) => {
+                    const data = store.readQuery<QueryUserStockWatchlistsQuery>({
+                        query: QueryUserStockWatchlistsDocument,
+                        variables: {
+                            uid: user.uid
+                        }
+                    });
+                    data.queryUserStockWatchlists = data.queryUserStockWatchlists.filter(x => x.id !== watchlistId);
+                    console.log('deleting document : ', watchlistId);
 
-                // update watchlist with stock information
-                watchlist.name = identifier.additionalData;
-
-                // update watchlist inside cache
-                store.writeFragment({
-                    id: `StockWatchlist:${identifier.id}`,
-                    fragment: StockWatchlistInformationFragmentDoc,
-                    fragmentName: 'StockWatchlistInformation',
-                    data: watchlist
-                });
-            }
-        });
-    }
-
-    deleteUserWatchlist(identifier: StockWatchlistIdentifier) {
-        return this.deleteUserWatchlistGQL.mutate({
-            identifier: {
-                id: identifier.id,
-                userId: identifier.userId,
-                additionalData: identifier.additionalData
-            },
-        }, {
-            optimisticResponse: {
-                __typename: 'Mutation',
-                deleteWatchlist: true
-            },
-            update: (store, {data: {deleteWatchlist}}) => {
-                const data = store.readQuery<QueryUserStockWatchlistsQuery>({
-                    query: QueryUserStockWatchlistsDocument,
-                    variables: {
-                        uid: identifier.userId
-                    }
-                });
-                data.queryUserStockWatchlists = data.queryUserStockWatchlists.filter(x => x.id !== identifier.id);
-                console.log('deleting document : ', identifier.id);
-
-                // update watchlist inside cache
-                store.writeQuery({
-                    query: QueryUserStockWatchlistsDocument,
-                    variables: {
-                        uid: identifier.userId
-                    },
-                    data
-                });
-            }
-        });
-    }
-
-
-    removeStockFromWatchlist(identifier: StockWatchlistIdentifier) {
-        return this.removeStockFromWatchlistGQL.mutate({
-            identifier: {
-                id: identifier.id,
-                userId: identifier.userId,
-                additionalData: identifier.additionalData
-            },
-        }, {
-            optimisticResponse: {
-                __typename: 'Mutation',
-                removeStockFromStockWatchlist: true
-            },
-            update: (store, {data: {removeStockFromStockWatchlist}}) => {
-                const watchlist = store.readFragment<StockWatchlistInformationFragment>({
-                    id: `StockWatchlist:${identifier.id}`,
-                    fragment: StockWatchlistInformationFragmentDoc,
-                    fragmentName: 'StockWatchlistInformation'
-                });
-
-                // update watchlist with stock information
-                watchlist.stocks = watchlist.stocks.filter(x => x !== identifier.additionalData);
-                watchlist.summary = watchlist.summary.filter(x => x.symbol !== identifier.additionalData);
-
-                // update watchlist inside cache
-                store.writeFragment({
-                    id: `StockWatchlist:${identifier.id}`,
-                    fragment: StockWatchlistInformationFragmentDoc,
-                    fragmentName: 'StockWatchlistInformation',
-                    data: watchlist
-                });
-            }
-        });
-    }
-
-
-    addSymbolToWatchlist(identifier: StockWatchlistIdentifier): Observable<FetchResult<AddStockIntoWatchlistMutation>> {
-        return this.addStockIntoWatchlistGQL.mutate({
-            identifier: {
-                id: identifier.id,
-                userId: identifier.userId,
-                additionalData: identifier.additionalData
-            }
-        }, {
-            optimisticResponse: {
-                __typename: 'Mutation',
-                addStockIntoStockWatchlist: {
-                    __typename: 'Summary',
-                    symbol: identifier.additionalData,
-                    currency: 'USD',
-                    EarningsDate: new Date().toISOString(),
-                    EPSTTM: '-1',
-                    ExDividendDate: '-1',
-                    FiveTwoWeekRange: '-1',
-                    industry: 'None',
-                    logo_url: '',
-                    marketPrice: -1,
-                    OneyTargetEst: -1,
-                    PERatioTTM: '-1',
-                    previousClose: -1,
-                    recommendationKey: '-1',
-                    recommendationMean: -1,
-                    sector: 'None',
-                    targetEstOneyPercent: -1
+                    // update watchlist inside cache
+                    store.writeQuery({
+                        query: QueryUserStockWatchlistsDocument,
+                        variables: {
+                            uid: user.uid
+                        },
+                        data
+                    });
                 }
+            }))
+        );
+    }
 
-            },
-            update: (store, {data: {addStockIntoStockWatchlist}}) => {
-                const watchlist = store.readFragment<StockWatchlistInformationFragment>({
-                    id: `StockWatchlist:${identifier.id}`,
-                    fragment: StockWatchlistInformationFragmentDoc,
-                    fragmentName: 'StockWatchlistInformation'
-                });
 
-                // update watchlist with stock information
-                watchlist.stocks = [...watchlist.stocks, identifier.additionalData];
-                watchlist.summary = [...watchlist.summary, addStockIntoStockWatchlist];
+    removeStockFromWatchlist(watchlistId: string, symbol: string) {
+        return this.authService.getUser().pipe(
+            switchMap(user => this.removeStockFromWatchlistGQL.mutate({
+                identifier: {
+                    id: watchlistId,
+                    userId: user.uid,
+                    additionalData: symbol
+                },
+            }, {
+                optimisticResponse: {
+                    __typename: 'Mutation',
+                    removeStockFromStockWatchlist: true
+                },
+                update: (store, {data: {removeStockFromStockWatchlist}}) => {
+                    const watchlist = store.readFragment<StockWatchlistInformationFragment>({
+                        id: `StockWatchlist:${watchlistId}`,
+                        fragment: StockWatchlistInformationFragmentDoc,
+                        fragmentName: 'StockWatchlistInformation'
+                    });
 
-                // update watchlist inside cache
-                store.writeFragment({
-                    id: `StockWatchlist:${identifier.id}`,
-                    fragment: StockWatchlistInformationFragmentDoc,
-                    fragmentName: 'StockWatchlistInformation',
-                    data: watchlist
-                });
-            },
-        });
+                    // update watchlist with stock information
+                    watchlist.stocks = watchlist.stocks.filter(x => x !== symbol);
+                    watchlist.summary = watchlist.summary.filter(x => x.symbol !== symbol);
+
+                    // update watchlist inside cache
+                    store.writeFragment({
+                        id: `StockWatchlist:${watchlistId}`,
+                        fragment: StockWatchlistInformationFragmentDoc,
+                        fragmentName: 'StockWatchlistInformation',
+                        data: watchlist
+                    });
+                }
+            }))
+        );
+    }
+
+
+    addSymbolToWatchlist(watchListId: string, symbol: string): Observable<FetchResult<AddStockIntoWatchlistMutation>> {
+        return this.authService.getUser().pipe(
+            switchMap(user => this.addStockIntoWatchlistGQL.mutate({
+                identifier: {
+                    id: watchListId,
+                    userId: user.uid,
+                    additionalData: symbol
+                }
+            }, {
+                optimisticResponse: {
+                    __typename: 'Mutation',
+                    addStockIntoStockWatchlist: {
+                        __typename: 'Summary',
+                        symbol,
+                        currency: 'USD',
+                        EarningsDate: new Date().toISOString(),
+                        EPSTTM: '-1',
+                        ExDividendDate: '-1',
+                        FiveTwoWeekRange: '-1',
+                        industry: 'None',
+                        logo_url: '',
+                        marketPrice: -1,
+                        OneyTargetEst: -1,
+                        PERatioTTM: '-1',
+                        previousClose: -1,
+                        recommendationKey: '-1',
+                        recommendationMean: -1,
+                        sector: 'None',
+                        targetEstOneyPercent: -1
+                    }
+
+                },
+                update: (store, {data: {addStockIntoStockWatchlist}}) => {
+                    const watchlist = store.readFragment<StockWatchlistInformationFragment>({
+                        id: `StockWatchlist:${watchListId}`,
+                        fragment: StockWatchlistInformationFragmentDoc,
+                        fragmentName: 'StockWatchlistInformation'
+                    });
+
+                    // update watchlist with stock information
+                    watchlist.stocks = [...watchlist.stocks, symbol];
+                    watchlist.summary = [...watchlist.summary, addStockIntoStockWatchlist];
+
+                    // update watchlist inside cache
+                    store.writeFragment({
+                        id: `StockWatchlist:${watchListId}`,
+                        fragment: StockWatchlistInformationFragmentDoc,
+                        fragmentName: 'StockWatchlistInformation',
+                        data: watchlist
+                    });
+                },
+            }))
+        );
     }
 
 

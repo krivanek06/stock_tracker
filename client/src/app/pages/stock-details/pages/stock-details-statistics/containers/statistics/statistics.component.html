@@ -2,7 +2,7 @@
     <ion-row>
         <ion-col size-xl="3.5" size-md="6.5" size="12">
             <!-- basic info -> buy / sell / favourites buttons -->
-            <app-generic-chart-card [chartTitle]="'Overview'"  [cardHeight]="475">
+            <app-generic-chart-card [chartTitle]="'Overview'" [cardHeight]="475">
                 <app-details-overview [stockDetails]="stockDetails"
                                       (favouritesEmitter)="showWatchlist()"
                                       (showSummaryEmitter)="showSummary()">
@@ -12,7 +12,7 @@
 
         <ion-col size-md="5.5" size="12" class="ion-hide-xl-up">
             <!-- grading history -->
-            <app-generic-chart-card [chartTitle]="'Stock grading'"  [cardHeight]="475">
+            <app-generic-chart-card [chartTitle]="'Stock grading'" [cardHeight]="475">
                 <app-grading-history
                         [history]="stockDetails.queryStockDetails.companyData.upgradeDowngradeHistory"></app-grading-history>
                 <app-stock-trend [trend]="stockDetails.queryStockDetails.companyData.pageViews"></app-stock-trend>
@@ -23,21 +23,19 @@
             <!-- stock chart -->
             <app-generic-chart-card
                     [chartTitle]="stockDetails.queryStockDetails.summary.longName"
-                    [cardHeight]="475"
-                    *ngIf="chartData$ | async as chartData">
-                <app-financial-chart
+                    [cardHeight]="475">
+                <app-financial-chart-container
                         [height]="350"
-                        [showYAxis]="true"
-                        (selectedPeriodEmitter)="loadChartData($event)"
-                        [price]="chartData?.price"
-                        [volume]="chartData?.volume">
-                </app-financial-chart>
+                        [symbol]="stockDetails.queryStockDetails.summary.symbol"
+                        [name]="stockDetails.queryStockDetails.summary.longName">
+                </app-financial-chart-container>
             </app-generic-chart-card>
+
         </ion-col>
 
         <ion-col size-xl="3" class="ion-hide-xl-down">
             <!-- grading history -->
-            <app-generic-chart-card [chartTitle]="'Stock grading'"  [cardHeight]="475">
+            <app-generic-chart-card [chartTitle]="'Stock grading'" [cardHeight]="475">
                 <div class="ion-margin-bottom">
                     <app-grading-history
                             [history]="stockDetails.queryStockDetails.companyData.upgradeDowngradeHistory"></app-grading-history>
@@ -49,7 +47,7 @@
 
     <ion-row>
         <ion-col size-xl="2.5" size-lg="6" size="12">
-            <app-generic-chart-card [chartTitle]="'Financial strength'" >
+            <app-generic-chart-card [chartTitle]="'Financial strength'">
                 <app-details-financial-strength
                         [stockDetails]="stockDetails"></app-details-financial-strength>
             </app-generic-chart-card>

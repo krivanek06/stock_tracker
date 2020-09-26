@@ -9,7 +9,7 @@ import {ChartData, SP500PartialData} from '../shared/models/chartDataModel';
 })
 export class Sp500StatisticsApiService {
 
-  private employmentURL = `${environment.stockAPI}/chart_data/sp500_statistics`;
+  private employmentURL = `${environment.marketDataAPI}/chart_data/sp500_statistics`;
   constructor(private http: HttpClient) {
   }
 

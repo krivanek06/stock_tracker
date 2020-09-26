@@ -196,9 +196,9 @@ class YahooFinanceRequester:
         result = {'price': [], 'volume': [], 'change': [], 'livePrice': price[-1]}
         for i in range(len(timestamp)):
             milliseconds = timestamp[i] * 1000
-            result['price'].append([milliseconds, price[i]])
+            result['price'].append([milliseconds, round(price[i], 2)])
             result['volume'].append([milliseconds, volume[i]])
-            result['price'].append([milliseconds, 0 if i == 0 else round(((price[i] / price[i - 1]) - 1) * 100, 2)])
+            result['change'].append([milliseconds, 0 if i == 0 else round(((price[i] / price[i - 1]) - 1) * 100, 2)])
 
         return result
 

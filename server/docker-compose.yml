@@ -1,18 +1,37 @@
 version: "3.7"
 
 services: 
+    graphql:
+        build: ./graphql
+        container_name: graphql
+        restart: always
+        ports: 
+            - 18081:18081
+        networks:
+            - app-network
+
     flask:
         build: ./flask
         container_name: flask
         restart: always
+        volumes:
+            - ./flask:/app
         environment: 
             - APP_NAME=MyFlaskApp
         expose: 
-            - 5201
+            - 18080
+        networks:
+            - app-network
     
     nginx:
         build: ./nginx
         container_name: nginx
         restart: always
         ports: 
-            - "5200:5200"
+            - "5001:5001"
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge

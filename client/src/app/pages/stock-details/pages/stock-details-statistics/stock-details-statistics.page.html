@@ -1,5 +1,5 @@
 <perfect-scrollbar>
-    <div class="content-padding" *ngIf="details$ | async as details">
+    <div class="content-padding" *ngIf="details$ | async as details; else showSpinner">
 
         <ion-segment color="primary"
                      class="ion-justify-content-end ion-padding-vertical"
@@ -24,6 +24,15 @@
                     [article]="article">
             </app-article-cards>
         </div>
-
     </div>
+
+
+    <ng-template #showSpinner>
+        <div class="spinner-container">
+            <ion-spinner color="primary"></ion-spinner>
+        </div>
+    </ng-template>
+
+
 </perfect-scrollbar>
+

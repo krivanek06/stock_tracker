@@ -21,7 +21,7 @@ export class StockDetailsStatisticsPage implements OnInit {
 
 
     ngOnInit(): void {
-        const symbol = this.route.snapshot.queryParamMap.get('symbol');
+        const symbol = this.route.snapshot.paramMap.get('symbol');
         console.log('symbol', symbol);
         this.details$ = this.stockDetailsService.getStockDetails(symbol);
 

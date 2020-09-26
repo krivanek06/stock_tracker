@@ -9,7 +9,7 @@ import {BitcoinPartialData, ChartData, SP500PartialData} from '../shared/models/
 })
 export class CryptoStatisticsApiService {
 
-  private employmentURL = `${environment.stockAPI}/chart_data/bitcoin_statistics`;
+  private employmentURL = `${environment.marketDataAPI}/chart_data/bitcoin_statistics`;
   constructor(private http: HttpClient) {
   }
 
