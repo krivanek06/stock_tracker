@@ -42,7 +42,7 @@ import { ValueStateDirective } from './directives/value-state.directive';
         FinancialChartModalContainerComponent,
         FinancialChartContainerComponent,
         EconomicChartModalContainerComponent,
-        ValueStateDirective,
+        ValueStateDirective
     ],
     imports: [
         CommonModule,
@@ -84,6 +84,7 @@ import { ValueStateDirective } from './directives/value-state.directive';
         EconomicChartModalContainerComponent,
         NgxDatatableModule,
         ValueStateDirective
+
     ],
     entryComponents: [
         FinancialChartModalContainerComponent,

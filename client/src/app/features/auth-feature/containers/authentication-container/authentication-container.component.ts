@@ -1,5 +1,8 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {LoginIUser} from '../../model/userModel';
+import {IonicDialogService} from './../../../../shared/services/ionic-dialog.service';
+import {RegistrationComponent} from './../../components/registration/registration.component';
+import {LoginComponent} from './../../components/login/login.component';
+import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
+import {LoginIUser, RegisterIUser} from '../../model/userModel';
 import {AuthFeatureService} from '../../services/auth-feature.service';
 import {Router} from '@angular/router';
 
@@ -10,9 +13,13 @@ import {Router} from '@angular/router';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AuthenticationContainerComponent implements OnInit {
-    showLogin = true;
+    @ViewChild('loginComp') loginComp: LoginComponent;
+    @ViewChild('registrationComp') registrationComp: RegistrationComponent;
+
+    segmentValue = 'login';
 
     constructor(private authFeatureService: AuthFeatureService,
+                private ionicDialogService: IonicDialogService,
                 private router: Router) {
     }
 
@@ -21,13 +28,27 @@ export class AuthenticationContainerComponent implements OnInit {
     }
 
     segmentChanged(event: CustomEvent) {
-        console.log(event.detail.value);
-        this.showLogin = event.detail.value === 'login';
+        this.segmentValue = event.detail.value;
     }
 
-    normalLogin(data: LoginIUser) {
-        console.log('normalLogin', data);
-        // TODO
+    async normalLogin(data: LoginIUser) {
+        try {
+            await this.authFeatureService.normalLogin(data);
+            this.router.navigate(['/menu/dashboard']);
+        } catch (e) {
+            this.loginComp.loginForm.reset();
+            this.ionicDialogService.presentToast(e.message);
+        }
+    }
+
+    async registration(registerIUser: RegisterIUser) {
+        try {
+            await this.authFeatureService.normalRegistration(registerIUser);
+            this.router.navigate(['/menu/dashboard']);
+        } catch (e) {
+            this.registrationComp.registrationForm.reset();
+            this.ionicDialogService.presentToast(e.message);
+        }
     }
 
     async signInWithGoogle() {

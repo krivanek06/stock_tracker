@@ -1,4 +1,4 @@
-import { User, UserPrivateDataInput } from './user/user.model';
+import { PrivateData, User } from './user/user.model';
 import { watchlistTypeDefs } from './watchlist/watchlist.typedefs';
 import {ApolloServer, gql} from 'apollo-server';
 import {userTypeDefs} from './user/user.typeDefs';
@@ -9,7 +9,7 @@ import { queryUser } from './user/user.query';
 import { queryUserStockWatchlists as queryUserStockWatchlists } from './watchlist/watchlist.query';
 import { createStockWatchlist, addStockIntoStockWatchlist, removeStockFromStockWatchlist, deleteWatchlist, renameStockWatchlist } from './watchlist/watchlist.mutation';
 import { StockWatchlistIdentifier } from './watchlist/watchList.model';
-import { updateUserData, updateUserPrivateData } from './user/user.mutation';
+import { updateUserData, updateUserPrivateData, registerUser } from './user/user.mutation';
 import { queryStockDetails } from './stockDetails/stockDetails.query';
 import { stockDetailsTypeDefs } from './stockDetails/stockDetails.typedefs';
 
@@ -42,6 +42,7 @@ const mainTypeDefs = gql`
   type Mutation {
         # user
         updateUserData(user: UserInput): User
+        registerUser(user: UserInput): User
         updateUserPrivateData(uid: String, userPrivateDataInput: UserPrivateDataInput): UserPrivateData
 
         ## watchlist
@@ -65,7 +66,8 @@ const mainResolver = {
   Mutation: {
     // for user
     updateUserData: async (_, args: {user: User} ) => await updateUserData(args.user),
-    updateUserPrivateData: async(_, args: {uid: string, userPrivateDataInput: UserPrivateDataInput}) => await updateUserPrivateData(args.uid, args.userPrivateDataInput),
+    registerUser: async (_, args: {user: User} ) => await registerUser(args.user),
+    updateUserPrivateData: async(_, args: {uid: string, userPrivateDataInput: PrivateData}) => await updateUserPrivateData(args.uid, args.userPrivateDataInput),
 
     // for watchlist
     createStockWatchlist: async (_, args: {identifier: StockWatchlistIdentifier} ) => await createStockWatchlist(args.identifier),

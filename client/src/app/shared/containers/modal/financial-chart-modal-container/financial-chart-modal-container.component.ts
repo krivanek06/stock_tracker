@@ -27,7 +27,7 @@ export class FinancialChartModalContainerComponent implements OnInit {
 
     redirectToDetails() {
         this.dismissModal();
-        this.router.navigate([`/menu/stock-details/statistics/${this.chartDataIdentification.symbol}`]);
+        this.router.navigate([`/menu/stock-details/${this.chartDataIdentification.symbol}`]);
     }
 
 }
