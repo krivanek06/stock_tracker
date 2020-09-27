@@ -6,8 +6,12 @@ query queryUser($uid: String!) {
         photoURL,
         nickname,
         locale,
+        providerId
+        activity
+        status
         userPrivateData {
             finnhubKey
+            roles
         }
     }
 }
@@ -15,6 +19,7 @@ query queryUser($uid: String!) {
 mutation updateUserPrivateData($uid: String!, $userPrivateDataInput: UserPrivateDataInput!) {
     updateUserPrivateData(uid: $uid, userPrivateDataInput: $userPrivateDataInput) {
         finnhubKey
+        roles
     }
 }
 
@@ -24,8 +29,32 @@ mutation updateUserData($userInput: UserInput!) {
         displayName,
         email,
         photoURL,
-        nickname
+        nickname,
+        locale,
+        providerId
+        activity
+        status
+        userPrivateData {
+            finnhubKey
+            roles
+        }
     }
 }
 
-
+mutation registerUser($userInput: UserInput!) {
+    registerUser(user: $userInput) {
+        uid,
+        displayName,
+        email,
+        photoURL,
+        nickname,
+        locale,
+        providerId
+        activity
+        status
+        userPrivateData {
+            finnhubKey
+            roles
+        }
+    }
+}

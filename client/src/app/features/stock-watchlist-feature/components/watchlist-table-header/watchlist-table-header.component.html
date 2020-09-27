@@ -5,7 +5,7 @@
             <ion-icon name="pencil" class="grey-regular-icon"></ion-icon>
         </ion-button>
         <!-- header info -->
-        <ion-label style="padding-left: 10px;" *ngIf="!editing">
+        <ion-label style="padding-left: 10px; max-width: 350px;" *ngIf="!editing">
             <p class="table-header">{{ stockWatchlist.name }}   [ {{ stockWatchlist.stocks.length }} ]</p>
             <p class="table-header-timestamp">Created at {{ stockWatchlist.timestamp |  date: 'dd/MM/yyyy' }}</p>
         </ion-label>

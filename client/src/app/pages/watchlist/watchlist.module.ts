@@ -20,8 +20,6 @@ const routes: Routes = [
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule,
-        IonicModule,
         StockWatchlistModule,
         SharedModule,
         RouterModule.forChild(routes)

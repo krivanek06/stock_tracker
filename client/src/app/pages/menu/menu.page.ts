@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Apollo} from 'apollo-angular';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {Router} from '@angular/router';
+import {AuthFeatureService} from '../../features/auth-feature/services/auth-feature.service';
 
 @Component({
     selector: 'app-menu',
@@ -44,9 +42,7 @@ export class MenuPage implements OnInit {
     ];
 
 
-    constructor(private apollo: Apollo,
-                private afAuth: AngularFireAuth,
-                private router: Router) {
+    constructor(private authFeatureService: AuthFeatureService) {
     }
 
     ngOnInit() {
@@ -58,9 +54,7 @@ export class MenuPage implements OnInit {
     }
 
     async logout() {
-        await this.apollo.getClient().clearStore();
-        await this.afAuth.signOut();
-        await this.router.navigate(['/login']);
+        await this.authFeatureService.logout();
     }
 
 }

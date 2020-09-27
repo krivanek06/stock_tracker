@@ -116,7 +116,7 @@ export class WatchlistTablesContainerComponent implements OnInit, OnDestroy, OnC
     }
 
     redirectToDetails(data: ChartDataIdentification) {
-        this.router.navigate([`/menu/stock-details/statistics/${data.symbol}`]);
+        this.router.navigate([`/menu/stock-details/${data.symbol}`]);
     }
 
     renameWatchlist(data: DocumentIdentification) {

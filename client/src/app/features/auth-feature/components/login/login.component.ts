@@ -10,33 +10,35 @@ import {LoginIUser} from '../../model/userModel';
 })
 export class LoginComponent implements OnInit {
     @Output() loginEmitter: EventEmitter<LoginIUser> = new EventEmitter<LoginIUser>();
-    public loginForm: FormGroup;
 
-    constructor(private formBuilder: FormBuilder) {
+  loginForm: FormGroup;
 
+  constructor(private formBuilder: FormBuilder) {
+
+  }
+
+  ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
+  }
+
+
+  login() {
+    if (this.loginForm.invalid) {
+      return;
     }
+    this.loginEmitter.emit({email: this.email.value, password: this.password.value});
+  }
 
-    ngOnInit() {
-        this.loginForm = this.formBuilder.group({
-            username: ['', Validators.required],
-            password: ['', Validators.required]
-        });
-    }
+  get email() {
+    return this.loginForm.get('email');
+  }
 
+  get password() {
+    return this.loginForm.get('password');
+  }
 
-    login() {
-        if (this.loginForm.invalid) {
-            return;
-        }
-        this.loginEmitter.emit({username: this.username.value, password: this.password.value});
-    }
-
-    get username() {
-        return this.loginForm.get('username');
-    }
-
-    get password() {
-        return this.loginForm.get('password');
-    }
 
 }

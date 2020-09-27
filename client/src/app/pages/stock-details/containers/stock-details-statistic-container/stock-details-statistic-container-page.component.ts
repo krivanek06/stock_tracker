@@ -1,31 +1,32 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {ChartDataApiService} from '../../../../../../api/chart-data-api.service';
+import {StockDetailsService} from '../../../../features/stock-details-feature/services/stock-details.service';
+import {QueryStockDetailsQuery} from '../../../../api/customGraphql.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {DetailsSummaryModalComponent} from '../../../../features/stock-details-feature/components/modal/details-summary-modal/details-summary-modal.component';
+import {WatchlistPickerModalContainerComponent} from '../../../../features/stock-watchlist-feature/containers/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
+import {DetailsFinancialReportModalComponent} from '../../../../features/stock-details-feature/components/modal/details-financial-report-modal/details-financial-report-modal.component';
+import {ChartDataApiService} from '../../../../api/chart-data-api.service';
 import {ModalController} from '@ionic/angular';
-import {DetailsSummaryModalComponent} from '../../../../../../features/stock-details-feature/components/modal/details-summary-modal/details-summary-modal.component';
-import {WatchlistPickerModalContainerComponent} from '../../../../../../features/stock-watchlist-feature/containers/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
-import {DetailsFinancialReportModalComponent} from '../../../../../../features/stock-details-feature/components/modal/details-financial-report-modal/details-financial-report-modal.component';
-import {QueryStockDetailsQuery} from '../../../../../../api/customGraphql.service';
-import {ChartType} from '../../../../../../shared/models/sharedModel';
+import {ChartType} from '../../../../shared/models/sharedModel';
 
 @Component({
-    selector: 'app-statistics',
-    templateUrl: './statistics.component.html',
-    styleUrls: ['./statistics.component.scss'],
+    selector: 'app-stock-details-statistic-container',
+    templateUrl: './stock-details-statistic-container-page.component.html',
+    styleUrls: ['./stock-details-statistic-container-page.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StatisticsComponent implements OnInit {
-
+export class StockDetailsStatisticContainerPage implements OnInit {
     @Input() stockDetails: QueryStockDetailsQuery;
-
     ChartType = ChartType;
 
-    constructor(private chartDataService: ChartDataApiService,
-                private modalController: ModalController) {
+    constructor(private modalController: ModalController) {
     }
 
-    ngOnInit() {
+
+    ngOnInit(): void {
 
     }
+
 
     async showSummary() {
         const modal = await this.modalController.create({
@@ -57,5 +58,4 @@ export class StatisticsComponent implements OnInit {
         });
         return await modal.present();
     }
-
 }

@@ -1,5 +1,5 @@
 <!-- segments to show login or registration -->
-<ion-segment value="login" (ionChange)="segmentChanged($event)">
+<ion-segment [value]="segmentValue" (ionChange)="segmentChanged($event)">
     <ion-segment-button value="login" layout="icon-start">
         <ion-label>Login</ion-label>
     </ion-segment-button>
@@ -9,8 +9,8 @@
 </ion-segment>
 
 <div class="ion-padding">
-    <app-login *ngIf="showLogin" (loginEmitter)="normalLogin($event)"></app-login>
-
+    <app-login #loginComp *ngIf="segmentValue === 'login'" (loginEmitter)="normalLogin($event)"></app-login>
+    <app-registration #registrationComp *ngIf="segmentValue === 'registration'" (registrationEmitter)="registration($event)"></app-registration>
 
     <!-- social media buttons -->
     <div class="ion-padding social-media-container">
@@ -18,9 +18,13 @@
             <ion-icon name="logo-google" class="ion-margin-end"></ion-icon>
             Sign in with Google
         </ion-button>
-        <ion-button expand="full" color="primary" class="ion-margin-bottom" (click)="signInWithFacebook()">
+       <!-- <ion-button expand="full" color="primary" class="ion-margin-bottom" (click)="signInWithFacebook()">
             <ion-icon name="logo-facebook" class="ion-margin-end"></ion-icon>
             Sign in with Facebook
-        </ion-button>
+        </ion-button> -->
     </div>
 </div>
+
+
+
+
