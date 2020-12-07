@@ -15,29 +15,34 @@ export class MenuPage implements OnInit {
             icon: 'grid-outline'
         },
         {
+            title: 'Market',
+            url: '/menu/market',
+            icon: 'rocket-outline'
+        },
+        {
             title: 'Watchlist',
             url: '/menu/watchlist',
             icon: 'stats-chart-outline'
         },
         {
-            title: 'Simulator',
-            url: '/menu/simulator',
-            icon: 'trending-up-outline'
+            title: 'Trading',
+            url: '/menu/trading',
+            icon: 'analytics-outline'
         },
         {
-            title: 'Profile',
-            url: '/menu/profile',
-            icon: 'person-outline'
-        },
-        {
-            title: 'About',
-            url: '/menu/about',
-            icon: 'help-circle-outline'
+            title: 'Ranking',
+            url: '/menu/ranking',
+            icon: 'medal-outline'
         },
         {
             title: 'Admin',
             url: '/menu/admin',
             icon: 'finger-print-outline'
+        },
+        {
+            title: 'About',
+            url: '/menu/about',
+            icon: 'help-circle-outline'
         },
     ];
 

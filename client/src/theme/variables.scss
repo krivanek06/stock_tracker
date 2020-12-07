@@ -321,14 +321,13 @@
 
     ion-header {
       ion-toolbar {
-        /* --background: linear-gradient(180deg, rgb(1, 18, 49) 0%, rgb(1, 0, 60) 55%, rgb(3, 1, 75) 100%);*/
         --background: #{$background-blue} !important;
         --color: #{$default-word} !important;
       }
     }
 
     ion-content {
-      --background: linear-gradient(90deg, rgb(0, 18, 49) 0%, rgb(2, 1, 56) 55%, rgb(1, 0, 34) 100%);
+      --background: linear-gradient(126deg, rgba(35,56,107,1) 0%, rgba(41, 59, 115, 1) 29%, rgba(25,42,97,1) 44%, rgba(19,32,73,1) 73%, rgba(11,20,49,1) 100%);
       --color: #{$default-word};
     }
 
@@ -341,15 +340,19 @@
       --background: #{$background-blue} !important;
 
       ion-content {
-        --background: #{$background-blue} !important;
+        --background: linear-gradient(180deg, rgba(41,65,121,1) 0%, rgba(12,21,54,1) 100%);
 
         ion-list {
-          background: #{$background-blue} !important;
+          background: transparent;
         }
 
         ion-item {
-          --background: #{$background-blue} !important;
-          --color: #{$default-word} !important;
+          ion-icon{
+            color: #{$blue-1};
+          }
+          ion-label{
+            color: #{$font-2};
+          }
         }
       }
     }

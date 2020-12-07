@@ -1,23 +1,22 @@
 <ion-split-pane contentId="main-content" when="xl">
     <ion-menu contentId="main-content" style="border: none;"> <!-- type="overlay" -->
-        <ion-content class="ion-padding-horizontal">
+        <ion-content>
 
-            <ion-toolbar>
-                <ion-menu-toggle slot="start" class="toggle-button">
-                    <ion-menu-button autoHide="false" style="font-size: 25px;" ></ion-menu-button>
-                </ion-menu-toggle>
-
-                <ion-title class="app-title">
-                    Stock tracker
-                </ion-title>
-
-            </ion-toolbar>
+            <!-- avatar -->
+            <div class="navigation-avatar">
+                <ion-avatar>
+                    <ion-img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"></ion-img>
+                </ion-avatar>
+                <ion-label class="navigation-avatar-name st-font-1">Eduard Krivanek</ion-label>
+                <ion-label class="st-font-4">manage</ion-label>
+            </div>
 
             <!-- navigation -->
             <ion-list>
                 <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
+                    <div *ngIf="selectedIndex == i" class="navigation-rectangle-selected"></div>
                     <ion-item (click)="selectedIndex = i"
-                              class="ion-no-padding clickable"
+                              class="navigation"
                               routerDirection="root"
                               [routerLink]="[p.url]"
                               lines="none"
@@ -31,7 +30,7 @@
 
             <!-- logout button -->
             <ion-menu-toggle auto-hide="false" class="log-out-button">
-                <ion-item (click)="logout()" class="ion-no-padding clickable" routerLink="/login">
+                <ion-item (click)="logout()" class="navigation" routerLink="/login">
                     <ion-icon name="log-out-outline"></ion-icon>
                     <ion-label class="ion-margin-start">LogOut</ion-label>
                 </ion-item>
