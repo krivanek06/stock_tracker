@@ -1,4 +1,6 @@
-.content-fit{
+@import "custom-variable";
+
+.content-fit {
   min-width: fit-content;
   max-width: fit-content;
 }
@@ -17,11 +19,60 @@ ion-spinner {
   height: 50px !important;
 }
 
-.news-container{
+.news-container {
   column-count: 2;
   padding: 20px;
   @media (min-width: 0px) and (max-width: 1600px) {
     column-count: 1;
   }
+}
+
+
+// COLOR CLASSES - FONT
+.st-font-0 {
+  color: #{$font-0};
+}
+
+.st-font-1 {
+  color: #{$font-1};
+}
+
+.st-font2 {
+  color: #{$font-2};
+}
+
+.st-font-3 {
+  color: #{$font-3};
+}
+
+.st-font-4 {
+  color: #{$font-4};
+}
+
+
+// COLOR CLASSES - BUTTONS
+.st-create {
+  color: #{$blue-2};
+}
+
+.st-create {
+  color: #{$remove-1};
+}
+
+.st-create {
+  color: #{$accept-1};
+}
+
+.st-create {
+  color: #{$edit-1};
+}
+
+// COLOR CLASSES - BLUE
+.st-icon {
+  color: #{$blue-1};
+}
+
+.st-card-background {
+  color: #{$blue-3};
 }
 

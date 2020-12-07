@@ -29,14 +29,16 @@ const routes: Routes = [
                 loadChildren: () => import('../stock-details/stock-details.module').then(m => m.StockDetailsPageModule)
             },
             {
-                path: 'profile',
-                canActivate: [AuthGuard],
-                loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
+                path: 'trading',
+                loadChildren: () => import('../trading/trading.module').then( m => m.TradingPageModule)
             },
             {
-                path: 'simulator',
-                canActivate: [AuthGuard],
-                loadChildren: () => import('../simulator/simulator.module').then(m => m.SimulatorPageModule)
+                path: 'market',
+                loadChildren: () => import('../market/market.module').then( m => m.MarketPageModule)
+            },
+            {
+                path: 'ranking',
+                loadChildren: () => import('../ranking/ranking.module').then( m => m.RankingPageModule)
             },
             {
                 path: 'about',
