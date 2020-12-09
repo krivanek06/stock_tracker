@@ -1,0 +1,18 @@
+<h3>Create group</h3>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+
+    <ion-item>
+        <ion-label position="floating">Group name</ion-label>
+        <ion-input placeholder="Enter group name" type="text" formControlName="title"></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label>Group description</ion-label>
+        <ion-textarea placeholder="Enter group description" formControlName="description"></ion-textarea>
+    </ion-item>
+
+    <ion-button type="submit" [disabled]="!form.valid">Submit</ion-button>
+
+
+</form>

@@ -59,6 +59,7 @@ import { ValueStateDirective } from './directives/value-state.directive';
         NgxDatatableModule
     ],
     exports: [
+        CommonModule,
         ReactiveFormsModule,
         FormsModule,
         PerfectScrollbarModule,
@@ -89,6 +90,7 @@ import { ValueStateDirective } from './directives/value-state.directive';
     entryComponents: [
         FinancialChartModalContainerComponent,
         EconomicChartModalContainerComponent
+
     ]
 })
 export class SharedModule {

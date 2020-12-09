@@ -29,8 +29,9 @@ export class HeaderComponent implements OnInit {
 
     }
 
-    searchForSymbol(stockPrefix: CustomEvent) {
-        this.searchStocks$ = stockPrefix.detail.value ? this.searchDataApiService.searchStockSymbol(stockPrefix.detail.value) : undefined;
+    showSearch() {
+        console.log('show search')
+        // this.searchStocks$ = stockPrefix.detail.value ? this.searchDataApiService.searchStockSymbol(stockPrefix.detail.value) : undefined;
     }
 
     async showSearchSymbolGraph(chartDataIdentification: ChartDataIdentification) {
