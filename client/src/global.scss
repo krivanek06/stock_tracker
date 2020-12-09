@@ -33,13 +33,15 @@
 @import '~@swimlane/ngx-datatable/assets/icons.css';
 
 @import "./app/shared/styles/custom-variable";
+@import "./app/shared/styles/general-styling";
+
 
 
 * {
-  font-size: 15px;
-  @media (max-width: 900px) {
+  font-size: 14px;
+  /*@media (max-width: 900px) {
     font-size: 13px;
-  }
+  }*/
 
   ion-icon{
     font-size: 25px;
@@ -49,9 +51,11 @@
 
 // class to add for each modal
 .custom-modal .modal-wrapper {
-  @media (min-width: 800px) {
-    width: 65% !important;
-    height: 650px !important;
+  width: 85% !important;
+  height: 700px !important;
+  @media (max-width: 850px) {
+    width: 100% !important;
+    height: 100% !important;
   }
 }
 

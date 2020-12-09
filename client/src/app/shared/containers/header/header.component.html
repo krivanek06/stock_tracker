@@ -1,37 +1,23 @@
-<ion-header>
-   <!-- <ion-toolbar>
+<ion-header class="ion-no-border">
+    <ion-toolbar>
 
         <ion-menu-toggle slot="start">
             <ion-menu-button autoHide="false" style="font-size: 25px;"></ion-menu-button>
         </ion-menu-toggle>
 
-        <ion-item>
-            <ion-label class="search-bar-container">
-                <ion-searchbar
-                        style="width: 90%"
-                        [debounce]="500"
-                        (ionChange)="searchForSymbol($event)">
-                </ion-searchbar>
+
+        <ion-item class="search-bar-container">
+            <ion-label>
+                <!-- search bar -->
+                <ion-chip class="ion-search-chip">
+                    <ion-searchbar [disabled]="true" (ionChange)="showSearch()"></ion-searchbar>
+                </ion-chip>
             </ion-label>
-            <ion-label class="ion-text-end content-fit" position="fixed">
-                <ion-icon name="mail" class="divider-space clickable"></ion-icon>
-                <ion-icon name="notifications" class="divider-space clickable"></ion-icon>
-                <span *ngIf="user$ | async as user"
-                      class="ion-margin-end divider-space ion-hide-sm-down">
-                  {{ user.displayName }}
-                </span>
+            <!-- bell icon -->
+            <ion-label class="ion-text-end content-fit ion-margin-start" position="fixed">
+                <ion-icon name="notifications"></ion-icon>
             </ion-label>
         </ion-item>
 
     </ion-toolbar>
-
-    search result
-    <ion-toolbar *ngIf="searchStocks$ | async as searchStocks">
-        <ion-item *ngFor="let data of searchStocks" class="ion-padding-start clickable"
-                  (click)="showSearchSymbolGraph({symbol: data.symbol, name: data.displayName})">
-            <ion-label>
-                {{ data.displayName }}
-            </ion-label>
-        </ion-item>
-    </ion-toolbar> -->
 </ion-header>

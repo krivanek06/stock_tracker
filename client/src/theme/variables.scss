@@ -261,8 +261,6 @@
         }
       }
     }
-
-
   }
 
 
@@ -321,15 +319,19 @@
 
     ion-header {
       ion-toolbar {
-        --background: #{$background-blue} !important;
-        --color: #{$default-word} !important;
+        --background: transparent;
       }
     }
 
     ion-content {
-      --background: linear-gradient(126deg, rgba(35,56,107,1) 0%, rgba(41, 59, 115, 1) 29%, rgba(25,42,97,1) 44%, rgba(19,32,73,1) 73%, rgba(11,20,49,1) 100%);
-      --color: #{$default-word};
+      --background: linear-gradient(126deg, rgba(28, 52, 113, 1) 0%,
+              rgba(18, 44, 107, 1) 29%,
+              rgba(24, 42, 99, 1) 44%,
+              rgba(14, 30, 82, 1) 73%,
+              rgba(11, 20, 49, 1) 100%);
+      --color: #{$font-2};
     }
+
 
     ion-toolbar {
       --background: transparent;
@@ -340,17 +342,18 @@
       --background: #{$background-blue} !important;
 
       ion-content {
-        --background: linear-gradient(180deg, rgba(41,65,121,1) 0%, rgba(12,21,54,1) 100%);
+        --background: linear-gradient(180deg, rgba(24, 39, 95, 1) 0%, rgba(14, 24, 58, 1) 100%);
 
         ion-list {
           background: transparent;
         }
 
         ion-item {
-          ion-icon{
+          ion-icon {
             color: #{$blue-1};
           }
-          ion-label{
+
+          ion-label {
             color: #{$font-2};
           }
         }

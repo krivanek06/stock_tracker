@@ -37,7 +37,7 @@ ion-spinner {
   color: #{$font-1};
 }
 
-.st-font2 {
+.st-font-2 {
   color: #{$font-2};
 }
 
@@ -47,6 +47,23 @@ ion-spinner {
 
 .st-font-4 {
   color: #{$font-4};
+}
+
+// FONT SIZES
+.st-font-size-14 {
+  font-size: 14px;
+}
+
+.st-font-size-16 {
+  font-size: 16px;
+}
+
+.st-font-size-18 {
+  font-size: 18px;
+}
+
+.st-font-size-20 {
+  font-size: 20px;
 }
 
 
@@ -74,5 +91,14 @@ ion-spinner {
 
 .st-card-background {
   color: #{$blue-3};
+}
+
+.st-modal-background {
+
+  --background: linear-gradient(126deg, rgba(22, 39, 77, 1) 0%,
+          rgba(10, 25, 71, 1) 29%,
+          rgba(9, 24, 72, 1) 44%,
+          rgba(10, 24, 70, 1) 73%,
+          rgba(7, 22, 62, 1) 100%) !important;
 }
 
