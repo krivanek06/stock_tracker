@@ -24,7 +24,7 @@ export class GroupCreateFormComponent implements OnInit {
     private initForm() {
         this.form = this.fb.group({
             groupName: [null, [Validators.required]],
-            description: [null, [Validators.required]]
+            groupDescription: [null, [Validators.required]]
         });
     }
 

@@ -6,7 +6,7 @@
     </ion-item>
 
     <div class="group-name-wrapper">
-        <ion-text class="group-name">GROUP1</ion-text>
+        <ion-text class="group-name" (click)="clickedGroup('group1')" [ngClass]="{'st-icon': activeGroup === 'group1'}">GROUP1</ion-text>
         <ion-text  class="group-name">GROUP1</ion-text>
         <ion-text  class="group-name">GROUP1</ion-text>
         <ion-text  class="group-name">GROUP1</ion-text>

@@ -1,68 +1,72 @@
-@import "../../shared/styles/custom-variable";
-@import "../../shared/styles/general-styling";
+@import "custom-variables";
 
+:host{
+  ion-item ion-label{
+    font-size: 15px;
+    @media (max-width: 550px) {
+      font-size: 14px;
+    }
+  }
 
+  .log-out-button{
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+  }
 
-ion-item ion-label{
-  font-size: 15px;
-  @media (max-width: 550px) {
-    font-size: 14px;
+  .navigation-avatar{
+    text-align: -webkit-center;
+    margin-bottom: 12px;
+    margin-top: 25px;
+  }
+
+  .navigation-avatar-name{
+    display: block;
+  }
+
+  ion-avatar{
+    width: 80px;
+    height: 80px;
+    margin-bottom: 8px;
+  }
+
+  ion-menu{
+    min-width: 200px!important;
+    max-width: 200px!important;
+  }
+  /*
+  .toggle-button{
+    margin-top: -10px;
+    margin-left: -10px;
+    color: #616e7e;
+  }*/
+
+  .navigation{
+    width: 96%;
+    border-radius: 0 25px 25px 0;
+  }
+
+  .navigation-rectangle-selected{
+    width: 7px;
+    height: 48px;
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    background: #{$st-var-blue-1};
+  }
+
+  ion-menu.md ion-item.selected ion-icon,
+  ion-menu.md ion-item.selected,
+  ion-menu.ios ion-item.selected ion-icon,
+  ion-item.selected,
+  ion-item.selected ion-label{
+    background-color: #{$st-var-blue-4};
+    color: #{$st-var-blue-1};
+  }
+
+  .page-section{
+    margin-left: 16px;
+    font-size: 12px;
+    color: #{$st-var-font-4};
   }
 }
-
-.log-out-button{
-  position: absolute;
-  bottom: 25px;
-  width: 85%;
-}
-
-.navigation-avatar{
-  text-align: -webkit-center;
-  margin-bottom: 12px;
-  margin-top: 40px;
-}
-
-.navigation-avatar-name{
-  display: block;
-}
-
-ion-avatar{
-  width: 80px;
-  height: 80px;
-  margin-bottom: 8px;
-}
-
-ion-menu{
-  min-width: 200px!important;
-  max-width: 200px!important;
-}
-/*
-.toggle-button{
-  margin-top: -10px;
-  margin-left: -10px;
-  color: #616e7e;
-}*/
-
-.navigation{
-  width: 96%;
-  border-radius: 0 25px 25px 0;
-}
-
-.navigation-rectangle-selected{
-  width: 7px;
-  height: 48px;
-  position: absolute;
-  left: 0;
-  z-index: 1;
-  background: #{$blue-1};
-}
-
-ion-menu.md ion-item.selected ion-icon,
-ion-menu.md ion-item.selected,
-ion-menu.ios ion-item.selected ion-icon,
-ion-item.selected,
-ion-item.selected ion-label{
-  background-color: #{$blue-4};
-  color: #{$blue-1};
-}
-

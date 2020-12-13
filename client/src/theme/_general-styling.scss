@@ -1,0 +1,185 @@
+@import "custom-variables";
+
+.content-fit {
+  min-width: fit-content !important;
+  max-width: fit-content !important;
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 80vh;
+}
+
+ion-spinner {
+  width: 50px !important;
+  height: 50px !important;
+}
+
+.news-container {
+  column-count: 2;
+  padding: 20px;
+  @media (min-width: 0px) and (max-width: 1600px) {
+    column-count: 1;
+  }
+}
+
+// border
+.st-border-right {
+  border-right: 1px solid #{$st-var-font-4};
+}
+
+.st-border-left {
+  border-left: 1px solid #{$st-var-font-4};
+}
+
+.st-border-top {
+  border-top: 1px solid #{$st-var-font-4};
+}
+
+.st-border-bottom {
+  border-bottom: 1px solid #{$st-var-font-4};
+}
+
+// hover transformation
+.st-hover-card {
+  transition: All 0.3s ease-out;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 1px 5px 10px 2px rgb(16 19 43 / 64%);
+    border-radius: 10px;
+    transform: scale(1.05);
+  }
+}
+
+
+// COLOR CLASSES - FONT
+.st-font-0 {
+  color: #{$st-var-font-0} !important;
+}
+
+.st-font-1 {
+  color: #{$st-var-font-1} !important;
+}
+
+.st-font-2 {
+  color: #{$st-var-font-2} !important;
+}
+
+.st-font-3 {
+  color: #{$st-var-font-3} !important;
+}
+
+.st-font-4 {
+  color: #{$st-var-font-4} !important;
+}
+
+// custom headers
+.st-h3 {
+  color: #{$st-var-font-1} !important;
+  margin-top: 0;
+  font-size: 20px;
+  margin-bottom: 22px;
+  /*@media (max-width: #{$st-var-md-split}) {
+    font-size: 18px;
+  }*/
+
+}
+
+// FONT SIZES
+.st-font-size-12 {
+  font-size: 12px;
+}
+
+.st-font-size-14 {
+  font-size: 14px;
+}
+
+.st-font-size-16 {
+  font-size: 16px;
+}
+
+.st-font-size-18 {
+  font-size: 18px;
+}
+
+.st-font-size-20 {
+  font-size: 20px;
+}
+
+
+// COLOR CLASSES - BUTTONS
+
+.st-create-background {
+  --background: #{ $st-var-create-1} ! important;
+}
+
+.st-remove-background {
+  --background: #{ $st-var-remove-1} ! important;
+}
+
+.st-accept-background {
+  --background: #{ $st-var-accept-1} ! important;
+}
+
+.st-accept {
+  color: #{ $st-var-accept-1} ! important;
+}
+
+.st-edit-background {
+  --background: #{ $st-var-edit-1} ! important;
+}
+
+// COLOR CLASSES - BLUE
+.st-icon {
+  color: #{ $st-var-blue-1} !important;
+}
+
+.st-icon-size-30 {
+  font-size: 30px;
+}
+
+.st-icon-size-header {
+  font-size: 30px;
+  @media (max-width: #{$st-var-sm-split}) {
+    font-size: 26px;
+  }
+}
+
+.st-font-size-header {
+  font-size: 20px;
+  @media (max-width: #{$st-var-sm-split}) {
+    font-size: 18px;
+  }
+}
+
+.st-card-background {
+  background-color: #{ $st-var-blue-3} !important;
+}
+
+.st-modal-background {
+  --background: linear-gradient(126deg, rgba(22, 39, 77, 1) 0%,
+          rgba(10, 25, 71, 1) 29%,
+          rgba(9, 24, 72, 1) 44%,
+          rgba(10, 24, 70, 1) 73%,
+          rgba(7, 22, 62, 1) 100%) !important;
+}
+
+
+
+
+// WIDTH
+
+.st-width-full-sm-screen{
+  @media (max-width: #{$st-var-sm-split}) {
+    width: 100% !important;
+  }
+}
+
+.st-width-100 {
+  width: 100%;
+}
