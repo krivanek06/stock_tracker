@@ -7,6 +7,7 @@ import {SearchStocks} from '../../models/chartDataModel';
 import {FinancialChartModalContainerComponent} from '../modal/financial-chart-modal-container/financial-chart-modal-container.component';
 import {ModalController} from '@ionic/angular';
 import {ChartDataIdentification} from '../../models/sharedModel';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-header',
@@ -21,6 +22,7 @@ export class HeaderComponent implements OnInit {
 
     constructor(private authFeatureService: AuthFeatureService,
                 private searchDataApiService: SearchDataApiService,
+                private router: Router,
                 private modalController: ModalController) {
     }
 
@@ -30,12 +32,12 @@ export class HeaderComponent implements OnInit {
     }
 
     showSearch() {
-        console.log('show search')
+        console.log('show search');
         // this.searchStocks$ = stockPrefix.detail.value ? this.searchDataApiService.searchStockSymbol(stockPrefix.detail.value) : undefined;
     }
 
     async showSearchSymbolGraph(chartDataIdentification: ChartDataIdentification) {
-        console.log(chartDataIdentification)
+        console.log(chartDataIdentification);
         const modal = await this.modalController.create({
             component: FinancialChartModalContainerComponent,
             componentProps: {chartDataIdentification},
@@ -45,4 +47,7 @@ export class HeaderComponent implements OnInit {
     }
 
 
+    redirectToSearch() {
+        this.router.navigate([`/menu/search`]);
+    }
 }

@@ -32,8 +32,9 @@
 @import '~@swimlane/ngx-datatable/themes/bootstrap.scss';
 @import '~@swimlane/ngx-datatable/assets/icons.css';
 
-@import "./app/shared/styles/custom-variable";
-@import "./app/shared/styles/general-styling";
+//@import "./theme/custom-variables.scss";
+@import "theme/custom-variables.scss";
+@import "theme/general-styling.scss";
 
 
 
@@ -74,7 +75,7 @@
 
 
 // class to add for each ion-content
-.content-padding {
+.st-content-padding {
   /*padding: 16px;*/
   padding: 10px 45px 50px 20px;
   @media (max-width: 1400px) {

@@ -1,15 +1,13 @@
-@import "../../../../shared/styles/custom-variable";
-@import "../../../../shared/styles/general-styling";
-
+@import "custom-variables";
 :host {
   .group-name {
-    color: #{$font-4};
+    color: #{$st-var-font-4};
     transition: All 0.3s ease-out;
     cursor: pointer;
     margin-bottom: 5px;
 
     &:hover {
-      color: #{$font-2};
+      color: #{$st-var-font-2};
     }
   }
 

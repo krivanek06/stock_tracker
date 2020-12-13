@@ -1,47 +1,51 @@
-@import "../../styles/custom-variable";
-@import "../../styles/general-styling";
+@import 'custom-variables';
 
 :host{
-  ion-searchbar{
-    --background: transparent;
-    --color: #{$font-2};
-    --box-shadow: none;
-    --icon-color: #{$blue-1} ;
-    --placeholder-opacity: 0.8;
-    padding: 0;
-  }
-
-  .search-bar-container{
-    padding-left: 16px;
+  .bell-icon{
     padding-right: 16px;
-    @media (max-width: 600px) {
-      padding-left: 6px;
+    @media (max-width: #{$st-var-sm-split}) {
       padding-right: 6px;
     }
   }
 
-  ion-item{
-    --padding-start: 0;
+  ion-searchbar{
+    --background: transparent;
+    --color: #{$st-var-font-2};
+    --box-shadow: none;
+    --icon-color: #{$st-var-blue-1} ;
+    --placeholder-opacity: 0.9;
+    padding: 0;
   }
 
   .ion-search-chip{
-    float: right;
-    background-color: #{$blue-4};
+    background-color: #{$st-var-blue-3};
 
-
-    @media (max-width: 600px) {
-      width: 200px;
-      background-color: #202e5a;
+    @media (max-width: #{$st-var-sm-split}) {
+      width: 175px;
     }
   }
 
-  ion-icon {
-    cursor: pointer;
-    color: #{$blue-1} ;
+  .group-container{
+    display: flex;
+    justify-content: flex-end;
   }
 
-  .searchbar-disabled.sc-ion-searchbar-md-h{
-    opacity: 1 !important;
+  .headline {
+    display: flex;
+    align-items: center;
+  }
+
+  .headline-container{
+    padding-left: 16px;
+    @media (max-width: #{$st-var-sm-split}) {
+      padding-left: 0;
+    }
+  }
+
+
+  ion-icon {
+    cursor: pointer;
+    color: #{$st-var-blue-1};
   }
 
 }

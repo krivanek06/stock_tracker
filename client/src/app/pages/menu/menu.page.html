@@ -8,20 +8,39 @@
                     <ion-img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"></ion-img>
                 </ion-avatar>
                 <ion-label class="navigation-avatar-name st-font-1">Eduard Krivanek</ion-label>
-                <ion-label class="st-font-4">manage</ion-label>
             </div>
 
-            <!-- navigation -->
+            <!-- navigation main -->
             <ion-list>
-                <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-                    <div *ngIf="selectedIndex == i" class="navigation-rectangle-selected"></div>
-                    <ion-item (click)="selectedIndex = i"
+                <ion-text class="page-section">Main section</ion-text>
+                <ion-menu-toggle auto-hide="false" *ngFor="let p of mainPages">
+                    <div *ngIf="selectedNavigation == p.title.toLocaleLowerCase()" class="navigation-rectangle-selected"></div>
+                    <ion-item (click)="selectedNavigation = p.title"
                               class="navigation"
                               routerDirection="root"
                               [routerLink]="[p.url]"
                               lines="none"
                               detail="false"
-                              [class.selected]="selectedIndex == i">
+                              [class.selected]="selectedNavigation == p.title.toLocaleLowerCase()">
+                        <ion-icon slot="start" [ios]="p.icon + '-outline'" [name]="p.icon"></ion-icon>
+                        <ion-label class="ion-margin-start">{{ p.title }}</ion-label>
+                    </ion-item>
+                </ion-menu-toggle>
+            </ion-list>
+
+
+            <!-- navigation other -->
+            <ion-list>
+                <ion-text class="page-section">Other</ion-text>
+                <ion-menu-toggle auto-hide="false" *ngFor="let p of otherPages">
+                    <div *ngIf="selectedNavigation == p.title.toLocaleLowerCase()" class="navigation-rectangle-selected"></div>
+                    <ion-item (click)="selectedNavigation = p.title"
+                              class="navigation"
+                              routerDirection="root"
+                              [routerLink]="[p.url]"
+                              lines="none"
+                              detail="false"
+                              [class.selected]="selectedNavigation == p.title.toLocaleLowerCase()">
                         <ion-icon slot="start" [ios]="p.icon + '-outline'" [name]="p.icon"></ion-icon>
                         <ion-label class="ion-margin-start">{{ p.title }}</ion-label>
                     </ion-item>

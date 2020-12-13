@@ -1,0 +1,14 @@
+<form [formGroup]="form" class="form-position">
+    <ion-item class="st-card-background">
+        <ion-label position="floating">Search username</ion-label>
+        <ion-input placeholder="Enter username" type="text" formControlName="username"></ion-input>
+    </ion-item>
+</form>
+
+<!-- listed users -->
+<ion-item-group class="listed-users-container">
+    <app-user-account-info-list [additionalClass]="'st-hover-card width-100'"></app-user-account-info-list>
+    <app-user-account-info-list [additionalClass]="'st-hover-card width-100'"></app-user-account-info-list>
+    <app-user-account-info-list [additionalClass]="'st-hover-card width-100'"></app-user-account-info-list>
+    <app-user-account-info-list [additionalClass]="'st-hover-card width-100'"></app-user-account-info-list>
+</ion-item-group>

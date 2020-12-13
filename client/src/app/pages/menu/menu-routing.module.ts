@@ -50,6 +50,20 @@ const routes: Routes = [
                 canActivate: [AuthGuard],
                 loadChildren: () => import('../admin/admin.module').then(m => m.AdminPageModule)
             },
+            {
+                path: 'groups',
+                canActivate: [AuthGuard],
+                loadChildren: () => import('../groups/groups.module').then(m => m.GroupsModule)
+            },
+            {
+                path: 'account',
+                canActivate: [AuthGuard],
+                loadChildren: () => import('../account/account.module').then(m => m.AccountPageModule)
+            },
+            {
+                path: 'search',
+                loadChildren: () => import('../search/search.module').then( m => m.SearchPageModule)
+            }
         ]
     },
 ];
