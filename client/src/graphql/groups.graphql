@@ -1,0 +1,81 @@
+fragment STGroupUserFragment on STGroupUser {
+    sinceDate
+    user {
+        ...STUserPartialInformationFragment
+    }
+}
+
+fragment STGroupPartialDataFragment on STGroupPartialData {
+    groupId
+    name
+    description
+    portfolio {
+        ...STPortfolioFragment
+    }
+    owner {
+        ...STGroupUserFragment
+    }
+    numberOfMembers
+    lastUpdateDate
+    createdDate
+    currentAchievedRanks {
+        ...STRankFragment
+    }
+}
+
+
+fragment STGroupAllDataFragment on STGroupAllData {
+    groupId
+    name
+    description
+    portfolio {
+        ...STPortfolioFragment
+    }
+    owner {
+        ...STGroupUserFragment
+    }
+    numberOfMembers
+    lastUpdateDate
+    createdDate
+    currentAchievedRanks {
+        ...STRankFragment
+    }
+    bestAchievedRanks {
+        ...STRankFragment
+    }
+    topTransactions {
+        ...STTransaction
+    }
+    lastTransactions {
+        ...STTransaction
+    }
+    groupLogs {
+        ...STLogsFragment
+    }
+    portfolioChart {
+        ...STPortfolioFragment
+    }
+    managers {
+        ...STGroupUserFragment
+    }
+    members {
+        ...STGroupUserFragment
+    }
+    invitationSent {
+        ...STGroupUserFragment
+    }
+    invitationReceived {
+        ...STGroupUserFragment
+    }
+}
+
+
+mutation CreateOrEditGroup($groupInput: STGroupAllDataInput){
+    createOrEditGroup(groupInput: $groupInput){
+        ...STGroupAllDataFragment
+    }
+}
+
+mutation DeleteGroup($uid: String!, $groupId: String!){
+    deleteGroup(uid:$uid, groupId: $groupId)
+}

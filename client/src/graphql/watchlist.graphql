@@ -2,33 +2,14 @@
 ##---------------------------
 # Write your query or mutation here
 
-fragment StockSummaryFragment on Summary {
-  EPSTTM
-  EarningsDate
-  ExDividendDate
-  FiveTwoWeekRange
-  OneyTargetEst
-  PERatioTTM
-  currency
-  industry
-  logo_url
-  marketPrice
-  previousClose
-  recommendationKey
-  recommendationMean
-  sector
-  targetEstOneyPercent
-  symbol
-  weekRangeFiveTwoMax
-  weekRangeFiveTwoMin
-}
 
-fragment StockWatchlistInformation on StockWatchlist {
+
+fragment STStockWatchlistFragment on STStockWatchlist {
   id
   name
-  timestamp
-  stocks
-  summary {
+  date
+  userId
+  summaries {
     ...StockSummaryFragment
   }
 }
@@ -37,32 +18,33 @@ fragment StockWatchlistInformation on StockWatchlist {
 ##---------------------------
 query queryUserStockWatchlists($uid: String!) {
   queryUserStockWatchlists(uid: $uid) {
-    ...StockWatchlistInformation
+    ...STStockWatchlistFragment
   }
 }
 
 ## MUTATION
 ##---------------------------
-mutation CreateStockWatchlist($identifier: StockWatchlistIdentifier!) {
-  createStockWatchlist(identifier: $identifier) {
-    ...StockWatchlistInformation
+mutation CreateStockWatchlist($identifier: STStockWatchInputlistIdentifier!) {
+  createStockWatchlist(identifier: $identifier){
+    ...STStockWatchlistFragment
   }
 }
 
-mutation AddStockIntoWatchlist($identifier: StockWatchlistIdentifier!) {
+mutation AddStockIntoWatchlist($identifier: STStockWatchInputlistIdentifier!) {
   addStockIntoStockWatchlist(identifier: $identifier) {
     ...StockSummaryFragment
   }
 }
 
-mutation RemoveStockFromWatchlist($identifier: StockWatchlistIdentifier!) {
+mutation RemoveStockFromWatchlist($identifier: STStockWatchInputlistIdentifier!) {
   removeStockFromStockWatchlist(identifier: $identifier)
 }
 
-mutation DeleteUserWatchlist($identifier: StockWatchlistIdentifier!) {
+
+mutation DeleteUserWatchlist($identifier: STStockWatchInputlistIdentifier!) {
   deleteWatchlist(identifier: $identifier)
 }
 
-mutation RenameStockWatchlist($identifier: StockWatchlistIdentifier!) {
+mutation RenameStockWatchlist($identifier: STStockWatchInputlistIdentifier!) {
   renameStockWatchlist(identifier: $identifier)
 }

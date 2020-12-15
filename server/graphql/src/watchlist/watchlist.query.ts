@@ -1,6 +1,6 @@
 import * as admin from "firebase-admin";
 import {ApolloError, ValidationError} from "apollo-server";
-import { StockWatchlist } from "./watchList.model";
+import { STStockWatchlist } from "./watchList.model";
 
 
 export const queryUserStockWatchlists = async (userId: string) => {
@@ -13,7 +13,7 @@ export const queryUserStockWatchlists = async (userId: string) => {
 
             console.log('queryUserStockWatchlists', watchlistDoc.size);
         
-        return watchlistDoc.docs.map(list => { return { ...list.data(), id: list.id } }) as StockWatchlist[];
+        return watchlistDoc.docs.map(list => { return { ...list.data(), id: list.id } }) as STStockWatchlist[];
     } catch (error) {
         throw new ApolloError(error);
     }
