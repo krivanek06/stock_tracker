@@ -53,7 +53,7 @@ export class AuthenticationContainerComponent implements OnInit {
 
     async signInWithGoogle() {
         await this.authFeatureService.googleSignIn();
-        await this.router.navigate(['/menu/dashboard']);
+        //await this.router.navigate(['/menu/dashboard']);
     }
 
     signInWithFacebook() {

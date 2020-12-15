@@ -28,7 +28,7 @@ def force_float(elt):
     try:
         return float(elt)
     except:
-        return elt
+        return None
 
 def force_float_skipping_last_char(value):
     try:

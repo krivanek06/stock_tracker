@@ -3,6 +3,27 @@
 ## QUERY
 ##---------------------------
 
+fragment StockSummaryFragment on Summary {
+    EPSTTM
+    EarningsDate
+    ExDividendDate
+    FiveTwoWeekRange
+    OneyTargetEst
+    PERatioTTM
+    currency
+    industry
+    logo_url
+    marketPrice
+    previousClose
+    recommendationKey
+    recommendationMean
+    sector
+    targetEstOneyPercent
+    symbol
+    weekRangeFiveTwoMax
+    weekRangeFiveTwoMin
+}
+
 fragment balanceSheetDataFragment on BalanceSheetData {
     accountsPayable
     cash
@@ -284,35 +305,7 @@ query queryStockDetails($symbol: String!) {
             }
         }
         summary {
-            AvgVolume
-            EPSTTM
-            EarningsDate
-            ExDividendDate
-            FiveTwoWeekRange
-            ForwardDividendYield
-            OneyTargetEst
-            Open
-            PERatioTTM
-            Volume
-            currency
-            industry
-            logo_url
-            marketPrice
-            marketCap
-            previousClose
-            recommendationKey
-            recommendationMean
-            sector
-            symbol
-            targetEstOneyPercent
-            weekRangeFiveTwoMax
-            weekRangeFiveTwoMin
-            currencySymbol
-            shortName
-            longName
-            marketCap
-            weekRangeFiveTwoMax
-            weekRangeFiveTwoMin
+            ...StockSummaryFragment
         }
         metric {
             FiveDayPriceReturnDaily

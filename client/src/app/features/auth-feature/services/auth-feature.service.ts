@@ -92,23 +92,28 @@ export class AuthFeatureService {
 
     // ToDO create interceptor with token
     private async signInUser(credential: UserCredential): Promise<void> {
-        // console.log('credential', credential.user.getIdToken());
-        const profile = credential.additionalUserInfo.profile as any;
-        const userInput: IUser = {
-            displayName: credential.user.displayName || credential.user.email.split('@')[0],
-            email: credential.user.email,
-            uid: credential.user.uid,
-            photoURL: credential.user.photoURL,
-            providerId: credential.user.providerId,
-            locale: profile?.locale
-        };
+        console.log('credential', credential.user.metadata.creationTime);
+        console.log('credential.additionalUserInfo', credential.additionalUserInfo);
+        console.log('credential.additionalUserInfo.profile', credential.additionalUserInfo.profile);
+
+        //credential.user.metadata.creationTime
+        //credential.user.metadata.lastSignInTime
         if (credential.additionalUserInfo.isNewUser) {
+            const profile = credential.additionalUserInfo.profile as any;
+            const userInput: IUser = {
+                displayName: credential.user.displayName || credential.user.email.split('@')[0],
+                email: credential.user.email,
+                uid: credential.user.uid,
+                photoURL: credential.user.photoURL,
+                providerId: credential.user.providerId,
+                locale: profile?.locale
+            };
 
             const user = await this.registerUserGQL.mutate({userInput}).toPromise();
             console.log('new user', user.data.registerUser);
         } else {
-            const user = await this.updateUserDataGQL.mutate({userInput}).toPromise();
-            console.log('old user', user.data.updateUserData);
+           // const user = await this.updateUserDataGQL.mutate({userInput}).toPromise();
+            //console.log('old user', user.data.updateUserData);
         }
     }
 }

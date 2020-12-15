@@ -1,31 +1,40 @@
-import { ApolloError } from 'apollo-server';
-import { PrivateData, User, USER_ACTIVITY, USER_STATUS } from './user.model';
+import {ApolloError} from 'apollo-server';
+import {
+    ST_USER_COLLECTION_MORE_INFORMATION, ST_USER_COLLECTION_USER,
+    ST_USER_DOCUMENT_PRIVATE_DATA,
+    STUserFirebaseAuthentication,
+    STUserPrivateData,
+} from './user.model';
 import * as admin from "firebase-admin";
+import {createSTUserPrivateData, createSTUserPublicData} from "./user.utils";
 
-export const registerUser = async(user: User) => {
-  try{   
-      
-      const newUser: User = {...user, activity: USER_ACTIVITY.SIGNED_OUT, status: USER_STATUS.PENDING};
+export const registerUser = async (user: STUserFirebaseAuthentication) => {
+    try {
+        const newUserPrivateData = createSTUserPrivateData(user);
+        const newUserPublicData = createSTUserPublicData(user);
 
-      const userRef = admin.firestore().collection('users').doc(`${user.uid}`);
+        // save public data
+        let userRef = admin.firestore().collection(ST_USER_COLLECTION_USER).doc(`${user.uid}`);
+        await userRef.set(newUserPublicData);
 
-      await userRef.set(newUser);
+        // save private data
+        userRef = userRef.collection(ST_USER_COLLECTION_MORE_INFORMATION).doc(ST_USER_DOCUMENT_PRIVATE_DATA);
+        await userRef.set(newUserPrivateData);
 
-      return newUser;
-
-  }catch (error) {
-    throw new ApolloError(error);
-  }
+        return true;
+    } catch (error) {
+        throw new ApolloError(error);
+    }
 }
 
 
-
 // TODO secure updating "status" field only for authorized users
-export const updateUserData = async(user: User) => {
-    try{   
-        const userRef = admin.firestore().collection('users').doc(`${user.uid}`);
+/*
+export const updateUserPublicData = async(userPublicData: STUserPublicData) => {
+    try{
+        const userRef = admin.firestore().collection('users').doc(`${userPublicData.uid}`);
 
-        await userRef.set(user, {merge: true});
+        await userRef.set(userPublicData, {merge: true});
 
         const data = await userRef.get();
 
@@ -34,23 +43,22 @@ export const updateUserData = async(user: User) => {
     }catch (error) {
       throw new ApolloError(error);
     }
-}
+}*/
 
+export const updateUserPrivateData = async (userPrivateData: STUserPrivateData) => {
+    try {
+        console.log(userPrivateData)
+        const userPrivateDocsRef = await admin.firestore()
+            .collection('users')
+            .doc(userPrivateData.uid)
+            .collection(ST_USER_COLLECTION_MORE_INFORMATION)
+            .doc(ST_USER_DOCUMENT_PRIVATE_DATA);
 
-export const updateUserPrivateData = async(uid: string, userPrivateDataInput: PrivateData) => {
-  try{   
-      console.log(uid, userPrivateDataInput )
-      const userPrivateDocsRef = await admin.firestore()
-                  .collection('users')
-                  .doc(uid)
-                  .collection('privateData')
-                  .doc(`privateData_${uid}`);
+        await userPrivateDocsRef.set(userPrivateData, {merge: true});
 
-      await userPrivateDocsRef.set(userPrivateDataInput, {merge: true});
+        return userPrivateData;
 
-      return userPrivateDataInput;
-
-  }catch (error) {
-    throw new ApolloError(error);
-  }
+    } catch (error) {
+        throw new ApolloError(error);
+    }
 }

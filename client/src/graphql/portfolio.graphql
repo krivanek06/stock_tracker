@@ -1,0 +1,8 @@
+fragment STPortfolioFragment on STPortfolio {
+    portfolioTotal
+    portfolioInvested
+    portfolioCash
+    portfolioWeeklyChange
+    portfolioWeeklyGrowth
+    date
+}

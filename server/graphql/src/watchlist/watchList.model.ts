@@ -1,14 +1,16 @@
+import { Summary } from "../stockDetails/stockDetails.model";
+
 export interface StockWatchlistCommonData {
   userId: string;
   id?: string; // documentID for stockWatchlist
 }
 
-export interface StockWatchlist extends StockWatchlistCommonData {
+export interface STStockWatchlist extends StockWatchlistCommonData {
   name: string;
-  stocks: string[];
-  timestamp: number;
+  summaries: Summary[];
+  date: Date;
 }
 
-export interface StockWatchlistIdentifier extends StockWatchlistCommonData {
+export interface STStockWatchlistIdentifier extends StockWatchlistCommonData {
   additionalData: string;
 }
