@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {IUser} from '../../../features/auth-feature/model/userModel';
 import {AuthFeatureService} from '../../../features/auth-feature/services/auth-feature.service';
 import {SearchDataApiService} from '../../../api/search-data-api.service';
 import {SearchStocks} from '../../models/chartDataModel';
@@ -8,6 +7,7 @@ import {FinancialChartModalContainerComponent} from '../modal/financial-chart-mo
 import {ModalController} from '@ionic/angular';
 import {ChartDataIdentification} from '../../models/sharedModel';
 import {Router} from '@angular/router';
+import {StUserPublicData} from '../../../api/customGraphql.service';
 
 @Component({
     selector: 'app-header',
@@ -17,7 +17,7 @@ import {Router} from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-    user$: Observable<IUser>;
+    user$: Observable<StUserPublicData>;
     searchStocks$: Observable<SearchStocks[]>;
 
     constructor(private authFeatureService: AuthFeatureService,
@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
         this.user$ = this.authFeatureService.getUser();
-
+        this.user$.subscribe(console.log)
     }
 
     showSearch() {

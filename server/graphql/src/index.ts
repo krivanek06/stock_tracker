@@ -1,12 +1,12 @@
 import {STGroupTypeDefs} from './st-group/st-group.typedefs';
 import {STSharedTypeDefs} from './st-shared/st-shared.typedef';
-import {STUserFirebaseAuthentication, STUserPrivateData} from './user/user.model';
+import {STUserAuthenticationInput, STUserPrivateData} from './user/user.model';
 import {watchlistTypeDefs} from './watchlist/watchlist.typedefs';
 import {ApolloServer, gql} from 'apollo-server';
 import {userTypeDefs} from './user/user.typeDefs';
 import {userResolvers} from './user/user.resolver';
 import * as admin from 'firebase-admin';
-import {queryUserPublicData} from './user/user.query';
+import {authenticateUser, queryUserPublicData} from './user/user.query';
 import {queryUserStockWatchlists as queryUserStockWatchlists} from './watchlist/watchlist.query';
 import {
     createStockWatchlist,
@@ -41,7 +41,9 @@ const mainTypeDefs = gql`
     ###### QUERY
     type Query {
         # user
-        queryUserPublicData(uid: String!): STUserPublicData
+        queryUserData(uid: String!): STUserPublicData
+        authenticateUser(uid: String!): STUserPublicData
+        
         # watchlist
         queryUserStockWatchlists(uid: String!): [STStockWatchlist]
         # details
@@ -71,14 +73,15 @@ const mainTypeDefs = gql`
 
 const mainResolver = {
     Query: {
-        queryUserPublicData: async (_: null, args: { uid: string }) => await queryUserPublicData(args.uid),
+        authenticateUser: async (_: null, args: { uid: string }) => await authenticateUser(args.uid),
+        queryUserData: async (_: null, args: { uid: string }) => await queryUserPublicData(args.uid),
         queryUserStockWatchlists: async (_: null, args: { uid: string }) => await queryUserStockWatchlists(args.uid),
         queryStockDetails: async (_: null, args: { symbol: string }) => await queryStockDetails(args.symbol),
     },
 
     Mutation: {
         // USER
-        registerUser: async (_, args: { user: STUserFirebaseAuthentication }) => await registerUser(args.user),
+        registerUser: async (_, args: { user: STUserAuthenticationInput }) => await registerUser(args.user),
 
         // GROUPS
         createOrEditGroup: async (_, args: { groupInput: STGroupAllDataInput }) => await createOrEditGroup(args.groupInput),

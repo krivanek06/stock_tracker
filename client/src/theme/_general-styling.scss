@@ -45,16 +45,17 @@ ion-spinner {
 }
 
 // hover transformation
+/*
 .st-hover-card {
   transition: All 0.3s ease-out;
   cursor: pointer;
 
   &:hover {
-    box-shadow: 1px 5px 10px 2px rgb(16 19 43 / 64%);
     border-radius: 10px;
-    transform: scale(1.05);
+    transform: scale(0.98);
+    background: #7070702e;
   }
-}
+}*/
 
 
 // COLOR CLASSES - FONT
@@ -101,6 +102,10 @@ ion-spinner {
 
 .st-font-size-16 {
   font-size: 16px;
+}
+
+.st-font-size-15 {
+  font-size: 15px;
 }
 
 .st-font-size-18 {
@@ -170,11 +175,9 @@ ion-spinner {
 }
 
 
-
-
 // WIDTH
 
-.st-width-full-sm-screen{
+.st-width-full-sm-screen {
   @media (max-width: #{$st-var-sm-split}) {
     width: 100% !important;
   }
@@ -182,4 +185,66 @@ ion-spinner {
 
 .st-width-100 {
   width: 100%;
+}
+
+.st-display-flex-center{
+  display: flex;
+  align-items: center;
+}
+
+
+// PRICE CHANGE
+.st-price-up {
+  &:before {
+    // content: '+';
+  }
+
+  color: #{$price-up} !important;
+}
+
+.st-price-down {
+  color: #{$price-down} !important;
+}
+
+.st-price-icon{
+  position: absolute;
+  top: 2px;
+  margin-left: 5px;
+}
+
+// BUTTONS
+
+.st-positive-button{
+  color: #{$price-up};
+  &:hover {
+    color: #{$price-up-lighter};
+  }
+}
+
+.st-negative-button{
+  color: #{$price-down};
+  &:hover {
+    color: #{$price-down-lighter};
+  }
+}
+
+
+// HOVER OVER
+.ion-activatable{
+  transition: All 0.3s ease-out;
+  cursor: pointer;
+
+  &:hover {
+    border-radius: 10px;
+    transform: scale(0.98);
+    background: #7070702e;
+  }
+}
+
+.st-clickable{
+  transition: All 0.3s ease-out;
+  cursor: pointer;
+  &:hover{
+    transform: scale(0.96);
+  }
 }

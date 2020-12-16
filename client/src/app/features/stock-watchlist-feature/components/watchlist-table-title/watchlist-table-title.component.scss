@@ -1,0 +1,38 @@
+@import "variables";
+
+:host {
+  .table-header {
+    font-size: 20px;
+    font-weight: bold;
+    color: #{$orange-title-dark};
+    @media (max-width: 750px) {
+      font-size: 18px;
+    }
+  }
+
+  .table-header-timestamp {
+    font-size: 14px;
+    @media (max-width: 750px) {
+      font-size: 11px;
+    }
+  }
+
+  .watchlist-edit-container {
+    padding-left: 30px;
+    min-width: 100%;
+    max-width: 100%;
+    display: contents;
+  }
+
+  .watchlist-edit-input {
+    min-width: 70%;
+    max-width: 70%;
+  }
+
+
+  ion-button {
+    --background: transparent;
+    --box-shadow: none;
+    --background-hover: none;
+  }
+}

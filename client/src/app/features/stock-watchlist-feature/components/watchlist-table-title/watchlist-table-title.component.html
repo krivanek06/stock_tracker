@@ -1,0 +1,32 @@
+<ion-list-header>
+    <!-- edit button -->
+    <ion-button (click)="toggleEdit()" class="st-clickable">
+        <ion-icon name="pencil" class="grey-regular-icon"></ion-icon>
+    </ion-button>
+    <!-- header info -->
+    <ion-label style="padding-left: 10px; max-width: 350px;" *ngIf="!editing">
+        <p class="table-header">{{ stockWatchlist.name }}   [ {{ stockWatchlist.summaries.length }} ]</p>
+        <p class="table-header-timestamp">Created at {{ stockWatchlist.date |  date: 'dd/MM/yyyy' }}</p>
+    </ion-label>
+
+    <!-- form to edit watchlist name -->
+    <ion-item [hidden]="!editing" class="watchlist-edit-container">
+        <ion-label position="fixed" class="watchlist-edit-input">
+            <app-inline-input-form
+                    [label]="'Define watchlist name'"
+                    [widthInPercent]="70"
+                    (creationEmitter)="editWatchlistName($event)"
+                    (closingEmitter)="toggleEdit()">
+            </app-inline-input-form>
+        </ion-label>
+        <ion-label class=" content-fit ion-text-end">
+            <ion-button shape="round"
+                        color="#fafafa"
+                        fill="outline"
+                        class="regularFont st-negative-button"
+                        (click)="deleteWatchlist()">
+                Delete watchlist
+            </ion-button>
+        </ion-label>
+    </ion-item>
+</ion-list-header>

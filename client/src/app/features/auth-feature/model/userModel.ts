@@ -8,36 +8,6 @@ export enum USER_STATUS {
     DENIED = 'DENIED',
     ALLOWED = 'ALLOWED'
 }
-/*
-export interface STUserPublicData {
-    uid: string;
-    email: string;
-    photoURL?: string;
-    providerId: string;
-    displayName: string;
-    nickname?: string;
-    locale?: string;
-    lastLogin?: Date;
-    activity?: USER_ACTIVITY;
-    status?: USER_STATUS;
-    userPrivateData?: UserPrivateData;
-}
-
-export interface UserPrivateData {
-    finnhubKey?: string;
-    roles?: string[];
-}
-
-export interface STUserFirebaseAuthentication {
-    uid: string;
-    locale: string;
-    photoURL: string;
-    email: string;
-    displayName: string;
-    providerId: string;
-    accountCreatedDate: Date;
-    lastSignInDate: Date;
-}*/
 
 export interface LoginIUser {
     email: string;

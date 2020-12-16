@@ -20,9 +20,8 @@ export class LoginPage implements OnInit, OnDestroy {
         this.authFeatureService.getUser().pipe(
             filter(user => !!user),
             takeUntil(this.destroy$)
-        ).subscribe((user) => {
-            console.log('navigaiton, ' , user);
-            // this.router.navigate(['/menu/dashboard']);
+        ).subscribe(() => {
+            this.router.navigate(['/menu/dashboard']);
         });
     }
 

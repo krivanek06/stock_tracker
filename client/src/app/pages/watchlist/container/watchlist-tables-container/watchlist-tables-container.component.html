@@ -5,14 +5,19 @@
 <div class="watchlist-container" *ngIf="stockWatchlists.length > 0">
     <ion-item *ngFor="let watchlist of stockWatchlists" class="ion-margin-top ion-align-items-start center-text">
         <ion-label style="min-width: fit-content;" >
-            <app-watchlist-table-header
+            <!-- table title
+            <app-watchlist-table-title
                     [stockWatchlist]="watchlist"
                     (deleteWatchlistEmitter)="deleteWatchlist($event)"
                     (renameWatchlistEmitter)="renameWatchlist($event)">
-            </app-watchlist-table-header>
+            </app-watchlist-table-title> -->
 
+            <!-- table header -->
+            <app-watchlist-table-header></app-watchlist-table-header>
+
+            <!-- table body -->
             <app-watchlist-table-body-item
-                    *ngFor="let summary of watchlist.summary"
+                    *ngFor="let summary of watchlist.summaries"
                     [summary]="summary"
                     [currentPrice]="summary.marketPrice"
                     (deleteSymbolClickedEmitter)="deleteSymbolFromDocument($event, watchlist.id)"
@@ -21,8 +26,8 @@
                     (detailsItemClickedEmitter)="redirectToDetails($event)">
             </app-watchlist-table-body-item>
         </ion-label>
-        <ion-label class="sector-chart-container ion-padding" *ngIf="watchlist.stocks.length > 0">
-            <app-watchlist-sector-chart style="align-self: center;" [summary]="watchlist.summary"></app-watchlist-sector-chart>
+        <ion-label class="sector-chart-container ion-padding" *ngIf="watchlist.summaries.length > 0">
+            <app-watchlist-sector-chart style="align-self: center;" [summaries]="watchlist.summaries"></app-watchlist-sector-chart>
         </ion-label>
     </ion-item>
 </div>

@@ -1,5 +1,4 @@
 import {
-    ChangeDetectionStrategy,
     Component,
     EventEmitter,
     HostListener,
@@ -7,12 +6,10 @@ import {
     OnChanges,
     OnInit,
     Output,
-    SimpleChanges
 } from '@angular/core';
 import {ChartDataIdentification} from '../../../../shared/models/sharedModel';
-import {animate, state, style, transition, trigger} from '@angular/animations';
 import {marketValueChange} from '../../../../shared/animations/marketValueChange.animation';
-import {Maybe, StockSummaryFragmentFragment, Summary} from "../../../../api/customGraphql.service";
+import {StockSummaryFragmentFragment, Summary} from '../../../../api/customGraphql.service';
 
 
 interface CustomValueChange {
@@ -37,7 +34,7 @@ export class WatchlistTableBodyItemComponent implements OnInit, OnChanges {
     // saving values when websocket change current price to trigger animations
     newCurrentPrice = 0;
 
-    @Input() summary: Summary;
+    @Input() summary: StockSummaryFragmentFragment;
     @Input() currentPrice: number;
 
     @Output() deleteSymbolClickedEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
@@ -56,8 +53,8 @@ export class WatchlistTableBodyItemComponent implements OnInit, OnChanges {
                 return;
             }
             this.newCurrentPrice = change.currentValue;
-        }catch (e){
-            console.log('error in watch table body ', e)
+        } catch (e) {
+            console.log('error in watch table body ', e);
         }
 
     }

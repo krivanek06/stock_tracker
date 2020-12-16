@@ -8,9 +8,13 @@ export interface StockWatchlistCommonData {
 export interface STStockWatchlist extends StockWatchlistCommonData {
   name: string;
   summaries: Summary[];
-  date: Date;
+  date: string;
 }
 
 export interface STStockWatchlistIdentifier extends StockWatchlistCommonData {
   additionalData: string;
 }
+
+
+
+export const ST_WATCHLIST_COLLECTION = 'stockWatchlist';

@@ -6,7 +6,7 @@ import {
     ST_USER_COLLECTION_USER, STUserPublicData
 } from "./user.model";
 import * as admin from "firebase-admin";
-import {STStockWatchlist} from "../watchlist/watchList.model";
+import {ST_WATCHLIST_COLLECTION, STStockWatchlist} from "../watchlist/watchList.model";
 import {ApolloError} from "apollo-server";
 import {queryUserPublicData} from "./user.query";
 
@@ -15,7 +15,7 @@ const resolveStockWatchlistForUser = async (uid: string) => {
     try {
         const watchlistDocs = await admin
             .firestore()
-            .collection('stockWatchlist')
+            .collection(ST_WATCHLIST_COLLECTION)
             .where('userId', '==', uid)
             .get();
 

@@ -68,8 +68,6 @@ export const userTypeDefs = gql`
         photoURL: String
         providerId: String
         locale: String
-        accountCreatedDate: String
-        lastSignInDate: String
     }
 
     ##########################################
