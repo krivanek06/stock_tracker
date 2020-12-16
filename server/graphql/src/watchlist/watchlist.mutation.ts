@@ -3,10 +3,12 @@ import * as admin from "firebase-admin";
 import {STUserPrivateData} from "../user/user.model";
 import {ApolloError, ValidationError} from "apollo-server";
 import {
+    ST_WATCHLIST_COLLECTION,
     STStockWatchlist,
     STStockWatchlistIdentifier,
 } from "./watchList.model";
 import {stockDataAPI} from "../enviroment";
+import {getCurrentIOSDate} from "../st-shared/st-shared.functions";
 
 const fetch = require("node-fetch");
 
@@ -14,7 +16,7 @@ export const createStockWatchlist = async (identifier: STStockWatchlistIdentifie
     try {
         const watchlists = await admin
             .firestore()
-            .collection("stockWatchlist")
+            .collection(ST_WATCHLIST_COLLECTION)
             .where("userId", "==", identifier.userId)
             .where("name", "==", identifier.additionalData)
             .get();
@@ -27,10 +29,10 @@ export const createStockWatchlist = async (identifier: STStockWatchlistIdentifie
             name: identifier.additionalData,
             userId: identifier.userId,
             summaries: [],
-            date: new Date(),
+            date: getCurrentIOSDate(),
         };
 
-        const documentRef = await admin.firestore().collection("stockWatchlist").add(watchlist);
+        const documentRef = await admin.firestore().collection(ST_WATCHLIST_COLLECTION).add(watchlist);
 
         return {...watchlist, id: documentRef.id};
     } catch (error) {
@@ -42,7 +44,7 @@ export const addStockIntoStockWatchlist = async (identifier: STStockWatchlistIde
     try {
         const watchlistRef = await admin
             .firestore()
-            .collection("stockWatchlist")
+            .collection(ST_WATCHLIST_COLLECTION)
             .doc(identifier.id);
         const watchlist = (await watchlistRef.get()).data() as STStockWatchlist;
 
@@ -66,7 +68,6 @@ export const addStockIntoStockWatchlist = async (identifier: STStockWatchlistIde
         const summary = await response.json() as Summary;
 
         // add stock into watchlist
-        console.log('summary', summary)
         watchlist.summaries = [...watchlist.summaries, summary];
         await watchlistRef.update({summaries: admin.firestore.FieldValue.arrayUnion(summary)});
 
@@ -81,7 +82,7 @@ export const removeStockFromStockWatchlist = async (identifier: STStockWatchlist
     try {
         const watchlistRef = await admin
             .firestore()
-            .collection("stockWatchlist")
+            .collection(ST_WATCHLIST_COLLECTION)
             .doc(identifier.id);
         const watchlist = (await watchlistRef.get()).data() as STStockWatchlist;
 
@@ -111,7 +112,7 @@ export const deleteWatchlist = async (identifier: STStockWatchlistIdentifier) =>
     try {
         const watchlistRef = await admin
             .firestore()
-            .collection("stockWatchlist")
+            .collection(ST_WATCHLIST_COLLECTION)
             .doc(identifier.id);
         const watchlist = (await watchlistRef.get()).data() as STStockWatchlist;
 
@@ -138,7 +139,7 @@ export const renameStockWatchlist = async (identifier: STStockWatchlistIdentifie
     try {
         const watchlistRef = await admin
             .firestore()
-            .collection("stockWatchlist")
+            .collection(ST_WATCHLIST_COLLECTION)
             .doc(identifier.id);
         const watchlist = (await watchlistRef.get()).data() as STStockWatchlist;
 

@@ -10,10 +10,7 @@ import {
     QueryUserStockWatchlistsGQL,
     QueryUserStockWatchlistsQuery,
     RemoveStockFromWatchlistGQL,
-    RenameStockWatchlistGQL,
-    StockWatchlistIdentifier,
-    StockWatchlistInformationFragment,
-    StockWatchlistInformationFragmentDoc,
+    RenameStockWatchlistGQL, StStockWatchlistFragmentFragment, StStockWatchlistFragmentFragmentDoc
 } from '../../../api/customGraphql.service';
 import {map, switchMap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
@@ -34,20 +31,17 @@ export class WatchlistService {
     }
 
 
-    getUserStockWatchlists(): Observable<Array<Maybe<{ __typename?: 'StockWatchlist' } & StockWatchlistInformationFragment>> | null> {
+    getUserStockWatchlists(): Observable<Array<Maybe<{ __typename?: 'STStockWatchlist' } & StStockWatchlistFragmentFragment>> | null> {
         return this.authService.getUser().pipe(
-            switchMap(user => this.queryUserStockWatchlistsGQL.watch({
-                uid: user.uid
-            }).valueChanges.pipe(
-                map(res => res.data.queryUserStockWatchlists)
-            ))
+            map(u => u.stockWatchlist)
         );
     }
 
     async getDistinctStocks(): Promise<string[]> {
         const userId = await this.authService.getUser().toPromise();
         const watchlists = await this.queryUserStockWatchlistsGQL.fetch({uid: userId.uid}).toPromise();
-        const stockArrays = watchlists.data.queryUserStockWatchlists.map(watchlist => watchlist.stocks);
+        const stockArrays = watchlists.data.queryUserStockWatchlists.map(watchlist => watchlist.summaries.map(x => x.symbol));
+        console.log('getDistinctStocks', stockArrays);
         return [...new Set([].concat(...stockArrays))] as string[]; // distinct stocks
     }
 
@@ -63,12 +57,12 @@ export class WatchlistService {
                     optimisticResponse: {
                         __typename: 'Mutation',
                         createStockWatchlist: {
-                            __typename: 'StockWatchlist',
+                            __typename: 'STStockWatchlist',
                             name: watchlistName,
-                            timestamp: new Date().getTime(),
                             id: 'test',
-                            stocks: [],
-                            summary: undefined
+                            summaries: [],
+                            date: '',
+                            userId: ''
                         }
                     },
                     update: (store, {data: {createStockWatchlist}}) => {
@@ -112,10 +106,10 @@ export class WatchlistService {
                     renameStockWatchlist: true
                 },
                 update: (store, {data: {renameStockWatchlist}}) => {
-                    const watchlist = store.readFragment<StockWatchlistInformationFragment>({
-                        id: `StockWatchlist:${watchlistId}`,
-                        fragment: StockWatchlistInformationFragmentDoc,
-                        fragmentName: 'StockWatchlistInformation'
+                    const watchlist = store.readFragment<StStockWatchlistFragmentFragment>({
+                        id: `STStockWatchlist:${watchlistId}`,
+                        fragment: StStockWatchlistFragmentFragmentDoc,
+                        fragmentName: 'STStockWatchlistFragment'
                     });
 
                     // update watchlist with stock information
@@ -123,9 +117,9 @@ export class WatchlistService {
 
                     // update watchlist inside cache
                     store.writeFragment({
-                        id: `StockWatchlist:${watchlistId}`,
-                        fragment: StockWatchlistInformationFragmentDoc,
-                        fragmentName: 'StockWatchlistInformation',
+                        id: `STStockWatchlist:${watchlistId}`,
+                        fragment: StStockWatchlistFragmentFragmentDoc,
+                        fragmentName: 'STStockWatchlistFragment',
                         data: watchlist
                     });
                 }
@@ -184,20 +178,19 @@ export class WatchlistService {
                     removeStockFromStockWatchlist: true
                 },
                 update: (store, {data: {removeStockFromStockWatchlist}}) => {
-                    const watchlist = store.readFragment<StockWatchlistInformationFragment>({
+                    const watchlist = store.readFragment<StStockWatchlistFragmentFragment>({
                         id: `StockWatchlist:${watchlistId}`,
-                        fragment: StockWatchlistInformationFragmentDoc,
+                        fragment: StStockWatchlistFragmentFragmentDoc,
                         fragmentName: 'StockWatchlistInformation'
                     });
 
                     // update watchlist with stock information
-                    watchlist.stocks = watchlist.stocks.filter(x => x !== symbol);
-                    watchlist.summary = watchlist.summary.filter(x => x.symbol !== symbol);
+                    watchlist.summaries = watchlist.summaries.filter(x => x.symbol !== symbol);
 
                     // update watchlist inside cache
                     store.writeFragment({
                         id: `StockWatchlist:${watchlistId}`,
-                        fragment: StockWatchlistInformationFragmentDoc,
+                        fragment: StStockWatchlistFragmentFragmentDoc,
                         fragmentName: 'StockWatchlistInformation',
                         data: watchlist
                     });
@@ -240,21 +233,20 @@ export class WatchlistService {
 
                 },
                 update: (store, {data: {addStockIntoStockWatchlist}}) => {
-                    const watchlist = store.readFragment<StockWatchlistInformationFragment>({
-                        id: `StockWatchlist:${watchListId}`,
-                        fragment: StockWatchlistInformationFragmentDoc,
-                        fragmentName: 'StockWatchlistInformation'
+                    const watchlist = store.readFragment<StStockWatchlistFragmentFragment>({
+                        id: `STStockWatchlist:${watchListId}`,
+                        fragment: StStockWatchlistFragmentFragmentDoc,
+                        fragmentName: 'STStockWatchlistFragment'
                     });
 
                     // update watchlist with stock information
-                    watchlist.stocks = [...watchlist.stocks, symbol];
-                    watchlist.summary = [...watchlist.summary, addStockIntoStockWatchlist];
+                    watchlist.summaries = [...watchlist.summaries, addStockIntoStockWatchlist];
 
                     // update watchlist inside cache
                     store.writeFragment({
-                        id: `StockWatchlist:${watchListId}`,
-                        fragment: StockWatchlistInformationFragmentDoc,
-                        fragmentName: 'StockWatchlistInformation',
+                        id: `STStockWatchlist:${watchListId}`,
+                        fragment: StStockWatchlistFragmentFragmentDoc,
+                        fragmentName: 'STStockWatchlistFragment',
                         data: watchlist
                     });
                 },

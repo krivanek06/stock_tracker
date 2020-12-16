@@ -25,6 +25,7 @@ import {EconomicChartModalContainerComponent} from './containers/modal/economic-
 import {RelativeTimePipe} from './pipes/relatimeTime.pipe';
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import { ValueStateDirective } from './directives/value-state.directive';
+import {PriceChangeItemComponent} from './components/items/price-change-item/price-change-item.component';
 
 @NgModule({
     declarations: [
@@ -42,7 +43,8 @@ import { ValueStateDirective } from './directives/value-state.directive';
         FinancialChartModalContainerComponent,
         FinancialChartContainerComponent,
         EconomicChartModalContainerComponent,
-        ValueStateDirective
+        ValueStateDirective,
+        PriceChangeItemComponent
     ],
     imports: [
         CommonModule,
@@ -84,7 +86,8 @@ import { ValueStateDirective } from './directives/value-state.directive';
         FinancialChartContainerComponent,
         EconomicChartModalContainerComponent,
         NgxDatatableModule,
-        ValueStateDirective
+        ValueStateDirective,
+        PriceChangeItemComponent
 
     ],
     entryComponents: [

@@ -7,6 +7,7 @@ import {WatchlistSectorChartComponent} from './components/watchlist-sector-chart
 import {WatchlistCreationComponent} from './components/watchlist-creation/watchlist-creation.component';
 import {StockDataFeatureModule} from '../stock-data-feature/stock-data-feature.module';
 import {WatchlistTableBodyItemComponent} from './components/watchlist-table-body-item/watchlist-table-body-item.component';
+import {WatchlistTableTitleComponent} from './components/watchlist-table-title/watchlist-table-title.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {WatchlistTableBodyItemComponent} from './components/watchlist-table-body
         WatchlistTableHeaderComponent,
         WatchlistSectorChartComponent,
         WatchlistCreationComponent,
-        WatchlistTableBodyItemComponent
+        WatchlistTableBodyItemComponent,
+        WatchlistTableTitleComponent
     ],
     imports: [
         CommonModule,
@@ -27,7 +29,8 @@ import {WatchlistTableBodyItemComponent} from './components/watchlist-table-body
         WatchlistTableHeaderComponent,
         WatchlistSectorChartComponent,
         WatchlistCreationComponent,
-        WatchlistTableBodyItemComponent
+        WatchlistTableBodyItemComponent,
+        WatchlistTableTitleComponent
     ],
     entryComponents: [
         WatchlistPickerModalContainerComponent,

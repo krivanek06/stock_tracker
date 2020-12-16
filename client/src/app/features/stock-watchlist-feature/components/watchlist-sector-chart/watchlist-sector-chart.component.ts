@@ -9,7 +9,7 @@ import {Summary} from "../../../../api/customGraphql.service";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WatchlistSectorChartComponent implements OnInit {
-    @Input() summary: Summary[];
+    @Input() summaries: Summary[];
 
     sectorPairs = [];
     ChartType = ChartType;
@@ -21,7 +21,7 @@ export class WatchlistSectorChartComponent implements OnInit {
 
         // from stock details creates -> [{name: 'Technology', y: 5}, {name: 'Cruise', y: 2} ... ]
         const helper = [];
-        this.summary.forEach(stock => {
+        this.summaries.forEach(stock => {
             helper[stock.sector] = helper[stock.sector] + 1 || 1;
         });
         for (const [key, value] of Object.entries(helper)) {

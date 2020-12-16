@@ -13,8 +13,8 @@ fragment STUserPartialInformationFragment on STUserPartialInformation {
 }
 
 
-query QueryUserPublicData($uid: String!) {
-    queryUserPublicData(uid: $uid) {
+query AuthenticateUser($uid: String!) {
+    authenticateUser(uid: $uid) {
         uid
         nickName
         locale

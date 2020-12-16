@@ -514,13 +514,19 @@ export type PageViews = {
 
 export type Query = {
     __typename?: 'Query';
-    queryUserPublicData?: Maybe<StUserPublicData>;
+    queryUserData?: Maybe<StUserPublicData>;
+    authenticateUser?: Maybe<StUserPublicData>;
     queryUserStockWatchlists?: Maybe<Array<Maybe<StStockWatchlist>>>;
     queryStockDetails?: Maybe<StockDetails>;
 };
 
 
-export type QueryQueryUserPublicDataArgs = {
+export type QueryQueryUserDataArgs = {
+    uid: Scalars['String'];
+};
+
+
+export type QueryAuthenticateUserArgs = {
     uid: Scalars['String'];
 };
 
@@ -776,8 +782,6 @@ export type StUserAuthenticationInput = {
     photoURL?: Maybe<Scalars['String']>;
     providerId?: Maybe<Scalars['String']>;
     locale?: Maybe<Scalars['String']>;
-    accountCreatedDate?: Maybe<Scalars['String']>;
-    lastSignInDate?: Maybe<Scalars['String']>;
 };
 
 export type StUserIndetificationInformation = {
@@ -1029,7 +1033,7 @@ export type StLogsFragmentFragment = (
 
 export type StockSummaryFragmentFragment = (
     { __typename?: 'Summary' }
-    & Pick<Summary, 'EPSTTM' | 'EarningsDate' | 'ExDividendDate' | 'FiveTwoWeekRange' | 'OneyTargetEst' | 'PERatioTTM' | 'currency' | 'industry' | 'logo_url' | 'marketPrice' | 'previousClose' | 'recommendationKey' | 'recommendationMean' | 'sector' | 'targetEstOneyPercent' | 'symbol' | 'weekRangeFiveTwoMax' | 'weekRangeFiveTwoMin'>
+    & Pick<Summary, 'EPSTTM' | 'EarningsDate' | 'ExDividendDate' | 'FiveTwoWeekRange' | 'OneyTargetEst' | 'PERatioTTM' | 'currency' | 'industry' | 'logo_url' | 'marketPrice' | 'previousClose' | 'recommendationKey' | 'recommendationMean' | 'sector' | 'targetEstOneyPercent' | 'symbol' | 'weekRangeFiveTwoMax' | 'weekRangeFiveTwoMin' | 'longName'>
     );
 
 export type BalanceSheetDataFragmentFragment = (
@@ -1212,15 +1216,15 @@ export type StUserPartialInformationFragmentFragment = (
 }
     );
 
-export type QueryUserPublicDataQueryVariables = Exact<{
+export type AuthenticateUserQueryVariables = Exact<{
     uid: Scalars['String'];
 }>;
 
 
-export type QueryUserPublicDataQuery = (
+export type AuthenticateUserQuery = (
     { __typename?: 'Query' }
     & {
-    queryUserPublicData?: Maybe<(
+    authenticateUser?: Maybe<(
         { __typename?: 'STUserPublicData' }
         & Pick<StUserPublicData, 'uid' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate' | 'lastSignInDate' | 'activity'>
         & {
@@ -1592,6 +1596,7 @@ export const StockSummaryFragmentFragmentDoc = gql`
         symbol
         weekRangeFiveTwoMax
         weekRangeFiveTwoMin
+        longName
     }
 `;
 export const StStockWatchlistFragmentFragmentDoc = gql`
@@ -1997,9 +2002,9 @@ export class QueryStockDetailsGQL extends Apollo.Query<QueryStockDetailsQuery, Q
 
 }
 
-export const QueryUserPublicDataDocument = gql`
-    query QueryUserPublicData($uid: String!) {
-        queryUserPublicData(uid: $uid) {
+export const AuthenticateUserDocument = gql`
+    query AuthenticateUser($uid: String!) {
+        authenticateUser(uid: $uid) {
             uid
             nickName
             locale
@@ -2058,8 +2063,8 @@ ${StStockWatchlistFragmentFragmentDoc}`;
 @Injectable({
     providedIn: 'root'
 })
-export class QueryUserPublicDataGQL extends Apollo.Query<QueryUserPublicDataQuery, QueryUserPublicDataQueryVariables> {
-    document = QueryUserPublicDataDocument;
+export class AuthenticateUserGQL extends Apollo.Query<AuthenticateUserQuery, AuthenticateUserQueryVariables> {
+    document = AuthenticateUserDocument;
 
 }
 

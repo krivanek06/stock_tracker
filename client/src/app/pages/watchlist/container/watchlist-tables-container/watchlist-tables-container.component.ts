@@ -14,11 +14,12 @@ import {Router} from '@angular/router';
 import {ModalController} from '@ionic/angular';
 import {ChartDataIdentification, DocumentIdentification} from '../../../../shared/models/sharedModel';
 import {FinancialChartModalContainerComponent} from '../../../../shared/containers/modal/financial-chart-modal-container/financial-chart-modal-container.component';
-import {StockWatchlistInformationFragment} from '../../../../api/customGraphql.service';
 import {MarketPriceWebsocketService} from '../../../../shared/services/market-price-websocket.service';
 import {Subject} from 'rxjs';
 import {filter, takeUntil} from 'rxjs/operators';
-import Maybe from "graphql/tsutils/Maybe";
+import Maybe from 'graphql/tsutils/Maybe';
+import {StStockWatchlistFragmentFragment} from '../../../../api/customGraphql.service';
+import {ComponentBase} from '../../../../shared/utils/component-base/component.base';
 
 @Component({
     selector: 'app-watchlist-tables-container',
@@ -26,9 +27,8 @@ import Maybe from "graphql/tsutils/Maybe";
     styleUrls: ['./watchlist-tables-container.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WatchlistTablesContainerComponent implements OnInit, OnDestroy, OnChanges {
+export class WatchlistTablesContainerComponent extends ComponentBase implements OnInit, OnDestroy, OnChanges {
     private interval: any;
-    private destroy$: Subject<boolean> = new Subject<boolean>();
 
     constructor(private watchlistService: WatchlistService,
                 private ionicDialogService: IonicDialogService,
@@ -36,63 +36,40 @@ export class WatchlistTablesContainerComponent implements OnInit, OnDestroy, OnC
                 private marketPriceWebsocket: MarketPriceWebsocketService,
                 private modalController: ModalController,
                 private cdr: ChangeDetectorRef) {
+        super();
     }
 
-    stockWatchlists: Array<Maybe<{ __typename?: 'StockWatchlist' } & StockWatchlistInformationFragment>> = [];
+    stockWatchlists: Array<Maybe<{ __typename?: 'STStockWatchlist' } & StStockWatchlistFragmentFragment>> = [];
 
 
     ngOnInit() {
-        this.watchlistService.getUserStockWatchlists().pipe(
-            takeUntil(this.destroy$)
-        ).subscribe(
-            res => {
-                console.log('getUserStockWatchlists', res);
-                this.stockWatchlists = res;
-                this.cdr.detectChanges();
-            }
-        );
+        this.getUserWatchlists();
 
-        this.initSubscriptionForWatchlist();
+
+        /*this.initSubscriptionForWatchlist();
 
         // websockets update view
         this.interval = setInterval(() => {
             if (this.cdr && !(this.cdr as ViewRef).destroyed) {
                 this.cdr.detectChanges();
             }
-        }, 1200);
+        }, 1200);*/
     }
 
-    private async initSubscriptionForWatchlist() {
-        const stocks = await this.watchlistService.getDistinctStocks();
-        stocks.forEach(stock => this.marketPriceWebsocket.createSubscribeForSymbol(stock));
-
-        this.marketPriceWebsocket.getSubscribedSymbolsResult().pipe(
-            filter(res => !!res), // filter null & undefined
-            takeUntil(this.destroy$)
-        ).subscribe(res => {
-
-            // update price change
-            for (const watchlist of this.stockWatchlists) {
-                const objIndex = watchlist.summary.findIndex(obj => obj.symbol === res.s);
-
-                if (objIndex !== -1) {
-                    watchlist.summary[objIndex].marketPrice = res.p;
-                }
-            }
-        });
+    ngOnChanges(changes: SimpleChanges): void {
+        console.log('watchlist table', changes);
     }
+
 
     ngOnDestroy(): void {
         console.log('ngOnDestroy on watchlist table containers');
         clearInterval(this.interval);
         this.marketPriceWebsocket.closeConnection();
-        this.destroy$.next(true);
-        this.destroy$.complete();
     }
 
 
     createWatchList(watchlistName: string) {
-        this.watchlistService.createWatchList( watchlistName)
+        this.watchlistService.createWatchList(watchlistName)
             .subscribe(res => this.ionicDialogService.presentToast('Symbol deleted from watchlist'));
     }
 
@@ -134,8 +111,35 @@ export class WatchlistTablesContainerComponent implements OnInit, OnDestroy, OnC
         }
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        console.log('watchlist table', changes);
+
+    private async initSubscriptionForWatchlist() {
+        const stocks = await this.watchlistService.getDistinctStocks();
+        stocks.forEach(stock => this.marketPriceWebsocket.createSubscribeForSymbol(stock));
+
+        this.marketPriceWebsocket.getSubscribedSymbolsResult().pipe(
+            filter(res => !!res), // filter null & undefined
+            takeUntil(this.destroy$)
+        ).subscribe(res => {
+
+            // update price change
+            for (const watchlist of this.stockWatchlists) {
+                const objIndex = watchlist.summaries.findIndex(obj => obj.symbol === res.s);
+
+                if (objIndex !== -1) {
+                    watchlist.summaries[objIndex].marketPrice = res.p;
+                }
+            }
+        });
+    }
+
+    private getUserWatchlists() {
+        this.watchlistService.getUserStockWatchlists().pipe(takeUntil(this.destroy$)).subscribe(
+            res => {
+                console.log('getUserStockWatchlists', res);
+                this.stockWatchlists = res;
+                this.cdr.detectChanges();
+            }
+        );
     }
 
 }

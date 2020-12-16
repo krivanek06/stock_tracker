@@ -4,17 +4,15 @@ import {auth} from 'firebase/app';
 import {map, switchMap, tap} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {
-    QueryUserGQL, RegisterUserGQL,
-    UpdateUserDataGQL,
-    UpdateUserPrivateDataGQL,
-    UpdateUserPrivateDataMutation,
-    User
+    AuthenticateUserGQL,
+    RegisterUserGQL, StUserAuthenticationInput, StUserPublicData,
 } from '../../../api/customGraphql.service';
-import {IUser, LoginIUser, RegisterIUser, USER_ACTIVITY, USER_STATUS, UserPrivateData} from '../model/userModel';
+import {LoginIUser, RegisterIUser, USER_ACTIVITY} from '../model/userModel';
 import {FetchResult} from 'apollo-link';
-import UserCredential = firebase.auth.UserCredential;
 import {Apollo} from 'apollo-angular';
 import {Router} from '@angular/router';
+
+import UserCredential = firebase.auth.UserCredential;
 
 @Injectable({
     providedIn: 'root'
@@ -24,21 +22,19 @@ export class AuthFeatureService {
     constructor(private afAuth: AngularFireAuth,
                 private apollo: Apollo,
                 private router: Router,
-                private queryUserGQL: QueryUserGQL,
-                private updateUserPrivateDataGQL: UpdateUserPrivateDataGQL,
-                private registerUserGQL: RegisterUserGQL,
-                private updateUserDataGQL: UpdateUserDataGQL) {
+                private authenticateUserGQL: AuthenticateUserGQL,
+                private registerUserGQL: RegisterUserGQL) {
 
     }
 
     // TODO opravit
-    getUser(): Observable<IUser> {
+    getUser(): Observable<StUserPublicData> {
         return this.afAuth.authState.pipe(
             switchMap(user => {
                 if (user) {
-                    return this.queryUserGQL.watch({
+                    return this.authenticateUserGQL.watch({
                         uid: user.uid
-                    }).valueChanges.pipe(map(x => x.data.queryUser));
+                    }).valueChanges.pipe(map(x => x.data.authenticateUser));
                 }
                 return of(null);
             })
@@ -62,9 +58,9 @@ export class AuthFeatureService {
     }
 
     async logout() {
-        await this.getUser().pipe(
+        /*await this.getUser().pipe(
             switchMap(user => this.registerUserGQL.mutate({
-                userInput: {
+                stUserAuthenticationInput: {
                     uid: user.uid,
                     locale: user.locale,
                     providerId: user.providerId,
@@ -75,20 +71,20 @@ export class AuthFeatureService {
                     activity: USER_ACTIVITY.SIGNED_OUT
                 }
             }))
-        ).toPromise();
+        ).toPromise();*/
         await this.apollo.getClient().clearStore();
         await this.afAuth.signOut();
         await this.router.navigate(['/login']);
     }
 
-    updateUserPrivateData(userPrivateData: UserPrivateData): Observable<FetchResult<UpdateUserPrivateDataMutation, Record<string, any>, Record<string, any>>> {
+    /*updateUserPrivateData(userPrivateData: UserPrivateData): Observable<FetchResult<UpdateUserPrivateDataMutation, Record<string, any>, Record<string, any>>> {
         return this.getUser().pipe(
             switchMap(user => this.updateUserPrivateDataGQL.mutate({
                 uid: user.uid,
                 userPrivateDataInput: userPrivateData
             }))
         );
-    }
+    }*/
 
     // ToDO create interceptor with token
     private async signInUser(credential: UserCredential): Promise<void> {
@@ -96,11 +92,10 @@ export class AuthFeatureService {
         console.log('credential.additionalUserInfo', credential.additionalUserInfo);
         console.log('credential.additionalUserInfo.profile', credential.additionalUserInfo.profile);
 
-        //credential.user.metadata.creationTime
-        //credential.user.metadata.lastSignInTime
+
         if (credential.additionalUserInfo.isNewUser) {
             const profile = credential.additionalUserInfo.profile as any;
-            const userInput: IUser = {
+            const stUserAuthenticationInput: StUserAuthenticationInput = {
                 displayName: credential.user.displayName || credential.user.email.split('@')[0],
                 email: credential.user.email,
                 uid: credential.user.uid,
@@ -109,10 +104,10 @@ export class AuthFeatureService {
                 locale: profile?.locale
             };
 
-            const user = await this.registerUserGQL.mutate({userInput}).toPromise();
+            const user = await this.registerUserGQL.mutate({stUserAuthenticationInput}).toPromise();
             console.log('new user', user.data.registerUser);
         } else {
-           // const user = await this.updateUserDataGQL.mutate({userInput}).toPromise();
+            // const user = await this.updateUserDataGQL.mutate({userInput}).toPromise();
             //console.log('old user', user.data.updateUserData);
         }
     }

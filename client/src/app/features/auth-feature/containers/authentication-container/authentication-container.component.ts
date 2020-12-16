@@ -1,10 +1,10 @@
-import {IonicDialogService} from './../../../../shared/services/ionic-dialog.service';
-import {RegistrationComponent} from './../../components/registration/registration.component';
-import {LoginComponent} from './../../components/login/login.component';
+import {IonicDialogService} from '../../../../shared/services/ionic-dialog.service';
+import {RegistrationComponent} from '../../components/registration/registration.component';
+import {LoginComponent} from '../../components/login/login.component';
 import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
-import {LoginIUser, RegisterIUser} from '../../model/userModel';
 import {AuthFeatureService} from '../../services/auth-feature.service';
 import {Router} from '@angular/router';
+import {LoginIUser, RegisterIUser} from '../../model/userModel';
 
 @Component({
     selector: 'app-authentication-container',

@@ -1,60 +1,55 @@
-<ion-item class="ion-no-padding stockInfo-container">
-    <ng-container (click)="detailsItemClicked()">
-        <ion-button>
-            <ion-img [src]="summary.logo_url" class="symbol-image " (click)="imageClicked()">
-            </ion-img>
-        </ion-button>
+<ion-item class="st-display-flex-center">
+    <ion-item class="ion-no-padding stockInfo-container st-font-size-15 ion-activatable">
+        <ion-label>
+            <ion-img [src]="summary.logo_url" class="symbol-image "></ion-img>
+        </ion-label>
 
         <!-- stock name -->
-        <ion-label position="fixed" class="stockInfo-name">
+        <ion-label position="fixed" class="label-small-space">
             {{ summary.symbol }}
         </ion-label>
 
         <!-- current price -->
-        <ion-label position="fixed" class="stockInfo-price" [@marketValueChange]="newCurrentPrice">
+        <ion-label position="fixed" class="label-small-space" [@marketValueChange]="newCurrentPrice">
             {{ currentPrice | currency }}
         </ion-label>
 
         <!-- daily change -->
-        <ion-label position="fixed"
-                   class="stockInfo-change"
-                   [ngClass]="{
-                    'price-up': currentPrice - summary.previousClose >= 0,
-                    'price-down': currentPrice - summary.previousClose < 0
-                     }">
+        <div class="label-md-space">
+            <app-price-change-item [currentPrice]="currentPrice"
+                                   [compareToPrice]="summary.previousClose"></app-price-change-item>
+        </div>
 
-            {{ currentPrice - summary.previousClose | currency}}
-            ({{ ((currentPrice - summary.previousClose) / summary.previousClose) | percent: '1.2' }})
-            <ion-icon name="trending-up-outline"
-                      class="price-icon "
-                      *ngIf="currentPrice - summary.previousClose >= 0"></ion-icon>
-            <ion-icon name="trending-down-outline"
-                      class="price-icon"
-                      *ngIf="currentPrice - summary.previousClose < 0"></ion-icon>
-        </ion-label>
+
+        <!-- year change -->
+        <div class="label-md-space">
+            <app-price-change-item [currentPrice]="currentPrice"
+                                   [compareToPrice]="summary.weekRangeFiveTwoMin"></app-price-change-item>
+        </div>
+
 
         <!-- 52 week range -->
-        <ion-label position="fixed" style="min-width: 150px; max-width: 150px;" class="ion-hide-lg-down">
+        <ion-label position="fixed" class="label-xl-space ion-hide-lg-down">
             {{ summary.weekRangeFiveTwoMin | currency }} - {{ summary.weekRangeFiveTwoMax | currency }}
         </ion-label>
 
-        <!-- earnings date -->
-        <ion-label position="fixed" class="stockInfo-earnings ion-hide-sm-down">
-            {{ summary.EarningsDate }}
+        <!-- PE -->
+        <ion-label position="fixed" class="ion-hide-sm-down">
+            {{ summary.PERatioTTM }}
         </ion-label>
-    </ng-container>
 
-    <!-- details button -->
-    <ion-button shape="round"
-                fill="outline"
-                class="clickable ion-hide-md-down details-button"
-                (click)="detailsButtonClicked()">
-        Details
-    </ion-button>
+        <!-- recommendation date -->
+        <ion-label position="fixed" class="ion-hide-md-down">
+            {{ summary.recommendationKey }} [{{ summary.recommendationMean }}]
+        </ion-label>
+
+        <!-- ripple effect on click -->
+        <ion-ripple-effect></ion-ripple-effect>
+    </ion-item>
+
 
     <!-- trash delete button -->
-    <ion-button class="negative-button  ion-hide-sm-down clickable" (click)="deleteSymbolClicked()">
+    <ion-button class="st-negative-button  ion-hide-sm-down st-clickable" (click)="deleteSymbolClicked()">
         <ion-icon name="trash-bin" style="font-size: 28px;"></ion-icon>
     </ion-button>
-
 </ion-item>

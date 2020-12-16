@@ -2,13 +2,13 @@ import {ApolloError} from 'apollo-server';
 import {
     ST_USER_COLLECTION_MORE_INFORMATION, ST_USER_COLLECTION_USER,
     ST_USER_DOCUMENT_PRIVATE_DATA,
-    STUserFirebaseAuthentication,
+    STUserAuthenticationInput,
     STUserPrivateData,
 } from './user.model';
 import * as admin from "firebase-admin";
 import {createSTUserPrivateData, createSTUserPublicData} from "./user.utils";
 
-export const registerUser = async (user: STUserFirebaseAuthentication) => {
+export const registerUser = async (user: STUserAuthenticationInput) => {
     try {
         const newUserPrivateData = createSTUserPrivateData(user);
         const newUserPublicData = createSTUserPublicData(user);

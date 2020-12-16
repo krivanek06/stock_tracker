@@ -20,7 +20,7 @@ export interface STUserIndentificationInformation {
   nickName: string;
   locale: string;
   photoURL: string;
-  accountCreatedDate: Date;
+  accountCreatedDate: string;
 }
 
 export interface STUserPartialInformation extends STUserIndentificationInformation {
@@ -29,7 +29,7 @@ export interface STUserPartialInformation extends STUserIndentificationInformati
 }
 
 export interface STUserPublicData extends STUserPartialInformation {
-  lastSignInDate: Date;
+  lastSignInDate: string;
   transactionsSnippets: STTransaction[]; // last 10
   portfolioWeeklyChange: STPortfolio[];
   holdings: STTransaction[]; // only open transactions
@@ -65,15 +65,13 @@ export interface STUserResetedAccount {
 }
 
 
-export interface STUserFirebaseAuthentication {
+export interface STUserAuthenticationInput {
   uid: string;
   locale: string;
   photoURL: string;
   email: string;
   displayName: string;
   providerId: string;
-  accountCreatedDate: Date;
-  lastSignInDate: Date;
 }
 
 export const ST_USER_COLLECTION_USER = "users";
