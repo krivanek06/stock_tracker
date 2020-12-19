@@ -8,7 +8,7 @@ import {
     STStockWatchlistIdentifier,
 } from "./watchList.model";
 import {stockDataAPI} from "../enviroment";
-import {getCurrentIOSDate} from "../st-shared/st-shared.functions";
+import {getCurrentIOSDate, stSeep} from "../st-shared/st-shared.functions";
 
 const fetch = require("node-fetch");
 

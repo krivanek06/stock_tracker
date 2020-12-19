@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {AuthFeatureService} from '../../../features/auth-feature/services/auth-feature.service';
 import {SearchDataApiService} from '../../../api/search-data-api.service';
 import {SearchStocks} from '../../models/chartDataModel';
-import {FinancialChartModalContainerComponent} from '../modal/financial-chart-modal-container/financial-chart-modal-container.component';
+import {SymbolLookupModalComponent} from '../../../features/stock-details-feature/components/modal/symbol-lookup-modal/symbol-lookup-modal.component';
 import {ModalController} from '@ionic/angular';
 import {ChartDataIdentification} from '../../models/sharedModel';
 import {Router} from '@angular/router';
@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
     async showSearchSymbolGraph(chartDataIdentification: ChartDataIdentification) {
         console.log(chartDataIdentification);
         const modal = await this.modalController.create({
-            component: FinancialChartModalContainerComponent,
+            component: SymbolLookupModalComponent,
             componentProps: {chartDataIdentification},
             cssClass: 'custom-modal'
         });

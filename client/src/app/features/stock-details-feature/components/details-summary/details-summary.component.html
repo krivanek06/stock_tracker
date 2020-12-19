@@ -1,0 +1,79 @@
+<ion-list-header>
+    <ion-icon class="st-icon-title" name="barcode-outline"></ion-icon>
+
+    <ion-label class="st-font-size-20 st-font-1">
+        Summary
+    </ion-label>
+</ion-list-header>
+
+
+<ion-list>
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Name</ion-label>
+        <ion-label> {{ summary.longName }}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Symbol</ion-label>
+        <ion-label> {{ summary.symbol }}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Market cap.</ion-label>
+        <ion-label> {{ summary.marketCap }}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">PE [ttm.]</ion-label>
+        <ion-label> {{ summary.pERatioTTM }}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">EPS [ttm.]</ion-label>
+        <ion-label> {{ summary.ePSTTM }}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Price</ion-label>
+        <ion-label> {{ summary.marketPrice }}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">1y target</ion-label>
+        <ion-label> {{ summary.oneyTargetEst }}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Industry</ion-label>
+        <ion-label> {{ summary.industry }}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Sector</ion-label>
+        <ion-label> {{ summary.sector }}</ion-label>
+    </ion-item>
+
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">52 week range</ion-label>
+        <ion-label> {{ summary.fiveTwoWeekRange }}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Shared outstanding</ion-label>
+        <ion-label> {{ summary.sharesOutstanding | numberFormatter }}</ion-label>
+    </ion-item>
+
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Recommendation</ion-label>
+        <ion-label> {{ summary.recommendationKey }} [{{ summary.recommendationMean }}]</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Earnings date</ion-label>
+        <ion-label> {{ summary.earningsDate }}</ion-label>
+    </ion-item>
+
+
+</ion-list>

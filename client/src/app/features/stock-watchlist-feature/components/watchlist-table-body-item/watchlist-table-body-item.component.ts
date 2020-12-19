@@ -29,20 +29,19 @@ interface CustomValueChange {
 })
 
 export class WatchlistTableBodyItemComponent implements OnInit, OnChanges {
-    private isMobile = false;
-
     // saving values when websocket change current price to trigger animations
     newCurrentPrice = 0;
 
     @Input() summary: StockSummaryFragmentFragment;
     @Input() currentPrice: number;
 
-    @Output() deleteSymbolClickedEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
-    @Output() detailsButtonClickedEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
-    @Output() imageClickedEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
-    @Output() detailsItemClickedEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
+    @Output() deleteEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
+    @Output() itemClickedEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
 
     constructor() {
+    }
+
+    ngOnInit(): void {
     }
 
 
@@ -59,36 +58,15 @@ export class WatchlistTableBodyItemComponent implements OnInit, OnChanges {
 
     }
 
-    ngOnInit() {
-        this.isMobile = window.innerWidth <= 400;
-    }
-
 
     deleteSymbolClicked() {
-        this.deleteSymbolClickedEmitter.emit(this.createChartDataIdentification());
+        this.deleteEmitter.emit(this.createChartDataIdentification());
     }
 
-    detailsButtonClicked() {
-        this.detailsButtonClickedEmitter.emit(this.createChartDataIdentification());
+    itemClicked() {
+        this.itemClickedEmitter.emit(this.createChartDataIdentification());
     }
 
-    imageClicked() {
-        this.imageClickedEmitter.emit(this.createChartDataIdentification());
-    }
-
-    detailsItemClicked() {
-        console.log(this.isMobile);
-        if (!this.isMobile) {
-            return;
-        }
-
-        // this.detailsItemClickedEmitter.emit(this.createChartDataIdentification());
-    }
-
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        this.isMobile = event.target.innerWidth <= 400;
-    }
 
     private createChartDataIdentification(): ChartDataIdentification {
         return {symbol: this.summary.symbol, name: this.summary.longName};

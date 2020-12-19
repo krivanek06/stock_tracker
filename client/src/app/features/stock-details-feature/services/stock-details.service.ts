@@ -4,7 +4,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {map, tap} from "rxjs/operators";
 import {FinancialReport} from "../model/financialReportModel";
-import {QueryStockDetailsGQL, QueryStockDetailsQuery} from "../../../api/customGraphql.service";
+import {QueryStockDetailsGQL, QueryStockDetailsQuery, StockDetails, StockSummaryFragmentFragment} from '../../../api/customGraphql.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,12 +16,12 @@ export class StockDetailsService {
 
 
 
-  getStockDetails(symbol: string): Observable<QueryStockDetailsQuery> {
+  getStockDetails(symbol: string): Observable<StockDetails> {
     return this.queryStockDetailsGQL.fetch({
       symbol
     }).pipe(
         tap(x => console.log('getStockDetails', x)),
-        map(res => res.data)
+        map(res => res.data.queryStockDetails)
     );
   }
 

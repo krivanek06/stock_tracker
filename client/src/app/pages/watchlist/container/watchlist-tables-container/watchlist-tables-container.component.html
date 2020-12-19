@@ -1,33 +1,24 @@
-<div class="create-watchlist-button">
-    <app-watchlist-creation (creationEmitter)="createWatchList($event)"></app-watchlist-creation>
-</div>
-
 <div class="watchlist-container" *ngIf="stockWatchlists.length > 0">
-    <ion-item *ngFor="let watchlist of stockWatchlists" class="ion-margin-top ion-align-items-start center-text">
-        <ion-label style="min-width: fit-content;" >
-            <!-- table title
-            <app-watchlist-table-title
-                    [stockWatchlist]="watchlist"
-                    (deleteWatchlistEmitter)="deleteWatchlist($event)"
-                    (renameWatchlistEmitter)="renameWatchlist($event)">
-            </app-watchlist-table-title> -->
-
-            <!-- table header -->
-            <app-watchlist-table-header></app-watchlist-table-header>
-
-            <!-- table body -->
-            <app-watchlist-table-body-item
-                    *ngFor="let summary of watchlist.summaries"
-                    [summary]="summary"
-                    [currentPrice]="summary.marketPrice"
-                    (deleteSymbolClickedEmitter)="deleteSymbolFromDocument($event, watchlist.id)"
-                    (imageClickedEmitter)="showChartForSymbol($event)"
-                    (detailsButtonClickedEmitter)="redirectToDetails($event)"
-                    (detailsItemClickedEmitter)="redirectToDetails($event)">
-            </app-watchlist-table-body-item>
+    <ion-item *ngFor="let watchlist of stockWatchlists" class="watchlist-data">
+        <!-- watchlist -->
+        <ion-label>
+            <app-watchlist-table [watchlist]="watchlist"
+                                 (itemClickedEmitter)="showChartForSymbol($event)"
+                                 (deleteEmitter)="deleteSymbolFromDocument($event, watchlist.id, watchlist.name)">
+            </app-watchlist-table>
         </ion-label>
+
+        <!-- sector chart -->
         <ion-label class="sector-chart-container ion-padding" *ngIf="watchlist.summaries.length > 0">
-            <app-watchlist-sector-chart style="align-self: center;" [summaries]="watchlist.summaries"></app-watchlist-sector-chart>
+            <app-watchlist-sector-chart style="align-self: center;"
+                                        [summaries]="watchlist.summaries"></app-watchlist-sector-chart>
         </ion-label>
     </ion-item>
+</div>
+
+
+<div class="create-watchlist-button">
+    <ion-button class="st-create-background" (click)="showCreateWatchlistPopUp()">
+        Create watchlist
+    </ion-button>
 </div>

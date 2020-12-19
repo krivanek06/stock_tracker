@@ -1,31 +1,32 @@
+@import "variables";
+
 :host {
   .watchlist-container {
     //padding: 20px 20px 20px 60px;
 
-    @media (max-width: 1020px) {
+    @media (max-width: #{$st-var-md-split}) {
       padding: 2px;
       text-align: -webkit-center;
     }
   }
 
   .create-watchlist-button {
-    margin-left: 35px;
-    margin-top: 20px;
-    @media (max-width: 1020px) {
-      margin-left: 10px;
-    }
+    float: left;
+    margin-left: 16px;
+    margin-top: 45px;
   }
 
   .sector-chart-container {
     display: contents;
-    @media (max-width: 1500px) {
+    @media (max-width: #{$st-var-xxl-split}) {
       display: none;
     }
   }
 
-  .center-text {
-    text-align: left;
+  .watchlist-data {
     display: inline-flex;
+    margin-top: 16px;
+    margin-bottom: 16px;
   }
 
 
