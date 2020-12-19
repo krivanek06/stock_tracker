@@ -18,8 +18,8 @@ export type Scalars = {
 
 export type Analysis = {
     __typename?: 'Analysis';
-    GrowthEstimates: GrowthEstimates;
-    RevenueEstimate: Array<Maybe<RevenueEstimate>>;
+    growthEstimates: GrowthEstimates;
+    revenueEstimate: Array<Maybe<RevenueEstimate>>;
 };
 
 export type BalanceSheet = {
@@ -112,8 +112,8 @@ export type CompanyData = {
 
 export type DefaultKeyStatistics = {
     __typename?: 'DefaultKeyStatistics';
-    FiveTwoWeekChange?: Maybe<Scalars['Float']>;
-    SandPFiveTwoWeekChange?: Maybe<Scalars['Float']>;
+    fiveTwoWeekChange?: Maybe<Scalars['Float']>;
+    sandPFiveTwoWeekChange?: Maybe<Scalars['Float']>;
     bookValue?: Maybe<Scalars['Float']>;
     dateShortInterest?: Maybe<Scalars['Float']>;
     earningsQuarterlyGrowth?: Maybe<Scalars['Float']>;
@@ -156,7 +156,7 @@ export type Dividens = {
     exDividendDate?: Maybe<Scalars['String']>;
     trailingAnnualDividendRate?: Maybe<Scalars['String']>;
     trailingAnnualDividendYield?: Maybe<Scalars['String']>;
-    ForwardDividendYield?: Maybe<Scalars['String']>;
+    forwardDividendYield?: Maybe<Scalars['String']>;
 };
 
 export type Earnings = {
@@ -271,18 +271,18 @@ export type FinancialsChartData = {
 
 export type GrowthEstimates = {
     __typename?: 'GrowthEstimates';
-    CurrentQtr?: Maybe<Scalars['String']>;
-    CurrentQtrPrct?: Maybe<Scalars['Float']>;
-    CurrentYear?: Maybe<Scalars['String']>;
-    CurrentYearPrct?: Maybe<Scalars['Float']>;
-    NextFiveYearsperannum?: Maybe<Scalars['String']>;
-    NextFiveYearsperannumPrct?: Maybe<Scalars['Float']>;
-    NextQtr?: Maybe<Scalars['String']>;
-    NextQtrPrct?: Maybe<Scalars['Float']>;
-    NextYear?: Maybe<Scalars['String']>;
-    NextYearPrct?: Maybe<Scalars['Float']>;
-    PastFiveYearsperannum?: Maybe<Scalars['String']>;
-    PastFiveYearsperannumPrct?: Maybe<Scalars['Float']>;
+    currentQtr?: Maybe<Scalars['String']>;
+    currentQtrPrct?: Maybe<Scalars['Float']>;
+    currentYear?: Maybe<Scalars['String']>;
+    currentYearPrct?: Maybe<Scalars['Float']>;
+    nextFiveYearsperannum?: Maybe<Scalars['String']>;
+    nextFiveYearsperannumPrct?: Maybe<Scalars['Float']>;
+    nextQtr?: Maybe<Scalars['String']>;
+    nextQtrPrct?: Maybe<Scalars['Float']>;
+    nextYear?: Maybe<Scalars['String']>;
+    nextYearPrct?: Maybe<Scalars['Float']>;
+    pastFiveYearsperannum?: Maybe<Scalars['String']>;
+    pastFiveYearsperannumPrct?: Maybe<Scalars['Float']>;
     name?: Maybe<Scalars['String']>;
 };
 
@@ -318,16 +318,16 @@ export type IncomeStatementData = {
 
 export type Metric = {
     __typename?: 'Metric';
-    FiveDayPriceReturnDaily?: Maybe<Scalars['Float']>;
-    FiveTwoWeekHigh?: Maybe<Scalars['Float']>;
-    FiveTwoWeekHighDate?: Maybe<Scalars['String']>;
-    FiveTwoWeekLow?: Maybe<Scalars['Float']>;
-    FiveTwoWeekLowDate?: Maybe<Scalars['String']>;
-    FiveTwoWeekPriceReturnDaily?: Maybe<Scalars['Float']>;
-    OneDayAverageTradingVolume?: Maybe<Scalars['Float']>;
-    OneThreeWeekPriceReturnDaily?: Maybe<Scalars['Float']>;
-    ThreeMonthAverageTradingVolume?: Maybe<Scalars['Float']>;
-    TwoSixWeekPriceReturnDaily?: Maybe<Scalars['Float']>;
+    fiveDayPriceReturnDaily?: Maybe<Scalars['Float']>;
+    fiveTwoWeekHigh?: Maybe<Scalars['Float']>;
+    fiveTwoWeekHighDate?: Maybe<Scalars['String']>;
+    fiveTwoWeekLow?: Maybe<Scalars['Float']>;
+    fiveTwoWeekLowDate?: Maybe<Scalars['String']>;
+    fiveTwoWeekPriceReturnDaily?: Maybe<Scalars['Float']>;
+    oneDayAverageTradingVolume?: Maybe<Scalars['Float']>;
+    oneThreeWeekPriceReturnDaily?: Maybe<Scalars['Float']>;
+    threeMonthAverageTradingVolume?: Maybe<Scalars['Float']>;
+    twoSixWeekPriceReturnDaily?: Maybe<Scalars['Float']>;
     assetTurnoverAnnual?: Maybe<Scalars['Float']>;
     assetTurnoverTTM?: Maybe<Scalars['Float']>;
     beta?: Maybe<Scalars['Float']>;
@@ -553,16 +553,16 @@ export type Recommendations = {
 
 export type RevenueEstimate = {
     __typename?: 'RevenueEstimate';
-    AvgEstimate?: Maybe<Scalars['String']>;
-    AvgEstimateNumber?: Maybe<Scalars['Float']>;
-    HighEstimate?: Maybe<Scalars['String']>;
-    HighEstimateNumber?: Maybe<Scalars['Float']>;
-    LowEstimate?: Maybe<Scalars['String']>;
-    LowEstimateNumber?: Maybe<Scalars['Float']>;
-    NoofAnalysts?: Maybe<Scalars['Float']>;
-    SalesGrowthyearest?: Maybe<Scalars['String']>;
-    SalesGrowthyearestNumber?: Maybe<Scalars['Float']>;
-    YearAgoSales?: Maybe<Scalars['String']>;
+    avgEstimate?: Maybe<Scalars['String']>;
+    avgEstimateNumber?: Maybe<Scalars['Float']>;
+    highEstimate?: Maybe<Scalars['String']>;
+    highEstimateNumber?: Maybe<Scalars['Float']>;
+    lowEstimate?: Maybe<Scalars['String']>;
+    lowEstimateNumber?: Maybe<Scalars['Float']>;
+    noofAnalysts?: Maybe<Scalars['Float']>;
+    salesGrowthyearest?: Maybe<Scalars['String']>;
+    salesGrowthyearestNumber?: Maybe<Scalars['Float']>;
+    yearAgoSales?: Maybe<Scalars['String']>;
     name?: Maybe<Scalars['String']>;
 };
 
@@ -574,53 +574,53 @@ export type Series = {
 
 export type Stats = {
     __typename?: 'Stats';
-    AvgVolOnedayThree?: Maybe<Scalars['String']>;
-    BookValuePerSharemrq?: Maybe<Scalars['String']>;
-    CurrentRatiomrq?: Maybe<Scalars['String']>;
-    DilutedEPSttm?: Maybe<Scalars['String']>;
-    DividendDateThree?: Maybe<Scalars['String']>;
-    EBITDA?: Maybe<Scalars['String']>;
-    EnterpriseValueEBITDASix?: Maybe<Array<Maybe<Scalars['String']>>>;
-    EnterpriseValueRevenueThree?: Maybe<Array<Maybe<Scalars['String']>>>;
-    EnterpriseValueThree?: Maybe<Array<Maybe<Scalars['String']>>>;
-    FiveDayMovingAverageThree?: Maybe<Scalars['String']>;
-    FiveTwoWeekChangeThree?: Maybe<Scalars['String']>;
-    FiveTwoWeekHighThree?: Maybe<Scalars['String']>;
-    FiveTwoWeekLowThree?: Maybe<Scalars['String']>;
-    FiveYearAverageDividendYieldFour?: Maybe<Scalars['String']>;
-    Float?: Maybe<Scalars['String']>;
-    ForwardAnnualDividendYieldFour?: Maybe<Scalars['String']>;
-    ForwardPEOne?: Maybe<Array<Maybe<Scalars['String']>>>;
-    GrossProfitttm?: Maybe<Scalars['String']>;
-    LastSplitDateThree?: Maybe<Scalars['String']>;
-    LastSplitFactorTwo?: Maybe<Scalars['String']>;
-    LeveredFreeCashFlowttm?: Maybe<Scalars['String']>;
-    MarketCapintradayFive?: Maybe<Array<Maybe<Scalars['String']>>>;
-    MostRecentQuartermrq?: Maybe<Scalars['String']>;
-    NetIncomeAvitoCommonttm?: Maybe<Scalars['String']>;
-    OperatingMarginttm?: Maybe<Scalars['String']>;
-    PEGRatioFiveyrexpectedOne?: Maybe<Array<Maybe<Scalars['String']>>>;
-    PayoutRatioFour?: Maybe<Scalars['String']>;
-    PctHeldbyInsidersOne?: Maybe<Scalars['String']>;
-    PctHeldbyInstitutionsOne?: Maybe<Scalars['String']>;
-    PriceBookmrq?: Maybe<Array<Maybe<Scalars['String']>>>;
-    PriceSalesttm?: Maybe<Array<Maybe<Scalars['String']>>>;
-    QuarterlyEarningsGrowthyoy?: Maybe<Scalars['String']>;
-    QuarterlyRevenueGrowthyoy?: Maybe<Scalars['String']>;
-    ReturnonEquityttm?: Maybe<Scalars['String']>;
-    RevenuePerSharettm?: Maybe<Scalars['String']>;
-    SPFiveFiveTwoWeekChangeThree?: Maybe<Scalars['String']>;
-    SharesOutstandingFive?: Maybe<Scalars['String']>;
-    SharesShortAugOneThreeTwoTwoFour?: Maybe<Scalars['String']>;
-    SharesShortpriormonthJulOneFourTwoTwoFour?: Maybe<Scalars['String']>;
-    ShortPctofFloatAugOneThreeTwoTwoFour?: Maybe<Scalars['String']>;
-    ShortPctofSharesOutstandingAugOneThreeTwoTwoFour?: Maybe<Scalars['String']>;
-    ShortRatioAugOneThreeTwoTwoFour?: Maybe<Scalars['String']>;
-    TotalCashPerSharemrq?: Maybe<Scalars['String']>;
-    TotalDebtEquitymrq?: Maybe<Scalars['String']>;
-    TotalDebtmrq?: Maybe<Scalars['String']>;
-    TrailingPE?: Maybe<Array<Maybe<Scalars['String']>>>;
-    TwoDayMovingAverageThree?: Maybe<Scalars['String']>;
+    avgVolOnedayThree?: Maybe<Scalars['String']>;
+    bookValuePerSharemrq?: Maybe<Scalars['String']>;
+    currentRatiomrq?: Maybe<Scalars['String']>;
+    dilutedEPSttm?: Maybe<Scalars['String']>;
+    dividendDateThree?: Maybe<Scalars['String']>;
+    eBITDA?: Maybe<Scalars['String']>;
+    enterpriseValueEBITDASix?: Maybe<Array<Maybe<Scalars['String']>>>;
+    enterpriseValueRevenueThree?: Maybe<Array<Maybe<Scalars['String']>>>;
+    enterpriseValueThree?: Maybe<Array<Maybe<Scalars['String']>>>;
+    fiveDayMovingAverageThree?: Maybe<Scalars['String']>;
+    fiveTwoWeekChangeThree?: Maybe<Scalars['String']>;
+    fiveTwoWeekHighThree?: Maybe<Scalars['String']>;
+    fiveTwoWeekLowThree?: Maybe<Scalars['String']>;
+    fiveYearAverageDividendYieldFour?: Maybe<Scalars['String']>;
+    float?: Maybe<Scalars['String']>;
+    forwardAnnualDividendYieldFour?: Maybe<Scalars['String']>;
+    forwardPEOne?: Maybe<Array<Maybe<Scalars['String']>>>;
+    grossProfitttm?: Maybe<Scalars['String']>;
+    lastSplitDateThree?: Maybe<Scalars['String']>;
+    lastSplitFactorTwo?: Maybe<Scalars['String']>;
+    leveredFreeCashFlowttm?: Maybe<Scalars['String']>;
+    marketCapintradayFive?: Maybe<Array<Maybe<Scalars['String']>>>;
+    mostRecentQuartermrq?: Maybe<Scalars['String']>;
+    netIncomeAvitoCommonttm?: Maybe<Scalars['String']>;
+    operatingMarginttm?: Maybe<Scalars['String']>;
+    pEGRatioFiveyrexpectedOne?: Maybe<Array<Maybe<Scalars['String']>>>;
+    payoutRatioFour?: Maybe<Scalars['String']>;
+    pctHeldbyInsidersOne?: Maybe<Scalars['String']>;
+    pctHeldbyInstitutionsOne?: Maybe<Scalars['String']>;
+    priceBookmrq?: Maybe<Array<Maybe<Scalars['String']>>>;
+    priceSalesttm?: Maybe<Array<Maybe<Scalars['String']>>>;
+    quarterlyEarningsGrowthyoy?: Maybe<Scalars['String']>;
+    quarterlyRevenueGrowthyoy?: Maybe<Scalars['String']>;
+    returnonEquityttm?: Maybe<Scalars['String']>;
+    revenuePerSharettm?: Maybe<Scalars['String']>;
+    sPFiveFiveTwoWeekChangeThree?: Maybe<Scalars['String']>;
+    sharesOutstandingFive?: Maybe<Scalars['String']>;
+    sharesShortAugOneThreeTwoTwoFour?: Maybe<Scalars['String']>;
+    sharesShortpriormonthJulOneFourTwoTwoFour?: Maybe<Scalars['String']>;
+    shortPctofFloatAugOneThreeTwoTwoFour?: Maybe<Scalars['String']>;
+    shortPctofSharesOutstandingAugOneThreeTwoTwoFour?: Maybe<Scalars['String']>;
+    shortRatioAugOneThreeTwoTwoFour?: Maybe<Scalars['String']>;
+    totalCashPerSharemrq?: Maybe<Scalars['String']>;
+    totalDebtEquitymrq?: Maybe<Scalars['String']>;
+    totalDebtmrq?: Maybe<Scalars['String']>;
+    trailingPE?: Maybe<Array<Maybe<Scalars['String']>>>;
+    twoDayMovingAverageThree?: Maybe<Scalars['String']>;
     dateTime?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
@@ -847,16 +847,16 @@ export type StUserResetedAccount = {
 
 export type Summary = {
     __typename?: 'Summary';
-    AvgVolume?: Maybe<Scalars['String']>;
-    EPSTTM?: Maybe<Scalars['String']>;
-    EarningsDate?: Maybe<Scalars['String']>;
-    ExDividendDate?: Maybe<Scalars['String']>;
-    FiveTwoWeekRange?: Maybe<Scalars['String']>;
-    ForwardDividendYield?: Maybe<Scalars['String']>;
-    OneyTargetEst?: Maybe<Scalars['Float']>;
-    Open?: Maybe<Scalars['String']>;
-    PERatioTTM?: Maybe<Scalars['String']>;
-    Volume?: Maybe<Scalars['String']>;
+    avgVolume?: Maybe<Scalars['String']>;
+    ePSTTM?: Maybe<Scalars['String']>;
+    earningsDate?: Maybe<Scalars['String']>;
+    exDividendDate?: Maybe<Scalars['String']>;
+    fiveTwoWeekRange?: Maybe<Scalars['String']>;
+    forwardDividendYield?: Maybe<Scalars['String']>;
+    oneyTargetEst?: Maybe<Scalars['Float']>;
+    open?: Maybe<Scalars['String']>;
+    pERatioTTM?: Maybe<Scalars['String']>;
+    volume?: Maybe<Scalars['String']>;
     currency?: Maybe<Scalars['String']>;
     industry?: Maybe<Scalars['String']>;
     logo_url?: Maybe<Scalars['String']>;
@@ -873,6 +873,8 @@ export type Summary = {
     shortName?: Maybe<Scalars['String']>;
     longName?: Maybe<Scalars['String']>;
     marketCap?: Maybe<Scalars['Float']>;
+    sharesOutstanding?: Maybe<Scalars['Float']>;
+    longBusinessSummary?: Maybe<Scalars['String']>;
 };
 
 export type SummaryProfile = {
@@ -1033,7 +1035,7 @@ export type StLogsFragmentFragment = (
 
 export type StockSummaryFragmentFragment = (
     { __typename?: 'Summary' }
-    & Pick<Summary, 'EPSTTM' | 'EarningsDate' | 'ExDividendDate' | 'FiveTwoWeekRange' | 'OneyTargetEst' | 'PERatioTTM' | 'currency' | 'industry' | 'logo_url' | 'marketPrice' | 'previousClose' | 'recommendationKey' | 'recommendationMean' | 'sector' | 'targetEstOneyPercent' | 'symbol' | 'weekRangeFiveTwoMax' | 'weekRangeFiveTwoMin' | 'longName'>
+    & Pick<Summary, 'ePSTTM' | 'earningsDate' | 'exDividendDate' | 'fiveTwoWeekRange' | 'oneyTargetEst' | 'pERatioTTM' | 'currency' | 'industry' | 'logo_url' | 'marketPrice' | 'previousClose' | 'recommendationKey' | 'recommendationMean' | 'sector' | 'targetEstOneyPercent' | 'symbol' | 'weekRangeFiveTwoMax' | 'weekRangeFiveTwoMin' | 'longName' | 'marketCap' | 'sharesOutstanding' | 'longBusinessSummary'>
     );
 
 export type BalanceSheetDataFragmentFragment = (
@@ -1046,9 +1048,113 @@ export type CashFlowDataFragmentFragment = (
     & Pick<CashFlowData, 'capitalExpenditures' | 'changeInCash' | 'changeToAccountReceivables' | 'changeToInventory' | 'changeToLiabilities' | 'changeToNetincome' | 'changeToOperatingActivities' | 'depreciation' | 'dividendsPaid' | 'endDate' | 'investments' | 'maxAge' | 'netBorrowings' | 'netIncome' | 'otherCashflowsFromFinancingActivities' | 'otherCashflowsFromInvestingActivities' | 'repurchaseOfStock' | 'totalCashFromFinancingActivities' | 'totalCashFromOperatingActivities' | 'totalCashflowsFromInvestingActivities'>
     );
 
-export type IncomeStatementDataFragment = (
+export type IncomeStatementFragmentFragment = (
     { __typename?: 'IncomeStatementData' }
     & Pick<IncomeStatementData, 'costOfRevenue' | 'discontinuedOperations' | 'ebit' | 'effectOfAccountingCharges' | 'endDate' | 'extraordinaryItems' | 'grossProfit' | 'incomeBeforeTax' | 'incomeTaxExpense' | 'interestExpense' | 'netIncome' | 'netIncomeApplicableToCommonShares' | 'netIncomeFromContinuingOps' | 'operatingIncome' | 'otherOperatingExpenses' | 'researchDevelopment' | 'sellingGeneralAdministrative' | 'totalOperatingExpenses' | 'totalOtherIncomeExpenseNet' | 'totalRevenue'>
+    );
+
+export type GrowthEstimatesFragmentFragment = (
+    { __typename?: 'GrowthEstimates' }
+    & Pick<GrowthEstimates, 'currentQtr' | 'currentQtrPrct' | 'currentYear' | 'currentYearPrct' | 'nextFiveYearsperannum' | 'nextFiveYearsperannumPrct' | 'nextQtr' | 'nextQtrPrct' | 'nextYear' | 'nextYearPrct' | 'pastFiveYearsperannum' | 'pastFiveYearsperannumPrct' | 'name'>
+    );
+
+export type RevenueEstimateFragmentFragment = (
+    { __typename?: 'RevenueEstimate' }
+    & Pick<RevenueEstimate, 'avgEstimate' | 'avgEstimateNumber' | 'highEstimate' | 'highEstimateNumber' | 'lowEstimate' | 'lowEstimateNumber' | 'noofAnalysts' | 'salesGrowthyearest' | 'salesGrowthyearestNumber' | 'yearAgoSales' | 'name'>
+    );
+
+export type StatsFragmentFragment = (
+    { __typename?: 'Stats' }
+    & Pick<Stats, 'marketCapintradayFive' | 'priceSalesttm' | 'leveredFreeCashFlowttm'>
+    );
+
+export type RecommendationFragmentFragment = (
+    { __typename?: 'Recommendations' }
+    & Pick<Recommendations, 'buy' | 'hold' | 'period' | 'sell' | 'strongBuy' | 'strongSell' | 'symbol'>
+    );
+
+export type NewsArticleFragmentFragment = (
+    { __typename?: 'NewsArticle' }
+    & Pick<NewsArticle, 'datetime' | 'headline' | 'image' | 'sourceName' | 'summary' | 'url'>
+    );
+
+export type DefaultKeyStatisticsFragmentFragment = (
+    { __typename?: 'DefaultKeyStatistics' }
+    & Pick<DefaultKeyStatistics, 'fiveTwoWeekChange' | 'sandPFiveTwoWeekChange' | 'bookValue' | 'dateShortInterest' | 'earningsQuarterlyGrowth' | 'enterpriseToEbitda' | 'enterpriseToRevenue' | 'enterpriseValue' | 'fiveYearAverageReturn' | 'floatShares' | 'forwardEps' | 'forwardPE' | 'heldPercentInsiders' | 'heldPercentInstitutions' | 'lastFiscalYearEnd' | 'lastSplitDate' | 'lastSplitFactor' | 'mostRecentQuarter' | 'netIncomeToCommon' | 'nextFiscalYearEnd' | 'pegRatio' | 'priceHint' | 'priceToBook' | 'profitMargins' | 'sharesOutstanding' | 'sharesShort' | 'sharesShortPreviousMonthDate' | 'sharesShortPriorMonth' | 'shortRatio' | 'trailingEps'>
+    );
+
+export type FinancialDataFragmentFragment = (
+    { __typename?: 'FinancialData' }
+    & Pick<FinancialData, 'currentPrice' | 'currentRatio' | 'debtToEquity' | 'ebitda' | 'ebitdaMargins' | 'financialCurrency' | 'freeCashflow' | 'grossMargins' | 'grossProfits' | 'FloatOfAnalystOpinions' | 'operatingCashflow' | 'operatingMargins' | 'profitMargins' | 'quickRatio' | 'recommendationKey' | 'recommendationMean' | 'returnOnAssets' | 'returnOnEquity' | 'revenueGrowth' | 'revenuePerShare' | 'targetHighPrice' | 'targetLowPrice' | 'targetMeanPrice' | 'targetMedianPrice' | 'totalCash' | 'totalCashPerShare' | 'totalDebt' | 'totalRevenue'>
+    );
+
+export type MetricFragmentFragment = (
+    { __typename?: 'Metric' }
+    & Pick<Metric, 'fiveDayPriceReturnDaily' | 'fiveTwoWeekHigh' | 'fiveTwoWeekHighDate' | 'fiveTwoWeekLow' | 'fiveTwoWeekLowDate' | 'fiveTwoWeekPriceReturnDaily' | 'oneDayAverageTradingVolume' | 'oneThreeWeekPriceReturnDaily' | 'threeMonthAverageTradingVolume' | 'twoSixWeekPriceReturnDaily' | 'assetTurnoverAnnual' | 'assetTurnoverTTM' | 'beta' | 'bookValuePerShareAnnual' | 'bookValuePerShareQuarterly' | 'bookValueShareGrowthFiveY' | 'capitalSpendingGrowthFiveY' | 'cashFlowPerShareAnnual' | 'cashFlowPerShareTTM' | 'cashPerSharePerShareAnnual' | 'cashPerSharePerShareQuarterly' | 'currentEvfreeCashFlowAnnual' | 'currentEvfreeCashFlowTTM' | 'currentRatioAnnual' | 'currentRatioQuarterly' | 'ebitdPerShareTTM' | 'ebitdaCagrFiveY' | 'ebitdaInterimCagrFiveY' | 'epsBasicExclExtraItemsAnnual' | 'epsBasicExclExtraItemsTTM' | 'epsExclExtraItemsAnnual' | 'epsExclExtraItemsTTM' | 'epsGrowthFiveY' | 'epsGrowthQuarterlyYoy' | 'epsGrowthTTMYoy' | 'epsGrowthThreeY' | 'epsInclExtraItemsAnnual' | 'epsInclExtraItemsTTM' | 'epsNormalizedAnnual' | 'focfCagrFiveY' | 'freeCashFlowAnnual' | 'freeCashFlowPerShareTTM' | 'freeCashFlowTTM' | 'freeOperatingCashFlowrevenueFiveY' | 'freeOperatingCashFlowrevenueTTM' | 'grossMarginAnnual' | 'grossMarginFiveY' | 'grossMarginTTM' | 'inventoryTurnoverAnnual' | 'inventoryTurnoverTTM' | 'longTermDebtequityAnnual' | 'longTermDebtequityQuarterly' | 'marketCapitalization' | 'monthToDatePriceReturnDaily' | 'netDebtAnnual' | 'netDebtInterim' | 'netIncomeEmployeeAnnual' | 'netIncomeEmployeeTTM' | 'netInterestCoverageAnnual' | 'netInterestCoverageTTM' | 'netMarginGrowthFiveY' | 'netProfitMarginAnnual' | 'netProfitMarginFiveY' | 'netProfitMarginTTM' | 'operatingMarginAnnual' | 'operatingMarginFiveY' | 'operatingMarginTTM' | 'payoutRatioAnnual' | 'payoutRatioTTM' | 'pbAnnual' | 'pbQuarterly' | 'pcfShareTTM' | 'peBasicExclExtraTTM' | 'peExclExtraAnnual' | 'peExclExtraHighTTM' | 'peExclExtraTTM' | 'peExclLowTTM' | 'peInclExtraTTM' | 'peNormalizedAnnual' | 'pfcfShareAnnual' | 'pfcfShareTTM' | 'pretaxMarginAnnual' | 'pretaxMarginFiveY' | 'pretaxMarginTTM' | 'priceRelativeToSPFiveFiveTwoWeek' | 'priceRelativeToSPFiveFourWeek' | 'priceRelativeToSPFiveOneThreeWeek' | 'priceRelativeToSPFiveTwoSixWeek' | 'priceRelativeToSPFiveYtd' | 'psAnnual' | 'psTTM' | 'ptbvAnnual' | 'ptbvQuarterly' | 'quickRatioAnnual' | 'quickRatioQuarterly' | 'receivablesTurnoverAnnual' | 'receivablesTurnoverTTM' | 'revenueEmployeeAnnual' | 'revenueEmployeeTTM' | 'revenueGrowthFiveY' | 'revenueGrowthQuarterlyYoy' | 'revenueGrowthTTMYoy' | 'revenueGrowthThreeY' | 'revenuePerShareAnnual' | 'revenuePerShareTTM' | 'revenueShareGrowthFiveY' | 'roaRfy' | 'roaaFiveY' | 'roaeFiveY' | 'roaeTTM' | 'roeRfy' | 'roeTTM' | 'roiAnnual' | 'roiFiveY' | 'roiTTM' | 'tangibleBookValuePerShareAnnual' | 'tangibleBookValuePerShareQuarterly' | 'tbvCagrFiveY' | 'totalDebtCagrFiveY' | 'totalDebttotalEquityAnnual' | 'totalDebttotalEquityQuarterly' | 'yearToDatePriceReturnDaily'>
+    );
+
+export type DividensFragmentFragment = (
+    { __typename?: 'Dividens' }
+    & Pick<Dividens, 'currentDividendYieldTTM' | 'dividendGrowthRateFiveY' | 'dividendPerShareAnnual' | 'dividendPerShareFiveY' | 'dividendYieldFiveY' | 'dividendYieldIndicatedAnnual' | 'dividendsPerShareTTM' | 'exDividendDate' | 'trailingAnnualDividendRate' | 'trailingAnnualDividendYield' | 'forwardDividendYield'>
+    );
+
+export type HistoryFragmentFragment = (
+    { __typename?: 'UpgradeDowngradeHistoryData' }
+    & Pick<UpgradeDowngradeHistoryData, 'action' | 'epochGradeDate' | 'firm' | 'fromGrade' | 'toGrade'>
+    );
+
+export type SummaryProfileFragmentFragment = (
+    { __typename?: 'SummaryProfile' }
+    & Pick<SummaryProfile, 'address1' | 'city' | 'country' | 'fax' | 'fullTimeEmployees' | 'industry' | 'logo_url' | 'longBusinessSummary' | 'phone' | 'sector' | 'state' | 'website' | 'zip'>
+    );
+
+export type EarningsChartFragmentFragment = (
+    { __typename?: 'EarningsChart' }
+    & Pick<EarningsChart, 'currentQuarterEstimate' | 'currentQuarterEstimateDate' | 'currentQuarterEstimateYear' | 'earningsDate'>
+    & {
+    quarterly?: Maybe<Array<Maybe<(
+        { __typename?: 'EarningsChartData' }
+        & Pick<EarningsChartData, 'actual' | 'date' | 'estimate'>
+        )>>>
+}
+    );
+
+export type FinancialChartDataFragmentFragment = (
+    { __typename?: 'FinancialsChartData' }
+    & Pick<FinancialsChartData, 'categories'>
+    & {
+    series?: Maybe<Array<Maybe<(
+        { __typename?: 'Series' }
+        & Pick<Series, 'data' | 'name'>
+        )>>>
+}
+    );
+
+export type FinancialReportsFragmentFragment = (
+    { __typename?: 'FinancialReportNames' }
+    & Pick<FinancialReportNames, 'collection' | 'name'>
+    );
+
+export type EarningsFragmentFragment = (
+    { __typename?: 'Earnings' }
+    & Pick<Earnings, 'financialCurrency'>
+    & {
+    earningsChart?: Maybe<(
+        { __typename?: 'EarningsChart' }
+        & EarningsChartFragmentFragment
+        )>, financialsChart?: Maybe<(
+        { __typename?: 'FinancialsChart' }
+        & {
+        quarterly?: Maybe<(
+            { __typename?: 'FinancialsChartData' }
+            & FinancialChartDataFragmentFragment
+            )>, yearly?: Maybe<(
+            { __typename?: 'FinancialsChartData' }
+            & FinancialChartDataFragmentFragment
+            )>
+    }
+        )>
+}
     );
 
 export type QueryStockDetailsQueryVariables = Exact<{
@@ -1066,12 +1172,12 @@ export type QueryStockDetailsQuery = (
         analysis: (
             { __typename?: 'Analysis' }
             & {
-            GrowthEstimates: (
+            growthEstimates: (
                 { __typename?: 'GrowthEstimates' }
-                & Pick<GrowthEstimates, 'CurrentQtr' | 'CurrentQtrPrct' | 'CurrentYear' | 'CurrentYearPrct' | 'NextFiveYearsperannum' | 'NextFiveYearsperannumPrct' | 'NextQtr' | 'NextQtrPrct' | 'NextYear' | 'NextYearPrct' | 'PastFiveYearsperannum' | 'PastFiveYearsperannumPrct' | 'name'>
-                ), RevenueEstimate: Array<Maybe<(
+                & GrowthEstimatesFragmentFragment
+                ), revenueEstimate: Array<Maybe<(
                 { __typename?: 'RevenueEstimate' }
-                & Pick<RevenueEstimate, 'AvgEstimate' | 'AvgEstimateNumber' | 'HighEstimate' | 'HighEstimateNumber' | 'LowEstimate' | 'LowEstimateNumber' | 'NoofAnalysts' | 'SalesGrowthyearest' | 'SalesGrowthyearestNumber' | 'YearAgoSales' | 'name'>
+                & RevenueEstimateFragmentFragment
                 )>>
         }
             ), balanceSheet: (
@@ -1101,83 +1207,48 @@ export type QueryStockDetailsQuery = (
             & {
             incomeStatementHistoryQuarterly: Array<Maybe<(
                 { __typename?: 'IncomeStatementData' }
-                & IncomeStatementDataFragment
+                & IncomeStatementFragmentFragment
                 )>>, incomeStatementHistoryYearly?: Maybe<Array<Maybe<(
                 { __typename?: 'IncomeStatementData' }
-                & IncomeStatementDataFragment
+                & IncomeStatementFragmentFragment
                 )>>>
         }
             ), financialReports: Array<Maybe<(
             { __typename?: 'FinancialReportNames' }
-            & Pick<FinancialReportNames, 'collection' | 'name'>
+            & FinancialReportsFragmentFragment
             )>>, stats: (
             { __typename?: 'Stats' }
-            & Pick<Stats, 'MarketCapintradayFive' | 'PriceSalesttm' | 'LeveredFreeCashFlowttm'>
+            & StatsFragmentFragment
             ), recommendation: Array<Maybe<(
             { __typename?: 'Recommendations' }
-            & Pick<Recommendations, 'buy' | 'hold' | 'period' | 'sell' | 'strongBuy' | 'strongSell' | 'symbol'>
+            & RecommendationFragmentFragment
             )>>, stockNews: Array<Maybe<(
             { __typename?: 'NewsArticle' }
-            & Pick<NewsArticle, 'datetime' | 'headline' | 'image' | 'sourceName' | 'summary' | 'url'>
+            & NewsArticleFragmentFragment
             )>>, companyData: (
             { __typename?: 'CompanyData' }
             & {
             defaultKeyStatistics?: Maybe<(
                 { __typename?: 'DefaultKeyStatistics' }
-                & Pick<DefaultKeyStatistics, 'FiveTwoWeekChange' | 'SandPFiveTwoWeekChange' | 'bookValue' | 'dateShortInterest' | 'earningsQuarterlyGrowth' | 'enterpriseToEbitda' | 'enterpriseToRevenue' | 'enterpriseValue' | 'fiveYearAverageReturn' | 'floatShares' | 'forwardEps' | 'forwardPE' | 'heldPercentInsiders' | 'heldPercentInstitutions' | 'lastFiscalYearEnd' | 'lastSplitDate' | 'lastSplitFactor' | 'mostRecentQuarter' | 'netIncomeToCommon' | 'nextFiscalYearEnd' | 'pegRatio' | 'priceHint' | 'priceToBook' | 'profitMargins' | 'sharesOutstanding' | 'sharesShort' | 'sharesShortPreviousMonthDate' | 'sharesShortPriorMonth' | 'shortRatio' | 'trailingEps'>
+                & DefaultKeyStatisticsFragmentFragment
                 )>, earnings?: Maybe<(
                 { __typename?: 'Earnings' }
-                & Pick<Earnings, 'financialCurrency'>
-                & {
-                earningsChart?: Maybe<(
-                    { __typename?: 'EarningsChart' }
-                    & Pick<EarningsChart, 'currentQuarterEstimate' | 'currentQuarterEstimateDate' | 'currentQuarterEstimateYear' | 'earningsDate'>
-                    & {
-                    quarterly?: Maybe<Array<Maybe<(
-                        { __typename?: 'EarningsChartData' }
-                        & Pick<EarningsChartData, 'actual' | 'date' | 'estimate'>
-                        )>>>
-                }
-                    )>, financialsChart?: Maybe<(
-                    { __typename?: 'FinancialsChart' }
-                    & {
-                    quarterly?: Maybe<(
-                        { __typename?: 'FinancialsChartData' }
-                        & Pick<FinancialsChartData, 'categories'>
-                        & {
-                        series?: Maybe<Array<Maybe<(
-                            { __typename?: 'Series' }
-                            & Pick<Series, 'data' | 'name'>
-                            )>>>
-                    }
-                        )>, yearly?: Maybe<(
-                        { __typename?: 'FinancialsChartData' }
-                        & Pick<FinancialsChartData, 'categories'>
-                        & {
-                        series?: Maybe<Array<Maybe<(
-                            { __typename?: 'Series' }
-                            & Pick<Series, 'data' | 'name'>
-                            )>>>
-                    }
-                        )>
-                }
-                    )>
-            }
+                & EarningsFragmentFragment
                 )>, financialData?: Maybe<(
                 { __typename?: 'FinancialData' }
-                & Pick<FinancialData, 'currentPrice' | 'currentRatio' | 'debtToEquity' | 'ebitda' | 'ebitdaMargins' | 'financialCurrency' | 'freeCashflow' | 'grossMargins' | 'grossProfits' | 'FloatOfAnalystOpinions' | 'operatingCashflow' | 'operatingMargins' | 'profitMargins' | 'quickRatio' | 'recommendationKey' | 'recommendationMean' | 'returnOnAssets' | 'returnOnEquity' | 'revenueGrowth' | 'revenuePerShare' | 'targetHighPrice' | 'targetLowPrice' | 'targetMeanPrice' | 'targetMedianPrice' | 'totalCash' | 'totalCashPerShare' | 'totalDebt' | 'totalRevenue'>
+                & FinancialDataFragmentFragment
                 )>, pageViews?: Maybe<(
                 { __typename?: 'PageViews' }
                 & Pick<PageViews, 'longTermTrend' | 'midTermTrend' | 'shortTermTrend'>
                 )>, summaryProfile?: Maybe<(
                 { __typename?: 'SummaryProfile' }
-                & Pick<SummaryProfile, 'address1' | 'city' | 'country' | 'fax' | 'fullTimeEmployees' | 'industry' | 'logo_url' | 'longBusinessSummary' | 'phone' | 'sector' | 'state' | 'website' | 'zip'>
+                & SummaryProfileFragmentFragment
                 )>, upgradeDowngradeHistory?: Maybe<(
                 { __typename?: 'UpgradeDowngradeHistory' }
                 & {
                 history?: Maybe<Array<Maybe<(
                     { __typename?: 'UpgradeDowngradeHistoryData' }
-                    & Pick<UpgradeDowngradeHistoryData, 'action' | 'epochGradeDate' | 'firm' | 'fromGrade' | 'toGrade'>
+                    & HistoryFragmentFragment
                     )>>>
             }
                 )>
@@ -1187,10 +1258,10 @@ export type QueryStockDetailsQuery = (
             & StockSummaryFragmentFragment
             ), metric: (
             { __typename?: 'Metric' }
-            & Pick<Metric, 'FiveDayPriceReturnDaily' | 'FiveTwoWeekHigh' | 'FiveTwoWeekHighDate' | 'FiveTwoWeekLow' | 'FiveTwoWeekLowDate' | 'FiveTwoWeekPriceReturnDaily' | 'OneDayAverageTradingVolume' | 'OneThreeWeekPriceReturnDaily' | 'ThreeMonthAverageTradingVolume' | 'TwoSixWeekPriceReturnDaily' | 'assetTurnoverAnnual' | 'assetTurnoverTTM' | 'beta' | 'bookValuePerShareAnnual' | 'bookValuePerShareQuarterly' | 'bookValueShareGrowthFiveY' | 'capitalSpendingGrowthFiveY' | 'cashFlowPerShareAnnual' | 'cashFlowPerShareTTM' | 'cashPerSharePerShareAnnual' | 'cashPerSharePerShareQuarterly' | 'currentEvfreeCashFlowAnnual' | 'currentEvfreeCashFlowTTM' | 'currentRatioAnnual' | 'currentRatioQuarterly' | 'ebitdPerShareTTM' | 'ebitdaCagrFiveY' | 'ebitdaInterimCagrFiveY' | 'epsBasicExclExtraItemsAnnual' | 'epsBasicExclExtraItemsTTM' | 'epsExclExtraItemsAnnual' | 'epsExclExtraItemsTTM' | 'epsGrowthFiveY' | 'epsGrowthQuarterlyYoy' | 'epsGrowthTTMYoy' | 'epsGrowthThreeY' | 'epsInclExtraItemsAnnual' | 'epsInclExtraItemsTTM' | 'epsNormalizedAnnual' | 'focfCagrFiveY' | 'freeCashFlowAnnual' | 'freeCashFlowPerShareTTM' | 'freeCashFlowTTM' | 'freeOperatingCashFlowrevenueFiveY' | 'freeOperatingCashFlowrevenueTTM' | 'grossMarginAnnual' | 'grossMarginFiveY' | 'grossMarginTTM' | 'inventoryTurnoverAnnual' | 'inventoryTurnoverTTM' | 'longTermDebtequityAnnual' | 'longTermDebtequityQuarterly' | 'marketCapitalization' | 'monthToDatePriceReturnDaily' | 'netDebtAnnual' | 'netDebtInterim' | 'netIncomeEmployeeAnnual' | 'netIncomeEmployeeTTM' | 'netInterestCoverageAnnual' | 'netInterestCoverageTTM' | 'netMarginGrowthFiveY' | 'netProfitMarginAnnual' | 'netProfitMarginFiveY' | 'netProfitMarginTTM' | 'operatingMarginAnnual' | 'operatingMarginFiveY' | 'operatingMarginTTM' | 'payoutRatioAnnual' | 'payoutRatioTTM' | 'pbAnnual' | 'pbQuarterly' | 'pcfShareTTM' | 'peBasicExclExtraTTM' | 'peExclExtraAnnual' | 'peExclExtraHighTTM' | 'peExclExtraTTM' | 'peExclLowTTM' | 'peInclExtraTTM' | 'peNormalizedAnnual' | 'pfcfShareAnnual' | 'pfcfShareTTM' | 'pretaxMarginAnnual' | 'pretaxMarginFiveY' | 'pretaxMarginTTM' | 'priceRelativeToSPFiveFiveTwoWeek' | 'priceRelativeToSPFiveFourWeek' | 'priceRelativeToSPFiveOneThreeWeek' | 'priceRelativeToSPFiveTwoSixWeek' | 'priceRelativeToSPFiveYtd' | 'psAnnual' | 'psTTM' | 'ptbvAnnual' | 'ptbvQuarterly' | 'quickRatioAnnual' | 'quickRatioQuarterly' | 'receivablesTurnoverAnnual' | 'receivablesTurnoverTTM' | 'revenueEmployeeAnnual' | 'revenueEmployeeTTM' | 'revenueGrowthFiveY' | 'revenueGrowthQuarterlyYoy' | 'revenueGrowthTTMYoy' | 'revenueGrowthThreeY' | 'revenuePerShareAnnual' | 'revenuePerShareTTM' | 'revenueShareGrowthFiveY' | 'roaRfy' | 'roaaFiveY' | 'roaeFiveY' | 'roaeTTM' | 'roeRfy' | 'roeTTM' | 'roiAnnual' | 'roiFiveY' | 'roiTTM' | 'tangibleBookValuePerShareAnnual' | 'tangibleBookValuePerShareQuarterly' | 'tbvCagrFiveY' | 'totalDebtCagrFiveY' | 'totalDebttotalEquityAnnual' | 'totalDebttotalEquityQuarterly' | 'yearToDatePriceReturnDaily'>
+            & MetricFragmentFragment
             ), dividends: (
             { __typename?: 'Dividens' }
-            & Pick<Dividens, 'currentDividendYieldTTM' | 'dividendGrowthRateFiveY' | 'dividendPerShareAnnual' | 'dividendPerShareFiveY' | 'dividendYieldFiveY' | 'dividendYieldIndicatedAnnual' | 'dividendsPerShareTTM' | 'exDividendDate' | 'trailingAnnualDividendRate' | 'trailingAnnualDividendYield' | 'ForwardDividendYield'>
+            & DividensFragmentFragment
             )
     }
         )>
@@ -1552,8 +1623,8 @@ export const CashFlowDataFragmentFragmentDoc = gql`
         totalCashflowsFromInvestingActivities
     }
 `;
-export const IncomeStatementDataFragmentDoc = gql`
-    fragment incomeStatementData on IncomeStatementData {
+export const IncomeStatementFragmentFragmentDoc = gql`
+    fragment incomeStatementFragment on IncomeStatementData {
         costOfRevenue
         discontinuedOperations
         ebit
@@ -1576,14 +1647,352 @@ export const IncomeStatementDataFragmentDoc = gql`
         totalRevenue
     }
 `;
+export const GrowthEstimatesFragmentFragmentDoc = gql`
+    fragment growthEstimatesFragment on GrowthEstimates {
+        currentQtr
+        currentQtrPrct
+        currentYear
+        currentYearPrct
+        nextFiveYearsperannum
+        nextFiveYearsperannumPrct
+        nextQtr
+        nextQtrPrct
+        nextYear
+        nextYearPrct
+        pastFiveYearsperannum
+        pastFiveYearsperannumPrct
+        name
+    }
+`;
+export const RevenueEstimateFragmentFragmentDoc = gql`
+    fragment revenueEstimateFragment on RevenueEstimate {
+        avgEstimate
+        avgEstimateNumber
+        highEstimate
+        highEstimateNumber
+        lowEstimate
+        lowEstimateNumber
+        noofAnalysts
+        salesGrowthyearest
+        salesGrowthyearestNumber
+        yearAgoSales
+        name
+    }
+`;
+export const StatsFragmentFragmentDoc = gql`
+    fragment statsFragment on Stats {
+        marketCapintradayFive
+        priceSalesttm
+        leveredFreeCashFlowttm
+    }
+`;
+export const RecommendationFragmentFragmentDoc = gql`
+    fragment recommendationFragment on Recommendations {
+        buy
+        hold
+        period
+        sell
+        strongBuy
+        strongSell
+        symbol
+    }
+`;
+export const NewsArticleFragmentFragmentDoc = gql`
+    fragment newsArticleFragment on NewsArticle {
+        datetime
+        headline
+        image
+        sourceName
+        summary
+        url
+    }
+`;
+export const DefaultKeyStatisticsFragmentFragmentDoc = gql`
+    fragment defaultKeyStatisticsFragment on DefaultKeyStatistics {
+        fiveTwoWeekChange
+        sandPFiveTwoWeekChange
+        bookValue
+        dateShortInterest
+        earningsQuarterlyGrowth
+        enterpriseToEbitda
+        enterpriseToRevenue
+        enterpriseValue
+        fiveYearAverageReturn
+        floatShares
+        forwardEps
+        forwardPE
+        heldPercentInsiders
+        heldPercentInstitutions
+        lastFiscalYearEnd
+        lastSplitDate
+        lastSplitFactor
+        mostRecentQuarter
+        netIncomeToCommon
+        nextFiscalYearEnd
+        pegRatio
+        priceHint
+        priceToBook
+        profitMargins
+        sharesOutstanding
+        sharesShort
+        sharesShortPreviousMonthDate
+        sharesShortPriorMonth
+        shortRatio
+        trailingEps
+    }
+`;
+export const FinancialDataFragmentFragmentDoc = gql`
+    fragment financialDataFragment on FinancialData {
+        currentPrice
+        currentRatio
+        debtToEquity
+        ebitda
+        ebitdaMargins
+        financialCurrency
+        freeCashflow
+        grossMargins
+        grossProfits
+        FloatOfAnalystOpinions
+        operatingCashflow
+        operatingMargins
+        profitMargins
+        quickRatio
+        recommendationKey
+        recommendationMean
+        returnOnAssets
+        returnOnEquity
+        revenueGrowth
+        revenuePerShare
+        targetHighPrice
+        targetLowPrice
+        targetMeanPrice
+        targetMedianPrice
+        totalCash
+        totalCashPerShare
+        totalDebt
+        totalRevenue
+    }
+`;
+export const MetricFragmentFragmentDoc = gql`
+    fragment metricFragment on Metric {
+        fiveDayPriceReturnDaily
+        fiveTwoWeekHigh
+        fiveTwoWeekHighDate
+        fiveTwoWeekLow
+        fiveTwoWeekLowDate
+        fiveTwoWeekPriceReturnDaily
+        oneDayAverageTradingVolume
+        oneThreeWeekPriceReturnDaily
+        threeMonthAverageTradingVolume
+        twoSixWeekPriceReturnDaily
+        assetTurnoverAnnual
+        assetTurnoverTTM
+        beta
+        bookValuePerShareAnnual
+        bookValuePerShareQuarterly
+        bookValueShareGrowthFiveY
+        capitalSpendingGrowthFiveY
+        cashFlowPerShareAnnual
+        cashFlowPerShareTTM
+        cashPerSharePerShareAnnual
+        cashPerSharePerShareQuarterly
+        currentEvfreeCashFlowAnnual
+        currentEvfreeCashFlowTTM
+        currentRatioAnnual
+        currentRatioQuarterly
+        ebitdPerShareTTM
+        ebitdaCagrFiveY
+        ebitdaInterimCagrFiveY
+        epsBasicExclExtraItemsAnnual
+        epsBasicExclExtraItemsTTM
+        epsExclExtraItemsAnnual
+        epsExclExtraItemsTTM
+        epsGrowthFiveY
+        epsGrowthQuarterlyYoy
+        epsGrowthTTMYoy
+        epsGrowthThreeY
+        epsInclExtraItemsAnnual
+        epsInclExtraItemsTTM
+        epsNormalizedAnnual
+        focfCagrFiveY
+        freeCashFlowAnnual
+        freeCashFlowPerShareTTM
+        freeCashFlowTTM
+        freeOperatingCashFlowrevenueFiveY
+        freeOperatingCashFlowrevenueTTM
+        grossMarginAnnual
+        grossMarginFiveY
+        grossMarginTTM
+        inventoryTurnoverAnnual
+        inventoryTurnoverTTM
+        longTermDebtequityAnnual
+        longTermDebtequityQuarterly
+        marketCapitalization
+        monthToDatePriceReturnDaily
+        netDebtAnnual
+        netDebtInterim
+        netIncomeEmployeeAnnual
+        netIncomeEmployeeTTM
+        netInterestCoverageAnnual
+        netInterestCoverageTTM
+        netMarginGrowthFiveY
+        netProfitMarginAnnual
+        netProfitMarginFiveY
+        netProfitMarginTTM
+        operatingMarginAnnual
+        operatingMarginFiveY
+        operatingMarginTTM
+        payoutRatioAnnual
+        payoutRatioTTM
+        pbAnnual
+        pbQuarterly
+        pcfShareTTM
+        peBasicExclExtraTTM
+        peExclExtraAnnual
+        peExclExtraHighTTM
+        peExclExtraTTM
+        peExclLowTTM
+        peInclExtraTTM
+        peNormalizedAnnual
+        pfcfShareAnnual
+        pfcfShareTTM
+        pretaxMarginAnnual
+        pretaxMarginFiveY
+        pretaxMarginTTM
+        priceRelativeToSPFiveFiveTwoWeek
+        priceRelativeToSPFiveFourWeek
+        priceRelativeToSPFiveOneThreeWeek
+        priceRelativeToSPFiveTwoSixWeek
+        priceRelativeToSPFiveYtd
+        psAnnual
+        psTTM
+        ptbvAnnual
+        ptbvQuarterly
+        quickRatioAnnual
+        quickRatioQuarterly
+        receivablesTurnoverAnnual
+        receivablesTurnoverTTM
+        revenueEmployeeAnnual
+        revenueEmployeeTTM
+        revenueGrowthFiveY
+        revenueGrowthQuarterlyYoy
+        revenueGrowthTTMYoy
+        revenueGrowthThreeY
+        revenuePerShareAnnual
+        revenuePerShareTTM
+        revenueShareGrowthFiveY
+        roaRfy
+        roaaFiveY
+        roaeFiveY
+        roaeTTM
+        roeRfy
+        roeTTM
+        roiAnnual
+        roiFiveY
+        roiTTM
+        tangibleBookValuePerShareAnnual
+        tangibleBookValuePerShareQuarterly
+        tbvCagrFiveY
+        totalDebtCagrFiveY
+        totalDebttotalEquityAnnual
+        totalDebttotalEquityQuarterly
+        yearToDatePriceReturnDaily
+    }
+`;
+export const DividensFragmentFragmentDoc = gql`
+    fragment dividensFragment on Dividens {
+        currentDividendYieldTTM
+        dividendGrowthRateFiveY
+        dividendPerShareAnnual
+        dividendPerShareFiveY
+        dividendYieldFiveY
+        dividendYieldIndicatedAnnual
+        dividendsPerShareTTM
+        exDividendDate
+        trailingAnnualDividendRate
+        trailingAnnualDividendYield
+        forwardDividendYield
+    }
+`;
+export const HistoryFragmentFragmentDoc = gql`
+    fragment historyFragment on UpgradeDowngradeHistoryData {
+        action
+        epochGradeDate
+        firm
+        fromGrade
+        toGrade
+    }
+`;
+export const SummaryProfileFragmentFragmentDoc = gql`
+    fragment summaryProfileFragment on SummaryProfile {
+        address1
+        city
+        country
+        fax
+        fullTimeEmployees
+        industry
+        logo_url
+        longBusinessSummary
+        phone
+        sector
+        state
+        website
+        zip
+    }
+`;
+export const FinancialReportsFragmentFragmentDoc = gql`
+    fragment financialReportsFragment on FinancialReportNames {
+        collection
+        name
+    }
+`;
+export const EarningsChartFragmentFragmentDoc = gql`
+    fragment earningsChartFragment on EarningsChart {
+        currentQuarterEstimate
+        currentQuarterEstimateDate
+        currentQuarterEstimateYear
+        earningsDate
+        quarterly {
+            actual
+            date
+            estimate
+        }
+    }
+`;
+export const FinancialChartDataFragmentFragmentDoc = gql`
+    fragment financialChartDataFragment on FinancialsChartData {
+        categories
+        series {
+            data
+            name
+        }
+    }
+`;
+export const EarningsFragmentFragmentDoc = gql`
+    fragment earningsFragment on Earnings {
+        earningsChart {
+            ...earningsChartFragment
+        }
+        financialCurrency
+        financialsChart {
+            quarterly {
+                ...financialChartDataFragment
+            }
+            yearly {
+                ...financialChartDataFragment
+            }
+        }
+    }
+    ${EarningsChartFragmentFragmentDoc}
+${FinancialChartDataFragmentFragmentDoc}`;
 export const StockSummaryFragmentFragmentDoc = gql`
     fragment StockSummaryFragment on Summary {
-        EPSTTM
-        EarningsDate
-        ExDividendDate
-        FiveTwoWeekRange
-        OneyTargetEst
-        PERatioTTM
+        ePSTTM
+        earningsDate
+        exDividendDate
+        fiveTwoWeekRange
+        oneyTargetEst
+        pERatioTTM
         currency
         industry
         logo_url
@@ -1597,6 +2006,10 @@ export const StockSummaryFragmentFragmentDoc = gql`
         weekRangeFiveTwoMax
         weekRangeFiveTwoMin
         longName
+        oneyTargetEst
+        marketCap
+        sharesOutstanding
+        longBusinessSummary
     }
 `;
 export const StStockWatchlistFragmentFragmentDoc = gql`
@@ -1641,37 +2054,15 @@ export class DeleteGroupGQL extends Apollo.Mutation<DeleteGroupMutation, DeleteG
 }
 
 export const QueryStockDetailsDocument = gql`
-    query queryStockDetails($symbol: String!) {
+    query QueryStockDetails($symbol: String!) {
         queryStockDetails(symbol: $symbol) {
             id
             analysis {
-                GrowthEstimates {
-                    CurrentQtr
-                    CurrentQtrPrct
-                    CurrentYear
-                    CurrentYearPrct
-                    NextFiveYearsperannum
-                    NextFiveYearsperannumPrct
-                    NextQtr
-                    NextQtrPrct
-                    NextYear
-                    NextYearPrct
-                    PastFiveYearsperannum
-                    PastFiveYearsperannumPrct
-                    name
+                growthEstimates {
+                    ...growthEstimatesFragment
                 }
-                RevenueEstimate {
-                    AvgEstimate
-                    AvgEstimateNumber
-                    HighEstimate
-                    HighEstimateNumber
-                    LowEstimate
-                    LowEstimateNumber
-                    NoofAnalysts
-                    SalesGrowthyearest
-                    SalesGrowthyearestNumber
-                    YearAgoSales
-                    name
+                revenueEstimate {
+                    ...revenueEstimateFragment
                 }
             }
             balanceSheet {
@@ -1692,130 +2083,33 @@ export const QueryStockDetailsDocument = gql`
             }
             incomeStatement {
                 incomeStatementHistoryQuarterly {
-                    ...incomeStatementData
+                    ...incomeStatementFragment
                 }
                 incomeStatementHistoryYearly {
-                    ...incomeStatementData
+                    ...incomeStatementFragment
                 }
             }
             financialReports {
-                collection
-                name
+                ...financialReportsFragment
             }
             stats {
-                MarketCapintradayFive
-                PriceSalesttm
-                LeveredFreeCashFlowttm
+                ...statsFragment
             }
             recommendation {
-                buy
-                hold
-                period
-                sell
-                strongBuy
-                strongSell
-                symbol
+                ...recommendationFragment
             }
             stockNews {
-                datetime
-                headline
-                image
-                sourceName
-                summary
-                url
+                ...newsArticleFragment
             }
             companyData {
                 defaultKeyStatistics {
-                    FiveTwoWeekChange
-                    SandPFiveTwoWeekChange
-                    bookValue
-                    dateShortInterest
-                    earningsQuarterlyGrowth
-                    enterpriseToEbitda
-                    enterpriseToRevenue
-                    enterpriseValue
-                    fiveYearAverageReturn
-                    floatShares
-                    forwardEps
-                    forwardPE
-                    heldPercentInsiders
-                    heldPercentInstitutions
-                    lastFiscalYearEnd
-                    lastSplitDate
-                    lastSplitFactor
-                    mostRecentQuarter
-                    netIncomeToCommon
-                    nextFiscalYearEnd
-                    pegRatio
-                    priceHint
-                    priceToBook
-                    profitMargins
-                    sharesOutstanding
-                    sharesShort
-                    sharesShortPreviousMonthDate
-                    sharesShortPriorMonth
-                    shortRatio
-                    trailingEps
+                    ...defaultKeyStatisticsFragment
                 }
                 earnings {
-                    earningsChart {
-                        currentQuarterEstimate
-                        currentQuarterEstimateDate
-                        currentQuarterEstimateYear
-                        earningsDate
-                        quarterly {
-                            actual
-                            date
-                            estimate
-                        }
-                    }
-                    financialCurrency
-                    financialsChart {
-                        quarterly {
-                            categories
-                            series {
-                                data
-                                name
-                            }
-                        }
-                        yearly {
-                            categories
-                            series {
-                                data
-                                name
-                            }
-                        }
-                    }
+                    ...earningsFragment
                 }
                 financialData {
-                    currentPrice
-                    currentRatio
-                    debtToEquity
-                    ebitda
-                    ebitdaMargins
-                    financialCurrency
-                    freeCashflow
-                    grossMargins
-                    grossProfits
-                    FloatOfAnalystOpinions
-                    operatingCashflow
-                    operatingMargins
-                    profitMargins
-                    quickRatio
-                    recommendationKey
-                    recommendationMean
-                    returnOnAssets
-                    returnOnEquity
-                    revenueGrowth
-                    revenuePerShare
-                    targetHighPrice
-                    targetLowPrice
-                    targetMeanPrice
-                    targetMedianPrice
-                    totalCash
-                    totalCashPerShare
-                    totalDebt
-                    totalRevenue
+                    ...financialDataFragment
                 }
                 pageViews {
                     longTermTrend
@@ -1823,27 +2117,11 @@ export const QueryStockDetailsDocument = gql`
                     shortTermTrend
                 }
                 summaryProfile {
-                    address1
-                    city
-                    country
-                    fax
-                    fullTimeEmployees
-                    industry
-                    logo_url
-                    longBusinessSummary
-                    phone
-                    sector
-                    state
-                    website
-                    zip
+                    ...summaryProfileFragment
                 }
                 upgradeDowngradeHistory {
                     history {
-                        action
-                        epochGradeDate
-                        firm
-                        fromGrade
-                        toGrade
+                        ...historyFragment
                     }
                 }
             }
@@ -1851,148 +2129,30 @@ export const QueryStockDetailsDocument = gql`
                 ...StockSummaryFragment
             }
             metric {
-                FiveDayPriceReturnDaily
-                FiveTwoWeekHigh
-                FiveTwoWeekHighDate
-                FiveTwoWeekLow
-                FiveTwoWeekLowDate
-                FiveTwoWeekPriceReturnDaily
-                OneDayAverageTradingVolume
-                OneThreeWeekPriceReturnDaily
-                ThreeMonthAverageTradingVolume
-                TwoSixWeekPriceReturnDaily
-                assetTurnoverAnnual
-                assetTurnoverTTM
-                beta
-                bookValuePerShareAnnual
-                bookValuePerShareQuarterly
-                bookValueShareGrowthFiveY
-                capitalSpendingGrowthFiveY
-                cashFlowPerShareAnnual
-                cashFlowPerShareTTM
-                cashPerSharePerShareAnnual
-                cashPerSharePerShareQuarterly
-                currentEvfreeCashFlowAnnual
-                currentEvfreeCashFlowTTM
-                currentRatioAnnual
-                currentRatioQuarterly
-                ebitdPerShareTTM
-                ebitdaCagrFiveY
-                ebitdaInterimCagrFiveY
-                epsBasicExclExtraItemsAnnual
-                epsBasicExclExtraItemsTTM
-                epsExclExtraItemsAnnual
-                epsExclExtraItemsTTM
-                epsGrowthFiveY
-                epsGrowthQuarterlyYoy
-                epsGrowthTTMYoy
-                epsGrowthThreeY
-                epsInclExtraItemsAnnual
-                epsInclExtraItemsTTM
-                epsNormalizedAnnual
-                focfCagrFiveY
-                freeCashFlowAnnual
-                freeCashFlowPerShareTTM
-                freeCashFlowTTM
-                freeOperatingCashFlowrevenueFiveY
-                freeOperatingCashFlowrevenueTTM
-                grossMarginAnnual
-                grossMarginFiveY
-                grossMarginTTM
-                inventoryTurnoverAnnual
-                inventoryTurnoverTTM
-                longTermDebtequityAnnual
-                longTermDebtequityQuarterly
-                marketCapitalization
-                monthToDatePriceReturnDaily
-                netDebtAnnual
-                netDebtInterim
-                netIncomeEmployeeAnnual
-                netIncomeEmployeeTTM
-                netInterestCoverageAnnual
-                netInterestCoverageTTM
-                netMarginGrowthFiveY
-                netProfitMarginAnnual
-                netProfitMarginFiveY
-                netProfitMarginTTM
-                operatingMarginAnnual
-                operatingMarginFiveY
-                operatingMarginTTM
-                payoutRatioAnnual
-                payoutRatioTTM
-                pbAnnual
-                pbQuarterly
-                pcfShareTTM
-                peBasicExclExtraTTM
-                peExclExtraAnnual
-                peExclExtraHighTTM
-                peExclExtraTTM
-                peExclLowTTM
-                peInclExtraTTM
-                peNormalizedAnnual
-                pfcfShareAnnual
-                pfcfShareTTM
-                pretaxMarginAnnual
-                pretaxMarginFiveY
-                pretaxMarginTTM
-                priceRelativeToSPFiveFiveTwoWeek
-                priceRelativeToSPFiveFourWeek
-                priceRelativeToSPFiveOneThreeWeek
-                priceRelativeToSPFiveTwoSixWeek
-                priceRelativeToSPFiveYtd
-                psAnnual
-                psTTM
-                ptbvAnnual
-                ptbvQuarterly
-                quickRatioAnnual
-                quickRatioQuarterly
-                receivablesTurnoverAnnual
-                receivablesTurnoverTTM
-                revenueEmployeeAnnual
-                revenueEmployeeTTM
-                revenueGrowthFiveY
-                revenueGrowthQuarterlyYoy
-                revenueGrowthTTMYoy
-                revenueGrowthThreeY
-                revenuePerShareAnnual
-                revenuePerShareTTM
-                revenueShareGrowthFiveY
-                roaRfy
-                roaaFiveY
-                roaeFiveY
-                roaeTTM
-                roeRfy
-                roeTTM
-                roiAnnual
-                roiFiveY
-                roiTTM
-                tangibleBookValuePerShareAnnual
-                tangibleBookValuePerShareQuarterly
-                tbvCagrFiveY
-                totalDebtCagrFiveY
-                totalDebttotalEquityAnnual
-                totalDebttotalEquityQuarterly
-                yearToDatePriceReturnDaily
+                ...metricFragment
             }
             dividends {
-                currentDividendYieldTTM
-                dividendGrowthRateFiveY
-                dividendPerShareAnnual
-                dividendPerShareFiveY
-                dividendYieldFiveY
-                dividendYieldIndicatedAnnual
-                dividendsPerShareTTM
-                exDividendDate
-                trailingAnnualDividendRate
-                trailingAnnualDividendYield
-                ForwardDividendYield
+                ...dividensFragment
             }
         }
     }
+    ${GrowthEstimatesFragmentFragmentDoc}
+    ${RevenueEstimateFragmentFragmentDoc}
     ${BalanceSheetDataFragmentFragmentDoc}
     ${CashFlowDataFragmentFragmentDoc}
-    ${IncomeStatementDataFragmentDoc}
-${StockSummaryFragmentFragmentDoc}`;
+    ${IncomeStatementFragmentFragmentDoc}
+    ${FinancialReportsFragmentFragmentDoc}
+    ${StatsFragmentFragmentDoc}
+    ${RecommendationFragmentFragmentDoc}
+    ${NewsArticleFragmentFragmentDoc}
+    ${DefaultKeyStatisticsFragmentFragmentDoc}
+    ${EarningsFragmentFragmentDoc}
+    ${FinancialDataFragmentFragmentDoc}
+    ${SummaryProfileFragmentFragmentDoc}
+    ${HistoryFragmentFragmentDoc}
+    ${StockSummaryFragmentFragmentDoc}
+    ${MetricFragmentFragmentDoc}
+${DividensFragmentFragmentDoc}`;
 
 @Injectable({
     providedIn: 'root'

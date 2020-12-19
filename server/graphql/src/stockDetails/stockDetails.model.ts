@@ -427,16 +427,16 @@ export interface Stats {
 }
 
 export interface Summary {
-    AvgVolume: string;
-    EPSTTM: string;
-    EarningsDate: string;
-    ExDividendDate: string;
-    FiveTwoWeekRange: string;
-    ForwardDividendYield: string;
-    OneyTargetEst: number;
-    Open: string;
-    PERatioTTM: string;
-    Volume: string;
+    avgVolume: string;
+    ePSTTM: string;
+    earningsDate: string;
+    exDividendDate: string;
+    fiveTwoWeekRange: string;
+    forwardDividendYield: string;
+    oneyTargetEst: number;
+    open: string;
+    pERatioTTM: string;
+    volume: string;
     currency: string;
     industry: string;
     logo_url: string;
@@ -453,6 +453,8 @@ export interface Summary {
     shortName: string;
     longName: string;
     marketCap: number;
+    sharesOutstanding: number;
+    longBusinessSummary: string;
 }
 
 

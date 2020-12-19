@@ -32,62 +32,25 @@
 @import '~@swimlane/ngx-datatable/themes/bootstrap.scss';
 @import '~@swimlane/ngx-datatable/assets/icons.css';
 
-//@import "./theme/custom-variables.scss";
+
+// custom
 @import "theme/custom-variables.scss";
 @import "theme/general-styling.scss";
 
 
-
 * {
   font-size: 14px;
-  /*@media (max-width: 900px) {
-    font-size: 13px;
-  }*/
 
-  ion-icon{
+  ion-icon {
     font-size: 25px;
   }
 
 }
 
-// class to add for each modal
-.custom-modal .modal-wrapper {
-  width: 85% !important;
-  height: 700px !important;
-  @media (max-width: 850px) {
-    width: 100% !important;
-    height: 100% !important;
-  }
-}
-
-// class to add for each alert
-.my-custom-alert-class .alert-wrapper {
-  background: #{$background-blue};
-
-  .alert-message {
-    color: #dadada;
-  }
-
-  @media (min-width: 800px) {
-    min-width: 550px !important;
-  }
-}
 
 
-// class to add for each ion-content
-.st-content-padding {
-  /*padding: 16px;*/
-  padding: 10px 45px 50px 20px;
-  @media (max-width: 1400px) {
-    padding: 10px 30px 50px 20px;
-  }
-  @media (max-width: 1275px) {
-    padding: 10px 15px 50px 5px;
-  }
-  @media (max-width: 475px) {
-    padding: 2px 8px 25px 2px;
-  }
-}
+
+
 
 
 

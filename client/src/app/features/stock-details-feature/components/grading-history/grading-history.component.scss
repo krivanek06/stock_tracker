@@ -3,11 +3,11 @@
 :host{
   .downgrade{
     font-weight: bold;
-    color: #{$price-down};
+    color: #{$st-red};
   }
 
   .upgrade{
     font-weight: bold;
-    color: #{$price-up};
+    color: #{$st-var-create-1};
   }
 }

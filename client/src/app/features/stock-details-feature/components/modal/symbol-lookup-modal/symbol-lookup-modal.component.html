@@ -1,0 +1,32 @@
+<ion-content class="ion-padding">
+    <ion-grid>
+        <ion-row >
+            <ion-col size="12">
+                <ion-buttons slot="end">
+                    <ion-button color="danger" (click)="dismissModal()">
+                        <ion-icon name="close-outline"></ion-icon>
+                        Close
+                    </ion-button>
+                </ion-buttons>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <!-- financial chart -->
+            <ion-col size="12" size-md="8">
+                <app-financial-chart-container
+                        [showYAxis]="true"
+                        [height]="450"
+                        [symbol]="chartDataIdentification.symbol"
+                        [name]="chartDataIdentification.name">
+                </app-financial-chart-container>
+            </ion-col>
+
+            <!-- summary -->
+            <ion-col size="12" size-md="4">
+                <ng-container *ngIf="stockDetails$ | async as stockDetails">
+                    <app-details-summary [summary]="stockDetails.summary"></app-details-summary>
+                </ng-container>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

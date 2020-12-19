@@ -1,5 +1,5 @@
 <ion-item class="st-display-flex-center">
-    <ion-item class="ion-no-padding stockInfo-container st-font-size-15 ion-activatable">
+    <ion-item (click)="itemClicked()" class="ion-no-padding stockInfo-container st-font-size-15 ion-activatable">
         <ion-label>
             <ion-img [src]="summary.logo_url" class="symbol-image "></ion-img>
         </ion-label>
@@ -17,14 +17,16 @@
         <!-- daily change -->
         <div class="label-md-space">
             <app-price-change-item [currentPrice]="currentPrice"
-                                   [compareToPrice]="summary.previousClose"></app-price-change-item>
+                                   [compareToPrice]="summary.previousClose">
+            </app-price-change-item>
         </div>
 
 
         <!-- year change -->
         <div class="label-md-space">
             <app-price-change-item [currentPrice]="currentPrice"
-                                   [compareToPrice]="summary.weekRangeFiveTwoMin"></app-price-change-item>
+                                   [compareToPrice]="summary.weekRangeFiveTwoMin">
+            </app-price-change-item>
         </div>
 
 
@@ -48,8 +50,8 @@
     </ion-item>
 
 
-    <!-- trash delete button -->
-    <ion-button class="st-negative-button  ion-hide-sm-down st-clickable" (click)="deleteSymbolClicked()">
+    <!-- delete button  -->
+    <ion-button class="st-negative-button st-clickable" (click)="deleteSymbolClicked()">
         <ion-icon name="trash-bin" style="font-size: 28px;"></ion-icon>
     </ion-button>
 </ion-item>

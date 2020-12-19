@@ -27,7 +27,7 @@ export class StockDetailsPage implements OnInit {
         const symbol = this.route.snapshot.paramMap.get('symbol');
         console.log('symbol', symbol);
 
-        this.stockDetails$ = this.stockDetailsService.getStockDetails(symbol);
+        //this.stockDetails$ = this.stockDetailsService.getStockDetails(symbol);
     }
 
     segmentChanged(data: CustomEvent) {

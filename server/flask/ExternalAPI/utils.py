@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from requests import get
+import re
 
 '''
     transform {'Test (With % is)' : 55} -> {'Test_With_Pct_is' : 55} 
@@ -14,6 +15,7 @@ def changeUnsupportedCharactersForDictKey(data):
         if isinstance(v, dict):
             v = changeUnsupportedCharactersForDictKey(v)
         k = k.translate(str.maketrans(unsupportedCharacter))
+        k = k[0].lower() + k[1:]
         res[k] = v
 
     return res
@@ -30,11 +32,13 @@ def force_float(elt):
     except:
         return None
 
+
 def force_float_skipping_last_char(value):
     try:
         return float(value[0:-1])
     except:
-        return 0
+        return None
+
 
 
 def parseMultipleDropdownTables(site):

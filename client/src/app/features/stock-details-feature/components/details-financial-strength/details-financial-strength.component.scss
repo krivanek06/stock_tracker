@@ -7,11 +7,11 @@
   }
 
   .st-price-up{
-    color: #{$price-up};
+    color: #{$st-var-create-1};
   }
 
   .st-price-down{
-    color: #{$price-down};
+    color: #{$st-red};
   }
 
   ion-icon{

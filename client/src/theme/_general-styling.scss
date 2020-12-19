@@ -1,5 +1,21 @@
 @import "custom-variables";
 
+// class to add for each ion-content
+.st-content-padding {
+  /*padding: 16px;*/
+  padding: 10px 45px 50px 20px;
+  @media (max-width: 1400px) {
+    padding: 10px 30px 50px 20px;
+  }
+  @media (max-width: 1275px) {
+    padding: 10px 15px 50px 5px;
+  }
+  @media (max-width: 475px) {
+    padding: 2px 8px 25px 2px;
+  }
+}
+
+
 .content-fit {
   min-width: fit-content !important;
   max-width: fit-content !important;
@@ -85,35 +101,35 @@ ion-spinner {
   margin-top: 0;
   font-size: 20px;
   margin-bottom: 22px;
-  /*@media (max-width: #{$st-var-md-split}) {
-    font-size: 18px;
-  }*/
-
 }
 
 // FONT SIZES
 .st-font-size-12 {
-  font-size: 12px;
+  font-size: 12px !important;
+}
+
+.st-font-size-13 {
+  font-size: 13px !important;
 }
 
 .st-font-size-14 {
-  font-size: 14px;
+  font-size: 14px !important;
 }
 
 .st-font-size-16 {
-  font-size: 16px;
+  font-size: 16px !important;
 }
 
 .st-font-size-15 {
-  font-size: 15px;
+  font-size: 15px !important;
 }
 
 .st-font-size-18 {
-  font-size: 18px;
+  font-size: 18px !important;
 }
 
 .st-font-size-20 {
-  font-size: 20px;
+  font-size: 20px !important;
 }
 
 
@@ -142,6 +158,12 @@ ion-spinner {
 // COLOR CLASSES - BLUE
 .st-icon {
   color: #{ $st-var-blue-1} !important;
+}
+
+.st-icon-title {
+  color: #{ $st-var-blue-1} !important;
+  font-size: 36px;
+  margin-right: 16px !important;
 }
 
 .st-icon-size-30 {
@@ -187,7 +209,7 @@ ion-spinner {
   width: 100%;
 }
 
-.st-display-flex-center{
+.st-display-flex-center {
   display: flex;
   align-items: center;
 }
@@ -195,18 +217,14 @@ ion-spinner {
 
 // PRICE CHANGE
 .st-price-up {
-  &:before {
-    // content: '+';
-  }
-
-  color: #{$price-up} !important;
+  color: #{$st-var-accept-1} !important;
 }
 
 .st-price-down {
-  color: #{$price-down} !important;
+  color: #{$st-red} !important;
 }
 
-.st-price-icon{
+.st-price-icon {
   position: absolute;
   top: 2px;
   margin-left: 5px;
@@ -214,23 +232,25 @@ ion-spinner {
 
 // BUTTONS
 
-.st-positive-button{
-  color: #{$price-up};
+.st-positive-button {
+  color: #{$st-var-create-1};
+
   &:hover {
     color: #{$price-up-lighter};
   }
 }
 
-.st-negative-button{
-  color: #{$price-down};
+.st-negative-button {
+  color: #{$st-red-faded};
+
   &:hover {
-    color: #{$price-down-lighter};
+    color: #{$st-red};
   }
 }
 
 
 // HOVER OVER
-.ion-activatable{
+.ion-activatable {
   transition: All 0.3s ease-out;
   cursor: pointer;
 
@@ -241,10 +261,49 @@ ion-spinner {
   }
 }
 
-.st-clickable{
+.st-clickable {
   transition: All 0.3s ease-out;
   cursor: pointer;
-  &:hover{
+
+  &:hover {
     transform: scale(0.96);
   }
 }
+
+
+// MODEL / POP-UP / ALERT
+
+// class to add for each modal
+.custom-modal .modal-wrapper {
+  width: 85% !important;
+  height: 700px !important;
+  @media (max-width: 850px) {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+
+// class to add for each popover
+.custom-popover .popover-wrapper {
+  --width: 550px;
+  //--height: 200px;
+  --background: #{$background-blue};
+
+  @media (min-width: #{$st-var-sm-split}) {
+    --width: 375px;
+  }
+}
+
+// toasters use it
+.my-custom-alert-class .alert-wrapper {
+  background: #{$background-blue};
+
+  .alert-message {
+    color: #dadada;
+  }
+
+  @media (min-width: 800px) {
+    min-width: 550px !important;
+  }
+}
+

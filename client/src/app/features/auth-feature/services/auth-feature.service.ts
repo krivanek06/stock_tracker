@@ -1,14 +1,13 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {auth} from 'firebase/app';
-import {map, switchMap, tap} from 'rxjs/operators';
-import {Observable, of} from 'rxjs';
+import {filter, map, switchMap, tap} from 'rxjs/operators';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {
     AuthenticateUserGQL,
     RegisterUserGQL, StUserAuthenticationInput, StUserPublicData,
 } from '../../../api/customGraphql.service';
 import {LoginIUser, RegisterIUser, USER_ACTIVITY} from '../model/userModel';
-import {FetchResult} from 'apollo-link';
 import {Apollo} from 'apollo-angular';
 import {Router} from '@angular/router';
 
@@ -18,27 +17,26 @@ import UserCredential = firebase.auth.UserCredential;
     providedIn: 'root'
 })
 export class AuthFeatureService {
+    private user$: BehaviorSubject<StUserPublicData> = new BehaviorSubject<StUserPublicData>(null);
 
     constructor(private afAuth: AngularFireAuth,
                 private apollo: Apollo,
                 private router: Router,
                 private authenticateUserGQL: AuthenticateUserGQL,
                 private registerUserGQL: RegisterUserGQL) {
-
+        this.initUserIfExists();
     }
 
-    // TODO opravit
     getUser(): Observable<StUserPublicData> {
-        return this.afAuth.authState.pipe(
-            switchMap(user => {
-                if (user) {
-                    return this.authenticateUserGQL.watch({
-                        uid: user.uid
-                    }).valueChanges.pipe(map(x => x.data.authenticateUser));
-                }
-                return of(null);
-            })
-        );
+        return this.user$.asObservable();
+    }
+
+    get user(): StUserPublicData {
+        if (!this.user$.getValue()) {
+            throw new Error('trying to access StUserPublicData, but does not exists');
+        }
+
+        return this.user$.getValue();
     }
 
     async googleSignIn(): Promise<void> {
@@ -72,6 +70,7 @@ export class AuthFeatureService {
                 }
             }))
         ).toPromise();*/
+        this.user$.next(null);
         await this.apollo.getClient().clearStore();
         await this.afAuth.signOut();
         await this.router.navigate(['/login']);
@@ -86,13 +85,24 @@ export class AuthFeatureService {
         );
     }*/
 
+    private initUserIfExists() {
+        return this.afAuth.authState.pipe(
+            filter(x => !!x),
+            switchMap(user =>
+                this.authenticateUserGQL.watch({uid: user.uid}).valueChanges.pipe(
+                    map(x => x.data.authenticateUser)
+                )),
+            filter(x => !!x),
+        ).subscribe(user => {
+            if (user && !this.user$.getValue()) {
+                this.router.navigate(['/menu/dashboard']);
+            }
+            this.user$.next(user);
+        });
+    }
+
     // ToDO create interceptor with token
     private async signInUser(credential: UserCredential): Promise<void> {
-        console.log('credential', credential.user.metadata.creationTime);
-        console.log('credential.additionalUserInfo', credential.additionalUserInfo);
-        console.log('credential.additionalUserInfo.profile', credential.additionalUserInfo.profile);
-
-
         if (credential.additionalUserInfo.isNewUser) {
             const profile = credential.additionalUserInfo.profile as any;
             const stUserAuthenticationInput: StUserAuthenticationInput = {
@@ -104,11 +114,7 @@ export class AuthFeatureService {
                 locale: profile?.locale
             };
 
-            const user = await this.registerUserGQL.mutate({stUserAuthenticationInput}).toPromise();
-            console.log('new user', user.data.registerUser);
-        } else {
-            // const user = await this.updateUserDataGQL.mutate({userInput}).toPromise();
-            //console.log('old user', user.data.updateUserData);
+            await this.registerUserGQL.mutate({stUserAuthenticationInput}).toPromise();
         }
     }
 }

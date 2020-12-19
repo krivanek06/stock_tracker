@@ -21,7 +21,8 @@ export class LoginPage implements OnInit, OnDestroy {
             filter(user => !!user),
             takeUntil(this.destroy$)
         ).subscribe(() => {
-            this.router.navigate(['/menu/dashboard']);
+            console.log('loginComponent')
+            ;
         });
     }
 

@@ -134,44 +134,44 @@ export const stockDetailsTypeDefs = gql`
     }
 
     type RevenueEstimate {
-        AvgEstimate: String
-        AvgEstimateNumber: Float
-        HighEstimate: String
-        HighEstimateNumber: Float
-        LowEstimate: String
-        LowEstimateNumber: Float
-        NoofAnalysts: Float
-        SalesGrowthyearest: String
-        SalesGrowthyearestNumber: Float
-        YearAgoSales: String
+        avgEstimate: String
+        avgEstimateNumber: Float
+        highEstimate: String
+        highEstimateNumber: Float
+        lowEstimate: String
+        lowEstimateNumber: Float
+        noofAnalysts: Float
+        salesGrowthyearest: String
+        salesGrowthyearestNumber: Float
+        yearAgoSales: String
         name: String
     }
 
 
     type GrowthEstimates {
-        CurrentQtr: String
-        CurrentQtrPrct: Float
-        CurrentYear: String
-        CurrentYearPrct: Float
-        NextFiveYearsperannum: String
-        NextFiveYearsperannumPrct: Float
-        NextQtr: String
-        NextQtrPrct: Float
-        NextYear: String
-        NextYearPrct: Float
-        PastFiveYearsperannum: String
-        PastFiveYearsperannumPrct: Float
+        currentQtr: String
+        currentQtrPrct: Float
+        currentYear: String
+        currentYearPrct: Float
+        nextFiveYearsperannum: String
+        nextFiveYearsperannumPrct: Float
+        nextQtr: String
+        nextQtrPrct: Float
+        nextYear: String
+        nextYearPrct: Float
+        pastFiveYearsperannum: String
+        pastFiveYearsperannumPrct: Float
         name: String
     }
 
     type Analysis {
-        GrowthEstimates: GrowthEstimates!
-        RevenueEstimate: [RevenueEstimate]!
+        growthEstimates: GrowthEstimates!
+        revenueEstimate: [RevenueEstimate]!
     }
 
     type DefaultKeyStatistics {
-        FiveTwoWeekChange: Float ## *100
-        SandPFiveTwoWeekChange: Float ## *100
+        fiveTwoWeekChange: Float ## *100
+        sandPFiveTwoWeekChange: Float ## *100
         ## annualHoldingsTurnover: Float
         ## annualReportExpenseRatio: Float
         ## beta": 1.284838,
@@ -371,67 +371,67 @@ export const stockDetailsTypeDefs = gql`
     }
 
     type Stats {
-        AvgVolOnedayThree: String
-        BookValuePerSharemrq: String
-        CurrentRatiomrq: String
-        DilutedEPSttm: String
-        DividendDateThree: String
-        EBITDA: String
-        EnterpriseValueEBITDASix: [String]
-        EnterpriseValueRevenueThree: [String]
-        EnterpriseValueThree: [String]
-        FiveDayMovingAverageThree: String
-        FiveTwoWeekChangeThree: String
-        FiveTwoWeekHighThree: String
-        FiveTwoWeekLowThree: String
-        FiveYearAverageDividendYieldFour: String
-        Float: String
-        ForwardAnnualDividendYieldFour: String
-        ForwardPEOne: [String]
-        GrossProfitttm: String
-        LastSplitDateThree: String
-        LastSplitFactorTwo: String
-        LeveredFreeCashFlowttm: String
-        MarketCapintradayFive: [String]
-        MostRecentQuartermrq: String
-        NetIncomeAvitoCommonttm: String
-        OperatingMarginttm: String
-        PEGRatioFiveyrexpectedOne: [String]
-        PayoutRatioFour: String
-        PctHeldbyInsidersOne: String
-        PctHeldbyInstitutionsOne: String
-        PriceBookmrq: [String]
-        PriceSalesttm: [String]
-        QuarterlyEarningsGrowthyoy: String
-        QuarterlyRevenueGrowthyoy: String
-        ReturnonEquityttm: String
-        RevenuePerSharettm: String
-        SPFiveFiveTwoWeekChangeThree: String
-        SharesOutstandingFive: String
-        SharesShortAugOneThreeTwoTwoFour: String
-        SharesShortpriormonthJulOneFourTwoTwoFour: String
-        ShortPctofFloatAugOneThreeTwoTwoFour: String
-        ShortPctofSharesOutstandingAugOneThreeTwoTwoFour: String
-        ShortRatioAugOneThreeTwoTwoFour: String
-        TotalCashPerSharemrq: String
-        TotalDebtEquitymrq: String
-        TotalDebtmrq: String
-        TrailingPE: [String]
-        TwoDayMovingAverageThree: String
+        avgVolOnedayThree: String
+        bookValuePerSharemrq: String
+        currentRatiomrq: String
+        dilutedEPSttm: String
+        dividendDateThree: String
+        eBITDA: String
+        enterpriseValueEBITDASix: [String]
+        enterpriseValueRevenueThree: [String]
+        enterpriseValueThree: [String]
+        fiveDayMovingAverageThree: String
+        fiveTwoWeekChangeThree: String
+        fiveTwoWeekHighThree: String
+        fiveTwoWeekLowThree: String
+        fiveYearAverageDividendYieldFour: String
+        float: String
+        forwardAnnualDividendYieldFour: String
+        forwardPEOne: [String]
+        grossProfitttm: String
+        lastSplitDateThree: String
+        lastSplitFactorTwo: String
+        leveredFreeCashFlowttm: String
+        marketCapintradayFive: [String]
+        mostRecentQuartermrq: String
+        netIncomeAvitoCommonttm: String
+        operatingMarginttm: String
+        pEGRatioFiveyrexpectedOne: [String]
+        payoutRatioFour: String
+        pctHeldbyInsidersOne: String
+        pctHeldbyInstitutionsOne: String
+        priceBookmrq: [String]
+        priceSalesttm: [String]
+        quarterlyEarningsGrowthyoy: String
+        quarterlyRevenueGrowthyoy: String
+        returnonEquityttm: String
+        revenuePerSharettm: String
+        sPFiveFiveTwoWeekChangeThree: String
+        sharesOutstandingFive: String
+        sharesShortAugOneThreeTwoTwoFour: String
+        sharesShortpriormonthJulOneFourTwoTwoFour: String
+        shortPctofFloatAugOneThreeTwoTwoFour: String
+        shortPctofSharesOutstandingAugOneThreeTwoTwoFour: String
+        shortRatioAugOneThreeTwoTwoFour: String
+        totalCashPerSharemrq: String
+        totalDebtEquitymrq: String
+        totalDebtmrq: String
+        trailingPE: [String]
+        twoDayMovingAverageThree: String
         dateTime: [String]
     }
 
     type Summary {
-        AvgVolume: String
-        EPSTTM: String
-        EarningsDate: String
-        ExDividendDate: String
-        FiveTwoWeekRange: String
-        ForwardDividendYield: String
-        OneyTargetEst: Float
-        Open: String
-        PERatioTTM: String
-        Volume: String
+        avgVolume: String
+        ePSTTM: String
+        earningsDate: String
+        exDividendDate: String
+        fiveTwoWeekRange: String
+        forwardDividendYield: String
+        oneyTargetEst: Float
+        open: String
+        pERatioTTM: String
+        volume: String
         currency: String
         industry: String
         logo_url: String
@@ -448,6 +448,8 @@ export const stockDetailsTypeDefs = gql`
         shortName: String
         longName: String
         marketCap: Float
+        sharesOutstanding: Float
+        longBusinessSummary: String
     }
 
 
@@ -462,20 +464,20 @@ export const stockDetailsTypeDefs = gql`
         exDividendDate: String
         trailingAnnualDividendRate: String
         trailingAnnualDividendYield: String
-        ForwardDividendYield: String
+        forwardDividendYield: String
     }
 
     type Metric {
-        FiveDayPriceReturnDaily: Float
-        FiveTwoWeekHigh: Float
-        FiveTwoWeekHighDate: String
-        FiveTwoWeekLow: Float
-        FiveTwoWeekLowDate: String
-        FiveTwoWeekPriceReturnDaily: Float
-        OneDayAverageTradingVolume: Float
-        OneThreeWeekPriceReturnDaily: Float
-        ThreeMonthAverageTradingVolume: Float
-        TwoSixWeekPriceReturnDaily: Float
+        fiveDayPriceReturnDaily: Float
+        fiveTwoWeekHigh: Float
+        fiveTwoWeekHighDate: String
+        fiveTwoWeekLow: Float
+        fiveTwoWeekLowDate: String
+        fiveTwoWeekPriceReturnDaily: Float
+        oneDayAverageTradingVolume: Float
+        oneThreeWeekPriceReturnDaily: Float
+        threeMonthAverageTradingVolume: Float
+        twoSixWeekPriceReturnDaily: Float
         assetTurnoverAnnual: Float
         assetTurnoverTTM: Float
         beta: Float
@@ -606,4 +608,4 @@ export const stockDetailsTypeDefs = gql`
     ##### INTPUS
 
 
-`
+`;
