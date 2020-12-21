@@ -32,6 +32,12 @@ def force_float(elt):
     except:
         return None
 
+def force_float_else_return_zero(elt):
+    try:
+        return float(elt)
+    except:
+        return 0
+
 
 def force_float_skipping_last_char(value):
     try:

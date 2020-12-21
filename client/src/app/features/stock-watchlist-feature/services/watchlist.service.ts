@@ -1,23 +1,24 @@
 import {Injectable} from '@angular/core';
 import {ModalController, PopoverController} from '@ionic/angular';
 import {IonicDialogService} from '../../../shared/services/ionic-dialog.service';
-import {GraphqlWatchlistService} from './graphql-watchlist.service';
 import {AuthFeatureService} from '../../auth-feature/services/auth-feature.service';
 import {WatchlistPickerModalContainerComponent} from '../containers/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
 import {ChartDataIdentification} from '../../../shared/models/sharedModel';
-import {map} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {filter, map, takeUntil} from 'rxjs/operators';
+import {Observable, Subject} from 'rxjs';
 import {Maybe, StStockWatchlistFragmentFragment} from '../../../api/customGraphql.service';
+import {GraphqlWatchlistService} from './graphql-watchlist.service';
 import {InlineInputPopUpComponent} from '../../../shared/components/pop-ups/inline-input-pop-up/inline-input-pop-up.component';
+import {MarketPriceWebsocketService} from '../../../shared/services/market-price-websocket.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class WatchlistService {
-
     constructor(private modalController: ModalController,
                 private ionicDialogService: IonicDialogService,
                 private popoverController: PopoverController,
+                private marketPriceWebsocket: MarketPriceWebsocketService,
                 private graphqlWatchlistService: GraphqlWatchlistService,
                 private authService: AuthFeatureService) {
     }
@@ -26,6 +27,31 @@ export class WatchlistService {
         return this.authService.getUser().pipe(
             map(u => u.stockWatchlist)
         );
+    }
+
+    async initSubscriptionForWatchlist() {
+        const userWatchlist = this.authService.user.stockWatchlist;
+        const distinctStocks = [...new Set([].concat(...userWatchlist.map(w => w.summaries.map(x => x.symbol))))] as string[];
+        distinctStocks.forEach(stock => this.marketPriceWebsocket.createSubscribeForSymbol(stock));
+        console.log('distinct', distinctStocks);
+
+        this.marketPriceWebsocket.getSubscribedSymbolsResult().pipe(
+            filter(res => !!res), // filter null & undefined
+        ).subscribe(res => {
+            // update price change
+            for (const watchlist of userWatchlist) {
+                const objIndex = watchlist.summaries.findIndex(obj => obj.symbol === res.s);
+
+                if (objIndex !== -1) {
+                    watchlist.summaries[objIndex].marketPrice = res.p;
+                }
+            }
+        });
+
+    }
+
+    closeSubscriptionForWatchlist() {
+        this.marketPriceWebsocket.closeConnection();
     }
 
 
