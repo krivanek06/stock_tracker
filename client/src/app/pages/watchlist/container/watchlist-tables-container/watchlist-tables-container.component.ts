@@ -2,22 +2,19 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnChanges,
     OnDestroy,
     OnInit,
-    SimpleChanges,
+    ViewRef,
 } from '@angular/core';
-import {IonicDialogService} from '../../../../shared/services/ionic-dialog.service';
 import {Router} from '@angular/router';
-import {ModalController, PopoverController} from '@ionic/angular';
+import {ModalController} from '@ionic/angular';
 import {ChartDataIdentification} from '../../../../shared/models/sharedModel';
-import {SymbolLookupModalComponent} from '../../../../features/stock-details-feature/components/modal/symbol-lookup-modal/symbol-lookup-modal.component';
-import {MarketPriceWebsocketService} from '../../../../shared/services/market-price-websocket.service';
 import Maybe from 'graphql/tsutils/Maybe';
 import {StStockWatchlistFragmentFragment} from '../../../../api/customGraphql.service';
-import {ComponentBase} from '../../../../shared/utils/component-base/component.base';
 import {WatchlistService} from '../../../../features/stock-watchlist-feature/services/watchlist.service';
 import {Observable} from 'rxjs';
+import {ComponentBase} from '../../../../shared/utils/component-base/component.base';
+import {SymbolLookupModalComponent} from '../../../../features/stock-details-feature/components/modal/symbol-lookup-modal/symbol-lookup-modal.component';
 
 @Component({
     selector: 'app-watchlist-tables-container',
@@ -25,13 +22,12 @@ import {Observable} from 'rxjs';
     styleUrls: ['./watchlist-tables-container.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WatchlistTablesContainerComponent extends ComponentBase implements OnInit, OnDestroy, OnChanges {
+export class WatchlistTablesContainerComponent extends ComponentBase implements OnInit, OnDestroy {
     private interval: any;
 
     constructor(private watchlistService: WatchlistService,
-                private ionicDialogService: IonicDialogService,
                 private router: Router,
-                private marketPriceWebsocket: MarketPriceWebsocketService,
+                private cdr: ChangeDetectorRef,
                 private modalController: ModalController) {
         super();
     }
@@ -41,27 +37,14 @@ export class WatchlistTablesContainerComponent extends ComponentBase implements 
 
     ngOnInit() {
         this.stockWatchlists$ = this.watchlistService.getUserStockWatchlists();
-
-
-        /*this.initSubscriptionForWatchlist();
-
-        // websockets update view
-        this.interval = setInterval(() => {
-            if (this.cdr && !(this.cdr as ViewRef).destroyed) {
-                this.cdr.detectChanges();
-            }
-        }, 1200);*/
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        console.log('watchlist table', changes);
+        this.watchlistService.initSubscriptionForWatchlist();
+        this.updateScreen();
     }
 
 
     ngOnDestroy(): void {
-        console.log('ngOnDestroy on watchlist table containers');
-        // clearInterval(this.interval);
-        // this.marketPriceWebsocket.closeConnection();
+        this.watchlistService.closeSubscriptionForWatchlist();
+        clearInterval(this.interval);
     }
 
     async createWatchlist() {
@@ -101,25 +84,12 @@ export class WatchlistTablesContainerComponent extends ComponentBase implements 
         }
     }*/
 
-
-    /*private async initSubscriptionForWatchlist() {
-        const stocks = await this.watchlistService.getDistinctStocks();
-        stocks.forEach(stock => this.marketPriceWebsocket.createSubscribeForSymbol(stock));
-
-        this.marketPriceWebsocket.getSubscribedSymbolsResult().pipe(
-            filter(res => !!res), // filter null & undefined
-            takeUntil(this.destroy$)
-        ).subscribe(res => {
-
-            // update price change
-            for (const watchlist of this.stockWatchlists$) {
-                const objIndex = watchlist.summaries.findIndex(obj => obj.symbol === res.s);
-
-                if (objIndex !== -1) {
-                    watchlist.summaries[objIndex].marketPrice = res.p;
-                }
+    private updateScreen(): void {
+        // websockets update view
+        this.interval = setInterval(() => {
+            if (this.cdr && !(this.cdr as ViewRef).destroyed) {
+                this.cdr.detectChanges();
             }
-        });
-    }*/
-
+        }, 1200);
+    }
 }

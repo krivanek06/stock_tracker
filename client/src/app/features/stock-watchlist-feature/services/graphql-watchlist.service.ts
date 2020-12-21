@@ -25,16 +25,7 @@ export class GraphqlWatchlistService {
                 private addStockIntoWatchlistGQL: AddStockIntoWatchlistGQL,
                 private deleteUserWatchlistGQL: DeleteUserWatchlistGQL,
                 private renameStockWatchlistGQL: RenameStockWatchlistGQL,
-                private removeStockFromWatchlistGQL: RemoveStockFromWatchlistGQL,
-                private queryUserStockWatchlistsGQL: QueryUserStockWatchlistsGQL) {
-    }
-
-
-    async getDistinctStockSymbols(): Promise<string[]> {
-        const watchlists = await this.queryUserStockWatchlistsGQL.fetch({uid: this.authService.user.uid}).toPromise();
-        const stockArrays = watchlists.data.queryUserStockWatchlists.map(watchlist => watchlist.summaries.map(x => x.symbol));
-        console.log('getDistinctStocks', stockArrays);
-        return [...new Set([].concat(...stockArrays))] as string[]; // distinct stocks
+                private removeStockFromWatchlistGQL: RemoveStockFromWatchlistGQL) {
     }
 
 

@@ -198,10 +198,13 @@ class YahooFinanceRequester:
         # format data
         result = {'price': [], 'volume': [], 'change': [], 'livePrice': close[-1]}
         for i in range(len(timestamp)):
+            if open[i] is None or high[i] is None or low[i] is None or close[i] is None:
+                continue
+
             milliseconds = timestamp[i] * 1000
             result['price'].append([milliseconds, round(open[i], 2), round(high[i], 2), round(low[i], 2), round(close[i], 2)])
             result['volume'].append([milliseconds, volume[i]])
-            result['change'].append([milliseconds, 0 if i == 0 else round(((close[i] / close[i - 1]) - 1) * 100, 2)])
+            #result['change'].append([milliseconds, 0 if i == 0 else round(((close[i] / close[i - 1]) - 1) * 100, 2)])
 
         return result
 
