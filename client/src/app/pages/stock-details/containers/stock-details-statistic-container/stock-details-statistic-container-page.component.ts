@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {StockDetailsService} from '../../../../features/stock-details-feature/services/stock-details.service';
 import {QueryStockDetailsQuery} from '../../../../api/customGraphql.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {DetailsSummaryModalComponent} from '../../../../features/stock-details-feature/components/modal/details-summary-modal/details-summary-modal.component';
 import {WatchlistPickerModalContainerComponent} from '../../../../features/stock-watchlist-feature/containers/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
 import {DetailsFinancialReportModalComponent} from '../../../../features/stock-details-feature/components/modal/details-financial-report-modal/details-financial-report-modal.component';
 import {ChartDataApiService} from '../../../../api/chart-data-api.service';
@@ -29,7 +28,7 @@ export class StockDetailsStatisticContainerPage implements OnInit {
 
 
     async showSummary() {
-        const modal = await this.modalController.create({
+        /*const modal = await this.modalController.create({
             component: DetailsSummaryModalComponent,
             componentProps: {
                 logo: this.stockDetails.queryStockDetails.companyData.summaryProfile.logo_url,
@@ -38,16 +37,16 @@ export class StockDetailsStatisticContainerPage implements OnInit {
             },
             cssClass: 'custom-modal'
         });
-        return await modal.present();
+        return await modal.present();*/
     }
 
     async showWatchlist() {
-        const modal = await this.modalController.create({
+        /*const modal = await this.modalController.create({
             component: WatchlistPickerModalContainerComponent,
             componentProps: {symbol: this.stockDetails.queryStockDetails.summary.symbol},
             cssClass: 'custom-modal'
         });
-        return await modal.present();
+        return await modal.present();*/
     }
 
     async showFinancialReport(financialReport: string) {

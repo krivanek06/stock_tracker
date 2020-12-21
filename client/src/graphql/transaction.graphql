@@ -1,0 +1,10 @@
+fragment STTransaction on STTransaction {
+    isOpen
+    shortName
+    longName
+    priceBought
+    priceSold
+    priceProfit
+    units
+    date
+}

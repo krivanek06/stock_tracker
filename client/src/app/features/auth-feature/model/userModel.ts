@@ -9,25 +9,6 @@ export enum USER_STATUS {
     ALLOWED = 'ALLOWED'
 }
 
-export interface IUser {
-    uid: string;
-    email: string;
-    photoURL?: string;
-    providerId: string;
-    displayName: string;
-    nickname?: string;
-    locale?: string;
-    lastLogin?: Date;
-    activity?: USER_ACTIVITY;
-    status?: USER_STATUS;
-    userPrivateData?: UserPrivateData;
-}
-
-export interface UserPrivateData {
-    finnhubKey?: string;
-    roles?: string[];
-}
-
 export interface LoginIUser {
     email: string;
     password: string;

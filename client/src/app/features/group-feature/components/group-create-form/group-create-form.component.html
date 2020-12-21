@@ -1,0 +1,48 @@
+<h3 class="st-h3">Create group</h3>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+    <!-- group image -->
+    <ion-item-group class="group-image-container">
+        <ion-item>
+            <ion-img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"></ion-img>
+        </ion-item>
+        <ion-item>
+            <ion-label class="ion-margin-start">
+                <ion-button class="st-create-background">Upload image</ion-button>
+            </ion-label>
+        </ion-item>
+    </ion-item-group>
+
+    <!-- Group name -->
+    <ion-item class="st-card-background ion-margin-top">
+        <ion-label position="floating">Group name</ion-label>
+        <ion-input placeholder="Enter group name" type="text" formControlName="groupName"></ion-input>
+    </ion-item>
+
+    <!-- Group description -->
+    <ion-item class="st-card-background ion-margin-top">
+        <ion-label position="floating">Group description</ion-label>
+        <ion-textarea placeholder="Enter group description" formControlName="groupDescription"
+                      [autoGrow]="true"></ion-textarea>
+    </ion-item>
+
+
+    <!-- listed users -->
+    <ion-item class="ion-margin-top">
+        <ion-label>
+            Members
+        </ion-label>
+    </ion-item>
+    <ion-item-group class="listed-users-container">
+        <app-user-account-info-list></app-user-account-info-list>
+        <app-user-account-info-list></app-user-account-info-list>
+        <app-user-account-info-list></app-user-account-info-list>
+        <app-user-account-info-list></app-user-account-info-list>
+        <app-user-account-info-list></app-user-account-info-list>
+        <app-user-account-info-list></app-user-account-info-list>
+    </ion-item-group>
+
+    <!-- submit button -->
+    <ion-button class="submit-button st-create-background ion-margin" type="submit">Submit</ion-button>
+
+</form>

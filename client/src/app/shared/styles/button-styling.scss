@@ -1,28 +1,10 @@
-@import "./custom-variable";
+@import "../../../theme/custom-variables";
 
 
 
-.price-up{
-  color: #{$price-up};
-}
 
-.price-down{
-  color: #{$price-down};
-}
 
-.positive-button{
-  color: #{$price-up};
-  &:hover {
-    color: #{$price-up-lighter};
-  }
-}
 
-.negative-button{
-  color: #{$price-down};
-  &:hover {
-    color: #{$price-down-lighter};
-  }
-}
 
 .orange-button{
   color: #{$orange-title-medium} !important;
@@ -31,13 +13,7 @@
   }
 }
 
-.clickable{
-  transition: All 0.3s ease-out;
-  cursor: pointer;
-  &:hover{
-    transform: scale(0.90);
-  }
-}
+
 
 .clickable-card{
   cursor: pointer;

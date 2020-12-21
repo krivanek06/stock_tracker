@@ -1,9 +1,9 @@
-@import "../../../../shared/styles/custom-variable";
+@import "../../../../../theme/custom-variables";
 
 :host{
   .downgrade{
     font-weight: bold;
-    color: #{$price-down};
+    color: #{$st-red};
     font-size: 51px;
     @media  (max-width: 450px) {
       font-size: 30px;
@@ -12,7 +12,7 @@
 
   .upgrade{
     font-weight: bold;
-    color: #{$price-up};
+    color: #{$st-var-create-1};
     font-size: 51px;
     @media  (max-width: 450px) {
       font-size: 30px;

@@ -6,12 +6,12 @@
     max-width: 65% !important;
   }
 
-  .price-up{
-    color: #{$price-up};
+  .st-price-up{
+    color: #{$st-var-create-1};
   }
 
-  .price-down{
-    color: #{price-down};
+  .st-price-down{
+    color: #{$st-red};
   }
 
   ion-icon{

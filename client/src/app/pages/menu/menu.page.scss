@@ -1,46 +1,72 @@
-@import "../../shared/styles/button-styling";
+@import "custom-variables";
 
-.app-title{
-  color: var(--ion-color-primary);
-  font-size: 26px;
-  margin-bottom: 25px;
-  margin-top: 12px;
-}
-
-ion-item ion-icon, ion-item ion-label {
-  color: #616e7e;
-}
-
-ion-item ion-label{
-  font-size: 17px;
-  @media (max-width: 550px) {
+:host{
+  ion-item ion-label{
     font-size: 15px;
+    @media (max-width: 550px) {
+      font-size: 14px;
+    }
+  }
+
+  .log-out-button{
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+  }
+
+  .navigation-avatar{
+    text-align: -webkit-center;
+    margin-bottom: 12px;
+    margin-top: 25px;
+  }
+
+  .navigation-avatar-name{
+    display: block;
+  }
+
+  ion-avatar{
+    width: 80px;
+    height: 80px;
+    margin-bottom: 8px;
+  }
+
+  ion-menu{
+    min-width: 200px!important;
+    max-width: 200px!important;
+  }
+  /*
+  .toggle-button{
+    margin-top: -10px;
+    margin-left: -10px;
+    color: #616e7e;
+  }*/
+
+  .navigation{
+    width: 96%;
+    border-radius: 0 25px 25px 0;
+  }
+
+  .navigation-rectangle-selected{
+    width: 7px;
+    height: 48px;
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    background: #{$st-var-blue-1};
+  }
+
+  ion-menu.md ion-item.selected ion-icon,
+  ion-menu.md ion-item.selected,
+  ion-menu.ios ion-item.selected ion-icon,
+  ion-item.selected,
+  ion-item.selected ion-label{
+    background-color: #{$st-var-blue-4};
+    color: #{$st-var-blue-1};
+  }
+
+  .page-section{
+    margin-left: 16px;
+    font-size: 12px;
+    color: #{$st-var-font-4};
   }
 }
-
-.log-out-button{
-  position: absolute;
-  bottom: 25px;
-  width: 85%;
-}
-
-
-ion-menu{
-  min-width: 225px!important;
-  max-width: 225px!important;
-}
-
-.toggle-button{
-  margin-top: -10px;
-  margin-left: -10px;
-  color: #616e7e;
-}
-
-ion-menu.md ion-item.selected ion-icon,
-ion-menu.md ion-item.selected,
-ion-menu.ios ion-item.selected ion-icon,
-ion-item.selected,
-ion-item.selected ion-label{
-  color: var(--ion-color-primary) !important;
-}
-

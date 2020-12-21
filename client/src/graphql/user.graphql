@@ -1,60 +1,74 @@
-query queryUser($uid: String!) {
-    queryUser(uid: $uid) {
-        uid,
-        displayName,
-        email,
-        photoURL,
-        nickname,
-        locale,
-        providerId
+fragment STUserPartialInformationFragment on STUserPartialInformation {
+    uid
+    nickName
+    locale
+    photoURL
+    accountCreatedDate
+    portfolio {
+        ...STPortfolioFragment
+    }
+    rank {
+        ...STRankFragment
+    }
+}
+
+
+query AuthenticateUser($uid: String!) {
+    authenticateUser(uid: $uid) {
+        uid
+        nickName
+        locale
+        photoURL
+        accountCreatedDate
+        portfolio {
+            ...STPortfolioFragment
+        }
+        rank {
+            ...STRankFragment
+        }
+        lastSignInDate
+        transactionsSnippets {
+            ...STTransaction
+        }
+        portfolioWeeklyChange {
+            ...STPortfolioFragment
+        }
+        holdings {
+            ...STTransaction
+        }
+        resetedAccount {
+            date
+            portfolio {
+                ...STPortfolioFragment
+            }
+        }
+        groups {
+            ...STGroupPartialDataFragment
+        }
         activity
-        status
+        userLogs {
+            ...STLogsFragment
+        }
         userPrivateData {
             finnhubKey
             roles
+            email
+            displayName
+            providerId
+            status
+            nicknameLastChange
+        }
+        stockWatchlist {
+            ...STStockWatchlistFragment
         }
     }
 }
 
-mutation updateUserPrivateData($uid: String!, $userPrivateDataInput: UserPrivateDataInput!) {
-    updateUserPrivateData(uid: $uid, userPrivateDataInput: $userPrivateDataInput) {
-        finnhubKey
-        roles
-    }
-}
 
-mutation updateUserData($userInput: UserInput!) {
-    updateUserData(user: $userInput) {
-        uid,
-        displayName,
-        email,
-        photoURL,
-        nickname,
-        locale,
-        providerId
-        activity
-        status
-        userPrivateData {
-            finnhubKey
-            roles
-        }
-    }
-}
 
-mutation registerUser($userInput: UserInput!) {
-    registerUser(user: $userInput) {
-        uid,
-        displayName,
-        email,
-        photoURL,
-        nickname,
-        locale,
-        providerId
-        activity
-        status
-        userPrivateData {
-            finnhubKey
-            roles
-        }
-    }
+
+
+
+mutation RegisterUser($stUserAuthenticationInput: STUserAuthenticationInput!) {
+    registerUser(user: $stUserAuthenticationInput)
 }

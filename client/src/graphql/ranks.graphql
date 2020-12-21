@@ -1,0 +1,9 @@
+fragment STRankFragment on STRank {
+    rankGainers
+    rankLosers
+    rankPortfolio
+    rankProfit
+    rankNumberOfTrandes
+    date
+}
+

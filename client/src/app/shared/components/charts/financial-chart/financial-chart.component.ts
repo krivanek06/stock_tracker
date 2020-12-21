@@ -1,6 +1,5 @@
 import {
     ChangeDetectionStrategy,
-    ChangeDetectorRef,
     Component,
     EventEmitter,
     Input,
@@ -38,19 +37,12 @@ HighchartsMoreModule(Highcharts);*/
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FinancialChartComponent implements OnInit, OnChanges {
-    @Output() selectedPeriodEmitter: EventEmitter<string> = new EventEmitter<string>();
+    @Output() priceRangeEmitter: EventEmitter<number[]> = new EventEmitter<number[]>();
 
     @Input() price: any[];
     @Input() volume: any[];
     @Input() height = 350;
-    @Input() chartTitle: string;
     @Input() showYAxis = false;
-
-    startingPrice: number;
-    endingPrice: number;
-
-    selectedPeriod = '1y';
-
 
     // Define chart options
     Highcharts: typeof Highcharts = Highcharts;
@@ -58,34 +50,13 @@ export class FinancialChartComponent implements OnInit, OnChanges {
     updateFromInput = true;
     chartCallback;
     chartOptions = {}; //  : Highcharts.Options
-    constructor(private cd: ChangeDetectorRef) {
+    constructor() {
         // save chart into varaible
         const self = this;
 
         this.chartCallback = (chart) => {
             self.chart = chart;
         };
-    }
-
-
-    loadIntervalData(period: string) {
-        this.selectedPeriod = period;
-        this.selectedPeriodEmitter.emit(this.selectedPeriod);
-    }
-
-    // update by new data to corresponding timeline
-    ___loadIntervalData(period: string) {
-        /* this.selectedPeriod = period;
-         console.log(this.selectedPeriod);
-         this.chart.showLoading("Loading data from server...");
-         this.stockAPI
-           .getChartDataForSymbol(this.symbol, this.selectedPeriod)
-           .pipe(takeUntil(this.destroy$))
-           .subscribe((res) => {
-             this.chart.series[0].setData(res.price);
-             this.chart.series[1].setData(res.volume);
-             this.chart.hideLoading();
-           });*/
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -102,44 +73,17 @@ export class FinancialChartComponent implements OnInit, OnChanges {
     }
 
     recalculatePriceRange(priceRange: number[]) {
-        this.startingPrice = priceRange[0];
-        this.endingPrice = priceRange[priceRange.length - 1];
-        this.changeColor();
-        this.cd.detectChanges(); // rerender UI
-    }
-
-    private changeColor() {
-        this.chartOptions = {
-            ...this.chartOptions,
-            plotOptions: {
-                area: {
-                    fillColor: {
-                        linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1},
-                        stops: [
-                            [0, this.endingPrice > this.startingPrice ? 'rgb(50,232,28)' : 'rgba(232,0,24,1)'],
-                            [1, 'rgba(0,20,82,0.37048322747067575)']
-                        ]
-                    }
-                }
-            }
-        };
-
+        const startingPrice = priceRange[0][3];
+        const endingPrice = priceRange[priceRange.length - 1][3];
+        this.priceRangeEmitter.emit([startingPrice, endingPrice]);
     }
 
     private initChart() {
         this.chartOptions = {
             chart: {
                 backgroundColor: 'transparent',
-                type: 'area', // area
                 panning: {
                     enable: true
-                }
-            },
-            title: {
-                text: this.chartTitle,
-                align: 'right',
-                style: {
-                    color: '#bababa'
                 }
             },
             scrollbar: {
@@ -150,33 +94,19 @@ export class FinancialChartComponent implements OnInit, OnChanges {
             },
             legend: {enabled: false},
             plotOptions: {
-                area: {
-                    fillColor: {
-                        linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1},
-                        stops: [
-                            [0, this.endingPrice > this.startingPrice ? 'rgb(50,232,28)' : 'rgba(232,0,24,1)'],
-                            [1, 'rgba(0,20,82,0.37048322747067575)']
-                        ]
-                    },
-                    marker: {
-                        radius: 2
-                    },
-                    lineWidth: 1,
-                    states: {
-                        hover: {
-                            lineWidth: 1
-                        }
-                    },
-                    threshold: null
+                candlestick: {
+                    color: 'red',
+                    upColor: 'green',
                 },
-                areaspline: {
+                /*areaspline: {
                     threshold: null
-                }
+                }*/
             },
             series: [
                 {
                     data: this.price,
-                    // color: this.endingPrice > this.startingPrice ? 'rgb(50,232,28)' : 'rgba(232,0,24,1)',
+                    type: 'candlestick',
+                    yAxis: 0,
                     name: 'price',
                 },
                 {
@@ -206,7 +136,25 @@ export class FinancialChartComponent implements OnInit, OnChanges {
                 },
                 shared: true,
                 xDateFormat: '%d-%m-%Y',
-                valueDecimals: 2
+                valueDecimals: 2,
+                positioner: function(width, height, point) {
+                    var chart = this.chart, position;
+
+                    if (point.isHeader) {
+                        position = {
+                            x: Math.max(
+                                chart.plotLeft,
+                                Math.min(point.plotX + chart.plotLeft - width / 2, chart.chartWidth - width - chart.marginRight)
+                            ), y: point.plotY
+                        };
+                    } else {
+                        position = {
+                            x: point.series.chart.plotLeft,
+                            y: point.series.yAxis.top - chart.plotTop
+                        };
+                    }
+                    return position;
+                }
                 //  pointFormat: '<span style="color:{point.color}; font-weight: bold">{series.name}</span> :<b>{point.y:.2f}</b><br/>'
             },
             xAxis: {
@@ -222,7 +170,6 @@ export class FinancialChartComponent implements OnInit, OnChanges {
                     afterSetExtremes: (e) =>
                         this.recalculatePriceRange(e.target.series[0].processedYData),
                 },
-                //minRange: 3600 * 1000, // one hour
             },
             yAxis: [
                 {
@@ -231,7 +178,7 @@ export class FinancialChartComponent implements OnInit, OnChanges {
                     },
                     gridLineWidth: 0,
                     minorTickInterval: 'auto',
-                    tickPixelInterval: 15,
+                    //tickPixelInterval: 25,
                     minorGridLineWidth: 0,
                     allowDecimals: true,
                     height: '75%',
@@ -239,7 +186,7 @@ export class FinancialChartComponent implements OnInit, OnChanges {
                         enabled: true,
                     },
                     startOnTick: true,
-                    endOnTick: false,
+                    endOnTick: true,
                     opposite: false,
                     visible: this.showYAxis
                     // min: 0
@@ -252,11 +199,25 @@ export class FinancialChartComponent implements OnInit, OnChanges {
                     top: '75%',
                     height: '25%',
                     offset: 0,
-                    startOnTick: false,
-                    endOnTick: false,
-                    visible: false
+                    startOnTick: true,
+                    endOnTick: true,
+                    visible: true
                 },
             ],
+            responsive: {
+                rules: [
+                    {
+                        condition: {
+                            maxWidth: 800
+                        },
+                        chartOptions: {
+                            rangeSelector: {
+                                inputEnabled: false
+                            }
+                        }
+                    }
+                ]
+            }
         };
     }
 }

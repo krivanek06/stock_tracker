@@ -22,32 +22,8 @@ class FundamentalsService:
         self.db = firestore.client()
 
     def getStockDetails(self, symbol):
-        stockDetailsDict = self.db.collection('stockData').document(symbol).get().to_dict()
-        twoWeeksBefore = (datetime.today() - timedelta(weeks=2)).replace(tzinfo=utc)
-
-        # No record in firestore, first time fetch or older than 2 weeks
-        if stockDetailsDict is None or twoWeeksBefore > stockDetailsDict['detailsLastUpdate'].replace(tzinfo=utc):
-            return self.__initialStockDetailsIntoFirestore(symbol)
-
-        # updating stock news into firestore every 8 hours
-        lastestStockNews = self.__getUpToDateStockNews(symbol, stockDetailsDict['newsLastUpdate'])
-        if lastestStockNews is not None:
-            stockDetailsDict['details']['stockNews'] = lastestStockNews['stockNews']
-            self.db.collection('stockData').document(symbol).update({ 'newsLastUpdate': datetime.today(), })
-            self.__modifyDetailsToFirebase(symbol, { 'details.stockNews': stockDetailsDict['details']['stockNews']})
-
-        print('get stock fundamentals -> done')
-        return stockDetailsDict['details']
-
-    def getStockFinancialReport(self, symbol, financialReportName):
-        return self.db.collection('stockData').document(symbol).collection('stockFinancialReports').document(
-            financialReportName).get().to_dict()
-
-    def getStockSummary(self, symbol):
-        summary = self.db.collection('stockData').document(symbol).get().to_dict()
-        if summary is None:
-            summary = {'details': self.__initialStockDetailsIntoFirestore(symbol)}
-        return summary['details']['summary']
+        data = self.__fetchStockDetails(symbol)
+        return self.__modifyFetchedStockDetails(symbol, data)
 
     # --------------------------------------------------------------------
     # --------------------------------------------------------------------
@@ -57,68 +33,20 @@ class FundamentalsService:
        get stock news if does not exists or older than 8 hours
     '''
 
-    def __getUpToDateStockNews(self, symbol, newsLastUpdate=None):
-        sixHoursBefore = (datetime.today() - timedelta(hours=8)).replace(tzinfo=utc)
+    def __getUpToDateStockNews(self, symbol):
+        stockNewsFinhubArray = self.finhub.getNewsForSymbol(symbol)['stockNews']
+        return {'stockNews': stockNewsFinhubArray}
 
-        if newsLastUpdate is None or sixHoursBefore > newsLastUpdate.replace(tzinfo=utc):
-            print('fetching news')
-            stockNewsFinhubArray = self.finhub.getNewsForSymbol(symbol)['stockNews']
-            return {'stockNews': stockNewsFinhubArray}
-        return None
-
-    def __modifyDetailsToFirebase(self, symbol, details):
-        def __updateStockDetails(symbol, details):
-            self.db.collection('stockData').document(symbol).update(details)
-
-        t1 = threading.Thread(target=__updateStockDetails, args=(symbol, details))
-        t1.daemon = True
-        t1.start()
-
-    def __saveFinancialReportsToFirebase(self, symbol, reports):
-        def __saveFinancialReports(symbol, reports):
-            for report in reports:
-                report['source'] = 'Finnhub'
-                self.db.collection('stockData').document(symbol).collection('stockFinancialReports').document(
-                    str(report['year'])).set(report)
-
-        t1 = threading.Thread(target=__saveFinancialReports, args=(symbol, reports))
-        t1.daemon = True
-        t1.start()
-
-    '''
-        - init all details information about stock, 
-        - fetch news up to 7 days and save 15 latest news into array for lower reads
-        - fetch all 10-K yearly financial reports for stock
-    '''
-
-    def __initialStockDetailsIntoFirestore(self, symbol):
-        print('initial fetching stock details for symbol ', symbol)
-
-        self.db.collection('stockData').document(symbol).set({
-            'detailsLastUpdate': datetime.today(),
-            'overViewLastUpdate': datetime.today(),
-            'newsLastUpdate': datetime.today(),
-            'financialReportsLastUpdate': datetime.today()
-        })
-
-        data = self.__fetchStockDetails(symbol)
-
-        self.__saveFinancialReportsToFirebase(symbol, data['financialReports'])
-
-        data = self.__modifyFetchedStockDetails(symbol, data)
-
-        self.__modifyDetailsToFirebase(symbol, {'details': data})
-
-        return data
 
     def __modifyFetchedStockDetails(self, symbol, data):
         data['id'] = symbol
+
         data = utils.changeUnsupportedCharactersForDictKey(data)
         dataFormatter = FundamentalServiceFormatter(data)
 
         # format data
-        dataFormatter.formatFinancialReports()
         dataFormatter.formatAnalysis()
+        dataFormatter.fomatFinancialReports()
         dataFormatter.formatSummary()
         dataFormatter.formatDividends()
         dataFormatter.formatEarningsFinancialChart()
@@ -187,21 +115,21 @@ class FundamentalServiceFormatter:
 
     def formatAnalysis(self):
         try:
-            self.data['analysis']['GrowthEstimates'] = self.data['analysis']['GrowthEstimates'][0]
-            GrowthEstimates = self.data['analysis']['GrowthEstimates']
+            self.data['analysis']['growthEstimates'] = self.data['analysis']['growthEstimates'][0]
+            GrowthEstimates = self.data['analysis']['growthEstimates']
             for k in list(GrowthEstimates.keys()):
                 if k != 'name':
                     GrowthEstimates[k + 'Prct'] = utils.force_float_skipping_last_char(GrowthEstimates[k])
 
-            RevenueEstimate = self.data['analysis']['RevenueEstimate']
+            RevenueEstimate = self.data['analysis']['revenueEstimate']
             for tmp in RevenueEstimate:
-                tmp['AvgEstimateNumber'] = utils.force_float_skipping_last_char(tmp['AvgEstimate'])
-                tmp['HighEstimateNumber'] = utils.force_float_skipping_last_char(tmp['HighEstimate'])
-                tmp['LowEstimateNumber'] = utils.force_float_skipping_last_char(tmp['LowEstimate'])
-                tmp['SalesGrowthyearestNumber'] = utils.force_float_skipping_last_char(tmp['SalesGrowthyearest'])
+                tmp['avgEstimateNumber'] = utils.force_float_skipping_last_char(tmp['avgEstimate'])
+                tmp['highEstimateNumber'] = utils.force_float_skipping_last_char(tmp['highEstimate'])
+                tmp['lowEstimateNumber'] = utils.force_float_skipping_last_char(tmp['lowEstimate'])
+                tmp['salesGrowthyearestNumber'] = utils.force_float_skipping_last_char(tmp['salesGrowthyearest'])
                 # if "HighEstimate": "1.48B" and "LowEstimate": "2M"
-                if tmp['LowEstimate'] != 'N/A' and tmp['HighEstimate'][-1] != tmp['LowEstimate'][-1]:
-                    tmp['HighEstimateNumber'] = tmp['HighEstimateNumber'] * 1000
+                if tmp['lowEstimate'] != 'N/A' and tmp['highEstimate'][-1] != tmp['lowEstimate'][-1]:
+                    tmp['highEstimateNumber'] = tmp['highEstimateNumber'] * 1000
         except Exception as e:
             print('formatAnalysis exception: ' + str(e))
             pass
@@ -224,6 +152,13 @@ class FundamentalServiceFormatter:
             print('formatEarningsFinancialChart exception: ' + str(e))
             pass
 
+    def fomatFinancialReports(self):
+        for report in self.data['financialReports']:
+            report['source'] = 'Finnhub'
+            for k in report['report']:  # bf, ic, cf
+                for item in report['report'][k]:
+                    item['value'] = utils.force_float(item['value'])
+
     def formatSummary(self):
         try:
             self.data['summary']['recommendationKey'] = self.data['companyData']['financialData']['recommendationKey']
@@ -232,11 +167,13 @@ class FundamentalServiceFormatter:
             self.data['summary']['logo_url'] = self.data['companyData']['summaryProfile']['logo_url']
             self.data['summary']['sector'] = self.data['companyData']['summaryProfile']['sector']
             self.data['summary']['industry'] = self.data['companyData']['summaryProfile']['industry']
-            self.data['summary']['OneyTargetEst'] = utils.force_float(self.data['summary']['OneyTargetEst'])
+            self.data['summary']['oneyTargetEst'] = utils.force_float(self.data['summary']['oneyTargetEst'])
             self.data['summary']['currencySymbol'] = self.data['companyData']['price']['currencySymbol']
             self.data['summary']['shortName'] = self.data['companyData']['price']['shortName']
             self.data['summary']['longName'] = self.data['companyData']['price']['longName']
             self.data['summary']['marketCap'] = self.data['companyData']['price']['marketCap']
+            self.data['summary']['sharesOutstanding'] = self.data['companyData']['defaultKeyStatistics']['sharesOutstanding']
+            self.data['summary']['longBusinessSummary'] = self.data['companyData']['summaryProfile']['longBusinessSummary']
         except Exception as e:
             print('formatSummary exception: ' + str(e))
             pass
@@ -252,36 +189,28 @@ class FundamentalServiceFormatter:
                 'dividendYieldFiveY': self.data['metric']['dividendYieldFiveY'],
                 'dividendYieldIndicatedAnnual': self.data['metric']['dividendYieldIndicatedAnnual'],
                 'dividendsPerShareTTM': self.data['metric']['dividendsPerShareTTM'],
-                'exDividendDate': self.data['summary']['ExDividendDate'],
-                'ForwardDividendYield': self.data['summary']['ForwardDividendYield'],
-                'trailingAnnualDividendRate': self.data['stats']['TrailingAnnualDividendRateThree'],
-                'trailingAnnualDividendYield': self.data['stats']['TrailingAnnualDividendYieldThree']
+                'exDividendDate': self.data['summary']['exDividendDate'],
+                'forwardDividendYield': self.data['summary']['forwardDividendYield'],
+                'trailingAnnualDividendRate': self.data['stats']['trailingAnnualDividendRateThree'],
+                'trailingAnnualDividendYield': self.data['stats']['trailingAnnualDividendYieldThree']
             }
         except Exception as e:
             print('formatDividends exception: ' + str(e))
             pass
 
-    def formatFinancialReports(self):
-        # extract financial report into sub collection and rewrite its object
-        financialReports = self.data['financialReports']
-        self.data['financialReports'] = [{
-            'collection': str(report['year']),
-            'name': report['form'] + ' ' + str(report['year'])
-        } for report in financialReports]
-
     def removeUnnecessaryData(self):
         try:
-            del self.data['summary']['Ask']
-            del self.data['summary']['BetaFiveYMonthly']
-            del self.data['summary']['Bid']
-            del self.data['analysis']['EarningsEstimate']
-            del self.data['analysis']['EarningsHistory']
-            del self.data['analysis']['EPSRevisions']
-            del self.data['analysis']['EPSTrend']
+            del self.data['summary']['ask']
+            del self.data['summary']['betaFiveYMonthly']
+            del self.data['summary']['bid']
+            del self.data['analysis']['earningsEstimate']
+            del self.data['analysis']['earningsHistory']
+            del self.data['analysis']['ePSRevisions']
+            del self.data['analysis']['ePSTrend']
             del self.data['companyData']['calendarEvents']
             del self.data['companyData']['recommendationTrend']
             del self.data['companyData']['financialsTemplate']
-            del self.data['summary']["Day'sRange"]
+            del self.data['summary']["day'sRange"]
             del self.data['companyData']['quoteType']
             del self.data['companyData']['price']
             del self.data['companyData']['summaryDetail']
@@ -293,8 +222,9 @@ class FundamentalServiceFormatter:
             del self.data['metric']['dividendYieldFiveY']
             del self.data['metric']['dividendYieldIndicatedAnnual']
             del self.data['metric']['dividendsPerShareTTM']
-            del self.data['stats']['ForwardAnnualDividendYieldFour']
-            del self.data['stats']['TrailingAnnualDividendRateThree']
-            del self.data['stats']['TrailingAnnualDividendYieldThree']
+            del self.data['stats']['forwardAnnualDividendYieldFour']
+            del self.data['stats']['trailingAnnualDividendRateThree']
+            del self.data['stats']['trailingAnnualDividendYieldThree']
+            del self.data['companyData']['summaryProfile']['longBusinessSummary']
         except Exception as e:
             print('Exception in removeUnnecessaryData: ' + str(e))

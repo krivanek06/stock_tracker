@@ -1,0 +1,18 @@
+<!-- table title -->
+<app-watchlist-table-title
+        [name]="watchlist.name"
+        [createdAt]="watchlist.date"
+        [number]="watchlist.summaries.length">
+</app-watchlist-table-title>
+
+<!-- table header -->
+<app-watchlist-table-header></app-watchlist-table-header>
+
+<!-- table body -->
+<app-watchlist-table-body-item
+        *ngFor="let summary of watchlist.summaries"
+        [summary]="summary"
+        [currentPrice]="summary.marketPrice"
+        (itemClickedEmitter)="itemClicked($event)"
+        (deleteEmitter)="deleteSymbolFromWatchlist($event)">
+</app-watchlist-table-body-item>

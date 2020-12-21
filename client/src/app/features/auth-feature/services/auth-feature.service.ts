@@ -1,48 +1,42 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {auth} from 'firebase/app';
-import {map, switchMap, tap} from 'rxjs/operators';
-import {Observable, of} from 'rxjs';
+import {filter, map, switchMap, tap} from 'rxjs/operators';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {
-    QueryUserGQL, RegisterUserGQL,
-    UpdateUserDataGQL,
-    UpdateUserPrivateDataGQL,
-    UpdateUserPrivateDataMutation,
-    User
+    AuthenticateUserGQL,
+    RegisterUserGQL, StUserAuthenticationInput, StUserPublicData,
 } from '../../../api/customGraphql.service';
-import {IUser, LoginIUser, RegisterIUser, USER_ACTIVITY, USER_STATUS, UserPrivateData} from '../model/userModel';
-import {FetchResult} from 'apollo-link';
-import UserCredential = firebase.auth.UserCredential;
+import {LoginIUser, RegisterIUser, USER_ACTIVITY} from '../model/userModel';
 import {Apollo} from 'apollo-angular';
 import {Router} from '@angular/router';
+
+import UserCredential = firebase.auth.UserCredential;
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthFeatureService {
+    private user$: BehaviorSubject<StUserPublicData> = new BehaviorSubject<StUserPublicData>(null);
 
     constructor(private afAuth: AngularFireAuth,
                 private apollo: Apollo,
                 private router: Router,
-                private queryUserGQL: QueryUserGQL,
-                private updateUserPrivateDataGQL: UpdateUserPrivateDataGQL,
-                private registerUserGQL: RegisterUserGQL,
-                private updateUserDataGQL: UpdateUserDataGQL) {
-
+                private authenticateUserGQL: AuthenticateUserGQL,
+                private registerUserGQL: RegisterUserGQL) {
+        this.initUserIfExists();
     }
 
-    // TODO opravit
-    getUser(): Observable<IUser> {
-        return this.afAuth.authState.pipe(
-            switchMap(user => {
-                if (user) {
-                    return this.queryUserGQL.watch({
-                        uid: user.uid
-                    }).valueChanges.pipe(map(x => x.data.queryUser));
-                }
-                return of(null);
-            })
-        );
+    getUser(): Observable<StUserPublicData> {
+        return this.user$.asObservable();
+    }
+
+    get user(): StUserPublicData {
+        if (!this.user$.getValue()) {
+            throw new Error('trying to access StUserPublicData, but does not exists');
+        }
+
+        return this.user$.getValue();
     }
 
     async googleSignIn(): Promise<void> {
@@ -62,9 +56,9 @@ export class AuthFeatureService {
     }
 
     async logout() {
-        await this.getUser().pipe(
+        /*await this.getUser().pipe(
             switchMap(user => this.registerUserGQL.mutate({
-                userInput: {
+                stUserAuthenticationInput: {
                     uid: user.uid,
                     locale: user.locale,
                     providerId: user.providerId,
@@ -75,40 +69,52 @@ export class AuthFeatureService {
                     activity: USER_ACTIVITY.SIGNED_OUT
                 }
             }))
-        ).toPromise();
+        ).toPromise();*/
+        this.user$.next(null);
         await this.apollo.getClient().clearStore();
         await this.afAuth.signOut();
         await this.router.navigate(['/login']);
     }
 
-    updateUserPrivateData(userPrivateData: UserPrivateData): Observable<FetchResult<UpdateUserPrivateDataMutation, Record<string, any>, Record<string, any>>> {
+    /*updateUserPrivateData(userPrivateData: UserPrivateData): Observable<FetchResult<UpdateUserPrivateDataMutation, Record<string, any>, Record<string, any>>> {
         return this.getUser().pipe(
             switchMap(user => this.updateUserPrivateDataGQL.mutate({
                 uid: user.uid,
                 userPrivateDataInput: userPrivateData
             }))
         );
+    }*/
+
+    private initUserIfExists() {
+        return this.afAuth.authState.pipe(
+            filter(x => !!x),
+            switchMap(user =>
+                this.authenticateUserGQL.watch({uid: user.uid}).valueChanges.pipe(
+                    map(x => x.data.authenticateUser)
+                )),
+            filter(x => !!x),
+        ).subscribe(user => {
+            if (user && !this.user$.getValue()) {
+                this.router.navigate(['/menu/dashboard']);
+            }
+            this.user$.next(user);
+        });
     }
 
     // ToDO create interceptor with token
     private async signInUser(credential: UserCredential): Promise<void> {
-        // console.log('credential', credential.user.getIdToken());
-        const profile = credential.additionalUserInfo.profile as any;
-        const userInput: IUser = {
-            displayName: credential.user.displayName || credential.user.email.split('@')[0],
-            email: credential.user.email,
-            uid: credential.user.uid,
-            photoURL: credential.user.photoURL,
-            providerId: credential.user.providerId,
-            locale: profile?.locale
-        };
         if (credential.additionalUserInfo.isNewUser) {
+            const profile = credential.additionalUserInfo.profile as any;
+            const stUserAuthenticationInput: StUserAuthenticationInput = {
+                displayName: credential.user.displayName || credential.user.email.split('@')[0],
+                email: credential.user.email,
+                uid: credential.user.uid,
+                photoURL: credential.user.photoURL,
+                providerId: credential.user.providerId,
+                locale: profile?.locale
+            };
 
-            const user = await this.registerUserGQL.mutate({userInput}).toPromise();
-            console.log('new user', user.data.registerUser);
-        } else {
-            const user = await this.updateUserDataGQL.mutate({userInput}).toPromise();
-            console.log('old user', user.data.updateUserData);
+            await this.registerUserGQL.mutate({stUserAuthenticationInput}).toPromise();
         }
     }
 }

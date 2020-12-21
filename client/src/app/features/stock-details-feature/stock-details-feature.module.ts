@@ -11,11 +11,12 @@ import {DetailsBalanceSheetCardComponent} from './components/card/details-balanc
 import {DetailsRecommendationChartComponent} from './components/details-recommendation-chart/details-recommendation-chart.component';
 import {DetailsFinancialStrengthRatioComponent} from './components/details-financial-strength-ratio/details-financial-strength-ratio.component';
 import {DetailsFinancialReportModalComponent} from './components/modal/details-financial-report-modal/details-financial-report-modal.component';
-import {DetailsSummaryModalComponent} from './components/modal/details-summary-modal/details-summary-modal.component';
 import {DetailsEarningsPerShareChartComponent} from './components/details-earnings-per-share-chart/details-earnings-per-share-chart.component';
 import {SharedModule} from '../../shared/shared.module';
 import {GradingHistoryComponent} from './components/grading-history/grading-history.component';
 import {StockTrendComponent} from './components/stock-trend/stock-trend.component';
+import {SymbolLookupModalComponent} from './components/modal/symbol-lookup-modal/symbol-lookup-modal.component';
+import {DetailsSummaryComponent} from './components/details-summary/details-summary.component';
 
 
 @NgModule({
@@ -31,10 +32,11 @@ import {StockTrendComponent} from './components/stock-trend/stock-trend.componen
         DetailsRecommendationChartComponent,
         DetailsFinancialStrengthRatioComponent,
         DetailsFinancialReportModalComponent,
-        DetailsSummaryModalComponent,
         DetailsEarningsPerShareChartComponent,
         GradingHistoryComponent,
-        StockTrendComponent
+        StockTrendComponent,
+        SymbolLookupModalComponent,
+        DetailsSummaryComponent
     ],
     imports: [
         CommonModule,
@@ -52,14 +54,15 @@ import {StockTrendComponent} from './components/stock-trend/stock-trend.componen
         DetailsRecommendationChartComponent,
         DetailsFinancialStrengthRatioComponent,
         DetailsFinancialReportModalComponent,
-        DetailsSummaryModalComponent,
         DetailsEarningsPerShareChartComponent,
         GradingHistoryComponent,
-        StockTrendComponent
+        StockTrendComponent,
+        SymbolLookupModalComponent,
+        DetailsSummaryComponent
     ],
     entryComponents: [
-        DetailsSummaryModalComponent,
-        DetailsFinancialReportModalComponent
+        DetailsFinancialReportModalComponent,
+        SymbolLookupModalComponent
     ]
 })
 export class StockDetailsFeatureModule {
