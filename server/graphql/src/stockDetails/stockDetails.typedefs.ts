@@ -8,7 +8,7 @@ export const stockDetailsTypeDefs = gql`
         balanceSheet: BalanceSheet!
         cashFlow: CashFlow!
         incomeStatement: IncomeStatement!
-        financialReports: [FinancialReportNames]!
+        financialReports: [FinancialReport]!
         stats: Stats!
         recommendation: [Recommendations]!
         stockNews: [NewsArticle]!
@@ -18,9 +18,32 @@ export const stockDetailsTypeDefs = gql`
         dividends: Dividens!
     }
 
-    type FinancialReportNames {
-        collection: String
-        name: String
+    type FinancialReport {
+        acceptedDate: String!
+        accessNumber: String
+        cik: String
+        endDate: String
+        filedDate: String
+        form: String
+        quarter: Float
+        report: FinancialReportReport
+        source: String
+        startDate: String
+        symbol: String
+        year: Float
+    }
+    
+    type FinancialReportReport {
+        bs: [FinancialReportItems]
+        cf: [FinancialReportItems]
+        ic: [FinancialReportItems]
+    }
+    
+    type FinancialReportItems {
+        concept: String
+        label: String
+        unit: String
+        value: Float
     }
 
     type CompanyData {

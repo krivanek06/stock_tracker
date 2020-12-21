@@ -9,6 +9,7 @@ import {
 } from "./watchList.model";
 import {stockDataAPI} from "../enviroment";
 import {getCurrentIOSDate, stSeep} from "../st-shared/st-shared.functions";
+import {queryStockSummary} from "../stockDetails/stockDetails.query";
 
 const fetch = require("node-fetch");
 
@@ -64,8 +65,7 @@ export const addStockIntoStockWatchlist = async (identifier: STStockWatchlistIde
         }
 
         // get summary from custom server
-        const response = await fetch(`${stockDataAPI}/fundamentals/summary?symbol=${identifier.additionalData}`);
-        const summary = await response.json() as Summary;
+        const summary = await queryStockSummary(identifier.additionalData);
 
         // add stock into watchlist
         watchlist.summaries = [...watchlist.summaries, summary];

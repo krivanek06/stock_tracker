@@ -22,31 +22,8 @@ class FundamentalsService:
         self.db = firestore.client()
 
     def getStockDetails(self, symbol):
-        stockDetailsDict = self.db.collection('stockData').document(symbol).get().to_dict()
-        twoWeeksBefore = (datetime.today() - timedelta(weeks=2)).replace(tzinfo=utc)
-
-        # No record in firestore, first time fetch or older than 2 weeks
-        if stockDetailsDict is None or twoWeeksBefore > stockDetailsDict['detailsLastUpdate'].replace(tzinfo=utc):
-            return self.__initialStockDetailsIntoFirestore(symbol)
-
-        # updating stock news into firestore every 8 hours
-        lastestStockNews = self.__getUpToDateStockNews(symbol, stockDetailsDict['newsLastUpdate'])
-        if lastestStockNews is not None:
-            stockDetailsDict['details']['stockNews'] = lastestStockNews['stockNews']
-            self.db.collection('stockData').document(symbol).update({ 'newsLastUpdate': datetime.today(), })
-            self.__modifyDetailsToFirebase(symbol, { 'details.stockNews': stockDetailsDict['details']['stockNews']})
-
-        return stockDetailsDict['details']
-
-    def getStockFinancialReport(self, symbol, financialReportName):
-        return self.db.collection('stockData').document(symbol).collection('stockFinancialReports').document(
-            financialReportName).get().to_dict()
-
-    def getStockSummary(self, symbol):
-        summary = self.db.collection('stockData').document(symbol).get().to_dict()
-        if summary is None:
-            summary = {'details': self.__initialStockDetailsIntoFirestore(symbol)}
-        return summary['details']['summary']
+        data = self.__fetchStockDetails(symbol)
+        return self.__modifyFetchedStockDetails(symbol, data)
 
     # --------------------------------------------------------------------
     # --------------------------------------------------------------------
@@ -56,68 +33,20 @@ class FundamentalsService:
        get stock news if does not exists or older than 8 hours
     '''
 
-    def __getUpToDateStockNews(self, symbol, newsLastUpdate=None):
-        sixHoursBefore = (datetime.today() - timedelta(hours=8)).replace(tzinfo=utc)
+    def __getUpToDateStockNews(self, symbol):
+        stockNewsFinhubArray = self.finhub.getNewsForSymbol(symbol)['stockNews']
+        return {'stockNews': stockNewsFinhubArray}
 
-        if newsLastUpdate is None or sixHoursBefore > newsLastUpdate.replace(tzinfo=utc):
-            print('fetching news')
-            stockNewsFinhubArray = self.finhub.getNewsForSymbol(symbol)['stockNews']
-            return {'stockNews': stockNewsFinhubArray}
-        return None
-
-    def __modifyDetailsToFirebase(self, symbol, details):
-        def __updateStockDetails(symbol, details):
-            self.db.collection('stockData').document(symbol).update(details)
-
-        t1 = threading.Thread(target=__updateStockDetails, args=(symbol, details))
-        t1.daemon = True
-        t1.start()
-
-    def __saveFinancialReportsToFirebase(self, symbol, reports):
-        def __saveFinancialReports(symbol, reports):
-            for report in reports:
-                report['source'] = 'Finnhub'
-                self.db.collection('stockData').document(symbol).collection('stockFinancialReports').document(
-                    str(report['year'])).set(report)
-
-        t1 = threading.Thread(target=__saveFinancialReports, args=(symbol, reports))
-        t1.daemon = True
-        t1.start()
-
-    '''
-        - init all details information about stock, 
-        - fetch news up to 7 days and save 15 latest news into array for lower reads
-        - fetch all 10-K yearly financial reports for stock
-    '''
-
-    def __initialStockDetailsIntoFirestore(self, symbol):
-        print('initial fetching stock details for symbol ', symbol)
-
-        self.db.collection('stockData').document(symbol).set({
-            'detailsLastUpdate': datetime.today(),
-            'overViewLastUpdate': datetime.today(),
-            'newsLastUpdate': datetime.today(),
-            'financialReportsLastUpdate': datetime.today()
-        })
-
-        data = self.__fetchStockDetails(symbol)
-
-        self.__saveFinancialReportsToFirebase(symbol, data['financialReports'])
-
-        data = self.__modifyFetchedStockDetails(symbol, data)
-
-        self.__modifyDetailsToFirebase(symbol, {'details': data})
-
-        return data
 
     def __modifyFetchedStockDetails(self, symbol, data):
         data['id'] = symbol
+
         data = utils.changeUnsupportedCharactersForDictKey(data)
         dataFormatter = FundamentalServiceFormatter(data)
 
         # format data
-        dataFormatter.formatFinancialReports()
         dataFormatter.formatAnalysis()
+        dataFormatter.fomatFinancialReports()
         dataFormatter.formatSummary()
         dataFormatter.formatDividends()
         dataFormatter.formatEarningsFinancialChart()
@@ -223,6 +152,13 @@ class FundamentalServiceFormatter:
             print('formatEarningsFinancialChart exception: ' + str(e))
             pass
 
+    def fomatFinancialReports(self):
+        for report in self.data['financialReports']:
+            report['source'] = 'Finnhub'
+            for k in report['report']:  # bf, ic, cf
+                for item in report['report'][k]:
+                    item['value'] = utils.force_float(item['value'])
+
     def formatSummary(self):
         try:
             self.data['summary']['recommendationKey'] = self.data['companyData']['financialData']['recommendationKey']
@@ -261,14 +197,6 @@ class FundamentalServiceFormatter:
         except Exception as e:
             print('formatDividends exception: ' + str(e))
             pass
-
-    def formatFinancialReports(self):
-        # extract financial report into sub collection and rewrite its object
-        financialReports = self.data['financialReports']
-        self.data['financialReports'] = [{
-            'collection': str(report['year']),
-            'name': report['form'] + ' ' + str(report['year'])
-        } for report in financialReports]
 
     def removeUnnecessaryData(self):
         try:

@@ -251,10 +251,35 @@ export type FinancialData = {
     totalRevenue?: Maybe<Scalars['Float']>;
 };
 
-export type FinancialReportNames = {
-    __typename?: 'FinancialReportNames';
-    collection?: Maybe<Scalars['String']>;
-    name?: Maybe<Scalars['String']>;
+export type FinancialReport = {
+    __typename?: 'FinancialReport';
+    acceptedDate: Scalars['String'];
+    accessNumber?: Maybe<Scalars['String']>;
+    cik?: Maybe<Scalars['String']>;
+    endDate?: Maybe<Scalars['String']>;
+    filedDate?: Maybe<Scalars['String']>;
+    form?: Maybe<Scalars['String']>;
+    quarter?: Maybe<Scalars['Float']>;
+    report?: Maybe<FinancialReportReport>;
+    source?: Maybe<Scalars['String']>;
+    startDate?: Maybe<Scalars['String']>;
+    symbol?: Maybe<Scalars['String']>;
+    year?: Maybe<Scalars['Float']>;
+};
+
+export type FinancialReportItems = {
+    __typename?: 'FinancialReportItems';
+    concept?: Maybe<Scalars['String']>;
+    label?: Maybe<Scalars['String']>;
+    unit?: Maybe<Scalars['String']>;
+    value?: Maybe<Scalars['Float']>;
+};
+
+export type FinancialReportReport = {
+    __typename?: 'FinancialReportReport';
+    bs?: Maybe<Array<Maybe<FinancialReportItems>>>;
+    cf?: Maybe<Array<Maybe<FinancialReportItems>>>;
+    ic?: Maybe<Array<Maybe<FinancialReportItems>>>;
 };
 
 export type FinancialsChart = {
@@ -710,7 +735,7 @@ export type StockDetails = {
     balanceSheet: BalanceSheet;
     cashFlow: CashFlow;
     incomeStatement: IncomeStatement;
-    financialReports: Array<Maybe<FinancialReportNames>>;
+    financialReports: Array<Maybe<FinancialReport>>;
     stats: Stats;
     recommendation: Array<Maybe<Recommendations>>;
     stockNews: Array<Maybe<NewsArticle>>;
@@ -1130,9 +1155,36 @@ export type FinancialChartDataFragmentFragment = (
 }
     );
 
+export type FinancialReportItemsFragmentFragment = (
+    { __typename?: 'FinancialReportItems' }
+    & Pick<FinancialReportItems, 'concept' | 'label' | 'unit' | 'value'>
+    );
+
+export type FinancialReportReportFragmentFragment = (
+    { __typename?: 'FinancialReportReport' }
+    & {
+    bs?: Maybe<Array<Maybe<(
+        { __typename?: 'FinancialReportItems' }
+        & FinancialReportItemsFragmentFragment
+        )>>>, cf?: Maybe<Array<Maybe<(
+        { __typename?: 'FinancialReportItems' }
+        & FinancialReportItemsFragmentFragment
+        )>>>, ic?: Maybe<Array<Maybe<(
+        { __typename?: 'FinancialReportItems' }
+        & FinancialReportItemsFragmentFragment
+        )>>>
+}
+    );
+
 export type FinancialReportsFragmentFragment = (
-    { __typename?: 'FinancialReportNames' }
-    & Pick<FinancialReportNames, 'collection' | 'name'>
+    { __typename?: 'FinancialReport' }
+    & Pick<FinancialReport, 'acceptedDate' | 'accessNumber' | 'cik' | 'endDate' | 'filedDate' | 'form' | 'quarter' | 'source' | 'startDate' | 'symbol' | 'year'>
+    & {
+    report?: Maybe<(
+        { __typename?: 'FinancialReportReport' }
+        & FinancialReportReportFragmentFragment
+        )>
+}
     );
 
 export type EarningsFragmentFragment = (
@@ -1214,7 +1266,8 @@ export type QueryStockDetailsQuery = (
                 )>>>
         }
             ), financialReports: Array<Maybe<(
-            { __typename?: 'FinancialReportNames' }
+            { __typename?: 'FinancialReport' }
+            & FinancialReportsFragmentFragment
             & FinancialReportsFragmentFragment
             )>>, stats: (
             { __typename?: 'Stats' }
@@ -1940,12 +1993,45 @@ export const SummaryProfileFragmentFragmentDoc = gql`
         zip
     }
 `;
-export const FinancialReportsFragmentFragmentDoc = gql`
-    fragment financialReportsFragment on FinancialReportNames {
-        collection
-        name
+export const FinancialReportItemsFragmentFragmentDoc = gql`
+    fragment FinancialReportItemsFragment on FinancialReportItems {
+        concept
+        label
+        unit
+        value
     }
 `;
+export const FinancialReportReportFragmentFragmentDoc = gql`
+    fragment FinancialReportReportFragment on FinancialReportReport {
+        bs {
+            ...FinancialReportItemsFragment
+        }
+        cf {
+            ...FinancialReportItemsFragment
+        }
+        ic {
+            ...FinancialReportItemsFragment
+        }
+    }
+${FinancialReportItemsFragmentFragmentDoc}`;
+export const FinancialReportsFragmentFragmentDoc = gql`
+    fragment financialReportsFragment on FinancialReport {
+        acceptedDate
+        accessNumber
+        cik
+        endDate
+        filedDate
+        form
+        quarter
+        report {
+            ...FinancialReportReportFragment
+        }
+        source
+        startDate
+        symbol
+        year
+    }
+${FinancialReportReportFragmentFragmentDoc}`;
 export const EarningsChartFragmentFragmentDoc = gql`
     fragment earningsChartFragment on EarningsChart {
         currentQuarterEstimate
@@ -2091,6 +2177,7 @@ export const QueryStockDetailsDocument = gql`
             }
             financialReports {
                 ...financialReportsFragment
+                ...financialReportsFragment
             }
             stats {
                 ...statsFragment
@@ -2100,6 +2187,9 @@ export const QueryStockDetailsDocument = gql`
             }
             stockNews {
                 ...newsArticleFragment
+            }
+            financialReports {
+                ...financialReportsFragment
             }
             companyData {
                 defaultKeyStatistics {

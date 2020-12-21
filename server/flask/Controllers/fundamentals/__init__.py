@@ -10,16 +10,6 @@ CORS(app, resources={r"*": {"origins": "*"}})
 # CUSTOM singleton
 fundamentals = FundamentalsService.FundamentalsService()
 
-
-@app.route('/financial_report')
-def getStockFinancialReport():
-    try:
-        return json_response(**fundamentals.getStockFinancialReport(request.args.get('symbol'), request.args.get('financialReportName')))
-    except Exception as e:
-        print(e)
-        raise JsonError(status=500, error='An error occurred on the server side when getting financial report, '
-                                          'please contact administrator to check logs ')
-
 @app.route('/all')
 def getStockFundamentals():
     try:
@@ -29,14 +19,6 @@ def getStockFundamentals():
         raise JsonError(status=500, error='An error occurred on the server side when getting fundamentals, '
                                           'please contact administrator to check logs ')
 
-
-@app.route('/summary')
-def getStockSummary():
-    try:
-        return json_response(**fundamentals.getStockSummary(request.args.get('symbol')))
-    except Exception as e:
-        print(e)
-        raise JsonError(status=500, error='An error occurred on the server side when getting summary')
 
 if __name__ == '__main__':
     print('Fundamentals controller app is running')

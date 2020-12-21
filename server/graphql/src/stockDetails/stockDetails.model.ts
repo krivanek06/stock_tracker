@@ -1,4 +1,9 @@
-
+export interface StockDetailsWrapper {
+    details: StockDetails;
+    detailsLastUpdate: string;
+    summaryLastUpdate: string;
+    newsLastUpdate: string;
+}
 
 export interface StockDetails {
     id: string;
@@ -6,7 +11,7 @@ export interface StockDetails {
     balanceSheet: BalanceSheet;
     cashFlow: CashFlow;
     incomeStatement: IncomeStatement;
-    financialReports: FinancialReportNames[];
+    financialReports: FinancialReport[]
     stats: Stats;
     recommendation: Recommendations[];
     stockNews: NewsArticle[];
@@ -16,6 +21,32 @@ export interface StockDetails {
     dividends: Dividens;
 }
 
+export interface FinancialReport {
+    acceptedDate: string;
+    accessNumber: string;
+    cik: string;
+    endDate: string;
+    filedDate: string;
+    form: string;
+    quarter: number;
+    report: {
+        bs: FinancialReportItems[];
+        cf: FinancialReportItems[];
+        ic: FinancialReportItems[];
+    }
+    source: string;
+    startDate: string;
+    symbol: string;
+    year: number;
+}
+
+export interface FinancialReportItems {
+    concept: number;
+    label: number;
+    unit: number;
+    value: number;
+}
+
 export interface NewsArticle {
     datetime: number;
     headline: string;
@@ -23,11 +54,6 @@ export interface NewsArticle {
     sourceName: string;
     summary: string;
     url: string;
-}
-
-export interface FinancialReportNames {
-    collection: string;
-    name: string;
 }
 
 export interface CompanyData {
@@ -596,3 +622,6 @@ export interface Metric {
     totalDebttotalEquityQuarterly: number;
     yearToDatePriceReturnDaily: number;
 }
+
+
+export const ST_STOCK_DATA_COLLECTION = 'stockData';
