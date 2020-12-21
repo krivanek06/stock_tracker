@@ -1,11 +1,12 @@
 import { stockDataAPI } from '../enviroment';
 import { ApolloError } from 'apollo-server';
-import { StockWatchlist } from '../watchlist/watchList.model';
+import { STStockWatchlist } from '../watchlist/watchList.model';
 import { StockDetails, Summary } from './stockDetails.model';
 
 const fetch = require("node-fetch");
 
-export const resolveStockSummaryForStockWatchList = async (stockWatchList: StockWatchlist) => {
+/*
+export const resolveStockSummaryForStockWatchList = async (stockWatchList: STStockWatchlist) => {
     try {
         const promises = stockWatchList.stocks.map(symbol => fetch(`${stockDataAPI}/fundamentals/summary?symbol=${symbol}`));
         const resolved = await Promise.all(promises);
@@ -15,4 +16,4 @@ export const resolveStockSummaryForStockWatchList = async (stockWatchList: Stock
     } catch (error) {
         throw new ApolloError(error);
     }
-}
+}*/

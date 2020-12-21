@@ -16,19 +16,15 @@
     <ion-item *ngFor="let watchList of stockWatchLists$ | async"
               button
               class="watchlist-name-container"
-              (click)="addSymbolToWatchlist(watchList.id)">
+              (click)="addSymbolToWatchlist(watchList.id, watchList.name)">
         <ion-label>
             {{ watchList.name }}
         </ion-label>
         <span style="color: white;">
-            [ {{watchList?.stocks.length }} ]
+            [ {{watchList?.summaries.length }} ]
         </span>
     </ion-item>
 
-    <!-- form to create watchlist -->
-    <div class="ion-text-center" style="margin-top: 40px;">
-        <app-watchlist-creation (creationEmitter)="createWatchList($event)"></app-watchlist-creation>
-    </div>
 
 
 </ion-content>

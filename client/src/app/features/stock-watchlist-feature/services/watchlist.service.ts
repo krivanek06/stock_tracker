@@ -1,266 +1,99 @@
 import {Injectable} from '@angular/core';
-import {
-    AddStockIntoWatchlistGQL,
-    AddStockIntoWatchlistMutation,
-    CreateStockWatchlistGQL,
-    CreateStockWatchlistMutation,
-    DeleteUserWatchlistGQL,
-    Maybe,
-    QueryUserStockWatchlistsDocument,
-    QueryUserStockWatchlistsGQL,
-    QueryUserStockWatchlistsQuery,
-    RemoveStockFromWatchlistGQL,
-    RenameStockWatchlistGQL,
-    StockWatchlistIdentifier,
-    StockWatchlistInformationFragment,
-    StockWatchlistInformationFragmentDoc,
-} from '../../../api/customGraphql.service';
-import {map, switchMap} from 'rxjs/operators';
-import {Observable} from 'rxjs';
-import {FetchResult} from 'apollo-link';
+import {ModalController, PopoverController} from '@ionic/angular';
+import {IonicDialogService} from '../../../shared/services/ionic-dialog.service';
+import {GraphqlWatchlistService} from './graphql-watchlist.service';
 import {AuthFeatureService} from '../../auth-feature/services/auth-feature.service';
+import {WatchlistPickerModalContainerComponent} from '../containers/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
+import {ChartDataIdentification} from '../../../shared/models/sharedModel';
+import {map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {Maybe, StStockWatchlistFragmentFragment} from '../../../api/customGraphql.service';
+import {InlineInputPopUpComponent} from '../../../shared/components/pop-ups/inline-input-pop-up/inline-input-pop-up.component';
 
 @Injectable({
     providedIn: 'root'
 })
 export class WatchlistService {
-    constructor(private authService: AuthFeatureService,
-                private createStockWatchlistGQL: CreateStockWatchlistGQL,
-                private addStockIntoWatchlistGQL: AddStockIntoWatchlistGQL,
-                private deleteUserWatchlistGQL: DeleteUserWatchlistGQL,
-                private renameStockWatchlistGQL: RenameStockWatchlistGQL,
-                private removeStockFromWatchlistGQL: RemoveStockFromWatchlistGQL,
-                private queryUserStockWatchlistsGQL: QueryUserStockWatchlistsGQL) {
+
+    constructor(private modalController: ModalController,
+                private ionicDialogService: IonicDialogService,
+                private popoverController: PopoverController,
+                private graphqlWatchlistService: GraphqlWatchlistService,
+                private authService: AuthFeatureService) {
     }
 
-
-    getUserStockWatchlists(): Observable<Array<Maybe<{ __typename?: 'StockWatchlist' } & StockWatchlistInformationFragment>> | null> {
+    getUserStockWatchlists(): Observable<Array<Maybe<{ __typename?: 'STStockWatchlist' } & StStockWatchlistFragmentFragment>> | null> {
         return this.authService.getUser().pipe(
-            switchMap(user => this.queryUserStockWatchlistsGQL.watch({
-                uid: user.uid
-            }).valueChanges.pipe(
-                map(res => res.data.queryUserStockWatchlists)
-            ))
-        );
-    }
-
-    async getDistinctStocks(): Promise<string[]> {
-        const userId = await this.authService.getUser().toPromise();
-        const watchlists = await this.queryUserStockWatchlistsGQL.fetch({uid: userId.uid}).toPromise();
-        const stockArrays = watchlists.data.queryUserStockWatchlists.map(watchlist => watchlist.stocks);
-        return [...new Set([].concat(...stockArrays))] as string[]; // distinct stocks
-    }
-
-
-    createWatchList(watchlistName: string): Observable<FetchResult<CreateStockWatchlistMutation>> {
-        return this.authService.getUser().pipe(
-            switchMap(user => this.createStockWatchlistGQL.mutate({
-                    identifier: {
-                        userId: user.uid,
-                        additionalData: watchlistName
-                    },
-                }, {
-                    optimisticResponse: {
-                        __typename: 'Mutation',
-                        createStockWatchlist: {
-                            __typename: 'StockWatchlist',
-                            name: watchlistName,
-                            timestamp: new Date().getTime(),
-                            id: 'test',
-                            stocks: [],
-                            summary: undefined
-                        }
-                    },
-                    update: (store, {data: {createStockWatchlist}}) => {
-                        // fetch user's watchlist array from cache
-                        const data = store.readQuery<QueryUserStockWatchlistsQuery>({
-                            query: QueryUserStockWatchlistsDocument,
-                            variables: {
-                                uid: user.uid
-                            }
-                        });
-
-                        // add newly created watchlist into array
-                        data.queryUserStockWatchlists = [...data.queryUserStockWatchlists, createStockWatchlist];
-
-                        // update cache
-                        store.writeQuery({
-                            query: QueryUserStockWatchlistsDocument,
-                            variables: {
-                                uid: user.uid
-                            },
-                            data
-                        });
-
-                    }
-                }
-            ))
-        );
-    }
-
-    renameStockWatchlist(watchlistId: string, newWatchlistName: string) {
-        return this.authService.getUser().pipe(
-            switchMap(user => this.renameStockWatchlistGQL.mutate({
-                identifier: {
-                    id: watchlistId,
-                    userId: user.uid,
-                    additionalData: newWatchlistName
-                },
-            }, {
-                optimisticResponse: {
-                    __typename: 'Mutation',
-                    renameStockWatchlist: true
-                },
-                update: (store, {data: {renameStockWatchlist}}) => {
-                    const watchlist = store.readFragment<StockWatchlistInformationFragment>({
-                        id: `StockWatchlist:${watchlistId}`,
-                        fragment: StockWatchlistInformationFragmentDoc,
-                        fragmentName: 'StockWatchlistInformation'
-                    });
-
-                    // update watchlist with stock information
-                    watchlist.name = newWatchlistName;
-
-                    // update watchlist inside cache
-                    store.writeFragment({
-                        id: `StockWatchlist:${watchlistId}`,
-                        fragment: StockWatchlistInformationFragmentDoc,
-                        fragmentName: 'StockWatchlistInformation',
-                        data: watchlist
-                    });
-                }
-            }))
-        );
-    }
-
-    deleteUserWatchlist(watchlistId: string) {
-        return this.authService.getUser().pipe(
-            switchMap(user => this.deleteUserWatchlistGQL.mutate({
-                identifier: {
-                    id: watchlistId,
-                    userId: user.uid,
-                    additionalData: undefined
-                },
-            }, {
-                optimisticResponse: {
-                    __typename: 'Mutation',
-                    deleteWatchlist: true
-                },
-                update: (store, {data: {deleteWatchlist}}) => {
-                    const data = store.readQuery<QueryUserStockWatchlistsQuery>({
-                        query: QueryUserStockWatchlistsDocument,
-                        variables: {
-                            uid: user.uid
-                        }
-                    });
-                    data.queryUserStockWatchlists = data.queryUserStockWatchlists.filter(x => x.id !== watchlistId);
-                    console.log('deleting document : ', watchlistId);
-
-                    // update watchlist inside cache
-                    store.writeQuery({
-                        query: QueryUserStockWatchlistsDocument,
-                        variables: {
-                            uid: user.uid
-                        },
-                        data
-                    });
-                }
-            }))
+            map(u => u.stockWatchlist)
         );
     }
 
 
-    removeStockFromWatchlist(watchlistId: string, symbol: string) {
-        return this.authService.getUser().pipe(
-            switchMap(user => this.removeStockFromWatchlistGQL.mutate({
-                identifier: {
-                    id: watchlistId,
-                    userId: user.uid,
-                    additionalData: symbol
-                },
-            }, {
-                optimisticResponse: {
-                    __typename: 'Mutation',
-                    removeStockFromStockWatchlist: true
-                },
-                update: (store, {data: {removeStockFromStockWatchlist}}) => {
-                    const watchlist = store.readFragment<StockWatchlistInformationFragment>({
-                        id: `StockWatchlist:${watchlistId}`,
-                        fragment: StockWatchlistInformationFragmentDoc,
-                        fragmentName: 'StockWatchlistInformation'
-                    });
+    // if user has only one watchlist, return it automatically, else show pop-up to pick
+    async addSymbolToWatchlist(symbol: string): Promise<void> {
+        if (this.authService.user.stockWatchlist.length === 0) {
+            const confirmation = await this.ionicDialogService.presentAlertConfirm(`You have not created your watchlist yet. Do you with to create one ?`);
+            if (confirmation) {
+                await this.createWatchlist();
+            } else {
+                return;
+            }
+        }
 
-                    // update watchlist with stock information
-                    watchlist.stocks = watchlist.stocks.filter(x => x !== symbol);
-                    watchlist.summary = watchlist.summary.filter(x => x.symbol !== symbol);
+        const watchlists = this.authService.user.stockWatchlist;
 
-                    // update watchlist inside cache
-                    store.writeFragment({
-                        id: `StockWatchlist:${watchlistId}`,
-                        fragment: StockWatchlistInformationFragmentDoc,
-                        fragmentName: 'StockWatchlistInformation',
-                        data: watchlist
-                    });
-                }
-            }))
-        );
+        let watchlistId;
+        let watchlistName;
+
+        if (watchlists.length === 1) {
+            watchlistId = watchlists[0].id; // default, only 1 watchlist
+            watchlistName = watchlists[0].name;
+        } else {
+            // multiple watchlist, present modal for user to choose
+            const modal = await this.modalController.create({
+                component: WatchlistPickerModalContainerComponent,
+                componentProps: {symbol},
+                cssClass: 'custom-modal'
+            });
+            await modal.present();
+
+            const dismiss = await modal.onDidDismiss(); // get data on dismiss
+
+            watchlistId = dismiss.data ? dismiss.data.watchListId : undefined;
+            watchlistName = dismiss.data ? dismiss.data.watchlistName : undefined;
+        }
+
+        if (watchlistId) {
+            this.graphqlWatchlistService.addSymbolToWatchlist(watchlistId, symbol)
+                .subscribe(() => this.ionicDialogService.presentToast(`Symbol ${symbol} has been added into watchlist ${watchlistName}`));
+        }
     }
 
+    async createWatchlist() {
+        const popover = await this.popoverController.create({
+            component: InlineInputPopUpComponent,
+            cssClass: 'custom-popover',
+            translucent: true,
+            componentProps: {inputLabel: 'Watchlist name'}
+        });
 
-    addSymbolToWatchlist(watchListId: string, symbol: string): Observable<FetchResult<AddStockIntoWatchlistMutation>> {
-        return this.authService.getUser().pipe(
-            switchMap(user => this.addStockIntoWatchlistGQL.mutate({
-                identifier: {
-                    id: watchListId,
-                    userId: user.uid,
-                    additionalData: symbol
-                }
-            }, {
-                optimisticResponse: {
-                    __typename: 'Mutation',
-                    addStockIntoStockWatchlist: {
-                        __typename: 'Summary',
-                        symbol,
-                        currency: 'USD',
-                        EarningsDate: new Date().toISOString(),
-                        EPSTTM: '-1',
-                        ExDividendDate: '-1',
-                        FiveTwoWeekRange: '-1',
-                        industry: 'None',
-                        logo_url: '',
-                        marketPrice: -1,
-                        OneyTargetEst: -1,
-                        PERatioTTM: '-1',
-                        previousClose: -1,
-                        recommendationKey: '-1',
-                        recommendationMean: -1,
-                        sector: 'None',
-                        targetEstOneyPercent: -1
-                    }
+        await popover.present();
+        const res = await popover.onDidDismiss();
+        const name = res.data ? res.data.inputData : undefined;
 
-                },
-                update: (store, {data: {addStockIntoStockWatchlist}}) => {
-                    const watchlist = store.readFragment<StockWatchlistInformationFragment>({
-                        id: `StockWatchlist:${watchListId}`,
-                        fragment: StockWatchlistInformationFragmentDoc,
-                        fragmentName: 'StockWatchlistInformation'
-                    });
-
-                    // update watchlist with stock information
-                    watchlist.stocks = [...watchlist.stocks, symbol];
-                    watchlist.summary = [...watchlist.summary, addStockIntoStockWatchlist];
-
-                    // update watchlist inside cache
-                    store.writeFragment({
-                        id: `StockWatchlist:${watchListId}`,
-                        fragment: StockWatchlistInformationFragmentDoc,
-                        fragmentName: 'StockWatchlistInformation',
-                        data: watchlist
-                    });
-                },
-            }))
-        );
+        if (name) {
+            this.graphqlWatchlistService.createWatchList(name)
+                .subscribe(() => this.ionicDialogService.presentToast(`Watchlist ${name} has been created`));
+        }
     }
 
+    async removeStockFromWatchlist(data: ChartDataIdentification, documentId: string, watchlistName: string) {
+        const confirmation = await this.ionicDialogService.presentAlertConfirm(
+            `Do your really wanna remove ${data.name} from your watchlist: ${watchlistName} ?`);
 
+        if (confirmation) {
+            this.graphqlWatchlistService.removeStockFromWatchlist(documentId, data.symbol)
+                .subscribe(x => this.ionicDialogService.presentToast('Symbol deleted from watchlist'));
+        }
+    }
 }

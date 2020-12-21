@@ -4,7 +4,7 @@ import {SymbolMovementData} from '../../../../shared/models/chartDataModel';
 import {SearchDataApiService} from '../../../../api/search-data-api.service';
 import {ChartDataIdentification} from '../../../../shared/models/sharedModel';
 import {ModalController} from '@ionic/angular';
-import {FinancialChartModalContainerComponent} from '../../../../shared/containers/modal/financial-chart-modal-container/financial-chart-modal-container.component';
+import {SymbolLookupModalComponent} from '../../../../features/stock-details-feature/components/modal/symbol-lookup-modal/symbol-lookup-modal.component';
 
 @Component({
     selector: 'app-market-movement-container',
@@ -31,7 +31,7 @@ export class MarketMovementContainerComponent implements OnInit {
 
     async showMoreInformation(chartDataIdentification: ChartDataIdentification) {
         const modal = await this.modalController.create({
-            component: FinancialChartModalContainerComponent,
+            component: SymbolLookupModalComponent,
             componentProps: {chartDataIdentification},
             cssClass: 'custom-modal'
         });

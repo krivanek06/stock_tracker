@@ -19,12 +19,13 @@ import {ApolloModule} from 'apollo-angular';
 import {InlineInputFormComponent} from './components/forms/inline-input-form/inline-input-form.component';
 import {GenericChartComponent} from './components/charts/generic-chart/generic-chart.component';
 import {GenericChartCardComponent} from './components/cards/generic-chart-card/generic-chart-card.component';
-import {FinancialChartModalContainerComponent} from './containers/modal/financial-chart-modal-container/financial-chart-modal-container.component';
 import {FinancialChartContainerComponent} from './containers/financial-chart-container/financial-chart-container.component';
 import {EconomicChartModalContainerComponent} from './containers/modal/economic-chart-modal-container/economic-chart-modal-container.component';
 import {RelativeTimePipe} from './pipes/relatimeTime.pipe';
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import { ValueStateDirective } from './directives/value-state.directive';
+import {PriceChangeItemComponent} from './components/items/price-change-item/price-change-item.component';
+import {InlineInputPopUpComponent} from './components/pop-ups/inline-input-pop-up/inline-input-pop-up.component';
 
 @NgModule({
     declarations: [
@@ -39,10 +40,11 @@ import { ValueStateDirective } from './directives/value-state.directive';
         FixedRangeSliderWithTimeComponent,
         GenericChartComponent,
         GenericChartCardComponent,
-        FinancialChartModalContainerComponent,
         FinancialChartContainerComponent,
         EconomicChartModalContainerComponent,
-        ValueStateDirective
+        ValueStateDirective,
+        PriceChangeItemComponent,
+        InlineInputPopUpComponent
     ],
     imports: [
         CommonModule,
@@ -59,6 +61,7 @@ import { ValueStateDirective } from './directives/value-state.directive';
         NgxDatatableModule
     ],
     exports: [
+        CommonModule,
         ReactiveFormsModule,
         FormsModule,
         PerfectScrollbarModule,
@@ -79,16 +82,18 @@ import { ValueStateDirective } from './directives/value-state.directive';
         FixedRangeSliderWithTimeComponent,
         GenericChartComponent,
         GenericChartCardComponent,
-        FinancialChartModalContainerComponent,
         FinancialChartContainerComponent,
         EconomicChartModalContainerComponent,
         NgxDatatableModule,
-        ValueStateDirective
+        ValueStateDirective,
+        PriceChangeItemComponent,
+        InlineInputPopUpComponent
 
     ],
     entryComponents: [
-        FinancialChartModalContainerComponent,
-        EconomicChartModalContainerComponent
+        EconomicChartModalContainerComponent,
+        InlineInputPopUpComponent
+
     ]
 })
 export class SharedModule {

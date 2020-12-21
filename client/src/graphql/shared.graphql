@@ -1,0 +1,4 @@
+fragment STLogsFragment on STLog {
+    date
+    logText
+}

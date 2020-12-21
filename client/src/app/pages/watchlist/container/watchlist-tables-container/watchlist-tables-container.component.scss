@@ -1,49 +1,33 @@
+@import "variables";
+
 :host {
   .watchlist-container {
-    padding: 20px 20px 20px 60px;
+    //padding: 20px 20px 20px 60px;
+
+    @media (max-width: #{$st-var-md-split}) {
+      padding: 2px;
+      text-align: -webkit-center;
+    }
   }
 
   .create-watchlist-button {
-    margin-left: 35px;
-    margin-top: 20px;
+    float: left;
+    margin-left: 16px;
+    margin-top: 45px;
   }
 
   .sector-chart-container {
     display: contents;
-  }
-
-  .center-text {
-    text-align: left;
-    display: inline-flex;
-  }
-
-  @media (max-width: 1500px) {
-    .sector-chart-container {
+    @media (max-width: #{$st-var-xxl-split}) {
       display: none;
     }
   }
 
-  @media (max-width: 1500px) {
-    .watchlist-container {
-      padding-left: 40px;
-    }
+  .watchlist-data {
+    display: inline-flex;
+    margin-top: 16px;
+    margin-bottom: 16px;
   }
 
-  @media (max-width: 1275px) {
-    .watchlist-container {
-      padding-left: 15px;
-    }
-  }
-
-
-  @media (max-width: 1020px) {
-    .watchlist-container {
-      padding: 2px;
-      text-align: -webkit-center;
-    }
-    .create-watchlist-button {
-      margin-left: 10px;
-    }
-  }
 
 }

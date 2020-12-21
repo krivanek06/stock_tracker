@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
-import {environment} from '../../../environments/environment';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {AuthFeatureService} from '../../features/auth-feature/services/auth-feature.service';
 import {filter, switchMap} from 'rxjs/operators';
-import {IUser} from '../../features/auth-feature/model/userModel';
+import {StUserPublicData} from '../../api/customGraphql.service';
 
 interface MarketSymbolResult {
     p: number;  // price
@@ -99,7 +98,7 @@ export class MarketPriceWebsocketService {
     }
 
     // this should execute only once
-    private initialiseWebsocketConnection(user: IUser) {
+    private initialiseWebsocketConnection(user: StUserPublicData) {
         console.log(`initialise Websocket Connection with user: ${user}`);
 
         if (!!this.socket && this.socket.readyState === 1) {

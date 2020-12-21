@@ -1,6 +1,7 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
-@import "./src/app/shared/styles/custom-variable";
+
+@import "custom-variables";
 
 * {
   padding: 0;
@@ -235,6 +236,11 @@
 /* CUSTOM DARK SCHEME */
 
 :root {
+  ion-row {
+    ion-col {
+      padding: 4px;
+    }
+  }
 
   ion-card {
     padding: 2px 8px;
@@ -261,16 +267,20 @@
         }
       }
     }
-
-
   }
 
 
   .dark-theme {
+    ion-segment {
+      ion-segment-button {
+        --color: #{$st-var-font-2};
+      }
+    }
+
     ion-item {
       --background: transparent;
       --border-style: none;
-      --color: #{$default-word};
+      --color: #{$st-var-font-2};
     }
 
     ion-content {
@@ -279,30 +289,30 @@
 
         ion-list-header {
           ion-label {
-            --color: #{$default-word};
+            // --color: #{$default-word};
           }
         }
 
         ion-item {
-          --color: #{$default-word};
+          --color: #{$st-var-font-2};
         }
       }
     }
 
     ion-card {
       --background: linear-gradient(180deg, rgb(0, 3, 32) 0%, rgb(0, 8, 62) 100%);
-      --color: #{$default-word};
+      // --color: #{$default-word};
 
       ion-card-header {
         --background-color: transparent;
 
         ion-card-title {
-          --color: #{$orange-title-light};
+          // --color: #{$orange-title-light};
           font-weight: bold;
         }
 
         ion-card-subtitle {
-          --color: #{$default-word};
+          // --color: #{$default-word};
         }
       }
 
@@ -313,7 +323,7 @@
           ion-item {
             --background: transparent;
             --border-style: none;
-            --color: #{$default-word};
+            //   --color: #{$default-word};
           }
         }
       }
@@ -321,16 +331,19 @@
 
     ion-header {
       ion-toolbar {
-        /* --background: linear-gradient(180deg, rgb(1, 18, 49) 0%, rgb(1, 0, 60) 55%, rgb(3, 1, 75) 100%);*/
-        --background: #{$background-blue} !important;
-        --color: #{$default-word} !important;
+        --background: transparent;
       }
     }
 
     ion-content {
-      --background: linear-gradient(90deg, rgb(0, 18, 49) 0%, rgb(2, 1, 56) 55%, rgb(1, 0, 34) 100%);
-      --color: #{$default-word};
+      --background: linear-gradient(126deg, rgba(28, 52, 113, 1) 0%,
+              rgba(18, 44, 107, 1) 29%,
+              rgba(24, 42, 99, 1) 44%,
+              rgba(14, 30, 82, 1) 73%,
+              rgba(11, 20, 49, 1) 100%);
+      --color: #{$st-var-font-2};
     }
+
 
     ion-toolbar {
       --background: transparent;
@@ -338,18 +351,23 @@
 
 
     ion-menu {
-      --background: #{$background-blue} !important;
+      // --background: #{$background-blue} !important;
 
       ion-content {
-        --background: #{$background-blue} !important;
+        --background: linear-gradient(180deg, rgba(24, 39, 95, 1) 0%, rgba(14, 24, 58, 1) 100%);
 
         ion-list {
-          background: #{$background-blue} !important;
+          background: transparent;
         }
 
         ion-item {
-          --background: #{$background-blue} !important;
-          --color: #{$default-word} !important;
+          ion-icon {
+            color: #{$st-var-blue-1};
+          }
+
+          ion-label {
+            color: #{$st-var-font-2};
+          }
         }
       }
     }

@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
 import {AlertController, ToastController} from '@ionic/angular';
-import {SharedModule} from '../shared.module';
 
 
 @Injectable({
-    providedIn: SharedModule
+    providedIn: 'root'
 })
 export class IonicDialogService {
 

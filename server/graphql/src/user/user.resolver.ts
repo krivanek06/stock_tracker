@@ -1,53 +1,50 @@
-import {User, PrivateData} from "./user.model";
+import {
+    STUserPrivateData,
+    STUserIndentificationInformation,
+    ST_USER_DOCUMENT_PRIVATE_DATA,
+    ST_USER_COLLECTION_MORE_INFORMATION,
+    ST_USER_COLLECTION_USER, STUserPublicData
+} from "./user.model";
 import * as admin from "firebase-admin";
-import {StockWatchlist} from "../watchlist/watchList.model";
+import {ST_WATCHLIST_COLLECTION, STStockWatchlist} from "../watchlist/watchList.model";
 import {ApolloError} from "apollo-server";
-import { queryUser } from "./user.query";
+import {queryUserPublicData} from "./user.query";
 
 
-
-const resolveStockWatchlistForUser = async (user: User) => {
+const resolveStockWatchlistForUser = async (uid: string) => {
     try {
-        const userWatchlists = await admin
+        const watchlistDocs = await admin
             .firestore()
-            .collection('stockWatchlist')
-            .where('userId', '==', user.uid)
+            .collection(ST_WATCHLIST_COLLECTION)
+            .where('userId', '==', uid)
             .get();
 
-        return userWatchlists.docs.map(watchlist => watchlist.data()) as StockWatchlist[];
-
+        return watchlistDocs.docs.map(list => { return { ...list.data(), id: list.id } }) as STStockWatchlist[];
     } catch (error) {
         throw new ApolloError(error);
     }
 }
 
-const resolveUserPrivateData = async (user: User) => {
+const resolveUserPrivateData = async (uid: string) => {
     try {
         const privateDoc = await admin
             .firestore()
-            .collection('users')
-            .doc(user.uid)
-            .collection('privateData')
+            .collection(ST_USER_COLLECTION_USER)
+            .doc(uid)
+            .collection(ST_USER_COLLECTION_MORE_INFORMATION)
+            .doc(ST_USER_DOCUMENT_PRIVATE_DATA)
             .get();
 
-        if(privateDoc.docs.length === 0){
-            return null;
-        }
-        
-        const privateData = privateDoc.docs.pop();
-        
-        return privateData.data() as PrivateData;
-
+        return privateDoc.data() as STUserPrivateData;
     } catch (error) {
         throw new ApolloError(error);
     }
 }
 
 
-
 export const userResolvers = {
-    User: {
-        stockWatchlist: async (user: User) => await resolveStockWatchlistForUser(user),
-        userPrivateData: async (user: User) => await resolveUserPrivateData(user)
+    STUserPublicData: {
+        stockWatchlist: async (stUserPublicData: STUserPublicData) => await resolveStockWatchlistForUser(stUserPublicData.uid),
+        userPrivateData: async (stUserPublicData: STUserPublicData) => await resolveUserPrivateData(stUserPublicData.uid)
     }
 };

@@ -1,42 +1,51 @@
-@import "../../styles/button-styling";
-@import "../../styles/general-styling";
+@import 'custom-variables';
 
 :host{
-  .search-bar-container{
-    width: 75%;
-    padding: 0;
-  }
-
-  .divider-space{
-    font-size: 19px;
-    padding-left: 15px;
-    margin-left: 15px;
-    border-left: 1px solid #6e6e6e;
+  .bell-icon{
+    padding-right: 16px;
+    @media (max-width: #{$st-var-sm-split}) {
+      padding-right: 6px;
+    }
   }
 
   ion-searchbar{
     --background: transparent;
-    --color: #959595;
+    --color: #{$st-var-font-2};
     --box-shadow: none;
-    --icon-color: #6c6c6c;
-    --placeholder-opacity: 0.7;
+    --icon-color: #{$st-var-blue-1} ;
+    --placeholder-opacity: 0.9;
     padding: 0;
   }
 
-  ion-item{
-    --padding-start: 0;
+  .ion-search-chip{
+    background-color: #{$st-var-blue-3};
+
+    @media (max-width: #{$st-var-sm-split}) {
+      width: 175px;
+    }
+  }
+
+  .group-container{
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .headline {
+    display: flex;
+    align-items: center;
+  }
+
+  .headline-container{
+    padding-left: 16px;
+    @media (max-width: #{$st-var-sm-split}) {
+      padding-left: 0;
+    }
   }
 
 
-
-  @media (max-width: 600px) {
-    .search-bar-container{
-      width: 95%;
-    }
-    .divider-space{
-      padding-left: 8px;
-      margin-left: 8px;
-    }
+  ion-icon {
+    cursor: pointer;
+    color: #{$st-var-blue-1};
   }
 
 }

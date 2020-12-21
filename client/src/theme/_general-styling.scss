@@ -1,0 +1,359 @@
+@import "custom-variables";
+
+// class to add for each ion-content
+.st-content-padding {
+  /*padding: 16px;*/
+  padding: 10px 45px 50px 20px;
+  @media (max-width: 1400px) {
+    padding: 10px 30px 50px 20px;
+  }
+  @media (max-width: 1275px) {
+    padding: 10px 15px 50px 5px;
+  }
+  @media (max-width: 475px) {
+    padding: 2px 8px 25px 2px;
+  }
+}
+
+
+.content-fit {
+  min-width: fit-content !important;
+  max-width: fit-content !important;
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 80vh;
+}
+
+ion-spinner {
+  width: 50px !important;
+  height: 50px !important;
+}
+
+.news-container {
+  column-count: 2;
+  padding: 20px;
+  @media (min-width: 0px) and (max-width: 1600px) {
+    column-count: 1;
+  }
+}
+
+// border
+.st-border-right {
+  border-right: 1px solid #{$st-var-font-4};
+}
+
+.st-border-left {
+  border-left: 1px solid #{$st-var-font-4};
+}
+
+.st-border-top {
+  border-top: 1px solid #{$st-var-font-4};
+}
+
+.st-border-bottom {
+  border-bottom: 1px solid #{$st-var-font-4};
+}
+
+// hover transformation
+/*
+.st-hover-card {
+  transition: All 0.3s ease-out;
+  cursor: pointer;
+
+  &:hover {
+    border-radius: 10px;
+    transform: scale(0.98);
+    background: #7070702e;
+  }
+}*/
+
+
+// COLOR CLASSES - FONT
+.st-font-0 {
+  color: #{$st-var-font-0} !important;
+}
+
+.st-font-1 {
+  color: #{$st-var-font-1} !important;
+}
+
+.st-font-2 {
+  color: #{$st-var-font-2} !important;
+}
+
+.st-font-3 {
+  color: #{$st-var-font-3} !important;
+}
+
+.st-font-4 {
+  color: #{$st-var-font-4} !important;
+}
+
+.st-font-0-bold {
+  color: #{$st-var-font-0} !important;
+  font-weight: bold !important;
+}
+
+.st-font-1-bold {
+  color: #{$st-var-font-1} !important;
+  font-weight: bold !important;
+}
+
+.st-font-2-bold {
+  color: #{$st-var-font-2} !important;
+  font-weight: bold !important;
+}
+
+.st-font-3-bold {
+  color: #{$st-var-font-3} !important;
+  font-weight: bold !important;
+}
+
+.st-font-4-bold {
+  color: #{$st-var-font-4} !important;
+  font-weight: bold !important;
+}
+
+// custom headers
+.st-h3 {
+  color: #{$st-var-font-1} !important;
+  margin-top: 0;
+  font-size: 20px;
+  margin-bottom: 22px;
+}
+
+
+
+// FONT SIZES
+.st-font-size-12 {
+  font-size: 12px !important;
+}
+
+.st-font-size-13 {
+  font-size: 13px !important;
+}
+
+.st-font-size-14 {
+  font-size: 14px !important;
+}
+
+.st-font-size-16 {
+  font-size: 16px !important;
+}
+
+.st-font-size-15 {
+  font-size: 15px !important;
+}
+
+.st-font-size-18 {
+  font-size: 18px !important;
+}
+
+.st-font-size-20 {
+  font-size: 20px !important;
+}
+
+
+// COLOR CLASSES - BUTTONS
+
+.st-create-background {
+  --background: #{ $st-var-create-1} ! important;
+}
+
+.st-remove-background {
+  --background: #{ $st-var-remove-1} ! important;
+}
+
+.st-accept-background {
+  --background: #{ $st-var-accept-1} ! important;
+}
+
+.st-accept {
+  color: #{ $st-var-accept-1} ! important;
+}
+
+.st-edit-background {
+  --background: #{ $st-var-edit-1} ! important;
+}
+
+// COLOR CLASSES - BLUE
+.st-icon {
+  color: #{ $st-var-blue-1} !important;
+}
+
+.st-icon-title {
+  color: #{ $st-var-blue-1} !important;
+  font-size: 36px;
+  margin-right: 16px !important;
+}
+
+.st-icon-size-30 {
+  font-size: 30px;
+}
+
+.st-icon-size-header {
+  font-size: 30px;
+  @media (max-width: #{$st-var-sm-split}) {
+    font-size: 26px;
+  }
+}
+
+.st-font-size-header {
+  font-size: 20px;
+  @media (max-width: #{$st-var-sm-split}) {
+    font-size: 18px;
+  }
+}
+
+.st-card-background {
+  background-color: #{ $st-var-blue-3} !important;
+}
+
+.st-modal-background {
+  --background: linear-gradient(126deg, rgba(22, 39, 77, 1) 0%,
+          rgba(10, 25, 71, 1) 29%,
+          rgba(9, 24, 72, 1) 44%,
+          rgba(10, 24, 70, 1) 73%,
+          rgba(7, 22, 62, 1) 100%) !important;
+}
+
+
+// WIDTH
+
+.st-width-full-sm-screen {
+  @media (max-width: #{$st-var-sm-split}) {
+    width: 100% !important;
+  }
+}
+
+.st-width-100 {
+  width: 100%;
+}
+
+.st-display-flex-center {
+  display: flex;
+  align-items: center;
+}
+
+
+// PRICE CHANGE
+.st-price-up {
+  color: #{$st-var-accept-1} !important;
+}
+
+.st-price-down {
+  color: #{$st-red} !important;
+}
+
+.st-price-icon {
+  position: absolute;
+  top: 2px;
+  margin-left: 5px;
+}
+
+// BUTTONS
+
+.st-positive-button {
+  color: #{$st-var-create-1};
+
+  &:hover {
+    color: #{$price-up-lighter};
+  }
+}
+
+.st-negative-button {
+  color: #{$st-red-faded};
+
+  &:hover {
+    color: #{$st-red};
+  }
+}
+
+
+// HOVER OVER
+.ion-activatable {
+  transition: All 0.3s ease-out;
+  cursor: pointer;
+
+  &:hover {
+    border-radius: 10px;
+    transform: scale(0.98);
+    background: #7070702e;
+  }
+}
+
+.st-clickable {
+  transition: All 0.3s ease-out;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(0.96);
+  }
+}
+
+
+// MODEL / POP-UP / ALERT
+
+// class to add for each modal
+.custom-modal .modal-wrapper {
+  width: 85% !important;
+  height: 750px !important;
+  @media (max-width: 850px) {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+
+// class to add for each popover
+.custom-popover .popover-wrapper {
+  --width: 550px;
+  //--height: 200px;
+  --background: #{$background-blue};
+
+  @media (min-width: #{$st-var-sm-split}) {
+    --width: 375px;
+  }
+}
+
+// toasters use it
+.my-custom-alert-class .alert-wrapper {
+  background: #{$background-blue};
+
+  .alert-message {
+    color: #dadada;
+  }
+
+  @media (min-width: 800px) {
+    min-width: 550px !important;
+  }
+}
+
+
+.st-symbol-image {
+  max-width: 45px !important;
+  min-width: 45px !important;
+  margin-right: 10px !important;
+
+  @media (max-width: #{$st-var-sm-split}) {
+    max-width: 30px !important;
+    min-width: 30px !important;
+  }
+}
+
+
+.st-flex-row {
+  display: flex !important;
+  flex-flow: row !important;
+  align-items: center !important;
+}
+
+.st-flex-col {
+  display: flex !important;
+  flex-flow: column !important;
+}

@@ -1,4 +1,4 @@
-<div class="content-padding" *ngIf="stockDetails">
+<div class="st-content-padding" *ngIf="stockDetails">
 
     <ion-grid>
         <ion-row>
@@ -154,7 +154,7 @@
                         [height]="165"
                         [displayValue]="stockDetails?.queryStockDetails.summary.targetEstOneyPercent"
                         [startingPoint]="0"
-                        [endingPoint]="stockDetails?.queryStockDetails.summary.OneyTargetEst"
+                        [endingPoint]="stockDetails?.queryStockDetails.summary.oneyTargetEst"
                         [currentPoint]="stockDetails?.queryStockDetails.summary.marketPrice">
                 </app-gauge-chart>
             </app-generic-chart-card>
@@ -186,7 +186,7 @@
             <!-- revenue growth chart -->
             <app-generic-chart-card [chartTitle]="'Revenue growth estimation'">
                 <app-fixed-range-slider-with-time
-                        *ngFor="let revenue of stockDetails.queryStockDetails.analysis.RevenueEstimate"
+                        *ngFor="let revenue of stockDetails.queryStockDetails.analysis.revenueEstimate"
                         [revenuEst]="revenue">
                 </app-fixed-range-slider-with-time>
             </app-generic-chart-card>
@@ -205,7 +205,7 @@
                 <ion-list>
                     <ion-item *ngFor="let report of stockDetails.queryStockDetails.financialReports"
                               (click)="showFinancialReport(report.collection)"
-                              class="clickable ion-text-center">
+                              class="st-clickable ion-text-center">
                         <ion-label>{{ report.name }}</ion-label>
                     </ion-item>
                 </ion-list>
@@ -259,12 +259,12 @@
                         [series]="[{
                             colorByPoint: true,
                              data:[
-                                {name: 'Past 5y', y: stockDetails.queryStockDetails.analysis.GrowthEstimates.PastFiveYearsperannumPrct},
-                                {name: 'Next 5y', y: stockDetails.queryStockDetails.analysis.GrowthEstimates.NextFiveYearsperannumPrct},
-                                {name: 'Current y.', y: stockDetails.queryStockDetails.analysis.GrowthEstimates.CurrentYearPrct},
-                                {name: 'Next y.', y: stockDetails.queryStockDetails.analysis.GrowthEstimates.NextYearPrct},
-                                {name: 'Current qrt.', y: stockDetails.queryStockDetails.analysis.GrowthEstimates.CurrentQtrPrct},
-                                {name: 'Next qrt.', y: stockDetails.queryStockDetails.analysis.GrowthEstimates.NextQtrPrct}
+                                {name: 'Past 5y', y: stockDetails.queryStockDetails.analysis.growthEstimates.pastFiveYearsperannumPrct},
+                                {name: 'Next 5y', y: stockDetails.queryStockDetails.analysis.growthEstimates.nextFiveYearsperannumPrct},
+                                {name: 'Current y.', y: stockDetails.queryStockDetails.analysis.growthEstimates.currentQtrPrct},
+                                {name: 'Next y.', y: stockDetails.queryStockDetails.analysis.growthEstimates.nextYearPrct},
+                                {name: 'Current qrt.', y: stockDetails.queryStockDetails.analysis.growthEstimates.currentQtrPrct},
+                                {name: 'Next qrt.', y: stockDetails.queryStockDetails.analysis.growthEstimates.nextQtrPrct}
                               ]
                       }]">
                 </app-generic-chart>
