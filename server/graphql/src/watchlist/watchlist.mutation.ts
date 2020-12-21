@@ -1,13 +1,10 @@
-import {Summary} from './../stockDetails/stockDetails.model';
 import * as admin from "firebase-admin";
-import {STUserPrivateData} from "../user/user.model";
 import {ApolloError, ValidationError} from "apollo-server";
 import {
     ST_WATCHLIST_COLLECTION,
     STStockWatchlist,
     STStockWatchlistIdentifier,
 } from "./watchList.model";
-import {stockDataAPI} from "../enviroment";
 import {getCurrentIOSDate, stSeep} from "../st-shared/st-shared.functions";
 import {queryStockSummary} from "../stockDetails/stockDetails.query";
 

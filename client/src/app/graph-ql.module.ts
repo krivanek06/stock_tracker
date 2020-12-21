@@ -1,8 +1,10 @@
+import {Apollo, APOLLO_OPTIONS} from 'apollo-angular';
+import {HttpLink} from 'apollo-angular/http';
+import {InMemoryCache} from '@apollo/client/core';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {Apollo, APOLLO_OPTIONS, ApolloModule} from 'apollo-angular';
-import {HttpLink, HttpLinkModule} from 'apollo-angular-link-http';
-import {InMemoryCache} from 'apollo-cache-inmemory';
+
+
 import {environment} from '../environments/environment';
 
 
@@ -11,15 +13,13 @@ import {environment} from '../environments/environment';
   imports: [
     CommonModule
   ],
-  exports: [
-    ApolloModule,
-    HttpLinkModule,
-  ],
   providers: [
     {
       provide: APOLLO_OPTIONS,
       useFactory: (httpLink: HttpLink) => {
         return {
+          assumeImmutableResults: true,
+          freezeResults: true,
           cache: new InMemoryCache(),
           link: httpLink.create({
             uri: environment.graphql

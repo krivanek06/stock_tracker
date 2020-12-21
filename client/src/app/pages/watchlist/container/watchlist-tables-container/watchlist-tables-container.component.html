@@ -1,5 +1,5 @@
 <div class="watchlist-container">
-    <ion-item *ngFor="let watchlist of stockWatchlists$ | async" class="watchlist-data">
+    <ion-item *ngFor="let watchlist of stockWatchlists" class="watchlist-data">
         <!-- watchlist -->
         <ion-label>
             <app-watchlist-table [watchlist]="watchlist"

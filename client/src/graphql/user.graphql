@@ -43,7 +43,18 @@ query AuthenticateUser($uid: String!) {
             }
         }
         groups {
-            ...STGroupPartialDataFragment
+            groupInvitationSent{
+                ...STGroupPartialDataFragment
+            }
+            groupInvitationReceived{
+                ...STGroupPartialDataFragment
+            }
+            groupOwner{
+                ...STGroupPartialDataFragment
+            }
+            groupMember {
+                ...STGroupPartialDataFragment
+            }
         }
         activity
         userLogs {

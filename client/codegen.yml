@@ -4,6 +4,7 @@ schema:
 # everything -> src/graphql/watchlist.graphql
 documents:
   - src/**/*.graphql
+
 generates:
   ./src/app/api/customGraphql.service.ts:
     plugins:

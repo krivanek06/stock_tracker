@@ -3,6 +3,13 @@ import {gql} from 'apollo-server';
 
 export const userTypeDefs = gql`
     # type 
+    type STUserGroups {
+        groupInvitationSent: [STGroupPartialData]
+        groupInvitationReceived: [STGroupPartialData]
+        groupOwner: [STGroupPartialData]
+        groupMember: [STGroupPartialData]
+    }
+    
     type STUserIndetificationInformation {
         uid: String!
         nickName: String!
@@ -34,7 +41,7 @@ export const userTypeDefs = gql`
         portfolioWeeklyChange: [STPortfolio]
         holdings: [STTransaction]
         resetedAccount: [STUserResetedAccount]
-        groups: [STGroupPartialData]
+        groups: STUserGroups
         activity: USER_ACTIVITY
         bestAchievedRanks: [STRank]
         userLogs: [STLog]
@@ -81,6 +88,14 @@ export const userTypeDefs = gql`
         PENDING
         DENIED
         ALLOWED
+    }
+    
+    enum USER_STATUS_IN_GROUP {
+        OWNER
+        MANAGER
+        MEMBER
+        INVITATION_SENT
+        INVITATION_RECEIVED
     }
 `;
 

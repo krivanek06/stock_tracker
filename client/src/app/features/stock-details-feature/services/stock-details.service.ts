@@ -26,11 +26,11 @@ export class StockDetailsService {
   }
 
 
-  getFinancialReport(symbol: string, financialReportName: string): Observable<FinancialReport> {
+  /*getFinancialReport(symbol: string, financialReportName: string): Observable<FinancialReport> {
     const params = new HttpParams()
         .set('symbol', symbol)
         .set('financialReportName', financialReportName);
     return this.http.get<FinancialReport>(`${environment.marketDataAPI}/fundamentals/financial_report`, {params});
-  }
+  }*/
 
 }
