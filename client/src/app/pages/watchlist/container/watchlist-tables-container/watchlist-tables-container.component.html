@@ -1,5 +1,5 @@
-<div class="watchlist-container" *ngIf="stockWatchlists.length > 0">
-    <ion-item *ngFor="let watchlist of stockWatchlists" class="watchlist-data">
+<div class="watchlist-container">
+    <ion-item *ngFor="let watchlist of stockWatchlists$ | async" class="watchlist-data">
         <!-- watchlist -->
         <ion-label>
             <app-watchlist-table [watchlist]="watchlist"
@@ -18,7 +18,7 @@
 
 
 <div class="create-watchlist-button">
-    <ion-button class="st-create-background" (click)="showCreateWatchlistPopUp()">
+    <ion-button class="st-create-background" (click)="createWatchlist()">
         Create watchlist
     </ion-button>
 </div>

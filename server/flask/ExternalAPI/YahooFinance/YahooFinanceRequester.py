@@ -189,16 +189,19 @@ class YahooFinanceRequester:
         data = get('https://query1.finance.yahoo.com/v8/finance/chart/' + symbol, params=params).json()
         # get data from json
         timestamp = data['chart']['result'][0]['timestamp']
-        price = data['chart']['result'][0]['indicators']['quote'][0]['close']
+        open = data['chart']['result'][0]['indicators']['quote'][0]['open']
+        high = data['chart']['result'][0]['indicators']['quote'][0]['high']
+        low = data['chart']['result'][0]['indicators']['quote'][0]['low']
+        close = data['chart']['result'][0]['indicators']['quote'][0]['close']
         volume = data['chart']['result'][0]['indicators']['quote'][0]['volume']
 
         # format data
-        result = {'price': [], 'volume': [], 'change': [], 'livePrice': price[-1]}
+        result = {'price': [], 'volume': [], 'change': [], 'livePrice': close[-1]}
         for i in range(len(timestamp)):
             milliseconds = timestamp[i] * 1000
-            result['price'].append([milliseconds, round(price[i], 2)])
+            result['price'].append([milliseconds, round(open[i], 2), round(high[i], 2), round(low[i], 2), round(close[i], 2)])
             result['volume'].append([milliseconds, volume[i]])
-            result['change'].append([milliseconds, 0 if i == 0 else round(((price[i] / price[i - 1]) - 1) * 100, 2)])
+            result['change'].append([milliseconds, 0 if i == 0 else round(((close[i] / close[i - 1]) - 1) * 100, 2)])
 
         return result
 

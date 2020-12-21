@@ -16,7 +16,7 @@
     <ion-item *ngFor="let watchList of stockWatchLists$ | async"
               button
               class="watchlist-name-container"
-              (click)="addSymbolToWatchlist(watchList.id)">
+              (click)="addSymbolToWatchlist(watchList.id, watchList.name)">
         <ion-label>
             {{ watchList.name }}
         </ion-label>

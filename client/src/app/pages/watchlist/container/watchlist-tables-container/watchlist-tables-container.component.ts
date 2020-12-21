@@ -7,18 +7,17 @@ import {
     OnInit,
     SimpleChanges,
 } from '@angular/core';
-import {WatchlistService} from '../../../../features/stock-watchlist-feature/services/watchlist.service';
 import {IonicDialogService} from '../../../../shared/services/ionic-dialog.service';
 import {Router} from '@angular/router';
 import {ModalController, PopoverController} from '@ionic/angular';
 import {ChartDataIdentification} from '../../../../shared/models/sharedModel';
 import {SymbolLookupModalComponent} from '../../../../features/stock-details-feature/components/modal/symbol-lookup-modal/symbol-lookup-modal.component';
 import {MarketPriceWebsocketService} from '../../../../shared/services/market-price-websocket.service';
-import {filter, takeUntil} from 'rxjs/operators';
 import Maybe from 'graphql/tsutils/Maybe';
 import {StStockWatchlistFragmentFragment} from '../../../../api/customGraphql.service';
 import {ComponentBase} from '../../../../shared/utils/component-base/component.base';
-import {InlineInputPopUpComponent} from '../../../../shared/components/pop-ups/inline-input-pop-up/inline-input-pop-up.component';
+import {WatchlistService} from '../../../../features/stock-watchlist-feature/services/watchlist.service';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'app-watchlist-tables-container',
@@ -33,17 +32,15 @@ export class WatchlistTablesContainerComponent extends ComponentBase implements 
                 private ionicDialogService: IonicDialogService,
                 private router: Router,
                 private marketPriceWebsocket: MarketPriceWebsocketService,
-                private modalController: ModalController,
-                private popoverController: PopoverController,
-                private cdr: ChangeDetectorRef) {
+                private modalController: ModalController) {
         super();
     }
 
-    stockWatchlists: Array<Maybe<{ __typename?: 'STStockWatchlist' } & StStockWatchlistFragmentFragment>> = [];
+    stockWatchlists$: Observable<Array<Maybe<{ __typename?: 'STStockWatchlist' } & StStockWatchlistFragmentFragment>>>;
 
 
     ngOnInit() {
-        this.getUserWatchlists();
+        this.stockWatchlists$ = this.watchlistService.getUserStockWatchlists();
 
 
         /*this.initSubscriptionForWatchlist();
@@ -63,26 +60,12 @@ export class WatchlistTablesContainerComponent extends ComponentBase implements 
 
     ngOnDestroy(): void {
         console.log('ngOnDestroy on watchlist table containers');
-        clearInterval(this.interval);
-        this.marketPriceWebsocket.closeConnection();
+        // clearInterval(this.interval);
+        // this.marketPriceWebsocket.closeConnection();
     }
 
-    async showCreateWatchlistPopUp() {
-        const popover = await this.popoverController.create({
-            component: InlineInputPopUpComponent,
-            cssClass: 'custom-popover',
-            translucent: true,
-            componentProps: {inputLabel: 'Watchlist name'}
-        });
-
-        await popover.present();
-        const res = await popover.onDidDismiss();
-        const name = res.data ? res.data.inputData : undefined;
-
-        if (name) {
-            this.watchlistService.createWatchList(name)
-                .subscribe(() => this.ionicDialogService.presentToast(`Watchlist ${name} has been created`));
-        }
+    async createWatchlist() {
+        this.watchlistService.createWatchlist();
     }
 
 
@@ -96,13 +79,7 @@ export class WatchlistTablesContainerComponent extends ComponentBase implements 
     }
 
     async deleteSymbolFromDocument(data: ChartDataIdentification, documentId: string, watchlistName: string) {
-        const confirmation = await this.ionicDialogService.presentAlertConfirm(
-            `Do your really wanna remove ${data.name} from your watchlist: ${watchlistName} ?`);
-
-        if (confirmation) {
-            this.watchlistService.removeStockFromWatchlist(documentId, data.symbol)
-                .subscribe(x => this.ionicDialogService.presentToast('Symbol deleted from watchlist'));
-        }
+        this.watchlistService.removeStockFromWatchlist(data, documentId, watchlistName);
     }
 
     /*redirectToDetails(data: ChartDataIdentification) {
@@ -125,7 +102,7 @@ export class WatchlistTablesContainerComponent extends ComponentBase implements 
     }*/
 
 
-    private async initSubscriptionForWatchlist() {
+    /*private async initSubscriptionForWatchlist() {
         const stocks = await this.watchlistService.getDistinctStocks();
         stocks.forEach(stock => this.marketPriceWebsocket.createSubscribeForSymbol(stock));
 
@@ -135,7 +112,7 @@ export class WatchlistTablesContainerComponent extends ComponentBase implements 
         ).subscribe(res => {
 
             // update price change
-            for (const watchlist of this.stockWatchlists) {
+            for (const watchlist of this.stockWatchlists$) {
                 const objIndex = watchlist.summaries.findIndex(obj => obj.symbol === res.s);
 
                 if (objIndex !== -1) {
@@ -143,15 +120,6 @@ export class WatchlistTablesContainerComponent extends ComponentBase implements 
                 }
             }
         });
-    }
-
-    private getUserWatchlists() {
-        this.watchlistService.getUserStockWatchlists().pipe(takeUntil(this.destroy$)).subscribe(
-            res => {
-                this.stockWatchlists = res;
-                this.cdr.detectChanges();
-            }
-        );
-    }
+    }*/
 
 }
