@@ -405,9 +405,40 @@ fragment financialChartDataFragment on FinancialsChartData {
     }
 }
 
-fragment financialReportsFragment on FinancialReportNames {
-    collection
-    name
+fragment FinancialReportItemsFragment on FinancialReportItems {
+    concept
+    label
+    unit
+    value
+}
+
+fragment FinancialReportReportFragment on FinancialReportReport {
+    bs {
+        ...FinancialReportItemsFragment
+    }
+    cf {
+        ...FinancialReportItemsFragment
+    }
+    ic {
+        ...FinancialReportItemsFragment
+    }
+}
+
+fragment financialReportsFragment on FinancialReport {
+    acceptedDate
+    accessNumber
+    cik
+    endDate
+    filedDate
+    form
+    quarter
+    report {
+        ...FinancialReportReportFragment
+    }
+    source
+    startDate
+    symbol
+    year
 }
 
 fragment earningsFragment on Earnings {
@@ -471,6 +502,9 @@ query QueryStockDetails($symbol: String!) {
         }
         stockNews {
             ...newsArticleFragment
+        }
+        financialReports {
+            ...financialReportsFragment
         }
         companyData {
             defaultKeyStatistics {
