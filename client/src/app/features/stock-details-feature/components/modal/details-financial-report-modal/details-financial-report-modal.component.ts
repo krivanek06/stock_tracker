@@ -22,7 +22,7 @@ export class DetailsFinancialReportModalComponent implements OnInit {
         const symbol = this.navParams.get('symbol');
         const financialReport = this.navParams.get('financialReport');
 
-        this.financialReport$ = this.stockAPI.getFinancialReport(symbol, financialReport);
+        //this.financialReport$ = this.stockAPI.getFinancialReport(symbol, financialReport);
     }
 
     dismissModal() {

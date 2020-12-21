@@ -6,10 +6,10 @@ import {WatchlistPickerModalContainerComponent} from '../containers/watchlist-pi
 import {ChartDataIdentification} from '../../../shared/models/sharedModel';
 import {filter, map, takeUntil} from 'rxjs/operators';
 import {Observable, Subject} from 'rxjs';
-import {Maybe, StStockWatchlistFragmentFragment} from '../../../api/customGraphql.service';
+import {Maybe, StStockWatchlist, StStockWatchlistFragmentFragment} from '../../../api/customGraphql.service';
 import {GraphqlWatchlistService} from './graphql-watchlist.service';
 import {InlineInputPopUpComponent} from '../../../shared/components/pop-ups/inline-input-pop-up/inline-input-pop-up.component';
-import {MarketPriceWebsocketService} from '../../../shared/services/market-price-websocket.service';
+import {MarketPriceWebsocketService, MarketSymbolResult} from '../../../shared/services/market-price-websocket.service';
 
 @Injectable({
     providedIn: 'root'
@@ -29,25 +29,16 @@ export class WatchlistService {
         );
     }
 
-    async initSubscriptionForWatchlist() {
+    // return updated price tags for symbol from watchlist
+    initSubscriptionForWatchlist(): Observable<MarketSymbolResult> {
         const userWatchlist = this.authService.user.stockWatchlist;
         const distinctStocks = [...new Set([].concat(...userWatchlist.map(w => w.summaries.map(x => x.symbol))))] as string[];
         distinctStocks.forEach(stock => this.marketPriceWebsocket.createSubscribeForSymbol(stock));
         console.log('distinct', distinctStocks);
 
-        this.marketPriceWebsocket.getSubscribedSymbolsResult().pipe(
+        return this.marketPriceWebsocket.getSubscribedSymbolsResult().pipe(
             filter(res => !!res), // filter null & undefined
-        ).subscribe(res => {
-            // update price change
-            for (const watchlist of userWatchlist) {
-                const objIndex = watchlist.summaries.findIndex(obj => obj.symbol === res.s);
-
-                if (objIndex !== -1) {
-                    watchlist.summaries[objIndex].marketPrice = res.p;
-                }
-            }
-        });
-
+        );
     }
 
     closeSubscriptionForWatchlist() {

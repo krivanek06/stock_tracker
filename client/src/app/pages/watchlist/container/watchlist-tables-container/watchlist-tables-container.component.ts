@@ -11,9 +11,11 @@ import {ModalController} from '@ionic/angular';
 import {ChartDataIdentification} from '../../../../shared/models/sharedModel';
 import {StStockWatchlistFragmentFragment} from '../../../../api/customGraphql.service';
 import {WatchlistService} from '../../../../features/stock-watchlist-feature/services/watchlist.service';
-import {Observable} from 'rxjs';
 import {ComponentBase} from '../../../../shared/utils/component-base/component.base';
 import {SymbolLookupModalComponent} from '../../../../features/stock-details-feature/components/modal/symbol-lookup-modal/symbol-lookup-modal.component';
+import {AuthFeatureService} from '../../../../features/auth-feature/services/auth-feature.service';
+import {cloneDeep} from 'lodash';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'app-watchlist-tables-container',
@@ -27,16 +29,17 @@ export class WatchlistTablesContainerComponent extends ComponentBase implements 
     constructor(private watchlistService: WatchlistService,
                 private router: Router,
                 private cdr: ChangeDetectorRef,
+                private authFeatureService: AuthFeatureService,
                 private modalController: ModalController) {
         super();
     }
 
-    stockWatchlists$: Observable<StStockWatchlistFragmentFragment[]>;
+    stockWatchlists: StStockWatchlistFragmentFragment[];
 
 
     ngOnInit() {
-        this.stockWatchlists$ = this.watchlistService.getUserStockWatchlists();
-        this.watchlistService.initSubscriptionForWatchlist();
+        this.subscribeForWatchlistChange();
+        this.subscribeForSymbolPriceChange();
         this.updateScreen();
     }
 
@@ -82,6 +85,28 @@ export class WatchlistTablesContainerComponent extends ComponentBase implements 
                 .subscribe(() => this.ionicDialogService.presentToast('Watchlist has been deleted'));
         }
     }*/
+
+    private subscribeForWatchlistChange() {
+        this.watchlistService.getUserStockWatchlists().pipe(
+            takeUntil(this.destroy$)
+        ).subscribe(watchlists => {
+            this.stockWatchlists = cloneDeep(watchlists);
+        });
+    }
+
+    private subscribeForSymbolPriceChange() {
+        this.watchlistService.initSubscriptionForWatchlist().pipe(
+            takeUntil(this.destroy$)
+        ).subscribe(res => {
+            for (const watchlist of this.stockWatchlists) {
+                const objIndex = watchlist.summaries.findIndex(obj => obj.symbol === res.s);
+
+                if (objIndex !== -1) {
+                    watchlist.summaries[objIndex].marketPrice = res.p;
+                }
+            }
+        });
+    }
 
     private updateScreen(): void {
         // websockets update view

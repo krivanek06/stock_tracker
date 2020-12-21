@@ -4,7 +4,7 @@ import {AuthFeatureService} from '../../features/auth-feature/services/auth-feat
 import {filter, switchMap} from 'rxjs/operators';
 import {StUserPublicData} from '../../api/customGraphql.service';
 
-interface MarketSymbolResult {
+export interface MarketSymbolResult {
     p: number;  // price
     s: string;  // source
     t: number;  // timestamp

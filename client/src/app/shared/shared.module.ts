@@ -15,7 +15,7 @@ import {NumberFormatterPipe} from './pipes/numberFormatter.pipe';
 import {HeaderComponent} from './containers/header/header.component';
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {FixedRangeSliderWithTimeComponent} from './components/charts/fixed-range-slider-with-time/fixed-range-slider-with-time.component';
-import {ApolloModule} from 'apollo-angular';
+
 import {InlineInputFormComponent} from './components/forms/inline-input-form/inline-input-form.component';
 import {GenericChartComponent} from './components/charts/generic-chart/generic-chart.component';
 import {GenericChartCardComponent} from './components/cards/generic-chart-card/generic-chart-card.component';
@@ -57,7 +57,6 @@ import {InlineInputPopUpComponent} from './components/pop-ups/inline-input-pop-u
         HighchartsChartModule,
         IonicModule,
         PerfectScrollbarModule,
-        ApolloModule,
         NgxDatatableModule
     ],
     exports: [
@@ -77,7 +76,6 @@ import {InlineInputPopUpComponent} from './components/pop-ups/inline-input-pop-u
         NumberFormatterPipe,
         RelativeTimePipe,
         HeaderComponent,
-        ApolloModule,
         InlineInputFormComponent,
         FixedRangeSliderWithTimeComponent,
         GenericChartComponent,

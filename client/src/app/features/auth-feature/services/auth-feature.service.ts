@@ -1,3 +1,5 @@
+import {Apollo} from 'apollo-angular';
+
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {filter, map, switchMap, tap} from 'rxjs/operators';
@@ -7,7 +9,7 @@ import {
     RegisterUserGQL, StUserAuthenticationInput, StUserPublicData,
 } from '../../../api/customGraphql.service';
 import {LoginIUser, RegisterIUser, USER_ACTIVITY} from '../model/userModel';
-import {Apollo} from 'apollo-angular';
+
 import {Router} from '@angular/router';
 import auth from 'firebase';
 import firebase from 'firebase';
