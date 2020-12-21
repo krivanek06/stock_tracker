@@ -21,27 +21,15 @@ export class WatchlistPickerModalContainerComponent implements OnInit {
 
 
     ngOnInit(): void {
-        this.stockWatchLists$.subscribe(console.log); // delete later
-    }
 
+    }
 
     dismissModal() {
         this.modalController.dismiss();
     }
 
-    addSymbolToWatchlist(watchListId: string) {
-        this.watchlistService.addSymbolToWatchlist(watchListId,  this.symbol)
-            .subscribe(res => {
-                console.log(res);
-            });
-    }
-
-
-    createWatchList(watchlistName: string) {
-        this.watchlistService.createWatchList(watchlistName)
-            .subscribe(res => {
-                console.log(res);
-            });
+    addSymbolToWatchlist(watchListId: string, watchlistName: string) {
+        this.modalController.dismiss({watchListId, watchlistName});
     }
 
 }

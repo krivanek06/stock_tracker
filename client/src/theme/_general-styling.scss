@@ -95,6 +95,31 @@ ion-spinner {
   color: #{$st-var-font-4} !important;
 }
 
+.st-font-0-bold {
+  color: #{$st-var-font-0} !important;
+  font-weight: bold !important;
+}
+
+.st-font-1-bold {
+  color: #{$st-var-font-1} !important;
+  font-weight: bold !important;
+}
+
+.st-font-2-bold {
+  color: #{$st-var-font-2} !important;
+  font-weight: bold !important;
+}
+
+.st-font-3-bold {
+  color: #{$st-var-font-3} !important;
+  font-weight: bold !important;
+}
+
+.st-font-4-bold {
+  color: #{$st-var-font-4} !important;
+  font-weight: bold !important;
+}
+
 // custom headers
 .st-h3 {
   color: #{$st-var-font-1} !important;
@@ -102,6 +127,8 @@ ion-spinner {
   font-size: 20px;
   margin-bottom: 22px;
 }
+
+
 
 // FONT SIZES
 .st-font-size-12 {
@@ -276,7 +303,7 @@ ion-spinner {
 // class to add for each modal
 .custom-modal .modal-wrapper {
   width: 85% !important;
-  height: 700px !important;
+  height: 750px !important;
   @media (max-width: 850px) {
     width: 100% !important;
     height: 100% !important;
@@ -307,3 +334,26 @@ ion-spinner {
   }
 }
 
+
+.st-symbol-image {
+  max-width: 45px !important;
+  min-width: 45px !important;
+  margin-right: 10px !important;
+
+  @media (max-width: #{$st-var-sm-split}) {
+    max-width: 30px !important;
+    min-width: 30px !important;
+  }
+}
+
+
+.st-flex-row {
+  display: flex !important;
+  flex-flow: row !important;
+  align-items: center !important;
+}
+
+.st-flex-col {
+  display: flex !important;
+  flex-flow: column !important;
+}

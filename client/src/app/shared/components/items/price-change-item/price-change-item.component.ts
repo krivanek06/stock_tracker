@@ -9,7 +9,7 @@ import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 export class PriceChangeItemComponent implements OnInit {
     @Input() currentPrice: number;
     @Input() compareToPrice: number;
-
+    @Input() versionType = 1; // 1 / 2
 
     constructor() {
     }

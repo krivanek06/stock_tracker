@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {SharedModule} from '../../shared/shared.module';
 import {WatchlistPickerModalContainerComponent} from './containers/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
 import {WatchlistTableHeaderComponent} from './components/watchlist-table-header/watchlist-table-header.component';
@@ -20,7 +19,6 @@ import {WatchlistTableComponent} from './components/watchlist-table/watchlist-ta
         WatchlistTableComponent
     ],
     imports: [
-        CommonModule,
         SharedModule,
         StockDataFeatureModule
     ],

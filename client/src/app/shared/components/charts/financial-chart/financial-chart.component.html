@@ -1,73 +1,3 @@
-<!-- timeline buttons -->
-
-<ion-item class="ion-margin-bottom">
-    <ion-label class="ion-justify-content-between" style="display: inline-flex;  flex-flow: row wrap;">
-        <ion-button
-                size="small"
-                shape="round"
-                fill="outline"
-                (click)="loadIntervalData('1d')"
-                [color]="selectedPeriod === '1d' ? 'light' : 'primary'"
-        >1d
-        </ion-button
-        >
-        <ion-button
-                size="small"
-                shape="round"
-                fill="outline"
-                (click)="loadIntervalData('1mo')"
-                [color]="selectedPeriod === '1mo' ? 'light' : 'primary'"
-        >1mo
-        </ion-button>
-        <ion-button
-                size="small"
-                shape="round"
-                fill="outline"
-                (click)="loadIntervalData('6mo')"
-                [color]="selectedPeriod === '6mo' ? 'light' : 'primary'">
-            6mo
-        </ion-button>
-        <ion-button
-                size="small"
-                shape="round"
-                fill="outline"
-                (click)="loadIntervalData('1y')"
-                [color]="selectedPeriod === '1y' ? 'light' : 'primary'"
-        >1yr
-        </ion-button>
-        <ion-button
-                size="small"
-                shape="round"
-                fill="outline"
-                (click)="loadIntervalData('5y')"
-                [color]="selectedPeriod === '5y' ? 'light' : 'primary'"
-        >5yr
-        </ion-button>
-        <ion-button
-                size="small"
-                shape="round"
-                fill="outline"
-                (click)="loadIntervalData('max')"
-                [color]="selectedPeriod === 'max' ? 'light' : 'primary'"
-        >max
-        </ion-button>
-    </ion-label>
-</ion-item>
-
-<!-- chart price movement -->
-
-<ion-label *ngIf="startingPrice && endingPrice" class="price-movement-container">
-    <span class="ion-margin-end"> {{startingPrice | currency }} -  {{ endingPrice | currency }}</span>
-    <span [ngClass]="{
-     'price-up': endingPrice - startingPrice >= 0,
-     'price-down': endingPrice - startingPrice < 0}">
-                       {{ endingPrice - startingPrice | currency  }}
-        ({{ 100 / startingPrice * endingPrice - 100 | number }}%)
-     </span>
-</ion-label>
-
-
-<!-- chart -->
 <ng-container *ngIf="price && price.length > 0">
     <highcharts-chart
             id="container"
@@ -77,8 +7,7 @@
             [callbackFunction]="chartCallback"
             [(update)]="updateFromInput"
             [oneToOne]="true"
-            style="display: block; width: 100%"
-            [style.height.px]="height"
-    >
+            style="width: 100%; height: 100%; display: block;">
     </highcharts-chart>
 </ng-container>
+

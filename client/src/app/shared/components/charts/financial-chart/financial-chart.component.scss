@@ -1,12 +1,3 @@
-@import "../../../styles/button-styling";
-
-:host {
-  .price-movement-container{
-    position: absolute;
-    left: 30px;
-  }
-}
-
 highcharts-chart::ng-deep {
   .highcharts-container,
   .highcharts-container svg {
@@ -18,9 +9,5 @@ highcharts-chart::ng-deep {
   .highcharts-stocktools-wrapper,
   .highcharts-bindings-wrapper{
     display: none;
-  }
-
-  ion-button{
-    height: 25px;
   }
 }

@@ -1,24 +1,6 @@
 @import "variables";
 
 :host {
-
-  .symbol-image {
-    max-width: 45px !important;
-    min-width: 45px !important;
-    margin-right: 10px;
-
-    /*@media (max-width: #{$st-var-md-split}) {
-      max-width: 45px !important;
-      min-width: 45px !important;
-    }*/
-
-    @media (max-width: #{$st-var-sm-split}) {
-      max-width: 30px !important;
-      min-width: 30px !important;
-    }
-  }
-
-
   ion-button{
     --background: transparent;
     --box-shadow: none;

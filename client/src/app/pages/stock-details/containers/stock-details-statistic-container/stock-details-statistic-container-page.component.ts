@@ -41,12 +41,12 @@ export class StockDetailsStatisticContainerPage implements OnInit {
     }
 
     async showWatchlist() {
-        const modal = await this.modalController.create({
+        /*const modal = await this.modalController.create({
             component: WatchlistPickerModalContainerComponent,
             componentProps: {symbol: this.stockDetails.queryStockDetails.summary.symbol},
             cssClass: 'custom-modal'
         });
-        return await modal.present();
+        return await modal.present();*/
     }
 
     async showFinancialReport(financialReport: string) {
