@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {auth} from 'firebase/app';
 import {filter, map, switchMap, tap} from 'rxjs/operators';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {
@@ -10,8 +9,10 @@ import {
 import {LoginIUser, RegisterIUser, USER_ACTIVITY} from '../model/userModel';
 import {Apollo} from 'apollo-angular';
 import {Router} from '@angular/router';
-
+import auth from 'firebase';
+import firebase from 'firebase';
 import UserCredential = firebase.auth.UserCredential;
+
 
 @Injectable({
     providedIn: 'root'
@@ -40,7 +41,7 @@ export class AuthFeatureService {
     }
 
     async googleSignIn(): Promise<void> {
-        const provider = new auth.GoogleAuthProvider();
+        const provider = new auth.auth.GoogleAuthProvider();
         const credentials = await this.afAuth.signInWithPopup(provider);
         await this.signInUser(credentials);
     }

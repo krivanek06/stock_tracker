@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import Maybe from 'graphql/tsutils/Maybe';
 import {StStockWatchlistFragmentFragment} from '../../../../api/customGraphql.service';
 import {ChartDataIdentification} from '../../../../shared/models/sharedModel';
 
@@ -12,7 +11,7 @@ export class WatchlistTableComponent implements OnInit {
     @Output() deleteEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
     @Output() itemClickedEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
 
-    @Input() watchlist: Maybe<{ __typename?: 'STStockWatchlist' } & StStockWatchlistFragmentFragment>;
+    @Input() watchlist: StStockWatchlistFragmentFragment;
 
     constructor() {
     }

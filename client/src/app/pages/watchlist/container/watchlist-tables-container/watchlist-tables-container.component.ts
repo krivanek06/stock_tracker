@@ -9,7 +9,6 @@ import {
 import {Router} from '@angular/router';
 import {ModalController} from '@ionic/angular';
 import {ChartDataIdentification} from '../../../../shared/models/sharedModel';
-import Maybe from 'graphql/tsutils/Maybe';
 import {StStockWatchlistFragmentFragment} from '../../../../api/customGraphql.service';
 import {WatchlistService} from '../../../../features/stock-watchlist-feature/services/watchlist.service';
 import {Observable} from 'rxjs';
@@ -32,7 +31,7 @@ export class WatchlistTablesContainerComponent extends ComponentBase implements 
         super();
     }
 
-    stockWatchlists$: Observable<Array<Maybe<{ __typename?: 'STStockWatchlist' } & StStockWatchlistFragmentFragment>>>;
+    stockWatchlists$: Observable<StStockWatchlistFragmentFragment[]>;
 
 
     ngOnInit() {
