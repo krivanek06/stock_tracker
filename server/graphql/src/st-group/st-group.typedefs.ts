@@ -13,6 +13,8 @@ export const STGroupTypeDefs = gql`
         groupId: String!
         name: String!
         description: String
+        imagePath: String
+        imageUrl: String
         portfolio: STPortfolio
         owner: STGroupUser!
         numberOfMembers: Float!
@@ -25,6 +27,8 @@ export const STGroupTypeDefs = gql`
         groupId: String!
         name: String!
         description: String
+        imagePath: String
+        imageUrl: String
         portfolio: STPortfolio
         owner: STGroupUser!
         numberOfMembers: Float!
@@ -46,6 +50,8 @@ export const STGroupTypeDefs = gql`
         groupId: String
         name: String!
         description: String
+        imagePath: String
+        imageUrl: String
         owner: String!
         managers:[String]!
         members: [String]!

@@ -6,10 +6,6 @@ import {
     CreateStockWatchlistGQL,
     CreateStockWatchlistMutation,
     DeleteUserWatchlistGQL,
-    Maybe,
-    QueryUserStockWatchlistsDocument,
-    QueryUserStockWatchlistsGQL,
-    QueryUserStockWatchlistsQuery, RegisterUserDocument,
     RemoveStockFromWatchlistGQL, RemoveStockFromWatchlistMutation,
     RenameStockWatchlistGQL, StStockWatchlistFragmentFragment, StStockWatchlistFragmentFragmentDoc
 } from '../../../api/customGraphql.service';

@@ -1,24 +1,33 @@
-import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {from, of} from 'rxjs';
+import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Observable, of} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {ComponentBase} from '../../../../shared/utils/component-base/component.base';
-import {takeUntil} from 'rxjs/operators';
+import {debounceTime, switchMap} from 'rxjs/operators';
+import {FirebaseSearchService} from '../../../../shared/services/firebase-search.service';
+import {StUserPartialInformation} from '../../../../api/customGraphql.service';
 
 @Component({
     selector: 'app-user-account-search',
     templateUrl: './user-account-search.component.html',
     styleUrls: ['./user-account-search.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserAccountSearchComponent extends ComponentBase implements OnInit {
+export class UserAccountSearchComponent implements OnInit {
+    @Output() clickedUserEmitter: EventEmitter<StUserPartialInformation> = new EventEmitter<StUserPartialInformation>();
+
+    searchedUsers$: Observable<StUserPartialInformation[]>;
     form: FormGroup;
 
-    constructor(private fb: FormBuilder) {
-        super();
+    constructor(private fb: FormBuilder,
+                private firebaseSearchService: FirebaseSearchService) {
     }
 
     ngOnInit() {
         this.initForm();
         this.watchForm();
+    }
+
+    clickedUser(user: StUserPartialInformation) {
+        this.clickedUserEmitter.emit(user);
     }
 
     private initForm() {
@@ -28,9 +37,14 @@ export class UserAccountSearchComponent extends ComponentBase implements OnInit 
     }
 
     private watchForm() {
-        this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-            console.log(res);
-        });
+        this.searchedUsers$ = this.form.get('username').valueChanges.pipe(
+            debounceTime(500),
+            switchMap(res => {
+                if (res.length <= 3) {
+                    return of(null);
+                }
+                return this.firebaseSearchService.queryUserPartialInformationByUsername(res);
+            })
+        );
     }
-
 }

@@ -1,0 +1,15 @@
+<div *ngIf="downloadURL as url">
+    <ion-img [src]="url"></ion-img>
+</div>
+
+
+<!-- progress -->
+<div class="progress-container" *ngIf="percentage$ | async as pct">
+    <progress [value]="pct" max="100"></progress>
+    <ion-text class="ion-margin-start">{{ pct | number }}%</ion-text>
+</div>
+
+<!-- transfered bytes -->
+<div *ngIf="snapshot$ | async as snap" class="ion-text-center">
+    <ion-text>{{ snap.bytesTransferred }} of {{ snap.totalBytes }}</ion-text>
+</div>

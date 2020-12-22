@@ -8,6 +8,8 @@ export interface STGroupPartialData {
     groupId?: string;
     name: string;
     description: string;
+    imagePath?: string
+    imageUrl?: string
     portfolio: STPortfolio;
     owner: STGroupUser;
     numberOfMembers: number;
@@ -36,14 +38,16 @@ export interface STGroupUser {
 
 
 export interface STGroupAllDataInput {
-    groupId: string
+    groupId?: string
     name: string
     description: string
+    imagePath?: string
+    imageUrl?: string
     owner: string
-    managers: string[]
-    members: string[]
+    managers?: string[]
+    members?: string[]
     invitationSent: string[]
-    invitationReceived: string[]
+    invitationReceived?: string[]
 }
 
 

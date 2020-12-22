@@ -32,11 +32,26 @@ export const queryUserPublicData = async (uid: string) => {
 }
 
 
-export const querySTUserPartialInformation = async (uid: string): Promise<STUserPartialInformation> => {
+export const querySTUserPartialInformationByUid = async (uid: string): Promise<STUserPartialInformation> => {
     try {
         const user = await queryUserPublicData(uid) as STUserPublicData;
 
         return convertSTUserPublicDataToSTUserPartialInformation(user);
+    } catch (error) {
+        throw new ApolloError(error);
+    }
+}
+
+
+export const querySTUserPartialInformationByUsername = async (usernamePrefix): Promise<STUserPartialInformation[]> => {
+    try {
+        const userDocs = await admin.firestore()
+            .collection(`${ST_USER_COLLECTION_USER}`)
+            .where('nickName', '>=', usernamePrefix)
+            .limit(5)
+            .get();
+
+        return userDocs.docs.map(d => d.data() as STUserPartialInformation);
     } catch (error) {
         throw new ApolloError(error);
     }

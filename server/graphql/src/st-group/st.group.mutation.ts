@@ -1,19 +1,71 @@
 import {ST_GROUP_COLLECTION_GROUPS, STGroupAllDataInput} from "./st-group.model";
 import {ApolloError} from "apollo-server";
 import {getSTGroupAllDataByGroupId} from "./st-group.query";
-import {createEmptySTGroupAllData, createSTGroupUser} from "./st-group.util";
-import {querySTUserPartialInformation} from "../user/user.query";
+import {
+    createEmptySTGroupAllData,
+    createSTGroupPartialDataFromSTGroupAllData,
+    createSTGroupUser
+} from "./st-group.util";
+import {querySTUserPartialInformationByUid} from "../user/user.query";
 import * as admin from "firebase-admin";
-import {getCurrentIOSDate} from "../st-shared/st-shared.functions";
+import {getCurrentIOSDate, stSeep} from "../st-shared/st-shared.functions";
+import {ST_USER_COLLECTION_USER} from "../user/user.model";
 
 
-export const createOrEditGroup = async (groupInput: STGroupAllDataInput) => {
+export const createGroup = async (groupInput: STGroupAllDataInput) => {
+    try {
+        const group = createEmptySTGroupAllData();
+        group.name = groupInput.name;
+        group.description = groupInput.description;
+        group.imagePath = groupInput.imagePath;
+        group.imageUrl = groupInput.imageUrl;
+        group.owner = createSTGroupUser(await querySTUserPartialInformationByUid(groupInput.owner));
+
+        // load users who were invited
+        const invitationSent = await Promise.all([...new Set(groupInput.invitationSent)].map(m => querySTUserPartialInformationByUid(m)));
+        group.invitationSent = invitationSent.map(m => createSTGroupUser(m));
+
+        // persist
+        const result = await admin.firestore().collection(`${ST_GROUP_COLLECTION_GROUPS}`).add(group);
+        group.groupId = result.id;
+
+        // format for accepted result
+        const partialData = createSTGroupPartialDataFromSTGroupAllData(group);
+
+        // update user's groupInvitationReceived
+        groupInput.invitationSent.forEach(userId => {
+            admin.firestore().collection(ST_USER_COLLECTION_USER).doc(userId)
+                .set({
+                    groups: {
+                        groupInvitationReceived: admin.firestore.FieldValue.arrayUnion(partialData)
+                    }
+                }, {merge: true})
+        });
+
+        // update owner's group
+        admin.firestore().collection(ST_USER_COLLECTION_USER).doc(groupInput.owner)
+            .set({
+                groups: {
+                    groupOwner: admin.firestore.FieldValue.arrayUnion(partialData)
+                }
+            }, {merge: true});
+
+        return partialData
+    } catch (error) {
+        throw new ApolloError(error);
+    }
+};
+
+export const editGroup = async (groupInput: STGroupAllDataInput) => {
     try {
         // load group or create new
-        const group = await getSTGroupAllDataByGroupId(groupInput.groupId) || createEmptySTGroupAllData();
+        const group = await getSTGroupAllDataByGroupId(groupInput.groupId);
         group.name = groupInput.name;
-        group.description = groupInput.description || null;
-        group.owner = group.owner || createSTGroupUser(await querySTUserPartialInformation(groupInput.owner));
+        group.description = groupInput.description;
+        group.imagePath = groupInput.imagePath;
+        group.imageUrl = groupInput.imageUrl;
+        group.owner = createSTGroupUser(await querySTUserPartialInformationByUid(groupInput.owner));
+        group.lastUpdateDate = getCurrentIOSDate();
 
         // delete uses which are not in groupInput
         group.members = group.members.filter(m => groupInput.members.includes(m.user.uid));
@@ -29,10 +81,10 @@ export const createOrEditGroup = async (groupInput: STGroupAllDataInput) => {
         const groupInvitationReceivedIds = group.invitationReceived.map(m => m.user.uid);
 
         // load STUserPartialInformation for users which are not already in group
-        const newMembers = [...new Set(groupInput.members)].filter(mId => !groupMembersIds.includes(mId)).map(m => querySTUserPartialInformation(m));
-        const newManagers = [...new Set(groupInput.managers)].filter(mId => !groupManagersIds.includes(mId)).map(m => querySTUserPartialInformation(m));
-        const newInvitationSent = [...new Set(groupInput.invitationSent)].filter(mId => !groupInvitationSentIds.includes(mId)).map(m => querySTUserPartialInformation(m));
-        const newInvitationReceived = [...new Set(groupInput.invitationReceived)].filter(mId => !groupInvitationReceivedIds.includes(mId)).map(m => querySTUserPartialInformation(m));
+        const newMembers = [...new Set(groupInput.members)].filter(mId => !groupMembersIds.includes(mId)).map(m => querySTUserPartialInformationByUid(m));
+        const newManagers = [...new Set(groupInput.managers)].filter(mId => !groupManagersIds.includes(mId)).map(m => querySTUserPartialInformationByUid(m));
+        const newInvitationSent = [...new Set(groupInput.invitationSent)].filter(mId => !groupInvitationSentIds.includes(mId)).map(m => querySTUserPartialInformationByUid(m));
+        const newInvitationReceived = [...new Set(groupInput.invitationReceived)].filter(mId => !groupInvitationReceivedIds.includes(mId)).map(m => querySTUserPartialInformationByUid(m));
 
         const notSaved = await Promise.all([
             Promise.all(newMembers),
@@ -47,22 +99,15 @@ export const createOrEditGroup = async (groupInput: STGroupAllDataInput) => {
         group.invitationSent = [...group.invitationSent, ...notSaved[2].map(m => createSTGroupUser(m))];
         group.invitationReceived = [...group.invitationReceived, ...notSaved[3].map(m => createSTGroupUser(m))];
 
-
-        // already exists
-        if (group.groupId) {
-            group.lastUpdateDate = getCurrentIOSDate();
-            await admin.firestore().collection(`${ST_GROUP_COLLECTION_GROUPS}`).doc(`${group.groupId}`).set(group);
-        } else {
-            const result = await admin.firestore().collection(`${ST_GROUP_COLLECTION_GROUPS}`).add(group);
-            group.groupId = result.id;
-        }
+        // persist
+        await admin.firestore().collection(`${ST_GROUP_COLLECTION_GROUPS}`).doc(`${group.groupId}`).set(group);
 
         return getSTGroupAllDataByGroupId(group.groupId);
 
     } catch (error) {
         throw new ApolloError(error);
     }
-}
+};
 
 
 export const deleteGroup = async (uid: string, groupId: string) => {

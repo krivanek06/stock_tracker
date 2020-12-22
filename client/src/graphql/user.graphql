@@ -76,10 +76,16 @@ query AuthenticateUser($uid: String!) {
 }
 
 
+query QuerySTUserPartialInformationByUsername($usernamePrefix: String!) {
+    querySTUserPartialInformationByUsername(usernamePrefix: $usernamePrefix) {
+        ...STUserPartialInformationFragment
+    }
+}
 
 
 
-
+# -------------------------------------------------------
+# MUTATIONS
 mutation RegisterUser($stUserAuthenticationInput: STUserAuthenticationInput!) {
     registerUser(user: $stUserAuthenticationInput)
 }

@@ -19,3 +19,8 @@ export interface DocumentIdentification {
 }
 
 
+export interface UploadedFile {
+    downloadURL: string;
+    path: string;
+}
+
