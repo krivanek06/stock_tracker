@@ -3,7 +3,7 @@ fragment STRankFragment on STRank {
     rankLosers
     rankPortfolio
     rankProfit
-    rankNumberOfTrandes
+    rankNumberOfTrades
     date
 }
 

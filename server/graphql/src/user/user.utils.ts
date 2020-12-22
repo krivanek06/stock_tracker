@@ -32,7 +32,12 @@ export const createSTUserPublicData = (user: STUserAuthenticationInput): STUserP
         accountCreatedDate: getCurrentIOSDate(),
         lastSignInDate: getCurrentIOSDate(),
         bestAchievedRanks: [],
-        groups: [],
+        groups: {
+            groupInvitationReceived: [],
+            groupInvitationSent: [],
+            groupMember: [],
+            groupOwner: []
+        },
         holdings: [],
         portfolio: null,
         portfolioWeeklyChange: [],

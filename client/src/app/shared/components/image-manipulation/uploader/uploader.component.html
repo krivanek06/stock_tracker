@@ -1,0 +1,16 @@
+<div *ngFor="let file of files">
+    <app-upload-task
+            (uploadedFilesEmitter)="uploadFile($event)"
+            [file]="file"
+            [filePath]="filePath">
+    </app-upload-task>
+</div>
+
+<div class="dropzone"
+     appDropzone
+     (hovered)="toggleHover($event)"
+     (dropped)="onDrop($event)"
+     [class.hovering]="isHovering">
+
+    <p>Drag and Drop a File</p>
+</div>

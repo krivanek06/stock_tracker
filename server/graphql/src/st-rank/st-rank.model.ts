@@ -3,6 +3,6 @@ export interface STRank {
     rankLosers: number;
     rankPortfolio: number;
     rankProfit: number;
-    rankNumberOfTrandes: number;
+    rankNumberOfTrades: number;
     date: Date;
 }

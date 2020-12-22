@@ -34,7 +34,7 @@ export interface STUserPublicData extends STUserPartialInformation {
     portfolioWeeklyChange: STPortfolio[];
     holdings: STTransaction[]; // only open transactions
     resetedAccount: STUserResetedAccount[];
-    groups: STUserGroups[];
+    groups: STUserGroups;
     activity: USER_ACTIVITY;
     bestAchievedRanks: STRank[];
     userLogs: STLog[];

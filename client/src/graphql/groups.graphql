@@ -69,9 +69,17 @@ fragment STGroupAllDataFragment on STGroupAllData {
     }
 }
 
+# --------------------------------------
+# MUTATION
 
-mutation CreateOrEditGroup($groupInput: STGroupAllDataInput){
-    createOrEditGroup(groupInput: $groupInput){
+mutation CreateGroup($groupInput: STGroupAllDataInput){
+    createGroup(groupInput: $groupInput){
+        ...STGroupPartialDataFragment
+    }
+}
+
+mutation EditGroup($groupInput: STGroupAllDataInput){
+    editGroup(groupInput: $groupInput){
         ...STGroupAllDataFragment
     }
 }

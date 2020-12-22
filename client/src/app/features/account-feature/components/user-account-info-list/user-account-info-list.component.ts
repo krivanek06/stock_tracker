@@ -1,16 +1,26 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {StUserPartialInformation} from '../../../../api/customGraphql.service';
 
 @Component({
-  selector: 'app-user-account-info-list',
-  templateUrl: './user-account-info-list.component.html',
-  styleUrls: ['./user-account-info-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-user-account-info-list',
+    templateUrl: './user-account-info-list.component.html',
+    styleUrls: ['./user-account-info-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserAccountInfoListComponent implements OnInit {
-  @Input() additionalClass = '';
+    @Output() deleteEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() { }
+    @Input() userPartialInformation: StUserPartialInformation;
+    @Input() clickable = false;
+    @Input() showDeleteButton = false;
 
-  ngOnInit() {}
+    constructor() {
+    }
 
+    ngOnInit() {
+    }
+
+    deletePerson() {
+        this.deleteEmitter.emit();
+    }
 }

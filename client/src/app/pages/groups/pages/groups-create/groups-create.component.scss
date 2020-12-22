@@ -1,5 +1,29 @@
-@import "custom-variables";
+@import 'custom-variables';
+
 :host {
+  .group-image-container {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .submit-button{
+    float: right;
+    @media (max-width: #{$st-var-sm-split}) {
+      display: flex;
+      float: none;
+    }
+  }
+
+
+  .listed-users-container {
+    column-count: 3;
+    @media (max-width: #{$st-var-sm-split}) {
+      column-count: 1;
+    }
+  }
+
   .account-search {
     border-left: 1px solid #{$st-var-font-4};
     @media (max-width: #{$st-var-md-split}) {

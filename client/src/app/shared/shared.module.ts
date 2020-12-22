@@ -26,6 +26,9 @@ import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import { ValueStateDirective } from './directives/value-state.directive';
 import {PriceChangeItemComponent} from './components/items/price-change-item/price-change-item.component';
 import {InlineInputPopUpComponent} from './components/pop-ups/inline-input-pop-up/inline-input-pop-up.component';
+import { DropzoneDirective } from './directives/dropzone.directive';
+import {UploaderComponent} from './components/image-manipulation/uploader/uploader.component';
+import {UploadTaskComponent} from './components/image-manipulation/upload-task/upload-task.component';
 
 @NgModule({
     declarations: [
@@ -44,7 +47,10 @@ import {InlineInputPopUpComponent} from './components/pop-ups/inline-input-pop-u
         EconomicChartModalContainerComponent,
         ValueStateDirective,
         PriceChangeItemComponent,
-        InlineInputPopUpComponent
+        InlineInputPopUpComponent,
+        DropzoneDirective,
+        UploaderComponent,
+        UploadTaskComponent
     ],
     imports: [
         CommonModule,
@@ -85,7 +91,9 @@ import {InlineInputPopUpComponent} from './components/pop-ups/inline-input-pop-u
         NgxDatatableModule,
         ValueStateDirective,
         PriceChangeItemComponent,
-        InlineInputPopUpComponent
+        InlineInputPopUpComponent,
+        UploaderComponent,
+        UploadTaskComponent
 
     ],
     entryComponents: [

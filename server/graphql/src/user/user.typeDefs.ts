@@ -37,15 +37,15 @@ export const userTypeDefs = gql`
         lastSignInDate: String!
         portfolio: STPortfolio
         rank: STRank
-        transactionsSnippets: [STTransaction]
-        portfolioWeeklyChange: [STPortfolio]
-        holdings: [STTransaction]
+        transactionsSnippets: [STTransaction]!
+        portfolioWeeklyChange: [STPortfolio]!
+        holdings: [STTransaction]!
         resetedAccount: [STUserResetedAccount]
-        groups: STUserGroups
+        groups: STUserGroups!
         activity: USER_ACTIVITY
         bestAchievedRanks: [STRank]
         userLogs: [STLog]
-        userPrivateData: STUserPrivateData
+        userPrivateData: STUserPrivateData!
         stockWatchlist: [STStockWatchlist]!
     } 
 

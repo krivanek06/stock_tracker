@@ -1,4 +1,4 @@
-import {ST_GROUP_COLLECTION_GROUPS, STGroupAllData} from "./st-group.model";
+import {ST_GROUP_COLLECTION_GROUPS, STGroupAllData, STGroupPartialData} from "./st-group.model";
 import {ApolloError} from "apollo-server";
 import * as admin from "firebase-admin";
 

@@ -1,4 +1,4 @@
-import {STGroupAllData, STGroupUser} from "./st-group.model";
+import {STGroupAllData, STGroupPartialData, STGroupUser} from "./st-group.model";
 import {STUserPartialInformation} from "../user/user.model";
 import {getCurrentIOSDate} from "../st-shared/st-shared.functions";
 
@@ -33,4 +33,22 @@ export const createSTGroupUser = (userPartial: STUserPartialInformation): STGrou
         sinceDate: getCurrentIOSDate()
     }
     return groupUser;
+}
+
+
+export const createSTGroupPartialDataFromSTGroupAllData = (groupAllData: STGroupAllData): STGroupPartialData => {
+    const partial: STGroupPartialData = {
+        name: groupAllData.name,
+        description: groupAllData.description,
+        createdDate: groupAllData.createdDate,
+        imageUrl: groupAllData.imageUrl,
+        imagePath: groupAllData.imagePath,
+        owner: groupAllData.owner,
+        lastUpdateDate: groupAllData.lastUpdateDate,
+        groupId: groupAllData.groupId,
+        portfolio: groupAllData.portfolio,
+        numberOfMembers: groupAllData.numberOfMembers,
+        currentAchievedRank: groupAllData.currentAchievedRank
+    };
+    return partial;
 }

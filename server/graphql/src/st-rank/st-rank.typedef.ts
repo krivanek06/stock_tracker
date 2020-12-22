@@ -7,7 +7,7 @@ export const STRankTypeDefs = gql`
         rankLosers: Float!
         rankPortfolio: Float!
         rankProfit: Float!
-        rankNumberOfTrandes: Float!
+        rankNumberOfTrades: Float!
         date: String!
     }
 

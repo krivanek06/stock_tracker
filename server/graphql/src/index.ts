@@ -6,8 +6,7 @@ import {ApolloServer, gql} from 'apollo-server';
 import {userTypeDefs} from './user/user.typeDefs';
 import {userResolvers} from './user/user.resolver';
 import * as admin from 'firebase-admin';
-import {authenticateUser, queryUserPublicData} from './user/user.query';
-import {queryUserStockWatchlists as queryUserStockWatchlists} from './watchlist/watchlist.query';
+import {authenticateUser, querySTUserPartialInformationByUsername, queryUserPublicData} from './user/user.query';
 import {
     createStockWatchlist,
     addStockIntoStockWatchlist,
@@ -22,7 +21,7 @@ import {stockDetailsTypeDefs} from './stockDetails/stockDetails.typedefs';
 import {STTransactionTypeDefs} from './st-transaction/st-transaction.typedef';
 import {STRankTypeDefs} from './st-rank/st-rank.typedef';
 import {STPortfolioTypeDefs} from './st-portfolio/st-portfolio.typedef';
-import {createOrEditGroup, deleteGroup} from "./st-group/st.group.mutation";
+import {editGroup, deleteGroup, createGroup} from "./st-group/st.group.mutation";
 import {STGroupAllDataInput} from "./st-group/st-group.model";
 
 global.fetch = require("node-fetch");
@@ -42,10 +41,12 @@ const mainTypeDefs = gql`
     type Query {
         # user
         queryUserData(uid: String!): STUserPublicData
+        querySTUserPartialInformationByUsername(usernamePrefix: String!): [STUserPartialInformation]!
         authenticateUser(uid: String!): STUserPublicData
         
         # watchlist
-        queryUserStockWatchlists(uid: String!): [STStockWatchlist]
+        # queryUserStockWatchlists(uid: String!): [STStockWatchlist]
+        
         # details
         queryStockDetails(symbol: String!): StockDetails
     }
@@ -58,7 +59,8 @@ const mainTypeDefs = gql`
         #updateUserPrivateData(uid: String, userPrivateDataInput: UserPrivateDataInput): UserPrivateData
         
         # groups
-        createOrEditGroup(groupInput: STGroupAllDataInput): STGroupAllData
+        createGroup(groupInput: STGroupAllDataInput): STGroupPartialData
+        editGroup(groupInput: STGroupAllDataInput): STGroupAllData
         deleteGroup(uid: String, groupId: String): Boolean
         
         ## watchlist
@@ -73,9 +75,13 @@ const mainTypeDefs = gql`
 
 const mainResolver = {
     Query: {
+        // user
         authenticateUser: async (_: null, args: { uid: string }) => await authenticateUser(args.uid),
         queryUserData: async (_: null, args: { uid: string }) => await queryUserPublicData(args.uid),
-        queryUserStockWatchlists: async (_: null, args: { uid: string }) => await queryUserStockWatchlists(args.uid),
+        querySTUserPartialInformationByUsername: async (_: null, args: { usernamePrefix: string }) => await querySTUserPartialInformationByUsername(args.usernamePrefix),
+        //queryUserStockWatchlists: async (_: null, args: { uid: string }) => await queryUserStockWatchlists(args.uid),
+
+        // stock details
         queryStockDetails: async (_: null, args: { symbol: string }) => await queryStockDetails(args.symbol),
     },
 
@@ -84,7 +90,8 @@ const mainResolver = {
         registerUser: async (_, args: { user: STUserAuthenticationInput }) => await registerUser(args.user),
 
         // GROUPS
-        createOrEditGroup: async (_, args: { groupInput: STGroupAllDataInput }) => await createOrEditGroup(args.groupInput),
+        createGroup: async (_, args: { groupInput: STGroupAllDataInput }) => await createGroup(args.groupInput),
+        editGroup: async (_, args: { groupInput: STGroupAllDataInput }) => await editGroup(args.groupInput),
         deleteGroup: async (_, args: { uid: string, groupId: string }) => await deleteGroup(args.uid, args.groupId),
 
         // WATCHLIST

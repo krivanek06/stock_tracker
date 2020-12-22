@@ -1,0 +1,33 @@
+@import "variables";
+
+:host{
+  .dropzone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-width: 200px;
+    width: 200px;
+    font-weight: 300;
+    height: 50px;
+    border: 2px dashed #393939;
+    border-radius: 5px;
+    background: white;
+    margin: 10px auto;
+    cursor: pointer;
+    transition: All 0.3s ease-out;
+
+    &:hover {
+      color: #dadada !important;
+      background-color: #{$st-var-blue-1};
+    }
+
+    .file-label {
+      font-size: 1.2em;
+    }
+  }
+
+  progress::-webkit-progress-value {
+    transition: width 0.1s ease;
+  }
+}
