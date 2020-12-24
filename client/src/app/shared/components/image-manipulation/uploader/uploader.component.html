@@ -1,10 +1,18 @@
-<div *ngFor="let file of files">
-    <app-upload-task
-            (uploadedFilesEmitter)="uploadFile($event)"
-            [file]="file"
-            [filePath]="filePath">
-    </app-upload-task>
-</div>
+<ng-container *ngIf="files.length > 0; else defaultImage">
+    <div *ngFor="let file of files">
+        <app-upload-task
+                (uploadedFilesEmitter)="uploadFile($event)"
+                [file]="file"
+                [filePath]="filePath">
+        </app-upload-task>
+
+
+    </div>
+</ng-container>
+
+<ng-template #defaultImage>
+    <ion-img *ngIf="defaultUrl" [src]="defaultUrl"></ion-img>
+</ng-template>
 
 <div class="dropzone"
      appDropzone

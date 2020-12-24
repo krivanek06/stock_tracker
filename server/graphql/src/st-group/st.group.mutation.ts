@@ -1,6 +1,6 @@
 import {ST_GROUP_COLLECTION_GROUPS, STGroupAllDataInput} from "./st-group.model";
 import {ApolloError} from "apollo-server";
-import {getSTGroupAllDataByGroupId} from "./st-group.query";
+import {querySTGroupAllDataByGroupId} from "./st-group.query";
 import {
     createEmptySTGroupAllData,
     createSTGroupPartialDataFromSTGroupAllData,
@@ -59,7 +59,7 @@ export const createGroup = async (groupInput: STGroupAllDataInput) => {
 export const editGroup = async (groupInput: STGroupAllDataInput) => {
     try {
         // load group or create new
-        const group = await getSTGroupAllDataByGroupId(groupInput.groupId);
+        const group = await querySTGroupAllDataByGroupId(groupInput.groupId);
         group.name = groupInput.name;
         group.description = groupInput.description;
         group.imagePath = groupInput.imagePath;
@@ -102,7 +102,13 @@ export const editGroup = async (groupInput: STGroupAllDataInput) => {
         // persist
         await admin.firestore().collection(`${ST_GROUP_COLLECTION_GROUPS}`).doc(`${group.groupId}`).set(group);
 
-        return getSTGroupAllDataByGroupId(group.groupId);
+        // TODO update group data in all users - members, managers, invitationSent, invitaitonReceived, owner
+        // WHY ? what is I deleted some user, and they still will be in group
+        // trigger cloud function which will update group Data for all users
+
+
+        //return querySTGroupAllDataByGroupId(group.groupId);
+        return createSTGroupPartialDataFromSTGroupAllData(group);
 
     } catch (error) {
         throw new ApolloError(error);
@@ -112,7 +118,7 @@ export const editGroup = async (groupInput: STGroupAllDataInput) => {
 
 export const deleteGroup = async (uid: string, groupId: string) => {
     try {
-        const group = await getSTGroupAllDataByGroupId(groupId);
+        const group = await querySTGroupAllDataByGroupId(groupId);
         if (group.owner.user.uid !== uid) {
             throw new ApolloError("Only owner can delete a group");
         }

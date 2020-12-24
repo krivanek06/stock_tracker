@@ -6,20 +6,26 @@
     </app-header>
 
     <!-- body -->
-    <perfect-scrollbar>
-        <div class="st-content-padding">
-            <ion-row class="st-content-padding">
+    <div class="st-content-padding">
+        <ion-row class="st-content-padding">
 
-                <ion-col size="1.5" class="ion-hide-md-down st-border-right" style="text-align-last: center;">
-                    <app-group-types-list></app-group-types-list>
-                </ion-col>
+            <ion-col size="1.5" class="ion-hide-md-down st-border-right" style="text-align-last: center;">
+                <!-- list groups -->
+                <ng-container *ngIf="user$ | async as user ">
+                    <app-group-types-list
+                            (clickedGroupEmitter)="redirectToGroupReadOnly($event)"
+                            [activeGroup]="selectedGroupId$ | async"
+                            [groups]="user.groups">
+                    </app-group-types-list>
+                </ng-container>
+            </ion-col>
 
-                <ion-col size="12" size-md="10.5">
-                    <router-outlet></router-outlet>
-                </ion-col>
-            </ion-row>
+            <ion-col size="12" size-md="10.5">
+                <!-- sub pages -->
+                <router-outlet></router-outlet>
+            </ion-col>
+        </ion-row>
 
-        </div>
-    </perfect-scrollbar>
+    </div>
 </ion-content>
 

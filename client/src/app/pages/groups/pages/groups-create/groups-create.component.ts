@@ -1,15 +1,18 @@
-import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UploadedFile} from '../../../../shared/models/sharedModel';
-import {StGroupAllDataInput, StUserPartialInformation} from '../../../../api/customGraphql.service';
+import {StUserPartialInformation} from '../../../../api/customGraphql.service';
 import {GroupService} from '../../../../features/group-feature/services/group.service';
+import {UploaderComponent} from '../../../../shared/components/image-manipulation/uploader/uploader.component';
 
 @Component({
     selector: 'app-groups-create',
     templateUrl: './groups-create.component.html',
     styleUrls: ['./groups-create.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroupsCreateComponent implements OnInit {
+    @ViewChild('uploader') uploader: UploaderComponent;
     invitationSent: StUserPartialInformation[] = [];
     form: FormGroup;
 
@@ -27,6 +30,7 @@ export class GroupsCreateComponent implements OnInit {
         // restore to default;
         this.form.reset();
         this.invitationSent = [];
+        this.uploader.clearImages();
     }
 
 

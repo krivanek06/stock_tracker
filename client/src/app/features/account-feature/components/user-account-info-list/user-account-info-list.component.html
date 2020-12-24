@@ -1,9 +1,9 @@
-<ion-item *ngIf="userPartialInformation"
-          class="user-info-item" [ngClass]="{
-        'ion-activatable': clickable,
-        'width-100': clickable
-    }">
-    <ion-label style="display: flex">
+<ion-item *ngIf="userPartialInformation" class="user-info-item">
+    <ion-label (click)="clickedPerson()"
+            class="user-info-item-user" [ngClass]="{
+                'ion-activatable': clickable,
+                'width-100': clickable
+            }">
         <ion-img [src]="userPartialInformation.photoURL"></ion-img>
         <ion-label class="ion-margin-start" style="display: grid">
             <ion-text>{{ userPartialInformation.nickName }}</ion-text>
@@ -15,11 +15,14 @@
                     ({{ userPartialInformation.portfolio?.portfolioWeeklyChange }})
                 </ion-text>
             </div>
+            <ion-text class="st-font-size-12 st-font-4">Since: {{ sinceDate | date: 'dd.MM.yyyy' }}</ion-text>
         </ion-label>
+    </ion-label>
 
+    <ion-label>
         <!-- delete button  -->
         <ion-button *ngIf="showDeleteButton"
-                    class="st-transparent-background st-negative-button st-clickable"
+                    class="st-transparent-background st-negative-button st-clickable ion-hide-sm-down"
                     (click)="deletePerson()">
             <ion-icon name="trash-bin" style="font-size: 28px;"></ion-icon>
         </ion-button>

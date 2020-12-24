@@ -1,0 +1,22 @@
+<ion-content>
+    <ion-toolbar>
+        <ion-title class="ion-text-start st-font-1 st-font-size-16">
+            Change {{ userName }}'s status in group
+        </ion-title>
+        <ion-buttons slot="end">
+            <ion-button color="danger" (click)="dismissModal()">
+                <ion-icon name="close-outline"></ion-icon>
+                Close
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+
+    <ion-item *ngFor="let groupMemberPosition of groupMemberPositions"
+              class="ion-activatable"
+              (click)="selectPosition(groupMemberPosition)">
+        <ion-label class="ion-text-center">
+            {{ groupMemberPosition.label }}
+        </ion-label>
+    </ion-item>
+
+</ion-content>

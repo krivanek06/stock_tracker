@@ -23,6 +23,7 @@ import {STRankTypeDefs} from './st-rank/st-rank.typedef';
 import {STPortfolioTypeDefs} from './st-portfolio/st-portfolio.typedef';
 import {editGroup, deleteGroup, createGroup} from "./st-group/st.group.mutation";
 import {STGroupAllDataInput} from "./st-group/st-group.model";
+import {querySTGroupAllDataByGroupId} from "./st-group/st-group.query";
 
 global.fetch = require("node-fetch");
 
@@ -47,6 +48,9 @@ const mainTypeDefs = gql`
         # watchlist
         # queryUserStockWatchlists(uid: String!): [STStockWatchlist]
         
+        # groups
+        querySTGroupAllDataByGroupId(groupId: String!): STGroupAllData
+        
         # details
         queryStockDetails(symbol: String!): StockDetails
     }
@@ -60,7 +64,7 @@ const mainTypeDefs = gql`
         
         # groups
         createGroup(groupInput: STGroupAllDataInput): STGroupPartialData
-        editGroup(groupInput: STGroupAllDataInput): STGroupAllData
+        editGroup(groupInput: STGroupAllDataInput): STGroupPartialData
         deleteGroup(uid: String, groupId: String): Boolean
         
         ## watchlist
@@ -75,11 +79,14 @@ const mainTypeDefs = gql`
 
 const mainResolver = {
     Query: {
-        // user
+        // USER
         authenticateUser: async (_: null, args: { uid: string }) => await authenticateUser(args.uid),
         queryUserData: async (_: null, args: { uid: string }) => await queryUserPublicData(args.uid),
         querySTUserPartialInformationByUsername: async (_: null, args: { usernamePrefix: string }) => await querySTUserPartialInformationByUsername(args.usernamePrefix),
         //queryUserStockWatchlists: async (_: null, args: { uid: string }) => await queryUserStockWatchlists(args.uid),
+
+        // GROUP
+        querySTGroupAllDataByGroupId: async (_: null, args: { groupId: string }) => await querySTGroupAllDataByGroupId(args.groupId),
 
         // stock details
         queryStockDetails: async (_: null, args: { symbol: string }) => await queryStockDetails(args.symbol),

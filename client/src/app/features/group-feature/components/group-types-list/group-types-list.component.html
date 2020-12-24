@@ -1,46 +1,82 @@
-<ion-item-group class="ion-margin-bottom">
+<!-- my groups -->
+<ion-item-group *ngIf="groups.groupOwner.length > 0" class="ion-margin-bottom">
     <ion-item>
         <ion-label class="st-font-2 st-font-size-18">
             My groups
         </ion-label>
     </ion-item>
 
-    <div class="group-name-wrapper">
-        <ion-text class="group-name" (click)="clickedGroup('group1')" [ngClass]="{'st-icon': activeGroup === 'group1'}">GROUP1</ion-text>
-        <ion-text  class="group-name">GROUP1</ion-text>
-        <ion-text  class="group-name">GROUP1</ion-text>
-        <ion-text  class="group-name">GROUP1</ion-text>
-    </div>
+    <ion-item-group>
+        <ion-item *ngFor="let group of groups.groupOwner"
+                  (click)="clickedGroup(group)"
+                  class="st-font-4 ion-activatable"
+                  [ngClass]="{'st-icon': activeGroup === group.groupId}">
+            <ion-label>
+                {{ group.name }}
+            </ion-label>
+        </ion-item>
+    </ion-item-group>
 </ion-item-group>
 
 
-<ion-item-group class="ion-margin-bottom">
+<!-- member groups -->
+<ion-item-group *ngIf="groups.groupMember.length > 0" class="ion-margin-bottom">
     <ion-item>
         <ion-label class="st-font-2 st-font-size-18">
-            My groups
+            Member of
         </ion-label>
     </ion-item>
 
-    <div class="group-name-wrapper">
-        <ion-text class="group-name">GROUP1</ion-text>
-        <ion-text  class="group-name">GROUP1</ion-text>
-        <ion-text  class="group-name">GROUP1</ion-text>
-        <ion-text  class="group-name">GROUP1</ion-text>
-    </div>
+    <ion-item-group>
+        <ion-item *ngFor="let group of groups.groupMember"
+                  (click)="clickedGroup(group)"
+                  class="st-font-4 ion-activatable "
+                  [ngClass]="{'st-icon': activeGroup === group.groupId}">
+            <ion-label>
+                {{ group.name }}
+            </ion-label>
+        </ion-item>
+    </ion-item-group>
 </ion-item-group>
 
 
-<ion-item-group class="ion-margin-bottom">
+<!-- invitation sent groups -->
+<ion-item-group *ngIf="groups.groupInvitationSent.length > 0" class="ion-margin-bottom">
     <ion-item>
         <ion-label class="st-font-2 st-font-size-18">
-            My groups
+            Invitation sent
         </ion-label>
     </ion-item>
 
-    <div class="group-name-wrapper">
-        <ion-text class="group-name">GROUP1</ion-text>
-        <ion-text  class="group-name">GROUP1</ion-text>
-        <ion-text  class="group-name">GROUP1</ion-text>
-        <ion-text  class="group-name">GROUP1</ion-text>
-    </div>
+    <ion-item-group>
+        <ion-item *ngFor="let group of groups.groupInvitationSent"
+                  (click)="clickedGroup(group)"
+                  class="st-font-4 ion-activatable"
+                  [ngClass]="{'st-icon': activeGroup === group.groupId}">
+            <ion-label>
+                {{ group.name }}
+            </ion-label>
+        </ion-item>
+    </ion-item-group>
+</ion-item-group>
+
+
+<!-- invitation received groups -->
+<ion-item-group *ngIf="groups.groupInvitationReceived.length > 0" class="ion-margin-bottom">
+    <ion-item>
+        <ion-label class="st-font-2 st-font-size-18">
+            Invitation received
+        </ion-label>
+    </ion-item>
+
+    <ion-item-group>
+        <ion-item *ngFor="let group of groups.groupInvitationReceived"
+                  (click)="clickedGroup(group)"
+                  class="st-font-4 ion-activatable"
+                  [ngClass]="{'st-icon': activeGroup === group.groupId}">
+            <ion-label>
+                {{ group.name }}
+            </ion-label>
+        </ion-item>
+    </ion-item-group>
 </ion-item-group>

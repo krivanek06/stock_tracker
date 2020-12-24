@@ -9,8 +9,10 @@ import {StUserPartialInformation} from '../../../../api/customGraphql.service';
 })
 export class UserAccountInfoListComponent implements OnInit {
     @Output() deleteEmitter: EventEmitter<any> = new EventEmitter<any>();
+    @Output() clickedEmitter: EventEmitter<any> = new EventEmitter<any>();
 
     @Input() userPartialInformation: StUserPartialInformation;
+    @Input() sinceDate: string;
     @Input() clickable = false;
     @Input() showDeleteButton = false;
 
@@ -22,5 +24,9 @@ export class UserAccountInfoListComponent implements OnInit {
 
     deletePerson() {
         this.deleteEmitter.emit();
+    }
+
+    clickedPerson() {
+        this.clickedEmitter.emit();
     }
 }

@@ -1,5 +1,0 @@
-export enum GROUP_MANAGEMENT_STATE {
-    CREATE,
-    READ_ONLY,
-    EDIT
-}

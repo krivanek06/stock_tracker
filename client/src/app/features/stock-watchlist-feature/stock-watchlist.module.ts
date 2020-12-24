@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {SharedModule} from '../../shared/shared.module';
-import {WatchlistPickerModalContainerComponent} from './containers/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
+import {WatchlistPickerModalContainerComponent} from './entry-components/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
 import {WatchlistTableHeaderComponent} from './components/watchlist-table-header/watchlist-table-header.component';
 import {WatchlistSectorChartComponent} from './components/watchlist-sector-chart/watchlist-sector-chart.component';
 import {StockDataFeatureModule} from '../stock-data-feature/stock-data-feature.module';

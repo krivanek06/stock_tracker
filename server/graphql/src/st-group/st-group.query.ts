@@ -3,9 +3,9 @@ import {ApolloError} from "apollo-server";
 import * as admin from "firebase-admin";
 
 
-export const getSTGroupAllDataByGroupId = async (groupId: string): Promise<STGroupAllData> => {
+export const querySTGroupAllDataByGroupId = async (groupId: string): Promise<STGroupAllData> => {
     try {
-        const groupDoc = await admin.firestore().doc(`${ST_GROUP_COLLECTION_GROUPS}/${groupId}`).get();
+        const groupDoc = await admin.firestore().collection(ST_GROUP_COLLECTION_GROUPS).doc(groupId).get();
         const data = groupDoc.data() as STGroupAllData;
 
         return data ? {...data, groupId} : undefined;

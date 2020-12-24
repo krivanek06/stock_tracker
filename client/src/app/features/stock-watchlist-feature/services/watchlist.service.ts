@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ModalController, PopoverController} from '@ionic/angular';
 import {IonicDialogService} from '../../../shared/services/ionic-dialog.service';
 import {AuthFeatureService} from '../../auth-feature/services/auth-feature.service';
-import {WatchlistPickerModalContainerComponent} from '../containers/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
+import {WatchlistPickerModalContainerComponent} from '../entry-components/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
 import {ChartDataIdentification} from '../../../shared/models/sharedModel';
 import {filter, map, takeUntil} from 'rxjs/operators';
 import {Observable, Subject} from 'rxjs';
@@ -15,8 +15,7 @@ import {MarketPriceWebsocketService, MarketSymbolResult} from '../../../shared/s
     providedIn: 'root'
 })
 export class WatchlistService {
-    constructor(private modalController: ModalController,
-                private ionicDialogService: IonicDialogService,
+    constructor(private ionicDialogService: IonicDialogService,
                 private popoverController: PopoverController,
                 private marketPriceWebsocket: MarketPriceWebsocketService,
                 private graphqlWatchlistService: GraphqlWatchlistService,
@@ -67,14 +66,15 @@ export class WatchlistService {
             watchlistName = watchlists[0].name;
         } else {
             // multiple watchlist, present modal for user to choose
-            const modal = await this.modalController.create({
+            const popOver = await this.popoverController.create({
                 component: WatchlistPickerModalContainerComponent,
                 componentProps: {symbol},
-                cssClass: 'custom-modal'
+                cssClass: 'custom-popover',
+                translucent: true,
             });
-            await modal.present();
+            await popOver.present();
 
-            const dismiss = await modal.onDidDismiss(); // get data on dismiss
+            const dismiss = await popOver.onDidDismiss(); // get data on dismiss
 
             watchlistId = dismiss.data ? dismiss.data.watchListId : undefined;
             watchlistName = dismiss.data ? dismiss.data.watchlistName : undefined;

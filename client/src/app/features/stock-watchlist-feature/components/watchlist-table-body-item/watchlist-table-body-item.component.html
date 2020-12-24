@@ -16,17 +16,17 @@
 
         <!-- daily change -->
         <div class="label-md-space">
-            <app-price-change-item [currentPrice]="currentPrice"
-                                   [compareToPrice]="summary.previousClose">
-            </app-price-change-item>
+            <app-price-compare-item [currentPrice]="currentPrice"
+                                    [compareToPrice]="summary.previousClose">
+            </app-price-compare-item>
         </div>
 
 
         <!-- year change -->
         <div class="label-md-space">
-            <app-price-change-item [currentPrice]="currentPrice"
-                                   [compareToPrice]="summary.weekRangeFiveTwoMin">
-            </app-price-change-item>
+            <app-price-compare-item [currentPrice]="currentPrice"
+                                    [compareToPrice]="summary.weekRangeFiveTwoMin">
+            </app-price-compare-item>
         </div>
 
 

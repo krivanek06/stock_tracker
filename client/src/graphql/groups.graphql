@@ -28,6 +28,8 @@ fragment STGroupAllDataFragment on STGroupAllData {
     groupId
     name
     description
+    imageUrl
+    imagePath
     portfolio {
         ...STPortfolioFragment
     }
@@ -70,6 +72,16 @@ fragment STGroupAllDataFragment on STGroupAllData {
 }
 
 # --------------------------------------
+# QUERY
+
+query QuerySTGroupAllDataByGroupId($groupId: String!) {
+    querySTGroupAllDataByGroupId(groupId: $groupId) {
+        ...STGroupAllDataFragment
+    }
+}
+
+
+# --------------------------------------
 # MUTATION
 
 mutation CreateGroup($groupInput: STGroupAllDataInput){
@@ -80,7 +92,7 @@ mutation CreateGroup($groupInput: STGroupAllDataInput){
 
 mutation EditGroup($groupInput: STGroupAllDataInput){
     editGroup(groupInput: $groupInput){
-        ...STGroupAllDataFragment
+        ...STGroupPartialDataFragment
     }
 }
 

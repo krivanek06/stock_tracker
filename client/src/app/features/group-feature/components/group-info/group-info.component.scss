@@ -1,0 +1,21 @@
+@import "variables";
+
+:host {
+  ion-col {
+    padding: 10px;
+  }
+
+  .fixedLabel {
+    min-width: 40% !important;
+    max-width: 40% !important;
+    color: #{$st-var-font-1} !important;
+    align-self: start;
+    white-space: pre-wrap;;
+  }
+
+  ion-list {
+    ion-item {
+      --min-height: #{$st-ionic-label-min-height};
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {StGroupPartialData, StUserGroups} from '../../../../api/customGraphql.service';
 
 @Component({
     selector: 'app-group-types-list',
@@ -7,8 +8,9 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output}
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroupTypesListComponent implements OnInit {
-    @Output() clickedGroupEmitter: EventEmitter<string> = new EventEmitter<string>();
+    @Output() clickedGroupEmitter: EventEmitter<StGroupPartialData> = new EventEmitter<StGroupPartialData>();
 
+    @Input() groups: StUserGroups;
     @Input() activeGroup: string;
 
     constructor() {
@@ -17,7 +19,8 @@ export class GroupTypesListComponent implements OnInit {
     ngOnInit() {
     }
 
-    clickedGroup(group1: string) {
-        this.clickedGroupEmitter.emit(group1);
+    clickedGroup(group: StGroupPartialData) {
+        this.activeGroup = group.groupId;
+        this.clickedGroupEmitter.emit(group);
     }
 }
