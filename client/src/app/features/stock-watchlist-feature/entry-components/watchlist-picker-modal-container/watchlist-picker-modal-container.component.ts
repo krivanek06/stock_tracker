@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
-import {ModalController, NavParams} from '@ionic/angular';
+import {ModalController, NavParams, PopoverController} from '@ionic/angular';
 import {WatchlistService} from '../../services/watchlist.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class WatchlistPickerModalContainerComponent implements OnInit {
 
     constructor(private navParams: NavParams,
                 private watchlistService: WatchlistService,
-                private modalController: ModalController) {
+                private popoverController: PopoverController,) {
         this.symbol = this.navParams.get('symbol');
     }
 
@@ -25,11 +25,11 @@ export class WatchlistPickerModalContainerComponent implements OnInit {
     }
 
     dismissModal() {
-        this.modalController.dismiss();
+        this.popoverController.dismiss();
     }
 
     addSymbolToWatchlist(watchListId: string, watchlistName: string) {
-        this.modalController.dismiss({watchListId, watchlistName});
+        this.popoverController.dismiss({watchListId, watchlistName});
     }
 
 }

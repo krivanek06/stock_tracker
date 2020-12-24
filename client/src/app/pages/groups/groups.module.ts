@@ -24,7 +24,7 @@ const routes: Routes = [
             },
             {
                 path: 'edit/:id',
-                component: GroupsEditComponent
+                component: GroupsEditComponent  // guard to enable only if manager of owner
             },
             {
                 path: 'read/:id',
@@ -39,7 +39,7 @@ const routes: Routes = [
         GroupsReadComponent,
         GroupsEditComponent,
         GroupsCreateComponent,
-        GroupsComponent,
+        GroupsComponent
     ],
     imports: [
         SharedModule,

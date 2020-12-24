@@ -123,11 +123,10 @@ ion-spinner {
 // custom headers
 .st-h3 {
   color: #{$st-var-font-1} !important;
-  margin-top: 0;
-  font-size: 20px;
-  margin-bottom: 22px;
+  margin-top: 0 !important;
+  font-size: 20px !important;
+  margin-bottom: 22px !important;
 }
-
 
 
 // FONT SIZES
@@ -174,7 +173,7 @@ ion-spinner {
   --background: #{ $st-var-accept-1} ! important;
 }
 
-.st-transparent-background{
+.st-transparent-background {
   --background: transparent;
   --box-shadow: none;
   --background-hover: none;
@@ -265,6 +264,12 @@ ion-spinner {
 
 // BUTTONS
 
+.st-button {
+  min-width: 100px !important;
+  height: 30px !important;
+  color: white !important;
+}
+
 .st-positive-button {
   color: #{$st-var-create-1};
 
@@ -322,7 +327,7 @@ ion-spinner {
   //--height: 200px;
   --background: #{$background-blue};
 
-  @media (min-width: #{$st-var-sm-split}) {
+  @media (max-width: #{$st-var-sm-split}) {
     --width: 375px;
   }
 }

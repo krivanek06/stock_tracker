@@ -5,8 +5,15 @@
   }
 
   .user-info-item {
-    padding-top: 7px;
-    padding-bottom: 7px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     display: inline-block;
+  }
+
+  .user-info-item-user {
+    min-width: 200px;
+    display: flex;
+    align-items: start;
+    padding: 6px;
   }
 }

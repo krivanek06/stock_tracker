@@ -17,12 +17,7 @@
   }
 
 
-  .listed-users-container {
-    column-count: 3;
-    @media (max-width: #{$st-var-sm-split}) {
-      column-count: 1;
-    }
-  }
+
 
   .account-search {
     border-left: 1px solid #{$st-var-font-4};

@@ -6,8 +6,11 @@
             <!-- group image -->
             <ion-item-group class="group-image-container">
                 <ion-item>
-                    <app-uploader [filePath]="'groups'"
-                                  (uploadedFilesEmitter)="uploadedGroupImage($event)"></app-uploader>
+                    <app-uploader
+                            #uploader
+                            [filePath]="'groups'"
+                            (uploadedFilesEmitter)="uploadedGroupImage($event)">
+                    </app-uploader>
                 </ion-item>
             </ion-item-group>
 
@@ -24,10 +27,16 @@
                               [autoGrow]="true"></ion-textarea>
             </ion-item>
 
+            <!-- submit button -->
+            <ion-button [disabled]="form.invalid"
+                        class="submit-button st-create-background ion-margin" type="submit">
+                Submit
+            </ion-button>
+
 
             <!-- listed users -->
             <ion-item class="ion-margin-top">
-                <ion-label>
+                <ion-label class="st-font-size-18">
                     Send invitation
                 </ion-label>
             </ion-item>
@@ -40,11 +49,7 @@
                 </app-user-account-info-list>
             </ion-item-group>
 
-            <!-- submit button -->
-            <ion-button [disabled]="form.invalid"
-                        class="submit-button st-create-background ion-margin" type="submit">
-                Submit
-            </ion-button>
+
 
         </form>
     </ion-col>

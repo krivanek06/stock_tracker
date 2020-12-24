@@ -37,11 +37,11 @@
         <ion-label position="fixed" class="fixedLabel">Price</ion-label>
         <ion-label class="st-flex-row">
             <ion-text style="margin-right: 10px">{{ summary.marketPrice | currency }}</ion-text>
-            <app-price-change-item
+            <app-price-compare-item
                     [versionType]="2"
                     [compareToPrice]="summary.previousClose"
                     [currentPrice]="summary.marketPrice">
-            </app-price-change-item>
+            </app-price-compare-item>
         </ion-label>
     </ion-item>
 
@@ -49,11 +49,11 @@
         <ion-label position="fixed" class="fixedLabel">1y target</ion-label>
         <ion-label class="st-flex-row">
             <ion-text style="margin-right: 10px">{{ summary.oneyTargetEst | currency }}</ion-text>
-            <app-price-change-item
+            <app-price-compare-item
                     [versionType]="2"
                     [compareToPrice]="summary.oneyTargetEst"
                     [currentPrice]="summary.marketPrice">
-            </app-price-change-item>
+            </app-price-compare-item>
         </ion-label>
     </ion-item>
 

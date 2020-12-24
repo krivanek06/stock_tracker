@@ -9,6 +9,7 @@ import {UploadedFile} from '../../../models/sharedModel';
 export class UploaderComponent implements OnInit {
     @Output() uploadedFilesEmitter: EventEmitter<UploadedFile[]> = new EventEmitter<UploadedFile[]>();
 
+    @Input() defaultUrl: string;
     @Input() filePath: string;
     @Input() singleFile = true;
 
@@ -22,15 +23,20 @@ export class UploaderComponent implements OnInit {
     ngOnInit() {
     }
 
+    // public method
+    clearImages() {
+        this.uploadedFiles = [];
+        this.files.splice(0, this.files.length);
+    }
+
 
     toggleHover(event: boolean) {
         this.isHovering = event;
     }
 
     onDrop(files: FileList) {
-        this.uploadedFiles = [];
+        this.clearImages();
         if (this.singleFile) {
-            this.files.splice(0, this.files.length);
             this.files.push(files.item(0));
         } else {
             for (let i = 0; i < files.length; i++) {

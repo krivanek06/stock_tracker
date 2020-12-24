@@ -1,3 +1,44 @@
-<p>
-  group-management-read-only works!
-</p>
+<ng-container *ngIf="queriedGroup$ | async as queriedGroup">
+    <!-- group info -->
+    <ion-row>
+        <ion-col size="12">
+            <h3 class="st-h3">Group: {{ queriedGroup.name }}</h3>
+            <app-group-info [group]="queriedGroup"></app-group-info>
+            <ion-button style="margin-left: 16px" class="st-button st-edit-background"
+                        (click)="editGroup(queriedGroup)">
+                Edit
+            </ion-button>
+        </ion-col>
+    </ion-row>
+
+    <!-- owner -->
+    <app-group-list-members-in-row
+            [groupUsers]="[queriedGroup.owner]"
+            [title]="'Owner'">
+    </app-group-list-members-in-row>
+
+    <!-- Managers -->
+    <app-group-list-members-in-row
+            [groupUsers]="queriedGroup.managers"
+            [title]="'Managers'">
+    </app-group-list-members-in-row>
+
+    <!-- Members -->
+    <app-group-list-members-in-row
+            [groupUsers]="queriedGroup.members"
+            [title]="'Members'">
+    </app-group-list-members-in-row>
+
+    <!-- Invited -->
+    <app-group-list-members-in-row
+            [groupUsers]="queriedGroup.invitationSent"
+            [title]="'Invited'">
+    </app-group-list-members-in-row>
+
+    <!-- pending invitation -->
+    <app-group-list-members-in-row
+            [groupUsers]="queriedGroup.invitationReceived"
+            [title]="'Pending'">
+    </app-group-list-members-in-row>
+
+</ng-container>

@@ -1,3 +1,38 @@
-<p>
-  group-info works!
-</p>
+<ion-row>
+    <ion-col size="12" size-md="6">
+        <ion-img appDefaultImg [src]="group.imageUrl" alt="group image"></ion-img>
+    </ion-col>
+    <ion-col size="12" size-md="6">
+        <ion-list>
+            <ion-item>
+                <ion-label position="fixed" class="st-font-2 fixedLabel">Group name</ion-label>
+                <ion-label class="st-font-4 ion-align-self-start ion-text-wrap"> {{  group.name }}</ion-label>
+            </ion-item>
+            <ion-item>
+                <ion-label position="fixed" class="st-font-2 fixedLabel">Group description</ion-label>
+                <ion-label class="st-font-4 ion-align-self-start ion-text-wrap"> {{  group.description }}</ion-label>
+            </ion-item>
+            <ng-container *ngIf="group.portfolio">
+                <ion-item>
+                    <ion-label position="fixed" class="st-font-2 fixedLabel">Portfolio total</ion-label>
+                    <ion-label class="st-font-4 ion-align-self-start ion-text-wrap"> {{ group.portfolio.portfolioTotal | currency }}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="fixed" class="st-font-2 fixedLabel">Portfolio invested</ion-label>
+                    <ion-label class="st-font-4 ion-align-self-start ion-text-wrap"> {{ group.portfolio.portfolioInvested | currency }}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="fixed" class="st-font-2 fixedLabel">Portfolio cash</ion-label>
+                    <ion-label class="st-font-4 ion-align-self-start ion-text-wrap"> {{ group.portfolio.portfolioCash | currency }}</ion-label>
+                </ion-item>
+                <ion-item style="display: flex; align-items: baseline;">
+                    <ion-label position="fixed" class="st-font-2 fixedLabel">Portfolio weekly change</ion-label>
+                    <app-price-change-item
+                            [price]="group.portfolio.portfolioWeeklyGrowth"
+                            [priceChange]="group.portfolio.portfolioWeeklyChange">
+                    </app-price-change-item>
+                </ion-item>
+            </ng-container>
+        </ion-list>
+    </ion-col>
+</ion-row>

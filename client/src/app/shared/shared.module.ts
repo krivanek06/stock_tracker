@@ -24,11 +24,12 @@ import {EconomicChartModalContainerComponent} from './containers/modal/economic-
 import {RelativeTimePipe} from './pipes/relatimeTime.pipe';
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import { ValueStateDirective } from './directives/value-state.directive';
-import {PriceChangeItemComponent} from './components/items/price-change-item/price-change-item.component';
+import {PriceCompareItemComponent} from './components/items/price-compare-item/price-compare-item.component';
 import {InlineInputPopUpComponent} from './components/pop-ups/inline-input-pop-up/inline-input-pop-up.component';
 import { DropzoneDirective } from './directives/dropzone.directive';
 import {UploaderComponent} from './components/image-manipulation/uploader/uploader.component';
 import {UploadTaskComponent} from './components/image-manipulation/upload-task/upload-task.component';
+import {PriceChangeItemComponent} from './components/items/price-change-item/price-change-item.component';
 
 @NgModule({
     declarations: [
@@ -46,11 +47,12 @@ import {UploadTaskComponent} from './components/image-manipulation/upload-task/u
         FinancialChartContainerComponent,
         EconomicChartModalContainerComponent,
         ValueStateDirective,
-        PriceChangeItemComponent,
+        PriceCompareItemComponent,
         InlineInputPopUpComponent,
         DropzoneDirective,
         UploaderComponent,
-        UploadTaskComponent
+        UploadTaskComponent,
+        PriceChangeItemComponent
     ],
     imports: [
         CommonModule,
@@ -90,10 +92,11 @@ import {UploadTaskComponent} from './components/image-manipulation/upload-task/u
         EconomicChartModalContainerComponent,
         NgxDatatableModule,
         ValueStateDirective,
-        PriceChangeItemComponent,
+        PriceCompareItemComponent,
         InlineInputPopUpComponent,
         UploaderComponent,
-        UploadTaskComponent
+        UploadTaskComponent,
+        PriceChangeItemComponent
 
     ],
     entryComponents: [
