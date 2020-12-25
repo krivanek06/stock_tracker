@@ -1,25 +1,21 @@
-import {
-    STUserPrivateData,
-    STUserIndentificationInformation,
-    ST_USER_DOCUMENT_PRIVATE_DATA,
-    ST_USER_COLLECTION_MORE_INFORMATION,
-    ST_USER_COLLECTION_USER, STUserPublicData
-} from "./user.model";
+import * as api from 'stock-tracker-common-interfaces';
 import * as admin from "firebase-admin";
-import {ST_WATCHLIST_COLLECTION, STStockWatchlist} from "../watchlist/watchList.model";
 import {ApolloError} from "apollo-server";
 import {queryUserPublicData} from "./user.query";
+import {querySTGroupAllDataByGroupId} from "../st-group/st-group.query";
 
 
-const resolveStockWatchlistForUser = async (uid: string) => {
+const resolveStockWatchlists = async (uid: string) => {
     try {
         const watchlistDocs = await admin
             .firestore()
-            .collection(ST_WATCHLIST_COLLECTION)
+            .collection(api.ST_WATCHLIST_COLLECTION)
             .where('userId', '==', uid)
             .get();
 
-        return watchlistDocs.docs.map(list => { return { ...list.data(), id: list.id } }) as STStockWatchlist[];
+        return watchlistDocs.docs.map(list => {
+            return {...list.data(), id: list.id}
+        }) as api.STStockWatchlist[];
     } catch (error) {
         throw new ApolloError(error);
     }
@@ -29,22 +25,47 @@ const resolveUserPrivateData = async (uid: string) => {
     try {
         const privateDoc = await admin
             .firestore()
-            .collection(ST_USER_COLLECTION_USER)
+            .collection(api.ST_USER_COLLECTION_USER)
             .doc(uid)
-            .collection(ST_USER_COLLECTION_MORE_INFORMATION)
-            .doc(ST_USER_DOCUMENT_PRIVATE_DATA)
+            .collection(api.ST_USER_COLLECTION_MORE_INFORMATION)
+            .doc(api.ST_USER_DOCUMENT_PRIVATE_DATA)
             .get();
 
-        return privateDoc.data() as STUserPrivateData;
+        return privateDoc.data() as api.STUserPrivateData;
     } catch (error) {
         throw new ApolloError(error);
     }
 }
 
 
-export const userResolvers = {
-    STUserPublicData: {
-        stockWatchlist: async (stUserPublicData: STUserPublicData) => await resolveStockWatchlistForUser(stUserPublicData.uid),
-        userPrivateData: async (stUserPublicData: STUserPublicData) => await resolveUserPrivateData(stUserPublicData.uid)
+const resolveGroups = async (stUserGroups: api.STUserGroupsIdentification): Promise<api.STUserGroups> => {
+    try {
+        const groupMember = Promise.all(stUserGroups.groupMember.map(groupId => querySTGroupAllDataByGroupId(groupId)));
+        const groupInvitationReceived = Promise.all(stUserGroups.groupInvitationReceived.map(groupId => querySTGroupAllDataByGroupId(groupId)));
+        const groupInvitationSent = Promise.all(stUserGroups.groupInvitationSent.map(groupId => querySTGroupAllDataByGroupId(groupId)));
+        const groupOwner = Promise.all(stUserGroups.groupOwner.map(groupId => querySTGroupAllDataByGroupId(groupId)));
+
+        const sTUserGroups: api.STUserGroups = {
+            groupOwner: await groupOwner,
+            groupMember: await groupMember,
+            groupInvitationSent: await groupInvitationSent,
+            groupInvitationReceived: await groupInvitationReceived
+        };
+
+        return sTUserGroups;
+    } catch (error) {
+        throw new ApolloError(error);
     }
 };
+
+
+export const userResolvers = {
+    STUserPublicData: {
+        groups: async (stUserPublicData: api.STUserPublicData) => await resolveGroups(stUserPublicData.groups),
+        stockWatchlist: async (stUserPublicData: api.STUserPublicData) => await resolveStockWatchlists(stUserPublicData.uid),
+        userPrivateData: async (stUserPublicData: api.STUserPublicData) => await resolveUserPrivateData(stUserPublicData.uid)
+    }
+};
+
+
+

@@ -41,10 +41,10 @@ export const userTypeDefs = gql`
         portfolioWeeklyChange: [STPortfolio]!
         holdings: [STTransaction]!
         resetedAccount: [STUserResetedAccount]
-        groups: STUserGroups!
         activity: USER_ACTIVITY
         bestAchievedRanks: [STRank]
         userLogs: [STLog]
+        groups: STUserGroups!
         userPrivateData: STUserPrivateData!
         stockWatchlist: [STStockWatchlist]!
     } 

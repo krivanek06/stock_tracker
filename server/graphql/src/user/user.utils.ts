@@ -1,14 +1,8 @@
-import {
-    STUserAuthenticationInput, STUserPartialInformation,
-    STUserPrivateData,
-    STUserPublicData,
-    USER_ACTIVITY,
-    USER_STATUS
-} from "./user.model";
+import * as api from 'stock-tracker-common-interfaces';
 import {getCurrentIOSDate} from "../st-shared/st-shared.functions";
 
-export const createSTUserPrivateData = (user: STUserAuthenticationInput): STUserPrivateData => {
-    const stUserPrivateData: STUserPrivateData = {
+export const createSTUserPrivateData = (user: api.STUserAuthenticationInput): api.STUserPrivateData => {
+    const stUserPrivateData: api.STUserPrivateData = {
         displayName: user.displayName,
         email: user.email,
         providerId: user.providerId,
@@ -17,16 +11,16 @@ export const createSTUserPrivateData = (user: STUserAuthenticationInput): STUser
         uid: user.uid,
         nicknameLastChange: null,
         roles: [],
-        status: USER_STATUS.PENDING
+        status: api.USER_STATUS.PENDING
     };
     return stUserPrivateData;
 };
 
-export const createSTUserPublicData = (user: STUserAuthenticationInput): STUserPublicData => {
-    const stUserPublicData: STUserPublicData = {
+export const createSTUserPublicData = (user: api.STUserAuthenticationInput): api.STUserPublicData => {
+    const stUserPublicData: api.STUserPublicData = {
         nickName: user.email.split('@')[0],
         uid: user.uid,
-        activity: USER_ACTIVITY.SIGNED_IN,
+        activity: api.USER_ACTIVITY.SIGNED_IN,
         locale: user.locale,
         photoURL: user.photoURL,
         accountCreatedDate: getCurrentIOSDate(),
@@ -50,8 +44,8 @@ export const createSTUserPublicData = (user: STUserAuthenticationInput): STUserP
 };
 
 
-export const convertSTUserPublicDataToSTUserPartialInformation = (publicData: STUserPublicData) => {
-    const partial: STUserPartialInformation = {
+export const convertSTUserPublicDataToSTUserPartialInformation = (publicData: api.STUserPublicData) => {
+    const partial: api.STUserPartialInformation = {
         rank: publicData.rank,
         portfolio: publicData.portfolio,
         accountCreatedDate: publicData.accountCreatedDate,

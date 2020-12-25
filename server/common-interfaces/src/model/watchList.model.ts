@@ -1,4 +1,5 @@
-import { Summary } from "../stockDetails/stockDetails.model";
+import { Summary } from './stockDetails.model';
+
 
 export interface StockWatchlistCommonData {
   userId: string;

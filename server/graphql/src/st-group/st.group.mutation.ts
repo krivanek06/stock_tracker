@@ -1,4 +1,3 @@
-import {ST_GROUP_COLLECTION_GROUPS, STGroupAllDataInput} from "./st-group.model";
 import {ApolloError} from "apollo-server";
 import {querySTGroupAllDataByGroupId} from "./st-group.query";
 import {
@@ -8,11 +7,12 @@ import {
 } from "./st-group.util";
 import {querySTUserPartialInformationByUid} from "../user/user.query";
 import * as admin from "firebase-admin";
+import * as api from 'stock-tracker-common-interfaces';
 import {getCurrentIOSDate, stSeep} from "../st-shared/st-shared.functions";
-import {ST_USER_COLLECTION_USER} from "../user/user.model";
 
 
-export const createGroup = async (groupInput: STGroupAllDataInput) => {
+
+export const createGroup = async (groupInput: api.STGroupAllDataInput) => {
     try {
         const group = createEmptySTGroupAllData();
         group.name = groupInput.name;
@@ -26,37 +26,35 @@ export const createGroup = async (groupInput: STGroupAllDataInput) => {
         group.invitationSent = invitationSent.map(m => createSTGroupUser(m));
 
         // persist
-        const result = await admin.firestore().collection(`${ST_GROUP_COLLECTION_GROUPS}`).add(group);
+        const result = await admin.firestore().collection(`${api.ST_GROUP_COLLECTION_GROUPS}`).add(group);
         group.groupId = result.id;
-
-        // format for accepted result
-        const partialData = createSTGroupPartialDataFromSTGroupAllData(group);
 
         // update user's groupInvitationReceived
         groupInput.invitationSent.forEach(userId => {
-            admin.firestore().collection(ST_USER_COLLECTION_USER).doc(userId)
+            admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(userId)
                 .set({
                     groups: {
-                        groupInvitationReceived: admin.firestore.FieldValue.arrayUnion(partialData)
+                        groupInvitationReceived: admin.firestore.FieldValue.arrayUnion(group.groupId)
                     }
                 }, {merge: true})
         });
 
         // update owner's group
-        admin.firestore().collection(ST_USER_COLLECTION_USER).doc(groupInput.owner)
+        admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(groupInput.owner)
             .set({
                 groups: {
-                    groupOwner: admin.firestore.FieldValue.arrayUnion(partialData)
+                    groupOwner: admin.firestore.FieldValue.arrayUnion(group.groupId)
                 }
             }, {merge: true});
 
-        return partialData
+        // format for accepted result
+        return createSTGroupPartialDataFromSTGroupAllData(group);
     } catch (error) {
         throw new ApolloError(error);
     }
 };
 
-export const editGroup = async (groupInput: STGroupAllDataInput) => {
+export const editGroup = async (groupInput: api.STGroupAllDataInput) => {
     try {
         // load group or create new
         const group = await querySTGroupAllDataByGroupId(groupInput.groupId);
@@ -65,7 +63,7 @@ export const editGroup = async (groupInput: STGroupAllDataInput) => {
         group.imagePath = groupInput.imagePath;
         group.imageUrl = groupInput.imageUrl;
         group.owner = createSTGroupUser(await querySTUserPartialInformationByUid(groupInput.owner));
-        group.lastUpdateDate = getCurrentIOSDate();
+        group.lastEditedDate = getCurrentIOSDate();
 
         // delete uses which are not in groupInput
         group.members = group.members.filter(m => groupInput.members.includes(m.user.uid));
@@ -99,17 +97,19 @@ export const editGroup = async (groupInput: STGroupAllDataInput) => {
         group.invitationSent = [...group.invitationSent, ...notSaved[2].map(m => createSTGroupUser(m))];
         group.invitationReceived = [...group.invitationReceived, ...notSaved[3].map(m => createSTGroupUser(m))];
 
-        // persist
-        await admin.firestore().collection(`${ST_GROUP_COLLECTION_GROUPS}`).doc(`${group.groupId}`).set(group);
+        group.portfolio = group.members.map(member => member.user.portfolio).reduce((acc, cur) => {
+            acc.portfolioTotal += cur.portfolioTotal;
+            acc.portfolioCash += cur.portfolioCash;
+            acc.portfolioInvested += cur.portfolioInvested;
+            return acc;
+        });
 
-        // TODO update group data in all users - members, managers, invitationSent, invitaitonReceived, owner
-        // WHY ? what is I deleted some user, and they still will be in group
-        // trigger cloud function which will update group Data for all users
+        // persist
+        await admin.firestore().collection(`${api.ST_GROUP_COLLECTION_GROUPS}`).doc(`${group.groupId}`).set(group);
 
 
         //return querySTGroupAllDataByGroupId(group.groupId);
         return createSTGroupPartialDataFromSTGroupAllData(group);
-
     } catch (error) {
         throw new ApolloError(error);
     }
@@ -122,7 +122,7 @@ export const deleteGroup = async (uid: string, groupId: string) => {
         if (group.owner.user.uid !== uid) {
             throw new ApolloError("Only owner can delete a group");
         }
-        await admin.firestore().collection(`${ST_GROUP_COLLECTION_GROUPS}`).doc(groupId).delete();
+        await admin.firestore().collection(`${api.ST_GROUP_COLLECTION_GROUPS}`).doc(groupId).delete();
         return true;
     } catch (error) {
         throw new ApolloError(error);

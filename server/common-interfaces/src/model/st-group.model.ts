@@ -1,9 +1,8 @@
-import {STSimpleChart, STLog} from "../st-shared/st-share.model";
-import {STPortfolio} from "../st-portfolio/st-portfolio.model";
-import {STRank} from "../st-rank/st-rank.model";
-import {STTransaction} from "../st-transaction/st-transaction.model";
-import {STUserPartialInformation} from "../user/user.model";
-
+import { STUserPartialInformation } from './user.model';
+import { STLog } from './st-share.model';
+import { STRank } from './st-rank.model';
+import { STTransaction } from './st-transaction.model';
+import { STPortfolio } from './st-portfolio.model';
 export interface STGroupPartialData {
     groupId?: string;
     name: string;
@@ -14,6 +13,7 @@ export interface STGroupPartialData {
     owner: STGroupUser;
     numberOfMembers: number;
     lastUpdateDate: string;
+    lastEditedDate: string;
     createdDate: string;
     currentAchievedRank: STRank;
 }

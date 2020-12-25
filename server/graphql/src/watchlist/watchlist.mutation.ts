@@ -1,20 +1,16 @@
 import * as admin from "firebase-admin";
 import {ApolloError, ValidationError} from "apollo-server";
-import {
-    ST_WATCHLIST_COLLECTION,
-    STStockWatchlist,
-    STStockWatchlistIdentifier,
-} from "./watchList.model";
+import * as api from 'stock-tracker-common-interfaces';
 import {getCurrentIOSDate, stSeep} from "../st-shared/st-shared.functions";
 import {queryStockSummary} from "../stockDetails/stockDetails.query";
 
 const fetch = require("node-fetch");
 
-export const createStockWatchlist = async (identifier: STStockWatchlistIdentifier) => {
+export const createStockWatchlist = async (identifier: api.STStockWatchlistIdentifier) => {
     try {
         const watchlists = await admin
             .firestore()
-            .collection(ST_WATCHLIST_COLLECTION)
+            .collection(api.ST_WATCHLIST_COLLECTION)
             .where("userId", "==", identifier.userId)
             .where("name", "==", identifier.additionalData)
             .get();
@@ -23,14 +19,14 @@ export const createStockWatchlist = async (identifier: STStockWatchlistIdentifie
             throw new ApolloError(`watchlist ${identifier.additionalData} already exists`);
         }
 
-        const watchlist: STStockWatchlist = {
+        const watchlist: api.STStockWatchlist = {
             name: identifier.additionalData,
             userId: identifier.userId,
             summaries: [],
             date: getCurrentIOSDate(),
         };
 
-        const documentRef = await admin.firestore().collection(ST_WATCHLIST_COLLECTION).add(watchlist);
+        const documentRef = await admin.firestore().collection(api.ST_WATCHLIST_COLLECTION).add(watchlist);
 
         return {...watchlist, id: documentRef.id};
     } catch (error) {
@@ -38,13 +34,13 @@ export const createStockWatchlist = async (identifier: STStockWatchlistIdentifie
     }
 };
 
-export const addStockIntoStockWatchlist = async (identifier: STStockWatchlistIdentifier) => {
+export const addStockIntoStockWatchlist = async (identifier: api.STStockWatchlistIdentifier) => {
     try {
         const watchlistRef = await admin
             .firestore()
-            .collection(ST_WATCHLIST_COLLECTION)
+            .collection(api.ST_WATCHLIST_COLLECTION)
             .doc(identifier.id);
-        const watchlist = (await watchlistRef.get()).data() as STStockWatchlist;
+        const watchlist = (await watchlistRef.get()).data() as api.STStockWatchlist;
 
         // was not found
         if (!watchlist) {
@@ -75,13 +71,13 @@ export const addStockIntoStockWatchlist = async (identifier: STStockWatchlistIde
 };
 
 
-export const removeStockFromStockWatchlist = async (identifier: STStockWatchlistIdentifier) => {
+export const removeStockFromStockWatchlist = async (identifier: api.STStockWatchlistIdentifier) => {
     try {
         const watchlistRef = await admin
             .firestore()
-            .collection(ST_WATCHLIST_COLLECTION)
+            .collection(api.ST_WATCHLIST_COLLECTION)
             .doc(identifier.id);
-        const watchlist = (await watchlistRef.get()).data() as STStockWatchlist;
+        const watchlist = (await watchlistRef.get()).data() as api.STStockWatchlist;
 
         // was not found
         if (!watchlist) {
@@ -105,13 +101,13 @@ export const removeStockFromStockWatchlist = async (identifier: STStockWatchlist
     }
 };
 
-export const deleteWatchlist = async (identifier: STStockWatchlistIdentifier) => {
+export const deleteWatchlist = async (identifier: api.STStockWatchlistIdentifier) => {
     try {
         const watchlistRef = await admin
             .firestore()
-            .collection(ST_WATCHLIST_COLLECTION)
+            .collection(api.ST_WATCHLIST_COLLECTION)
             .doc(identifier.id);
-        const watchlist = (await watchlistRef.get()).data() as STStockWatchlist;
+        const watchlist = (await watchlistRef.get()).data() as api.STStockWatchlist;
 
         // was not found
         if (!watchlist) {
@@ -132,13 +128,13 @@ export const deleteWatchlist = async (identifier: STStockWatchlistIdentifier) =>
 };
 
 
-export const renameStockWatchlist = async (identifier: STStockWatchlistIdentifier) => {
+export const renameStockWatchlist = async (identifier: api.STStockWatchlistIdentifier) => {
     try {
         const watchlistRef = await admin
             .firestore()
-            .collection(ST_WATCHLIST_COLLECTION)
+            .collection(api.ST_WATCHLIST_COLLECTION)
             .doc(identifier.id);
-        const watchlist = (await watchlistRef.get()).data() as STStockWatchlist;
+        const watchlist = (await watchlistRef.get()).data() as api.STStockWatchlist;
 
         // was not found
         if (!watchlist) {
