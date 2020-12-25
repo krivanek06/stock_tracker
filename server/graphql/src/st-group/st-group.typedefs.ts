@@ -15,10 +15,10 @@ export const STGroupTypeDefs = gql`
         description: String
         imagePath: String
         imageUrl: String
-        portfolio: STPortfolio
         owner: STGroupUser!
-        numberOfMembers: Float!
+        portfolio: STPortfolio!
         lastUpdateDate: String!
+        lastEditedDate: String!
         createdDate: String!
         currentAchievedRanks: STRank
     }
@@ -29,10 +29,10 @@ export const STGroupTypeDefs = gql`
         description: String
         imagePath: String
         imageUrl: String
-        portfolio: STPortfolio
+        portfolio: STPortfolio!
         owner: STGroupUser!
-        numberOfMembers: Float!
         lastUpdateDate: String!
+        lastEditedDate: String!
         createdDate: String!
         currentAchievedRanks: STRank
         bestAchievedRanks: [STRank]!

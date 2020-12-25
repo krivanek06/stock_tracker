@@ -1,24 +1,19 @@
 import {ApolloError} from 'apollo-server';
-import {
-    ST_USER_COLLECTION_MORE_INFORMATION, ST_USER_COLLECTION_USER,
-    ST_USER_DOCUMENT_PRIVATE_DATA,
-    STUserAuthenticationInput,
-    STUserPrivateData,
-} from './user.model';
+import * as api from 'stock-tracker-common-interfaces';
 import * as admin from "firebase-admin";
 import {createSTUserPrivateData, createSTUserPublicData} from "./user.utils";
 
-export const registerUser = async (user: STUserAuthenticationInput) => {
+export const registerUser = async (user: api.STUserAuthenticationInput) => {
     try {
         const newUserPrivateData = createSTUserPrivateData(user);
         const newUserPublicData = createSTUserPublicData(user);
 
         // save public data
-        let userRef = admin.firestore().collection(ST_USER_COLLECTION_USER).doc(`${user.uid}`);
+        let userRef = admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(`${user.uid}`);
         await userRef.set(newUserPublicData);
 
         // save private data
-        userRef = userRef.collection(ST_USER_COLLECTION_MORE_INFORMATION).doc(ST_USER_DOCUMENT_PRIVATE_DATA);
+        userRef = userRef.collection(api.ST_USER_COLLECTION_MORE_INFORMATION).doc(api.ST_USER_DOCUMENT_PRIVATE_DATA);
         await userRef.set(newUserPrivateData);
 
         return true;
@@ -45,14 +40,13 @@ export const updateUserPublicData = async(userPublicData: STUserPublicData) => {
     }
 }*/
 
-export const updateUserPrivateData = async (userPrivateData: STUserPrivateData) => {
+export const updateUserPrivateData = async (userPrivateData: api.STUserPrivateData) => {
     try {
-        console.log(userPrivateData)
         const userPrivateDocsRef = await admin.firestore()
             .collection('users')
             .doc(userPrivateData.uid)
-            .collection(ST_USER_COLLECTION_MORE_INFORMATION)
-            .doc(ST_USER_DOCUMENT_PRIVATE_DATA);
+            .collection(api.ST_USER_COLLECTION_MORE_INFORMATION)
+            .doc(api.ST_USER_DOCUMENT_PRIVATE_DATA);
 
         await userPrivateDocsRef.set(userPrivateData, {merge: true});
 

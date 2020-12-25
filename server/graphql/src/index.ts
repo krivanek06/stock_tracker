@@ -1,11 +1,11 @@
 import {STGroupTypeDefs} from './st-group/st-group.typedefs';
 import {STSharedTypeDefs} from './st-shared/st-shared.typedef';
-import {STUserAuthenticationInput, STUserPrivateData} from './user/user.model';
 import {watchlistTypeDefs} from './watchlist/watchlist.typedefs';
 import {ApolloServer, gql} from 'apollo-server';
 import {userTypeDefs} from './user/user.typeDefs';
 import {userResolvers} from './user/user.resolver';
 import * as admin from 'firebase-admin';
+import * as api from 'stock-tracker-common-interfaces';
 import {authenticateUser, querySTUserPartialInformationByUsername, queryUserPublicData} from './user/user.query';
 import {
     createStockWatchlist,
@@ -14,7 +14,6 @@ import {
     deleteWatchlist,
     renameStockWatchlist
 } from './watchlist/watchlist.mutation';
-import {STStockWatchlistIdentifier} from './watchlist/watchList.model';
 import {updateUserPrivateData, registerUser} from './user/user.mutation';
 import {queryStockDetails} from './stockDetails/stockDetails.query';
 import {stockDetailsTypeDefs} from './stockDetails/stockDetails.typedefs';
@@ -22,7 +21,6 @@ import {STTransactionTypeDefs} from './st-transaction/st-transaction.typedef';
 import {STRankTypeDefs} from './st-rank/st-rank.typedef';
 import {STPortfolioTypeDefs} from './st-portfolio/st-portfolio.typedef';
 import {editGroup, deleteGroup, createGroup} from "./st-group/st.group.mutation";
-import {STGroupAllDataInput} from "./st-group/st-group.model";
 import {querySTGroupAllDataByGroupId} from "./st-group/st-group.query";
 
 global.fetch = require("node-fetch");
@@ -94,19 +92,19 @@ const mainResolver = {
 
     Mutation: {
         // USER
-        registerUser: async (_, args: { user: STUserAuthenticationInput }) => await registerUser(args.user),
+        registerUser: async (_, args: { user: api.STUserAuthenticationInput }) => await registerUser(args.user),
 
         // GROUPS
-        createGroup: async (_, args: { groupInput: STGroupAllDataInput }) => await createGroup(args.groupInput),
-        editGroup: async (_, args: { groupInput: STGroupAllDataInput }) => await editGroup(args.groupInput),
+        createGroup: async (_, args: { groupInput: api.STGroupAllDataInput }) => await createGroup(args.groupInput),
+        editGroup: async (_, args: { groupInput: api.STGroupAllDataInput }) => await editGroup(args.groupInput),
         deleteGroup: async (_, args: { uid: string, groupId: string }) => await deleteGroup(args.uid, args.groupId),
 
         // WATCHLIST
-        createStockWatchlist: async (_, args: { identifier: STStockWatchlistIdentifier }) => await createStockWatchlist(args.identifier),
-        renameStockWatchlist: async (_, args: { identifier: STStockWatchlistIdentifier }) => await renameStockWatchlist(args.identifier),
-        deleteWatchlist: async (_, args: { identifier: STStockWatchlistIdentifier }) => await deleteWatchlist(args.identifier),
-        addStockIntoStockWatchlist: async (_, args: { identifier: STStockWatchlistIdentifier }) => await addStockIntoStockWatchlist(args.identifier),
-        removeStockFromStockWatchlist: async (_, args: { identifier: STStockWatchlistIdentifier }) => await removeStockFromStockWatchlist(args.identifier)
+        createStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await createStockWatchlist(args.identifier),
+        renameStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await renameStockWatchlist(args.identifier),
+        deleteWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await deleteWatchlist(args.identifier),
+        addStockIntoStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await addStockIntoStockWatchlist(args.identifier),
+        removeStockFromStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await removeStockFromStockWatchlist(args.identifier)
     }
 
 };

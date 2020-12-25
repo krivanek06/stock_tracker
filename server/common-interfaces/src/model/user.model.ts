@@ -1,8 +1,9 @@
-import {STGeographic, STLog} from "../st-shared/st-share.model";
-import {STGroupPartialData} from "../st-group/st-group.model";
-import {STPortfolio} from "../st-portfolio/st-portfolio.model";
-import {STRank} from "../st-rank/st-rank.model";
-import {STTransaction} from "../st-transaction/st-transaction.model";
+import { STGroupPartialData } from './st-group.model';
+import { STTransaction } from './st-transaction.model';
+import { STRank } from './st-rank.model';
+import { STPortfolio } from "./st-portfolio.model";
+import { STLog, STGeographic } from './st-share.model';
+
 
 export enum USER_ACTIVITY {
     SIGNED_IN = "SIGNED_IN",
@@ -34,7 +35,7 @@ export interface STUserPublicData extends STUserPartialInformation {
     portfolioWeeklyChange: STPortfolio[];
     holdings: STTransaction[]; // only open transactions
     resetedAccount: STUserResetedAccount[];
-    groups: STUserGroups;
+    groups: STUserGroupsIdentification;
     activity: USER_ACTIVITY;
     bestAchievedRanks: STRank[];
     userLogs: STLog[];
@@ -51,6 +52,14 @@ export interface STUserPrivateData {
     geographic: STGeographic;
     nicknameLastChange?: Date;
 }
+
+export interface STUserGroupsIdentification {
+    groupInvitationSent: string[];
+    groupInvitationReceived: string[];
+    groupOwner: string[];
+    groupMember: string[];
+}
+
 
 export interface STUserGroups {
     groupInvitationSent: STGroupPartialData[];

@@ -1,7 +1,5 @@
 import { stockDataAPI } from '../enviroment';
 import { ApolloError } from 'apollo-server';
-import { STStockWatchlist } from '../watchlist/watchList.model';
-import { StockDetails, Summary } from './stockDetails.model';
 
 const fetch = require("node-fetch");
 

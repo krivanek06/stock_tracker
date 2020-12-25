@@ -1,4 +1,5 @@
-import { STUserIndentificationInformation } from "../user/user.model";
+import { STUserIndentificationInformation } from './user.model';
+
 
 export interface STTransaction {
     isOpen: boolean;

@@ -1,6 +1,5 @@
 import * as admin from "firebase-admin";
 import {ApolloError, ValidationError} from "apollo-server";
-import {ST_WATCHLIST_COLLECTION, STStockWatchlist} from "./watchList.model";
 
 /*
 export const queryUserStockWatchlists = async (userId: string) => {
