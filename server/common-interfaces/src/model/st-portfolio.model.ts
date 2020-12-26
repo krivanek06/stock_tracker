@@ -4,5 +4,5 @@ export interface STPortfolio {
     portfolioCash: number;
     portfolioWeeklyChange: number;
     portfolioWeeklyGrowth: number;
-    date?: Date;
+    date?: string;
 }

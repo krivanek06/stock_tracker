@@ -16,7 +16,7 @@ import {HeaderComponent} from './containers/header/header.component';
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {FixedRangeSliderWithTimeComponent} from './components/charts/fixed-range-slider-with-time/fixed-range-slider-with-time.component';
 
-import {InlineInputFormComponent} from './components/forms/inline-input-form/inline-input-form.component';
+import {InlineModificationFormComponent} from './components/forms/inline-modification-form/inline-modification-form.component';
 import {GenericChartComponent} from './components/charts/generic-chart/generic-chart.component';
 import {GenericChartCardComponent} from './components/cards/generic-chart-card/generic-chart-card.component';
 import {FinancialChartContainerComponent} from './containers/financial-chart-container/financial-chart-container.component';
@@ -30,6 +30,7 @@ import { DropzoneDirective } from './directives/dropzone.directive';
 import {UploaderComponent} from './components/image-manipulation/uploader/uploader.component';
 import {UploadTaskComponent} from './components/image-manipulation/upload-task/upload-task.component';
 import {PriceChangeItemComponent} from './components/items/price-change-item/price-change-item.component';
+import {ClickableNameItemComponent} from './components/items/clickable-name-item/clickable-name-item.component';
 
 @NgModule({
     declarations: [
@@ -40,7 +41,7 @@ import {PriceChangeItemComponent} from './components/items/price-change-item/pri
         NumberFormatterPipe,
         RelativeTimePipe,
         HeaderComponent,
-        InlineInputFormComponent,
+        InlineModificationFormComponent,
         FixedRangeSliderWithTimeComponent,
         GenericChartComponent,
         GenericChartCardComponent,
@@ -52,7 +53,8 @@ import {PriceChangeItemComponent} from './components/items/price-change-item/pri
         DropzoneDirective,
         UploaderComponent,
         UploadTaskComponent,
-        PriceChangeItemComponent
+        PriceChangeItemComponent,
+        ClickableNameItemComponent
     ],
     imports: [
         CommonModule,
@@ -84,7 +86,7 @@ import {PriceChangeItemComponent} from './components/items/price-change-item/pri
         NumberFormatterPipe,
         RelativeTimePipe,
         HeaderComponent,
-        InlineInputFormComponent,
+        InlineModificationFormComponent,
         FixedRangeSliderWithTimeComponent,
         GenericChartComponent,
         GenericChartCardComponent,
@@ -96,7 +98,8 @@ import {PriceChangeItemComponent} from './components/items/price-change-item/pri
         InlineInputPopUpComponent,
         UploaderComponent,
         UploadTaskComponent,
-        PriceChangeItemComponent
+        PriceChangeItemComponent,
+        ClickableNameItemComponent
 
     ],
     entryComponents: [

@@ -1,0 +1,63 @@
+<form [formGroup]="form">
+    <!-- group image -->
+    <ion-item-group class="st-flex-row-small-col">
+        <div>
+            <ion-item>
+                <app-uploader
+                        #uploader
+                        [showInput]="editing"
+                        [filePath]="'users'"
+                        [fileName]="user.uid"
+                        [defaultUrl]="photoURL.value"
+                        (uploadedFilesEmitter)="uploadedImage($event)">
+                </app-uploader>
+            </ion-item>
+        </div>
+
+        <div style="width: 100%">
+            <!-- display name -->
+            <ion-item class="st-card-background ion-margin-top">
+                <ion-label position="floating">Display name</ion-label>
+                <ion-input [value]="displayName.value" type="text" formControlName="displayName"></ion-input>
+            </ion-item>
+
+            <!-- email -->
+            <ion-item class="st-card-background ion-margin-top">
+                <ion-label position="floating">Email</ion-label>
+                <ion-input [value]="email.value" type="text" formControlName="email"></ion-input>
+            </ion-item>
+        </div>
+    </ion-item-group>
+
+    <!-- finnhubKey -->
+    <ion-item class="st-card-background ion-margin-top">
+        <ion-label position="floating">Finnhub key</ion-label>
+        <ion-input [value]="finnhubKey.value" type="text" formControlName="finnhubKey"></ion-input>
+    </ion-item>
+
+    <!-- nickName -->
+    <ion-item class="st-card-background ion-margin-top">
+        <ion-label position="floating">NickName</ion-label>
+        <ion-input [value]="nickName.value" type="text" formControlName="nickName"></ion-input>
+    </ion-item>
+
+    <!-- locale -->
+    <ion-item class="st-card-background ion-margin-top">
+        <ion-label position="floating">Locale</ion-label>
+        <ion-input [value]="locale.value" type="text" formControlName="locale"></ion-input>
+    </ion-item>
+
+
+    <!-- submit button -->
+    <ion-buttons class="ion-margin ion-float-right">
+        <ion-button *ngIf="!editing" class="st-button st-edit-background ion-margin" (click)="edit()">
+            Edit
+        </ion-button>
+        <ion-button *ngIf="editing" class="st-button st-create-background ion-margin" (click)="submit()">
+            Save
+        </ion-button>
+        <ion-button *ngIf="editing" class="st-button st-remove-background ion-margin" (click)="cancel()">
+            Cancel
+        </ion-button>
+    </ion-buttons>
+</form>

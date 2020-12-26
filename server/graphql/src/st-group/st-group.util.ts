@@ -17,14 +17,14 @@ export const createEmptySTGroupAllData = (): api.STGroupAllData => {
         lastTransactions: [],
         managers: [],
         name: null,
-        numberOfMembers: 0,
         owner: null,
         portfolio: {
             portfolioWeeklyChange: 0,
             portfolioInvested: 0,
             portfolioCash: 0,
             portfolioTotal: 0,
-            portfolioWeeklyGrowth: 0
+            portfolioWeeklyGrowth: 0,
+            date: now
         },
         portfolioChart: [],
         topTransactions: []
@@ -54,7 +54,6 @@ export const createSTGroupPartialDataFromSTGroupAllData = (groupAllData: api.STG
         lastUpdateDate: groupAllData.lastUpdateDate,
         groupId: groupAllData.groupId,
         portfolio: groupAllData.portfolio,
-        numberOfMembers: groupAllData.numberOfMembers,
         currentAchievedRank: groupAllData.currentAchievedRank
     };
     return partial;

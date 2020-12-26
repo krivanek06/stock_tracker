@@ -1,0 +1,14 @@
+<!-- header info -->
+<ion-list-header>
+    <ion-label>
+        <ion-text class="st-font-size-18 st-font-0">Watchlist modification</ion-text>
+    </ion-label>
+</ion-list-header>
+
+<app-inline-modification-form
+        *ngFor="let watchlist of watchlists"
+        (acceptEmitter)="changeName($event, watchlist)"
+        (removeEmitter)="deleteWatchlist(watchlist)"
+        [label]="'Watchlist'"
+        [data]="watchlist.name">
+</app-inline-modification-form>

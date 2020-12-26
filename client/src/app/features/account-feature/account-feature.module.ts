@@ -7,6 +7,8 @@ import {PortfolioGrowthComponent} from './components/portfolio-growth/portfolio-
 import {PortfolioChangeComponent} from './components/portfolio-change/portfolio-change.component';
 import {HoldingsComponent} from './components/holdings/holdings.component';
 import {UserAccountSearchComponent} from './containers/user-account-search/user-account-search.component';
+import {UserAccountFormComponent} from './components/user-account-form/user-account-form.component';
+import {UserAccountResetedInfoComponent} from './components/user-account-reseted-info/user-account-reseted-info.component';
 
 
 @NgModule({
@@ -17,7 +19,9 @@ import {UserAccountSearchComponent} from './containers/user-account-search/user-
         PortfolioGrowthComponent,
         PortfolioChangeComponent,
         HoldingsComponent,
-        UserAccountSearchComponent
+        UserAccountSearchComponent,
+        UserAccountFormComponent,
+        UserAccountResetedInfoComponent
     ],
     imports: [
         SharedModule
@@ -29,7 +33,9 @@ import {UserAccountSearchComponent} from './containers/user-account-search/user-
         PortfolioGrowthComponent,
         PortfolioChangeComponent,
         HoldingsComponent,
-        UserAccountSearchComponent
+        UserAccountSearchComponent,
+        UserAccountFormComponent,
+        UserAccountResetedInfoComponent
     ]
 })
 export class AccountFeatureModule {

@@ -3,6 +3,8 @@ import {AuthFeatureService} from '../../features/auth-feature/services/auth-feat
 import {NavigationEnd, Router} from '@angular/router';
 import {ComponentBase} from '../../shared/utils/component-base/component.base';
 import {filter, takeUntil} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {StUserPublicData} from '../../api/customGraphql.service';
 
 @Component({
     selector: 'app-menu',
@@ -10,6 +12,7 @@ import {filter, takeUntil} from 'rxjs/operators';
     styleUrls: ['./menu.page.scss'],
 })
 export class MenuPage extends ComponentBase implements OnInit {
+    user$: Observable<StUserPublicData>;
     selectedNavigation = '';
     mainPages = [
         {
@@ -74,6 +77,7 @@ export class MenuPage extends ComponentBase implements OnInit {
     }
 
     ngOnInit() {
+        this.user$ = this.authFeatureService.getUser();
         this.watchRouterUrlChange();
     }
 

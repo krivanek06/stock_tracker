@@ -1,0 +1,10 @@
+@import "variables";
+
+:host {
+  .form-item {
+    width: 350px;
+    @media (max-width: #{$st-var-sm-split}) {
+      width: auto;
+    }
+  }
+}

@@ -1,0 +1,34 @@
+<!-- header info -->
+<ion-list-header>
+    <ion-label>
+        <ion-text class="st-font-size-18 st-font-0">Account resets</ion-text>
+    </ion-label>
+</ion-list-header>
+
+<!-- body -->
+<ion-item-group>
+    <ion-item class="st-font-1 ion-text-center">
+        <ion-label>
+            Date
+        </ion-label>
+        <ion-label>
+            Portfolio
+        </ion-label>
+    </ion-item>
+    <ion-item *ngFor="let info of resetedAccountInfo" class="ion-text-center">
+        <ion-label>
+            {{ info.date | date: 'dd.MM.yyyy HH:mm' }}
+        </ion-label>
+        <ion-label>
+            {{ info.portfolioTotal | currency}}
+        </ion-label>
+    </ion-item>
+    <ion-item class="ion-text-center" *ngIf="showResetButton">
+        <ion-label></ion-label>
+        <ion-label>
+            <ion-button class="st-button st-remove-background" (click)="resetAccount()">
+                Reset account
+            </ion-button>
+        </ion-label>
+    </ion-item>
+</ion-item-group>

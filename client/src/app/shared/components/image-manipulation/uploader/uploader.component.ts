@@ -11,7 +11,10 @@ export class UploaderComponent implements OnInit {
 
     @Input() defaultUrl: string;
     @Input() filePath: string;
+    @Input() fileName: string;
     @Input() singleFile = true;
+    @Input() oneLine = false;
+    @Input() showInput = true;
 
     files: File[] = [];
     isHovering: boolean;

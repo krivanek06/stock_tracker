@@ -4,12 +4,27 @@
         <ion-col size="12">
             <h3 class="st-h3">Group: {{ queriedGroup.name }}</h3>
             <app-group-info [group]="queriedGroup"></app-group-info>
-            <ion-button style="margin-left: 16px" class="st-button st-edit-background"
-                        (click)="editGroup(queriedGroup)">
-                Edit
-            </ion-button>
+            <!-- submit button -->
+            <ion-buttons style="margin: 16px">
+                <ion-button class="st-button st-edit-background" type="button" *ngIf="canEdit$ | async" (click)="editGroup(queriedGroup)">
+                    Edit
+                </ion-button>
+                <ng-container *ngIf="isUserInvited$ | async">
+                    <ion-button class="st-button st-create-background" style="margin-right: 16px"  type="button" (click)="submitInvitation(true)">
+                        Accept
+                    </ion-button>
+                    <ion-button class="st-button st-remove-background" type="button" (click)="submitInvitation(false)">
+                        Decline
+                    </ion-button>
+                </ng-container>
+                <ion-button class="st-button st-remove-background" type="button" *ngIf="canUserSentInvitation$ | async" (click)="declineInvitation()">
+                    Decline
+                </ion-button>
+            </ion-buttons>
         </ion-col>
     </ion-row>
+
+
 
     <!-- owner -->
     <app-group-list-members-in-row

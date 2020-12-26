@@ -6,7 +6,12 @@ import {WatchlistPickerModalContainerComponent} from '../entry-components/watchl
 import {ChartDataIdentification} from '../../../shared/models/sharedModel';
 import {filter, map, takeUntil} from 'rxjs/operators';
 import {Observable, Subject} from 'rxjs';
-import {Maybe, StStockWatchlist, StStockWatchlistFragmentFragment} from '../../../api/customGraphql.service';
+import {
+    Maybe,
+    StStockWatchInputlistIdentifier,
+    StStockWatchlist,
+    StStockWatchlistFragmentFragment
+} from '../../../api/customGraphql.service';
 import {GraphqlWatchlistService} from './graphql-watchlist.service';
 import {InlineInputPopUpComponent} from '../../../shared/components/pop-ups/inline-input-pop-up/inline-input-pop-up.component';
 import {MarketPriceWebsocketService, MarketSymbolResult} from '../../../shared/services/market-price-websocket.service';
@@ -110,7 +115,25 @@ export class WatchlistService {
 
         if (confirmation) {
             this.graphqlWatchlistService.removeStockFromWatchlist(documentId, data.symbol)
-                .subscribe(x => this.ionicDialogService.presentToast('Symbol deleted from watchlist'));
+                .subscribe(() => this.ionicDialogService.presentToast('Symbol deleted from watchlist'));
+        }
+    }
+
+    async deleteWatchlist(input: StStockWatchInputlistIdentifier){
+        const confirmation = await this.ionicDialogService.presentAlertConfirm(`Do your really want to delete watchlist: ${input.additionalData} ?`);
+
+        if (confirmation) {
+            this.graphqlWatchlistService.deleteUserWatchlist(input.id)
+                .subscribe(() => this.ionicDialogService.presentToast(`Watchlist ${input.additionalData} has been removed`));
+        }
+    }
+
+    async renameWatchlist(input: StStockWatchInputlistIdentifier){
+        const confirmation = await this.ionicDialogService.presentAlertConfirm(`Do your really want to rename watchlist ?`);
+
+        if (confirmation) {
+            this.graphqlWatchlistService.renameStockWatchlist(input.id, input.additionalData)
+                .subscribe(() => this.ionicDialogService.presentToast('Watchlist has been renamed'));
         }
     }
 }

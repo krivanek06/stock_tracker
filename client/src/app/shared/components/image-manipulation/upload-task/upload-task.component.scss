@@ -1,5 +1,4 @@
 :host {
-
   .progress-container {
     display: flex;
     justify-content: center;
@@ -9,5 +8,9 @@
     progress {
       width: 80%;
     }
+  }
+
+  ion-img{
+    max-width: 150px;
   }
 }

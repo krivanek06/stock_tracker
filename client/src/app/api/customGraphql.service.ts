@@ -55,6 +55,8 @@ export type QueryQueryStockDetailsArgs = {
 export type Mutation = {
   __typename?: 'Mutation';
   registerUser?: Maybe<Scalars['Boolean']>;
+  editUser?: Maybe<Scalars['Boolean']>;
+  resetUserAccount?: Maybe<Scalars['Boolean']>;
   createGroup?: Maybe<StGroupPartialData>;
   editGroup?: Maybe<StGroupPartialData>;
   deleteGroup?: Maybe<Scalars['Boolean']>;
@@ -68,6 +70,16 @@ export type Mutation = {
 
 export type MutationRegisterUserArgs = {
   user?: Maybe<StUserAuthenticationInput>;
+};
+
+
+export type MutationEditUserArgs = {
+  editInput?: Maybe<StUserEditDataInput>;
+};
+
+
+export type MutationResetUserAccountArgs = {
+  userId: Scalars['String'];
 };
 
 
@@ -132,8 +144,8 @@ export type StUserPartialInformation = {
   __typename?: 'STUserPartialInformation';
   uid: Scalars['String'];
   nickName: Scalars['String'];
-  locale: Scalars['String'];
-  photoURL: Scalars['String'];
+  locale?: Maybe<Scalars['String']>;
+  photoURL?: Maybe<Scalars['String']>;
   accountCreatedDate: Scalars['String'];
   portfolio?: Maybe<StPortfolio>;
   rank?: Maybe<StRank>;
@@ -143,8 +155,8 @@ export type StUserPublicData = {
   __typename?: 'STUserPublicData';
   uid: Scalars['String'];
   nickName: Scalars['String'];
-  locale: Scalars['String'];
-  photoURL: Scalars['String'];
+  locale?: Maybe<Scalars['String']>;
+  photoURL?: Maybe<Scalars['String']>;
   accountCreatedDate: Scalars['String'];
   lastSignInDate: Scalars['String'];
   portfolio?: Maybe<StPortfolio>;
@@ -153,10 +165,10 @@ export type StUserPublicData = {
   portfolioWeeklyChange: Array<Maybe<StPortfolio>>;
   holdings: Array<Maybe<StTransaction>>;
   resetedAccount?: Maybe<Array<Maybe<StUserResetedAccount>>>;
-  groups: StUserGroups;
   activity?: Maybe<User_Activity>;
   bestAchievedRanks?: Maybe<Array<Maybe<StRank>>>;
   userLogs?: Maybe<Array<Maybe<StLog>>>;
+  groups: StUserGroups;
   userPrivateData: StUserPrivateData;
   stockWatchlist: Array<Maybe<StStockWatchlist>>;
 };
@@ -165,6 +177,7 @@ export type StUserPrivateData = {
   __typename?: 'STUserPrivateData';
   uid?: Maybe<Scalars['String']>;
   finnhubKey?: Maybe<Scalars['String']>;
+  finnhubKeyInsertedDate?: Maybe<Scalars['String']>;
   roles?: Maybe<Array<Maybe<Scalars['String']>>>;
   email: Scalars['String'];
   displayName: Scalars['String'];
@@ -176,8 +189,8 @@ export type StUserPrivateData = {
 
 export type StUserResetedAccount = {
   __typename?: 'STUserResetedAccount';
-  date?: Maybe<Scalars['String']>;
-  portfolio?: Maybe<StPortfolio>;
+  date: Scalars['String'];
+  portfolioTotal: Scalars['Float'];
 };
 
 export type StUserAuthenticationInput = {
@@ -187,6 +200,13 @@ export type StUserAuthenticationInput = {
   photoURL?: Maybe<Scalars['String']>;
   providerId?: Maybe<Scalars['String']>;
   locale?: Maybe<Scalars['String']>;
+};
+
+export type StUserEditDataInput = {
+  userId?: Maybe<Scalars['String']>;
+  finnhubKey?: Maybe<Scalars['String']>;
+  nickName?: Maybe<Scalars['String']>;
+  photoURL?: Maybe<Scalars['String']>;
 };
 
 export enum User_Activity {
@@ -914,7 +934,7 @@ export type StPortfolio = {
   portfolioCash: Scalars['Float'];
   portfolioWeeklyChange: Scalars['Float'];
   portfolioWeeklyGrowth: Scalars['Float'];
-  date: Scalars['String'];
+  date?: Maybe<Scalars['String']>;
 };
 
 export type StGroupUser = {
@@ -930,10 +950,10 @@ export type StGroupPartialData = {
   description?: Maybe<Scalars['String']>;
   imagePath?: Maybe<Scalars['String']>;
   imageUrl?: Maybe<Scalars['String']>;
-  portfolio?: Maybe<StPortfolio>;
   owner: StGroupUser;
-  numberOfMembers: Scalars['Float'];
+  portfolio: StPortfolio;
   lastUpdateDate: Scalars['String'];
+  lastEditedDate: Scalars['String'];
   createdDate: Scalars['String'];
   currentAchievedRanks?: Maybe<StRank>;
 };
@@ -945,10 +965,10 @@ export type StGroupAllData = {
   description?: Maybe<Scalars['String']>;
   imagePath?: Maybe<Scalars['String']>;
   imageUrl?: Maybe<Scalars['String']>;
-  portfolio?: Maybe<StPortfolio>;
+  portfolio: StPortfolio;
   owner: StGroupUser;
-  numberOfMembers: Scalars['Float'];
   lastUpdateDate: Scalars['String'];
+  lastEditedDate: Scalars['String'];
   createdDate: Scalars['String'];
   currentAchievedRanks?: Maybe<StRank>;
   bestAchievedRanks: Array<Maybe<StRank>>;
@@ -992,11 +1012,11 @@ export type StGroupUserFragmentFragment = (
 
 export type StGroupPartialDataFragmentFragment = (
   { __typename?: 'STGroupPartialData' }
-  & Pick<StGroupPartialData, 'groupId' | 'name' | 'description' | 'numberOfMembers' | 'lastUpdateDate' | 'createdDate'>
-  & { portfolio?: Maybe<(
+  & Pick<StGroupPartialData, 'groupId' | 'name' | 'description' | 'lastUpdateDate' | 'lastEditedDate' | 'createdDate'>
+  & { portfolio: (
     { __typename?: 'STPortfolio' }
     & StPortfolioFragmentFragment
-  )>, owner: (
+  ), owner: (
     { __typename?: 'STGroupUser' }
     & StGroupUserFragmentFragment
   ), currentAchievedRanks?: Maybe<(
@@ -1007,11 +1027,11 @@ export type StGroupPartialDataFragmentFragment = (
 
 export type StGroupAllDataFragmentFragment = (
   { __typename?: 'STGroupAllData' }
-  & Pick<StGroupAllData, 'groupId' | 'name' | 'description' | 'imageUrl' | 'imagePath' | 'numberOfMembers' | 'lastUpdateDate' | 'createdDate'>
-  & { portfolio?: Maybe<(
+  & Pick<StGroupAllData, 'groupId' | 'name' | 'description' | 'imageUrl' | 'imagePath' | 'lastUpdateDate' | 'lastEditedDate' | 'createdDate'>
+  & { portfolio: (
     { __typename?: 'STPortfolio' }
     & StPortfolioFragmentFragment
-  )>, owner: (
+  ), owner: (
     { __typename?: 'STGroupUser' }
     & StGroupUserFragmentFragment
   ), currentAchievedRanks?: Maybe<(
@@ -1391,11 +1411,7 @@ export type AuthenticateUserQuery = (
       & StTransactionFragment
     )>>, resetedAccount?: Maybe<Array<Maybe<(
       { __typename?: 'STUserResetedAccount' }
-      & Pick<StUserResetedAccount, 'date'>
-      & { portfolio?: Maybe<(
-        { __typename?: 'STPortfolio' }
-        & StPortfolioFragmentFragment
-      )> }
+      & Pick<StUserResetedAccount, 'date' | 'portfolioTotal'>
     )>>>, groups: (
       { __typename?: 'STUserGroups' }
       & { groupInvitationSent?: Maybe<Array<Maybe<(
@@ -1416,7 +1432,7 @@ export type AuthenticateUserQuery = (
       & StLogsFragmentFragment
     )>>>, userPrivateData: (
       { __typename?: 'STUserPrivateData' }
-      & Pick<StUserPrivateData, 'finnhubKey' | 'roles' | 'email' | 'displayName' | 'providerId' | 'status' | 'nicknameLastChange'>
+      & Pick<StUserPrivateData, 'finnhubKey' | 'finnhubKeyInsertedDate' | 'roles' | 'email' | 'displayName' | 'providerId' | 'status' | 'nicknameLastChange'>
     ), stockWatchlist: Array<Maybe<(
       { __typename?: 'STStockWatchlist' }
       & StStockWatchlistFragmentFragment
@@ -1445,6 +1461,26 @@ export type RegisterUserMutationVariables = Exact<{
 export type RegisterUserMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'registerUser'>
+);
+
+export type EditUserMutationVariables = Exact<{
+  editInput: StUserEditDataInput;
+}>;
+
+
+export type EditUserMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'editUser'>
+);
+
+export type ResetUserAccountMutationVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type ResetUserAccountMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'resetUserAccount'>
 );
 
 export type StStockWatchlistFragmentFragment = (
@@ -1567,8 +1603,8 @@ export const StGroupPartialDataFragmentFragmentDoc = gql`
   owner {
     ...STGroupUserFragment
   }
-  numberOfMembers
   lastUpdateDate
+  lastEditedDate
   createdDate
   currentAchievedRanks {
     ...STRankFragment
@@ -1608,8 +1644,8 @@ export const StGroupAllDataFragmentFragmentDoc = gql`
   owner {
     ...STGroupUserFragment
   }
-  numberOfMembers
   lastUpdateDate
+  lastEditedDate
   createdDate
   currentAchievedRanks {
     ...STRankFragment
@@ -2344,9 +2380,7 @@ export const AuthenticateUserDocument = gql`
     }
     resetedAccount {
       date
-      portfolio {
-        ...STPortfolioFragment
-      }
+      portfolioTotal
     }
     groups {
       groupInvitationSent {
@@ -2368,6 +2402,7 @@ export const AuthenticateUserDocument = gql`
     }
     userPrivateData {
       finnhubKey
+      finnhubKeyInsertedDate
       roles
       email
       displayName
@@ -2426,6 +2461,38 @@ export const RegisterUserDocument = gql`
   })
   export class RegisterUserGQL extends Apollo.Mutation<RegisterUserMutation, RegisterUserMutationVariables> {
     document = RegisterUserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EditUserDocument = gql`
+    mutation EditUser($editInput: STUserEditDataInput!) {
+  editUser(editInput: $editInput)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EditUserGQL extends Apollo.Mutation<EditUserMutation, EditUserMutationVariables> {
+    document = EditUserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ResetUserAccountDocument = gql`
+    mutation ResetUserAccount($userId: String!) {
+  resetUserAccount(userId: $userId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ResetUserAccountGQL extends Apollo.Mutation<ResetUserAccountMutation, ResetUserAccountMutationVariables> {
+    document = ResetUserAccountDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

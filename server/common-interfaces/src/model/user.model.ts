@@ -44,13 +44,14 @@ export interface STUserPublicData extends STUserPartialInformation {
 export interface STUserPrivateData {
     uid: string;
     finnhubKey: string;
+    finnhubKeyInsertedDate: string;
     roles?: string[];
     email: string;
     displayName: string;
     providerId: string;
     status: USER_STATUS;
     geographic: STGeographic;
-    nicknameLastChange?: Date;
+    nicknameLastChange?: string;
 }
 
 export interface STUserGroupsIdentification {
@@ -69,8 +70,8 @@ export interface STUserGroups {
 }
 
 export interface STUserResetedAccount {
-    date: Date;
-    portfolio: STPortfolio;
+    date: string;
+    portfolioTotal: number;
 }
 
 
@@ -81,6 +82,13 @@ export interface STUserAuthenticationInput {
     email: string;
     displayName: string;
     providerId: string;
+}
+
+export interface STUserEditDataInput {
+    userId: string;         // TODO REMOVE LATER WHEN USER_ID WILL BE IN TOKEN
+    finnhubKey: string;
+    nickName: string;
+    photoURL: string;
 }
 
 export const ST_USER_COLLECTION_USER = "users";

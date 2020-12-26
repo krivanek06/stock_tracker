@@ -21,7 +21,7 @@ const resolveStockWatchlists = async (uid: string) => {
     }
 }
 
-const resolveUserPrivateData = async (uid: string) => {
+export const resolveUserPrivateData = async (uid: string) => {
     try {
         const privateDoc = await admin
             .firestore()

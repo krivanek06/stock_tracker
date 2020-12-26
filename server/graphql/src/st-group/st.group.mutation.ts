@@ -11,7 +11,6 @@ import * as api from 'stock-tracker-common-interfaces';
 import {getCurrentIOSDate, stSeep} from "../st-shared/st-shared.functions";
 
 
-
 export const createGroup = async (groupInput: api.STGroupAllDataInput) => {
     try {
         const group = createEmptySTGroupAllData();
@@ -97,12 +96,14 @@ export const editGroup = async (groupInput: api.STGroupAllDataInput) => {
         group.invitationSent = [...group.invitationSent, ...notSaved[2].map(m => createSTGroupUser(m))];
         group.invitationReceived = [...group.invitationReceived, ...notSaved[3].map(m => createSTGroupUser(m))];
 
-        group.portfolio = group.members.map(member => member.user.portfolio).reduce((acc, cur) => {
-            acc.portfolioTotal += cur.portfolioTotal;
-            acc.portfolioCash += cur.portfolioCash;
-            acc.portfolioInvested += cur.portfolioInvested;
-            return acc;
-        });
+        if (group.members.length > 0) {
+            group.portfolio = group.members.map(member => member.user.portfolio).reduce((acc, cur) => {
+                acc.portfolioTotal += cur.portfolioTotal;
+                acc.portfolioCash += cur.portfolioCash;
+                acc.portfolioInvested += cur.portfolioInvested;
+                return acc;
+            });
+        }
 
         // persist
         await admin.firestore().collection(`${api.ST_GROUP_COLLECTION_GROUPS}`).doc(`${group.groupId}`).set(group);

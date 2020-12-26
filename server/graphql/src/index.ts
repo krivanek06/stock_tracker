@@ -14,7 +14,7 @@ import {
     deleteWatchlist,
     renameStockWatchlist
 } from './watchlist/watchlist.mutation';
-import {updateUserPrivateData, registerUser} from './user/user.mutation';
+import {editUser, registerUser, resetUserAccount} from './user/user.mutation';
 import {queryStockDetails} from './stockDetails/stockDetails.query';
 import {stockDetailsTypeDefs} from './stockDetails/stockDetails.typedefs';
 import {STTransactionTypeDefs} from './st-transaction/st-transaction.typedef';
@@ -58,6 +58,8 @@ const mainTypeDefs = gql`
         # user
         #updateUserData(user: UserInputAuthentication): STUserPublicData
         registerUser(user: STUserAuthenticationInput): Boolean
+        editUser(editInput: STUserEditDataInput): Boolean
+        resetUserAccount(userId: String!): Boolean
         #updateUserPrivateData(uid: String, userPrivateDataInput: UserPrivateDataInput): UserPrivateData
         
         # groups
@@ -93,6 +95,8 @@ const mainResolver = {
     Mutation: {
         // USER
         registerUser: async (_, args: { user: api.STUserAuthenticationInput }) => await registerUser(args.user),
+        editUser: async (_, args: { editInput: api.STUserEditDataInput }) => await editUser(args.editInput),
+        resetUserAccount: async (_, args: { userId: string }) => await resetUserAccount(args.userId),
 
         // GROUPS
         createGroup: async (_, args: { groupInput: api.STGroupAllDataInput }) => await createGroup(args.groupInput),

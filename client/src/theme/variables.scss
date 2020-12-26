@@ -240,6 +240,10 @@
     ion-col {
       padding: 4px;
     }
+
+    @media (max-width: #{$st-var-md-split}) {
+      margin-top: 16px !important;
+    }
   }
 
   ion-card {

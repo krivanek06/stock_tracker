@@ -1,24 +1,28 @@
-<ng-container *ngIf="files.length > 0; else defaultImage">
-    <div *ngFor="let file of files">
-        <app-upload-task
-                (uploadedFilesEmitter)="uploadFile($event)"
-                [file]="file"
-                [filePath]="filePath">
-        </app-upload-task>
+<div [ngClass]="{'st-display-flex-center': oneLine}">
+    <div style="margin-right: 16px">
+        <ng-container *ngIf="files.length > 0; else defaultImage">
+            <div *ngFor="let file of files">
+                <app-upload-task
+                        (uploadedFilesEmitter)="uploadFile($event)"
+                        [file]="file"
+                        [fileName]="fileName"
+                        [filePath]="filePath">
+                </app-upload-task>
+            </div>
+        </ng-container>
 
-
+        <ng-template #defaultImage>
+            <ion-img *ngIf="defaultUrl" [src]="defaultUrl"></ion-img>
+        </ng-template>
     </div>
-</ng-container>
 
-<ng-template #defaultImage>
-    <ion-img *ngIf="defaultUrl" [src]="defaultUrl"></ion-img>
-</ng-template>
+    <div *ngIf="showInput"
+         class="dropzone"
+         appDropzone
+         (hovered)="toggleHover($event)"
+         (dropped)="onDrop($event)"
+         [class.hovering]="isHovering">
 
-<div class="dropzone"
-     appDropzone
-     (hovered)="toggleHover($event)"
-     (dropped)="onDrop($event)"
-     [class.hovering]="isHovering">
-
-    <p>Drag and Drop a File</p>
+        <p>Drag and Drop a File</p>
+    </div>
 </div>
