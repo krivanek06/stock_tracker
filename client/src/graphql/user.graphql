@@ -38,9 +38,7 @@ query AuthenticateUser($uid: String!) {
         }
         resetedAccount {
             date
-            portfolio {
-                ...STPortfolioFragment
-            }
+            portfolioTotal
         }
         groups {
             groupInvitationSent{
@@ -62,6 +60,7 @@ query AuthenticateUser($uid: String!) {
         }
         userPrivateData {
             finnhubKey
+            finnhubKeyInsertedDate
             roles
             email
             displayName
@@ -89,3 +88,12 @@ query QuerySTUserPartialInformationByUsername($usernamePrefix: String!) {
 mutation RegisterUser($stUserAuthenticationInput: STUserAuthenticationInput!) {
     registerUser(user: $stUserAuthenticationInput)
 }
+
+mutation EditUser($editInput: STUserEditDataInput!) {
+    editUser(editInput: $editInput)
+}
+
+mutation ResetUserAccount($userId: String!) {
+    resetUserAccount(userId: $userId)
+}
+

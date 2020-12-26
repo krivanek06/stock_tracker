@@ -27,7 +27,10 @@ export class AuthFeatureService {
                 private router: Router,
                 private authenticateUserGQL: AuthenticateUserGQL,
                 private registerUserGQL: RegisterUserGQL) {
-        this.initUserIfExists();
+
+        this.afAuth.authState.pipe(
+            filter(x => !!x),
+        ).subscribe(user => this.initUserIfExists(user.uid));
     }
 
     getUser(): Observable<StUserPublicData> {
@@ -59,42 +62,16 @@ export class AuthFeatureService {
     }
 
     async logout() {
-        /*await this.getUser().pipe(
-            switchMap(user => this.registerUserGQL.mutate({
-                stUserAuthenticationInput: {
-                    uid: user.uid,
-                    locale: user.locale,
-                    providerId: user.providerId,
-                    photoURL: user.photoURL,
-                    nickname: user.nickname,
-                    email: user.email,
-                    displayName: user.displayName,
-                    activity: USER_ACTIVITY.SIGNED_OUT
-                }
-            }))
-        ).toPromise();*/
         this.user$.next(null);
         await this.apollo.getClient().clearStore();
         await this.afAuth.signOut();
         await this.router.navigate(['/login']);
     }
 
-    /*updateUserPrivateData(userPrivateData: UserPrivateData): Observable<FetchResult<UpdateUserPrivateDataMutation, Record<string, any>, Record<string, any>>> {
-        return this.getUser().pipe(
-            switchMap(user => this.updateUserPrivateDataGQL.mutate({
-                uid: user.uid,
-                userPrivateDataInput: userPrivateData
-            }))
-        );
-    }*/
-
-    private initUserIfExists() {
-        return this.afAuth.authState.pipe(
-            filter(x => !!x),
-            switchMap(user =>
-                this.authenticateUserGQL.watch({uid: user.uid}).valueChanges.pipe(
-                    map(x => x.data.authenticateUser)
-                )),
+    private initUserIfExists(userId: string) {
+        this.authenticateUserGQL.watch({uid: userId}).valueChanges.pipe(
+            filter(x => !!x.data),
+            map(x => x.data.authenticateUser),
             filter(x => !!x),
         ).subscribe(user => {
             if (user && !this.user$.getValue()) {
@@ -118,6 +95,7 @@ export class AuthFeatureService {
             };
 
             await this.registerUserGQL.mutate({stUserAuthenticationInput}).toPromise();
+            this.initUserIfExists(credential.user.uid);
         }
     }
 }

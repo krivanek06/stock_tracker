@@ -1,10 +1,10 @@
 export interface STLog {
-    date: Date;
+    date: string;
     logText: string;
 }
 
 export interface STSimpleChart {
-    date: Date;
+    date: string;
     data: number;
     label?: string;
 }

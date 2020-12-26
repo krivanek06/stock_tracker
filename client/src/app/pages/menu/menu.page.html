@@ -4,10 +4,13 @@
 
             <!-- avatar -->
             <div class="navigation-avatar">
-                <ion-avatar>
-                    <ion-img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"></ion-img>
-                </ion-avatar>
-                <ion-label class="navigation-avatar-name st-font-1">Eduard Krivanek</ion-label>
+                <ng-container *ngIf="user$ | async as user">
+                    <ion-avatar>
+                        <ion-img [src]="user.photoURL"></ion-img>
+                    </ion-avatar>
+                    <ion-label class="navigation-avatar-name st-font-1">{{ user.userPrivateData.displayName }}</ion-label>
+                    <ion-label class="navigation-avatar-name st-font-4 st-font-size-12">({{ user.nickName }})</ion-label>
+                </ng-container>
             </div>
 
             <!-- navigation main -->

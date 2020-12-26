@@ -30,7 +30,7 @@ export class GraphqlGroupService {
         return this.queryStGroupAllDataByGroupIdGQL.fetch({
             groupId
         }, {
-            fetchPolicy: loadFromNetwork ? 'network-only' : 'cache-first'
+            fetchPolicy: 'network-only' // loadFromNetwork ? 'network-only' : 'cache-first'
         }).pipe(map(res => res.data.querySTGroupAllDataByGroupId));
     }
 

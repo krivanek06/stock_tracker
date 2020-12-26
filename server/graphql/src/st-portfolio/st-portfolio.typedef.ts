@@ -9,8 +9,7 @@ export const STPortfolioTypeDefs = gql`
         portfolioCash: Float!
         portfolioWeeklyChange: Float!
         portfolioWeeklyGrowth: Float!
-        date: String!
-    
+        date: String
     }
 
 

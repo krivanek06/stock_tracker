@@ -10,5 +10,5 @@ export interface STTransaction {
     priceSold: number;
     priceProfit: number;
     units: number;
-    date: Date;
+    date: string;
 }

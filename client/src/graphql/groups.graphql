@@ -15,8 +15,8 @@ fragment STGroupPartialDataFragment on STGroupPartialData {
     owner {
         ...STGroupUserFragment
     }
-    numberOfMembers
     lastUpdateDate
+    lastEditedDate
     createdDate
     currentAchievedRanks {
         ...STRankFragment
@@ -36,8 +36,8 @@ fragment STGroupAllDataFragment on STGroupAllData {
     owner {
         ...STGroupUserFragment
     }
-    numberOfMembers
     lastUpdateDate
+    lastEditedDate
     createdDate
     currentAchievedRanks {
         ...STRankFragment

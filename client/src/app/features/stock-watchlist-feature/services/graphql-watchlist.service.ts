@@ -124,7 +124,6 @@ export class GraphqlWatchlistService {
                     }
                 });
                 const updatedWatchlist = data.authenticateUser.stockWatchlist.filter(x => x.id !== watchlistId);
-                console.log('deleting document : ', watchlistId);
 
                 // update watchlist inside cache
                 store.writeQuery({
@@ -136,9 +135,7 @@ export class GraphqlWatchlistService {
                         ...data,
                         authenticateUser: {
                             ...data.authenticateUser,
-                            stockWatchlist: {
-                                ...updatedWatchlist
-                            }
+                            stockWatchlist: [...updatedWatchlist]
                         }
                     }
                 });

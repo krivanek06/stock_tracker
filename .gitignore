@@ -2,6 +2,12 @@ frontend/node_modules/
 frontend/src/environments
 frontend/package-lock.json
 tmp/
+server/common-interfaces/dist
+server/functions/dist
+server/common-interfaces/package-lock.json
+server/functions/package-lock.json
+server/functions/firebase-debug.log
+
 
 
 # Compiled source #

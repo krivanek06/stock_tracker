@@ -1,0 +1,14 @@
+<ion-item-group>
+    <div class="ion-margin-bottom">
+        <ng-content></ng-content>
+    </div>
+    <ion-item class="st-display-flex-center st-font-size-14 ion-activatable"
+              *ngFor="let name of itemNames"
+              (click)="itemClicked(name)">
+        <ion-label class="ion-text-center">
+            {{ name }}
+        </ion-label>
+        <!-- ripple effect on click -->
+        <ion-ripple-effect></ion-ripple-effect>
+    </ion-item>
+</ion-item-group>

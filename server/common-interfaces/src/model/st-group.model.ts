@@ -11,7 +11,6 @@ export interface STGroupPartialData {
     imageUrl?: string
     portfolio: STPortfolio;
     owner: STGroupUser;
-    numberOfMembers: number;
     lastUpdateDate: string;
     lastEditedDate: string;
     createdDate: string;

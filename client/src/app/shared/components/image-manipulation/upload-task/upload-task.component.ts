@@ -15,6 +15,7 @@ export class UploadTaskComponent implements OnInit {
 
     @Input() file: File;
     @Input() filePath: string;
+    @Input() fileName: string;
 
     task: AngularFireUploadTask;
 
@@ -32,7 +33,7 @@ export class UploadTaskComponent implements OnInit {
     startUpload() {
 
         // The storage path
-        const path = `${this.filePath}/${Date.now()}_${this.file.name}`;
+        const path = `${this.filePath}/this.fileName` || `${this.filePath}/${Date.now()}_${this.file.name}`;
 
         // Reference to storage bucket
         const ref = this.storage.ref(path);

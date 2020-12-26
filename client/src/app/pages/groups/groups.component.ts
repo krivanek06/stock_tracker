@@ -34,7 +34,7 @@ export class GroupsComponent implements OnInit {
             filter(event => event instanceof NavigationEnd),
             map((data: NavigationEnd) => data.url),
             map(url => url.split('/')),
-            map(slittedUrl => slittedUrl[slittedUrl.length - 1])
+            map(splittedUrl => splittedUrl[splittedUrl.length - 1])
         );
     }
 }

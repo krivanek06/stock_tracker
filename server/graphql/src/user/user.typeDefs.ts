@@ -21,8 +21,8 @@ export const userTypeDefs = gql`
     type STUserPartialInformation {
         uid: String!
         nickName: String!
-        locale: String!
-        photoURL: String!
+        locale: String
+        photoURL: String
         accountCreatedDate: String!
         portfolio: STPortfolio
         rank: STRank
@@ -31,8 +31,8 @@ export const userTypeDefs = gql`
     type STUserPublicData {
         uid: String!
         nickName: String!
-        locale: String!
-        photoURL: String!
+        locale: String
+        photoURL: String
         accountCreatedDate: String!
         lastSignInDate: String!
         portfolio: STPortfolio
@@ -52,6 +52,7 @@ export const userTypeDefs = gql`
     type STUserPrivateData {
         uid: String
         finnhubKey: String
+        finnhubKeyInsertedDate: String
         roles: [String]
         email: String!
         displayName: String!
@@ -62,8 +63,8 @@ export const userTypeDefs = gql`
     }
     
     type STUserResetedAccount {
-        date: String
-        portfolio: STPortfolio
+        date: String!
+        portfolioTotal: Float!
     }
     
     ###################################################
@@ -75,6 +76,13 @@ export const userTypeDefs = gql`
         photoURL: String
         providerId: String
         locale: String
+    }
+    
+    input STUserEditDataInput {
+        userId: String
+        finnhubKey: String
+        nickName: String
+        photoURL: String
     }
 
     ##########################################
