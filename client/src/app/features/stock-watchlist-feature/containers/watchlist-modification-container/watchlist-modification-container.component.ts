@@ -36,4 +36,8 @@ export class WatchlistModificationContainerComponent implements OnInit {
         };
         this.watchlistService.deleteWatchlist(input);
     }
+
+    createWatchlist() {
+        this.watchlistService.createWatchlist();
+    }
 }

@@ -9,6 +9,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output}
 export class ClickableNameItemComponent implements OnInit {
     @Output() nameClickedEmitter: EventEmitter<string> = new EventEmitter<string>();
     @Input() itemNames: string[] = [];
+    @Input() title: string;
 
     constructor() {
     }

@@ -1,11 +1,7 @@
 <!-- my groups -->
-<ion-item-group *ngIf="groups.groupOwner.length > 0" class="ion-margin-bottom">
-    <ion-item>
-        <ion-label class="st-font-2 st-font-size-18">
-            My groups
-        </ion-label>
-    </ion-item>
-
+<app-generic-card *ngIf="groups.groupOwner.length > 0"
+                  [additionalClasses]="'ion-margin-bottom'"
+                  [chartTitle]="'My groups'">
     <ion-item-group>
         <ion-item *ngFor="let group of groups.groupOwner"
                   (click)="clickedGroup(group)"
@@ -16,17 +12,13 @@
             </ion-label>
         </ion-item>
     </ion-item-group>
-</ion-item-group>
+</app-generic-card>
 
 
 <!-- member groups -->
-<ion-item-group *ngIf="groups.groupMember.length > 0" class="ion-margin-bottom">
-    <ion-item>
-        <ion-label class="st-font-2 st-font-size-18">
-            Member of
-        </ion-label>
-    </ion-item>
-
+<app-generic-card *ngIf="groups.groupMember.length > 0"
+                  [additionalClasses]="'ion-margin-bottom'"
+                  [chartTitle]="'Member of'">
     <ion-item-group>
         <ion-item *ngFor="let group of groups.groupMember"
                   (click)="clickedGroup(group)"
@@ -37,17 +29,12 @@
             </ion-label>
         </ion-item>
     </ion-item-group>
-</ion-item-group>
-
+</app-generic-card>
 
 <!-- invitation sent groups -->
-<ion-item-group *ngIf="groups.groupInvitationSent.length > 0" class="ion-margin-bottom">
-    <ion-item>
-        <ion-label class="st-font-2 st-font-size-18">
-            Invitation sent
-        </ion-label>
-    </ion-item>
-
+<app-generic-card *ngIf="groups.groupInvitationSent.length > 0"
+                  [additionalClasses]="'ion-margin-bottom'"
+                  [chartTitle]="'Invitation sent'">
     <ion-item-group>
         <ion-item *ngFor="let group of groups.groupInvitationSent"
                   (click)="clickedGroup(group)"
@@ -58,17 +45,12 @@
             </ion-label>
         </ion-item>
     </ion-item-group>
-</ion-item-group>
-
+</app-generic-card>
 
 <!-- invitation received groups -->
-<ion-item-group *ngIf="groups.groupInvitationReceived.length > 0" class="ion-margin-bottom">
-    <ion-item>
-        <ion-label class="st-font-2 st-font-size-18">
-            Invitation received
-        </ion-label>
-    </ion-item>
-
+<app-generic-card *ngIf="groups.groupInvitationReceived.length > 0"
+                  [additionalClasses]="'ion-margin-bottom'"
+                  [chartTitle]="'Invitation received'">
     <ion-item-group>
         <ion-item *ngFor="let group of groups.groupInvitationReceived"
                   (click)="clickedGroup(group)"
@@ -79,4 +61,4 @@
             </ion-label>
         </ion-item>
     </ion-item-group>
-</ion-item-group>
+</app-generic-card>

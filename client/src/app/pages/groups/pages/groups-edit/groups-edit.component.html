@@ -1,101 +1,97 @@
 <ion-row *ngIf="form">
     <!-- form -->
-    <ion-col size="12" size-md="9" class="content-padding">
-        <h3 class="st-h3">Edit {{ group?.name }}</h3>
-        <form [formGroup]="form" (ngSubmit)="submit()">
-            <!-- group image -->
-            <ion-item-group class="group-image-container">
-                <ion-item>
-                    <app-uploader
-                       #uploader
-                       [defaultUrl]="group.imageUrl"
-                       [filePath]="'groups'"
-                       (uploadedFilesEmitter)="uploadedGroupImage($event)">
-                    </app-uploader>
+    <ion-col size="12" class="content-padding">
+        <app-generic-card [chartTitle]="'Edit ' + group?.name">
+            <form [formGroup]="form" (ngSubmit)="submit()">
+                <!-- group image -->
+                <ion-item-group class="group-image-container">
+                    <ion-item>
+                        <app-uploader
+                           #uploader
+                           [defaultUrl]="group.imageUrl"
+                           [filePath]="'groups'"
+                           (uploadedFilesEmitter)="uploadedGroupImage($event)">
+                        </app-uploader>
+                    </ion-item>
+                </ion-item-group>
+
+                <!-- Group name -->
+                <ion-item class="st-form-input-background" style="margin-top: 16px">
+                    <ion-label position="floating">Group name</ion-label>
+                    <ion-input placeholder="Enter group name" type="text" formControlName="name"></ion-input>
                 </ion-item>
-            </ion-item-group>
 
-            <!-- Group name -->
-            <ion-item class="st-card-background" style="margin-top: 16px">
-                <ion-label position="floating">Group name</ion-label>
-                <ion-input placeholder="Enter group name" type="text" formControlName="name"></ion-input>
-            </ion-item>
+                <!-- Group description -->
+                <ion-item class="st-form-input-background" style="margin-top: 16px">
+                    <ion-label position="floating">Group description</ion-label>
+                    <ion-textarea placeholder="Enter group description" formControlName="description"
+                                  [autoGrow]="true"></ion-textarea>
+                </ion-item>
 
-            <!-- Group description -->
-            <ion-item class="st-card-background" style="margin-top: 16px">
-                <ion-label position="floating">Group description</ion-label>
-                <ion-textarea placeholder="Enter group description" formControlName="description"
-                              [autoGrow]="true"></ion-textarea>
-            </ion-item>
+                <!-- submit button -->
+                <ion-buttons class="st-buttons-container">
+                    <ion-button class="st-button st-create-background st-width-full-md-screen" type="submit">
+                        Save
+                    </ion-button>
+                    <ion-button class="st-button st-remove-background st-width-full-md-screen" type="button"
+                                (click)="cancelEdit()">
+                        Cancel
+                    </ion-button>
+                </ion-buttons>
+            </form>
 
-            <!-- submit button -->
-            <ion-buttons class="ion-float-right " style="margin: 16px">
-                <ion-button class="st-button st-create-background ion-margin" type="submit">
-                    Save
-                </ion-button>
-                <ion-button class="st-button st-remove-background ion-margin" type="button" (click)="cancelEdit()">
-                    Cancel
-                </ion-button>
-            </ion-buttons>
-
-            <!-- owner -->
-            <app-group-list-members-in-row
-                    [showDeleteButton]="false"
-                    [clickable]="false"
-                    [groupUsers]="[group.owner]"
-                    [title]="'Owner'">
-            </app-group-list-members-in-row>
-
-            <!-- Managers -->
-            <app-group-list-members-in-row
-                    (clickedEmitter)="changeGroupMemberSection($event, User_Status_In_Group.Manager)"
-                    (deleteEmitter)="removeUserFromSection($event, User_Status_In_Group.Manager)"
-                    [showDeleteButton]="true"
-                    [clickable]="true"
-                    [groupUsers]="group.managers"
-                    [title]="'Managers'">
-            </app-group-list-members-in-row>
-
-            <!-- Members -->
-            <app-group-list-members-in-row
-                    (clickedEmitter)="changeGroupMemberSection($event, User_Status_In_Group.Member)"
-                    (deleteEmitter)="removeUserFromSection($event, User_Status_In_Group.Member)"
-                    [showDeleteButton]="true"
-                    [clickable]="true"
-                    [groupUsers]="group.members"
-                    [title]="'Members'">
-            </app-group-list-members-in-row>
-
-            <!-- Invited -->
-            <app-group-list-members-in-row
-                    (clickedEmitter)="changeGroupMemberSection($event, User_Status_In_Group.InvitationSent)"
-                    (deleteEmitter)="removeUserFromSection($event, User_Status_In_Group.InvitationSent)"
-                    [showDeleteButton]="true"
-                    [clickable]="true"
-                    [groupUsers]="group.invitationSent"
-                    [title]="'Invited'">
-            </app-group-list-members-in-row>
-
-            <!-- invitation received -->
-            <app-group-list-members-in-row
-                    (clickedEmitter)="changeGroupMemberSection($event, User_Status_In_Group.InvitationReceived)"
-                    (deleteEmitter)="removeUserFromSection($event, User_Status_In_Group.InvitationReceived)"
-                    [showDeleteButton]="true"
-                    [clickable]="true"
-                    [groupUsers]="group.invitationReceived"
-                    [title]="'Pending'">
-            </app-group-list-members-in-row>
-
-
-
-        </form>
+            <!-- search user  -->
+            <app-user-account-search
+                    (clickedUserEmitter)="sendInvitation($event)">
+            </app-user-account-search>
+        </app-generic-card>
     </ion-col>
-
-    <!-- search user -->
-    <ion-col size="12" size-md="3" class="account-search">
-        <app-user-account-search
-                (clickedUserEmitter)="sendInvitation($event)">
-        </app-user-account-search>
-    </ion-col>
-
 </ion-row>
+
+<!-- owner -->
+<app-group-list-members-in-row
+        [showDeleteButton]="false"
+        [clickable]="false"
+        [groupUsers]="[group.owner]"
+        [title]="'Owner'">
+</app-group-list-members-in-row>
+
+<!-- Managers -->
+<app-group-list-members-in-row
+        (clickedEmitter)="changeGroupMemberSection($event, User_Status_In_Group.Manager)"
+        (deleteEmitter)="removeUserFromSection($event, User_Status_In_Group.Manager)"
+        [showDeleteButton]="true"
+        [clickable]="true"
+        [groupUsers]="group.managers"
+        [title]="'Managers'">
+</app-group-list-members-in-row>
+
+<!-- Members -->
+<app-group-list-members-in-row
+        (clickedEmitter)="changeGroupMemberSection($event, User_Status_In_Group.Member)"
+        (deleteEmitter)="removeUserFromSection($event, User_Status_In_Group.Member)"
+        [showDeleteButton]="true"
+        [clickable]="true"
+        [groupUsers]="group.members"
+        [title]="'Members'">
+</app-group-list-members-in-row>
+
+<!-- Invited -->
+<app-group-list-members-in-row
+        (clickedEmitter)="changeGroupMemberSection($event, User_Status_In_Group.InvitationSent)"
+        (deleteEmitter)="removeUserFromSection($event, User_Status_In_Group.InvitationSent)"
+        [showDeleteButton]="true"
+        [clickable]="true"
+        [groupUsers]="group.invitationSent"
+        [title]="'Invited'">
+</app-group-list-members-in-row>
+
+<!-- invitation received -->
+<app-group-list-members-in-row
+        (clickedEmitter)="changeGroupMemberSection($event, User_Status_In_Group.InvitationReceived)"
+        (deleteEmitter)="removeUserFromSection($event, User_Status_In_Group.InvitationReceived)"
+        [showDeleteButton]="true"
+        [clickable]="true"
+        [groupUsers]="group.invitationReceived"
+        [title]="'Pending'">
+</app-group-list-members-in-row>

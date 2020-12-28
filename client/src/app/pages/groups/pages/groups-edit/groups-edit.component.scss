@@ -15,13 +15,6 @@
     }
   }
 
-  .account-search {
-    border-left: 1px solid #{$st-var-font-4};
-    @media (max-width: #{$st-var-md-split}) {
-      border-left: 0;
-    }
-  }
-
   .content-padding {
     padding-left: 10px !important;
     padding-right: 10px !important;

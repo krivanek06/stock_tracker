@@ -11,7 +11,7 @@
         <ng-container *ngIf="stockDetails$ | async as stockDetails">
             <ion-row>
                 <!-- financial chart -->
-                <ion-col size="12" size-md="8">
+                <ion-col size="12" size-md="6.5" size-xl="7.5" class="st-md-border-bottom">
                     <app-financial-chart-container
                             [showYAxis]="true"
                             [height]="350"
@@ -22,15 +22,15 @@
                 </ion-col>
 
 
-                <ion-col size="12" size-md="4">
+                <ion-col size="12" size-md="5.5" size-xl="4.5" class="st-md-border-bottom">
                     <!-- summary -->
                     <app-details-summary [summary]="stockDetails.summary"></app-details-summary>
                     <!-- buttons -->
-                    <div class="flex-space-between ion-padding">
-                        <ion-button class="st-edit-background st-font-size-12" (click)="addSymbolToWatchlist()">
+                    <div class="st-flex-space-between ion-margin-top">
+                        <ion-button class="st-button st-edit-background" (click)="addSymbolToWatchlist()">
                             Add to watchlist
                         </ion-button>
-                        <ion-button class="st-create-background st-font-size-12">
+                        <ion-button class="st-button st-create-background">
                             Show details
                         </ion-button>
                     </div>

@@ -236,13 +236,14 @@
 /* CUSTOM DARK SCHEME */
 
 :root {
+  ion-content {
+    white-space: pre-wrap !important;
+  }
+
   ion-row {
     ion-col {
       padding: 4px;
-    }
-
-    @media (max-width: #{$st-var-md-split}) {
-      margin-top: 16px !important;
+      overflow: hidden;
     }
   }
 
@@ -266,6 +267,7 @@
           --min-height: 30px;
 
           ion-label {
+            white-space: pre-wrap !important;
             font-size: 15px;
           }
         }
@@ -304,18 +306,21 @@
     }
 
     ion-card {
-      --background: linear-gradient(180deg, rgb(0, 3, 32) 0%, rgb(0, 8, 62) 100%);
-      // --color: #{$default-word};
+      // --background: linear-gradient(180deg, rgb(0, 3, 32) 0%, rgb(0, 8, 62) 100%);
+      --background: linear-gradient(126deg, rgb(13 30 85) 0%, rgb(19 33 85) 35%, rgb(15 31 82) 100%);
+     // --color: #{$st-var-font-2};
 
       ion-card-header {
         --background-color: transparent;
 
         ion-card-title {
           // --color: #{$orange-title-light};
-          font-weight: bold;
+          --color: #{$st-var-font-0} !important;
+          font-size: 18px !important;
         }
 
         ion-card-subtitle {
+          --color: #{$st-var-font-4} !important;
           // --color: #{$default-word};
         }
       }
