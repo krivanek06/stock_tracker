@@ -2,28 +2,38 @@
     <!-- group info -->
     <ion-row>
         <ion-col size="12">
-            <h3 class="st-h3">Group: {{ queriedGroup.name }}</h3>
-            <app-group-info [group]="queriedGroup"></app-group-info>
-            <!-- submit button -->
-            <ion-buttons style="margin: 16px">
-                <ion-button class="st-button st-edit-background" type="button" *ngIf="canEdit$ | async" (click)="editGroup(queriedGroup)">
-                    Edit
-                </ion-button>
-                <ng-container *ngIf="isUserInvited$ | async">
-                    <ion-button class="st-button st-create-background" style="margin-right: 16px"  type="button" (click)="submitInvitation(true)">
-                        Accept
+            <app-generic-card [chartTitle]="'Group ' + queriedGroup.name">
+                <!-- group description -->
+                <app-group-info [group]="queriedGroup"></app-group-info>
+
+                <!-- submit button -->
+                <ion-buttons class="st-buttons-container">
+                    <ion-button class="st-button st-edit-background st-width-full-md-screen" type="button"
+                                *ngIf="canEdit$ | async" (click)="editGroup(queriedGroup)">
+                        Edit
                     </ion-button>
-                    <ion-button class="st-button st-remove-background" type="button" (click)="submitInvitation(false)">
+                    <ng-container *ngIf="isUserInvited$ | async">
+                        <ion-button class="st-button st-create-background st-width-full-md-screen"
+                                    style="margin-right: 16px" type="button"
+                                    (click)="submitInvitation(true)">
+                            Accept
+                        </ion-button>
+                        <ion-button class="st-button st-remove-background st-width-full-md-screen"
+                                    type="button" (click)="
+                                submitInvitation(false)">
+                            Decline
+                        </ion-button>
+                    </ng-container>
+                    <ion-button class="st-button st-remove-background st-width-full-md-screen"
+                                type="button"
+                                *ngIf="userSentInvitation$ | async"
+                                (click)="declineInvitation()">
                         Decline
                     </ion-button>
-                </ng-container>
-                <ion-button class="st-button st-remove-background" type="button" *ngIf="canUserSentInvitation$ | async" (click)="declineInvitation()">
-                    Decline
-                </ion-button>
-            </ion-buttons>
+                </ion-buttons>
+            </app-generic-card>
         </ion-col>
     </ion-row>
-
 
 
     <!-- owner -->
@@ -55,5 +65,6 @@
             [groupUsers]="queriedGroup.invitationReceived"
             [title]="'Pending'">
     </app-group-list-members-in-row>
+
 
 </ng-container>

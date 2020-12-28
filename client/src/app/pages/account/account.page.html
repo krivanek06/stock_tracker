@@ -1,7 +1,7 @@
 <ion-content>
     <!-- header -->
     <app-header>
-        <ion-icon class="st-icon-size-header ion-margin-end" name="person"></ion-icon>
+        <ion-icon class="st-icon-size-header" name="person"></ion-icon>
         <ion-text class="st-font-size-header">Account management</ion-text>
     </app-header>
 
@@ -11,26 +11,33 @@
             <ion-row class="st-width-90-center">
                 <!-- account form -->
                 <ion-col size="12" size-md="7">
-                    <app-user-account-form
-                            (submitClickedEmitter)="editUser($event)"
-                            (editClickedEmitter)="toggleEdit()"
-                            [user]="user">
-                    </app-user-account-form>
+                    <app-generic-card [chartTitle]="'Account Information'" [additionalClasses]="'st-height-100'">
+                        <app-user-account-form
+                                (submitClickedEmitter)="editUser($event)"
+                                (editClickedEmitter)="toggleEdit()"
+                                [user]="user">
+                        </app-user-account-form>
+                    </app-generic-card>
                 </ion-col>
-                <ion-col size="12" size-md="4" push="0" push-md="1">
+                <ion-col size="12" size-md="4.9" push="0" push-md="0.1">
                     <!-- assigned roles -->
-                    <app-clickable-name-item *ngIf="user.userPrivateData.roles.length > 0"
-                                             [itemNames]="user.userPrivateData.roles">
-                        <ion-text class="st-font-size-18 st-font-0">Assigned roles</ion-text>
-                    </app-clickable-name-item>
+                    <app-generic-card *ngIf="user.userPrivateData.roles.length > 0"
+                                      class="ion-margin-bottom"
+                                      [chartTitle]="'Assigned roles'">
+                        <app-clickable-name-item
+                                [itemNames]="user.userPrivateData.roles">
+                        </app-clickable-name-item>
+                    </app-generic-card>
+
                     <!-- reseted account -->
-                    <div class="ion-margin-top">
+                    <app-generic-card [chartTitle]="'Account resets'">
                         <app-user-account-reseted-info
                                 (resetAccountEmitter)="resetAccount()"
                                 [resetedAccountInfo]="user.resetedAccount"
                                 [showResetButton]="editing && !!user.portfolio">
                         </app-user-account-reseted-info>
-                    </div>
+                    </app-generic-card>
+
                 </ion-col>
             </ion-row>
 
@@ -41,9 +48,11 @@
 
             <!-- wachlists -->
             <ion-row class="st-width-90-center">
-                <ion-col size="12">
-                    <app-watchlist-modification-container [watchlists]="user.stockWatchlist">
-                    </app-watchlist-modification-container>
+                <ion-col size="12" size-md="7">
+                    <app-generic-card [chartTitle]="'Watchlist modification'">
+                        <app-watchlist-modification-container [watchlists]="user.stockWatchlist">
+                        </app-watchlist-modification-container>
+                    </app-generic-card>
                 </ion-col>
             </ion-row>
         </ion-grid>

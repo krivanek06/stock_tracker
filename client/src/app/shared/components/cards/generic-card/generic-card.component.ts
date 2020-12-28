@@ -1,14 +1,15 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 
 @Component({
-    selector: 'app-generic-chart-card',
-    templateUrl: './generic-chart-card.component.html',
-    styleUrls: ['./generic-chart-card.component.scss'],
+    selector: 'app-generic-card',
+    templateUrl: './generic-card.component.html',
+    styleUrls: ['./generic-card.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GenericChartCardComponent implements OnInit {
+export class GenericCardComponent implements OnInit {
     @Input() chartTitle: string;
     @Input() cardHeight;
+    @Input() additionalClasses: string;
 
     constructor() {
     }

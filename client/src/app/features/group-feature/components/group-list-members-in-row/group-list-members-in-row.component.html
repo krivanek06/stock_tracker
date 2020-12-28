@@ -1,21 +1,19 @@
-<ion-row *ngIf="groupUsers.length > 0">
+<ion-row *ngIf="groupUsers.length > 0" class="st-md-border-bottom">
     <ion-col size="12">
-        <ion-col size="12">
-            <ion-item>
-                <ion-label class="st-font-size-18">
-                    {{ title }}
-                </ion-label>
-            </ion-item>
-            <ion-item-group>
-                <app-user-account-info-list *ngFor="let user of groupUsers"
-                                            (clickedEmitter)="userClicked(user.user)"
-                                            (deleteEmitter)="deleteClicked(user.user)"
-                                            [showDeleteButton]="showDeleteButton"
-                                            [clickable]="clickable"
-                                            [sinceDate]="user.sinceDate"
-                                            [userPartialInformation]="user.user">
-                </app-user-account-info-list>
-            </ion-item-group>
-        </ion-col>
+        <ion-item>
+            <ion-label class="st-font-size-18">
+                {{ title }}
+            </ion-label>
+        </ion-item>
+        <ion-item-group>
+            <app-user-account-info-list *ngFor="let user of groupUsers"
+                                        (clickedEmitter)="userClicked(user.user)"
+                                        (deleteEmitter)="deleteClicked(user.user)"
+                                        [showDeleteButton]="showDeleteButton"
+                                        [clickable]="clickable"
+                                        [sinceDate]="user.sinceDate"
+                                        [userPartialInformation]="user.user">
+            </app-user-account-info-list>
+        </ion-item-group>
     </ion-col>
 </ion-row>

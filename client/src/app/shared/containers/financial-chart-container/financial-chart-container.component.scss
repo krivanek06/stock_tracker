@@ -1,0 +1,10 @@
+@import "variables";
+
+:host {
+  ion-segment {
+    @media (max-width: #{$st-var-xl-split}) {
+      display: block;
+      column-count: 3;
+    }
+  }
+}

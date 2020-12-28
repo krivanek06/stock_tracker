@@ -6,13 +6,15 @@
 </app-watchlist-table-title>
 
 <!-- table header -->
-<app-watchlist-table-header></app-watchlist-table-header>
+<app-generic-card>
+    <app-watchlist-table-header></app-watchlist-table-header>
 
-<!-- table body -->
-<app-watchlist-table-body-item
-        *ngFor="let summary of watchlist.summaries"
-        [summary]="summary"
-        [currentPrice]="summary.marketPrice"
-        (itemClickedEmitter)="itemClicked($event)"
-        (deleteEmitter)="deleteSymbolFromWatchlist($event)">
-</app-watchlist-table-body-item>
+    <!-- table body -->
+    <app-watchlist-table-body-item
+            *ngFor="let summary of watchlist.summaries"
+            [summary]="summary"
+            [currentPrice]="summary.marketPrice"
+            (itemClickedEmitter)="itemClicked($event)"
+            (deleteEmitter)="deleteSymbolFromWatchlist($event)">
+    </app-watchlist-table-body-item>
+</app-generic-card>

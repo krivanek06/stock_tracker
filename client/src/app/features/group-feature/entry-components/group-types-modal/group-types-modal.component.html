@@ -1,0 +1,93 @@
+<ion-content class="ion-padding">
+    <ion-toolbar>
+        <ion-buttons slot="end">
+            <ion-button class="ion-float-right" color="danger" (click)="dismissModal()" fill="clear">
+                <ion-icon name="close-outline"></ion-icon>
+                Close
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+
+    <!-- my groups -->
+    <ion-item-group *ngIf="groups.groupOwner.length > 0" class="ion-margin-bottom" style="text-align-last: center;">
+        <ion-item>
+            <ion-label class="st-font-0 st-font-size-18">
+                My groups
+            </ion-label>
+        </ion-item>
+
+        <ion-item-group>
+            <ion-item *ngFor="let group of groups.groupOwner"
+                      (click)="clickedGroup(group)"
+                      class="st-font-4 ion-activatable"
+                      [ngClass]="{'st-icon': activeGroup === group.groupId}">
+                <ion-label>
+                    {{ group.name }}
+                </ion-label>
+            </ion-item>
+        </ion-item-group>
+    </ion-item-group>
+
+
+    <!-- member groups -->
+    <ion-item-group *ngIf="groups.groupMember.length > 0" class="ion-margin-bottom" style="text-align-last: center;">
+        <ion-item>
+            <ion-label class="st-font-0 st-font-size-18">
+                Member of
+            </ion-label>
+        </ion-item>
+
+        <ion-item-group>
+            <ion-item *ngFor="let group of groups.groupMember"
+                      (click)="clickedGroup(group)"
+                      class="st-font-4 ion-activatable "
+                      [ngClass]="{'st-icon': activeGroup === group.groupId}">
+                <ion-label>
+                    {{ group.name }}
+                </ion-label>
+            </ion-item>
+        </ion-item-group>
+    </ion-item-group>
+
+    <!-- invitation sent groups -->
+    <ion-item-group *ngIf="groups.groupInvitationSent.length > 0" class="ion-margin-bottom" style="text-align-last: center;">
+        <ion-item>
+            <ion-label class="st-font-0 st-font-size-18">
+                Invitation sent
+            </ion-label>
+        </ion-item>
+
+        <ion-item-group>
+            <ion-item *ngFor="let group of groups.groupInvitationSent"
+                      (click)="clickedGroup(group)"
+                      class="st-font-4 ion-activatable"
+                      [ngClass]="{'st-icon': activeGroup === group.groupId}">
+                <ion-label>
+                    {{ group.name }}
+                </ion-label>
+            </ion-item>
+        </ion-item-group>
+    </ion-item-group>
+
+
+    <!-- invitation received groups -->
+    <ion-item-group *ngIf="groups.groupInvitationReceived.length > 0" class="ion-margin-bottom" style="text-align-last: center;">
+        <ion-item>
+            <ion-label class="st-font-0 st-font-size-18">
+                Invitation received
+            </ion-label>
+        </ion-item>
+
+        <ion-item-group>
+            <ion-item *ngFor="let group of groups.groupInvitationReceived"
+                      (click)="clickedGroup(group)"
+                      class="st-font-4 ion-activatable"
+                      [ngClass]="{'st-icon': activeGroup === group.groupId}">
+                <ion-label>
+                    {{ group.name }}
+                </ion-label>
+            </ion-item>
+        </ion-item-group>
+    </ion-item-group>
+
+</ion-content>

@@ -18,7 +18,7 @@ import {FixedRangeSliderWithTimeComponent} from './components/charts/fixed-range
 
 import {InlineModificationFormComponent} from './components/forms/inline-modification-form/inline-modification-form.component';
 import {GenericChartComponent} from './components/charts/generic-chart/generic-chart.component';
-import {GenericChartCardComponent} from './components/cards/generic-chart-card/generic-chart-card.component';
+import {GenericCardComponent} from './components/cards/generic-card/generic-card.component';
 import {FinancialChartContainerComponent} from './containers/financial-chart-container/financial-chart-container.component';
 import {EconomicChartModalContainerComponent} from './containers/modal/economic-chart-modal-container/economic-chart-modal-container.component';
 import {RelativeTimePipe} from './pipes/relatimeTime.pipe';
@@ -44,7 +44,7 @@ import {ClickableNameItemComponent} from './components/items/clickable-name-item
         InlineModificationFormComponent,
         FixedRangeSliderWithTimeComponent,
         GenericChartComponent,
-        GenericChartCardComponent,
+        GenericCardComponent,
         FinancialChartContainerComponent,
         EconomicChartModalContainerComponent,
         ValueStateDirective,
@@ -89,7 +89,7 @@ import {ClickableNameItemComponent} from './components/items/clickable-name-item
         InlineModificationFormComponent,
         FixedRangeSliderWithTimeComponent,
         GenericChartComponent,
-        GenericChartCardComponent,
+        GenericCardComponent,
         FinancialChartContainerComponent,
         EconomicChartModalContainerComponent,
         NgxDatatableModule,

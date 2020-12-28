@@ -1,0 +1,13 @@
+<!-- header info -->
+<ion-list-header *ngIf="chartTitle">
+  <ion-label>
+    <ion-text class="st-font-size-18 st-font-0"> {{ chartTitle}}</ion-text>
+  </ion-label>
+</ion-list-header>
+
+<!-- body -->
+<ion-card [style.height.px]="cardHeight" [class]="additionalClasses">
+  <ion-card-content>
+    <ng-content></ng-content>
+  </ion-card-content>
+</ion-card>
