@@ -18,7 +18,7 @@ import {FixedRangeSliderWithTimeComponent} from './components/charts/fixed-range
 
 import {InlineModificationFormComponent} from './components/forms/inline-modification-form/inline-modification-form.component';
 import {GenericChartComponent} from './components/charts/generic-chart/generic-chart.component';
-import {GenericCardComponent} from './components/cards/generic-card/generic-card.component';
+import {GenericCardComponent} from './components/general/generic-card/generic-card.component';
 import {FinancialChartContainerComponent} from './containers/financial-chart-container/financial-chart-container.component';
 import {EconomicChartModalContainerComponent} from './containers/modal/economic-chart-modal-container/economic-chart-modal-container.component';
 import {RelativeTimePipe} from './pipes/relatimeTime.pipe';
@@ -31,6 +31,8 @@ import {UploaderComponent} from './components/image-manipulation/uploader/upload
 import {UploadTaskComponent} from './components/image-manipulation/upload-task/upload-task.component';
 import {PriceChangeItemComponent} from './components/items/price-change-item/price-change-item.component';
 import {ClickableNameItemComponent} from './components/items/clickable-name-item/clickable-name-item.component';
+import {GenericListComponent} from './components/general/generic-list/generic-list.component';
+import {TitleWithLogoItemComponent} from './components/items/title-with-logo-item/title-with-logo-item.component';
 
 @NgModule({
     declarations: [
@@ -54,7 +56,9 @@ import {ClickableNameItemComponent} from './components/items/clickable-name-item
         UploaderComponent,
         UploadTaskComponent,
         PriceChangeItemComponent,
-        ClickableNameItemComponent
+        ClickableNameItemComponent,
+        GenericListComponent,
+        TitleWithLogoItemComponent
     ],
     imports: [
         CommonModule,
@@ -99,7 +103,9 @@ import {ClickableNameItemComponent} from './components/items/clickable-name-item
         UploaderComponent,
         UploadTaskComponent,
         PriceChangeItemComponent,
-        ClickableNameItemComponent
+        ClickableNameItemComponent,
+        GenericListComponent,
+        TitleWithLogoItemComponent
 
     ],
     entryComponents: [

@@ -1,5 +1,7 @@
 <!-- header info -->
 <ion-list-header *ngIf="chartTitle">
+  <ion-icon *ngIf="iconTitle" class="st-icon-title" [name]="iconTitle"></ion-icon>
+
   <ion-label>
     <ion-text class="st-font-size-18 st-font-0"> {{ chartTitle}}</ion-text>
   </ion-label>

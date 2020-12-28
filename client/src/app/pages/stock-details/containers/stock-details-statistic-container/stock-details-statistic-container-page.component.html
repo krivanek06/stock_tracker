@@ -27,10 +27,10 @@
                 <app-generic-card
                         [chartTitle]="stockDetails.queryStockDetails.summary.longName"
                         [cardHeight]="475">
+                    <!-- [name]="stockDetails.queryStockDetails.summary.longName" -->
                     <app-financial-chart-container
                             [height]="345"
-                            [symbol]="stockDetails.queryStockDetails.summary.symbol"
-                            [name]="stockDetails.queryStockDetails.summary.longName">
+                            [symbol]="stockDetails.queryStockDetails.summary.symbol">
                     </app-financial-chart-container>
                 </app-generic-card>
 
