@@ -1,4 +1,4 @@
-<ion-list *ngIf="stockDetails.queryStockDetails as details">
+<ion-list *ngIf="stockDetails as details">
     <ion-item>
         <ion-label position="fixed" class="fixedLabel">Revenue per share ttm.</ion-label>
         <ion-label> {{ details.metric.revenuePerShareTTM | number: '1.2-2'}}</ion-label>

@@ -3,40 +3,29 @@
     <app-header></app-header>
 
     <!-- body -->
-    <perfect-scrollbar>
-        <ion-segment color="primary"
-                     class="ion-justify-content-end ion-padding-vertical"
-                     [value]="segmentValue"
-                     (ionChange)="segmentChanged($event)">
-            <ion-segment-button [value]="DETAILS_PAGES_ENUM.STATISTICS" layout="icon-start">
-                <ion-label>Statistics</ion-label>
-            </ion-segment-button>
-            <ion-segment-button [value]="DETAILS_PAGES_ENUM.FINANCIAL" layout="icon-start">
-                <ion-label>Financial</ion-label>
-            </ion-segment-button>
-        </ion-segment>
+    <ion-segment color="primary"
+                 class="ion-justify-content-end ion-padding-vertical"
+                 [value]="segmentValue"
+                 (ionChange)="segmentChanged($event)">
+        <ion-segment-button [value]="DETAILS_PAGES_ENUM.STATISTICS" layout="icon-start">
+            <ion-label>Statistics</ion-label>
+        </ion-segment-button>
+        <ion-segment-button [value]="DETAILS_PAGES_ENUM.FINANCIAL" layout="icon-start">
+            <ion-label>Financial</ion-label>
+        </ion-segment-button>
+    </ion-segment>
 
 
-        <!-- sub pages -->
-        <ng-container *ngIf="stockDetails$ | async as stockDetails; else showSpinner">
-            <app-stock-details-statistic-container
-                    *ngIf="DETAILS_PAGES_ENUM.STATISTICS === segmentValue"
-                    [stockDetails]="stockDetails">
-            </app-stock-details-statistic-container>
-            <app-stock-details-financial-container
-                    *ngIf="DETAILS_PAGES_ENUM.FINANCIAL === segmentValue"
-                    [stockDetails]="stockDetails">
-            </app-stock-details-financial-container>
-        </ng-container>
+    <!-- sub pages -->
+    <div class="st-content-padding">
+        <router-outlet></router-outlet>
+    </div>
 
 
-        <!-- spinner -->
-        <ng-template #showSpinner>
-            <div class="spinner-container">
-                <ion-spinner color="primary"></ion-spinner>
-            </div>
-        </ng-template>
-    </perfect-scrollbar>
+    <!-- spinner -->
+    <div class="spinner-container" *ngIf="showSpinner">
+        <ion-spinner color="primary"></ion-spinner>
+    </div>
 
 </ion-content>
 

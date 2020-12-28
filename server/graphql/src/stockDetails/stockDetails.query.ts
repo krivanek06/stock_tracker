@@ -40,5 +40,17 @@ const getAndSaveStockDetailsFromApi = async (symbol: string): Promise<api.StockD
         newsLastUpdate: getCurrentIOSDate(),
     });
 
-    return response
+    for (let i = 0; i < response.financialReports.length; i++) {
+        admin.firestore()
+            .collection(`${api.ST_STOCK_DATA_COLLECTION}`)
+            .doc(symbol)
+            .collection(api.ST_STOCK_DATA_COLLECTION_MORE_INFORMATION)
+            .doc(api.ST_STOCK_DATA_DOCUMENT_FINACIAL_REPORTS)
+            .set({
+                reports: response.financialReports,
+            });
+    }
+    delete response.financialReports;
+
+    return response;
 };

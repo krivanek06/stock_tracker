@@ -1,4 +1,4 @@
-<ion-list *ngIf="stockDetails.queryStockDetails as details">
+<ion-list *ngIf="stockDetails as details">
     <ion-item>
         <ion-label position="fixed" class="fixedLabel">Current ratio</ion-label>
         <ion-label> {{ details.metric.currentRatioQuarterly | number: '1.2-2' }}</ion-label>

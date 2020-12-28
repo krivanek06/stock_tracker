@@ -22,6 +22,7 @@ import {STRankTypeDefs} from './st-rank/st-rank.typedef';
 import {STPortfolioTypeDefs} from './st-portfolio/st-portfolio.typedef';
 import {editGroup, deleteGroup, createGroup} from "./st-group/st.group.mutation";
 import {querySTGroupAllDataByGroupId} from "./st-group/st-group.query";
+import {stockDetailsResolvers} from "./stockDetails/stockDetails.resolver";
 
 global.fetch = require("node-fetch");
 
@@ -116,6 +117,7 @@ const mainResolver = {
 
 const resolvers = {
     ...userResolvers,
+    ...stockDetailsResolvers,
     ...mainResolver
 
 };

@@ -5,13 +5,18 @@ export interface StockDetailsWrapper {
     newsLastUpdate: string;
 }
 
+export interface StockFinancialReports {
+    reports: FinancialReport[];
+}
+
 export interface StockDetails {
     id: string;
     analysis: Analysis;
     balanceSheet: BalanceSheet;
     cashFlow: CashFlow;
     incomeStatement: IncomeStatement;
-    financialReports: FinancialReport[]
+    financialReports: any[];
+    financialReportSnippets: string[];
     stats: Stats;
     recommendation: Recommendations[];
     stockNews: NewsArticle[];
@@ -453,6 +458,21 @@ export interface Stats {
 }
 
 export interface Summary {
+    sandPFiveTwoWeekChange: number;
+    fiveTwoWeekChange: number;
+    lastSplitFactor: string;
+    lastSplitDate: number;
+    fullTimeEmployees: number;
+    netIncomeEmployeeAnnual: number;
+    revenueEmployeeAnnual: number;
+    website: string;
+    residance: {
+        city: string;
+        state: string;
+        country: string;
+        addressOne: string;
+        zip: string;
+    }
     avgVolume: string;
     ePSTTM: string;
     earningsDate: string;
@@ -625,3 +645,5 @@ export interface Metric {
 
 
 export const ST_STOCK_DATA_COLLECTION = 'stockData';
+export const ST_STOCK_DATA_COLLECTION_MORE_INFORMATION = 'more_information';
+export const ST_STOCK_DATA_DOCUMENT_FINACIAL_REPORTS = 'financial_reports'

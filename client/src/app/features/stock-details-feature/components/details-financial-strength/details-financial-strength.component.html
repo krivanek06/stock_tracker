@@ -1,4 +1,4 @@
-<ion-list *ngIf="stockDetails.queryStockDetails as details">
+<ion-list *ngIf="stockDetails as details">
     <ion-item>
         <ion-label position="fixed" class="fixedLabel">Enterprise value</ion-label>
         <ion-label> {{ details.companyData.defaultKeyStatistics.enterpriseValue | numberFormatter }}</ion-label>

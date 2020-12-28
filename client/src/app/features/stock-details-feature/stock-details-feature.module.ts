@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {DetailsOverviewComponent} from './components/details-overview/details-overview.component';
 import {DetailsDividendComponent} from './components/details-dividend/details-dividend.component';
 import {DetailsValuationComponent} from './components/details-valuation/details-valuation.component';
 import {DetailsFinancialStrengthComponent} from './components/details-financial-strength/details-financial-strength.component';
@@ -21,7 +20,6 @@ import {DetailsSummaryComponent} from './components/details-summary/details-summ
 
 @NgModule({
     declarations: [
-        DetailsOverviewComponent,
         DetailsDividendComponent,
         DetailsValuationComponent,
         DetailsFinancialStrengthComponent,
@@ -43,7 +41,6 @@ import {DetailsSummaryComponent} from './components/details-summary/details-summ
         SharedModule
     ],
     exports: [
-        DetailsOverviewComponent,
         DetailsDividendComponent,
         DetailsValuationComponent,
         DetailsFinancialStrengthComponent,
