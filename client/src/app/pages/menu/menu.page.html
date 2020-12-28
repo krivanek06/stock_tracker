@@ -1,15 +1,26 @@
 <ion-split-pane contentId="main-content" when="xl">
-    <ion-menu contentId="main-content" style="border: none;"> <!-- type="overlay" -->
+    <ion-menu menuId="main" contentId="main-content" style="border: none;" type="overlay"
+              (ionDidOpen)="applyOverlay(true)" (ionDidClose)="applyOverlay(false)"
+              (ionWillOpen)="applyOverlay(true)" (ionWillClose)="applyOverlay(false)">
         <ion-content>
-
+            <ion-item>
+                <ion-label class="ion-text-end">
+                    <ion-button class="ion-hide-xl-up remove-color" fill="clear" (click)="dismissMenu()">
+                        <ion-icon name="close-outline" class="remove-color"></ion-icon>
+                        Close
+                    </ion-button>
+                </ion-label>
+            </ion-item>
             <!-- avatar -->
             <div class="navigation-avatar">
                 <ng-container *ngIf="user$ | async as user">
                     <ion-avatar>
                         <ion-img [src]="user.photoURL"></ion-img>
                     </ion-avatar>
-                    <ion-label class="navigation-avatar-name st-font-1">{{ user.userPrivateData.displayName }}</ion-label>
-                    <ion-label class="navigation-avatar-name st-font-4 st-font-size-12">({{ user.nickName }})</ion-label>
+                    <ion-label
+                            class="navigation-avatar-name st-font-1">{{ user.userPrivateData.displayName }}</ion-label>
+                    <ion-label class="navigation-avatar-name st-font-4 st-font-size-12">({{ user.nickName }})
+                    </ion-label>
                 </ng-container>
             </div>
 
@@ -17,7 +28,8 @@
             <ion-list>
                 <ion-text class="page-section">Main section</ion-text>
                 <ion-menu-toggle auto-hide="false" *ngFor="let p of mainPages">
-                    <div *ngIf="selectedNavigation == p.title.toLocaleLowerCase()" class="navigation-rectangle-selected"></div>
+                    <div *ngIf="selectedNavigation == p.title.toLocaleLowerCase()"
+                         class="navigation-rectangle-selected"></div>
                     <ion-item (click)="selectedNavigation = p.title"
                               class="navigation"
                               routerDirection="root"
@@ -36,7 +48,8 @@
             <ion-list>
                 <ion-text class="page-section">Other</ion-text>
                 <ion-menu-toggle auto-hide="false" *ngFor="let p of otherPages">
-                    <div *ngIf="selectedNavigation == p.title.toLocaleLowerCase()" class="navigation-rectangle-selected"></div>
+                    <div *ngIf="selectedNavigation == p.title.toLocaleLowerCase()"
+                         class="navigation-rectangle-selected"></div>
                     <ion-item (click)="selectedNavigation = p.title"
                               class="navigation"
                               routerDirection="root"
@@ -48,15 +61,24 @@
                         <ion-label class="ion-margin-start">{{ p.title }}</ion-label>
                     </ion-item>
                 </ion-menu-toggle>
+                <!-- logout -->
+                <ion-menu-toggle auto-hide="false">
+                    <ion-item (click)="logout()" class="navigation" routerLink="/login">
+                        <ion-icon name="log-out-outline"></ion-icon>
+                        <ion-label class="ion-margin-start">LogOut</ion-label>
+                    </ion-item>
+                </ion-menu-toggle>
             </ion-list>
 
-            <!-- logout button -->
-            <ion-menu-toggle auto-hide="false" class="log-out-button">
-                <ion-item (click)="logout()" class="navigation" routerLink="/login">
-                    <ion-icon name="log-out-outline"></ion-icon>
-                    <ion-label class="ion-margin-start">LogOut</ion-label>
-                </ion-item>
-            </ion-menu-toggle>
+            <!-- logout button
+            <ion-list>
+                <ion-menu-toggle auto-hide="false" class="log-out-button">
+                    <ion-item (click)="logout()" class="navigation" routerLink="/login">
+                        <ion-icon name="log-out-outline"></ion-icon>
+                        <ion-label class="ion-margin-start">LogOut</ion-label>
+                    </ion-item>
+                </ion-menu-toggle>
+            </ion-list>  -->
 
 
         </ion-content>
@@ -64,7 +86,10 @@
 
 
     <!-- content -->
-    <ion-router-outlet id="main-content"></ion-router-outlet>
+    <div class="ion-page" id="main-content">
+        <div class="ion-hide-xl-up" [ngClass]="{'custom-overlay': showOverlay}"></div>
+        <ion-router-outlet></ion-router-outlet>
+    </div>
 
 </ion-split-pane>
 

@@ -5,6 +5,7 @@ import {ComponentBase} from '../../shared/utils/component-base/component.base';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {StUserPublicData} from '../../api/customGraphql.service';
+import {MenuController} from '@ionic/angular';
 
 @Component({
     selector: 'app-menu',
@@ -12,6 +13,7 @@ import {StUserPublicData} from '../../api/customGraphql.service';
     styleUrls: ['./menu.page.scss'],
 })
 export class MenuPage extends ComponentBase implements OnInit {
+    showOverlay = false;
     user$: Observable<StUserPublicData>;
     selectedNavigation = '';
     mainPages = [
@@ -72,13 +74,22 @@ export class MenuPage extends ComponentBase implements OnInit {
 
 
     constructor(private authFeatureService: AuthFeatureService,
-                private router: Router) {
+                private router: Router,
+                private menu: MenuController) {
         super();
     }
 
     ngOnInit() {
         this.user$ = this.authFeatureService.getUser();
         this.watchRouterUrlChange();
+    }
+
+    dismissMenu() {
+        this.menu.close('main');
+    }
+
+    applyOverlay(event: boolean) {
+        this.showOverlay = event;
     }
 
     async logout() {
@@ -97,5 +108,4 @@ export class MenuPage extends ComponentBase implements OnInit {
             }
         });
     }
-
 }

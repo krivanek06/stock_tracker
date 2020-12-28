@@ -1,0 +1,11 @@
+<!-- header info -->
+<ion-list-header *ngIf="chartTitle">
+  <ion-icon *ngIf="iconTitle" class="st-icon-title" [name]="iconTitle"></ion-icon>
+
+  <ion-label>
+    <ion-text class="st-title"> {{ chartTitle}}</ion-text>
+  </ion-label>
+</ion-list-header>
+
+<!-- body -->
+<ng-content></ng-content>
