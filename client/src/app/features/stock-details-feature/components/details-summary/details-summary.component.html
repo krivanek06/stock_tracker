@@ -49,9 +49,19 @@
     </ion-item>
 
     <ion-item>
+        <ion-label position="fixed" class="fixedLabel">1y change</ion-label>
+        <ion-label>{{ summary.fiveTwoWeekChange | percent: '1.2-2'  }}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">S&P500 1y change</ion-label>
+        <ion-label>{{ summary.sandPFiveTwoWeekChange | percent: '1.2-2'  }}</ion-label>
+    </ion-item>
+
+    <!-- <ion-item>
         <ion-label position="fixed" class="fixedLabel">Industry</ion-label>
         <ion-label> {{ summary.industry }}</ion-label>
-    </ion-item>
+    </ion-item> -->
 
     <ion-item>
         <ion-label position="fixed" class="fixedLabel">Sector</ion-label>
@@ -70,8 +80,36 @@
         <ion-label> {{ summary.recommendationKey }} [{{ summary.recommendationMean }}]</ion-label>
     </ion-item>
 
-    <ion-item>
+    <!--<ion-item>
         <ion-label position="fixed" class="fixedLabel">Earnings date</ion-label>
         <ion-label> {{ summary.earningsDate }}</ion-label>
+    </ion-item> -->
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Employees</ion-label>
+        <ion-label> {{ summary.fullTimeEmployees | numberFormatter }}</ion-label>
     </ion-item>
+
+    <!--<ion-item *ngIf="summary.lastSplitDate">
+        <ion-label position="fixed" class="fixedLabel">Last split</ion-label>
+        <ion-label> {{ summary.lastSplitDate * 1000 | date: 'dd.MM.yyyy'}}
+            ({{ summary.lastSplitFactor }})
+        </ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Employee income & revenue</ion-label>
+        <ion-label> {{ summary.netIncomeEmployeeAnnual | numberFormatter}}
+            ({{ summary.revenueEmployeeAnnual | numberFormatter }})
+        </ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Residence</ion-label>
+        <ion-label>
+            {{ summary.residance.city }},
+            <span *ngIf="summary.residance.state"> {{ summary.residance.state }}, </span>
+            {{ summary.residance.country }}
+        </ion-label>
+    </ion-item> -->
 </ion-list>

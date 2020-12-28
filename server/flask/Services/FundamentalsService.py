@@ -153,8 +153,22 @@ class FundamentalServiceFormatter:
             pass
 
     def fomatFinancialReports(self):
-        for report in self.data['financialReports']:
+        reports = self.data['financialReports']
+        self.data['financialReports'] = []
+        checkedReports = []
+        self.data['financialReportSnippets'] = []
+        for report in reports:
+            reportName = 'Report ' + report['form'] + ' ' + str(report['year'])
+
+            # used to be duplicities
+            if reportName in checkedReports:
+                continue
+            self.data['financialReports'].append(report)
+            checkedReports.append(reportName)
+
+            self.data['financialReportSnippets'].append(reportName)
             report['source'] = 'Finnhub'
+            report['name'] = reportName
             for k in report['report']:  # bf, ic, cf
                 for item in report['report'][k]:
                     item['value'] = utils.force_float(item['value'])
@@ -174,6 +188,20 @@ class FundamentalServiceFormatter:
             self.data['summary']['marketCap'] = self.data['companyData']['price']['marketCap']
             self.data['summary']['sharesOutstanding'] = self.data['companyData']['defaultKeyStatistics']['sharesOutstanding']
             self.data['summary']['longBusinessSummary'] = self.data['companyData']['summaryProfile']['longBusinessSummary']
+            self.data['summary']['sandPFiveTwoWeekChange'] = self.data['companyData']['defaultKeyStatistics']['sandPFiveTwoWeekChange']
+            self.data['summary']['fiveTwoWeekChange'] = self.data['companyData']['defaultKeyStatistics']['fiveTwoWeekChange']
+            self.data['summary']['lastSplitFactor'] = self.data['companyData']['defaultKeyStatistics']['lastSplitFactor']
+            self.data['summary']['lastSplitDate'] = self.data['companyData']['defaultKeyStatistics']['lastSplitDate']
+            self.data['summary']['fullTimeEmployees'] = self.data['companyData']['summaryProfile']['fullTimeEmployees']
+            self.data['summary']['netIncomeEmployeeAnnual'] = self.data['metric']['netIncomeEmployeeAnnual']
+            self.data['summary']['revenueEmployeeAnnual'] = self.data['metric']['revenueEmployeeAnnual']
+            self.data['summary']['website'] = self.data['companyData']['summaryProfile']['website']
+            self.data['summary']['residance'] = {}
+            self.data['summary']['residance']['city'] = self.data['companyData']['summaryProfile']['city']
+            self.data['summary']['residance']['state'] = self.data['companyData']['summaryProfile']['state']
+            self.data['summary']['residance']['country'] = self.data['companyData']['summaryProfile']['country']
+            self.data['summary']['residance']['addressOne'] = self.data['companyData']['summaryProfile']['addressOne']
+            self.data['summary']['residance']['zip'] = self.data['companyData']['summaryProfile']['zip']
         except Exception as e:
             print('formatSummary exception: ' + str(e))
             pass
@@ -225,6 +253,6 @@ class FundamentalServiceFormatter:
             del self.data['stats']['forwardAnnualDividendYieldFour']
             del self.data['stats']['trailingAnnualDividendRateThree']
             del self.data['stats']['trailingAnnualDividendYieldThree']
-            del self.data['companyData']['summaryProfile']['longBusinessSummary']
+            del self.data['companyData']['summaryProfile']
         except Exception as e:
             print('Exception in removeUnnecessaryData: ' + str(e))

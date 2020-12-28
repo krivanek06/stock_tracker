@@ -9,7 +9,7 @@
 
     <!-- current price & price range by selector -->
     <ion-label class="st-font-1 ion-text-end ion-margin-end st-flex-col">
-        <ion-text class="chart-title"> {{ currentPrice | currency}} </ion-text>
+        <ion-text class="st-title"> {{ currentPrice | currency}} </ion-text>
         <ion-text class="st-font-4 st-flex-col">{{ priceRangeFrom | currency }} - {{ priceRangeTo | currency }}
             <span [ngClass]="{
              'st-price-up': priceRangeTo - priceRangeFrom >= 0,

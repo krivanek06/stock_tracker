@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {QueryStockDetailsQuery} from '../../../../api/customGraphql.service';
+import {QueryStockDetailsQuery, StockDetails} from '../../../../api/customGraphql.service';
 
 @Component({
   selector: 'app-details-per-share',
@@ -8,7 +8,7 @@ import {QueryStockDetailsQuery} from '../../../../api/customGraphql.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailsPerShareComponent implements OnInit {
-  @Input() stockDetails: QueryStockDetailsQuery;
+  @Input() stockDetails: StockDetails;
 
   constructor() { }
 

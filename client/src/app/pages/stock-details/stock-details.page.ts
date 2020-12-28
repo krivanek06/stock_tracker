@@ -4,6 +4,8 @@ import {DETAILS_PAGES_ENUM} from './models/DetailsEnum.model';
 import {QueryStockDetailsQuery} from '../../api/customGraphql.service';
 import {Observable} from 'rxjs';
 import {StockDetailsService} from '../../features/stock-details-feature/services/stock-details.service';
+import {ComponentBase} from '../../shared/utils/component-base/component.base';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'app-stock-details',
@@ -11,27 +13,27 @@ import {StockDetailsService} from '../../features/stock-details-feature/services
     styleUrls: ['./stock-details.page.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StockDetailsPage implements OnInit {
-    stockDetails$: Observable<QueryStockDetailsQuery>;
-
+export class StockDetailsPage extends ComponentBase implements OnInit {
     segmentValue = DETAILS_PAGES_ENUM.STATISTICS;
-
     DETAILS_PAGES_ENUM = DETAILS_PAGES_ENUM;
+    showSpinner = true;
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 private stockDetailsService: StockDetailsService) {
+        super();
     }
 
     ngOnInit() {
-        const symbol = this.route.snapshot.paramMap.get('symbol');
-        console.log('symbol', symbol);
-
-        //this.stockDetails$ = this.stockDetailsService.getStockDetails(symbol);
+        this.stockDetailsService.activeSymbol = this.route.snapshot.paramMap.get('symbol');
+        this.stockDetailsService.getStockDetails().pipe(takeUntil(this.destroy$)).subscribe(res => {
+            this.showSpinner = false;
+        });
     }
 
     segmentChanged(data: CustomEvent) {
         this.segmentValue = data.detail.value;
+        this.router.navigate([`menu/stock-details/${this.stockDetailsService.activeSymbol}/${this.segmentValue}`]);
     }
 
 }

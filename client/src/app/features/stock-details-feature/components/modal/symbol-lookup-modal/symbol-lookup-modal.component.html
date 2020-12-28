@@ -33,7 +33,7 @@
                             <ion-button class="st-button st-edit-background" (click)="addSymbolToWatchlist()">
                                 Add to watchlist
                             </ion-button>
-                            <ion-button class="st-button st-create-background">
+                            <ion-button class="st-button st-create-background" (click)="redirectToDetails()">
                                 Show details
                             </ion-button>
                         </ion-buttons>
@@ -45,7 +45,7 @@
             <ion-row>
                 <ion-col size="12" class="st-flex-col">
                     <app-generic-list [chartTitle]="stockDetails.summary.longName">
-                        <ion-text class="st-font-4-bold">
+                        <ion-text class="st-font-3">
                             {{ stockDetails.summary.longBusinessSummary }}
                         </ion-text>
                     </app-generic-list>

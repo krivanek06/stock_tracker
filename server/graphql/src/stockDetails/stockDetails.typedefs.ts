@@ -1,14 +1,14 @@
 import { gql } from "apollo-server"
 
 export const stockDetailsTypeDefs = gql`
-    ##### TYPES
+    ##### TYPEE
+    
     type StockDetails {
         id: String!
         analysis: Analysis!
         balanceSheet: BalanceSheet!
         cashFlow: CashFlow!
         incomeStatement: IncomeStatement!
-        financialReports: [FinancialReport]!
         stats: Stats!
         recommendation: [Recommendations]!
         stockNews: [NewsArticle]!
@@ -16,6 +16,12 @@ export const stockDetailsTypeDefs = gql`
         summary: Summary!
         metric: Metric!
         dividends: Dividens!
+        financialReportSnippets: [String]!
+        financialReports: StockFinancialReports
+    }
+
+    type StockFinancialReports {
+        reports: [FinancialReport]!
     }
 
     type FinancialReport {
@@ -26,10 +32,11 @@ export const stockDetailsTypeDefs = gql`
         filedDate: String
         form: String
         quarter: Float
-        report: FinancialReportReport
+        report: FinancialReportReport!
         source: String
         startDate: String
-        symbol: String
+        symbol: String!
+        name: String!
         year: Float
     }
     
@@ -52,7 +59,6 @@ export const stockDetailsTypeDefs = gql`
         esgScores: EsgScores
         financialData: FinancialData
         pageViews: PageViews
-        summaryProfile: SummaryProfile
         upgradeDowngradeHistory: UpgradeDowngradeHistory
     }
 
@@ -444,7 +450,24 @@ export const stockDetailsTypeDefs = gql`
         dateTime: [String]
     }
 
+    type SummaryResidance {
+        city: String
+        state: String
+        country: String
+        addressOne: String
+        zip: String
+    }
+
     type Summary {
+        sandPFiveTwoWeekChange: Float
+        fiveTwoWeekChange: Float
+        lastSplitFactor: String
+        lastSplitDate: Float
+        fullTimeEmployees: Float
+        netIncomeEmployeeAnnual: Float
+        revenueEmployeeAnnual: Float
+        website: String
+        residance: SummaryResidance
         avgVolume: String
         ePSTTM: String
         earningsDate: String

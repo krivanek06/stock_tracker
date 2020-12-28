@@ -1,7 +1,7 @@
-<ion-list *ngIf="stockDetails.queryStockDetails as details">
+<ion-list *ngIf="stockDetails as details">
     <ion-item>
         <ion-label position="fixed" class="fixedLabel">PE</ion-label>
-        <ion-label> {{ details.summary.PERatioTTM }}</ion-label>
+        <ion-label> {{ details.summary.pERatioTTM }}</ion-label>
     </ion-item>
 
     <ion-item>
@@ -31,7 +31,7 @@
 
     <ion-item>
         <ion-label position="fixed" class="fixedLabel">Price to sale</ion-label>
-        <ion-label> {{ details.stats.PriceSalesttm[0] }}</ion-label>
+        <ion-label> {{ details.stats.priceSalesttm[0] }}</ion-label>
     </ion-item>
 
     <ion-item>

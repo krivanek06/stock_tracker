@@ -2,8 +2,26 @@
 
 ## QUERY
 ##---------------------------
+fragment SummaryResidanceFragment on SummaryResidance {
+    city
+    state
+    country
+    addressOne
+    zip
+}
 
 fragment StockSummaryFragment on Summary {
+    sandPFiveTwoWeekChange
+    fiveTwoWeekChange
+    lastSplitFactor
+    lastSplitDate
+    fullTimeEmployees
+    netIncomeEmployeeAnnual
+    revenueEmployeeAnnual
+    website
+    residance {
+        ...SummaryResidanceFragment
+    }
     ePSTTM
     earningsDate
     exDividendDate
@@ -369,22 +387,6 @@ fragment historyFragment on UpgradeDowngradeHistoryData {
     toGrade
 }
 
-fragment summaryProfileFragment on SummaryProfile {
-    address1
-    city
-    country
-    fax
-    fullTimeEmployees
-    industry
-    logo_url
-    longBusinessSummary
-    phone
-    sector
-    state
-    website
-    zip
-}
-
 fragment earningsChartFragment on EarningsChart {
     currentQuarterEstimate
     currentQuarterEstimateDate
@@ -438,6 +440,7 @@ fragment financialReportsFragment on FinancialReport {
     source
     startDate
     symbol
+    name
     year
 }
 
@@ -491,9 +494,6 @@ query QueryStockDetails($symbol: String!) {
                 ...incomeStatementFragment
             }
         }
-        financialReports {
-            ...financialReportsFragment
-        }
         stats {
             ...statsFragment
         }
@@ -503,8 +503,11 @@ query QueryStockDetails($symbol: String!) {
         stockNews {
             ...newsArticleFragment
         }
+        financialReportSnippets
         financialReports {
-            ...financialReportsFragment
+            reports {
+                ...financialReportsFragment
+            }
         }
         companyData {
             defaultKeyStatistics {
@@ -520,9 +523,6 @@ query QueryStockDetails($symbol: String!) {
                 longTermTrend
                 midTermTrend
                 shortTermTrend
-            }
-            summaryProfile {
-                ...summaryProfileFragment
             }
             upgradeDowngradeHistory {
                 history {
