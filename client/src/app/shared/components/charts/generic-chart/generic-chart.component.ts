@@ -47,6 +47,9 @@ export class GenericChartComponent implements OnInit, OnChanges {
         if (this.chartType === ChartType.column) {
             this.initColumnChart();
         }
+        if (this.chartType === ChartType.bar) {
+            this.initBarChart();
+        }
 
         if (this.categories) {
             this.chartOptions.xAxis.categories = this.categories;
@@ -97,7 +100,13 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 minorTickInterval: 'auto',
                 tickPixelInterval: 40,
                 minorGridLineWidth: 0,
-                visible: this.showYAxis
+                visible: this.showYAxis,
+                labels: {
+                    style: {
+                        color: '#cecece',
+                        font: '10px Trebuchet MS, Verdana, sans-serif'
+                    }
+                },
             },
             xAxis: {
                 type: 'datetime',
@@ -213,12 +222,48 @@ export class GenericChartComponent implements OnInit, OnChanges {
         };
     }
 
+    private initBarChart() {
+        this.chartOptions = {
+            ...this.chartOptions,
+            xAxis: {
+                type: 'category',
+                labels: {
+                    style: {
+                        color: '#cecece',
+                        font: '10px Trebuchet MS, Verdana, sans-serif'
+                    }
+                },
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        color: '#cecece',
+                        enabled: true,
+                        format: '{point.y:.1f}%'
+                    }
+                }
+            },
+            tooltip: {
+                headerFormat: null,
+                backgroundColor: '#232323',
+                style: {
+                    fontSize: '14px',
+                    color: '#D9D8D8',
+                },
+                shared: true,
+                pointFormat: '<span style="color:{point.color}; font-weight: bold">{point.name}</span> : <b>{point.y:.2f}%</b><br/>'
+            }
+        };
+    }
+
     private initColumnChart() {
         this.chartOptions = {
             ...this.chartOptions,
             xAxis: {
                 type: 'category',
                 labels: {
+                    rotation: -30,
                     style: {
                         color: '#cecece',
                         font: '11px Trebuchet MS, Verdana, sans-serif'

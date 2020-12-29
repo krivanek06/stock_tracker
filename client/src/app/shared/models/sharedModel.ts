@@ -5,7 +5,8 @@ export enum ChartType {
     column = 'column',
     pie = 'pie',
     variablepie = 'variablepie',
-    area = 'area'
+    area = 'area',
+    bar = 'bar'
 }
 
 export interface ChartDataIdentification {

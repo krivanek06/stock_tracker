@@ -1,0 +1,267 @@
+<ng-container *ngIf="stockDetails$ | async as stockDetails">
+    <ion-grid>
+        <ion-row>
+            <ion-col size="12" size-md="6" size-xl="5.5" push="0" push-xl="0.4">
+                <!-- stock chart -->
+                <app-financial-chart-container
+                        [logoUrl]="stockDetails.summary.logo_url"
+                        [name]="stockDetails.summary.longName"
+                        [height]="345"
+                        [symbol]="stockDetails.summary.symbol">
+                </app-financial-chart-container>
+            </ion-col>
+
+            <ion-col size="12" size-md="6" size-xl="5.5" push="0" push-xl="0.7">
+                <!-- summary -->
+                <app-generic-card [iconTitle]="'barcode-outline'" [chartTitle]="'Summary'">
+                    <app-details-summary [summary]="stockDetails.summary">
+                    </app-details-summary>
+                </app-generic-card>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col size-xl="3.5" size-sm="6" size="12">
+                <app-generic-card [chartTitle]="'Financial strength'" [additionalClasses]="'st-height-100'">
+                    <app-details-financial-strength
+                            [stockDetails]="stockDetails"></app-details-financial-strength>
+                </app-generic-card>
+            </ion-col>
+            <ion-col size-xl="3.5" size-sm="6" size="12">
+                <app-generic-card [chartTitle]="'Valuation'" [additionalClasses]="'st-height-100'">
+                    <app-details-valuation [stockDetails]="stockDetails"></app-details-valuation>
+                </app-generic-card>
+            </ion-col>
+            <ion-col size-xl="5" size="12">
+                <app-generic-card [chartTitle]="'Financial growth'" [additionalClasses]="'st-height-100'"
+                                  [applyLeftPadding]="false">
+                    <app-generic-chart
+                            [chartType]="ChartType.bar"
+                            [heightPx]="315"
+                            [showYAxis]="true"
+                            [series]="[{
+                             colorByPoint: true,
+                             data:[
+                                {name: 'Revenue ttm. yoy', y: stockDetails.metric.revenueGrowthTTMYoy},
+                                {name: 'Revenue qrt. yoy', y: stockDetails.metric.revenueGrowthQuarterlyYoy},
+                                {name: 'Revenue 5y', y: stockDetails.metric.revenueGrowthFiveY},
+                                {name: 'EPS qrt. yoy', y: stockDetails.metric.epsGrowthQuarterlyYoy},
+                                {name: 'EPS ttm yoy', y: stockDetails.metric.epsGrowthTTMYoy},
+                                {name: 'Capital spending yoy', y: stockDetails.metric.capitalSpendingGrowthFiveY },
+                                {name: 'BV per share 5y', y: stockDetails.metric.bookValueShareGrowthFiveY },
+                                {name: 'Assets turnover ttm', y: stockDetails.metric.assetTurnoverTTM},
+                                {name: 'Inventory turnover ttm', y: stockDetails.metric.inventoryTurnoverTTM},
+                                {name: 'Dividend rate 5y', y: stockDetails.dividends.dividendGrowthRateFiveY}
+                              ]
+                          }]">
+                    </app-generic-chart>
+                </app-generic-card>
+            </ion-col>
+        </ion-row>
+
+
+        <ion-row>
+            <ion-col size-lg="3.5" size-sm="6" size="12">
+                <app-generic-card [chartTitle]="'Financial ratio'" [additionalClasses]="'st-height-100'">
+                    <app-details-financial-strength-ratio
+                            [stockDetails]="stockDetails"></app-details-financial-strength-ratio>
+                </app-generic-card>
+            </ion-col>
+            <ion-col size-lg="3.5" size-sm="6" size="12">
+                <app-generic-card [chartTitle]="'Financial per share'" [additionalClasses]="'st-height-100'">
+                    <app-details-per-share [stockDetails]="stockDetails"></app-details-per-share>
+                </app-generic-card>
+            </ion-col>
+            <ion-col size-lg="5" size="12">
+                <app-generic-card [chartTitle]="'Margin'" [additionalClasses]="'st-height-100'"
+                                  [applyLeftPadding]="false">
+                    <app-generic-chart
+                            [chartType]="ChartType.bar"
+                            [heightPx]="285"
+                            [showYAxis]="true"
+                            [series]="[{
+                                colorByPoint: true,
+                                 data:[
+                                 {name: 'Gross ttm.', y: stockDetails.metric.grossMarginTTM},
+                                 {name: 'Net growth 5y', y: stockDetails.metric.netMarginGrowthFiveY},
+                                 {name: 'Net profit ttm.', y: stockDetails.metric.netProfitMarginTTM},
+                                 {name: 'Operating ttm.', y: stockDetails.metric.operatingMarginTTM},
+                                 {name: 'Pretax ttm.', y: stockDetails.metric.pretaxMarginTTM},
+                                 {name: 'EBITDA ttm.', y: stockDetails.companyData.financialData.ebitdaMargins * 100}
+                              ]
+                          }]">
+                    </app-generic-chart>
+                </app-generic-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-row>
+        <ion-col size-lg="4" size-sm="6" size="12">
+            <app-generic-card [chartTitle]="'Dividend'" [additionalClasses]="'st-height-100'">
+                <app-details-dividend [stockDetails]="stockDetails"></app-details-dividend>
+            </app-generic-card>
+        </ion-col>
+        <ion-col size-lg="3" size-sm="6" size="12">
+            <app-generic-card [chartTitle]="'Effectiveness'" [additionalClasses]="'st-height-100'"
+                              [applyLeftPadding]="false">
+                <app-generic-chart
+                        [chartType]="ChartType.column"
+                        [heightPx]="230"
+                        [showYAxis]="true"
+                        [series]="[{
+                         colorByPoint: true,
+                         data:[
+                              {name: 'ROA', y: stockDetails.companyData.financialData.returnOnAssets * 100},
+                              {name: 'ROE', y: stockDetails.companyData.financialData.returnOnEquity * 100},
+                              {name: 'ROI ', y: stockDetails.metric.roiTTM}
+                          ]
+                      }]">
+                </app-generic-chart>
+            </app-generic-card>
+        </ion-col>
+
+        <ion-col size="12" size-lg="5">
+            <!-- company growth -->
+            <app-generic-card [chartTitle]="'Company growth'" [additionalClasses]="'st-height-100'"
+                              [applyLeftPadding]="false">
+                <app-generic-chart
+                        [chartType]="ChartType.column"
+                        [heightPx]="245"
+                        [showYAxis]="true"
+                        [series]="[{
+                            colorByPoint: true,
+                             data:[
+                                {name: 'Past 5y', y: stockDetails.analysis.growthEstimates.pastFiveYearsperannumPrct},
+                                {name: 'Next 5y', y: stockDetails.analysis.growthEstimates.nextFiveYearsperannumPrct},
+                                {name: 'Current y.', y: stockDetails.analysis.growthEstimates.currentQtrPrct},
+                                {name: 'Next y.', y: stockDetails.analysis.growthEstimates.nextYearPrct},
+                                {name: 'Current qrt.', y: stockDetails.analysis.growthEstimates.currentQtrPrct},
+                                {name: 'Next qrt.', y: stockDetails.analysis.growthEstimates.nextQtrPrct}
+                              ]
+                      }]">
+                </app-generic-chart>
+            </app-generic-card>
+        </ion-col>
+    </ion-row>
+
+
+    <ion-row>
+        <ion-col size-md="6" size="12">
+            <!-- revenue growth chart -->
+            <app-generic-card [chartTitle]="'Revenue growth estimation'" [additionalClasses]="'st-height-100'"
+                              [applyLeftPadding]="false">
+                <app-fixed-range-slider-with-time
+                        *ngFor="let revenue of stockDetails.analysis.revenueEstimate"
+                        [revenuEst]="revenue">
+                </app-fixed-range-slider-with-time>
+            </app-generic-card>
+        </ion-col>
+        <ion-col size-md="6" size="12">
+            <!-- recommendation chart -->
+            <app-generic-card [chartTitle]="'Recommendation'" [applyLeftPadding]="false">
+                <app-details-recommendation-chart
+                        [recommendations]="stockDetails.recommendation">
+                </app-details-recommendation-chart>
+            </app-generic-card>
+        </ion-col>
+    </ion-row>
+
+
+    <ion-row>
+        <ion-col size-lg="4" size-md="6" size="12">
+            <!-- Financial yearly -->
+            <app-generic-card [chartTitle]="'Financial yearly'" [applyLeftPadding]="false">
+                <app-generic-chart
+                        [chartType]="ChartType.column"
+                        [heightPx]="245"
+                        [showYAxis]="true"
+                        [showLegend]="true"
+                        [categories]="stockDetails.companyData.earnings.financialsChart.yearly.categories"
+                        [series]="stockDetails.companyData.earnings.financialsChart.yearly.series">
+                </app-generic-chart>
+            </app-generic-card>
+        </ion-col>
+
+        <ion-col size-lg="4" size-md="6" size="12">
+            <!-- Financial quarterly -->
+            <app-generic-card [chartTitle]="'Financial quarterly'" [applyLeftPadding]="false">
+                <app-generic-chart
+                        [chartType]="ChartType.column"
+                        [heightPx]="245"
+                        [showYAxis]="true"
+                        [showLegend]="true"
+                        [categories]="stockDetails.companyData.earnings.financialsChart.quarterly.categories"
+                        [series]="stockDetails.companyData.earnings.financialsChart.quarterly.series">
+                </app-generic-chart>
+            </app-generic-card>
+        </ion-col>
+
+        <ion-col size-lg="4" size="12">
+            <app-generic-card [chartTitle]="'Earnings'" [applyLeftPadding]="false">
+                <app-details-earnings-per-share-chart
+                        [earnings]="stockDetails.companyData.earnings.earningsChart">
+                </app-details-earnings-per-share-chart>
+            </app-generic-card>
+        </ion-col>
+    </ion-row>
+
+    <ion-row>
+        <ion-col size-md="6" size="12">
+            <ion-row>
+                <ion-col size="12" size-sm="6" size-md="12">
+                    <!-- Current price to 1y target -->
+                    <app-generic-card [chartTitle]="'Current price to 1y target'" [additionalClasses]="'st-height-100'"
+                                      [applyLeftPadding]="false">
+                        <app-gauge-chart
+                                [tooltipName]="'Completed'"
+                                [height]="175"
+                                [displayValue]="stockDetails.summary.targetEstOneyPercent"
+                                [startingPoint]="0"
+                                [endingPoint]="stockDetails.summary.oneyTargetEst"
+                                [currentPoint]="stockDetails.summary.marketPrice">
+                        </app-gauge-chart>
+                    </app-generic-card>
+                </ion-col>
+                <ion-col size="12" size-sm="6" size-md="12">
+                    <!-- Cash to Debt -->
+                    <app-generic-card [chartTitle]="'Cash to Debt'" [additionalClasses]="'st-height-100'"
+                                      [applyLeftPadding]="false">
+                        <app-gauge-chart
+                                [tooltipName]="'Cash to Debt'"
+                                [height]="175"
+                                [displayValue]=" 100 / (   stockDetails.companyData.financialData.totalCash +
+                                stockDetails.companyData.financialData.totalDebt )
+                                * stockDetails.companyData.financialData.totalCash | number: '1.2-2'"
+                                [startingPoint]="0"
+                                [endingPoint]="stockDetails.companyData.financialData.totalCash +
+                                stockDetails.companyData.financialData.totalDebt "
+                                [currentPoint]="stockDetails.companyData.financialData.totalCash">
+                        </app-gauge-chart>
+                    </app-generic-card>
+                </ion-col>
+            </ion-row>
+        </ion-col>
+        <ion-col size-md="6" size="12">
+            <!--  grading history -->
+            <app-generic-card [chartTitle]="'Stock grading'" [additionalClasses]="'st-height-100'">
+                <div class="ion-margin-bottom">
+                    <app-grading-history
+                            [history]="stockDetails.companyData.upgradeDowngradeHistory"></app-grading-history>
+                </div>
+                <app-stock-trend
+                        [trend]="stockDetails.companyData.pageViews"></app-stock-trend>
+            </app-generic-card>
+        </ion-col>
+    </ion-row>
+
+
+    <!-- news -->
+    <div class="news-container" *ngIf="stockDetails.stockNews.length > 0">
+        <app-article-cards
+                *ngFor="let article of stockDetails.stockNews"
+                [article]="article">
+        </app-article-cards>
+    </div>
+</ng-container>
+

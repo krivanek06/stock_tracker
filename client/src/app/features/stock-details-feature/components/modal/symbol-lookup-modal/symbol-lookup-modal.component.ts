@@ -38,7 +38,7 @@ export class SymbolLookupModalComponent implements OnInit {
 
     redirectToDetails() {
         this.dismissModal();
-        this.router.navigate([`/menu/stock-details/${this.chartDataIdentification.symbol}`]);
+        this.router.navigate([`/menu/search/search-stock-details/${this.chartDataIdentification.symbol}`]);
     }
 
 
