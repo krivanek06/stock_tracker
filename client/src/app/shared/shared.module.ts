@@ -14,8 +14,6 @@ import {FixedRangeSliderComponent} from './components/charts/fixed-range-slider/
 import {NumberFormatterPipe} from './pipes/numberFormatter.pipe';
 import {HeaderComponent} from './containers/header/header.component';
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
-import {FixedRangeSliderWithTimeComponent} from './components/charts/fixed-range-slider-with-time/fixed-range-slider-with-time.component';
-
 import {InlineModificationFormComponent} from './components/forms/inline-modification-form/inline-modification-form.component';
 import {GenericChartComponent} from './components/charts/generic-chart/generic-chart.component';
 import {GenericCardComponent} from './components/general/generic-card/generic-card.component';
@@ -44,7 +42,6 @@ import {TitleWithLogoItemComponent} from './components/items/title-with-logo-ite
         RelativeTimePipe,
         HeaderComponent,
         InlineModificationFormComponent,
-        FixedRangeSliderWithTimeComponent,
         GenericChartComponent,
         GenericCardComponent,
         FinancialChartContainerComponent,
@@ -91,7 +88,6 @@ import {TitleWithLogoItemComponent} from './components/items/title-with-logo-ite
         RelativeTimePipe,
         HeaderComponent,
         InlineModificationFormComponent,
-        FixedRangeSliderWithTimeComponent,
         GenericChartComponent,
         GenericCardComponent,
         FinancialChartContainerComponent,

@@ -1,4 +1,4 @@
-@import "../../../styles/button-styling";
+@import "variables";
 
 :host {
   .container{
@@ -7,14 +7,18 @@
     font-size: 14px;
     display: grid;
   }
-  .highlight{
-    font-weight: bold;
-  }
+
   .time-est{
-    @media (max-width: 530px) {
+    @media (max-width: #{$st-var-lg-split}) {
       width: 100%;
       text-align: center;
       margin-top: 5px;
     }
+  }
+
+  .price-icon {
+    //position: absolute;
+    //top: -4px;
+    margin-left: 10px !important;
   }
 }

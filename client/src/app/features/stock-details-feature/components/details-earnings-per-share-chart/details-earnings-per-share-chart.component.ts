@@ -14,6 +14,11 @@ import {EarningsChart} from '../../../../api/customGraphql.service';
 
 HighchartsMoreModule(Highcharts);
 
+interface DetailsEarnings {
+    value: number;
+    color: string;
+}
+
 @Component({
     selector: 'app-details-earnings-per-share-chart',
     templateUrl: './details-earnings-per-share-chart.component.html',
@@ -25,8 +30,8 @@ export class DetailsEarningsPerShareChartComponent implements OnInit, OnChanges 
 
 
     private earnignsDates: string[] = [];
-    private actualEarnings: number[] = [];
-    private estimatedEarnigns: number[] = [];
+    private actualEarnings: DetailsEarnings[] = [];
+    private estimatedEarnings: number[] = [];
 
     // chart options
     Highcharts: typeof Highcharts = Highcharts;
@@ -47,8 +52,16 @@ export class DetailsEarningsPerShareChartComponent implements OnInit, OnChanges 
         if (this.earnings) {
             this.earnignsDates = [...this.earnings.quarterly.map(data => data.date),
                 this.earnings.currentQuarterEstimateDate + this.earnings.currentQuarterEstimateYear];
-            this.actualEarnings = this.earnings.quarterly.map(data => data.actual);
-            this.estimatedEarnigns = [...this.earnings.quarterly.map(data => data.estimate), this.earnings.currentQuarterEstimate];
+
+            for (let i = 0; i < this.earnings.quarterly.length; i++) {
+                this.actualEarnings = [...this.actualEarnings, {
+                    value: this.earnings.quarterly[i].actual,
+                    color: this.earnings.quarterly[i].actual > this.earnings.quarterly[i].estimate ? 'green' : 'red'
+                }];
+            }
+            //this.actualEarnings = this.earnings.quarterly.map(data => data.actual);
+
+            this.estimatedEarnings = [...this.earnings.quarterly.map(data => data.estimate), this.earnings.currentQuarterEstimate];
         }
 
         this.initChart();
@@ -88,7 +101,7 @@ export class DetailsEarningsPerShareChartComponent implements OnInit, OnChanges 
                 headerFormat: '<b>{point.x}</br> <span style="color:#008F88">{point.key}</span> : {point.y}</b>',
                 backgroundColor: '#232323',
                 style: {
-                    fontSize: '14px',
+                    fontSize: '13px',
                     color: '#D9D8D8',
                 },
                 shared: true
@@ -111,39 +124,36 @@ export class DetailsEarningsPerShareChartComponent implements OnInit, OnChanges 
                 minorGridLineWidth: 0,
                 categories: this.earnignsDates,
             },
-
             yAxis: {
                 startOnTick: false,
                 endOnTick: false,
                 title: {
                     text: null
                 },
+                gridLineWidth: 1,
+                minorTickInterval: 'auto',
+                tickPixelInterval: 45,
+                minorGridLineWidth: 0,
+                labels: {
+                    style: {
+                        color: '#cecece',
+                        font: '10px Trebuchet MS, Verdana, sans-serif'
+                    }
+                },
             },
             series: [{
-                data: this.estimatedEarnigns.map(x => ['Earnings expected', x, 2]),
+                data: this.estimatedEarnings.map(y => {
+                    return {y, z: 5, name: 'Earnings expected'};
+                }),
                 marker: {
-                    fillColor: {
-                        radialGradient: {cx: 0.2, cy: 0.3, r: 0.7},
-                        stops: [
-                            [0, 'rgba(255,255,255,0.65)'],
-                            [1, 'rgba(255,255,255,0.65)']
-                        ]
-                    }
+                    fillColor: '#9d9d9d'
                 }
             }, {
-                data: this.actualEarnings.map(x => ['Earnings actual', x, 2]),
-                marker: {
-                    fillColor: {
-                        radialGradient: {cx: 0.4, cy: 0.3, r: 0.7},
-                        stops: [
-                            [0, 'rgba(255,255,255,0.5)'],
-                            [1, 'rgba(0,20,82,0.37048322747067575)']
-                        ]
-                    }
-                }
+                data: this.actualEarnings.map(x => {
+                    return {y: x.value, z: 5, name: 'Earnings actual', color: x.color};
+                })
             }
             ]
         };
     }
-
 }

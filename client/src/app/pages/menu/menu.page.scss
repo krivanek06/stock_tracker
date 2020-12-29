@@ -31,8 +31,8 @@
   }
 
   ion-menu {
-    min-width: 200px !important;
-    max-width: 200px !important;
+    min-width: 230px !important;
+    max-width: 230px !important;
     @media (max-width: #{$st-var-xl-split}) {
       min-width: 250px !important;
       max-width: 250px !important;
@@ -40,8 +40,8 @@
   }
 
   ion-content {
-    min-width: 200px !important;
-    max-width: 200px !important;
+    min-width: 230px !important;
+    max-width: 230px !important;
     @media (max-width: #{$st-var-xl-split}) {
       min-width: 250px !important;
       max-width: 250px !important;

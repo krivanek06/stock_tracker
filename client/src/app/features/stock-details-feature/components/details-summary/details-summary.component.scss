@@ -1,16 +1,6 @@
 @import "variables";
 
 :host {
-  .fixedLabel {
-    min-width: 45% !important;
-    max-width: 45% !important;
-    color: #{$st-var-font-1} !important;
-    @media (max-width: #{$st-var-md-split}) {
-      min-width: 50% !important;
-      max-width: 50% !important;
-    }
-  }
-
   ion-list {
     ion-item {
       --min-height: #{$st-ionic-label-min-height};

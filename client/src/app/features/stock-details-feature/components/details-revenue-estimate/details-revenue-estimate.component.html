@@ -1,0 +1,35 @@
+<div class="container">
+    <!-- TODO REFACTOR TO ION modules -->
+    <!-- additional info -->
+    <div class="ion-text-wrap">
+        <div class="ion-float-start time-est">
+            <span style="margin-right: 10px" class="st-font-2">{{revenueEst.name}}</span>
+        </div>
+        <div class="ion-float-start" style="display: flex">
+            <span style="margin-right: 5px" class="st-font-2"> {{ revenueEst.avgEstimate }}</span>
+            <span style="display: flex" [ngClass]="{
+                    'st-price-up': revenueEst.salesGrowthyearestNumber >=0 ,
+                    'st-price-down': revenueEst.salesGrowthyearestNumber < 0
+                    }"> <ion-text>({{revenueEst.salesGrowthyearest}})</ion-text>
+
+                <ion-icon name="trending-up-outline" class="price-icon"
+                          *ngIf="revenueEst.salesGrowthyearestNumber >=0"></ion-icon>
+                <ion-icon name="trending-down-outline" class="price-icon"
+                          *ngIf="revenueEst.salesGrowthyearestNumber < 0"></ion-icon>
+            </span>
+        </div>
+        <span class="ion-float-end st-font-2">
+             <span>Year ago: </span>
+            {{revenueEst.yearAgoSales}}
+         </span>
+    </div>
+
+
+    <!-- range chart -->
+    <app-fixed-range-slider [min]="revenueEst.lowEstimateNumber"
+                            [max]="revenueEst.highEstimateNumber"
+                            [value]="revenueEst.avgEstimateNumber"
+                            [maxDisplayName]="revenueEst.highEstimate"
+                            [minDisplayName]="revenueEst.lowEstimate">
+    </app-fixed-range-slider>
+</div>
