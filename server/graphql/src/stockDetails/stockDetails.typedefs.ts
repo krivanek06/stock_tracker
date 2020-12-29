@@ -1,22 +1,25 @@
-import { gql } from "apollo-server"
+import {gql} from "apollo-server"
 
 export const stockDetailsTypeDefs = gql`
     ##### TYPEE
-    
+    type SearchSymbol {
+        summaries: [Summary]!
+    }
+
     type StockDetails {
         id: String!
-        analysis: Analysis!
-        balanceSheet: BalanceSheet!
-        cashFlow: CashFlow!
-        incomeStatement: IncomeStatement!
+        analysis: Analysis
+        balanceSheet: BalanceSheet
+        cashFlow: CashFlow
+        incomeStatement: IncomeStatement
         stats: Stats!
-        recommendation: [Recommendations]!
-        stockNews: [NewsArticle]!
-        companyData: CompanyData!
+        recommendation: [Recommendations]
+        stockNews: [NewsArticle]
+        companyData: CompanyData
         summary: Summary!
-        metric: Metric!
-        dividends: Dividens!
-        financialReportSnippets: [String]!
+        metric: Metric
+        dividends: Dividens
+        financialReportSnippets: [String]
         financialReports: StockFinancialReports
     }
 
@@ -39,13 +42,13 @@ export const stockDetailsTypeDefs = gql`
         name: String!
         year: Float
     }
-    
+
     type FinancialReportReport {
         bs: [FinancialReportItems]
         cf: [FinancialReportItems]
         ic: [FinancialReportItems]
     }
-    
+
     type FinancialReportItems {
         concept: String
         label: String
@@ -194,8 +197,8 @@ export const stockDetailsTypeDefs = gql`
     }
 
     type Analysis {
-        growthEstimates: GrowthEstimates!
-        revenueEstimate: [RevenueEstimate]!
+        growthEstimates: GrowthEstimates
+        revenueEstimate: [RevenueEstimate]
     }
 
     type DefaultKeyStatistics {

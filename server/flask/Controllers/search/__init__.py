@@ -49,6 +49,13 @@ def searchSymbol():
         print(e)
         raise JsonError(status=500, error='Could not search any stock for symbol')
 
+@app.route('/search_all_symbol')
+def searchSymbolAll():
+    try:
+        return json_response(data=Finhub.searchAllSymbols())
+    except Exception as e:
+        print(e)
+        raise JsonError(status=500, error='Could not search any stock for symbol')
 
 @app.route('/day_top_gains')
 def getTopGains():

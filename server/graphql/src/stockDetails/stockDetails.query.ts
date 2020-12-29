@@ -20,7 +20,32 @@ export const queryStockDetails = async (symbol: string): Promise<api.StockDetail
 export const queryStockSummary = async (symbol: string): Promise<api.Summary> => {
     try {
         const details = await queryStockDetails(symbol);
-        return details.summary;
+        return details?.summary;
+    } catch (error) {
+        throw new ApolloError(error);
+    }
+}
+
+export const queryStockSummaries = async (symbolPrefix: string) => {
+    try {
+        console.time();
+        const symbolsDoc = await admin.firestore()
+            .collection(api.ST_STATIC_DATA_COLLECTION)
+            .doc(api.ST_SHARED_COLLECTON.ST_STOCK_SYMBOLS)
+            .get();
+
+        const symbols = symbolsDoc.data() as api.SearchStockSymbol;
+        //console.log(symbols.data.length);
+
+        const searchingSymbols = symbols.data.filter(s => s.startsWith(symbolPrefix)).slice(0, 5);
+        console.log('symbols', searchingSymbols);
+
+        const summaries = await Promise.all(searchingSymbols.map(x => queryStockSummary(x)));
+        console.timeEnd();
+        console.log('----')
+        const notNullSummaries = summaries.filter(x => !!x);
+
+        return {'summaries': notNullSummaries};
     } catch (error) {
         throw new ApolloError(error);
     }
@@ -31,6 +56,10 @@ export const queryStockSummary = async (symbol: string): Promise<api.Summary> =>
 const getAndSaveStockDetailsFromApi = async (symbol: string): Promise<api.StockDetails> => {
     const resolverPromise = await global.fetch(`${stockDataAPI}/fundamentals/all?symbol=${symbol}`);
     const response = await resolverPromise.json() as api.StockDetails;
+
+    if(!response.summary.symbol || !response.summary.marketPrice){
+        return null;
+    }
 
     // save details
     admin.firestore().collection(`${api.ST_STOCK_DATA_COLLECTION}`).doc(symbol).set({
