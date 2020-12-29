@@ -16,6 +16,7 @@ import {GradingHistoryComponent} from './components/grading-history/grading-hist
 import {StockTrendComponent} from './components/stock-trend/stock-trend.component';
 import {SymbolLookupModalComponent} from './components/modal/symbol-lookup-modal/symbol-lookup-modal.component';
 import {DetailsSummaryComponent} from './components/details-summary/details-summary.component';
+import {DetailsRevenueEstimateComponent} from './components/details-revenue-estimate/details-revenue-estimate.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import {DetailsSummaryComponent} from './components/details-summary/details-summ
         GradingHistoryComponent,
         StockTrendComponent,
         SymbolLookupModalComponent,
-        DetailsSummaryComponent
+        DetailsSummaryComponent,
+        DetailsRevenueEstimateComponent
     ],
     imports: [
         CommonModule,
@@ -55,7 +57,8 @@ import {DetailsSummaryComponent} from './components/details-summary/details-summ
         GradingHistoryComponent,
         StockTrendComponent,
         SymbolLookupModalComponent,
-        DetailsSummaryComponent
+        DetailsSummaryComponent,
+        DetailsRevenueEstimateComponent
     ],
     entryComponents: [
         DetailsFinancialReportModalComponent,

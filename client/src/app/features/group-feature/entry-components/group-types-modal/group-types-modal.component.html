@@ -19,7 +19,7 @@
         <ion-item-group>
             <ion-item *ngFor="let group of groups.groupOwner"
                       (click)="clickedGroup(group)"
-                      class="st-font-4 ion-activatable"
+                      class="st-font-3 ion-activatable"
                       [ngClass]="{'st-icon': activeGroup === group.groupId}">
                 <ion-label>
                     {{ group.name }}
@@ -40,7 +40,7 @@
         <ion-item-group>
             <ion-item *ngFor="let group of groups.groupMember"
                       (click)="clickedGroup(group)"
-                      class="st-font-4 ion-activatable "
+                      class="st-font-3 ion-activatable "
                       [ngClass]="{'st-icon': activeGroup === group.groupId}">
                 <ion-label>
                     {{ group.name }}
@@ -60,7 +60,7 @@
         <ion-item-group>
             <ion-item *ngFor="let group of groups.groupInvitationSent"
                       (click)="clickedGroup(group)"
-                      class="st-font-4 ion-activatable"
+                      class="st-font-3 ion-activatable"
                       [ngClass]="{'st-icon': activeGroup === group.groupId}">
                 <ion-label>
                     {{ group.name }}
@@ -81,7 +81,7 @@
         <ion-item-group>
             <ion-item *ngFor="let group of groups.groupInvitationReceived"
                       (click)="clickedGroup(group)"
-                      class="st-font-4 ion-activatable"
+                      class="st-font-3 ion-activatable"
                       [ngClass]="{'st-icon': activeGroup === group.groupId}">
                 <ion-label>
                     {{ group.name }}

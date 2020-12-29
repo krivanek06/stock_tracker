@@ -8,7 +8,6 @@
   .fixedLabel {
     min-width: 40% !important;
     max-width: 40% !important;
-    align-self: start;
     white-space: pre-wrap;
     @media (max-width: #{$st-var-md-split}) {
       min-width: 65% !important;

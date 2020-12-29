@@ -99,6 +99,10 @@ ion-spinner {
 }
 
 .st-font-4 {
+  color: #{$st-var-font-3} !important;
+}
+
+.st-font-5 {
   color: #{$st-var-font-4} !important;
 }
 
@@ -131,6 +135,20 @@ ion-spinner {
 .st-title {
   color: #{$st-var-font-0} !important;
   font-size: 18px !important;
+}
+
+.st-data-label {
+  color: #{$st-var-font-3} !important;
+}
+
+.st-data-label-fixedLabel {
+  min-width: 60% !important;
+  max-width: 60% !important;
+  color: #{$st-var-font-1} !important;
+  @media (max-width: #{$st-var-md-split}) {
+    min-width: 50% !important;
+    max-width: 50% !important;
+  }
 }
 
 
@@ -208,17 +226,17 @@ ion-spinner {
 }
 
 .st-icon-size-header {
-  font-size: 30px;
+  font-size: 40px;
   margin-right: 16px !important;
   @media (max-width: #{$st-var-sm-split}) {
-    font-size: 26px;
+    font-size: 30px;
   }
 }
 
 .st-font-size-header {
-  font-size: 20px;
+  font-size: 26px;
   @media (max-width: #{$st-var-sm-split}) {
-    font-size: 18px;
+    font-size: 22px;
   }
 }
 
@@ -262,9 +280,9 @@ ion-spinner {
 }
 
 .st-display-flex-center {
-  display: flex;
-  align-items: center;
-  flex-flow: row;
+  display: flex !important;
+  align-items: center !important;
+  flex-flow: row !important;
 }
 
 

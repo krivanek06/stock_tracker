@@ -1,52 +1,52 @@
 <ion-list *ngIf="stockDetails as details">
     <ion-item>
-        <ion-label position="fixed" class="fixedLabel">Enterprise value</ion-label>
-        <ion-label> {{ details.companyData.defaultKeyStatistics.enterpriseValue | numberFormatter }}</ion-label>
+        <ion-label position="fixed" class="st-data-label-fixedLabel">Enterprise value</ion-label>
+        <ion-label class="st-data-label"> {{ details.companyData.defaultKeyStatistics.enterpriseValue | numberFormatter }}</ion-label>
     </ion-item>
 
     <ion-item>
-        <ion-label position="fixed" class="fixedLabel">Market cap.</ion-label>
-        <ion-label> {{ details.summary.marketCap | numberFormatter}}</ion-label>
+        <ion-label position="fixed" class="st-data-label-fixedLabel">Market cap.</ion-label>
+        <ion-label class="st-data-label"> {{ details.summary.marketCap | numberFormatter}}</ion-label>
     </ion-item>
 
     <ion-item>
-        <ion-label position="fixed" class="fixedLabel">Revenue</ion-label>
-        <ion-label> {{ details.companyData.financialData.totalRevenue | numberFormatter  }}</ion-label>
+        <ion-label position="fixed" class="st-data-label-fixedLabel">Revenue</ion-label>
+        <ion-label class="st-data-label"> {{ details.companyData.financialData.totalRevenue | numberFormatter  }}</ion-label>
     </ion-item>
 
     <ion-item>
-        <ion-label position="fixed" class="fixedLabel">Operating cash flow</ion-label>
-        <ion-label> {{ details.companyData.financialData.operatingCashflow | numberFormatter }}</ion-label>
+        <ion-label position="fixed" class="st-data-label-fixedLabel">Operating cash flow</ion-label>
+        <ion-label class="st-data-label"> {{ details.companyData.financialData.operatingCashflow | numberFormatter }}</ion-label>
     </ion-item>
 
     <ion-item>
-        <ion-label position="fixed" class="fixedLabel">Free cash flow</ion-label>
-        <ion-label> {{ details.companyData.financialData.freeCashflow | numberFormatter }}</ion-label>
+        <ion-label position="fixed" class="st-data-label-fixedLabel">Free cash flow</ion-label>
+        <ion-label class="st-data-label"> {{ details.companyData.financialData.freeCashflow | numberFormatter }}</ion-label>
     </ion-item>
 
     <ion-item>
-        <ion-label position="fixed" class="fixedLabel">Leveraged Fcf</ion-label>
-        <ion-label> {{ details.stats.LeveredFreeCashFlowttm }}</ion-label>
+        <ion-label position="fixed" class="st-data-label-fixedLabel">Leveraged Fcf</ion-label>
+        <ion-label class="st-data-label"> {{ details.stats.leveredFreeCashFlowttm }}</ion-label>
     </ion-item>
 
     <ion-item>
-        <ion-label position="fixed" class="fixedLabel">Gross profit</ion-label>
-        <ion-label> {{ details.companyData.financialData.grossProfits | numberFormatter  }}</ion-label>
+        <ion-label position="fixed" class="st-data-label-fixedLabel">Gross profit</ion-label>
+        <ion-label class="st-data-label"> {{ details.companyData.financialData.grossProfits | numberFormatter  }}</ion-label>
     </ion-item>
 
     <ion-item>
-        <ion-label position="fixed" class="fixedLabel">Total cash</ion-label>
-        <ion-label> {{ details.companyData.financialData.totalCash | numberFormatter }}</ion-label>
+        <ion-label position="fixed" class="st-data-label-fixedLabel">Total cash</ion-label>
+        <ion-label class="st-data-label"> {{ details.companyData.financialData.totalCash | numberFormatter }}</ion-label>
     </ion-item>
 
     <ion-item>
-        <ion-label position="fixed" class="fixedLabel">Total debt</ion-label>
-        <ion-label> {{ details.companyData.financialData.totalDebt| numberFormatter  }}</ion-label>
+        <ion-label position="fixed" class="st-data-label-fixedLabel">Total debt</ion-label>
+        <ion-label class="st-data-label"> {{ details.companyData.financialData.totalDebt| numberFormatter  }}</ion-label>
     </ion-item>
 
     <ion-item>
-        <ion-label position="fixed" class="fixedLabel">EBITDA</ion-label>
-        <ion-label> {{ details.companyData.financialData.ebitda | numberFormatter }}</ion-label>
+        <ion-label position="fixed" class="st-data-label-fixedLabel">EBITDA</ion-label>
+        <ion-label class="st-data-label"> {{ details.companyData.financialData.ebitda | numberFormatter }}</ion-label>
     </ion-item>
 
 

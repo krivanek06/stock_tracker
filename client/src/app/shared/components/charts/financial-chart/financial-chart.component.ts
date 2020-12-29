@@ -176,9 +176,9 @@ export class FinancialChartComponent implements OnInit, OnChanges {
                     title: {
                         text: ''
                     },
-                    gridLineWidth: 0,
-                    minorTickInterval: 'auto',
-                    //tickPixelInterval: 25,
+                    gridLineWidth: 1,
+                    //minorTickInterval: 'auto',
+                    tickPixelInterval: 45,
                     minorGridLineWidth: 0,
                     allowDecimals: true,
                     height: '75%',
