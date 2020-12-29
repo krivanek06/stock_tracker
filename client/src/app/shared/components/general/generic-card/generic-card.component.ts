@@ -9,8 +9,8 @@ import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 export class GenericCardComponent implements OnInit {
     @Input() chartTitle: string;
     @Input() iconTitle: string;
-    @Input() cardHeight;
     @Input() additionalClasses: string;
+    @Input() applyLeftPadding = true;
 
     constructor() {
     }

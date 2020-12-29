@@ -24,11 +24,6 @@ const routes: Routes = [
                 loadChildren: () => import('../watchlist/watchlist.module').then(m => m.WatchlistPageModule)
             },
             {
-                path: 'stock-details/:symbol',
-                canActivate: [AuthGuard],
-                loadChildren: () => import('../stock-details/stock-details.module').then(m => m.StockDetailsPageModule)
-            },
-            {
                 path: 'trading',
                 loadChildren: () => import('../trading/trading.module').then( m => m.TradingPageModule)
             },

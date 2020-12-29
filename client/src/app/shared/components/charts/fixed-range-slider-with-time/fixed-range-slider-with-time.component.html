@@ -6,23 +6,23 @@
             <span style="margin-right: 10px">{{revenuEst.name}}</span>
         </div>
          <div class="ion-float-start">
-             <span style="margin-right: 5px" class="highlight"> Avg.: {{ revenuEst.AvgEstimate }}</span>
-             <span *ngIf="revenuEst.SalesGrowthyearestNumber >=0" class="price-up"> {{revenuEst.SalesGrowthyearest}}</span>
-             <span *ngIf="revenuEst.SalesGrowthyearestNumber < 0" class="price-down"> {{ revenuEst.SalesGrowthyearest}}</span>
+             <span style="margin-right: 5px" class="highlight"> Avg.: {{ revenuEst.avgEstimate }}</span>
+             <span *ngIf="revenuEst.salesGrowthyearestNumber >=0" class="price-up"> {{revenuEst.salesGrowthyearest}}</span>
+             <span *ngIf="revenuEst.salesGrowthyearestNumber < 0" class="price-down"> {{ revenuEst.salesGrowthyearest}}</span>
          </div>
          <span class="ion-float-end">
              <span class="highlight">Year ago: </span>
-             {{revenuEst.YearAgoSales}}
+             {{revenuEst.yearAgoSales}}
          </span>
      </div>
 
 
 
     <!-- range chart -->
-    <app-fixed-range-slider [min]="revenuEst.LowEstimateNumber"
-                            [max]="revenuEst.HighEstimateNumber"
-                            [value]="revenuEst.AvgEstimateNumber"
-                            [maxDisplayName]="revenuEst.HighEstimate"
-                            [minDisplayName]="revenuEst.LowEstimate">
+    <app-fixed-range-slider [min]="revenuEst.lowEstimateNumber"
+                            [max]="revenuEst.highEstimateNumber"
+                            [value]="revenuEst.avgEstimateNumber"
+                            [maxDisplayName]="revenuEst.highEstimate"
+                            [minDisplayName]="revenuEst.lowEstimate">
     </app-fixed-range-slider>
 </div>

@@ -7,7 +7,7 @@
               'upgrade': data.action === 'up'
             }" style="display: flex;">
 
-            <ng-container *ngIf="data.fromGrade"> {{ data.fromGrade }} -> </ng-container>
+            <!--<ng-container *ngIf="data.fromGrade"> {{ data.fromGrade }} -> </ng-container>-->
             <ion-text class="ion-margin-end">{{ data.toGrade }}</ion-text>
 
             <ion-icon *ngIf="data.action === 'up'" class="upgrade" name="caret-up-outline"></ion-icon>

@@ -1,0 +1,22 @@
+<ion-segment color="primary"
+             class="ion-justify-content-end ion-margin-bottom"
+             [value]="segmentValue"
+             (ionChange)="segmentChanged($event)">
+    <ion-segment-button [value]="DETAILS_PAGES_ENUM.STATISTICS" layout="icon-start">
+        <ion-label>Statistics</ion-label>
+    </ion-segment-button>
+    <ion-segment-button [value]="DETAILS_PAGES_ENUM.FINANCIAL" layout="icon-start">
+        <ion-label>Financial</ion-label>
+    </ion-segment-button>
+</ion-segment>
+
+
+<!-- sub pages -->
+<router-outlet></router-outlet>
+
+
+<!-- spinner -->
+<div class="spinner-container" *ngIf="showSpinner">
+    <ion-spinner color="primary"></ion-spinner>
+</div>
+
