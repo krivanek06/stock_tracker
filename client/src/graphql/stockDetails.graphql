@@ -459,6 +459,9 @@ fragment earningsFragment on Earnings {
     }
 }
 
+# -----------------------------------------
+# QUERY
+
 query QueryStockDetails($symbol: String!) {
     queryStockDetails(symbol: $symbol) {
         id
@@ -538,6 +541,15 @@ query QueryStockDetails($symbol: String!) {
         }
         dividends {
             ...dividensFragment
+        }
+    }
+}
+
+
+query QueryStockDetails($symbolPrefix: String!) {
+    queryStockSummaries(symbolPrefix: $symbolPrefix) {
+        summaries {
+            ...StockSummaryFragment
         }
     }
 }

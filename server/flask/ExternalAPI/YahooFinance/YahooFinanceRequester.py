@@ -63,8 +63,10 @@ class YahooFinanceRequester:
         result = utils.parseMultipleDropdownTables(site)
         livePrice = self.get_live_price(ticker)
 
-        result['weekRange52Min'] = float(result['FiveTwoWeekRange'].split(' - ')[0])
-        result['weekRange52Max'] = float(result['FiveTwoWeekRange'].split(' - ')[1])
+        result['weekRange52Min'] = float(result['FiveTwoWeekRange'].split(' - ')[0]) if result.get(
+            'FiveTwoWeekRange') is not None else None
+        result['weekRange52Max'] = float(result['FiveTwoWeekRange'].split(' - ')[1]) if result.get(
+            'FiveTwoWeekRange') is not None else None
         try:
             result['targetEst1yPercent'] = float(
                 round(100 / float(result['OneyTargetEst']) * livePrice['marketPrice'], 2))
@@ -83,6 +85,9 @@ class YahooFinanceRequester:
         income_site = "https://finance.yahoo.com/quote/" + ticker + "/financials?p=" + ticker
         json_info = self.helperClass.parse_json(income_site)
 
+        if json_info is None:
+            return None
+
         result = {
             'incomeStatementHistoryYearly': json_info["incomeStatementHistory"]["incomeStatementHistory"],
             'incomeStatementHistoryQuarterly': json_info["incomeStatementHistoryQuarterly"]["incomeStatementHistory"]
@@ -94,6 +99,9 @@ class YahooFinanceRequester:
         balance_sheet_site = "https://finance.yahoo.com/quote/" + ticker + "/balance-sheet?p=" + ticker
         json_info = self.helperClass.parse_json(balance_sheet_site)
 
+        if json_info is None:
+            return None
+
         result = {
             'balanceSheetHistoryYearly': json_info["balanceSheetHistory"]["balanceSheetStatements"],
             'balanceSheetHistoryQuarterly': json_info["balanceSheetHistoryQuarterly"]["balanceSheetStatements"]
@@ -104,6 +112,9 @@ class YahooFinanceRequester:
     def get_cash_flow(self, ticker):
         cash_flow_site = "https://finance.yahoo.com/quote/" + ticker + "/cash-flow?p=" + ticker
         json_info = self.helperClass.parse_json(cash_flow_site)
+
+        if json_info is None:
+            return None
 
         result = {
             'cashflowStatementHistoryYearly': json_info["cashflowStatementHistory"]["cashflowStatements"],
@@ -134,10 +145,10 @@ class YahooFinanceRequester:
 
     def get_live_price(self, ticker):
         data = get('https://query1.finance.yahoo.com/v8/finance/chart/' + ticker + '?interval=1d').json()
-        print('get_live_price', data)
+        res = data['chart']['result']
         result = {
-            'marketPrice': data['chart']['result'][0]['meta']['regularMarketPrice'],
-            'previousClose': data['chart']['result'][0]['meta']['chartPreviousClose']
+            'marketPrice': res[0]['meta']['regularMarketPrice'] if res is not None else None,
+            'previousClose': res[0]['meta']['chartPreviousClose'] if res is not None else None
         }
         return result
 
@@ -202,9 +213,10 @@ class YahooFinanceRequester:
                 continue
 
             milliseconds = timestamp[i] * 1000
-            result['price'].append([milliseconds, round(open[i], 2), round(high[i], 2), round(low[i], 2), round(close[i], 2)])
+            result['price'].append(
+                [milliseconds, round(open[i], 2), round(high[i], 2), round(low[i], 2), round(close[i], 2)])
             result['volume'].append([milliseconds, volume[i]])
-            #result['change'].append([milliseconds, 0 if i == 0 else round(((close[i] / close[i - 1]) - 1) * 100, 2)])
+            # result['change'].append([milliseconds, 0 if i == 0 else round(((close[i] / close[i - 1]) - 1) * 100, 2)])
 
         return result
 
@@ -253,18 +265,22 @@ class CustomYahooFinHelper:
     '''
 
     def parse_json(self, url):
-        html = get(url=url).text
+        try:
+            html = get(url=url).text
 
-        json_str = html.split('root.App.main =')[1].split('(this)')[0].split(';\n}')[0].strip()
-        data = loads(json_str)['context']['dispatcher']['stores']['QuoteSummaryStore']
+            json_str = html.split('root.App.main =')[1].split('(this)')[0].split(';\n}')[0].strip()
+            data = loads(json_str)['context']['dispatcher']['stores']['QuoteSummaryStore']
 
-        # return data
-        new_data = dumps(data).replace('{}', 'null')
-        new_data = sub(r'\{[\'|\"]raw[\'|\"]:(.*?),(.*?)\}', r'\1', new_data)
+            # return data
+            new_data = dumps(data).replace('{}', 'null')
+            new_data = sub(r'\{[\'|\"]raw[\'|\"]:(.*?),(.*?)\}', r'\1', new_data)
 
-        json_info = loads(new_data)
+            json_info = loads(new_data)
 
-        return json_info
+            return json_info
+        except Exception as e:
+            print('parse_json', e)
+            return None
 
     def parseAnalysisInfo(self, site):
         # parse multiple html table dropdown data order

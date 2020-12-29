@@ -1,11 +1,11 @@
-import os
 from requests import get
 from datetime import datetime
 from Services import FileManagerService
+from private_data import enviroments
 
 class EconomicNews:
     def __init__(self):
-        self.API_KEY = os.environ.get('NEWS_API_KEY')
+        self.API_KEY = enviroments.NEWS_API_KEY
         self.BUSINESS_FILENAME = "business_news.json"
         self.__FOLDER = 'resource/other'
         self.fileManagerService = FileManagerService.FileManagerService(self.__FOLDER)

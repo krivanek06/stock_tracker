@@ -5,6 +5,10 @@ export interface StockDetailsWrapper {
     newsLastUpdate: string;
 }
 
+export interface SearchStockSymbol {
+    data: string[]
+}
+
 export interface StockFinancialReports {
     reports: FinancialReport[];
 }

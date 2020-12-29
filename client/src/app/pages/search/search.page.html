@@ -1,13 +1,31 @@
 <ion-content>
-  <!-- header -->
-  <app-header>
-    <ion-icon class="st-icon-size-header" name="search"></ion-icon>
-    <ion-text class="st-font-size-header">Search</ion-text>
-  </app-header>
+    <!-- header -->
+    <app-header>
+        <ion-icon class="st-icon-size-header" name="search"></ion-icon>
+        <ion-text class="st-font-size-header">Search</ion-text>
+    </app-header>
 
-  <!-- body -->
+    <!-- body -->
     <div class="st-content-padding">
-      <router-outlet></router-outlet>
+
+        <ion-segment color="primary"
+                     class="ion-justify-content-end ion-margin-bottom"
+                     [value]="segmentValue"
+                     [hidden]="segmentValue === SEARCH_PAGE.SEARCH_STOCK_DETAILS"
+                     (ionChange)="segmentChanged($event)">
+            <ion-segment-button [value]="SEARCH_PAGE.SEARCH_STOCK" layout="icon-start">
+                <ion-label>Symbol</ion-label>
+            </ion-segment-button>
+            <ion-segment-button [value]="SEARCH_PAGE.SEARCH_USER" layout="icon-start">
+                <ion-label>User</ion-label>
+            </ion-segment-button>
+            <ion-segment-button [value]="SEARCH_PAGE.SEARCH_GROUP" layout="icon-start">
+                <ion-label>Group</ion-label>
+            </ion-segment-button>
+        </ion-segment>
+
+
+        <router-outlet></router-outlet>
     </div>
 </ion-content>
 

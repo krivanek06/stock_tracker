@@ -48,27 +48,31 @@ def force_float_skipping_last_char(value):
 
 
 def parseMultipleDropdownTables(site):
-    soup = BeautifulSoup(get(site).text, features="lxml")
-    tables = soup.find_all('table')
-    result = {}
-    for table in tables:
-        # The first tr contains date
-        dateTime = [th.get_text() for th in table.find("tr").find_all("th")]
-        if dateTime != []:
-            result['dateTime'] = dateTime[1:]
-            result['dateTime'][0] = result['dateTime'][0].replace('As of Date: ', '').replace('Current', '')
+    try:
+        soup = BeautifulSoup(get(site).text, features="lxml")
+        tables = soup.find_all('table')
+        result = {}
+        for table in tables:
+            # The first tr contains date
+            dateTime = [th.get_text() for th in table.find("tr").find_all("th")]
+            if dateTime != []:
+                result['dateTime'] = dateTime[1:]
+                result['dateTime'][0] = result['dateTime'][0].replace('As of Date: ', '').replace('Current', '')
 
 
-        # save each line
-        lines = []
-        for row in table.find_all("tr")[1:]:
-            line = [td.get_text() for td in row.find_all("td")]
-            if line != []:
-                lines.append(line)
+            # save each line
+            lines = []
+            for row in table.find_all("tr")[1:]:
+                line = [td.get_text() for td in row.find_all("td")]
+                if line != []:
+                    lines.append(line)
 
-        for line in lines:
-            result[changeUnsupportedCharacters(line[0])] = line[1:] if len(line) > 2 else line[1]
-    return result
+            for line in lines:
+                result[changeUnsupportedCharacters(line[0])] = line[1:] if len(line) > 2 else line[1]
+        return result
+    except Exception as e:
+        print('Exception in parseMultipleDropdownTables: ' + str(e))
+        return None
 
 
 

@@ -1,4 +1,4 @@
-from os import environ
+from private_data import enviroments
 from Services import FileManagerService
 from calendar import timegm
 from ExternalAPI import utils
@@ -8,7 +8,7 @@ from requests import get
 
 class Quandl:
     def __init__(self):
-        self.APIKEY = environ['QUANDL_SECRET_KEY']
+        self.APIKEY = enviroments.QUANDL_SECRET_KEY
         self.__FOLDER = 'resource/chart_data'
         self.InvestorSentimentFolder = 'investor_sentiment.json'
         self.TreasuryYieldCurveRatesFolder = 'treasury_yield_curve_rates.json'

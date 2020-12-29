@@ -15,7 +15,7 @@ import {
     renameStockWatchlist
 } from './watchlist/watchlist.mutation';
 import {editUser, registerUser, resetUserAccount} from './user/user.mutation';
-import {queryStockDetails} from './stockDetails/stockDetails.query';
+import {queryStockDetails, queryStockSummaries} from './stockDetails/stockDetails.query';
 import {stockDetailsTypeDefs} from './stockDetails/stockDetails.typedefs';
 import {STTransactionTypeDefs} from './st-transaction/st-transaction.typedef';
 import {STRankTypeDefs} from './st-rank/st-rank.typedef';
@@ -52,6 +52,7 @@ const mainTypeDefs = gql`
         
         # details
         queryStockDetails(symbol: String!): StockDetails
+        queryStockSummaries(symbolPrefix: String!): SearchSymbol
     }
 
     #### MUTATION
@@ -91,6 +92,7 @@ const mainResolver = {
 
         // stock details
         queryStockDetails: async (_: null, args: { symbol: string }) => await queryStockDetails(args.symbol),
+        queryStockSummaries: async (_: null, args: { symbolPrefix: string }) => await queryStockSummaries(args.symbolPrefix),
     },
 
     Mutation: {

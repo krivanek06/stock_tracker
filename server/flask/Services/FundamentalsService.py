@@ -115,27 +115,32 @@ class FundamentalServiceFormatter:
 
     def formatAnalysis(self):
         try:
-            self.data['analysis']['growthEstimates'] = self.data['analysis']['growthEstimates'][0]
-            GrowthEstimates = self.data['analysis']['growthEstimates']
-            for k in list(GrowthEstimates.keys()):
-                if k != 'name':
-                    GrowthEstimates[k + 'Prct'] = utils.force_float_skipping_last_char(GrowthEstimates[k])
 
-            RevenueEstimate = self.data['analysis']['revenueEstimate']
-            for tmp in RevenueEstimate:
-                tmp['avgEstimateNumber'] = utils.force_float_skipping_last_char(tmp['avgEstimate'])
-                tmp['highEstimateNumber'] = utils.force_float_skipping_last_char(tmp['highEstimate'])
-                tmp['lowEstimateNumber'] = utils.force_float_skipping_last_char(tmp['lowEstimate'])
-                tmp['salesGrowthyearestNumber'] = utils.force_float_skipping_last_char(tmp['salesGrowthyearest'])
-                # if "HighEstimate": "1.48B" and "LowEstimate": "2M"
-                if tmp['lowEstimate'] != 'N/A' and tmp['highEstimate'][-1] != tmp['lowEstimate'][-1]:
-                    tmp['highEstimateNumber'] = tmp['highEstimateNumber'] * 1000
+            if self.data['analysis'].get('growthEstimates') is not None:
+                self.data['analysis']['growthEstimates'] = self.data['analysis']['growthEstimates'][0]
+                GrowthEstimates = self.data['analysis']['growthEstimates']
+                for k in list(GrowthEstimates.keys()):
+                    if k != 'name':
+                        GrowthEstimates[k + 'Prct'] = utils.force_float_skipping_last_char(GrowthEstimates[k])
+
+            if self.data['analysis'].get('revenueEstimate') is not None:
+                RevenueEstimate = self.data['analysis']['revenueEstimate']
+                for tmp in RevenueEstimate:
+                    tmp['avgEstimateNumber'] = utils.force_float_skipping_last_char(tmp['avgEstimate'])
+                    tmp['highEstimateNumber'] = utils.force_float_skipping_last_char(tmp['highEstimate'])
+                    tmp['lowEstimateNumber'] = utils.force_float_skipping_last_char(tmp['lowEstimate'])
+                    tmp['salesGrowthyearestNumber'] = utils.force_float_skipping_last_char(tmp['salesGrowthyearest'])
+                    # if "HighEstimate": "1.48B" and "LowEstimate": "2M"
+                    if tmp['lowEstimate'] != 'N/A' and tmp['highEstimate'][-1] != tmp['lowEstimate'][-1]:
+                        tmp['highEstimateNumber'] = tmp['highEstimateNumber'] * 1000
         except Exception as e:
             print('formatAnalysis exception: ' + str(e))
             pass
 
     def formatEarningsFinancialChart(self):
         try:
+            if self.data['companyData']['earnings'] is None:
+                return
             for period in ['quarterly', 'yearly']:
                 tmp = self.data['companyData']['earnings']['financialsChart'][period]
                 self.data['companyData']['earnings']['financialsChart'][period] = {
@@ -175,33 +180,46 @@ class FundamentalServiceFormatter:
 
     def formatSummary(self):
         try:
-            self.data['summary']['recommendationKey'] = self.data['companyData']['financialData']['recommendationKey']
-            self.data['summary']['recommendationMean'] = self.data['companyData']['financialData']['recommendationMean']
-            self.data['summary']['currency'] = self.data['companyData']['summaryDetail']['currency']
-            self.data['summary']['logo_url'] = self.data['companyData']['summaryProfile']['logo_url']
-            self.data['summary']['sector'] = self.data['companyData']['summaryProfile']['sector']
-            self.data['summary']['industry'] = self.data['companyData']['summaryProfile']['industry']
-            self.data['summary']['oneyTargetEst'] = utils.force_float(self.data['summary']['oneyTargetEst'])
-            self.data['summary']['currencySymbol'] = self.data['companyData']['price']['currencySymbol']
-            self.data['summary']['shortName'] = self.data['companyData']['price']['shortName']
-            self.data['summary']['longName'] = self.data['companyData']['price']['longName']
-            self.data['summary']['marketCap'] = self.data['companyData']['price']['marketCap']
-            self.data['summary']['sharesOutstanding'] = self.data['companyData']['defaultKeyStatistics']['sharesOutstanding']
-            self.data['summary']['longBusinessSummary'] = self.data['companyData']['summaryProfile']['longBusinessSummary']
-            self.data['summary']['sandPFiveTwoWeekChange'] = self.data['companyData']['defaultKeyStatistics']['sandPFiveTwoWeekChange']
-            self.data['summary']['fiveTwoWeekChange'] = self.data['companyData']['defaultKeyStatistics']['fiveTwoWeekChange']
-            self.data['summary']['lastSplitFactor'] = self.data['companyData']['defaultKeyStatistics']['lastSplitFactor']
-            self.data['summary']['lastSplitDate'] = self.data['companyData']['defaultKeyStatistics']['lastSplitDate']
-            self.data['summary']['fullTimeEmployees'] = self.data['companyData']['summaryProfile']['fullTimeEmployees']
-            self.data['summary']['netIncomeEmployeeAnnual'] = self.data['metric']['netIncomeEmployeeAnnual']
-            self.data['summary']['revenueEmployeeAnnual'] = self.data['metric']['revenueEmployeeAnnual']
-            self.data['summary']['website'] = self.data['companyData']['summaryProfile']['website']
+            financialData = {} if self.data['companyData']['financialData'] is None else self.data['companyData']['financialData']
+            summaryDetail = {} if self.data['companyData']['summaryDetail'] is None else self.data['companyData']['summaryDetail']
+            summaryProfile = {} if self.data['companyData']['summaryProfile'] is None else self.data['companyData']['summaryProfile']
+            defaultKeyStatistics = {} if self.data['companyData']['defaultKeyStatistics'] is None else self.data['companyData']['defaultKeyStatistics']
+            price = {} if self.data['companyData']['price'] is None else self.data['companyData']['price']
+
+            self.data['summary']['recommendationKey'] = financialData.get('recommendationKey')
+            self.data['summary']['recommendationMean'] = financialData.get('recommendationMean')
+
+            self.data['summary']['currency'] = summaryDetail.get('currency')
+
+            self.data['summary']['logo_url'] = summaryProfile.get('logo_url')
+            self.data['summary']['sector'] = summaryProfile.get('sector')
+            self.data['summary']['industry'] = summaryProfile.get('industry')
+            self.data['summary']['longBusinessSummary'] = summaryProfile.get('longBusinessSummary')
+            self.data['summary']['website'] = summaryProfile.get('website')
+            self.data['summary']['fullTimeEmployees'] = summaryProfile.get('fullTimeEmployees')
             self.data['summary']['residance'] = {}
-            self.data['summary']['residance']['city'] = self.data['companyData']['summaryProfile']['city']
-            self.data['summary']['residance']['state'] = self.data['companyData']['summaryProfile']['state']
-            self.data['summary']['residance']['country'] = self.data['companyData']['summaryProfile']['country']
-            self.data['summary']['residance']['addressOne'] = self.data['companyData']['summaryProfile']['addressOne']
-            self.data['summary']['residance']['zip'] = self.data['companyData']['summaryProfile']['zip']
+            self.data['summary']['residance']['city'] = summaryProfile.get('city')
+            self.data['summary']['residance']['state'] = summaryProfile.get('state')
+            self.data['summary']['residance']['country'] = summaryProfile.get('country')
+            self.data['summary']['residance']['addressOne'] = summaryProfile.get( 'addressOne')
+            self.data['summary']['residance']['zip'] = summaryProfile.get('zip')
+
+            self.data['summary']['oneyTargetEst'] = utils.force_float(self.data['summary'].get('oneyTargetEst'))
+            self.data['summary']['currencySymbol'] = price.get('currencySymbol')
+            self.data['summary']['shortName'] = price.get('shortName')
+            self.data['summary']['longName'] = price.get('longName')
+            self.data['summary']['marketCap'] = price.get('marketCap')
+
+            self.data['summary']['sharesOutstanding'] = defaultKeyStatistics.get('sharesOutstanding')
+            self.data['summary']['sandPFiveTwoWeekChange'] = defaultKeyStatistics.get('sandPFiveTwoWeekChange')
+            self.data['summary']['fiveTwoWeekChange'] = defaultKeyStatistics.get('fiveTwoWeekChange')
+            self.data['summary']['lastSplitFactor'] = defaultKeyStatistics.get('lastSplitFactor')
+            self.data['summary']['lastSplitDate'] = defaultKeyStatistics.get('lastSplitDate')
+
+            self.data['summary']['netIncomeEmployeeAnnual'] = self.data['metric'].get('netIncomeEmployeeAnnual')
+            self.data['summary']['revenueEmployeeAnnual'] = self.data['metric'].get('revenueEmployeeAnnual')
+
+
         except Exception as e:
             print('formatSummary exception: ' + str(e))
             pass
@@ -210,17 +228,17 @@ class FundamentalServiceFormatter:
     def formatDividends(self):
         try:
             self.data['dividends'] = {
-                'dividendGrowthRateFiveY': self.data['metric']['dividendGrowthRateFiveY'],
-                'currentDividendYieldTTM': self.data['metric']['currentDividendYieldTTM'],
-                'dividendPerShareAnnual': self.data['metric']['dividendPerShareAnnual'],
-                'dividendPerShareFiveY': self.data['metric']['dividendPerShareFiveY'],
-                'dividendYieldFiveY': self.data['metric']['dividendYieldFiveY'],
-                'dividendYieldIndicatedAnnual': self.data['metric']['dividendYieldIndicatedAnnual'],
-                'dividendsPerShareTTM': self.data['metric']['dividendsPerShareTTM'],
-                'exDividendDate': self.data['summary']['exDividendDate'],
-                'forwardDividendYield': self.data['summary']['forwardDividendYield'],
-                'trailingAnnualDividendRate': self.data['stats']['trailingAnnualDividendRateThree'],
-                'trailingAnnualDividendYield': self.data['stats']['trailingAnnualDividendYieldThree']
+                'dividendGrowthRateFiveY': self.data['metric'].get('dividendGrowthRateFiveY'),
+                'currentDividendYieldTTM': self.data['metric'].get('currentDividendYieldTTM'),
+                'dividendPerShareAnnual': self.data['metric'].get('dividendPerShareAnnual'),
+                'dividendPerShareFiveY': self.data['metric'].get('dividendPerShareFiveY'),
+                'dividendYieldFiveY': self.data['metric'].get('dividendYieldFiveY'),
+                'dividendYieldIndicatedAnnual': self.data['metric'].get('dividendYieldIndicatedAnnual'),
+                'dividendsPerShareTTM': self.data['metric'].get('dividendsPerShareTTM'),
+                'exDividendDate': self.data['summary'].get('exDividendDate'),
+                'forwardDividendYield': self.data['summary'].get('forwardDividendYield'),
+                'trailingAnnualDividendRate': self.data['stats'].get('trailingAnnualDividendRateThree'),
+                'trailingAnnualDividendYield': self.data['stats'].get('trailingAnnualDividendYieldThree')
             }
         except Exception as e:
             print('formatDividends exception: ' + str(e))
@@ -228,31 +246,31 @@ class FundamentalServiceFormatter:
 
     def removeUnnecessaryData(self):
         try:
-            del self.data['summary']['ask']
-            del self.data['summary']['betaFiveYMonthly']
-            del self.data['summary']['bid']
-            del self.data['analysis']['earningsEstimate']
-            del self.data['analysis']['earningsHistory']
-            del self.data['analysis']['ePSRevisions']
-            del self.data['analysis']['ePSTrend']
-            del self.data['companyData']['calendarEvents']
-            del self.data['companyData']['recommendationTrend']
-            del self.data['companyData']['financialsTemplate']
-            del self.data['summary']["day'sRange"]
-            del self.data['companyData']['quoteType']
-            del self.data['companyData']['price']
-            del self.data['companyData']['summaryDetail']
+            self.data['summary'].pop("ask", None)
+            self.data['summary'].pop("betaFiveYMonthly", None)
+            self.data['summary'].pop("bid", None)
+            self.data['analysis'].pop("earningsEstimate", None)
+            self.data['analysis'].pop("earningsHistory", None)
+            self.data['analysis'].pop("ePSRevisions", None)
+            self.data['analysis'].pop("ePSTrend", None)
+            self.data['companyData'].pop("calendarEvents", None)
+            self.data['companyData'].pop("recommendationTrend", None)
+            self.data['companyData'].pop("financialsTemplate", None)
+            self.data['summary'].pop("day'sRange", None)
+            self.data['companyData'].pop("quoteType", None)
+            self.data['companyData'].pop("price", None)
+            self.data['companyData'].pop("summaryDetail", None)
 
-            del self.data['metric']['dividendGrowthRateFiveY']
-            del self.data['metric']['currentDividendYieldTTM']
-            del self.data['metric']['dividendPerShareAnnual']
-            del self.data['metric']['dividendPerShareFiveY']
-            del self.data['metric']['dividendYieldFiveY']
-            del self.data['metric']['dividendYieldIndicatedAnnual']
-            del self.data['metric']['dividendsPerShareTTM']
-            del self.data['stats']['forwardAnnualDividendYieldFour']
-            del self.data['stats']['trailingAnnualDividendRateThree']
-            del self.data['stats']['trailingAnnualDividendYieldThree']
-            del self.data['companyData']['summaryProfile']
+            self.data['metric'].pop("dividendGrowthRateFiveY", None)
+            self.data['metric'].pop("currentDividendYieldTTM", None)
+            self.data['metric'].pop("dividendPerShareAnnual", None)
+            self.data['metric'].pop("dividendPerShareFiveY", None)
+            self.data['metric'].pop("dividendYieldFiveY", None)
+            self.data['metric'].pop("dividendYieldIndicatedAnnual", None)
+            self.data['metric'].pop("dividendsPerShareTTM", None)
+            self.data['metric'].pop("forwardAnnualDividendYieldFour", None)
+            self.data['metric'].pop("trailingAnnualDividendRateThree", None)
+            self.data['stats'].pop("trailingAnnualDividendYieldThree", None)
+            self.data['companyData'].pop("summaryProfile", None)
         except Exception as e:
             print('Exception in removeUnnecessaryData: ' + str(e))

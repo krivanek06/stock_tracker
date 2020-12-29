@@ -1,17 +1,24 @@
-import os
-from requests import get
 from datetime import datetime
-from Services import FileManagerService
-from dateutil.relativedelta import relativedelta
 from private_data import enviroments
+from dateutil.relativedelta import relativedelta
+from firebase_admin import credentials, firestore, initialize_app, _apps as firestoreApps
+from requests import get
+
+from Services import FileManagerService
+
 
 class Finhub:
     def __init__(self):
-        self.FINHUB_SECRET_KEY = os.environ['FINHUB_SECRET_KEY']
+        self.FINHUB_SECRET_KEY = enviroments.FINHUB_SECRET_KEY
         self.__FOLDER = 'resource/other'
         self.SEARCH_US_EXCHANGE_FOLDER = 'us_exchange.json'
 
         self.fileManagerService = FileManagerService.FileManagerService(self.__FOLDER)
+
+        if not firestoreApps:
+            cred = credentials.Certificate('private_data/firebase_key.json')
+            default_app = initialize_app(cred)
+        self.db = firestore.client()
 
     def getIpoOneMonthCalendar(self):
         today = datetime.today()
@@ -34,6 +41,17 @@ class Finhub:
 
         return result
 
+    def searchAllSymbols(self):
+        params = {'token': self.FINHUB_SECRET_KEY, 'exchange': 'US'}
+        exchangeUS = get('https://finnhub.io/api/v1/stock/symbol', params=params).json()
+        result = []
+        for data in exchangeUS:
+            data['displayName'] = '[' + data['symbol'] + ']' + ' ' + data['description']
+            if data['type'] == 'Common Stock':
+                result.append(data['symbol'])
+        self.db.collection('staticData').document('stockSymbols').set({'data': result})
+        return result
+
     def getEarningsCalendarForOneWeeks(self):
         today = datetime.today()
         nextTwoWeeks = today + relativedelta(weeks=1)
@@ -42,13 +60,13 @@ class Finhub:
         nextTwoWeeks = nextTwoWeeks.strftime('%Y-%m-%d')
 
         params = {'token': self.FINHUB_SECRET_KEY, 'to': nextTwoWeeks, 'from': today}
-        req =  get('https://finnhub.io/api/v1/calendar/earnings', params=params).json()
+        req = get('https://finnhub.io/api/v1/calendar/earnings', params=params).json()
         res = []
         for earnigns in req['earningsCalendar']:
             res.append({
-                 'date': datetime.strptime(earnigns['date'], '%Y-%m-%d').strftime('%d.%m.%y'),
-                 'symbol': earnigns['symbol']
-                }
+                'date': datetime.strptime(earnigns['date'], '%Y-%m-%d').strftime('%d.%m.%y'),
+                'symbol': earnigns['symbol']
+            }
             )
         return res
 
@@ -59,7 +77,7 @@ class Finhub:
 
     def getStockMetrics(self, symbol):
         params = {'token': self.FINHUB_SECRET_KEY, 'symbol': symbol}
-        r = get('https://finnhub.io/api/v1/stock/metric',  params=params).json()['metric']
+        r = get('https://finnhub.io/api/v1/stock/metric', params=params).json()['metric']
         return {'metric': r}
 
     def getRecomendationForSymbol(self, symbol):
@@ -79,11 +97,11 @@ class Finhub:
             if not article['image']:
                 continue
             if 'www' in article['source']:
-                article['sourceName'] = article['source'].split('.')[1].capitalize() # if https://www.axb.com
+                article['sourceName'] = article['source'].split('.')[1].capitalize()  # if https://www.axb.com
             elif 'https' in article['source']:
                 article['sourceName'] = article['source'].split('.')[0][8:].capitalize()  # if https://axb.com
             else:
-                article['sourceName'] =  article['source'].capitalize()
+                article['sourceName'] = article['source'].capitalize()
             article['sourceName'] = article['sourceName'].replace('.com', '')
 
             result.append(article)
