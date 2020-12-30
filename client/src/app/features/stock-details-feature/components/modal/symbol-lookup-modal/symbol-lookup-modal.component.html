@@ -8,13 +8,13 @@
                 </ion-button>
             </ion-col>
         </ion-row>
-        <ng-container *ngIf="stockDetails$ | async as stockDetails">
+        <ng-container *ngIf="stockSummary$ | async as summary">
             <ion-row>
                 <!-- financial chart -->
                 <ion-col size="12" size-md="6.5" size-xl="7.5" class="st-md-border-bottom">
                     <app-financial-chart-container
                             [showYAxis]="true"
-                            [logoUrl]="stockDetails.summary.logo_url"
+                            [logoUrl]="summary.logo_url"
                             [name]="chartDataIdentification.name"
                             [height]="350"
                             [symbol]="chartDataIdentification.symbol">
@@ -25,7 +25,7 @@
                 <ion-col size="12" size-md="5.5" size-xl="4.5" class="st-md-border-bottom">
                     <!-- summary -->
                     <app-generic-list [iconTitle]="'barcode-outline'" [chartTitle]="'Summary'">
-                        <app-details-summary [summary]="stockDetails.summary">
+                        <app-details-summary [summary]="summary">
                         </app-details-summary>
 
                         <!-- buttons -->
@@ -44,9 +44,9 @@
             <!-- long business summary -->
             <ion-row>
                 <ion-col size="12" class="st-flex-col">
-                    <app-generic-list [chartTitle]="stockDetails.summary.longName">
+                    <app-generic-list [chartTitle]="summary.longName">
                         <ion-text class="st-font-3">
-                            {{ stockDetails.summary.longBusinessSummary }}
+                            {{ summary.longBusinessSummary }}
                         </ion-text>
                     </app-generic-list>
                 </ion-col>

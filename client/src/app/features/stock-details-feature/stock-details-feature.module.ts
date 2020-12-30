@@ -17,6 +17,8 @@ import {StockTrendComponent} from './components/stock-trend/stock-trend.componen
 import {SymbolLookupModalComponent} from './components/modal/symbol-lookup-modal/symbol-lookup-modal.component';
 import {DetailsSummaryComponent} from './components/details-summary/details-summary.component';
 import {DetailsRevenueEstimateComponent} from './components/details-revenue-estimate/details-revenue-estimate.component';
+import {StockInfoListComponent} from './components/stock-info-list/stock-info-list.component';
+import {StockSearchComponent} from './containers/stock-search/stock-search.component';
 
 
 @NgModule({
@@ -36,7 +38,9 @@ import {DetailsRevenueEstimateComponent} from './components/details-revenue-esti
         StockTrendComponent,
         SymbolLookupModalComponent,
         DetailsSummaryComponent,
-        DetailsRevenueEstimateComponent
+        DetailsRevenueEstimateComponent,
+        StockInfoListComponent,
+        StockSearchComponent
     ],
     imports: [
         CommonModule,
@@ -58,7 +62,9 @@ import {DetailsRevenueEstimateComponent} from './components/details-revenue-esti
         StockTrendComponent,
         SymbolLookupModalComponent,
         DetailsSummaryComponent,
-        DetailsRevenueEstimateComponent
+        DetailsRevenueEstimateComponent,
+        StockInfoListComponent,
+        StockSearchComponent
     ],
     entryComponents: [
         DetailsFinancialReportModalComponent,

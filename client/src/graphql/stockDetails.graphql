@@ -545,8 +545,14 @@ query QueryStockDetails($symbol: String!) {
     }
 }
 
+query QueryStockSummary($symbol: String!) {
+    queryStockSummary(symbol: $symbol) {
+        ...StockSummaryFragment
+    }
+}
 
-query QueryStockDetails($symbolPrefix: String!) {
+
+query QueryStockSummaries($symbolPrefix: String!) {
     queryStockSummaries(symbolPrefix: $symbolPrefix) {
         summaries {
             ...StockSummaryFragment

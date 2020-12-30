@@ -1,0 +1,17 @@
+<ion-item *ngIf="summary" class="info-item st-width-100">
+    <ion-label (click)="clickedSymbol()"
+               class="info-item-result" [ngClass]="{
+                'ion-activatable': clickable,
+                'width-100': clickable
+            }">
+        <ion-img appDefaultImg [src]="summary.logo_url"></ion-img>
+        <ion-label class="ion-margin-start" style="display: grid">
+            <ion-text>{{ summary.symbol }}</ion-text>
+            <ion-text class="st-font-size-12 st-font-5 ion-text-wrap">{{ summary.longName }}</ion-text>
+            <span>
+                 <ion-text class="st-font-size-12 st-font-5" style="margin-right: 5px;">Price:</ion-text>
+                <ion-text class="st-font-size-14">{{ summary.marketPrice | currency }}</ion-text>
+            </span>
+        </ion-label>
+    </ion-label>
+</ion-item>

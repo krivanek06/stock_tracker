@@ -1,0 +1,16 @@
+<form [formGroup]="form" class="form-position">
+    <ion-item class="st-form-input-background">
+        <ion-label position="floating">Search symbol</ion-label>
+        <ion-input [clearInput]="true" placeholder="Enter symbol" type="text" formControlName="symbol"></ion-input>
+    </ion-item>
+</form>
+
+<!-- listed symbols -->
+<ion-item-group>
+    <app-stock-info-list
+            *ngFor="let summary of searchedSummaries$ | async"
+            (click)="clickedSummary(summary)"
+            [summary]="summary"
+            [clickable]="true">
+    </app-stock-info-list>
+</ion-item-group>

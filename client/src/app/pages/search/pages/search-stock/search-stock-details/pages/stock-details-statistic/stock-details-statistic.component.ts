@@ -1,13 +1,13 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {StockDetailsService} from '../../../../../../features/stock-details-feature/services/stock-details.service';
+import {StockDetailsService} from '../../../../../../../features/stock-details-feature/services/stock-details.service';
 import {
     FinancialReport,
     FinancialReportsFragmentFragment,
     QueryStockDetailsQuery,
     StockDetails
-} from '../../../../../../api/customGraphql.service';
+} from '../../../../../../../api/customGraphql.service';
 import {ModalController} from '@ionic/angular';
-import {ChartType} from '../../../../../../shared/models/sharedModel';
+import {ChartType} from '../../../../../../../shared/models/sharedModel';
 import {Observable} from 'rxjs';
 
 @Component({

@@ -3,6 +3,12 @@ import { STLog } from './st-share.model';
 import { STRank } from './st-rank.model';
 import { STTransaction } from './st-transaction.model';
 import { STPortfolio } from './st-portfolio.model';
+
+
+export interface STSearchGroups {
+    groups: STGroupPartialData[];
+}
+
 export interface STGroupPartialData {
     groupId?: string;
     name: string;

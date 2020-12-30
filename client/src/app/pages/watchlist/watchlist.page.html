@@ -10,7 +10,7 @@
         <ion-grid>
             <ion-row *ngFor="let watchlist of stockWatchlists" class="watchlist-data">
                 <!-- watchlist -->
-                <ion-col size="12" style="display: inline-flex">
+                <ion-col size="12" style="display: inline-flex; place-content: center;">
                     <app-watchlist-table [watchlist]="watchlist"
                                          (itemClickedEmitter)="showChartForSymbol($event)"
                                          (deleteEmitter)="deleteSymbolFromDocument($event, watchlist.id, watchlist.name)">

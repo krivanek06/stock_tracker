@@ -2,11 +2,18 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ModalController, NavParams} from '@ionic/angular';
 import {ChartDataIdentification} from '../../../../../shared/models/sharedModel';
 import {Router} from '@angular/router';
-import {QueryStockDetailsGQL, StockDetails, StockSummaryFragmentFragment, StUserPublicData} from '../../../../../api/customGraphql.service';
+import {
+    QueryStockDetailsGQL,
+    StockDetails,
+    StockSummaryFragmentFragment,
+    StUserPublicData,
+    Summary
+} from '../../../../../api/customGraphql.service';
 import {StockDetailsService} from '../../../services/stock-details.service';
 import {Observable} from 'rxjs';
 import {AuthFeatureService} from '../../../../auth-feature/services/auth-feature.service';
 import {WatchlistService} from '../../../../stock-watchlist-feature/services/watchlist.service';
+import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_ENUM} from '../../../../../pages/search/models/pages.model';
 
 @Component({
     selector: 'app-symbol-lookup-modal',
@@ -15,7 +22,7 @@ import {WatchlistService} from '../../../../stock-watchlist-feature/services/wat
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SymbolLookupModalComponent implements OnInit {
-    stockDetails$: Observable<StockDetails>;
+    stockSummary$: Observable<Summary>;
     chartDataIdentification: ChartDataIdentification;
     user: StUserPublicData;
 
@@ -29,7 +36,7 @@ export class SymbolLookupModalComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.stockDetails$ = this.stockDetailsService.getStockDetails(this.chartDataIdentification.symbol);
+        this.stockSummary$ = this.stockDetailsService.getStockSummary(this.chartDataIdentification.symbol);
     }
 
     dismissModal() {
@@ -38,7 +45,7 @@ export class SymbolLookupModalComponent implements OnInit {
 
     redirectToDetails() {
         this.dismissModal();
-        this.router.navigate([`/menu/search/search-stock-details/${this.chartDataIdentification.symbol}`]);
+        this.router.navigate([`/menu/search/${SEARCH_PAGE_ENUM.STOCK}/${SEARCH_PAGE_STOCK_ENUM.DETAILS}/${this.chartDataIdentification.symbol}`]);
     }
 
 

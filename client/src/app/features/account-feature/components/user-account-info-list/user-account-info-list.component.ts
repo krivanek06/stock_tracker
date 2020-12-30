@@ -15,6 +15,7 @@ export class UserAccountInfoListComponent implements OnInit {
     @Input() sinceDate: string;
     @Input() clickable = false;
     @Input() showDeleteButton = false;
+    @Input() fullWith = false;
 
     constructor() {
     }

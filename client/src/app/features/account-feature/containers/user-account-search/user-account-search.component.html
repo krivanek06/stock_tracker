@@ -10,7 +10,9 @@
     <app-user-account-info-list
             *ngFor="let user of searchedUsers$ | async"
             (click)="clickedUser(user)"
+            [fullWith]="fullWith"
             [clickable]="true"
+            [sinceDate]="user.accountCreatedDate"
             [userPartialInformation]="user">
     </app-user-account-info-list>
 </ion-item-group>

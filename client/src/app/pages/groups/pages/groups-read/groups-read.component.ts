@@ -18,6 +18,7 @@ export class GroupsReadComponent extends ComponentBase implements OnInit {
     canEdit$: Observable<boolean>;
     isUserInvited$: Observable<boolean>;
     userSentInvitation$: Observable<boolean>;
+    canUserSentInvitation$: Observable<boolean>;
 
     constructor(private activatedRoute: ActivatedRoute,
                 private router: Router,
@@ -31,6 +32,7 @@ export class GroupsReadComponent extends ComponentBase implements OnInit {
         this.checkIfCanEdit();
         this.checkIfUserIsInvited();
         this.checkIfUserSendInvitation();
+        this.checkIfCanSentInvitation();
     }
 
     editGroup(queriedGroup: StGroupAllData) {
@@ -42,6 +44,10 @@ export class GroupsReadComponent extends ComponentBase implements OnInit {
     }
 
     declineInvitation() {
+
+    }
+
+    sendInvitation(queriedGroup: StGroupAllData) {
 
     }
 
@@ -66,6 +72,22 @@ export class GroupsReadComponent extends ComponentBase implements OnInit {
         );
     }
 
+    private checkIfCanSentInvitation() {
+        const userId = this.authService.user.uid;
+        this.canUserSentInvitation$ = this.queriedGroup$.pipe(
+            map(group => {
+                const membersUid = group.members.map(x => x.user.uid);
+                const ownerUid = group.owner.user.uid;
+                const invitationReceived = group.invitationReceived.map(x => x.user.uid);
+                const invitationSent = group.invitationSent.map(x => x.user.uid);
+
+                const userUIDs = [...membersUid, ownerUid, ...invitationReceived, ...invitationSent];
+
+                return !userUIDs.includes(userId);
+            })
+        );
+    }
+
     private initGroup() {
         this.queriedGroup$ = this.activatedRoute.params.pipe(
             filter(x => x.id),
@@ -73,7 +95,6 @@ export class GroupsReadComponent extends ComponentBase implements OnInit {
             shareReplay()
         );
     }
-
 
 
 }

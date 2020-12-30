@@ -126,6 +126,9 @@ export class FinancialChartComponent implements OnInit, OnChanges {
                 },
                 inputEnabled: false,
             },
+            navigator: {
+                enabled: true // show range selector
+            },
             tooltip: {
                 borderWidth: 1,
                 // headerFormat: null,
@@ -159,6 +162,7 @@ export class FinancialChartComponent implements OnInit, OnChanges {
             },
             xAxis: {
                 // type: 'datetime',
+                range: 'max',
                 labels: {
                     enabled: true,
                     style: {

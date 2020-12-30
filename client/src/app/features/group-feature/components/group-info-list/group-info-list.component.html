@@ -1,3 +1,28 @@
-<p>
-  group-info-list works!
-</p>
+<ion-item *ngIf="groupPartialData" class="info-item st-width-100">
+    <ion-label (click)="clickedGroup()"
+               class="info-item-result" [ngClass]="{
+                'ion-activatable': clickable,
+                'width-100': clickable
+            }">
+        <ion-img appDefaultImg [src]="groupPartialData.imageUrl"></ion-img>
+        <ion-label class="ion-margin-start" style="display: grid">
+            <ion-text>{{ groupPartialData.name }}</ion-text>
+
+            <ng-container *ngIf="groupPartialData.portfolio as portfolio">
+                <div class="st-flex-row-sm-col">
+                    <ion-text class="st-font-size-12 st-font-5" style="margin-right: 5px;"> Portfolio:</ion-text>
+                    <ion-text class="st-font-size-14">{{ portfolio.portfolioTotal | currency }}</ion-text>
+                </div>
+                <div class="st-flex-row-sm-col">
+                    <ion-text class="st-font-size-12 st-font-5" style="margin-right: 5px;">Weekly change:</ion-text>
+                    <app-price-change-item
+                            [price]="portfolio.portfolioWeeklyGrowth"
+                            [priceChange]="portfolio.portfolioWeeklyChange">
+                    </app-price-change-item>
+                </div>
+            </ng-container>
+            <ion-text class="st-font-size-12 st-font-5">
+                Created: {{ groupPartialData.createdDate | date: 'dd.MM.yyyy' }}</ion-text>
+        </ion-label>
+    </ion-label>
+</ion-item>

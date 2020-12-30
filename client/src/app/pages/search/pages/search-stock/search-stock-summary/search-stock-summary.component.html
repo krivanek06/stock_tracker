@@ -1,0 +1,58 @@
+<!-- search container -->
+<div class="search">
+    <div class="search-wrapper">
+        <app-generic-card [chartTitle]="'Search Stock'" [applyLeftPadding]="false">
+            <app-stock-search
+                    [clearOnClick]="true"
+                    (clickedSymbolEmitter)="showSymbolInformation($event)">
+            </app-stock-search>
+        </app-generic-card>
+    </div>
+</div>
+
+<!-- empty space -->
+<div class="empty"></div>
+
+<!-- stock data -->
+<ion-grid *ngIf="selectedSummary">
+    <ion-row>
+        <ion-col size="12" size-lg="6" size-xl="7.5">
+            <!-- financial chart -->
+            <app-financial-chart-container
+                    [showYAxis]="true"
+                    [logoUrl]="selectedSummary.logo_url"
+                    [name]="selectedSummary.longName"
+                    [height]="425"
+                    [symbol]="selectedSummary.symbol">
+            </app-financial-chart-container>
+        </ion-col>
+
+        <ion-col size="12" size-lg="6" size-xl="4.5">
+            <!-- summary -->
+            <app-generic-card [iconTitle]="'barcode-outline'" [chartTitle]="'Summary'">
+                <app-details-summary [summary]="selectedSummary"></app-details-summary>
+
+                <!-- buttons -->
+                <ion-buttons class="st-buttons-container">
+                    <ion-button class="st-button st-edit-background" (click)="addSymbolToWatchlist()">
+                        Add to watchlist
+                    </ion-button>
+                    <ion-button class="st-button st-create-background" (click)="redirectToDetails()">
+                        Show details
+                    </ion-button>
+                </ion-buttons>
+            </app-generic-card>
+        </ion-col>
+    </ion-row>
+
+    <!-- long business summary -->
+    <ion-row>
+        <ion-col size="12">
+            <app-generic-card [chartTitle]="selectedSummary.longName">
+                <ion-text class="st-font-3">
+                    {{ selectedSummary.longBusinessSummary }}
+                </ion-text>
+            </app-generic-card>
+        </ion-col>
+    </ion-row>
+</ion-grid>

@@ -4,6 +4,10 @@ import {gql} from 'apollo-server';
 export const STGroupTypeDefs = gql`
     
     #type
+    type STSearchGroups{
+        groups: [STGroupPartialData]!
+    }
+    
     type STGroupUser {
         user: STUserPartialInformation!
         sinceDate: String!
