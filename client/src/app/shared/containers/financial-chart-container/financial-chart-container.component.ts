@@ -1,4 +1,8 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit,
+    SimpleChanges,
+    ViewChild
+} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {ChartDataApiService} from '../../../api/chart-data-api.service';
 import {ComponentBase} from '../../utils/component-base/component.base';
@@ -9,7 +13,7 @@ import {ComponentBase} from '../../utils/component-base/component.base';
     styleUrls: ['./financial-chart-container.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FinancialChartContainerComponent extends ComponentBase implements OnInit, OnDestroy {
+export class FinancialChartContainerComponent extends ComponentBase implements OnInit, OnDestroy, OnChanges {
     volume: number[] = [];
     price: number[] = []; // [open, high, low, close]
     currentPrice: number;
@@ -26,6 +30,12 @@ export class FinancialChartContainerComponent extends ComponentBase implements O
     constructor(private chartDataService: ChartDataApiService,
                 private cd: ChangeDetectorRef) {
         super();
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.symbol && changes.symbol.currentValue !== changes.symbol.previousValue) {
+            this.loadChartData();
+        }
     }
 
     ngOnInit() {

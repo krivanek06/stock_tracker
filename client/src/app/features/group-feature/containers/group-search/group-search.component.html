@@ -1,0 +1,16 @@
+<form [formGroup]="form" class="form-position">
+  <ion-item class="st-form-input-background">
+    <ion-label position="floating">Search group</ion-label>
+    <ion-input [clearInput]="true" placeholder="Enter group name" type="text" formControlName="groupName"></ion-input>
+  </ion-item>
+</form>
+
+<!-- listed symbols -->
+<ion-item-group>
+  <app-group-info-list
+          *ngFor="let group of searchedGroups$ | async"
+          (click)="clickedGroup(group)"
+          [groupPartialData]="group"
+          [clickable]="true">
+  </app-group-info-list>
+</ion-item-group>

@@ -1,15 +1,21 @@
 <ion-label class="item-container"
            style="display: contents;">
-    <ion-text class="st-font-size-14 ion-text-wrap">
+    <ion-text class="st-font-size-14 ion-text-wrap st-flex-row">
         <ion-text *ngIf="price" style="margin-right: 5px">{{ price | currency }}</ion-text>
-        <span [ngClass]="{
+        <span class="st-flex-row" [ngClass]="{
                     'st-price-up': price >= 0 || priceChange >= 0,
                     'st-price-down': price < 0 || priceChange < 0
                      }">
             <ion-text *ngIf="priceChange && !isPercent">({{ priceChange }}%)</ion-text>
             <ion-text *ngIf="priceChange && isPercent">{{ priceChange | percent: '1.2-2' }}</ion-text>
-            <ion-icon name="trending-up-outline" class="st-price-icon " *ngIf="price >= 0 || priceChange >= 0"></ion-icon>
-            <ion-icon name="trending-down-outline" class="st-price-icon" *ngIf="price < 0 || priceChange < 0"></ion-icon>
+
+            <!-- hide icons on small screen if price exists -->
+            <span [ngClass]="{'ion-hide-sm-down': !!price}">
+                <ion-icon name="trending-up-outline" style="margin-left: 5px" *ngIf="price >= 0 || priceChange >= 0">
+                </ion-icon>
+                <ion-icon name="trending-down-outline" style="margin-left: 5px" *ngIf="price < 0 || priceChange < 0">
+                </ion-icon>
+            </span>
         </span>
     </ion-text>
 </ion-label>

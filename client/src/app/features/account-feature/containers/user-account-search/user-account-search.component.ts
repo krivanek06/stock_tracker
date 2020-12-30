@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {debounceTime, switchMap} from 'rxjs/operators';
@@ -14,6 +14,7 @@ import {StUserPartialInformation} from '../../../../api/customGraphql.service';
 export class UserAccountSearchComponent implements OnInit {
     @Output() clickedUserEmitter: EventEmitter<StUserPartialInformation> = new EventEmitter<StUserPartialInformation>();
 
+    @Input() fullWith = false;
     searchedUsers$: Observable<StUserPartialInformation[]>;
     form: FormGroup;
 

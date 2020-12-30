@@ -12,3 +12,20 @@ export const querySTGroupAllDataByGroupId = async (groupId: string): Promise<api
         throw new ApolloError(error);
     }
 }
+
+export const querySTGroupPartialDataByGroupName = async (groupNamePrefix: string): Promise<api.STSearchGroups> => {
+    try {
+        const groupDocs = await admin.firestore().collection(api.ST_GROUP_COLLECTION_GROUPS)
+            .where('name', '>=', groupNamePrefix)
+            .limit(5)
+            .get();
+
+        const data = groupDocs.docs.map(x => {
+            return {...x.data(), groupId: x.id} as api.STGroupPartialData
+        }) as api.STGroupPartialData[];
+
+        return {groups: data};
+    } catch (error) {
+        throw new ApolloError(error);
+    }
+}

@@ -1,6 +1,15 @@
-export enum SEARCH_PAGE {
-    SEARCH_GROUP = 'search-group',
-    SEARCH_USER = 'search-user',
-    SEARCH_STOCK = 'search-stock',
-    SEARCH_STOCK_DETAILS = 'search-stock-details'
+export enum SEARCH_PAGE_ENUM {
+    GROUP = 'group',
+    USER = 'user',
+    STOCK = 'stock',
+}
+
+export enum SEARCH_PAGE_STOCK_ENUM {
+    SUMMARY = 'summary',
+    DETAILS = 'details'
+}
+
+export enum SEARCH_PAGE_STOCK_DETAILS_ENUM {
+    STATISTICS = 'statistics',
+    FINANCIAL = 'financial'
 }

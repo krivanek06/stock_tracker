@@ -8,10 +8,20 @@
 
                 <!-- submit button -->
                 <ion-buttons class="st-buttons-container">
+
+                    <!-- I am owner -->
                     <ion-button class="st-button st-edit-background st-width-full-md-screen" type="button"
                                 *ngIf="canEdit$ | async" (click)="editGroup(queriedGroup)">
                         Edit
                     </ion-button>
+
+                    <!-- not member, or invited, send invitation -->
+                    <ion-button class="st-button st-create-background st-width-full-md-screen" type="button"
+                                *ngIf="canUserSentInvitation$ | async" (click)="sendInvitation(queriedGroup)">
+                        Send invitation
+                    </ion-button>
+
+                    <!-- they invited me -->
                     <ng-container *ngIf="isUserInvited$ | async">
                         <ion-button class="st-button st-create-background st-width-full-md-screen"
                                     style="margin-right: 16px" type="button"
@@ -24,6 +34,8 @@
                             Decline
                         </ion-button>
                     </ng-container>
+
+                    <!-- already sent invitation -->
                     <ion-button class="st-button st-remove-background st-width-full-md-screen"
                                 type="button"
                                 *ngIf="userSentInvitation$ | async"

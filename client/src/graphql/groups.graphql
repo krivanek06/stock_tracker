@@ -80,6 +80,14 @@ query QuerySTGroupAllDataByGroupId($groupId: String!) {
     }
 }
 
+query QuerySTGroupPartialDataByGroupName($groupName: String!) {
+    querySTGroupPartialDataByGroupName(groupName: $groupName) {
+        groups {
+            ...STGroupPartialDataFragment
+        }
+    }
+}
+
 
 # --------------------------------------
 # MUTATION

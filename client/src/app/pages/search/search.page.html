@@ -7,19 +7,18 @@
 
     <!-- body -->
     <div class="st-content-padding">
-
-        <ion-segment color="primary"
+        <ion-segment *ngIf="showSearchBar$ | async"
+                     color="primary"
                      class="ion-justify-content-end ion-margin-bottom"
                      [value]="segmentValue"
-                     [hidden]="segmentValue === SEARCH_PAGE.SEARCH_STOCK_DETAILS"
                      (ionChange)="segmentChanged($event)">
-            <ion-segment-button [value]="SEARCH_PAGE.SEARCH_STOCK" layout="icon-start">
-                <ion-label>Symbol</ion-label>
+            <ion-segment-button [value]="SEARCH_PAGE.STOCK" layout="icon-start">
+                <ion-label>Stock</ion-label>
             </ion-segment-button>
-            <ion-segment-button [value]="SEARCH_PAGE.SEARCH_USER" layout="icon-start">
+            <ion-segment-button [value]="SEARCH_PAGE.USER" layout="icon-start">
                 <ion-label>User</ion-label>
             </ion-segment-button>
-            <ion-segment-button [value]="SEARCH_PAGE.SEARCH_GROUP" layout="icon-start">
+            <ion-segment-button [value]="SEARCH_PAGE.GROUP" layout="icon-start">
                 <ion-label>Group</ion-label>
             </ion-segment-button>
         </ion-segment>

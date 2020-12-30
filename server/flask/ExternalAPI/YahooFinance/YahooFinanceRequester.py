@@ -99,7 +99,7 @@ class YahooFinanceRequester:
         balance_sheet_site = "https://finance.yahoo.com/quote/" + ticker + "/balance-sheet?p=" + ticker
         json_info = self.helperClass.parse_json(balance_sheet_site)
 
-        if json_info is None:
+        if json_info is None or json_info.get('balanceSheetHistory') is None:
             return None
 
         result = {
@@ -147,8 +147,8 @@ class YahooFinanceRequester:
         data = get('https://query1.finance.yahoo.com/v8/finance/chart/' + ticker + '?interval=1d').json()
         res = data['chart']['result']
         result = {
-            'marketPrice': res[0]['meta']['regularMarketPrice'] if res is not None else None,
-            'previousClose': res[0]['meta']['chartPreviousClose'] if res is not None else None
+            'marketPrice': res[0]['meta'].get('regularMarketPrice') if res is not None else None,
+            'previousClose': res[0]['meta'].get('chartPreviousClose') if res is not None else None
         }
         return result
 

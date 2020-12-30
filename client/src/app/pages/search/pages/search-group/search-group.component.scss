@@ -1,0 +1,31 @@
+@import "variables";
+
+:host {
+  .search {
+    position: absolute;
+    width: 100%;
+    z-index: 100;
+  }
+
+  .search-wrapper {
+    margin-left: 20px;
+    width: 60%;
+
+    @media (max-width: #{$st-var-md-split}) {
+      width: 93%;
+      margin-left: 0;
+    }
+  }
+
+  .empty {
+    height: 150px;
+  }
+
+  .group-read-info{
+    width: 85%;
+    margin: auto;
+    @media (max-width: #{$st-var-md-split}) {
+      width: 100%;
+    }
+  }
+}

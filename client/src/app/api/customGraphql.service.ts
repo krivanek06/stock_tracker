@@ -24,7 +24,10 @@ export type Query = {
     querySTUserPartialInformationByUsername: Array<Maybe<StUserPartialInformation>>;
     authenticateUser?: Maybe<StUserPublicData>;
     querySTGroupAllDataByGroupId?: Maybe<StGroupAllData>;
+    querySTGroupPartialDataByGroupName?: Maybe<StSearchGroups>;
     queryStockDetails?: Maybe<StockDetails>;
+    queryStockSummary?: Maybe<Summary>;
+    queryStockSummaries?: Maybe<SearchSymbol>;
 };
 
 
@@ -48,8 +51,23 @@ export type QueryQueryStGroupAllDataByGroupIdArgs = {
 };
 
 
+export type QueryQueryStGroupPartialDataByGroupNameArgs = {
+    groupName: Scalars['String'];
+};
+
+
 export type QueryQueryStockDetailsArgs = {
     symbol: Scalars['String'];
+};
+
+
+export type QueryQueryStockSummaryArgs = {
+    symbol: Scalars['String'];
+};
+
+
+export type QueryQueryStockSummariesArgs = {
+    symbolPrefix: Scalars['String'];
 };
 
 export type Mutation = {
@@ -243,21 +261,26 @@ export type StStockWatchInputlistIdentifier = {
     additionalData?: Maybe<Scalars['String']>;
 };
 
+export type SearchSymbol = {
+    __typename?: 'SearchSymbol';
+    summaries: Array<Maybe<Summary>>;
+};
+
 export type StockDetails = {
     __typename?: 'StockDetails';
     id: Scalars['String'];
-    analysis: Analysis;
-    balanceSheet: BalanceSheet;
-    cashFlow: CashFlow;
-    incomeStatement: IncomeStatement;
+    analysis?: Maybe<Analysis>;
+    balanceSheet?: Maybe<BalanceSheet>;
+    cashFlow?: Maybe<CashFlow>;
+    incomeStatement?: Maybe<IncomeStatement>;
     stats: Stats;
-    recommendation: Array<Maybe<Recommendations>>;
-    stockNews: Array<Maybe<NewsArticle>>;
-    companyData: CompanyData;
+    recommendation?: Maybe<Array<Maybe<Recommendations>>>;
+    stockNews?: Maybe<Array<Maybe<NewsArticle>>>;
+    companyData?: Maybe<CompanyData>;
     summary: Summary;
-    metric: Metric;
-    dividends: Dividens;
-    financialReportSnippets: Array<Maybe<Scalars['String']>>;
+    metric?: Maybe<Metric>;
+    dividends?: Maybe<Dividens>;
+    financialReportSnippets?: Maybe<Array<Maybe<Scalars['String']>>>;
     financialReports?: Maybe<StockFinancialReports>;
 };
 
@@ -448,8 +471,8 @@ export type GrowthEstimates = {
 
 export type Analysis = {
     __typename?: 'Analysis';
-    growthEstimates: GrowthEstimates;
-    revenueEstimate: Array<Maybe<RevenueEstimate>>;
+    growthEstimates?: Maybe<GrowthEstimates>;
+    revenueEstimate?: Maybe<Array<Maybe<RevenueEstimate>>>;
 };
 
 export type DefaultKeyStatistics = {
@@ -961,6 +984,11 @@ export type StPortfolio = {
     date?: Maybe<Scalars['String']>;
 };
 
+export type StSearchGroups = {
+    __typename?: 'STSearchGroups';
+    groups: Array<Maybe<StGroupPartialData>>;
+};
+
 export type StGroupUser = {
     __typename?: 'STGroupUser';
     user: StUserPartialInformation;
@@ -1108,6 +1136,26 @@ export type QueryStGroupAllDataByGroupIdQuery = (
     querySTGroupAllDataByGroupId?: Maybe<(
         { __typename?: 'STGroupAllData' }
         & StGroupAllDataFragmentFragment
+        )>
+}
+    );
+
+export type QueryStGroupPartialDataByGroupNameQueryVariables = Exact<{
+    groupName: Scalars['String'];
+}>;
+
+
+export type QueryStGroupPartialDataByGroupNameQuery = (
+    { __typename?: 'Query' }
+    & {
+    querySTGroupPartialDataByGroupName?: Maybe<(
+        { __typename?: 'STSearchGroups' }
+        & {
+        groups: Array<Maybe<(
+            { __typename?: 'STGroupPartialData' }
+            & StGroupPartialDataFragmentFragment
+            )>>
+    }
         )>
 }
     );
@@ -1337,18 +1385,18 @@ export type QueryStockDetailsQuery = (
         { __typename?: 'StockDetails' }
         & Pick<StockDetails, 'id' | 'financialReportSnippets'>
         & {
-        analysis: (
+        analysis?: Maybe<(
             { __typename?: 'Analysis' }
             & {
-            growthEstimates: (
+            growthEstimates?: Maybe<(
                 { __typename?: 'GrowthEstimates' }
                 & GrowthEstimatesFragmentFragment
-                ), revenueEstimate: Array<Maybe<(
+                )>, revenueEstimate?: Maybe<Array<Maybe<(
                 { __typename?: 'RevenueEstimate' }
                 & RevenueEstimateFragmentFragment
-                )>>
+                )>>>
         }
-            ), balanceSheet: (
+            )>, balanceSheet?: Maybe<(
             { __typename?: 'BalanceSheet' }
             & {
             balanceSheetHistoryQuarterly: Array<Maybe<(
@@ -1359,7 +1407,7 @@ export type QueryStockDetailsQuery = (
                 & BalanceSheetDataFragmentFragment
                 )>>
         }
-            ), cashFlow: (
+            )>, cashFlow?: Maybe<(
             { __typename?: 'CashFlow' }
             & {
             cashflowStatementHistoryQuarterly?: Maybe<Array<Maybe<(
@@ -1370,7 +1418,7 @@ export type QueryStockDetailsQuery = (
                 & CashFlowDataFragmentFragment
                 )>>>
         }
-            ), incomeStatement: (
+            )>, incomeStatement?: Maybe<(
             { __typename?: 'IncomeStatement' }
             & {
             incomeStatementHistoryQuarterly: Array<Maybe<(
@@ -1381,16 +1429,16 @@ export type QueryStockDetailsQuery = (
                 & IncomeStatementFragmentFragment
                 )>>>
         }
-            ), stats: (
+            )>, stats: (
             { __typename?: 'Stats' }
             & StatsFragmentFragment
-            ), recommendation: Array<Maybe<(
+            ), recommendation?: Maybe<Array<Maybe<(
             { __typename?: 'Recommendations' }
             & RecommendationFragmentFragment
-            )>>, stockNews: Array<Maybe<(
+            )>>>, stockNews?: Maybe<Array<Maybe<(
             { __typename?: 'NewsArticle' }
             & NewsArticleFragmentFragment
-            )>>, financialReports?: Maybe<(
+            )>>>, financialReports?: Maybe<(
             { __typename?: 'StockFinancialReports' }
             & {
             reports: Array<Maybe<(
@@ -1398,7 +1446,7 @@ export type QueryStockDetailsQuery = (
                 & FinancialReportsFragmentFragment
                 )>>
         }
-            )>, companyData: (
+            )>, companyData?: Maybe<(
             { __typename?: 'CompanyData' }
             & {
             defaultKeyStatistics?: Maybe<(
@@ -1423,16 +1471,51 @@ export type QueryStockDetailsQuery = (
             }
                 )>
         }
-            ), summary: (
+            )>, summary: (
             { __typename?: 'Summary' }
             & StockSummaryFragmentFragment
-            ), metric: (
+            ), metric?: Maybe<(
             { __typename?: 'Metric' }
             & MetricFragmentFragment
-            ), dividends: (
+            )>, dividends?: Maybe<(
             { __typename?: 'Dividens' }
             & DividensFragmentFragment
-            )
+            )>
+    }
+        )>
+}
+    );
+
+export type QueryStockSummaryQueryVariables = Exact<{
+    symbol: Scalars['String'];
+}>;
+
+
+export type QueryStockSummaryQuery = (
+    { __typename?: 'Query' }
+    & {
+    queryStockSummary?: Maybe<(
+        { __typename?: 'Summary' }
+        & StockSummaryFragmentFragment
+        )>
+}
+    );
+
+export type QueryStockSummariesQueryVariables = Exact<{
+    symbolPrefix: Scalars['String'];
+}>;
+
+
+export type QueryStockSummariesQuery = (
+    { __typename?: 'Query' }
+    & {
+    queryStockSummaries?: Maybe<(
+        { __typename?: 'SearchSymbol' }
+        & {
+        summaries: Array<Maybe<(
+            { __typename?: 'Summary' }
+            & StockSummaryFragmentFragment
+            )>>
     }
         )>
 }
@@ -2279,6 +2362,27 @@ export class QueryStGroupAllDataByGroupIdGQL extends Apollo.Query<QueryStGroupAl
     }
 }
 
+export const QueryStGroupPartialDataByGroupNameDocument = gql`
+    query QuerySTGroupPartialDataByGroupName($groupName: String!) {
+        querySTGroupPartialDataByGroupName(groupName: $groupName) {
+            groups {
+                ...STGroupPartialDataFragment
+            }
+        }
+    }
+${StGroupPartialDataFragmentFragmentDoc}`;
+
+@Injectable({
+    providedIn: 'root'
+})
+export class QueryStGroupPartialDataByGroupNameGQL extends Apollo.Query<QueryStGroupPartialDataByGroupNameQuery, QueryStGroupPartialDataByGroupNameQueryVariables> {
+    document = QueryStGroupPartialDataByGroupNameDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+        super(apollo);
+    }
+}
+
 export const CreateGroupDocument = gql`
     mutation CreateGroup($groupInput: STGroupAllDataInput) {
         createGroup(groupInput: $groupInput) {
@@ -2439,6 +2543,46 @@ ${DividensFragmentFragmentDoc}`;
 })
 export class QueryStockDetailsGQL extends Apollo.Query<QueryStockDetailsQuery, QueryStockDetailsQueryVariables> {
     document = QueryStockDetailsDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+        super(apollo);
+    }
+}
+
+export const QueryStockSummaryDocument = gql`
+    query QueryStockSummary($symbol: String!) {
+        queryStockSummary(symbol: $symbol) {
+            ...StockSummaryFragment
+        }
+    }
+${StockSummaryFragmentFragmentDoc}`;
+
+@Injectable({
+    providedIn: 'root'
+})
+export class QueryStockSummaryGQL extends Apollo.Query<QueryStockSummaryQuery, QueryStockSummaryQueryVariables> {
+    document = QueryStockSummaryDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+        super(apollo);
+    }
+}
+
+export const QueryStockSummariesDocument = gql`
+    query QueryStockSummaries($symbolPrefix: String!) {
+        queryStockSummaries(symbolPrefix: $symbolPrefix) {
+            summaries {
+                ...StockSummaryFragment
+            }
+        }
+    }
+${StockSummaryFragmentFragmentDoc}`;
+
+@Injectable({
+    providedIn: 'root'
+})
+export class QueryStockSummariesGQL extends Apollo.Query<QueryStockSummariesQuery, QueryStockSummariesQueryVariables> {
+    document = QueryStockSummariesDocument;
 
     constructor(apollo: Apollo.Apollo) {
         super(apollo);

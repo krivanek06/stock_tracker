@@ -1,11 +1,9 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {DETAILS_PAGES_ENUM} from './models/DetailsEnum.model';
-import {QueryStockDetailsQuery} from '../../../../api/customGraphql.service';
-import {Observable} from 'rxjs';
-import {StockDetailsService} from '../../../../features/stock-details-feature/services/stock-details.service';
-import {ComponentBase} from '../../../../shared/utils/component-base/component.base';
+import {StockDetailsService} from '../../../../../features/stock-details-feature/services/stock-details.service';
+import {ComponentBase} from '../../../../../shared/utils/component-base/component.base';
 import {takeUntil} from 'rxjs/operators';
+import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_DETAILS_ENUM, SEARCH_PAGE_STOCK_ENUM} from '../../../models/pages.model';
 
 @Component({
     selector: 'app-search-stock-details',
@@ -14,8 +12,8 @@ import {takeUntil} from 'rxjs/operators';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchStockDetailsPage extends ComponentBase implements OnInit {
-    segmentValue = DETAILS_PAGES_ENUM.STATISTICS;
-    DETAILS_PAGES_ENUM = DETAILS_PAGES_ENUM;
+    segmentValue = SEARCH_PAGE_STOCK_DETAILS_ENUM.STATISTICS;
+    SEARCH_PAGE_STOCK_DETAILS_ENUM = SEARCH_PAGE_STOCK_DETAILS_ENUM;
     showSpinner = true;
 
     constructor(private router: Router,
@@ -33,7 +31,7 @@ export class SearchStockDetailsPage extends ComponentBase implements OnInit {
 
     segmentChanged(data: CustomEvent) {
         this.segmentValue = data.detail.value;
-        this.router.navigate([`menu/search/search-stock-details/${this.stockDetailsService.activeSymbol}/${this.segmentValue}`]);
+        this.router.navigate([`menu/search/${SEARCH_PAGE_ENUM.STOCK}/${SEARCH_PAGE_STOCK_ENUM.DETAILS}/${this.stockDetailsService.activeSymbol}/${this.segmentValue}`]);
     }
 
 }

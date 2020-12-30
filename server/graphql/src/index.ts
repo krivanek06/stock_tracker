@@ -15,13 +15,13 @@ import {
     renameStockWatchlist
 } from './watchlist/watchlist.mutation';
 import {editUser, registerUser, resetUserAccount} from './user/user.mutation';
-import {queryStockDetails, queryStockSummaries} from './stockDetails/stockDetails.query';
+import {queryStockDetails, queryStockSummaries, queryStockSummary} from './stockDetails/stockDetails.query';
 import {stockDetailsTypeDefs} from './stockDetails/stockDetails.typedefs';
 import {STTransactionTypeDefs} from './st-transaction/st-transaction.typedef';
 import {STRankTypeDefs} from './st-rank/st-rank.typedef';
 import {STPortfolioTypeDefs} from './st-portfolio/st-portfolio.typedef';
 import {editGroup, deleteGroup, createGroup} from "./st-group/st.group.mutation";
-import {querySTGroupAllDataByGroupId} from "./st-group/st-group.query";
+import {querySTGroupAllDataByGroupId, querySTGroupPartialDataByGroupName} from "./st-group/st-group.query";
 import {stockDetailsResolvers} from "./stockDetails/stockDetails.resolver";
 
 global.fetch = require("node-fetch");
@@ -49,25 +49,26 @@ const mainTypeDefs = gql`
         
         # groups
         querySTGroupAllDataByGroupId(groupId: String!): STGroupAllData
+        querySTGroupPartialDataByGroupName(groupName: String!): STSearchGroups
         
         # details
         queryStockDetails(symbol: String!): StockDetails
+        queryStockSummary(symbol: String!): Summary
         queryStockSummaries(symbolPrefix: String!): SearchSymbol
     }
 
     #### MUTATION
     type Mutation {
         # user
-        #updateUserData(user: UserInputAuthentication): STUserPublicData
         registerUser(user: STUserAuthenticationInput): Boolean
         editUser(editInput: STUserEditDataInput): Boolean
         resetUserAccount(userId: String!): Boolean
-        #updateUserPrivateData(uid: String, userPrivateDataInput: UserPrivateDataInput): UserPrivateData
         
         # groups
         createGroup(groupInput: STGroupAllDataInput): STGroupPartialData
         editGroup(groupInput: STGroupAllDataInput): STGroupPartialData
         deleteGroup(uid: String, groupId: String): Boolean
+        # send invitation TODO
         
         ## watchlist
         createStockWatchlist( identifier: STStockWatchInputlistIdentifier!): STStockWatchlist
@@ -89,9 +90,11 @@ const mainResolver = {
 
         // GROUP
         querySTGroupAllDataByGroupId: async (_: null, args: { groupId: string }) => await querySTGroupAllDataByGroupId(args.groupId),
+        querySTGroupPartialDataByGroupName: async (_: null, args: { groupName: string }) => await querySTGroupPartialDataByGroupName(args.groupName),
 
         // stock details
         queryStockDetails: async (_: null, args: { symbol: string }) => await queryStockDetails(args.symbol),
+        queryStockSummary: async (_: null, args: { symbol: string }) => await queryStockSummary(args.symbol),
         queryStockSummaries: async (_: null, args: { symbolPrefix: string }) => await queryStockSummaries(args.symbolPrefix),
     },
 

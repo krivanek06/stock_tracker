@@ -8,10 +8,11 @@ import {getCurrentIOSDate} from "../st-shared/st-shared.functions";
 // check if details already exists in firestore, else fetch form api and save them
 export const queryStockDetails = async (symbol: string): Promise<api.StockDetails> => {
     try {
-        const stockDetailsDocs = await admin.firestore().collection(`${api.ST_STOCK_DATA_COLLECTION}`).doc(symbol).get();
+        const upperSymbol = symbol.toUpperCase();
+        const stockDetailsDocs = await admin.firestore().collection(`${api.ST_STOCK_DATA_COLLECTION}`).doc(upperSymbol).get();
         const data = stockDetailsDocs.data() as api.StockDetailsWrapper | undefined;
 
-        return !!data ? data.details : await getAndSaveStockDetailsFromApi(symbol);
+        return !!data ? data.details : await getAndSaveStockDetailsFromApi(upperSymbol);
     } catch (error) {
         throw new ApolloError(error);
     }
@@ -19,14 +20,15 @@ export const queryStockDetails = async (symbol: string): Promise<api.StockDetail
 
 export const queryStockSummary = async (symbol: string): Promise<api.Summary> => {
     try {
-        const details = await queryStockDetails(symbol);
+        const upperSymbol = symbol.toUpperCase();
+        const details = await queryStockDetails(upperSymbol);
         return details?.summary;
     } catch (error) {
         throw new ApolloError(error);
     }
 }
 
-export const queryStockSummaries = async (symbolPrefix: string) => {
+export const queryStockSummaries = async (symbolPrefix: string): Promise<api.SearchStockSummaries> => {
     try {
         console.time();
         const symbolsDoc = await admin.firestore()
@@ -37,15 +39,17 @@ export const queryStockSummaries = async (symbolPrefix: string) => {
         const symbols = symbolsDoc.data() as api.SearchStockSymbol;
         //console.log(symbols.data.length);
 
-        const searchingSymbols = symbols.data.filter(s => s.startsWith(symbolPrefix)).slice(0, 5);
-        console.log('symbols', searchingSymbols);
+        const searchingSymbols = symbols.data.filter(s => s.startsWith(symbolPrefix.toUpperCase())).slice(0, 5);
+        console.log('search symbols', searchingSymbols);
 
-        const summaries = await Promise.all(searchingSymbols.map(x => queryStockSummary(x)));
+        const summaries = await Promise.all(searchingSymbols.map(x => queryStockSummary(x))) as api.Summary[];
+
+        const notNullSummaries = summaries.filter(x => !!x);
+        console.log('return symbols', notNullSummaries.map(x => x.symbol));
+
         console.timeEnd();
         console.log('----')
-        const notNullSummaries = summaries.filter(x => !!x);
-
-        return {'summaries': notNullSummaries};
+        return {summaries: notNullSummaries} as api.SearchStockSummaries;
     } catch (error) {
         throw new ApolloError(error);
     }
@@ -57,17 +61,20 @@ const getAndSaveStockDetailsFromApi = async (symbol: string): Promise<api.StockD
     const resolverPromise = await global.fetch(`${stockDataAPI}/fundamentals/all?symbol=${symbol}`);
     const response = await resolverPromise.json() as api.StockDetails;
 
-    if(!response.summary.symbol || !response.summary.marketPrice){
-        return null;
-    }
+    // no data has been found
+    const isNull = !response.summary.symbol || !response.summary.marketPrice;
 
     // save details
     admin.firestore().collection(`${api.ST_STOCK_DATA_COLLECTION}`).doc(symbol).set({
-        details: response,
+        details: isNull ? null : response,
         detailsLastUpdate: getCurrentIOSDate(),
         summaryLastUpdate: getCurrentIOSDate(),
         newsLastUpdate: getCurrentIOSDate(),
     });
+
+    if (isNull) {
+        return null;
+    }
 
     for (let i = 0; i < response.financialReports.length; i++) {
         admin.firestore()
