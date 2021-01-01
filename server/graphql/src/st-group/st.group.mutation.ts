@@ -11,7 +11,7 @@ import * as api from 'stock-tracker-common-interfaces';
 import {getCurrentIOSDate, stSeep} from "../st-shared/st-shared.functions";
 
 
-export const createGroup = async (groupInput: api.STGroupAllDataInput) => {
+export const createGroup = async (groupInput: api.STGroupAllDataInput): Promise<api.STGroupPartialData> => {
     try {
         const group = createEmptySTGroupAllData();
         group.name = groupInput.name;
@@ -52,8 +52,8 @@ export const createGroup = async (groupInput: api.STGroupAllDataInput) => {
         throw new ApolloError(error);
     }
 };
-
-export const editGroup = async (groupInput: api.STGroupAllDataInput) => {
+// TODO edit group form users -> cloud functions
+export const editGroup = async (groupInput: api.STGroupAllDataInput): Promise<api.STGroupPartialData> => {
     try {
         // load group or create new
         const group = await querySTGroupAllDataByGroupId(groupInput.groupId);
@@ -106,8 +106,10 @@ export const editGroup = async (groupInput: api.STGroupAllDataInput) => {
         }
 
         // persist
-        await admin.firestore().collection(`${api.ST_GROUP_COLLECTION_GROUPS}`).doc(`${group.groupId}`).set(group);
-
+        await admin.firestore()
+            .collection(`${api.ST_GROUP_COLLECTION_GROUPS}`)
+            .doc(`${group.groupId}`)
+            .set(group);
 
         //return querySTGroupAllDataByGroupId(group.groupId);
         return createSTGroupPartialDataFromSTGroupAllData(group);
@@ -116,14 +118,120 @@ export const editGroup = async (groupInput: api.STGroupAllDataInput) => {
     }
 };
 
-
-export const deleteGroup = async (uid: string, groupId: string) => {
+// TODO remove group form users -> cloud functions
+export const deleteGroup = async (uid: string, groupId: string): Promise<boolean> => {
     try {
         const group = await querySTGroupAllDataByGroupId(groupId);
         if (group.owner.user.uid !== uid) {
             throw new ApolloError("Only owner can delete a group");
         }
+
         await admin.firestore().collection(`${api.ST_GROUP_COLLECTION_GROUPS}`).doc(groupId).delete();
+        return true;
+    } catch (error) {
+        throw new ApolloError(error);
+    }
+}
+
+// TODO update data in user group.invitationReceived -> cloud functions
+/**
+ * Invited users may accept or decline received group invitation
+ * @param uid
+ * @param groupId
+ * @param accept
+ */
+export const answerReceivedGroupInvitation = async (uid: string, groupId: string, accept: Boolean): Promise<api.STGroupPartialData> => {
+    try {
+        const group = await querySTGroupAllDataByGroupId(groupId);
+        if (!group.invitationSent.map(x => x.user.uid).includes(uid)) {
+            throw new ApolloError(`You have no invitation from group ${group.name}`);
+        }
+
+        let modifyingUser;
+        if (accept) {
+            // add as member
+            modifyingUser = createSTGroupUser(group.invitationSent.find(x => x.user.uid === uid).user);
+            group.members = [...group.members, modifyingUser]
+        }
+        // remove invitation
+        group.invitationSent = group.invitationSent.filter(x => x.user.uid !== uid);
+
+        await admin.firestore()
+            .collection(`${api.ST_GROUP_COLLECTION_GROUPS}`)
+            .doc(groupId)
+            .set({
+                members: group.members,
+                invitationSent: group.invitationSent
+            }, {merge: true});
+
+        return createSTGroupPartialDataFromSTGroupAllData(group);
+    } catch (error) {
+        throw new ApolloError(error);
+    }
+}
+
+// TODO update data in user group.invitationSent -> cloud functions
+/***
+ * User can send or cancel invitation request to group
+ * @param uid
+ * @param groupId
+ */
+export const toggleInvitationRequestToGroup = async (uid: string, groupId: string): Promise<api.STGroupPartialData> => {
+    try {
+        const group = await querySTGroupAllDataByGroupId(groupId);
+        if (group.members.map(x => x.user.uid).includes(uid)) {
+            throw new ApolloError(`Cannot send / cancel invitation, you are already a member in group ${group.name}`);
+        }
+
+        if (group.invitationSent.map(x => x.user.uid).includes(uid)) {
+            throw new ApolloError(`You are already invited from group ${group.name}`);
+        }
+
+        let user;
+        if (group.invitationReceived.map(x => x.user.uid).includes(uid)) {
+            // already sent invitation -> cancel it
+            group.invitationReceived = group.invitationReceived.filter(x => x.user.uid !== uid);
+        } else {
+            // sent invitation request to group
+            user = await querySTUserPartialInformationByUid(uid);
+            group.invitationReceived = [...group.invitationReceived, createSTGroupUser(user)];
+        }
+
+        await admin.firestore()
+            .collection(`${api.ST_GROUP_COLLECTION_GROUPS}`)
+            .doc(groupId)
+            .set({
+                invitationReceived: group.invitationReceived
+            }, {merge: true});
+
+        return createSTGroupPartialDataFromSTGroupAllData(group);
+    } catch (error) {
+        throw new ApolloError(error);
+    }
+}
+
+// TODO -> cloud function update user's data, remove group if group.groupMember
+export const leaveGroup = async (uid: string, groupId: string): Promise<boolean> => {
+    try {
+        const group = await querySTGroupAllDataByGroupId(groupId);
+        if (!group.members.map(x => x.user.uid).includes(uid) && !group.managers.map(x => x.user.uid).includes(uid)) {
+            throw new ApolloError("You cannot leave a group you are not a member or manager");
+        }
+        if (group.owner.user.uid === groupId) {
+            throw new ApolloError("Owner can only delete whole group");
+        }
+
+        const filteredManagers = group.managers.filter(x => x.user.uid !== uid);
+        const filteredMembers = group.members.filter(x => x.user.uid !== uid);
+
+        await admin.firestore()
+            .collection(`${api.ST_GROUP_COLLECTION_GROUPS}`)
+            .doc(groupId)
+            .set({
+                members: filteredMembers,
+                managers: filteredManagers
+            }, {merge: true});
+
         return true;
     } catch (error) {
         throw new ApolloError(error);

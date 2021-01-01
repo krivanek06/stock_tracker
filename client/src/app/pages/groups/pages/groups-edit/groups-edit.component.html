@@ -11,10 +11,20 @@
                                #uploader
                                [defaultUrl]="group.imageUrl"
                                [filePath]="'groups'"
+                               [showInput]="isUserOwner"
                                (uploadedFilesEmitter)="uploadedGroupImage($event)">
                             </app-uploader>
                         </ion-item>
                     </ion-item-group>
+
+                    <!-- owner, allow delete -->
+                    <ion-buttons *ngIf="isUserOwner" class="st-buttons-container">
+                        <ion-button class="st-button st-remove-background st-width-full-md-screen ion-margin-top"
+                                    type="button"
+                                    (click)="deleteGroup()">
+                            Delete group
+                        </ion-button>
+                    </ion-buttons>
 
                     <!-- Group name -->
                     <ion-item class="st-form-input-background" style="margin-top: 16px">
@@ -42,9 +52,7 @@
                 </form>
 
                 <!-- search user  -->
-                <app-user-account-search
-                        (clickedUserEmitter)="sendInvitation($event)">
-                </app-user-account-search>
+                <app-user-account-search (clickedUserEmitter)="sendInvitation($event)"></app-user-account-search>
             </app-generic-card>
         </ion-col>
     </ion-row>
@@ -61,8 +69,8 @@
     <app-group-list-members-in-row
             (clickedEmitter)="changeGroupMemberSection($event, User_Status_In_Group.Manager)"
             (deleteEmitter)="removeUserFromSection($event, User_Status_In_Group.Manager)"
-            [showDeleteButton]="true"
-            [clickable]="true"
+            [showDeleteButton]="isUserOwner"
+            [clickable]="isUserOwner"
             [groupUsers]="group.managers"
             [title]="'Managers'">
     </app-group-list-members-in-row>

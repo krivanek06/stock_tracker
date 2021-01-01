@@ -1,17 +1,12 @@
 <!-- search container -->
-<div class="search">
-    <div class="search-wrapper">
-        <app-generic-card [chartTitle]="'Search Stock'" [applyLeftPadding]="false">
-            <app-stock-search
-                    [clearOnClick]="true"
-                    (clickedSymbolEmitter)="showSymbolInformation($event)">
-            </app-stock-search>
-        </app-generic-card>
-    </div>
-</div>
-
-<!-- empty space -->
-<div class="empty"></div>
+<app-search-wrapper>
+    <app-generic-card [chartTitle]="'Search Stock'" [applyLeftPadding]="false">
+        <app-stock-search
+                [clearOnClick]="true"
+                (clickedSymbolEmitter)="showSymbolInformation($event)">
+        </app-stock-search>
+    </app-generic-card>
+</app-search-wrapper>
 
 <!-- stock data -->
 <ion-grid *ngIf="selectedSummary">

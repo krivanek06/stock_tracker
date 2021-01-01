@@ -1,17 +1,12 @@
 <!-- search container -->
-<div class="search">
-    <div class="search-wrapper">
-        <app-generic-card [chartTitle]="'Search user'" [applyLeftPadding]="false">
-            <app-user-account-search
-                    [fullWith]="true"
-                    (clickedUserEmitter)="showUserInformation($event)">
-            </app-user-account-search>
-        </app-generic-card>
-    </div>
-</div>
-
-<!-- empty space -->
-<div class="empty"></div>
+<app-search-wrapper>
+    <app-generic-card [chartTitle]="'Search user'" [applyLeftPadding]="false">
+        <app-user-account-search
+                [fullWith]="true"
+                (clickedUserEmitter)="showUserInformation($event)">
+        </app-user-account-search>
+    </app-generic-card>
+</app-search-wrapper>
 
 
 <ion-grid>

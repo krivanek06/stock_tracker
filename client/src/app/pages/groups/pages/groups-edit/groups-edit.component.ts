@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {filter, switchMap, takeUntil} from 'rxjs/operators';
+import {filter, map, switchMap, takeUntil} from 'rxjs/operators';
 import {StGroupAllData, StUserPartialInformation, User_Status_In_Group} from '../../../../api/customGraphql.service';
 import {GroupService} from '../../../../features/group-feature/services/group.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -14,6 +14,9 @@ import {GroupMemberPositionChangePopOverComponent} from '../../../../features/gr
 import {GroupMemberPosition} from '../../../../features/group-feature/model/group.model';
 import {GroupMemberPositionChangeEnum} from '../../../../features/group-feature/model/group.enum';
 import {IonicDialogService} from '../../../../shared/services/ionic-dialog.service';
+import {AuthFeatureService} from '../../../../features/auth-feature/services/auth-feature.service';
+import {convertStGroupAllDataToStGroupPartialData} from '../../../../features/group-feature/utils/convertor';
+import {GroupUserRolesService} from '../../../../features/group-feature/services/group-user-roles.service';
 
 @Component({
     selector: 'app-groups-edit',
@@ -24,12 +27,14 @@ export class GroupsEditComponent extends ComponentBase implements OnInit {
     @ViewChild('uploader') uploader: UploaderComponent;
     group: StGroupAllData;
     form: FormGroup;
-
+    isUserOwner: boolean;
     User_Status_In_Group = User_Status_In_Group;
 
     constructor(private activatedRoute: ActivatedRoute,
                 private groupService: GroupService,
+                private authService: AuthFeatureService,
                 private route: Router,
+                private groupUserRolesService: GroupUserRolesService,
                 private ionicDialogService: IonicDialogService,
                 private popoverController: PopoverController,
                 private fb: FormBuilder) {
@@ -41,14 +46,16 @@ export class GroupsEditComponent extends ComponentBase implements OnInit {
     }
 
     async submit() {
-        const confirmation = await this.ionicDialogService.presentAlertConfirm(`Do you really want to make changes in group: ${this.group.name} ?`);
-        if (confirmation) {
-            this.groupService.editGroup(this.form.getRawValue(), this.group);
-        }
+        this.groupService.editGroup(this.form.getRawValue(), this.group);
     }
 
     cancelEdit() {
         this.route.navigate([`menu/groups/${GROUPS_PAGES.READ}/${this.group.groupId}`]);
+    }
+
+    deleteGroup() {
+        const groupPartialData = convertStGroupAllDataToStGroupPartialData(this.group);
+        this.groupService.deleteGroup(groupPartialData);
     }
 
     uploadedGroupImage(files: UploadedFile[]) {
@@ -68,18 +75,24 @@ export class GroupsEditComponent extends ComponentBase implements OnInit {
     }
 
     removeUserFromSection(selectedUser: StUserPartialInformation, status: User_Status_In_Group) {
+        if (!this.isUserOwner && status === User_Status_In_Group.Manager) {
+            return;
+        }
         if (status === User_Status_In_Group.InvitationSent) {
             this.group.invitationSent = this.group.invitationSent.filter(groupUser => groupUser.user.uid !== selectedUser.uid);
         } else if (status === User_Status_In_Group.InvitationReceived) {
-            this.group.invitationSent = this.group.invitationReceived.filter(groupUser => groupUser.user.uid !== selectedUser.uid);
+            this.group.invitationReceived = this.group.invitationReceived.filter(groupUser => groupUser.user.uid !== selectedUser.uid);
         } else if (status === User_Status_In_Group.Member) {
-            this.group.invitationSent = this.group.members.filter(groupUser => groupUser.user.uid !== selectedUser.uid);
+            this.group.members = this.group.members.filter(groupUser => groupUser.user.uid !== selectedUser.uid);
         } else if (status === User_Status_In_Group.Manager) {
-            this.group.invitationSent = this.group.managers.filter(groupUser => groupUser.user.uid !== selectedUser.uid);
+            this.group.managers = this.group.managers.filter(groupUser => groupUser.user.uid !== selectedUser.uid);
         }
     }
 
     async changeGroupMemberSection(user: StUserPartialInformation, status: User_Status_In_Group) {
+        if (!this.isUserOwner && status === User_Status_In_Group.Manager) {
+            return;
+        }
         const result = await this.showGroupMemberModification(user, status);
         if (!result) {
             return;
@@ -125,18 +138,18 @@ export class GroupsEditComponent extends ComponentBase implements OnInit {
             takeUntil(this.destroy$)
         ).subscribe(res => {
             this.group = cloneDeep(res);
+            this.groupUserRolesService.activeGroup = res;
+            this.isUserOwner = this.groupUserRolesService.isUserOwner();
             this.initForm();
         });
     }
 
     private initForm() {
         this.form = this.fb.group({
-            name: [this.group.name, [Validators.required]],
+            name: [{value: this.group.name, disabled: !this.isUserOwner}, [Validators.required]],
             description: [this.group.description, [Validators.required]],
             imagePath: [this.group.imagePath],
             imageUrl: [this.group.imageUrl]
         });
     }
-
-
 }

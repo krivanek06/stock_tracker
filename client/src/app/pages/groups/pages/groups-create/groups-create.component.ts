@@ -24,13 +24,13 @@ export class GroupsCreateComponent implements OnInit {
         this.initForm();
     }
 
-    submit() {
-        this.groupService.createGroup(this.form.getRawValue(), this.invitationSent);
-
-        // restore to default;
-        this.form.reset();
-        this.invitationSent = [];
-        this.uploader.clearImages();
+    async submit() {
+        if (await this.groupService.createGroup(this.form.getRawValue(), this.invitationSent)) {
+            // restore to default;
+            this.form.reset();
+            this.invitationSent = [];
+            this.uploader.clearImages();
+        }
     }
 
 

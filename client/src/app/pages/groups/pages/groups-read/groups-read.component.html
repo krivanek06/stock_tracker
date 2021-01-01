@@ -1,4 +1,4 @@
-<ng-container *ngIf="queriedGroup$ | async as queriedGroup">
+<ng-container *ngIf="queriedGroup">
     <!-- group info -->
     <ion-row>
         <ion-col size="12">
@@ -11,26 +11,26 @@
 
                     <!-- I am owner -->
                     <ion-button class="st-button st-edit-background st-width-full-md-screen" type="button"
-                                *ngIf="canEdit$ | async" (click)="editGroup(queriedGroup)">
+                                *ngIf="isUserOwner || isUserManager" (click)="editGroup(queriedGroup)">
                         Edit
                     </ion-button>
 
                     <!-- not member, or invited, send invitation -->
                     <ion-button class="st-button st-create-background st-width-full-md-screen" type="button"
-                                *ngIf="canUserSentInvitation$ | async" (click)="sendInvitation(queriedGroup)">
+                                *ngIf="!(isUserOwner || isUserManager || isUserMember || isUserInvitationReceived || isUserInvited)"
+                                (click)="toggleInvitationRequestToGroup(queriedGroup)">
                         Send invitation
                     </ion-button>
 
                     <!-- they invited me -->
-                    <ng-container *ngIf="isUserInvited$ | async">
+                    <ng-container *ngIf="isUserInvited">
                         <ion-button class="st-button st-create-background st-width-full-md-screen"
                                     style="margin-right: 16px" type="button"
-                                    (click)="submitInvitation(true)">
+                                    (click)="answerReceivedGroupInvitation(queriedGroup,true)">
                             Accept
                         </ion-button>
                         <ion-button class="st-button st-remove-background st-width-full-md-screen"
-                                    type="button" (click)="
-                                submitInvitation(false)">
+                                    type="button" (click)="answerReceivedGroupInvitation(queriedGroup,false)">
                             Decline
                         </ion-button>
                     </ng-container>
@@ -38,9 +38,17 @@
                     <!-- already sent invitation -->
                     <ion-button class="st-button st-remove-background st-width-full-md-screen"
                                 type="button"
-                                *ngIf="userSentInvitation$ | async"
-                                (click)="declineInvitation()">
+                                *ngIf="isUserInvitationReceived"
+                                (click)="toggleInvitationRequestToGroup(queriedGroup)">
                         Decline
+                    </ion-button>
+
+                    <!-- member of group -->
+                    <ion-button class="st-button st-remove-background st-width-full-md-screen"
+                                type="button"
+                                *ngIf="isUserMember || isUserManager"
+                                (click)="leaveGroup(queriedGroup)">
+                        Leave group
                     </ion-button>
                 </ion-buttons>
             </app-generic-card>

@@ -4,6 +4,7 @@
 .st-content-padding {
   width: 100% !important;
   padding: 10px 45px 50px 20px !important;
+  position: relative !important;
   @media (max-width: #{$st-var-xxl-split}) {
     padding: 10px 30px 50px 20px !important;
   }
