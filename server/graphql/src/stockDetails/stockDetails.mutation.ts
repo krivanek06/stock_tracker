@@ -1,5 +1,0 @@
-
-// TODO
-export const populateDatabaseWithSymbolsForSearch = () => {
-
-}

@@ -1,17 +1,12 @@
 <!-- search container -->
-<div class="search">
-    <div class="search-wrapper">
-        <app-generic-card [chartTitle]="'Search group'" [applyLeftPadding]="false">
-            <app-group-search
-                    [clearOnClick]="true"
-                    (clickedGroupEmitter)="showGroupInformation($event)">
-            </app-group-search>
-        </app-generic-card>
-    </div>
-</div>
-
-<!-- empty space -->
-<div class="empty"></div>
+<app-search-wrapper>
+    <app-generic-card [chartTitle]="'Search group'" [applyLeftPadding]="false">
+        <app-group-search
+                [clearOnClick]="true"
+                (clickedGroupEmitter)="showGroupInformation($event)">
+        </app-group-search>
+    </app-generic-card>
+</app-search-wrapper>
 
 <!-- group info -->
 <div class="group-read-info">

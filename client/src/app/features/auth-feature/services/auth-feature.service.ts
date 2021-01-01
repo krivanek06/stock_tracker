@@ -6,7 +6,7 @@ import {filter, map, switchMap, tap} from 'rxjs/operators';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {
     AuthenticateUserGQL,
-    RegisterUserGQL, StUserAuthenticationInput, StUserPublicData,
+    RegisterUserGQL, StUserAuthenticationInput, StUserPartialInformation, StUserPublicData,
 } from '../../../api/customGraphql.service';
 import {LoginIUser, RegisterIUser, USER_ACTIVITY} from '../model/userModel';
 
@@ -43,6 +43,21 @@ export class AuthFeatureService {
         }
 
         return this.user$.getValue();
+    }
+
+    get userPartialInformation(): StUserPartialInformation {
+        const user = this.user;
+        const partialInfo: StUserPartialInformation = {
+            uid: user.uid,
+            accountCreatedDate: user.accountCreatedDate,
+            nickName: user.nickName,
+            photoURL: user.photoURL,
+            portfolio: user.portfolio,
+            locale: user.locale,
+            rank: user.rank,
+            __typename: 'STUserPartialInformation'
+        };
+        return partialInfo;
     }
 
     async googleSignIn(): Promise<void> {

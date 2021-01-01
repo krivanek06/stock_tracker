@@ -92,13 +92,13 @@ query QuerySTGroupPartialDataByGroupName($groupName: String!) {
 # --------------------------------------
 # MUTATION
 
-mutation CreateGroup($groupInput: STGroupAllDataInput){
+mutation CreateGroup($groupInput: STGroupAllDataInput!){
     createGroup(groupInput: $groupInput){
         ...STGroupPartialDataFragment
     }
 }
 
-mutation EditGroup($groupInput: STGroupAllDataInput){
+mutation EditGroup($groupInput: STGroupAllDataInput!){
     editGroup(groupInput: $groupInput){
         ...STGroupPartialDataFragment
     }
@@ -106,4 +106,20 @@ mutation EditGroup($groupInput: STGroupAllDataInput){
 
 mutation DeleteGroup($uid: String!, $groupId: String!){
     deleteGroup(uid:$uid, groupId: $groupId)
+}
+
+mutation ToggleInvitationRequestToGroup($uid: String!, $groupId: String!){
+    toggleInvitationRequestToGroup(uid:$uid, groupId: $groupId){
+        ...STGroupPartialDataFragment
+    }
+}
+
+mutation AnswerReceivedGroupInvitation($uid: String!, $groupId: String!, $accept: Boolean!){
+    answerReceivedGroupInvitation(uid:$uid, groupId: $groupId, accept: $accept){
+        ...STGroupPartialDataFragment
+    }
+}
+
+mutation LeaveGroup($uid: String!, $groupId: String!){
+    leaveGroup(uid:$uid, groupId: $groupId)
 }

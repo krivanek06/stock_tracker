@@ -20,7 +20,12 @@ import {stockDetailsTypeDefs} from './stockDetails/stockDetails.typedefs';
 import {STTransactionTypeDefs} from './st-transaction/st-transaction.typedef';
 import {STRankTypeDefs} from './st-rank/st-rank.typedef';
 import {STPortfolioTypeDefs} from './st-portfolio/st-portfolio.typedef';
-import {editGroup, deleteGroup, createGroup} from "./st-group/st.group.mutation";
+import {
+    editGroup,
+    deleteGroup,
+    createGroup,
+    answerReceivedGroupInvitation, toggleInvitationRequestToGroup, leaveGroup
+} from "./st-group/st.group.mutation";
 import {querySTGroupAllDataByGroupId, querySTGroupPartialDataByGroupName} from "./st-group/st-group.query";
 import {stockDetailsResolvers} from "./stockDetails/stockDetails.resolver";
 
@@ -43,14 +48,14 @@ const mainTypeDefs = gql`
         queryUserData(uid: String!): STUserPublicData
         querySTUserPartialInformationByUsername(usernamePrefix: String!): [STUserPartialInformation]!
         authenticateUser(uid: String!): STUserPublicData
-        
+
         # watchlist
         # queryUserStockWatchlists(uid: String!): [STStockWatchlist]
-        
+
         # groups
         querySTGroupAllDataByGroupId(groupId: String!): STGroupAllData
         querySTGroupPartialDataByGroupName(groupName: String!): STSearchGroups
-        
+
         # details
         queryStockDetails(symbol: String!): StockDetails
         queryStockSummary(symbol: String!): Summary
@@ -63,13 +68,15 @@ const mainTypeDefs = gql`
         registerUser(user: STUserAuthenticationInput): Boolean
         editUser(editInput: STUserEditDataInput): Boolean
         resetUserAccount(userId: String!): Boolean
-        
+
         # groups
-        createGroup(groupInput: STGroupAllDataInput): STGroupPartialData
-        editGroup(groupInput: STGroupAllDataInput): STGroupPartialData
-        deleteGroup(uid: String, groupId: String): Boolean
-        # send invitation TODO
-        
+        createGroup(groupInput: STGroupAllDataInput!): STGroupPartialData
+        editGroup(groupInput: STGroupAllDataInput!): STGroupPartialData
+        deleteGroup(uid: String!, groupId: String!): Boolean
+        toggleInvitationRequestToGroup(uid: String!, groupId: String!): STGroupPartialData
+        answerReceivedGroupInvitation(uid: String!, groupId: String!, accept: Boolean!): STGroupPartialData
+        leaveGroup(uid: String!, groupId: String!): Boolean
+
         ## watchlist
         createStockWatchlist( identifier: STStockWatchInputlistIdentifier!): STStockWatchlist
         renameStockWatchlist(identifier: STStockWatchInputlistIdentifier!): Boolean
@@ -108,6 +115,9 @@ const mainResolver = {
         createGroup: async (_, args: { groupInput: api.STGroupAllDataInput }) => await createGroup(args.groupInput),
         editGroup: async (_, args: { groupInput: api.STGroupAllDataInput }) => await editGroup(args.groupInput),
         deleteGroup: async (_, args: { uid: string, groupId: string }) => await deleteGroup(args.uid, args.groupId),
+        answerReceivedGroupInvitation: async (_, args: { uid: string, groupId: string, accept: Boolean }) => await answerReceivedGroupInvitation(args.uid, args.groupId, args.accept),
+        toggleInvitationRequestToGroup: async (_, args: { uid: string, groupId: string }) => await toggleInvitationRequestToGroup(args.uid, args.groupId),
+        leaveGroup: async (_, args: { uid: string, groupId: string }) => await leaveGroup(args.uid, args.groupId),
 
         // WATCHLIST
         createStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await createStockWatchlist(args.identifier),

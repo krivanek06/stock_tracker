@@ -13,6 +13,7 @@ import {SearchStockSummaryComponent} from './pages/search-stock/search-stock-sum
 import {SearchPageRoutingModule} from './search-routing.module.ts.module';
 import {AccountFeatureModule} from '../../features/account-feature/account-feature.module';
 import {GroupManagementFeatureModule} from '../../features/group-feature/group-management-feature.module';
+import {SearchWrapperComponent} from './components/search-wrapper/search-wrapper.component';
 
 
 
@@ -34,7 +35,8 @@ import {GroupManagementFeatureModule} from '../../features/group-feature/group-m
         SearchStockDetailsPage,
         StockDetailsFinancialComponent,
         StockDetailsStatisticComponent,
-        SearchStockSummaryComponent
+        SearchStockSummaryComponent,
+        SearchWrapperComponent
     ]
 })
 export class SearchPageModule {

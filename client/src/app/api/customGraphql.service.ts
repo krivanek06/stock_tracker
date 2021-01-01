@@ -78,6 +78,9 @@ export type Mutation = {
     createGroup?: Maybe<StGroupPartialData>;
     editGroup?: Maybe<StGroupPartialData>;
     deleteGroup?: Maybe<Scalars['Boolean']>;
+    toggleInvitationRequestToGroup?: Maybe<StGroupPartialData>;
+    answerReceivedGroupInvitation?: Maybe<StGroupPartialData>;
+    leaveGroup?: Maybe<Scalars['Boolean']>;
     createStockWatchlist?: Maybe<StStockWatchlist>;
     renameStockWatchlist?: Maybe<Scalars['Boolean']>;
     deleteWatchlist?: Maybe<Scalars['Boolean']>;
@@ -102,18 +105,37 @@ export type MutationResetUserAccountArgs = {
 
 
 export type MutationCreateGroupArgs = {
-    groupInput?: Maybe<StGroupAllDataInput>;
+    groupInput: StGroupAllDataInput;
 };
 
 
 export type MutationEditGroupArgs = {
-    groupInput?: Maybe<StGroupAllDataInput>;
+    groupInput: StGroupAllDataInput;
 };
 
 
 export type MutationDeleteGroupArgs = {
-    uid?: Maybe<Scalars['String']>;
-    groupId?: Maybe<Scalars['String']>;
+    uid: Scalars['String'];
+    groupId: Scalars['String'];
+};
+
+
+export type MutationToggleInvitationRequestToGroupArgs = {
+    uid: Scalars['String'];
+    groupId: Scalars['String'];
+};
+
+
+export type MutationAnswerReceivedGroupInvitationArgs = {
+    uid: Scalars['String'];
+    groupId: Scalars['String'];
+    accept: Scalars['Boolean'];
+};
+
+
+export type MutationLeaveGroupArgs = {
+    uid: Scalars['String'];
+    groupId: Scalars['String'];
 };
 
 
@@ -1161,7 +1183,7 @@ export type QueryStGroupPartialDataByGroupNameQuery = (
     );
 
 export type CreateGroupMutationVariables = Exact<{
-    groupInput?: Maybe<StGroupAllDataInput>;
+    groupInput: StGroupAllDataInput;
 }>;
 
 
@@ -1176,7 +1198,7 @@ export type CreateGroupMutation = (
     );
 
 export type EditGroupMutationVariables = Exact<{
-    groupInput?: Maybe<StGroupAllDataInput>;
+    groupInput: StGroupAllDataInput;
 }>;
 
 
@@ -1199,6 +1221,50 @@ export type DeleteGroupMutationVariables = Exact<{
 export type DeleteGroupMutation = (
     { __typename?: 'Mutation' }
     & Pick<Mutation, 'deleteGroup'>
+    );
+
+export type ToggleInvitationRequestToGroupMutationVariables = Exact<{
+    uid: Scalars['String'];
+    groupId: Scalars['String'];
+}>;
+
+
+export type ToggleInvitationRequestToGroupMutation = (
+    { __typename?: 'Mutation' }
+    & {
+    toggleInvitationRequestToGroup?: Maybe<(
+        { __typename?: 'STGroupPartialData' }
+        & StGroupPartialDataFragmentFragment
+        )>
+}
+    );
+
+export type AnswerReceivedGroupInvitationMutationVariables = Exact<{
+    uid: Scalars['String'];
+    groupId: Scalars['String'];
+    accept: Scalars['Boolean'];
+}>;
+
+
+export type AnswerReceivedGroupInvitationMutation = (
+    { __typename?: 'Mutation' }
+    & {
+    answerReceivedGroupInvitation?: Maybe<(
+        { __typename?: 'STGroupPartialData' }
+        & StGroupPartialDataFragmentFragment
+        )>
+}
+    );
+
+export type LeaveGroupMutationVariables = Exact<{
+    uid: Scalars['String'];
+    groupId: Scalars['String'];
+}>;
+
+
+export type LeaveGroupMutation = (
+    { __typename?: 'Mutation' }
+    & Pick<Mutation, 'leaveGroup'>
     );
 
 export type StPortfolioFragmentFragment = (
@@ -2384,7 +2450,7 @@ export class QueryStGroupPartialDataByGroupNameGQL extends Apollo.Query<QueryStG
 }
 
 export const CreateGroupDocument = gql`
-    mutation CreateGroup($groupInput: STGroupAllDataInput) {
+    mutation CreateGroup($groupInput: STGroupAllDataInput!) {
         createGroup(groupInput: $groupInput) {
             ...STGroupPartialDataFragment
         }
@@ -2403,7 +2469,7 @@ export class CreateGroupGQL extends Apollo.Mutation<CreateGroupMutation, CreateG
 }
 
 export const EditGroupDocument = gql`
-    mutation EditGroup($groupInput: STGroupAllDataInput) {
+    mutation EditGroup($groupInput: STGroupAllDataInput!) {
         editGroup(groupInput: $groupInput) {
             ...STGroupPartialDataFragment
         }
@@ -2432,6 +2498,61 @@ export const DeleteGroupDocument = gql`
 })
 export class DeleteGroupGQL extends Apollo.Mutation<DeleteGroupMutation, DeleteGroupMutationVariables> {
     document = DeleteGroupDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+        super(apollo);
+    }
+}
+
+export const ToggleInvitationRequestToGroupDocument = gql`
+    mutation ToggleInvitationRequestToGroup($uid: String!, $groupId: String!) {
+        toggleInvitationRequestToGroup(uid: $uid, groupId: $groupId) {
+            ...STGroupPartialDataFragment
+        }
+    }
+${StGroupPartialDataFragmentFragmentDoc}`;
+
+@Injectable({
+    providedIn: 'root'
+})
+export class ToggleInvitationRequestToGroupGQL extends Apollo.Mutation<ToggleInvitationRequestToGroupMutation, ToggleInvitationRequestToGroupMutationVariables> {
+    document = ToggleInvitationRequestToGroupDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+        super(apollo);
+    }
+}
+
+export const AnswerReceivedGroupInvitationDocument = gql`
+    mutation AnswerReceivedGroupInvitation($uid: String!, $groupId: String!, $accept: Boolean!) {
+        answerReceivedGroupInvitation(uid: $uid, groupId: $groupId, accept: $accept) {
+            ...STGroupPartialDataFragment
+        }
+    }
+${StGroupPartialDataFragmentFragmentDoc}`;
+
+@Injectable({
+    providedIn: 'root'
+})
+export class AnswerReceivedGroupInvitationGQL extends Apollo.Mutation<AnswerReceivedGroupInvitationMutation, AnswerReceivedGroupInvitationMutationVariables> {
+    document = AnswerReceivedGroupInvitationDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+        super(apollo);
+    }
+}
+
+export const LeaveGroupDocument = gql`
+    mutation LeaveGroup($uid: String!, $groupId: String!) {
+        leaveGroup(uid: $uid, groupId: $groupId)
+    }
+`;
+
+@Injectable({
+    providedIn: 'root'
+})
+export class LeaveGroupGQL extends Apollo.Mutation<LeaveGroupMutation, LeaveGroupMutationVariables> {
+    document = LeaveGroupDocument;
 
     constructor(apollo: Apollo.Apollo) {
         super(apollo);

@@ -91,21 +91,3 @@ export const resetUserAccount = async (userId: string): Promise<boolean> => {
         throw new ApolloError(error);
     }
 };
-
-/*
-export const updateUserPrivateData = async (userPrivateData: api.STUserPrivateData) => {
-    try {
-        const userPrivateDocsRef = await admin.firestore()
-            .collection('users')
-            .doc(userPrivateData.uid)
-            .collection(api.ST_USER_COLLECTION_MORE_INFORMATION)
-            .doc(api.ST_USER_DOCUMENT_PRIVATE_DATA);
-
-        await userPrivateDocsRef.set(userPrivateData, {merge: true});
-
-        return userPrivateData;
-
-    } catch (error) {
-        throw new ApolloError(error);
-    }
-}*/
