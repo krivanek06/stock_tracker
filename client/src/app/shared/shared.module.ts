@@ -21,7 +21,6 @@ import {FinancialChartContainerComponent} from './containers/financial-chart-con
 import {EconomicChartModalContainerComponent} from './containers/modal/economic-chart-modal-container/economic-chart-modal-container.component';
 import {RelativeTimePipe} from './pipes/relatimeTime.pipe';
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
-import { ValueStateDirective } from './directives/value-state.directive';
 import {PriceCompareItemComponent} from './components/items/price-compare-item/price-compare-item.component';
 import {InlineInputPopUpComponent} from './components/pop-ups/inline-input-pop-up/inline-input-pop-up.component';
 import { DropzoneDirective } from './directives/dropzone.directive';
@@ -31,6 +30,7 @@ import {PriceChangeItemComponent} from './components/items/price-change-item/pri
 import {ClickableNameItemComponent} from './components/items/clickable-name-item/clickable-name-item.component';
 import {GenericListComponent} from './components/general/generic-list/generic-list.component';
 import {TitleWithLogoItemComponent} from './components/items/title-with-logo-item/title-with-logo-item.component';
+import { TooltipDirective } from './directives/tooltip.directive';
 
 @NgModule({
     declarations: [
@@ -46,7 +46,6 @@ import {TitleWithLogoItemComponent} from './components/items/title-with-logo-ite
         GenericCardComponent,
         FinancialChartContainerComponent,
         EconomicChartModalContainerComponent,
-        ValueStateDirective,
         PriceCompareItemComponent,
         InlineInputPopUpComponent,
         DropzoneDirective,
@@ -55,7 +54,8 @@ import {TitleWithLogoItemComponent} from './components/items/title-with-logo-ite
         PriceChangeItemComponent,
         ClickableNameItemComponent,
         GenericListComponent,
-        TitleWithLogoItemComponent
+        TitleWithLogoItemComponent,
+        TooltipDirective
     ],
     imports: [
         CommonModule,
@@ -93,7 +93,6 @@ import {TitleWithLogoItemComponent} from './components/items/title-with-logo-ite
         FinancialChartContainerComponent,
         EconomicChartModalContainerComponent,
         NgxDatatableModule,
-        ValueStateDirective,
         PriceCompareItemComponent,
         InlineInputPopUpComponent,
         UploaderComponent,
@@ -101,7 +100,8 @@ import {TitleWithLogoItemComponent} from './components/items/title-with-logo-ite
         PriceChangeItemComponent,
         ClickableNameItemComponent,
         GenericListComponent,
-        TitleWithLogoItemComponent
+        TitleWithLogoItemComponent,
+        TooltipDirective
 
     ],
     entryComponents: [

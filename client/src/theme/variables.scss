@@ -237,7 +237,17 @@
 
 :root {
   ion-content {
-    white-space: pre-wrap !important;
+    white-space: pre-line !important;
+  }
+
+  ion-item {
+    ion-label {
+      white-space: pre-line !important;
+
+      ion-text {
+        white-space: pre-line !important;
+      }
+    }
   }
 
   ion-row {
@@ -267,7 +277,7 @@
           --min-height: 30px;
 
           ion-label {
-            white-space: pre-wrap !important;
+            white-space: pre-line !important;
             font-size: 15px;
           }
         }

@@ -59,8 +59,8 @@ export class FinancialChartContainerComponent extends ComponentBase implements O
             this.currentPrice = res.livePrice;
             this.volume = res.volume;
             this.price = res.price;
-            this.priceRangeFrom = this.price[0][3];
-            this.priceRangeTo = this.price[this.price.length - 1][3];
+            this.priceRangeFrom = this.price[0][4];
+            this.priceRangeTo = this.price[this.price.length - 1][4];
 
             this.cd.detectChanges();
         });

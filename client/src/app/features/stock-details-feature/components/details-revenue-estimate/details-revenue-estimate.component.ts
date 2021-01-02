@@ -8,7 +8,7 @@ import {RevenueEstimate} from '../../../../api/customGraphql.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailsRevenueEstimateComponent implements OnInit {
-  @Input() revenueEst: RevenueEstimate;
+  @Input() revenueEstimates: RevenueEstimate[];
 
   constructor() { }
 

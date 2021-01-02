@@ -1,5 +1,5 @@
 <ion-item>
-    <ion-label class="fs-title-2">
+    <ion-label class="st-title">
         S&P 500 statistics
     </ion-label>
 </ion-item>
@@ -7,7 +7,7 @@
 
 <ion-grid *ngIf="sp500StatisticsData$ | async as data">
     <ion-row>
-        <ion-col size="12" size-md="4" size-lg="4" class="clickable-card" (click)="showEarningsYield()">
+        <ion-col size="12" size-md="4" size-lg="4" class="st-clickable-card" (click)="showEarningsYield()">
             <app-generic-chart
                     [chartTitle]="'Earnings yield'"
                     [series]="data.earningsYield.result"
@@ -15,7 +15,7 @@
                     [heightPx]="175">
             </app-generic-chart>
         </ion-col>
-        <ion-col size="12" size-md="4" size-sm="6" size-lg="4" class="clickable-card" (click)="showDividends()">
+        <ion-col size="12" size-md="4" size-sm="6" size-lg="4" class="st-clickable-card" (click)="showDividends()">
             <app-generic-chart
                     [chartTitle]="'Dividends'"
                     [series]="data.dividends.result"
@@ -23,7 +23,7 @@
                     [heightPx]="175">
             </app-generic-chart>
         </ion-col>
-        <ion-col size="12" size-md="4" size-sm="6" size-lg="4" class="clickable-card" (click)="showDividendsYield()">
+        <ion-col size="12" size-md="4" size-sm="6" size-lg="4" class="st-clickable-card" (click)="showDividendsYield()">
             <app-generic-chart
                     [chartTitle]="'Dividend yield'"
                     [series]="data.dividendYield.result"
@@ -34,7 +34,7 @@
     </ion-row>
 
     <ion-row>
-        <ion-col size="12" size-sm="6" size-lg="3" class="clickable-card" (click)="showPeRatio()">
+        <ion-col size="12" size-sm="6" size-lg="3" class="st-clickable-card" (click)="showPeRatio()">
             <app-generic-chart
                     [chartTitle]="'PE ratio'"
                     [series]="data.peRatio.result"
@@ -42,7 +42,7 @@
                     [heightPx]="175">
             </app-generic-chart>
         </ion-col>
-        <ion-col size="12" size-sm="6" size-lg="3" class="clickable-card" (click)="showPriceToBook()">
+        <ion-col size="12" size-sm="6" size-lg="3" class="st-clickable-card" (click)="showPriceToBook()">
             <app-generic-chart
                     [chartTitle]="'Price to book'"
                     [series]="data.priceToBook.result"
@@ -52,7 +52,7 @@
         </ion-col>
 
 
-        <ion-col size="12" size-sm="6" size-lg="3" class="clickable-card" (click)="showPriceToSale()">
+        <ion-col size="12" size-sm="6" size-lg="3" class="st-clickable-card" (click)="showPriceToSale()">
             <app-generic-chart
                     [chartTitle]="'Price to sale'"
                     [series]="data.priceToSale.result"
@@ -61,7 +61,7 @@
             </app-generic-chart>
         </ion-col>
 
-        <ion-col size="12" size-sm="6" size-lg="3" class="clickable-card" (click)="showSalesGrowth()">
+        <ion-col size="12" size-sm="6" size-lg="3" class="st-clickable-card" (click)="showSalesGrowth()">
             <app-generic-chart
                     [chartTitle]="'Sales growth'"
                     [series]="data.salesGrowth.result"

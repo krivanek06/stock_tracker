@@ -39,7 +39,7 @@ HighchartsMoreModule(Highcharts);*/
 export class FinancialChartComponent implements OnInit, OnChanges {
     @Output() priceRangeEmitter: EventEmitter<number[]> = new EventEmitter<number[]>();
 
-    @Input() price: any[];
+    @Input() price: any[][];
     @Input() volume: any[];
     @Input() height = 350;
     @Input() showYAxis = false;
@@ -61,7 +61,7 @@ export class FinancialChartComponent implements OnInit, OnChanges {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (!!this.price && this.price.length > 0) {
-            this.recalculatePriceRange([this.price[0][1], this.price[this.price.length - 1][1]]);
+            this.recalculatePriceRange(this.price);
             this.initChart();
         }
     }
@@ -72,9 +72,10 @@ export class FinancialChartComponent implements OnInit, OnChanges {
         }, 300);
     }
 
-    recalculatePriceRange(priceRange: number[]) {
-        const startingPrice = priceRange[0][3];
-        const endingPrice = priceRange[priceRange.length - 1][3];
+    recalculatePriceRange(priceRange: number[][]) {
+        const lastIndex = priceRange[0].length - 1;
+        const startingPrice = priceRange[0][lastIndex];
+        const endingPrice = priceRange[priceRange.length - 1][lastIndex];
         this.priceRangeEmitter.emit([startingPrice, endingPrice]);
     }
 

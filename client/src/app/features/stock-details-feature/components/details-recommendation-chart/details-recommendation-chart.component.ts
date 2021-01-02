@@ -106,22 +106,22 @@ export class DetailsRecommendationChartComponent implements OnInit, OnChanges {
                 },
                 {
                     name: 'Buy',
-                    color: '#00C073',
+                    color: '#0d920d',
                     data: !this.recommendations ? [] : this.recommendations.map(rec => rec.buy)
                 },
                 {
                     name: 'Hold',
-                    color: '#FFDC48',
+                    color: '#a17a2a',
                     data: !this.recommendations ? [] : this.recommendations.map(rec => rec.hold)
                 },
                 {
                     name: 'Sell',
-                    color: '#FFA33E',
+                    color: '#a81806',
                     data: !this.recommendations ? [] : this.recommendations.map(rec => rec.sell)
                 },
                 {
                     name: 'Strong sell',
-                    color: '#FF333A',
+                    color: '#711205',
                     data: !this.recommendations ? [] : this.recommendations.map(rec => rec.strongSell)
                 }
 
