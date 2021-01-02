@@ -1,12 +1,12 @@
 <ion-grid>
     <ion-item>
-        <ion-label class="fs-title-2">
+        <ion-label class="st-title">
             Treasury yield curve rates
         </ion-label>
     </ion-item>
     <ion-row>
         <!-- Treasury yield -->
-        <ion-col size="12" class="clickable-card" (click)="showTreasuryYieldCurveRates()">
+        <ion-col size="12" class="st-clickable-card" (click)="showTreasuryYieldCurveRates()">
             <ng-container *ngIf="treasuryYieldCurveRates$ | async as data">
                 <app-generic-chart
                         [chartTitle]="'Treasury yield curve rates'"
@@ -20,13 +20,13 @@
     </ion-row>
 
     <ion-item>
-        <ion-label class="fs-title-2">
+        <ion-label class="st-title">
             Economic outlook
         </ion-label>
     </ion-item>
     <ion-row>
         <!-- investor sentiment -->
-        <ion-col size="12" size-md="6" class="clickable-card" (click)="showInvestorSentiment()">
+        <ion-col size="12" size-md="6" class="st-clickable-card" (click)="showInvestorSentiment()">
             <ng-container *ngIf="investorSentimentData$ | async as data">
                 <app-generic-chart
                         [chartTitle]="'Investor sentiment'"
@@ -38,7 +38,7 @@
             </ng-container>
         </ion-col>
         <!-- misery index -->
-        <ion-col size="12" size-md="6" class="clickable-card" (click)="showMiseryIndex()">
+        <ion-col size="12" size-md="6" class="st-clickable-card" (click)="showMiseryIndex()">
             <ng-container *ngIf="miseryIndex$ | async as data">
                 <app-generic-chart
                         [chartTitle]="'Misery index'"
@@ -55,14 +55,14 @@
 
     <!-- employment data -->
     <ion-item>
-        <ion-label class="fs-title-2">
+        <ion-label class="st-title">
             Employment
         </ion-label>
     </ion-item>
 
     <ion-row>
         <ng-container *ngIf="employmentData$ | async as data">
-            <ion-col size="12" size-lg="3" size-sm="6" class="clickable-card" (click)="showGovernmentIndustry()">
+            <ion-col size="12" size-lg="3" size-sm="6" class="st-clickable-card" (click)="showGovernmentIndustry()">
                 <app-generic-chart
                         [chartTitle]="'Government industry'"
                         [heightPx]="175"
@@ -71,7 +71,7 @@
                 </app-generic-chart>
             </ion-col>
 
-            <ion-col size="12" size-lg="3" size-sm="6" class="clickable-card" (click)="showPrivateIndustry()">
+            <ion-col size="12" size-lg="3" size-sm="6" class="st-clickable-card" (click)="showPrivateIndustry()">
                 <app-generic-chart
                         [chartTitle]="'Private industry'"
                         [heightPx]="175"
@@ -80,7 +80,7 @@
                 </app-generic-chart>
             </ion-col>
 
-            <ion-col size="12" size-lg="3" size-sm="6" class="clickable-card" (click)="showServiceProvidingIndustry()">
+            <ion-col size="12" size-lg="3" size-sm="6" class="st-clickable-card" (click)="showServiceProvidingIndustry()">
                 <app-generic-chart
                         [chartTitle]="'Service providing industry'"
                         [heightPx]="175"
@@ -89,7 +89,7 @@
                 </app-generic-chart>
             </ion-col>
 
-            <ion-col size="12" size-lg="3" size-sm="6" class="clickable-card" (click)="showGoodsProducingIndustry()">
+            <ion-col size="12" size-lg="3" size-sm="6" class="st-clickable-card" (click)="showGoodsProducingIndustry()">
                 <app-generic-chart
                         [chartTitle]="'Goods producing industry'"
                         [heightPx]="175"

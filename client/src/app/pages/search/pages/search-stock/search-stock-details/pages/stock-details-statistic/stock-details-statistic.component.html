@@ -150,11 +150,11 @@
     <ion-row>
         <ion-col size-md="6" size="12">
             <!-- revenue growth chart -->
-            <app-generic-card [chartTitle]="'Revenue growth estimation'" [additionalClasses]="'st-height-100'"
+            <app-generic-card [chartTitle]="'Revenue growth estimation'"
+                              [additionalClasses]="'st-height-100'"
                               [applyLeftPadding]="false">
                 <app-details-revenue-estimate
-                        *ngFor="let revenue of stockDetails.analysis.revenueEstimate"
-                        [revenueEst]="revenue">
+                        [revenueEstimates]="stockDetails.analysis.revenueEstimate">
                 </app-details-revenue-estimate>
             </app-generic-card>
         </ion-col>

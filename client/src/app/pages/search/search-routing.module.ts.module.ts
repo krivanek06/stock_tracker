@@ -18,7 +18,8 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: SEARCH_PAGE_ENUM.STOCK
+        redirectTo: SEARCH_PAGE_ENUM.STOCK,
+        pathMatch: 'full'
       },
       {
         path: SEARCH_PAGE_ENUM.STOCK,
@@ -26,7 +27,8 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            redirectTo: SEARCH_PAGE_STOCK_ENUM.SUMMARY
+            redirectTo: SEARCH_PAGE_STOCK_ENUM.SUMMARY,
+            pathMatch: 'full'
           },
           {
             path: SEARCH_PAGE_STOCK_ENUM.SUMMARY,
@@ -38,7 +40,8 @@ const routes: Routes = [
             children: [
               {
                 path: '',
-                redirectTo: SEARCH_PAGE_STOCK_DETAILS_ENUM.STATISTICS
+                redirectTo: SEARCH_PAGE_STOCK_DETAILS_ENUM.STATISTICS,
+                pathMatch: 'full'
               },
               {
                 path: SEARCH_PAGE_STOCK_DETAILS_ENUM.STATISTICS,

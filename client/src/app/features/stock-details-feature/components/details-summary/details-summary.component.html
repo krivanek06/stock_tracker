@@ -39,7 +39,8 @@
     <ion-item>
         <ion-label position="fixed" class="st-data-label-fixedLabel">1y target</ion-label>
         <ion-label class="st-flex-row">
-            <ion-text style="margin-right: 10px"color="" class="st-data-label">{{ summary.oneyTargetEst | currency }}</ion-text>
+            <ion-text style="margin-right: 10px" color=""
+                      class="st-data-label">{{ summary.oneyTargetEst | currency }}</ion-text>
             <app-price-compare-item
                     [versionType]="2"
                     [compareToPrice]="summary.oneyTargetEst"
@@ -81,7 +82,12 @@
 
     <ion-item>
         <ion-label position="fixed" class="st-data-label-fixedLabel">Recommendation</ion-label>
-        <ion-label class="st-data-label"> {{ summary.recommendationKey }} [{{ summary.recommendationMean }}]</ion-label>
+        <ion-label class="st-data-label">
+            <ion-text [appRecommendation]="summary.recommendationKey | titlecase">
+                {{ summary.recommendationKey | titlecase }}
+            </ion-text>
+            [{{ summary.recommendationMean }}]
+        </ion-label>
     </ion-item>
 
     <!--<ion-item>

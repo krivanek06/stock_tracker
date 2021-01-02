@@ -42,7 +42,10 @@
 
         <!-- recommendation date -->
         <ion-label position="fixed" class="ion-hide-md-down">
-            {{ summary.recommendationKey }} [{{ summary.recommendationMean }}]
+           <ion-text [appRecommendation]="summary.recommendationKey | titlecase">
+               {{ summary.recommendationKey | titlecase }}
+           </ion-text>
+            [{{ summary.recommendationMean }}]
         </ion-label>
 
         <!-- ripple effect on click -->

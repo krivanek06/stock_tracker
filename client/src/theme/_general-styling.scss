@@ -370,6 +370,18 @@ ion-spinner {
   }
 }
 
+.st-clickable-card{
+  cursor: pointer;
+  transition: All 0.4s ease-out;
+  &:hover{
+    transform: scale(0.96);
+    border-radius: 15px;
+    -webkit-box-shadow: 1px 3px 5px 2px #01002a;
+    -moz-box-shadow: 1px 3px 5px 2px #01002a;
+    box-shadow: 1px 3px 5px 2px #01002a;
+  }
+}
+
 
 // MODEL / POP-UP / ALERT
 
