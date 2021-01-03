@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ModalController, NavParams} from '@ionic/angular';
-import {ChartDataIdentification} from '../../../../../shared/models/sharedModel';
+import {SymbolIdentification} from '../../../../../shared/models/sharedModel';
 import {Router} from '@angular/router';
 import {
     QueryStockDetailsGQL,
@@ -23,7 +23,7 @@ import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_ENUM} from '../../../../../pages/sea
 })
 export class SymbolLookupModalComponent implements OnInit {
     stockSummary$: Observable<Summary>;
-    chartDataIdentification: ChartDataIdentification;
+    chartDataIdentification: SymbolIdentification;
     user: StUserPublicData;
 
     constructor(private navParams: NavParams,

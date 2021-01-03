@@ -92,7 +92,7 @@ export class AuthFeatureService {
             if (user && !this.user$.getValue()) {
                 this.router.navigate(['/menu/dashboard']);
             }
-            this.user$.next(user);
+            this.user$.next(user as StUserPublicData);
         });
     }
 

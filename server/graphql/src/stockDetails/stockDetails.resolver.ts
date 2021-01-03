@@ -1,23 +1,16 @@
-import { stockDataAPI } from '../enviroment';
-import { ApolloError } from 'apollo-server';
+import {ApolloError} from 'apollo-server';
 import * as api from "stock-tracker-common-interfaces";
-import {resolveUserPrivateData} from "../user/user.resolver";
 import * as admin from "firebase-admin";
+import {queryStockSummary} from "./stockDetails.query";
 
-const fetch = require("node-fetch");
 
-/*
-export const resolveStockSummaryForStockWatchList = async (stockWatchList: STStockWatchlist) => {
+export const resolveStockSummaryForSymbols = async (symbols: string[]) => {
     try {
-        const promises = stockWatchList.stocks.map(symbol => fetch(`${stockDataAPI}/fundamentals/summary?symbol=${symbol}`));
-        const resolved = await Promise.all(promises);
-        const summary = resolved.map(async data => await data.json() as Summary);
-
-        return summary;
+        return await Promise.all(symbols.map(symbol => queryStockSummary(symbol)));
     } catch (error) {
         throw new ApolloError(error);
     }
-}*/
+}
 
 export const resolveFinancialReports = async(symbol: string) => {
     try {

@@ -1,12 +1,89 @@
 <ion-content>
     <!-- header -->
-    <app-header></app-header>
+    <app-header>
+        <ion-icon class="st-icon-size-header" name="analytics"></ion-icon>
+        <ion-text class="st-font-size-header">Trading</ion-text>
+    </app-header>
 
     <!-- body -->
-    <perfect-scrollbar>
-        <div class="st-content-padding">
+    <div class="st-content-padding">
+        <!-- search container -->
+        <app-search-wrapper class="ion-hide-xl-up">
+            <app-generic-card [chartTitle]="'Search Stock'" [applyLeftPadding]="false">
+                <app-stock-search
+                        [clearOnClick]="true"
+                        (clickedSymbolEmitter)="changeSummary($event)">
+                </app-stock-search>
+            </app-generic-card>
+        </app-search-wrapper>
 
-        </div>
-    </perfect-scrollbar>
+        <ion-grid>
+            <ion-row>
+                <!-- search container -->
+                <ion-col size-xl="3" class="ion-hide-xl-down">
+                    <app-generic-card [chartTitle]="'Search Stock'" [applyLeftPadding]="false">
+                        <app-stock-search
+                                [clearOnClick]="true"
+                                (clickedSymbolEmitter)="changeSummary($event)">
+                        </app-stock-search>
+                    </app-generic-card>
+                </ion-col>
+                <!-- financial chart -->
+                <ion-col size="12" size-lg="6" size-xl="5.5">
+                    <app-financial-chart-container
+                            *ngIf="selectedSummary"
+                            [showYAxis]="true"
+                            [logoUrl]="selectedSummary.logo_url"
+                            [name]="selectedSummary.longName"
+                            [height]="425"
+                            [symbol]="selectedSummary.symbol">
+                    </app-financial-chart-container>
+                </ion-col>
+                <!-- summary -->
+                <ion-col size="12" size-lg="6" size-xl="3.5">
+                    <app-generic-card [iconTitle]="'barcode-outline'" [chartTitle]="'Summary'">
+                        <app-details-summary *ngIf="selectedSummary"
+                                             [summary]="selectedSummary">
+                        </app-details-summary>
+                        <!-- buttons -->
+                        <ion-buttons class="st-buttons-container st-justify-center">
+                            <ion-button class="st-button st-create-background" (click)="tradeSymbol()">
+                                Trade
+                            </ion-button>
+                        </ion-buttons>
+                    </app-generic-card>
+                </ion-col>
+            </ion-row>
+
+            <ng-container *ngIf="user">
+                <ion-row>
+                    <!-- holdings -->
+                    <ion-col size="12" style="display: inline-flex; place-content: center;">
+                        <app-holdings-table
+                                [userPortfolioTotal]="user.portfolio.portfolioCash + user.portfolio.portfolioInvested"
+                                [stTransactions]="user.holdings"
+                                (itemClickedEmitter)="changeSymbol($event)">
+                        </app-holdings-table>
+
+                        <div class="st-hide-xxl-down" *ngIf="holdingsSummaries.length > 0">
+                            <app-summary-sector-chart style="align-self: center;"
+                                                      [summaries]="holdingsSummaries">
+                            </app-summary-sector-chart>
+                        </div>
+                    </ion-col>
+                </ion-row>
+
+                <ion-row>
+                    <ion-col size="12" size-md="6">
+                        <app-transactions-table [transactions]="user.transactionsSnippets"></app-transactions-table>
+                    </ion-col>
+                    <ion-col size="12" size-md="6">
+                    </ion-col>
+                </ion-row>
+
+
+            </ng-container>
+        </ion-grid>
+    </div>
 </ion-content>
 

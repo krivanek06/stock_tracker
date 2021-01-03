@@ -15,10 +15,6 @@ const routes: Routes = [
         component: GroupsComponent,
         children: [
             {
-                path: '',
-                redirectTo: 'create'
-            },
-            {
                 path: 'create',
                 component: GroupsCreateComponent
             },
@@ -29,16 +25,21 @@ const routes: Routes = [
             {
                 path: 'read/:id',
                 component: GroupsReadComponent
-            }
+            },
+            {
+                path: '',
+                redirectTo: 'create',
+                pathMatch: 'full'
+            },
         ]
     },
 ];
 
 @NgModule({
     declarations: [
-        GroupsReadComponent,
         GroupsEditComponent,
         GroupsCreateComponent,
+        GroupsReadComponent,
         GroupsComponent
     ],
     imports: [

@@ -28,6 +28,9 @@ import {
 } from "./st-group/st.group.mutation";
 import {querySTGroupAllDataByGroupId, querySTGroupPartialDataByGroupName} from "./st-group/st-group.query";
 import {stockDetailsResolvers} from "./stockDetails/stockDetails.resolver";
+import {stTransactionResolvers} from "./st-transaction/st-transaction.resolver";
+import {stStockWatchlistResolvers} from "./watchlist/watchlist.resolver";
+import {performTransaction} from "./st-transaction/st-transaction.mutation";
 
 global.fetch = require("node-fetch");
 
@@ -83,6 +86,9 @@ const mainTypeDefs = gql`
         deleteWatchlist(identifier: STStockWatchInputlistIdentifier!): Boolean
         addStockIntoStockWatchlist(identifier: STStockWatchInputlistIdentifier!): Summary
         removeStockFromStockWatchlist(identifier: STStockWatchInputlistIdentifier!): Boolean
+        
+        # trading
+        performTransaction(transactionInput: STTransactionInput): STTransaction
     }
 `;
 
@@ -124,7 +130,10 @@ const mainResolver = {
         renameStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await renameStockWatchlist(args.identifier),
         deleteWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await deleteWatchlist(args.identifier),
         addStockIntoStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await addStockIntoStockWatchlist(args.identifier),
-        removeStockFromStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await removeStockFromStockWatchlist(args.identifier)
+        removeStockFromStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await removeStockFromStockWatchlist(args.identifier),
+
+        // trading
+        performTransaction: async (_, args: { transactionInput: api.STTransactionInput }) => await performTransaction(args.transactionInput),
     }
 
 };
@@ -133,6 +142,8 @@ const mainResolver = {
 const resolvers = {
     ...userResolvers,
     ...stockDetailsResolvers,
+    ...stTransactionResolvers,
+    ...stStockWatchlistResolvers,
     ...mainResolver
 
 };

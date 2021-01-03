@@ -13,7 +13,7 @@ export const userTypeDefs = gql`
     type STUserIndetificationInformation {
         uid: String!
         nickName: String!
-        locale: String!
+        locale: String
         photoURL: String!
         accountCreatedDate: String!
     }
@@ -83,6 +83,14 @@ export const userTypeDefs = gql`
         finnhubKey: String
         nickName: String
         photoURL: String
+    }
+
+    input STUserIndetificationInformationInput {
+        uid: String!
+        nickName: String!
+        locale: String
+        photoURL: String!
+        accountCreatedDate: String!
     }
 
     ##########################################

@@ -1,0 +1,56 @@
+<ion-item>
+    <ion-item (click)="itemClicked()" class="ion-no-padding st-font-size-15 ion-activatable">
+        <ion-label>
+            <ion-img [src]="transaction.summary.logo_url" class="st-symbol-image"></ion-img>
+        </ion-label>
+
+        <!-- stock name -->
+        <ion-label position="fixed" class="st-label-small-space st-data-label">
+            {{ transaction.summary.symbol }}
+        </ion-label>
+
+        <!-- current price -->
+        <ion-label position="fixed" class="st-label-small-space st-data-label" [@marketValueChange]="newCurrentPrice">
+            {{ currentPrice | currency }}
+        </ion-label>
+
+        <!-- daily change -->
+        <ion-label class="st-label-md-space">
+            <app-price-compare-item [currentPrice]="currentPrice * transaction.units"
+                                    [compareToPrice]="transaction.summary.previousClose * transaction.units">
+            </app-price-compare-item>
+        </ion-label>
+
+        <!-- total change -->
+        <ion-label class="st-label-md-space">
+            <app-price-compare-item [currentPrice]="currentPrice * transaction.units"
+                                    [compareToPrice]="transaction.price * transaction.units">
+            </app-price-compare-item>
+        </ion-label>
+
+        <!-- Value -->
+        <ion-label position="fixed" class="st-label-md-space st-data-label">
+            <ion-label>
+                <ion-text class="st-font-size-16 st-flex-row"> {{ (transaction.price * transaction.units) | currency }}</ion-text>
+                <ion-text class="st-font-size-13 st-font-5">{{ transaction.price | currency }} * {{ transaction.units }}</ion-text>
+            </ion-label>
+        </ion-label>
+
+        <!-- portfolio % -->
+        <ion-label position="fixed" class="st-label-md-space st-data-label">
+            {{ (transaction.price * transaction.units / userPortfolioTotal  | percent: '1.2-2') }}
+        </ion-label>
+
+        <!-- recommendation date -->
+        <ion-label position="fixed" class="ion-hide-md-down st-data-label">
+            <ion-text [appRecommendation]="transaction.summary.recommendationKey | titlecase">
+                {{ transaction.summary.recommendationKey | titlecase }}
+            </ion-text>
+            [{{ transaction.summary.recommendationMean }}]
+        </ion-label>
+
+
+        <!-- ripple effect on click -->
+        <ion-ripple-effect></ion-ripple-effect>
+    </ion-item>
+</ion-item>

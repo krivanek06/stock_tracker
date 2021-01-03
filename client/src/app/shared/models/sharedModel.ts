@@ -9,7 +9,7 @@ export enum ChartType {
     bar = 'bar'
 }
 
-export interface ChartDataIdentification {
+export interface SymbolIdentification {
     symbol: string;
     name: string;
 }
@@ -25,3 +25,9 @@ export interface UploadedFile {
     path: string;
 }
 
+
+export interface STCustomValueChange {
+    firstChange: boolean;
+    currentValue: number;
+    previousValue: number;
+}

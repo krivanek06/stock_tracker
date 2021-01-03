@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import {GraphqlGroupService} from './graphql-group.service';
-import {createSTGroupAllDataInput, GroupForm} from '../../stock-watchlist-feature/model/group.model';
 import {StGroupAllData, StGroupPartialData, StUserPartialInformation} from '../../../api/customGraphql.service';
 import {AuthFeatureService} from '../../auth-feature/services/auth-feature.service';
 import {IonicDialogService} from '../../../shared/services/ionic-dialog.service';
 import {Observable} from 'rxjs';
 import {GROUPS_PAGES} from '../../../pages/groups/model/groups.enum';
 import {Router} from '@angular/router';
+import {createSTGroupAllDataInput} from '../utils/convertor';
+import {GroupForm} from '../model/group.model';
 
 @Injectable({
     providedIn: 'root'

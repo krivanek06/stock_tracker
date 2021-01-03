@@ -138,6 +138,8 @@ ion-spinner {
   font-size: 18px !important;
 }
 
+// ---------------------------------------------
+// - DATA LABELS
 .st-data-label {
   color: #{$st-var-font-3} !important;
 }
@@ -146,13 +148,30 @@ ion-spinner {
   min-width: 60% !important;
   max-width: 60% !important;
   color: #{$st-var-font-1} !important;
-  /*@media (max-width: #{$st-var-md-split}) {
-    min-width: 50% !important;
-    max-width: 50% !important;
-  }*/
+}
+
+.st-label-xl-space {
+  min-width: 150px !important;
+  max-width: 150px !important;
+}
+
+.st-label-md-space {
+  min-width: 110px !important;
+  max-width: 110px !important;
 }
 
 
+.st-label-small-space {
+  min-width: 80px !important;
+  max-width: 80px !important;
+  @media (max-width: #{$st-var-md-split}) {
+    min-width: 70px !important;
+    max-width: 70px !important;
+  }
+}
+
+
+// ---------------------------------------------
 // FONT SIZES
 .st-font-size-12 {
   font-size: 12px !important;
@@ -297,8 +316,8 @@ ion-spinner {
 }
 
 .st-price-icon {
-  position: absolute;
-  top: 2px;
+  //position: absolute;
+  //top: 2px;
   margin-left: 5px;
 }
 
@@ -355,7 +374,7 @@ ion-spinner {
   cursor: pointer;
 
   &:hover {
-    border-radius: 10px;
+    border-radius: 8px;
     transform: scale(0.98);
     background: #7070702e;
   }
@@ -370,10 +389,11 @@ ion-spinner {
   }
 }
 
-.st-clickable-card{
+.st-clickable-card {
   cursor: pointer;
   transition: All 0.4s ease-out;
-  &:hover{
+
+  &:hover {
     transform: scale(0.96);
     border-radius: 15px;
     -webkit-box-shadow: 1px 3px 5px 2px #01002a;
@@ -431,6 +451,8 @@ ion-spinner {
   }
 }
 
+// -------------------------------------
+// DISPLAY
 .st-flex-row-sm-col {
   display: flex !important;
   flex-flow: row !important;
@@ -445,6 +467,10 @@ ion-spinner {
   display: flex !important;
   flex-flow: row !important;
   align-items: center !important;
+}
+
+.st-justify-center {
+  justify-content: center !important;
 }
 
 .st-flex-row-md-justify-center {

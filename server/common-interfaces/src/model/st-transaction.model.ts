@@ -2,13 +2,32 @@ import { STUserIndentificationInformation } from './user.model';
 
 
 export interface STTransaction {
-    isOpen: boolean;
-    shortName: string;
-    longName: string;
-    user: STUserIndentificationInformation
-    priceBought: number;
-    priceSold: number;
-    priceProfit: number;
+    transactionId?: string;
+    user?: STUserIndentificationInformation;
+    symbol: string;
+    symbol_logo_url: string;
+    price: number;
+    return?: number;
+    returnChange?: number;
     units: number;
+    operation: STTransactionOperationEnum;
     date: string;
+
 }
+
+export interface STTransactionInput {
+    symbol: string;
+    symbol_logo_url: string;
+    price: number;
+    userId: string;
+    units: number;
+    operation: STTransactionOperationEnum;
+}
+
+export enum STTransactionOperationEnum {
+    BUY  = 'BUY',
+    SELL = 'SELL'
+}
+
+
+export const ST_TRANSACTION_COLLECTION = 'transactions';

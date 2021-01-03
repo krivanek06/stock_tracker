@@ -5,17 +5,17 @@
         </ion-label>
 
         <!-- stock name -->
-        <ion-label position="fixed" class="label-small-space">
+        <ion-label position="fixed" class="st-label-small-space st-data-label">
             {{ summary.symbol }}
         </ion-label>
 
         <!-- current price -->
-        <ion-label position="fixed" class="label-small-space" [@marketValueChange]="newCurrentPrice">
+        <ion-label position="fixed" class="st-label-small-space st-data-label" [@marketValueChange]="newCurrentPrice">
             {{ currentPrice | currency }}
         </ion-label>
 
         <!-- daily change -->
-        <div class="label-md-space">
+        <div class="st-label-md-space">
             <app-price-compare-item [currentPrice]="currentPrice"
                                     [compareToPrice]="summary.previousClose">
             </app-price-compare-item>
@@ -23,7 +23,7 @@
 
 
         <!-- year change -->
-        <div class="label-md-space">
+        <div class="st-label-md-space">
             <app-price-compare-item [currentPrice]="currentPrice"
                                     [compareToPrice]="summary.weekRangeFiveTwoMin">
             </app-price-compare-item>
@@ -31,17 +31,17 @@
 
 
         <!-- 52 week range -->
-        <ion-label position="fixed" class="label-xl-space ion-hide-lg-down">
+        <ion-label position="fixed" class="st-label-xl-space ion-hide-lg-down st-data-label">
             {{ summary.weekRangeFiveTwoMin | currency }} - {{ summary.weekRangeFiveTwoMax | currency }}
         </ion-label>
 
         <!-- PE -->
-        <ion-label position="fixed" class="ion-hide-sm-down">
+        <ion-label position="fixed" class="ion-hide-sm-down st-data-label">
             {{ summary.pERatioTTM }}
         </ion-label>
 
         <!-- recommendation date -->
-        <ion-label position="fixed" class="ion-hide-md-down">
+        <ion-label position="fixed" class="ion-hide-md-down st-data-label">
            <ion-text [appRecommendation]="summary.recommendationKey | titlecase">
                {{ summary.recommendationKey | titlecase }}
            </ion-text>
@@ -54,7 +54,9 @@
 
 
     <!-- delete button  -->
-    <ion-button class="st-transparent-background st-negative-button st-clickable" (click)="deleteSymbolClicked()">
+    <ion-button *ngIf="allowModification"
+                class="st-transparent-background st-negative-button st-clickable"
+                (click)="deleteSymbolClicked()">
         <ion-icon name="trash-bin" style="font-size: 28px;"></ion-icon>
     </ion-button>
 </ion-item>

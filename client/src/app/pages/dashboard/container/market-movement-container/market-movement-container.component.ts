@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {SymbolMovementData} from '../../../../shared/models/chartDataModel';
 import {SearchDataApiService} from '../../../../api/search-data-api.service';
-import {ChartDataIdentification} from '../../../../shared/models/sharedModel';
+import {SymbolIdentification} from '../../../../shared/models/sharedModel';
 import {ModalController} from '@ionic/angular';
 import {SymbolLookupModalComponent} from '../../../../features/stock-details-feature/components/modal/symbol-lookup-modal/symbol-lookup-modal.component';
 
@@ -29,7 +29,7 @@ export class MarketMovementContainerComponent implements OnInit {
         this.topLosses$.subscribe(x => console.log({x}));
     }
 
-    async showMoreInformation(chartDataIdentification: ChartDataIdentification) {
+    async showMoreInformation(chartDataIdentification: SymbolIdentification) {
         const modal = await this.modalController.create({
             component: SymbolLookupModalComponent,
             componentProps: {chartDataIdentification},

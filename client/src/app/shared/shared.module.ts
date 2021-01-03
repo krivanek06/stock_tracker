@@ -31,6 +31,7 @@ import {ClickableNameItemComponent} from './components/items/clickable-name-item
 import {GenericListComponent} from './components/general/generic-list/generic-list.component';
 import {TitleWithLogoItemComponent} from './components/items/title-with-logo-item/title-with-logo-item.component';
 import { TooltipDirective } from './directives/tooltip.directive';
+import {SearchWrapperComponent} from './components/search-wrapper/search-wrapper.component';
 
 @NgModule({
     declarations: [
@@ -55,7 +56,8 @@ import { TooltipDirective } from './directives/tooltip.directive';
         ClickableNameItemComponent,
         GenericListComponent,
         TitleWithLogoItemComponent,
-        TooltipDirective
+        TooltipDirective,
+        SearchWrapperComponent
     ],
     imports: [
         CommonModule,
@@ -101,7 +103,8 @@ import { TooltipDirective } from './directives/tooltip.directive';
         ClickableNameItemComponent,
         GenericListComponent,
         TitleWithLogoItemComponent,
-        TooltipDirective
+        TooltipDirective,
+        SearchWrapperComponent
 
     ],
     entryComponents: [

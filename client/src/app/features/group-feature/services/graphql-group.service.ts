@@ -40,7 +40,7 @@ export class GraphqlGroupService {
             groupId
         }, {
             fetchPolicy: 'network-only' // loadFromNetwork ? 'network-only' : 'cache-first'
-        }).pipe(map(res => res.data.querySTGroupAllDataByGroupId));
+        }).pipe(map(res => res.data.querySTGroupAllDataByGroupId as StGroupAllData));
     }
 
 

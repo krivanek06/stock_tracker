@@ -1,0 +1,24 @@
+<app-generic-card [chartTitle]="'Holdings'" [iconTitle]="'pricetags'" [applyLeftPadding]="false">
+
+  <!-- table header -->
+  <ion-item style="font-weight: bold;" class="ion-margin-top ion-no-padding ion-hide-sm-down">
+    <ion-label position="fixed" style="min-width: 70px; max-width: 70px;"></ion-label>
+    <ion-label position="fixed" class="st-label-small-space st-font-1">Symbol</ion-label>
+    <ion-label position="fixed" class="st-label-small-space st-font-1">Price</ion-label>
+    <ion-label position="fixed" class="st-label-md-space st-font-1">Daily +/-</ion-label>
+    <ion-label position="fixed" class="st-label-md-space st-font-1">Total +/-</ion-label>
+    <ion-label position="fixed" class="st-label-md-space st-font-1">Value</ion-label>
+    <ion-label position="fixed" class="st-label-md-space st-font-1">Portfolio %</ion-label>
+    <ion-label position="fixed" class="st-label-xl-space st-font-1">Recommendation</ion-label>
+  </ion-item>
+
+
+  <!-- table body -->
+  <app-holdings-table-body-item
+          *ngFor="let transaction of stTransactions"
+          [transaction]="transaction"
+          [userPortfolioTotal]="userPortfolioTotal"
+          [currentPrice]="transaction.summary.marketPrice"
+          (itemClickedEmitter)="itemClicked($event)">
+  </app-holdings-table-body-item>
+</app-generic-card>

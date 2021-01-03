@@ -17,15 +17,21 @@
                 <ion-text class="st-font-4 st-font-size-13">Portfolio</ion-text>
                 <ion-item>
                     <ion-label position="fixed" class="st-font-1 fixedLabel">Total</ion-label>
-                    <ion-label class="st-font-4 ion-align-self-start ion-text-wrap"> {{ group.portfolio.portfolioTotal | currency }}</ion-label>
+                    <ion-label class="st-font-4 ion-align-self-start ion-text-wrap">
+                        {{ (group.portfolio.portfolioInvested + group.portfolio.portfolioCash) | currency }}
+                    </ion-label>
                 </ion-item>
                 <ion-item>
                     <ion-label position="fixed" class="st-font-1 fixedLabel">Invested</ion-label>
-                    <ion-label class="st-font-4 ion-align-self-start ion-text-wrap"> {{ group.portfolio.portfolioInvested | currency }}</ion-label>
+                    <ion-label class="st-font-4 ion-align-self-start ion-text-wrap">
+                        {{ group.portfolio.portfolioInvested | currency }}
+                    </ion-label>
                 </ion-item>
                 <ion-item>
                     <ion-label position="fixed" class="st-font-1 fixedLabel">Cash</ion-label>
-                    <ion-label class="st-font-4 ion-align-self-start ion-text-wrap"> {{ group.portfolio.portfolioCash | currency }}</ion-label>
+                    <ion-label class="st-font-4 ion-align-self-start ion-text-wrap">
+                        {{ group.portfolio.portfolioCash | currency }}
+                    </ion-label>
                 </ion-item>
                 <ion-item>
                     <ion-label position="fixed" class="st-font-1 fixedLabel">Weekly change</ion-label>

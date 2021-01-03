@@ -16,7 +16,6 @@ export class RecommendationDirective implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log(this.appRecommendation);
         this.initRecommendationColors();
         const recommendation = this.recommendationColors.find(s => s.value === this.appRecommendation);
         this.elRef.nativeElement.style.color = recommendation.color;

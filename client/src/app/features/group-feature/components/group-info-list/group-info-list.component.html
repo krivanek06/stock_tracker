@@ -11,7 +11,9 @@
             <ng-container *ngIf="groupPartialData.portfolio as portfolio">
                 <div class="st-flex-row-sm-col">
                     <ion-text class="st-font-size-12 st-font-5" style="margin-right: 5px;"> Portfolio:</ion-text>
-                    <ion-text class="st-font-size-14">{{ portfolio.portfolioTotal | currency }}</ion-text>
+                    <ion-text class="st-font-size-14">
+                        {{ (portfolio.portfolioCash + portfolio.portfolioInvested) | currency }}
+                    </ion-text>
                 </div>
                 <div class="st-flex-row-sm-col">
                     <ion-text class="st-font-size-12 st-font-5" style="margin-right: 5px;">Weekly change:</ion-text>

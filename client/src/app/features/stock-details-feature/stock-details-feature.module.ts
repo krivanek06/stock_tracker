@@ -19,7 +19,8 @@ import {DetailsSummaryComponent} from './components/details-summary/details-summ
 import {DetailsRevenueEstimateComponent} from './components/details-revenue-estimate/details-revenue-estimate.component';
 import {StockInfoListComponent} from './components/stock-info-list/stock-info-list.component';
 import {StockSearchComponent} from './containers/stock-search/stock-search.component';
-import {RecommendationDirective} from './directives/recommendation.directive';
+import {RecommendationDirective} from '../../shared/directives/recommendation.directive';
+import {SummarySectorChartComponent} from './components/summary-sector-chart/summary-sector-chart.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import {RecommendationDirective} from './directives/recommendation.directive';
         DetailsRevenueEstimateComponent,
         StockInfoListComponent,
         StockSearchComponent,
-        RecommendationDirective
+        RecommendationDirective,
+        SummarySectorChartComponent
     ],
     imports: [
         CommonModule,
@@ -67,7 +69,8 @@ import {RecommendationDirective} from './directives/recommendation.directive';
         DetailsRevenueEstimateComponent,
         StockInfoListComponent,
         StockSearchComponent,
-        RecommendationDirective
+        RecommendationDirective,
+        SummarySectorChartComponent
     ],
     entryComponents: [
         DetailsFinancialReportModalComponent,

@@ -1,0 +1,68 @@
+<ion-content class="ion-padding">
+    <ion-toolbar class="ion-hide-sm-up">
+        <ion-buttons slot="end">
+            <ion-button color="danger" (click)="dismiss()">
+                <ion-icon name="close-outline"></ion-icon>
+                Close
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+
+    <div class="st-flex-col ion-align-items-center">
+        <!-- text -->
+        <ion-item>
+            <ion-label class="st-title">
+                <ion-text class="st-price-up st-font-size-18">Buy</ion-text>
+                or
+                <ion-text class="st-price-down st-font-size-18">Sell</ion-text>
+                operation on {{ symbol }} stock
+            </ion-label>
+        </ion-item>
+
+        <!-- estimated price -->
+        <ion-item>
+            <ion-label>
+                <ion-text class="st-font-1">Estimated price / share: {{ price | currency }}</ion-text>
+            </ion-label>
+        </ion-item>
+
+        <form [formGroup]="form">
+
+            <!-- amount -->
+            <ion-item class="ion-margin-bottom">
+                <ion-label position="floating">Number of units</ion-label>
+                <ion-input placeholder="Enter amount" type="number" min="1" formControlName="units"></ion-input>
+            </ion-item>
+
+
+            <div class="st-flex-row ion-justify-content-between">
+                <!-- estimated price -->
+                <ion-item>
+                    <ion-label>
+                        <ion-text>Total price: {{ (price * units.value) | currency }}</ion-text>
+                    </ion-label>
+                </ion-item>
+
+                <!-- confirm -->
+                <ion-item>
+                    <ion-label>Confirm</ion-label>
+                    <ion-checkbox slot="start" formControlName="confirmation" class="ion-margin-end"></ion-checkbox>
+                </ion-item>
+            </div>
+
+            <!-- buttons -->
+            <ion-buttons class="st-buttons-container">
+                <ion-button class="st-button st-create-background"
+                            [disabled]="form.invalid"
+                            (click)="submit(STTransactionOperationEnum.Buy)">
+                    Buy
+                </ion-button>
+                <ion-button class="st-button st-remove-background"
+                            [disabled]="form.invalid"
+                            (click)="submit(STTransactionOperationEnum.Sell)">
+                    Sell
+                </ion-button>
+            </ion-buttons>
+        </form>
+    </div>
+</ion-content>

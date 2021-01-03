@@ -86,6 +86,7 @@ export class GraphqlAccountService {
                     }
                 });
 
+                const portfolio = data.authenticateUser.portfolio;
                 // update watchlist inside cache
                 store.writeQuery({
                     query: AuthenticateUserDocument,
@@ -99,7 +100,7 @@ export class GraphqlAccountService {
                             resetedAccount: [...data.authenticateUser.resetedAccount, {
                                 __typename: 'STUserResetedAccount',
                                 date: new Date().toISOString(),
-                                portfolioTotal: data.authenticateUser.portfolio.portfolioTotal
+                                portfolioTotal: portfolio.portfolioCash + portfolio.portfolioInvested
                             }],
                             portfolio: resetedPortfolio(),
                             holdings: [],
