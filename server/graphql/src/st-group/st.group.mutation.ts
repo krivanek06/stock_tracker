@@ -98,7 +98,6 @@ export const editGroup = async (groupInput: api.STGroupAllDataInput): Promise<ap
 
         if (group.members.length > 0) {
             group.portfolio = group.members.map(member => member.user.portfolio).reduce((acc, cur) => {
-                acc.portfolioTotal += cur.portfolioTotal;
                 acc.portfolioCash += cur.portfolioCash;
                 acc.portfolioInvested += cur.portfolioInvested;
                 return acc;

@@ -1,5 +1,5 @@
 <div class="container" *ngFor="let revenue of revenueEstimates"
-    [appTooltip]="revenue.name + ': ' + revenue.avgEstimate + '\n' + 'Number of analysis: ' + revenue.noofAnalysts">
+    [appTooltip]="revenue.name + '\n\n' + 'Estimate: ' + revenue.avgEstimate + '\n' + 'Number of analysis: ' + revenue.noofAnalysts">
     <!-- TODO REFACTOR TO ION modules -->
     <!-- additional info -->
     <div class="ion-text-wrap">

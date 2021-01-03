@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StStockWatchlistFragmentFragment} from '../../../../api/customGraphql.service';
-import {ChartDataIdentification} from '../../../../shared/models/sharedModel';
+import {StStockWatchlist, StStockWatchlistFragmentFragment} from '../../../../api/customGraphql.service';
+import {SymbolIdentification} from '../../../../shared/models/sharedModel';
 
 @Component({
     selector: 'app-watchlist-table',
@@ -8,10 +8,11 @@ import {ChartDataIdentification} from '../../../../shared/models/sharedModel';
     styleUrls: ['./watchlist-table.component.scss'],
 })
 export class WatchlistTableComponent implements OnInit {
-    @Output() deleteEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
-    @Output() itemClickedEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
+    @Output() deleteEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
+    @Output() itemClickedEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
 
-    @Input() watchlist: StStockWatchlistFragmentFragment;
+    @Input() watchlist: StStockWatchlist;
+    @Input() allowModification = true;
 
     constructor() {
     }
@@ -19,11 +20,11 @@ export class WatchlistTableComponent implements OnInit {
     ngOnInit() {
     }
 
-    deleteSymbolFromWatchlist(identification: ChartDataIdentification) {
+    deleteSymbolFromWatchlist(identification: SymbolIdentification) {
         this.deleteEmitter.emit(identification);
     }
 
-    itemClicked(identification: ChartDataIdentification) {
+    itemClicked(identification: SymbolIdentification) {
         this.itemClickedEmitter.emit(identification);
     }
 }

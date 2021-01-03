@@ -74,7 +74,7 @@ export const resetUserAccount = async (userId: string): Promise<boolean> => {
 
         const reset: api.STUserResetedAccount = {
             date: getCurrentIOSDate(),
-            portfolioTotal: user.portfolio.portfolioTotal
+            portfolioTotal: user.portfolio.portfolioInvested + user.portfolio.portfolioCash
         };
 
         const updatedUser: api.STUserPublicData = {

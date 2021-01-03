@@ -16,7 +16,6 @@ export const convertUserAccountFormToStUserEditDataInput = (userId: string, acco
 export const resetedPortfolio = (): StPortfolioFragmentFragment => {
     const portfolio: StPortfolioFragmentFragment = {
         __typename: 'STPortfolio',
-        portfolioTotal: 15000,
         portfolioWeeklyGrowth: 0,
         portfolioCash: 15000,
         portfolioInvested: 0,

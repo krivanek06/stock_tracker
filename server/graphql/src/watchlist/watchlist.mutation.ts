@@ -22,7 +22,7 @@ export const createStockWatchlist = async (identifier: api.STStockWatchlistIdent
         const watchlist: api.STStockWatchlist = {
             name: identifier.additionalData,
             userId: identifier.userId,
-            summaries: [],
+            symbols: [],
             date: getCurrentIOSDate(),
         };
 
@@ -41,7 +41,7 @@ export const addStockIntoStockWatchlist = async (identifier: api.STStockWatchlis
             .collection(api.ST_WATCHLIST_COLLECTION)
             .doc(identifier.id);
         const watchlist = (await watchlistRef.get()).data() as api.STStockWatchlist;
-
+        const newSymbol = identifier.additionalData;
         // was not found
         if (!watchlist) {
             throw new ApolloError("Cloud not access watchlist, probably does not exists");
@@ -53,16 +53,16 @@ export const addStockIntoStockWatchlist = async (identifier: api.STStockWatchlis
         }
 
         // watchlist already contains specific stock
-        if (watchlist.summaries.find(x => x.symbol === identifier.additionalData)) {
+        if (watchlist.symbols.find(x => x === newSymbol)) {
             throw new ApolloError("Your watchlist already contains this stock");
         }
 
         // get summary from custom server
-        const summary = await queryStockSummary(identifier.additionalData);
+        const summary = await queryStockSummary(newSymbol);
 
         // add stock into watchlist
-        watchlist.summaries = [...watchlist.summaries, summary];
-        await watchlistRef.update({summaries: admin.firestore.FieldValue.arrayUnion(summary)});
+        watchlist.symbols = [...watchlist.symbols, newSymbol];
+        await watchlistRef.update({symbols: admin.firestore.FieldValue.arrayUnion(newSymbol)});
 
         return summary;
     } catch (error) {
@@ -90,10 +90,9 @@ export const removeStockFromStockWatchlist = async (identifier: api.STStockWatch
         }
 
         // filter out unwanted stock
-        const filtered = watchlist.summaries.filter((summary) => summary.symbol !== identifier.additionalData);
+        const filtered = watchlist.symbols.filter((symbol) => symbol !== identifier.additionalData);
 
-        watchlist.summaries = filtered;
-        await watchlistRef.update({summaries: filtered});
+        await watchlistRef.update({symbols: filtered});
 
         return true;
     } catch (error) {
@@ -154,8 +153,3 @@ export const renameStockWatchlist = async (identifier: api.STStockWatchlistIdent
         throw new ApolloError(error);
     }
 };
-
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}

@@ -3,12 +3,12 @@ import {ChartType} from '../../../../shared/models/sharedModel';
 import {Summary} from "../../../../api/customGraphql.service";
 
 @Component({
-    selector: 'app-watchlist-sector-chart',
-    templateUrl: './watchlist-sector-chart.component.html',
-    styleUrls: ['./watchlist-sector-chart.component.scss'],
+    selector: 'app-summary-sector-chart',
+    templateUrl: './summary-sector-chart.component.html',
+    styleUrls: ['./summary-sector-chart.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WatchlistSectorChartComponent implements OnInit {
+export class SummarySectorChartComponent implements OnInit {
     @Input() summaries: Summary[];
 
     sectorPairs = [];

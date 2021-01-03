@@ -86,6 +86,7 @@ export type Mutation = {
     deleteWatchlist?: Maybe<Scalars['Boolean']>;
     addStockIntoStockWatchlist?: Maybe<Summary>;
     removeStockFromStockWatchlist?: Maybe<Scalars['Boolean']>;
+    performTransaction?: Maybe<StTransaction>;
 };
 
 
@@ -163,6 +164,11 @@ export type MutationRemoveStockFromStockWatchlistArgs = {
     identifier: StStockWatchInputlistIdentifier;
 };
 
+
+export type MutationPerformTransactionArgs = {
+    transactionInput?: Maybe<StTransactionInput>;
+};
+
 export type StUserGroups = {
     __typename?: 'STUserGroups';
     groupInvitationSent?: Maybe<Array<Maybe<StGroupPartialData>>>;
@@ -175,7 +181,7 @@ export type StUserIndetificationInformation = {
     __typename?: 'STUserIndetificationInformation';
     uid: Scalars['String'];
     nickName: Scalars['String'];
-    locale: Scalars['String'];
+    locale?: Maybe<Scalars['String']>;
     photoURL: Scalars['String'];
     accountCreatedDate: Scalars['String'];
 };
@@ -247,6 +253,14 @@ export type StUserEditDataInput = {
     finnhubKey?: Maybe<Scalars['String']>;
     nickName?: Maybe<Scalars['String']>;
     photoURL?: Maybe<Scalars['String']>;
+};
+
+export type StUserIndetificationInformationInput = {
+    uid: Scalars['String'];
+    nickName: Scalars['String'];
+    locale?: Maybe<Scalars['String']>;
+    photoURL: Scalars['String'];
+    accountCreatedDate: Scalars['String'];
 };
 
 export enum User_Activity {
@@ -941,16 +955,32 @@ export type NewsArticle = {
 
 export type StTransaction = {
     __typename?: 'STTransaction';
-    isOpen: Scalars['Boolean'];
-    shortName: Scalars['String'];
-    longName: Scalars['String'];
+    transactionId?: Maybe<Scalars['String']>;
     user?: Maybe<StUserIndetificationInformation>;
-    priceBought: Scalars['Float'];
-    priceSold: Scalars['Float'];
-    priceProfit: Scalars['Float'];
+    symbol: Scalars['String'];
+    symbol_logo_url: Scalars['String'];
+    price: Scalars['Float'];
+    return?: Maybe<Scalars['Float']>;
+    returnChange?: Maybe<Scalars['Float']>;
     units: Scalars['Float'];
     date: Scalars['String'];
+    operation: StTransactionOperationEnum;
+    summary: Summary;
 };
+
+export type StTransactionInput = {
+    symbol: Scalars['String'];
+    symbol_logo_url: Scalars['String'];
+    price: Scalars['Float'];
+    userId: Scalars['String'];
+    units: Scalars['Float'];
+    operation: StTransactionOperationEnum;
+};
+
+export enum StTransactionOperationEnum {
+    Buy = 'BUY',
+    Sell = 'SELL'
+}
 
 export type StGeographic = {
     __typename?: 'STGeographic';
@@ -998,7 +1028,6 @@ export type StRank = {
 
 export type StPortfolio = {
     __typename?: 'STPortfolio';
-    portfolioTotal: Scalars['Float'];
     portfolioInvested: Scalars['Float'];
     portfolioCash: Scalars['Float'];
     portfolioWeeklyChange: Scalars['Float'];
@@ -1269,7 +1298,7 @@ export type LeaveGroupMutation = (
 
 export type StPortfolioFragmentFragment = (
     { __typename?: 'STPortfolio' }
-    & Pick<StPortfolio, 'portfolioTotal' | 'portfolioInvested' | 'portfolioCash' | 'portfolioWeeklyChange' | 'portfolioWeeklyGrowth' | 'date'>
+    & Pick<StPortfolio, 'portfolioInvested' | 'portfolioCash' | 'portfolioWeeklyChange' | 'portfolioWeeklyGrowth' | 'date'>
     );
 
 export type StRankFragmentFragment = (
@@ -1589,7 +1618,28 @@ export type QueryStockSummariesQuery = (
 
 export type StTransactionFragment = (
     { __typename?: 'STTransaction' }
-    & Pick<StTransaction, 'isOpen' | 'shortName' | 'longName' | 'priceBought' | 'priceSold' | 'priceProfit' | 'units' | 'date'>
+    & Pick<StTransaction, 'symbol' | 'price' | 'return' | 'returnChange' | 'units' | 'date' | 'operation' | 'symbol_logo_url'>
+    );
+
+export type PerformTransactionMutationVariables = Exact<{
+    transactionInput: StTransactionInput;
+}>;
+
+
+export type PerformTransactionMutation = (
+    { __typename?: 'Mutation' }
+    & {
+    performTransaction?: Maybe<(
+        { __typename?: 'STTransaction' }
+        & {
+        summary: (
+            { __typename?: 'Summary' }
+            & StockSummaryFragmentFragment
+            )
+    }
+        & StTransactionFragment
+        )>
+}
     );
 
 export type StUserPartialInformationFragmentFragment = (
@@ -1632,6 +1682,12 @@ export type AuthenticateUserQuery = (
             & StPortfolioFragmentFragment
             )>>, holdings: Array<Maybe<(
             { __typename?: 'STTransaction' }
+            & {
+            summary: (
+                { __typename?: 'Summary' }
+                & StockSummaryFragmentFragment
+                )
+        }
             & StTransactionFragment
             )>>, resetedAccount?: Maybe<Array<Maybe<(
             { __typename?: 'STUserResetedAccount' }
@@ -1786,7 +1842,6 @@ export type RenameStockWatchlistMutation = (
 
 export const StPortfolioFragmentFragmentDoc = gql`
     fragment STPortfolioFragment on STPortfolio {
-        portfolioTotal
         portfolioInvested
         portfolioCash
         portfolioWeeklyChange
@@ -1851,14 +1906,15 @@ export const StGroupPartialDataFragmentFragmentDoc = gql`
 ${StRankFragmentFragmentDoc}`;
 export const StTransactionFragmentDoc = gql`
     fragment STTransaction on STTransaction {
-        isOpen
-        shortName
-        longName
-        priceBought
-        priceSold
-        priceProfit
+        symbol
+        price
+        return
+        returnChange
         units
         date
+        operation
+        symbol
+        symbol_logo_url
     }
 `;
 export const StLogsFragmentFragmentDoc = gql`
@@ -2710,6 +2766,29 @@ export class QueryStockSummariesGQL extends Apollo.Query<QueryStockSummariesQuer
     }
 }
 
+export const PerformTransactionDocument = gql`
+    mutation PerformTransaction($transactionInput: STTransactionInput!) {
+        performTransaction(transactionInput: $transactionInput) {
+            summary {
+                ...StockSummaryFragment
+            }
+            ...STTransaction
+        }
+    }
+    ${StockSummaryFragmentFragmentDoc}
+${StTransactionFragmentDoc}`;
+
+@Injectable({
+    providedIn: 'root'
+})
+export class PerformTransactionGQL extends Apollo.Mutation<PerformTransactionMutation, PerformTransactionMutationVariables> {
+    document = PerformTransactionDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+        super(apollo);
+    }
+}
+
 export const AuthenticateUserDocument = gql`
     query AuthenticateUser($uid: String!) {
         authenticateUser(uid: $uid) {
@@ -2732,6 +2811,9 @@ export const AuthenticateUserDocument = gql`
                 ...STPortfolioFragment
             }
             holdings {
+                summary {
+                    ...StockSummaryFragment
+                }
                 ...STTransaction
             }
             resetedAccount {
@@ -2774,6 +2856,7 @@ export const AuthenticateUserDocument = gql`
     ${StPortfolioFragmentFragmentDoc}
     ${StRankFragmentFragmentDoc}
     ${StTransactionFragmentDoc}
+    ${StockSummaryFragmentFragmentDoc}
     ${StGroupPartialDataFragmentFragmentDoc}
     ${StLogsFragmentFragmentDoc}
 ${StStockWatchlistFragmentFragmentDoc}`;

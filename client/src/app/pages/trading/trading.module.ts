@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
 import { TradingPage } from './trading.page';
 import {RouterModule, Routes} from '@angular/router';
 import {SharedModule} from '../../shared/shared.module';
+import {TradingFeatureModule} from '../../features/trading-feature/trading-feature.module';
+import {StockDetailsFeatureModule} from '../../features/stock-details-feature/stock-details-feature.module';
+import {StockWatchlistModule} from '../../features/stock-watchlist-feature/stock-watchlist.module';
 
 const routes: Routes = [
   {
@@ -14,10 +14,13 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    SharedModule,
-    RouterModule.forChild(routes)
-  ],
+    imports: [
+        SharedModule,
+        RouterModule.forChild(routes),
+        TradingFeatureModule,
+        StockDetailsFeatureModule,
+        StockWatchlistModule
+    ],
   declarations: [TradingPage]
 })
 export class TradingPageModule {}

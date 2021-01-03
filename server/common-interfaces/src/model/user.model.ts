@@ -91,6 +91,14 @@ export interface STUserEditDataInput {
     photoURL: string;
 }
 
+export interface STUserIndetificationInformationInput {
+    uid: string;
+    nickName: string;
+    locale?: string;
+    photoURL: string;
+    accountCreatedDate: string;
+}
+
 export const ST_USER_COLLECTION_USER = "users";
 export const ST_USER_DOCUMENT_PRIVATE_DATA = "private_data";
 export const ST_USER_COLLECTION_MORE_INFORMATION = "more_information";

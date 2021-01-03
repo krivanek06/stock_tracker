@@ -1,0 +1,25 @@
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {StPortfolio, StTransaction} from '../../../../api/customGraphql.service';
+import {SymbolIdentification} from '../../../../shared/models/sharedModel';
+
+@Component({
+    selector: 'app-holdings-table',
+    templateUrl: './holdings-table.component.html',
+    styleUrls: ['./holdings-table.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class HoldingsTableComponent implements OnInit {
+    @Output() itemClickedEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
+    @Input() stTransactions: StTransaction[];
+    @Input() userPortfolioTotal: number;
+
+    constructor() {
+    }
+
+    ngOnInit() {
+    }
+
+    itemClicked(symbolIdentification: SymbolIdentification) {
+        this.itemClickedEmitter.emit(symbolIdentification);
+    }
+}

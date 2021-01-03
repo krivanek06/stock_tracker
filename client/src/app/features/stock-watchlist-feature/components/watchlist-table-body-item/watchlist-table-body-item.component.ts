@@ -1,22 +1,16 @@
 import {
     Component,
     EventEmitter,
-    HostListener,
     Input,
     OnChanges,
     OnInit,
     Output,
 } from '@angular/core';
-import {ChartDataIdentification} from '../../../../shared/models/sharedModel';
+import {STCustomValueChange, SymbolIdentification} from '../../../../shared/models/sharedModel';
 import {marketValueChange} from '../../../../shared/animations/marketValueChange.animation';
 import {StockSummaryFragmentFragment, Summary} from '../../../../api/customGraphql.service';
 
 
-interface CustomValueChange {
-    firstChange: boolean;
-    currentValue: number;
-    previousValue: number;
-}
 
 @Component({
     selector: 'app-watchlist-table-body-item',
@@ -32,11 +26,12 @@ export class WatchlistTableBodyItemComponent implements OnInit, OnChanges {
     // saving values when websocket change current price to trigger animations
     newCurrentPrice = 0;
 
-    @Input() summary: StockSummaryFragmentFragment;
+    @Input() summary: Summary;
     @Input() currentPrice: number;
+    @Input() allowModification: boolean;
 
-    @Output() deleteEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
-    @Output() itemClickedEmitter: EventEmitter<ChartDataIdentification> = new EventEmitter<ChartDataIdentification>();
+    @Output() deleteEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
+    @Output() itemClickedEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
 
     constructor() {
     }
@@ -47,7 +42,7 @@ export class WatchlistTableBodyItemComponent implements OnInit, OnChanges {
 
     ngOnChanges(changes: any): void {
         try {
-            const change = changes.currentPrice as CustomValueChange;
+            const change = changes.currentPrice as STCustomValueChange;
             if (!!change?.firstChange) {
                 return;
             }
@@ -60,15 +55,15 @@ export class WatchlistTableBodyItemComponent implements OnInit, OnChanges {
 
 
     deleteSymbolClicked() {
-        this.deleteEmitter.emit(this.createChartDataIdentification());
+        this.deleteEmitter.emit(this.createSymbolIdentification());
     }
 
     itemClicked() {
-        this.itemClickedEmitter.emit(this.createChartDataIdentification());
+        this.itemClickedEmitter.emit(this.createSymbolIdentification());
     }
 
 
-    private createChartDataIdentification(): ChartDataIdentification {
+    private createSymbolIdentification(): SymbolIdentification {
         return {symbol: this.summary.symbol, name: this.summary.longName};
     }
 }

@@ -34,6 +34,9 @@ query AuthenticateUser($uid: String!) {
             ...STPortfolioFragment
         }
         holdings {
+            summary {
+                ...StockSummaryFragment
+            },
             ...STTransaction
         }
         resetedAccount {

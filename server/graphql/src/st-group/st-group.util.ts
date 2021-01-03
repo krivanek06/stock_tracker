@@ -22,7 +22,6 @@ export const createEmptySTGroupAllData = (): api.STGroupAllData => {
             portfolioWeeklyChange: 0,
             portfolioInvested: 0,
             portfolioCash: 0,
-            portfolioTotal: 0,
             portfolioWeeklyGrowth: 0,
             date: now
         },

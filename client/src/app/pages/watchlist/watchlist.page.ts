@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {AuthFeatureService} from '../../features/auth-feature/services/auth-feature.service';
 import {ModalController} from '@ionic/angular';
 import {StStockWatchlistFragmentFragment} from '../../api/customGraphql.service';
-import {ChartDataIdentification} from '../../shared/models/sharedModel';
+import {SymbolIdentification} from '../../shared/models/sharedModel';
 import {SymbolLookupModalComponent} from '../../features/stock-details-feature/components/modal/symbol-lookup-modal/symbol-lookup-modal.component';
 import {takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
@@ -43,7 +43,7 @@ export class WatchlistPage extends ComponentBase implements OnInit, OnDestroy {
     }
 
 
-    async showChartForSymbol(chartDataIdentification: ChartDataIdentification) {
+    async showChartForSymbol(chartDataIdentification: SymbolIdentification) {
         const modal = await this.modalController.create({
             component: SymbolLookupModalComponent,
             componentProps: {chartDataIdentification},
@@ -52,7 +52,7 @@ export class WatchlistPage extends ComponentBase implements OnInit, OnDestroy {
         return await modal.present();
     }
 
-    async deleteSymbolFromDocument(data: ChartDataIdentification, documentId: string, watchlistName: string) {
+    async deleteSymbolFromDocument(data: SymbolIdentification, documentId: string, watchlistName: string) {
         this.watchlistService.removeStockFromWatchlist(data, documentId, watchlistName);
     }
 

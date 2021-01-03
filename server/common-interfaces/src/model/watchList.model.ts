@@ -1,6 +1,3 @@
-import { Summary } from './stockDetails.model';
-
-
 export interface StockWatchlistCommonData {
   userId: string;
   id?: string; // documentID for stockWatchlist
@@ -8,7 +5,7 @@ export interface StockWatchlistCommonData {
 
 export interface STStockWatchlist extends StockWatchlistCommonData {
   name: string;
-  summaries: Summary[];
+  symbols: string[];
   date: string;
 }
 

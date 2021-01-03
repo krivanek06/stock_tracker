@@ -12,71 +12,71 @@ import {NgModule} from '@angular/core';
 import {GroupsReadComponent} from '../groups/pages/groups-read/groups-read.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: SearchPage,
-    children: [
-      {
+    {
         path: '',
-        redirectTo: SEARCH_PAGE_ENUM.STOCK,
-        pathMatch: 'full'
-      },
-      {
-        path: SEARCH_PAGE_ENUM.STOCK,
-        component: SearchStockComponent,
+        component: SearchPage,
         children: [
-          {
-            path: '',
-            redirectTo: SEARCH_PAGE_STOCK_ENUM.SUMMARY,
-            pathMatch: 'full'
-          },
-          {
-            path: SEARCH_PAGE_STOCK_ENUM.SUMMARY,
-            component: SearchStockSummaryComponent
-          },
-          {
-            path: `${SEARCH_PAGE_STOCK_ENUM.DETAILS}/:symbol`,
-            component: SearchStockDetailsPage,
-            children: [
-              {
+            {
+                path: SEARCH_PAGE_ENUM.USER,
+                component: SearchUserComponent,
+            },
+            {
+                path: SEARCH_PAGE_ENUM.GROUP,
+                component: SearchGroupComponent,
+                children: [
+                    {
+                        path: ':id',
+                        component: GroupsReadComponent
+                    }
+                ]
+            },
+            {
+                path: SEARCH_PAGE_ENUM.STOCK,
+                component: SearchStockComponent,
+                children: [
+                    {
+                        path: '',
+                        redirectTo: SEARCH_PAGE_STOCK_ENUM.SUMMARY,
+                        pathMatch: 'full'
+                    },
+                    {
+                        path: SEARCH_PAGE_STOCK_ENUM.SUMMARY,
+                        component: SearchStockSummaryComponent
+                    },
+                    {
+                        path: `${SEARCH_PAGE_STOCK_ENUM.DETAILS}/:symbol`,
+                        component: SearchStockDetailsPage,
+                        children: [
+                            {
+                                path: '',
+                                redirectTo: SEARCH_PAGE_STOCK_DETAILS_ENUM.STATISTICS,
+                                pathMatch: 'full'
+                            },
+                            {
+                                path: SEARCH_PAGE_STOCK_DETAILS_ENUM.STATISTICS,
+                                component: StockDetailsStatisticComponent
+                            },
+                            {
+                                path: SEARCH_PAGE_STOCK_DETAILS_ENUM.FINANCIAL,
+                                component: StockDetailsFinancialComponent
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
                 path: '',
-                redirectTo: SEARCH_PAGE_STOCK_DETAILS_ENUM.STATISTICS,
+                redirectTo: SEARCH_PAGE_ENUM.STOCK,
                 pathMatch: 'full'
-              },
-              {
-                path: SEARCH_PAGE_STOCK_DETAILS_ENUM.STATISTICS,
-                component: StockDetailsStatisticComponent
-              },
-              {
-                path: SEARCH_PAGE_STOCK_DETAILS_ENUM.FINANCIAL,
-                component: StockDetailsFinancialComponent
-              }
-            ]
-          }
+            },
         ]
-      },
-      {
-        path: SEARCH_PAGE_ENUM.USER,
-        component: SearchUserComponent
-      },
-      {
-        path: SEARCH_PAGE_ENUM.GROUP,
-        component: SearchGroupComponent,
-        children: [
-          {
-            path: ':id',
-            component: GroupsReadComponent
-          }
-        ]
-      },
-    ]
-  }
+    }
 ];
 
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
 export class SearchPageRoutingModule {
 }

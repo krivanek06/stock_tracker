@@ -3,7 +3,7 @@ import {ModalController, PopoverController} from '@ionic/angular';
 import {IonicDialogService} from '../../../shared/services/ionic-dialog.service';
 import {AuthFeatureService} from '../../auth-feature/services/auth-feature.service';
 import {WatchlistPickerModalContainerComponent} from '../entry-components/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
-import {ChartDataIdentification} from '../../../shared/models/sharedModel';
+import {SymbolIdentification} from '../../../shared/models/sharedModel';
 import {filter, map, takeUntil} from 'rxjs/operators';
 import {Observable, Subject} from 'rxjs';
 import {
@@ -109,7 +109,7 @@ export class WatchlistService {
         }
     }
 
-    async removeStockFromWatchlist(data: ChartDataIdentification, documentId: string, watchlistName: string) {
+    async removeStockFromWatchlist(data: SymbolIdentification, documentId: string, watchlistName: string) {
         const confirmation = await this.ionicDialogService.presentAlertConfirm(
             `Do your really wanna remove ${data.name} from your watchlist: ${watchlistName} ?`);
 
