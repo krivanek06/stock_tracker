@@ -30,21 +30,39 @@ export interface STUserPartialInformation extends STUserIndentificationInformati
 }
 
 export interface STUserPublicData extends STUserPartialInformation {
+    transactionsSnippets: STTransaction[]; // last N
+    currentWeek: STPortfolioWeeklyChange;
     lastSignInDate: string;
-    transactionsSnippets: STTransaction[]; // last 10
-    portfolioWeeklyChange: STPortfolio[];
     holdings: STTransaction[]; // only open transactions
-    resetedAccount: STUserResetedAccount[];
     groups: STUserGroupsIdentification;
     activity: USER_ACTIVITY;
+    
+}
+
+export interface STUserHistoricalData {
+    portfolioWeeklyChange: STPortfolioWeeklyChange[];
+    resetedAccount: STUserResetedAccount[];
     bestAchievedRanks: STRank[];
     userLogs: STLog[];
+}
+
+
+export interface STPortfolioWeeklyChange {
+    portfolio: STPortfolio;
+    transactionsBuy: STPortfolioWeeklyChangeTransactions[];
+    transactionsSell: STPortfolioWeeklyChangeTransactions[];
+	date?: string;
+}
+
+export interface STPortfolioWeeklyChangeTransactions {
+    total: number;
+    transactions: STTransaction[];
 }
 
 export interface STUserPrivateData {
     uid: string;
     finnhubKey: string;
-    finnhubKeyInsertedDate: string;
+    tradingEnabledDate: string;
     roles?: string[];
     email: string;
     displayName: string;
@@ -53,6 +71,8 @@ export interface STUserPrivateData {
     geographic: STGeographic;
     nicknameLastChange?: string;
 }
+
+
 
 export interface STUserGroupsIdentification {
     groupInvitationSent: string[];
@@ -101,4 +121,11 @@ export interface STUserIndetificationInformationInput {
 
 export const ST_USER_COLLECTION_USER = "users";
 export const ST_USER_DOCUMENT_PRIVATE_DATA = "private_data";
+export const ST_USER_DOCUMENT_HISTORICAL_DATA = "historical_data";
 export const ST_USER_COLLECTION_MORE_INFORMATION = "more_information";
+
+
+export enum USER_ROLES_ENUM {
+    ROLE_ADMIN = 'ROLE_ADMIN',
+    ROLE_GROUP_CREATE = 'ROLE_GROUP_CREATE'
+}

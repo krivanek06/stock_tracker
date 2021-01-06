@@ -46,10 +46,10 @@ fragment STGroupAllDataFragment on STGroupAllData {
         ...STRankFragment
     }
     topTransactions {
-        ...STTransaction
+        ...STTransactionFragment
     }
     lastTransactions {
-        ...STTransaction
+        ...STTransactionFragment
     }
     groupLogs {
         ...STLogsFragment

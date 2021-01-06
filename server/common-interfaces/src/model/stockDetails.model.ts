@@ -652,6 +652,11 @@ export interface Metric {
 }
 
 
-export const ST_STOCK_DATA_COLLECTION = 'stockData';
+export const ST_STOCK_DATA_COLLECTION = 'stock_data';
 export const ST_STOCK_DATA_COLLECTION_MORE_INFORMATION = 'more_information';
 export const ST_STOCK_DATA_DOCUMENT_FINACIAL_REPORTS = 'financial_reports'
+
+
+// Shared data
+export const ST_STOCK_DATA_SHARED_DOCUMENT = 'shared_document';
+export const ST_STOCK_DATA_DOCUMENT_SEARCH_SYMBOL = 'search_symbol'

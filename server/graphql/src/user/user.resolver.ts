@@ -5,7 +5,7 @@ import {queryUserPublicData} from "./user.query";
 import {querySTGroupAllDataByGroupId} from "../st-group/st-group.query";
 
 
-const resolveStockWatchlists = async (uid: string) => {
+const resolveStockWatchlists = async (uid: string): Promise<api.STStockWatchlist[]> => {
     try {
         const watchlistDocs = await admin
             .firestore()
@@ -21,7 +21,7 @@ const resolveStockWatchlists = async (uid: string) => {
     }
 }
 
-export const resolveUserPrivateData = async (uid: string) => {
+export const resolveUserPrivateData = async (uid: string): Promise<api.STUserPrivateData> => {
     try {
         const privateDoc = await admin
             .firestore()
@@ -35,7 +35,24 @@ export const resolveUserPrivateData = async (uid: string) => {
     } catch (error) {
         throw new ApolloError(error);
     }
-}
+};
+
+
+export const resolveUserHistoricalData = async (uid: string): Promise<api.STUserHistoricalData> => {
+    try {
+        const historicalDataDoc = await admin
+            .firestore()
+            .collection(api.ST_USER_COLLECTION_USER)
+            .doc(uid)
+            .collection(api.ST_USER_COLLECTION_MORE_INFORMATION)
+            .doc(api.ST_USER_DOCUMENT_HISTORICAL_DATA)
+            .get();
+
+        return historicalDataDoc.data() as api.STUserHistoricalData;
+    } catch (error) {
+        throw new ApolloError(error);
+    }
+};
 
 
 const resolveGroups = async (stUserGroups: api.STUserGroupsIdentification): Promise<api.STUserGroups> => {
@@ -63,7 +80,8 @@ export const userResolvers = {
     STUserPublicData: {
         groups: async (stUserPublicData: api.STUserPublicData) => await resolveGroups(stUserPublicData.groups),
         stockWatchlist: async (stUserPublicData: api.STUserPublicData) => await resolveStockWatchlists(stUserPublicData.uid),
-        userPrivateData: async (stUserPublicData: api.STUserPublicData) => await resolveUserPrivateData(stUserPublicData.uid)
+        userPrivateData: async (stUserPublicData: api.STUserPublicData) => await resolveUserPrivateData(stUserPublicData.uid),
+        userHistoricalData: async (stUserPublicData: api.STUserPublicData) => await resolveUserHistoricalData(stUserPublicData.uid)
     }
 };
 

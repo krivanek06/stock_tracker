@@ -82,7 +82,7 @@ const performSellTransaction = async (user: api.STUserPublicData, transactionInp
         // TODO + save transaction into holdings by cloud functions
         const transactionWithoutUser = {...transaction, user: null};
         const userHoldings = substractTransactionFromUserHolding(user, transactionWithoutUser);
-        console.log('userHoldings', userHoldings)
+
         // update user's holdings
         admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(user.uid).set({
             holdings: userHoldings,

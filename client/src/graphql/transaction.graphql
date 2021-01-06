@@ -1,4 +1,4 @@
-fragment STTransaction on STTransaction {
+fragment STTransactionFragment on STTransaction {
     symbol
     price
     return
@@ -19,6 +19,6 @@ mutation PerformTransaction($transactionInput: STTransactionInput!) {
         summary{
             ...StockSummaryFragment
         },
-        ...STTransaction
+        ...STTransactionFragment
     }
 }

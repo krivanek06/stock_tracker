@@ -20,6 +20,6 @@ export interface STGeographic {
 }
 
 export enum ST_SHARED_COLLECTON {
-    ST_STOCK_SYMBOLS = 'stockSymbols'
+    ST_STOCK_SYMBOLS = 'stock_smbols'
 }
 export const ST_STATIC_DATA_COLLECTION = 'staticData';

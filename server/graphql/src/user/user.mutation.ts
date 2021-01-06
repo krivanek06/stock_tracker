@@ -1,7 +1,7 @@
 import {ApolloError} from 'apollo-server';
 import * as api from 'stock-tracker-common-interfaces';
 import * as admin from "firebase-admin";
-import {createSTUserPrivateData, createSTUserPublicData} from "./user.utils";
+import {createSTUserHistoricalData, createSTUserPrivateData, createSTUserPublicData} from "./user.utils";
 import {queryUserPublicData} from "./user.query";
 import {getCurrentIOSDate, stSeep} from "../st-shared/st-shared.functions";
 import {resetedPortfolio} from "../st-portfolio/st.portfolio.functions";
@@ -11,14 +11,22 @@ export const registerUser = async (user: api.STUserAuthenticationInput): Promise
     try {
         const newUserPrivateData = createSTUserPrivateData(user);
         const newUserPublicData = createSTUserPublicData(user);
+        const newUserHistoricalData = createSTUserHistoricalData();
+        console.log('registerUser')
 
         // save public data
-        let userRef = admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(`${user.uid}`);
-        await userRef.set(newUserPublicData);
+        let userDocRef = admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(`${user.uid}`);
+        await userDocRef.set(newUserPublicData);
 
         // save private data
-        userRef = userRef.collection(api.ST_USER_COLLECTION_MORE_INFORMATION).doc(api.ST_USER_DOCUMENT_PRIVATE_DATA);
-        await userRef.set(newUserPrivateData);
+        await userDocRef.collection(api.ST_USER_COLLECTION_MORE_INFORMATION)
+            .doc(api.ST_USER_DOCUMENT_PRIVATE_DATA)
+            .set(newUserPrivateData);
+
+        // save historical data
+        await userDocRef.collection(api.ST_USER_COLLECTION_MORE_INFORMATION)
+            .doc(api.ST_USER_DOCUMENT_HISTORICAL_DATA)
+            .set(newUserHistoricalData);
 
         return true;
     } catch (error) {
@@ -42,12 +50,12 @@ export const editUser = async (editInput: api.STUserEditDataInput): Promise<bool
                 .set({
                     ...userPrivateData,
                     finnhubKey: !!editInput.finnhubKey ? editInput.finnhubKey : null,
-                    finnhubKeyInsertedDate: userPrivateData.finnhubKeyInsertedDate || getCurrentIOSDate()
+                    tradingEnabledDate: userPrivateData.tradingEnabledDate || getCurrentIOSDate()
                 } as api.STUserPrivateData, {merge: true})
         }
 
         const userPublicData = await queryUserPublicData(editInput.userId) as api.STUserPublicData;
-        const initPortfolio = !userPrivateData.finnhubKeyInsertedDate && !!editInput.finnhubKey && !userPublicData.portfolio;
+        const initPortfolio = !userPrivateData.tradingEnabledDate && !!editInput.finnhubKey && !userPublicData.portfolio;
 
         // update public data - TODO cloud function propagate through groups
         if (initPortfolio || userPublicData.nickName !== editInput.nickName || userPublicData.photoURL !== editInput.photoURL) {
@@ -77,14 +85,20 @@ export const resetUserAccount = async (userId: string): Promise<boolean> => {
             portfolioTotal: user.portfolio.portfolioInvested + user.portfolio.portfolioCash
         };
 
-        const updatedUser: api.STUserPublicData = {
-            ...user,
-            portfolio: resetedPortfolio(),
-            resetedAccount: [...user.resetedAccount, reset],
-            holdings: [],
-        };
+        // save reseted account
+        admin.firestore().collection(api.ST_USER_COLLECTION_USER)
+            .doc(user.uid)
+            .collection(api.ST_USER_COLLECTION_MORE_INFORMATION)
+            .doc(api.ST_USER_DOCUMENT_HISTORICAL_DATA)
+            .set({
+                resetedAccount: admin.firestore.FieldValue.arrayUnion(reset)
+            }, {merge: true});
 
-        await admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(`${user.uid}`).set(updatedUser, {merge: true});
+        // save portfolio
+        admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(user.uid).set({
+            portfolio: resetedPortfolio(),
+            holdings: [],
+        }, {merge: true});
 
         return true;
     } catch (error) {

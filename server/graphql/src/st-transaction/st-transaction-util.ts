@@ -36,8 +36,8 @@ export const createTransactionSell = (user: api.STUserPublicData, transaction: a
             locale: user.locale,
             accountCreatedDate: user.accountCreatedDate
         },
-        return: (transactionInput.price - transaction.price) * transactionInput.units,
-        returnChange: ((transactionInput.price - transaction.price) / transaction.price) * 100
+        return: Math.round((transactionInput.price - transaction.price) * transactionInput.units),
+        returnChange: Math.round(((transactionInput.price - transaction.price) / transaction.price) * 100)
     };
     return transactionSell;
 };

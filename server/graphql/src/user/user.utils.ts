@@ -9,7 +9,7 @@ export const createSTUserPrivateData = (user: api.STUserAuthenticationInput): ap
         email: user.email,
         providerId: user.providerId,
         finnhubKey: null,
-        finnhubKeyInsertedDate: null,
+        tradingEnabledDate: null,
         geographic: null,
         uid: user.uid,
         nicknameLastChange: null,
@@ -28,22 +28,35 @@ export const createSTUserPublicData = (user: api.STUserAuthenticationInput): api
         photoURL: user.photoURL || defaultImage,
         accountCreatedDate: getCurrentIOSDate(),
         lastSignInDate: getCurrentIOSDate(),
-        bestAchievedRanks: [],
+        transactionsSnippets: [],
         groups: {
             groupInvitationReceived: [],
             groupInvitationSent: [],
             groupMember: [],
             groupOwner: []
         },
+        currentWeek: {
+            portfolio: null,
+            transactionsBuy: [],
+            transactionsSell: [],
+            date: getCurrentIOSDate(),
+        },
         holdings: [],
         portfolio: null,
-        portfolioWeeklyChange: [],
-        rank: null,
-        resetedAccount: [],
-        transactionsSnippets: [],
-        userLogs: []
+        rank: null
     };
     return stUserPublicData;
+};
+
+
+export const createSTUserHistoricalData = (): api.STUserHistoricalData => {
+    const historicalData: api.STUserHistoricalData = {
+        portfolioWeeklyChange: [],
+        resetedAccount: [],
+        bestAchievedRanks: [],
+        userLogs: [],
+    }
+    return historicalData;
 };
 
 
