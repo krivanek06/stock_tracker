@@ -28,29 +28,22 @@ query AuthenticateUser($uid: String!) {
         }
         lastSignInDate
         transactionsSnippets {
-            ...STTransaction
-        }
-        portfolioWeeklyChange {
-            ...STPortfolioFragment
+            ...STTransactionFragment
         }
         holdings {
-            summary {
+            ...STTransactionFragment,
+            summary{
                 ...StockSummaryFragment
             },
-            ...STTransaction
-        }
-        resetedAccount {
-            date
-            portfolioTotal
         }
         groups {
-            groupInvitationSent{
+            groupInvitationSent {
                 ...STGroupPartialDataFragment
             }
-            groupInvitationReceived{
+            groupInvitationReceived {
                 ...STGroupPartialDataFragment
             }
-            groupOwner{
+            groupOwner {
                 ...STGroupPartialDataFragment
             }
             groupMember {
@@ -58,12 +51,24 @@ query AuthenticateUser($uid: String!) {
             }
         }
         activity
-        userLogs {
-            ...STLogsFragment
+        userHistoricalData {
+            userLogs {
+                ...STLogsFragment
+            }
+            resetedAccount {
+                date
+                portfolioTotal
+            }
+            bestAchievedRanks {
+                ...STRankFragment
+            }
+            portfolioWeeklyChange {
+                ...STPortfolioWeeklyChangeFragment
+            }
         }
         userPrivateData {
+            tradingEnabledDate
             finnhubKey
-            finnhubKeyInsertedDate
             roles
             email
             displayName

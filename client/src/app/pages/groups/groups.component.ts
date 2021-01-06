@@ -40,7 +40,7 @@ export class GroupsComponent implements OnInit {
         });
         popOver.present();
         const response = await popOver.onDidDismiss();
-        if (response.data.group) {
+        if (response?.data?.group) {
             this.redirectToGroupReadOnly(response.data.group);
         }
     }

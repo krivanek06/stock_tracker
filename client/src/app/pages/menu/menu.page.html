@@ -13,7 +13,7 @@
             </ion-item>
             <!-- avatar -->
             <div class="navigation-avatar">
-                <ng-container *ngIf="user$ | async as user">
+                <ng-container *ngIf="user">
                     <ion-avatar>
                         <ion-img [src]="user.photoURL"></ion-img>
                     </ion-avatar>
@@ -28,18 +28,21 @@
             <ion-list>
                 <ion-text class="page-section">Main section</ion-text>
                 <ion-menu-toggle auto-hide="false" *ngFor="let p of mainPages">
-                    <div *ngIf="selectedNavigation == p.title.toLocaleLowerCase()"
-                         class="navigation-rectangle-selected"></div>
-                    <ion-item (click)="selectedNavigation = p.title"
-                              class="navigation"
-                              routerDirection="root"
-                              [routerLink]="[p.url]"
-                              lines="none"
-                              detail="false"
-                              [class.selected]="selectedNavigation == p.title.toLocaleLowerCase()">
-                        <ion-icon slot="start" [ios]="p.icon + '-outline'" [name]="p.icon"></ion-icon>
-                        <ion-label class="ion-margin-start">{{ p.title }}</ion-label>
-                    </ion-item>
+                    <ng-container *ngIf="!p.hidden">
+                        <div *ngIf="selectedNavigation == p.title.toLocaleLowerCase()"
+                             class="navigation-rectangle-selected"></div>
+                        <ion-item (click)="selectedNavigation = p.title"
+                                  [disabled]="p.disabled"
+                                  class="navigation"
+                                  routerDirection="root"
+                                  [routerLink]="[p.url]"
+                                  lines="none"
+                                  detail="false"
+                                  [class.selected]="selectedNavigation == p.title.toLocaleLowerCase()">
+                            <ion-icon slot="start" [ios]="p.icon + '-outline'" [name]="p.icon"></ion-icon>
+                            <ion-label class="ion-margin-start">{{ p.title }}</ion-label>
+                        </ion-item>
+                    </ng-container>
                 </ion-menu-toggle>
             </ion-list>
 
@@ -48,18 +51,20 @@
             <ion-list>
                 <ion-text class="page-section">Other</ion-text>
                 <ion-menu-toggle auto-hide="false" *ngFor="let p of otherPages">
-                    <div *ngIf="selectedNavigation == p.title.toLocaleLowerCase()"
-                         class="navigation-rectangle-selected"></div>
-                    <ion-item (click)="selectedNavigation = p.title"
-                              class="navigation"
-                              routerDirection="root"
-                              [routerLink]="[p.url]"
-                              lines="none"
-                              detail="false"
-                              [class.selected]="selectedNavigation == p.title.toLocaleLowerCase()">
-                        <ion-icon slot="start" [ios]="p.icon + '-outline'" [name]="p.icon"></ion-icon>
-                        <ion-label class="ion-margin-start">{{ p.title }}</ion-label>
-                    </ion-item>
+                    <ng-container *ngIf="!p.hidden">
+                        <div *ngIf="selectedNavigation == p.title.toLocaleLowerCase()"
+                             class="navigation-rectangle-selected"></div>
+                        <ion-item (click)="selectedNavigation = p.title"
+                                  class="navigation"
+                                  routerDirection="root"
+                                  [routerLink]="[p.url]"
+                                  lines="none"
+                                  detail="false"
+                                  [class.selected]="selectedNavigation == p.title.toLocaleLowerCase()">
+                            <ion-icon slot="start" [ios]="p.icon + '-outline'" [name]="p.icon"></ion-icon>
+                            <ion-label class="ion-margin-start">{{ p.title }}</ion-label>
+                        </ion-item>
+                    </ng-container>
                 </ion-menu-toggle>
                 <!-- logout -->
                 <ion-menu-toggle auto-hide="false">

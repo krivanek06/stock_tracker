@@ -4,7 +4,7 @@
                     'st-price-down': price < 0 || priceChange < 0
                      }">
     <ion-text class="st-font-size-16 st-flex-row">
-        <ng-container *ngIf="priceChange && !isPercent">{{ priceChange | number: '1.2-2'}}%</ng-container>
+        <ng-container *ngIf="priceChange !== undefined && !isPercent">{{ priceChange | number: '1.2-2'}}%</ng-container>
         <ng-container *ngIf="priceChange && isPercent">{{ priceChange | percent: '1.2-2' }}</ng-container>
 
         <ion-icon name="trending-up-outline"

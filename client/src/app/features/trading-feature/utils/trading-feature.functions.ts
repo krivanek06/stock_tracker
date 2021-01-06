@@ -23,7 +23,6 @@ export const addTransactionToUserHolding = (user: StUserPublicData, transaction:
 export const substractTransactionFromUserHolding = (user: StUserPublicData, transaction: StTransaction): StTransaction[] => {
     let holdings: StTransaction[] = [...user.holdings];
     const userHolding = user.holdings.find(x => x.symbol === transaction.symbol);
-    const index = user.holdings.map(x => x.symbol).indexOf(transaction.symbol);
 
     if (userHolding.units > transaction.units) {
         const updatedHolding: StTransaction = {
@@ -31,9 +30,10 @@ export const substractTransactionFromUserHolding = (user: StUserPublicData, tran
             units: userHolding.units - transaction.units,
             date: transaction.date
         };
+        const index = user.holdings.map(x => x.symbol).indexOf(transaction.symbol);
         holdings[index] = updatedHolding;
     } else {
-        holdings = holdings.splice(index, 1);
+        holdings = holdings.filter(x => x.symbol !== transaction.symbol);
     }
     return holdings;
 };

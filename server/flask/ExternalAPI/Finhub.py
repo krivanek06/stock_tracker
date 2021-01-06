@@ -49,7 +49,8 @@ class Finhub:
             data['displayName'] = '[' + data['symbol'] + ']' + ' ' + data['description']
             if data['type'] == 'Common Stock':
                 result.append(data['symbol'])
-        self.db.collection('staticData').document('stockSymbols').set({'data': result})
+        #self.db.collection('staticData').document('stockSymbols').set({'data': result})
+        print('searchAllSymbols', len(result))
         return result
 
     def getEarningsCalendarForOneWeeks(self):

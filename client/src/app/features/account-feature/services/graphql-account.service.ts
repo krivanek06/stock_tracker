@@ -44,7 +44,7 @@ export class GraphqlAccountService {
                     }
                 });
 
-                const initPortfolio = !data.authenticateUser.userPrivateData.finnhubKeyInsertedDate && !!editInput.finnhubKey;
+                const initPortfolio = !data.authenticateUser.userPrivateData.tradingEnabledDate && !!editInput.finnhubKey;
 
                 // update watchlist inside cache
                 store.writeQuery({
@@ -97,13 +97,16 @@ export class GraphqlAccountService {
                         ...data,
                         authenticateUser: {
                             ...data.authenticateUser,
-                            resetedAccount: [...data.authenticateUser.resetedAccount, {
-                                __typename: 'STUserResetedAccount',
-                                date: new Date().toISOString(),
-                                portfolioTotal: portfolio.portfolioCash + portfolio.portfolioInvested
-                            }],
                             portfolio: resetedPortfolio(),
                             holdings: [],
+                            userHistoricalData: {
+                                ...data.authenticateUser.userHistoricalData,
+                                resetedAccount: [...data.authenticateUser.userHistoricalData.resetedAccount, {
+                                    __typename: 'STUserResetedAccount',
+                                    date: new Date().toISOString(),
+                                    portfolioTotal: portfolio.portfolioCash + portfolio.portfolioInvested
+                                }],
+                            }
                         }
                     }
                 });

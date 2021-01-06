@@ -9,7 +9,7 @@ export const userTypeDefs = gql`
         groupOwner: [STGroupPartialData]
         groupMember: [STGroupPartialData]
     }
-    
+
     type STUserIndetificationInformation {
         uid: String!
         nickName: String!
@@ -37,22 +37,19 @@ export const userTypeDefs = gql`
         lastSignInDate: String!
         portfolio: STPortfolio
         rank: STRank
-        transactionsSnippets: [STTransaction]!
-        portfolioWeeklyChange: [STPortfolio]!
         holdings: [STTransaction]!
-        resetedAccount: [STUserResetedAccount]
+        transactionsSnippets: [STTransaction]!
         activity: USER_ACTIVITY
-        bestAchievedRanks: [STRank]
-        userLogs: [STLog]
         groups: STUserGroups!
         userPrivateData: STUserPrivateData!
+        userHistoricalData: STUserHistoricalData!
         stockWatchlist: [STStockWatchlist]!
-    } 
+    }
 
     type STUserPrivateData {
         uid: String
         finnhubKey: String
-        finnhubKeyInsertedDate: String
+        tradingEnabledDate: String
         roles: [String]
         email: String!
         displayName: String!
@@ -61,12 +58,31 @@ export const userTypeDefs = gql`
         geographic: STGeographic
         nicknameLastChange: String
     }
-    
+
+    type STUserHistoricalData {
+        portfolioWeeklyChange: [STPortfolioWeeklyChange]!
+        bestAchievedRanks: [STRank]!
+        resetedAccount: [STUserResetedAccount]!
+        userLogs: [STLog]!
+    }
+
+    type STPortfolioWeeklyChange {
+        portfolio: STPortfolio
+        transactionsBuy: [STPortfolioWeeklyChangeTransactions]
+        transactionsSell: [STPortfolioWeeklyChangeTransactions]
+        date: String
+    }
+
+    type STPortfolioWeeklyChangeTransactions {
+        total: Float!
+        transactions: [STTransaction]
+    }
+
     type STUserResetedAccount {
         date: String!
         portfolioTotal: Float!
     }
-    
+
     ###################################################
     # Input
     input STUserAuthenticationInput {
@@ -77,7 +93,7 @@ export const userTypeDefs = gql`
         providerId: String
         locale: String
     }
-    
+
     input STUserEditDataInput {
         userId: String
         finnhubKey: String
@@ -105,13 +121,18 @@ export const userTypeDefs = gql`
         DENIED
         ALLOWED
     }
-    
+
     enum USER_STATUS_IN_GROUP {
         OWNER
         MANAGER
         MEMBER
         INVITATION_SENT
         INVITATION_RECEIVED
+    }
+
+    enum USER_ROLES_ENUM {
+        ROLE_ADMIN
+        ROLE_GROUP_CREATE
     }
 `;
 

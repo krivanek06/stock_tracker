@@ -15,4 +15,4 @@ export interface STStockWatchlistIdentifier extends StockWatchlistCommonData {
 
 
 
-export const ST_WATCHLIST_COLLECTION = 'stockWatchlist';
+export const ST_WATCHLIST_COLLECTION = 'stock_watchlist';

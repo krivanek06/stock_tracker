@@ -83,7 +83,7 @@ export class GaugeChartComponent implements OnInit, OnChanges {
                     color: '#D9D8D8',
                 },
                 shared: true,
-                formatter:  (tooltip) => {
+                formatter: (tooltip) => {
                     return `<span style="color: #008F88; font-weight: bold">${this.tooltipName}</span> : <b>${this.displayValue}%</b>`;
                 }
             },
