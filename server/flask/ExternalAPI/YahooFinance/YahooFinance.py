@@ -14,26 +14,26 @@ class YahooFinance:
 
     # Valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
     # Valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
-    def getChartDataWithPeriod(self, symbol, period):
-        return self.yRequester.get_chart_data(symbol, period)
+    def getChartDataWithPeriod(self, symbol, period, onlyClosed = False):
+        return self.yRequester.get_chart_data(symbol, period, onlyClosed)
 
     # download data each hour
     def getTopGains(self):
-        lastModification = self.fileManagerService.getDocumentLastModification(self.TopGainersFolder)
-        if lastModification is not None and lastModification[1] == 0:
-            return self.fileManagerService.getJsonFile(self.TopGainersFolder)
+        #lastModification = self.fileManagerService.getDocumentLastModification(self.TopGainersFolder)
+        #if lastModification is not None and lastModification[1] == 0:
+        #    return self.fileManagerService.getJsonFile(self.TopGainersFolder)
         topGainers = self.yRequester.get_day_gainers()
-        self.fileManagerService.saveFile(self.TopGainersFolder, topGainers)
+        #self.fileManagerService.saveFile(self.TopGainersFolder, topGainers)
         return topGainers
 
     # download data each hour
     def getTopLosers(self):
-        lastModification = self.fileManagerService.getDocumentLastModification(self.TopLossesFolder)
-        if lastModification is not None and lastModification[1] == 0:
-            return self.fileManagerService.getJsonFile(self.TopLossesFolder)
+        #lastModification = self.fileManagerService.getDocumentLastModification(self.TopLossesFolder)
+        #if lastModification is not None and lastModification[1] == 0:
+        #    return self.fileManagerService.getJsonFile(self.TopLossesFolder)
 
         topLosers = self.yRequester.get_day_losers()
-        self.fileManagerService.saveFile(self.TopLossesFolder, topLosers)
+        #self.fileManagerService.saveFile(self.TopLossesFolder, topLosers)
         return topLosers
 
     def getTopActive(self):

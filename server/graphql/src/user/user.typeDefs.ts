@@ -67,9 +67,9 @@ export const userTypeDefs = gql`
     }
 
     type STPortfolioWeeklyChange {
-        portfolio: STPortfolio
-        transactionsBuy: [STPortfolioWeeklyChangeTransactions]
-        transactionsSell: [STPortfolioWeeklyChangeTransactions]
+        portfolio: STPortfolio!
+        transactionsBuy: STPortfolioWeeklyChangeTransactions!
+        transactionsSell: STPortfolioWeeklyChangeTransactions!
         date: String
     }
 

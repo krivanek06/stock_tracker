@@ -18,6 +18,20 @@ export const STSharedTypeDefs = gql`
         data: Float!
         label: String
     }
+
+    type STStockHistoricalClosedDataWithPeriod {
+        livePrice: Float
+        price: [Float]
+        symbol: String
+        period: String
+    }
+
+    type STStockHistoricalDataWithPeriod {
+        livePrice: Float
+        price: [[Float]]
+        symbol: String
+        period: String
+    }
     
     #input
     input STInputLog {

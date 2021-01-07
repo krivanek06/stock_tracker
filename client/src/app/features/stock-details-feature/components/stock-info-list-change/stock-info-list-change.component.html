@@ -1,0 +1,45 @@
+<ion-item-group>
+    <ion-item style="margin-bottom: 8px; margin-top: 3px">
+        <!-- title & image -->
+        <ion-label style="display: flex">
+            <ion-img appDefaultImg [src]="suggestion.summary.logo_url" class="st-symbol-image"></ion-img>
+            <div class="st-flex-col">
+                <ion-text class="st-font-0 st-font-size-16">{{ suggestion.summary.symbol }}</ion-text>
+                <ion-text class="st-font-size-12 st-font-5">{{ suggestion.summary.marketPrice | currency }}</ion-text>
+            </div>
+        </ion-label>
+        <div class="price-change-top-right">
+            <app-price-compare-item [currentPrice]="suggestion.summary.marketPrice"
+                                    [compareToPrice]="suggestion.summary.previousClose">
+            </app-price-compare-item>
+        </div>
+    </ion-item>
+
+
+    <ion-item>
+        <!-- corporation name -->
+        <ion-label>
+            <ion-text>
+                {{ suggestion.summary.longName }}
+            </ion-text>
+        </ion-label>
+
+        <!-- recommendation -->
+        <ion-label class="st-data-label" style="max-width: 60px;">
+            <ion-text [appRecommendation]="suggestion.summary.recommendationKey | titlecase">
+                {{ suggestion.summary.recommendationKey | titlecase }}
+            </ion-text>
+            [{{ suggestion.summary.recommendationMean }}]
+        </ion-label>
+    </ion-item>
+
+    <!-- chart -->
+    <app-generic-chart
+            [heightPx]="75"
+            [showTooltip]="false"
+            [showXAxis]="false"
+            [series]="[{name: suggestion.summary.symbol,  data: suggestion.historicalData.price}]"
+            [chartType]="ChartType.areaChange">
+    </app-generic-chart>
+</ion-item-group>
+

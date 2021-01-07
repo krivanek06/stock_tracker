@@ -14,7 +14,7 @@
 
             <ion-col size="12" size-md="6" size-xl="4.5" push="0" push-xl="0.7">
                 <!-- summary -->
-                <app-generic-card [iconTitle]="'barcode-outline'" [chartTitle]="'Summary'">
+                <app-generic-card [iconTitle]="'barcode-outline'" [title]="'Summary'">
                     <app-details-summary [summary]="stockDetails.summary">
                     </app-details-summary>
                 </app-generic-card>
@@ -23,18 +23,18 @@
 
         <ion-row>
             <ion-col size-xl="3.5" size-sm="6" size="12">
-                <app-generic-card [chartTitle]="'Financial strength'" [additionalClasses]="'st-height-100'">
+                <app-generic-card [title]="'Financial strength'" [additionalClasses]="'st-height-100'">
                     <app-details-financial-strength
                             [stockDetails]="stockDetails"></app-details-financial-strength>
                 </app-generic-card>
             </ion-col>
             <ion-col size-xl="3.5" size-sm="6" size="12">
-                <app-generic-card [chartTitle]="'Valuation'" [additionalClasses]="'st-height-100'">
+                <app-generic-card [title]="'Valuation'" [additionalClasses]="'st-height-100'">
                     <app-details-valuation [stockDetails]="stockDetails"></app-details-valuation>
                 </app-generic-card>
             </ion-col>
             <ion-col size-xl="5" size="12">
-                <app-generic-card [chartTitle]="'Financial growth'" [additionalClasses]="'st-height-100'"
+                <app-generic-card [title]="'Financial growth'" [additionalClasses]="'st-height-100'"
                                   [applyLeftPadding]="false">
                     <app-generic-chart
                             [chartType]="ChartType.bar"
@@ -63,18 +63,18 @@
 
         <ion-row>
             <ion-col size-lg="3.5" size-sm="6" size="12">
-                <app-generic-card [chartTitle]="'Financial ratio'" [additionalClasses]="'st-height-100'">
+                <app-generic-card [title]="'Financial ratio'" [additionalClasses]="'st-height-100'">
                     <app-details-financial-strength-ratio
                             [stockDetails]="stockDetails"></app-details-financial-strength-ratio>
                 </app-generic-card>
             </ion-col>
             <ion-col size-lg="3.5" size-sm="6" size="12">
-                <app-generic-card [chartTitle]="'Financial per share'" [additionalClasses]="'st-height-100'">
+                <app-generic-card [title]="'Financial per share'" [additionalClasses]="'st-height-100'">
                     <app-details-per-share [stockDetails]="stockDetails"></app-details-per-share>
                 </app-generic-card>
             </ion-col>
             <ion-col size-lg="5" size="12">
-                <app-generic-card [chartTitle]="'Margin'" [additionalClasses]="'st-height-100'"
+                <app-generic-card [title]="'Margin'" [additionalClasses]="'st-height-100'"
                                   [applyLeftPadding]="false">
                     <app-generic-chart
                             [chartType]="ChartType.bar"
@@ -99,12 +99,12 @@
 
     <ion-row>
         <ion-col size-lg="4" size-sm="6" size="12">
-            <app-generic-card [chartTitle]="'Dividend'" [additionalClasses]="'st-height-100'">
+            <app-generic-card [title]="'Dividend'" [additionalClasses]="'st-height-100'">
                 <app-details-dividend [stockDetails]="stockDetails"></app-details-dividend>
             </app-generic-card>
         </ion-col>
         <ion-col size-lg="3" size-sm="6" size="12">
-            <app-generic-card [chartTitle]="'Effectiveness'" [additionalClasses]="'st-height-100'"
+            <app-generic-card [title]="'Effectiveness'" [additionalClasses]="'st-height-100'"
                               [applyLeftPadding]="false">
                 <app-generic-chart
                         [chartType]="ChartType.column"
@@ -124,7 +124,7 @@
 
         <ion-col size="12" size-lg="5">
             <!-- company growth -->
-            <app-generic-card [chartTitle]="'Company growth'" [additionalClasses]="'st-height-100'"
+            <app-generic-card [title]="'Company growth'" [additionalClasses]="'st-height-100'"
                               [applyLeftPadding]="false">
                 <app-generic-chart
                         [chartType]="ChartType.column"
@@ -150,7 +150,7 @@
     <ion-row>
         <ion-col size-md="6" size="12">
             <!-- revenue growth chart -->
-            <app-generic-card [chartTitle]="'Revenue growth estimation'"
+            <app-generic-card [title]="'Revenue growth estimation'"
                               [additionalClasses]="'st-height-100'"
                               [applyLeftPadding]="false">
                 <app-details-revenue-estimate
@@ -160,7 +160,7 @@
         </ion-col>
         <ion-col size-md="6" size="12">
             <!-- recommendation chart -->
-            <app-generic-card [chartTitle]="'Recommendation'" [applyLeftPadding]="false"
+            <app-generic-card [title]="'Recommendation'" [applyLeftPadding]="false"
                               [additionalClasses]="'st-height-100'">
                 <app-details-recommendation-chart
                         [recommendations]="stockDetails.recommendation">
@@ -173,7 +173,7 @@
     <ion-row>
         <ion-col size-lg="4" size-md="6" size="12">
             <!-- Financial yearly -->
-            <app-generic-card [chartTitle]="'Financial yearly'" [applyLeftPadding]="false"
+            <app-generic-card [title]="'Financial yearly'" [applyLeftPadding]="false"
                               [additionalClasses]="'st-height-100'">
                 <app-generic-chart
                         [chartType]="ChartType.column"
@@ -188,7 +188,7 @@
 
         <ion-col size-lg="4" size-md="6" size="12">
             <!-- Financial quarterly -->
-            <app-generic-card [chartTitle]="'Financial quarterly'" [applyLeftPadding]="false"
+            <app-generic-card [title]="'Financial quarterly'" [applyLeftPadding]="false"
                               [additionalClasses]="'st-height-100'">
                 <app-generic-chart
                         [chartType]="ChartType.column"
@@ -202,7 +202,7 @@
         </ion-col>
 
         <ion-col size-lg="4" size="12">
-            <app-generic-card [chartTitle]="'Earnings'" [applyLeftPadding]="false">
+            <app-generic-card [title]="'Earnings'" [applyLeftPadding]="false">
                 <app-details-earnings-per-share-chart
                         [earnings]="stockDetails.companyData.earnings.earningsChart">
                 </app-details-earnings-per-share-chart>
@@ -215,7 +215,7 @@
             <ion-row>
                 <ion-col size="12" size-sm="6" size-md="12">
                     <!-- Current price to 1y target -->
-                    <app-generic-card [chartTitle]="'Current price to 1y target'" [additionalClasses]="'st-height-100'"
+                    <app-generic-card [title]="'Current price to 1y target'" [additionalClasses]="'st-height-100'"
                                       [applyLeftPadding]="false">
                         <app-gauge-chart
                                 [tooltipName]="'Completed'"
@@ -229,7 +229,7 @@
                 </ion-col>
                 <ion-col size="12" size-sm="6" size-md="12">
                     <!-- Cash to Debt -->
-                    <app-generic-card [chartTitle]="'Cash to Debt'" [additionalClasses]="'st-height-100'"
+                    <app-generic-card [title]="'Cash to Debt'" [additionalClasses]="'st-height-100'"
                                       [applyLeftPadding]="false">
                         <app-gauge-chart
                                 [tooltipName]="'Cash to Debt'"
@@ -248,7 +248,7 @@
         </ion-col>
         <ion-col size-md="6" size="12">
             <!--  grading history -->
-            <app-generic-card [chartTitle]="'Stock grading'" [additionalClasses]="'st-height-100'">
+            <app-generic-card [title]="'Stock grading'" [additionalClasses]="'st-height-100'">
                 <div class="ion-margin-bottom">
                     <app-grading-history
                             [history]="stockDetails.companyData.upgradeDowngradeHistory"></app-grading-history>

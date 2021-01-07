@@ -9,7 +9,7 @@
     <div class="st-content-padding">
         <!-- search container -->
         <app-search-wrapper class="ion-hide-xl-up">
-            <app-generic-card [chartTitle]="'Search Stock'" [applyLeftPadding]="false">
+            <app-generic-card [title]="'Search Stock'" [applyLeftPadding]="false">
                 <app-stock-search
                         [clearOnClick]="true"
                         (clickedSymbolEmitter)="changeSummary($event)">
@@ -21,7 +21,7 @@
             <ion-row>
                 <!-- search container -->
                 <ion-col size-xl="3" class="ion-hide-xl-down">
-                    <app-generic-card [chartTitle]="'Search Stock'" [applyLeftPadding]="false">
+                    <app-generic-card [title]="'Search Stock'" [applyLeftPadding]="false">
                         <app-stock-search
                                 [clearOnClick]="true"
                                 (clickedSymbolEmitter)="changeSummary($event)">
@@ -41,7 +41,7 @@
                 </ion-col>
                 <!-- summary -->
                 <ion-col size="12" size-lg="6" size-xl="3.5">
-                    <app-generic-card [iconTitle]="'barcode-outline'" [chartTitle]="'Summary'">
+                    <app-generic-card [iconTitle]="'barcode-outline'" [title]="'Summary'">
                         <app-details-summary *ngIf="selectedSummary"
                                              [summary]="selectedSummary">
                         </app-details-summary>
@@ -73,11 +73,27 @@
                     </ion-col>
                 </ion-row>
 
+
+                <!-- suggestion -->
+                <ion-list-header>
+                    <ion-label style="margin-left: 8px">
+                        <ion-text class="st-font-size-18 st-font-0">Suggestion</ion-text>
+                    </ion-label>
+                </ion-list-header>
                 <ion-row>
-                    <ion-col size="12" size-lg="6">
-                        <app-transactions-table [transactions]="user.transactionsSnippets"></app-transactions-table>
-                    </ion-col>
-                    <ion-col size="12" size-lg="6">
+                    <ion-col *ngFor="let suggestion of suggestions$ | async"
+                             size="12" size-sm="6" size-lg="4" size-xl="3">
+                        <!-- suggestion in card with ripple effect -->
+                        <app-generic-card
+                                (click)="changeSummary(suggestion.summary)"
+                                [applyLeftPadding]="false"
+                                [additionalClasses]="'st-height-100 ion-activatable'">
+                            <app-stock-info-list-change [suggestion]="suggestion">
+                            </app-stock-info-list-change>
+
+                            <!-- ripple effect on click -->
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </app-generic-card>
                     </ion-col>
                 </ion-row>
 

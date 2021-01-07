@@ -1,6 +1,6 @@
 <!-- search container -->
 <app-search-wrapper>
-    <app-generic-card [chartTitle]="'Search Stock'" [applyLeftPadding]="false">
+    <app-generic-card [title]="'Search Stock'" [applyLeftPadding]="false">
         <app-stock-search
                 [clearOnClick]="true"
                 (clickedSymbolEmitter)="showSymbolInformation($event)">
@@ -24,7 +24,7 @@
 
         <ion-col size="12" size-lg="6" size-xl="4.5">
             <!-- summary -->
-            <app-generic-card [iconTitle]="'barcode-outline'" [chartTitle]="'Summary'">
+            <app-generic-card [iconTitle]="'barcode-outline'" [title]="'Summary'">
                 <app-details-summary [summary]="selectedSummary"></app-details-summary>
 
                 <!-- buttons -->
@@ -43,7 +43,7 @@
     <!-- long business summary -->
     <ion-row>
         <ion-col size="12">
-            <app-generic-card [chartTitle]="selectedSummary.longName">
+            <app-generic-card [title]="selectedSummary.longName">
                 <ion-text class="st-font-3">
                     {{ selectedSummary.longBusinessSummary }}
                 </ion-text>

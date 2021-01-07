@@ -1,21 +1,55 @@
 <ion-content class="ion-no-padding">
     <!-- header -->
-    <app-header></app-header>
+    <app-header>
+        <ion-icon class="st-icon-size-header" name="grid"></ion-icon>
+        <ion-text class="st-font-size-header">Dashboard</ion-text>
+    </app-header>
 
-    <perfect-scrollbar>
-        <div class="st-content-padding">
-            <div class="st-font-size-30 test"
-                 appTooltip="'tootip on top aaaaaaaaaaaaaaaaaa rrrrrrrrrrr'"
-                 placement="top"
-                 delay="500"
-            > DASHBOARD</div>
-            <!-- <app-market-movement-container></app-market-movement-container>
 
-             <app-sp500-charts-container></app-sp500-charts-container>
+    <div class="st-content-padding">
+        <!-- <app-market-movement-container></app-market-movement-container>
 
-             <app-economic-charts-container></app-economic-charts-container>
+         <app-sp500-charts-container></app-sp500-charts-container>
 
-             <app-dashboard-news></app-dashboard-news> -->
-        </div>
-    </perfect-scrollbar>
+         <app-economic-charts-container></app-economic-charts-container>
+
+         <app-dashboard-news></app-dashboard-news> -->
+        <ion-grid *ngIf="user">
+            <ion-row>
+                <!-- holdings -->
+                <ion-col size="12" style="display: inline-flex; place-content: center;">
+                    <app-holdings-table
+                            [userPortfolioTotal]="user.portfolio.portfolioCash + user.portfolio.portfolioInvested"
+                            [stTransactions]="user.holdings"
+                            [clickable]="false">
+                    </app-holdings-table>
+
+                    <!-- holdings chart -->
+                    <div class="st-hide-xxl-down" *ngIf="holdingsSummaries.length > 0">
+                        <app-summary-sector-chart style="align-self: center;"
+                                                  [summaries]="holdingsSummaries">
+                        </app-summary-sector-chart>
+                    </div>
+                </ion-col>
+            </ion-row>
+
+
+            <ion-row>
+                <!-- transactions -->
+                <ion-col size="12" size-lg="6">
+                    <app-transactions-table
+                            [transactions]="user.transactionsSnippets | slice:0:5">
+                    </app-transactions-table>
+                </ion-col>
+                <ion-col size="12" size-lg="6">
+                    <app-generic-list [title]="'Transaction progress'">
+                        <app-transactions-chart
+                                [heightPx]="375"
+                                [stPortfolioWeeklyChanges]="fakeDataTransactionTable">
+                        </app-transactions-chart>
+                    </app-generic-list>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
 </ion-content>

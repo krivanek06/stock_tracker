@@ -6,6 +6,7 @@ export enum ChartType {
     pie = 'pie',
     variablepie = 'variablepie',
     area = 'area',
+    areaChange = 'area-change',
     bar = 'bar'
 }
 

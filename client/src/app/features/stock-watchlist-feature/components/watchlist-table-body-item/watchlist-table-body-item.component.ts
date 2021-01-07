@@ -11,7 +11,6 @@ import {marketValueChange} from '../../../../shared/animations/marketValueChange
 import {StockSummaryFragmentFragment, Summary} from '../../../../api/customGraphql.service';
 
 
-
 @Component({
     selector: 'app-watchlist-table-body-item',
     templateUrl: './watchlist-table-body-item.component.html',
@@ -22,10 +21,7 @@ import {StockSummaryFragmentFragment, Summary} from '../../../../api/customGraph
     ]
 })
 
-export class WatchlistTableBodyItemComponent implements OnInit, OnChanges {
-    // saving values when websocket change current price to trigger animations
-    newCurrentPrice = 0;
-
+export class WatchlistTableBodyItemComponent implements OnInit {
     @Input() summary: Summary;
     @Input() currentPrice: number;
     @Input() allowModification: boolean;
@@ -39,21 +35,6 @@ export class WatchlistTableBodyItemComponent implements OnInit, OnChanges {
     ngOnInit(): void {
     }
 
-
-    ngOnChanges(changes: any): void {
-        try {
-            const change = changes.currentPrice as STCustomValueChange;
-            if (!!change?.firstChange) {
-                return;
-            }
-            this.newCurrentPrice = change.currentValue;
-        } catch (e) {
-            console.log('error in watch table body ', e);
-        }
-
-    }
-
-
     deleteSymbolClicked() {
         this.deleteEmitter.emit(this.createSymbolIdentification());
     }
@@ -61,7 +42,6 @@ export class WatchlistTableBodyItemComponent implements OnInit, OnChanges {
     itemClicked() {
         this.itemClickedEmitter.emit(this.createSymbolIdentification());
     }
-
 
     private createSymbolIdentification(): SymbolIdentification {
         return {symbol: this.summary.symbol, name: this.summary.longName};

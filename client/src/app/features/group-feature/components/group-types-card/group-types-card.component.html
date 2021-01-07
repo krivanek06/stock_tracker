@@ -1,7 +1,7 @@
 <!-- my groups -->
 <app-generic-card *ngIf="groups.groupOwner.length > 0"
                   [additionalClasses]="'ion-margin-bottom'"
-                  [chartTitle]="'My groups'">
+                  [title]="'My groups'">
     <ion-item-group>
         <ion-item *ngFor="let group of groups.groupOwner"
                   (click)="clickedGroup(group)"
@@ -18,7 +18,7 @@
 <!-- member groups -->
 <app-generic-card *ngIf="groups.groupMember.length > 0"
                   [additionalClasses]="'ion-margin-bottom'"
-                  [chartTitle]="'Member of'">
+                  [title]="'Member of'">
     <ion-item-group>
         <ion-item *ngFor="let group of groups.groupMember"
                   (click)="clickedGroup(group)"
@@ -34,7 +34,7 @@
 <!-- invitation sent groups -->
 <app-generic-card *ngIf="groups.groupInvitationSent.length > 0"
                   [additionalClasses]="'ion-margin-bottom'"
-                  [chartTitle]="'Invitation sent'">
+                  [title]="'Invitation sent'">
     <ion-item-group>
         <ion-item *ngFor="let group of groups.groupInvitationSent"
                   (click)="clickedGroup(group)"
@@ -50,7 +50,7 @@
 <!-- invitation received groups -->
 <app-generic-card *ngIf="groups.groupInvitationReceived.length > 0"
                   [additionalClasses]="'ion-margin-bottom'"
-                  [chartTitle]="'Invitation received'">
+                  [title]="'Invitation received'">
     <ion-item-group>
         <ion-item *ngFor="let group of groups.groupInvitationReceived"
                   (click)="clickedGroup(group)"

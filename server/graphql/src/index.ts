@@ -15,8 +15,13 @@ import {
     renameStockWatchlist
 } from './watchlist/watchlist.mutation';
 import {editUser, registerUser, resetUserAccount} from './user/user.mutation';
-import {queryStockDetails, queryStockSummaries, queryStockSummary} from './stockDetails/stockDetails.query';
-import {stockDetailsTypeDefs} from './stockDetails/stockDetails.typedefs';
+import {
+    queryStockDailyInformation,
+    queryStockDetails,
+    queryStockSummaries,
+    queryStockSummary
+} from './st-stocks/st-stock.query';
+import {stockDetailsTypeDefs} from './st-stocks/st-stock.typedefs';
 import {STTransactionTypeDefs} from './st-transaction/st-transaction.typedef';
 import {STRankTypeDefs} from './st-rank/st-rank.typedef';
 import {STPortfolioTypeDefs} from './st-portfolio/st-portfolio.typedef';
@@ -27,7 +32,7 @@ import {
     answerReceivedGroupInvitation, toggleInvitationRequestToGroup, leaveGroup
 } from "./st-group/st.group.mutation";
 import {querySTGroupAllDataByGroupId, querySTGroupPartialDataByGroupName} from "./st-group/st-group.query";
-import {stockDetailsResolvers} from "./stockDetails/stockDetails.resolver";
+import {stockDetailsResolvers} from "./st-stocks/st-stock.resolver";
 import {stTransactionResolvers} from "./st-transaction/st-transaction.resolver";
 import {stStockWatchlistResolvers} from "./watchlist/watchlist.resolver";
 import {performTransaction} from "./st-transaction/st-transaction.mutation";
@@ -63,6 +68,7 @@ const mainTypeDefs = gql`
         queryStockDetails(symbol: String!): StockDetails
         queryStockSummary(symbol: String!): Summary
         queryStockSummaries(symbolPrefix: String!): SearchSymbol
+        queryStockDailyInformation: STStockDailyInformations
     }
 
     #### MUTATION
@@ -109,6 +115,7 @@ const mainResolver = {
         queryStockDetails: async (_: null, args: { symbol: string }) => await queryStockDetails(args.symbol),
         queryStockSummary: async (_: null, args: { symbol: string }) => await queryStockSummary(args.symbol),
         queryStockSummaries: async (_: null, args: { symbolPrefix: string }) => await queryStockSummaries(args.symbolPrefix),
+        queryStockDailyInformation: async (_: null, args: null) => await queryStockDailyInformation(),
     },
 
     Mutation: {

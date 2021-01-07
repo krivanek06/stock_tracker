@@ -7,10 +7,10 @@
 
 <!-- listed symbols -->
 <ion-item-group>
-    <app-stock-info-list
+    <app-stock-info-list-identification
             *ngFor="let summary of searchedSummaries$ | async"
             (click)="clickedSummary(summary)"
             [summary]="summary"
             [clickable]="true">
-    </app-stock-info-list>
+    </app-stock-info-list-identification>
 </ion-item-group>

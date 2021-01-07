@@ -6,3 +6,4 @@ export * from './src/model/st-transaction.model';
 export * from './src/model/stockDetails.model';
 export * from './src/model/user.model';
 export * from './src/model/watchList.model';
+export * from './src/model/st-chart.model';

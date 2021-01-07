@@ -63,12 +63,12 @@ class YahooFinanceRequester:
         result = utils.parseMultipleDropdownTables(site)
         livePrice = self.get_live_price(ticker)
 
-        result['weekRange52Min'] = float(result['FiveTwoWeekRange'].split(' - ')[0]) if result.get(
+        result['weekRange52Min'] = utils.force_float(result['FiveTwoWeekRange'].split(' - ')[0]) if result.get(
             'FiveTwoWeekRange') is not None else None
-        result['weekRange52Max'] = float(result['FiveTwoWeekRange'].split(' - ')[1]) if result.get(
+        result['weekRange52Max'] = utils.force_float(result['FiveTwoWeekRange'].split(' - ')[1]) if result.get(
             'FiveTwoWeekRange') is not None else None
         try:
-            result['targetEst1yPercent'] = float(
+            result['targetEst1yPercent'] = utils.force_float(
                 round(100 / float(result['OneyTargetEst']) * livePrice['marketPrice'], 2))
             # result['volumePercent'] = float(round(100 / float(result['AvgVolume'].replace(',', '')) * float(result['Volume'].replace(',', '')), 2))
         except:
@@ -185,7 +185,7 @@ class YahooFinanceRequester:
 
         return data
 
-    def get_chart_data(self, symbol, period):
+    def get_chart_data(self, symbol, period, onlyClosed = False):
         if period == '1d':
             params = {'range': period, 'interval': '1m'}
         elif period in ['5d', '1mo', '3mo']:
@@ -207,16 +207,19 @@ class YahooFinanceRequester:
         volume = data['chart']['result'][0]['indicators']['quote'][0]['volume']
 
         # format data
-        result = {'price': [], 'volume': [], 'change': [], 'livePrice': close[-1]}
+        result = {'price': [], 'volume': [], 'change': [], 'livePrice': close[-1], 'symbol': symbol, 'period': period}
         for i in range(len(timestamp)):
             if open[i] is None or high[i] is None or low[i] is None or close[i] is None:
                 continue
 
-            milliseconds = timestamp[i] * 1000
-            result['price'].append(
-                [milliseconds, round(open[i], 2), round(high[i], 2), round(low[i], 2), round(close[i], 2)])
-            result['volume'].append([milliseconds, volume[i]])
-            # result['change'].append([milliseconds, 0 if i == 0 else round(((close[i] / close[i - 1]) - 1) * 100, 2)])
+            if onlyClosed:
+                result['price'].append(round(close[i], 2))
+            else:
+                milliseconds = timestamp[i] * 1000
+                result['price'].append(
+                    [milliseconds, round(open[i], 2), round(high[i], 2), round(low[i], 2), round(close[i], 2)])
+                result['volume'].append([milliseconds, volume[i]])
+                # result['change'].append([milliseconds, 0 if i == 0 else round(((close[i] / close[i - 1]) - 1) * 100, 2)])
 
         return result
 

@@ -1,19 +1,20 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {AuthFeatureService} from '../../features/auth-feature/services/auth-feature.service';
-import {Observable} from 'rxjs';
-import {StUserPublicData, Summary} from '../../api/customGraphql.service';
+import {StStockDailyInformations, StStockDailyInformationsData, StUserPublicData, Summary} from '../../api/customGraphql.service';
 import {SymbolIdentification} from '../../shared/models/sharedModel';
 import {StockDetailsService} from '../../features/stock-details-feature/services/stock-details.service';
 import {ComponentBase} from '../../shared/utils/component-base/component.base';
-import {takeUntil} from 'rxjs/operators';
+import {map, takeUntil} from 'rxjs/operators';
 import {TradingService} from '../../features/trading-feature/services/trading.service';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'app-trading',
     templateUrl: './trading.page.html',
     styleUrls: ['./trading.page.scss']
 })
-export class TradingPage extends ComponentBase implements OnInit, OnChanges {
+export class TradingPage extends ComponentBase implements OnInit {
+    suggestions$: Observable<StStockDailyInformationsData[]>;
     user: StUserPublicData;
     selectedSummary: Summary;
     holdingsSummaries: Summary[] = [];
@@ -26,12 +27,8 @@ export class TradingPage extends ComponentBase implements OnInit, OnChanges {
 
     ngOnInit() {
         this.initComponent();
+        this.suggestions$ = this.stockDetailsService.getStockDailyInformation().pipe(map(x => x.dailySuggestions));
     }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        console.log('changes', changes);
-    }
-
 
     changeSymbol(symbolIdentification: SymbolIdentification) {
         this.stockDetailsService.getStockSummary(symbolIdentification.symbol).pipe(takeUntil(this.destroy$)).subscribe(res => {
@@ -41,6 +38,7 @@ export class TradingPage extends ComponentBase implements OnInit, OnChanges {
 
     changeSummary(summary: Summary) {
         this.selectedSummary = summary;
+        // TODO smooth scroll to top
     }
 
     tradeSymbol() {

@@ -5,11 +5,12 @@ import {environment} from '../../../../environments/environment';
 import {map, tap} from 'rxjs/operators';
 import {FinancialReport} from '../model/financialReportModel';
 import {
+    QueryStockDailyInformationGQL,
     QueryStockDetailsGQL,
     QueryStockDetailsQuery,
     QueryStockSummariesGQL, QueryStockSummaryGQL,
     StockDetails,
-    StockSummaryFragmentFragment, Summary
+    StockSummaryFragmentFragment, StStockDailyInformations, Summary
 } from '../../../api/customGraphql.service';
 
 @Injectable({
@@ -19,7 +20,8 @@ export class StockDetailsService {
     activeSymbol: string;
 
     constructor(private queryStockDetailsGQL: QueryStockDetailsGQL,
-                private queryStockSummaryGQL: QueryStockSummaryGQL) {
+                private queryStockSummaryGQL: QueryStockSummaryGQL,
+                private queryStockDailyInformationGQL: QueryStockDailyInformationGQL) {
     }
 
 
@@ -39,6 +41,10 @@ export class StockDetailsService {
             tap(x => console.log('getStockDetails', x)),
             map(res => res.data.queryStockSummary)
         );
+    }
+
+    getStockDailyInformation(): Observable<StStockDailyInformations> {
+        return this.queryStockDailyInformationGQL.fetch().pipe(map(res => res.data.queryStockDailyInformation));
     }
 
 

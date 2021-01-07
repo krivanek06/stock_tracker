@@ -32,6 +32,7 @@ import {GenericListComponent} from './components/general/generic-list/generic-li
 import {TitleWithLogoItemComponent} from './components/items/title-with-logo-item/title-with-logo-item.component';
 import { TooltipDirective } from './directives/tooltip.directive';
 import {SearchWrapperComponent} from './components/search-wrapper/search-wrapper.component';
+import { ScrollOffsetDirective } from './directives/scroll-offset.directive';
 
 @NgModule({
     declarations: [
@@ -57,7 +58,8 @@ import {SearchWrapperComponent} from './components/search-wrapper/search-wrapper
         GenericListComponent,
         TitleWithLogoItemComponent,
         TooltipDirective,
-        SearchWrapperComponent
+        SearchWrapperComponent,
+        ScrollOffsetDirective
     ],
     imports: [
         CommonModule,

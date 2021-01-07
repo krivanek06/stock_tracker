@@ -2,7 +2,10 @@ import {stockDataAPI} from './../enviroment';
 import {ApolloError} from 'apollo-server';
 import * as api from 'stock-tracker-common-interfaces';
 import * as admin from "firebase-admin";
-import {getCurrentIOSDate} from "../st-shared/st-shared.functions";
+import {getCurrentIOSDate, stRandomSlice} from "../st-shared/st-shared.functions";
+import {tmpSuggestionSymbols} from "./st-stock.model";
+import {getStockHistoricalClosedData} from "./st-stock.fetch";
+import {createNewSTStockDailyInformations} from "./st-stock.utils";
 
 
 // check if details already exists in firestore, else fetch form api and save them
@@ -70,9 +73,59 @@ export const queryStockSummaries = async (symbolPrefix: string): Promise<api.Sea
     } catch (error) {
         throw new ApolloError(error);
     }
-}
+};
+
+export const queryStockDailyInformation = async (): Promise<api.STStockDailyInformations> => {
+    try {
+        const dailyInfoDoc = await admin.firestore()
+            .collection(api.ST_SHARED_ENUM.ST_STATIC_DATA)
+            .doc(api.ST_SHARED_ENUM.ST_STOCK_DAILY_INFORMATION)
+            .get();
+
+        // const oneDayTimestamp = 1000/*ms*/ * 60/*s*/ * 60/*min*/ * 24/*h*/;
+        const today = new Date();
+        const dailyInfo = dailyInfoDoc.data() as api.STStockDailyInformations || createNewSTStockDailyInformations();
+        let isUpdated = false;
+
+        console.time(); // TODO DELETE
+        // update suggestions
+        if (!dailyInfo.dailySuggestonsLastUpdatedDate || new Date(dailyInfo.dailySuggestonsLastUpdatedDate).getDay() !== today.getDay()) {
+            const randomSymbols = stRandomSlice(tmpSuggestionSymbols, 8);
+            console.log('randomSymbols', randomSymbols) // TODO DELETE
+            const randomSummaries = await Promise.all(randomSymbols.map(x => queryStockSummary(x)));
+            const randomHistoricalData = await Promise.all(randomSymbols.map(x => getStockHistoricalClosedData(x, '1d')));
+
+            const suggestions: api.STStockDailyInformationsData[] = randomSymbols.map(x => {
+                const result: api.STStockDailyInformationsData = {
+                    summary: randomSummaries.find(s => s.symbol === x),
+                    historicalData: randomHistoricalData.find(s => s.symbol === x)
+                };
+                return result;
+            });
+
+            dailyInfo.dailySuggestions = suggestions;
+            dailyInfo.dailySuggestonsLastUpdatedDate = getCurrentIOSDate();
+            isUpdated = true;
+        }
+
+        // save updated data
+        if (isUpdated) {
+            await admin.firestore()
+                .collection(api.ST_SHARED_ENUM.ST_STATIC_DATA)
+                .doc(api.ST_SHARED_ENUM.ST_STOCK_DAILY_INFORMATION)
+                .set(dailyInfo, {merge: true});
+        }
+        console.timeEnd(); // TODO DELETE
+        console.log('----'); // TODO DELETE
+
+        return dailyInfo;
+    } catch (error) {
+        throw new ApolloError(error);
+    }
+};
 
 
+// ------------------------------------------------
 // PRIVATE FUNCTIONS
 const getAndSaveStockDetailsFromApi = async (symbol: string): Promise<api.StockDetails> => {
     const resolverPromise = await global.fetch(`${stockDataAPI}/fundamentals/all?symbol=${symbol}`);

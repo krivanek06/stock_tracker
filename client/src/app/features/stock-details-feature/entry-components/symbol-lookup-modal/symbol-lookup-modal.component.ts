@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ModalController, NavParams} from '@ionic/angular';
-import {SymbolIdentification} from '../../../../../shared/models/sharedModel';
+import {SymbolIdentification} from '../../../../shared/models/sharedModel';
 import {Router} from '@angular/router';
 import {
     QueryStockDetailsGQL,
@@ -8,12 +8,12 @@ import {
     StockSummaryFragmentFragment,
     StUserPublicData,
     Summary
-} from '../../../../../api/customGraphql.service';
-import {StockDetailsService} from '../../../services/stock-details.service';
+} from '../../../../api/customGraphql.service';
+import {StockDetailsService} from '../../services/stock-details.service';
 import {Observable} from 'rxjs';
-import {AuthFeatureService} from '../../../../auth-feature/services/auth-feature.service';
-import {WatchlistService} from '../../../../stock-watchlist-feature/services/watchlist.service';
-import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_ENUM} from '../../../../../pages/search/models/pages.model';
+import {AuthFeatureService} from '../../../auth-feature/services/auth-feature.service';
+import {WatchlistService} from '../../../stock-watchlist-feature/services/watchlist.service';
+import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_ENUM} from '../../../../pages/search/models/pages.model';
 
 @Component({
     selector: 'app-symbol-lookup-modal',

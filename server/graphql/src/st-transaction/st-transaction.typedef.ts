@@ -14,7 +14,7 @@ export const STTransactionTypeDefs = gql`
         units: Float!
         date: String!
         operation: STTransactionOperationEnum!
-        summary: Summary!
+        summary: Summary
     }
     
     #INPUTS

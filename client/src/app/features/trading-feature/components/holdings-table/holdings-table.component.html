@@ -1,4 +1,4 @@
-<app-generic-card [chartTitle]="'Holdings'" [iconTitle]="'pricetags'" [applyLeftPadding]="false">
+<app-generic-card [title]="'Holdings'" [iconTitle]="'pricetags'" [applyLeftPadding]="false">
 
   <!-- table header -->
   <ion-item style="font-weight: bold;" class="ion-margin-top ion-no-padding ion-hide-sm-down">
@@ -17,6 +17,7 @@
   <app-holdings-table-body-item
           *ngFor="let transaction of stTransactions"
           [transaction]="transaction"
+          [clickable]="clickable"
           [userPortfolioTotal]="userPortfolioTotal"
           [currentPrice]="transaction.summary.marketPrice"
           (itemClickedEmitter)="itemClicked($event)">
