@@ -10,6 +10,8 @@ import {Sp500ChartsContainerComponent} from './container/sp500-charts-container/
 import {EconomicChartsContainerComponent} from './container/economic-charts-container/economic-charts-container.component';
 import {DashboardNewsComponent} from './container/dashboard-news/dashboard-news.component';
 import {GroupManagementFeatureModule} from '../../features/group-feature/group-management-feature.module';
+import {TradingFeatureModule} from '../../features/trading-feature/trading-feature.module';
+import {StockDetailsFeatureModule} from '../../features/stock-details-feature/stock-details-feature.module';
 
 const routes: Routes = [
     {
@@ -25,7 +27,9 @@ const routes: Routes = [
         SharedModule,
         RouterModule.forChild(routes),
         StockDataFeatureModule,
-        GroupManagementFeatureModule
+        GroupManagementFeatureModule,
+        TradingFeatureModule,
+        StockDetailsFeatureModule
     ],
     declarations: [
         DashboardPage,

@@ -2,7 +2,7 @@ import * as admin from "firebase-admin";
 import {ApolloError, ValidationError} from "apollo-server";
 import * as api from 'stock-tracker-common-interfaces';
 import {getCurrentIOSDate, stSeep} from "../st-shared/st-shared.functions";
-import {queryStockSummary} from "../stockDetails/stockDetails.query";
+import {queryStockSummary} from "../st-stocks/st-stock.query";
 
 const fetch = require("node-fetch");
 

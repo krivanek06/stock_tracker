@@ -17,6 +17,7 @@ export class HoldingsTableBodyItemComponent implements OnInit, OnChanges {
     @Input() transaction: StTransaction;
     @Input() currentPrice: number;
     @Input() userPortfolioTotal: number;
+    @Input() clickable = true;
 
     @Output() itemClickedEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
 
@@ -41,6 +42,9 @@ export class HoldingsTableBodyItemComponent implements OnInit, OnChanges {
     }
 
     itemClicked() {
+        if (!this.clickable) {
+            return;
+        }
         this.itemClickedEmitter.emit(this.createSymbolIdentification());
     }
 

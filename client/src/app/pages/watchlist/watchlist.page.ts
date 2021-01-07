@@ -5,7 +5,7 @@ import {AuthFeatureService} from '../../features/auth-feature/services/auth-feat
 import {ModalController} from '@ionic/angular';
 import {StStockWatchlistFragmentFragment} from '../../api/customGraphql.service';
 import {SymbolIdentification} from '../../shared/models/sharedModel';
-import {SymbolLookupModalComponent} from '../../features/stock-details-feature/components/modal/symbol-lookup-modal/symbol-lookup-modal.component';
+import {SymbolLookupModalComponent} from '../../features/stock-details-feature/entry-components/symbol-lookup-modal/symbol-lookup-modal.component';
 import {takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
 import {ComponentBase} from '../../shared/utils/component-base/component.base';
@@ -47,7 +47,7 @@ export class WatchlistPage extends ComponentBase implements OnInit, OnDestroy {
         const modal = await this.modalController.create({
             component: SymbolLookupModalComponent,
             componentProps: {chartDataIdentification},
-            cssClass: 'custom-modal'
+            cssClass: 'custom-entry-components'
         });
         return await modal.present();
     }

@@ -7,6 +7,7 @@ import {SharedModule} from '../../shared/shared.module';
 import {HoldingsTableBodyItemComponent} from './components/holdings-table-body-item/holdings-table-body-item.component';
 import {StockDetailsFeatureModule} from '../stock-details-feature/stock-details-feature.module';
 import {TradeConfirmationPopOverComponent} from './entry-components/trade-confirmation-pop-over/trade-confirmation-pop-over.component';
+import {TransactionsChartComponent} from './components/transactions-chart/transactions-chart.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import {TradeConfirmationPopOverComponent} from './entry-components/trade-confir
         PortfolioChangeComponent,
         HoldingsTableComponent,
         HoldingsTableBodyItemComponent,
-        TradeConfirmationPopOverComponent
+        TradeConfirmationPopOverComponent,
+        TransactionsChartComponent
     ],
     imports: [
         SharedModule,
@@ -27,7 +29,9 @@ import {TradeConfirmationPopOverComponent} from './entry-components/trade-confir
         PortfolioGrowthComponent,
         PortfolioChangeComponent,
         HoldingsTableComponent,
-        TradeConfirmationPopOverComponent
+        TradeConfirmationPopOverComponent,
+        TransactionsChartComponent
+
     ]
 })
 export class TradingFeatureModule {

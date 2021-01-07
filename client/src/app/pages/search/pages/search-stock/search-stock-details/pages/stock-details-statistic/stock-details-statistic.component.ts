@@ -31,25 +31,25 @@ export class StockDetailsStatisticComponent implements OnInit {
 
 
     async showSummary() {
-        /*const modal = await this.modalController.create({
+        /*const entry-components = await this.modalController.create({
             component: DetailsSummaryModalComponent,
             componentProps: {
                 logo: this.stockDetails.queryStockDetails.companyData.summaryProfile.logo_url,
                 summary: this.stockDetails.queryStockDetails.companyData.summaryProfile.longBusinessSummary,
                 symbol: this.stockDetails.queryStockDetails.summary.symbol
             },
-            cssClass: 'custom-modal'
+            cssClass: 'custom-entry-components'
         });
-        return await modal.present();*/
+        return await entry-components.present();*/
     }
 
     async showFinancialReport(financialReport: FinancialReport) {
         console.log('show report', financialReport);
-        /*const modal = await this.modalController.create({
+        /*const entry-components = await this.modalController.create({
             component: DetailsFinancialReportModalComponent,
             componentProps: {symbol: this.stockDetailsService.activeSymbol, financialReport},
-            cssClass: 'custom-modal'
+            cssClass: 'custom-entry-components'
         });
-        return await modal.present();*/
+        return await entry-components.present();*/
     }
 }

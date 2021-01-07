@@ -70,7 +70,7 @@ export class EconomicChartsContainerComponent implements OnInit {
         const modal = await this.modalController.create({
             component: EconomicChartModalContainerComponent,
             componentProps: {initialEndpoint, initialName},
-            cssClass: 'custom-modal'
+            cssClass: 'custom-entry-components'
         });
         return await modal.present();
     }

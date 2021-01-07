@@ -9,18 +9,19 @@ import {DetailsCashFlowCardComponent} from './components/card/details-cash-flow-
 import {DetailsBalanceSheetCardComponent} from './components/card/details-balance-sheet-card/details-balance-sheet-card.component';
 import {DetailsRecommendationChartComponent} from './components/details-recommendation-chart/details-recommendation-chart.component';
 import {DetailsFinancialStrengthRatioComponent} from './components/details-financial-strength-ratio/details-financial-strength-ratio.component';
-import {DetailsFinancialReportModalComponent} from './components/modal/details-financial-report-modal/details-financial-report-modal.component';
+import {DetailsFinancialReportModalComponent} from './entry-components/details-financial-report-modal/details-financial-report-modal.component';
 import {DetailsEarningsPerShareChartComponent} from './components/details-earnings-per-share-chart/details-earnings-per-share-chart.component';
 import {SharedModule} from '../../shared/shared.module';
 import {GradingHistoryComponent} from './components/grading-history/grading-history.component';
 import {StockTrendComponent} from './components/stock-trend/stock-trend.component';
-import {SymbolLookupModalComponent} from './components/modal/symbol-lookup-modal/symbol-lookup-modal.component';
+import {SymbolLookupModalComponent} from './entry-components/symbol-lookup-modal/symbol-lookup-modal.component';
 import {DetailsSummaryComponent} from './components/details-summary/details-summary.component';
 import {DetailsRevenueEstimateComponent} from './components/details-revenue-estimate/details-revenue-estimate.component';
-import {StockInfoListComponent} from './components/stock-info-list/stock-info-list.component';
+import {StockInfoListIdentificationComponent} from './components/stock-info-list-identification/stock-info-list-identification.component';
 import {StockSearchComponent} from './containers/stock-search/stock-search.component';
 import {RecommendationDirective} from '../../shared/directives/recommendation.directive';
 import {SummarySectorChartComponent} from './components/summary-sector-chart/summary-sector-chart.component';
+import {StockInfoListChangeComponent} from './components/stock-info-list-change/stock-info-list-change.component';
 
 
 @NgModule({
@@ -41,10 +42,11 @@ import {SummarySectorChartComponent} from './components/summary-sector-chart/sum
         SymbolLookupModalComponent,
         DetailsSummaryComponent,
         DetailsRevenueEstimateComponent,
-        StockInfoListComponent,
+        StockInfoListIdentificationComponent,
         StockSearchComponent,
         RecommendationDirective,
-        SummarySectorChartComponent
+        SummarySectorChartComponent,
+        StockInfoListChangeComponent
     ],
     imports: [
         CommonModule,
@@ -67,10 +69,11 @@ import {SummarySectorChartComponent} from './components/summary-sector-chart/sum
         SymbolLookupModalComponent,
         DetailsSummaryComponent,
         DetailsRevenueEstimateComponent,
-        StockInfoListComponent,
+        StockInfoListIdentificationComponent,
         StockSearchComponent,
         RecommendationDirective,
-        SummarySectorChartComponent
+        SummarySectorChartComponent,
+        StockInfoListChangeComponent
     ],
     entryComponents: [
         DetailsFinancialReportModalComponent,

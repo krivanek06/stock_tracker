@@ -19,7 +19,8 @@ export interface STGeographic {
     latitude: any;
 }
 
-export enum ST_SHARED_COLLECTON {
-    ST_STOCK_SYMBOLS = 'stock_smbols'
+export enum ST_SHARED_ENUM {
+    ST_STATIC_DATA = 'static_data',
+    ST_STOCK_SYMBOLS = 'stock_smbols',
+    ST_STOCK_DAILY_INFORMATION = 'stock_daily_information'
 }
-export const ST_STATIC_DATA_COLLECTION = 'staticData';

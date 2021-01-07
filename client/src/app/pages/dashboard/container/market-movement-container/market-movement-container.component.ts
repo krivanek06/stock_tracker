@@ -4,7 +4,7 @@ import {SymbolMovementData} from '../../../../shared/models/chartDataModel';
 import {SearchDataApiService} from '../../../../api/search-data-api.service';
 import {SymbolIdentification} from '../../../../shared/models/sharedModel';
 import {ModalController} from '@ionic/angular';
-import {SymbolLookupModalComponent} from '../../../../features/stock-details-feature/components/modal/symbol-lookup-modal/symbol-lookup-modal.component';
+import {SymbolLookupModalComponent} from '../../../../features/stock-details-feature/entry-components/symbol-lookup-modal/symbol-lookup-modal.component';
 
 @Component({
     selector: 'app-market-movement-container',
@@ -33,7 +33,7 @@ export class MarketMovementContainerComponent implements OnInit {
         const modal = await this.modalController.create({
             component: SymbolLookupModalComponent,
             componentProps: {chartDataIdentification},
-            cssClass: 'custom-modal'
+            cssClass: 'custom-entry-components'
         });
         return await modal.present();
     }

@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {FinancialReport} from '../../../model/financialReportModel';
+import {FinancialReport} from '../../model/financialReportModel';
 import {ModalController, NavParams} from '@ionic/angular';
 import {Observable} from 'rxjs';
-import {StockDetailsService} from "../../../services/stock-details.service";
+import {StockDetailsService} from "../../services/stock-details.service";
 
 @Component({
     selector: 'app-details-financial-report-modal',

@@ -1,5 +1,5 @@
 import * as api from "stock-tracker-common-interfaces";
-import {resolveStockSummaryForSymbols} from "../stockDetails/stockDetails.resolver";
+import {resolveStockSummaryForSymbols} from "../st-stocks/st-stock.resolver";
 
 
 

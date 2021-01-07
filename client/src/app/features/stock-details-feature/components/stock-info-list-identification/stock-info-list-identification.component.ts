@@ -2,12 +2,12 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output}
 import {Summary} from '../../../../api/customGraphql.service';
 
 @Component({
-    selector: 'app-stock-info-list',
-    templateUrl: './stock-info-list.component.html',
-    styleUrls: ['./stock-info-list.component.scss'],
+    selector: 'app-stock-info-list-identification',
+    templateUrl: './stock-info-list-identification.component.html',
+    styleUrls: ['./stock-info-list-identification.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StockInfoListComponent implements OnInit {
+export class StockInfoListIdentificationComponent implements OnInit {
     @Output() clickedEmitter: EventEmitter<any> = new EventEmitter<any>();
 
     @Input() summary: Summary;

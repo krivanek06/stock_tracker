@@ -1,5 +1,7 @@
 <ion-item>
-    <ion-item (click)="itemClicked()" class="ion-no-padding st-font-size-15 ion-activatable">
+    <ion-item (click)="itemClicked()"
+              class="ion-no-padding st-font-size-15"
+              [ngClass]="{'ion-activatable': clickable}">
         <ion-label>
             <ion-img [src]="transaction.summary.logo_url" class="st-symbol-image"></ion-img>
         </ion-label>

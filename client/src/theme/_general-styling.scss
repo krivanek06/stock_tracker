@@ -141,7 +141,7 @@ ion-spinner {
 // ---------------------------------------------
 // - DATA LABELS
 .st-data-label {
-  color: #{$st-var-font-3} !important;
+  color: #{$st-var-font-3}; // !important
 }
 
 .st-data-label-fixedLabel {
@@ -270,6 +270,17 @@ ion-spinner {
           rgba(9, 24, 72, 1) 44%,
           rgba(10, 24, 70, 1) 73%,
           rgba(7, 22, 62, 1) 100%) !important;
+}
+
+// ----------------------------------------------------
+// ----------------------------------------------------
+// ----------------------------------------------------
+// ITEMS
+.st-info-item-result {
+  min-width: 200px !important;
+  display: flex !important;
+  align-items: start !important;
+  padding: 2px !important;
 }
 
 // ----------------------------------------------------
@@ -405,7 +416,7 @@ ion-spinner {
 
 // MODEL / POP-UP / ALERT
 
-// class to add for each modal
+// class to add for each entry-components
 .custom-modal .modal-wrapper {
   width: 85% !important;
   height: 750px !important;

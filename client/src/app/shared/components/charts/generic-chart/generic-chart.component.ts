@@ -19,7 +19,9 @@ export class GenericChartComponent implements OnInit, OnChanges {
     @Input() chartTitle: string;
     @Input() showTimelineSlider = false;
     @Input() showYAxis = false;
+    @Input() showXAxis = true;
     @Input() enableLegendTogging = false;
+    @Input() showTooltip = true;
     @Input() categories: string[];
 
     Highcharts: typeof Highcharts = Highcharts;
@@ -49,6 +51,9 @@ export class GenericChartComponent implements OnInit, OnChanges {
         }
         if (this.chartType === ChartType.bar) {
             this.initBarChart();
+        }
+        if (this.chartType === ChartType.areaChange) {
+            this.initAreaChange();
         }
 
         if (this.categories) {
@@ -84,7 +89,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
                 plotShadow: false,
-                type: this.chartType,
+                type: this.chartType === ChartType.areaChange ? ChartType.area : this.chartType,
                 backgroundColor: 'transparent',
                 panning: {
                     enable: true
@@ -109,6 +114,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 },
             },
             xAxis: {
+                visible: this.showXAxis,
                 type: 'datetime',
                 dateTimeLabelFormats: {
                     day: '%e of %b'
@@ -116,6 +122,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
             },
             plotOptions: {
                 series: {
+                    enableMouseTracking: this.showTooltip,
                     events: {
                         legendItemClick: (e) => {
                             if (!this.enableLegendTogging) {
@@ -219,6 +226,36 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 enabled: false
             },
             series: this.series,
+        };
+    }
+
+    private initAreaChange() {
+        const data = this.series[0].data as number[];
+        const oldestData = data[0] as number;
+        const newestData = data[data.length - 1] as number;
+        const color = oldestData > newestData ? '#ff1010' : '#0d920d';
+
+        this.chartOptions = {
+            ...this.chartOptions,
+            plotOptions: {
+                ...this.chartOptions.plotOptions,
+                area: {
+                    ...this.chartOptions.plotOptions.area,
+                    lineColor: color,
+                    fillColor: {
+                        linearGradient: {
+                            x1: 0,
+                            y1: 0,
+                            x2: 0,
+                            y2: 1
+                        },
+                        stops: [
+                            [0, color],
+                            [1, 'rgb(15 26 69)']
+                        ]
+                    }
+                }
+            },
         };
     }
 

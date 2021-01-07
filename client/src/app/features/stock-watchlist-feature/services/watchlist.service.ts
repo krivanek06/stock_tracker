@@ -70,7 +70,7 @@ export class WatchlistService {
             watchlistId = watchlists[0].id; // default, only 1 watchlist
             watchlistName = watchlists[0].name;
         } else {
-            // multiple watchlist, present modal for user to choose
+            // multiple watchlist, present entry-components for user to choose
             const popOver = await this.popoverController.create({
                 component: WatchlistPickerModalContainerComponent,
                 componentProps: {symbol},

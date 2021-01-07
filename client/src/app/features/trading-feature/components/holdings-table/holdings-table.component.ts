@@ -10,8 +10,10 @@ import {SymbolIdentification} from '../../../../shared/models/sharedModel';
 })
 export class HoldingsTableComponent implements OnInit {
     @Output() itemClickedEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
+
     @Input() stTransactions: StTransaction[];
     @Input() userPortfolioTotal: number;
+    @Input() clickable = true;
 
     constructor() {
     }
@@ -20,6 +22,9 @@ export class HoldingsTableComponent implements OnInit {
     }
 
     itemClicked(symbolIdentification: SymbolIdentification) {
+        if (!this.clickable) {
+            return;
+        }
         this.itemClickedEmitter.emit(symbolIdentification);
     }
 }

@@ -16,7 +16,7 @@
                             [showYAxis]="true"
                             [logoUrl]="summary.logo_url"
                             [name]="chartDataIdentification.name"
-                            [height]="350"
+                            [height]="375"
                             [symbol]="chartDataIdentification.symbol">
                     </app-financial-chart-container>
                 </ion-col>
@@ -24,7 +24,7 @@
 
                 <ion-col size="12" size-md="5.5" size-xl="4.5" class="st-md-border-bottom">
                     <!-- summary -->
-                    <app-generic-list [iconTitle]="'barcode-outline'" [chartTitle]="'Summary'">
+                    <app-generic-list [iconTitle]="'barcode-outline'" [title]="'Summary'">
                         <app-details-summary [summary]="summary">
                         </app-details-summary>
 
@@ -44,7 +44,7 @@
             <!-- long business summary -->
             <ion-row>
                 <ion-col size="12" class="st-flex-col">
-                    <app-generic-list [chartTitle]="summary.longName">
+                    <app-generic-list [title]="summary.longName">
                         <ion-text class="st-font-3">
                             {{ summary.longBusinessSummary }}
                         </ion-text>

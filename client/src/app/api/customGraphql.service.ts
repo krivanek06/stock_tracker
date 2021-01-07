@@ -28,6 +28,7 @@ export type Query = {
     queryStockDetails?: Maybe<StockDetails>;
     queryStockSummary?: Maybe<Summary>;
     queryStockSummaries?: Maybe<SearchSymbol>;
+    queryStockDailyInformation?: Maybe<StStockDailyInformations>;
 };
 
 
@@ -240,9 +241,9 @@ export type StUserHistoricalData = {
 
 export type StPortfolioWeeklyChange = {
     __typename?: 'STPortfolioWeeklyChange';
-    portfolio?: Maybe<StPortfolio>;
-    transactionsBuy?: Maybe<Array<Maybe<StPortfolioWeeklyChangeTransactions>>>;
-    transactionsSell?: Maybe<Array<Maybe<StPortfolioWeeklyChangeTransactions>>>;
+    portfolio: StPortfolio;
+    transactionsBuy: StPortfolioWeeklyChangeTransactions;
+    transactionsSell: StPortfolioWeeklyChangeTransactions;
     date?: Maybe<Scalars['String']>;
 };
 
@@ -319,6 +320,21 @@ export type StStockWatchInputlistIdentifier = {
     userId: Scalars['String'];
     id?: Maybe<Scalars['String']>;
     additionalData?: Maybe<Scalars['String']>;
+};
+
+export type StStockDailyInformationsData = {
+    __typename?: 'STStockDailyInformationsData';
+    summary?: Maybe<Summary>;
+    historicalData?: Maybe<StStockHistoricalClosedDataWithPeriod>;
+};
+
+export type StStockDailyInformations = {
+    __typename?: 'STStockDailyInformations';
+    dailySuggestions?: Maybe<Array<Maybe<StStockDailyInformationsData>>>;
+    dailyTopGains?: Maybe<Array<Maybe<StStockDailyInformationsData>>>;
+    dailyTopLosers?: Maybe<Array<Maybe<StStockDailyInformationsData>>>;
+    dailyToplastUpdatedDate?: Maybe<Scalars['String']>;
+    dailySuggestonsLastUpdatedDate?: Maybe<Scalars['String']>;
 };
 
 export type SearchSymbol = {
@@ -989,7 +1005,7 @@ export type StTransaction = {
     units: Scalars['Float'];
     date: Scalars['String'];
     operation: StTransactionOperationEnum;
-    summary: Summary;
+    summary?: Maybe<Summary>;
 };
 
 export type StTransactionInput = {
@@ -1023,6 +1039,22 @@ export type StSimpleChart = {
     date: Scalars['String'];
     data: Scalars['Float'];
     label?: Maybe<Scalars['String']>;
+};
+
+export type StStockHistoricalClosedDataWithPeriod = {
+    __typename?: 'STStockHistoricalClosedDataWithPeriod';
+    livePrice?: Maybe<Scalars['Float']>;
+    price?: Maybe<Array<Maybe<Scalars['Float']>>>;
+    symbol?: Maybe<Scalars['String']>;
+    period?: Maybe<Scalars['String']>;
+};
+
+export type StStockHistoricalDataWithPeriod = {
+    __typename?: 'STStockHistoricalDataWithPeriod';
+    livePrice?: Maybe<Scalars['Float']>;
+    price?: Maybe<Array<Maybe<Array<Maybe<Scalars['Float']>>>>>;
+    symbol?: Maybe<Scalars['String']>;
+    period?: Maybe<Scalars['String']>;
 };
 
 export type StInputLog = {
@@ -1329,10 +1361,10 @@ export type StPortfolioWeeklyChangeFragmentFragment = (
     { __typename?: 'STPortfolioWeeklyChange' }
     & Pick<StPortfolioWeeklyChange, 'date'>
     & {
-    portfolio?: Maybe<(
+    portfolio: (
         { __typename?: 'STPortfolio' }
         & StPortfolioFragmentFragment
-        )>, transactionsBuy?: Maybe<Array<Maybe<(
+        ), transactionsBuy: (
         { __typename?: 'STPortfolioWeeklyChangeTransactions' }
         & Pick<StPortfolioWeeklyChangeTransactions, 'total'>
         & {
@@ -1341,7 +1373,7 @@ export type StPortfolioWeeklyChangeFragmentFragment = (
             & StTransactionFragmentFragment
             )>>>
     }
-        )>>>, transactionsSell?: Maybe<Array<Maybe<(
+        ), transactionsSell: (
         { __typename?: 'STPortfolioWeeklyChangeTransactions' }
         & Pick<StPortfolioWeeklyChangeTransactions, 'total'>
         & {
@@ -1350,7 +1382,7 @@ export type StPortfolioWeeklyChangeFragmentFragment = (
             & StTransactionFragmentFragment
             )>>>
     }
-        )>>>
+        )
 }
     );
 
@@ -1521,6 +1553,19 @@ export type EarningsFragmentFragment = (
 }
     );
 
+export type StStockDailyInformationsDataFragmentFragment = (
+    { __typename?: 'STStockDailyInformationsData' }
+    & {
+    historicalData?: Maybe<(
+        { __typename?: 'STStockHistoricalClosedDataWithPeriod' }
+        & Pick<StStockHistoricalClosedDataWithPeriod, 'livePrice' | 'price' | 'symbol' | 'period'>
+        )>, summary?: Maybe<(
+        { __typename?: 'Summary' }
+        & StockSummaryFragmentFragment
+        )>
+}
+    );
+
 export type QueryStockDetailsQueryVariables = Exact<{
     symbol: Scalars['String'];
 }>;
@@ -1669,6 +1714,31 @@ export type QueryStockSummariesQuery = (
 }
     );
 
+export type QueryStockDailyInformationQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type QueryStockDailyInformationQuery = (
+    { __typename?: 'Query' }
+    & {
+    queryStockDailyInformation?: Maybe<(
+        { __typename?: 'STStockDailyInformations' }
+        & Pick<StStockDailyInformations, 'dailyToplastUpdatedDate' | 'dailySuggestonsLastUpdatedDate'>
+        & {
+        dailySuggestions?: Maybe<Array<Maybe<(
+            { __typename?: 'STStockDailyInformationsData' }
+            & StStockDailyInformationsDataFragmentFragment
+            )>>>, dailyTopGains?: Maybe<Array<Maybe<(
+            { __typename?: 'STStockDailyInformationsData' }
+            & StStockDailyInformationsDataFragmentFragment
+            )>>>, dailyTopLosers?: Maybe<Array<Maybe<(
+            { __typename?: 'STStockDailyInformationsData' }
+            & StStockDailyInformationsDataFragmentFragment
+            )>>>
+    }
+        )>
+}
+    );
+
 export type StTransactionFragmentFragment = (
     { __typename?: 'STTransaction' }
     & Pick<StTransaction, 'symbol' | 'price' | 'return' | 'returnChange' | 'units' | 'date' | 'operation' | 'symbol_logo_url'>
@@ -1685,10 +1755,10 @@ export type PerformTransactionMutation = (
     performTransaction?: Maybe<(
         { __typename?: 'STTransaction' }
         & {
-        summary: (
+        summary?: Maybe<(
             { __typename?: 'Summary' }
             & StockSummaryFragmentFragment
-            )
+            )>
     }
         & StTransactionFragmentFragment
         )>
@@ -1733,10 +1803,10 @@ export type AuthenticateUserQuery = (
             )>>, holdings: Array<Maybe<(
             { __typename?: 'STTransaction' }
             & {
-            summary: (
+            summary?: Maybe<(
                 { __typename?: 'Summary' }
                 & StockSummaryFragmentFragment
-                )
+                )>
         }
             & StTransactionFragmentFragment
             )>>, groups: (
@@ -2536,6 +2606,19 @@ export const StockSummaryFragmentFragmentDoc = gql`
         longBusinessSummary
     }
 ${SummaryResidanceFragmentFragmentDoc}`;
+export const StStockDailyInformationsDataFragmentFragmentDoc = gql`
+    fragment STStockDailyInformationsDataFragment on STStockDailyInformationsData {
+        historicalData {
+            livePrice
+            price
+            symbol
+            period
+        }
+        summary {
+            ...StockSummaryFragment
+        }
+    }
+${StockSummaryFragmentFragmentDoc}`;
 export const StStockWatchlistFragmentFragmentDoc = gql`
     fragment STStockWatchlistFragment on STStockWatchlist {
         id
@@ -2842,6 +2925,35 @@ ${StockSummaryFragmentFragmentDoc}`;
 })
 export class QueryStockSummariesGQL extends Apollo.Query<QueryStockSummariesQuery, QueryStockSummariesQueryVariables> {
     document = QueryStockSummariesDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+        super(apollo);
+    }
+}
+
+export const QueryStockDailyInformationDocument = gql`
+    query QueryStockDailyInformation {
+        queryStockDailyInformation {
+            dailySuggestions {
+                ...STStockDailyInformationsDataFragment
+            }
+            dailyTopGains {
+                ...STStockDailyInformationsDataFragment
+            }
+            dailyTopLosers {
+                ...STStockDailyInformationsDataFragment
+            }
+            dailyToplastUpdatedDate
+            dailySuggestonsLastUpdatedDate
+        }
+    }
+${StStockDailyInformationsDataFragmentFragmentDoc}`;
+
+@Injectable({
+    providedIn: 'root'
+})
+export class QueryStockDailyInformationGQL extends Apollo.Query<QueryStockDailyInformationQuery, QueryStockDailyInformationQueryVariables> {
+    document = QueryStockDailyInformationDocument;
 
     constructor(apollo: Apollo.Apollo) {
         super(apollo);

@@ -11,7 +11,7 @@
             <ion-row class="st-width-90-center">
                 <!-- account form -->
                 <ion-col size="12" size-md="7">
-                    <app-generic-card [chartTitle]="'Account Information'" [additionalClasses]="'st-height-100'">
+                    <app-generic-card [title]="'Account Information'" [additionalClasses]="'st-height-100'">
                         <app-user-account-form
                                 (submitClickedEmitter)="editUser($event)"
                                 (editClickedEmitter)="toggleEdit()"
@@ -23,14 +23,14 @@
                     <!-- assigned roles -->
                     <app-generic-card *ngIf="user.userPrivateData.roles.length > 0"
                                       class="ion-margin-bottom"
-                                      [chartTitle]="'Assigned roles'">
+                                      [title]="'Assigned roles'">
                         <app-clickable-name-item
                                 [itemNames]="user.userPrivateData.roles">
                         </app-clickable-name-item>
                     </app-generic-card>
 
                     <!-- reseted account -->
-                    <app-generic-card [chartTitle]="'Account resets'">
+                    <app-generic-card [title]="'Account resets'">
                         <app-user-account-reseted-info
                                 (resetAccountEmitter)="resetAccount()"
                                 [resetedAccountInfo]="user.resetedAccount"
@@ -49,7 +49,7 @@
             <!-- wachlists -->
             <ion-row class="st-width-90-center">
                 <ion-col size="12" size-md="7">
-                    <app-generic-card [chartTitle]="'Watchlist modification'">
+                    <app-generic-card [title]="'Watchlist modification'">
                         <app-watchlist-modification-container [watchlists]="user.stockWatchlist">
                         </app-watchlist-modification-container>
                     </app-generic-card>

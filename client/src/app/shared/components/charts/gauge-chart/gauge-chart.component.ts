@@ -93,7 +93,7 @@ export class GaugeChartComponent implements OnInit, OnChanges {
                 min: this.startingPoint,
                 max: this.endingPoint,
                 stops: [
-                    [0.1, '#DF5353'], // red
+                    [0.1, '#df3b33'], // red
                     [0.25, '#FF6600'], // orange
                     [0.50, '#DDDF0D'], // yellow
                     [0.70, '#99FF33'], // light green
