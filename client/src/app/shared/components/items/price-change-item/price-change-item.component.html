@@ -1,7 +1,9 @@
 <ion-label position="fixed"
            [ngClass]="{
-                    'st-price-up': price > 0 || priceChange > 0,
-                    'st-price-down': price < 0 || priceChange < 0
+                    'st-price-up': isPositive && !lighterVersion,
+                    'st-price-up-light': isPositive && lighterVersion,
+                    'st-price-down': isNegative && !lighterVersion,
+                    'st-price-down-light': isNegative && lighterVersion
                      }">
     <ion-text class="st-font-size-16 st-flex-row">
         <ng-container *ngIf="priceChange !== undefined && !isPercent">{{ priceChange | number: '1.2-2'}}%</ng-container>
@@ -9,11 +11,16 @@
 
         <ion-icon name="trending-up-outline"
                   class="st-price-icon ion-hide-sm-down"
-                  *ngIf="price > 0 || priceChange > 0"></ion-icon>
+                  *ngIf="isPositive"></ion-icon>
         <ion-icon name="trending-down-outline"
                   class="st-price-icon ion-hide-sm-down"
-                  *ngIf="price < 0 || priceChange < 0"></ion-icon>
+                  *ngIf="isNegative"></ion-icon>
     </ion-text>
 
-    <ion-text class="st-font-size-13 st-font-5" *ngIf="price">{{ price | currency}}</ion-text>
+    <ion-text class="st-font-size-13"
+              [ngClass]="{
+                'st-font-5': !lighterVersion,
+                'st-font-2': lighterVersion
+              }"
+              *ngIf="price">{{ price | currency}}</ion-text>
 </ion-label>

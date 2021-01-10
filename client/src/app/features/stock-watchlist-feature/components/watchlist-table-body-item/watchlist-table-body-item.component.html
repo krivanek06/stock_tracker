@@ -1,7 +1,7 @@
 <ion-item class="st-display-flex-center">
     <ion-item (click)="itemClicked()" class="ion-no-padding stockInfo-container st-font-size-15 ion-activatable">
         <ion-label>
-            <ion-img [src]="summary.logo_url" class="st-symbol-image"></ion-img>
+            <ion-img [src]="summary.logo_url" class="st-symbol-image-data-table"></ion-img>
         </ion-label>
 
         <!-- stock name -->
@@ -42,9 +42,9 @@
 
         <!-- recommendation date -->
         <ion-label position="fixed" class="ion-hide-md-down st-data-label">
-           <ion-text [appRecommendation]="summary.recommendationKey | titlecase">
-               {{ summary.recommendationKey | titlecase }}
-           </ion-text>
+            <ion-text [appRecommendation]="summary.recommendationKey | titlecase">
+                {{ summary.recommendationKey | titlecase }}
+            </ion-text>
             [{{ summary.recommendationMean }}]
         </ion-label>
 

@@ -7,7 +7,7 @@ import {
 import {ChartDataApiService} from '../../../../api/chart-data-api.service';
 import {EmploymentStatisticsApiService} from '../../../../api/employment-statistics-api.service';
 import {ChartType} from '../../../../shared/models/sharedModel';
-import {EconomicChartModalContainerComponent} from '../../../../shared/containers/modal/economic-chart-modal-container/economic-chart-modal-container.component';
+import {EconomicChartModalContainerComponent} from '../../../../shared/entry-components/economic-chart-modal-container/economic-chart-modal-container.component';
 import {ModalController} from '@ionic/angular';
 import * as chartData from '../../../../shared/models/endpoints';
 
@@ -70,7 +70,7 @@ export class EconomicChartsContainerComponent implements OnInit {
         const modal = await this.modalController.create({
             component: EconomicChartModalContainerComponent,
             componentProps: {initialEndpoint, initialName},
-            cssClass: 'custom-entry-components'
+            cssClass: 'custom-modal'
         });
         return await modal.present();
     }

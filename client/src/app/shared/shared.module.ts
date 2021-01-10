@@ -16,9 +16,9 @@ import {HeaderComponent} from './containers/header/header.component';
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {InlineModificationFormComponent} from './components/forms/inline-modification-form/inline-modification-form.component';
 import {GenericChartComponent} from './components/charts/generic-chart/generic-chart.component';
-import {GenericCardComponent} from './components/general/generic-card/generic-card.component';
+import {GenericCardComponent} from './components/generic/generic-card/generic-card.component';
 import {FinancialChartContainerComponent} from './containers/financial-chart-container/financial-chart-container.component';
-import {EconomicChartModalContainerComponent} from './containers/modal/economic-chart-modal-container/economic-chart-modal-container.component';
+import {EconomicChartModalContainerComponent} from './entry-components/economic-chart-modal-container/economic-chart-modal-container.component';
 import {RelativeTimePipe} from './pipes/relatimeTime.pipe';
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import {PriceCompareItemComponent} from './components/items/price-compare-item/price-compare-item.component';
@@ -28,11 +28,12 @@ import {UploaderComponent} from './components/image-manipulation/uploader/upload
 import {UploadTaskComponent} from './components/image-manipulation/upload-task/upload-task.component';
 import {PriceChangeItemComponent} from './components/items/price-change-item/price-change-item.component';
 import {ClickableNameItemComponent} from './components/items/clickable-name-item/clickable-name-item.component';
-import {GenericListComponent} from './components/general/generic-list/generic-list.component';
+import {GenericListComponent} from './components/generic/generic-list/generic-list.component';
 import {TitleWithLogoItemComponent} from './components/items/title-with-logo-item/title-with-logo-item.component';
 import { TooltipDirective } from './directives/tooltip.directive';
 import {SearchWrapperComponent} from './components/search-wrapper/search-wrapper.component';
 import { ScrollOffsetDirective } from './directives/scroll-offset.directive';
+import {GenericFancyCardComponent} from './components/generic/generic-fancy-card/generic-fancy-card.component';
 
 @NgModule({
     declarations: [
@@ -59,7 +60,8 @@ import { ScrollOffsetDirective } from './directives/scroll-offset.directive';
         TitleWithLogoItemComponent,
         TooltipDirective,
         SearchWrapperComponent,
-        ScrollOffsetDirective
+        ScrollOffsetDirective,
+        GenericFancyCardComponent
     ],
     imports: [
         CommonModule,
@@ -106,7 +108,8 @@ import { ScrollOffsetDirective } from './directives/scroll-offset.directive';
         GenericListComponent,
         TitleWithLogoItemComponent,
         TooltipDirective,
-        SearchWrapperComponent
+        SearchWrapperComponent,
+        GenericFancyCardComponent
 
     ],
     entryComponents: [

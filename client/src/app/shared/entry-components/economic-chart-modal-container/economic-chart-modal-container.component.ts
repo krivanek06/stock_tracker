@@ -1,11 +1,11 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
-import {ChartData, ChartDataArray, HistoricalChartData} from '../../../models/chartDataModel';
+import {ChartData, ChartDataArray, HistoricalChartData} from '../../models/chartDataModel';
 import {ModalController, NavParams} from '@ionic/angular';
 import {HttpClient} from '@angular/common/http';
-import {environment} from '../../../../../environments/environment';
+import {environment} from '../../../../environments/environment';
 import {map} from 'rxjs/operators';
-import {GenericChartComponent} from '../../../components/charts/generic-chart/generic-chart.component';
-import {ChartType} from '../../../models/sharedModel';
+import {GenericChartComponent} from '../../components/charts/generic-chart/generic-chart.component';
+import {ChartType} from '../../models/sharedModel';
 
 
 @Component({

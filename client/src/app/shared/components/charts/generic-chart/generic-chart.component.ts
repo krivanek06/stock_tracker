@@ -17,11 +17,13 @@ export class GenericChartComponent implements OnInit, OnChanges {
     @Input() chartType: ChartType = ChartType.line;
     @Input() showLegend = false;
     @Input() chartTitle: string;
+    @Input() chartTitlePosition = 'left';
     @Input() showTimelineSlider = false;
     @Input() showYAxis = false;
     @Input() showXAxis = true;
     @Input() enableLegendTogging = false;
     @Input() showTooltip = true;
+    @Input() showDataLabel = false;
     @Input() categories: string[];
 
     Highcharts: typeof Highcharts = Highcharts;
@@ -54,6 +56,9 @@ export class GenericChartComponent implements OnInit, OnChanges {
         }
         if (this.chartType === ChartType.areaChange) {
             this.initAreaChange();
+        }
+        if (this.chartType === ChartType.pieSemiCircle) {
+            this.initSemiCirclePieChart();
         }
 
         if (this.categories) {
@@ -89,7 +94,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
                 plotShadow: false,
-                type: this.chartType === ChartType.areaChange ? ChartType.area : this.chartType,
+                type: this.chartType === ChartType.areaChange ? ChartType.areaspline : this.chartType,
                 backgroundColor: 'transparent',
                 panning: {
                     enable: true
@@ -120,68 +125,14 @@ export class GenericChartComponent implements OnInit, OnChanges {
                     day: '%e of %b'
                 }
             },
-            plotOptions: {
-                series: {
-                    enableMouseTracking: this.showTooltip,
-                    events: {
-                        legendItemClick: (e) => {
-                            if (!this.enableLegendTogging) {
-                                e.preventDefault(); // prevent toggling series visibility
-                            }
-                        },
-                    },
-                },
-                area: {
-                    marker: {
-                        radius: 2
-                    },
-                    lineWidth: 1,
-                    states: {
-                        hover: {
-                            lineWidth: 1
-                        }
-                    },
-                    threshold: null
-                },
-                pie: {
-                    showInLegend: this.showLegend,
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true,
-                        format: '', // <b>{point.name}</b><br>{point.percentage:.1f} %
-                        distance: -50,
-                        filter: {
-                            property: 'percentage',
-                            operator: '>',
-                            value: 4
-                        }
-                    },
-                    tooltip: {
-                        headerFormat: null,
-                        pointFormat: '<span style="color:{point.color}; font-weight: bold">{point.name}</span> :<b>{point.percentage:.1f} %</b><br/>'
-                    },
-                },
-                areaspline: {
-                    threshold: null
-                },
-                line: {
-                    marker: {
-                        enabled: false
-                    },
-                    tooltip: {
-                        pointFormat: '<span style="color:{point.color}; font-weight: bold">{series.name}</span> :<b>{point.y:.2f}</b><br/>'
-                    }
-                }
-            },
             title: {
                 text: this.chartTitle,
-                align: 'left',
+                align: this.chartTitlePosition,
                 style: {
-                    color: '#bababa'
+                    color: '#bababa',
+                    fontSize: '13px'
                 }
             },
-
             subtitle: false,
             scrollbar: {
                 enabled: false,
@@ -220,12 +171,128 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 valueDecimals: 2
                 // pointFormat: '<span style="color:{point.color}; font-weight: bold">{series.name}</span> :<b>{point.y:.2f}</b><br/>'
             },
-
-
             rangeSelector: {
                 enabled: false
             },
+            plotOptions: {
+                series: {
+                    enableMouseTracking: this.showTooltip,
+                    events: {
+                        legendItemClick: (e) => {
+                            if (!this.enableLegendTogging) {
+                                e.preventDefault(); // prevent toggling series visibility
+                            }
+                        },
+                    },
+                },
+                area: {
+                    marker: {
+                        radius: 2
+                    },
+                    lineWidth: 1,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
+                },
+                pie: {
+                    showInLegend: this.showLegend,
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    size: this.heightPx - 100,
+                    dataLabels: {
+                        color: '#c3c3c3',
+                        enabled: this.showDataLabel,
+                        style: {
+                            fontSize: '13px',
+                            width: '80px'
+                        },
+                        format: '<span style="color: {point.color}">{point.name}</span><br>{point.percentage:.1f} %',
+                        //distance: -50,
+                        filter: {
+                            property: 'percentage',
+                            operator: '>',
+                            value: 4
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: null,
+                        pointFormat: '<span style="color:{point.color}; font-weight: bold">{point.name}</span> :<b>{point.percentage:.1f} %</b><br/>'
+                    },
+                    colors: Highcharts.map(Highcharts.getOptions().colors, function(color) {
+                        return {
+                            radialGradient: {
+                                cx: 0.5,
+                                cy: 0.3,
+                                r: 0.1
+                            },
+                            stops: [
+                                [0, color],
+                                [1, Highcharts.color(color).brighten(-0.20).get('rgb')] // darken
+                            ]
+                        };
+                    }),
+                },
+                areaspline: {
+                    threshold: null
+                },
+                line: {
+                    marker: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        pointFormat: '<span style="color:{point.color}; font-weight: bold">{series.name}</span> :<b>{point.y:.2f}</b><br/>'
+                    }
+                }
+            },
             series: this.series,
+        };
+    }
+
+    private initSemiCirclePieChart() {
+        this.chartOptions = {
+            ...this.chartOptions,
+            title: {
+                ...this.chartOptions.title,
+                align: 'center',
+                verticalAlign: 'middle',
+                y: 50
+            },
+            tooltip: {
+                enabled: false
+            },
+            plotOptions: {
+                pie: {
+                    dataLabels: {
+                        enabled: false,
+                    },
+                    startAngle: -90,
+                    endAngle: 90,
+                    center: ['50%', '75%'],
+                    size: '100%'
+                }
+            },
+            series: [{
+                type: 'pie',
+                innerSize: '65%',
+                enableMouseTracking: false,
+                data: this.series
+            }],
+            colors: Highcharts.map(Highcharts.getOptions().colors, function(color) {
+                return {
+                    radialGradient: {
+                        cx: 0.5,
+                        cy: 0.3,
+                        r: 0.1
+                    },
+                    stops: [
+                        [0, color],
+                        [1, Highcharts.color(color).brighten(-0.5).get('rgb')] // darken
+                    ]
+                };
+            })
         };
     }
 
@@ -237,9 +304,10 @@ export class GenericChartComponent implements OnInit, OnChanges {
 
         this.chartOptions = {
             ...this.chartOptions,
+            type: ChartType.areaspline,
             plotOptions: {
                 ...this.chartOptions.plotOptions,
-                area: {
+                areaspline: {
                     ...this.chartOptions.plotOptions.area,
                     lineColor: color,
                     fillColor: {

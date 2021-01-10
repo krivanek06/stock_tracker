@@ -7,6 +7,7 @@ import {ComponentBase} from '../../shared/utils/component-base/component.base';
 import {map, takeUntil} from 'rxjs/operators';
 import {TradingService} from '../../features/trading-feature/services/trading.service';
 import {Observable} from 'rxjs';
+import {HoldingsTableEnum} from '../../features/trading-feature/components/holdings/holdings-table.enum';
 
 @Component({
     selector: 'app-trading',
@@ -18,6 +19,9 @@ export class TradingPage extends ComponentBase implements OnInit {
     user: StUserPublicData;
     selectedSummary: Summary;
     holdingsSummaries: Summary[] = [];
+
+    HoldingsTableEnum = HoldingsTableEnum;
+
 
     constructor(private authFeatureService: AuthFeatureService,
                 private stockDetailsService: StockDetailsService,

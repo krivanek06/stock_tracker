@@ -1,7 +1,8 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {marketValueChange} from '../../../../shared/animations/marketValueChange.animation';
-import {StockSummaryFragmentFragment, StPortfolio, StTransaction} from '../../../../api/customGraphql.service';
-import {STCustomValueChange, SymbolIdentification} from '../../../../shared/models/sharedModel';
+import {marketValueChange} from '../../../../../shared/animations/marketValueChange.animation';
+import {StockSummaryFragmentFragment, StPortfolio, StTransaction} from '../../../../../api/customGraphql.service';
+import {STCustomValueChange, SymbolIdentification} from '../../../../../shared/models/sharedModel';
+import {HoldingsTableEnum} from '../holdings-table.enum';
 
 @Component({
     selector: 'app-holdings-table-body-item',
@@ -18,6 +19,9 @@ export class HoldingsTableBodyItemComponent implements OnInit, OnChanges {
     @Input() currentPrice: number;
     @Input() userPortfolioTotal: number;
     @Input() clickable = true;
+    @Input() displayedLabels: HoldingsTableEnum[] = [];
+
+    HoldingsTableEnum = HoldingsTableEnum;
 
     @Output() itemClickedEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
 

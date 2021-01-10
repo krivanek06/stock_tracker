@@ -1,16 +1,16 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {StPortfolioWeeklyChange} from '../../../../api/customGraphql.service';
-
+import {StPortfolio, StPortfolioWeeklyChange} from '../../../../../api/customGraphql.service';
 import * as Highcharts from 'highcharts/highstock';
 
 @Component({
-    selector: 'app-transactions-chart',
-    templateUrl: './transactions-chart.component.html',
-    styleUrls: ['./transactions-chart.component.scss'],
+    selector: 'app-portfolio-growth-chart',
+    templateUrl: './portfolio-growth-chart.component.html',
+    styleUrls: ['./portfolio-growth-chart.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TransactionsChartComponent implements OnInit, OnChanges {
-    @Input() stPortfolioWeeklyChanges: StPortfolioWeeklyChange[];
+export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
+
+    @Input() stPortfolio: StPortfolio[];
     @Input() heightPx = 350;
 
     Highcharts: typeof Highcharts = Highcharts;
@@ -27,7 +27,6 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log(this.stPortfolioWeeklyChanges);
         this.initChart();
     }
 
@@ -40,10 +39,7 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
     private initChart() {
         this.chartOptions = {
             chart: {
-                /*plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,*/
-                type: 'column',
+                type: 'areaspline',
                 backgroundColor: 'transparent',
                 panning: {
                     enable: true
@@ -53,17 +49,17 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
                 title: false,
                 startOnTick: false,
                 endOnTick: false,
-
                 opposite: false,
                 gridLineWidth: 1,
                 minorTickInterval: 'auto',
                 tickPixelInterval: 40,
                 minorGridLineWidth: 0,
                 visible: true,
+                gridLineColor: '#66666655',
                 labels: {
                     style: {
-                        color: '#cecece',
-                        font: '10px Trebuchet MS, Verdana, sans-serif'
+                        color: '#a1a1a1',
+                        fontSize: '10px'
                     }
                 },
             },
@@ -71,16 +67,21 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
                 type: 'datetime',
                 dateTimeLabelFormats: {
                     day: '%e of %b'
-                }
+                },
+                labels: {
+                    style: {
+                        font: '10px Trebuchet MS, Verdana, sans-serif'
+                    }
+                },
             },
             title: {
-                text: '',
+                text: 'Portfolio growth',
                 align: 'left',
                 style: {
-                    color: '#bababa'
+                    color: '#bababa',
+                    fontSize: '12px'
                 }
             },
-
             subtitle: false,
             scrollbar: {
                 enabled: false,
@@ -90,33 +91,22 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
             },
             legend: {
                 enabled: true,
+                floating: true,
+                verticalAlign: 'top',
+                align: 'right',
+                y: -8,
                 itemStyle: {
                     color: '#acacac',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    fontSize: '13px'
                 },
                 itemHoverStyle: {
-                    color: '#241eaa'
+                    color: '#484d55'
                 },
                 itemHiddenStyle: {
-                    color: '#494949'
+                    color: '#282828'
                 }
             },
-            /*accessibility: {
-                point: {
-                    valueSuffix: '%'
-                }
-            },*/
-            /*tooltip: {
-                outside: true,
-                borderWidth: 1,
-                backgroundColor: '#232323',
-                style: {
-                    fontSize: '12px',
-                    color: '#D9D8D8',
-                },
-                shared: true,
-                valueDecimals: 2
-            },*/
             tooltip: {
                 padding: 11,
                 enabled: true,
@@ -131,22 +121,23 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
                     return `<p><span style="color: ${this.series.color}; font-weight: bold">● ${this.series.name}: </span><span>$${this.y}</span></p><br/>`;
                 }
             },
-
-
-            /*rangeSelector: {
-                enabled: false
-            },*/
             series: [{
-                color: '#0d920d',
-                name: 'Buy',
+                color: '#1387B0',
+                name: 'Total',
                 data: (() => {
-                    return this.stPortfolioWeeklyChanges.map(point => [Date.parse(point.date), point.transactionsBuy.total]);
+                    return this.stPortfolio.map(point => [Date.parse(point.date), point.portfolioCash + point.portfolioInvested]);
                 })()
             }, {
-                color: '#ff1010',
-                name: 'Sell',
+                color: '#6A5ECC',
+                name: 'Invested',
                 data: (() => {
-                    return this.stPortfolioWeeklyChanges.map(point => [Date.parse(point.date), point.transactionsSell.total]);
+                    return this.stPortfolio.map(point => [Date.parse(point.date), point.portfolioInvested]);
+                })()
+            }, {
+                color: '#CE623A',
+                name: 'Cash',
+                data: (() => {
+                    return this.stPortfolio.map(point => [Date.parse(point.date), point.portfolioCash]);
                 })()
             }]
         };

@@ -1,0 +1,57 @@
+<!-- balance + invested + cash -->
+<ion-item-group class="portfolio-state-container">
+    <!-- balance -->
+    <ion-item class="st-width-full-md-screen">
+        <app-generic-fancy-card
+                [minWidth]="315"
+                [title]="'Balance'"
+                [titleDotColor]="'st-main-color-turquoise-background'"
+                [cardClasses]="'st-main-color-turquoise-background-linear'">
+
+            <ion-item class="st-flex-row">
+                <ion-label class="st-font-size-24 st-font-white">
+                    {{ (portfolio.portfolioCash + portfolio.portfolioInvested) | currency }}
+                </ion-label>
+                <ion-label style="position:absolute; right: 0">
+                    <app-price-change-item
+                            [price]="350.56"
+                            [priceChange]="12.54"
+                            [lighterVersion]="true">
+                    </app-price-change-item>
+                </ion-label>
+            </ion-item>
+        </app-generic-fancy-card>
+    </ion-item>
+
+    <!-- Invested -->
+    <ion-item>
+        <app-generic-fancy-card
+                [minWidth]="225"
+                [title]="'Invested'"
+                [titleDotColor]="'st-main-color-purple-background'"
+                [cardClasses]="'st-main-color-purple-background-linear'">
+
+            <ion-item>
+                <ion-label class="st-font-size-24 st-font-white portfolio-sum">
+                    {{ portfolio.portfolioInvested | currency }}
+                </ion-label>
+            </ion-item>
+        </app-generic-fancy-card>
+    </ion-item>
+
+    <!-- Cash -->
+    <ion-item>
+        <app-generic-fancy-card
+                [minWidth]="225"
+                [title]="'Cash'"
+                [titleDotColor]="'st-main-color-orange-background'"
+                [cardClasses]="'st-main-color-orange-background-linear'">
+
+            <ion-item>
+                <ion-label class="st-font-size-24 st-font-white portfolio-sum">
+                    {{ portfolio.portfolioCash | currency }}
+                </ion-label>
+            </ion-item>
+        </app-generic-fancy-card>
+    </ion-item>
+</ion-item-group>
