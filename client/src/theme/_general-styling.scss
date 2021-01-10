@@ -83,6 +83,56 @@ ion-spinner {
 
 
 // COLOR CLASSES - FONT
+.st-main-color-turquois {
+  color: #{$st-main-color-turquoise} !important;
+}
+
+.st-main-color-turquoise-background {
+  background-color: #{$st-main-color-turquoise} !important;
+  --background: #{$st-main-color-turquoise} !important;
+}
+
+.st-main-color-turquoise-background-linear {
+  background-color: #{$st-main-color-turquoise-background-linear} !important;
+  --background: #{$st-main-color-turquoise-background-linear} !important;
+}
+
+// PURPLE
+.st-font-main-color-purple {
+  color: #{$st-main-color-purple} !important;
+}
+
+.st-main-color-purple-background {
+  background-color: #{$st-main-color-purple} !important;
+  --background: #{$st-main-color-purple} !important;
+}
+
+.st-main-color-purple-background-linear {
+  background-color: #{$st-main-color-purple-background-linear} !important;
+  --background: #{$st-main-color-purple-background-linear} !important;
+}
+
+// ORANGE
+.st-font-main-color-orange {
+  color: #{$st-main-color-orange} !important;
+}
+
+.st-main-color-orange-background {
+  background-color: #{$st-main-color-orange} !important;
+  --background: #{$st-main-color-orange} !important;
+}
+
+.st-main-color-orange-background-linear {
+  background-color: #{$st-main-color-orange-background-linear} !important;
+  --background: #{$st-main-color-orange-background-linear} !important;
+}
+
+// OTHER
+
+.st-font-white {
+  color: white !important;
+}
+
 .st-font-0 {
   color: #{$st-var-font-0} !important;
 }
@@ -201,6 +251,10 @@ ion-spinner {
   font-size: 20px !important;
 }
 
+.st-font-size-24 {
+  font-size: 24px !important;
+}
+
 
 // COLOR CLASSES - BUTTONS
 
@@ -237,8 +291,8 @@ ion-spinner {
 
 .st-icon-title {
   color: #{ $st-var-blue-1} !important;
-  font-size: 36px;
-  margin-right: 16px !important;
+  font-size: 28px;
+  margin-right: 10px !important;
 }
 
 .st-icon-size-30 {
@@ -246,10 +300,10 @@ ion-spinner {
 }
 
 .st-icon-size-header {
-  font-size: 40px;
-  margin-right: 16px !important;
+  font-size: 36px;
+  margin-right: 12px !important;
   @media (max-width: #{$st-var-sm-split}) {
-    font-size: 30px;
+    font-size: 32px;
   }
 }
 
@@ -322,7 +376,15 @@ ion-spinner {
   color: #{$st-var-accept-1} !important;
 }
 
+.st-price-up-light {
+  color: #{$st-var-price-up-light} !important;
+}
+
 .st-price-down {
+  color: #{$st-red} !important;
+}
+
+.st-price-down-light {
   color: #{$st-red} !important;
 }
 
@@ -380,6 +442,14 @@ ion-spinner {
 
 
 // HOVER OVER
+.st-data-item-wrapper {
+  border-bottom: 1px solid #66666633;
+}
+
+.st-data-item-parent:last-child {
+  border-bottom: 0;
+}
+
 .ion-activatable {
   transition: All 0.3s ease-out;
   cursor: pointer;
@@ -460,6 +530,12 @@ ion-spinner {
     max-width: 30px !important;
     min-width: 30px !important;
   }
+}
+
+.st-symbol-image-data-table {
+  max-width: 35px !important;
+  min-width: 35px !important;
+  margin-right: 20px !important;
 }
 
 // -------------------------------------

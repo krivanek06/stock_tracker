@@ -1,0 +1,24 @@
+@import "variables";
+
+:host {
+  ion-item-group {
+    width: 225px;
+    border-right: 1px solid #666666;
+    display: inline-block;
+    padding-left: 16px;
+    @media (max-width: #{$st-var-sm-split}) {
+      display: flex;
+      border-right: 0;
+      width: 100%;
+    }
+  }
+
+  .change-title-item {
+    height: 32px;
+    overflow: visible;
+  }
+
+  .weekly-change {
+    margin-right: 16px;
+  }
+}

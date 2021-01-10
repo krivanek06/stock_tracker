@@ -1,0 +1,87 @@
+<!-- Daily -->
+<ion-item-group *ngIf="daily">
+    <ion-item class="change-title-item">
+        <ion-label class="st-font-size-16">
+            Daily
+        </ion-label>
+    </ion-item>
+    <ion-item>
+        <label class="st-flex-row">
+            <ion-text class="st-font-white st-font-size-18 weekly-change">
+                {{ daily.growth | currency }}
+            </ion-text>
+            <app-price-change-item [priceChange]="daily.change"></app-price-change-item>
+        </label>
+    </ion-item>
+</ion-item-group>
+
+<!-- weekly -->
+<ion-item-group *ngIf="weeklyChange">
+    <ion-item class="change-title-item">
+        <ion-label class="st-font-size-16">
+            Weekly
+        </ion-label>
+    </ion-item>
+    <ion-item>
+        <label class="st-flex-row">
+            <ion-text class="st-font-white st-font-size-18 weekly-change">
+                {{ weeklyChange.growth | currency }}
+            </ion-text>
+            <app-price-change-item [priceChange]="weeklyChange.change"></app-price-change-item>
+        </label>
+    </ion-item>
+</ion-item-group>
+
+
+<!-- monthly -->
+<ion-item-group *ngIf="monthlyChange">
+    <ion-item class="change-title-item">
+        <ion-label class="st-font-size-16">
+            Monthly
+        </ion-label>
+    </ion-item>
+    <ion-item>
+        <label class="st-flex-row">
+            <ion-text class="st-font-white st-font-size-18 weekly-change">
+                {{ monthlyChange.growth | currency }}
+            </ion-text>
+            <app-price-change-item [priceChange]="monthlyChange.change"></app-price-change-item>
+        </label>
+    </ion-item>
+</ion-item-group>
+
+<!-- Quarterly -->
+<ion-item-group *ngIf="quarterly">
+    <ion-item class="change-title-item">
+        <ion-label class="st-font-size-16">
+            Quarterly
+        </ion-label>
+    </ion-item>
+    <ion-item>
+        <label class="st-flex-row">
+            <ion-text class="st-font-white st-font-size-18 weekly-change">
+                {{ quarterly.growth | currency }}
+            </ion-text>
+            <app-price-change-item [priceChange]="quarterly.change"></app-price-change-item>
+        </label>
+    </ion-item>
+</ion-item-group>
+
+<!-- Yearly -->
+<ion-item-group *ngIf="yearlyChange">
+    <ion-item class="change-title-item">
+        <ion-label class="st-font-size-16">
+            Yearly
+        </ion-label>
+    </ion-item>
+    <ion-item>
+        <label class="st-flex-row">
+            <ion-text class="st-font-white st-font-size-18 weekly-change">
+                {{ yearlyChange.growth | currency }}
+            </ion-text>
+            <app-price-change-item [priceChange]="yearlyChange.change"></app-price-change-item>
+        </label>
+    </ion-item>
+</ion-item-group>
+
+

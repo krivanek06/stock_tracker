@@ -6,7 +6,12 @@
         <ion-label position="fixed" class="st-label-small-space st-font-1">Symbol</ion-label>
         <ion-label position="fixed" class="st-label-small-space st-font-1">Action</ion-label>
         <ion-label position="fixed" class="st-label-md-space st-font-1">Value</ion-label>
-        <ion-label position="fixed" class="st-label-md-space st-font-1">Return</ion-label>
+        <ion-label
+                *ngIf="displayedLabels.includes(TransactionsTableEnum.Return)"
+                position="fixed"
+                class="st-label-md-space st-font-1">
+            Return
+        </ion-label>
         <ion-label position="fixed" class="st-label-xl-space st-font-1">Date</ion-label>
     </ion-item>
 
@@ -14,7 +19,7 @@
     <!-- table body -->
     <ion-item *ngFor="let transaction of transactions" class="st-font-size-15">
         <ion-label position="fixed" style="min-width: 55px; max-width: 55px;">
-            <ion-img [src]="transaction.symbol_logo_url" class="st-symbol-image"></ion-img>
+            <ion-img [src]="transaction.symbol_logo_url" class="st-symbol-image-data-table"></ion-img>
         </ion-label>
 
         <!-- stock name -->
@@ -42,7 +47,7 @@
         </ion-label>
 
         <!-- Return -->
-        <ion-label position="fixed" class="st-label-md-space">
+        <ion-label *ngIf="displayedLabels.includes(TransactionsTableEnum.Return)" position="fixed" class="st-label-md-space">
             <app-price-change-item
                     *ngIf="transaction.operation === StTransactionOperationEnum.Sell"
                     [price]="transaction.return"

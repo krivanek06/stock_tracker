@@ -33,7 +33,7 @@ export class MarketMovementContainerComponent implements OnInit {
         const modal = await this.modalController.create({
             component: SymbolLookupModalComponent,
             componentProps: {chartDataIdentification},
-            cssClass: 'custom-entry-components'
+            cssClass: 'custom-modal'
         });
         return await modal.present();
     }

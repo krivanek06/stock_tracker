@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {ChartType} from '../../../../shared/models/sharedModel';
+import {ChartType, GenericChartSeries} from '../../../../shared/models/sharedModel';
 import {Summary} from '../../../../api/customGraphql.service';
 
 @Component({
@@ -10,8 +10,11 @@ import {Summary} from '../../../../api/customGraphql.service';
 })
 export class SummarySectorChartComponent implements OnInit, OnChanges {
     @Input() summaries: Summary[];
+    @Input() showDataLabel = false;
+    @Input() heightPx = 350;
+    @Input() chartTitle: string;
 
-    sectorPairs = [];
+    sectorPairs: GenericChartSeries[] = [];
     ChartType = ChartType;
 
     constructor() {
@@ -32,10 +35,13 @@ export class SummarySectorChartComponent implements OnInit, OnChanges {
         const helper = [];
         this.sectorPairs = [];
         this.summaries.forEach(stock => {
-            helper[stock.sector] = helper[stock.sector] + 1 || 1;
+            const sector = stock.sector.split(' ')[0];
+            helper[sector] = helper[sector] + 1 || 1;
         });
+        let isFirst = true;
         for (const [key, value] of Object.entries(helper)) {
-            this.sectorPairs = [...this.sectorPairs, {name: key, y: value}];
+            this.sectorPairs = [...this.sectorPairs, {name: key, y: value, sliced: isFirst}];
+            isFirst = false;
         }
     }
 

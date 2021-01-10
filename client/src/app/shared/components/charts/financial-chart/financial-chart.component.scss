@@ -10,4 +10,8 @@ highcharts-chart::ng-deep {
   .highcharts-bindings-wrapper{
     display: none;
   }
+
+  tspan {
+    font-size: inherit;
+  }
 }

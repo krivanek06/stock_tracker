@@ -1,9 +1,9 @@
-<ion-item>
+<ion-item class="st-data-item-wrapper">
     <ion-item (click)="itemClicked()"
               class="ion-no-padding st-font-size-15"
               [ngClass]="{'ion-activatable': clickable}">
         <ion-label>
-            <ion-img [src]="transaction.summary.logo_url" class="st-symbol-image"></ion-img>
+            <ion-img [src]="transaction.summary.logo_url" class="st-symbol-image-data-table"></ion-img>
         </ion-label>
 
         <!-- stock name -->
@@ -44,7 +44,8 @@
         </ion-label>
 
         <!-- recommendation date -->
-        <ion-label position="fixed" class="ion-hide-md-down st-data-label">
+        <ion-label position="fixed"
+                   class="ion-hide-md-down st-data-label">
             <ion-text [appRecommendation]="transaction.summary.recommendationKey | titlecase">
                 {{ transaction.summary.recommendationKey | titlecase }}
             </ion-text>

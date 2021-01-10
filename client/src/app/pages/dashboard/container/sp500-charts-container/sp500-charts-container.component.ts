@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {SP500PartialData} from '../../../../shared/models/chartDataModel';
 import {Sp500StatisticsApiService} from '../../../../api/sp500-statistics-api.service';
 import {ModalController} from '@ionic/angular';
-import {EconomicChartModalContainerComponent} from '../../../../shared/containers/modal/economic-chart-modal-container/economic-chart-modal-container.component';
+import {EconomicChartModalContainerComponent} from '../../../../shared/entry-components/economic-chart-modal-container/economic-chart-modal-container.component';
 import {ChartType} from '../../../../shared/models/sharedModel';
 import * as chartData from '../../../../shared/models/endpoints';
 
@@ -60,7 +60,7 @@ export class Sp500ChartsContainerComponent implements OnInit {
         const modal = await this.modalController.create({
             component: EconomicChartModalContainerComponent,
             componentProps: {initialEndpoint, initialName},
-            cssClass: 'custom-entry-components'
+            cssClass: 'custom-modal'
         });
         return await modal.present();
     }

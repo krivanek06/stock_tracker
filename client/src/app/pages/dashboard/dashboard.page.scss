@@ -1,7 +1,27 @@
 @import "custom-variables";
 
-:host{
-  .test{
-    color: #{$orange-title-light};
+:host {
+  ion-row {
+    padding: 4px;
+  }
+
+  .holding-transaction-container {
+    display: flex;
+    flex-flow: row;
+    @media (max-width: #{$st-var-xxl-split}) {
+      flex-flow: column;
+    }
+  }
+
+  .holdings-container {
+    display: table;
+    margin-right: 16px;
+    @media (max-width: #{$st-var-xxl-split}) {
+      margin-right: 0;
+    }
+  }
+
+  .transaction-container {
+    display: table;
   }
 }
