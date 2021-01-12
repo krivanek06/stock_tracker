@@ -1,8 +1,10 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import * as Highcharts from 'highcharts/highstock';
 import {ChartDataArray} from '../../../models/chartDataModel';
 import {ChartType} from '../../../models/sharedModel';
 
+import * as Highcharts from 'highcharts/highstock';
+import highcharts3D from 'highcharts/highcharts-3d';
+highcharts3D(Highcharts);
 
 @Component({
     selector: 'app-generic-chart',
@@ -25,6 +27,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
     @Input() showTooltip = true;
     @Input() showDataLabel = false;
     @Input() categories: string[];
+    @Input() enable3D = false;
 
     Highcharts: typeof Highcharts = Highcharts;
     chart;
@@ -98,6 +101,11 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 backgroundColor: 'transparent',
                 panning: {
                     enable: true
+                },
+                options3d: {
+                    enabled: this.enable3D,
+                    alpha: 45,
+                    beta: 0
                 }
             },
             yAxis: {
@@ -201,6 +209,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
                     showInLegend: this.showLegend,
                     allowPointSelect: true,
                     cursor: 'pointer',
+                    depth: 35,
                     size: this.heightPx - 100,
                     dataLabels: {
                         color: '#c3c3c3',

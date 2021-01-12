@@ -1,7 +1,7 @@
 @import 'custom-variables';
 
-:host{
-  .bell-icon{
+:host {
+  .bell-icon {
     padding-right: 16px;
     @media (max-width: #{$st-var-sm-split}) {
       padding-right: 6px;
@@ -12,16 +12,16 @@
     color: #{$st-var-font-1}
   }
 
-  ion-searchbar{
+  ion-searchbar {
     --background: transparent;
     --color: #{$st-var-font-2};
     --box-shadow: none;
-    --icon-color: #{$st-var-blue-1} ;
+    --icon-color: #{$st-var-blue-1};
     --placeholder-opacity: 0.9;
     padding: 0;
   }
 
-  .ion-search-chip{
+  .ion-search-chip {
     background-color: #{$st-var-blue-3};
 
     @media (max-width: #{$st-var-sm-split}) {
@@ -29,21 +29,9 @@
     }
   }
 
-  .group-container{
+  .group-container {
     display: flex;
     justify-content: flex-end;
-  }
-
-  .headline {
-    display: flex;
-    align-items: center;
-  }
-
-  .headline-container{
-    padding-left: 16px;
-    @media (max-width: #{$st-var-sm-split}) {
-      padding-left: 0;
-    }
   }
 
 

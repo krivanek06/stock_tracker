@@ -29,16 +29,16 @@
                 <ion-text class="page-section">Main section</ion-text>
                 <ion-menu-toggle auto-hide="false" *ngFor="let p of mainPages">
                     <ng-container *ngIf="!p.hidden">
-                        <div *ngIf="selectedNavigation == p.title.toLocaleLowerCase()"
+                        <div *ngIf="selectedNavigation === p"
                              class="navigation-rectangle-selected"></div>
-                        <ion-item (click)="selectedNavigation = p.title"
+                        <ion-item (click)="selectedNavigation = p"
                                   [disabled]="p.disabled"
                                   class="navigation"
                                   routerDirection="root"
                                   [routerLink]="[p.url]"
                                   lines="none"
                                   detail="false"
-                                  [class.selected]="selectedNavigation == p.title.toLocaleLowerCase()">
+                                  [class.selected]="selectedNavigation === p">
                             <ion-icon slot="start" [ios]="p.icon + '-outline'" [name]="p.icon"></ion-icon>
                             <ion-label class="ion-margin-start">{{ p.title }}</ion-label>
                         </ion-item>
@@ -52,15 +52,15 @@
                 <ion-text class="page-section">Other</ion-text>
                 <ion-menu-toggle auto-hide="false" *ngFor="let p of otherPages">
                     <ng-container *ngIf="!p.hidden">
-                        <div *ngIf="selectedNavigation == p.title.toLocaleLowerCase()"
+                        <div *ngIf="selectedNavigation === p"
                              class="navigation-rectangle-selected"></div>
-                        <ion-item (click)="selectedNavigation = p.title"
+                        <ion-item (click)="selectedNavigation = p"
                                   class="navigation"
                                   routerDirection="root"
                                   [routerLink]="[p.url]"
                                   lines="none"
                                   detail="false"
-                                  [class.selected]="selectedNavigation == p.title.toLocaleLowerCase()">
+                                  [class.selected]="selectedNavigation === p">
                             <ion-icon slot="start" [ios]="p.icon + '-outline'" [name]="p.icon"></ion-icon>
                             <ion-label class="ion-margin-start">{{ p.title }}</ion-label>
                         </ion-item>
@@ -74,18 +74,6 @@
                     </ion-item>
                 </ion-menu-toggle>
             </ion-list>
-
-            <!-- logout button
-            <ion-list>
-                <ion-menu-toggle auto-hide="false" class="log-out-button">
-                    <ion-item (click)="logout()" class="navigation" routerLink="/login">
-                        <ion-icon name="log-out-outline"></ion-icon>
-                        <ion-label class="ion-margin-start">LogOut</ion-label>
-                    </ion-item>
-                </ion-menu-toggle>
-            </ion-list>  -->
-
-
         </ion-content>
     </ion-menu>
 
@@ -93,7 +81,11 @@
     <!-- content -->
     <div class="ion-page" id="main-content">
         <div class="ion-hide-xl-up" [ngClass]="{'custom-overlay': showOverlay}"></div>
-        <ion-router-outlet></ion-router-outlet>
+
+        <!-- router -->
+        <div class="st-content-padding">
+            <ion-router-outlet></ion-router-outlet>
+        </div>
     </div>
 
 </ion-split-pane>

@@ -13,6 +13,10 @@
     }
   }
 
+  ion-item-group:last-of-type {
+    border-right: 0;
+  }
+
   .change-title-item {
     height: 32px;
     overflow: visible;

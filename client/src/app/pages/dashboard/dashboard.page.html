@@ -1,12 +1,23 @@
-<ion-content class="ion-no-padding">
-    <!-- header -->
-    <app-header>
-        <ion-icon class="st-icon-size-header" name="grid"></ion-icon>
-        <ion-text class="st-font-size-header">Dashboard</ion-text>
-    </app-header>
+<!-- body -->
+<ion-content>
+    <app-header></app-header>
+    <ion-grid *ngIf="user">
+
+        <ion-row>
+            <ion-col size="12" size-lg="10">
+                <!-- Page title -->
+                <ion-toolbar class="st-page-header-container">
+                    <ion-item class="st-page-header-container-item">
+                        <ion-label class="st-icon st-display-flex-center">
+                            <ion-icon class="st-icon-size-header" name="grid"></ion-icon>
+                            <ion-text class="st-font-size-header">Dashboard</ion-text>
+                        </ion-label>
+                    </ion-item>
+                </ion-toolbar>
+            </ion-col>
+        </ion-row>
 
 
-    <div class="st-content-padding">
         <!-- <app-market-movement-container></app-market-movement-container>
 
          <app-sp500-charts-container></app-sp500-charts-container>
@@ -21,97 +32,94 @@
                     [stPortfolioWeeklyChanges]="stPortfolioWeeklyChanges">
             </app-portfolio-change>
         </ion-col> -->
-        <div *ngIf="user" class="ion-padding">
 
 
-            <!-- portfolio state -->
-            <app-portfolio-state [portfolio]="user.portfolio"></app-portfolio-state>
+        <ion-row>
+            <ion-col size="12">
+                <!-- portfolio state -->
+                <app-portfolio-state [portfolio]="user.portfolio"></app-portfolio-state>
+            </ion-col>
+        </ion-row>
 
-            <!-- portfolio change -->
-            <div class="ion-padding ion-margin-top">
+
+        <ion-row class="ion-padding-horizontal">
+            <ion-col size="12" class="st-flex ion-justify-content-center">
+                <!-- portfolio change  weekly / monthly etc. -->
                 <app-portfolio-change
                         [stPortfolioHistory]="stPortfolioHistory"
                         [holdings]="user.holdings">
                 </app-portfolio-change>
-            </div>
-
-            <ion-grid class="ion-padding">
-                <ion-row>
-                    <!-- portfolio growth chart -->
-                    <ion-col size="12" size-md="6">
-                        <app-portfolio-growth-chart
-                                [heightPx]="260"
-                                [stPortfolio]="stPortfolioHistory">
-                        </app-portfolio-growth-chart>
-                    </ion-col>
-
-                    <!-- portfolio change chart -->
-                    <ion-col size="12" size-md="6">
-                        <app-portfolio-change-chart
-                                [heightPx]="260"
-                                [stPortfolios]="stPortfolioHistory">
-                        </app-portfolio-change-chart>
-                    </ion-col>
-                </ion-row>
-
-                <ion-row>
-                    <ion-col size="12" class="holding-transaction-container">
-                        <!-- holdings -->
-                        <div class="holdings-container">
-                            <app-holdings-table
-                                    [userPortfolioTotal]="user.portfolio.portfolioCash + user.portfolio.portfolioInvested"
-                                    [stTransactions]="user.holdings"
-                                    [clickable]="false">
-                            </app-holdings-table>
-                        </div>
-
-                        <!-- transacrions -->
-                        <div class="transaction-container">
-                            <app-transactions-table
-                                    [transactions]="user.transactionsSnippets | slice:0:5">
-                            </app-transactions-table>
-                        </div>
-                    </ion-col>
-                </ion-row>
-                <ion-row *ngIf="holdingsSummaries.length > 0" class="ion-padding">
-                    <ion-col size="12" size-md="6">
-                        <!-- holdings sector chart -->
-                        <app-summary-sector-chart
-                                [chartTitle]="'Holdings sectors'"
-                                [heightPx]="300"
-                                [showDataLabel]="true"
-                                [summaries]="holdingsSummaries">
-                        </app-summary-sector-chart>
-                    </ion-col>
-                    <ion-col size="12" size-md="6">
-                        <!-- holdings allocation -->
-                        <app-holdings-allocation-chart
-                                [showDataLabel]="true"
-                                [heightPx]="300"
-                                [holdings]="user.holdings"
-                                [portfolio]="user.portfolio">
-                        </app-holdings-allocation-chart>
-                    </ion-col>
-                </ion-row>
+            </ion-col>
+        </ion-row>
 
 
-                <ion-row>
-                    <!-- transactions -->
-                    <ion-col size="12" size-lg="6">
-                        <app-transactions-table
-                                [transactions]="user.transactionsSnippets | slice:0:5">
-                        </app-transactions-table>
-                    </ion-col>
-                    <ion-col size="12" size-lg="6">
-                        <app-generic-list [title]="'Transaction progress'">
-                            <app-transactions-chart
-                                    [heightPx]="375"
-                                    [stPortfolioWeeklyChanges]="fakeDataTransactionTable">
-                            </app-transactions-chart>
-                        </app-generic-list>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </div>
-    </div>
+        <ion-row>
+            <!-- portfolio growth chart -->
+            <ion-col size="12" size-md="6" size-lg="5.5" size-xl="5">
+                <app-portfolio-growth-chart
+                        [heightPx]="260"
+                        [stPortfolio]="stPortfolioHistory">
+                </app-portfolio-growth-chart>
+            </ion-col>
+
+            <!-- portfolio change chart -->
+            <ion-col size="12" size-md="6" size-lg="5.5" size-xl="5">
+                <app-portfolio-change-chart
+                        [heightPx]="260"
+                        [stPortfolios]="stPortfolioHistory">
+                </app-portfolio-change-chart>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <!-- holdings -->
+            <ion-col size="12" size-lg="11" size-xl="10">
+                <app-holdings-table
+                        [userPortfolioTotal]="user.portfolio.portfolioCash + user.portfolio.portfolioInvested"
+                        [stTransactions]="user.holdings"
+                        [clickable]="false">
+                </app-holdings-table>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="holdingsSummaries.length > 0" class="ion-padding">
+            <ion-col size="12" size-md="6" size-xl="5">
+                <!-- holdings sector chart -->
+                <app-summary-sector-chart
+                        [chartTitle]="'Holdings sectors'"
+                        [heightPx]="300"
+                        [enable3D]="true"
+                        [showDataLabel]="true"
+                        [summaries]="holdingsSummaries">
+                </app-summary-sector-chart>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-xl="5">
+                <!-- holdings allocation -->
+                <app-holdings-allocation-chart
+                        [enable3D]="true"
+                        [showDataLabel]="true"
+                        [heightPx]="300"
+                        [holdings]="user.holdings"
+                        [portfolio]="user.portfolio">
+                </app-holdings-allocation-chart>
+            </ion-col>
+        </ion-row>
+
+
+        <ion-row>
+            <!-- transactions -->
+            <ion-col size="12" size-md="6" size-lg="5.5" size-xl="5">
+                <app-transactions-table
+                        [transactions]="user.transactionsSnippets | slice:0:5">
+                </app-transactions-table>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="5.5" size-xl="5">
+                <div class="ion-padding">
+                    <app-transactions-chart
+                            [heightPx]="375"
+                            [stPortfolioWeeklyChanges]="fakeDataTransactionTable">
+                    </app-transactions-chart>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>

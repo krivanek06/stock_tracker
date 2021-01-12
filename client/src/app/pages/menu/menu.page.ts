@@ -24,7 +24,7 @@ interface MenuPageInterface {
 export class MenuPage extends ComponentBase implements OnInit {
     showOverlay = false;
     user: StUserPublicData;
-    selectedNavigation = '';
+    selectedNavigation: MenuPageInterface;
     mainPages: MenuPageInterface[] = [];
     otherPages: MenuPageInterface[] = [];
 
@@ -59,7 +59,11 @@ export class MenuPage extends ComponentBase implements OnInit {
             let path = res.url.split('/menu/')[1];
             if (!!path) {
                 path = path.split('/')[0];
-                this.selectedNavigation = path.toLowerCase();
+                let page = this.mainPages.find(s => s.title.toLowerCase() === path.toLowerCase());
+                if (!page) {
+                    page = this.otherPages.find(s => s.title.toLowerCase() === path.toLowerCase());
+                }
+                this.selectedNavigation = page;
             }
         });
     }

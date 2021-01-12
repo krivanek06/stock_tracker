@@ -1,57 +1,60 @@
 <!-- balance + invested + cash -->
-<ion-item-group class="portfolio-state-container">
-    <!-- balance -->
-    <ion-item class="st-width-full-md-screen">
-        <app-generic-fancy-card
-                [minWidth]="315"
-                [title]="'Balance'"
-                [titleDotColor]="'st-main-color-turquoise-background'"
-                [cardClasses]="'st-main-color-turquoise-background-linear'">
+<ion-grid>
+    <ion-row class="ion-justify-content-center">
+        <ion-col size="12" size-sm="12" size-md="5" size-lg="4" size-xl="3.8">
+            <!-- balance -->
+            <app-generic-fancy-card
+                    [minWidth]="315"
+                    [title]="'Balance'"
+                    [titleColor]="'st-main-color-turquois'"
+                    [titleDotColor]="'st-main-color-turquoise-background'"
+                    [cardClasses]="'st-main-color-turquoise-background-linear'">
 
-            <ion-item class="st-flex-row">
-                <ion-label class="st-font-size-24 st-font-white">
-                    {{ (portfolio.portfolioCash + portfolio.portfolioInvested) | currency }}
-                </ion-label>
-                <ion-label style="position:absolute; right: 0">
-                    <app-price-change-item
-                            [price]="350.56"
-                            [priceChange]="12.54"
-                            [lighterVersion]="true">
-                    </app-price-change-item>
-                </ion-label>
-            </ion-item>
-        </app-generic-fancy-card>
-    </ion-item>
+                <ion-item class="st-flex-row">
+                    <ion-label class="st-font-size-24 st-font-white">
+                        {{ (portfolio.portfolioCash + portfolio.portfolioInvested) | currency }}
+                    </ion-label>
+                    <ion-label style="position:absolute; right: 0">
+                        <app-price-change-item
+                                [price]="350.56"
+                                [priceChange]="12.54"
+                                [lighterVersion]="true">
+                        </app-price-change-item>
+                    </ion-label>
+                </ion-item>
+            </app-generic-fancy-card>
+        </ion-col>
+        <ion-col size="12" size-sm="6" size-md="3.5" size-lg="2.9" offset-lg="0.1">
+            <!-- invested -->
+            <app-generic-fancy-card
+                    [minWidth]="225"
+                    [title]="'Invested'"
+                    [titleColor]="'st-font-main-color-purple'"
+                    [titleDotColor]="'st-main-color-purple-background'"
+                    [cardClasses]="'st-main-color-purple-background-linear'">
 
-    <!-- Invested -->
-    <ion-item>
-        <app-generic-fancy-card
-                [minWidth]="225"
-                [title]="'Invested'"
-                [titleDotColor]="'st-main-color-purple-background'"
-                [cardClasses]="'st-main-color-purple-background-linear'">
+                <ion-item>
+                    <ion-label class="st-font-size-24 st-font-white portfolio-sum">
+                        {{ portfolio.portfolioInvested | currency }}
+                    </ion-label>
+                </ion-item>
+            </app-generic-fancy-card>
+        </ion-col>
+        <ion-col size="12" size-sm="6" size-md="3.5" size-lg="2.9" offset-lg="0.1">
+            <!-- cash -->
+            <app-generic-fancy-card
+                    [minWidth]="225"
+                    [title]="'Cash'"
+                    [titleColor]="'st-font-main-color-orange'"
+                    [titleDotColor]="'st-main-color-orange-background'"
+                    [cardClasses]="'st-main-color-orange-background-linear'">
 
-            <ion-item>
-                <ion-label class="st-font-size-24 st-font-white portfolio-sum">
-                    {{ portfolio.portfolioInvested | currency }}
-                </ion-label>
-            </ion-item>
-        </app-generic-fancy-card>
-    </ion-item>
-
-    <!-- Cash -->
-    <ion-item>
-        <app-generic-fancy-card
-                [minWidth]="225"
-                [title]="'Cash'"
-                [titleDotColor]="'st-main-color-orange-background'"
-                [cardClasses]="'st-main-color-orange-background-linear'">
-
-            <ion-item>
-                <ion-label class="st-font-size-24 st-font-white portfolio-sum">
-                    {{ portfolio.portfolioCash | currency }}
-                </ion-label>
-            </ion-item>
-        </app-generic-fancy-card>
-    </ion-item>
-</ion-item-group>
+                <ion-item>
+                    <ion-label class="st-font-size-24 st-font-white portfolio-sum">
+                        {{ portfolio.portfolioCash | currency }}
+                    </ion-label>
+                </ion-item>
+            </app-generic-fancy-card>
+        </ion-col>
+    </ion-row>
+</ion-grid>

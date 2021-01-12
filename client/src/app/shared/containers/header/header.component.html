@@ -1,3 +1,4 @@
+<!-- header -->
 <ion-header class="ion-no-border">
     <ion-toolbar>
         <ion-menu-toggle slot="start">
@@ -6,7 +7,7 @@
 
         <!-- content -->
         <ion-item-group class="group-container">
-            <ion-item class="headline-container">
+            <ion-item>
                 <ion-label class="st-icon headline">
                     <!-- search bar -->
                     <ion-chip class="ion-search-chip" (click)="redirectToSearch()">
@@ -24,13 +25,12 @@
         </ion-item-group>
     </ion-toolbar>
 
-    <ion-toolbar>
-            <!-- Title etc. -->
-            <ion-item class="headline-container">
-                <ion-label class="st-icon headline">
-                    <ng-content></ng-content>
-                </ion-label>
-            </ion-item>
-    </ion-toolbar>
-
+    <!--  <ion-toolbar class="ion-margin-bottom">
+       Title etc.
+        <ion-item>
+            <ion-label class="st-icon headline">
+                <ng-content></ng-content>
+            </ion-label>
+        </ion-item>
+    </ion-toolbar> -->
 </ion-header>
