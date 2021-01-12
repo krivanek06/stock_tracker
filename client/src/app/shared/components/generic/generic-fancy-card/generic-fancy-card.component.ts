@@ -9,6 +9,7 @@ import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 export class GenericFancyCardComponent implements OnInit {
     @Input() title: string;
     @Input() titleDotColor: string;
+    @Input() titleColor: string;
     @Input() cardClasses: string;
     @Input() minWidth: number;
 

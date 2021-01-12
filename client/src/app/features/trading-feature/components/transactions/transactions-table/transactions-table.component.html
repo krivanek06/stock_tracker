@@ -1,64 +1,54 @@
-<app-generic-card [title]="'Transactions'" [iconTitle]="'reader'" [applyLeftPadding]="false">
+<app-generic-card [title]="'Transactions'" [iconTitle]="'reader'">
 
-    <!-- table header -->
-    <ion-item style="font-weight: bold;" class="ion-margin-top ion-no-padding ion-hide-sm-down">
-        <ion-label position="fixed" style="min-width: 70px; max-width: 70px;"></ion-label>
-        <ion-label position="fixed" class="st-label-small-space st-font-1">Symbol</ion-label>
-        <ion-label position="fixed" class="st-label-small-space st-font-1">Action</ion-label>
-        <ion-label position="fixed" class="st-label-md-space st-font-1">Value</ion-label>
-        <ion-label
-                *ngIf="displayedLabels.includes(TransactionsTableEnum.Return)"
-                position="fixed"
-                class="st-label-md-space st-font-1">
-            Return
-        </ion-label>
-        <ion-label position="fixed" class="st-label-xl-space st-font-1">Date</ion-label>
-    </ion-item>
+    <ion-list>
+        <!-- table header -->
+        <ion-item class="ion-margin-top ion-no-padding ion-hide-sm-down st-font-1-bold">
+            <ion-label>Symbol</ion-label>
+            <ion-label>Action</ion-label>
+            <ion-label>Value</ion-label>
+            <ion-label>Return</ion-label>
+            <ion-label>Date</ion-label>
+        </ion-item>
 
 
-    <!-- table body -->
-    <ion-item *ngFor="let transaction of transactions" class="st-font-size-15">
-        <ion-label position="fixed" style="min-width: 55px; max-width: 55px;">
-            <ion-img [src]="transaction.symbol_logo_url" class="st-symbol-image-data-table"></ion-img>
-        </ion-label>
+        <!-- table body -->
+        <ion-item *ngFor="let transaction of transactions" class="st-font-size-15 st-data-label">
+            <ion-label class="st-display-flex-center">
+                <ion-img [src]="transaction.symbol_logo_url" class="st-symbol-image-data-table"></ion-img>
+                <ion-text>{{ transaction.symbol }}</ion-text>
+            </ion-label>
 
-        <!-- stock name -->
-        <ion-label position="fixed" class="st-label-small-space st-data-label">
-            {{ transaction.symbol }}
-        </ion-label>
-
-        <!-- Action -->
-        <ion-label position="fixed" class="st-label-small-space st-data-label" [ngClass]="{
+            <!-- Action -->
+            <ion-label [ngClass]="{
                     'st-price-up': transaction.operation === StTransactionOperationEnum.Buy,
                     'st-price-down': transaction.operation === StTransactionOperationEnum.Sell}">
-            {{ transaction.operation }}
-        </ion-label>
-
-        <!-- Value -->
-        <ion-label position="fixed" class="st-label-md-space st-data-label">
-            <ion-label>
-                <ion-text class="st-font-size-16 st-flex-row">
-                    {{ (transaction.price * transaction.units) | currency }}
-                </ion-text>
-                <ion-text class="st-font-size-13 st-font-5">
-                    {{ transaction.price | currency }}* {{ transaction.units }}
-                </ion-text>
+                {{ transaction.operation }}
             </ion-label>
-        </ion-label>
 
-        <!-- Return -->
-        <ion-label *ngIf="displayedLabels.includes(TransactionsTableEnum.Return)" position="fixed" class="st-label-md-space">
-            <app-price-change-item
-                    *ngIf="transaction.operation === StTransactionOperationEnum.Sell"
-                    [price]="transaction.return"
-                    [priceChange]="transaction.returnChange">
-            </app-price-change-item>
-        </ion-label>
+            <!-- Value -->
+            <ion-label>
+                <ion-label>
+                    <ion-text class="st-font-size-16 st-flex-row">
+                        {{ (transaction.price * transaction.units) | currency }}
+                    </ion-text>
+                    <ion-text class="st-font-size-13 st-font-5">
+                        {{ transaction.price | currency }}* {{ transaction.units }}
+                    </ion-text>
+                </ion-label>
+            </ion-label>
 
-        <!-- Date -->
-        <ion-label position="fixed" class="st-label-xl-space st-data-label">
-            {{ transaction.date | date: 'dd.MM.yyyy HH:mm' }}
-        </ion-label>
+            <!-- Return -->
+            <ion-label>
+                <app-price-change-item
+                        *ngIf="transaction.operation === StTransactionOperationEnum.Sell"
+                        [price]="transaction.return"
+                        [priceChange]="transaction.returnChange">
+                </app-price-change-item>
+            </ion-label>
 
-    </ion-item>
+            <!-- Date -->
+            <ion-label>{{ transaction.date | date: 'dd.MM.yyyy HH:mm' }}</ion-label>
+
+        </ion-item>
+    </ion-list>
 </app-generic-card>

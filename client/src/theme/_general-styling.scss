@@ -3,6 +3,7 @@
 // class to add for each ion-content
 .st-content-padding {
   width: 100% !important;
+  height: 100% !important;
   padding: 10px 45px 50px 20px !important;
   position: relative !important;
   @media (max-width: #{$st-var-xxl-split}) {
@@ -128,6 +129,9 @@ ion-spinner {
 }
 
 // OTHER
+.st-font-data-table-header {
+  color: #8f8f8fc4 !important;
+}
 
 .st-font-white {
   color: white !important;
@@ -191,7 +195,7 @@ ion-spinner {
 // ---------------------------------------------
 // - DATA LABELS
 .st-data-label {
-  color: #{$st-var-font-3}; // !important
+  color: #{$st-var-font-2}; // !important
 }
 
 .st-data-label-fixedLabel {
@@ -202,21 +206,21 @@ ion-spinner {
 
 .st-label-xl-space {
   min-width: 150px !important;
-  max-width: 150px !important;
+  //max-width: 150px !important;
 }
 
 .st-label-md-space {
   min-width: 110px !important;
-  max-width: 110px !important;
+  //max-width: 110px !important;
 }
 
 
 .st-label-small-space {
   min-width: 80px !important;
-  max-width: 80px !important;
+  //max-width: 80px !important;
   @media (max-width: #{$st-var-md-split}) {
     min-width: 70px !important;
-    max-width: 70px !important;
+    //max-width: 70px !important;
   }
 }
 
@@ -300,11 +304,19 @@ ion-spinner {
 }
 
 .st-icon-size-header {
-  font-size: 36px;
+  font-size: 32px;
   margin-right: 12px !important;
   @media (max-width: #{$st-var-sm-split}) {
-    font-size: 32px;
+    font-size: 30px;
   }
+}
+
+.st-page-header-container {
+  margin-bottom: 6px;
+}
+
+.st-page-header-container-item {
+  --padding-start: 0;
 }
 
 .st-font-size-header {
@@ -445,10 +457,10 @@ ion-spinner {
 .st-data-item-wrapper {
   border-bottom: 1px solid #66666633;
 }
-
-.st-data-item-parent:last-child {
+/*
+.st-data-item-wrapper:last-child {
   border-bottom: 0;
-}
+}*/
 
 .ion-activatable {
   transition: All 0.3s ease-out;
@@ -488,6 +500,7 @@ ion-spinner {
 
 // class to add for each entry-components
 .custom-modal .modal-wrapper {
+  background: linear-gradient(126deg, #10255a 0%, #0c1d44 29%, #0c183e 44%, #061238 73%, #060e28 100%);
   width: 85% !important;
   height: 750px !important;
   @media (max-width: #{$st-var-md-split}) {
@@ -498,6 +511,7 @@ ion-spinner {
 
 // class to add for each popover
 .custom-popover .popover-wrapper {
+  background: linear-gradient(126deg, #10255a 0%, #0c1d44 29%, #0c183e 44%, #061238 73%, #060e28 100%);
   --width: 550px;
   --background: #{$background-blue};
 
@@ -554,6 +568,10 @@ ion-spinner {
   display: flex !important;
   flex-flow: row !important;
   align-items: center !important;
+}
+
+.st-flex {
+  display: flex;
 }
 
 .st-justify-center {

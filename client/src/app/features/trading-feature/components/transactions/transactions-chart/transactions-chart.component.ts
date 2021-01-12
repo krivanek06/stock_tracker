@@ -42,7 +42,7 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
                 /*plotBackgroundColor: null,
                 plotBorderWidth: null,
                 plotShadow: false,*/
-                type: 'column',
+                type: 'areaspline',
                 backgroundColor: 'transparent',
                 panning: {
                     enable: true
@@ -59,10 +59,11 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
                 tickPixelInterval: 40,
                 minorGridLineWidth: 0,
                 visible: true,
+                gridLineColor: '#66666655',
                 labels: {
                     style: {
-                        color: '#cecece',
-                        font: '10px Trebuchet MS, Verdana, sans-serif'
+                        color: '#a1a1a1',
+                        fontSize: '10px'
                     }
                 },
             },
@@ -70,16 +71,21 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
                 type: 'datetime',
                 dateTimeLabelFormats: {
                     day: '%e of %b'
-                }
+                },
+                labels: {
+                    style: {
+                        font: '10px Trebuchet MS, Verdana, sans-serif'
+                    }
+                },
             },
             title: {
-                text: '',
+                text: 'Weekly transactions',
                 align: 'left',
                 style: {
-                    color: '#bababa'
+                    color: '#bababa',
+                    fontSize: '12px'
                 }
             },
-
             subtitle: false,
             scrollbar: {
                 enabled: false,
@@ -89,6 +95,9 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
             },
             legend: {
                 enabled: true,
+                verticalAlign: 'top',
+                align: 'right',
+                y: -8,
                 itemStyle: {
                     color: '#acacac',
                     cursor: 'pointer'
@@ -100,22 +109,6 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
                     color: '#494949'
                 }
             },
-            /*accessibility: {
-                point: {
-                    valueSuffix: '%'
-                }
-            },*/
-            /*tooltip: {
-                outside: true,
-                borderWidth: 1,
-                backgroundColor: '#232323',
-                style: {
-                    fontSize: '12px',
-                    color: '#D9D8D8',
-                },
-                shared: true,
-                valueDecimals: 2
-            },*/
             tooltip: {
                 padding: 11,
                 enabled: true,
@@ -127,23 +120,18 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
                 shared: true,
                 headerFormat: '<p style="color:#909592; font-size: 12px">{point.key}</p><br/>',
                 pointFormatter: function() {
-                    return `<p><span style="color: ${this.series.color}; font-weight: bold">● ${this.series.name}: </span><span>$${this.y}</span></p><br/>`;
+                    return `<p><span style="color: ${this.series.color}; font-weight: bold">● Weekly ${this.series.name.toLowerCase()}: </span><span>$${this.y}</span></p><br/>`;
                 }
             },
-
-
-            /*rangeSelector: {
-                enabled: false
-            },*/
             series: [{
-                color: '#0d920d',
-                name: 'Buy',
+                color: '#b49226',
+                name: 'Total buys',
                 data: (() => {
                     return this.stPortfolioWeeklyChanges.map(point => [Date.parse(point.date), point.transactionsBuy.total]);
                 })()
             }, {
-                color: '#ff1010',
-                name: 'Sell',
+                color: '#db1cdd',
+                name: 'Total sells',
                 data: (() => {
                     return this.stPortfolioWeeklyChanges.map(point => [Date.parse(point.date), point.transactionsSell.total]);
                 })()

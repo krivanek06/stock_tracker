@@ -316,9 +316,11 @@
     }
 
     ion-card {
-      //--background: linear-gradient(126deg, rgb(13 30 85) 0%, rgb(19 33 85) 35%, rgb(15 31 82) 100%);
-      //--background: linear-gradient(126deg, rgb(17 30 73) 0%, rgb(15 26 69) 35%, rgb(12 25 70) 100%);
-      --background: linear-gradient(126deg, rgb(28 31 84) 0%, rgb(17 17 58) 35%, rgb(15 15 60) 100%);
+      // --background: linear-gradient(126deg, rgb(10 32 88 / 49%) 0%, rgb(14 28 72) 35%, rgb(14 25 62 / 78%) 100%);
+      --background: linear-gradient(126deg, rgb(5 13 42 / 39%) 0%, rgb(6 15 47 / 60%) 35%, rgb(6 17 52 / 0.7) 100%);
+      background-clip: padding-box;
+      backdrop-filter: blur(25px);
+      border: 2px solid transparent;
 
       ion-card-header {
         --background-color: transparent;
@@ -355,11 +357,8 @@
     }
 
     ion-content {
-      --background: linear-gradient(126deg, rgba(28, 52, 113, 1) 0%,
-              rgba(18, 44, 107, 1) 29%,
-              rgba(24, 42, 99, 1) 44%,
-              rgba(14, 30, 82, 1) 73%,
-              rgba(11, 20, 49, 1) 100%);
+      //--background: linear-gradient(126deg, #10255a 0%, #0c1d44 29%, #0c183e 44%, #061238 73%, #060e28 100%);
+      --background: 'transparent';
       --color: #{$st-var-font-2};
     }
 
@@ -371,11 +370,12 @@
 
     ion-menu {
       // --background: linear-gradient(180deg, rgba(24, 39, 95, 1) 0%, rgba(14, 24, 58, 1) 100%);
-      --background: linear-gradient(126deg, rgb(12 25 68) 0%, rgb(12 23 66) 35%, rgb(13 24 60) 100%);
-
+      //--background: linear-gradient(126deg, rgb(12 25 68) 0%, rgb(12 23 66) 35%, rgb(13 24 60) 100%);
+      --background: linear-gradient(126deg, rgb(8 20 56 / 0.93) 0%, rgb(7 19 55 / 0.98) 35%, rgb(7 18 54) 100%);
       ion-content {
         // --background: linear-gradient(180deg, rgba(24, 39, 95, 1) 0%, rgba(14, 24, 58, 1) 100%);
-        --background: linear-gradient(126deg, rgb(12 25 68) 0%, rgb(12 23 66) 35%, rgb(13 24 60) 100%);
+        //--background: linear-gradient(126deg, rgb(12 25 68) 0%, rgb(12 23 66) 35%, rgb(13 24 60) 100%);
+        --background: 'transparent';
 
         ion-list {
           background: transparent;

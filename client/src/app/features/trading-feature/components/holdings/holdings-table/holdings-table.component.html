@@ -1,52 +1,23 @@
-<app-generic-card [title]="'Holdings'" [iconTitle]="'pricetags'" [applyLeftPadding]="false">
+<app-generic-card [title]="'Holdings'" [iconTitle]="'pricetags'">
 
-    <!-- table header -->
-    <ion-item style="font-weight: bold;" class="ion-margin-top ion-no-padding ion-hide-sm-down">
-        <ion-label position="fixed" style="min-width: 53px; max-width: 53px;"></ion-label>
-        <ion-label
-                position="fixed"
-                class="st-label-small-space st-font-1">
-            Symbol
-        </ion-label>
-        <ion-label
-                position="fixed"
-                class="st-label-small-space st-font-1">
-            Price
-        </ion-label>
-        <ion-label
-                position="fixed"
-                class="st-label-md-space st-font-1">
-            Daily +/-
-        </ion-label>
-        <ion-label
-                position="fixed"
-                class="st-label-md-space st-font-1">
-            Total +/-
-        </ion-label>
-        <ion-label
-                position="fixed"
-                class="st-label-md-space st-font-1">
-            Value
-        </ion-label>
-        <ion-label
-                position="fixed"
-                class="st-label-md-space st-font-1">
-            Portfolio %
-        </ion-label>
-        <ion-label
-                position="fixed"
-                class="st-label-xl-space st-font-1">
-            Recommendation
-        </ion-label>
-    </ion-item>
-    <!-- ********************** -->
+    <ion-list>
+        <ion-item class="ion-margin-top ion-no-padding ion-hide-sm-down st-font-1-bold">
+            <!-- table header -->
+            <ion-label>Symbol</ion-label>
+            <ion-label>Price</ion-label>
+            <ion-label>Daily +/-</ion-label>
+            <ion-label>Total +/-</ion-label>
+            <ion-label>Value</ion-label>
+            <ion-label>Portfolio %</ion-label>
+            <ion-label>Recommendation</ion-label>
+
+        </ion-item>
+        <!-- ********************** -->
 
 
-    <!-- table body -->
-    <ion-list class="st-data-item-parent">
+        <!-- table body -->
         <app-holdings-table-body-item
                 *ngFor="let transaction of stTransactions"
-                [displayedLabels]="displayedLabels"
                 [transaction]="transaction"
                 [clickable]="clickable"
                 [userPortfolioTotal]="userPortfolioTotal"

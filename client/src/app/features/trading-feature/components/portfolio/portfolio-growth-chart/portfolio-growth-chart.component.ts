@@ -122,19 +122,19 @@ export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
                 }
             },
             series: [{
-                color: '#1387B0',
+                color: '#25aedd',
                 name: 'Total',
                 data: (() => {
                     return this.stPortfolio.map(point => [Date.parse(point.date), point.portfolioCash + point.portfolioInvested]);
                 })()
             }, {
-                color: '#6A5ECC',
+                color: '#7666fa',
                 name: 'Invested',
                 data: (() => {
                     return this.stPortfolio.map(point => [Date.parse(point.date), point.portfolioInvested]);
                 })()
             }, {
-                color: '#CE623A',
+                color: '#d35431',
                 name: 'Cash',
                 data: (() => {
                     return this.stPortfolio.map(point => [Date.parse(point.date), point.portfolioCash]);

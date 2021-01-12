@@ -13,6 +13,7 @@ export class SummarySectorChartComponent implements OnInit, OnChanges {
     @Input() showDataLabel = false;
     @Input() heightPx = 350;
     @Input() chartTitle: string;
+    @Input() enable3D = false;
 
     sectorPairs: GenericChartSeries[] = [];
     ChartType = ChartType;

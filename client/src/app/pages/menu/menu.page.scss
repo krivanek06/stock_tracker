@@ -89,4 +89,17 @@
     z-index: 10;
     opacity: 0.4;
   }
+
+  .ion-page {
+    /*background: linear-gradient(126deg, rgba(28, 52, 113, 1) 0%,
+            rgba(18, 44, 107, 1) 29%,
+            rgba(24, 42, 99, 1) 44%,
+            rgba(14, 30, 82, 1) 73%,
+            rgba(11, 20, 49, 1) 100%);*/
+
+    background: linear-gradient(126deg, #10255a 0%, #0c1d44 29%, #0c183e 44%, #061238 73%, #060e28 100%);
+    /*background-image: url("../../../assets/test.jpg");
+    background-color: #10255a;
+    background-blend-mode: screen;*/
+  }
 }

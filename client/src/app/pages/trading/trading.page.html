@@ -60,7 +60,6 @@
                     <!-- holdings -->
                     <ion-col size="12" style="display: inline-flex; place-content: center;">
                         <app-holdings-table
-                                [displayedLabels]="[HoldingsTableEnum.Recommendation]"
                                 [userPortfolioTotal]="user.portfolio.portfolioCash + user.portfolio.portfolioInvested"
                                 [stTransactions]="user.holdings"
                                 (itemClickedEmitter)="changeSymbol($event)">

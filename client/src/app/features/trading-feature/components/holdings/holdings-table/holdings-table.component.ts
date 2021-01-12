@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {StPortfolio, StTransaction} from '../../../../../api/customGraphql.service';
 import {SymbolIdentification} from '../../../../../shared/models/sharedModel';
-import {HoldingsTableEnum} from '../holdings-table.enum';
 
 @Component({
     selector: 'app-holdings-table',
@@ -15,9 +14,6 @@ export class HoldingsTableComponent implements OnInit {
     @Input() stTransactions: StTransaction[];
     @Input() userPortfolioTotal: number;
     @Input() clickable = true;
-    @Input() displayedLabels: HoldingsTableEnum[] = [];
-
-    HoldingsTableEnum = HoldingsTableEnum;
 
     constructor() {
     }
