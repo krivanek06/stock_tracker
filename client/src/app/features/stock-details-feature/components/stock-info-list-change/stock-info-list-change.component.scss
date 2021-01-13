@@ -1,7 +1,11 @@
 :host {
-  .price-change-top-right {
+  .price-change-right {
     position: absolute;
-    top: 0;
-    right: -18px;
+    right: 0;
+  }
+
+  .market-price-right {
+    position: absolute;
+    right: 22px;
   }
 }

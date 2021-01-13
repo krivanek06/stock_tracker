@@ -1,14 +1,11 @@
 <!-- search container -->
-<app-search-wrapper>
-    <app-generic-card [title]="'Search group'" [applyLeftPadding]="false">
-        <app-group-search
-                [clearOnClick]="true"
-                (clickedGroupEmitter)="showGroupInformation($event)">
-        </app-group-search>
-    </app-generic-card>
-</app-search-wrapper>
+<ion-list class="ion-margin-vertical">
+    <app-group-search
+            [clearOnClick]="true"
+            (clickedGroupEmitter)="showGroupInformation($event)">
+    </app-group-search>
+</ion-list>
 
 <!-- group info -->
-<div class="group-read-info">
-    <router-outlet></router-outlet>
-</div>
+<router-outlet></router-outlet>
+

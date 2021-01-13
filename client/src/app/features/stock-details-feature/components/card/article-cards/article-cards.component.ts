@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {NewsArticle} from '../../model/newsModel';
+import {NewsArticle} from '../../../../../api/customGraphql.service';
+
 
 @Component({
   selector: 'app-article-cards',

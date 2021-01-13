@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {distinctUntilChanged, map, retry} from 'rxjs/operators';
-import {NewsArticle, NewsArticleWrapper} from '../features/stock-data-feature/model/newsModel';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {
     EarningsCalendar,
@@ -10,6 +9,7 @@ import {
     SymbolMovementData,
     SymbolMovementWrapper
 } from '../shared/models/chartDataModel';
+import {NewsArticle, NewsArticleWrapper} from '../features/stock-details-feature/model/stockDetails';
 
 @Injectable({
     providedIn: 'root'

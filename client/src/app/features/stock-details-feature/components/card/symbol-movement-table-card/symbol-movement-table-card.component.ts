@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {SymbolMovementData} from '../../../../shared/models/chartDataModel';
-import {SymbolIdentification} from '../../../../shared/models/sharedModel';
+import {SymbolMovementData} from '../../../../../shared/models/chartDataModel';
+import {SymbolIdentification} from '../../../../../shared/models/sharedModel';
 
 @Component({
     selector: 'app-symbol-movement-table-card',

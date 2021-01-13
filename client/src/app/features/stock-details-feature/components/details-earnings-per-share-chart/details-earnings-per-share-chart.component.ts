@@ -59,8 +59,6 @@ export class DetailsEarningsPerShareChartComponent implements OnInit, OnChanges 
                     color: this.earnings.quarterly[i].actual > this.earnings.quarterly[i].estimate ? 'green' : 'red'
                 }];
             }
-            //this.actualEarnings = this.earnings.quarterly.map(data => data.actual);
-
             this.estimatedEarnings = [...this.earnings.quarterly.map(data => data.estimate), this.earnings.currentQuarterEstimate];
         }
 
@@ -88,23 +86,29 @@ export class DetailsEarningsPerShareChartComponent implements OnInit, OnChanges 
                 backgroundColor: 'transparent',
             },
             title: {
-                text: null
+                text: '',
+                align: 'left',
+                style: {
+                    color: '#bababa',
+                    fontSize: '12px'
+                }
             },
             credits: {
                 enabled: false
             },
             tooltip: {
-                borderWidth: 1,
-                shadow: true,
-                useHTML: true,
-                pointFormat: null,
-                headerFormat: '<b>{point.x}</br> <span style="color:#008F88">{point.key}</span> : {point.y}</b>',
+                padding: 11,
+                enabled: true,
                 backgroundColor: '#232323',
                 style: {
-                    fontSize: '13px',
+                    fontSize: '12px',
                     color: '#D9D8D8',
                 },
-                shared: true
+                shared: false,
+                headerFormat: '<p style="color:#909592; font-size: 12px">{point.x}</p><br/>',
+                pointFormatter: function() {
+                    return `<p><span style="color: ${this.color}; font-weight: bold">● Earnings ${this.series.name.toLowerCase()}: </span><span>${this.y}</span></p><br/>`;
+                },
             },
             legend: {
                 enabled: false,
@@ -116,41 +120,40 @@ export class DetailsEarningsPerShareChartComponent implements OnInit, OnChanges 
                 labels: {
                     enabled: true,
                     style: {
-                        color: '#cecece',
-                        font: '12px Trebuchet MS, Verdana, sans-serif'
+                        font: '10px Trebuchet MS, Verdana, sans-serif'
                     }
                 },
-                gridLineWidth: 0,
-                minorGridLineWidth: 0,
                 categories: this.earnignsDates,
             },
             yAxis: {
+                title: false,
                 startOnTick: false,
                 endOnTick: false,
-                title: {
-                    text: null
-                },
+                opposite: false,
                 gridLineWidth: 1,
                 minorTickInterval: 'auto',
-                tickPixelInterval: 45,
+                tickPixelInterval: 40,
                 minorGridLineWidth: 0,
+                visible: true,
+                gridLineColor: '#66666655',
                 labels: {
                     style: {
-                        color: '#cecece',
-                        font: '10px Trebuchet MS, Verdana, sans-serif'
+                        fontSize: '10px'
                     }
                 },
             },
             series: [{
+                name: 'Expected',
                 data: this.estimatedEarnings.map(y => {
-                    return {y, z: 5, name: 'Earnings expected'};
+                    return {y, z: 5, name: 'Expected', color: '#499d89'};
                 }),
                 marker: {
                     fillColor: '#9d9d9d'
                 }
             }, {
+                name: 'Actual',
                 data: this.actualEarnings.map(x => {
-                    return {y: x.value, z: 5, name: 'Earnings actual', color: x.color};
+                    return {y: x.value, z: 5, name: 'Actual', color: x.color};
                 })
             }
             ]

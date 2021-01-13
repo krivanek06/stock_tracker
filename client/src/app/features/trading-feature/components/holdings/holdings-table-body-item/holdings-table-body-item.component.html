@@ -1,5 +1,5 @@
 <ion-item (click)="itemClicked()"
-          class="ion-no-padding st-font-size-15 st-data-item-wrapper st-data-label"
+          class="ion-no-padding st-data-item-wrapper st-data-label"
           [ngClass]="{'ion-activatable': clickable}">
 
     <!-- stock name -->
@@ -28,15 +28,11 @@
     </ion-label>
 
     <!-- Value -->
-    <ion-label class="st-data-label">
-        <ion-label>
-            <ion-text class="st-font-size-16 st-flex-row">
-                {{ (transaction.price * transaction.units) | currency }}
-            </ion-text>
-            <ion-text class="st-font-size-13 st-font-5">
-                {{ transaction.price | currency }} * {{ transaction.units }}
-            </ion-text>
-        </ion-label>
+    <ion-label class="st-data-label st-flex-col">
+        <ion-text>{{ (transaction.price * transaction.units) | currency }} </ion-text>
+        <ion-text class="st-font-size-12 st-font-5">
+            {{ transaction.price | currency }} * {{ transaction.units }}
+        </ion-text>
     </ion-label>
 
     <!-- portfolio % -->

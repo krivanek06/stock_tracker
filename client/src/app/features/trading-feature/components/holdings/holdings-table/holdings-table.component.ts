@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StPortfolio, StTransaction} from '../../../../../api/customGraphql.service';
+import {StTransaction} from '../../../../../api/customGraphql.service';
 import {SymbolIdentification} from '../../../../../shared/models/sharedModel';
 
 @Component({

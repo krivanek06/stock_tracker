@@ -18,15 +18,20 @@
 
 
   // cards
-  .myOverlay {
+  .overlay{
     width: 100%;
     position: absolute;
     z-index: 99;
-    bottom: 0;
     opacity: 0.80;
     padding: 5px;
     background: #000;
     color: #fff;
+  }
+  .upper-overlay {
+    top: 0;
+  }
+  .bottom-overlay {
+    bottom: 0;
   }
 
   ion-card {

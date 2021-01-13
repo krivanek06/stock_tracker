@@ -42,7 +42,7 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
                 /*plotBackgroundColor: null,
                 plotBorderWidth: null,
                 plotShadow: false,*/
-                type: 'areaspline',
+                type: 'area',
                 backgroundColor: 'transparent',
                 panning: {
                     enable: true
@@ -62,7 +62,6 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
                 gridLineColor: '#66666655',
                 labels: {
                     style: {
-                        color: '#a1a1a1',
                         fontSize: '10px'
                     }
                 },
@@ -114,7 +113,7 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
                 enabled: true,
                 backgroundColor: '#232323',
                 style: {
-                    fontSize: '14px',
+                    fontSize: '12px',
                     color: '#D9D8D8',
                 },
                 shared: true,
@@ -123,14 +122,52 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
                     return `<p><span style="color: ${this.series.color}; font-weight: bold">● Weekly ${this.series.name.toLowerCase()}: </span><span>$${this.y}</span></p><br/>`;
                 }
             },
+            plotOptions: {
+                area: {
+                    marker: {
+                        radius: 2
+                    },
+                    lineWidth: 1,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
+                }
+            },
             series: [{
-                color: '#b49226',
+                color: '#f77e0a',
+                fillColor: {
+                    linearGradient: {
+                        x1: 1,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1
+                    },
+                    stops: [
+                        [0, '#f77e0a'],
+                        [1, 'transparent']
+                    ]
+                },
                 name: 'Total buys',
                 data: (() => {
                     return this.stPortfolioWeeklyChanges.map(point => [Date.parse(point.date), point.transactionsBuy.total]);
                 })()
             }, {
-                color: '#db1cdd',
+                color: '#dd1ec2',
+                fillColor: {
+                    linearGradient: {
+                        x1: 1,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1
+                    },
+                    stops: [
+                        [0, '#dd1ec2'],
+                        [1, 'transparent']
+                    ]
+                },
                 name: 'Total sells',
                 data: (() => {
                     return this.stPortfolioWeeklyChanges.map(point => [Date.parse(point.date), point.transactionsSell.total]);

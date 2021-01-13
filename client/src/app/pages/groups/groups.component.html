@@ -1,13 +1,10 @@
-<ion-content>
+<ion-content class="ion-padding">
     <!-- header -->
-    <app-header>
-        <ion-icon class="st-icon-size-header" name="people"></ion-icon>
-        <ion-text class="st-font-size-header">Group management</ion-text>
-    </app-header>
+    <app-header [pageIcon]="'people'" [pageName]="'Group management'"></app-header>
 
     <!-- body -->
-    <div class="st-content-padding">
-        <ion-row>
+    <ion-grid>
+        <ion-row class="ion-justify-content-center">
             <ion-col size="12" class="ion-hide-md-up">
                 <!-- chip select users -->
                 <ion-item *ngIf="selectedGroupId$ | async as selectedGroupId">
@@ -23,24 +20,22 @@
                 </ion-item>
             </ion-col>
 
-            <ion-col size="12" size-md="9.5">
+            <ion-col size="12" size-md="9.5" size-lg="8" size-xl="7.5">
                 <!-- sub pages -->
                 <router-outlet></router-outlet>
             </ion-col>
 
-            <ion-col size="12" size-md="2.5" class="ion-hide-md-down">
+            <ion-col size="12" size-md="2.5" size-lg="3" size-xl="2.5" class="ion-hide-md-down">
                 <!-- list groups -->
                 <ng-container *ngIf="user$ | async as user ">
-                    <ng-container *ngIf="selectedGroupId$ | async as selectedGroupId">
-                        <app-group-types-card
-                                (clickedGroupEmitter)="redirectToGroupReadOnly($event)"
-                                [activeGroup]="selectedGroupId"
-                                [groups]="user.groups">
-                        </app-group-types-card>
-                    </ng-container>
+                    <app-group-types-card
+                            (clickedGroupEmitter)="redirectToGroupReadOnly($event)"
+                            [activeGroup]="selectedGroupId$ | async"
+                            [groups]="user.groups">
+                    </app-group-types-card>
                 </ng-container>
             </ion-col>
         </ion-row>
-    </div>
+    </ion-grid>
 </ion-content>
 

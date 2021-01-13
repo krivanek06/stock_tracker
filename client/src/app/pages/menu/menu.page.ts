@@ -79,7 +79,6 @@ export class MenuPage extends ComponentBase implements OnInit {
             ),
             takeUntil(this.destroy$)
         ).subscribe(user => {
-            console.log('private data change');
             this.user = user;
             this.mainPages = [
                 {

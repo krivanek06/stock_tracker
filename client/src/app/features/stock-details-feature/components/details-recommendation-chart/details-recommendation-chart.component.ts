@@ -45,24 +45,38 @@ export class DetailsRecommendationChartComponent implements OnInit, OnChanges {
                 backgroundColor: 'transparent',
             },
             title: {
-                text: null
+                text: '',
+                align: 'left',
+                style: {
+                    color: '#bababa',
+                    fontSize: '12px'
+                }
             },
             xAxis: {
                 labels: {
                     style: {
-                        color: '#cecece',
-                        font: '12px Trebuchet MS, Verdana, sans-serif'
+                        font: '10px Trebuchet MS, Verdana, sans-serif'
                     }
                 },
                 categories: !this.recommendations ? [] : this.recommendations.map(rec => new  Date (rec.period).toString().split(' ')[1])
             },
             yAxis: {
-                min: 0,
-                gridLineWidth: 0,
+                title: false,
+                startOnTick: false,
+                endOnTick: false,
+                opposite: false,
+                gridLineWidth: 1,
+                minorTickInterval: 'auto',
+                tickPixelInterval: 40,
                 minorGridLineWidth: 0,
-                title: {
-                    text: null
-                }
+                visible: true,
+                min: 0,
+                gridLineColor: '#66666655',
+                labels: {
+                    style: {
+                        fontSize: '10px'
+                    }
+                },
             },
             legend: {
                 itemStyle: {
@@ -76,7 +90,7 @@ export class DetailsRecommendationChartComponent implements OnInit, OnChanges {
                 headerFormat: null,
                 backgroundColor: '#232323',
                 style: {
-                    fontSize: '14px',
+                    fontSize: '12px',
                     color: '#D9D8D8',
                 },
                 pointFormat: '<span style="font-size: 14px; color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',

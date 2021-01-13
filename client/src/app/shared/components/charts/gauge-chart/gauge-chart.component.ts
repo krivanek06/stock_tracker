@@ -76,6 +76,7 @@ export class GaugeChartComponent implements OnInit, OnChanges {
 
             tooltip: {
                 enabled: true,
+                padding: 11,
                 headerFormat: null,
                 backgroundColor: '#232323',
                 style: {
@@ -120,7 +121,7 @@ export class GaugeChartComponent implements OnInit, OnChanges {
                 data: [this.currentPoint],
                 dataLabels: {
                     formatter: (tooltip) => {
-                        return `<span style="color: grey; font-size: 14px">${this.displayValue}%</span>`;
+                        return `<span style="color: grey; font-size: 12px">${this.displayValue}%</span>`;
                     }
                     /* format:
                          '<div styles="text-align:center">' +
@@ -129,6 +130,10 @@ export class GaugeChartComponent implements OnInit, OnChanges {
                 },
                 tooltip: {
                     valueSuffix: null, // km/h
+                    style: {
+                        fontSize: '14px',
+                        color: '#D9D8D8',
+                    }
                 }
             }],
 

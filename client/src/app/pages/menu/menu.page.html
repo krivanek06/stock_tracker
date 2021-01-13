@@ -78,15 +78,10 @@
     </ion-menu>
 
 
-    <!-- content -->
-    <div class="ion-page" id="main-content">
-        <div class="ion-hide-xl-up" [ngClass]="{'custom-overlay': showOverlay}"></div>
+    <!-- router -->
+    <div *ngIf="showOverlay" class="custom-overflow-div"></div>
+    <ion-router-outlet class="ion-page" id="main-content" [ngClass]="{'custom-overlay': showOverlay}"></ion-router-outlet>
 
-        <!-- router -->
-        <div class="st-content-padding">
-            <ion-router-outlet></ion-router-outlet>
-        </div>
-    </div>
 
 </ion-split-pane>
 

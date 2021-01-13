@@ -3,26 +3,26 @@
         [iconTitle]="'pie-chart'"
         [additionalInfo]="'Created at ' + (watchlist.date |  date: 'dd/MM/yyyy') ">
 
-    <!-- table header -->
-    <ion-item style="font-weight: bold;" class="ion-margin-top ion-no-padding ion-hide-sm-down">
-        <ion-label position="fixed" style="min-width: 70px; max-width: 70px;"></ion-label>
-        <ion-label position="fixed" class="st-label-small-space st-font-1">Symbol</ion-label>
-        <ion-label position="fixed" class="st-label-small-space st-font-1"> Price</ion-label>
-        <ion-label position="fixed" class="st-label-md-space st-font-1"> Daily +/-</ion-label>
-        <ion-label position="fixed" class="st-label-md-space st-font-1"> Yearly +/-</ion-label>
-        <ion-label position="fixed" class="st-label-xl-space ion-hide-lg-down st-font-1"> 52 week range</ion-label>
-        <ion-label position="fixed" class="ion-hide-sm-down st-font-1">PE ratio</ion-label>
-        <ion-label position="fixed" class="ion-hide-md-down st-label-xl-space st-font-1">Recommendation</ion-label>
-    </ion-item>
+    <ion-list>
+        <!-- table header -->
+        <ion-item class="ion-margin-top ion-no-padding ion-hide-sm-down st-font-1-bold">
+            <ion-label>Symbol</ion-label>
+            <ion-label>Price</ion-label>
+            <ion-label>Daily +/-</ion-label>
+            <ion-label>Yearly +/-</ion-label>
+            <ion-label>52 week range</ion-label>
+            <ion-label>PE ratio</ion-label>
+            <ion-label>Recommendation</ion-label>
+        </ion-item>
 
 
-    <!-- table body -->
-    <app-watchlist-table-body-item
-            *ngFor="let summary of watchlist.summaries"
-            [summary]="summary"
-            [allowModification]="allowModification"
-            [currentPrice]="summary.marketPrice"
-            (itemClickedEmitter)="itemClicked($event)"
-            (deleteEmitter)="deleteSymbolFromWatchlist($event)">
-    </app-watchlist-table-body-item>
+        <!-- table body -->
+        <app-watchlist-table-body-item
+                *ngFor="let summary of watchlist.summaries"
+                [summary]="summary"
+                [allowModification]="allowModification"
+                [currentPrice]="summary.marketPrice"
+                (itemClickedEmitter)="itemClicked($event)">
+        </app-watchlist-table-body-item>
+    </ion-list>
 </app-generic-card>

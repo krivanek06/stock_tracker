@@ -8,7 +8,6 @@ import {SymbolIdentification} from '../../../../shared/models/sharedModel';
     styleUrls: ['./watchlist-table.component.scss'],
 })
 export class WatchlistTableComponent implements OnInit {
-    @Output() deleteEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
     @Output() itemClickedEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
 
     @Input() watchlist: StStockWatchlist;
@@ -18,10 +17,6 @@ export class WatchlistTableComponent implements OnInit {
     }
 
     ngOnInit() {
-    }
-
-    deleteSymbolFromWatchlist(identification: SymbolIdentification) {
-        this.deleteEmitter.emit(identification);
     }
 
     itemClicked(identification: SymbolIdentification) {

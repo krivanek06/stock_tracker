@@ -1,9 +1,0 @@
-@import "variables";
-
-:host {
-  .stockInfo-container {
-    @media (max-width: #{$st-var-sm-split}) {
-      text-align: center;
-    }
-  }
-}

@@ -5,7 +5,6 @@ import {StGroupPartialData, StUserPublicData} from '../../api/customGraphql.serv
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {filter, map, takeUntil} from 'rxjs/operators';
 import {ModalController, PopoverController} from '@ionic/angular';
-import {SymbolLookupModalComponent} from '../../features/stock-details-feature/entry-components/symbol-lookup-modal/symbol-lookup-modal.component';
 import {GroupTypesModalComponent} from '../../features/group-feature/entry-components/group-types-modal/group-types-modal.component';
 
 @Component({

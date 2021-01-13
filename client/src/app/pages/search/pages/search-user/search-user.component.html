@@ -1,13 +1,10 @@
 <!-- search container -->
-<app-search-wrapper>
-    <app-generic-card [title]="'Search user'" [applyLeftPadding]="false">
-        <app-user-account-search
-                [fullWith]="true"
-                (clickedUserEmitter)="showUserInformation($event)">
-        </app-user-account-search>
-    </app-generic-card>
-</app-search-wrapper>
-
+<ion-list class="ion-margin-vertical">
+    <app-user-account-search
+            [fullWith]="true"
+            (clickedUserEmitter)="showUserInformation($event)">
+    </app-user-account-search>
+</ion-list>
 
 <ion-grid>
     <ion-row>

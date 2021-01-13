@@ -7,6 +7,8 @@ import {ComponentBase} from '../../shared/utils/component-base/component.base';
 import {map, takeUntil} from 'rxjs/operators';
 import {TradingService} from '../../features/trading-feature/services/trading.service';
 import {Observable} from 'rxjs';
+import {Router} from '@angular/router';
+import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_ENUM} from '../search/models/pages.model';
 
 @Component({
     selector: 'app-trading',
@@ -22,7 +24,8 @@ export class TradingPage extends ComponentBase implements OnInit {
 
     constructor(private authFeatureService: AuthFeatureService,
                 private stockDetailsService: StockDetailsService,
-                private tradingService: TradingService) {
+                private tradingService: TradingService,
+                private router: Router) {
         super();
     }
 
@@ -46,12 +49,15 @@ export class TradingPage extends ComponentBase implements OnInit {
         this.tradingService.performTransaction(this.selectedSummary);
     }
 
+    redirectToDetails() {
+        this.router.navigate([`/menu/search/${SEARCH_PAGE_ENUM.STOCK}/${SEARCH_PAGE_STOCK_ENUM.DETAILS}/${this.selectedSummary.symbol}`]);
+    }
+
     private initComponent() {
         this.authFeatureService.getUser().pipe(takeUntil(this.destroy$)).subscribe(user => {
             this.user = user;
             this.holdingsSummaries = user?.holdings.map(x => x.summary);
         });
     }
-
 
 }

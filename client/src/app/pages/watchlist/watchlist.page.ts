@@ -43,17 +43,13 @@ export class WatchlistPage extends ComponentBase implements OnInit, OnDestroy {
     }
 
 
-    async showChartForSymbol(chartDataIdentification: SymbolIdentification) {
+    async showChartForSymbol(chartDataIdentification: SymbolIdentification, watchlistId: string) {
         const modal = await this.modalController.create({
             component: SymbolLookupModalComponent,
-            componentProps: {chartDataIdentification},
+            componentProps: {chartDataIdentification, watchlistId},
             cssClass: 'custom-modal'
         });
         return await modal.present();
-    }
-
-    async deleteSymbolFromDocument(data: SymbolIdentification, documentId: string, watchlistName: string) {
-        this.watchlistService.removeStockFromWatchlist(data, documentId, watchlistName);
     }
 
     private subscribeForWatchlistChange() {

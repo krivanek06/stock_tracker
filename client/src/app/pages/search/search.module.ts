@@ -8,7 +8,6 @@ import {SearchStockDetailsPage} from './pages/search-stock/search-stock-details/
 import {StockDetailsStatisticComponent} from './pages/search-stock/search-stock-details/pages/stock-details-statistic/stock-details-statistic.component';
 import {StockDetailsFinancialComponent} from './pages/search-stock/search-stock-details/pages/stock-details-financial/stock-details-financial.component';
 import {StockDetailsFeatureModule} from '../../features/stock-details-feature/stock-details-feature.module';
-import {StockDataFeatureModule} from '../../features/stock-data-feature/stock-data-feature.module';
 import {SearchStockSummaryComponent} from './pages/search-stock/search-stock-summary/search-stock-summary.component';
 import {SearchPageRoutingModule} from './search-routing.module.ts.module';
 import {AccountFeatureModule} from '../../features/account-feature/account-feature.module';
@@ -21,7 +20,6 @@ import {GroupManagementFeatureModule} from '../../features/group-feature/group-m
     imports: [
         SharedModule,
         StockDetailsFeatureModule,
-        StockDataFeatureModule,
         SearchPageRoutingModule,
         AccountFeatureModule,
         GroupManagementFeatureModule

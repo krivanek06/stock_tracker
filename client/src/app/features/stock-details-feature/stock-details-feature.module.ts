@@ -22,6 +22,8 @@ import {StockSearchComponent} from './containers/stock-search/stock-search.compo
 import {RecommendationDirective} from '../../shared/directives/recommendation.directive';
 import {SummarySectorChartComponent} from './components/summary-sector-chart/summary-sector-chart.component';
 import {StockInfoListChangeComponent} from './components/stock-info-list-change/stock-info-list-change.component';
+import {ArticleCardsComponent} from './components/card/article-cards/article-cards.component';
+import {SymbolMovementTableCardComponent} from './components/card/symbol-movement-table-card/symbol-movement-table-card.component';
 
 
 @NgModule({
@@ -46,7 +48,9 @@ import {StockInfoListChangeComponent} from './components/stock-info-list-change/
         StockSearchComponent,
         RecommendationDirective,
         SummarySectorChartComponent,
-        StockInfoListChangeComponent
+        StockInfoListChangeComponent,
+        ArticleCardsComponent,
+        SymbolMovementTableCardComponent
     ],
     imports: [
         CommonModule,
@@ -73,7 +77,9 @@ import {StockInfoListChangeComponent} from './components/stock-info-list-change/
         StockSearchComponent,
         RecommendationDirective,
         SummarySectorChartComponent,
-        StockInfoListChangeComponent
+        StockInfoListChangeComponent,
+        ArticleCardsComponent,
+        SymbolMovementTableCardComponent
     ],
     entryComponents: [
         DetailsFinancialReportModalComponent,

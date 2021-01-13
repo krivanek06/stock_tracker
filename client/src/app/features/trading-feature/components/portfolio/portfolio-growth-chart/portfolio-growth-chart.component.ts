@@ -39,7 +39,7 @@ export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
     private initChart() {
         this.chartOptions = {
             chart: {
-                type: 'areaspline',
+                type: 'area',
                 backgroundColor: 'transparent',
                 panning: {
                     enable: true
@@ -58,7 +58,6 @@ export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
                 gridLineColor: '#66666655',
                 labels: {
                     style: {
-                        color: '#a1a1a1',
                         fontSize: '10px'
                     }
                 },
@@ -98,7 +97,7 @@ export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
                 itemStyle: {
                     color: '#acacac',
                     cursor: 'pointer',
-                    fontSize: '13px'
+                    fontSize: '12px'
                 },
                 itemHoverStyle: {
                     color: '#484d55'
@@ -112,29 +111,79 @@ export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
                 enabled: true,
                 backgroundColor: '#232323',
                 style: {
-                    fontSize: '14px',
+                    fontSize: '12px',
                     color: '#D9D8D8',
                 },
                 shared: true,
                 headerFormat: '<p style="color:#909592; font-size: 12px">{point.key}</p><br/>',
                 pointFormatter: function() {
-                    return `<p><span style="color: ${this.series.color}; font-weight: bold">● ${this.series.name}: </span><span>$${this.y}</span></p><br/>`;
+                    return `<p><span style="color: ${this.series.color}; font-weight: bold">● Portfolio ${this.series.name.toLowerCase()}: </span><span>$${this.y}</span></p><br/>`;
+                }
+            },
+            plotOptions: {
+                area: {
+                    marker: {
+                        radius: 2
+                    },
+                    lineWidth: 1,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
                 }
             },
             series: [{
-                color: '#25aedd',
+                color: '#00c4dd',
+                fillColor: {
+                    linearGradient: {
+                        x1: 1,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1
+                    },
+                    stops: [
+                        [0, '#25aedd'],
+                        [1, 'transparent']
+                    ]
+                },
                 name: 'Total',
                 data: (() => {
                     return this.stPortfolio.map(point => [Date.parse(point.date), point.portfolioCash + point.portfolioInvested]);
                 })()
             }, {
-                color: '#7666fa',
+                color: '#6b00fa',
+                fillColor: {
+                    linearGradient: {
+                        x1: 1,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1
+                    },
+                    stops: [
+                        [0, '#7666fa'],
+                        [1, 'transparent']
+                    ]
+                },
                 name: 'Invested',
                 data: (() => {
                     return this.stPortfolio.map(point => [Date.parse(point.date), point.portfolioInvested]);
                 })()
             }, {
-                color: '#d35431',
+                color: '#f24f18',
+                fillColor: {
+                    linearGradient: {
+                        x1: 1,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1
+                    },
+                    stops: [
+                        [0, '#d35431'],
+                        [1, 'transparent']
+                    ]
+                },
                 name: 'Cash',
                 data: (() => {
                     return this.stPortfolio.map(point => [Date.parse(point.date), point.portfolioCash]);

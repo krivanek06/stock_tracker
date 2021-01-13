@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ModalController, NavParams} from '@ionic/angular';
 import {SymbolIdentification} from '../../../../shared/models/sharedModel';
 import {Router} from '@angular/router';
@@ -22,21 +22,29 @@ import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_ENUM} from '../../../../pages/search
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SymbolLookupModalComponent implements OnInit {
-    stockSummary$: Observable<Summary>;
+
     chartDataIdentification: SymbolIdentification;
+    watchlistId: string;
+    isSymbolInWatchlist = false;
+
     user: StUserPublicData;
+    stockSummary$: Observable<Summary>;
 
     constructor(private navParams: NavParams,
                 private router: Router,
                 private stockDetailsService: StockDetailsService,
                 private watchlistService: WatchlistService,
                 private authFeatureService: AuthFeatureService,
+                private cd: ChangeDetectorRef,
                 private modalController: ModalController) {
-        this.chartDataIdentification = this.navParams.get('chartDataIdentification');
     }
 
     ngOnInit() {
+        this.chartDataIdentification = this.navParams.get('chartDataIdentification');
+        this.watchlistId = this.navParams.get('watchlistId');
+
         this.stockSummary$ = this.stockDetailsService.getStockSummary(this.chartDataIdentification.symbol);
+        this.checkIfSymbolIsInWatchlist();  // checked if opened symbol is in my watchlist
     }
 
     dismissModal() {
@@ -48,8 +56,23 @@ export class SymbolLookupModalComponent implements OnInit {
         this.router.navigate([`/menu/search/${SEARCH_PAGE_ENUM.STOCK}/${SEARCH_PAGE_STOCK_ENUM.DETAILS}/${this.chartDataIdentification.symbol}`]);
     }
 
+    async addSymbolToWatchlist() {
+        await this.watchlistService.addSymbolToWatchlist(this.chartDataIdentification.symbol);
+        this.checkIfSymbolIsInWatchlist();
+    }
 
-    addSymbolToWatchlist() {
-        this.watchlistService.addSymbolToWatchlist(this.chartDataIdentification.symbol);
+    async removeSymbolFromWatchlist() {
+        await this.watchlistService.removeStockFromWatchlist(this.chartDataIdentification, this.watchlistId);
+        this.checkIfSymbolIsInWatchlist();
+    }
+
+    private checkIfSymbolIsInWatchlist() {
+        if (this.watchlistId) {
+            const watchlist = this.authFeatureService.user.stockWatchlist.find(s => s.id === this.watchlistId);
+            if (watchlist) {
+                this.isSymbolInWatchlist = watchlist.summaries.map(s => s.symbol).includes(this.chartDataIdentification.symbol);
+                this.cd.detectChanges();
+            }
+        }
     }
 }
