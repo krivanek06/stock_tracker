@@ -1,62 +1,46 @@
-<ion-item class="st-display-flex-center">
-    <ion-item (click)="itemClicked()" class="ion-no-padding stockInfo-container st-font-size-15 ion-activatable">
-        <ion-label>
-            <ion-img [src]="summary.logo_url" class="st-symbol-image-data-table"></ion-img>
-        </ion-label>
+<ion-item (click)="itemClicked()"
+          class="ion-no-padding ion-activatable">
 
-        <!-- stock name -->
-        <ion-label position="fixed" class="st-label-small-space st-data-label">
-            {{ summary.symbol }}
-        </ion-label>
+    <ion-label class="st-display-flex-center st-data-label">
+        <ion-img [src]="summary.logo_url" class="st-symbol-image-data-table"></ion-img>
+        <ion-text>{{ summary.symbol }}</ion-text>
+    </ion-label>
 
-        <!-- current price -->
-        <ion-label position="fixed" class="st-label-small-space st-data-label" [@marketValueChange]="currentPrice">
-            {{ currentPrice | currency }}
-        </ion-label>
+    <!-- current price -->
+    <ion-label class="st-data-label" [@marketValueChange]="currentPrice">{{ currentPrice | currency }}</ion-label>
 
-        <!-- daily change -->
-        <div class="st-label-md-space">
-            <app-price-compare-item [currentPrice]="currentPrice"
-                                    [compareToPrice]="summary.previousClose">
-            </app-price-compare-item>
-        </div>
+    <!-- daily change -->
+    <ion-label>
+        <app-price-compare-item [currentPrice]="currentPrice"
+                                [compareToPrice]="summary.previousClose">
+        </app-price-compare-item>
+    </ion-label>
 
+    <!-- year change -->
+    <ion-label>
+        <app-price-compare-item [currentPrice]="currentPrice"
+                                [compareToPrice]="summary.weekRangeFiveTwoMin">
+        </app-price-compare-item>
+    </ion-label>
 
-        <!-- year change -->
-        <div class="st-label-md-space">
-            <app-price-compare-item [currentPrice]="currentPrice"
-                                    [compareToPrice]="summary.weekRangeFiveTwoMin">
-            </app-price-compare-item>
-        </div>
+    <!-- 52 week range -->
+    <ion-label class="st-data-label">
+        {{ summary.weekRangeFiveTwoMin | currency }} - {{ summary.weekRangeFiveTwoMax | currency }}
+    </ion-label>
 
+    <!-- PE -->
+    <ion-label class="st-data-label">
+        {{ summary.pERatioTTM }}
+    </ion-label>
 
-        <!-- 52 week range -->
-        <ion-label position="fixed" class="st-label-xl-space ion-hide-lg-down st-data-label">
-            {{ summary.weekRangeFiveTwoMin | currency }} - {{ summary.weekRangeFiveTwoMax | currency }}
-        </ion-label>
+    <!-- recommendation date -->
+    <ion-label class="st-data-label">
+        <ion-text [appRecommendation]="summary.recommendationKey | titlecase">
+            {{ summary.recommendationKey | titlecase }}
+        </ion-text>
+        [{{ summary.recommendationMean }}]
+    </ion-label>
 
-        <!-- PE -->
-        <ion-label position="fixed" class="ion-hide-sm-down st-data-label">
-            {{ summary.pERatioTTM }}
-        </ion-label>
-
-        <!-- recommendation date -->
-        <ion-label position="fixed" class="ion-hide-md-down st-data-label">
-            <ion-text [appRecommendation]="summary.recommendationKey | titlecase">
-                {{ summary.recommendationKey | titlecase }}
-            </ion-text>
-            [{{ summary.recommendationMean }}]
-        </ion-label>
-
-        <!-- ripple effect on click -->
-        <ion-ripple-effect></ion-ripple-effect>
-    </ion-item>
-
-
-    <!-- delete button  -->
-    <ion-button *ngIf="allowModification"
-                class="st-transparent-background st-negative-button st-clickable"
-                (click)="deleteSymbolClicked()">
-        <ion-icon name="trash-bin" style="font-size: 28px;"></ion-icon>
-    </ion-button>
+    <!-- ripple effect on click -->
+    <ion-ripple-effect></ion-ripple-effect>
 </ion-item>

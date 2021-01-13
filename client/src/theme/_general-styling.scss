@@ -47,18 +47,8 @@ ion-spinner {
   height: 70px !important;
 }
 
-.news-container {
-  column-count: 2;
-  padding: 20px;
-  @media (min-width: 0px) and (max-width: 1600px) {
-    column-count: 1;
-  }
-}
-
 // ------------- BORDER START --------------------
-.st-border-right {
-  border-right: 1px solid #{$st-light-blue-border};
-}
+
 
 .st-md-border-bottom {
   @media (max-width: #{$st-var-md-split}) {
@@ -68,20 +58,6 @@ ion-spinner {
 
 
 // --------------- BORDER END -------------------
-
-// hover transformation
-/*
-.st-hover-card {
-  transition: All 0.3s ease-out;
-  cursor: pointer;
-
-  &:hover {
-    border-radius: 10px;
-    transform: scale(0.98);
-    background: #7070702e;
-  }
-}*/
-
 
 // COLOR CLASSES - FONT
 .st-main-color-turquois {
@@ -194,8 +170,19 @@ ion-spinner {
 
 // ---------------------------------------------
 // - DATA LABELS
+.st-data-label-parent {
+  color: #{$st-var-font-1} !important; // !important
+  font-size: 14px !important;
+  min-width: 65%;
+}
+
 .st-data-label {
   color: #{$st-var-font-2}; // !important
+  font-size: 14px !important;
+}
+
+.st-data-item-wrapper {
+  border-bottom: 1px solid #66666633 !important;
 }
 
 .st-data-label-fixedLabel {
@@ -346,7 +333,7 @@ ion-spinner {
   min-width: 200px !important;
   display: flex !important;
   align-items: start !important;
-  padding: 2px !important;
+  padding: 6px !important;
 }
 
 // ----------------------------------------------------
@@ -454,9 +441,7 @@ ion-spinner {
 
 
 // HOVER OVER
-.st-data-item-wrapper {
-  border-bottom: 1px solid #66666633;
-}
+
 /*
 .st-data-item-wrapper:last-child {
   border-bottom: 0;
@@ -536,8 +521,8 @@ ion-spinner {
 
 
 .st-symbol-image {
-  max-width: 45px !important;
-  min-width: 45px !important;
+  max-width: 40px !important;
+  min-width: 40px !important;
   margin-right: 10px !important;
 
   @media (max-width: #{$st-var-sm-split}) {

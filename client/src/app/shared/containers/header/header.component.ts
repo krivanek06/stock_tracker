@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {AuthFeatureService} from '../../../features/auth-feature/services/auth-feature.service';
 import {SearchDataApiService} from '../../../api/search-data-api.service';
@@ -12,6 +12,8 @@ import {StUserPublicData} from '../../../api/customGraphql.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
+    @Input() pageName: string;
+    @Input() pageIcon: string;
 
     user$: Observable<StUserPublicData>;
 
@@ -22,7 +24,7 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
         this.user$ = this.authFeatureService.getUser();
-        this.user$.subscribe(console.log)
+        this.user$.subscribe(console.log);
     }
 
     redirectToSearch() {

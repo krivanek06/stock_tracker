@@ -43,7 +43,7 @@ export class IonicDialogService {
     async presentToast(message) {
         const toast = await this.toastController.create({
             message,
-            duration: 2000,
+            duration: 2500,
             color: 'dark',
             position: 'bottom',
         });

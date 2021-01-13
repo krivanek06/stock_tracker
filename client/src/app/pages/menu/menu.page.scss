@@ -1,6 +1,10 @@
 @import "custom-variables";
 
 :host {
+  ion-content {
+    --padding-bottom: 0 !important;
+  }
+
   ion-item ion-label {
     font-size: 15px;
     @media (max-width: #{$st-var-md-split}) {
@@ -59,6 +63,7 @@
     position: absolute;
     left: 0;
     z-index: 1;
+    opacity: 0.7;
     background: #{$st-var-blue-1};
   }
 
@@ -83,11 +88,14 @@
   }
 
   .custom-overlay {
+    //background: #000000;
+    opacity: 0.4;
+  }
+
+  .custom-overflow-div {
+    background: #000000;
     width: 100vw;
     height: 100vh;
-    background: #000000;
-    z-index: 10;
-    opacity: 0.4;
   }
 
   .ion-page {

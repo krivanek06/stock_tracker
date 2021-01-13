@@ -132,31 +132,44 @@ export class FinancialChartComponent implements OnInit, OnChanges {
             },
             tooltip: {
                 borderWidth: 1,
+                padding: 11,
                 // headerFormat: null,
                 backgroundColor: '#232323',
                 style: {
-                    fontSize: '14px',
+                    fontSize: '12px',
                     color: '#D9D8D8',
+                },
+                formatter: function() {
+                    const open = this.points[0].point.open;
+                    // closed
+                    const closed = this.points[0].point.close;
+                    const closedDiff = Math.round((closed - open) * 100) / 100;
+                    const closedText = closedDiff > 0 ? '  +$' + closedDiff : '  -$' + Math.abs(closedDiff);
+                    const closedColor = open > closed ? 'red' : 'green';
+
+                    // volume
+                    let volume = this.points[1].y;
+                    let counter = 0;
+                    while (volume > 1000) {
+                        volume = volume / 1000;
+                        counter += 1;
+                    }
+                    volume = Math.round(volume * 100) / 100;
+                    const volumeText = volume + ['', 'k', 'mil.', 'b'][counter];
+
+
+                    return `<b style="color: #b1b0b0">Open:</b> $${open} <br/>
+                            <b style="color: ${closedColor}">Closed:</b> $${closed}  <span style="color: ${closedColor}">${closedText}</span><br/>
+                            <b style="color: #f08800">Volume:</b> ${volumeText}`;
                 },
                 shared: true,
                 xDateFormat: '%d-%m-%Y',
                 valueDecimals: 2,
                 positioner: function(width, height, point) {
-                    var chart = this.chart, position;
-
-                    if (point.isHeader) {
-                        position = {
-                            x: Math.max(
-                                chart.plotLeft,
-                                Math.min(point.plotX + chart.plotLeft - width / 2, chart.chartWidth - width - chart.marginRight)
-                            ), y: point.plotY
-                        };
-                    } else {
-                        position = {
-                            x: point.series.chart.plotLeft,
-                            y: point.series.yAxis.top - chart.plotTop
-                        };
-                    }
+                    const position = {
+                        x: 0, // point.series.chart.plotLeft
+                        y: 0  // point.series.yAxis.top - chart.plotTop - 30 volume
+                    };
                     return position;
                 }
                 //  pointFormat: '<span style="color:{point.color}; font-weight: bold">{series.name}</span> :<b>{point.y:.2f}</b><br/>'
@@ -167,8 +180,7 @@ export class FinancialChartComponent implements OnInit, OnChanges {
                 labels: {
                     enabled: true,
                     style: {
-                        color: '#cecece',
-                        font: '11px Trebuchet MS, Verdana, sans-serif'
+                        font: '10px Trebuchet MS, Verdana, sans-serif'
                     }
                 },
                 events: {
@@ -178,11 +190,18 @@ export class FinancialChartComponent implements OnInit, OnChanges {
             },
             yAxis: [
                 {
+                    crosshair: {
+                        label: {
+                            backgroundColor: '#232323',
+                            enabled: true   // shows pointed data on Y axis
+                        }
+                    },
                     title: {
                         text: ''
                     },
                     gridLineWidth: 1,
                     //minorTickInterval: 'auto',
+                    gridLineColor: '#66666655',
                     tickPixelInterval: 45,
                     minorGridLineWidth: 0,
                     allowDecimals: true,

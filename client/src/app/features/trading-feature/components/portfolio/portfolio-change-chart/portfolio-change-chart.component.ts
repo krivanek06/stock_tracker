@@ -28,7 +28,6 @@ export class PortfolioChangeChartComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log(this.stPortfolios);
         this.initChart();
     }
 
@@ -41,7 +40,7 @@ export class PortfolioChangeChartComponent implements OnInit, OnChanges {
     private initChart() {
         this.chartOptions = {
             chart: {
-                type: 'column',
+                type: 'area',
                 backgroundColor: 'transparent',
                 panning: {
                     enable: true
@@ -60,7 +59,6 @@ export class PortfolioChangeChartComponent implements OnInit, OnChanges {
                 visible: true,
                 labels: {
                     style: {
-                        color: '#cecece',
                         font: '10px Trebuchet MS, Verdana, sans-serif'
                     }
                 },
@@ -99,22 +97,39 @@ export class PortfolioChangeChartComponent implements OnInit, OnChanges {
                 enabled: true,
                 backgroundColor: '#232323',
                 style: {
-                    fontSize: '14px',
+                    fontSize: '12px',
                     color: '#D9D8D8',
                 },
                 shared: true,
                 headerFormat: '<p style="color:#909592; font-size: 12px">{point.key}</p><br/>',
                 pointFormatter: function() {
-                    return `<span style="font-weight: bold; color:{point.color}">● Change: </span><span>$${this.y} </span><br/>`;
+                    const isPositive = this.y >= 0;
+                    const color = isPositive ? '#0d920d' : '#bf0000';
+                    const label = isPositive ? 'Gains' : 'Loses';
+                    return `<span style="font-weight: bold; color: ${color}">● Weekly ${label}: </span><span>$${this.y} </span><br/>`;
                 }
             },
             series: [{
                 zoneAxis: 'y',
                 zones: [{
                     value: 0,
-                    color: '#FF0000'
+                    //color: '#FF0000',
+                    color: {
+                        linearGradient: { x1: 0, x2: 0, y1: 1, y2: 0 },
+                        stops: [
+                            [0, '#bf0000'],
+                            [1, 'transparent']
+                        ]
+                    }
                 }, {
-                    color: '#0d920d'
+                    //color: '#0d920d'
+                    color: {
+                        linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
+                        stops: [
+                            [0, '#0d920d'],
+                            [1, 'transparent']
+                        ]
+                    }
                 }],
                 data: (() => {
                     return this.stPortfolios.map(point => [

@@ -22,12 +22,11 @@ import {StockSummaryFragmentFragment, Summary} from '../../../../api/customGraph
 })
 
 export class WatchlistTableBodyItemComponent implements OnInit {
+    @Output() itemClickedEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
+
     @Input() summary: Summary;
     @Input() currentPrice: number;
     @Input() allowModification: boolean;
-
-    @Output() deleteEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
-    @Output() itemClickedEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
 
     constructor() {
     }
@@ -35,15 +34,7 @@ export class WatchlistTableBodyItemComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    deleteSymbolClicked() {
-        this.deleteEmitter.emit(this.createSymbolIdentification());
-    }
-
     itemClicked() {
-        this.itemClickedEmitter.emit(this.createSymbolIdentification());
-    }
-
-    private createSymbolIdentification(): SymbolIdentification {
-        return {symbol: this.summary.symbol, name: this.summary.longName};
+        this.itemClickedEmitter.emit({symbol: this.summary.symbol, name: this.summary.longName});
     }
 }

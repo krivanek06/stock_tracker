@@ -1,26 +1,23 @@
-<ion-label position="fixed"
-           [ngClass]="{
+<ion-label class="st-data-label" [ngClass]="{
                     'st-price-up': isPositive && !lighterVersion,
                     'st-price-up-light': isPositive && lighterVersion,
                     'st-price-down': isNegative && !lighterVersion,
                     'st-price-down-light': isNegative && lighterVersion
                      }">
-    <ion-text class="st-font-size-16 st-flex-row">
+    <ion-text class="st-flex-row">
+        <!-- percentage -->
         <ng-container *ngIf="priceChange !== undefined && !isPercent">{{ priceChange | number: '1.2-2'}}%</ng-container>
         <ng-container *ngIf="priceChange && isPercent">{{ priceChange | percent: '1.2-2' }}</ng-container>
 
-        <ion-icon name="trending-up-outline"
-                  class="st-price-icon ion-hide-sm-down"
-                  *ngIf="isPositive"></ion-icon>
-        <ion-icon name="trending-down-outline"
-                  class="st-price-icon ion-hide-sm-down"
-                  *ngIf="isNegative"></ion-icon>
+        <!-- positive / negative icon -->
+        <ion-icon name="trending-up-outline" class="st-price-icon ion-hide-sm-down" *ngIf="isPositive"></ion-icon>
+        <ion-icon name="trending-down-outline" class="st-price-icon ion-hide-sm-down" *ngIf="isNegative"></ion-icon>
     </ion-text>
 
-    <ion-text class="st-font-size-13"
+    <!-- price -->
+    <ion-text class="st-font-size-12" *ngIf="price"
               [ngClass]="{
-                'st-font-4': !lighterVersion,
+                'st-font-5': !lighterVersion,
                 'st-font-1': lighterVersion
-              }"
-              *ngIf="price">{{ price | currency}}</ion-text>
+              }">{{ price | currency}}</ion-text>
 </ion-label>

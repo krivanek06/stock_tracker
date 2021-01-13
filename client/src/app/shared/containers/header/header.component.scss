@@ -2,6 +2,7 @@
 
 :host {
   .bell-icon {
+    cursor: pointer;
     padding-right: 16px;
     @media (max-width: #{$st-var-sm-split}) {
       padding-right: 6px;
@@ -36,7 +37,6 @@
 
 
   ion-icon {
-    cursor: pointer;
     color: #{$st-var-blue-1};
   }
 

@@ -4,6 +4,7 @@ import {ChartType} from '../../../models/sharedModel';
 
 import * as Highcharts from 'highcharts/highstock';
 import highcharts3D from 'highcharts/highcharts-3d';
+
 highcharts3D(Highcharts);
 
 @Component({
@@ -63,6 +64,9 @@ export class GenericChartComponent implements OnInit, OnChanges {
         if (this.chartType === ChartType.pieSemiCircle) {
             this.initSemiCirclePieChart();
         }
+        if (this.chartType === ChartType.pie) {
+            this.initPieChart();
+        }
 
         if (this.categories) {
             this.chartOptions.xAxis.categories = this.categories;
@@ -112,7 +116,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 title: false,
                 startOnTick: false,
                 endOnTick: false,
-
+                gridLineColor: '#66666655',
                 opposite: false,
                 gridLineWidth: 1,
                 minorTickInterval: 'auto',
@@ -121,7 +125,6 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 visible: this.showYAxis,
                 labels: {
                     style: {
-                        color: '#cecece',
                         font: '10px Trebuchet MS, Verdana, sans-serif'
                     }
                 },
@@ -131,6 +134,11 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 type: 'datetime',
                 dateTimeLabelFormats: {
                     day: '%e of %b'
+                },
+                labels: {
+                    style: {
+                        font: '10px Trebuchet MS, Verdana, sans-serif'
+                    }
                 }
             },
             title: {
@@ -169,6 +177,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
             tooltip: {
                 outside: true,
                 borderWidth: 1,
+                padding: 11,
                 // headerFormat: '<span>Date: { point.x } </span><br/>',
                 backgroundColor: '#232323',
                 style: {
@@ -184,6 +193,11 @@ export class GenericChartComponent implements OnInit, OnChanges {
             },
             plotOptions: {
                 series: {
+                    headerFormat: null,
+                    style: {
+                        fontSize: '12px',
+                        color: '#D9D8D8',
+                    },
                     enableMouseTracking: this.showTooltip,
                     events: {
                         legendItemClick: (e) => {
@@ -207,19 +221,19 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 },
                 pie: {
                     showInLegend: this.showLegend,
-                    allowPointSelect: true,
-                    cursor: 'pointer',
+                    allowPointSelect: false,
+                    //cursor: 'normal',
                     depth: 35,
                     size: this.heightPx - 100,
                     dataLabels: {
                         color: '#c3c3c3',
                         enabled: this.showDataLabel,
                         style: {
-                            fontSize: '13px',
+                            fontSize: '12px',
                             width: '80px'
                         },
                         format: '<span style="color: {point.color}">{point.name}</span><br>{point.percentage:.1f} %',
-                        //distance: -50,
+                        //distance: -25,
                         filter: {
                             property: 'percentage',
                             operator: '>',
@@ -228,6 +242,10 @@ export class GenericChartComponent implements OnInit, OnChanges {
                     },
                     tooltip: {
                         headerFormat: null,
+                        style: {
+                            fontSize: '12px',
+                            color: '#D9D8D8',
+                        },
                         pointFormat: '<span style="color:{point.color}; font-weight: bold">{point.name}</span> :<b>{point.percentage:.1f} %</b><br/>'
                     },
                     colors: Highcharts.map(Highcharts.getOptions().colors, function(color) {
@@ -252,6 +270,10 @@ export class GenericChartComponent implements OnInit, OnChanges {
                         enabled: false
                     },
                     tooltip: {
+                        style: {
+                            fontSize: '12px',
+                            color: '#D9D8D8',
+                        },
                         pointFormat: '<span style="color:{point.color}; font-weight: bold">{series.name}</span> :<b>{point.y:.2f}</b><br/>'
                     }
                 }
@@ -268,9 +290,6 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 align: 'center',
                 verticalAlign: 'middle',
                 y: 50
-            },
-            tooltip: {
-                enabled: false
             },
             plotOptions: {
                 pie: {
@@ -343,29 +362,24 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 type: 'category',
                 labels: {
                     style: {
-                        color: '#cecece',
                         font: '10px Trebuchet MS, Verdana, sans-serif'
                     }
                 },
             },
             plotOptions: {
+                ...this.chartOptions.plotOptions,
                 series: {
+                    ...this.chartOptions.plotOptions.series,
                     borderWidth: 0,
                     dataLabels: {
                         color: '#cecece',
                         enabled: true,
                         format: '{point.y:.1f}%'
                     }
-                }
+                },
             },
             tooltip: {
-                headerFormat: null,
-                backgroundColor: '#232323',
-                style: {
-                    fontSize: '14px',
-                    color: '#D9D8D8',
-                },
-                shared: true,
+                ...this.chartOptions.tooltip,
                 pointFormat: '<span style="color:{point.color}; font-weight: bold">{point.name}</span> : <b>{point.y:.2f}%</b><br/>'
             }
         };
@@ -379,12 +393,12 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 labels: {
                     rotation: -30,
                     style: {
-                        color: '#cecece',
-                        font: '11px Trebuchet MS, Verdana, sans-serif'
+                        font: '10px Trebuchet MS, Verdana, sans-serif'
                     }
                 },
             },
             plotOptions: {
+                ...this.chartOptions.plotOptions,
                 column: {
                     pointPadding: 0.2,
                     borderWidth: 0
@@ -399,17 +413,27 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 }
             },
             tooltip: {
-                headerFormat: null,
-                backgroundColor: '#232323',
-                style: {
-                    fontSize: '14px',
-                    color: '#D9D8D8',
-                },
-                shared: true,
-                pointFormat: '<span style="color:{point.color}; font-weight: bold">{point.name}</span> : <b>{point.y:.2f}%</b><br/>'
+                ...this.chartOptions.tooltip,
+                pointFormat: '<b style="color:{point.color};">{point.name}</b> : <b>{point.y:.2f}%</b><br/>'
             },
         };
 
     }
 
+    private initPieChart() {
+        if (this.showDataLabel) {
+            return;
+        }
+        this.chartOptions = {
+            ...this.chartOptions,
+            legend: {
+                ...this.chartOptions.legend,
+                enabled: true,
+                labelFormatter: function() {
+                    const value = this.percentage.toFixed(2);
+                    return '<span style="color:' + this.color + '">' + this.name + ': </span>(<b>' + value + '%)<br/>';
+                }
+            },
+        };
+    }
 }

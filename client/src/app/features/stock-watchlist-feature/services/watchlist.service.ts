@@ -86,8 +86,10 @@ export class WatchlistService {
         }
 
         if (watchlistId) {
-            this.graphqlWatchlistService.addSymbolToWatchlist(watchlistId, symbol)
-                .subscribe(() => this.ionicDialogService.presentToast(`Symbol ${symbol} has been added into watchlist ${watchlistName}`));
+            await this.graphqlWatchlistService.addSymbolToWatchlist(watchlistId, symbol).toPromise();
+            this.ionicDialogService.presentToast(`Symbol ${symbol} has been added into watchlist ${watchlistName}`);
+            /*this.graphqlWatchlistService.addSymbolToWatchlist(watchlistId, symbol)
+                .subscribe(() => this.ionicDialogService.presentToast(`Symbol ${symbol} has been added into watchlist ${watchlistName}`));*/
         }
     }
 
@@ -109,17 +111,19 @@ export class WatchlistService {
         }
     }
 
-    async removeStockFromWatchlist(data: SymbolIdentification, documentId: string, watchlistName: string) {
+    async removeStockFromWatchlist(data: SymbolIdentification, documentId: string) {
+        const watchlistName = this.authService.user.stockWatchlist.find(s => s.id === documentId).name;
+
         const confirmation = await this.ionicDialogService.presentAlertConfirm(
             `Do your really wanna remove ${data.name} from your watchlist: ${watchlistName} ?`);
 
         if (confirmation) {
-            this.graphqlWatchlistService.removeStockFromWatchlist(documentId, data.symbol)
-                .subscribe(() => this.ionicDialogService.presentToast('Symbol deleted from watchlist'));
+            await this.graphqlWatchlistService.removeStockFromWatchlist(documentId, data.symbol).toPromise();
+            this.ionicDialogService.presentToast(`Symbol deleted from watchlist: ${watchlistName}`);
         }
     }
 
-    async deleteWatchlist(input: StStockWatchInputlistIdentifier){
+    async deleteWatchlist(input: StStockWatchInputlistIdentifier) {
         const confirmation = await this.ionicDialogService.presentAlertConfirm(`Do your really want to delete watchlist: ${input.additionalData} ?`);
 
         if (confirmation) {
@@ -128,7 +132,7 @@ export class WatchlistService {
         }
     }
 
-    async renameWatchlist(input: StStockWatchInputlistIdentifier){
+    async renameWatchlist(input: StStockWatchInputlistIdentifier) {
         const confirmation = await this.ionicDialogService.presentAlertConfirm(`Do your really want to rename watchlist ?`);
 
         if (confirmation) {

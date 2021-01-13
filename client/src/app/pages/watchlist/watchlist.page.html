@@ -1,29 +1,18 @@
-<ion-content>
+<ion-content class="ion-padding">
     <!-- header -->
-    <app-header>
-        <ion-icon class="st-icon-size-header" name="stats-chart"></ion-icon>
-        <ion-text class="st-font-size-header">Watchlist</ion-text>
-    </app-header>
+    <app-header [pageIcon]="'stats-chart'" [pageName]="'Watchlist'"></app-header>
 
     <!-- body -->
-    <div class="st-content-padding">
-        <ion-grid>
-            <ion-row *ngFor="let watchlist of stockWatchlists" class="watchlist-data">
-                <!-- watchlist -->
-                <ion-col size="12" style="display: inline-flex; place-content: center;">
-                    <app-watchlist-table [watchlist]="watchlist"
-                                         (itemClickedEmitter)="showChartForSymbol($event)"
-                                         (deleteEmitter)="deleteSymbolFromDocument($event, watchlist.id, watchlist.name)">
-                    </app-watchlist-table>
-
-                    <div class="st-hide-xxl-down" *ngIf="watchlist.summaries.length > 0">
-                        <app-summary-sector-chart style="align-self: center;"
-                                                  [summaries]="watchlist.summaries">
-                        </app-summary-sector-chart>
-                    </div>
-                </ion-col>
-            </ion-row>
-        </ion-grid>
-    </div>
+    <ion-grid style="margin-top: 10px;">
+        <ion-row *ngFor="let watchlist of stockWatchlists" class="ion-justify-content-center"
+                 style="margin-bottom: 16px">
+            <!-- watchlist -->
+            <ion-col size="12" size-lg="11" size-xl="10">
+                <app-watchlist-table [watchlist]="watchlist"
+                                     (itemClickedEmitter)="showChartForSymbol($event, watchlist.id)">
+                </app-watchlist-table>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>
 
