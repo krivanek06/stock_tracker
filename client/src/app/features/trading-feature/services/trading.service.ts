@@ -5,6 +5,9 @@ import {AuthFeatureService} from '../../auth-feature/services/auth-feature.servi
 import {TradeConfirmationPopOverComponent} from '../entry-components/trade-confirmation-pop-over/trade-confirmation-pop-over.component';
 import {StTransactionInput, Summary} from '../../../api/customGraphql.service';
 import {GraphqlTradingService} from './graphql-trading.service';
+import {Observable} from 'rxjs';
+import {MarketPriceWebsocketService, MarketSymbolResult} from '../../../shared/services/market-price-websocket.service';
+import {filter} from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +17,19 @@ export class TradingService {
     constructor(private ionicDialogService: IonicDialogService,
                 private popoverController: PopoverController,
                 private authService: AuthFeatureService,
-                private graphqlTradingService: GraphqlTradingService) {
+                private graphqlTradingService: GraphqlTradingService,
+                private marketPriceWebsocket: MarketPriceWebsocketService) {
+    }
+
+    initSubscriptionForHoldings(): Observable<MarketSymbolResult> {
+        this.authService.user.holdings.map(x => x.symbol).forEach(stock => this.marketPriceWebsocket.createSubscribeForSymbol(stock));
+        return this.marketPriceWebsocket.getSubscribedSymbolsResult().pipe(
+            filter(res => !!res), // filter null & undefined
+        );
+    }
+
+    closeMarketSubscription() {
+        this.marketPriceWebsocket.closeConnection();
     }
 
     async performTransaction(summary: Summary) {

@@ -38,7 +38,7 @@ export class WatchlistPage extends ComponentBase implements OnInit, OnDestroy {
 
 
     ngOnDestroy(): void {
-        this.watchlistService.closeSubscriptionForWatchlist();
+        this.watchlistService.closeMarketSubscription();
         clearInterval(this.interval);
     }
 

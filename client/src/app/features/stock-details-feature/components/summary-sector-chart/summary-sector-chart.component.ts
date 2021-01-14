@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {ChartType, GenericChartSeries} from '../../../../shared/models/sharedModel';
-import {Summary} from '../../../../api/customGraphql.service';
+import {StTransaction, Summary} from '../../../../api/customGraphql.service';
 
 @Component({
     selector: 'app-summary-sector-chart',
@@ -10,6 +10,7 @@ import {Summary} from '../../../../api/customGraphql.service';
 })
 export class SummarySectorChartComponent implements OnInit, OnChanges {
     @Input() summaries: Summary[];
+    @Input() stTransactions: StTransaction[] = [];
     @Input() showDataLabel = false;
     @Input() heightPx = 350;
     @Input() chartTitle: string;
@@ -26,12 +27,16 @@ export class SummarySectorChartComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (!!changes && !!changes.summaries) {
+        if (!!changes && (!!changes.summaries || changes.stTransactions)) {
             this.renderChart();
         }
     }
 
     private renderChart() {
+        if (!this.summaries && !!this.stTransactions) {
+            this.summaries = this.stTransactions.map(s => s.summary);
+        }
+
         // from stock details creates -> [{name: 'Technology', y: 5}, {name: 'Cruise', y: 2} ... ]
         const helper = [];
         this.sectorPairs = [];

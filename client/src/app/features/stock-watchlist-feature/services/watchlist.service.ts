@@ -45,7 +45,7 @@ export class WatchlistService {
         );
     }
 
-    closeSubscriptionForWatchlist() {
+    closeMarketSubscription() {
         this.marketPriceWebsocket.closeConnection();
     }
 
@@ -88,8 +88,6 @@ export class WatchlistService {
         if (watchlistId) {
             await this.graphqlWatchlistService.addSymbolToWatchlist(watchlistId, symbol).toPromise();
             this.ionicDialogService.presentToast(`Symbol ${symbol} has been added into watchlist ${watchlistName}`);
-            /*this.graphqlWatchlistService.addSymbolToWatchlist(watchlistId, symbol)
-                .subscribe(() => this.ionicDialogService.presentToast(`Symbol ${symbol} has been added into watchlist ${watchlistName}`));*/
         }
     }
 

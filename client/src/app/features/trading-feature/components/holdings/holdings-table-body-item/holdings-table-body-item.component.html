@@ -9,8 +9,13 @@
     </ion-label>
 
     <!-- current price -->
-    <ion-label class="st-data-label" [@marketValueChange]="newCurrentPrice">
+    <ion-label class="st-data-label" [@marketValueChange]="currentPrice">
         {{ currentPrice | currency }}
+    </ion-label>
+
+    <!-- BEP -->
+    <ion-label class="st-data-label">
+        {{ transaction.price | currency }}
     </ion-label>
 
     <!-- daily change -->
@@ -29,15 +34,15 @@
 
     <!-- Value -->
     <ion-label class="st-data-label st-flex-col">
-        <ion-text>{{ (transaction.price * transaction.units) | currency }} </ion-text>
+        <ion-text>{{ (currentPrice * transaction.units) | currency }} </ion-text>
         <ion-text class="st-font-size-12 st-font-5">
-            {{ transaction.price | currency }} * {{ transaction.units }}
+            {{ currentPrice | currency }} * {{ transaction.units }}
         </ion-text>
     </ion-label>
 
     <!-- portfolio % -->
     <ion-label class="st-data-label">
-        {{ (transaction.price * transaction.units / userPortfolioTotal  | percent: '1.2-2') }}
+        {{ (currentPrice * transaction.units / userPortfolioTotal  | percent: '1.2-2') }}
     </ion-label>
 
     <!-- recommendation date -->

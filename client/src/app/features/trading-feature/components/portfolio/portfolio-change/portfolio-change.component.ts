@@ -1,18 +1,22 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {StPortfolio, StPortfolioWeeklyChange, StTransaction} from '../../../../../api/customGraphql.service';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {StPortfolio, StTransaction} from '../../../../../api/customGraphql.service';
 import {TradingChangeModel} from '../../../models/trading.model';
+import {marketValueChange} from '../../../../../shared/animations/marketValueChange.animation';
 
 @Component({
     selector: 'app-portfolio-change',
     templateUrl: './portfolio-change.component.html',
     styleUrls: ['./portfolio-change.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    animations: [
+        marketValueChange
+    ]
 })
 export class PortfolioChangeComponent implements OnInit {
     @Input() stPortfolioHistory: StPortfolio[];
     @Input() holdings: StTransaction[];
+    @Input() daily: TradingChangeModel;
 
-    daily: TradingChangeModel;
     weeklyChange: TradingChangeModel;
     monthlyChange: TradingChangeModel;
     quarterly: TradingChangeModel;
@@ -21,24 +25,9 @@ export class PortfolioChangeComponent implements OnInit {
     constructor() {
     }
 
+
     ngOnInit() {
         this.filterPortfolioHistoryChanges();
-        this.filterHoldingDailyChange();
-    }
-
-    private filterHoldingDailyChange() {
-        if (!this.holdings) {
-            return;
-        }
-
-        const tmp = this.holdings.map(h => [h.units * h.price, h.units * h.summary.marketPrice])
-            .reduce((acc, val) => [acc[0] + val[0], acc[1] + val[1]]);
-
-        this.daily = {
-            growth: tmp[0] - tmp[1],
-            change: (tmp[0] - tmp[1]) / Math.abs(tmp[1]) * 100
-        };
-
     }
 
     private filterPortfolioHistoryChanges() {
