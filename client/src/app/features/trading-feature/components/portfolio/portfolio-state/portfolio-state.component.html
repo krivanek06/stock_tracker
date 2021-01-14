@@ -12,13 +12,13 @@
 
                 <ion-item class="st-flex-row">
                     <ion-label class="st-font-size-24 st-font-white">
-                        {{ (portfolio.portfolioCash + portfolio.portfolioInvested) | currency }}
+                        {{ (portfolioCash + portfolioInvested) | currency }}
                     </ion-label>
                     <ion-label style="position:absolute; right: 0">
                         <app-price-change-item
-                                [price]="350.56"
-                                [priceChange]="12.54"
-                                [lighterVersion]="true">
+                                [price]="(portfolioCash + portfolioInvested) - STARTING_PORTFOLIO"
+                                [priceChange]="((portfolioCash + portfolioInvested) - STARTING_PORTFOLIO) / STARTING_PORTFOLIO * 100"
+                                [lighterBiggerVersion]="true">
                         </app-price-change-item>
                     </ion-label>
                 </ion-item>
@@ -35,7 +35,7 @@
 
                 <ion-item>
                     <ion-label class="st-font-size-24 st-font-white portfolio-sum">
-                        {{ portfolio.portfolioInvested | currency }}
+                        {{ portfolioInvested | currency }}
                     </ion-label>
                 </ion-item>
             </app-generic-fancy-card>
@@ -50,7 +50,7 @@
                     [cardClasses]="'st-width-100 st-main-color-orange-background-linear'">
                 <ion-item>
                     <ion-label class="st-font-size-24 st-font-white portfolio-sum">
-                        {{ portfolio.portfolioCash | currency }}
+                        {{ portfolioCash | currency }}
                     </ion-label>
                 </ion-item>
             </app-generic-fancy-card>

@@ -1,23 +1,29 @@
-<ion-label class="st-data-label" [ngClass]="{
-                    'st-price-up': isPositive && !lighterVersion,
-                    'st-price-up-light': isPositive && lighterVersion,
-                    'st-price-down': isNegative && !lighterVersion,
-                    'st-price-down-light': isNegative && lighterVersion
+<ion-label>
+    <!-- percentage -->
+    <ion-text class="st-flex-row" [ngClass]="{
+                    'st-font-size-14': !lighterBiggerVersion,
+                    'st-font-size-16': lighterBiggerVersion,
+                    'st-price-up': (price > 0 || priceChange > 0)  && !lighterBiggerVersion,
+                    'st-price-up-light': (price > 0 || priceChange > 0)  && lighterBiggerVersion,
+                    'st-price-down': (price < 0 || priceChange < 0)  && !lighterBiggerVersion,
+                    'st-price-down-light': (price < 0 || priceChange < 0) && lighterBiggerVersion
                      }">
-    <ion-text class="st-flex-row">
         <!-- percentage -->
         <ng-container *ngIf="priceChange !== undefined && !isPercent">{{ priceChange | number: '1.2-2'}}%</ng-container>
         <ng-container *ngIf="priceChange && isPercent">{{ priceChange | percent: '1.2-2' }}</ng-container>
 
         <!-- positive / negative icon -->
-        <ion-icon name="trending-up-outline" class="st-price-icon ion-hide-sm-down" *ngIf="isPositive"></ion-icon>
-        <ion-icon name="trending-down-outline" class="st-price-icon ion-hide-sm-down" *ngIf="isNegative"></ion-icon>
+        <ion-icon name="trending-up-outline" class="st-price-icon ion-hide-sm-down"
+                  *ngIf="price > 0 || priceChange > 0"></ion-icon>
+        <ion-icon name="trending-down-outline" class="st-price-icon ion-hide-sm-down"
+                  *ngIf="price < 0 || priceChange < 0"></ion-icon>
     </ion-text>
 
     <!-- price -->
-    <ion-text class="st-font-size-12" *ngIf="price"
+    <ion-text *ngIf="price"
               [ngClass]="{
-                'st-font-5': !lighterVersion,
-                'st-font-1': lighterVersion
+                'st-font-5': !lighterBiggerVersion,
+                'st-font-size-12': !lighterBiggerVersion,
+                'st-font-size-14': lighterBiggerVersion
               }">{{ price | currency}}</ion-text>
 </ion-label>

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {marketValueChange} from '../../../../../shared/animations/marketValueChange.animation';
-import {StockSummaryFragmentFragment, StPortfolio, StTransaction} from '../../../../../api/customGraphql.service';
-import {STCustomValueChange, SymbolIdentification} from '../../../../../shared/models/sharedModel';
+import {StTransaction} from '../../../../../api/customGraphql.service';
+import {SymbolIdentification} from '../../../../../shared/models/sharedModel';
 
 @Component({
     selector: 'app-holdings-table-body-item',
@@ -11,9 +11,7 @@ import {STCustomValueChange, SymbolIdentification} from '../../../../../shared/m
         marketValueChange
     ]
 })
-export class HoldingsTableBodyItemComponent implements OnInit, OnChanges {
-    newCurrentPrice = 0; // saving values when websocket change current price to trigger animations
-
+export class HoldingsTableBodyItemComponent implements OnInit {
     @Input() transaction: StTransaction;
     @Input() currentPrice: number;
     @Input() userPortfolioTotal: number;
@@ -25,20 +23,6 @@ export class HoldingsTableBodyItemComponent implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
-    }
-
-
-    ngOnChanges(changes: any): void {
-        try {
-            const change = changes.currentPrice as STCustomValueChange;
-            if (!!change?.firstChange) {
-                return;
-            }
-            this.newCurrentPrice = change.currentValue;
-        } catch (e) {
-            console.log('error in holdings table body ', e);
-        }
-
     }
 
     itemClicked() {

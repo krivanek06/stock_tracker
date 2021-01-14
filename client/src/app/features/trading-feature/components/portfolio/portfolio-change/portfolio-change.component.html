@@ -7,7 +7,7 @@
     </ion-item>
     <ion-item>
         <label class="st-flex-row">
-            <ion-text class="st-font-white st-font-size-18 weekly-change">
+            <ion-text class="st-font-size-18 weekly-change" [@marketValueChange]="daily.growth">
                 {{ daily.growth | currency }}
             </ion-text>
             <app-price-change-item [priceChange]="daily.change"></app-price-change-item>
@@ -24,7 +24,7 @@
     </ion-item>
     <ion-item>
         <label class="st-flex-row">
-            <ion-text class="st-font-white st-font-size-18 weekly-change">
+            <ion-text class="st-font-size-18 weekly-change">
                 {{ weeklyChange.growth | currency }}
             </ion-text>
             <app-price-change-item [priceChange]="weeklyChange.change"></app-price-change-item>
@@ -42,7 +42,7 @@
     </ion-item>
     <ion-item>
         <label class="st-flex-row">
-            <ion-text class="st-font-white st-font-size-18 weekly-change">
+            <ion-text class="st-font-size-18 weekly-change">
                 {{ monthlyChange.growth | currency }}
             </ion-text>
             <app-price-change-item [priceChange]="monthlyChange.change"></app-price-change-item>
@@ -59,7 +59,7 @@
     </ion-item>
     <ion-item>
         <label class="st-flex-row">
-            <ion-text class="st-font-white st-font-size-18 weekly-change">
+            <ion-text class="st-font-size-18 weekly-change">
                 {{ quarterly.growth | currency }}
             </ion-text>
             <app-price-change-item [priceChange]="quarterly.change"></app-price-change-item>
@@ -76,7 +76,7 @@
     </ion-item>
     <ion-item>
         <label class="st-flex-row">
-            <ion-text class="st-font-white st-font-size-18 weekly-change">
+            <ion-text class="st-font-size-18 weekly-change">
                 {{ yearlyChange.growth | currency }}
             </ion-text>
             <app-price-change-item [priceChange]="yearlyChange.change"></app-price-change-item>
