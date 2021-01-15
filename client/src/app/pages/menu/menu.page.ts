@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthFeatureService} from '../../features/auth-feature/services/auth-feature.service';
 import {NavigationEnd, Router} from '@angular/router';
 import {ComponentBase} from '../../shared/utils/component-base/component.base';
@@ -21,7 +21,7 @@ interface MenuPageInterface {
     templateUrl: './menu.page.html',
     styleUrls: ['./menu.page.scss'],
 })
-export class MenuPage extends ComponentBase implements OnInit {
+export class MenuPage extends ComponentBase implements OnInit, OnDestroy {
     showOverlay = false;
     user: StUserPublicData;
     selectedNavigation: MenuPageInterface;
@@ -37,6 +37,10 @@ export class MenuPage extends ComponentBase implements OnInit {
     ngOnInit() {
         this.initPages();
         this.watchRouterUrlChange();
+    }
+
+    ngOnDestroy() {
+        super.ngOnDestroy();
     }
 
     dismissMenu() {

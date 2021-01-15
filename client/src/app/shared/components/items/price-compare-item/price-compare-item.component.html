@@ -1,10 +1,11 @@
 <!-- version 1 -->
 <ng-container *ngIf="versionType === 1">
     <ion-label [ngClass]="{
+                    'st-flex-row': inlineDisplay,
                     'st-price-up': currentPrice - compareToPrice >= 0,
                     'st-price-down': currentPrice - compareToPrice < 0
                      }">
-        <ion-text class="st-font-size-15 st-flex-row">
+        <ion-text class="st-font-size-15 st-flex-row"  [style.marginRight.px]="16">
             {{ ((currentPrice - compareToPrice) / compareToPrice) | percent: '1.2' }}
             <ion-icon name="trending-up-outline"
                       class="st-price-icon ion-hide-sm-down"
@@ -18,19 +19,21 @@
     </ion-label>
 </ng-container>
 
-<!-- version 2 -->
+
+<!-- TODO DELETE, change to price change item version 2 -->
 <ng-container *ngIf="versionType === 2">
-  <ion-label [ngClass]="{
+    <ion-label [ngClass]="{
                     'st-price-up': currentPrice - compareToPrice >= 0,
                     'st-price-down': currentPrice - compareToPrice < 0
                      }">
-    <ion-text class="st-font-size-15 st-flex-row">{{ ((currentPrice - compareToPrice) / compareToPrice) | percent: '1.2' }}
-      <ion-icon name="trending-up-outline"
-                class="st-price-icon ion-hide-sm-down "
-                *ngIf="currentPrice - compareToPrice >= 0"></ion-icon>
-      <ion-icon name="trending-down-outline"
-                class="st-price-icon ion-hide-sm-down"
-                *ngIf="currentPrice - compareToPrice < 0"></ion-icon>
-    </ion-text>
-  </ion-label>
+        <ion-text
+                class="st-font-size-15 st-flex-row">{{ ((currentPrice - compareToPrice) / compareToPrice) | percent: '1.2' }}
+            <ion-icon name="trending-up-outline"
+                      class="st-price-icon ion-hide-sm-down "
+                      *ngIf="currentPrice - compareToPrice >= 0"></ion-icon>
+            <ion-icon name="trending-down-outline"
+                      class="st-price-icon ion-hide-sm-down"
+                      *ngIf="currentPrice - compareToPrice < 0"></ion-icon>
+        </ion-text>
+    </ion-label>
 </ng-container>

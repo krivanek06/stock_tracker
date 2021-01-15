@@ -34,6 +34,7 @@ export class GroupsReadComponent extends ComponentBase implements OnInit, OnDest
     }
 
     ngOnDestroy() {
+        super.ngOnDestroy();
         this.groupUserRolesService.activeGroup = null;
     }
 

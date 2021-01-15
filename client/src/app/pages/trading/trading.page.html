@@ -4,7 +4,7 @@
 
     <!-- body -->
     <ion-grid>
-        <ion-row class="ion-justify-content-center ion-margin-bottom" >
+        <ion-row class="ion-justify-content-center ion-margin-bottom">
             <ion-col size="12" size-lg="11" size-xl="10">
                 <!-- search container -->
                 <ion-list class="">
@@ -50,8 +50,8 @@
                 <!-- holdings -->
                 <ion-col size="12" size-lg="11" size-xl="10">
                     <app-holdings-table
-                            [userPortfolioTotal]="user.portfolio.portfolioCash + user.portfolio.portfolioInvested"
-                            [stTransactions]="user.holdings"
+                            [userPortfolioTotal]="clonedPortfolio.portfolioCash + clonedPortfolio.portfolioInvested"
+                            [stTransactions]="clonedHoldings"
                             (itemClickedEmitter)="changeSymbol($event)">
                     </app-holdings-table>
                 </ion-col>
@@ -66,13 +66,15 @@
                         </ion-label>
                     </ion-list-header>
                     <ion-row>
-                        <ion-col size="12" size-sm="6" size-lg="4" size-xl="3"
-                                 *ngFor="let suggestion of suggestions$ | async">
+                        <ion-col size="12" size-sm="6" size-lg="4" size-xl="3" *ngFor="let suggestion of suggestions">
                             <!-- suggestion in card with ripple effect -->
                             <app-generic-card (click)="changeSummary(suggestion.summary)"
                                               [applyLeftPadding]="false"
                                               [additionalClasses]="'st-height-100 ion-activatable'">
-                                <app-stock-info-list-change [suggestion]="suggestion"></app-stock-info-list-change>
+                                <app-stock-info-list-change
+                                        [suggestionMarketPrice]="suggestion.summary.marketPrice"
+                                        [suggestion]="suggestion">
+                                </app-stock-info-list-change>
 
                                 <!-- ripple effect on click -->
                                 <ion-ripple-effect></ion-ripple-effect>

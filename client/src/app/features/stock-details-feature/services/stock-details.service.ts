@@ -28,19 +28,13 @@ export class StockDetailsService {
     getStockDetails(symbol: string = this.activeSymbol): Observable<StockDetails> {
         return this.queryStockDetailsGQL.fetch({
             symbol
-        }).pipe(
-            tap(x => console.log('getStockDetails', x)),
-            map(res => res.data.queryStockDetails)
-        );
+        }).pipe(map(res => res.data.queryStockDetails));
     }
 
     getStockSummary(symbol: string = this.activeSymbol): Observable<Summary> {
         return this.queryStockSummaryGQL.fetch({
             symbol
-        }).pipe(
-            tap(x => console.log('getStockDetails', x)),
-            map(res => res.data.queryStockSummary)
-        );
+        }).pipe(map(res => res.data.queryStockSummary));
     }
 
     getStockDailyInformation(): Observable<StStockDailyInformations> {

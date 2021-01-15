@@ -1,37 +1,44 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthFeatureService} from '../../features/auth-feature/services/auth-feature.service';
-import {StStockDailyInformations, StStockDailyInformationsData, StUserPublicData, Summary} from '../../api/customGraphql.service';
+import {StStockDailyInformationsData, Summary} from '../../api/customGraphql.service';
 import {SymbolIdentification} from '../../shared/models/sharedModel';
 import {StockDetailsService} from '../../features/stock-details-feature/services/stock-details.service';
-import {ComponentBase} from '../../shared/utils/component-base/component.base';
 import {map, takeUntil} from 'rxjs/operators';
-import {TradingService} from '../../features/trading-feature/services/trading.service';
-import {Observable} from 'rxjs';
+import {TradingService} from '../../features/stock-trading-feature/services/trading.service';
 import {Router} from '@angular/router';
 import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_ENUM} from '../search/models/pages.model';
+import {TradingScreenUpdateBase} from '../../features/stock-trading-feature/utils/trading-screen-update.base';
+import {MarketService} from '../../features/market-feature/services/market.service';
+import {cloneDeep} from 'lodash';
 
 @Component({
     selector: 'app-trading',
     templateUrl: './trading.page.html',
-    styleUrls: ['./trading.page.scss']
+    styleUrls: ['./trading.page.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TradingPage extends ComponentBase implements OnInit {
-    suggestions$: Observable<StStockDailyInformationsData[]>;
-    user: StUserPublicData;
+export class TradingPage extends TradingScreenUpdateBase implements OnInit, OnDestroy {
+    suggestions: StStockDailyInformationsData[] = [];
     selectedSummary: Summary;
-    holdingsSummaries: Summary[] = [];
 
-
-    constructor(private authFeatureService: AuthFeatureService,
-                private stockDetailsService: StockDetailsService,
-                private tradingService: TradingService,
-                private router: Router) {
-        super();
+    // TODO CONNECT SUGGESTION ON WEBSOCKETS
+    constructor(private stockDetailsService: StockDetailsService,
+                private router: Router,
+                private marketService: MarketService,
+                public authService: AuthFeatureService,
+                public tradingService: TradingService,
+                public cdr: ChangeDetectorRef) {
+        super(authService, tradingService, cdr);
     }
 
     ngOnInit() {
-        this.initComponent();
-        this.suggestions$ = this.stockDetailsService.getStockDailyInformation().pipe(map(x => x.dailySuggestions));
+        super.ngOnInit();
+        this.initSuggestions();
+        this.subscribeForSuggestionPriceChange();
+    }
+
+    ngOnDestroy() {
+        super.ngOnDestroy();
     }
 
     changeSymbol(symbolIdentification: SymbolIdentification) {
@@ -53,10 +60,18 @@ export class TradingPage extends ComponentBase implements OnInit {
         this.router.navigate([`/menu/search/${SEARCH_PAGE_ENUM.STOCK}/${SEARCH_PAGE_STOCK_ENUM.DETAILS}/${this.selectedSummary.symbol}`]);
     }
 
-    private initComponent() {
-        this.authFeatureService.getUser().pipe(takeUntil(this.destroy$)).subscribe(user => {
-            this.user = user;
-            this.holdingsSummaries = user?.holdings.map(x => x.summary);
+    private initSuggestions() {
+        this.stockDetailsService.getStockDailyInformation().pipe(takeUntil(this.destroy$)).subscribe(suggestions => {
+            this.suggestions = cloneDeep(suggestions.dailySuggestions);
+        });
+    }
+
+    private subscribeForSuggestionPriceChange() {
+        this.marketService.initSubscriptionForStockSuggestions().pipe(takeUntil(this.destroy$)).subscribe(res => {
+            const suggestion = this.suggestions.find(s => s.summary.symbol === res.s);
+            if (suggestion) {
+                suggestion.summary.marketPrice = res.p;
+            }
         });
     }
 

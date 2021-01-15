@@ -1,4 +1,14 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewRef} from '@angular/core';
+import {
+    AfterContentChecked,
+    AfterViewChecked,
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewRef
+} from '@angular/core';
 import {WatchlistService} from '../../features/stock-watchlist-feature/services/watchlist.service';
 import {Router} from '@angular/router';
 import {AuthFeatureService} from '../../features/auth-feature/services/auth-feature.service';
@@ -8,7 +18,8 @@ import {SymbolIdentification} from '../../shared/models/sharedModel';
 import {SymbolLookupModalComponent} from '../../features/stock-details-feature/entry-components/symbol-lookup-modal/symbol-lookup-modal.component';
 import {takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
-import {ComponentBase} from '../../shared/utils/component-base/component.base';
+import {ComponentScreenUpdateBase} from '../../shared/utils/component-base/component-screen-update.base';
+import {fromEvent} from 'rxjs';
 
 @Component({
     selector: 'app-watchlist',
@@ -16,30 +27,28 @@ import {ComponentBase} from '../../shared/utils/component-base/component.base';
     styleUrls: ['./watchlist.page.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WatchlistPage extends ComponentBase implements OnInit, OnDestroy {
-    private interval: any;
+export class WatchlistPage extends ComponentScreenUpdateBase implements OnInit, OnDestroy {
+    stockWatchlists: StStockWatchlistFragmentFragment[];
 
     constructor(private watchlistService: WatchlistService,
                 private router: Router,
-                private cdr: ChangeDetectorRef,
                 private authFeatureService: AuthFeatureService,
-                private modalController: ModalController) {
-        super();
+                private modalController: ModalController,
+                cdr: ChangeDetectorRef) {
+        super(cdr);
     }
-
-    stockWatchlists: StStockWatchlistFragmentFragment[];
 
 
     ngOnInit() {
+        super.ngOnInit();
         this.subscribeForWatchlistChange();
         this.subscribeForSymbolPriceChange();
-        this.updateScreen();
     }
 
 
     ngOnDestroy(): void {
+        super.ngOnDestroy();
         this.watchlistService.closeMarketSubscription();
-        clearInterval(this.interval);
     }
 
 
@@ -53,9 +62,7 @@ export class WatchlistPage extends ComponentBase implements OnInit, OnDestroy {
     }
 
     private subscribeForWatchlistChange() {
-        this.watchlistService.getUserStockWatchlists().pipe(
-            takeUntil(this.destroy$)
-        ).subscribe(watchlists => {
+        this.watchlistService.getUserStockWatchlists().pipe(takeUntil(this.destroy$)).subscribe(watchlists => {
             this.stockWatchlists = cloneDeep(watchlists);
         });
     }
@@ -72,15 +79,6 @@ export class WatchlistPage extends ComponentBase implements OnInit, OnDestroy {
                 }
             }
         });
-    }
-
-    private updateScreen(): void {
-        // websockets update view
-        this.interval = setInterval(() => {
-            if (this.cdr && !(this.cdr as ViewRef).destroyed) {
-                this.cdr.detectChanges();
-            }
-        }, 1200);
     }
 
 }

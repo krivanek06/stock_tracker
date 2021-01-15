@@ -11,6 +11,7 @@ fragment SummaryResidanceFragment on SummaryResidance {
 }
 
 fragment StockSummaryFragment on Summary {
+    id
     sandPFiveTwoWeekChange
     fiveTwoWeekChange
     lastSplitFactor

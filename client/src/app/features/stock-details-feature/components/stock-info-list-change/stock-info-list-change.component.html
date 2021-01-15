@@ -6,7 +6,7 @@
         </ion-label>
         <!-- daily change -->
         <div class="price-change-right">
-            <app-price-compare-item [currentPrice]="suggestion.summary.marketPrice"
+            <app-price-compare-item [currentPrice]="suggestionMarketPrice"
                                     [compareToPrice]="suggestion.summary.previousClose">
             </app-price-compare-item>
         </div>
@@ -18,8 +18,8 @@
         <ion-label class="ion-padding-start">
             <ion-text>{{ suggestion.summary.symbol }}</ion-text>
         </ion-label>
-        <ion-label class="market-price-right">
-            <ion-text>{{ suggestion.summary.marketPrice | currency }}</ion-text>
+        <ion-label class="market-price-right" [@marketValueChange]="suggestionMarketPrice">
+            <ion-text>{{ suggestionMarketPrice | currency }}</ion-text>
         </ion-label>
     </ion-item>
 

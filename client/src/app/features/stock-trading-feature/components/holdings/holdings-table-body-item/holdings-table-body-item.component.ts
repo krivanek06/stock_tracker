@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {marketValueChange} from '../../../../../shared/animations/marketValueChange.animation';
 import {StTransaction} from '../../../../../api/customGraphql.service';
 import {SymbolIdentification} from '../../../../../shared/models/sharedModel';
@@ -7,6 +7,7 @@ import {SymbolIdentification} from '../../../../../shared/models/sharedModel';
     selector: 'app-holdings-table-body-item',
     templateUrl: './holdings-table-body-item.component.html',
     styleUrls: ['./holdings-table-body-item.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [
         marketValueChange
     ]

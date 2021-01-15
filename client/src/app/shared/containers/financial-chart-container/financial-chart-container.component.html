@@ -1,24 +1,29 @@
 <ion-item class="ion-margin-bottom">
     <!-- title & image -->
-    <ion-label style="display: flex">
+    <ion-label class="st-display-flex-center">
         <ion-img [src]="logoUrl" class="st-symbol-image"></ion-img>
-        <ion-text class="st-title ion-align-self-center">
-            {{ name }}
-        </ion-text>
+        <div class="st-flex-col">
+            <ion-text class="st-title">{{ name }}</ion-text>
+            <ion-text class="st-font-4 st-font-size-13 ">
+                {{ priceRangeFrom | currency }} - {{ priceRangeTo | currency }}
+            </ion-text>
+        </div>
     </ion-label>
 
     <!-- current price & price range by selector -->
-    <ion-label class="st-font-1 ion-text-end ion-margin-end st-flex-col">
-        <ion-text class="st-title"> {{ currentPrice | currency}} </ion-text>
-        <ion-text class="st-font-4 st-flex-col">{{ priceRangeFrom | currency }} - {{ priceRangeTo | currency }}
-            <span [ngClass]="{
-             'st-price-up': priceRangeTo - priceRangeFrom >= 0,
-             'st-price-down': priceRangeTo - priceRangeFrom < 0}">
-                               {{ priceRangeTo - priceRangeFrom | currency  }}
-                        ({{ 100 / priceRangeFrom * priceRangeTo - 100 | number }}%)
-             </span>
-
-        </ion-text>
+    <ion-label class="ion-text-end ion-margin-end st-flex-col">
+        <div class="st-flex-col" [@marketValueChange]="currentPrice">
+            <!-- current price & daily change -->
+            <div class="st-flex-row" style="align-self: flex-end">
+                <ion-text style="margin-right: 10px" class="st-title">{{ currentPrice | currency }}</ion-text>
+                <ion-text class="st-font-size-13 st-font-5">{{ currentPrice - closedPrice | currency }}</ion-text>
+            </div>
+            <!-- daily % change -->
+            <app-price-change-item style="place-self: flex-end"
+                                   [priceChange]="(currentPrice - closedPrice) / closedPrice"
+                                   [isPercent]="true">
+            </app-price-change-item>
+        </div>
     </ion-label>
 </ion-item>
 

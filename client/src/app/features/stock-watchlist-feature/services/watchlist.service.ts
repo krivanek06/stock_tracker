@@ -4,7 +4,7 @@ import {IonicDialogService} from '../../../shared/services/ionic-dialog.service'
 import {AuthFeatureService} from '../../auth-feature/services/auth-feature.service';
 import {WatchlistPickerModalContainerComponent} from '../entry-components/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
 import {SymbolIdentification} from '../../../shared/models/sharedModel';
-import {filter, map, takeUntil} from 'rxjs/operators';
+import {filter, first, map, takeUntil} from 'rxjs/operators';
 import {Observable, Subject} from 'rxjs';
 import {
     Maybe,
@@ -37,8 +37,10 @@ export class WatchlistService {
     initSubscriptionForWatchlist(): Observable<MarketSymbolResult> {
         const userWatchlist = this.authService.user.stockWatchlist;
         const distinctStocks = [...new Set([].concat(...userWatchlist.map(w => w.summaries.map(x => x.symbol))))] as string[];
-        distinctStocks.forEach(stock => this.marketPriceWebsocket.createSubscribeForSymbol(stock));
-        console.log('distinct', distinctStocks);
+
+        this.marketPriceWebsocket.getIsConnected().pipe(filter(x => !x), first()).subscribe(() => {
+            distinctStocks.forEach(stock => this.marketPriceWebsocket.createSubscribeForSymbol(stock));
+        });
 
         return this.marketPriceWebsocket.getSubscribedSymbolsResult().pipe(
             filter(res => !!res), // filter null & undefined
