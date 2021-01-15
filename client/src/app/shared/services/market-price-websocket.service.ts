@@ -26,12 +26,19 @@ export class MarketPriceWebsocketService {
     // prevent multiple initializations
     private tryingToCreateSubscribeForSymbol = false;
 
+    // one component cannot send request until another component's ngOndestroy closed connection
+    private isConnected$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
 
     constructor(private authFeatureService: AuthFeatureService) {
         console.log('MarketPriceWebsocketService called');
         this.authFeatureService.getUser().pipe(
             filter(user => !!user && !!user.userPrivateData && !!user.userPrivateData.finnhubKey)
         ).subscribe(user => this.initialiseWebsocketConnection(user));
+    }
+
+    getIsConnected(): Observable<boolean> {
+        return this.isConnected$.asObservable();
     }
 
 
@@ -45,6 +52,7 @@ export class MarketPriceWebsocketService {
      */
     async createSubscribeForSymbol(symbol: string) {
         this.tryingToCreateSubscribeForSymbol = true;
+        this.isConnected$.next(true);
 
         if (this.subscribedSymbols.includes(symbol)) {
             console.log(`already subscribing for ${symbol}`);
@@ -80,6 +88,7 @@ export class MarketPriceWebsocketService {
         this.subscribedSymbols = [];
         // this.socket.close();
         this.subscription$.next(null);
+        this.isConnected$.next(false);
         /*this.subscription$.complete();*/
     }
 

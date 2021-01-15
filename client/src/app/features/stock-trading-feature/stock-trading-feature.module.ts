@@ -42,5 +42,5 @@ import {HoldingsAllocationChartComponent} from './components/holdings/holdings-a
         HoldingsAllocationChartComponent
     ]
 })
-export class TradingFeatureModule {
+export class StockTradingFeatureModule {
 }

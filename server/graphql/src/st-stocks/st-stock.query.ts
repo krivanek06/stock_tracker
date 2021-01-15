@@ -25,7 +25,12 @@ export const queryStockSummary = async (symbol: string): Promise<api.Summary> =>
     try {
         const upperSymbol = symbol.toUpperCase();
         const details = await queryStockDetails(upperSymbol);
-        return details?.summary;
+
+        const summary = details.summary;
+        if (!!summary) {
+            summary.id = symbol
+        }
+        return summary
     } catch (error) {
         throw new ApolloError(error);
     }

@@ -185,7 +185,7 @@ class YahooFinanceRequester:
 
         return data
 
-    def get_chart_data(self, symbol, period, onlyClosed = False):
+    def get_chart_data(self, symbol, period, onlyClosed=False):
         if period == '1d':
             params = {'range': period, 'interval': '1m'}
         elif period in ['5d', '1mo', '3mo']:
@@ -207,7 +207,8 @@ class YahooFinanceRequester:
         volume = data['chart']['result'][0]['indicators']['quote'][0]['volume']
 
         # format data
-        result = {'price': [], 'volume': [], 'change': [], 'livePrice': close[-1], 'symbol': symbol, 'period': period}
+        result = {'price': [], 'volume': [], 'change': [], 'livePrice': round(close[-1], 2), 'symbol': symbol,
+                  'period': period}
         for i in range(len(timestamp)):
             if open[i] is None or high[i] is None or low[i] is None or close[i] is None:
                 continue

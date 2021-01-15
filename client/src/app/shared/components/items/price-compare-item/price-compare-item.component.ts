@@ -9,6 +9,7 @@ import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 export class PriceCompareItemComponent implements OnInit {
     @Input() currentPrice: number;
     @Input() compareToPrice: number;
+    @Input() inlineDisplay = false;
 
     /**
      * version 1 - show  currentPrice - compareToPrice

@@ -476,6 +476,7 @@ export const stockDetailsTypeDefs = gql`
     }
 
     type Summary {
+        id: String
         sandPFiveTwoWeekChange: Float
         fiveTwoWeekChange: Float
         lastSplitFactor: String

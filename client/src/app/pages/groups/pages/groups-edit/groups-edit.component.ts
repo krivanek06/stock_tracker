@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {filter, map, switchMap, takeUntil} from 'rxjs/operators';
 import {StGroupAllData, StUserPartialInformation, User_Status_In_Group} from '../../../../api/customGraphql.service';
@@ -23,7 +23,7 @@ import {GroupUserRolesService} from '../../../../features/group-feature/services
     templateUrl: './groups-edit.component.html',
     styleUrls: ['./groups-edit.component.scss']
 })
-export class GroupsEditComponent extends ComponentBase implements OnInit {
+export class GroupsEditComponent extends ComponentBase implements OnInit, OnDestroy {
     @ViewChild('uploader') uploader: UploaderComponent;
     group: StGroupAllData;
     form: FormGroup;
@@ -43,6 +43,10 @@ export class GroupsEditComponent extends ComponentBase implements OnInit {
 
     ngOnInit() {
         this.initGroup();
+    }
+
+    ngOnDestroy() {
+        super.ngOnDestroy();
     }
 
     async submit() {

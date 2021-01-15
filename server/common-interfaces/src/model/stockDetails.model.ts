@@ -466,6 +466,7 @@ export interface Stats {
 }
 
 export interface Summary {
+    id: string;
     sandPFiveTwoWeekChange: number;
     fiveTwoWeekChange: number;
     lastSplitFactor: string;

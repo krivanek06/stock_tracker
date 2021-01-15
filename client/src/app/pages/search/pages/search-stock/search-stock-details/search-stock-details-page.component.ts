@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {StockDetailsService} from '../../../../../features/stock-details-feature/services/stock-details.service';
 import {ComponentBase} from '../../../../../shared/utils/component-base/component.base';
@@ -11,7 +11,7 @@ import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_DETAILS_ENUM, SEARCH_PAGE_STOCK_ENUM
     styleUrls: ['./search-stock-details-page.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchStockDetailsPage extends ComponentBase implements OnInit {
+export class SearchStockDetailsPage extends ComponentBase implements OnInit, OnDestroy {
     segmentValue = SEARCH_PAGE_STOCK_DETAILS_ENUM.STATISTICS;
     SEARCH_PAGE_STOCK_DETAILS_ENUM = SEARCH_PAGE_STOCK_DETAILS_ENUM;
     showSpinner = true;
@@ -27,6 +27,10 @@ export class SearchStockDetailsPage extends ComponentBase implements OnInit {
         this.stockDetailsService.getStockDetails().pipe(takeUntil(this.destroy$)).subscribe(res => {
             this.showSpinner = false;
         });
+    }
+
+    ngOnDestroy() {
+        super.ngOnDestroy();
     }
 
     segmentChanged(data: CustomEvent) {
