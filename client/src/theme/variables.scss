@@ -290,6 +290,8 @@
     ion-segment {
       ion-segment-button {
         --color: #{$st-var-font-2};
+        max-width: 195px;
+        max-height: 48px;
       }
     }
 

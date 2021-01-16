@@ -3,16 +3,24 @@
     <app-header [pageIcon]="'analytics'" [pageName]="'Trading'"></app-header>
 
     <!-- body -->
-    <ion-grid>
+    <ion-grid class="ion-margin-top">
         <ion-row class="ion-justify-content-center ion-margin-bottom">
-            <ion-col size="12" size-lg="11" size-xl="10">
-                <!-- search container -->
-                <ion-list class="">
-                    <app-stock-search
-                            [clearOnClick]="true"
-                            (clickedSymbolEmitter)="changeSummary($event)">
-                    </app-stock-search>
-                </ion-list>
+            <ion-col size="12" size-md="6" size-lg="6.5" size-xl="6">
+                <!-- search symbol -->
+                <app-stock-search
+                        [clearOnClick]="true"
+                        (clickedSymbolEmitter)="changeSummary($event)">
+                </app-stock-search>
+            </ion-col>
+            <ion-col size-md="6" size-lg="4.5" size-xl="4" class="portfolio-container-col ion-hide-md-down">
+                <!-- portfolio state -->
+                <app-portfolio-state
+                        *ngIf="clonedPortfolio"
+                        style="margin-top: -35px"
+                        [portfolioState]="PortfolioStateEnum.PARTIAL"
+                        [portfolioCash]="clonedPortfolio.portfolioCash"
+                        [portfolioInvested]="clonedPortfolio.portfolioInvested">
+                </app-portfolio-state>
             </ion-col>
         </ion-row>
         <ion-row class="ion-justify-content-center" *ngIf="selectedSummary">

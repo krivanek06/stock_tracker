@@ -10,6 +10,7 @@ import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_ENUM} from '../search/models/pages.m
 import {TradingScreenUpdateBase} from '../../features/stock-trading-feature/utils/trading-screen-update.base';
 import {MarketService} from '../../features/market-feature/services/market.service';
 import {cloneDeep} from 'lodash';
+import {PortfolioStateEnum} from '../../features/stock-trading-feature/components/portfolio/portfolio-state/portfolio-state.component';
 
 @Component({
     selector: 'app-trading',
@@ -19,9 +20,8 @@ import {cloneDeep} from 'lodash';
 })
 export class TradingPage extends TradingScreenUpdateBase implements OnInit, OnDestroy {
     suggestions: StStockDailyInformationsData[] = [];
-    selectedSummary: Summary;
+    PortfolioStateEnum = PortfolioStateEnum;
 
-    // TODO CONNECT SUGGESTION ON WEBSOCKETS
     constructor(private stockDetailsService: StockDetailsService,
                 private router: Router,
                 private marketService: MarketService,
@@ -63,6 +63,9 @@ export class TradingPage extends TradingScreenUpdateBase implements OnInit, OnDe
     private initSuggestions() {
         this.stockDetailsService.getStockDailyInformation().pipe(takeUntil(this.destroy$)).subscribe(suggestions => {
             this.suggestions = cloneDeep(suggestions.dailySuggestions);
+            if (!this.selectedSummary) {
+                this.selectedSummary = this.suggestions[0].summary;
+            }
         });
     }
 

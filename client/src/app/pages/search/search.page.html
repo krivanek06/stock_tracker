@@ -4,10 +4,10 @@
 
     <!-- body -->
     <ion-grid>
-        <ion-row class="ion-justify-content-center">
+        <!-- initial search picker -->
+        <ion-row *ngIf="showSearchBar$ | async" class="ion-justify-content-center">
             <ion-col size="12" size-lg="11" size-xl="10">
-                <ion-segment *ngIf="showSearchBar$ | async"
-                             color="primary"
+                <ion-segment color="primary"
                              class="ion-justify-content-end ion-margin-bottom"
                              [value]="segmentValue"
                              (ionChange)="segmentChanged($event)">
@@ -23,6 +23,7 @@
                 </ion-segment>
             </ion-col>
         </ion-row>
+        <!-- sub pages -->
         <ion-row class="ion-justify-content-center">
             <ion-col size="12" size-lg="11" size-xl="10">
                 <router-outlet></router-outlet>

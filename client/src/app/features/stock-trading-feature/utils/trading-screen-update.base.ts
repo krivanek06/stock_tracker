@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewRef} from '@angular/core';
 import {ComponentBase} from '../../../shared/utils/component-base/component.base';
 import {TradingChangeModel} from '../models/trading.model';
-import {StPortfolio, StStockDailyInformationsData, StTransaction, StUserPublicData} from '../../../api/customGraphql.service';
+import {StPortfolio, StStockDailyInformationsData, StTransaction, StUserPublicData, Summary} from '../../../api/customGraphql.service';
 import {filter, takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
 import {AuthFeatureService} from '../../auth-feature/services/auth-feature.service';
@@ -10,6 +10,7 @@ import {TradingService} from '../services/trading.service';
 export class TradingScreenUpdateBase extends ComponentBase implements OnInit, OnDestroy {
     user: StUserPublicData;
     daily: TradingChangeModel;
+    selectedSummary: Summary;
 
     clonedPortfolio: StPortfolio;
     clonedHoldings: StTransaction[] = [];
@@ -44,6 +45,9 @@ export class TradingScreenUpdateBase extends ComponentBase implements OnInit, On
             this.user = user;
             this.clonedPortfolio = cloneDeep(this.user.portfolio);
             this.clonedHoldings = cloneDeep(user.holdings);
+
+            // select first summary in holdings
+            this.selectedSummary = user.holdings.length > 0 ? user.holdings[0].summary : undefined;
         });
     }
 
@@ -76,13 +80,16 @@ export class TradingScreenUpdateBase extends ComponentBase implements OnInit, On
      * Calculate by how much user's portfolio is changing this day
      */
     private calculateDailyPortfolioChange() {
-        const tmp = this.clonedHoldings.map(h => [h.units * h.summary.marketPrice, h.units * h.summary.previousClose])
-            .reduce((acc, val) => [acc[0] + val[0], acc[1] + val[1]]);
+        const holdingsDiff = this.clonedHoldings.map(h => [h.units * h.summary.marketPrice, h.units * h.summary.previousClose]);
 
-        this.daily = {
-            growth: tmp[0] - tmp[1],
-            change: (tmp[0] - tmp[1]) / Math.abs(tmp[1]) * 100
-        };
+        if (holdingsDiff.length > 0) {
+            const tmp = holdingsDiff.reduce((acc, val) => [acc[0] + val[0], acc[1] + val[1]]);
+
+            this.daily = {
+                growth: tmp[0] - tmp[1],
+                change: (tmp[0] - tmp[1]) / Math.abs(tmp[1]) * 100
+            };
+        }
     }
 
     /**

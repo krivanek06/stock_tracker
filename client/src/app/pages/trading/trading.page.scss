@@ -1,0 +1,13 @@
+:host {
+  .portfolio-container {
+    position: absolute;
+    right: 40px;
+    top: -40px;
+  }
+
+  .portfolio-container-col {
+    justify-content: center;
+    display: flex;
+    overflow: visible;
+  }
+}
