@@ -26,6 +26,7 @@ export class TradingService {
             filter(x => !x),
             first(),
             switchMap(() => this.authService.getUser().pipe(
+                filter(x => !!x),
                 tap(user => user.holdings.forEach(h => this.marketPriceWebsocket.createSubscribeForSymbol(h.symbol))),
                 switchMap(() => this.marketPriceWebsocket.getSubscribedSymbolsResult().pipe(
                     filter(res => !!res), // filter null & undefined

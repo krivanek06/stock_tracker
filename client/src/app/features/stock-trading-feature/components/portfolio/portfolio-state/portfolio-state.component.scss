@@ -2,4 +2,16 @@
   ion-col {
     padding: 8px;
   }
+
+  .portfolioStateParent {
+    min-width: 150px;
+  }
+
+  .portfolioStateParentDot {
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
 }

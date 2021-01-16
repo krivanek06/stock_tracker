@@ -15,6 +15,7 @@ export class SummarySectorChartComponent implements OnInit, OnChanges {
     @Input() heightPx = 350;
     @Input() chartTitle: string;
     @Input() enable3D = false;
+    @Input() showLegend = true;
 
     sectorPairs: GenericChartSeries[] = [];
     ChartType = ChartType;

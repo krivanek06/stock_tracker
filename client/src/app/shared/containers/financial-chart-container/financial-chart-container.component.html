@@ -15,7 +15,9 @@
         <div class="st-flex-col" [@marketValueChange]="currentPrice">
             <!-- current price & daily change -->
             <div class="st-flex-row" style="align-self: flex-end">
-                <ion-text style="margin-right: 10px" class="st-title">{{ currentPrice | currency }}</ion-text>
+                <ion-text style="margin-right: 10px" class="st-font-size-18" [@marketValueChange]="currentPrice">
+                    {{ currentPrice | currency }}
+                </ion-text>
                 <ion-text class="st-font-size-13 st-font-5">{{ currentPrice - closedPrice | currency }}</ion-text>
             </div>
             <!-- daily % change -->

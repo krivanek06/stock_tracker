@@ -73,13 +73,14 @@
                 <ion-col size="12" size-md="6" size-xl="5">
                     <!-- BIG SCREEN holdings sector chart -->
                     <app-summary-sector-chart [chartTitle]="'Holdings sectors'" [heightPx]="300" [enable3D]="true"
-                                              [showDataLabel]="true" [stTransactions]="user.holdings">
+                                              [showLegend]="false" [showDataLabel]="true"
+                                              [stTransactions]="user.holdings">
                     </app-summary-sector-chart>
                 </ion-col>
                 <ion-col size="12" size-md="6" size-xl="5">
                     <!-- BIG SCREEN holdings allocation -->
-                    <app-holdings-allocation-chart [enable3D]="true" [showDataLabel]="true" [heightPx]="300"
-                                                   [holdings]="user.holdings"
+                    <app-holdings-allocation-chart [enable3D]="true" [showDataLabel]="true" [showLegend]="false"
+                                                   [holdings]="user.holdings" [heightPx]="300"
                                                    [portfolioInvested]="user.portfolio.portfolioInvested"
                                                    [portfolioCash]="user.portfolio.portfolioCash">
                     </app-holdings-allocation-chart>

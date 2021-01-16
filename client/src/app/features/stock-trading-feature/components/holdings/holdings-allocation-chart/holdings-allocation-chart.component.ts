@@ -16,6 +16,7 @@ export class HoldingsAllocationChartComponent implements OnInit, OnChanges {
     @Input() showDataLabel = false;
     @Input() heightPx = 350;
     @Input() enable3D = false;
+    @Input() showLegend = true;
 
     sectorPairs: GenericChartSeries[] = [];
     ChartType = ChartType;

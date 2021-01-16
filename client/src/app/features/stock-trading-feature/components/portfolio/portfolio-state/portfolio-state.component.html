@@ -1,5 +1,5 @@
 <!-- balance + invested + cash -->
-<ion-grid>
+<ion-grid *ngIf="portfolioState === PortfolioStateEnum.CARD">
     <ion-row class="ion-justify-content-center">
 
         <!-- balance -->
@@ -57,3 +57,37 @@
         </ion-col>
     </ion-row>
 </ion-grid>
+
+
+<!-- state 2. -->
+<ion-list *ngIf="portfolioState === PortfolioStateEnum.PARTIAL">
+    <!-- Balance -->
+    <ion-item>
+        <ion-label class="st-flex-row portfolioStateParent">
+            <div class="portfolioStateParentDot st-main-color-turquoise-background"></div>
+            <ion-text class="st-font-size-18 st-main-color-turquois">Balance</ion-text>
+        </ion-label>
+        <ion-label>
+            <app-price-compare-item
+                    [currentPrice]="portfolioInvested + portfolioCash"
+                    [compareToPrice]="STARTING_PORTFOLIO">
+            </app-price-compare-item>
+        </ion-label>
+    </ion-item>
+    <!-- Invested -->
+    <ion-item>
+        <ion-label class="st-flex-row portfolioStateParent">
+            <div class="portfolioStateParentDot st-main-color-purple-background"></div>
+            <ion-text class="st-font-size-18 st-font-main-color-purple">Invested</ion-text>
+        </ion-label>
+        <ion-label>{{ portfolioInvested  | number: '1.2-2'}}</ion-label>
+    </ion-item>
+    <!-- Cash -->
+    <ion-item>
+        <ion-label class="st-flex-row portfolioStateParent">
+            <div class="portfolioStateParentDot st-main-color-orange-background"></div>
+            <ion-text class="st-font-size-18 st-font-main-color-orange">Cash</ion-text>
+        </ion-label>
+        <ion-label>{{ portfolioCash | number: '1.2-2' }}</ion-label>
+    </ion-item>
+</ion-list>
