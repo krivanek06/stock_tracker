@@ -1,29 +1,27 @@
 <!-- RADIO BUTTON balance sheet / cash flow / financial statement -->
-<ion-item>
-    <ion-label class="st-font-size-18 st-font-white" style="max-width: 200px">
+<ion-item style="margin-bottom: 16px">
+    <ion-label class="st-font-size-18 st-font-white ion-hide-md-down" style="max-width: 200px">
         {{ activeStatement }}
     </ion-label>
     <ion-label>
         <ion-list>
-            <ion-radio-group class="st-flex-row-sm-col"
-                             (ionChange)="changeActiveStatement($event)"
-                             [value]="activeStatement">
-                <ion-item>
-                    <ion-label [ngClass]="{'st-icon': activeStatement === STATEMENT_TYPE.BALANCE_SHEET }">
+            <ion-radio-group (ionChange)="changeActiveStatement($event)" [value]="activeStatement">
+                <ion-item [ngClass]="{'ion-activatable-focus': activeStatement === STATEMENT_TYPE.BALANCE_SHEET }">
+                    <ion-label>
                         Balance sheet
                     </ion-label>
                     <ion-radio [value]="STATEMENT_TYPE.BALANCE_SHEET"></ion-radio>
                 </ion-item>
 
-                <ion-item>
-                    <ion-label [ngClass]="{'st-icon': activeStatement === STATEMENT_TYPE.CASH_FLOW }">
+                <ion-item [ngClass]="{'ion-activatable-focus': activeStatement === STATEMENT_TYPE.CASH_FLOW }">
+                    <ion-label>
                         Cash flow
                     </ion-label>
                     <ion-radio [value]="STATEMENT_TYPE.CASH_FLOW"></ion-radio>
                 </ion-item>
 
-                <ion-item>
-                    <ion-label [ngClass]="{'st-icon': activeStatement === STATEMENT_TYPE.INCOME_STATEMENT }">
+                <ion-item [ngClass]="{'ion-activatable-focus': activeStatement === STATEMENT_TYPE.INCOME_STATEMENT }">
+                    <ion-label>
                         Income statement
                     </ion-label>
                     <ion-radio [value]="STATEMENT_TYPE.INCOME_STATEMENT"></ion-radio>
@@ -32,6 +30,12 @@
         </ion-list>
     </ion-label>
 </ion-item>
+<ion-item class="ion-hide-md-up">
+    <ion-label class="st-font-size-18 st-font-white ion-text-center">
+        {{ activeStatement }}
+    </ion-label>
+</ion-item>
+
 
 <!-- data -->
 <ng-container *ngIf="stockDetails$ | async as details">
@@ -39,51 +43,48 @@
     <!-- balance sheet -->
     <ng-container *ngIf="activeStatement === STATEMENT_TYPE.BALANCE_SHEET">
         <div class="table-space">
-            <app-generic-card [subtitle]="'Balance sheet quarterly'">
-                <app-details-statement-table
-                        [statement]="details.balanceSheet.balanceSheetHistoryQuarterly">
-                </app-details-statement-table>
-            </app-generic-card>
+            <app-details-statement-table
+                    [title]="'Balance sheet quarterly'"
+                    [statement]="details.balanceSheet.balanceSheetHistoryQuarterly">
+            </app-details-statement-table>
         </div>
 
-        <app-generic-card [subtitle]="'Balance sheet yearly'">
-            <app-details-statement-table
-                    [statement]="details.balanceSheet.balanceSheetHistoryYearly">
-            </app-details-statement-table>
-        </app-generic-card>
+        <app-details-statement-table
+                [isQuarterlyData]="false"
+                [title]="'Balance sheet yearly'"
+                [statement]="details.balanceSheet.balanceSheetHistoryYearly">
+        </app-details-statement-table>
     </ng-container>
 
     <!-- income statement -->
     <ng-container *ngIf="activeStatement === STATEMENT_TYPE.INCOME_STATEMENT">
         <div class="table-space">
-            <app-generic-card [subtitle]="'Income statement quarterly'">
-                <app-details-statement-table
-                        [statement]="details.incomeStatement.incomeStatementHistoryQuarterly">
-                </app-details-statement-table>
-            </app-generic-card>
+            <app-details-statement-table
+                    [title]="'Income statement quarterly'"
+                    [statement]="details.incomeStatement.incomeStatementHistoryQuarterly">
+            </app-details-statement-table>
         </div>
 
-        <app-generic-card [subtitle]="'Income statement yearly'" [additionalClasses]="'table-space'">
-            <app-details-statement-table
-                    [statement]="details.incomeStatement.incomeStatementHistoryYearly">
-            </app-details-statement-table>
-        </app-generic-card>
+        <app-details-statement-table
+                [isQuarterlyData]="false"
+                [title]="'Income statement yearly'"
+                [statement]="details.incomeStatement.incomeStatementHistoryYearly">
+        </app-details-statement-table>
     </ng-container>
 
     <!-- cash flow -->
     <ng-container *ngIf="activeStatement === STATEMENT_TYPE.CASH_FLOW">
         <div class="table-space">
-            <app-generic-card [subtitle]="'Cash flow quarterly'">
-                <app-details-statement-table
-                        [statement]="details.cashFlow.cashflowStatementHistoryQuarterly">
-                </app-details-statement-table>
-            </app-generic-card>
+            <app-details-statement-table
+                    [title]="'Cash flow quarterly'"
+                    [statement]="details.cashFlow.cashflowStatementHistoryQuarterly">
+            </app-details-statement-table>
         </div>
 
-        <app-generic-card [subtitle]="'Cash flow quarterly'" [additionalClasses]="'table-space'">
-            <app-details-statement-table
-                    [statement]="details.cashFlow.cashflowStatementHistoryYearly">
-            </app-details-statement-table>
-        </app-generic-card>
+        <app-details-statement-table
+                [isQuarterlyData]="false"
+                [title]="'Cash flow yearly'"
+                [statement]="details.cashFlow.cashflowStatementHistoryYearly">
+        </app-details-statement-table>
     </ng-container>
 </ng-container>

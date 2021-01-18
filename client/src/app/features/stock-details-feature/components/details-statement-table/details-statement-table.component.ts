@@ -26,6 +26,14 @@ export class DetailsStatementTableComponent implements OnInit {
             },
      */
     @Input() statement: any;
+    @Input() title: string;
+    @Input() isQuarterlyData = true;
+
+    sliderConfig = {
+        spaceBetween: 12,
+        centeredSlides: true,
+        slidesPerView: 1.15
+    };
 
     constructor() {
     }
