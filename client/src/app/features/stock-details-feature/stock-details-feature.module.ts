@@ -4,9 +4,7 @@ import {DetailsDividendComponent} from './components/details-dividend/details-di
 import {DetailsValuationComponent} from './components/details-valuation/details-valuation.component';
 import {DetailsFinancialStrengthComponent} from './components/details-financial-strength/details-financial-strength.component';
 import {DetailsPerShareComponent} from './components/details-per-share/details-per-share.component';
-import {DetailsIncomeStatementCardComponent} from './components/card/details-income-statement-card/details-income-statement-card.component';
-import {DetailsCashFlowCardComponent} from './components/card/details-cash-flow-card/details-cash-flow-card.component';
-import {DetailsBalanceSheetCardComponent} from './components/card/details-balance-sheet-card/details-balance-sheet-card.component';
+import {DetailsStatementTableComponent} from './components/details-statement-table/details-statement-table.component';
 import {DetailsRecommendationChartComponent} from './components/details-recommendation-chart/details-recommendation-chart.component';
 import {DetailsFinancialStrengthRatioComponent} from './components/details-financial-strength-ratio/details-financial-strength-ratio.component';
 import {DetailsFinancialReportModalComponent} from './entry-components/details-financial-report-modal/details-financial-report-modal.component';
@@ -32,9 +30,7 @@ import {SymbolMovementTableCardComponent} from './components/card/symbol-movemen
         DetailsValuationComponent,
         DetailsFinancialStrengthComponent,
         DetailsPerShareComponent,
-        DetailsIncomeStatementCardComponent,
-        DetailsCashFlowCardComponent,
-        DetailsBalanceSheetCardComponent,
+        DetailsStatementTableComponent,
         DetailsRecommendationChartComponent,
         DetailsFinancialStrengthRatioComponent,
         DetailsFinancialReportModalComponent,
@@ -61,9 +57,7 @@ import {SymbolMovementTableCardComponent} from './components/card/symbol-movemen
         DetailsValuationComponent,
         DetailsFinancialStrengthComponent,
         DetailsPerShareComponent,
-        DetailsIncomeStatementCardComponent,
-        DetailsCashFlowCardComponent,
-        DetailsBalanceSheetCardComponent,
+        DetailsStatementTableComponent,
         DetailsRecommendationChartComponent,
         DetailsFinancialStrengthRatioComponent,
         DetailsFinancialReportModalComponent,

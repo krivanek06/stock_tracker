@@ -13,10 +13,6 @@ export interface SearchStockSymbol {
     data: string[]
 }
 
-export interface StockFinancialReports {
-    reports: FinancialReport[];
-}
-
 export interface StockDetails {
     id: string;
     analysis: Analysis;
@@ -34,31 +30,6 @@ export interface StockDetails {
     dividends: Dividens;
 }
 
-export interface FinancialReport {
-    acceptedDate: string;
-    accessNumber: string;
-    cik: string;
-    endDate: string;
-    filedDate: string;
-    form: string;
-    quarter: number;
-    report: {
-        bs: FinancialReportItems[];
-        cf: FinancialReportItems[];
-        ic: FinancialReportItems[];
-    }
-    source: string;
-    startDate: string;
-    symbol: string;
-    year: number;
-}
-
-export interface FinancialReportItems {
-    concept: number;
-    label: number;
-    unit: number;
-    value: number;
-}
 
 export interface NewsArticle {
     datetime: number;
@@ -90,93 +61,130 @@ export interface Recommendations {
 }
 
 export interface IncomeStatement {
-    incomeStatementHistoryQuarterly: IncomeStatementData[];
-    incomeStatementHistoryYearly: IncomeStatementData[];
+    incomeStatementHistoryQuarterly: IncomeStatementData;
+    incomeStatementHistoryYearly: IncomeStatementData;
 }
 
 
 export interface IncomeStatementData {
-    costOfRevenue: number;
-    discontinuedOperations?: number;
-    ebit: number;
-    effectOfAccountingCharges?: number;
-    endDate: number;
-    extraordinaryItems: number;
-    grossProfit: number;
-    incomeBeforeTax: number;
-    incomeTaxExpense: number;
-    interestExpense: number;
-    netIncome: number;
-    netIncomeApplicableToCommonShares: number;
-    netIncomeFromContinuingOps: number;
-    operatingIncome: number;
-    otherOperatingExpenses: number;
-    researchDevelopment?: number;
-    sellingGeneralAdministrative: number;
-    totalOperatingExpenses: number;
-    totalOtherIncomeExpenseNet: number;
-    totalRevenue: number;
+    marketingExpense?: SheetData;
+    interestExpense?: SheetData;
+    costOfRevenue?: SheetData;
+    discontinuedOperations?: SheetData;
+    ebit?: SheetData;
+    effectOfAccountingCharges?: SheetData;
+    endDate?: SheetData;
+    extraordinaryItems?: SheetData;
+    grossProfit?: SheetData;
+    incomeBeforeTax?: SheetData;
+    incomeTaxExpense?: SheetData;
+    interestExpense?: SheetData;
+    netIncome?: SheetData;
+    netIncomeApplicableToCommonShares?: SheetData;
+    netIncomeFromContinuingOps?: SheetData;
+    operatingIncome?: SheetData;
+    otherOperatingExpenses?: SheetData;
+    researchDevelopment?: SheetData;
+    sellingGeneralAdministrative?: SheetData;
+    totalOperatingExpenses?: SheetData;
+    totalOtherIncomeExpenseNet?: SheetData;
+    totalRevenue?: SheetData;
+    dilutedEarnings?: SheetData;
+    basicEarnings?: SheetData;
+    dividendsInCash?: SheetData;
+    administrativeExpense?: SheetData;
+    costOfSales?: SheetData;
 }
 
 export interface CashFlow {
-    cashflowStatementHistoryQuarterly: CashFlowData[];
-    cashflowStatementHistoryYearly: CashFlowData[];
+    cashflowStatementHistoryQuarterly: CashFlowData;
+    cashflowStatementHistoryYearly: CashFlowData;
 }
 
 export interface CashFlowData {
-    capitalExpenditures: number;
-    changeInCash: number;
-    changeToAccountReceivables: number;
-    changeToInventory: number;
-    changeToLiabilities: number;
-    changeToNetincome: number;
-    changeToOperatingActivities: number;
-    depreciation: number;
-    dividendsPaid: number;
-    endDate: number;
-    investments: number;
-    maxAge: number;
-    netBorrowings: number;
-    netIncome: number;
-    otherCashflowsFromFinancingActivities: number;
-    otherCashflowsFromInvestingActivities: number;
-    repurchaseOfStock: number;
-    totalCashFromFinancingActivities: number;
-    totalCashFromOperatingActivities: number;
-    totalCashflowsFromInvestingActivities: number;
+    capitalExpenditures?: SheetData;
+    changeInCash?: SheetData;
+    changeToAccountReceivables?: SheetData;
+    changeToInventory?: SheetData;
+    changeToLiabilities?: SheetData;
+    changeToNetincome?: SheetData;
+    changeToOperatingActivities?: SheetData;
+    depreciation?: SheetData;
+    dividendsPaid?: SheetData;
+    endDate?: SheetData;
+    investments?: SheetData;
+    maxAge?: SheetData;
+    netBorrowings?: SheetData;
+    netIncome?: SheetData;
+    otherCashflowsFromFinancingActivities?: SheetData;
+    otherCashflowsFromInvestingActivities?: SheetData;
+    repurchaseOfStock?: SheetData;
+    totalCashFromFinancingActivities?: SheetData;
+    totalCashFromOperatingActivities?: SheetData;
+    totalCashflowsFromInvestingActivities?: SheetData;
+    shareBasedCompensation?: SheetData;
+    accountsReceivable?: SheetData;
+    accruedExpenses?: SheetData;
+    purchasesOfSecuritie?: SheetData;
+    marketSecurities?: SheetData;
+    acquisitionsOfBusinesses?: SheetData;
+    issuanceOfStock?: SheetData;
+    salesOfSecurities?: SheetData;
+    maturitiesOfSecurities?: SheetData;
+    incomeTax?: SheetData;
+    accruedEquipment?: SheetData;
+    longTermDebtRepayments?: SheetData;
+    commercialPaperRepayments?: SheetData;
+    shortTermDebtRepayments?: SheetData;
+    longTermDebtInsurance?: SheetData;
 }
 
 export interface BalanceSheet {
-    balanceSheetHistoryQuarterly: BalanceSheetData[];
-    balanceSheetHistoryYearly: BalanceSheetData[];
+    balanceSheetHistoryQuarterly: BalanceSheetData;
+    balanceSheetHistoryYearly: BalanceSheetData;
 }
 
 export interface BalanceSheetData {
-    accountsPayable: number;
-    cash: number;
-    commonStock: number;
-    endDate: number;
-    inventory: number;
-    longTermDebt: number;
-    longTermInvestments: number;
-    maxAge: number;
-    netReceivables: number;
-    netTangibleAssets: number;
-    otherAssets: number;
-    otherCurrentAssets: number;
-    otherCurrentLiab: number;
-    otherLiab: number;
-    otherStockholderEquity: number;
-    propertyPlantEquipment: number;
-    retainedEarnings: number;
-    shortLongTermDebt: number;
-    shortTermInvestments: number;
-    totalAssets: number;
-    totalCurrentAssets: number;
-    totalCurrentLiabilities: number;
-    totalLiab: number;
-    totalStockholderEquity: number;
-    treasuryStock: number;
+    accountsPayable?: SheetData;
+    cash?: SheetData;
+    commonStock?: SheetData;
+    endDate?: SheetData;
+    inventory?: SheetData;
+    longTermDebt?: SheetData;
+    longTermInvestments?: SheetData;
+    maxAge?: SheetData;
+    netReceivables?: SheetData;
+    netTangibleAssets?: SheetData;
+    otherAssets?: SheetData;
+    otherCurrentAssets?: SheetData;
+    otherCurrentLiab?: SheetData;
+    otherLiab?: SheetData;
+    otherStockholderEquity?: SheetData;
+    propertyPlantEquipment?: SheetData;
+    retainedEarnings?: SheetData;
+    shortLongTermDebt?: SheetData;
+    shortTermInvestments?: SheetData;
+    totalAssets?: SheetData;
+    totalCurrentAssets?: SheetData;
+    totalCurrentLiabilities?: SheetData;
+    totalLiab?: SheetData;
+    totalStockholderEquity?: SheetData;
+    treasuryStock?: SheetData;
+    accumulatedComprehensiveIncome?: SheetData;
+    totalSecuritiesForSale?: SheetData;
+    commonStockValue?: SheetData;
+    deferredRevenue?: SheetData;
+    operatingLeaseLiability?: SheetData;
+    goodwill?: SheetData;
+    prepaidExpense?: SheetData;
+    netEquity?: SheetData;
+    prepaidAssets?: SheetData;
+}
+
+export interface SheetData {
+    change: number[];
+    data: number[];
+    name: string;
 }
 
 export interface RevenueEstimate {

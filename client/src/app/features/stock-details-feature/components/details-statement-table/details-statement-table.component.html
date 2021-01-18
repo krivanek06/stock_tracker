@@ -1,0 +1,33 @@
+<ion-list>
+    <ion-item>
+        <ion-label class="header-label"></ion-label>
+        <ion-label *ngFor="let item of statement.endDate.data; let i = index; let last=last"
+                   [class]="'st-font-1-bold label-'+i" [ngClass]="{'ion-padding-start' :!last}">
+            {{item * 1000 | date:'dd.MM.YYYY' }}
+        </ion-label>
+    </ion-item>
+    <ng-container *ngFor="let key of statement | objNgFor">
+        <ion-item *ngIf="key !== 'endDate' && !!statement[key] && !!statement[key]?.data">
+            <!-- key name -->
+            <ion-label class="st-font-1-bold header-label">{{ statement[key].name }}</ion-label>
+
+            <!-- ex. 236mil. +35.8% -->
+            <ion-label *ngFor="let value of statement[key].data; let i = index"
+                       [class]="'st-display-flex-center label-'+i ">
+
+                <ion-text class="st-data-label" style="min-width: 72px">{{ value | numberFormatter }}</ion-text>
+
+                <!-- positive / negative icon -->
+                <ion-text *ngIf="statement[key].change[i] as change"
+                          class="st-font-size-13 st-display-flex-center"
+                          [ngClass]="{ 'st-price-up': change > 0, 'st-price-down': change < 0}">
+                    {{ change | number: '1.2-2'}}%
+                    <ion-icon name="trending-up-outline" class="st-price-icon" *ngIf="change > 0"></ion-icon>
+                    <ion-icon name="trending-down-outline" class="st-price-icon" *ngIf="change < 0"></ion-icon>
+                </ion-text>
+
+            </ion-label>
+        </ion-item>
+    </ng-container>
+</ion-list>
+

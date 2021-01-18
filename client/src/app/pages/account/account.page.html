@@ -7,7 +7,7 @@
         <ion-row class="ion-justify-content-center">
             <!-- account form -->
             <ion-col size="12" size-md="7" size-lg="7" size-xl="6">
-                <app-generic-card [title]="'Account Information'" [additionalClasses]="'st-height-100'">
+                <app-generic-card [subtitle]="'Account Information'" [additionalClasses]="'st-height-100'">
                     <app-user-account-form
                             (submitClickedEmitter)="editUser($event)"
                             (editClickedEmitter)="toggleEdit()"
@@ -19,14 +19,14 @@
                 <!-- assigned roles -->
                 <app-generic-card *ngIf="user.userPrivateData.roles.length > 0"
                                   class="ion-margin-bottom"
-                                  [title]="'Assigned roles'">
+                                  [subtitle]="'Assigned roles'">
                     <app-clickable-name-item
                             [itemNames]="user.userPrivateData.roles">
                     </app-clickable-name-item>
                 </app-generic-card>
 
                 <!-- reseted account -->
-                <app-generic-card [title]="'Account resets'">
+                <app-generic-card [subtitle]="'Account resets'">
                     <app-user-account-reseted-info
                             (resetAccountEmitter)="resetAccount()"
                             [resetedAccountInfo]="user.userHistoricalData.resetedAccount"
@@ -45,7 +45,7 @@
         <!-- wachlists -->
         <ion-row class="ion-justify-content-center">
             <ion-col size="12" size-md="7" size-lg="7" size-xl="6">
-                <app-generic-card [title]="'Watchlist modification'">
+                <app-generic-card [subtitle]="'Watchlist modification'">
                     <app-watchlist-modification-container [watchlists]="user.stockWatchlist">
                     </app-watchlist-modification-container>
                 </app-generic-card>

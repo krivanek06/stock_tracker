@@ -32,7 +32,6 @@ import {
     answerReceivedGroupInvitation, toggleInvitationRequestToGroup, leaveGroup
 } from "./st-group/st.group.mutation";
 import {querySTGroupAllDataByGroupId, querySTGroupPartialDataByGroupName} from "./st-group/st-group.query";
-import {stockDetailsResolvers} from "./st-stocks/st-stock.resolver";
 import {stTransactionResolvers} from "./st-transaction/st-transaction.resolver";
 import {stStockWatchlistResolvers} from "./watchlist/watchlist.resolver";
 import {performTransaction} from "./st-transaction/st-transaction.mutation";
@@ -92,7 +91,7 @@ const mainTypeDefs = gql`
         deleteWatchlist(identifier: STStockWatchInputlistIdentifier!): Boolean
         addStockIntoStockWatchlist(identifier: STStockWatchInputlistIdentifier!): Summary
         removeStockFromStockWatchlist(identifier: STStockWatchInputlistIdentifier!): Boolean
-        
+
         # trading
         performTransaction(transactionInput: STTransactionInput): STTransaction
     }
@@ -148,11 +147,9 @@ const mainResolver = {
 
 const resolvers = {
     ...userResolvers,
-    ...stockDetailsResolvers,
     ...stTransactionResolvers,
     ...stStockWatchlistResolvers,
     ...mainResolver
-
 };
 
 

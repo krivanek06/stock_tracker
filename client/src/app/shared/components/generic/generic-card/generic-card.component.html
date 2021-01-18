@@ -1,15 +1,10 @@
-<!-- header info -->
-<ion-list-header *ngIf="title">
-    <ion-icon *ngIf="iconTitle" class="st-icon-title" [name]="iconTitle"></ion-icon>
-
-    <ion-label>
-        <p class="st-font-size-18 st-font-0"> {{ title}}</p>
-        <p class="st-font-size-13 st-font-4"> {{ additionalInfo}}</p>
-    </ion-label>
-</ion-list-header>
-
 <!-- body -->
 <ion-card [class]="additionalClasses" [ngClass]="{'left-padding-small-screen': applyLeftPadding}">
+    <ion-card-header>
+        <ion-card-subtitle>
+            {{ subtitle }}
+        </ion-card-subtitle>
+    </ion-card-header>
     <ion-card-content>
         <ng-content></ng-content>
     </ion-card-content>

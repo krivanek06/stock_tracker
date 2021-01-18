@@ -49,28 +49,26 @@
 
                 <ion-col size="12" size-md="5.5" size-xl="4.5" class="st-md-border-bottom">
                     <!-- summary -->
-                    <app-generic-list [iconTitle]="'barcode-outline'" [title]="'Summary'">
-                        <app-details-summary [summary]="summary">
-                        </app-details-summary>
+                    <app-generic-list [iconTitle]="'barcode-outline'" [title]="'Summary'"></app-generic-list>
+                    <app-details-summary [summary]="summary">
+                    </app-details-summary>
 
-                        <!-- button-->
-                        <ion-buttons class="st-buttons-container st-justify-center">
-                            <ion-button class="st-button st-create-background" (click)="redirectToDetails()">
-                                Show details
-                            </ion-button>
-                        </ion-buttons>
-                    </app-generic-list>
+                    <!-- button-->
+                    <ion-buttons class="st-buttons-container st-justify-center">
+                        <ion-button class="st-button st-create-background" (click)="redirectToDetails()">
+                            Show details
+                        </ion-button>
+                    </ion-buttons>
                 </ion-col>
             </ion-row>
 
             <!-- long business summary -->
             <ion-row>
                 <ion-col size="12" class="st-flex-col">
-                    <app-generic-list [title]="summary.longName">
-                        <ion-text class="st-font-3">
-                            {{ summary.longBusinessSummary }}
-                        </ion-text>
-                    </app-generic-list>
+                    <app-generic-list [title]="summary.longName"></app-generic-list>
+                    <ion-text class="st-font-3">
+                        {{ summary.longBusinessSummary }}
+                    </ion-text>
                 </ion-col>
             </ion-row>
         </ng-container>

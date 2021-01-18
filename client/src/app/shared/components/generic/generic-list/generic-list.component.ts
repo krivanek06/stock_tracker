@@ -8,6 +8,7 @@ import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 })
 export class GenericListComponent implements OnInit {
     @Input() title: string;
+    @Input() additionalInfo: string;
     @Input() iconTitle: string;
 
     constructor() {

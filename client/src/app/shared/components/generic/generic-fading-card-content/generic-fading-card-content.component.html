@@ -1,0 +1,8 @@
+<ion-item button (click)="toggleDisplay()" detail [ngClass]="{'ion-margin-top': addMarginTop}">
+    <ion-label class="st-title">
+        {{ title }}
+    </ion-label>
+</ion-item>
+<app-generic-card @fadeOut *ngIf="showContent">
+    <ng-content></ng-content>
+</app-generic-card>

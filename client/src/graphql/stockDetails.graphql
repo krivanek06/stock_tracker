@@ -48,79 +48,285 @@ fragment StockSummaryFragment on Summary {
     longBusinessSummary
 }
 
+fragment SheetDataFragment on SheetData {
+    change
+    data
+    name
+}
+
 fragment balanceSheetDataFragment on BalanceSheetData {
-    accountsPayable
-    cash
-    commonStock
-    endDate
-    inventory
-    longTermDebt
-    longTermInvestments
-    maxAge
-    netReceivables
-    netTangibleAssets
-    otherAssets
-    otherCurrentAssets
-    otherCurrentLiab
-    otherLiab
-    otherStockholderEquity
-    propertyPlantEquipment
-    retainedEarnings
-    shortLongTermDebt
-    shortTermInvestments
-    totalAssets
-    totalCurrentAssets
-    totalCurrentLiabilities
-    totalLiab
-    totalStockholderEquity
-    treasuryStock
+    totalAssets {
+        ...SheetDataFragment
+    }
+    totalCurrentAssets {
+        ...SheetDataFragment
+    }
+    cash {
+        ...SheetDataFragment
+    }
+    otherCurrentAssets {
+        ...SheetDataFragment
+    }
+    netReceivables {
+        ...SheetDataFragment
+    }
+    inventory {
+        ...SheetDataFragment
+    }
+    prepaidAssets {
+        ...SheetDataFragment
+    }
+    accumulatedComprehensiveIncome {
+        ...SheetDataFragment
+    }
+    netTangibleAssets {
+        ...SheetDataFragment
+    }
+    otherAssets {
+        ...SheetDataFragment
+    }
+    goodwill {
+        ...SheetDataFragment
+    }
+    totalSecuritiesForSale {
+        ...SheetDataFragment
+    }
+    totalLiab {
+        ...SheetDataFragment
+    }
+    totalCurrentLiabilities {
+        ...SheetDataFragment
+    }
+    operatingLeaseLiability {
+        ...SheetDataFragment
+    }
+    prepaidExpense {
+        ...SheetDataFragment
+    }
+    accountsPayable {
+        ...SheetDataFragment
+    }
+    otherCurrentLiab {
+        ...SheetDataFragment
+    }
+    otherLiab {
+        ...SheetDataFragment
+    }
+    shortTermInvestments {
+        ...SheetDataFragment
+    }
+    longTermInvestments {
+        ...SheetDataFragment
+    }
+    shortLongTermDebt {
+        ...SheetDataFragment
+    }
+    longTermDebt {
+        ...SheetDataFragment
+    }
+    netEquity {
+        ...SheetDataFragment
+    }
+    totalStockholderEquity {
+        ...SheetDataFragment
+    }
+    otherStockholderEquity {
+        ...SheetDataFragment
+    }
+    propertyPlantEquipment {
+        ...SheetDataFragment
+    }
+    retainedEarnings {
+        ...SheetDataFragment
+    }
+    deferredRevenue {
+        ...SheetDataFragment
+    }
+    treasuryStock {
+        ...SheetDataFragment
+    }
+    commonStock {
+        ...SheetDataFragment
+    }
+    commonStockValue {
+        ...SheetDataFragment
+    }
+    endDate {
+        ...SheetDataFragment
+    }
 }
 
 fragment cashFlowDataFragment on CashFlowData {
-    capitalExpenditures
-    changeInCash
-    changeToAccountReceivables
-    changeToInventory
-    changeToLiabilities
-    changeToNetincome
-    changeToOperatingActivities
-    depreciation
-    dividendsPaid
-    endDate
-    investments
-    maxAge
-    netBorrowings
-    netIncome
-    otherCashflowsFromFinancingActivities
-    otherCashflowsFromInvestingActivities
-    repurchaseOfStock
-    totalCashFromFinancingActivities
-    totalCashFromOperatingActivities
-    totalCashflowsFromInvestingActivities
+    totalCashFromOperatingActivities {
+        ...SheetDataFragment
+    }
+    netIncome {
+        ...SheetDataFragment
+    }
+    incomeTax {
+        ...SheetDataFragment
+    }
+    deferredTaxes {
+        ...SheetDataFragment
+    }
+    accountsReceivable {
+        ...SheetDataFragment
+    }
+    accruedExpenses {
+        ...SheetDataFragment
+    }
+    CustomerDeposits {
+        ...SheetDataFragment
+    }
+    shareBasedCompensation {
+        ...SheetDataFragment
+    }
+    totalCashflowsFromInvestingActivities {
+        ...SheetDataFragment
+    }
+    investments {
+        ...SheetDataFragment
+    }
+    purchasesOfSecuritie {
+        ...SheetDataFragment
+    }
+    marketSecurities {
+        ...SheetDataFragment
+    }
+    acquisitionsOfBusinesses {
+        ...SheetDataFragment
+    }
+    accruedEquipment {
+        ...SheetDataFragment
+    }
+    otherCashflowsFromInvestingActivities {
+        ...SheetDataFragment
+    }
+    totalCashFromFinancingActivities {
+        ...SheetDataFragment
+    }
+    netBorrowings {
+        ...SheetDataFragment
+    }
+    longTermDebtInsurance {
+        ...SheetDataFragment
+    }
+    issuanceOfStock {
+        ...SheetDataFragment
+    }
+    salesOfSecurities {
+        ...SheetDataFragment
+    }
+    maturitiesOfSecurities {
+        ...SheetDataFragment
+    }
+    dividendsPaid {
+        ...SheetDataFragment
+    }
+    otherCashflowsFromFinancingActivities {
+        ...SheetDataFragment
+    }
+    endDate {
+        ...SheetDataFragment
+    }
+    depreciation {
+        ...SheetDataFragment
+    }
+    commercialPaperRepayments {
+        ...SheetDataFragment
+    }
+    shortTermDebtRepayments {
+        ...SheetDataFragment
+    }
+    longTermDebtRepayments {
+        ...SheetDataFragment
+    }
+    capitalExpenditures {
+        ...SheetDataFragment
+    }
+    repurchaseOfStock {
+        ...SheetDataFragment
+    }
 }
 
+
 fragment incomeStatementFragment on IncomeStatementData {
-    costOfRevenue
-    discontinuedOperations
-    ebit
-    effectOfAccountingCharges
-    endDate
-    extraordinaryItems
-    grossProfit
-    incomeBeforeTax
-    incomeTaxExpense
-    interestExpense
-    netIncome
-    netIncomeApplicableToCommonShares
-    netIncomeFromContinuingOps
-    operatingIncome
-    otherOperatingExpenses
-    researchDevelopment
-    sellingGeneralAdministrative
-    totalOperatingExpenses
-    totalOtherIncomeExpenseNet
-    totalRevenue
+    totalRevenue {
+        ...SheetDataFragment
+    }
+    costOfRevenue {
+        ...SheetDataFragment
+    }
+    grossProfit {
+        ...SheetDataFragment
+    }
+    operatingIncome {
+        ...SheetDataFragment
+    }
+    incomeBeforeTax {
+        ...SheetDataFragment
+    }
+    incomeTaxProvision {
+        ...SheetDataFragment
+    }
+    incomeTaxExpense {
+        ...SheetDataFragment
+    }
+    netIncome {
+        ...SheetDataFragment
+    }
+    netIncomeFromContinuingOps {
+        ...SheetDataFragment
+    }
+    netIncomeApplicableToCommonShares {
+        ...SheetDataFragment
+    }
+
+    totalOperatingExpenses {
+        ...SheetDataFragment
+    }
+    administrativeExpense {
+        ...SheetDataFragment
+    }
+    marketingExpense {
+        ...SheetDataFragment
+    }
+    interestExpense {
+        ...SheetDataFragment
+    }
+    researchDevelopment {
+        ...SheetDataFragment
+    }
+    costOfSales {
+        ...SheetDataFragment
+    }
+    totalOtherIncomeExpenseNet {
+        ...SheetDataFragment
+    }
+    otherOperatingExpenses {
+        ...SheetDataFragment
+    }
+    ebit {
+        ...SheetDataFragment
+    }
+    endDate {
+        ...SheetDataFragment
+    }
+    sellingGeneralAdministrative {
+        ...SheetDataFragment
+    }
+    dilutedEarnings {
+        ...SheetDataFragment
+    }
+    basicEarnings {
+        ...SheetDataFragment
+    }
+    dividendsInCash {
+        ...SheetDataFragment
+    }
 }
+
+
 
 fragment growthEstimatesFragment on GrowthEstimates {
     currentQtr
@@ -408,43 +614,6 @@ fragment financialChartDataFragment on FinancialsChartData {
     }
 }
 
-fragment FinancialReportItemsFragment on FinancialReportItems {
-    concept
-    label
-    unit
-    value
-}
-
-fragment FinancialReportReportFragment on FinancialReportReport {
-    bs {
-        ...FinancialReportItemsFragment
-    }
-    cf {
-        ...FinancialReportItemsFragment
-    }
-    ic {
-        ...FinancialReportItemsFragment
-    }
-}
-
-fragment financialReportsFragment on FinancialReport {
-    acceptedDate
-    accessNumber
-    cik
-    endDate
-    filedDate
-    form
-    quarter
-    report {
-        ...FinancialReportReportFragment
-    }
-    source
-    startDate
-    symbol
-    name
-    year
-}
-
 fragment earningsFragment on Earnings {
     earningsChart {
         ...earningsChartFragment
@@ -519,12 +688,6 @@ query QueryStockDetails($symbol: String!) {
         stockNews {
             ...newsArticleFragment
         }
-        financialReportSnippets
-        financialReports {
-            reports {
-                ...financialReportsFragment
-            }
-        }
         companyData {
             defaultKeyStatistics {
                 ...defaultKeyStatisticsFragment
@@ -563,7 +726,6 @@ query QueryStockSummary($symbol: String!) {
         ...StockSummaryFragment
     }
 }
-
 
 query QueryStockSummaries($symbolPrefix: String!) {
     queryStockSummaries(symbolPrefix: $symbolPrefix) {

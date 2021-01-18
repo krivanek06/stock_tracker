@@ -33,42 +33,8 @@ export const stockDetailsTypeDefs = gql`
         summary: Summary!
         metric: Metric
         dividends: Dividens
-        financialReportSnippets: [String]
-        financialReports: StockFinancialReports
     }
 
-    type StockFinancialReports {
-        reports: [FinancialReport]!
-    }
-
-    type FinancialReport {
-        acceptedDate: String!
-        accessNumber: String
-        cik: String
-        endDate: String
-        filedDate: String
-        form: String
-        quarter: Float
-        report: FinancialReportReport!
-        source: String
-        startDate: String
-        symbol: String!
-        name: String!
-        year: Float
-    }
-
-    type FinancialReportReport {
-        bs: [FinancialReportItems]
-        cf: [FinancialReportItems]
-        ic: [FinancialReportItems]
-    }
-
-    type FinancialReportItems {
-        concept: String
-        label: String
-        unit: String
-        value: Float
-    }
 
     type CompanyData {
         defaultKeyStatistics: DefaultKeyStatistics
@@ -90,93 +56,132 @@ export const stockDetailsTypeDefs = gql`
     }
 
     type IncomeStatement {
-        incomeStatementHistoryQuarterly: [IncomeStatementData]!
-        incomeStatementHistoryYearly: [IncomeStatementData]
+        incomeStatementHistoryQuarterly: IncomeStatementData
+        incomeStatementHistoryYearly: IncomeStatementData
     }
 
 
     type IncomeStatementData {
-        costOfRevenue: Float
-        discontinuedOperations: Float
-        ebit: Float
-        effectOfAccountingCharges: Float
-        endDate: Float
-        extraordinaryItems: Float
-        grossProfit: Float
-        incomeBeforeTax: Float
-        incomeTaxExpense: Float
-        interestExpense: Float
-        netIncome: Float
-        netIncomeApplicableToCommonShares: Float
-        netIncomeFromContinuingOps: Float
-        operatingIncome: Float
-        otherOperatingExpenses: Float
-        researchDevelopment: Float
-        sellingGeneralAdministrative: Float
-        totalOperatingExpenses: Float
-        totalOtherIncomeExpenseNet: Float
-        totalRevenue: Float
+        costOfRevenue: SheetData
+        discontinuedOperations: SheetData
+        ebit: SheetData
+        effectOfAccountingCharges: SheetData
+        endDate: SheetData
+        extraordinaryItems: SheetData
+        grossProfit: SheetData
+        incomeBeforeTax: SheetData
+        incomeTaxExpense: SheetData
+        interestExpense: SheetData
+        netIncome: SheetData
+        netIncomeApplicableToCommonShares: SheetData
+        netIncomeFromContinuingOps: SheetData
+        operatingIncome: SheetData
+        otherOperatingExpenses: SheetData
+        researchDevelopment: SheetData
+        sellingGeneralAdministrative: SheetData
+        totalOperatingExpenses: SheetData
+        totalOtherIncomeExpenseNet: SheetData
+        totalRevenue: SheetData
+        dilutedEarnings: SheetData
+        basicEarnings: SheetData
+        dividendsInCash: SheetData
+        administrativeExpense: SheetData
+        costOfSales: SheetData
+        incomeTaxProvision: SheetData
+        marketingExpense: SheetData
     }
 
     type CashFlow {
-        cashflowStatementHistoryQuarterly: [CashFlowData]
-        cashflowStatementHistoryYearly: [CashFlowData]
+        cashflowStatementHistoryQuarterly: CashFlowData
+        cashflowStatementHistoryYearly: CashFlowData
     }
 
     type CashFlowData {
-        capitalExpenditures: Float
-        changeInCash: Float
-        changeToAccountReceivables: Float
-        changeToInventory: Float
-        changeToLiabilities: Float
-        changeToNetincome: Float
-        changeToOperatingActivities: Float
-        depreciation: Float
-        dividendsPaid: Float
-        endDate: Float
-        investments: Float
-        maxAge: Float
-        netBorrowings: Float
-        netIncome: Float
-        otherCashflowsFromFinancingActivities: Float
-        otherCashflowsFromInvestingActivities: Float
-        repurchaseOfStock: Float
-        totalCashFromFinancingActivities: Float
-        totalCashFromOperatingActivities: Float
-        totalCashflowsFromInvestingActivities: Float
+        capitalExpenditures: SheetData
+        changeInCash: SheetData
+        changeToAccountReceivables: SheetData
+        changeToInventory: SheetData
+        deferredTaxes: SheetData
+        changeToLiabilities: SheetData
+        changeToNetincome: SheetData
+        changeToOperatingActivities: SheetData
+        depreciation: SheetData
+        dividendsPaid: SheetData
+        endDate: SheetData
+        investments: SheetData
+        maxAge: SheetData
+        netBorrowings: SheetData
+        netIncome: SheetData
+        otherCashflowsFromFinancingActivities: SheetData
+        otherCashflowsFromInvestingActivities: SheetData
+        repurchaseOfStock: SheetData
+        totalCashFromFinancingActivities: SheetData
+        totalCashFromOperatingActivities: SheetData
+        totalCashflowsFromInvestingActivities: SheetData
+        shareBasedCompensation: SheetData
+        accountsReceivable: SheetData
+        accruedExpenses: SheetData
+        purchasesOfSecuritie: SheetData
+        marketSecurities: SheetData
+        acquisitionsOfBusinesses: SheetData
+        issuanceOfStock: SheetData
+        salesOfSecurities: SheetData
+        maturitiesOfSecurities: SheetData
+        incomeTax: SheetData
+        accruedEquipment: SheetData
+        longTermDebtRepayments: SheetData
+        commercialPaperRepayments: SheetData
+        shortTermDebtRepayments: SheetData
+        longTermDebtInsurance: SheetData
+        CustomerDeposits: SheetData
     }
 
     type BalanceSheet {
-        balanceSheetHistoryQuarterly: [BalanceSheetData]!
-        balanceSheetHistoryYearly: [BalanceSheetData]!
+        balanceSheetHistoryQuarterly: BalanceSheetData
+        balanceSheetHistoryYearly: BalanceSheetData
     }
 
     type BalanceSheetData {
-        accountsPayable: Float
-        cash: Float
-        commonStock: Float
-        endDate: Float
-        inventory: Float
-        longTermDebt: Float
-        longTermInvestments: Float
-        maxAge: Float
-        netReceivables: Float
-        netTangibleAssets: Float
-        otherAssets: Float
-        otherCurrentAssets: Float
-        otherCurrentLiab: Float
-        otherLiab: Float
-        otherStockholderEquity: Float
-        propertyPlantEquipment: Float
-        retainedEarnings: Float
-        shortLongTermDebt: Float
-        shortTermInvestments: Float
-        totalAssets: Float
-        totalCurrentAssets: Float
-        totalCurrentLiabilities: Float
-        totalLiab: Float
-        totalStockholderEquity: Float
-        treasuryStock: Float
+        accountsPayable: SheetData
+        cash: SheetData
+        commonStock: SheetData
+        endDate: SheetData
+        inventory: SheetData
+        longTermDebt: SheetData
+        longTermInvestments: SheetData
+        maxAge: SheetData
+        netReceivables: SheetData
+        netTangibleAssets: SheetData
+        otherAssets: SheetData
+        otherCurrentAssets: SheetData
+        otherCurrentLiab: SheetData
+        otherLiab: SheetData
+        otherStockholderEquity: SheetData
+        propertyPlantEquipment: SheetData
+        retainedEarnings: SheetData
+        shortLongTermDebt: SheetData
+        shortTermInvestments: SheetData
+        totalAssets: SheetData
+        totalCurrentAssets: SheetData
+        totalCurrentLiabilities: SheetData
+        totalLiab: SheetData
+        totalStockholderEquity: SheetData
+        treasuryStock: SheetData
+        accumulatedComprehensiveIncome: SheetData
+        totalSecuritiesForSale: SheetData
+        commonStockValue: SheetData
+        deferredRevenue: SheetData
+        operatingLeaseLiability: SheetData
+        goodwill: SheetData
+        prepaidExpense: SheetData
+        netEquity: SheetData
+        prepaidAssets: SheetData
+    }
+    
+    type SheetData {
+        change: [Float]
+        data: [Float]
+        name: String
     }
 
     type RevenueEstimate {
