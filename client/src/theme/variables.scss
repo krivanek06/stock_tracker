@@ -325,6 +325,11 @@
       backdrop-filter: blur(25px);
       border: 2px solid transparent;
 
+      @media (max-width: #{$st-var-sm-split}) {
+        background-clip: border-box;
+        backdrop-filter: unset;
+      }
+
       ion-card-header {
         --background-color: transparent;
         padding-left: 8px;

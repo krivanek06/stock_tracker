@@ -453,6 +453,12 @@ ion-spinner {
   }
 }
 
+.ion-activatable-focus {
+  border-radius: 8px;
+  transform: scale(0.98);
+  background: #7070702e;
+}
+
 .st-clickable {
   transition: All 0.3s ease-out;
   cursor: pointer;
