@@ -173,12 +173,21 @@ ion-spinner {
 .st-data-label-parent {
   color: #{$st-var-font-1} !important; // !important
   font-size: 14px !important;
-  min-width: 65%;
+  // min-width: 65%;
+  max-width: fit-content;
+  min-width: fit-content;
 }
 
 .st-data-label {
   color: #{$st-var-font-2}; // !important
   font-size: 14px !important;
+  word-wrap: break-word;
+}
+
+.st-data-label-table {
+  text-align: end !important;
+  display: flex !important;
+  justify-content: flex-end;
 }
 
 .st-data-item-wrapper {

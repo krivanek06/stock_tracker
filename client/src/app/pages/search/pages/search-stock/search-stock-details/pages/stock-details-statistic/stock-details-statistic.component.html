@@ -1,7 +1,7 @@
 <ng-container *ngIf="stockDetails$ | async as stockDetails">
     <ion-grid>
-        <ion-row>
-            <ion-col size="12" size-md="6" size-xl="6.5" push="0" push-xl="0.4">
+        <ion-row class="ion-justify-content-center">
+            <ion-col size="12" size-md="7" size-lg="6.5">
                 <!-- stock chart -->
                 <app-financial-chart-container
                         [showYAxis]="true"
@@ -12,7 +12,7 @@
                 </app-financial-chart-container>
             </ion-col>
 
-            <ion-col size="12" size-md="6" size-xl="4.5" push="0" push-xl="0.7">
+            <ion-col size="12" size-md="5">
                 <!-- summary -->
                 <app-generic-list [iconTitle]="'barcode-outline'" [title]="'Summary'"></app-generic-list>
                 <app-generic-card>

@@ -1,65 +1,64 @@
 <ion-list>
-    <ion-item>
+    <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Name</ion-label>
-        <ion-label class="st-data-label"> {{ summary.longName }}</ion-label>
+        <ion-label class="st-data-label st-data-label-table"> {{ summary.longName }}</ion-label>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Symbol</ion-label>
-        <ion-label class="st-data-label"> {{ summary.symbol }}</ion-label>
+        <ion-label class="st-data-label st-data-label-table"> {{ summary.symbol }}</ion-label>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Market cap.</ion-label>
-        <ion-label class="st-data-label"> {{ summary.marketCap | numberFormatter }}</ion-label>
+        <ion-label class="st-data-label st-data-label-table"> {{ summary.marketCap | numberFormatter }}</ion-label>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">PE [ttm.]</ion-label>
-        <ion-label class="st-data-label"> {{ summary.pERatioTTM }}</ion-label>
+        <ion-label class="st-data-label st-data-label-table"> {{ summary.pERatioTTM }}</ion-label>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">EPS [ttm.]</ion-label>
-        <ion-label class="st-data-label"> {{ summary.ePSTTM }}</ion-label>
+        <ion-label class="st-data-label st-data-label-table"> {{ summary.ePSTTM }}</ion-label>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Price</ion-label>
-        <ion-label class="st-flex-row">
-            <ion-text style="margin-right: 10px" class="st-data-label">{{ summary.marketPrice | currency }}</ion-text>
+        <ion-label class="st-flex-row st-data-label-table">
             <app-price-compare-item
                     [versionType]="2"
                     [compareToPrice]="summary.previousClose"
                     [currentPrice]="summary.marketPrice">
             </app-price-compare-item>
+            <ion-text style="margin-left: 10px" class="st-data-label">{{ summary.marketPrice | currency }}</ion-text>
         </ion-label>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">1y target</ion-label>
-        <ion-label class="st-flex-row">
-            <ion-text style="margin-right: 10px" color=""
-                      class="st-data-label">{{ summary.oneyTargetEst | currency }}</ion-text>
+        <ion-label class="st-flex-row st-data-label-table">
             <app-price-compare-item
                     [versionType]="2"
                     [compareToPrice]="summary.oneyTargetEst"
                     [currentPrice]="summary.marketPrice">
             </app-price-compare-item>
+            <ion-text style="margin-left: 10px" class="st-data-label">{{ summary.oneyTargetEst | currency }}</ion-text>
         </ion-label>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">1y change</ion-label>
-        <ion-label>
+        <ion-label class="st-data-label-table">
             <app-price-change-item [priceChange]="summary.fiveTwoWeekChange" [isPercent]="true">
             </app-price-change-item>
         </ion-label>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">S&P500 1y change</ion-label>
-        <ion-label>
+        <ion-label class="st-data-label-table">
             <app-price-change-item [priceChange]="summary.sandPFiveTwoWeekChange" [isPercent]="true">
             </app-price-change-item>
         </ion-label>
@@ -70,21 +69,22 @@
         <ion-label> {{ summary.industry }}</ion-label>
     </ion-item> -->
 
-    <ion-item>
+    <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Sector</ion-label>
-        <ion-label class="st-data-label ion-text-wrap"> {{ summary.sector }}</ion-label>
+        <ion-label class="st-data-label st-data-label-table"> {{ summary.sector }}</ion-label>
     </ion-item>
 
 
-    <ion-item>
+    <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Shared outstanding</ion-label>
-        <ion-label class="st-data-label"> {{ summary.sharesOutstanding | numberFormatter }}</ion-label>
+        <ion-label
+                class="st-data-label st-data-label-table"> {{ summary.sharesOutstanding | numberFormatter }}</ion-label>
     </ion-item>
 
 
-    <ion-item>
+    <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Recommendation</ion-label>
-        <ion-label class="st-data-label">
+        <ion-label class="st-data-label st-data-label-table">
             <ion-text [appRecommendation]="summary.recommendationKey | titlecase">
                 {{ summary.recommendationKey | titlecase }}
             </ion-text>
@@ -92,14 +92,18 @@
         </ion-label>
     </ion-item>
 
-    <!--<ion-item>
-        <ion-label position="fixed" class="fixedLabel">Earnings date</ion-label>
-        <ion-label> {{ summary.earningsDate }}</ion-label>
-    </ion-item> -->
+    <ion-item class="st-data-item-wrapper">
+        <ion-label class="st-data-label-parent">Earnings date</ion-label>
+        <ion-label class="st-data-label st-data-label-table" style="padding-left: 16px">
+            {{ summary.earningsDate }}
+        </ion-label>
+    </ion-item>
 
     <ion-item>
         <ion-label class="st-data-label-parent">Employees</ion-label>
-        <ion-label class="st-data-label"> {{ summary.fullTimeEmployees | numberFormatter }}</ion-label>
+        <ion-label class="st-data-label st-data-label-table">
+            {{ summary.fullTimeEmployees | numberFormatter }}
+        </ion-label>
     </ion-item>
 
     <!--<ion-item *ngIf="summary.lastSplitDate">
