@@ -34,6 +34,8 @@ import {TooltipDirective} from './directives/tooltip.directive';
 import {SearchWrapperComponent} from './components/search-wrapper/search-wrapper.component';
 import {ScrollOffsetDirective} from './directives/scroll-offset.directive';
 import {GenericFancyCardComponent} from './components/generic/generic-fancy-card/generic-fancy-card.component';
+import { ObjNgForPipe } from './pipes/obj-ng-for.pipe';
+import {GenericFadingCardContentComponent} from './components/generic/generic-fading-card-content/generic-fading-card-content.component';
 
 
 @NgModule({
@@ -62,7 +64,9 @@ import {GenericFancyCardComponent} from './components/generic/generic-fancy-card
         TooltipDirective,
         SearchWrapperComponent,
         ScrollOffsetDirective,
-        GenericFancyCardComponent
+        GenericFancyCardComponent,
+        ObjNgForPipe,
+        GenericFadingCardContentComponent
     ],
     imports: [
         CommonModule,
@@ -110,7 +114,9 @@ import {GenericFancyCardComponent} from './components/generic/generic-fancy-card
         TitleWithLogoItemComponent,
         TooltipDirective,
         SearchWrapperComponent,
-        GenericFancyCardComponent
+        GenericFancyCardComponent,
+        ObjNgForPipe,
+        GenericFadingCardContentComponent
 
     ],
     entryComponents: [

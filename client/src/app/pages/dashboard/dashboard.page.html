@@ -59,11 +59,14 @@
         <!-- holdings table -->
         <ion-row>
             <ion-col size="12" size-lg="11" size-xl="10">
-                <app-holdings-table
-                        [userPortfolioTotal]="clonedPortfolio.portfolioCash + clonedPortfolio.portfolioInvested"
-                        [stTransactions]="clonedHoldings"
-                        [clickable]="false">
-                </app-holdings-table>
+                <app-generic-list [title]="'Holdings'" [iconTitle]="'pricetags'"></app-generic-list>
+                <app-generic-card>
+                    <app-holdings-table
+                            [userPortfolioTotal]="clonedPortfolio.portfolioCash + clonedPortfolio.portfolioInvested"
+                            [stTransactions]="clonedHoldings"
+                            [clickable]="false">
+                    </app-holdings-table>
+                </app-generic-card>
             </ion-col>
         </ion-row>
 
@@ -108,17 +111,18 @@
         <!-- transactions -->
         <ion-row>
             <ion-col size="12" size-md="6" size-lg="5.5" size-xl="5">
-                <app-transactions-table
-                        [transactions]="user.transactionsSnippets | slice:0:5">
-                </app-transactions-table>
+                <app-generic-list [title]="'Transactions'" [iconTitle]="'reader'"></app-generic-list>
+                <app-generic-card>
+                    <app-transactions-table
+                            [transactions]="user.transactionsSnippets | slice:0:5">
+                    </app-transactions-table>
+                </app-generic-card>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="5.5" size-xl="5">
-                <div class="ion-padding">
-                    <app-transactions-chart
-                            [heightPx]="360"
-                            [stPortfolioWeeklyChanges]="fakeDataTransactionTable">
-                    </app-transactions-chart>
-                </div>
+            <ion-col size="12" size-md="6" size-lg="5.5" size-xl="5" class="ion-padding">
+                <app-transactions-chart
+                        [heightPx]="360"
+                        [stPortfolioWeeklyChanges]="fakeDataTransactionTable">
+                </app-transactions-chart>
             </ion-col>
         </ion-row>
     </ion-grid>

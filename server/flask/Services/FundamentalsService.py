@@ -8,6 +8,8 @@ from pytz import UTC
 from ExternalAPI import utils
 from firebase_admin import credentials, firestore, initialize_app, _apps as firestoreApps
 
+from ExternalAPI.utils import cammelCaseToWord
+
 utc = UTC
 
 
@@ -37,7 +39,6 @@ class FundamentalsService:
         stockNewsFinhubArray = self.finhub.getNewsForSymbol(symbol)['stockNews']
         return {'stockNews': stockNewsFinhubArray}
 
-
     def __modifyFetchedStockDetails(self, symbol, data):
         data['id'] = symbol
 
@@ -50,6 +51,7 @@ class FundamentalsService:
         dataFormatter.formatSummary()
         dataFormatter.formatDividends()
         dataFormatter.formatEarningsFinancialChart()
+        dataFormatter.formatStatementData()
         data['recommendation'].reverse()
 
         # remove data
@@ -59,6 +61,7 @@ class FundamentalsService:
     '''
         fetch all details about one stock, call method to fetch fundamentals
     '''
+
     def __fetchStockDetails(self, symbol):
         que = Queue()
         # declare threads
@@ -108,7 +111,6 @@ class FundamentalsService:
         return merge
 
 
-
 class FundamentalServiceFormatter:
     def __init__(self, data):
         self.data = data
@@ -137,6 +139,76 @@ class FundamentalServiceFormatter:
             print('formatAnalysis exception: ' + str(e))
             pass
 
+    def formatStatementData(self):
+        res = {'balanceSheet': {},  # 'quaretly': {}, 'yearly': {}
+               'cashFlow': {},  # 'quaretly': {}, 'yearly': {}
+               'incomeStatement': {}  # 'quaretly': {}, 'yearly': {}
+               }
+        for statement in ['balanceSheet', 'cashFlow', 'incomeStatement']:
+            for timePeriod in self.data.get(statement):  # quarterly & yearly
+                data = self.data.get(statement).get(timePeriod)
+
+                # merge keys, one key does not have to be at first index
+                periodKeys = set()
+                for i in range(len(data)):
+                    periodKeys |= set(list(data[i].keys()))
+
+                periodKeys = list(periodKeys)  # [accountsPayable, capitalSurplus, ...]
+                res[statement][timePeriod] = {}
+                dataLoop = len(data)  # usualy 4 quartes and 4 years but may be lower
+                for periodKeysIndex in range(len(periodKeys)):
+                    res[statement][timePeriod][periodKeys[periodKeysIndex]] = {
+                        'name': cammelCaseToWord(periodKeys[periodKeysIndex]),
+                        'data': [],
+                        'change': []
+                    }
+                    for timePeriodDataNumber in range(dataLoop):
+                        try:
+                            value = data[timePeriodDataNumber][periodKeys[periodKeysIndex]]  # may not exists
+                            change = None
+                            try:
+                                nextValue = data[timePeriodDataNumber + 1][periodKeys[periodKeysIndex]]
+                                change = round((value - nextValue) / abs(nextValue) * 100, 2)
+                            except:
+                                pass
+
+                            res[statement][timePeriod][periodKeys[periodKeysIndex]]['data'].append(value)
+                            res[statement][timePeriod][periodKeys[periodKeysIndex]]['change'].append(change)
+                        except:
+                            res[statement][timePeriod][periodKeys[periodKeysIndex]]['data'].append(None)
+                            res[statement][timePeriod][periodKeys[periodKeysIndex]]['change'].append(None)
+
+                    # if empty do not include
+                    if len(res[statement][timePeriod][periodKeys[periodKeysIndex]]['data']) == 0:
+                        del res[statement][timePeriod][periodKeys[periodKeysIndex]]
+                del res[statement][timePeriod]['maxAge']
+
+        # rename some element
+        rename = {
+            'balanceSheet': {
+                'shortLongTermDebt': 'Short term debt',
+                'accumulatedComprehensiveIncome': 'Comprehensive income'
+            },
+            'incomeStatement': {
+                'totalOtherIncomeExpenseNet': 'Other income expense',
+                'netIncomeFromContinuingOps': 'Continuing operation income'
+            },
+            'cashFlow': {
+                # 'otherCashflowsFromFinancingActivities': 'Other financing activities',
+                # 'otherCashflowsFromInvestingActivities': 'Other investing activities'
+            }
+        }
+        for sheet in rename:
+            for k in rename[sheet]:
+                sheet = sheet + 'Statement' if sheet == 'cashFlow' else sheet
+                if k in res[sheet][sheet + 'HistoryQuarterly']:
+                    res[sheet][sheet + 'HistoryQuarterly'][k]['name'] = rename[sheet][k]
+
+        # save
+        self.data['balanceSheet'] = res['balanceSheet']
+        self.data['cashFlow'] = res['cashFlow']
+        self.data['incomeStatement'] = res['incomeStatement']
+
     def formatEarningsFinancialChart(self):
         try:
             if self.data['companyData']['earnings'] is None:
@@ -158,32 +230,100 @@ class FundamentalServiceFormatter:
             pass
 
     def fomatFinancialReports(self):
-        reports = self.data['financialReports']
-        self.data['financialReports'] = []
-        checkedReports = []
-        self.data['financialReportSnippets'] = []
-        for report in reports:
-            reportName = 'Report ' + report['form'] + ' ' + str(report['year'])
+        quarterly = self.data.get('financialReportsQuarterly')
+        yearly = self.data.get('financialReportsYearly')
 
-            # used to be duplicities
-            if reportName in checkedReports:
-                continue
-            self.data['financialReports'].append(report)
-            checkedReports.append(reportName)
+        neededData = {
+            'bs': {
+                'AccumulatedOtherComprehensiveIncomeLossNetOfTax': 'accumulatedComprehensiveIncome',
+                'AvailableForSaleSecuritiesNoncurrent': 'totalSecuritiesForSale',
+                # 'AdditionalPaidInCapital': 'PaidInCapital',
+                'CommonStockValue': 'commonStockValue',
+                'ContractWithCustomerLiabilityCurrent': 'deferredRevenue',
+                # 'LiabilitiesCurrent': '',
+                'OperatingLeaseLiabilityCurrent': 'operatingLeaseLiability',
+                'Goodwill': 'goodwill',
+                'AccountsPayableCurrent': 'accountsPayable',
+                'OtherAssetsCurrent': 'prepaidAssets',
+                # 'IntangibleAssetsNetExcludingGoodwill': 'IntangibleAssets',
+                # 'RetainedEarningsAccumulatedDeficit': 'RetainedEarnings',
+                'PrepaidExpenseAndOtherAssetsCurrent': 'prepaidExpense',
+                'PropertyPlantAndEquipmentNet': 'netEquity',
+                # 'LongTermDebtCurrent': 'CurrentDebt',
+                # 'LongTermDebtNoncurrent': 'LongTermDebt',
+                # 'AccountsPayableCurrent': 'AccountsPayable',
+                # 'CashAndCashEquivalentsAtCarryingValue': 'CashEquivalents'
+            },
+            "cf": {
+                'ShareBasedCompensation': 'shareBasedCompensation',
+                'IncreaseDecreaseInAccountsReceivable': 'accountsReceivable',
+                # 'IncreaseDecreaseInAccountsPayableTrade': 'AccountsPayable',
+                'IncreaseDecreaseInAccruedLiabilities': 'accruedExpenses',
+                # 'PaymentsToAcquirePropertyPlantAndEquipment': 'PurchasesOfEquipment',
+                'PaymentsToAcquireMarketableSecurities': 'purchasesOfSecuritie',
+                'MarketableSecuritiesCurrent': 'marketSecurities',
+                'PaymentsToAcquireBusinessesNetOfCashAcquired': 'acquisitionsOfBusinesses',
+                'ProceedsFromIssuanceOfCommonStock': 'issuanceOfStock',
+                'IncreaseDecreaseInContractWithCustomerLiability': 'customerDeposits',
+                # 'PaymentsOfDividends': 'PaymentsOfDividends',
+                'ProceedsFromSaleOfAvailableForSaleSecuritiesDebt': 'salesOfSecurities',
+                'ProceedsFromMaturitiesPrepaymentsAndCallsOfAvailableForSaleSecurities': 'maturitiesOfSecurities',
+                'IncomeTaxesPaidNet': 'incomeTax',
+                'CapitalExpendituresIncurredButNotYetPaid': 'accruedEquipment',
+                'RepaymentsOfLongTermDebt': 'longTermDebtRepayments',
+                'ProceedsFromRepaymentsOfCommercialPaper': 'commercialPaperRepayments',
+                # 'RepaymentsOfOtherLongTermDebt': 'LongTermDebtRepayments',
+                'ProceedsFromRepaymentsOfShortTermDebt': 'shortTermDebtRepayments',
+                'ProceedsFromIssuanceOfOtherLongTermDebt': 'longTermDebtInsurance',
+                'DeferredIncomeTaxExpenseBenefit': 'deferredTaxes'
+            },
+            "ic": {
+                'EarningsPerShareDiluted': 'dilutedEarnings',
+                'EarningsPerShareBasic': 'basicEarnings',
+                # 'CostsAndExpenses': 'CostsAndExpenses',
+                # 'AllocatedShareBasedCompensationExpense': 'shareBasedCompensation',
+                'CommonStockDividendsPerShareDeclared': 'dividendsInCash',
+                'SellingGeneralAndAdministrativeExpense': 'administrativeExpense',
+                'CostOfGoodsAndServicesSold': 'costOfSales',
+                'IncomeTaxExpenseBenefit': 'incomeTaxProvision',
+                'MarketingExpense': 'marketingExpense',
+                'InterestExpense': 'interestExpense'
+            }
+        }
+        for i in range(len(quarterly)):
+            for statement in ['bs', 'cf', 'ic']:
+                statementNew = 'balanceSheet' if statement == 'bs' else 'cashFlow' if statement == 'cf' else 'incomeStatement'
+                statementNewKey = 'cashflowStatement' if statementNew == 'cashFlow' else statementNew
 
-            self.data['financialReportSnippets'].append(reportName)
-            report['source'] = 'Finnhub'
-            report['name'] = reportName
-            for k in report['report']:  # bf, ic, cf
-                for item in report['report'][k]:
-                    item['value'] = utils.force_float(item['value'])
+                # QUARTERS
+                for data in quarterly[i]['report'][statement]:
+                    '''
+                      "concept": "CashAndCashEquivalentsAtCarryingValue",
+                      "label": "Cash and cash equivalents",
+                      "unit": "usd",
+                      "value": 19079000000
+                    '''
+                    if data['concept'] in neededData[statement]:
+                        newKey = neededData[statement][data['concept']]
+                        self.data[statementNew][statementNewKey + 'HistoryQuarterly'][i][newKey] = data['value']
+
+                # YEARS - may be less than quarterly data
+                if i < len(self.data[statementNew][statementNewKey + 'HistoryYearly']):
+                    for data in yearly[i]['report'][statement]:
+                        if data['concept'] in neededData[statement]:
+                            newKey = neededData[statement][data['concept']]
+                            self.data[statementNew][statementNewKey + 'HistoryYearly'][i][newKey] = data['value']
 
     def formatSummary(self):
         try:
-            financialData = {} if self.data['companyData']['financialData'] is None else self.data['companyData']['financialData']
-            summaryDetail = {} if self.data['companyData']['summaryDetail'] is None else self.data['companyData']['summaryDetail']
-            summaryProfile = {} if self.data['companyData']['summaryProfile'] is None else self.data['companyData']['summaryProfile']
-            defaultKeyStatistics = {} if self.data['companyData']['defaultKeyStatistics'] is None else self.data['companyData']['defaultKeyStatistics']
+            financialData = {} if self.data['companyData']['financialData'] is None else self.data['companyData'][
+                'financialData']
+            summaryDetail = {} if self.data['companyData']['summaryDetail'] is None else self.data['companyData'][
+                'summaryDetail']
+            summaryProfile = {} if self.data['companyData']['summaryProfile'] is None else self.data['companyData'][
+                'summaryProfile']
+            defaultKeyStatistics = {} if self.data['companyData']['defaultKeyStatistics'] is None else \
+                self.data['companyData']['defaultKeyStatistics']
             price = {} if self.data['companyData']['price'] is None else self.data['companyData']['price']
 
             self.data['summary']['recommendationKey'] = financialData.get('recommendationKey')
@@ -201,7 +341,7 @@ class FundamentalServiceFormatter:
             self.data['summary']['residance']['city'] = summaryProfile.get('city')
             self.data['summary']['residance']['state'] = summaryProfile.get('state')
             self.data['summary']['residance']['country'] = summaryProfile.get('country')
-            self.data['summary']['residance']['addressOne'] = summaryProfile.get( 'addressOne')
+            self.data['summary']['residance']['addressOne'] = summaryProfile.get('addressOne')
             self.data['summary']['residance']['zip'] = summaryProfile.get('zip')
 
             self.data['summary']['oneyTargetEst'] = utils.force_float(self.data['summary'].get('oneyTargetEst'))
@@ -223,7 +363,6 @@ class FundamentalServiceFormatter:
         except Exception as e:
             print('formatSummary exception: ' + str(e))
             pass
-
 
     def formatDividends(self):
         try:
@@ -272,5 +411,8 @@ class FundamentalServiceFormatter:
             self.data['metric'].pop("trailingAnnualDividendRateThree", None)
             self.data['stats'].pop("trailingAnnualDividendYieldThree", None)
             self.data['companyData'].pop("summaryProfile", None)
+
+            self.data.pop('financialReportsQuarterly', None)
+            self.data.pop('financialReportsYearly', None)
         except Exception as e:
             print('Exception in removeUnnecessaryData: ' + str(e))

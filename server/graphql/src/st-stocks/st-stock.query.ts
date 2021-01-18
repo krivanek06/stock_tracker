@@ -152,7 +152,7 @@ const getAndSaveStockDetailsFromApi = async (symbol: string): Promise<api.StockD
         return null;
     }
 
-    for (let i = 0; i < response.financialReports.length; i++) {
+    /*for (let i = 0; i < response.financialReports.length; i++) {
         admin.firestore()
             .collection(`${api.ST_STOCK_DATA_COLLECTION}`)
             .doc(symbol)
@@ -162,7 +162,7 @@ const getAndSaveStockDetailsFromApi = async (symbol: string): Promise<api.StockD
                 reports: response.financialReports,
             });
     }
-    delete response.financialReports;
+    delete response.financialReports;*/
 
     return response;
 };

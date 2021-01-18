@@ -7,8 +7,9 @@ export class NumberFormatterPipe implements PipeTransform {
 
     transform(value: number): unknown {
         if (!this.isNumber(value)) {
-            console.log('not number', value);
-            return value;
+            // console.log('not number', value);
+            // return value;
+            return 'N/A';
         }
 
         let symbol = '';
@@ -19,7 +20,7 @@ export class NumberFormatterPipe implements PipeTransform {
 
         if (value > 1000 || value < -1000) {
             value = value / 1000;
-            symbol = 'mil.';
+            symbol = 'M';
         }
 
         if (value > 1000 || value < -1000) {

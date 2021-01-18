@@ -10,8 +10,10 @@ export const resolveStockSummaryForSymbols = async (symbols: string[]) => {
     } catch (error) {
         throw new ApolloError(error);
     }
-}
+};
 
+
+/*
 export const resolveFinancialReports = async(symbol: string) => {
     try {
         const reportDoc = await admin.firestore()
@@ -32,3 +34,4 @@ export const stockDetailsResolvers = {
         financialReports: async (stockDetails: api.StockDetails) => await resolveFinancialReports(stockDetails.id)
     }
 };
+*/

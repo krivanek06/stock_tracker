@@ -70,9 +70,13 @@ class Finhub:
         return res
 
     def getStockYearlyFinancialReport(self, symbol):
-        params = {'token': self.FINHUB_SECRET_KEY, 'symbol': symbol}
-        r = get('https://finnhub.io/api/v1/stock/financials-reported', params=params).json()['data'][0:7]
-        return {'financialReports': r}
+        params = {'token': self.FINHUB_SECRET_KEY, 'symbol': symbol, 'freq': 'quarterly'}
+        quarter = get('https://finnhub.io/api/v1/stock/financials-reported', params=params).json()['data'][0:4]
+
+        params = {'token': self.FINHUB_SECRET_KEY, 'symbol': symbol, 'freq': 'annual'}
+        year = get('https://finnhub.io/api/v1/stock/financials-reported', params=params).json()['data'][0:4]
+
+        return {'financialReportsQuarterly': quarter, 'financialReportsYearly': year}
 
     def getStockMetrics(self, symbol):
         params = {'token': self.FINHUB_SECRET_KEY, 'symbol': symbol}

@@ -8,9 +8,15 @@
                  style="margin-bottom: 16px">
             <!-- watchlist -->
             <ion-col size="12" size-lg="11" size-xl="10">
-                <app-watchlist-table [watchlist]="watchlist"
-                                     (itemClickedEmitter)="showChartForSymbol($event, watchlist.id)">
-                </app-watchlist-table>
+                <app-generic-list [title]="watchlist.name"
+                                  [iconTitle]="'pie-chart'"
+                                  [additionalInfo]="'Created at ' + (watchlist.date |  date: 'dd/MM/yyyy') ">
+                </app-generic-list>
+                <app-generic-card>
+                    <app-watchlist-table [watchlist]="watchlist"
+                                         (itemClickedEmitter)="showChartForSymbol($event, watchlist.id)">
+                    </app-watchlist-table>
+                </app-generic-card>
             </ion-col>
         </ion-row>
     </ion-grid>

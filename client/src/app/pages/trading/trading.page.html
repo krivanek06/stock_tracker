@@ -36,7 +36,8 @@
             </ion-col>
             <!-- summary -->
             <ion-col size="12" size-lg="4" size-xl="4">
-                <app-generic-card [iconTitle]="'barcode-outline'" [title]="'Summary'">
+                <app-generic-list [iconTitle]="'barcode-outline'" [title]="'Summary'"></app-generic-list>
+                <app-generic-card>
                     <!-- symbol summary -->
                     <app-details-summary [summary]="selectedSummary"></app-details-summary>
 
@@ -70,7 +71,7 @@
                 <ion-col size="12" size-lg="11" size-xl="10">
                     <ion-list-header>
                         <ion-label style="margin-left: 8px">
-                            <ion-text class="st-font-size-18 st-font-0">Suggestions</ion-text>
+                            <ion-text class="st-title">Suggestions</ion-text>
                         </ion-label>
                     </ion-list-header>
                     <ion-row>

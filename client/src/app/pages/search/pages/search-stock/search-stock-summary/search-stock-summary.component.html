@@ -22,7 +22,8 @@
 
         <ion-col size="12" size-lg="6" size-xl="4.5">
             <!-- summary -->
-            <app-generic-card [iconTitle]="'barcode-outline'" [title]="'Summary'">
+            <app-generic-list [iconTitle]="'barcode-outline'" [title]="'Summary'"></app-generic-list>
+            <app-generic-card>
                 <app-details-summary [summary]="selectedSummary"></app-details-summary>
 
                 <!-- buttons -->
@@ -41,7 +42,7 @@
     <!-- long business summary -->
     <ion-row>
         <ion-col size="12">
-            <app-generic-card [title]="selectedSummary.longName">
+            <app-generic-card [subtitle]="selectedSummary.longName">
                 <ion-text class="st-font-3">
                     {{ selectedSummary.longBusinessSummary }}
                 </ion-text>

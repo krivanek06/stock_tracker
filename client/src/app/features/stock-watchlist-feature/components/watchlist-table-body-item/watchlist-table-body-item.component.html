@@ -1,5 +1,5 @@
-<ion-item (click)="itemClicked()"
-          class="ion-no-padding ion-activatable">
+<ion-item button (click)="itemClicked()"
+          class="ion-no-padding">
 
     <ion-label class="st-display-flex-center st-data-label">
         <ion-img [src]="summary.logo_url" class="st-symbol-image-data-table"></ion-img>
@@ -40,7 +40,4 @@
         </ion-text>
         [{{ summary.recommendationMean }}]
     </ion-label>
-
-    <!-- ripple effect on click -->
-    <ion-ripple-effect></ion-ripple-effect>
 </ion-item>

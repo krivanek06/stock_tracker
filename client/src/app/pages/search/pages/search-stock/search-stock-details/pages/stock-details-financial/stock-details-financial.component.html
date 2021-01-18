@@ -1,20 +1,89 @@
-<!-- balance sheet / cash flow / financial statement -->
-<!--<ion-grid>
-  <ion-row>
-    <ion-col size="12" size-lg="10" offset-lg="1" size-xl="4" offset-xl="0">
-      <app-details-balance-sheet-card
-              [balanceSheet]="stockDetails?.balanceSheet"></app-details-balance-sheet-card>
-    </ion-col>
-    <ion-col size="12" size-lg="10" offset-lg="1" size-xl="4" offset-xl="0">
-      <app-details-income-statement-card
-              [incomeStatement]="stockDetails?.incomeStatement"></app-details-income-statement-card>
-    </ion-col>
-    <ion-col size="12" size-lg="10" offset-lg="1" size-xl="4" offset-xl="0">
-      <app-details-cash-flow-card [cashflow]="stockDetails?.cashFlow"></app-details-cash-flow-card>
-    </ion-col>
-  </ion-row>
-</ion-grid>-->
+<!-- RADIO BUTTON balance sheet / cash flow / financial statement -->
+<ion-item>
+    <ion-label class="st-font-size-18 st-font-white" style="max-width: 200px">
+        {{ activeStatement }}
+    </ion-label>
+    <ion-label>
+        <ion-list>
+            <ion-radio-group class="st-flex-row-sm-col"
+                             (ionChange)="changeActiveStatement($event)"
+                             [value]="activeStatement">
+                <ion-item>
+                    <ion-label [ngClass]="{'st-icon': activeStatement === STATEMENT_TYPE.BALANCE_SHEET }">
+                        Balance sheet
+                    </ion-label>
+                    <ion-radio [value]="STATEMENT_TYPE.BALANCE_SHEET"></ion-radio>
+                </ion-item>
 
+                <ion-item>
+                    <ion-label [ngClass]="{'st-icon': activeStatement === STATEMENT_TYPE.CASH_FLOW }">
+                        Cash flow
+                    </ion-label>
+                    <ion-radio [value]="STATEMENT_TYPE.CASH_FLOW"></ion-radio>
+                </ion-item>
 
+                <ion-item>
+                    <ion-label [ngClass]="{'st-icon': activeStatement === STATEMENT_TYPE.INCOME_STATEMENT }">
+                        Income statement
+                    </ion-label>
+                    <ion-radio [value]="STATEMENT_TYPE.INCOME_STATEMENT"></ion-radio>
+                </ion-item>
+            </ion-radio-group>
+        </ion-list>
+    </ion-label>
+</ion-item>
 
-TODO financials
+<!-- data -->
+<ng-container *ngIf="stockDetails$ | async as details">
+
+    <!-- balance sheet -->
+    <ng-container *ngIf="activeStatement === STATEMENT_TYPE.BALANCE_SHEET">
+        <div class="table-space">
+            <app-generic-card [subtitle]="'Balance sheet quarterly'">
+                <app-details-statement-table
+                        [statement]="details.balanceSheet.balanceSheetHistoryQuarterly">
+                </app-details-statement-table>
+            </app-generic-card>
+        </div>
+
+        <app-generic-card [subtitle]="'Balance sheet yearly'">
+            <app-details-statement-table
+                    [statement]="details.balanceSheet.balanceSheetHistoryYearly">
+            </app-details-statement-table>
+        </app-generic-card>
+    </ng-container>
+
+    <!-- income statement -->
+    <ng-container *ngIf="activeStatement === STATEMENT_TYPE.INCOME_STATEMENT">
+        <div class="table-space">
+            <app-generic-card [subtitle]="'Income statement quarterly'">
+                <app-details-statement-table
+                        [statement]="details.incomeStatement.incomeStatementHistoryQuarterly">
+                </app-details-statement-table>
+            </app-generic-card>
+        </div>
+
+        <app-generic-card [subtitle]="'Income statement yearly'" [additionalClasses]="'table-space'">
+            <app-details-statement-table
+                    [statement]="details.incomeStatement.incomeStatementHistoryYearly">
+            </app-details-statement-table>
+        </app-generic-card>
+    </ng-container>
+
+    <!-- cash flow -->
+    <ng-container *ngIf="activeStatement === STATEMENT_TYPE.CASH_FLOW">
+        <div class="table-space">
+            <app-generic-card [subtitle]="'Cash flow quarterly'">
+                <app-details-statement-table
+                        [statement]="details.cashFlow.cashflowStatementHistoryQuarterly">
+                </app-details-statement-table>
+            </app-generic-card>
+        </div>
+
+        <app-generic-card [subtitle]="'Cash flow quarterly'" [additionalClasses]="'table-space'">
+            <app-details-statement-table
+                    [statement]="details.cashFlow.cashflowStatementHistoryYearly">
+            </app-details-statement-table>
+        </app-generic-card>
+    </ng-container>
+</ng-container>

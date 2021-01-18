@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 from requests import get
-import re
+from re import sub
 
 '''
     transform {'Test (With % is)' : 55} -> {'Test_With_Pct_is' : 55} 
@@ -25,6 +25,8 @@ def changeUnsupportedCharacters(value):
     value = value.translate(str.maketrans(unsupportedCharacter))
     return value
 
+def cammelCaseToWord(name):
+    return sub(r'(?<!^)(?=[A-Z])', ' ', name).lower().capitalize()
 
 def force_float(elt):
     try:
