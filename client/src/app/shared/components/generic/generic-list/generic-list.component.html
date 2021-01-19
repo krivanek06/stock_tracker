@@ -2,8 +2,8 @@
 <ion-list-header *ngIf="title">
     <ion-icon *ngIf="iconTitle" class="st-icon-title" [name]="iconTitle"></ion-icon>
 
-    <ion-label>
-        <p class="st-font-size-18 st-font-0"> {{ title}}</p>
-        <p class="st-font-size-13 st-font-4"> {{ additionalInfo}}</p>
+    <ion-label class="st-flex-col">
+        <ion-text class="st-font-size-18 st-font-0"> {{ title}}</ion-text>
+        <ion-text class="st-font-size-13 st-font-4"> {{ additionalInfo}}</ion-text>
     </ion-label>
 </ion-list-header>

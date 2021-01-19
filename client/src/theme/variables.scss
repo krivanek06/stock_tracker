@@ -270,7 +270,7 @@
 
       ion-list {
         ion-item {
-          font-size: 15px;
+          font-size: 14px;
           --padding-start: 0;
           --padding-end: 0;
           --inner-padding-start: 0;
@@ -279,7 +279,7 @@
 
           ion-label {
             white-space: pre-line !important;
-            font-size: 15px;
+            font-size: 14px;
           }
         }
       }
@@ -400,7 +400,7 @@
           }
 
           ion-label {
-            color: #{$st-var-font-2};
+            // color: #{$st-var-font-2};
           }
         }
       }

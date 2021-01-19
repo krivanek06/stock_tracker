@@ -1,13 +1,24 @@
 <ion-list>
-    <ion-item *ngFor="let data of history.history">
-        <ion-label class="ion-hide-sm-down">{{ data.epochGradeDate * 1000 | relativeTime}}</ion-label>
-        <ion-label> {{ data.firm }}</ion-label>
+    <ion-item *ngFor="let data of history.history" class="st-data-item-wrapper">
+        <!-- date time -->
+        <ion-label style="min-width: 35%; max-width: 35%" class="st-font-5 ion-hide-sm-down">
+            {{ data.epochGradeDate * 1000 | relativeTime}}
+        </ion-label>
+
+        <!-- company -->
+        <ion-label class="ion-hide-sm-down" style="min-width: 35%; max-width: 35%"> {{ data.firm }}</ion-label>
+
+        <!-- small screen datetime + company -->
+        <ion-label class="ion-hide-sm-up" style="min-width: 70%; max-width: 70%">
+            <div>{{ data.firm }}</div>
+            <div class="st-font-5 st-font-size-12"> {{ data.epochGradeDate * 1000 | relativeTime}}</div>
+        </ion-label>
+
         <ion-label class="st-display-flex-center" [ngClass]="{
               'st-price-down': data.action === 'down',
               'st-price-up': data.action === 'up'
             }">
 
-            <!--<ng-container *ngIf="data.fromGrade"> {{ data.fromGrade }} -> </ng-container>-->
             <ion-text class="ion-margin-end">{{ data.toGrade }}</ion-text>
 
             <ion-icon *ngIf="data.action === 'up'" class="st-price-up" name="caret-up-outline"></ion-icon>

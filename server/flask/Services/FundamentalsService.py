@@ -308,7 +308,7 @@ class FundamentalServiceFormatter:
                         self.data[statementNew][statementNewKey + 'HistoryQuarterly'][i][newKey] = data['value']
 
                 # YEARS - may be less than quarterly data
-                if i < len(self.data[statementNew][statementNewKey + 'HistoryYearly']):
+                if i < len(yearly):
                     for data in yearly[i]['report'][statement]:
                         if data['concept'] in neededData[statement]:
                             newKey = neededData[statement][data['concept']]

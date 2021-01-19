@@ -6,10 +6,7 @@
   }
 
   ion-item ion-label {
-    font-size: 15px;
-    @media (max-width: #{$st-var-md-split}) {
-      font-size: 14px;
-    }
+    font-size: 14px;
   }
 
   .log-out-button {

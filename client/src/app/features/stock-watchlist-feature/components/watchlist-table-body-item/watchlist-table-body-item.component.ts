@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     Component,
     EventEmitter,
     Input,
@@ -6,16 +7,16 @@ import {
     OnInit,
     Output,
 } from '@angular/core';
-import {STCustomValueChange, SymbolIdentification} from '../../../../shared/models/sharedModel';
+import {SymbolIdentification} from '../../../../shared/models/sharedModel';
 import {marketValueChange} from '../../../../shared/animations/marketValueChange.animation';
-import {StockSummaryFragmentFragment, Summary} from '../../../../api/customGraphql.service';
+import {Summary} from '../../../../api/customGraphql.service';
 
 
 @Component({
     selector: 'app-watchlist-table-body-item',
     templateUrl: './watchlist-table-body-item.component.html',
     styleUrls: ['./watchlist-table-body-item.component.scss'],
-    // changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [
         marketValueChange
     ]
@@ -27,6 +28,7 @@ export class WatchlistTableBodyItemComponent implements OnInit {
     @Input() summary: Summary;
     @Input() currentPrice: number;
     @Input() allowModification: boolean;
+    @Input() showDailyChange = true;
 
     constructor() {
     }

@@ -13,6 +13,8 @@ export class WatchlistTableComponent implements OnInit {
     @Input() watchlist: StStockWatchlist;
     @Input() allowModification = true;
 
+    showDailyChange = true;
+
     constructor() {
     }
 
@@ -21,5 +23,9 @@ export class WatchlistTableComponent implements OnInit {
 
     itemClicked(identification: SymbolIdentification) {
         this.itemClickedEmitter.emit(identification);
+    }
+
+    toggleDailyChange() {
+        this.showDailyChange = !this.showDailyChange;
     }
 }

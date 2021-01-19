@@ -1,0 +1,30 @@
+@import "variables";
+
+:host {
+  .downgrade {
+    font-weight: bold;
+    color: #{$st-red};
+    font-size: 51px;
+    @media (max-width: #{$st-var-sm-split}) {
+      font-size: 30px;
+    }
+  }
+
+  .upgrade {
+    font-weight: bold;
+    color: #{$st-var-accept-1};
+    font-size: 51px;
+    @media (max-width: #{$st-var-sm-split}) {
+      font-size: 30px;
+    }
+  }
+
+  .neutral {
+    font-weight: bold;
+    color: #{$st-var-font-2};
+    font-size: 51px;
+    @media (max-width: #{$st-var-sm-split}) {
+      font-size: 30px;
+    }
+  }
+}

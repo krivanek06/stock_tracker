@@ -1,70 +1,70 @@
 <ion-list *ngIf="stockDetails as details">
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Enterprise value</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label st-flex-end">
             {{ details.companyData.defaultKeyStatistics.enterpriseValue | numberFormatter }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Market cap.</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label st-flex-end">
             {{ details.summary.marketCap | numberFormatter}}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Revenue</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label st-flex-end">
             {{ details.companyData.financialData.totalRevenue | numberFormatter  }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Operating cash flow</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label st-flex-end">
             {{ details.companyData.financialData.operatingCashflow | numberFormatter }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Free cash flow</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label st-flex-end">
             {{ details.companyData.financialData.freeCashflow | numberFormatter }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Leveraged Fcf</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label st-flex-end">
             {{ details.stats.leveredFreeCashFlowttm }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Gross profit</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label st-flex-end">
             {{ details.companyData.financialData.grossProfits | numberFormatter  }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Total cash</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label st-flex-end">
             {{ details.companyData.financialData.totalCash | numberFormatter }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Total debt</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label st-flex-end">
             {{ details.companyData.financialData.totalDebt| numberFormatter  }}
         </ion-label>
     </ion-item>
 
     <ion-item>
         <ion-label class="st-data-label-parent">EBITDA</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label st-flex-end">
             {{ details.companyData.financialData.ebitda | numberFormatter }}
         </ion-label>
     </ion-item>

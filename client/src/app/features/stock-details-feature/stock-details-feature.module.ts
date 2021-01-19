@@ -22,6 +22,7 @@ import {SummarySectorChartComponent} from './components/summary-sector-chart/sum
 import {StockInfoListChangeComponent} from './components/stock-info-list-change/stock-info-list-change.component';
 import {ArticleCardsComponent} from './components/card/article-cards/article-cards.component';
 import {SymbolMovementTableCardComponent} from './components/card/symbol-movement-table-card/symbol-movement-table-card.component';
+import {TrendItemComponent} from './components/stock-trend/trend-item/trend-item.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import {SymbolMovementTableCardComponent} from './components/card/symbol-movemen
         SummarySectorChartComponent,
         StockInfoListChangeComponent,
         ArticleCardsComponent,
-        SymbolMovementTableCardComponent
+        SymbolMovementTableCardComponent,
+        TrendItemComponent
     ],
     imports: [
         CommonModule,

@@ -15,6 +15,8 @@ export class HoldingsTableComponent implements OnInit {
     @Input() userPortfolioTotal: number;
     @Input() clickable = true;
 
+    showDailyChange = true;
+
     constructor() {
     }
 
@@ -26,5 +28,9 @@ export class HoldingsTableComponent implements OnInit {
             return;
         }
         this.itemClickedEmitter.emit(symbolIdentification);
+    }
+
+    toggleDailyChange() {
+        this.showDailyChange = !this.showDailyChange;
     }
 }
