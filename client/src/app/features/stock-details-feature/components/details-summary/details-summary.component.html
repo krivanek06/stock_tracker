@@ -1,32 +1,32 @@
 <ion-list>
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Name</ion-label>
-        <ion-label class="st-data-label st-data-label-table"> {{ summary.longName }}</ion-label>
+        <ion-label class="st-data-label st-flex-end"> {{ summary.longName }}</ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Symbol</ion-label>
-        <ion-label class="st-data-label st-data-label-table"> {{ summary.symbol }}</ion-label>
+        <ion-label class="st-data-label st-flex-end"> {{ summary.symbol }}</ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Market cap.</ion-label>
-        <ion-label class="st-data-label st-data-label-table"> {{ summary.marketCap | numberFormatter }}</ion-label>
+        <ion-label class="st-data-label st-flex-end"> {{ summary.marketCap | numberFormatter }}</ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">PE [ttm.]</ion-label>
-        <ion-label class="st-data-label st-data-label-table"> {{ summary.pERatioTTM }}</ion-label>
+        <ion-label class="st-data-label st-flex-end"> {{ summary.pERatioTTM }}</ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">EPS [ttm.]</ion-label>
-        <ion-label class="st-data-label st-data-label-table"> {{ summary.ePSTTM }}</ion-label>
+        <ion-label class="st-data-label st-flex-end"> {{ summary.ePSTTM }}</ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Price</ion-label>
-        <ion-label class="st-flex-row st-data-label-table">
+        <ion-label class="st-flex-row st-flex-end">
             <app-price-compare-item
                     [versionType]="2"
                     [compareToPrice]="summary.previousClose"
@@ -38,7 +38,7 @@
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">1y target</ion-label>
-        <ion-label class="st-flex-row st-data-label-table">
+        <ion-label class="st-flex-row st-flex-end">
             <app-price-compare-item
                     [versionType]="2"
                     [compareToPrice]="summary.oneyTargetEst"
@@ -50,7 +50,7 @@
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">1y change</ion-label>
-        <ion-label class="st-data-label-table">
+        <ion-label class="st-flex-end">
             <app-price-change-item [priceChange]="summary.fiveTwoWeekChange" [isPercent]="true">
             </app-price-change-item>
         </ion-label>
@@ -58,7 +58,7 @@
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">S&P500 1y change</ion-label>
-        <ion-label class="st-data-label-table">
+        <ion-label class="st-flex-end">
             <app-price-change-item [priceChange]="summary.sandPFiveTwoWeekChange" [isPercent]="true">
             </app-price-change-item>
         </ion-label>
@@ -71,20 +71,20 @@
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Sector</ion-label>
-        <ion-label class="st-data-label st-data-label-table"> {{ summary.sector }}</ion-label>
+        <ion-label class="st-data-label st-flex-end"> {{ summary.sector }}</ion-label>
     </ion-item>
 
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Shared outstanding</ion-label>
         <ion-label
-                class="st-data-label st-data-label-table"> {{ summary.sharesOutstanding | numberFormatter }}</ion-label>
+                class="st-data-label st-flex-end"> {{ summary.sharesOutstanding | numberFormatter }}</ion-label>
     </ion-item>
 
 
     <ion-item class="st-data-item-wrapper">
-        <ion-label class="st-data-label-parent">Recommendation</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label-parent">Recommend</ion-label>
+        <ion-label class="st-data-label st-flex-end">
             <ion-text [appRecommendation]="summary.recommendationKey | titlecase">
                 {{ summary.recommendationKey | titlecase }}
             </ion-text>
@@ -94,14 +94,14 @@
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Earnings date</ion-label>
-        <ion-label class="st-data-label st-data-label-table" style="padding-left: 16px">
+        <ion-label class="st-data-label st-flex-end" style="padding-left: 16px">
             {{ summary.earningsDate }}
         </ion-label>
     </ion-item>
 
     <ion-item>
         <ion-label class="st-data-label-parent">Employees</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label st-flex-end">
             {{ summary.fullTimeEmployees | numberFormatter }}
         </ion-label>
     </ion-item>

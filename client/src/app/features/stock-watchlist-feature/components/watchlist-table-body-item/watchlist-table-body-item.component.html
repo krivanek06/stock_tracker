@@ -1,8 +1,7 @@
-<ion-item button (click)="itemClicked()"
-          class="ion-no-padding">
+<ion-item button (click)="itemClicked()" class="st-data-item-wrapper ion-hide-sm-down">
 
     <ion-label class="st-display-flex-center st-data-label">
-        <ion-img [src]="summary.logo_url" class="st-symbol-image-data-table"></ion-img>
+        <ion-img [src]="summary.logo_url" class="st-symbol-image"></ion-img>
         <ion-text>{{ summary.symbol }}</ion-text>
     </ion-label>
 
@@ -24,12 +23,12 @@
     </ion-label>
 
     <!-- 52 week range -->
-    <ion-label class="st-data-label">
+    <ion-label class="st-data-label ion-hide-lg-down">
         {{ summary.weekRangeFiveTwoMin | currency }} - {{ summary.weekRangeFiveTwoMax | currency }}
     </ion-label>
 
     <!-- PE -->
-    <ion-label class="st-data-label">
+    <ion-label class="st-data-label ion-hide-md-down">
         {{ summary.pERatioTTM }}
     </ion-label>
 
@@ -40,4 +39,38 @@
         </ion-text>
         [{{ summary.recommendationMean }}]
     </ion-label>
+</ion-item>
+
+
+<!-- SMALL SCREEN -->
+<ion-item button class="st-data-item-wrapper ion-hide-sm-up sm-table-item" (click)="itemClicked()">
+    <!-- LOGO + SYMBOL -->
+    <ion-label class="st-display-flex-center">
+        <ion-img [src]="summary.logo_url" class="st-symbol-image"></ion-img>
+        <div class="st-flex-col">
+            <ion-text>{{ summary.symbol }}</ion-text>
+            <ion-text class="st-hide-xs-down st-font-size-12 st-font-5">{{ summary.longName }}</ion-text>
+        </div>
+    </ion-label>
+
+    <ion-label class="st-font-1 st-font-size-16 st-flex-end">
+        <!-- daily change -->
+        <app-price-compare-item
+                *ngIf="showDailyChange"
+                [currentPrice]="currentPrice"
+                [inlineDisplay]="true"
+                [compareToPrice]="summary.previousClose">
+        </app-price-compare-item>
+
+        <!-- yearly change -->
+        <app-price-compare-item
+                *ngIf="!showDailyChange"
+                [currentPrice]="currentPrice"
+                [inlineDisplay]="true"
+                [compareToPrice]="summary.weekRangeFiveTwoMin">
+        </app-price-compare-item>
+    </ion-label>
+
+    <!-- ripple effect on click -->
+    <ion-ripple-effect></ion-ripple-effect>
 </ion-item>

@@ -1,64 +1,67 @@
 <!-- my groups -->
-<app-generic-card *ngIf="groups.groupOwner.length > 0"
-                  [additionalClasses]="'ion-margin-bottom'"
-                  [subtitle]="'My groups'">
-    <ion-item-group>
-        <ion-item *ngFor="let group of groups.groupOwner"
-                  (click)="clickedGroup(group)"
-                  class="st-font-3 ion-activatable"
-                  [ngClass]="{'st-icon': activeGroup === group.groupId}">
-            <ion-label>
-                {{ group.name }}
-            </ion-label>
-        </ion-item>
-    </ion-item-group>
-</app-generic-card>
-
+<ng-container *ngIf="groups.groupOwner.length > 0">
+    <app-generic-list [title]="'My groups'"></app-generic-list>
+    <app-generic-card [additionalClasses]="'ion-margin-bottom'">
+        <ion-item-group>
+            <ion-item *ngFor="let group of groups.groupOwner"
+                      (click)="clickedGroup(group)"
+                      class="st-font-3 ion-activatable"
+                      [ngClass]="{'st-icon': activeGroup === group.groupId}">
+                <ion-label>
+                    {{ group.name }}
+                </ion-label>
+            </ion-item>
+        </ion-item-group>
+    </app-generic-card>
+</ng-container>
 
 <!-- member groups -->
-<app-generic-card *ngIf="groups.groupMember.length > 0"
-                  [additionalClasses]="'ion-margin-bottom'"
-                  [subtitle]="'Member of'">
-    <ion-item-group>
-        <ion-item *ngFor="let group of groups.groupMember"
-                  (click)="clickedGroup(group)"
-                  class="st-font-3 ion-activatable "
-                  [ngClass]="{'st-icon': activeGroup === group.groupId}">
-            <ion-label>
-                {{ group.name }}
-            </ion-label>
-        </ion-item>
-    </ion-item-group>
-</app-generic-card>
+<ng-container *ngIf="groups.groupMember.length > 0">
+    <app-generic-list [title]="'Member of'"></app-generic-list>
+    <app-generic-card [additionalClasses]="'ion-margin-bottom'">
+        <ion-item-group>
+            <ion-item *ngFor="let group of groups.groupMember"
+                      (click)="clickedGroup(group)"
+                      class="st-font-3 ion-activatable "
+                      [ngClass]="{'st-icon': activeGroup === group.groupId}">
+                <ion-label>
+                    {{ group.name }}
+                </ion-label>
+            </ion-item>
+        </ion-item-group>
+    </app-generic-card>
+</ng-container>
 
 <!-- invitation sent groups -->
-<app-generic-card *ngIf="groups.groupInvitationSent.length > 0"
-                  [additionalClasses]="'ion-margin-bottom'"
-                  [subtitle]="'Invitation sent'">
-    <ion-item-group>
-        <ion-item *ngFor="let group of groups.groupInvitationSent"
-                  (click)="clickedGroup(group)"
-                  class="st-font-3 ion-activatable"
-                  [ngClass]="{'st-icon': activeGroup === group.groupId}">
-            <ion-label>
-                {{ group.name }}
-            </ion-label>
-        </ion-item>
-    </ion-item-group>
-</app-generic-card>
+<ng-container *ngIf="groups.groupInvitationSent.length > 0">
+    <app-generic-list [title]="'Invitation sent'"></app-generic-list>
+    <app-generic-card [additionalClasses]="'ion-margin-bottom'">
+        <ion-item-group>
+            <ion-item *ngFor="let group of groups.groupInvitationSent"
+                      (click)="clickedGroup(group)"
+                      class="st-font-3 ion-activatable"
+                      [ngClass]="{'st-icon': activeGroup === group.groupId}">
+                <ion-label>
+                    {{ group.name }}
+                </ion-label>
+            </ion-item>
+        </ion-item-group>
+    </app-generic-card>
+</ng-container>
 
 <!-- invitation received groups -->
-<app-generic-card *ngIf="groups.groupInvitationReceived.length > 0"
-                  [additionalClasses]="'ion-margin-bottom'"
-                  [subtitle]="'Invitation received'">
-    <ion-item-group>
-        <ion-item *ngFor="let group of groups.groupInvitationReceived"
-                  (click)="clickedGroup(group)"
-                  class="st-font-3 ion-activatable"
-                  [ngClass]="{'st-icon': activeGroup === group.groupId}">
-            <ion-label>
-                {{ group.name }}
-            </ion-label>
-        </ion-item>
-    </ion-item-group>
-</app-generic-card>
+<ng-container *ngIf="groups.groupInvitationReceived.length > 0">
+    <app-generic-list [title]="'Invitation received'"></app-generic-list>
+    <app-generic-card [additionalClasses]="'ion-margin-bottom'">
+        <ion-item-group>
+            <ion-item *ngFor="let group of groups.groupInvitationReceived"
+                      (click)="clickedGroup(group)"
+                      class="st-font-3 ion-activatable"
+                      [ngClass]="{'st-icon': activeGroup === group.groupId}">
+                <ion-label>
+                    {{ group.name }}
+                </ion-label>
+            </ion-item>
+        </ion-item-group>
+    </app-generic-card>
+</ng-container>

@@ -17,6 +17,7 @@ export class HoldingsTableBodyItemComponent implements OnInit {
     @Input() currentPrice: number;
     @Input() userPortfolioTotal: number;
     @Input() clickable = true;
+    @Input() showDailyChange = true;
 
     @Output() itemClickedEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
 

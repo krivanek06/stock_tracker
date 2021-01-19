@@ -260,12 +260,10 @@
                 </app-generic-card>
             </ion-col>
         </ion-row>
-        <!-- news -->
-        <ion-row *ngIf="stockDetails.stockNews.length > 0">
-            <ion-col *ngFor="let article of stockDetails.stockNews" size="12" size-md="6" size-xl="4">
-                <app-article-cards [article]="article"></app-article-cards>
-            </ion-col>
-        </ion-row>
     </ion-grid>
+    <!-- news -->
+    <div *ngIf="stockDetails.stockNews.length > 0" class="new-container">
+        <app-article-cards *ngFor="let article of stockDetails.stockNews" [article]="article"></app-article-cards>
+    </div>
 </ng-container>
 

@@ -5,9 +5,20 @@
         <ion-label>Price</ion-label>
         <ion-label>Daily +/-</ion-label>
         <ion-label>Yearly +/-</ion-label>
-        <ion-label>52 week range</ion-label>
-        <ion-label>PE ratio</ion-label>
-        <ion-label>Recommendation</ion-label>
+        <ion-label class="ion-hide-lg-down">52 week range</ion-label>
+        <ion-label class="ion-hide-md-down">PE ratio</ion-label>
+        <ion-label>Recommend</ion-label>
+    </ion-item>
+
+    <ion-item class="ion-hide-sm-up">
+        <ion-label class="st-flex-end">
+            <ion-button fill="clear" class="st-icon" *ngIf="showDailyChange" (click)="toggleDailyChange()">
+                Daily +/-
+            </ion-button>
+            <ion-button fill="clear" class="st-icon" *ngIf="!showDailyChange" (click)="toggleDailyChange()" >
+                Yearly +/-
+            </ion-button>
+        </ion-label>
     </ion-item>
 
 
@@ -15,6 +26,7 @@
     <app-watchlist-table-body-item
             *ngFor="let summary of watchlist.summaries"
             [summary]="summary"
+            [showDailyChange]="showDailyChange"
             [allowModification]="allowModification"
             [currentPrice]="summary.marketPrice"
             (itemClickedEmitter)="itemClicked($event)">

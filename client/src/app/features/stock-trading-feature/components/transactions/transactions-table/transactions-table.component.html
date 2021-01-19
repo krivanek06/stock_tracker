@@ -9,9 +9,9 @@
 
 
     <!-- table body -->
-    <ion-item *ngFor="let transaction of transactions" class="st-data-item-wrapper">
+    <ion-item *ngFor="let transaction of transactions" class="st-data-item-wrapper ion-hide-sm-down">
         <ion-label class="st-display-flex-center st-data-label">
-            <ion-img [src]="transaction.symbol_logo_url" class="st-symbol-image-data-table"></ion-img>
+            <ion-img [src]="transaction.symbol_logo_url" class="st-symbol-image"></ion-img>
             <div class="st-flex-col">
                 <!-- symbol name -->
                 <ion-text>{{ transaction.symbol }}</ion-text>
@@ -44,6 +44,39 @@
 
         <!-- Date -->
         <ion-label class="st-data-label">{{ transaction.date | date: 'dd.MM.yyyy HH:mm' }}</ion-label>
+    </ion-item>
 
+
+    <!-- ***************************************** -->
+
+    <!-- SMALL SCREEN -->
+    <ion-item *ngFor="let transaction of transactions" class="st-data-item-wrapper ion-hide-sm-up sm-table-item">
+        <!-- LOGO + SYMBOL + TRANSACTION TIME -->
+        <ion-label class="st-display-flex-center st-data-label st-fit-content">
+            <ion-img [src]="transaction.symbol_logo_url" class="st-symbol-image"></ion-img>
+            <div class="st-flex-col">
+                <div>
+                    <!-- symbol name -->
+                    <ion-text style="margin-right: 10px">{{ transaction.symbol }}</ion-text>
+                    <!-- Action -->
+                    <ion-text class="st-font-size-13" [ngClass]="{
+                        'st-price-up': transaction.operation === StTransactionOperationEnum.Buy,
+                        'st-price-down': transaction.operation === StTransactionOperationEnum.Sell}">
+                            {{ transaction.operation }}
+                    </ion-text>
+                </div>
+                <ion-text class="st-font-5 st-font-size-12">
+                    {{ transaction.date | date: 'dd.MM.yyyy HH:mm' }}
+                </ion-text>
+            </div>
+        </ion-label>
+
+        <!-- Value -->
+        <ion-label class="st-flex-col st-data-label st-flex-end">
+            <ion-text>{{ (transaction.price * transaction.units) | currency }}</ion-text>
+            <ion-text class="st-font-size-12 st-font-5">
+                {{ transaction.price | currency }}* {{ transaction.units }}
+            </ion-text>
+        </ion-label>
     </ion-item>
 </ion-list>

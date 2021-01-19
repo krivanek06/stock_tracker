@@ -2,7 +2,8 @@
     <ion-row>
         <!-- form -->
         <ion-col size="12" class="content-padding">
-            <app-generic-card [subtitle]="'Edit ' + group?.name">
+            <app-generic-list [title]="'Edit ' + group?.name"></app-generic-list>
+            <app-generic-card>
                 <form [formGroup]="form" (ngSubmit)="submit()">
                     <!-- group image -->
                     <ion-item-group class="group-image-container">

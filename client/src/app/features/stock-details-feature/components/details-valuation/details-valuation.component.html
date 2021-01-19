@@ -1,70 +1,70 @@
 <ion-list *ngIf="stockDetails as details">
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">PE</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label st-flex-end">
             {{ details.summary.pERatioTTM }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Forward PE</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label st-flex-end">
             {{ details.companyData.defaultKeyStatistics.forwardPE | numberFormatter }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">PEG</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label st-flex-end">
             {{ details.companyData.defaultKeyStatistics.pegRatio| numberFormatter  }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Price to book</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label st-flex-end">
             {{ details.companyData.defaultKeyStatistics.priceToBook| numberFormatter  }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Trailing EPS</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label st-flex-end">
             {{ details.companyData.defaultKeyStatistics.trailingEps | numberFormatter }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">CE to FCF ttm.</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label st-flex-end">
             {{ details.metric.currentEvfreeCashFlowTTM | number: '1.2-2'}}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Price to sale</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label st-flex-end">
             {{ details.stats.priceSalesttm[0] }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Enterprise to revenue</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label st-flex-end">
             {{ details.companyData.defaultKeyStatistics.enterpriseToRevenue | numberFormatter  }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Enterprise to EBITDA</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label st-flex-end">
             {{ details.companyData.defaultKeyStatistics.enterpriseToEbitda | numberFormatter   }}
         </ion-label>
     </ion-item>
 
     <ion-item>
         <ion-label class="st-data-label-parent">Price hint</ion-label>
-        <ion-label class="st-data-label st-data-label-table">
+        <ion-label class="st-data-label st-flex-end">
             {{ details.companyData.defaultKeyStatistics.priceHint  }}
         </ion-label>
     </ion-item>
