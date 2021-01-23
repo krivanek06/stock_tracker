@@ -22,6 +22,7 @@ def getEconomicNews():
         print(e)
         raise JsonError(status=500, error='Failed to get economic news')
 
+
 '''
 @app.route('/api/economics/ipo')
 def getIPOlist():
@@ -31,6 +32,7 @@ def getIPOlist():
         print(e)
         raise JsonError(status=400, error='Could not find IPO data')
 '''
+
 
 @app.route('/earnings')
 def getEarningsCalendarForTwoWeeks():
@@ -58,6 +60,7 @@ def searchAllSymbols():
         print(e)
         raise JsonError(status=500, error='Could not search any stock for symbol')
 
+
 @app.route('/search_all_symbol')
 def searchSymbolAll():
     try:
@@ -66,42 +69,43 @@ def searchSymbolAll():
         print(e)
         raise JsonError(status=500, error='Could not search any stock for symbol')
 
+
 @app.route('/day_top_gains')
-def getTopGains():
+def getDailyTopGains():
     try:
-        return json_response(data=YahooFinance.getTopGains())
+        return json_response(data=YahooFinance.getDailyTopGains())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Failed to get top gainers')
 
+
 @app.route('/day_top_losers')
-def getTopLosers():
+def getDailyTopLosers():
     try:
-        return json_response(data=YahooFinance.getTopLosers())
+        return json_response(data=YahooFinance.getDailyTopLosers())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Failed to get top losers')
 
 
 @app.route('/day_most_active')
-def getMostActive():
+def getDailyMostActive():
     try:
-        return json_response(data=YahooFinance.getTopActive())
+        return json_response(data=YahooFinance.getDailyTopActive())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Failed to get most active')
-'''
-@app.route('/api/ticker/day_top_cryto')
-def getTopCrypto():
+
+
+@app.route('/day_top_crypto')
+def getDailyTopCrypto():
     try:
-        return json_response(topCrypto=YahooFinance.getTopCrypto())
+        return json_response(topCrypto=YahooFinance.getDailyTopCrypto())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Failed to get top crypto')
-'''
+
 
 if __name__ == '__main__':
     print('Search controller app is running')
     app.run()
-
-

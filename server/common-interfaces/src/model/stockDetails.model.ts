@@ -78,7 +78,6 @@ export interface IncomeStatementData {
     grossProfit?: SheetData;
     incomeBeforeTax?: SheetData;
     incomeTaxExpense?: SheetData;
-    interestExpense?: SheetData;
     netIncome?: SheetData;
     netIncomeApplicableToCommonShares?: SheetData;
     netIncomeFromContinuingOps?: SheetData;

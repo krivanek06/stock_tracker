@@ -1,8 +1,7 @@
-from flask import Flask, request
+from flask import Flask
 from flask_json import FlaskJSON, JsonError, json_response
 from flask_cors import CORS
-from ExternalAPI import Quandl_Employment
-
+from ExternalAPI.Quandl import Quandl_Employment
 
 app = Flask(__name__)
 FlaskJSON(app)
@@ -48,7 +47,7 @@ def getServiceProvidingIndustry():
 @app.route('/partialDataFromAllCategory')
 def getPartialDataFromAllCategory():
     try:
-        return json_response(**Quandl_Employment.getPartialDataFromAllCategory())
+        return json_response(**Quandl_Employment.getDataFromAllCategory())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding partial data for all category in employment')

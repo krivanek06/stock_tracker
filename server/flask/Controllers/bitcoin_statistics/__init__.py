@@ -1,8 +1,7 @@
-from flask import Flask, request
+from flask import Flask
 from flask_json import FlaskJSON, JsonError, json_response
 from flask_cors import CORS
-from ExternalAPI import Quandl_Bitcoin
-
+from ExternalAPI.Quandl import Quandl_Bitcoin
 
 app = Flask(__name__)
 FlaskJSON(app)
@@ -72,10 +71,10 @@ def getTransactionTime():
         print(e)
         raise JsonError(status=500, error='Error while finding transaction time for bitcoin')
 
-@app.route('/partialDataFromAllCategory')
+@app.route('/dataFromAllCategory')
 def getPartialDataFromAllCategory():
     try:
-        return json_response(**Quandl_Bitcoin.getPartialDataFromAllCategory())
+        return json_response(**Quandl_Bitcoin.getDataFromAllCategory())
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding partial data for all category for bitcoin statistics')

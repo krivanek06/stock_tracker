@@ -65,8 +65,7 @@ class Finhub:
             res.append({
                 'date': datetime.strptime(earnigns['date'], '%Y-%m-%d').strftime('%d.%m.%y'),
                 'symbol': earnigns['symbol']
-            }
-            )
+            })
         return res
 
     def getStockYearlyFinancialReport(self, symbol):
