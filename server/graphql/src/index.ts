@@ -35,6 +35,8 @@ import {querySTGroupAllDataByGroupId, querySTGroupPartialDataByGroupName} from "
 import {stTransactionResolvers} from "./st-transaction/st-transaction.resolver";
 import {stStockWatchlistResolvers} from "./watchlist/watchlist.resolver";
 import {performTransaction} from "./st-transaction/st-transaction.mutation";
+import {STMarketTypeDefs} from "./st-market/st-market.typedefs";
+import {querySTMarketOverviewPartialData, querySTMarketSP500AllCategory} from "./st-market/st-market-overview.query";
 
 global.fetch = require("node-fetch");
 
@@ -56,9 +58,6 @@ const mainTypeDefs = gql`
         querySTUserPartialInformationByUsername(usernamePrefix: String!): [STUserPartialInformation]!
         authenticateUser(uid: String!): STUserPublicData
 
-        # watchlist
-        # queryUserStockWatchlists(uid: String!): [STStockWatchlist]
-
         # groups
         querySTGroupAllDataByGroupId(groupId: String!): STGroupAllData
         querySTGroupPartialDataByGroupName(groupName: String!): STSearchGroups
@@ -68,6 +67,10 @@ const mainTypeDefs = gql`
         queryStockSummary(symbol: String!): Summary
         queryStockSummaries(symbolPrefix: String!): SearchSymbol
         queryStockDailyInformation: STStockDailyInformations
+
+        # market data
+        querySTMarketOverviewPartialData: STMarketOverviewPartialData
+        querySTMarketSP500AllCategory: STMarketSP500AllCategory
     }
 
     #### MUTATION
@@ -104,7 +107,6 @@ const mainResolver = {
         authenticateUser: async (_: null, args: { uid: string }) => await authenticateUser(args.uid),
         queryUserData: async (_: null, args: { uid: string }) => await queryUserPublicData(args.uid),
         querySTUserPartialInformationByUsername: async (_: null, args: { usernamePrefix: string }) => await querySTUserPartialInformationByUsername(args.usernamePrefix),
-        //queryUserStockWatchlists: async (_: null, args: { uid: string }) => await queryUserStockWatchlists(args.uid),
 
         // GROUP
         querySTGroupAllDataByGroupId: async (_: null, args: { groupId: string }) => await querySTGroupAllDataByGroupId(args.groupId),
@@ -115,6 +117,10 @@ const mainResolver = {
         queryStockSummary: async (_: null, args: { symbol: string }) => await queryStockSummary(args.symbol),
         queryStockSummaries: async (_: null, args: { symbolPrefix: string }) => await queryStockSummaries(args.symbolPrefix),
         queryStockDailyInformation: async (_: null, args: null) => await queryStockDailyInformation(),
+
+        // market data
+        querySTMarketOverviewPartialData: async (_: null, args: null) => await querySTMarketOverviewPartialData(),
+        querySTMarketSP500AllCategory: async (_: null, args: null) => await querySTMarketSP500AllCategory(),
     },
 
     Mutation: {
@@ -159,6 +165,7 @@ const server = new ApolloServer({
         userTypeDefs,
         watchlistTypeDefs,
         stockDetailsTypeDefs,
+        ...STMarketTypeDefs,
         STTransactionTypeDefs,
         STSharedTypeDefs,
         STRankTypeDefs,

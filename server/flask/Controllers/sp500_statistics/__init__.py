@@ -1,8 +1,7 @@
 from flask import Flask
 from flask_json import FlaskJSON, JsonError, json_response
 from flask_cors import CORS
-from ExternalAPI import Quandl_SP500
-
+from ExternalAPI.Quandl import Quandl_SP500
 
 app = Flask(__name__)
 FlaskJSON(app)
@@ -78,10 +77,10 @@ def getPeRatioMonth():
         print(e)
         raise JsonError(status=500, error='Error while finding PE ratio for sp500')
 
-@app.route('/partialDataFromAllCategory')
-def getPartialDataFromAllCategory():
+@app.route('/dataFromAllCategory')
+def getDataFromAllCategory():
     try:
-        return json_response(**Quandl_SP500.getPartialDataFromAllCategory())
+        return json_response(**Quandl_SP500.getDataFromAllCategory())
     except Exception as e:
         print('error', e)
         raise JsonError(status=500, error='Error while finding partial data for all category for S&P 500 statistics')

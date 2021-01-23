@@ -83,7 +83,7 @@ class YahooFinanceRequester:
 
     def get_income_statement(self, ticker):
         income_site = "https://finance.yahoo.com/quote/" + ticker + "/financials?p=" + ticker
-        json_info = self.helperClass.parse_json(income_site)
+        json_info = self.helperClass.parse_json(income_site, 'QuoteSummaryStore')
 
         if json_info is None:
             return None
@@ -97,7 +97,7 @@ class YahooFinanceRequester:
 
     def get_balance_sheet(self, ticker):
         balance_sheet_site = "https://finance.yahoo.com/quote/" + ticker + "/balance-sheet?p=" + ticker
-        json_info = self.helperClass.parse_json(balance_sheet_site)
+        json_info = self.helperClass.parse_json(balance_sheet_site, 'QuoteSummaryStore')
 
         if json_info is None or json_info.get('balanceSheetHistory') is None:
             return None
@@ -111,7 +111,7 @@ class YahooFinanceRequester:
 
     def get_cash_flow(self, ticker):
         cash_flow_site = "https://finance.yahoo.com/quote/" + ticker + "/cash-flow?p=" + ticker
-        json_info = self.helperClass.parse_json(cash_flow_site)
+        json_info = self.helperClass.parse_json(cash_flow_site, 'QuoteSummaryStore')
 
         if json_info is None:
             return None
@@ -224,40 +224,9 @@ class YahooFinanceRequester:
 
         return result
 
-    '''
     def get_top_crypto(self):
-
-        session = HTMLSession()
-
-        resp = session.get("https://finance.yahoo.com/cryptocurrencies?offset=0&count=100")
-
-        tables = pd.read_html(resp.html.raw_html)
-
-        df = tables[0].copy()
-
-        df["% Change"] = df["% Change"].map(lambda x: float(x.strip("%"). \
-                                                            strip("+"). \
-                                                            replace(",", "")))
-        del df["52 Week Range"]
-        del df["1 Day Chart"]
-
-        fields_to_change = [x for x in df.columns.tolist() if "Volume" in x \
-                            or x == "Market Cap" or x == "Circulating Supply"]
-
-        for field in fields_to_change:
-
-            if type(df[field][0]) == str:
-                df[field] = df[field].str.strip("B").map(force_float)
-                df[field] = df[field].map(lambda x: x if type(x) == str
-                else x * 1000000000)
-
-                df[field] = df[field].map(lambda x: x if type(x) == float else
-                force_float(x.strip("M")) * 1000000)
-
-        session.close()
-
-        return df
-    '''
+        url = 'https://finance.yahoo.com/cryptocurrencies?offset=0&count=20'
+        return self.helperClass.parse_json(url, 'ScreenerResultsStore', 'results', 'rows')
 
 
 class CustomYahooFinHelper:
@@ -268,12 +237,14 @@ class CustomYahooFinHelper:
         parse whole html sites
     '''
 
-    def parse_json(self, url):
+    def parse_json(self, url, *jsonPathArgs):
         try:
             html = get(url=url).text
 
             json_str = html.split('root.App.main =')[1].split('(this)')[0].split(';\n}')[0].strip()
-            data = loads(json_str)['context']['dispatcher']['stores']['QuoteSummaryStore']
+            data = loads(json_str)['context']['dispatcher']['stores']
+            for path in jsonPathArgs:
+                data = data[path]
 
             # return data
             new_data = dumps(data).replace('{}', 'null')

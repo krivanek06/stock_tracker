@@ -1,7 +1,7 @@
 from flask import Flask, request
 from flask_json import FlaskJSON, JsonError, json_response
 from flask_cors import CORS
-from ExternalAPI import Quandl
+from ExternalAPI.Quandl import Quandl_General
 from ExternalAPI.YahooFinance import YahooFinance
 
 # yf.pdr_override()
@@ -11,17 +11,12 @@ CORS(app, resources={r"*": {"origins": "*"}})
 
 # CUSTOM singleton
 YahooFinance = YahooFinance.YahooFinance()
-Quandl = Quandl.Quandl()
+QuandlGeneral = Quandl_General.QuandlGeneral()
 
 
-def __parseArgs():
-    try:
-        numberOfDataSet = int(request.args.get('numberOfDataSet'))
-        return numberOfDataSet
-    except:
-        return None
-
-
+'''
+    Return [open, high, low, closed, volume]
+'''
 @app.route('/historical_data')
 def getStockHistoricalDataWithPeriod():
     try:
@@ -32,7 +27,9 @@ def getStockHistoricalDataWithPeriod():
         print(e)
         raise JsonError(status=500, error='Error while finding chart data')
 
-
+'''
+    Return only closed prices for symbol
+'''
 @app.route('/historical_closed_data')
 def getStockHistoricalClosedDataWithPeriod():
     try:
@@ -47,8 +44,7 @@ def getStockHistoricalClosedDataWithPeriod():
 @app.route('/investor_sentiment')
 def getInvestorSentiment():
     try:
-        numberOfDataSet = __parseArgs()
-        return json_response(**Quandl.getInvestorSentiment(numberOfDataSet), multipleData=True)
+        return json_response(**QuandlGeneral.getInvestorSentiment(), multipleData=True)
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding chart data for investors sentiments')
@@ -57,8 +53,7 @@ def getInvestorSentiment():
 @app.route('/treasury_yield_curve_rates')
 def getTreasuryYieldCurveRates():
     try:
-        numberOfDataSet = __parseArgs()
-        return json_response(**Quandl.getTreasuryYieldCurveRates(numberOfDataSet), multipleData=True)
+        return json_response(**QuandlGeneral.getTreasuryYieldCurveRates(), multipleData=True)
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding chart data for treasury yield curve rates')
@@ -67,8 +62,7 @@ def getTreasuryYieldCurveRates():
 @app.route('/misery_index')
 def getMiseryIndex():
     try:
-        numberOfDataSet = __parseArgs()
-        return json_response(**Quandl.getMiseryIndex(numberOfDataSet), multipleData=True)
+        return json_response(**QuandlGeneral.getMiseryIndex(), multipleData=True)
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding chart data for misery index')

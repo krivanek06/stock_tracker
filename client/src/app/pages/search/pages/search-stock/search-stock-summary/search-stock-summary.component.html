@@ -15,7 +15,7 @@
                     [showYAxis]="true"
                     [logoUrl]="selectedSummary.logo_url"
                     [name]="selectedSummary.longName"
-                    [height]="425"
+                    [height]="520"
                     [symbol]="selectedSummary.symbol">
             </app-financial-chart-container>
         </ion-col>
@@ -42,7 +42,8 @@
     <!-- long business summary -->
     <ion-row>
         <ion-col size="12">
-            <app-generic-card [subtitle]="selectedSummary.longName">
+            <app-generic-list [title]="'Company summary'"></app-generic-list>
+            <app-generic-card>
                 <ion-text class="st-font-3">
                     {{ selectedSummary.longBusinessSummary }}
                 </ion-text>

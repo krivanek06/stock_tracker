@@ -17,33 +17,21 @@ class YahooFinance:
     def getChartDataWithPeriod(self, symbol, period, onlyClosed = False):
         return self.yRequester.get_chart_data(symbol, period, onlyClosed)
 
-    # download data each hour
-    def getTopGains(self):
-        #lastModification = self.fileManagerService.getDocumentLastModification(self.TopGainersFolder)
-        #if lastModification is not None and lastModification[1] == 0:
-        #    return self.fileManagerService.getJsonFile(self.TopGainersFolder)
+    def getDailyTopGains(self):
         topGainers = self.yRequester.get_day_gainers()
-        #self.fileManagerService.saveFile(self.TopGainersFolder, topGainers)
         return topGainers
 
-    # download data each hour
-    def getTopLosers(self):
-        #lastModification = self.fileManagerService.getDocumentLastModification(self.TopLossesFolder)
-        #if lastModification is not None and lastModification[1] == 0:
-        #    return self.fileManagerService.getJsonFile(self.TopLossesFolder)
-
+    def getDailyTopLosers(self):
         topLosers = self.yRequester.get_day_losers()
-        #self.fileManagerService.saveFile(self.TopLossesFolder, topLosers)
         return topLosers
 
-    def getTopActive(self):
-        lastModification = self.fileManagerService.getDocumentLastModification(self.TopActiveFolder)
-        if lastModification is not None and lastModification[1] == 0:
-            return self.fileManagerService.getJsonFile(self.TopActiveFolder)
-
+    def getDailyTopActive(self):
         mostActive = self.yRequester.get_day_most_active()
-        self.fileManagerService.saveFile(self.TopActiveFolder, mostActive)
         return mostActive
+
+    def getDailyTopCrypto(self):
+        topCrypto = self.yRequester.get_top_crypto()
+        return topCrypto
 
     def getTickerSummary(self, symbol):
         data = self.yRequester.get_quote_table(symbol)
@@ -69,13 +57,6 @@ class YahooFinance:
     def getIncomeStatement(self, symbol):
         incomeStatement = self.yRequester.get_income_statement(symbol)
         return {'incomeStatement': incomeStatement}
-
-    '''
-    def getTopCrypto(self):
-        #TODO
-        topCrypto = si.get_top_crypto()[0:10]
-        return topCrypto
-    '''
 
     def getAnalystsInfo(self, symbol):
         analysis = self.yRequester.get_analysts_info(symbol)

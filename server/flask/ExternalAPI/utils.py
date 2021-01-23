@@ -5,9 +5,11 @@ from re import sub
 '''
     transform {'Test (With % is)' : 55} -> {'Test_With_Pct_is' : 55} 
 '''
-unsupportedCharacter =  {'-': '', '/': '', '*': '', '%': 'Pct', '&': '', ',': '', ' ': '', '(': '', ')': '', '.': '',
-                         '1': 'One', '0': '', '2': 'Two', '3': 'Three', "4": 'Four', '5': 'Five', '6': 'Six', '7': 'Seven',
-                         '8': 'Eight', '9': 'Nine'}
+unsupportedCharacter = {'-': '', '/': '', '*': '', '%': 'Pct', '&': '', ',': '', ' ': '', '(': '', ')': '', '.': '',
+                        '1': 'One', '0': '', '2': 'Two', '3': 'Three', "4": 'Four', '5': 'Five', '6': 'Six',
+                        '7': 'Seven',
+                        '8': 'Eight', '9': 'Nine'}
+
 
 def changeUnsupportedCharactersForDictKey(data):
     res = {}
@@ -25,14 +27,17 @@ def changeUnsupportedCharacters(value):
     value = value.translate(str.maketrans(unsupportedCharacter))
     return value
 
+
 def cammelCaseToWord(name):
     return sub(r'(?<!^)(?=[A-Z])', ' ', name).lower().capitalize()
+
 
 def force_float(elt):
     try:
         return float(elt)
     except:
         return None
+
 
 def force_float_else_return_zero(elt):
     try:
@@ -48,7 +53,6 @@ def force_float_skipping_last_char(value):
         return None
 
 
-
 def parseMultipleDropdownTables(site):
     try:
         soup = BeautifulSoup(get(site).text, features="lxml")
@@ -60,7 +64,6 @@ def parseMultipleDropdownTables(site):
             if dateTime != []:
                 result['dateTime'] = dateTime[1:]
                 result['dateTime'][0] = result['dateTime'][0].replace('As of Date: ', '').replace('Current', '')
-
 
             # save each line
             lines = []
@@ -75,9 +78,3 @@ def parseMultipleDropdownTables(site):
     except Exception as e:
         print('Exception in parseMultipleDropdownTables: ' + str(e))
         return None
-
-
-
-
-
-
