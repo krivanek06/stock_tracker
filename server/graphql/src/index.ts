@@ -36,7 +36,11 @@ import {stTransactionResolvers} from "./st-transaction/st-transaction.resolver";
 import {stStockWatchlistResolvers} from "./watchlist/watchlist.resolver";
 import {performTransaction} from "./st-transaction/st-transaction.mutation";
 import {STMarketTypeDefs} from "./st-market/st-market.typedefs";
-import {querySTMarketOverviewPartialData, querySTMarketSP500AllCategory} from "./st-market/st-market-overview.query";
+import {
+    querySTMarketBonds, querySTMarketChartData, querySTMarketExports,
+    querySTMarketOverviewPartialData,
+    querySTMarketSP500AllCategory,
+} from "./st-market/st-market-overview.query";
 
 global.fetch = require("node-fetch");
 
@@ -71,6 +75,9 @@ const mainTypeDefs = gql`
         # market data
         querySTMarketOverviewPartialData: STMarketOverviewPartialData
         querySTMarketSP500AllCategory: STMarketSP500AllCategory
+        querySTMarketBonds: STMarketBonds
+        querySTMarketExports: STMarketExports
+        querySTMarketChartData(document: ST_MARKET_FIREBASE_DOCUMENTS_CHART_DATA_ENUM!): STMarketChartData
     }
 
     #### MUTATION
@@ -121,6 +128,9 @@ const mainResolver = {
         // market data
         querySTMarketOverviewPartialData: async (_: null, args: null) => await querySTMarketOverviewPartialData(),
         querySTMarketSP500AllCategory: async (_: null, args: null) => await querySTMarketSP500AllCategory(),
+        querySTMarketBonds: async (_: null, args: null) => await querySTMarketBonds(),
+        querySTMarketExports: async (_: null, args: null) => await querySTMarketExports(),
+        querySTMarketChartData: async (_: null, args: { document: api.ST_MARKET_FIREBASE_DOCUMENTS_CHART_DATA_ENUM}) => await querySTMarketChartData(args.document),
     },
 
     Mutation: {

@@ -1,6 +1,8 @@
+<ion-icon name="expand-outline" class="expand-icon"></ion-icon>
+
 <highcharts-chart [Highcharts]="Highcharts"
                   [options]="chartOptions"
-                  [constructorType]=" showTimelineSlider ? 'stockChart' :'' "
+                  [constructorType]="''"
                   [callbackFunction]="chartCallback"
                   [(update)]="updateFromInput"
                   style="width: 100%; display: block;"

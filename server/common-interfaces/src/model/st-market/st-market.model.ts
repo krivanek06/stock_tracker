@@ -22,8 +22,9 @@ export interface STMarketChartData {
 
 export interface STMarketChartDataResult {
     currentValue: number;
-    data: number[];
+    data: number[] | number[][];
     name: string;
+    visible?: boolean;
 }
 
 export enum ST_MARKET_FIREBASE_DOCUMENTS_ENUM {
@@ -31,9 +32,11 @@ export enum ST_MARKET_FIREBASE_DOCUMENTS_ENUM {
     market_sp500_all_category_data = 'market_sp500_all_category_data',
     market_bonds_all_data = 'market_bonds_all_data',
     market_exports_all_data = 'market_exports_all_data',
+}
+
+export enum ST_MARKET_FIREBASE_DOCUMENTS_CHART_DATA_ENUM {
     market_investor_sentiment_data = 'market_investor_sentiment_data',
     market_trasury_yield_curve_rates_data = 'market_trasury_yield_curve_rates_data'
 }
-
 
 

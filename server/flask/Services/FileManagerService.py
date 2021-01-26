@@ -3,8 +3,8 @@ import json
 from datetime import datetime
 
 class FileManagerService:
-    def __init__(self, rootFolder):
-        self.FOLDER = rootFolder
+    def __init__(self):
+        self.FOLDER = 'resource'
         if not os.path.exists(self.FOLDER):
             os.makedirs(self.FOLDER)
 

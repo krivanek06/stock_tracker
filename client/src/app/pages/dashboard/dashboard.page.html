@@ -5,19 +5,9 @@
 
     <ion-grid *ngIf="user">
 
-
-        <!-- <app-market-movement-container></app-market-movement-container>
-
-         <app-sp500-charts-container></app-sp500-charts-container>
-
-         <app-economic-charts-container></app-economic-charts-container>
-
-         <app-dashboard-news></app-dashboard-news> -->
-
-
+        <!-- portfolio state -->
         <ion-row>
             <ion-col size="12">
-                <!-- portfolio state -->
                 <app-portfolio-state
                         [portfolioCash]="clonedPortfolio.portfolioCash"
                         [portfolioInvested]="clonedPortfolio.portfolioInvested">
@@ -25,10 +15,9 @@
             </ion-col>
         </ion-row>
 
-
+        <!-- portfolio change  weekly / monthly etc. -->
         <ion-row class="ion-padding-horizontal">
             <ion-col size="12" class="st-flex ion-justify-content-center">
-                <!-- portfolio change  weekly / monthly etc. -->
                 <app-portfolio-change
                         [daily]="daily"
                         [stPortfolioHistory]="stPortfolioHistory"

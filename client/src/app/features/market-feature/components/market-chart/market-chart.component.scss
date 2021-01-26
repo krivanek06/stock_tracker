@@ -1,0 +1,37 @@
+@import "variables";
+
+highcharts-chart::ng-deep {
+  .highcharts-container,
+  .highcharts-container svg {
+    width: 100% !important;
+    height: 100% !important;
+    display: inline-block !important;
+  }
+
+  .highcharts-stocktools-wrapper,
+  .highcharts-bindings-wrapper {
+    display: none;
+  }
+
+  tspan {
+    font-size: inherit;
+  }
+}
+
+:host {
+  .expand-icon {
+    position: absolute;
+    right: 10px;
+    top: 13px;
+    width: 22px;
+    transition: All 0.3s ease-out;
+    cursor: pointer;
+    color: #5d5d5d;
+    z-index: 1;
+
+    &:hover {
+      transform: scale(0.9);
+      color: white;
+    }
+  }
+}

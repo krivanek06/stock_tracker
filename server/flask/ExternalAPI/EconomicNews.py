@@ -8,7 +8,7 @@ class EconomicNews:
         self.API_KEY = enviroments.NEWS_API_KEY
         self.BUSINESS_FILENAME = "business_news.json"
         self.__FOLDER = 'resource/other'
-        self.fileManagerService = FileManagerService.FileManagerService(self.__FOLDER)
+        self.fileManagerService = FileManagerService.FileManagerService()
 
     # fetch news if older than 6 hours else return from file
     def getJsonDataFromFile(self):

@@ -29,6 +29,11 @@ export type Query = {
     queryStockSummary?: Maybe<Summary>;
     queryStockSummaries?: Maybe<SearchSymbol>;
     queryStockDailyInformation?: Maybe<StStockDailyInformations>;
+    querySTMarketOverviewPartialData?: Maybe<StMarketOverviewPartialData>;
+    querySTMarketSP500AllCategory?: Maybe<StMarketSp500AllCategory>;
+    querySTMarketBonds?: Maybe<StMarketBonds>;
+    querySTMarketExports?: Maybe<StMarketExports>;
+    querySTMarketChartData?: Maybe<StMarketChartData>;
 };
 
 
@@ -69,6 +74,11 @@ export type QueryQueryStockSummaryArgs = {
 
 export type QueryQueryStockSummariesArgs = {
     symbolPrefix: Scalars['String'];
+};
+
+
+export type QueryQueryStMarketChartDataArgs = {
+    document: St_Market_Firebase_Documents_Chart_Data_Enum;
 };
 
 export type Mutation = {
@@ -995,6 +1005,94 @@ export type NewsArticle = {
     url?: Maybe<Scalars['String']>;
 };
 
+export type StMarketOverviewPartialData = {
+    __typename?: 'STMarketOverviewPartialData';
+    sp500Stats?: Maybe<StMarketSp500AllCategory>;
+    bonds?: Maybe<StMarketBonds>;
+    exports?: Maybe<StMarketExports>;
+    investorSentiment?: Maybe<StMarketChartData>;
+    treasuryYield?: Maybe<StMarketChartData>;
+};
+
+export type StMarketChartData = {
+    __typename?: 'STMarketChartData';
+    currentDate?: Maybe<Scalars['String']>;
+    currentValue?: Maybe<Scalars['Float']>;
+    description?: Maybe<Scalars['String']>;
+    multipleData?: Maybe<Scalars['Float']>;
+    name?: Maybe<Scalars['String']>;
+    result?: Maybe<Array<Maybe<StMarketChartDataResult>>>;
+    timestamp?: Maybe<Array<Maybe<Scalars['Float']>>>;
+    lastUpdate?: Maybe<Scalars['String']>;
+};
+
+export type StMarketChartDataResult = {
+    __typename?: 'STMarketChartDataResult';
+    currentValue?: Maybe<Scalars['Float']>;
+    data?: Maybe<Array<Maybe<Scalars['Float']>>>;
+    name?: Maybe<Scalars['String']>;
+};
+
+export enum St_Market_Firebase_Documents_Enum {
+    MarketOverview = 'market_overview',
+    MarketSp500AllCategoryData = 'market_sp500_all_category_data',
+    MarketBondsAllData = 'market_bonds_all_data',
+    MarketExportsAllData = 'market_exports_all_data'
+}
+
+export enum St_Market_Firebase_Documents_Chart_Data_Enum {
+    MarketInvestorSentimentData = 'market_investor_sentiment_data',
+    MarketTrasuryYieldCurveRatesData = 'market_trasury_yield_curve_rates_data'
+}
+
+export type StMarketSp500AllCategory = {
+    __typename?: 'STMarketSP500AllCategory';
+    priceToSale?: Maybe<StMarketChartData>;
+    priceToBook?: Maybe<StMarketChartData>;
+    bookValue?: Maybe<StMarketChartData>;
+    salesGrowth?: Maybe<StMarketChartData>;
+    sales?: Maybe<StMarketChartData>;
+    dividends?: Maybe<StMarketChartData>;
+    dividendYield?: Maybe<StMarketChartData>;
+    dividendGrowth?: Maybe<StMarketChartData>;
+    earnings?: Maybe<StMarketChartData>;
+    earningsYield?: Maybe<StMarketChartData>;
+    earningsGrowth?: Maybe<StMarketChartData>;
+    peRatio?: Maybe<StMarketChartData>;
+    shillerPE?: Maybe<StMarketChartData>;
+    timestamp?: Maybe<Array<Maybe<Scalars['Float']>>>;
+};
+
+export type StMarketExports = {
+    __typename?: 'STMarketExports';
+    asia?: Maybe<StMarketChartData>;
+    europe?: Maybe<StMarketChartData>;
+    europeanUnion?: Maybe<StMarketChartData>;
+    france?: Maybe<StMarketChartData>;
+    unitedkingdom?: Maybe<StMarketChartData>;
+    latinAmerica?: Maybe<StMarketChartData>;
+    germany?: Maybe<StMarketChartData>;
+    japan?: Maybe<StMarketChartData>;
+    china?: Maybe<StMarketChartData>;
+    canada?: Maybe<StMarketChartData>;
+    timestamp?: Maybe<Array<Maybe<Scalars['Float']>>>;
+};
+
+export type StMarketBonds = {
+    __typename?: 'STMarketBonds';
+    AAA?: Maybe<StMarketChartData>;
+    AA?: Maybe<StMarketChartData>;
+    A?: Maybe<StMarketChartData>;
+    BB?: Maybe<StMarketChartData>;
+    B?: Maybe<StMarketChartData>;
+    CCC?: Maybe<StMarketChartData>;
+    CorporateBondIndexYield?: Maybe<StMarketChartData>;
+    CorporateBondHighYieldIndexYield?: Maybe<StMarketChartData>;
+    CorporateBondHighYieldEmergingMarketIndexYield?: Maybe<StMarketChartData>;
+    CorporateBondEuroEmergingMarketIndexYield?: Maybe<StMarketChartData>;
+    timestamp?: Maybe<Array<Maybe<Scalars['Float']>>>;
+};
+
 export type StTransaction = {
     __typename?: 'STTransaction';
     transactionId?: Maybe<Scalars['String']>;
@@ -1352,6 +1450,224 @@ export type LeaveGroupMutationVariables = Exact<{
 export type LeaveGroupMutation = (
     { __typename?: 'Mutation' }
     & Pick<Mutation, 'leaveGroup'>
+    );
+
+export type StMarketChartDataFragmentFragment = (
+    { __typename?: 'STMarketChartData' }
+    & Pick<StMarketChartData, 'currentDate' | 'currentValue' | 'description' | 'multipleData' | 'name' | 'timestamp' | 'lastUpdate'>
+    & {
+    result?: Maybe<Array<Maybe<(
+        { __typename?: 'STMarketChartDataResult' }
+        & Pick<StMarketChartDataResult, 'currentValue' | 'data' | 'name'>
+        )>>>
+}
+    );
+
+export type StMarketSp500AllCategoryFragmentFragment = (
+    { __typename?: 'STMarketSP500AllCategory' }
+    & Pick<StMarketSp500AllCategory, 'timestamp'>
+    & {
+    priceToSale?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, priceToBook?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, bookValue?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, salesGrowth?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, sales?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, dividends?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, dividendYield?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, dividendGrowth?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, earnings?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, earningsYield?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, earningsGrowth?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, peRatio?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, shillerPE?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>
+}
+    );
+
+export type StMarketBondsFragmentFragment = (
+    { __typename?: 'STMarketBonds' }
+    & Pick<StMarketBonds, 'timestamp'>
+    & {
+    AAA?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, AA?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, A?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, BB?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, B?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, CCC?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, CorporateBondIndexYield?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, CorporateBondHighYieldIndexYield?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, CorporateBondHighYieldEmergingMarketIndexYield?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, CorporateBondEuroEmergingMarketIndexYield?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>
+}
+    );
+
+export type StMarketExportsFragmentFragment = (
+    { __typename?: 'STMarketExports' }
+    & Pick<StMarketExports, 'timestamp'>
+    & {
+    asia?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, europe?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, europeanUnion?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, france?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, unitedkingdom?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, latinAmerica?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, germany?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, japan?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, china?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>, canada?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>
+}
+    );
+
+export type QueryStMarketOverviewPartialDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type QueryStMarketOverviewPartialDataQuery = (
+    { __typename?: 'Query' }
+    & {
+    querySTMarketOverviewPartialData?: Maybe<(
+        { __typename?: 'STMarketOverviewPartialData' }
+        & {
+        sp500Stats?: Maybe<(
+            { __typename?: 'STMarketSP500AllCategory' }
+            & StMarketSp500AllCategoryFragmentFragment
+            )>, bonds?: Maybe<(
+            { __typename?: 'STMarketBonds' }
+            & StMarketBondsFragmentFragment
+            )>, exports?: Maybe<(
+            { __typename?: 'STMarketExports' }
+            & StMarketExportsFragmentFragment
+            )>, investorSentiment?: Maybe<(
+            { __typename?: 'STMarketChartData' }
+            & StMarketChartDataFragmentFragment
+            )>, treasuryYield?: Maybe<(
+            { __typename?: 'STMarketChartData' }
+            & StMarketChartDataFragmentFragment
+            )>
+    }
+        )>
+}
+    );
+
+export type QueryStMarketChartDataQueryVariables = Exact<{
+    document: St_Market_Firebase_Documents_Chart_Data_Enum;
+}>;
+
+
+export type QueryStMarketChartDataQuery = (
+    { __typename?: 'Query' }
+    & {
+    querySTMarketChartData?: Maybe<(
+        { __typename?: 'STMarketChartData' }
+        & StMarketChartDataFragmentFragment
+        )>
+}
+    );
+
+export type QueryStMarketExportsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type QueryStMarketExportsQuery = (
+    { __typename?: 'Query' }
+    & {
+    querySTMarketExports?: Maybe<(
+        { __typename?: 'STMarketExports' }
+        & StMarketExportsFragmentFragment
+        )>
+}
+    );
+
+export type QueryStMarketBondsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type QueryStMarketBondsQuery = (
+    { __typename?: 'Query' }
+    & {
+    querySTMarketBonds?: Maybe<(
+        { __typename?: 'STMarketBonds' }
+        & StMarketBondsFragmentFragment
+        )>
+}
+    );
+
+export type QueryStMarketSp500AllCategoryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type QueryStMarketSp500AllCategoryQuery = (
+    { __typename?: 'Query' }
+    & {
+    querySTMarketSP500AllCategory?: Maybe<(
+        { __typename?: 'STMarketSP500AllCategory' }
+        & StMarketSp500AllCategoryFragmentFragment
+        )>
+}
     );
 
 export type StPortfolioFragmentFragment = (
@@ -2340,6 +2656,136 @@ export const StGroupAllDataFragmentFragmentDoc = gql`
     ${StRankFragmentFragmentDoc}
     ${StTransactionFragmentFragmentDoc}
 ${StLogsFragmentFragmentDoc}`;
+export const StMarketChartDataFragmentFragmentDoc = gql`
+    fragment STMarketChartDataFragment on STMarketChartData {
+        currentDate
+        currentValue
+        description
+        multipleData
+        name
+        result {
+            currentValue
+            data
+            name
+        }
+        timestamp
+        lastUpdate
+    }
+`;
+export const StMarketSp500AllCategoryFragmentFragmentDoc = gql`
+    fragment STMarketSP500AllCategoryFragment on STMarketSP500AllCategory {
+        priceToSale {
+            ...STMarketChartDataFragment
+        }
+        priceToBook {
+            ...STMarketChartDataFragment
+        }
+        bookValue {
+            ...STMarketChartDataFragment
+        }
+        salesGrowth {
+            ...STMarketChartDataFragment
+        }
+        sales {
+            ...STMarketChartDataFragment
+        }
+        dividends {
+            ...STMarketChartDataFragment
+        }
+        dividendYield {
+            ...STMarketChartDataFragment
+        }
+        dividendGrowth {
+            ...STMarketChartDataFragment
+        }
+        earnings {
+            ...STMarketChartDataFragment
+        }
+        earningsYield {
+            ...STMarketChartDataFragment
+        }
+        earningsGrowth {
+            ...STMarketChartDataFragment
+        }
+        peRatio {
+            ...STMarketChartDataFragment
+        }
+        shillerPE {
+            ...STMarketChartDataFragment
+        }
+        timestamp
+    }
+${StMarketChartDataFragmentFragmentDoc}`;
+export const StMarketBondsFragmentFragmentDoc = gql`
+    fragment STMarketBondsFragment on STMarketBonds {
+        AAA {
+            ...STMarketChartDataFragment
+        }
+        AA {
+            ...STMarketChartDataFragment
+        }
+        A {
+            ...STMarketChartDataFragment
+        }
+        BB {
+            ...STMarketChartDataFragment
+        }
+        B {
+            ...STMarketChartDataFragment
+        }
+        CCC {
+            ...STMarketChartDataFragment
+        }
+        CorporateBondIndexYield {
+            ...STMarketChartDataFragment
+        }
+        CorporateBondHighYieldIndexYield {
+            ...STMarketChartDataFragment
+        }
+        CorporateBondHighYieldEmergingMarketIndexYield {
+            ...STMarketChartDataFragment
+        }
+        CorporateBondEuroEmergingMarketIndexYield {
+            ...STMarketChartDataFragment
+        }
+        timestamp
+    }
+${StMarketChartDataFragmentFragmentDoc}`;
+export const StMarketExportsFragmentFragmentDoc = gql`
+    fragment STMarketExportsFragment on STMarketExports {
+        asia {
+            ...STMarketChartDataFragment
+        }
+        europe {
+            ...STMarketChartDataFragment
+        }
+        europeanUnion {
+            ...STMarketChartDataFragment
+        }
+        france {
+            ...STMarketChartDataFragment
+        }
+        unitedkingdom {
+            ...STMarketChartDataFragment
+        }
+        latinAmerica {
+            ...STMarketChartDataFragment
+        }
+        germany {
+            ...STMarketChartDataFragment
+        }
+        japan {
+            ...STMarketChartDataFragment
+        }
+        china {
+            ...STMarketChartDataFragment
+        }
+        canada {
+            ...STMarketChartDataFragment
+        }
+        timestamp
+    }
+${StMarketChartDataFragmentFragmentDoc}`;
 export const StPortfolioWeeklyChangeFragmentFragmentDoc = gql`
     fragment STPortfolioWeeklyChangeFragment on STPortfolioWeeklyChange {
         portfolio {
@@ -3172,6 +3618,118 @@ export const LeaveGroupDocument = gql`
 })
 export class LeaveGroupGQL extends Apollo.Mutation<LeaveGroupMutation, LeaveGroupMutationVariables> {
     document = LeaveGroupDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+        super(apollo);
+    }
+}
+
+export const QueryStMarketOverviewPartialDataDocument = gql`
+    query QuerySTMarketOverviewPartialData {
+        querySTMarketOverviewPartialData {
+            sp500Stats {
+                ...STMarketSP500AllCategoryFragment
+            }
+            bonds {
+                ...STMarketBondsFragment
+            }
+            exports {
+                ...STMarketExportsFragment
+            }
+            investorSentiment {
+                ...STMarketChartDataFragment
+            }
+            treasuryYield {
+                ...STMarketChartDataFragment
+            }
+        }
+    }
+    ${StMarketSp500AllCategoryFragmentFragmentDoc}
+    ${StMarketBondsFragmentFragmentDoc}
+    ${StMarketExportsFragmentFragmentDoc}
+${StMarketChartDataFragmentFragmentDoc}`;
+
+@Injectable({
+    providedIn: 'root'
+})
+export class QueryStMarketOverviewPartialDataGQL extends Apollo.Query<QueryStMarketOverviewPartialDataQuery, QueryStMarketOverviewPartialDataQueryVariables> {
+    document = QueryStMarketOverviewPartialDataDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+        super(apollo);
+    }
+}
+
+export const QueryStMarketChartDataDocument = gql`
+    query QuerySTMarketChartData($document: ST_MARKET_FIREBASE_DOCUMENTS_CHART_DATA_ENUM!) {
+        querySTMarketChartData(document: $document) {
+            ...STMarketChartDataFragment
+        }
+    }
+${StMarketChartDataFragmentFragmentDoc}`;
+
+@Injectable({
+    providedIn: 'root'
+})
+export class QueryStMarketChartDataGQL extends Apollo.Query<QueryStMarketChartDataQuery, QueryStMarketChartDataQueryVariables> {
+    document = QueryStMarketChartDataDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+        super(apollo);
+    }
+}
+
+export const QueryStMarketExportsDocument = gql`
+    query QuerySTMarketExports {
+        querySTMarketExports {
+            ...STMarketExportsFragment
+        }
+    }
+${StMarketExportsFragmentFragmentDoc}`;
+
+@Injectable({
+    providedIn: 'root'
+})
+export class QueryStMarketExportsGQL extends Apollo.Query<QueryStMarketExportsQuery, QueryStMarketExportsQueryVariables> {
+    document = QueryStMarketExportsDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+        super(apollo);
+    }
+}
+
+export const QueryStMarketBondsDocument = gql`
+    query QuerySTMarketBonds {
+        querySTMarketBonds {
+            ...STMarketBondsFragment
+        }
+    }
+${StMarketBondsFragmentFragmentDoc}`;
+
+@Injectable({
+    providedIn: 'root'
+})
+export class QueryStMarketBondsGQL extends Apollo.Query<QueryStMarketBondsQuery, QueryStMarketBondsQueryVariables> {
+    document = QueryStMarketBondsDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+        super(apollo);
+    }
+}
+
+export const QueryStMarketSp500AllCategoryDocument = gql`
+    query QuerySTMarketSP500AllCategory {
+        querySTMarketSP500AllCategory {
+            ...STMarketSP500AllCategoryFragment
+        }
+    }
+${StMarketSp500AllCategoryFragmentFragmentDoc}`;
+
+@Injectable({
+    providedIn: 'root'
+})
+export class QueryStMarketSp500AllCategoryGQL extends Apollo.Query<QueryStMarketSp500AllCategoryQuery, QueryStMarketSp500AllCategoryQueryVariables> {
+    document = QueryStMarketSp500AllCategoryDocument;
 
     constructor(apollo: Apollo.Apollo) {
         super(apollo);

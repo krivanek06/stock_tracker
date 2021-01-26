@@ -1,13 +1,31 @@
+<ion-content class="ion-padding">
+    <!-- header -->
+    <app-header [pageIcon]="'rocket'" [pageName]="'Market'"></app-header>
 
-<ion-content>
-  <!-- header -->
-  <app-header></app-header>
 
-  <!-- body -->
-  <perfect-scrollbar>
-    <div class="st-content-padding">
-    MARKET
-    </div>
-  </perfect-scrollbar>
+    <!-- body -->
+    <ion-grid>
+        <!-- initial subpage picker -->
+        <ion-row class="ion-justify-content-center">
+            <ion-col size="12" size-lg="11" size-xl="10">
+                <ion-segment color="primary"
+                             class="ion-justify-content-end ion-margin-bottom"
+                             [value]="segmentValue"
+                             (ionChange)="segmentChanged($event)">
+                    <ion-segment-button [value]="MARKET_PAGE_ENUM.overview">
+                        <ion-label>Overview</ion-label>
+                    </ion-segment-button>
+                </ion-segment>
+            </ion-col>
+        </ion-row>
+
+        <!-- sub pages -->
+        <ion-row class="ion-justify-content-center">
+            <ion-col size="12" size-lg="11" size-xl="10">
+                <router-outlet></router-outlet>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
 </ion-content>
 

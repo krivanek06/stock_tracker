@@ -34,6 +34,9 @@ const STMarketSharedTypeDefs = gql`
         market_sp500_all_category_data
         market_bonds_all_data
         market_exports_all_data
+    }
+
+    enum ST_MARKET_FIREBASE_DOCUMENTS_CHART_DATA_ENUM {
         market_investor_sentiment_data
         market_trasury_yield_curve_rates_data
     }

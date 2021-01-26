@@ -55,6 +55,72 @@ fragment STMarketSP500AllCategoryFragment on STMarketSP500AllCategory {
     }
     timestamp
 }
+fragment STMarketBondsFragment on STMarketBonds {
+    AAA {
+        ...STMarketChartDataFragment
+    }
+    AA {
+        ...STMarketChartDataFragment
+    }
+    A {
+        ...STMarketChartDataFragment
+    }
+    BB {
+        ...STMarketChartDataFragment
+    }
+    B {
+        ...STMarketChartDataFragment
+    }
+    CCC {
+        ...STMarketChartDataFragment
+    }
+    CorporateBondIndexYield {
+        ...STMarketChartDataFragment
+    }
+    CorporateBondHighYieldIndexYield {
+        ...STMarketChartDataFragment
+    }
+    CorporateBondHighYieldEmergingMarketIndexYield {
+        ...STMarketChartDataFragment
+    }
+    CorporateBondEuroEmergingMarketIndexYield {
+        ...STMarketChartDataFragment
+    }
+    timestamp
+}
+fragment STMarketExportsFragment on STMarketExports {
+    asia {
+        ...STMarketChartDataFragment
+    }
+    europe {
+        ...STMarketChartDataFragment
+    }
+    europeanUnion {
+        ...STMarketChartDataFragment
+    }
+    france {
+        ...STMarketChartDataFragment
+    }
+    unitedkingdom {
+        ...STMarketChartDataFragment
+    }
+    latinAmerica {
+        ...STMarketChartDataFragment
+    }
+    germany {
+        ...STMarketChartDataFragment
+    }
+    japan {
+        ...STMarketChartDataFragment
+    }
+    china {
+        ...STMarketChartDataFragment
+    }
+    canada {
+        ...STMarketChartDataFragment
+    }
+    timestamp
+}
 
 # -----------------------------------------
 # QUERY
@@ -64,6 +130,36 @@ query QuerySTMarketOverviewPartialData {
         sp500Stats {
             ...STMarketSP500AllCategoryFragment
         }
+        bonds {
+            ...STMarketBondsFragment
+        }
+        exports {
+            ...STMarketExportsFragment
+        }
+        investorSentiment {
+            ...STMarketChartDataFragment
+        }
+        treasuryYield {
+            ...STMarketChartDataFragment
+        }
+    }
+}
+
+query QuerySTMarketChartData($document: ST_MARKET_FIREBASE_DOCUMENTS_CHART_DATA_ENUM!) {
+    querySTMarketChartData(document: $document) {
+        ...STMarketChartDataFragment
+    }
+}
+
+query QuerySTMarketExports {
+    querySTMarketExports {
+        ...STMarketExportsFragment
+    }
+}
+
+query QuerySTMarketBonds {
+    querySTMarketBonds {
+        ...STMarketBondsFragment
     }
 }
 

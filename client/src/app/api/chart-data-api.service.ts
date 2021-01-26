@@ -4,8 +4,6 @@ import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {map, retry} from 'rxjs/operators';
 import {
-    ChartData,
-    ChartDataArray,
     HistoricalChartData
 } from '../shared/models/chartDataModel';
 
@@ -23,31 +21,4 @@ export class ChartDataApiService {
             retry(2)
         );
     }
-
-
-    getInvestorSentiment(): Observable<ChartDataArray[]> {
-        const numberOfDataSet = 40;
-        const params = new HttpParams().set('numberOfDataSet', String(numberOfDataSet));
-        return this.http.get<ChartData>(`${environment.marketDataAPI}/chart_data/investor_sentiment`, {params}).pipe(
-            map(res => res.result)
-        );
-    }
-
-    getTreasuryYieldCurveRates(): Observable<ChartDataArray[]> {
-        const numberOfDataSet = 250;
-        const params = new HttpParams().set('numberOfDataSet', String(numberOfDataSet));
-        return this.http.get<ChartData>(`${environment.marketDataAPI}/chart_data/treasury_yield_curve_rates`, {params}).pipe(
-            map(res => res.result)
-        );
-    }
-
-    getMiseryIndex(): Observable<ChartDataArray[]> {
-        const numberOfDataSet = 40;
-        const params = new HttpParams().set('numberOfDataSet', String(numberOfDataSet));
-        return this.http.get<ChartData>(`${environment.marketDataAPI}/chart_data/misery_index`, {params}).pipe(
-            map(res => res.result)
-        );
-    }
-
-
 }
