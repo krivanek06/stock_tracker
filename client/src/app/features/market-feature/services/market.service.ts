@@ -3,6 +3,12 @@ import {MarketPriceWebsocketService, MarketSymbolResult} from '../../../shared/s
 import {StockDetailsService} from '../../stock-details-feature/services/stock-details.service';
 import {Observable} from 'rxjs';
 import {filter, map, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {
+    QueryStMarketOverviewPartialDataGQL,
+    QueryStMarketSp500AllCategoryGQL, StMarketOverviewPartialData,
+    StMarketSp500AllCategory,
+    StMarketSp500AllCategoryFragmentFragment
+} from '../../../api/customGraphql.service';
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +16,9 @@ import {filter, map, switchMap, takeUntil, tap} from 'rxjs/operators';
 export class MarketService {
 
     constructor(private marketPriceWebsocket: MarketPriceWebsocketService,
-                private stockDetailsService: StockDetailsService) {
+                private stockDetailsService: StockDetailsService,
+                private queryStMarketSp500AllCategoryGQL: QueryStMarketSp500AllCategoryGQL,
+                private queryStMarketOverviewPartialDataGQL: QueryStMarketOverviewPartialDataGQL) {
     }
 
     /**
@@ -24,5 +32,13 @@ export class MarketService {
                 filter(res => !!res), // filter null & undefined
             ))
         );
+    }
+
+    queryStMarketSp500AllCategory(): Observable<StMarketSp500AllCategory> {
+        return this.queryStMarketSp500AllCategoryGQL.fetch().pipe(map(x => x.data.querySTMarketSP500AllCategory));
+    }
+
+    queryStMarketOverviewPartialData(): Observable<StMarketOverviewPartialData> {
+        return this.queryStMarketOverviewPartialDataGQL.fetch().pipe(map(x => x.data.querySTMarketOverviewPartialData));
     }
 }

@@ -18,7 +18,6 @@ import {InlineModificationFormComponent} from './components/forms/inline-modific
 import {GenericChartComponent} from './components/charts/generic-chart/generic-chart.component';
 import {GenericCardComponent} from './components/generic/generic-card/generic-card.component';
 import {FinancialChartContainerComponent} from './containers/financial-chart-container/financial-chart-container.component';
-import {EconomicChartModalContainerComponent} from './entry-components/economic-chart-modal-container/economic-chart-modal-container.component';
 import {RelativeTimePipe} from './pipes/relatimeTime.pipe';
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {PriceCompareItemComponent} from './components/items/price-compare-item/price-compare-item.component';
@@ -51,7 +50,6 @@ import {GenericFadingCardContentComponent} from './components/generic/generic-fa
         GenericChartComponent,
         GenericCardComponent,
         FinancialChartContainerComponent,
-        EconomicChartModalContainerComponent,
         PriceCompareItemComponent,
         InlineInputPopUpComponent,
         DropzoneDirective,
@@ -102,7 +100,6 @@ import {GenericFadingCardContentComponent} from './components/generic/generic-fa
         GenericChartComponent,
         GenericCardComponent,
         FinancialChartContainerComponent,
-        EconomicChartModalContainerComponent,
         NgxDatatableModule,
         PriceCompareItemComponent,
         InlineInputPopUpComponent,
@@ -120,9 +117,7 @@ import {GenericFadingCardContentComponent} from './components/generic/generic-fa
 
     ],
     entryComponents: [
-        EconomicChartModalContainerComponent,
         InlineInputPopUpComponent
-
     ]
 })
 export class SharedModule {

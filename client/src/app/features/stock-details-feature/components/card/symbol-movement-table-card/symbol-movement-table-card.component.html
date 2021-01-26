@@ -7,29 +7,7 @@
 
     <ion-card-content>
         <ion-list>
-            <ion-item *ngFor="let data of symbolMovementData">
 
-                <ion-label position="fixed" class="symbol-gap">
-                  {{ data.Symbol }}
-                </ion-label>
-
-                <ion-label position="fixed" class="price-gap">
-                    {{ data.PriceIntraday | currency  }}
-                </ion-label>
-                <ion-label position="fixed" class="price-change-gap"
-                           [ngClass]="{ 'price-up': data.Change  >= 0, 'price-down': data.Change  < 0}">
-                    {{ data.PctChange }}
-                </ion-label>
-
-
-              <ion-label >
-                <ion-icon name="add-outline"
-                          class="st-clickable"
-                          (click)="showMoreInformation(data.Symbol, data.Name)">
-                </ion-icon>
-              </ion-label>
-
-            </ion-item>
         </ion-list>
     </ion-card-content>
 </ion-card>

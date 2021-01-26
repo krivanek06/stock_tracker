@@ -1,7 +1,6 @@
 from flask import Flask, request
 from flask_json import FlaskJSON, JsonError, json_response
 from flask_cors import CORS
-from ExternalAPI.Quandl import Quandl_General
 from ExternalAPI.YahooFinance import YahooFinance
 
 # yf.pdr_override()
@@ -11,7 +10,6 @@ CORS(app, resources={r"*": {"origins": "*"}})
 
 # CUSTOM singleton
 YahooFinance = YahooFinance.YahooFinance()
-QuandlGeneral = Quandl_General.QuandlGeneral()
 
 
 '''
@@ -39,33 +37,6 @@ def getStockHistoricalClosedDataWithPeriod():
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding chart data')
-
-
-@app.route('/investor_sentiment')
-def getInvestorSentiment():
-    try:
-        return json_response(**QuandlGeneral.getInvestorSentiment(), multipleData=True)
-    except Exception as e:
-        print(e)
-        raise JsonError(status=500, error='Error while finding chart data for investors sentiments')
-
-
-@app.route('/treasury_yield_curve_rates')
-def getTreasuryYieldCurveRates():
-    try:
-        return json_response(**QuandlGeneral.getTreasuryYieldCurveRates(), multipleData=True)
-    except Exception as e:
-        print(e)
-        raise JsonError(status=500, error='Error while finding chart data for treasury yield curve rates')
-
-
-@app.route('/misery_index')
-def getMiseryIndex():
-    try:
-        return json_response(**QuandlGeneral.getMiseryIndex(), multipleData=True)
-    except Exception as e:
-        print(e)
-        raise JsonError(status=500, error='Error while finding chart data for misery index')
 
 
 if __name__ == '__main__':

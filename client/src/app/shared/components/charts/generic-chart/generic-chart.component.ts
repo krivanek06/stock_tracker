@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {ChartDataArray} from '../../../models/chartDataModel';
 import {ChartType} from '../../../models/sharedModel';
 
 import * as Highcharts from 'highcharts/highstock';
@@ -14,7 +13,6 @@ highcharts3D(Highcharts);
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GenericChartComponent implements OnInit, OnChanges {
-
     @Input() series: any[]; // y-axis
     @Input() heightPx = 400;
     @Input() chartType: ChartType = ChartType.line;
@@ -41,11 +39,6 @@ export class GenericChartComponent implements OnInit, OnChanges {
         this.chartCallback = (chart) => {
             self.chart = chart;
         };
-    }
-
-    addData(chartData: ChartDataArray): void {
-        this.chart.addSeries(chartData);
-        // this.chart.redraw();
     }
 
     ngOnChanges(changes: SimpleChanges): void {

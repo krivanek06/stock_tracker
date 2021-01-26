@@ -13,7 +13,7 @@ class Finhub:
         self.__FOLDER = 'resource/other'
         self.SEARCH_US_EXCHANGE_FOLDER = 'us_exchange.json'
 
-        self.fileManagerService = FileManagerService.FileManagerService(self.__FOLDER)
+        self.fileManagerService = FileManagerService.FileManagerService()
 
         if not firestoreApps:
             cred = credentials.Certificate('private_data/firebase_key.json')

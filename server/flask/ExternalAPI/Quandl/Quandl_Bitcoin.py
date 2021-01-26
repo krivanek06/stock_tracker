@@ -1,9 +1,9 @@
-from ExternalAPI.Quandl.Quandl import Quandl
+from ExternalAPI.Quandl.QuandlRequester import QuandlRequester
 
 # https://www.quandl.com/data/BCHAIN-Blockchain
-class Quandl_Bitcoin(Quandl):
+class Quandl_Requester_Bitcoin(QuandlRequester):
     def __init__(self):
-        super(Quandl_Bitcoin, self).__init__()
+        super(Quandl_Requester_Bitcoin, self).__init__()
 
     def getTransactionFeesUSD(self):
         return self._generatInformationProvider('BCHAIN/TRFUS', ['Transaction fees'])

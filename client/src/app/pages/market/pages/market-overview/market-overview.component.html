@@ -1,0 +1,251 @@
+<ion-grid>
+    <ion-row class="ion-justify-content-center">
+        <ion-col size="12" size-lg="11">
+            <app-financial-chart-container
+                    [showYAxis]="true"
+                    [name]="'S&P 500'"
+                    [height]="425"
+                    [symbol]="'^GSPC'">
+            </app-financial-chart-container>
+        </ion-col>
+    </ion-row>
+
+    <ng-container *ngIf="marketOverview$ | async as marketOverview">
+        <!-- SP 500 stats -->
+        <app-generic-list [title]="'S&P 500 stats'"></app-generic-list>
+        <ion-row>
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="2.4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.sp500Stats.timestamp"
+                                  [marketChartData]="marketOverview.sp500Stats.peRatio">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="2.4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.sp500Stats.timestamp"
+                                  [marketChartData]="marketOverview.sp500Stats.shillerPE">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="2.4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.sp500Stats.timestamp"
+                                  [marketChartData]="marketOverview.sp500Stats.bookValue">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="2.4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.sp500Stats.timestamp"
+                                  [marketChartData]="marketOverview.sp500Stats.priceToBook">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="2.4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.sp500Stats.timestamp"
+                                  [marketChartData]="marketOverview.sp500Stats.sales">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="3">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.sp500Stats.timestamp"
+                                  [marketChartData]="marketOverview.sp500Stats.salesGrowth">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="3">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.sp500Stats.timestamp"
+                                  [marketChartData]="marketOverview.sp500Stats.priceToSale">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="3">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.sp500Stats.timestamp"
+                                  [marketChartData]="marketOverview.sp500Stats.earnings">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="3">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.sp500Stats.timestamp"
+                                  [marketChartData]="marketOverview.sp500Stats.earningsYield">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="6" size-lg="3">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.sp500Stats.timestamp"
+                                  [marketChartData]="marketOverview.sp500Stats.earningsGrowth">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="6" size-lg="3">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.sp500Stats.timestamp"
+                                  [marketChartData]="marketOverview.sp500Stats.dividendYield">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="6" size-lg="3">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.sp500Stats.timestamp"
+                                  [marketChartData]="marketOverview.sp500Stats.dividends">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="12" size-md="6" size-lg="3">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.sp500Stats.timestamp"
+                                  [marketChartData]="marketOverview.sp500Stats.dividendGrowth">
+                </app-market-chart>
+            </ion-col>
+        </ion-row>
+
+        <!-- investor sentiment -->
+        <app-generic-list [title]="'Investor sentiment'"></app-generic-list>
+        <ion-row>
+            <ion-col size="12">
+                <app-market-chart [heightPx]="300"
+                                  [enableLegendClick]="true"
+                                  [timestamp]="marketOverview.investorSentiment.timestamp"
+                                  [marketChartData]="marketOverview.investorSentiment">
+                </app-market-chart>
+            </ion-col>
+        </ion-row>
+
+        <!-- investor sentiment -->
+        <app-generic-list [title]="'Treasury yield'"></app-generic-list>
+        <ion-row>
+            <ion-col size="12">
+                <app-market-chart [heightPx]="300"
+                                  [enableLegendClick]="true"
+                                  [timestamp]="marketOverview.treasuryYield.timestamp"
+                                  [marketChartData]="marketOverview.treasuryYield">
+                </app-market-chart>
+            </ion-col>
+        </ion-row>
+
+        <!-- investor sentiment -->
+        <app-generic-list [title]="'Corporate bond market'"></app-generic-list>
+        <ion-row>
+            <ion-col size="12" size-sm="6" size-md="3" size-lg="3">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.bonds.timestamp"
+                                  [marketChartData]="marketOverview.bonds.CorporateBondIndexYield">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="3" size-lg="3">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.bonds.timestamp"
+                                  [marketChartData]="marketOverview.bonds.CorporateBondHighYieldIndexYield">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="3" size-lg="3">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.bonds.timestamp"
+                                  [marketChartData]="marketOverview.bonds.CorporateBondHighYieldEmergingMarketIndexYield">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="3" size-lg="3">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.bonds.timestamp"
+                                  [marketChartData]="marketOverview.bonds.CorporateBondEuroEmergingMarketIndexYield">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.bonds.timestamp"
+                                  [marketChartData]="marketOverview.bonds.A">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.bonds.timestamp"
+                                  [marketChartData]="marketOverview.bonds.AA">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.bonds.timestamp"
+                                  [marketChartData]="marketOverview.bonds.AAA">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.bonds.timestamp"
+                                  [marketChartData]="marketOverview.bonds.B">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.bonds.timestamp"
+                                  [marketChartData]="marketOverview.bonds.BB">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.bonds.timestamp"
+                                  [marketChartData]="marketOverview.bonds.CCC">
+                </app-market-chart>
+            </ion-col>
+        </ion-row>
+
+        <!-- investor sentiment -->
+        <app-generic-list [title]="'Export index'"></app-generic-list>
+        <ion-row>
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="3" size-xl="2.4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.exports.timestamp"
+                                  [marketChartData]="marketOverview.exports.latinAmerica">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="3" size-xl="2.4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.exports.timestamp"
+                                  [marketChartData]="marketOverview.exports.europe">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="3" size-xl="2.4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.exports.timestamp"
+                                  [marketChartData]="marketOverview.exports.europeanUnion">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="3" size-xl="2.4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.exports.timestamp"
+                                  [marketChartData]="marketOverview.exports.china">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="4" size-xl="2.4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.exports.timestamp"
+                                  [marketChartData]="marketOverview.exports.japan">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="4" size-lg="4" size-xl="2.4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.exports.timestamp"
+                                  [marketChartData]="marketOverview.exports.asia">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="6" size-lg="4" size-xl="2.4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.exports.timestamp"
+                                  [marketChartData]="marketOverview.exports.unitedkingdom">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="6" size-lg="4" size-xl="2.4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.exports.timestamp"
+                                  [marketChartData]="marketOverview.exports.canada">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="6" size-lg="4" size-xl="2.4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.exports.timestamp"
+                                  [marketChartData]="marketOverview.exports.germany">
+                </app-market-chart>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-md="6" size-lg="4" size-xl="2.4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.exports.timestamp"
+                                  [marketChartData]="marketOverview.exports.france">
+                </app-market-chart>
+            </ion-col>
+        </ion-row>
+    </ng-container>
+</ion-grid>

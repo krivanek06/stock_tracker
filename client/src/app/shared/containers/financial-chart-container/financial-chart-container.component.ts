@@ -16,7 +16,7 @@ import {ComponentScreenUpdateBase} from '../../utils/component-base/component-sc
 })
 export class FinancialChartContainerComponent extends ComponentScreenUpdateBase implements OnInit, OnDestroy, OnChanges {
     volume: number[] = [];
-    price: number[] = []; // [open, high, low, close]
+    price: number[][] = []; // [open, high, low, close]
     currentPrice: number;
     closedPrice: number;
     selectedRange = '1d';

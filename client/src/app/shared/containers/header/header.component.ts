@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {AuthFeatureService} from '../../../features/auth-feature/services/auth-feature.service';
-import {SearchDataApiService} from '../../../api/search-data-api.service';
 import {Router} from '@angular/router';
 import {StUserPublicData} from '../../../api/customGraphql.service';
 
@@ -18,7 +17,6 @@ export class HeaderComponent implements OnInit {
     user$: Observable<StUserPublicData>;
 
     constructor(private authFeatureService: AuthFeatureService,
-                private searchDataApiService: SearchDataApiService,
                 private router: Router) {
     }
 
