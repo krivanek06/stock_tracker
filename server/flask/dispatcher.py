@@ -22,4 +22,4 @@ app.wsgi_app = DispatcherMiddleware(NotFound(), {
 
 # https://stackoverflow.com/questions/30906489/how-to-implement-flask-application-dispatching-by-path-with-wsgi/30915745
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, threaded=True)

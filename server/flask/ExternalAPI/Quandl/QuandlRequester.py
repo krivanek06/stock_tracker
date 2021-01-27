@@ -17,15 +17,36 @@ class QuandlRequester:
             for k in ['main', 'other']:
                 for data in section[k]:
                     if data['quandlKey'] == quandlKey:
-                        return self.__getDataForDocumentKey(data['quandlKey'], data['replacements'])
+                        return self._getDataForDocumentKey(data['quandlKey'], data['replacements'])
 
     def loadMainDataForSection(self, sectionName):
         mainSection = self.__findSectionForSectionName(sectionName)['main']
-        res = [self.__getDataForDocumentKey(data['quandlKey'], data['replacements'], None) for data in mainSection]
+        res = [self._getDataForDocumentKey(data['quandlKey'], data['replacements'], None) for data in mainSection]
         flat_list = [item for sublist in res for item in sublist]
         return flat_list
 
-    def __getDataForDocumentKey(self, quandlKey, replacements, documentKey=None):
+    # return {'quandlKey': XX, 'replacements': []}
+    def findDataByDocumentKey(self, documentKey):
+        content = self.fileManager.getJsonFile('quandl_endpoints.json')
+        for section in content['section']:
+            for part in ['main', 'other']:
+                for data in section[part]:
+                    for replacement in section[part]['replacements']:
+                        if replacement['documentKey'] == documentKey:
+                            return data
+        raise Exception('quandl findDataByDocumentKey() does not find any data for key: ' + documentKey)
+
+    # TODO only return data from 'sections', make it to return data from 'section_all_data'
+    def _getAllCategories(self):
+        content = self.fileManager.getJsonFile('quandl_endpoints.json')
+        result = [{
+            'name': s['name'],
+            'data': [r for main in s['main'] for r in main['replacements']] +
+                    [r for main in s['other'] for r in main['replacements']]
+        } for s in content['sections']]
+        return result
+
+    def _getDataForDocumentKey(self, quandlKey, replacements, documentKey=None):
         replacements = [r['name'] for r in replacements]  # ex. -> {"name": "XY", "documentKey": "XY" }
         data = self._generatInformationProvider(quandlKey, replacements)
 
@@ -47,10 +68,10 @@ class QuandlRequester:
         raise Exception('quandl_endpoints.json does not contain sectionName: ' + sectionName)
 
     # return {"quandlKey": "",  "documentKey": "",  "documentKeyReplacements": [""]}
-    def __findDataForDocumentKey(self, documentKey):
+    def _findDataForDocumentKey(self, documentKey):
         content = self.fileManager.getJsonFile('quandl_endpoints.json')
         for section in content['sections']:
-            for k in ['main', 'replacements']:
+            for k in ['main', 'other']:
                 for container in section[k]:
                     quandlKey = container['quandlKey']
                     for data in container['replacements']:
@@ -59,13 +80,14 @@ class QuandlRequester:
 
         raise Exception('quandl_endpoints.json does not contain documentKey: ' + documentKey)
 
-    def _generatInformationProvider(self, quandalKey, customKeys=None, quandlSection='undefined'):
+    def _generatInformationProvider(self, quandalKey, customKeys=None):
         params = {'download_type': 'full', 'api_key': self.APIKEY}
         data = get('https://www.quandl.com/api/v3/datasets/' + quandalKey, params=params).json()['dataset']
 
         parentName = data.get('name')
         currentDate = data.get('data')[0][0]
-        documentKey = 'qundal_' + '_'.join(data.get('name').lower().split(' '))
+        documentKey = utils.changeUnsupportedCharactersExceptNumber(
+            'qundal_' + '_'.join(data.get('name').lower().split(' ')))
 
         data = self.__formatData(data, customKeys)
         for d in data:

@@ -18,6 +18,14 @@ def getBondsPartialData():
         raise JsonError(status=500, error='Error in Quandl controller, getBondsPartialData(), message: ' + str(e))
 
 
+@app.route('/social_security')
+def getSocialSecurityPartialData():
+    try:
+        return json_response(**quandl.getSocialSecurityPartialData())
+    except Exception as e:
+        raise JsonError(status=500, error='Error in Quandl controller, getSocialSecurityPartialData(), message: ' + str(e))
+
+
 @app.route('/employment')
 def getEmploymentPartialData():
     try:
@@ -59,13 +67,27 @@ def getInflationRate():
         raise JsonError(status=500, error='Error in Quandl controller, getInflationRate(), message: ' + str(e))
 
 
-@app.route('/consumer_price_index')
-def getConsumerPriceIndex():
+@app.route('/consumer_price_index_states')
+def getConsumerPriceIndexByStates():
     try:
-        return json_response(**quandl.getConsumerPriceIndex())
+        return json_response(**quandl.getConsumerPriceIndexByStates())
     except Exception as e:
         raise JsonError(status=500, error='Error in Quandl controller, getConsumerPriceIndex(), message: ' + str(e))
 
+@app.route('/consumer_us_price_index')
+def getConsumerUSPriceIndex():
+    try:
+        return json_response(**quandl.getConsumerUSPriceIndex())
+    except Exception as e:
+        raise JsonError(status=500, error='Error in Quandl controller, getConsumerUSPriceIndex(), message: ' + str(e))
+
+
+@app.route('/producer_us_price_index')
+def getProducerUSPriceIndex():
+    try:
+        return json_response(**quandl.getProducerUSPriceIndex())
+    except Exception as e:
+        raise JsonError(status=500, error='Error in Quandl controller, getProducerUSPriceIndex(), message: ' + str(e))
 
 @app.route('/misery_index')
 def getMiseryIndexPartialData():
@@ -99,3 +121,31 @@ def getBitcoinPartialData():
         return json_response(**quandl.getBitcoinPartialData())
     except Exception as e:
         raise JsonError(status=500, error='Error in Quandl controller, getBitcoinPartialData(), message: ' + str(e))
+
+@app.route('/all_keys')
+def getAllKeys():
+    try:
+        return None
+    except Exception as e:
+        raise JsonError(status=500, error='Error in Quandl controller, getAllKeys(), message: ' + str(e))
+
+@app.route('/search')
+def getAllDataForkey():
+    try:
+        quandlKey = request.args.get('quandlKey')
+        documentKey = request.args.get('documentKey')
+        if quandlKey is not None:
+            return json_response(**quandl.getAllDataForQundalKey(quandlKey))
+        if documentKey is not None:
+            return json_response(**quandl.getAllDataForDocumentKey(documentKey))
+        raise Exception('No key was provided for quandl seach')
+    except Exception as e:
+        raise JsonError(status=500, error='Error in Quandl controller, getAllDataForQundalKey(), message: ' + str(e))
+
+
+@app.route('/categories')
+def getAllCategories():
+    try:
+        return json_response(**quandl.getAllCategories())
+    except Exception as e:
+        raise JsonError(status=500, error='Error in Quandl controller, getAllCategories(), message: ' + str(e))
