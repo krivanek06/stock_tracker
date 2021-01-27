@@ -35,12 +35,12 @@ import {querySTGroupAllDataByGroupId, querySTGroupPartialDataByGroupName} from "
 import {stTransactionResolvers} from "./st-transaction/st-transaction.resolver";
 import {stStockWatchlistResolvers} from "./watchlist/watchlist.resolver";
 import {performTransaction} from "./st-transaction/st-transaction.mutation";
-import {STMarketTypeDefs} from "./st-market/st-market.typedefs";
+import {STMarketSharedTypeDefs} from "./st-market/st-market.typedefs";
 import {
-    querySTMarketBonds, querySTMarketChartData, querySTMarketExports,
-    querySTMarketOverviewPartialData,
-    querySTMarketSP500AllCategory,
-} from "./st-market/st-market-overview.query";
+    queryMultipleStMarketData,
+    queryStMarketAllCategories, queryStMarketData,
+    querySTMarketOverview
+} from "./st-market/st-market.query";
 
 global.fetch = require("node-fetch");
 
@@ -73,11 +73,10 @@ const mainTypeDefs = gql`
         queryStockDailyInformation: STStockDailyInformations
 
         # market data
-        querySTMarketOverviewPartialData: STMarketOverviewPartialData
-        querySTMarketSP500AllCategory: STMarketSP500AllCategory
-        querySTMarketBonds: STMarketBonds
-        querySTMarketExports: STMarketExports
-        querySTMarketChartData(document: ST_MARKET_FIREBASE_DOCUMENTS_CHART_DATA_ENUM!): STMarketChartData
+        querySTMarketOverview: STMarketOverviewPartialData
+        queryStMarketAllCategories: STMarketDatasetKeyCategories
+        queryMultipleStMarketData(key: String!): STMarketChartDataResultSearch
+        queryStMarketData(key: String!): STMarketChartDataResultCombined
     }
 
     #### MUTATION
@@ -126,11 +125,10 @@ const mainResolver = {
         queryStockDailyInformation: async (_: null, args: null) => await queryStockDailyInformation(),
 
         // market data
-        querySTMarketOverviewPartialData: async (_: null, args: null) => await querySTMarketOverviewPartialData(),
-        querySTMarketSP500AllCategory: async (_: null, args: null) => await querySTMarketSP500AllCategory(),
-        querySTMarketBonds: async (_: null, args: null) => await querySTMarketBonds(),
-        querySTMarketExports: async (_: null, args: null) => await querySTMarketExports(),
-        querySTMarketChartData: async (_: null, args: { document: api.ST_MARKET_FIREBASE_DOCUMENTS_CHART_DATA_ENUM}) => await querySTMarketChartData(args.document),
+        querySTMarketOverview: async (_: null, args: null) => await querySTMarketOverview(),
+        queryStMarketAllCategories: async (_: null, args: null) => await queryStMarketAllCategories(),
+        queryMultipleStMarketData: async (_: null, args: { key: string }) => await queryMultipleStMarketData(args.key),
+        queryStMarketData: async (_: null, args: { key: string }) => await queryStMarketData(args.key),
     },
 
     Mutation: {
@@ -175,7 +173,7 @@ const server = new ApolloServer({
         userTypeDefs,
         watchlistTypeDefs,
         stockDetailsTypeDefs,
-        ...STMarketTypeDefs,
+        STMarketSharedTypeDefs,
         STTransactionTypeDefs,
         STSharedTypeDefs,
         STRankTypeDefs,

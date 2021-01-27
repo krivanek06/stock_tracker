@@ -1,170 +1,110 @@
-fragment STMarketChartDataFragment on STMarketChartData {
+fragment STMarketChartDataFragment on STMarketChartDataResult {
     currentDate
     currentValue
-    description
-    multipleData
+    data
+    documentKey
     name
-    result {
-        currentValue
-        data
-        name
-    }
-    timestamp
+    parentName
+    quandalKey
     lastUpdate
 }
 
-fragment STMarketSP500AllCategoryFragment on STMarketSP500AllCategory {
-    priceToSale {
-        ...STMarketChartDataFragment
-    }
-    priceToBook {
-        ...STMarketChartDataFragment
-    }
-    bookValue {
-        ...STMarketChartDataFragment
-    }
-    salesGrowth {
-        ...STMarketChartDataFragment
-    }
-    sales {
-        ...STMarketChartDataFragment
-    }
-    dividends {
-        ...STMarketChartDataFragment
-    }
-    dividendYield {
-        ...STMarketChartDataFragment
-    }
-    dividendGrowth {
-        ...STMarketChartDataFragment
-    }
-    earnings {
-        ...STMarketChartDataFragment
-    }
-    earningsYield {
-        ...STMarketChartDataFragment
-    }
-    earningsGrowth {
-        ...STMarketChartDataFragment
-    }
-    peRatio {
-        ...STMarketChartDataFragment
-    }
-    shillerPE {
+fragment STMarketChartDataResultContainerFragment on STMarketChartDataResultContainer {
+    result {
         ...STMarketChartDataFragment
     }
     timestamp
-}
-fragment STMarketBondsFragment on STMarketBonds {
-    AAA {
-        ...STMarketChartDataFragment
-    }
-    AA {
-        ...STMarketChartDataFragment
-    }
-    A {
-        ...STMarketChartDataFragment
-    }
-    BB {
-        ...STMarketChartDataFragment
-    }
-    B {
-        ...STMarketChartDataFragment
-    }
-    CCC {
-        ...STMarketChartDataFragment
-    }
-    CorporateBondIndexYield {
-        ...STMarketChartDataFragment
-    }
-    CorporateBondHighYieldIndexYield {
-        ...STMarketChartDataFragment
-    }
-    CorporateBondHighYieldEmergingMarketIndexYield {
-        ...STMarketChartDataFragment
-    }
-    CorporateBondEuroEmergingMarketIndexYield {
-        ...STMarketChartDataFragment
-    }
-    timestamp
-}
-fragment STMarketExportsFragment on STMarketExports {
-    asia {
-        ...STMarketChartDataFragment
-    }
-    europe {
-        ...STMarketChartDataFragment
-    }
-    europeanUnion {
-        ...STMarketChartDataFragment
-    }
-    france {
-        ...STMarketChartDataFragment
-    }
-    unitedkingdom {
-        ...STMarketChartDataFragment
-    }
-    latinAmerica {
-        ...STMarketChartDataFragment
-    }
-    germany {
-        ...STMarketChartDataFragment
-    }
-    japan {
-        ...STMarketChartDataFragment
-    }
-    china {
-        ...STMarketChartDataFragment
-    }
-    canada {
-        ...STMarketChartDataFragment
-    }
-    timestamp
+    keyName
 }
 
 # -----------------------------------------
 # QUERY
 
 query QuerySTMarketOverviewPartialData {
-    querySTMarketOverviewPartialData {
-        sp500Stats {
-            ...STMarketSP500AllCategoryFragment
+    querySTMarketOverview {
+        sp500 {
+            ...STMarketChartDataResultContainerFragment
         }
         bonds {
-            ...STMarketBondsFragment
+            ...STMarketChartDataResultContainerFragment
+        }
+        social_security {
+            ...STMarketChartDataResultContainerFragment
+        }
+        consumer_price_index_states {
+            ...STMarketChartDataResultContainerFragment
+        }
+        consumer_us_price_index {
+            ...STMarketChartDataResultContainerFragment
+        }
+        producer_us_price_index {
+            ...STMarketChartDataResultContainerFragment
+        }
+        inflation_rate {
+            ...STMarketChartDataResultContainerFragment
+        }
+        employment {
+            ...STMarketChartDataResultContainerFragment
+        }
+        manufacturing {
+            ...STMarketChartDataResultContainerFragment
         }
         exports {
-            ...STMarketExportsFragment
+            ...STMarketChartDataResultContainerFragment
         }
-        investorSentiment {
-            ...STMarketChartDataFragment
+        misery_index {
+            ...STMarketChartDataResultContainerFragment
         }
-        treasuryYield {
-            ...STMarketChartDataFragment
+        treasury_yield {
+            ...STMarketChartDataResultContainerFragment
+        }
+        investor_sentiment {
+            ...STMarketChartDataResultContainerFragment
+        }
+        bitcoin {
+            ...STMarketChartDataResultContainerFragment
         }
     }
 }
 
-query QuerySTMarketChartData($document: ST_MARKET_FIREBASE_DOCUMENTS_CHART_DATA_ENUM!) {
-    querySTMarketChartData(document: $document) {
-        ...STMarketChartDataFragment
+
+query QueryStMarketAllCategories {
+    queryStMarketAllCategories {
+        categories {
+            data {
+                documentKey
+                name
+            }
+            name
+        }
     }
 }
 
-query QuerySTMarketExports {
-    querySTMarketExports {
-        ...STMarketExportsFragment
+query QueryMultipleStMarketData($key: String!) {
+    queryMultipleStMarketData(key: $key) {
+        result {
+            currentDate
+            currentValue
+            documentKey
+            name
+            parentName
+            quandalKey
+            lastUpdate
+            data
+        }
     }
 }
 
-query QuerySTMarketBonds {
-    querySTMarketBonds {
-        ...STMarketBondsFragment
+query QueryStMarketData($key: String!) {
+    queryStMarketData(key: $key) {
+        currentDate
+        currentValue
+        documentKey
+        name
+        parentName
+        quandalKey
+        lastUpdate
+        data
     }
 }
 
-query QuerySTMarketSP500AllCategory {
-    querySTMarketSP500AllCategory {
-        ...STMarketSP500AllCategoryFragment
-    }
-}

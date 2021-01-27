@@ -6,9 +6,10 @@ from re import sub
     transform {'Test (With % is)' : 55} -> {'Test_With_Pct_is' : 55} 
 '''
 unsupportedCharacter = {'-': '', '/': '', '*': '', '%': 'Pct', '&': '', ',': '', ' ': '', '(': '', ')': '', '.': '',
-                        '1': 'One', '0': '', '2': 'Two', '3': 'Three', "4": 'Four', '5': 'Five', '6': 'Six',
-                        '7': 'Seven',
-                        '8': 'Eight', '9': 'Nine'}
+                        ':': '', ';': '', '=': ''}
+
+unsupportedCharacterNumbers = {'1': 'One', '0': '', '2': 'Two', '3': 'Three', "4": 'Four', '5': 'Five', '6': 'Six',
+                               '7': 'Seven', '8': 'Eight', '9': 'Nine'}
 
 
 def changeUnsupportedCharactersForDictKey(data):
@@ -24,6 +25,12 @@ def changeUnsupportedCharactersForDictKey(data):
 
 
 def changeUnsupportedCharacters(value):
+    value = value.translate(str.maketrans(unsupportedCharacter))
+    value = value.translate(str.maketrans(unsupportedCharacterNumbers))
+    return value
+
+
+def changeUnsupportedCharactersExceptNumber(value):
     value = value.translate(str.maketrans(unsupportedCharacter))
     return value
 
