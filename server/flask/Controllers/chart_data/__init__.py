@@ -1,7 +1,7 @@
 from flask import Flask, request
 from flask_json import FlaskJSON, JsonError, json_response
 from flask_cors import CORS
-from ExternalAPI.YahooFinance import YahooFinance
+from ExternalAPI.YahooFinance import YahooFinanceRequester
 
 # yf.pdr_override()
 app = Flask(__name__)
@@ -9,8 +9,7 @@ FlaskJSON(app)
 CORS(app, resources={r"*": {"origins": "*"}})
 
 # CUSTOM singleton
-YahooFinance = YahooFinance.YahooFinance()
-
+YahooFinanceRequester = YahooFinanceRequester.YahooFinanceRequester()
 
 '''
     Return [open, high, low, closed, volume]
@@ -20,7 +19,7 @@ def getStockHistoricalDataWithPeriod():
     try:
         symbol = request.args.get('symbol')
         period = request.args.get('period')
-        return json_response(**YahooFinance.getChartDataWithPeriod(symbol, period))
+        return json_response(**YahooFinanceRequester.get_chart_data(symbol, period, False))
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding chart data')
@@ -33,7 +32,7 @@ def getStockHistoricalClosedDataWithPeriod():
     try:
         symbol = request.args.get('symbol')
         period = request.args.get('period')
-        return json_response(**YahooFinance.getChartDataWithPeriod(symbol, period, True))
+        return json_response(**YahooFinanceRequester.get_chart_data(symbol, period, True))
     except Exception as e:
         print(e)
         raise JsonError(status=500, error='Error while finding chart data')

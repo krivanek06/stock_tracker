@@ -16,7 +16,7 @@ import {
 } from './watchlist/watchlist.mutation';
 import {editUser, registerUser, resetUserAccount} from './user/user.mutation';
 import {
-    queryStockDailyInformation,
+    queryMarketDailyOverview,
     queryStockDetails,
     queryStockSummaries,
     queryStockSummary
@@ -39,7 +39,7 @@ import {STMarketSharedTypeDefs} from "./st-market/st-market.typedefs";
 import {
     queryMultipleStMarketData,
     queryStMarketAllCategories, queryStMarketData,
-    querySTMarketOverview
+    querySTMarketHistoryOverview
 } from "./st-market/st-market.query";
 
 global.fetch = require("node-fetch");
@@ -70,10 +70,10 @@ const mainTypeDefs = gql`
         queryStockDetails(symbol: String!): StockDetails
         queryStockSummary(symbol: String!): Summary
         queryStockSummaries(symbolPrefix: String!): SearchSymbol
-        queryStockDailyInformation: STStockDailyInformations
+        queryMarketDailyOverview: STMarketDailyOverview
 
         # market data
-        querySTMarketOverview: STMarketOverviewPartialData
+        querySTMarketHistoryOverview: STMarketOverviewPartialData
         queryStMarketAllCategories: STMarketDatasetKeyCategories
         queryMultipleStMarketData(key: String!): STMarketChartDataResultSearch
         queryStMarketData(key: String!): STMarketChartDataResultCombined
@@ -122,10 +122,10 @@ const mainResolver = {
         queryStockDetails: async (_: null, args: { symbol: string }) => await queryStockDetails(args.symbol),
         queryStockSummary: async (_: null, args: { symbol: string }) => await queryStockSummary(args.symbol),
         queryStockSummaries: async (_: null, args: { symbolPrefix: string }) => await queryStockSummaries(args.symbolPrefix),
-        queryStockDailyInformation: async (_: null, args: null) => await queryStockDailyInformation(),
+        queryMarketDailyOverview: async (_: null, args: null) => await queryMarketDailyOverview(),
 
         // market data
-        querySTMarketOverview: async (_: null, args: null) => await querySTMarketOverview(),
+        querySTMarketHistoryOverview: async (_: null, args: null) => await querySTMarketHistoryOverview(),
         queryStMarketAllCategories: async (_: null, args: null) => await queryStMarketAllCategories(),
         queryMultipleStMarketData: async (_: null, args: { key: string }) => await queryMultipleStMarketData(args.key),
         queryStMarketData: async (_: null, args: { key: string }) => await queryStMarketData(args.key),

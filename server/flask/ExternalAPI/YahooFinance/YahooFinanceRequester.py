@@ -1,61 +1,10 @@
-from re import sub
-from json import dumps, loads
 from requests import get
 from ExternalAPI import utils
-from bs4 import BeautifulSoup
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
-
-'''
-lib -> from yahoo_fin import stock_info as si
-class use to retrieve data from yahoo_fin lib.
-Created for not importing libs like : pandas / numpy for more lightweight docker container
-'''
-
+from ExternalAPI.YahooFinance import CustomYahooParser
 
 class YahooFinanceRequester:
     def __init__(self):
-        self.helperClass = CustomYahooFinHelper()
-
-    '''Downloads list of tickers currently listed in the S&P 500 
-    def tickers_sp500():
-        sp500 = pd.read_html("https://en.wikipedia.org/wiki/List_of_S%26P_500_companies")[0]
-        sp_tickers = sorted(sp500.Symbol.tolist())
-
-        return sp_tickers
-    '''
-
-    '''Downloads list of tickers currently listed in the NASDAQ
-    def tickers_nasdaq():
-        ftp = ftplib.FTP("ftp.nasdaqtrader.com")
-        ftp.login()
-        ftp.cwd("SymbolDirectory")
-
-        r = io.BytesIO()
-        ftp.retrbinary('RETR nasdaqlisted.txt', r.write)
-
-        info = r.getvalue().decode()
-        splits = info.split("|")
-
-        tickers = [x for x in splits if "\r\n" in x]
-        tickers = [x.split("\r\n")[1] for x in tickers if "NASDAQ" not in x != "\r\n"]
-        tickers = [ticker for ticker in tickers if "File" not in ticker]
-
-        ftp.close()
-
-        return tickers
-    '''
-
-    '''Downloads list of currently traded tickers on the Dow
-    def tickers_dow():
-        site = "https://finance.yahoo.com/quote/%5EDJI/components?p=%5EDJI"
-
-        table = pd.read_html(site)[0]
-
-        dow_tickers = sorted(table['Symbol'].tolist())
-
-        return dow_tickers
-    '''
+        self.helperClass = CustomYahooParser.CustomYahooParser()
 
     def get_quote_table(self, ticker):
         site = "https://finance.yahoo.com/quote/" + ticker + "?p=" + ticker
@@ -70,10 +19,8 @@ class YahooFinanceRequester:
         try:
             result['targetEst1yPercent'] = utils.force_float(
                 round(100 / float(result['OneyTargetEst']) * livePrice['marketPrice'], 2))
-            # result['volumePercent'] = float(round(100 / float(result['AvgVolume'].replace(',', '')) * float(result['Volume'].replace(',', '')), 2))
         except:
             result['targetEst1yPercent'] = None
-            # result['volumePercent'] = None
 
         return {**result, **livePrice, **{'symbol': ticker}}
 
@@ -152,15 +99,6 @@ class YahooFinanceRequester:
         }
         return result
 
-    def get_day_most_active(self):
-        return self.helperClass.parseDailyTable("https://finance.yahoo.com/most-active?offset=0&count=10")
-
-    def get_day_gainers(self):
-        return self.helperClass.parseDailyTable("https://finance.yahoo.com/gainers?offset=0&count=10")
-
-    def get_day_losers(self):
-        return self.helperClass.parseDailyTable("https://finance.yahoo.com/losers?offset=0&count=10")
-
     def get_company_data(self, symbol):
         url = 'https://finance.yahoo.com/quote/' + symbol
         data = self.helperClass.get_json(url, None)
@@ -173,13 +111,6 @@ class YahooFinanceRequester:
         # format recommendation and upgraded history
         try:
             data['upgradeDowngradeHistory']['history'] = data['upgradeDowngradeHistory']['history'][0:10]
-            '''
-            data['recommendationTrend']['trend'] = data['recommendationTrend']['trend'][0:6]
-            trend = data['recommendationTrend']['trend']
-            for i in range(len(trend)):
-                month = abs(int(trend[i]['period'].replace('m', '')))  # -1m -> 1
-                trend[i]['period'] = datetime.today() - relativedelta(months=month)
-            '''
         except:
             pass
 
@@ -207,8 +138,7 @@ class YahooFinanceRequester:
         volume = data['chart']['result'][0]['indicators']['quote'][0]['volume']
 
         # format data
-        result = {'price': [], 'volume': [], 'change': [], 'livePrice': round(close[-1], 2), 'symbol': symbol,
-                  'period': period}
+        result = {'price': [], 'volume': [], 'livePrice': round(close[-1], 2), 'symbol': symbol, 'period': period}
         for i in range(len(timestamp)):
             if open[i] is None or high[i] is None or low[i] is None or close[i] is None:
                 continue
@@ -217,99 +147,8 @@ class YahooFinanceRequester:
                 result['price'].append(round(close[i], 2))
             else:
                 milliseconds = timestamp[i] * 1000
-                result['price'].append(
-                    [milliseconds, round(open[i], 2), round(high[i], 2), round(low[i], 2), round(close[i], 2)])
+                result['price'].append([milliseconds, round(open[i], 2), round(high[i], 2), round(low[i], 2), round(close[i], 2)])
                 result['volume'].append([milliseconds, volume[i]])
-                # result['change'].append([milliseconds, 0 if i == 0 else round(((close[i] / close[i - 1]) - 1) * 100, 2)])
-
         return result
 
-    def get_top_crypto(self):
-        url = 'https://finance.yahoo.com/cryptocurrencies?offset=0&count=20'
-        return self.helperClass.parse_json(url, 'ScreenerResultsStore', 'results', 'rows')
 
-
-class CustomYahooFinHelper:
-    def __init__(self):
-        pass
-
-    '''
-        parse whole html sites
-    '''
-
-    def parse_json(self, url, *jsonPathArgs):
-        try:
-            html = get(url=url).text
-
-            json_str = html.split('root.App.main =')[1].split('(this)')[0].split(';\n}')[0].strip()
-            data = loads(json_str)['context']['dispatcher']['stores']
-            for path in jsonPathArgs:
-                data = data[path]
-
-            # return data
-            new_data = dumps(data).replace('{}', 'null')
-            new_data = sub(r'\{[\'|\"]raw[\'|\"]:(.*?),(.*?)\}', r'\1', new_data)
-
-            json_info = loads(new_data)
-
-            return json_info
-        except Exception as e:
-            print('parse_json', e)
-            return None
-
-    def parseAnalysisInfo(self, site):
-        # parse multiple html table dropdown data order
-        # example -> https://finance.yahoo.com/quote/AAPL/analysis?p=AAPL
-        soup = BeautifulSoup(get(site).text, features="lxml")
-        tables = soup.find_all('table')
-        result = {}
-
-        for table in tables:
-            # The first tr contains the field names, keys.
-            headings = [th.get_text() for th in table.find("tr").find_all("th")]
-            lines = []
-            # save each line
-            for row in table.find_all("tr")[1:]:
-                line = [td.get_text() for td in row.find_all("td")]
-                lines.append(line)
-
-            tmpContainer = []
-            # parse dropdown lines
-            for i in range(1, len(headings)):
-                tmpObject = {line[0]: line[i] for line in lines}
-                tmpObject['name'] = headings[i]
-                tmpObject = utils.changeUnsupportedCharactersForDictKey(tmpObject)
-                tmpContainer.append(tmpObject)
-
-            result[utils.changeUnsupportedCharacters(headings[0])] = tmpContainer
-        return result
-
-    def parseDailyTable(self, site):
-        soup = BeautifulSoup(get(site).text, features="lxml")
-        table = soup.find_all('table')[0]
-        # The first tr contains the field names, keys.
-        headings = [th.get_text() for th in table.find("tr").find_all("th")]
-        datasets = []
-        for row in table.find_all("tr")[1:]:
-            dataset = zip(headings, (td.get_text() for td in row.find_all("td")))
-            tmpMapper = {data[0]: data[1] for data in list(dataset)}
-            tmpMapper = utils.changeUnsupportedCharactersForDictKey(tmpMapper)
-            datasets.append(tmpMapper)
-        return datasets
-
-    def get_json(self, url, proxy=None):
-        html = get(url=url, proxies=proxy).text
-
-        if "QuoteSummaryStore" not in html:
-            html = get(url=url, proxies=proxy).text
-            if "QuoteSummaryStore" not in html:
-                return {}
-
-        json_str = html.split('root.App.main =')[1].split('(this)')[0].split(';\n}')[0].strip()
-        data = loads(json_str)['context']['dispatcher']['stores']['QuoteSummaryStore']
-
-        # return data
-        new_data = dumps(data).replace('{}', 'null')
-        new_data = sub(r'\{[\'|\"]raw[\'|\"]:(.*?),(.*?)\}', r'\1', new_data)
-
-        return loads(new_data)

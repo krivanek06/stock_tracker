@@ -2,19 +2,6 @@ import {gql} from "apollo-server"
 
 export const stockDetailsTypeDefs = gql`
     ##### TYPE
-    type STStockDailyInformationsData {
-        summary: Summary
-        historicalData: STStockHistoricalClosedDataWithPeriod
-    }
-
-
-    type STStockDailyInformations {
-        dailySuggestions: [STStockDailyInformationsData]
-        dailyTopGains: [STStockDailyInformationsData]
-        dailyTopLosers: [STStockDailyInformationsData]
-        dailyToplastUpdatedDate: String
-        dailySuggestonsLastUpdatedDate: String
-    }
 
     type SearchSymbol {
         summaries: [Summary]!
