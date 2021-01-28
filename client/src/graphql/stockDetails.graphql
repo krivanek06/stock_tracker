@@ -629,18 +629,6 @@ fragment earningsFragment on Earnings {
     }
 }
 
-fragment STStockDailyInformationsDataFragment on STStockDailyInformationsData {
-    historicalData {
-        livePrice
-        price
-        symbol
-        period
-    }
-    summary {
-        ...StockSummaryFragment
-    }
-}
-
 # -----------------------------------------
 # QUERY
 
@@ -732,21 +720,5 @@ query QueryStockSummaries($symbolPrefix: String!) {
         summaries {
             ...StockSummaryFragment
         }
-    }
-}
-
-query QueryStockDailyInformation {
-    queryStockDailyInformation {
-        dailySuggestions {
-            ...STStockDailyInformationsDataFragment
-        }
-        dailyTopGains {
-            ...STStockDailyInformationsDataFragment
-        }
-        dailyTopLosers {
-            ...STStockDailyInformationsDataFragment
-        }
-        dailyToplastUpdatedDate
-        dailySuggestonsLastUpdatedDate
     }
 }

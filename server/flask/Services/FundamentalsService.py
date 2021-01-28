@@ -1,13 +1,9 @@
 from ExternalAPI import Finhub
-from ExternalAPI.YahooFinance import YahooFinance
+from ExternalAPI.YahooFinance import YahooFinanceRequester
 from threading import Thread
 from queue import Queue
-from datetime import datetime, timedelta
-import threading
 from pytz import UTC
 from ExternalAPI import utils
-from firebase_admin import credentials, firestore, initialize_app, _apps as firestoreApps
-
 from ExternalAPI.utils import cammelCaseToWord
 
 utc = UTC
@@ -15,13 +11,8 @@ utc = UTC
 
 class FundamentalsService:
     def __init__(self):
-        self.yahooFinance = YahooFinance.YahooFinance()
+        self.yRequester = YahooFinanceRequester.YahooFinanceRequester()
         self.finhub = Finhub.Finhub()
-
-        if not firestoreApps:
-            cred = credentials.Certificate('private_data/firebase_key.json')
-            default_app = initialize_app(cred)
-        self.db = firestore.client()
 
     def getStockDetails(self, symbol):
         data = self.__fetchStockDetails(symbol)
@@ -65,13 +56,16 @@ class FundamentalsService:
     def __fetchStockDetails(self, symbol):
         que = Queue()
         # declare threads
-        t1 = Thread(target=lambda q, arg1: q.put(self.yahooFinance.getCompanyData(arg1)), args=(que, symbol))
-        t2 = Thread(target=lambda q, arg1: q.put(self.yahooFinance.getAnalystsInfo(arg1)), args=(que, symbol))
-        t3 = Thread(target=lambda q, arg1: q.put(self.yahooFinance.getTickerStat(arg1)), args=(que, symbol))
-        t4 = Thread(target=lambda q, arg1: q.put(self.yahooFinance.getTickerSummary(arg1)), args=(que, symbol))
-        t5 = Thread(target=lambda q, arg1: q.put(self.yahooFinance.getIncomeStatement(arg1)), args=(que, symbol))
-        t8 = Thread(target=lambda q, arg1: q.put(self.yahooFinance.getBalanceSheet(arg1)), args=(que, symbol))
-        t9 = Thread(target=lambda q, arg1: q.put(self.yahooFinance.getCashFlow(arg1)), args=(que, symbol))
+        t1 = Thread(target=lambda q, arg1: q.put({'companyData': self.yRequester.get_company_data(arg1)}),
+                    args=(que, symbol))
+        t2 = Thread(target=lambda q, arg1: q.put({'analysis': self.yRequester.get_analysts_info(arg1)}), args=(que, symbol))
+        t3 = Thread(target=lambda q, arg1: q.put({'stats': self.yRequester.get_stats(arg1)}), args=(que, symbol))
+        t4 = Thread(target=lambda q, arg1: q.put({'summary': self.yRequester.get_quote_table(arg1)}),
+                    args=(que, symbol))
+        t5 = Thread(target=lambda q, arg1: q.put({'incomeStatement' :self.yRequester.get_income_statement(arg1)}), args=(que, symbol))
+        t8 = Thread(target=lambda q, arg1: q.put({'balanceSheet': self.yRequester.get_balance_sheet(arg1)}),
+                    args=(que, symbol))
+        t9 = Thread(target=lambda q, arg1: q.put({'cashFlow': self.yRequester.get_cash_flow(arg1)}), args=(que, symbol))
         t10 = Thread(target=lambda q, arg1: q.put(self.__getUpToDateStockNews(arg1)), args=(que, symbol))
 
         t6 = Thread(target=lambda q, arg1: q.put(self.finhub.getRecomendationForSymbol(arg1)), args=(que, symbol))

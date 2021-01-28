@@ -2,7 +2,7 @@ from flask import Flask, request
 from flask_json import FlaskJSON, JsonError, json_response
 from flask_cors import CORS
 from ExternalAPI import EconomicNews, Finhub
-from ExternalAPI.YahooFinance import YahooFinance
+from ExternalAPI.YahooFinance import YahooFinanceTopSymbols
 
 app = Flask(__name__)
 FlaskJSON(app)
@@ -10,36 +10,32 @@ CORS(app, resources={r"*": {"origins": "*"}})
 
 # CUSTOM singleton
 StockNews = EconomicNews.EconomicNews()
+YahooFinanceTopSymbols = YahooFinanceTopSymbols.YahooFinanceTopSymbols()
 Finhub = Finhub.Finhub()
-YahooFinance = YahooFinance.YahooFinance()
+
+ERROR_MESSAGE = 'Error in Search controller, method: '
 
 
 @app.route('/news')
 def getEconomicNews():
     try:
-        return json_response(economicNews=StockNews.getJsonDataFromFile())
+        return json_response(news=StockNews.getJsonDataFromFile())
     except Exception as e:
-        print(e)
         raise JsonError(status=500, error='Failed to get economic news')
 
 
-'''
-@app.route('/api/economics/ipo')
-def getIPOlist():
+@app.route('/events_calendar')
+def get_calendar():
     try:
-        return json_response(ipo=Finhub.getIpoOneMonthCalendar())
+        return json_response(events_calendar=YahooFinanceTopSymbols.get_events_calendar())
     except Exception as e:
-        print(e)
-        raise JsonError(status=400, error='Could not find IPO data')
-'''
-
+        raise JsonError(status=500, error='Failed to get economic news')
 
 @app.route('/earnings')
 def getEarningsCalendarForTwoWeeks():
     try:
         return json_response(earnings=Finhub.getEarningsCalendarForOneWeeks())
     except Exception as e:
-        print(e)
         raise JsonError(status=500, error='Could not find any earnings')
 
 
@@ -48,7 +44,6 @@ def searchSymbol():
     try:
         return json_response(data=Finhub.searchSymbol(request.args.get('symbol').upper()))
     except Exception as e:
-        print(e)
         raise JsonError(status=500, error='Could not search any stock for symbol')
 
 
@@ -57,53 +52,80 @@ def searchAllSymbols():
     try:
         return json_response(data=Finhub.searchAllSymbols())
     except Exception as e:
-        print(e)
         raise JsonError(status=500, error='Could not search any stock for symbol')
 
 
-@app.route('/search_all_symbol')
-def searchSymbolAll():
+@app.route('/top_crypto')
+def get_top_crypto():
     try:
-        return json_response(data=Finhub.searchAllSymbols())
+        return json_response(top_crypto=YahooFinanceTopSymbols.get_top_crypto())
     except Exception as e:
-        print(e)
-        raise JsonError(status=500, error='Could not search any stock for symbol')
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'get_top_crypto(), message: ' + str(e))
 
 
-@app.route('/day_top_gains')
-def getDailyTopGains():
+@app.route('/stocks_day_gainers')
+def get_day_gainers():
     try:
-        return json_response(data=YahooFinance.getDailyTopGains())
+        return json_response(stocks_day_gainers=YahooFinanceTopSymbols.get_day_gainers())
     except Exception as e:
-        print(e)
-        raise JsonError(status=500, error='Failed to get top gainers')
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'get_day_gainers(), message: ' + str(e))
 
 
-@app.route('/day_top_losers')
-def getDailyTopLosers():
+@app.route('/stocks_day_losers')
+def get_day_losers():
     try:
-        return json_response(data=YahooFinance.getDailyTopLosers())
+        return json_response(stocks_day_losers=YahooFinanceTopSymbols.get_day_losers())
     except Exception as e:
-        print(e)
-        raise JsonError(status=500, error='Failed to get top losers')
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'get_day_losers(), message: ' + str(e))
 
 
-@app.route('/day_most_active')
-def getDailyMostActive():
+@app.route('/stocks_day_active')
+def get_most_active():
     try:
-        return json_response(data=YahooFinance.getDailyTopActive())
+        return json_response(stocks_day_active=YahooFinanceTopSymbols.get_most_active())
     except Exception as e:
-        print(e)
-        raise JsonError(status=500, error='Failed to get most active')
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'get_most_active(), message: ' + str(e))
 
 
-@app.route('/day_top_crypto')
-def getDailyTopCrypto():
+@app.route('/stocks_undervalued_growth_stocks')
+def get_undervalued_growth_stocks():
     try:
-        return json_response(topCrypto=YahooFinance.getDailyTopCrypto())
+        return json_response(stocks_undervalued_growth_stocks=YahooFinanceTopSymbols.get_undervalued_growth_stocks())
     except Exception as e:
-        print(e)
-        raise JsonError(status=500, error='Failed to get top crypto')
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'get_undervalued_growth_stocks(), message: ' + str(e))
+
+
+@app.route('/stocks_growth_technology_stocks')
+def get_growth_technology_stocks():
+    try:
+        return json_response(stocks_growth_technology_stocks=YahooFinanceTopSymbols.get_growth_technology_stocks())
+    except Exception as e:
+        raise JsonError(status=500,
+                        error=ERROR_MESSAGE + 'get_undervalued_growth_stocks(), message: ' + str(e))
+
+
+@app.route('/stocks_undervalued_large_caps')
+def get_undervalued_large_caps():
+    try:
+        return json_response(stocks_undervalued_large_caps=YahooFinanceTopSymbols.get_undervalued_large_caps())
+    except Exception as e:
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'get_undervalued_large_caps(), message: ' + str(e))
+
+
+@app.route('/stocks_aggressive_small_caps')
+def get_aggressive_small_caps():
+    try:
+        return json_response(stocks_aggressive_small_caps=YahooFinanceTopSymbols.get_aggressive_small_caps())
+    except Exception as e:
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'get_aggressive_small_caps(), message: ' + str(e))
+
+
+@app.route('/stocks_small_cap_gainers')
+def get_small_cap_gainers():
+    try:
+        return json_response(stocks_small_cap_gainers=YahooFinanceTopSymbols.get_small_cap_gainers())
+    except Exception as e:
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'get_small_cap_gainers(), message: ' + str(e))
 
 
 if __name__ == '__main__':

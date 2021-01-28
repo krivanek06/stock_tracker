@@ -3,33 +3,26 @@ import * as admin from "firebase-admin";
 import * as api from 'stock-tracker-common-interfaces';
 
 
-export const querySTMarketOverview = async (): Promise<api.STMarketOverviewPartialData> => {
+export const querySTMarketHistoryOverview = async (): Promise<api.STMarketHistoryOverview> => {
     try {
         // check if already saved
-        /* const dataDoc = await admin.firestore()
-             .collection(api.ST_SHARED_ENUM.ST_STATIC_DATA)
-             .doc(api.ST_MARKET_FIREBASE_DOCUMENTS_ENUM.market_overview)
+        const dataDoc = await admin.firestore()
+             .collection(api.ST_SHARED_ENUM.ST_COLLECTION)
+             .doc(api.ST_SHARED_ENUM.MARKET_HISTORY_OVERVIEW)
              .get();
 
-         let data = dataDoc.data() as api.STMarketOverviewPartialData;
+         let docData = dataDoc.data() as api.STMarketHistoryOverview;
 
          // not exist, fetch from API
-         if (!data || !data.bonds || !data.exports || !data.investorSentiment || !data.sp500Stats || !data.treasuryYield) {
-             data = {
-                 sp500Stats: api.ST_MARKET_FETCH_SP500_FETCH.MODIFY_DATA_FROM_ALL_CATEGORY_PARTIAL(await querySTMarketSP500AllCategory()),
-                 bonds: api.ST_MARKET_FETCH_BONDS_FETCH.MODIFY_DATA_FROM_ALL_CATEGORY_PARTIAL(await querySTMarketBonds()),
-                 exports: api.ST_MARKET_IMPORT_EXPORT_FETCH.MODIFY_DATA_FROM_ALL_EXPORTS_PARTIAL(await querySTMarketExports()),
-                 investorSentiment: api.getOnlyPartialData(await querySTMarketChartData(api.ST_MARKET_FIREBASE_DOCUMENTS_CHART_DATA_ENUM.market_investor_sentiment_data), 30),
-                 treasuryYield: api.getOnlyPartialData(await querySTMarketChartData(api.ST_MARKET_FIREBASE_DOCUMENTS_CHART_DATA_ENUM.market_trasury_yield_curve_rates_data), 30)
-             };
+         if (!docData) {
+             docData = await api.getStMarketOverview();
 
              admin.firestore()
-                 .collection(api.ST_SHARED_ENUM.ST_STATIC_DATA)
-                 .doc(api.ST_MARKET_FIREBASE_DOCUMENTS_ENUM.market_overview)
-                 .set(data)
-         }*/
-        const data = await api.getStMarketOverview();
-        return data;
+                 .collection(api.ST_SHARED_ENUM.ST_COLLECTION)
+                 .doc(api.ST_SHARED_ENUM.MARKET_HISTORY_OVERVIEW)
+                 .set(docData)
+         }
+        return docData;
     } catch (error) {
         throw new ApolloError(error);
     }

@@ -43,13 +43,99 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
 exports.__esModule = true;
-exports.searchStMarketData = exports.searchMultilpleStMarketData = exports.getStMarketAllCategories = exports.getStMarketOverview = void 0;
+exports.searchStMarketData = exports.searchMultilpleStMarketData = exports.getStMarketAllCategories = exports.getStMarketOverview = exports.getStMarketTopTables = void 0;
 var node_fetch_1 = require("node-fetch");
 var environments_1 = require("./../../environments");
 var QUNDAL_ENDPOINT = environments_1.stockDataAPI + "/quandl";
+var SEARCH_ENDPOINT = environments_1.stockDataAPI + "/search";
+exports.getStMarketTopTables = function () { return __awaiter(void 0, void 0, Promise, function () {
+    var p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, promises, dataPromises, result, dataPromises_1, dataPromises_1_1, data, _i, _a, _b, key, value, e_1_1;
+    var e_1, _c;
+    return __generator(this, function (_d) {
+        switch (_d.label) {
+            case 0: return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/news")];
+            case 1:
+                p1 = _d.sent();
+                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/events_calendar")];
+            case 2:
+                p2 = _d.sent();
+                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/top_crypto")];
+            case 3:
+                p3 = _d.sent();
+                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_day_gainers")];
+            case 4:
+                p4 = _d.sent();
+                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_day_losers")];
+            case 5:
+                p5 = _d.sent();
+                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_day_active")];
+            case 6:
+                p6 = _d.sent();
+                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_undervalued_growth_stocks")];
+            case 7:
+                p7 = _d.sent();
+                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_growth_technology_stocks")];
+            case 8:
+                p8 = _d.sent();
+                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_undervalued_large_caps")];
+            case 9:
+                p9 = _d.sent();
+                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_aggressive_small_caps")];
+            case 10:
+                p10 = _d.sent();
+                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_small_cap_gainers")];
+            case 11:
+                p11 = _d.sent();
+                promises = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11];
+                dataPromises = promises.map(function (p) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, p.json()];
+                        case 1: return [2 /*return*/, _a.sent()];
+                    }
+                }); }); });
+                result = {};
+                _d.label = 12;
+            case 12:
+                _d.trys.push([12, 17, 18, 23]);
+                dataPromises_1 = __asyncValues(dataPromises);
+                _d.label = 13;
+            case 13: return [4 /*yield*/, dataPromises_1.next()];
+            case 14:
+                if (!(dataPromises_1_1 = _d.sent(), !dataPromises_1_1.done)) return [3 /*break*/, 16];
+                data = dataPromises_1_1.value;
+                // example, keys is : 'stocks_aggressive_small_caps'
+                for (_i = 0, _a = Object.entries(data); _i < _a.length; _i++) {
+                    _b = _a[_i], key = _b[0], value = _b[1];
+                    if (key !== 'status') {
+                        result[key] = value;
+                    }
+                }
+                _d.label = 15;
+            case 15: return [3 /*break*/, 13];
+            case 16: return [3 /*break*/, 23];
+            case 17:
+                e_1_1 = _d.sent();
+                e_1 = { error: e_1_1 };
+                return [3 /*break*/, 23];
+            case 18:
+                _d.trys.push([18, , 21, 22]);
+                if (!(dataPromises_1_1 && !dataPromises_1_1.done && (_c = dataPromises_1["return"]))) return [3 /*break*/, 20];
+                return [4 /*yield*/, _c.call(dataPromises_1)];
+            case 19:
+                _d.sent();
+                _d.label = 20;
+            case 20: return [3 /*break*/, 22];
+            case 21:
+                if (e_1) throw e_1.error;
+                return [7 /*endfinally*/];
+            case 22: return [7 /*endfinally*/];
+            case 23: return [2 /*return*/, result];
+        }
+    });
+}); };
 exports.getStMarketOverview = function () { return __awaiter(void 0, void 0, Promise, function () {
-    var social_security, investor_sentiment, employment, exports, manufacturing, sp500, inflation_rate, consumer_price_index_states, consumer_us_price_index, producer_us_price_index, misery_index, treasury_yield, bonds, bitcoin, promises, dataPromises, result, dataPromises_1, dataPromises_1_1, data, e_1_1;
-    var e_1, _a;
+    var social_security, investor_sentiment, employment, exports, manufacturing, sp500, inflation_rate, consumer_price_index_states, consumer_us_price_index, producer_us_price_index, misery_index, treasury_yield, bonds, bitcoin, promises, dataPromises, result, dataPromises_2, dataPromises_2_1, data, e_2_1;
+    var e_2, _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0: return [4 /*yield*/, node_fetch_1["default"](QUNDAL_ENDPOINT + "/social_security")];
@@ -94,43 +180,56 @@ exports.getStMarketOverview = function () { return __awaiter(void 0, void 0, Pro
                 return [4 /*yield*/, node_fetch_1["default"](QUNDAL_ENDPOINT + "/bitcoin")];
             case 14:
                 bitcoin = _b.sent();
-                promises = [investor_sentiment, social_security, employment, exports,
-                    manufacturing, sp500, inflation_rate, consumer_price_index_states, consumer_us_price_index,
-                    producer_us_price_index, misery_index, treasury_yield, bonds, bitcoin];
+                promises = [
+                    investor_sentiment,
+                    social_security,
+                    employment,
+                    exports,
+                    manufacturing,
+                    sp500,
+                    inflation_rate,
+                    consumer_price_index_states,
+                    consumer_us_price_index,
+                    producer_us_price_index,
+                    misery_index,
+                    treasury_yield,
+                    bonds,
+                    bitcoin
+                ];
                 dataPromises = promises.map(function (p) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0: return [4 /*yield*/, p.json()];
-                        case 1: return [2 /*return*/, _a.sent()];
+                        case 1: return [2 /*return*/, (_a.sent())];
                     }
                 }); }); });
                 result = {};
                 _b.label = 15;
             case 15:
                 _b.trys.push([15, 20, 21, 26]);
-                dataPromises_1 = __asyncValues(dataPromises);
+                dataPromises_2 = __asyncValues(dataPromises);
                 _b.label = 16;
-            case 16: return [4 /*yield*/, dataPromises_1.next()];
+            case 16: return [4 /*yield*/, dataPromises_2.next()];
             case 17:
-                if (!(dataPromises_1_1 = _b.sent(), !dataPromises_1_1.done)) return [3 /*break*/, 19];
-                data = dataPromises_1_1.value;
+                if (!(dataPromises_2_1 = _b.sent(), !dataPromises_2_1.done)) return [3 /*break*/, 19];
+                data = dataPromises_2_1.value;
                 result[data.keyName] = data;
                 _b.label = 18;
             case 18: return [3 /*break*/, 16];
             case 19: return [3 /*break*/, 26];
             case 20:
-                e_1_1 = _b.sent();
-                e_1 = { error: e_1_1 };
+                e_2_1 = _b.sent();
+                e_2 = { error: e_2_1 };
                 return [3 /*break*/, 26];
             case 21:
                 _b.trys.push([21, , 24, 25]);
-                if (!(dataPromises_1_1 && !dataPromises_1_1.done && (_a = dataPromises_1["return"]))) return [3 /*break*/, 23];
-                return [4 /*yield*/, _a.call(dataPromises_1)];
+                if (!(dataPromises_2_1 && !dataPromises_2_1.done && (_a = dataPromises_2["return"]))) return [3 /*break*/, 23];
+                return [4 /*yield*/, _a.call(dataPromises_2)];
             case 22:
                 _b.sent();
                 _b.label = 23;
             case 23: return [3 /*break*/, 25];
             case 24:
-                if (e_1) throw e_1.error;
+                if (e_2) throw e_2.error;
                 return [7 /*endfinally*/];
             case 25: return [7 /*endfinally*/];
             case 26: return [2 /*return*/, result];

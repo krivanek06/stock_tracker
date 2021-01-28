@@ -122,12 +122,6 @@ def getBitcoinPartialData():
     except Exception as e:
         raise JsonError(status=500, error='Error in Quandl controller, getBitcoinPartialData(), message: ' + str(e))
 
-@app.route('/all_keys')
-def getAllKeys():
-    try:
-        return None
-    except Exception as e:
-        raise JsonError(status=500, error='Error in Quandl controller, getAllKeys(), message: ' + str(e))
 
 @app.route('/search')
 def getAllDataForkey():

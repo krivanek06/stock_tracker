@@ -5,7 +5,6 @@ import * as admin from "firebase-admin";
 import {getCurrentIOSDate, stRandomSlice} from "../st-shared/st-shared.functions";
 import {tmpSuggestionSymbols} from "./st-stock.model";
 import {getStockHistoricalClosedData} from "./st-stock.fetch";
-import {createNewSTStockDailyInformations} from "./st-stock.utils";
 
 
 // check if details already exists in firestore, else fetch form api and save them
@@ -81,50 +80,49 @@ export const queryStockSummaries = async (symbolPrefix: string): Promise<api.Sea
     }
 };
 
-export const queryStockDailyInformation = async (): Promise<api.STStockDailyInformations> => {
+export const queryMarketDailyOverview = async (): Promise<api.STMarketDailyOverview> => {
     try {
         const dailyInfoDoc = await admin.firestore()
-            .collection(api.ST_SHARED_ENUM.ST_STATIC_DATA)
-            .doc(api.ST_SHARED_ENUM.ST_STOCK_DAILY_INFORMATION)
+            .collection(api.ST_SHARED_ENUM.ST_COLLECTION)
+            .doc(api.ST_SHARED_ENUM.MARKET_DAILY_OVERVIEW)
             .get();
 
         // const oneDayTimestamp = 1000/*ms*/ * 60/*s*/ * 60/*min*/ * 24/*h*/;
         const today = new Date();
-        const dailyInfo = dailyInfoDoc.data() as api.STStockDailyInformations || createNewSTStockDailyInformations();
-        let isUpdated = false;
+        let dailyInfoData = await dailyInfoDoc.data() as api.STMarketDailyOverview;
 
         console.time(); // TODO DELETE
         // update suggestions
-        if (!dailyInfo.dailySuggestonsLastUpdatedDate || new Date(dailyInfo.dailySuggestonsLastUpdatedDate).getDay() !== today.getDay()) {
+        if (!dailyInfoData || new Date(dailyInfoData.lastUpdate).getDay() !== today.getDay()) {
+            dailyInfoData = await api.getStMarketTopTables();
+
             const randomSymbols = stRandomSlice(tmpSuggestionSymbols, 8);
-            console.log('randomSymbols', randomSymbols) // TODO DELETE
+
             const randomSummaries = await Promise.all(randomSymbols.map(x => queryStockSummary(x)));
             const randomHistoricalData = await Promise.all(randomSymbols.map(x => getStockHistoricalClosedData(x, '1d')));
 
-            const suggestions: api.STStockDailyInformationsData[] = randomSymbols.map(x => {
-                const result: api.STStockDailyInformationsData = {
+            const suggestions: api.STStockSuggestion[] = randomSymbols.map(x => {
+                const result: api.STStockSuggestion = {
                     summary: randomSummaries.find(s => s.symbol === x),
                     historicalData: randomHistoricalData.find(s => s.symbol === x)
                 };
                 return result;
             });
 
-            dailyInfo.dailySuggestions = suggestions;
-            dailyInfo.dailySuggestonsLastUpdatedDate = getCurrentIOSDate();
-            isUpdated = true;
+            dailyInfoData.stock_suggestions = suggestions;
+            dailyInfoData.lastUpdate = getCurrentIOSDate();
+
+            // save updated data
+            await admin.firestore()
+                .collection(api.ST_SHARED_ENUM.ST_COLLECTION)
+                .doc(api.ST_SHARED_ENUM.MARKET_DAILY_OVERVIEW)
+                .set(dailyInfoData, {merge: true});
         }
 
-        // save updated data
-        if (isUpdated) {
-            await admin.firestore()
-                .collection(api.ST_SHARED_ENUM.ST_STATIC_DATA)
-                .doc(api.ST_SHARED_ENUM.ST_STOCK_DAILY_INFORMATION)
-                .set(dailyInfo, {merge: true});
-        }
         console.timeEnd(); // TODO DELETE
         console.log('----'); // TODO DELETE
 
-        return dailyInfo;
+        return dailyInfoData;
     } catch (error) {
         throw new ApolloError(error);
     }
@@ -148,21 +146,5 @@ const getAndSaveStockDetailsFromApi = async (symbol: string): Promise<api.StockD
         newsLastUpdate: getCurrentIOSDate(),
     });
 
-    if (isNull) {
-        return null;
-    }
-
-    /*for (let i = 0; i < response.financialReports.length; i++) {
-        admin.firestore()
-            .collection(`${api.ST_STOCK_DATA_COLLECTION}`)
-            .doc(symbol)
-            .collection(api.ST_STOCK_DATA_COLLECTION_MORE_INFORMATION)
-            .doc(api.ST_STOCK_DATA_DOCUMENT_FINACIAL_REPORTS)
-            .set({
-                reports: response.financialReports,
-            });
-    }
-    delete response.financialReports;*/
-
-    return response;
+    return isNull ? null : response;
 };

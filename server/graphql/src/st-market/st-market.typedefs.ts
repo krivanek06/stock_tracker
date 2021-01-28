@@ -3,7 +3,83 @@ import {gql} from 'apollo-server';
 
 export const STMarketSharedTypeDefs = gql`
 
-    #type
+    # Market daily overview
+    type STMarketDailyOverview {
+        stocks_day_gainers: [STMarketTopTableSymbolData]
+        stocks_day_losers: [STMarketTopTableSymbolData]
+        stocks_day_active: [STMarketTopTableSymbolData]
+        stocks_undervalued_growth_stocks: [STMarketTopTableSymbolData]
+        stocks_growth_technology_stocks: [STMarketTopTableSymbolData]
+        stocks_undervalued_large_caps: [STMarketTopTableSymbolData]
+        stocks_aggressive_small_caps: [STMarketTopTableSymbolData]
+        stocks_small_cap_gainers: [STMarketTopTableSymbolData]
+        stock_suggestions: [STStockSuggestion]
+        top_crypto: [STMarketTopTableCryptoData]
+        news: [NewsArticle]
+        events_calendar: [EventCalendarData]
+        lastUpdate: String
+    }
+    
+    type STStockSuggestion {
+        summary: Summary
+        historicalData: STStockHistoricalClosedDataWithPeriod
+    }
+
+    type EventCalendarData  {
+        date: Float
+        day: Float
+        month: Float
+        startdatetime: String
+        year: Float
+        earningscount: Float
+        economiceventcount: Float
+        ipoinfocount: Float
+        splitscount: Float
+    }
+
+    type STMarketTopTableSymbolData {
+        averageDailyVolume3Month: Float
+        currency: String
+        fiftyTwoWeekHigh: Float
+        fiftyTwoWeekLow: Float
+        logo_url: String
+        longName: String
+        marketCap: Float
+        quoteType: String
+        recommendationKey: String
+        recommendationMean: Float
+        regularMarketChange: Float
+        regularMarketChangePercent: Float
+        regularMarketOpen: Float
+        regularMarketPreviousClose: Float
+        regularMarketPrice: Float
+        regularMarketVolume: Float
+        shortName: String
+        symbol: String
+        trailingPE: String
+    }
+
+    type STMarketTopTableCryptoData {
+        circulatingSupply: Float
+        coinImageUrl: String
+        currency: String
+        fiftyTwoWeekHigh: Float
+        fiftyTwoWeekLow: Float
+        marketCap: Float
+        quoteType: String
+        regularMarketChange: Float
+        regularMarketChangePercent: Float
+        regularMarketClosed: Float
+        regularMarketOpen: Float
+        regularMarketPrice: Float
+        regularMarketVolume: Float
+        shortName: String
+        symbol: String
+        volume24Hr: Float
+        volumeAllCurrencies: Float
+    }
+    
+    # Market history overview
     type STMarketOverviewPartialData {
         sp500: STMarketChartDataResultContainer
         bonds: STMarketChartDataResultContainer
@@ -19,6 +95,7 @@ export const STMarketSharedTypeDefs = gql`
         treasury_yield: STMarketChartDataResultContainer
         investor_sentiment: STMarketChartDataResultContainer
         bitcoin: STMarketChartDataResultContainer
+        lastUpdate: String
     }
 
 

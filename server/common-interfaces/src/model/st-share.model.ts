@@ -20,7 +20,17 @@ export interface STGeographic {
 }
 
 export enum ST_SHARED_ENUM {
-    ST_STATIC_DATA = 'static_data',
-    ST_STOCK_SYMBOLS = 'stock_smbols',
-    ST_STOCK_DAILY_INFORMATION = 'stock_daily_information'
+    ST_COLLECTION = 'public',
+    
+    /**
+     * Qundal partial data
+     */
+    MARKET_HISTORY_OVERVIEW = 'market_history_overview', 
+
+    /**
+     * Example.
+     * Yahoo finance - top gains, losers, crypto, indexes
+     * Custom - stock symbol suggestion
+     */
+    MARKET_DAILY_OVERVIEW = 'market_daily_overview'     
 }

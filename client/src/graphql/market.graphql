@@ -17,11 +17,53 @@ fragment STMarketChartDataResultContainerFragment on STMarketChartDataResultCont
     keyName
 }
 
+fragment STMarketTopTableCryptoDataFragment on STMarketTopTableCryptoData {
+    circulatingSupply
+    coinImageUrl
+    currency
+    fiftyTwoWeekHigh
+    fiftyTwoWeekLow
+    marketCap
+    quoteType
+    regularMarketChange
+    regularMarketChangePercent
+    regularMarketClosed
+    regularMarketOpen
+    regularMarketPrice
+    regularMarketVolume
+    shortName
+    symbol
+    volume24Hr
+    volumeAllCurrencies
+}
+
+fragment STMarketTopTableSymbolDataFragment on STMarketTopTableSymbolData {
+    averageDailyVolume3Month
+    currency
+    fiftyTwoWeekHigh
+    fiftyTwoWeekLow
+    logo_url
+    longName
+    marketCap
+    quoteType
+    recommendationKey
+    recommendationMean
+    regularMarketChange
+    regularMarketChangePercent
+    regularMarketOpen
+    regularMarketPreviousClose
+    regularMarketPrice
+    regularMarketVolume
+    shortName
+    symbol
+    trailingPE
+}
+
 # -----------------------------------------
 # QUERY
 
-query QuerySTMarketOverviewPartialData {
-    querySTMarketOverview {
+query QuerySTMarketHistoryOverview {
+    querySTMarketHistoryOverview {
         sp500 {
             ...STMarketChartDataResultContainerFragment
         }
@@ -64,8 +106,63 @@ query QuerySTMarketOverviewPartialData {
         bitcoin {
             ...STMarketChartDataResultContainerFragment
         }
+        lastUpdate
     }
 }
+
+
+query QueryMarketDailyOverview {
+    queryMarketDailyOverview {
+        stocks_day_gainers {
+            ...STMarketTopTableSymbolDataFragment
+        }
+        stocks_day_losers {
+            ...STMarketTopTableSymbolDataFragment
+        }
+        stocks_day_active {
+            ...STMarketTopTableSymbolDataFragment
+        }
+        stocks_undervalued_growth_stocks {
+            ...STMarketTopTableSymbolDataFragment
+        }
+        stocks_growth_technology_stocks {
+            ...STMarketTopTableSymbolDataFragment
+        }
+        stocks_undervalued_large_caps {
+            ...STMarketTopTableSymbolDataFragment
+        }
+        stocks_aggressive_small_caps {
+            ...STMarketTopTableSymbolDataFragment
+        }
+        stocks_small_cap_gainers {
+            ...STMarketTopTableSymbolDataFragment
+        }
+        stock_suggestions {
+            summary {
+                ...StockSummaryFragment
+            }
+        }
+        top_crypto {
+            ...STMarketTopTableCryptoDataFragment
+        }
+        news {
+            ...newsArticleFragment
+        }
+        events_calendar {
+            date
+            day
+            month
+            startdatetime
+            year
+            earningscount
+            economiceventcount
+            ipoinfocount
+            splitscount
+        }
+        lastUpdate
+    }
+}
+
 
 
 query QueryStMarketAllCategories {

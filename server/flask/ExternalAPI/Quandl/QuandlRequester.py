@@ -41,13 +41,16 @@ class QuandlRequester:
         content = self.fileManager.getJsonFile('quandl_endpoints.json')
         result = [{
             'name': s['name'],
-            'data': [r for main in s['main'] for r in main['replacements']] +
-                    [r for main in s['other'] for r in main['replacements']]
+            'data': [r for main in s['main'] for r in main['replacements'] if
+                     r.get('skip') is None or r.get('skip') is False]
+                    +
+                    [r for main in s['other'] for r in main['replacements'] if
+                     r.get('skip') is None or r.get('skip') is False]
         } for s in content['sections']]
         return result
 
     def _getDataForDocumentKey(self, quandlKey, replacements, documentKey=None):
-        replacements = [r['name'] for r in replacements]  # ex. -> {"name": "XY", "documentKey": "XY" }
+        replacements = [r['name'] for r in replacements if (r.get('skip') is None or r.get('skip') is False)]
         data = self._generatInformationProvider(quandlKey, replacements)
 
         if documentKey is None:
