@@ -93,7 +93,7 @@ export const queryMarketDailyOverview = async (): Promise<api.STMarketDailyOverv
 
         console.time(); // TODO DELETE
         // update suggestions
-        if (!dailyInfoData || new Date(dailyInfoData.lastUpdate).getDay() !== today.getDay()) {
+        if (!dailyInfoData) { //  || new Date(dailyInfoData.lastUpdate).getDay() !== today.getDay()
             dailyInfoData = await api.getStMarketTopTables();
 
             const randomSymbols = stRandomSlice(tmpSuggestionSymbols, 8);

@@ -70,11 +70,11 @@ const mainTypeDefs = gql`
         queryStockDetails(symbol: String!): StockDetails
         queryStockSummary(symbol: String!): Summary
         queryStockSummaries(symbolPrefix: String!): SearchSymbol
-        queryMarketDailyOverview: STMarketDailyOverview
 
         # market data
         querySTMarketHistoryOverview: STMarketOverviewPartialData
         queryStMarketAllCategories: STMarketDatasetKeyCategories
+        queryMarketDailyOverview: STMarketDailyOverview
         queryMultipleStMarketData(key: String!): STMarketChartDataResultSearch
         queryStMarketData(key: String!): STMarketChartDataResultCombined
     }
@@ -122,10 +122,10 @@ const mainResolver = {
         queryStockDetails: async (_: null, args: { symbol: string }) => await queryStockDetails(args.symbol),
         queryStockSummary: async (_: null, args: { symbol: string }) => await queryStockSummary(args.symbol),
         queryStockSummaries: async (_: null, args: { symbolPrefix: string }) => await queryStockSummaries(args.symbolPrefix),
-        queryMarketDailyOverview: async (_: null, args: null) => await queryMarketDailyOverview(),
 
         // market data
         querySTMarketHistoryOverview: async (_: null, args: null) => await querySTMarketHistoryOverview(),
+        queryMarketDailyOverview: async (_: null, args: null) => await queryMarketDailyOverview(),
         queryStMarketAllCategories: async (_: null, args: null) => await queryStMarketAllCategories(),
         queryMultipleStMarketData: async (_: null, args: { key: string }) => await queryMultipleStMarketData(args.key),
         queryStMarketData: async (_: null, args: { key: string }) => await queryStMarketData(args.key),

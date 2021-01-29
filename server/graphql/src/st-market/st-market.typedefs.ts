@@ -19,6 +19,25 @@ export const STMarketSharedTypeDefs = gql`
         events_calendar: [EventCalendarData]
         lastUpdate: String
     }
+
+    # Market history overview
+    type STMarketOverviewPartialData {
+        sp500: STMarketChartDataResultContainer
+        bonds: STMarketChartDataResultContainer
+        social_security: STMarketChartDataResultContainer
+        consumer_price_index_states: STMarketChartDataResultContainer
+        consumer_us_price_index: STMarketChartDataResultContainer
+        producer_us_price_index: STMarketChartDataResultContainer
+        inflation_rate: STMarketChartDataResultContainer
+        employment: STMarketChartDataResultContainer
+        manufacturing: STMarketChartDataResultContainer
+        exports: STMarketChartDataResultContainer
+        misery_index: STMarketChartDataResultContainer
+        treasury_yield: STMarketChartDataResultContainer
+        investor_sentiment: STMarketChartDataResultContainer
+        bitcoin: STMarketChartDataResultContainer
+        lastUpdate: String
+    }
     
     type STStockSuggestion {
         summary: Summary
@@ -77,25 +96,6 @@ export const STMarketSharedTypeDefs = gql`
         symbol: String
         volume24Hr: Float
         volumeAllCurrencies: Float
-    }
-    
-    # Market history overview
-    type STMarketOverviewPartialData {
-        sp500: STMarketChartDataResultContainer
-        bonds: STMarketChartDataResultContainer
-        social_security: STMarketChartDataResultContainer
-        consumer_price_index_states: STMarketChartDataResultContainer
-        consumer_us_price_index: STMarketChartDataResultContainer
-        producer_us_price_index: STMarketChartDataResultContainer
-        inflation_rate: STMarketChartDataResultContainer
-        employment: STMarketChartDataResultContainer
-        manufacturing: STMarketChartDataResultContainer
-        exports: STMarketChartDataResultContainer
-        misery_index: STMarketChartDataResultContainer
-        treasury_yield: STMarketChartDataResultContainer
-        investor_sentiment: STMarketChartDataResultContainer
-        bitcoin: STMarketChartDataResultContainer
-        lastUpdate: String
     }
 
 

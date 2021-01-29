@@ -117,7 +117,7 @@ class QuandlRequester:
             # save timestamp
             if not timestamp:
                 timestamp = modifyData[dataIndex]['data'][-30:]
-                timestamp = [timestamp[j][1] for j in range(len(timestamp))]
+                timestamp = [timestamp[j][0] for j in range(len(timestamp))]
 
             # replace [timestamp, value ] -> [value, value, ..]
             modifyData[dataIndex]['data'] = valueContainer

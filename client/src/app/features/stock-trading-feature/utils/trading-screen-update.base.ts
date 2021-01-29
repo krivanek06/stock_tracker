@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewRef} from '@angular/core';
 import {ComponentBase} from '../../../shared/utils/component-base/component.base';
 import {TradingChangeModel} from '../models/trading.model';
-import {StPortfolio, StStockDailyInformationsData, StTransaction, StUserPublicData, Summary} from '../../../api/customGraphql.service';
+import {StPortfolio, StTransaction, StUserPublicData, Summary} from '../../../api/customGraphql.service';
 import {filter, takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
 import {AuthFeatureService} from '../../auth-feature/services/auth-feature.service';

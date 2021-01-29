@@ -4,10 +4,7 @@ import {StockDetailsService} from '../../stock-details-feature/services/stock-de
 import {Observable} from 'rxjs';
 import {filter, map, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {
-    QueryStMarketOverviewPartialDataGQL,
-    QueryStMarketSp500AllCategoryGQL, StMarketOverviewPartialData,
-    StMarketSp500AllCategory,
-    StMarketSp500AllCategoryFragmentFragment
+    QueryMarketDailyOverviewGQL, QueryStMarketHistoryOverviewGQL, StMarketDailyOverview, StMarketOverviewPartialData,
 } from '../../../api/customGraphql.service';
 
 @Injectable({
@@ -17,16 +14,16 @@ export class MarketService {
 
     constructor(private marketPriceWebsocket: MarketPriceWebsocketService,
                 private stockDetailsService: StockDetailsService,
-                private queryStMarketSp500AllCategoryGQL: QueryStMarketSp500AllCategoryGQL,
-                private queryStMarketOverviewPartialDataGQL: QueryStMarketOverviewPartialDataGQL) {
+                private queryMarketDailyOverviewGQL: QueryMarketDailyOverviewGQL,
+                private queryStMarketHistoryOverviewGQL: QueryStMarketHistoryOverviewGQL) {
     }
 
     /**
      * Init websocket connection for symbol suggestions and return market price for one symbol
      */
     initSubscriptionForStockSuggestions(): Observable<MarketSymbolResult> {
-        return this.stockDetailsService.getStockDailyInformation().pipe(
-            map(x => x.dailySuggestions),
+        return this.queryMarketDailyOverview().pipe(
+            map(x => x.stock_suggestions),
             tap(suggestions => suggestions.forEach(s => this.marketPriceWebsocket.createSubscribeForSymbol(s.summary.symbol))),
             switchMap(() => this.marketPriceWebsocket.getSubscribedSymbolsResult().pipe(
                 filter(res => !!res), // filter null & undefined
@@ -34,11 +31,11 @@ export class MarketService {
         );
     }
 
-    queryStMarketSp500AllCategory(): Observable<StMarketSp500AllCategory> {
-        return this.queryStMarketSp500AllCategoryGQL.fetch().pipe(map(x => x.data.querySTMarketSP500AllCategory));
+    queryMarketDailyOverview(): Observable<StMarketDailyOverview> {
+        return this.queryMarketDailyOverviewGQL.fetch().pipe(map(x => x.data.queryMarketDailyOverview));
     }
 
-    queryStMarketOverviewPartialData(): Observable<StMarketOverviewPartialData> {
-        return this.queryStMarketOverviewPartialDataGQL.fetch().pipe(map(x => x.data.querySTMarketOverviewPartialData));
+    queryStMarketHistoryOverview(): Observable<StMarketOverviewPartialData> {
+        return this.queryStMarketHistoryOverviewGQL.fetch().pipe(map(x => x.data.querySTMarketHistoryOverview));
     }
 }

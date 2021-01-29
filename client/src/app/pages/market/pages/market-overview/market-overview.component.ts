@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {MarketService} from '../../../../features/market-feature/services/market.service';
-import {StMarketOverviewPartialData, StMarketSp500AllCategory} from '../../../../api/customGraphql.service';
+import {StMarketOverviewPartialData} from '../../../../api/customGraphql.service';
 import {Observable} from 'rxjs';
 
 @Component({
@@ -18,7 +18,7 @@ export class MarketOverviewComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.marketOverview$ = this.marketService.queryStMarketOverviewPartialData();
+        this.marketOverview$ = this.marketService.queryStMarketHistoryOverview();
     }
 
 }
