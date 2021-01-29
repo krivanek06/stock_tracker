@@ -28,9 +28,9 @@ export type Query = {
     queryStockDetails?: Maybe<StockDetails>;
     queryStockSummary?: Maybe<Summary>;
     queryStockSummaries?: Maybe<SearchSymbol>;
-    queryMarketDailyOverview?: Maybe<StMarketDailyOverview>;
     querySTMarketHistoryOverview?: Maybe<StMarketOverviewPartialData>;
     queryStMarketAllCategories?: Maybe<StMarketDatasetKeyCategories>;
+    queryMarketDailyOverview?: Maybe<StMarketDailyOverview>;
     queryMultipleStMarketData?: Maybe<StMarketChartDataResultSearch>;
     queryStMarketData?: Maybe<StMarketChartDataResultCombined>;
 };
@@ -1011,6 +1011,25 @@ export type StMarketDailyOverview = {
     lastUpdate?: Maybe<Scalars['String']>;
 };
 
+export type StMarketOverviewPartialData = {
+    __typename?: 'STMarketOverviewPartialData';
+    sp500?: Maybe<StMarketChartDataResultContainer>;
+    bonds?: Maybe<StMarketChartDataResultContainer>;
+    social_security?: Maybe<StMarketChartDataResultContainer>;
+    consumer_price_index_states?: Maybe<StMarketChartDataResultContainer>;
+    consumer_us_price_index?: Maybe<StMarketChartDataResultContainer>;
+    producer_us_price_index?: Maybe<StMarketChartDataResultContainer>;
+    inflation_rate?: Maybe<StMarketChartDataResultContainer>;
+    employment?: Maybe<StMarketChartDataResultContainer>;
+    manufacturing?: Maybe<StMarketChartDataResultContainer>;
+    exports?: Maybe<StMarketChartDataResultContainer>;
+    misery_index?: Maybe<StMarketChartDataResultContainer>;
+    treasury_yield?: Maybe<StMarketChartDataResultContainer>;
+    investor_sentiment?: Maybe<StMarketChartDataResultContainer>;
+    bitcoin?: Maybe<StMarketChartDataResultContainer>;
+    lastUpdate?: Maybe<Scalars['String']>;
+};
+
 export type StStockSuggestion = {
     __typename?: 'STStockSuggestion';
     summary?: Maybe<Summary>;
@@ -1072,25 +1091,6 @@ export type StMarketTopTableCryptoData = {
     symbol?: Maybe<Scalars['String']>;
     volume24Hr?: Maybe<Scalars['Float']>;
     volumeAllCurrencies?: Maybe<Scalars['Float']>;
-};
-
-export type StMarketOverviewPartialData = {
-    __typename?: 'STMarketOverviewPartialData';
-    sp500?: Maybe<StMarketChartDataResultContainer>;
-    bonds?: Maybe<StMarketChartDataResultContainer>;
-    social_security?: Maybe<StMarketChartDataResultContainer>;
-    consumer_price_index_states?: Maybe<StMarketChartDataResultContainer>;
-    consumer_us_price_index?: Maybe<StMarketChartDataResultContainer>;
-    producer_us_price_index?: Maybe<StMarketChartDataResultContainer>;
-    inflation_rate?: Maybe<StMarketChartDataResultContainer>;
-    employment?: Maybe<StMarketChartDataResultContainer>;
-    manufacturing?: Maybe<StMarketChartDataResultContainer>;
-    exports?: Maybe<StMarketChartDataResultContainer>;
-    misery_index?: Maybe<StMarketChartDataResultContainer>;
-    treasury_yield?: Maybe<StMarketChartDataResultContainer>;
-    investor_sentiment?: Maybe<StMarketChartDataResultContainer>;
-    bitcoin?: Maybe<StMarketChartDataResultContainer>;
-    lastUpdate?: Maybe<Scalars['String']>;
 };
 
 export type StMarketChartDataResultContainer = {
@@ -1629,6 +1629,9 @@ export type QueryMarketDailyOverviewQuery = (
             summary?: Maybe<(
                 { __typename?: 'Summary' }
                 & StockSummaryFragmentFragment
+                )>, historicalData?: Maybe<(
+                { __typename?: 'STStockHistoricalClosedDataWithPeriod' }
+                & Pick<StStockHistoricalClosedDataWithPeriod, 'livePrice' | 'price' | 'symbol' | 'period'>
                 )>
         }
             )>>>, top_crypto?: Maybe<Array<Maybe<(
@@ -3634,6 +3637,12 @@ export const QueryMarketDailyOverviewDocument = gql`
             stock_suggestions {
                 summary {
                     ...StockSummaryFragment
+                }
+                historicalData {
+                    livePrice
+                    price
+                    symbol
+                    period
                 }
             }
             top_crypto {

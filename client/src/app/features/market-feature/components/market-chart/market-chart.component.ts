@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {StMarketChartData} from '../../../../api/customGraphql.service';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {StMarketChartDataResult, StMarketChartDataResultContainer} from '../../../../api/customGraphql.service';
 import * as Highcharts from 'highcharts/highstock';
 import {ChartSeriesData} from '../../../../shared/models/chartDataModel';
 
@@ -9,8 +9,9 @@ import {ChartSeriesData} from '../../../../shared/models/chartDataModel';
     styleUrls: ['./market-chart.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MarketChartComponent implements OnInit, OnChanges {
-    @Input() marketChartData: StMarketChartData;
+export class MarketChartComponent implements OnInit {
+    @Input() chartDataResultContainer: StMarketChartDataResultContainer;
+    @Input() chartDataResult: StMarketChartDataResult;
     @Input() timestamp: number[];
     @Input() chartTitle: string;
     @Input() heightPx = 300;
@@ -31,10 +32,6 @@ export class MarketChartComponent implements OnInit, OnChanges {
         };
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        console.log('changes MarketChartComponent', changes);
-    }
-
     ngOnInit() {
         this.initChartSeries();
         this.initChart();
@@ -44,22 +41,40 @@ export class MarketChartComponent implements OnInit, OnChanges {
     }
 
     private initChartSeries() {
-        let count = 0;
-        this.chartSeries = this.marketChartData.result.map(res => {
+        // multiple line charts
+        if (this.chartDataResultContainer) {
+            let count = 0;
+            this.chartSeries = this.chartDataResultContainer.result.map(res => {
+                const data: ChartSeriesData = {
+                    name: res.name,
+                    data: res.data,
+                    color: {
+                        linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1},
+                        stops: [
+                            [0, Highcharts.getOptions().colors[(count % 5) + 2]], // '#25aedd'
+                            [1, Highcharts.getOptions().colors[count % 10]]
+                        ]
+                    }
+                };
+                count += 1;
+                return data;
+            });
+        }
+        // only one line chart
+        if (this.chartDataResult) {
             const data: ChartSeriesData = {
-                name: res.name,
-                data: res.data,
+                name: this.chartDataResult.name,
+                data: this.chartDataResult.data,
                 color: {
                     linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1},
                     stops: [
-                        [0, Highcharts.getOptions().colors[(count % 5) + 2]], // '#25aedd'
-                        [1, Highcharts.getOptions().colors[count % 10]]
+                        [0, Highcharts.getOptions().colors[(0) + 2]], // '#25aedd'
+                        [1, Highcharts.getOptions().colors[0]]
                     ]
                 }
             };
-            count += 1;
-            return data;
-        });
+            this.chartSeries = [data];
+        }
     }
 
     private initChart() {

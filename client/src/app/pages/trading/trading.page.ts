@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthFeatureService} from '../../features/auth-feature/services/auth-feature.service';
-import {StStockDailyInformationsData, Summary} from '../../api/customGraphql.service';
+import {StStockSuggestion, Summary} from '../../api/customGraphql.service';
 import {SymbolIdentification} from '../../shared/models/sharedModel';
 import {StockDetailsService} from '../../features/stock-details-feature/services/stock-details.service';
 import {map, takeUntil} from 'rxjs/operators';
@@ -19,7 +19,7 @@ import {PortfolioStateEnum} from '../../features/stock-trading-feature/component
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TradingPage extends TradingScreenUpdateBase implements OnInit, OnDestroy {
-    suggestions: StStockDailyInformationsData[] = [];
+    suggestions: StStockSuggestion[] = [];
     PortfolioStateEnum = PortfolioStateEnum;
 
     constructor(private stockDetailsService: StockDetailsService,
@@ -61,8 +61,9 @@ export class TradingPage extends TradingScreenUpdateBase implements OnInit, OnDe
     }
 
     private initSuggestions() {
-        this.stockDetailsService.getStockDailyInformation().pipe(takeUntil(this.destroy$)).subscribe(suggestions => {
-            this.suggestions = cloneDeep(suggestions.dailySuggestions);
+        this.marketService.queryMarketDailyOverview().pipe(takeUntil(this.destroy$)).subscribe(overview => {
+            this.suggestions = cloneDeep(overview.stock_suggestions);
+            console.log('this.suggestions', this.suggestions);
             if (!this.selectedSummary) {
                 this.selectedSummary = this.suggestions[0].summary;
             }

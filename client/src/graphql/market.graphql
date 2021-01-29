@@ -141,6 +141,12 @@ query QueryMarketDailyOverview {
             summary {
                 ...StockSummaryFragment
             }
+            historicalData {
+                livePrice
+                price
+                symbol
+                period
+            }
         }
         top_crypto {
             ...STMarketTopTableCryptoDataFragment
