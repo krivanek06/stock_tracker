@@ -1,4 +1,5 @@
 from ExternalAPI.YahooFinance import CustomYahooParser, YahooFinanceRequester
+from datetime import datetime
 
 
 class YahooFinanceTopSymbols:
@@ -37,10 +38,24 @@ class YahooFinanceTopSymbols:
             d['regularMarketClosed'] = d['regularMarketOpen'] - d['regularMarketChange']
         return data
 
-    def get_events_calendar(self):
-        url = 'https://finance.yahoo.com/calendar'
-        data = self.yahooFinanceParser.parse_json(url, 'CalendarStore', 'data', 'rows')
-        return data
+    def get_calendar_events(self):
+        today = datetime.today().strftime('%Y-%m-%d')
+        url = 'https://finance.yahoo.com/calendar'  # return all events happening in this week
+
+        events = self.yahooFinanceParser.parse_json(url, 'CalendarStore', 'data', 'rows')
+        earnings = self.get_calendar_events_earnings('2021-01-26')[0:8]
+
+        return {'events': events, 'earnings': earnings}
+
+    # date -> 2021-02-03
+    def get_calendar_events_earnings(self, date):
+        result = []
+        i = 0
+        while i == 0 or len(result) == 100:
+            url = 'https://finance.yahoo.com/calendar/earnings?day=' + date + '&offset=' + str(i)
+            result += self.yahooFinanceParser.parse_json(url, 'ScreenerResultsStore', 'results', 'rows')
+            i += 1
+        return result
 
     # PRIVATE -----------------------------
 
@@ -59,8 +74,7 @@ class YahooFinanceTopSymbols:
                 tmp['regularMarketPreviousClose'] = companyData['price']['regularMarketPreviousClose']
                 tmp['recommendationKey'] = companyData['financialData']['recommendationKey']
                 tmp['recommendationMean'] = companyData['financialData']['recommendationMean']
-                tmp['trailingPE'] = companyData.get('trailingPE') if companyData.get(
-                    'trailingPE') is not None else 'N/A'
+                tmp['trailingPE'] = round(tmp.get('trailingPE'), 2) if tmp.get('trailingPE') is not None else 'N/A'
                 result.append(d)
             except:
                 pass

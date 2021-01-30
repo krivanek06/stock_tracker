@@ -10,10 +10,9 @@ import {HighchartsChartModule} from 'highcharts-angular';
 import {DefaultImgDirective} from './directives/default-img.directive';
 import {FinancialChartComponent} from './components/charts/financial-chart/financial-chart.component';
 import {GaugeChartComponent} from './components/charts/gauge-chart/gauge-chart.component';
-import {FixedRangeSliderComponent} from './components/charts/fixed-range-slider/fixed-range-slider.component';
+import {FixedRangeSliderComponent} from './components/range-selector/fixed-range-slider/fixed-range-slider.component';
 import {NumberFormatterPipe} from './pipes/numberFormatter.pipe';
 import {HeaderComponent} from './containers/header/header.component';
-import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {InlineModificationFormComponent} from './components/forms/inline-modification-form/inline-modification-form.component';
 import {GenericChartComponent} from './components/charts/generic-chart/generic-chart.component';
 import {GenericCardComponent} from './components/generic/generic-card/generic-card.component';
@@ -35,6 +34,9 @@ import {ScrollOffsetDirective} from './directives/scroll-offset.directive';
 import {GenericFancyCardComponent} from './components/generic/generic-fancy-card/generic-fancy-card.component';
 import { ObjNgForPipe } from './pipes/obj-ng-for.pipe';
 import {GenericFadingCardContentComponent} from './components/generic/generic-fading-card-content/generic-fading-card-content.component';
+import {TableHighLowRangeComponent} from './components/range-selector/table-high-low-range/table-high-low-range.component';
+import {RecommendationDirective} from './directives/recommendation.directive';
+import {ArticleCardsComponent} from './components/cards/article-cards/article-cards.component';
 
 
 @NgModule({
@@ -64,7 +66,10 @@ import {GenericFadingCardContentComponent} from './components/generic/generic-fa
         ScrollOffsetDirective,
         GenericFancyCardComponent,
         ObjNgForPipe,
-        GenericFadingCardContentComponent
+        GenericFadingCardContentComponent,
+        TableHighLowRangeComponent,
+        RecommendationDirective,
+        ArticleCardsComponent
     ],
     imports: [
         CommonModule,
@@ -76,14 +81,12 @@ import {GenericFadingCardContentComponent} from './components/generic/generic-fa
         AngularFireStorageModule,
         HighchartsChartModule,
         IonicModule,
-        PerfectScrollbarModule,
         NgxDatatableModule
     ],
     exports: [
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
-        PerfectScrollbarModule,
         RouterModule,
         AngularFirestoreModule,
         AngularFireAuthModule,
@@ -113,8 +116,10 @@ import {GenericFadingCardContentComponent} from './components/generic/generic-fa
         SearchWrapperComponent,
         GenericFancyCardComponent,
         ObjNgForPipe,
-        GenericFadingCardContentComponent
-
+        GenericFadingCardContentComponent,
+        TableHighLowRangeComponent,
+        RecommendationDirective,
+        ArticleCardsComponent
     ],
     entryComponents: [
         InlineInputPopUpComponent

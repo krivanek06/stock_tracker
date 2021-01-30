@@ -178,7 +178,7 @@
                                   [additionalClasses]="'st-height-100'">
                     <app-generic-chart
                             [chartType]="ChartType.column"
-                            [heightPx]="245"
+                            [heightPx]="220"
                             [showYAxis]="true"
                             [showLegend]="true"
                             [categories]="stockDetails.companyData.earnings.financialsChart.yearly.categories"
@@ -193,7 +193,7 @@
                                   [additionalClasses]="'st-height-100'">
                     <app-generic-chart
                             [chartType]="ChartType.column"
-                            [heightPx]="245"
+                            [heightPx]="220"
                             [showYAxis]="true"
                             [showLegend]="true"
                             [categories]="stockDetails.companyData.earnings.financialsChart.quarterly.categories"
@@ -260,10 +260,15 @@
                 </app-generic-card>
             </ion-col>
         </ion-row>
+
+        <!-- news -->
+        <ion-row>
+            <ion-col size="12">
+                <div *ngIf="stockDetails.stockNews.length > 0" class="st-news-container">
+                    <app-article-cards *ngFor="let article of stockDetails.stockNews" [article]="article"></app-article-cards>
+                </div>
+            </ion-col>
+        </ion-row>
     </ion-grid>
-    <!-- news -->
-    <div *ngIf="stockDetails.stockNews.length > 0" class="new-container">
-        <app-article-cards *ngFor="let article of stockDetails.stockNews" [article]="article"></app-article-cards>
-    </div>
 </ng-container>
 

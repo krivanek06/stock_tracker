@@ -21,11 +21,9 @@ export interface UploadedFile {
     path: string;
 }
 
-
-export interface STCustomValueChange {
-    firstChange: boolean;
-    currentValue: number;
-    previousValue: number;
+export interface NameValueContainer {
+    name: string;
+    value: string;
 }
 
 export interface GenericChartSeries {

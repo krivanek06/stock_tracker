@@ -77,6 +77,8 @@ class Finhub:
 
         return {'financialReportsQuarterly': quarter, 'financialReportsYearly': year}
 
+    # TODO contains more data
+    # TODO - add yearToDatePriceReturnDaily to summary
     def getStockMetrics(self, symbol):
         params = {'token': self.FINHUB_SECRET_KEY, 'symbol': symbol}
         r = get('https://finnhub.io/api/v1/stock/metric', params=params).json()['metric']

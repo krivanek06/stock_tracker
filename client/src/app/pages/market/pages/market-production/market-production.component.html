@@ -1,0 +1,47 @@
+<ion-grid *ngIf="marketOverview$ | async as marketOverview">
+  <!-- Inflation rate -->
+  <ion-row>
+    <app-generic-list [title]="'Inflation rate'"></app-generic-list>
+    <ion-col *ngFor="let data of marketOverview.inflation_rate.result" size="12" size-xs="6" size-md="3">
+      <app-market-chart [heightPx]="chartHeight"
+                        [timestamp]="marketOverview.inflation_rate.timestamp"
+                        [chartDataResult]="data">
+      </app-market-chart>
+    </ion-col>
+  </ion-row>
+
+  <!-- Consumer price index -->
+  <ion-row>
+    <app-generic-list [title]="'Consumer price index'"></app-generic-list>
+    <ion-col *ngFor="let data of marketOverview.consumer_price_index_states.result" size="12" size-xs="6" size-md="3">
+      <app-market-chart [heightPx]="chartHeight"
+                        [timestamp]="marketOverview.consumer_price_index_states.timestamp"
+                        [chartDataResult]="data">
+      </app-market-chart>
+    </ion-col>
+  </ion-row>
+
+  <!-- Consumer US price index -->
+  <ion-row>
+    <app-generic-list [title]="'Consumer US price index'"></app-generic-list>
+    <ion-col *ngFor="let data of marketOverview.consumer_us_price_index.result" size="12" size-xs="6" size-md="3">
+      <app-market-chart [heightPx]="chartHeight"
+                        [timestamp]="marketOverview.consumer_us_price_index.timestamp"
+                        [chartDataResult]="data">
+      </app-market-chart>
+    </ion-col>
+  </ion-row>
+
+  <!-- Exports -->
+  <ion-row>
+    <app-generic-list [title]="'Exports'"></app-generic-list>
+    <ion-col *ngFor="let data of marketOverview.exports.result" size="12" size-xs="6" size-md="3">
+      <app-market-chart [heightPx]="chartHeight"
+                        [timestamp]="marketOverview.exports.timestamp"
+                        [chartDataResult]="data">
+      </app-market-chart>
+    </ion-col>
+  </ion-row>
+
+
+</ion-grid>

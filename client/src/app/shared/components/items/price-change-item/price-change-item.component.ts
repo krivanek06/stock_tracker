@@ -9,6 +9,7 @@ import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 export class PriceChangeItemComponent implements OnInit {
     @Input() price: number;
     @Input() priceChange: number;
+    @Input() showIcon = true;
     @Input() isPercent = false;
     @Input() lighterBiggerVersion = false;
 

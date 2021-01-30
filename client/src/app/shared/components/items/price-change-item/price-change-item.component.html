@@ -15,9 +15,9 @@
 
         <!-- positive / negative icon -->
         <ion-icon name="trending-up-outline" class="st-price-icon ion-hide-sm-down"
-                  *ngIf="price > 0 || priceChange > 0"></ion-icon>
+                  *ngIf="showIcon && (price > 0 || priceChange > 0)"></ion-icon>
         <ion-icon name="trending-down-outline" class="st-price-icon ion-hide-sm-down"
-                  *ngIf="price < 0 || priceChange < 0"></ion-icon>
+                  *ngIf="showIcon && (price < 0 || priceChange < 0)"></ion-icon>
     </ion-text>
 
     <!-- price -->

@@ -10,6 +10,8 @@
         <ion-label class="ion-hide-md-down">Portfolio %</ion-label>
         <ion-label class="ion-hide-lg-down">Recommend</ion-label>
     </ion-item>
+
+    <!-- view buttons -->
     <ion-item class="ion-hide-sm-up">
         <ion-label class="st-flex-end">
             <ion-button fill="clear" class="st-icon" *ngIf="showDailyChange" (click)="toggleDailyChange()">
@@ -20,8 +22,6 @@
             </ion-button>
         </ion-label>
     </ion-item>
-    <!-- ********************** -->
-
 
     <!-- table body -->
     <app-holdings-table-body-item

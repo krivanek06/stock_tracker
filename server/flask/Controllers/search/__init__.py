@@ -24,19 +24,29 @@ def getEconomicNews():
         raise JsonError(status=500, error='Failed to get economic news')
 
 
-@app.route('/events_calendar')
+@app.route('/calendar_events')
 def get_calendar():
     try:
-        return json_response(events_calendar=YahooFinanceTopSymbols.get_events_calendar())
+        return json_response(**YahooFinanceTopSymbols.get_calendar_events())
     except Exception as e:
-        raise JsonError(status=500, error='Failed to get economic news')
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'get_calendar(), message: ' + str(e))
 
+@app.route('/calendar_events_earnings')
+def get_calendar_events_earnings():
+    try:
+        date = request.args.get('date')
+        return json_response(earnings=YahooFinanceTopSymbols.get_calendar_events_earnings(date))
+    except Exception as e:
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'get_calendar_events_earnings(), message: ' + str(e))
+
+'''
 @app.route('/earnings')
 def getEarningsCalendarForTwoWeeks():
     try:
         return json_response(earnings=Finhub.getEarningsCalendarForOneWeeks())
     except Exception as e:
         raise JsonError(status=500, error='Could not find any earnings')
+'''
 
 
 @app.route('/search_symbol')

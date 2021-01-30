@@ -1,0 +1,12 @@
+<div>
+    <input type="range"
+           [min]="!min ? 0 : min"
+           [max]="!max ? value : max"
+           [value]="!value ? 0 : value"
+           class="slider"
+           disabled>
+</div>
+<div class="st-flex ion-justify-content-between">
+    <ion-text class="st-font-size-12 st-font-5">{{ min | currency}} </ion-text>
+    <ion-text class="st-font-size-12 st-font-5">{{ max | currency}} </ion-text>
+</div>

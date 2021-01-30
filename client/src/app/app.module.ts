@@ -13,20 +13,10 @@ import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireStorageModule} from '@angular/fire/storage';
-
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
-
-/* scroll */
-import {PERFECT_SCROLLBAR_CONFIG} from 'ngx-perfect-scrollbar';
-import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 import {GraphQlModule} from './graph-ql.module';
 
-const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-    suppressScrollX: true
-};
-
-/*----------------*/
 
 @NgModule({
     declarations: [AppComponent],
@@ -51,8 +41,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     providers: [
         StatusBar,
         SplashScreen,
-        {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
-        {provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG},
+        {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
     ],
     bootstrap: [AppComponent]
 })

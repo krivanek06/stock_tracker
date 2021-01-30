@@ -62,7 +62,7 @@ class FundamentalsService:
         t3 = Thread(target=lambda q, arg1: q.put({'stats': self.yRequester.get_stats(arg1)}), args=(que, symbol))
         t4 = Thread(target=lambda q, arg1: q.put({'summary': self.yRequester.get_quote_table(arg1)}),
                     args=(que, symbol))
-        t5 = Thread(target=lambda q, arg1: q.put({'incomeStatement' :self.yRequester.get_income_statement(arg1)}), args=(que, symbol))
+        t5 = Thread(target=lambda q, arg1: q.put({'incomeStatement': self.yRequester.get_income_statement(arg1)}), args=(que, symbol))
         t8 = Thread(target=lambda q, arg1: q.put({'balanceSheet': self.yRequester.get_balance_sheet(arg1)}),
                     args=(que, symbol))
         t9 = Thread(target=lambda q, arg1: q.put({'cashFlow': self.yRequester.get_cash_flow(arg1)}), args=(que, symbol))

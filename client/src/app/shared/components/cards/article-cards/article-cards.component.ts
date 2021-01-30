@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {NewsArticle} from '../../../../../api/customGraphql.service';
+import {NewsArticle} from '../../../../api/customGraphql.service';
 
 
 @Component({

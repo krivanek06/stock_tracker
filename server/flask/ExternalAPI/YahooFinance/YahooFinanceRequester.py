@@ -70,6 +70,7 @@ class YahooFinanceRequester:
 
         return result
 
+    #TODO - make it alive
     '''
     def get_holders(ticker):
         holders_site = "https://finance.yahoo.com/quote/" + \

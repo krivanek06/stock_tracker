@@ -5,30 +5,111 @@
         <ion-label>Price</ion-label>
         <ion-label>Daily +/-</ion-label>
         <ion-label>Yearly +/-</ion-label>
-        <ion-label class="ion-hide-lg-down">52 week range</ion-label>
+        <ion-label class="ion-hide-xl-down">Market cap.</ion-label>
         <ion-label class="ion-hide-md-down">PE ratio</ion-label>
         <ion-label>Recommend</ion-label>
+        <ion-label class="ion-hide-lg-down">52 week range</ion-label>
     </ion-item>
 
+    <!-- view buttons -->
     <ion-item class="ion-hide-sm-up">
         <ion-label class="st-flex-end">
             <ion-button fill="clear" class="st-icon" *ngIf="showDailyChange" (click)="toggleDailyChange()">
                 Daily +/-
             </ion-button>
-            <ion-button fill="clear" class="st-icon" *ngIf="!showDailyChange" (click)="toggleDailyChange()" >
+            <ion-button fill="clear" class="st-icon" *ngIf="!showDailyChange" (click)="toggleDailyChange()">
                 Yearly +/-
             </ion-button>
         </ion-label>
     </ion-item>
 
-
     <!-- table body -->
-    <app-watchlist-table-body-item
-            *ngFor="let summary of watchlist.summaries"
-            [summary]="summary"
-            [showDailyChange]="showDailyChange"
-            [allowModification]="allowModification"
-            [currentPrice]="summary.marketPrice"
-            (itemClickedEmitter)="itemClicked($event)">
-    </app-watchlist-table-body-item>
+    <ng-container *ngFor="let summary of watchlist.summaries">
+        <ion-item button (click)="itemClicked(summary)" class="st-data-item-wrapper ion-hide-sm-down">
+            <!-- logo + symbol name -->
+            <ion-label class="st-display-flex-center st-data-label">
+                <ion-img [src]="summary.logo_url" class="st-symbol-image"></ion-img>
+                <ion-text class="st-font-5">{{ summary.symbol }}</ion-text>
+            </ion-label>
+
+            <!-- current price -->
+            <ion-label class="st-data-label" [@marketValueChange]="summary.marketPrice">
+                {{ summary.marketPrice | currency }}
+            </ion-label>
+
+            <!-- daily change -->
+            <ion-label>
+                <app-price-compare-item [currentPrice]="summary.marketPrice"
+                                        [compareToPrice]="summary.previousClose">
+                </app-price-compare-item>
+            </ion-label>
+
+            <!-- year change -->
+            <ion-label>
+                <app-price-compare-item [currentPrice]="summary.marketPrice"
+                                        [compareToPrice]="summary.weekRangeFiveTwoMin">
+                </app-price-compare-item>
+            </ion-label>
+
+            <!-- Market cap -->
+            <ion-label class="st-data-label ion-hide-xl-down">
+                {{ summary.marketCap | numberFormatter }}
+            </ion-label>
+
+            <!-- PE -->
+            <ion-label class="st-data-label ion-hide-md-down">
+                {{ summary.pERatioTTM }}
+            </ion-label>
+
+            <!-- recommendation date -->
+            <ion-label class="st-data-label">
+                <ion-text appRecommendation
+                          [recommendationKey]="summary.recommendationKey"
+                          [recommendationMean]="summary.recommendationMean">
+                </ion-text>
+            </ion-label>
+
+            <!-- 52 week range -->
+            <ion-label class="st-data-label ion-hide-lg-down">
+                <div style="width: 90%">
+                    <app-table-high-low-range
+                            [value]="summary.marketPrice"
+                            [min]="summary.weekRangeFiveTwoMin"
+                            [max]="summary.weekRangeFiveTwoMax">
+                    </app-table-high-low-range>
+                </div>
+            </ion-label>
+        </ion-item>
+
+
+        <!-- SMALL SCREEN -->
+        <ion-item button class="st-data-item-wrapper ion-hide-sm-up st-sm-table-item" (click)="itemClicked(summary)">
+            <!-- LOGO + SYMBOL -->
+            <ion-label class="st-display-flex-center">
+                <ion-img [src]="summary.logo_url" class="st-symbol-image"></ion-img>
+                <div class="st-flex-col">
+                    <ion-text>{{ summary.symbol }}</ion-text>
+                    <ion-text class="st-hide-xs-down st-font-size-12 st-font-5">{{ summary.longName }}</ion-text>
+                </div>
+            </ion-label>
+
+            <ion-label class="st-font-1 st-font-size-16 st-flex-end">
+                <!-- daily change -->
+                <app-price-compare-item
+                        *ngIf="showDailyChange"
+                        [currentPrice]="summary.marketPrice"
+                        [inlineDisplay]="true"
+                        [compareToPrice]="summary.previousClose">
+                </app-price-compare-item>
+
+                <!-- yearly change -->
+                <app-price-compare-item
+                        *ngIf="!showDailyChange"
+                        [currentPrice]="summary.marketPrice"
+                        [inlineDisplay]="true"
+                        [compareToPrice]="summary.weekRangeFiveTwoMin">
+                </app-price-compare-item>
+            </ion-label>
+        </ion-item>
+    </ng-container>
 </ion-list>

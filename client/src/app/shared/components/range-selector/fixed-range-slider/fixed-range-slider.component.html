@@ -1,0 +1,14 @@
+<div>
+    <input type="range"
+           [min]="!min ? 0 : min"
+           [max]="!max ? value : max"
+           [value]="!value ? 0 : value"
+           class="slider"
+           disabled>
+
+
+    <div class="range-values-container" *ngIf="minDisplayName || maxDisplayName">
+        <span class="low-est" *ngIf="minDisplayName">Low: {{minDisplayName}}</span>
+        <span class="high-est" *ngIf="maxDisplayName">High: {{ maxDisplayName}}</span>
+    </div>
+</div>

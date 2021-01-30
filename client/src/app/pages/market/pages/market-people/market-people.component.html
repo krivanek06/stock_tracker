@@ -1,0 +1,51 @@
+<ion-grid *ngIf="marketOverview$ | async as marketOverview">
+    <!-- misery index -->
+    <ion-row>
+        <app-generic-list [title]="'Misery index'"></app-generic-list>
+        <ion-col *ngFor="let data of marketOverview.misery_index.result" size="12" size-xs="6">
+            <app-market-chart [heightPx]="chartHeight"
+                              [timestamp]="marketOverview.misery_index.timestamp"
+                              [chartDataResult]="data">
+            </app-market-chart>
+        </ion-col>
+    </ion-row>
+
+    <!-- employment -->
+    <ion-row>
+        <app-generic-list [title]="'Employment'"></app-generic-list>
+        <ng-container *ngFor="let data of marketOverview.employment.result; let i = index; let last=last">
+            <ion-col size="12" [sizeSm]="last ? 12 : 6" [sizeMd]="i < 3 ? 4 : 6">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.employment.timestamp"
+                                  [chartDataResult]="data">
+                </app-market-chart>
+            </ion-col>
+        </ng-container>
+    </ion-row>
+
+    <!-- Social security -->
+    <ion-row>
+        <app-generic-list [title]="'Social security'"></app-generic-list>
+        <ng-container *ngFor="let data of marketOverview.social_security.result">
+            <ion-col size="12" size-sm="6" size-md="3">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.social_security.timestamp"
+                                  [chartDataResult]="data">
+                </app-market-chart>
+            </ion-col>
+        </ng-container>
+    </ion-row>
+
+    <!-- Manufacturing-->
+    <ion-row>
+        <app-generic-list [title]="'Manufacturing'"></app-generic-list>
+        <ng-container *ngFor="let data of marketOverview.manufacturing.result">
+            <ion-col size="12" size-sm="6" size-md="4">
+                <app-market-chart [heightPx]="chartHeight"
+                                  [timestamp]="marketOverview.manufacturing.timestamp"
+                                  [chartDataResult]="data">
+                </app-market-chart>
+            </ion-col>
+        </ng-container>
+    </ion-row>
+</ion-grid>
