@@ -13,7 +13,8 @@ export interface STMarketDailyOverview {
   stock_suggestions?: STStockSuggestion[];
   top_crypto: STMarketTopTableCryptoData[];
   news: NewsArticle[];
-  events_calendar: EventCalendarData[];
+  events: EventCalendarData[];
+  earnings: EventCalendarEarningsData[];
   lastUpdate?: string;
 }
 
@@ -22,7 +23,7 @@ export interface STStockSuggestion {
   summary: Summary;
 }
 
-export interface EventCalendarData  {
+export interface EventCalendarData {
   date: number;
   day: number;
   month: number;
@@ -34,6 +35,18 @@ export interface EventCalendarData  {
   splitscount: number;
 }
 
+export interface EventCalendarEarningsData {
+  companyshortname: string;
+  epsactual: number;
+  epsestimate: number;
+  epssurprisepct: number;
+  gmtOffsetMilliSeconds: number;
+  quoteType: string;
+  startdatetime: string;
+  startdatetimetype: string;
+  ticker: string;
+  timeZoneShortName: string;
+}
 
 export interface STMarketHistoryOverview {
   sp500: STMarketChartDataResultContainer;

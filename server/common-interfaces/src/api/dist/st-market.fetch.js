@@ -56,7 +56,7 @@ exports.getStMarketTopTables = function () { return __awaiter(void 0, void 0, Pr
             case 0: return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/news")];
             case 1:
                 p1 = _d.sent();
-                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/events_calendar")];
+                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/calendar_events")];
             case 2:
                 p2 = _d.sent();
                 return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/top_crypto")];

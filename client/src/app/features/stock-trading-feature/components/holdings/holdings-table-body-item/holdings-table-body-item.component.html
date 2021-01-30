@@ -47,10 +47,10 @@
 
     <!-- recommendation date -->
     <ion-label class="ion-hide-lg-down st-data-label">
-        <ion-text [appRecommendation]="transaction.summary.recommendationKey | titlecase">
-            {{ transaction.summary.recommendationKey | titlecase }}
+        <ion-text appRecommendation
+                  [recommendationKey]="transaction.summary.recommendationKey"
+                  [recommendationMean]="transaction.summary.recommendationMean">
         </ion-text>
-        [{{ transaction.summary.recommendationMean }}]
     </ion-label>
 
 

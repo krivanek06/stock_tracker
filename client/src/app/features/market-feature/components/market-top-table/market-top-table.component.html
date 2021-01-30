@@ -1,0 +1,99 @@
+<ion-list>
+
+    <!-- table header -->
+    <ion-item class="ion-no-padding ion-hide-sm-down st-font-1-bold">
+        <ion-label>Symbol</ion-label>
+        <ion-label>Price</ion-label>
+        <ion-label>Daily +/-</ion-label>
+        <ion-label>Volume +/-</ion-label>
+        <ion-label class="ion-hide-xl-down">Market cap.</ion-label>
+        <ion-label class="ion-hide-md-down">PE ratio</ion-label>
+        <ion-label>Recommend</ion-label>
+        <ion-label class="ion-hide-lg-down">52 week range</ion-label>
+    </ion-item>
+
+
+    <!-- table body -->
+    <ng-container *ngFor="let data of topTableSymbolData">
+        <ion-item button (click)="itemClicked(data.symbol, data.shortName)"
+                  class="st-data-item-wrapper ion-hide-sm-down">
+            <!-- logo + symbol name -->
+            <ion-label class="st-display-flex-center st-data-label">
+                <ion-img appDefaultImg [src]="data.logo_url" class="st-symbol-image"></ion-img>
+                <ion-text class="st-font-5">{{ data.symbol }}</ion-text>
+            </ion-label>
+
+            <!-- current price -->
+            <ion-label class="st-data-label" [@marketValueChange]="data.regularMarketPrice">
+                {{ data.regularMarketPrice | currency }}
+            </ion-label>
+
+            <!-- daily change -->
+            <ion-label>
+                <app-price-compare-item [currentPrice]="data.regularMarketPrice"
+                                        [compareToPrice]="data.regularMarketPreviousClose">
+                </app-price-compare-item>
+            </ion-label>
+
+            <!-- volume change -->
+            <ion-label>
+                <app-price-change-item
+                        [showIcon]="false"
+                        [priceChange]="(data.regularMarketVolume - data.averageDailyVolume3Month) / data.averageDailyVolume3Month * 100">
+                </app-price-change-item>
+            </ion-label>
+
+            <!-- Market cap -->
+            <ion-label class="st-data-label ion-hide-xl-down">
+                {{ data.marketCap | numberFormatter }}
+            </ion-label>
+
+            <!-- PE -->
+            <ion-label class="st-data-label ion-hide-md-down">
+                {{ data.trailingPE }}
+            </ion-label>
+
+            <!-- recommendation date -->
+            <ion-label class="st-data-label">
+                <ion-text appRecommendation
+                          [recommendationKey]="data.recommendationKey"
+                          [recommendationMean]="data.recommendationMean">
+                </ion-text>
+            </ion-label>
+
+            <!-- 52 week range -->
+            <ion-label class="st-data-label ion-hide-lg-down">
+                <div style="width: 90%">
+                    <app-table-high-low-range
+                            [value]="data.regularMarketPrice"
+                            [min]="data.fiftyTwoWeekLow"
+                            [max]="data.fiftyTwoWeekHigh">
+                    </app-table-high-low-range>
+                </div>
+            </ion-label>
+        </ion-item>
+
+
+        <!-- SMALL SCREEN -->
+        <ion-item button class="st-data-item-wrapper ion-hide-sm-up st-sm-table-item"
+                  (click)="itemClicked(data.symbol,data.shortName)">
+            <!-- LOGO + SYMBOL -->
+            <ion-label class="st-display-flex-center">
+                <ion-img [src]="data.logo_url" class="st-symbol-image"></ion-img>
+                <div class="st-flex-col">
+                    <ion-text>{{ data.symbol }}</ion-text>
+                    <ion-text class="st-hide-xs-down st-font-size-12 st-font-5">{{ data.longName }}</ion-text>
+                </div>
+            </ion-label>
+
+            <!-- daily change -->
+            <ion-label class="st-font-1 st-font-size-16 st-flex-end">
+                <app-price-compare-item
+                        [currentPrice]="data.regularMarketPrice"
+                        [inlineDisplay]="true"
+                        [compareToPrice]="data.regularMarketPreviousClose">
+                </app-price-compare-item>
+            </ion-label>
+        </ion-item>
+    </ng-container>
+</ion-list>

@@ -15,7 +15,7 @@ const SEARCH_ENDPOINT = `${stockDataAPI}/search`;
 export const getStMarketTopTables = async (): Promise<STMarketDailyOverview> => {
   // TODO refactor into Promise.all()
   const p1 = await fetch(`${SEARCH_ENDPOINT}/news`);
-  const p2 = await fetch(`${SEARCH_ENDPOINT}/events_calendar`);
+  const p2 = await fetch(`${SEARCH_ENDPOINT}/calendar_events`);
   const p3 = await fetch(`${SEARCH_ENDPOINT}/top_crypto`);
   const p4 = await fetch(`${SEARCH_ENDPOINT}/stocks_day_gainers`);
   const p5 = await fetch(`${SEARCH_ENDPOINT}/stocks_day_losers`);

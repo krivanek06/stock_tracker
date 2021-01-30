@@ -154,7 +154,7 @@ query QueryMarketDailyOverview {
         news {
             ...newsArticleFragment
         }
-        events_calendar {
+        events {
             date
             day
             month
@@ -164,6 +164,18 @@ query QueryMarketDailyOverview {
             economiceventcount
             ipoinfocount
             splitscount
+        }
+        earnings {
+            companyshortname
+            epsactual
+            epsestimate
+            epssurprisepct
+            gmtOffsetMilliSeconds
+            quoteType
+            startdatetime
+            startdatetimetype
+            ticker
+            timeZoneShortName
         }
         lastUpdate
     }

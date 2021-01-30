@@ -288,11 +288,53 @@
 
 
   .dark-theme {
+    // select pop-over styling
+    .action-sheet-container.sc-ion-action-sheet-md {
+      justify-content: center;
+      width: 90%;
+      margin: auto;
+      // select buttons
+      .action-sheet-group.sc-ion-action-sheet-md:first-child {
+        background: #{$background-blue};
+
+        .action-sheet-selected.sc-ion-action-sheet-md {
+          color: #{$st-var-blue-1} !important;
+        }
+
+        button {
+          color: #{$st-var-font-2};
+
+          .action-sheet-button-inner.sc-ion-action-sheet-md {
+            justify-content: center;
+          }
+        }
+      }
+
+      // cancel button
+      .action-sheet-group.sc-ion-action-sheet-md:last-child {
+        background: #040427;
+
+        button {
+          color: #{$st-var-font-0};
+
+          .action-sheet-button-inner.sc-ion-action-sheet-md {
+            justify-content: center;
+          }
+        }
+      }
+    }
+
+    // select pop-over styling END ------------
+
     ion-segment {
       ion-segment-button {
         --color: #{$st-var-font-2};
         max-width: 195px;
         max-height: fit-content;
+
+        ion-label {
+          color: white;
+        }
       }
     }
 

@@ -1,0 +1,52 @@
+<ion-grid>
+    <!-- daily top gainers -->
+    <ion-row>
+        <ion-col size="12">
+            <app-generic-list [title]="'Daily top gainers'"></app-generic-list>
+            <app-generic-card>
+                <app-market-top-table [topTableSymbolData]="topGainers"></app-market-top-table>
+            </app-generic-card>
+        </ion-col>
+    </ion-row>
+
+    <!-- selected table -->
+    <ion-row>
+        <ion-col size="12">
+            <ion-list-header>
+                <ion-label class="st-flex-col">
+                    <ion-text class="st-font-size-18 st-font-0">{{ selectedTableName.name }}</ion-text>
+                </ion-label>
+                <ion-item>
+                    <ion-label>Change table</ion-label>
+                    <ion-select (ionChange)="changeSelectedTable($event)"
+                                interface="action-sheet"
+                                [value]="selectedTableName">
+                        <ion-select-option *ngFor="let data of MARKET_DAILY_CHANGE_SELECT" [value]="data">
+                            {{ data.name }}
+                        </ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-list-header>
+            <app-generic-card>
+                <app-market-top-table [topTableSymbolData]="selectedTable"></app-market-top-table>
+            </app-generic-card>
+        </ion-col>
+    </ion-row>
+
+    <!-- weekly earnings -->
+    <ion-row>
+        <ion-col>
+
+        </ion-col>
+    </ion-row>
+
+    <!-- news -->
+    <ion-row>
+        <ion-col size="12">
+            <app-generic-list [title]="'Market news'"></app-generic-list>
+            <div class="st-news-container">
+                <app-article-cards *ngFor="let article of news" [article]="article"></app-article-cards>
+            </div>
+        </ion-col>
+    </ion-row>
+</ion-grid>

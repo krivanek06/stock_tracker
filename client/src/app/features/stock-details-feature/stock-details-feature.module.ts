@@ -17,11 +17,8 @@ import {DetailsSummaryComponent} from './components/details-summary/details-summ
 import {DetailsRevenueEstimateComponent} from './components/details-revenue-estimate/details-revenue-estimate.component';
 import {StockInfoListIdentificationComponent} from './components/stock-info-list-identification/stock-info-list-identification.component';
 import {StockSearchComponent} from './containers/stock-search/stock-search.component';
-import {RecommendationDirective} from '../../shared/directives/recommendation.directive';
 import {SummarySectorChartComponent} from './components/summary-sector-chart/summary-sector-chart.component';
 import {StockInfoListChangeComponent} from './components/stock-info-list-change/stock-info-list-change.component';
-import {ArticleCardsComponent} from './components/card/article-cards/article-cards.component';
-import {SymbolMovementTableCardComponent} from './components/card/symbol-movement-table-card/symbol-movement-table-card.component';
 import {TrendItemComponent} from './components/stock-trend/trend-item/trend-item.component';
 
 
@@ -43,11 +40,8 @@ import {TrendItemComponent} from './components/stock-trend/trend-item/trend-item
         DetailsRevenueEstimateComponent,
         StockInfoListIdentificationComponent,
         StockSearchComponent,
-        RecommendationDirective,
         SummarySectorChartComponent,
         StockInfoListChangeComponent,
-        ArticleCardsComponent,
-        SymbolMovementTableCardComponent,
         TrendItemComponent
     ],
     imports: [
@@ -71,11 +65,8 @@ import {TrendItemComponent} from './components/stock-trend/trend-item/trend-item
         DetailsRevenueEstimateComponent,
         StockInfoListIdentificationComponent,
         StockSearchComponent,
-        RecommendationDirective,
         SummarySectorChartComponent,
-        StockInfoListChangeComponent,
-        ArticleCardsComponent,
-        SymbolMovementTableCardComponent
+        StockInfoListChangeComponent
     ],
     entryComponents: [
         DetailsFinancialReportModalComponent,

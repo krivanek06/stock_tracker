@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {MARKET_PAGE_ENUM} from './model/market.model';
+import {MARKET_PAGE_ENUM, MARKET_PAGE_PATH} from './model/market.model';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-market',
@@ -7,17 +8,17 @@ import {MARKET_PAGE_ENUM} from './model/market.model';
     styleUrls: ['./market.page.scss'],
 })
 export class MarketPage implements OnInit {
-    segmentValue = MARKET_PAGE_ENUM.overview;
+    segmentValue = MARKET_PAGE_ENUM.dailyChange;
 
-    MARKET_PAGE_ENUM = MARKET_PAGE_ENUM;
+    MARKET_PAGE_PATH = MARKET_PAGE_PATH;
 
-    constructor() {
+    constructor(private router: Router) {
     }
 
     ngOnInit() {
     }
 
     segmentChanged(event: CustomEvent) {
-        console.log('event', event);
+        this.router.navigate([`menu/market/${event.detail.value}`]);
     }
 }

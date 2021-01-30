@@ -12,8 +12,8 @@
                              class="ion-justify-content-end ion-margin-bottom"
                              [value]="segmentValue"
                              (ionChange)="segmentChanged($event)">
-                    <ion-segment-button [value]="MARKET_PAGE_ENUM.overview">
-                        <ion-label>Overview</ion-label>
+                    <ion-segment-button *ngFor="let path of MARKET_PAGE_PATH" [value]="path.value">
+                        <ion-label>{{ path.name }}</ion-label>
                     </ion-segment-button>
                 </ion-segment>
             </ion-col>

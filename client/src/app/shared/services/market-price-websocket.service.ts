@@ -97,7 +97,7 @@ export class MarketPriceWebsocketService {
             console.log(`webocket connection for ${symbol} was already closed`);
             return;
         }
-
+        console.log('websocket closing subscription for symbol ', symbol);
         this.socket.send(JSON.stringify({type: 'unsubscribe', symbol}));
         this.subscribedSymbols = this.subscribedSymbols.filter(s => s !== symbol);
     }

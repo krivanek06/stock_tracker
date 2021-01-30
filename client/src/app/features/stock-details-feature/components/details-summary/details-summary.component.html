@@ -85,10 +85,10 @@
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Recommend</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            <ion-text [appRecommendation]="summary.recommendationKey | titlecase">
-                {{ summary.recommendationKey | titlecase }}
+            <ion-text appRecommendation
+                      [recommendationKey]="summary.recommendationKey"
+                      [recommendationMean]="summary.recommendationMean">
             </ion-text>
-            [{{ summary.recommendationMean }}]
         </ion-label>
     </ion-item>
 
