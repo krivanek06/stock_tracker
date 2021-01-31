@@ -23,7 +23,7 @@ import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_ENUM} from '../../../../pages/search
 })
 export class SymbolLookupModalComponent implements OnInit {
 
-    chartDataIdentification: SymbolIdentification;
+    symbolIdentification: SymbolIdentification;
     watchlistId: string;
     isSymbolInWatchlist = false;
 
@@ -40,10 +40,10 @@ export class SymbolLookupModalComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.chartDataIdentification = this.navParams.get('chartDataIdentification');
+        this.symbolIdentification = this.navParams.get('symbolIdentification');
         this.watchlistId = this.navParams.get('watchlistId');
 
-        this.stockSummary$ = this.stockDetailsService.getStockSummary(this.chartDataIdentification.symbol);
+        this.stockSummary$ = this.stockDetailsService.getStockSummary(this.symbolIdentification.symbol);
         this.checkIfSymbolIsInWatchlist();  // checked if opened symbol is in my watchlist
     }
 
@@ -53,16 +53,16 @@ export class SymbolLookupModalComponent implements OnInit {
 
     redirectToDetails() {
         this.dismissModal();
-        this.router.navigate([`/menu/search/${SEARCH_PAGE_ENUM.STOCK}/${SEARCH_PAGE_STOCK_ENUM.DETAILS}/${this.chartDataIdentification.symbol}`]);
+        this.router.navigate([`/menu/search/${SEARCH_PAGE_ENUM.STOCK}/${SEARCH_PAGE_STOCK_ENUM.DETAILS}/${this.symbolIdentification.symbol}`]);
     }
 
     async addSymbolToWatchlist() {
-        await this.watchlistService.addSymbolToWatchlist(this.chartDataIdentification.symbol);
+        await this.watchlistService.addSymbolToWatchlist(this.symbolIdentification.symbol);
         this.checkIfSymbolIsInWatchlist();
     }
 
     async removeSymbolFromWatchlist() {
-        await this.watchlistService.removeStockFromWatchlist(this.chartDataIdentification, this.watchlistId);
+        await this.watchlistService.removeStockFromWatchlist(this.symbolIdentification, this.watchlistId);
         this.checkIfSymbolIsInWatchlist();
     }
 
@@ -70,7 +70,7 @@ export class SymbolLookupModalComponent implements OnInit {
         if (this.watchlistId) {
             const watchlist = this.authFeatureService.user.stockWatchlist.find(s => s.id === this.watchlistId);
             if (watchlist) {
-                this.isSymbolInWatchlist = watchlist.summaries.map(s => s.symbol).includes(this.chartDataIdentification.symbol);
+                this.isSymbolInWatchlist = watchlist.summaries.map(s => s.symbol).includes(this.symbolIdentification.symbol);
                 this.cd.detectChanges();
             }
         }

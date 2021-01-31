@@ -1,0 +1,30 @@
+<ion-list>
+    <!-- table header -->
+    <ion-item class="st-font-1-bold st-data-item">
+        <ion-label>Symbol</ion-label>
+
+        <ion-label class="ion-hide-sm-down">Estimated</ion-label>
+        <ion-label class="ion-hide-sm-down">Reported</ion-label>
+        <ion-label class="ion-hide-sm-down">Difference</ion-label>
+
+        <ion-label class="ion-hide-sm-up">Est.</ion-label>
+        <ion-label class="ion-hide-sm-up">Rep.</ion-label>
+        <ion-label class="ion-hide-sm-up">Diff.</ion-label>
+    </ion-item>
+
+    <!-- table data -->
+    <ion-item *ngFor="let earning of earnings"
+              class="st-data-item-wrapper st-data-item"
+              [ngClass]="{'ion-activatable': clickable}"
+              (click)="clickedItem(earning.ticker, earning.companyshortname)">
+        <ion-label class="st-font-4">{{ earning.ticker }}</ion-label>
+        <ion-label class="st-data-label">{{ earning.epsestimate }}</ion-label>
+        <ion-label class="st-data-label">{{ earning.epsactual }}</ion-label>
+        <ion-label>
+            <app-price-change-item [priceChange]="earning.epssurprisepct" [showIcon]="false"></app-price-change-item>
+        </ion-label>
+
+        <!-- ripple effect on click -->
+        <ion-ripple-effect></ion-ripple-effect>
+    </ion-item>
+</ion-list>

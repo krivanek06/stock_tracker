@@ -111,6 +111,33 @@ query QuerySTMarketHistoryOverview {
 }
 
 
+fragment STEventCalendarDataFragment on STEventCalendarData {
+    date
+    day
+    month
+    startdatetime
+    year
+    earningscount
+    economiceventcount
+    ipoinfocount
+    splitscount
+}
+
+fragment STEventCalendarEarningsDataFragment on STEventCalendarEarningsData {
+    companyshortname
+    epsactual
+    epsestimate
+    epssurprisepct
+    gmtOffsetMilliSeconds
+    quoteType
+    startdatetime
+    startdatetimetype
+    ticker
+    timeZoneShortName
+}
+
+# QUERY --------------------
+
 query QueryMarketDailyOverview {
     queryMarketDailyOverview {
         stocks_day_gainers {
@@ -155,32 +182,30 @@ query QueryMarketDailyOverview {
             ...newsArticleFragment
         }
         events {
-            date
-            day
-            month
-            startdatetime
-            year
-            earningscount
-            economiceventcount
-            ipoinfocount
-            splitscount
+            ...STEventCalendarDataFragment
         }
         earnings {
-            companyshortname
-            epsactual
-            epsestimate
-            epssurprisepct
-            gmtOffsetMilliSeconds
-            quoteType
-            startdatetime
-            startdatetimetype
-            ticker
-            timeZoneShortName
+            ...STEventCalendarEarningsDataFragment
         }
         lastUpdate
     }
 }
 
+query QueryStMarketCalendarEvents($date: String!) {
+    queryStMarketCalendarEvents(date: $date) {
+        events {
+            ...STEventCalendarDataFragment
+        }
+    }
+}
+
+query QueryStMarketCalendarEventsEarnings($date: String!) {
+    queryStMarketCalendarEventsEarnings(date: $date) {
+        earnings {
+            ...STEventCalendarEarningsDataFragment
+        }
+    }
+}
 
 
 query QueryStMarketAllCategories {

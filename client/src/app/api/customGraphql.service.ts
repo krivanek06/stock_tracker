@@ -18,401 +18,66 @@ export type Scalars = {
 };
 
 
-export type Query = {
-    __typename?: 'Query';
-    queryUserData?: Maybe<StUserPublicData>;
-    querySTUserPartialInformationByUsername: Array<Maybe<StUserPartialInformation>>;
-    authenticateUser?: Maybe<StUserPublicData>;
-    querySTGroupAllDataByGroupId?: Maybe<StGroupAllData>;
-    querySTGroupPartialDataByGroupName?: Maybe<StSearchGroups>;
-    queryStockDetails?: Maybe<StockDetails>;
-    queryStockSummary?: Maybe<Summary>;
-    queryStockSummaries?: Maybe<SearchSymbol>;
-    querySTMarketHistoryOverview?: Maybe<StMarketOverviewPartialData>;
-    queryStMarketAllCategories?: Maybe<StMarketDatasetKeyCategories>;
-    queryMarketDailyOverview?: Maybe<StMarketDailyOverview>;
-    queryMultipleStMarketData?: Maybe<StMarketChartDataResultSearch>;
-    queryStMarketData?: Maybe<StMarketChartDataResultCombined>;
+export type Analysis = {
+    __typename?: 'Analysis';
+    growthEstimates?: Maybe<GrowthEstimates>;
+    revenueEstimate?: Maybe<Array<Maybe<RevenueEstimate>>>;
 };
 
-
-export type QueryQueryUserDataArgs = {
-    uid: Scalars['String'];
+export type BalanceSheet = {
+    __typename?: 'BalanceSheet';
+    balanceSheetHistoryQuarterly?: Maybe<BalanceSheetData>;
+    balanceSheetHistoryYearly?: Maybe<BalanceSheetData>;
 };
 
-
-export type QueryQueryStUserPartialInformationByUsernameArgs = {
-    usernamePrefix: Scalars['String'];
-};
-
-
-export type QueryAuthenticateUserArgs = {
-    uid: Scalars['String'];
-};
-
-
-export type QueryQueryStGroupAllDataByGroupIdArgs = {
-    groupId: Scalars['String'];
-};
-
-
-export type QueryQueryStGroupPartialDataByGroupNameArgs = {
-    groupName: Scalars['String'];
-};
-
-
-export type QueryQueryStockDetailsArgs = {
-    symbol: Scalars['String'];
-};
-
-
-export type QueryQueryStockSummaryArgs = {
-    symbol: Scalars['String'];
-};
-
-
-export type QueryQueryStockSummariesArgs = {
-    symbolPrefix: Scalars['String'];
-};
-
-
-export type QueryQueryMultipleStMarketDataArgs = {
-    key: Scalars['String'];
-};
-
-
-export type QueryQueryStMarketDataArgs = {
-    key: Scalars['String'];
-};
-
-export type Mutation = {
-    __typename?: 'Mutation';
-    registerUser?: Maybe<Scalars['Boolean']>;
-    editUser?: Maybe<Scalars['Boolean']>;
-    resetUserAccount?: Maybe<Scalars['Boolean']>;
-    createGroup?: Maybe<StGroupPartialData>;
-    editGroup?: Maybe<StGroupPartialData>;
-    deleteGroup?: Maybe<Scalars['Boolean']>;
-    toggleInvitationRequestToGroup?: Maybe<StGroupPartialData>;
-    answerReceivedGroupInvitation?: Maybe<StGroupPartialData>;
-    leaveGroup?: Maybe<Scalars['Boolean']>;
-    createStockWatchlist?: Maybe<StStockWatchlist>;
-    renameStockWatchlist?: Maybe<Scalars['Boolean']>;
-    deleteWatchlist?: Maybe<Scalars['Boolean']>;
-    addStockIntoStockWatchlist?: Maybe<Summary>;
-    removeStockFromStockWatchlist?: Maybe<Scalars['Boolean']>;
-    performTransaction?: Maybe<StTransaction>;
-};
-
-
-export type MutationRegisterUserArgs = {
-    user?: Maybe<StUserAuthenticationInput>;
-};
-
-
-export type MutationEditUserArgs = {
-    editInput?: Maybe<StUserEditDataInput>;
-};
-
-
-export type MutationResetUserAccountArgs = {
-    userId: Scalars['String'];
-};
-
-
-export type MutationCreateGroupArgs = {
-    groupInput: StGroupAllDataInput;
-};
-
-
-export type MutationEditGroupArgs = {
-    groupInput: StGroupAllDataInput;
-};
-
-
-export type MutationDeleteGroupArgs = {
-    uid: Scalars['String'];
-    groupId: Scalars['String'];
-};
-
-
-export type MutationToggleInvitationRequestToGroupArgs = {
-    uid: Scalars['String'];
-    groupId: Scalars['String'];
-};
-
-
-export type MutationAnswerReceivedGroupInvitationArgs = {
-    uid: Scalars['String'];
-    groupId: Scalars['String'];
-    accept: Scalars['Boolean'];
-};
-
-
-export type MutationLeaveGroupArgs = {
-    uid: Scalars['String'];
-    groupId: Scalars['String'];
-};
-
-
-export type MutationCreateStockWatchlistArgs = {
-    identifier: StStockWatchInputlistIdentifier;
-};
-
-
-export type MutationRenameStockWatchlistArgs = {
-    identifier: StStockWatchInputlistIdentifier;
-};
-
-
-export type MutationDeleteWatchlistArgs = {
-    identifier: StStockWatchInputlistIdentifier;
-};
-
-
-export type MutationAddStockIntoStockWatchlistArgs = {
-    identifier: StStockWatchInputlistIdentifier;
-};
-
-
-export type MutationRemoveStockFromStockWatchlistArgs = {
-    identifier: StStockWatchInputlistIdentifier;
-};
-
-
-export type MutationPerformTransactionArgs = {
-    transactionInput?: Maybe<StTransactionInput>;
-};
-
-export type StUserGroups = {
-    __typename?: 'STUserGroups';
-    groupInvitationSent?: Maybe<Array<Maybe<StGroupPartialData>>>;
-    groupInvitationReceived?: Maybe<Array<Maybe<StGroupPartialData>>>;
-    groupOwner?: Maybe<Array<Maybe<StGroupPartialData>>>;
-    groupMember?: Maybe<Array<Maybe<StGroupPartialData>>>;
-};
-
-export type StUserIndetificationInformation = {
-    __typename?: 'STUserIndetificationInformation';
-    uid: Scalars['String'];
-    nickName: Scalars['String'];
-    locale?: Maybe<Scalars['String']>;
-    photoURL: Scalars['String'];
-    accountCreatedDate: Scalars['String'];
-};
-
-export type StUserPartialInformation = {
-    __typename?: 'STUserPartialInformation';
-    uid: Scalars['String'];
-    nickName: Scalars['String'];
-    locale?: Maybe<Scalars['String']>;
-    photoURL?: Maybe<Scalars['String']>;
-    accountCreatedDate: Scalars['String'];
-    portfolio?: Maybe<StPortfolio>;
-    rank?: Maybe<StRank>;
-};
-
-export type StUserPublicData = {
-    __typename?: 'STUserPublicData';
-    uid: Scalars['String'];
-    nickName: Scalars['String'];
-    locale?: Maybe<Scalars['String']>;
-    photoURL?: Maybe<Scalars['String']>;
-    accountCreatedDate: Scalars['String'];
-    lastSignInDate: Scalars['String'];
-    portfolio?: Maybe<StPortfolio>;
-    rank?: Maybe<StRank>;
-    holdings: Array<Maybe<StTransaction>>;
-    transactionsSnippets: Array<Maybe<StTransaction>>;
-    activity?: Maybe<User_Activity>;
-    groups: StUserGroups;
-    userPrivateData: StUserPrivateData;
-    userHistoricalData: StUserHistoricalData;
-    stockWatchlist: Array<Maybe<StStockWatchlist>>;
-};
-
-export type StUserPrivateData = {
-    __typename?: 'STUserPrivateData';
-    uid?: Maybe<Scalars['String']>;
-    finnhubKey?: Maybe<Scalars['String']>;
-    tradingEnabledDate?: Maybe<Scalars['String']>;
-    roles?: Maybe<Array<Maybe<Scalars['String']>>>;
-    email: Scalars['String'];
-    displayName: Scalars['String'];
-    providerId?: Maybe<Scalars['String']>;
-    status: User_Status;
-    geographic?: Maybe<StGeographic>;
-    nicknameLastChange?: Maybe<Scalars['String']>;
-};
-
-export type StUserHistoricalData = {
-    __typename?: 'STUserHistoricalData';
-    portfolioWeeklyChange: Array<Maybe<StPortfolioWeeklyChange>>;
-    bestAchievedRanks: Array<Maybe<StRank>>;
-    resetedAccount: Array<Maybe<StUserResetedAccount>>;
-    userLogs: Array<Maybe<StLog>>;
-};
-
-export type StPortfolioWeeklyChange = {
-    __typename?: 'STPortfolioWeeklyChange';
-    portfolio: StPortfolio;
-    transactionsBuy: StPortfolioWeeklyChangeTransactions;
-    transactionsSell: StPortfolioWeeklyChangeTransactions;
-    date?: Maybe<Scalars['String']>;
-};
-
-export type StPortfolioWeeklyChangeTransactions = {
-    __typename?: 'STPortfolioWeeklyChangeTransactions';
-    total: Scalars['Float'];
-    transactions?: Maybe<Array<Maybe<StTransaction>>>;
-};
-
-export type StUserResetedAccount = {
-    __typename?: 'STUserResetedAccount';
-    date: Scalars['String'];
-    portfolioTotal: Scalars['Float'];
-};
-
-export type StUserAuthenticationInput = {
-    uid?: Maybe<Scalars['String']>;
-    displayName?: Maybe<Scalars['String']>;
-    email?: Maybe<Scalars['String']>;
-    photoURL?: Maybe<Scalars['String']>;
-    providerId?: Maybe<Scalars['String']>;
-    locale?: Maybe<Scalars['String']>;
-};
-
-export type StUserEditDataInput = {
-    userId?: Maybe<Scalars['String']>;
-    finnhubKey?: Maybe<Scalars['String']>;
-    nickName?: Maybe<Scalars['String']>;
-    photoURL?: Maybe<Scalars['String']>;
-};
-
-export type StUserIndetificationInformationInput = {
-    uid: Scalars['String'];
-    nickName: Scalars['String'];
-    locale?: Maybe<Scalars['String']>;
-    photoURL: Scalars['String'];
-    accountCreatedDate: Scalars['String'];
-};
-
-export enum User_Activity {
-    SignedIn = 'SIGNED_IN',
-    SignedOut = 'SIGNED_OUT'
-}
-
-export enum User_Status {
-    Pending = 'PENDING',
-    Denied = 'DENIED',
-    Allowed = 'ALLOWED'
-}
-
-export enum User_Status_In_Group {
-    Owner = 'OWNER',
-    Manager = 'MANAGER',
-    Member = 'MEMBER',
-    InvitationSent = 'INVITATION_SENT',
-    InvitationReceived = 'INVITATION_RECEIVED'
-}
-
-export enum User_Roles_Enum {
-    RoleAdmin = 'ROLE_ADMIN',
-    RoleGroupCreate = 'ROLE_GROUP_CREATE'
-}
-
-export type StStockWatchlist = {
-    __typename?: 'STStockWatchlist';
-    id: Scalars['String'];
-    name: Scalars['String'];
-    date?: Maybe<Scalars['String']>;
-    userId: Scalars['String'];
-    summaries?: Maybe<Array<Maybe<Summary>>>;
-};
-
-export type StStockWatchInputlistIdentifier = {
-    userId: Scalars['String'];
-    id?: Maybe<Scalars['String']>;
-    additionalData?: Maybe<Scalars['String']>;
-};
-
-export type SearchSymbol = {
-    __typename?: 'SearchSymbol';
-    summaries: Array<Maybe<Summary>>;
-};
-
-export type StockDetails = {
-    __typename?: 'StockDetails';
-    id: Scalars['String'];
-    analysis?: Maybe<Analysis>;
-    balanceSheet?: Maybe<BalanceSheet>;
-    cashFlow?: Maybe<CashFlow>;
-    incomeStatement?: Maybe<IncomeStatement>;
-    stats: Stats;
-    recommendation?: Maybe<Array<Maybe<Recommendations>>>;
-    stockNews?: Maybe<Array<Maybe<NewsArticle>>>;
-    companyData?: Maybe<CompanyData>;
-    summary: Summary;
-    metric?: Maybe<Metric>;
-    dividends?: Maybe<Dividens>;
-};
-
-export type CompanyData = {
-    __typename?: 'CompanyData';
-    defaultKeyStatistics?: Maybe<DefaultKeyStatistics>;
-    earnings?: Maybe<Earnings>;
-    esgScores?: Maybe<EsgScores>;
-    financialData?: Maybe<FinancialData>;
-    pageViews?: Maybe<PageViews>;
-    upgradeDowngradeHistory?: Maybe<UpgradeDowngradeHistory>;
-};
-
-export type Recommendations = {
-    __typename?: 'Recommendations';
-    buy?: Maybe<Scalars['Float']>;
-    hold?: Maybe<Scalars['Float']>;
-    period?: Maybe<Scalars['String']>;
-    sell?: Maybe<Scalars['Float']>;
-    strongBuy?: Maybe<Scalars['Float']>;
-    strongSell?: Maybe<Scalars['Float']>;
-    symbol?: Maybe<Scalars['String']>;
-};
-
-export type IncomeStatement = {
-    __typename?: 'IncomeStatement';
-    incomeStatementHistoryQuarterly?: Maybe<IncomeStatementData>;
-    incomeStatementHistoryYearly?: Maybe<IncomeStatementData>;
-};
-
-export type IncomeStatementData = {
-    __typename?: 'IncomeStatementData';
-    costOfRevenue?: Maybe<SheetData>;
-    discontinuedOperations?: Maybe<SheetData>;
-    ebit?: Maybe<SheetData>;
-    effectOfAccountingCharges?: Maybe<SheetData>;
+export type BalanceSheetData = {
+    __typename?: 'BalanceSheetData';
+    accountsPayable?: Maybe<SheetData>;
+    cash?: Maybe<SheetData>;
+    commonStock?: Maybe<SheetData>;
     endDate?: Maybe<SheetData>;
-    extraordinaryItems?: Maybe<SheetData>;
-    grossProfit?: Maybe<SheetData>;
-    incomeBeforeTax?: Maybe<SheetData>;
-    incomeTaxExpense?: Maybe<SheetData>;
-    interestExpense?: Maybe<SheetData>;
-    netIncome?: Maybe<SheetData>;
-    netIncomeApplicableToCommonShares?: Maybe<SheetData>;
-    netIncomeFromContinuingOps?: Maybe<SheetData>;
-    operatingIncome?: Maybe<SheetData>;
-    otherOperatingExpenses?: Maybe<SheetData>;
-    researchDevelopment?: Maybe<SheetData>;
-    sellingGeneralAdministrative?: Maybe<SheetData>;
-    totalOperatingExpenses?: Maybe<SheetData>;
-    totalOtherIncomeExpenseNet?: Maybe<SheetData>;
-    totalRevenue?: Maybe<SheetData>;
-    dilutedEarnings?: Maybe<SheetData>;
-    basicEarnings?: Maybe<SheetData>;
-    dividendsInCash?: Maybe<SheetData>;
-    administrativeExpense?: Maybe<SheetData>;
-    costOfSales?: Maybe<SheetData>;
-    incomeTaxProvision?: Maybe<SheetData>;
-    marketingExpense?: Maybe<SheetData>;
+    inventory?: Maybe<SheetData>;
+    longTermDebt?: Maybe<SheetData>;
+    longTermInvestments?: Maybe<SheetData>;
+    maxAge?: Maybe<SheetData>;
+    netReceivables?: Maybe<SheetData>;
+    netTangibleAssets?: Maybe<SheetData>;
+    otherAssets?: Maybe<SheetData>;
+    otherCurrentAssets?: Maybe<SheetData>;
+    otherCurrentLiab?: Maybe<SheetData>;
+    otherLiab?: Maybe<SheetData>;
+    otherStockholderEquity?: Maybe<SheetData>;
+    propertyPlantEquipment?: Maybe<SheetData>;
+    retainedEarnings?: Maybe<SheetData>;
+    shortLongTermDebt?: Maybe<SheetData>;
+    shortTermInvestments?: Maybe<SheetData>;
+    totalAssets?: Maybe<SheetData>;
+    totalCurrentAssets?: Maybe<SheetData>;
+    totalCurrentLiabilities?: Maybe<SheetData>;
+    totalLiab?: Maybe<SheetData>;
+    totalStockholderEquity?: Maybe<SheetData>;
+    treasuryStock?: Maybe<SheetData>;
+    accumulatedComprehensiveIncome?: Maybe<SheetData>;
+    totalSecuritiesForSale?: Maybe<SheetData>;
+    commonStockValue?: Maybe<SheetData>;
+    deferredRevenue?: Maybe<SheetData>;
+    operatingLeaseLiability?: Maybe<SheetData>;
+    goodwill?: Maybe<SheetData>;
+    prepaidExpense?: Maybe<SheetData>;
+    netEquity?: Maybe<SheetData>;
+    prepaidAssets?: Maybe<SheetData>;
+};
+
+export enum CacheControlScope {
+    Public = 'PUBLIC',
+    Private = 'PRIVATE'
+}
+
+export type Calculation = {
+    __typename?: 'Calculation';
+    avg?: Maybe<Scalars['Float']>;
+    max?: Maybe<Scalars['Float']>;
+    min?: Maybe<Scalars['Float']>;
 };
 
 export type CashFlow = {
@@ -462,93 +127,14 @@ export type CashFlowData = {
     CustomerDeposits?: Maybe<SheetData>;
 };
 
-export type BalanceSheet = {
-    __typename?: 'BalanceSheet';
-    balanceSheetHistoryQuarterly?: Maybe<BalanceSheetData>;
-    balanceSheetHistoryYearly?: Maybe<BalanceSheetData>;
-};
-
-export type BalanceSheetData = {
-    __typename?: 'BalanceSheetData';
-    accountsPayable?: Maybe<SheetData>;
-    cash?: Maybe<SheetData>;
-    commonStock?: Maybe<SheetData>;
-    endDate?: Maybe<SheetData>;
-    inventory?: Maybe<SheetData>;
-    longTermDebt?: Maybe<SheetData>;
-    longTermInvestments?: Maybe<SheetData>;
-    maxAge?: Maybe<SheetData>;
-    netReceivables?: Maybe<SheetData>;
-    netTangibleAssets?: Maybe<SheetData>;
-    otherAssets?: Maybe<SheetData>;
-    otherCurrentAssets?: Maybe<SheetData>;
-    otherCurrentLiab?: Maybe<SheetData>;
-    otherLiab?: Maybe<SheetData>;
-    otherStockholderEquity?: Maybe<SheetData>;
-    propertyPlantEquipment?: Maybe<SheetData>;
-    retainedEarnings?: Maybe<SheetData>;
-    shortLongTermDebt?: Maybe<SheetData>;
-    shortTermInvestments?: Maybe<SheetData>;
-    totalAssets?: Maybe<SheetData>;
-    totalCurrentAssets?: Maybe<SheetData>;
-    totalCurrentLiabilities?: Maybe<SheetData>;
-    totalLiab?: Maybe<SheetData>;
-    totalStockholderEquity?: Maybe<SheetData>;
-    treasuryStock?: Maybe<SheetData>;
-    accumulatedComprehensiveIncome?: Maybe<SheetData>;
-    totalSecuritiesForSale?: Maybe<SheetData>;
-    commonStockValue?: Maybe<SheetData>;
-    deferredRevenue?: Maybe<SheetData>;
-    operatingLeaseLiability?: Maybe<SheetData>;
-    goodwill?: Maybe<SheetData>;
-    prepaidExpense?: Maybe<SheetData>;
-    netEquity?: Maybe<SheetData>;
-    prepaidAssets?: Maybe<SheetData>;
-};
-
-export type SheetData = {
-    __typename?: 'SheetData';
-    change?: Maybe<Array<Maybe<Scalars['Float']>>>;
-    data?: Maybe<Array<Maybe<Scalars['Float']>>>;
-    name?: Maybe<Scalars['String']>;
-};
-
-export type RevenueEstimate = {
-    __typename?: 'RevenueEstimate';
-    avgEstimate?: Maybe<Scalars['String']>;
-    avgEstimateNumber?: Maybe<Scalars['Float']>;
-    highEstimate?: Maybe<Scalars['String']>;
-    highEstimateNumber?: Maybe<Scalars['Float']>;
-    lowEstimate?: Maybe<Scalars['String']>;
-    lowEstimateNumber?: Maybe<Scalars['Float']>;
-    noofAnalysts?: Maybe<Scalars['Float']>;
-    salesGrowthyearest?: Maybe<Scalars['String']>;
-    salesGrowthyearestNumber?: Maybe<Scalars['Float']>;
-    yearAgoSales?: Maybe<Scalars['String']>;
-    name?: Maybe<Scalars['String']>;
-};
-
-export type GrowthEstimates = {
-    __typename?: 'GrowthEstimates';
-    currentQtr?: Maybe<Scalars['String']>;
-    currentQtrPrct?: Maybe<Scalars['Float']>;
-    currentYear?: Maybe<Scalars['String']>;
-    currentYearPrct?: Maybe<Scalars['Float']>;
-    nextFiveYearsperannum?: Maybe<Scalars['String']>;
-    nextFiveYearsperannumPrct?: Maybe<Scalars['Float']>;
-    nextQtr?: Maybe<Scalars['String']>;
-    nextQtrPrct?: Maybe<Scalars['Float']>;
-    nextYear?: Maybe<Scalars['String']>;
-    nextYearPrct?: Maybe<Scalars['Float']>;
-    pastFiveYearsperannum?: Maybe<Scalars['String']>;
-    pastFiveYearsperannumPrct?: Maybe<Scalars['Float']>;
-    name?: Maybe<Scalars['String']>;
-};
-
-export type Analysis = {
-    __typename?: 'Analysis';
-    growthEstimates?: Maybe<GrowthEstimates>;
-    revenueEstimate?: Maybe<Array<Maybe<RevenueEstimate>>>;
+export type CompanyData = {
+    __typename?: 'CompanyData';
+    defaultKeyStatistics?: Maybe<DefaultKeyStatistics>;
+    earnings?: Maybe<Earnings>;
+    esgScores?: Maybe<EsgScores>;
+    financialData?: Maybe<FinancialData>;
+    pageViews?: Maybe<PageViews>;
+    upgradeDowngradeHistory?: Maybe<UpgradeDowngradeHistory>;
 };
 
 export type DefaultKeyStatistics = {
@@ -585,6 +171,21 @@ export type DefaultKeyStatistics = {
     trailingEps?: Maybe<Scalars['Float']>;
 };
 
+export type Dividens = {
+    __typename?: 'Dividens';
+    currentDividendYieldTTM?: Maybe<Scalars['Float']>;
+    dividendGrowthRateFiveY?: Maybe<Scalars['Float']>;
+    dividendPerShareAnnual?: Maybe<Scalars['Float']>;
+    dividendPerShareFiveY?: Maybe<Scalars['Float']>;
+    dividendYieldFiveY?: Maybe<Scalars['Float']>;
+    dividendYieldIndicatedAnnual?: Maybe<Scalars['Float']>;
+    dividendsPerShareTTM?: Maybe<Scalars['Float']>;
+    exDividendDate?: Maybe<Scalars['String']>;
+    trailingAnnualDividendRate?: Maybe<Scalars['String']>;
+    trailingAnnualDividendYield?: Maybe<Scalars['String']>;
+    forwardDividendYield?: Maybe<Scalars['String']>;
+};
+
 export type Earnings = {
     __typename?: 'Earnings';
     earningsChart?: Maybe<EarningsChart>;
@@ -606,24 +207,6 @@ export type EarningsChartData = {
     actual?: Maybe<Scalars['Float']>;
     date?: Maybe<Scalars['String']>;
     estimate?: Maybe<Scalars['Float']>;
-};
-
-export type FinancialsChart = {
-    __typename?: 'FinancialsChart';
-    quarterly?: Maybe<FinancialsChartData>;
-    yearly?: Maybe<FinancialsChartData>;
-};
-
-export type FinancialsChartData = {
-    __typename?: 'FinancialsChartData';
-    categories?: Maybe<Array<Maybe<Scalars['String']>>>;
-    series?: Maybe<Array<Maybe<Series>>>;
-};
-
-export type Series = {
-    __typename?: 'Series';
-    data?: Maybe<Array<Maybe<Scalars['Float']>>>;
-    name?: Maybe<Scalars['String']>;
 };
 
 export type EsgScores = {
@@ -663,13 +246,6 @@ export type EsgScores = {
     totalEsg?: Maybe<Scalars['Float']>;
 };
 
-export type Calculation = {
-    __typename?: 'Calculation';
-    avg?: Maybe<Scalars['Float']>;
-    max?: Maybe<Scalars['Float']>;
-    min?: Maybe<Scalars['Float']>;
-};
-
 export type FinancialData = {
     __typename?: 'FinancialData';
     currentPrice?: Maybe<Scalars['Float']>;
@@ -702,160 +278,70 @@ export type FinancialData = {
     totalRevenue?: Maybe<Scalars['Float']>;
 };
 
-export type PageViews = {
-    __typename?: 'PageViews';
-    longTermTrend?: Maybe<Scalars['String']>;
-    midTermTrend?: Maybe<Scalars['String']>;
-    shortTermTrend?: Maybe<Scalars['String']>;
+export type FinancialsChart = {
+    __typename?: 'FinancialsChart';
+    quarterly?: Maybe<FinancialsChartData>;
+    yearly?: Maybe<FinancialsChartData>;
 };
 
-export type SummaryProfile = {
-    __typename?: 'SummaryProfile';
-    address1?: Maybe<Scalars['String']>;
-    city?: Maybe<Scalars['String']>;
-    country?: Maybe<Scalars['String']>;
-    fax?: Maybe<Scalars['String']>;
-    fullTimeEmployees?: Maybe<Scalars['Float']>;
-    industry?: Maybe<Scalars['String']>;
-    logo_url?: Maybe<Scalars['String']>;
-    longBusinessSummary?: Maybe<Scalars['String']>;
-    phone?: Maybe<Scalars['String']>;
-    sector?: Maybe<Scalars['String']>;
-    state?: Maybe<Scalars['String']>;
-    website?: Maybe<Scalars['String']>;
-    zip?: Maybe<Scalars['String']>;
+export type FinancialsChartData = {
+    __typename?: 'FinancialsChartData';
+    categories?: Maybe<Array<Maybe<Scalars['String']>>>;
+    series?: Maybe<Array<Maybe<Series>>>;
 };
 
-export type UpgradeDowngradeHistory = {
-    __typename?: 'UpgradeDowngradeHistory';
-    history?: Maybe<Array<Maybe<UpgradeDowngradeHistoryData>>>;
+export type GrowthEstimates = {
+    __typename?: 'GrowthEstimates';
+    currentQtr?: Maybe<Scalars['String']>;
+    currentQtrPrct?: Maybe<Scalars['Float']>;
+    currentYear?: Maybe<Scalars['String']>;
+    currentYearPrct?: Maybe<Scalars['Float']>;
+    nextFiveYearsperannum?: Maybe<Scalars['String']>;
+    nextFiveYearsperannumPrct?: Maybe<Scalars['Float']>;
+    nextQtr?: Maybe<Scalars['String']>;
+    nextQtrPrct?: Maybe<Scalars['Float']>;
+    nextYear?: Maybe<Scalars['String']>;
+    nextYearPrct?: Maybe<Scalars['Float']>;
+    pastFiveYearsperannum?: Maybe<Scalars['String']>;
+    pastFiveYearsperannumPrct?: Maybe<Scalars['Float']>;
+    name?: Maybe<Scalars['String']>;
 };
 
-export type UpgradeDowngradeHistoryData = {
-    __typename?: 'UpgradeDowngradeHistoryData';
-    action?: Maybe<Scalars['String']>;
-    epochGradeDate?: Maybe<Scalars['Float']>;
-    firm?: Maybe<Scalars['String']>;
-    fromGrade?: Maybe<Scalars['String']>;
-    toGrade?: Maybe<Scalars['String']>;
+export type IncomeStatement = {
+    __typename?: 'IncomeStatement';
+    incomeStatementHistoryQuarterly?: Maybe<IncomeStatementData>;
+    incomeStatementHistoryYearly?: Maybe<IncomeStatementData>;
 };
 
-export type Stats = {
-    __typename?: 'Stats';
-    avgVolOnedayThree?: Maybe<Scalars['String']>;
-    bookValuePerSharemrq?: Maybe<Scalars['String']>;
-    currentRatiomrq?: Maybe<Scalars['String']>;
-    dilutedEPSttm?: Maybe<Scalars['String']>;
-    dividendDateThree?: Maybe<Scalars['String']>;
-    eBITDA?: Maybe<Scalars['String']>;
-    enterpriseValueEBITDASix?: Maybe<Array<Maybe<Scalars['String']>>>;
-    enterpriseValueRevenueThree?: Maybe<Array<Maybe<Scalars['String']>>>;
-    enterpriseValueThree?: Maybe<Array<Maybe<Scalars['String']>>>;
-    fiveDayMovingAverageThree?: Maybe<Scalars['String']>;
-    fiveTwoWeekChangeThree?: Maybe<Scalars['String']>;
-    fiveTwoWeekHighThree?: Maybe<Scalars['String']>;
-    fiveTwoWeekLowThree?: Maybe<Scalars['String']>;
-    fiveYearAverageDividendYieldFour?: Maybe<Scalars['String']>;
-    float?: Maybe<Scalars['String']>;
-    forwardAnnualDividendYieldFour?: Maybe<Scalars['String']>;
-    forwardPEOne?: Maybe<Array<Maybe<Scalars['String']>>>;
-    grossProfitttm?: Maybe<Scalars['String']>;
-    lastSplitDateThree?: Maybe<Scalars['String']>;
-    lastSplitFactorTwo?: Maybe<Scalars['String']>;
-    leveredFreeCashFlowttm?: Maybe<Scalars['String']>;
-    marketCapintradayFive?: Maybe<Array<Maybe<Scalars['String']>>>;
-    mostRecentQuartermrq?: Maybe<Scalars['String']>;
-    netIncomeAvitoCommonttm?: Maybe<Scalars['String']>;
-    operatingMarginttm?: Maybe<Scalars['String']>;
-    pEGRatioFiveyrexpectedOne?: Maybe<Array<Maybe<Scalars['String']>>>;
-    payoutRatioFour?: Maybe<Scalars['String']>;
-    pctHeldbyInsidersOne?: Maybe<Scalars['String']>;
-    pctHeldbyInstitutionsOne?: Maybe<Scalars['String']>;
-    priceBookmrq?: Maybe<Array<Maybe<Scalars['String']>>>;
-    priceSalesttm?: Maybe<Array<Maybe<Scalars['String']>>>;
-    quarterlyEarningsGrowthyoy?: Maybe<Scalars['String']>;
-    quarterlyRevenueGrowthyoy?: Maybe<Scalars['String']>;
-    returnonEquityttm?: Maybe<Scalars['String']>;
-    revenuePerSharettm?: Maybe<Scalars['String']>;
-    sPFiveFiveTwoWeekChangeThree?: Maybe<Scalars['String']>;
-    sharesOutstandingFive?: Maybe<Scalars['String']>;
-    sharesShortAugOneThreeTwoTwoFour?: Maybe<Scalars['String']>;
-    sharesShortpriormonthJulOneFourTwoTwoFour?: Maybe<Scalars['String']>;
-    shortPctofFloatAugOneThreeTwoTwoFour?: Maybe<Scalars['String']>;
-    shortPctofSharesOutstandingAugOneThreeTwoTwoFour?: Maybe<Scalars['String']>;
-    shortRatioAugOneThreeTwoTwoFour?: Maybe<Scalars['String']>;
-    totalCashPerSharemrq?: Maybe<Scalars['String']>;
-    totalDebtEquitymrq?: Maybe<Scalars['String']>;
-    totalDebtmrq?: Maybe<Scalars['String']>;
-    trailingPE?: Maybe<Array<Maybe<Scalars['String']>>>;
-    twoDayMovingAverageThree?: Maybe<Scalars['String']>;
-    dateTime?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
-export type SummaryResidance = {
-    __typename?: 'SummaryResidance';
-    city?: Maybe<Scalars['String']>;
-    state?: Maybe<Scalars['String']>;
-    country?: Maybe<Scalars['String']>;
-    addressOne?: Maybe<Scalars['String']>;
-    zip?: Maybe<Scalars['String']>;
-};
-
-export type Summary = {
-    __typename?: 'Summary';
-    id?: Maybe<Scalars['String']>;
-    sandPFiveTwoWeekChange?: Maybe<Scalars['Float']>;
-    fiveTwoWeekChange?: Maybe<Scalars['Float']>;
-    lastSplitFactor?: Maybe<Scalars['String']>;
-    lastSplitDate?: Maybe<Scalars['Float']>;
-    fullTimeEmployees?: Maybe<Scalars['Float']>;
-    netIncomeEmployeeAnnual?: Maybe<Scalars['Float']>;
-    revenueEmployeeAnnual?: Maybe<Scalars['Float']>;
-    website?: Maybe<Scalars['String']>;
-    residance?: Maybe<SummaryResidance>;
-    avgVolume?: Maybe<Scalars['String']>;
-    ePSTTM?: Maybe<Scalars['String']>;
-    earningsDate?: Maybe<Scalars['String']>;
-    exDividendDate?: Maybe<Scalars['String']>;
-    fiveTwoWeekRange?: Maybe<Scalars['String']>;
-    forwardDividendYield?: Maybe<Scalars['String']>;
-    oneyTargetEst?: Maybe<Scalars['Float']>;
-    open?: Maybe<Scalars['String']>;
-    pERatioTTM?: Maybe<Scalars['String']>;
-    volume?: Maybe<Scalars['String']>;
-    currency?: Maybe<Scalars['String']>;
-    industry?: Maybe<Scalars['String']>;
-    logo_url?: Maybe<Scalars['String']>;
-    marketPrice?: Maybe<Scalars['Float']>;
-    previousClose?: Maybe<Scalars['Float']>;
-    recommendationKey?: Maybe<Scalars['String']>;
-    recommendationMean?: Maybe<Scalars['Float']>;
-    sector?: Maybe<Scalars['String']>;
-    symbol?: Maybe<Scalars['String']>;
-    targetEstOneyPercent?: Maybe<Scalars['Float']>;
-    weekRangeFiveTwoMax?: Maybe<Scalars['Float']>;
-    weekRangeFiveTwoMin?: Maybe<Scalars['Float']>;
-    currencySymbol?: Maybe<Scalars['String']>;
-    shortName?: Maybe<Scalars['String']>;
-    longName?: Maybe<Scalars['String']>;
-    marketCap?: Maybe<Scalars['Float']>;
-    sharesOutstanding?: Maybe<Scalars['Float']>;
-    longBusinessSummary?: Maybe<Scalars['String']>;
-};
-
-export type Dividens = {
-    __typename?: 'Dividens';
-    currentDividendYieldTTM?: Maybe<Scalars['Float']>;
-    dividendGrowthRateFiveY?: Maybe<Scalars['Float']>;
-    dividendPerShareAnnual?: Maybe<Scalars['Float']>;
-    dividendPerShareFiveY?: Maybe<Scalars['Float']>;
-    dividendYieldFiveY?: Maybe<Scalars['Float']>;
-    dividendYieldIndicatedAnnual?: Maybe<Scalars['Float']>;
-    dividendsPerShareTTM?: Maybe<Scalars['Float']>;
-    exDividendDate?: Maybe<Scalars['String']>;
-    trailingAnnualDividendRate?: Maybe<Scalars['String']>;
-    trailingAnnualDividendYield?: Maybe<Scalars['String']>;
-    forwardDividendYield?: Maybe<Scalars['String']>;
+export type IncomeStatementData = {
+    __typename?: 'IncomeStatementData';
+    costOfRevenue?: Maybe<SheetData>;
+    discontinuedOperations?: Maybe<SheetData>;
+    ebit?: Maybe<SheetData>;
+    effectOfAccountingCharges?: Maybe<SheetData>;
+    endDate?: Maybe<SheetData>;
+    extraordinaryItems?: Maybe<SheetData>;
+    grossProfit?: Maybe<SheetData>;
+    incomeBeforeTax?: Maybe<SheetData>;
+    incomeTaxExpense?: Maybe<SheetData>;
+    interestExpense?: Maybe<SheetData>;
+    netIncome?: Maybe<SheetData>;
+    netIncomeApplicableToCommonShares?: Maybe<SheetData>;
+    netIncomeFromContinuingOps?: Maybe<SheetData>;
+    operatingIncome?: Maybe<SheetData>;
+    otherOperatingExpenses?: Maybe<SheetData>;
+    researchDevelopment?: Maybe<SheetData>;
+    sellingGeneralAdministrative?: Maybe<SheetData>;
+    totalOperatingExpenses?: Maybe<SheetData>;
+    totalOtherIncomeExpenseNet?: Maybe<SheetData>;
+    totalRevenue?: Maybe<SheetData>;
+    dilutedEarnings?: Maybe<SheetData>;
+    basicEarnings?: Maybe<SheetData>;
+    dividendsInCash?: Maybe<SheetData>;
+    administrativeExpense?: Maybe<SheetData>;
+    costOfSales?: Maybe<SheetData>;
+    incomeTaxProvision?: Maybe<SheetData>;
+    marketingExpense?: Maybe<SheetData>;
 };
 
 export type Metric = {
@@ -984,6 +470,105 @@ export type Metric = {
     yearToDatePriceReturnDaily?: Maybe<Scalars['Float']>;
 };
 
+export type Mutation = {
+    __typename?: 'Mutation';
+    registerUser?: Maybe<Scalars['Boolean']>;
+    editUser?: Maybe<Scalars['Boolean']>;
+    resetUserAccount?: Maybe<Scalars['Boolean']>;
+    createGroup?: Maybe<StGroupPartialData>;
+    editGroup?: Maybe<StGroupPartialData>;
+    deleteGroup?: Maybe<Scalars['Boolean']>;
+    toggleInvitationRequestToGroup?: Maybe<StGroupPartialData>;
+    answerReceivedGroupInvitation?: Maybe<StGroupPartialData>;
+    leaveGroup?: Maybe<Scalars['Boolean']>;
+    createStockWatchlist?: Maybe<StStockWatchlist>;
+    renameStockWatchlist?: Maybe<Scalars['Boolean']>;
+    deleteWatchlist?: Maybe<Scalars['Boolean']>;
+    addStockIntoStockWatchlist?: Maybe<Summary>;
+    removeStockFromStockWatchlist?: Maybe<Scalars['Boolean']>;
+    performTransaction?: Maybe<StTransaction>;
+};
+
+
+export type MutationRegisterUserArgs = {
+    user?: Maybe<StUserAuthenticationInput>;
+};
+
+
+export type MutationEditUserArgs = {
+    editInput?: Maybe<StUserEditDataInput>;
+};
+
+
+export type MutationResetUserAccountArgs = {
+    userId: Scalars['String'];
+};
+
+
+export type MutationCreateGroupArgs = {
+    groupInput: StGroupAllDataInput;
+};
+
+
+export type MutationEditGroupArgs = {
+    groupInput: StGroupAllDataInput;
+};
+
+
+export type MutationDeleteGroupArgs = {
+    uid: Scalars['String'];
+    groupId: Scalars['String'];
+};
+
+
+export type MutationToggleInvitationRequestToGroupArgs = {
+    uid: Scalars['String'];
+    groupId: Scalars['String'];
+};
+
+
+export type MutationAnswerReceivedGroupInvitationArgs = {
+    uid: Scalars['String'];
+    groupId: Scalars['String'];
+    accept: Scalars['Boolean'];
+};
+
+
+export type MutationLeaveGroupArgs = {
+    uid: Scalars['String'];
+    groupId: Scalars['String'];
+};
+
+
+export type MutationCreateStockWatchlistArgs = {
+    identifier: StStockWatchInputlistIdentifier;
+};
+
+
+export type MutationRenameStockWatchlistArgs = {
+    identifier: StStockWatchInputlistIdentifier;
+};
+
+
+export type MutationDeleteWatchlistArgs = {
+    identifier: StStockWatchInputlistIdentifier;
+};
+
+
+export type MutationAddStockIntoStockWatchlistArgs = {
+    identifier: StStockWatchInputlistIdentifier;
+};
+
+
+export type MutationRemoveStockFromStockWatchlistArgs = {
+    identifier: StStockWatchInputlistIdentifier;
+};
+
+
+export type MutationPerformTransactionArgs = {
+    transactionInput?: Maybe<StTransactionInput>;
+};
+
 export type NewsArticle = {
     __typename?: 'NewsArticle';
     datetime?: Maybe<Scalars['Float']>;
@@ -994,50 +579,190 @@ export type NewsArticle = {
     url?: Maybe<Scalars['String']>;
 };
 
-export type StMarketDailyOverview = {
-    __typename?: 'STMarketDailyOverview';
-    stocks_day_gainers?: Maybe<Array<Maybe<StMarketTopTableSymbolData>>>;
-    stocks_day_losers?: Maybe<Array<Maybe<StMarketTopTableSymbolData>>>;
-    stocks_day_active?: Maybe<Array<Maybe<StMarketTopTableSymbolData>>>;
-    stocks_undervalued_growth_stocks?: Maybe<Array<Maybe<StMarketTopTableSymbolData>>>;
-    stocks_growth_technology_stocks?: Maybe<Array<Maybe<StMarketTopTableSymbolData>>>;
-    stocks_undervalued_large_caps?: Maybe<Array<Maybe<StMarketTopTableSymbolData>>>;
-    stocks_aggressive_small_caps?: Maybe<Array<Maybe<StMarketTopTableSymbolData>>>;
-    stocks_small_cap_gainers?: Maybe<Array<Maybe<StMarketTopTableSymbolData>>>;
-    stock_suggestions?: Maybe<Array<Maybe<StStockSuggestion>>>;
-    top_crypto?: Maybe<Array<Maybe<StMarketTopTableCryptoData>>>;
-    news?: Maybe<Array<Maybe<NewsArticle>>>;
-    events_calendar?: Maybe<Array<Maybe<EventCalendarData>>>;
-    lastUpdate?: Maybe<Scalars['String']>;
+export type PageViews = {
+    __typename?: 'PageViews';
+    longTermTrend?: Maybe<Scalars['String']>;
+    midTermTrend?: Maybe<Scalars['String']>;
+    shortTermTrend?: Maybe<Scalars['String']>;
 };
 
-export type StMarketOverviewPartialData = {
-    __typename?: 'STMarketOverviewPartialData';
-    sp500?: Maybe<StMarketChartDataResultContainer>;
-    bonds?: Maybe<StMarketChartDataResultContainer>;
-    social_security?: Maybe<StMarketChartDataResultContainer>;
-    consumer_price_index_states?: Maybe<StMarketChartDataResultContainer>;
-    consumer_us_price_index?: Maybe<StMarketChartDataResultContainer>;
-    producer_us_price_index?: Maybe<StMarketChartDataResultContainer>;
-    inflation_rate?: Maybe<StMarketChartDataResultContainer>;
-    employment?: Maybe<StMarketChartDataResultContainer>;
-    manufacturing?: Maybe<StMarketChartDataResultContainer>;
-    exports?: Maybe<StMarketChartDataResultContainer>;
-    misery_index?: Maybe<StMarketChartDataResultContainer>;
-    treasury_yield?: Maybe<StMarketChartDataResultContainer>;
-    investor_sentiment?: Maybe<StMarketChartDataResultContainer>;
-    bitcoin?: Maybe<StMarketChartDataResultContainer>;
-    lastUpdate?: Maybe<Scalars['String']>;
+export type Query = {
+    __typename?: 'Query';
+    queryUserData?: Maybe<StUserPublicData>;
+    querySTUserPartialInformationByUsername: Array<Maybe<StUserPartialInformation>>;
+    authenticateUser?: Maybe<StUserPublicData>;
+    querySTGroupAllDataByGroupId?: Maybe<StGroupAllData>;
+    querySTGroupPartialDataByGroupName?: Maybe<StSearchGroups>;
+    queryStockDetails?: Maybe<StockDetails>;
+    queryStockSummary?: Maybe<Summary>;
+    queryStockSummaries?: Maybe<SearchSymbol>;
+    querySTMarketHistoryOverview?: Maybe<StMarketOverviewPartialData>;
+    queryStMarketAllCategories?: Maybe<StMarketDatasetKeyCategories>;
+    queryMarketDailyOverview?: Maybe<StMarketDailyOverview>;
+    queryMultipleStMarketData?: Maybe<StMarketChartDataResultSearch>;
+    queryStMarketData?: Maybe<StMarketChartDataResultCombined>;
+    queryStMarketCalendarEvents?: Maybe<StMarketCalendarEvents>;
+    queryStMarketCalendarEventsEarnings?: Maybe<StMarketCalendarEventsEarnings>;
 };
 
-export type StStockSuggestion = {
-    __typename?: 'STStockSuggestion';
-    summary?: Maybe<Summary>;
-    historicalData?: Maybe<StStockHistoricalClosedDataWithPeriod>;
+
+export type QueryQueryUserDataArgs = {
+    uid: Scalars['String'];
 };
 
-export type EventCalendarData = {
-    __typename?: 'EventCalendarData';
+
+export type QueryQueryStUserPartialInformationByUsernameArgs = {
+    usernamePrefix: Scalars['String'];
+};
+
+
+export type QueryAuthenticateUserArgs = {
+    uid: Scalars['String'];
+};
+
+
+export type QueryQueryStGroupAllDataByGroupIdArgs = {
+    groupId: Scalars['String'];
+};
+
+
+export type QueryQueryStGroupPartialDataByGroupNameArgs = {
+    groupName: Scalars['String'];
+};
+
+
+export type QueryQueryStockDetailsArgs = {
+    symbol: Scalars['String'];
+};
+
+
+export type QueryQueryStockSummaryArgs = {
+    symbol: Scalars['String'];
+};
+
+
+export type QueryQueryStockSummariesArgs = {
+    symbolPrefix: Scalars['String'];
+};
+
+
+export type QueryQueryMultipleStMarketDataArgs = {
+    key: Scalars['String'];
+};
+
+
+export type QueryQueryStMarketDataArgs = {
+    key: Scalars['String'];
+};
+
+
+export type QueryQueryStMarketCalendarEventsArgs = {
+    date: Scalars['String'];
+};
+
+
+export type QueryQueryStMarketCalendarEventsEarningsArgs = {
+    date: Scalars['String'];
+};
+
+export type Recommendations = {
+    __typename?: 'Recommendations';
+    buy?: Maybe<Scalars['Float']>;
+    hold?: Maybe<Scalars['Float']>;
+    period?: Maybe<Scalars['String']>;
+    sell?: Maybe<Scalars['Float']>;
+    strongBuy?: Maybe<Scalars['Float']>;
+    strongSell?: Maybe<Scalars['Float']>;
+    symbol?: Maybe<Scalars['String']>;
+};
+
+export type RevenueEstimate = {
+    __typename?: 'RevenueEstimate';
+    avgEstimate?: Maybe<Scalars['String']>;
+    avgEstimateNumber?: Maybe<Scalars['Float']>;
+    highEstimate?: Maybe<Scalars['String']>;
+    highEstimateNumber?: Maybe<Scalars['Float']>;
+    lowEstimate?: Maybe<Scalars['String']>;
+    lowEstimateNumber?: Maybe<Scalars['Float']>;
+    noofAnalysts?: Maybe<Scalars['Float']>;
+    salesGrowthyearest?: Maybe<Scalars['String']>;
+    salesGrowthyearestNumber?: Maybe<Scalars['Float']>;
+    yearAgoSales?: Maybe<Scalars['String']>;
+    name?: Maybe<Scalars['String']>;
+};
+
+export type SearchSymbol = {
+    __typename?: 'SearchSymbol';
+    summaries: Array<Maybe<Summary>>;
+};
+
+export type Series = {
+    __typename?: 'Series';
+    data?: Maybe<Array<Maybe<Scalars['Float']>>>;
+    name?: Maybe<Scalars['String']>;
+};
+
+export type SheetData = {
+    __typename?: 'SheetData';
+    change?: Maybe<Array<Maybe<Scalars['Float']>>>;
+    data?: Maybe<Array<Maybe<Scalars['Float']>>>;
+    name?: Maybe<Scalars['String']>;
+};
+
+export type Stats = {
+    __typename?: 'Stats';
+    avgVolOnedayThree?: Maybe<Scalars['String']>;
+    bookValuePerSharemrq?: Maybe<Scalars['String']>;
+    currentRatiomrq?: Maybe<Scalars['String']>;
+    dilutedEPSttm?: Maybe<Scalars['String']>;
+    dividendDateThree?: Maybe<Scalars['String']>;
+    eBITDA?: Maybe<Scalars['String']>;
+    enterpriseValueEBITDASix?: Maybe<Array<Maybe<Scalars['String']>>>;
+    enterpriseValueRevenueThree?: Maybe<Array<Maybe<Scalars['String']>>>;
+    enterpriseValueThree?: Maybe<Array<Maybe<Scalars['String']>>>;
+    fiveDayMovingAverageThree?: Maybe<Scalars['String']>;
+    fiveTwoWeekChangeThree?: Maybe<Scalars['String']>;
+    fiveTwoWeekHighThree?: Maybe<Scalars['String']>;
+    fiveTwoWeekLowThree?: Maybe<Scalars['String']>;
+    fiveYearAverageDividendYieldFour?: Maybe<Scalars['String']>;
+    float?: Maybe<Scalars['String']>;
+    forwardAnnualDividendYieldFour?: Maybe<Scalars['String']>;
+    forwardPEOne?: Maybe<Array<Maybe<Scalars['String']>>>;
+    grossProfitttm?: Maybe<Scalars['String']>;
+    lastSplitDateThree?: Maybe<Scalars['String']>;
+    lastSplitFactorTwo?: Maybe<Scalars['String']>;
+    leveredFreeCashFlowttm?: Maybe<Scalars['String']>;
+    marketCapintradayFive?: Maybe<Array<Maybe<Scalars['String']>>>;
+    mostRecentQuartermrq?: Maybe<Scalars['String']>;
+    netIncomeAvitoCommonttm?: Maybe<Scalars['String']>;
+    operatingMarginttm?: Maybe<Scalars['String']>;
+    pEGRatioFiveyrexpectedOne?: Maybe<Array<Maybe<Scalars['String']>>>;
+    payoutRatioFour?: Maybe<Scalars['String']>;
+    pctHeldbyInsidersOne?: Maybe<Scalars['String']>;
+    pctHeldbyInstitutionsOne?: Maybe<Scalars['String']>;
+    priceBookmrq?: Maybe<Array<Maybe<Scalars['String']>>>;
+    priceSalesttm?: Maybe<Array<Maybe<Scalars['String']>>>;
+    quarterlyEarningsGrowthyoy?: Maybe<Scalars['String']>;
+    quarterlyRevenueGrowthyoy?: Maybe<Scalars['String']>;
+    returnonEquityttm?: Maybe<Scalars['String']>;
+    revenuePerSharettm?: Maybe<Scalars['String']>;
+    sPFiveFiveTwoWeekChangeThree?: Maybe<Scalars['String']>;
+    sharesOutstandingFive?: Maybe<Scalars['String']>;
+    sharesShortAugOneThreeTwoTwoFour?: Maybe<Scalars['String']>;
+    sharesShortpriormonthJulOneFourTwoTwoFour?: Maybe<Scalars['String']>;
+    shortPctofFloatAugOneThreeTwoTwoFour?: Maybe<Scalars['String']>;
+    shortPctofSharesOutstandingAugOneThreeTwoTwoFour?: Maybe<Scalars['String']>;
+    shortRatioAugOneThreeTwoTwoFour?: Maybe<Scalars['String']>;
+    totalCashPerSharemrq?: Maybe<Scalars['String']>;
+    totalDebtEquitymrq?: Maybe<Scalars['String']>;
+    totalDebtmrq?: Maybe<Scalars['String']>;
+    trailingPE?: Maybe<Array<Maybe<Scalars['String']>>>;
+    twoDayMovingAverageThree?: Maybe<Scalars['String']>;
+    dateTime?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+export type StEventCalendarData = {
+    __typename?: 'STEventCalendarData';
     date?: Maybe<Scalars['Float']>;
     day?: Maybe<Scalars['Float']>;
     month?: Maybe<Scalars['Float']>;
@@ -1049,225 +774,24 @@ export type EventCalendarData = {
     splitscount?: Maybe<Scalars['Float']>;
 };
 
-export type StMarketTopTableSymbolData = {
-    __typename?: 'STMarketTopTableSymbolData';
-    averageDailyVolume3Month?: Maybe<Scalars['Float']>;
-    currency?: Maybe<Scalars['String']>;
-    fiftyTwoWeekHigh?: Maybe<Scalars['Float']>;
-    fiftyTwoWeekLow?: Maybe<Scalars['Float']>;
-    logo_url?: Maybe<Scalars['String']>;
-    longName?: Maybe<Scalars['String']>;
-    marketCap?: Maybe<Scalars['Float']>;
+export type StEventCalendarEarningsData = {
+    __typename?: 'STEventCalendarEarningsData';
+    companyshortname?: Maybe<Scalars['String']>;
+    epsactual?: Maybe<Scalars['Float']>;
+    epsestimate?: Maybe<Scalars['Float']>;
+    epssurprisepct?: Maybe<Scalars['Float']>;
+    gmtOffsetMilliSeconds?: Maybe<Scalars['Float']>;
     quoteType?: Maybe<Scalars['String']>;
-    recommendationKey?: Maybe<Scalars['String']>;
-    recommendationMean?: Maybe<Scalars['Float']>;
-    regularMarketChange?: Maybe<Scalars['Float']>;
-    regularMarketChangePercent?: Maybe<Scalars['Float']>;
-    regularMarketOpen?: Maybe<Scalars['Float']>;
-    regularMarketPreviousClose?: Maybe<Scalars['Float']>;
-    regularMarketPrice?: Maybe<Scalars['Float']>;
-    regularMarketVolume?: Maybe<Scalars['Float']>;
-    shortName?: Maybe<Scalars['String']>;
-    symbol?: Maybe<Scalars['String']>;
-    trailingPE?: Maybe<Scalars['String']>;
+    startdatetime?: Maybe<Scalars['String']>;
+    startdatetimetype?: Maybe<Scalars['String']>;
+    ticker?: Maybe<Scalars['String']>;
+    timeZoneShortName?: Maybe<Scalars['String']>;
 };
-
-export type StMarketTopTableCryptoData = {
-    __typename?: 'STMarketTopTableCryptoData';
-    circulatingSupply?: Maybe<Scalars['Float']>;
-    coinImageUrl?: Maybe<Scalars['String']>;
-    currency?: Maybe<Scalars['String']>;
-    fiftyTwoWeekHigh?: Maybe<Scalars['Float']>;
-    fiftyTwoWeekLow?: Maybe<Scalars['Float']>;
-    marketCap?: Maybe<Scalars['Float']>;
-    quoteType?: Maybe<Scalars['String']>;
-    regularMarketChange?: Maybe<Scalars['Float']>;
-    regularMarketChangePercent?: Maybe<Scalars['Float']>;
-    regularMarketClosed?: Maybe<Scalars['Float']>;
-    regularMarketOpen?: Maybe<Scalars['Float']>;
-    regularMarketPrice?: Maybe<Scalars['Float']>;
-    regularMarketVolume?: Maybe<Scalars['Float']>;
-    shortName?: Maybe<Scalars['String']>;
-    symbol?: Maybe<Scalars['String']>;
-    volume24Hr?: Maybe<Scalars['Float']>;
-    volumeAllCurrencies?: Maybe<Scalars['Float']>;
-};
-
-export type StMarketChartDataResultContainer = {
-    __typename?: 'STMarketChartDataResultContainer';
-    result?: Maybe<Array<Maybe<StMarketChartDataResult>>>;
-    timestamp?: Maybe<Array<Maybe<Scalars['Float']>>>;
-    keyName?: Maybe<Scalars['String']>;
-};
-
-export type StMarketChartDataResult = {
-    __typename?: 'STMarketChartDataResult';
-    currentDate?: Maybe<Scalars['String']>;
-    currentValue?: Maybe<Scalars['Float']>;
-    documentKey?: Maybe<Scalars['String']>;
-    name?: Maybe<Scalars['String']>;
-    parentName?: Maybe<Scalars['String']>;
-    quandalKey?: Maybe<Scalars['String']>;
-    lastUpdate?: Maybe<Scalars['String']>;
-    data?: Maybe<Array<Maybe<Scalars['Float']>>>;
-};
-
-export type StMarketChartDataResultCombined = {
-    __typename?: 'STMarketChartDataResultCombined';
-    currentDate?: Maybe<Scalars['String']>;
-    currentValue?: Maybe<Scalars['Float']>;
-    documentKey?: Maybe<Scalars['String']>;
-    name?: Maybe<Scalars['String']>;
-    parentName?: Maybe<Scalars['String']>;
-    quandalKey?: Maybe<Scalars['String']>;
-    lastUpdate?: Maybe<Scalars['String']>;
-    data?: Maybe<Array<Maybe<Array<Maybe<Scalars['Float']>>>>>;
-};
-
-export type StMarketChartDataResultSearch = {
-    __typename?: 'STMarketChartDataResultSearch';
-    result?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
-};
-
-export type StMarketDatasetKeyCategories = {
-    __typename?: 'STMarketDatasetKeyCategories';
-    categories: Array<Maybe<StMarketDatasetKeyCategory>>;
-};
-
-export type StMarketDatasetKeyCategory = {
-    __typename?: 'STMarketDatasetKeyCategory';
-    data: Array<Maybe<StMarketDatasetKey>>;
-    name: Scalars['String'];
-};
-
-export type StMarketDatasetKey = {
-    __typename?: 'STMarketDatasetKey';
-    documentKey: Scalars['String'];
-    name: Scalars['String'];
-};
-
-export type StTransaction = {
-    __typename?: 'STTransaction';
-    transactionId?: Maybe<Scalars['String']>;
-    user?: Maybe<StUserIndetificationInformation>;
-    symbol: Scalars['String'];
-    symbol_logo_url: Scalars['String'];
-    price: Scalars['Float'];
-    return?: Maybe<Scalars['Float']>;
-    returnChange?: Maybe<Scalars['Float']>;
-    units: Scalars['Float'];
-    date: Scalars['String'];
-    operation: StTransactionOperationEnum;
-    summary?: Maybe<Summary>;
-};
-
-export type StTransactionInput = {
-    symbol: Scalars['String'];
-    symbol_logo_url: Scalars['String'];
-    price: Scalars['Float'];
-    userId: Scalars['String'];
-    units: Scalars['Float'];
-    operation: StTransactionOperationEnum;
-};
-
-export enum StTransactionOperationEnum {
-    Buy = 'BUY',
-    Sell = 'SELL'
-}
 
 export type StGeographic = {
     __typename?: 'STGeographic';
     longitude?: Maybe<Scalars['String']>;
     latitude?: Maybe<Scalars['String']>;
-};
-
-export type StLog = {
-    __typename?: 'STLog';
-    date: Scalars['String'];
-    logText: Scalars['String'];
-};
-
-export type StSimpleChart = {
-    __typename?: 'STSimpleChart';
-    date: Scalars['String'];
-    data: Scalars['Float'];
-    label?: Maybe<Scalars['String']>;
-};
-
-export type StStockHistoricalClosedDataWithPeriod = {
-    __typename?: 'STStockHistoricalClosedDataWithPeriod';
-    livePrice?: Maybe<Scalars['Float']>;
-    price?: Maybe<Array<Maybe<Scalars['Float']>>>;
-    symbol?: Maybe<Scalars['String']>;
-    period?: Maybe<Scalars['String']>;
-};
-
-export type StStockHistoricalDataWithPeriod = {
-    __typename?: 'STStockHistoricalDataWithPeriod';
-    livePrice?: Maybe<Scalars['Float']>;
-    price?: Maybe<Array<Maybe<Array<Maybe<Scalars['Float']>>>>>;
-    symbol?: Maybe<Scalars['String']>;
-    period?: Maybe<Scalars['String']>;
-};
-
-export type StInputLog = {
-    date: Scalars['String'];
-    logText: Scalars['String'];
-};
-
-export type StInputSimpleChart = {
-    date: Scalars['String'];
-    data: Scalars['Float'];
-    label?: Maybe<Scalars['String']>;
-};
-
-export type StInputFielChange = {
-    inputFiel: Scalars['String'];
-};
-
-export type StRank = {
-    __typename?: 'STRank';
-    rankGainers: Scalars['Float'];
-    rankLosers: Scalars['Float'];
-    rankPortfolio: Scalars['Float'];
-    rankProfit: Scalars['Float'];
-    rankNumberOfTrades: Scalars['Float'];
-    date: Scalars['String'];
-};
-
-export type StPortfolio = {
-    __typename?: 'STPortfolio';
-    portfolioInvested: Scalars['Float'];
-    portfolioCash: Scalars['Float'];
-    portfolioWeeklyChange: Scalars['Float'];
-    portfolioWeeklyGrowth: Scalars['Float'];
-    date?: Maybe<Scalars['String']>;
-};
-
-export type StSearchGroups = {
-    __typename?: 'STSearchGroups';
-    groups: Array<Maybe<StGroupPartialData>>;
-};
-
-export type StGroupUser = {
-    __typename?: 'STGroupUser';
-    user: StUserPartialInformation;
-    sinceDate: Scalars['String'];
-};
-
-export type StGroupPartialData = {
-    __typename?: 'STGroupPartialData';
-    groupId: Scalars['String'];
-    name: Scalars['String'];
-    description?: Maybe<Scalars['String']>;
-    imagePath?: Maybe<Scalars['String']>;
-    imageUrl?: Maybe<Scalars['String']>;
-    owner: StGroupUser;
-    portfolio: StPortfolio;
-    lastUpdateDate: Scalars['String'];
-    lastEditedDate: Scalars['String'];
-    createdDate: Scalars['String'];
-    currentAchievedRanks?: Maybe<StRank>;
 };
 
 export type StGroupAllData = {
@@ -1307,11 +831,524 @@ export type StGroupAllDataInput = {
     invitationReceived: Array<Maybe<Scalars['String']>>;
 };
 
-export enum CacheControlScope {
-    Public = 'PUBLIC',
-    Private = 'PRIVATE'
+export type StGroupPartialData = {
+    __typename?: 'STGroupPartialData';
+    groupId: Scalars['String'];
+    name: Scalars['String'];
+    description?: Maybe<Scalars['String']>;
+    imagePath?: Maybe<Scalars['String']>;
+    imageUrl?: Maybe<Scalars['String']>;
+    owner: StGroupUser;
+    portfolio: StPortfolio;
+    lastUpdateDate: Scalars['String'];
+    lastEditedDate: Scalars['String'];
+    createdDate: Scalars['String'];
+    currentAchievedRanks?: Maybe<StRank>;
+};
+
+export type StGroupUser = {
+    __typename?: 'STGroupUser';
+    user: StUserPartialInformation;
+    sinceDate: Scalars['String'];
+};
+
+export type StInputFielChange = {
+    inputFiel: Scalars['String'];
+};
+
+export type StInputLog = {
+    date: Scalars['String'];
+    logText: Scalars['String'];
+};
+
+export type StInputSimpleChart = {
+    date: Scalars['String'];
+    data: Scalars['Float'];
+    label?: Maybe<Scalars['String']>;
+};
+
+export type StLog = {
+    __typename?: 'STLog';
+    date: Scalars['String'];
+    logText: Scalars['String'];
+};
+
+export type StMarketCalendarEvents = {
+    __typename?: 'StMarketCalendarEvents';
+    events?: Maybe<Array<Maybe<StEventCalendarData>>>;
+};
+
+export type StMarketCalendarEventsEarnings = {
+    __typename?: 'StMarketCalendarEventsEarnings';
+    earnings?: Maybe<Array<Maybe<StEventCalendarEarningsData>>>;
+};
+
+export type StMarketDailyOverview = {
+    __typename?: 'STMarketDailyOverview';
+    stocks_day_gainers?: Maybe<Array<Maybe<StMarketTopTableSymbolData>>>;
+    stocks_day_losers?: Maybe<Array<Maybe<StMarketTopTableSymbolData>>>;
+    stocks_day_active?: Maybe<Array<Maybe<StMarketTopTableSymbolData>>>;
+    stocks_undervalued_growth_stocks?: Maybe<Array<Maybe<StMarketTopTableSymbolData>>>;
+    stocks_growth_technology_stocks?: Maybe<Array<Maybe<StMarketTopTableSymbolData>>>;
+    stocks_undervalued_large_caps?: Maybe<Array<Maybe<StMarketTopTableSymbolData>>>;
+    stocks_aggressive_small_caps?: Maybe<Array<Maybe<StMarketTopTableSymbolData>>>;
+    stocks_small_cap_gainers?: Maybe<Array<Maybe<StMarketTopTableSymbolData>>>;
+    stock_suggestions?: Maybe<Array<Maybe<StStockSuggestion>>>;
+    top_crypto?: Maybe<Array<Maybe<StMarketTopTableCryptoData>>>;
+    news?: Maybe<Array<Maybe<NewsArticle>>>;
+    events?: Maybe<Array<Maybe<StEventCalendarData>>>;
+    earnings?: Maybe<Array<Maybe<StEventCalendarEarningsData>>>;
+    lastUpdate?: Maybe<Scalars['String']>;
+};
+
+export type StMarketDatasetKey = {
+    __typename?: 'STMarketDatasetKey';
+    documentKey: Scalars['String'];
+    name: Scalars['String'];
+};
+
+export type StMarketDatasetKeyCategories = {
+    __typename?: 'STMarketDatasetKeyCategories';
+    categories: Array<Maybe<StMarketDatasetKeyCategory>>;
+};
+
+export type StMarketDatasetKeyCategory = {
+    __typename?: 'STMarketDatasetKeyCategory';
+    data: Array<Maybe<StMarketDatasetKey>>;
+    name: Scalars['String'];
+};
+
+export type StMarketChartDataResult = {
+    __typename?: 'STMarketChartDataResult';
+    currentDate?: Maybe<Scalars['String']>;
+    currentValue?: Maybe<Scalars['Float']>;
+    documentKey?: Maybe<Scalars['String']>;
+    name?: Maybe<Scalars['String']>;
+    parentName?: Maybe<Scalars['String']>;
+    quandalKey?: Maybe<Scalars['String']>;
+    lastUpdate?: Maybe<Scalars['String']>;
+    data?: Maybe<Array<Maybe<Scalars['Float']>>>;
+};
+
+export type StMarketChartDataResultCombined = {
+    __typename?: 'STMarketChartDataResultCombined';
+    currentDate?: Maybe<Scalars['String']>;
+    currentValue?: Maybe<Scalars['Float']>;
+    documentKey?: Maybe<Scalars['String']>;
+    name?: Maybe<Scalars['String']>;
+    parentName?: Maybe<Scalars['String']>;
+    quandalKey?: Maybe<Scalars['String']>;
+    lastUpdate?: Maybe<Scalars['String']>;
+    data?: Maybe<Array<Maybe<Array<Maybe<Scalars['Float']>>>>>;
+};
+
+export type StMarketChartDataResultContainer = {
+    __typename?: 'STMarketChartDataResultContainer';
+    result?: Maybe<Array<Maybe<StMarketChartDataResult>>>;
+    timestamp?: Maybe<Array<Maybe<Scalars['Float']>>>;
+    keyName?: Maybe<Scalars['String']>;
+};
+
+export type StMarketChartDataResultSearch = {
+    __typename?: 'STMarketChartDataResultSearch';
+    result?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
+};
+
+export type StMarketOverviewPartialData = {
+    __typename?: 'STMarketOverviewPartialData';
+    sp500?: Maybe<StMarketChartDataResultContainer>;
+    bonds?: Maybe<StMarketChartDataResultContainer>;
+    social_security?: Maybe<StMarketChartDataResultContainer>;
+    consumer_price_index_states?: Maybe<StMarketChartDataResultContainer>;
+    consumer_us_price_index?: Maybe<StMarketChartDataResultContainer>;
+    producer_us_price_index?: Maybe<StMarketChartDataResultContainer>;
+    inflation_rate?: Maybe<StMarketChartDataResultContainer>;
+    employment?: Maybe<StMarketChartDataResultContainer>;
+    manufacturing?: Maybe<StMarketChartDataResultContainer>;
+    exports?: Maybe<StMarketChartDataResultContainer>;
+    misery_index?: Maybe<StMarketChartDataResultContainer>;
+    treasury_yield?: Maybe<StMarketChartDataResultContainer>;
+    investor_sentiment?: Maybe<StMarketChartDataResultContainer>;
+    bitcoin?: Maybe<StMarketChartDataResultContainer>;
+    lastUpdate?: Maybe<Scalars['String']>;
+};
+
+export type StMarketTopTableCryptoData = {
+    __typename?: 'STMarketTopTableCryptoData';
+    circulatingSupply?: Maybe<Scalars['Float']>;
+    coinImageUrl?: Maybe<Scalars['String']>;
+    currency?: Maybe<Scalars['String']>;
+    fiftyTwoWeekHigh?: Maybe<Scalars['Float']>;
+    fiftyTwoWeekLow?: Maybe<Scalars['Float']>;
+    marketCap?: Maybe<Scalars['Float']>;
+    quoteType?: Maybe<Scalars['String']>;
+    regularMarketChange?: Maybe<Scalars['Float']>;
+    regularMarketChangePercent?: Maybe<Scalars['Float']>;
+    regularMarketClosed?: Maybe<Scalars['Float']>;
+    regularMarketOpen?: Maybe<Scalars['Float']>;
+    regularMarketPrice?: Maybe<Scalars['Float']>;
+    regularMarketVolume?: Maybe<Scalars['Float']>;
+    shortName?: Maybe<Scalars['String']>;
+    symbol?: Maybe<Scalars['String']>;
+    volume24Hr?: Maybe<Scalars['Float']>;
+    volumeAllCurrencies?: Maybe<Scalars['Float']>;
+};
+
+export type StMarketTopTableSymbolData = {
+    __typename?: 'STMarketTopTableSymbolData';
+    averageDailyVolume3Month?: Maybe<Scalars['Float']>;
+    currency?: Maybe<Scalars['String']>;
+    fiftyTwoWeekHigh?: Maybe<Scalars['Float']>;
+    fiftyTwoWeekLow?: Maybe<Scalars['Float']>;
+    logo_url?: Maybe<Scalars['String']>;
+    longName?: Maybe<Scalars['String']>;
+    marketCap?: Maybe<Scalars['Float']>;
+    quoteType?: Maybe<Scalars['String']>;
+    recommendationKey?: Maybe<Scalars['String']>;
+    recommendationMean?: Maybe<Scalars['Float']>;
+    regularMarketChange?: Maybe<Scalars['Float']>;
+    regularMarketChangePercent?: Maybe<Scalars['Float']>;
+    regularMarketOpen?: Maybe<Scalars['Float']>;
+    regularMarketPreviousClose?: Maybe<Scalars['Float']>;
+    regularMarketPrice?: Maybe<Scalars['Float']>;
+    regularMarketVolume?: Maybe<Scalars['Float']>;
+    shortName?: Maybe<Scalars['String']>;
+    symbol?: Maybe<Scalars['String']>;
+    trailingPE?: Maybe<Scalars['String']>;
+};
+
+export type StockDetails = {
+    __typename?: 'StockDetails';
+    id: Scalars['String'];
+    analysis?: Maybe<Analysis>;
+    balanceSheet?: Maybe<BalanceSheet>;
+    cashFlow?: Maybe<CashFlow>;
+    incomeStatement?: Maybe<IncomeStatement>;
+    stats: Stats;
+    recommendation?: Maybe<Array<Maybe<Recommendations>>>;
+    stockNews?: Maybe<Array<Maybe<NewsArticle>>>;
+    companyData?: Maybe<CompanyData>;
+    summary: Summary;
+    metric?: Maybe<Metric>;
+    dividends?: Maybe<Dividens>;
+};
+
+export type StPortfolio = {
+    __typename?: 'STPortfolio';
+    portfolioInvested: Scalars['Float'];
+    portfolioCash: Scalars['Float'];
+    portfolioWeeklyChange: Scalars['Float'];
+    portfolioWeeklyGrowth: Scalars['Float'];
+    date?: Maybe<Scalars['String']>;
+};
+
+export type StPortfolioWeeklyChange = {
+    __typename?: 'STPortfolioWeeklyChange';
+    portfolio: StPortfolio;
+    transactionsBuy: StPortfolioWeeklyChangeTransactions;
+    transactionsSell: StPortfolioWeeklyChangeTransactions;
+    date?: Maybe<Scalars['String']>;
+};
+
+export type StPortfolioWeeklyChangeTransactions = {
+    __typename?: 'STPortfolioWeeklyChangeTransactions';
+    total: Scalars['Float'];
+    transactions?: Maybe<Array<Maybe<StTransaction>>>;
+};
+
+export type StRank = {
+    __typename?: 'STRank';
+    rankGainers: Scalars['Float'];
+    rankLosers: Scalars['Float'];
+    rankPortfolio: Scalars['Float'];
+    rankProfit: Scalars['Float'];
+    rankNumberOfTrades: Scalars['Float'];
+    date: Scalars['String'];
+};
+
+export type StSearchGroups = {
+    __typename?: 'STSearchGroups';
+    groups: Array<Maybe<StGroupPartialData>>;
+};
+
+export type StSimpleChart = {
+    __typename?: 'STSimpleChart';
+    date: Scalars['String'];
+    data: Scalars['Float'];
+    label?: Maybe<Scalars['String']>;
+};
+
+export type StStockHistoricalClosedDataWithPeriod = {
+    __typename?: 'STStockHistoricalClosedDataWithPeriod';
+    livePrice?: Maybe<Scalars['Float']>;
+    price?: Maybe<Array<Maybe<Scalars['Float']>>>;
+    symbol?: Maybe<Scalars['String']>;
+    period?: Maybe<Scalars['String']>;
+};
+
+export type StStockHistoricalDataWithPeriod = {
+    __typename?: 'STStockHistoricalDataWithPeriod';
+    livePrice?: Maybe<Scalars['Float']>;
+    price?: Maybe<Array<Maybe<Array<Maybe<Scalars['Float']>>>>>;
+    symbol?: Maybe<Scalars['String']>;
+    period?: Maybe<Scalars['String']>;
+};
+
+export type StStockSuggestion = {
+    __typename?: 'STStockSuggestion';
+    summary?: Maybe<Summary>;
+    historicalData?: Maybe<StStockHistoricalClosedDataWithPeriod>;
+};
+
+export type StStockWatchInputlistIdentifier = {
+    userId: Scalars['String'];
+    id?: Maybe<Scalars['String']>;
+    additionalData?: Maybe<Scalars['String']>;
+};
+
+export type StStockWatchlist = {
+    __typename?: 'STStockWatchlist';
+    id: Scalars['String'];
+    name: Scalars['String'];
+    date?: Maybe<Scalars['String']>;
+    userId: Scalars['String'];
+    summaries?: Maybe<Array<Maybe<Summary>>>;
+};
+
+export type StTransaction = {
+    __typename?: 'STTransaction';
+    transactionId?: Maybe<Scalars['String']>;
+    user?: Maybe<StUserIndetificationInformation>;
+    symbol: Scalars['String'];
+    symbol_logo_url: Scalars['String'];
+    price: Scalars['Float'];
+    return?: Maybe<Scalars['Float']>;
+    returnChange?: Maybe<Scalars['Float']>;
+    units: Scalars['Float'];
+    date: Scalars['String'];
+    operation: StTransactionOperationEnum;
+    summary?: Maybe<Summary>;
+};
+
+export type StTransactionInput = {
+    symbol: Scalars['String'];
+    symbol_logo_url: Scalars['String'];
+    price: Scalars['Float'];
+    userId: Scalars['String'];
+    units: Scalars['Float'];
+    operation: StTransactionOperationEnum;
+};
+
+export enum StTransactionOperationEnum {
+    Buy = 'BUY',
+    Sell = 'SELL'
 }
 
+export type StUserAuthenticationInput = {
+    uid?: Maybe<Scalars['String']>;
+    displayName?: Maybe<Scalars['String']>;
+    email?: Maybe<Scalars['String']>;
+    photoURL?: Maybe<Scalars['String']>;
+    providerId?: Maybe<Scalars['String']>;
+    locale?: Maybe<Scalars['String']>;
+};
+
+export type StUserEditDataInput = {
+    userId?: Maybe<Scalars['String']>;
+    finnhubKey?: Maybe<Scalars['String']>;
+    nickName?: Maybe<Scalars['String']>;
+    photoURL?: Maybe<Scalars['String']>;
+};
+
+export type StUserGroups = {
+    __typename?: 'STUserGroups';
+    groupInvitationSent?: Maybe<Array<Maybe<StGroupPartialData>>>;
+    groupInvitationReceived?: Maybe<Array<Maybe<StGroupPartialData>>>;
+    groupOwner?: Maybe<Array<Maybe<StGroupPartialData>>>;
+    groupMember?: Maybe<Array<Maybe<StGroupPartialData>>>;
+};
+
+export type StUserHistoricalData = {
+    __typename?: 'STUserHistoricalData';
+    portfolioWeeklyChange: Array<Maybe<StPortfolioWeeklyChange>>;
+    bestAchievedRanks: Array<Maybe<StRank>>;
+    resetedAccount: Array<Maybe<StUserResetedAccount>>;
+    userLogs: Array<Maybe<StLog>>;
+};
+
+export type StUserIndetificationInformation = {
+    __typename?: 'STUserIndetificationInformation';
+    uid: Scalars['String'];
+    nickName: Scalars['String'];
+    locale?: Maybe<Scalars['String']>;
+    photoURL: Scalars['String'];
+    accountCreatedDate: Scalars['String'];
+};
+
+export type StUserIndetificationInformationInput = {
+    uid: Scalars['String'];
+    nickName: Scalars['String'];
+    locale?: Maybe<Scalars['String']>;
+    photoURL: Scalars['String'];
+    accountCreatedDate: Scalars['String'];
+};
+
+export type StUserPartialInformation = {
+    __typename?: 'STUserPartialInformation';
+    uid: Scalars['String'];
+    nickName: Scalars['String'];
+    locale?: Maybe<Scalars['String']>;
+    photoURL?: Maybe<Scalars['String']>;
+    accountCreatedDate: Scalars['String'];
+    portfolio?: Maybe<StPortfolio>;
+    rank?: Maybe<StRank>;
+};
+
+export type StUserPrivateData = {
+    __typename?: 'STUserPrivateData';
+    uid?: Maybe<Scalars['String']>;
+    finnhubKey?: Maybe<Scalars['String']>;
+    tradingEnabledDate?: Maybe<Scalars['String']>;
+    roles?: Maybe<Array<Maybe<Scalars['String']>>>;
+    email: Scalars['String'];
+    displayName: Scalars['String'];
+    providerId?: Maybe<Scalars['String']>;
+    status: User_Status;
+    geographic?: Maybe<StGeographic>;
+    nicknameLastChange?: Maybe<Scalars['String']>;
+};
+
+export type StUserPublicData = {
+    __typename?: 'STUserPublicData';
+    uid: Scalars['String'];
+    nickName: Scalars['String'];
+    locale?: Maybe<Scalars['String']>;
+    photoURL?: Maybe<Scalars['String']>;
+    accountCreatedDate: Scalars['String'];
+    lastSignInDate: Scalars['String'];
+    portfolio?: Maybe<StPortfolio>;
+    rank?: Maybe<StRank>;
+    holdings: Array<Maybe<StTransaction>>;
+    transactionsSnippets: Array<Maybe<StTransaction>>;
+    activity?: Maybe<User_Activity>;
+    groups: StUserGroups;
+    userPrivateData: StUserPrivateData;
+    userHistoricalData: StUserHistoricalData;
+    stockWatchlist: Array<Maybe<StStockWatchlist>>;
+};
+
+export type StUserResetedAccount = {
+    __typename?: 'STUserResetedAccount';
+    date: Scalars['String'];
+    portfolioTotal: Scalars['Float'];
+};
+
+export type Summary = {
+    __typename?: 'Summary';
+    id?: Maybe<Scalars['String']>;
+    sandPFiveTwoWeekChange?: Maybe<Scalars['Float']>;
+    fiveTwoWeekChange?: Maybe<Scalars['Float']>;
+    lastSplitFactor?: Maybe<Scalars['String']>;
+    lastSplitDate?: Maybe<Scalars['Float']>;
+    fullTimeEmployees?: Maybe<Scalars['Float']>;
+    netIncomeEmployeeAnnual?: Maybe<Scalars['Float']>;
+    revenueEmployeeAnnual?: Maybe<Scalars['Float']>;
+    website?: Maybe<Scalars['String']>;
+    residance?: Maybe<SummaryResidance>;
+    avgVolume?: Maybe<Scalars['String']>;
+    ePSTTM?: Maybe<Scalars['String']>;
+    earningsDate?: Maybe<Scalars['String']>;
+    exDividendDate?: Maybe<Scalars['String']>;
+    fiveTwoWeekRange?: Maybe<Scalars['String']>;
+    forwardDividendYield?: Maybe<Scalars['String']>;
+    oneyTargetEst?: Maybe<Scalars['Float']>;
+    open?: Maybe<Scalars['String']>;
+    pERatioTTM?: Maybe<Scalars['String']>;
+    volume?: Maybe<Scalars['String']>;
+    currency?: Maybe<Scalars['String']>;
+    industry?: Maybe<Scalars['String']>;
+    logo_url?: Maybe<Scalars['String']>;
+    marketPrice?: Maybe<Scalars['Float']>;
+    previousClose?: Maybe<Scalars['Float']>;
+    recommendationKey?: Maybe<Scalars['String']>;
+    recommendationMean?: Maybe<Scalars['Float']>;
+    sector?: Maybe<Scalars['String']>;
+    symbol?: Maybe<Scalars['String']>;
+    targetEstOneyPercent?: Maybe<Scalars['Float']>;
+    weekRangeFiveTwoMax?: Maybe<Scalars['Float']>;
+    weekRangeFiveTwoMin?: Maybe<Scalars['Float']>;
+    currencySymbol?: Maybe<Scalars['String']>;
+    shortName?: Maybe<Scalars['String']>;
+    longName?: Maybe<Scalars['String']>;
+    marketCap?: Maybe<Scalars['Float']>;
+    sharesOutstanding?: Maybe<Scalars['Float']>;
+    longBusinessSummary?: Maybe<Scalars['String']>;
+};
+
+export type SummaryProfile = {
+    __typename?: 'SummaryProfile';
+    address1?: Maybe<Scalars['String']>;
+    city?: Maybe<Scalars['String']>;
+    country?: Maybe<Scalars['String']>;
+    fax?: Maybe<Scalars['String']>;
+    fullTimeEmployees?: Maybe<Scalars['Float']>;
+    industry?: Maybe<Scalars['String']>;
+    logo_url?: Maybe<Scalars['String']>;
+    longBusinessSummary?: Maybe<Scalars['String']>;
+    phone?: Maybe<Scalars['String']>;
+    sector?: Maybe<Scalars['String']>;
+    state?: Maybe<Scalars['String']>;
+    website?: Maybe<Scalars['String']>;
+    zip?: Maybe<Scalars['String']>;
+};
+
+export type SummaryResidance = {
+    __typename?: 'SummaryResidance';
+    city?: Maybe<Scalars['String']>;
+    state?: Maybe<Scalars['String']>;
+    country?: Maybe<Scalars['String']>;
+    addressOne?: Maybe<Scalars['String']>;
+    zip?: Maybe<Scalars['String']>;
+};
+
+export type UpgradeDowngradeHistory = {
+    __typename?: 'UpgradeDowngradeHistory';
+    history?: Maybe<Array<Maybe<UpgradeDowngradeHistoryData>>>;
+};
+
+export type UpgradeDowngradeHistoryData = {
+    __typename?: 'UpgradeDowngradeHistoryData';
+    action?: Maybe<Scalars['String']>;
+    epochGradeDate?: Maybe<Scalars['Float']>;
+    firm?: Maybe<Scalars['String']>;
+    fromGrade?: Maybe<Scalars['String']>;
+    toGrade?: Maybe<Scalars['String']>;
+};
+
+
+export enum User_Activity {
+    SignedIn = 'SIGNED_IN',
+    SignedOut = 'SIGNED_OUT'
+}
+
+export enum User_Roles_Enum {
+    RoleAdmin = 'ROLE_ADMIN',
+    RoleGroupCreate = 'ROLE_GROUP_CREATE'
+}
+
+export enum User_Status {
+    Pending = 'PENDING',
+    Denied = 'DENIED',
+    Allowed = 'ALLOWED'
+}
+
+export enum User_Status_In_Group {
+    Owner = 'OWNER',
+    Manager = 'MANAGER',
+    Member = 'MEMBER',
+    InvitationSent = 'INVITATION_SENT',
+    InvitationReceived = 'INVITATION_RECEIVED'
+}
 
 export type StGroupUserFragmentFragment = (
     { __typename?: 'STGroupUser' }
@@ -1589,6 +1626,16 @@ export type QueryStMarketHistoryOverviewQuery = (
 }
     );
 
+export type StEventCalendarDataFragmentFragment = (
+    { __typename?: 'STEventCalendarData' }
+    & Pick<StEventCalendarData, 'date' | 'day' | 'month' | 'startdatetime' | 'year' | 'earningscount' | 'economiceventcount' | 'ipoinfocount' | 'splitscount'>
+    );
+
+export type StEventCalendarEarningsDataFragmentFragment = (
+    { __typename?: 'STEventCalendarEarningsData' }
+    & Pick<StEventCalendarEarningsData, 'companyshortname' | 'epsactual' | 'epsestimate' | 'epssurprisepct' | 'gmtOffsetMilliSeconds' | 'quoteType' | 'startdatetime' | 'startdatetimetype' | 'ticker' | 'timeZoneShortName'>
+    );
+
 export type QueryMarketDailyOverviewQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1640,9 +1687,52 @@ export type QueryMarketDailyOverviewQuery = (
             )>>>, news?: Maybe<Array<Maybe<(
             { __typename?: 'NewsArticle' }
             & NewsArticleFragmentFragment
-            )>>>, events_calendar?: Maybe<Array<Maybe<(
-            { __typename?: 'EventCalendarData' }
-            & Pick<EventCalendarData, 'date' | 'day' | 'month' | 'startdatetime' | 'year' | 'earningscount' | 'economiceventcount' | 'ipoinfocount' | 'splitscount'>
+            )>>>, events?: Maybe<Array<Maybe<(
+            { __typename?: 'STEventCalendarData' }
+            & StEventCalendarDataFragmentFragment
+            )>>>, earnings?: Maybe<Array<Maybe<(
+            { __typename?: 'STEventCalendarEarningsData' }
+            & StEventCalendarEarningsDataFragmentFragment
+            )>>>
+    }
+        )>
+}
+    );
+
+export type QueryStMarketCalendarEventsQueryVariables = Exact<{
+    date: Scalars['String'];
+}>;
+
+
+export type QueryStMarketCalendarEventsQuery = (
+    { __typename?: 'Query' }
+    & {
+    queryStMarketCalendarEvents?: Maybe<(
+        { __typename?: 'StMarketCalendarEvents' }
+        & {
+        events?: Maybe<Array<Maybe<(
+            { __typename?: 'STEventCalendarData' }
+            & StEventCalendarDataFragmentFragment
+            )>>>
+    }
+        )>
+}
+    );
+
+export type QueryStMarketCalendarEventsEarningsQueryVariables = Exact<{
+    date: Scalars['String'];
+}>;
+
+
+export type QueryStMarketCalendarEventsEarningsQuery = (
+    { __typename?: 'Query' }
+    & {
+    queryStMarketCalendarEventsEarnings?: Maybe<(
+        { __typename?: 'StMarketCalendarEventsEarnings' }
+        & {
+        earnings?: Maybe<Array<Maybe<(
+            { __typename?: 'STEventCalendarEarningsData' }
+            & StEventCalendarEarningsDataFragmentFragment
             )>>>
     }
         )>
@@ -2721,6 +2811,33 @@ export const StMarketTopTableSymbolDataFragmentFragmentDoc = gql`
         trailingPE
     }
 `;
+export const StEventCalendarDataFragmentFragmentDoc = gql`
+    fragment STEventCalendarDataFragment on STEventCalendarData {
+        date
+        day
+        month
+        startdatetime
+        year
+        earningscount
+        economiceventcount
+        ipoinfocount
+        splitscount
+    }
+`;
+export const StEventCalendarEarningsDataFragmentFragmentDoc = gql`
+    fragment STEventCalendarEarningsDataFragment on STEventCalendarEarningsData {
+        companyshortname
+        epsactual
+        epsestimate
+        epssurprisepct
+        gmtOffsetMilliSeconds
+        quoteType
+        startdatetime
+        startdatetimetype
+        ticker
+        timeZoneShortName
+    }
+`;
 export const StPortfolioWeeklyChangeFragmentFragmentDoc = gql`
     fragment STPortfolioWeeklyChangeFragment on STPortfolioWeeklyChange {
         portfolio {
@@ -3651,16 +3768,11 @@ export const QueryMarketDailyOverviewDocument = gql`
             news {
                 ...newsArticleFragment
             }
-            events_calendar {
-                date
-                day
-                month
-                startdatetime
-                year
-                earningscount
-                economiceventcount
-                ipoinfocount
-                splitscount
+            events {
+                ...STEventCalendarDataFragment
+            }
+            earnings {
+                ...STEventCalendarEarningsDataFragment
             }
             lastUpdate
         }
@@ -3668,13 +3780,57 @@ export const QueryMarketDailyOverviewDocument = gql`
     ${StMarketTopTableSymbolDataFragmentFragmentDoc}
     ${StockSummaryFragmentFragmentDoc}
     ${StMarketTopTableCryptoDataFragmentFragmentDoc}
-${NewsArticleFragmentFragmentDoc}`;
+    ${NewsArticleFragmentFragmentDoc}
+    ${StEventCalendarDataFragmentFragmentDoc}
+${StEventCalendarEarningsDataFragmentFragmentDoc}`;
 
 @Injectable({
     providedIn: 'root'
 })
 export class QueryMarketDailyOverviewGQL extends Apollo.Query<QueryMarketDailyOverviewQuery, QueryMarketDailyOverviewQueryVariables> {
     document = QueryMarketDailyOverviewDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+        super(apollo);
+    }
+}
+
+export const QueryStMarketCalendarEventsDocument = gql`
+    query QueryStMarketCalendarEvents($date: String!) {
+        queryStMarketCalendarEvents(date: $date) {
+            events {
+                ...STEventCalendarDataFragment
+            }
+        }
+    }
+${StEventCalendarDataFragmentFragmentDoc}`;
+
+@Injectable({
+    providedIn: 'root'
+})
+export class QueryStMarketCalendarEventsGQL extends Apollo.Query<QueryStMarketCalendarEventsQuery, QueryStMarketCalendarEventsQueryVariables> {
+    document = QueryStMarketCalendarEventsDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+        super(apollo);
+    }
+}
+
+export const QueryStMarketCalendarEventsEarningsDocument = gql`
+    query QueryStMarketCalendarEventsEarnings($date: String!) {
+        queryStMarketCalendarEventsEarnings(date: $date) {
+            earnings {
+                ...STEventCalendarEarningsDataFragment
+            }
+        }
+    }
+${StEventCalendarEarningsDataFragmentFragmentDoc}`;
+
+@Injectable({
+    providedIn: 'root'
+})
+export class QueryStMarketCalendarEventsEarningsGQL extends Apollo.Query<QueryStMarketCalendarEventsEarningsQuery, QueryStMarketCalendarEventsEarningsQueryVariables> {
+    document = QueryStMarketCalendarEventsEarningsDocument;
 
     constructor(apollo: Apollo.Apollo) {
         super(apollo);

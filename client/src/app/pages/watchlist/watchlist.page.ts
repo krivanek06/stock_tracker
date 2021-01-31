@@ -52,10 +52,10 @@ export class WatchlistPage extends ComponentScreenUpdateBase implements OnInit, 
     }
 
 
-    async showChartForSymbol(chartDataIdentification: SymbolIdentification, watchlistId: string) {
+    async showChartForSymbol(symbolIdentification: SymbolIdentification, watchlistId: string) {
         const modal = await this.modalController.create({
             component: SymbolLookupModalComponent,
-            componentProps: {chartDataIdentification, watchlistId},
+            componentProps: {symbolIdentification, watchlistId},
             cssClass: 'custom-modal'
         });
         return await modal.present();

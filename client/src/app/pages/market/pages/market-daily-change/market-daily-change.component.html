@@ -18,7 +18,7 @@
                 </ion-label>
                 <ion-item>
                     <ion-label>Change table</ion-label>
-                    <ion-select (ionChange)="changeSelectedTable($event)"
+                    <ion-select (ionChange)="changeSelectedTopTable($event)"
                                 interface="action-sheet"
                                 [value]="selectedTableName">
                         <ion-select-option *ngFor="let data of MARKET_DAILY_CHANGE_SELECT" [value]="data">
@@ -34,9 +34,23 @@
     </ion-row>
 
     <!-- weekly earnings -->
+    <app-generic-list [title]="'Earnings'"></app-generic-list>
     <ion-row>
-        <ion-col>
-
+        <ion-col size="12" size-md="6">
+            <app-generic-card [additionalClasses]="'st-height-100'">
+                <app-market-events-selector
+                        [events]="calendarEvents$ | async"
+                        (selectedDateEmitter)="changeDisplayedEarningsDate($event)"
+                        (changeDatesEmitter)="changeDisplayedEvents($event)">
+                </app-market-events-selector>
+            </app-generic-card>
+        </ion-col>
+        <ion-col size="12" size-md="6">
+            <app-generic-card [additionalClasses]="'st-height-100'"
+                              [subtitle]="earnings.length === 0 ?
+                        'No earnings found' : earnings[0].startdatetime | date: 'EEEE, dd.MM.YYYY'">
+                <app-market-earnings-table [earnings]="earnings"></app-market-earnings-table>
+            </app-generic-card>
         </ion-col>
     </ion-row>
 
@@ -45,7 +59,7 @@
         <ion-col size="12">
             <app-generic-list [title]="'Market news'"></app-generic-list>
             <div class="st-news-container">
-                <app-article-cards *ngFor="let article of news" [article]="article"></app-article-cards>
+                <app-article-cards *ngFor="let article of dailyNews" [article]="article"></app-article-cards>
             </div>
         </ion-col>
     </ion-row>

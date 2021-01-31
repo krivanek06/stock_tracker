@@ -1,5 +1,5 @@
 from ExternalAPI.YahooFinance import CustomYahooParser, YahooFinanceRequester
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class YahooFinanceTopSymbols:
@@ -38,22 +38,22 @@ class YahooFinanceTopSymbols:
             d['regularMarketClosed'] = d['regularMarketOpen'] - d['regularMarketChange']
         return data
 
-    def get_calendar_events(self):
-        today = datetime.today().strftime('%Y-%m-%d')
-        url = 'https://finance.yahoo.com/calendar'  # return all events happening in this week
+    def get_calendar_events(self, date=None):
+        date = datetime.today().strftime('%Y-%m-%d') if date is None else date
+        urlEvents = 'https://finance.yahoo.com/calendar?day=' + date  # return all events happening in this week
 
-        events = self.yahooFinanceParser.parse_json(url, 'CalendarStore', 'data', 'rows')
-        earnings = self.get_calendar_events_earnings('2021-01-26')[0:8]
-
-        return {'events': events, 'earnings': earnings}
+        return self.yahooFinanceParser.parse_json(urlEvents, 'CalendarStore', 'data', 'rows')
 
     # date -> 2021-02-03
     def get_calendar_events_earnings(self, date):
+        yesterday = (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d')
+        date = date if date else yesterday
         result = []
         i = 0
         while i == 0 or len(result) == 100:
             url = 'https://finance.yahoo.com/calendar/earnings?day=' + date + '&offset=' + str(i)
-            result += self.yahooFinanceParser.parse_json(url, 'ScreenerResultsStore', 'results', 'rows')
+            data = self.yahooFinanceParser.parse_json(url, 'ScreenerResultsStore', 'results', 'rows')
+            result += [d for d in data if d.get('epsestimate') is not None]
             i += 1
         return result
 
