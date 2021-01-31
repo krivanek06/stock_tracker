@@ -16,9 +16,17 @@ export const STMarketSharedTypeDefs = gql`
         stock_suggestions: [STStockSuggestion]
         top_crypto: [STMarketTopTableCryptoData]
         news: [NewsArticle]
-        events: [EventCalendarData]
-        earnings: [EventCalendarEarningsData]
+        events: [STEventCalendarData]
+        earnings: [STEventCalendarEarningsData]
         lastUpdate: String
+    }
+    
+    type StMarketCalendarEvents {
+        events: [STEventCalendarData]
+    }
+
+    type StMarketCalendarEventsEarnings {
+        earnings: [STEventCalendarEarningsData]
     }
 
     # Market history overview
@@ -45,7 +53,7 @@ export const STMarketSharedTypeDefs = gql`
         historicalData: STStockHistoricalClosedDataWithPeriod
     }
 
-    type EventCalendarData  {
+    type STEventCalendarData  {
         date: Float
         day: Float
         month: Float
@@ -57,7 +65,7 @@ export const STMarketSharedTypeDefs = gql`
         splitscount: Float
     }
 
-    type EventCalendarEarningsData {
+    type STEventCalendarEarningsData {
         companyshortname: String
         epsactual: Float
         epsestimate: Float

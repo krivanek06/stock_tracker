@@ -38,7 +38,7 @@ import {performTransaction} from "./st-transaction/st-transaction.mutation";
 import {STMarketSharedTypeDefs} from "./st-market/st-market.typedefs";
 import {
     queryMultipleStMarketData,
-    queryStMarketAllCategories, queryStMarketData,
+    queryStMarketAllCategories, queryStMarketCalendarEvents, queryStMarketCalendarEventsEarnings, queryStMarketData,
     querySTMarketHistoryOverview
 } from "./st-market/st-market.query";
 
@@ -77,6 +77,8 @@ const mainTypeDefs = gql`
         queryMarketDailyOverview: STMarketDailyOverview
         queryMultipleStMarketData(key: String!): STMarketChartDataResultSearch
         queryStMarketData(key: String!): STMarketChartDataResultCombined
+        queryStMarketCalendarEvents(date: String!): StMarketCalendarEvents
+        queryStMarketCalendarEventsEarnings(date: String!): StMarketCalendarEventsEarnings
     }
 
     #### MUTATION
@@ -129,6 +131,8 @@ const mainResolver = {
         queryStMarketAllCategories: async (_: null, args: null) => await queryStMarketAllCategories(),
         queryMultipleStMarketData: async (_: null, args: { key: string }) => await queryMultipleStMarketData(args.key),
         queryStMarketData: async (_: null, args: { key: string }) => await queryStMarketData(args.key),
+        queryStMarketCalendarEvents: async (_: null, args: { date: string }) => await queryStMarketCalendarEvents(args.date),
+        queryStMarketCalendarEventsEarnings: async (_: null, args: { date: string }) => await queryStMarketCalendarEventsEarnings(args.date),
     },
 
     Mutation: {

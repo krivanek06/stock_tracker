@@ -49,7 +49,7 @@ var environments_1 = require("./../../environments");
 var QUNDAL_ENDPOINT = environments_1.stockDataAPI + "/quandl";
 var SEARCH_ENDPOINT = environments_1.stockDataAPI + "/search";
 exports.getStMarketTopTables = function () { return __awaiter(void 0, void 0, Promise, function () {
-    var p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, promises, dataPromises, result, dataPromises_1, dataPromises_1_1, data, _i, _a, _b, key, value, e_1_1;
+    var p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, promises, dataPromises, result, dataPromises_1, dataPromises_1_1, data, _i, _a, _b, key, value, e_1_1;
     var e_1, _c;
     return __generator(this, function (_d) {
         switch (_d.label) {
@@ -86,7 +86,10 @@ exports.getStMarketTopTables = function () { return __awaiter(void 0, void 0, Pr
                 return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_small_cap_gainers")];
             case 11:
                 p11 = _d.sent();
-                promises = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11];
+                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/calendar_events_earnings")];
+            case 12:
+                p12 = _d.sent();
+                promises = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12];
                 dataPromises = promises.map(function (p) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0: return [4 /*yield*/, p.json()];
@@ -94,42 +97,42 @@ exports.getStMarketTopTables = function () { return __awaiter(void 0, void 0, Pr
                     }
                 }); }); });
                 result = {};
-                _d.label = 12;
-            case 12:
-                _d.trys.push([12, 17, 18, 23]);
-                dataPromises_1 = __asyncValues(dataPromises);
                 _d.label = 13;
-            case 13: return [4 /*yield*/, dataPromises_1.next()];
-            case 14:
-                if (!(dataPromises_1_1 = _d.sent(), !dataPromises_1_1.done)) return [3 /*break*/, 16];
+            case 13:
+                _d.trys.push([13, 18, 19, 24]);
+                dataPromises_1 = __asyncValues(dataPromises);
+                _d.label = 14;
+            case 14: return [4 /*yield*/, dataPromises_1.next()];
+            case 15:
+                if (!(dataPromises_1_1 = _d.sent(), !dataPromises_1_1.done)) return [3 /*break*/, 17];
                 data = dataPromises_1_1.value;
                 // example, keys is : 'stocks_aggressive_small_caps'
                 for (_i = 0, _a = Object.entries(data); _i < _a.length; _i++) {
                     _b = _a[_i], key = _b[0], value = _b[1];
-                    if (key !== 'status') {
+                    if (key !== "status") {
                         result[key] = value;
                     }
                 }
-                _d.label = 15;
-            case 15: return [3 /*break*/, 13];
-            case 16: return [3 /*break*/, 23];
-            case 17:
+                _d.label = 16;
+            case 16: return [3 /*break*/, 14];
+            case 17: return [3 /*break*/, 24];
+            case 18:
                 e_1_1 = _d.sent();
                 e_1 = { error: e_1_1 };
-                return [3 /*break*/, 23];
-            case 18:
-                _d.trys.push([18, , 21, 22]);
-                if (!(dataPromises_1_1 && !dataPromises_1_1.done && (_c = dataPromises_1["return"]))) return [3 /*break*/, 20];
-                return [4 /*yield*/, _c.call(dataPromises_1)];
+                return [3 /*break*/, 24];
             case 19:
+                _d.trys.push([19, , 22, 23]);
+                if (!(dataPromises_1_1 && !dataPromises_1_1.done && (_c = dataPromises_1["return"]))) return [3 /*break*/, 21];
+                return [4 /*yield*/, _c.call(dataPromises_1)];
+            case 20:
                 _d.sent();
-                _d.label = 20;
-            case 20: return [3 /*break*/, 22];
-            case 21:
+                _d.label = 21;
+            case 21: return [3 /*break*/, 23];
+            case 22:
                 if (e_1) throw e_1.error;
                 return [7 /*endfinally*/];
-            case 22: return [7 /*endfinally*/];
-            case 23: return [2 /*return*/, result];
+            case 23: return [7 /*endfinally*/];
+            case 24: return [2 /*return*/, result];
         }
     });
 }); };

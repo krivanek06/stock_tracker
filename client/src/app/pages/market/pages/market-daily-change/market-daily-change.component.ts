@@ -1,5 +1,9 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {NewsArticle, StMarketOverviewPartialData, StMarketTopTableSymbolData} from '../../../../api/customGraphql.service';
+import {
+    NewsArticle, StEventCalendarData,
+    StEventCalendarEarningsData,
+    StMarketTopTableSymbolData
+} from '../../../../api/customGraphql.service';
 import {MarketService} from '../../../../features/market-feature/services/market.service';
 import {ComponentScreenUpdateBase} from '../../../../shared/utils/component-base/component-screen-update.base';
 import {filter, first, takeUntil} from 'rxjs/operators';
@@ -7,6 +11,10 @@ import {MarketPriceWebsocketService} from '../../../../shared/services/market-pr
 import {cloneDeep} from 'lodash';
 import {MARKET_DAILY_CHANGE_SELECT} from '../../model/market.model';
 import {NameValueContainer} from '../../../../shared/models/sharedModel';
+import {Observable, of} from 'rxjs';
+import {ModalController} from '@ionic/angular';
+import {MarketEarningsModalComponent} from '../../../../features/market-feature/entry-components/market-earnings-modal/market-earnings-modal.component';
+import {SymbolLookupModalComponent} from '../../../../features/stock-details-feature/entry-components/symbol-lookup-modal/symbol-lookup-modal.component';
 
 @Component({
     selector: 'app-market-daily-change',
@@ -15,15 +23,19 @@ import {NameValueContainer} from '../../../../shared/models/sharedModel';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MarketDailyChangeComponent extends ComponentScreenUpdateBase implements OnInit, OnDestroy {
-    news: NewsArticle[] = [];
-    topGainers: StMarketTopTableSymbolData[];
-    selectedTable: StMarketTopTableSymbolData[];
+    calendarEvents$: Observable<StEventCalendarData[]>;
+
+    topGainers: StMarketTopTableSymbolData[] = [];
+    selectedTable: StMarketTopTableSymbolData[] = [];
+    dailyNews: NewsArticle[] = [];
+    earnings: StEventCalendarEarningsData[] = [];
     selectedTableName: NameValueContainer = MARKET_DAILY_CHANGE_SELECT[1];
 
     MARKET_DAILY_CHANGE_SELECT = MARKET_DAILY_CHANGE_SELECT;
 
     constructor(private marketService: MarketService,
                 private marketPriceWebsocket: MarketPriceWebsocketService,
+                private modalController: ModalController,
                 cdr: ChangeDetectorRef) {
         super(cdr);
     }
@@ -38,7 +50,7 @@ export class MarketDailyChangeComponent extends ComponentScreenUpdateBase implem
         this.marketPriceWebsocket.closeConnection();
     }
 
-    changeSelectedTable(event: CustomEvent) {
+    changeSelectedTopTable(event: CustomEvent) {
         // Close connections for symbols in selected table
         if (this.selectedTable) {
             const topGainersSymbols = this.topGainers.map(s => s.symbol);
@@ -56,9 +68,37 @@ export class MarketDailyChangeComponent extends ComponentScreenUpdateBase implem
         });
     }
 
+    changeDisplayedEvents(date: string) {
+        this.calendarEvents$ = this.marketService.queryStMarketCalendarEvents(date);
+    }
+
+    async changeDisplayedEarningsDate(selectedDate: string) {
+        const modal = await this.modalController.create({
+            component: MarketEarningsModalComponent,
+            componentProps: {selectedDate},
+            cssClass: 'custom-modal'
+        });
+        await modal.present();
+        const closed = await modal.onDidDismiss();
+        console.log('closed', closed);
+        const symbolIdentification = closed?.data?.symbolIdentification;
+
+        if (symbolIdentification) {
+            console.log('symbolIdentification', symbolIdentification);
+            const modalSymbolLookup = await this.modalController.create({
+                component: SymbolLookupModalComponent,
+                componentProps: {symbolIdentification},
+                cssClass: 'custom-modal'
+            });
+            return await modalSymbolLookup.present();
+        }
+    }
+
     private createCopyOfDailyOverview() {
         this.marketService.queryMarketDailyOverview().pipe(takeUntil(this.destroy$)).subscribe(res => {
-            this.news = res.news;
+            this.calendarEvents$ = of(res.events);
+            this.dailyNews = res.news;
+            this.earnings = res.earnings;
             this.topGainers = cloneDeep(res.stocks_day_gainers);
             this.selectedTable = cloneDeep(res.stocks_day_losers);
             this.initSubscriptionForDailyOverview();
@@ -86,6 +126,4 @@ export class MarketDailyChangeComponent extends ComponentScreenUpdateBase implem
             }
         });
     }
-
-
 }

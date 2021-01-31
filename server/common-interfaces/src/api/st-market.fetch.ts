@@ -1,13 +1,13 @@
+import fetch from "node-fetch";
+import { stockDataAPI } from "./../../environments";
 import {
-  STMarketChartDataResultSearch,
-  STMarketChartDataResultCombined,
   STMarketDailyOverview,
   STMarketHistoryOverview,
   STMarketChartDataResultContainer,
   STMarketDatasetKeyCategories,
-} from "./../model/st-market.model";
-import fetch from "node-fetch";
-import { stockDataAPI } from "./../../environments";
+  STMarketChartDataResultSearch,
+  STMarketChartDataResultCombined,
+} from "../model/st-market/index";
 
 const QUNDAL_ENDPOINT = `${stockDataAPI}/quandl`;
 const SEARCH_ENDPOINT = `${stockDataAPI}/search`;
@@ -25,8 +25,9 @@ export const getStMarketTopTables = async (): Promise<STMarketDailyOverview> => 
   const p9 = await fetch(`${SEARCH_ENDPOINT}/stocks_undervalued_large_caps`);
   const p10 = await fetch(`${SEARCH_ENDPOINT}/stocks_aggressive_small_caps`);
   const p11 = await fetch(`${SEARCH_ENDPOINT}/stocks_small_cap_gainers`);
+  const p12 = await fetch(`${SEARCH_ENDPOINT}/calendar_events_earnings`);
 
-  const promises = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11];
+  const promises = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12];
   const dataPromises = promises.map(async (p) => await p.json());
 
   // black magic
@@ -34,11 +35,10 @@ export const getStMarketTopTables = async (): Promise<STMarketDailyOverview> => 
   for await (const data of dataPromises) {
     // example, keys is : 'stocks_aggressive_small_caps'
     for (const [key, value] of Object.entries(data)) {
-        if(key !== 'status'){
-            result[key] = value;
-        }
+      if (key !== "status") {
+        result[key] = value;
       }
-    
+    }
   }
   return result;
 };
@@ -75,9 +75,9 @@ export const getStMarketOverview = async (): Promise<STMarketHistoryOverview> =>
   const manufacturing = await fetch(`${QUNDAL_ENDPOINT}/manufacturing`);
   const sp500 = await fetch(`${QUNDAL_ENDPOINT}/sp500`);
   const inflation_rate = await fetch(`${QUNDAL_ENDPOINT}/inflation_rate`);
-  const consumer_price_index_states = await fetch( `${QUNDAL_ENDPOINT}/consumer_price_index_states`);
-  const consumer_us_price_index = await fetch( `${QUNDAL_ENDPOINT}/consumer_us_price_index` );
-  const producer_us_price_index = await fetch(`${QUNDAL_ENDPOINT}/producer_us_price_index` );
+  const consumer_price_index_states = await fetch(`${QUNDAL_ENDPOINT}/consumer_price_index_states`);
+  const consumer_us_price_index = await fetch(`${QUNDAL_ENDPOINT}/consumer_us_price_index` );
+  const producer_us_price_index = await fetch(`${QUNDAL_ENDPOINT}/producer_us_price_index`);
   const misery_index = await fetch(`${QUNDAL_ENDPOINT}/misery_index`);
   const treasury_yield = await fetch(`${QUNDAL_ENDPOINT}/treasury_yield`);
   const bonds = await fetch(`${QUNDAL_ENDPOINT}/bonds`);
@@ -100,9 +100,7 @@ export const getStMarketOverview = async (): Promise<STMarketHistoryOverview> =>
     bitcoin
   ];
 
-  const dataPromises = promises.map(
-    async (p) => (await p.json()) as STMarketChartDataResultContainer
-  );
+  const dataPromises = promises.map(async (p) => (await p.json()) as STMarketChartDataResultContainer);
 
   // black magic
   const result: any = {};
@@ -118,16 +116,12 @@ export const getStMarketAllCategories = async (): Promise<STMarketDatasetKeyCate
   return res.json();
 };
 
-export const searchMultilpleStMarketData = async (
-  key: string
-): Promise<STMarketChartDataResultSearch> => {
+export const searchMultilpleStMarketData = async (key: string): Promise<STMarketChartDataResultSearch> => {
   const res = await fetch(`${QUNDAL_ENDPOINT}/search?quandlKey=${key}`);
   return res.json();
 };
 
-export const searchStMarketData = async (
-  key: string
-): Promise<STMarketChartDataResultCombined> => {
+export const searchStMarketData = async ( key: string): Promise<STMarketChartDataResultCombined> => {
   const res = await fetch(`${QUNDAL_ENDPOINT}/search?quandlKey=${key}`);
   return res.json();
 };

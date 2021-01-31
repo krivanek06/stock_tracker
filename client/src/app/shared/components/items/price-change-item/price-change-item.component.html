@@ -10,7 +10,9 @@
                      }">
         <!-- percentage -->
         <span *ngIf="priceChange > 0">+</span>
-        <ng-container *ngIf="priceChange !== undefined && !isPercent">{{ priceChange | number: '1.2-2'}}%</ng-container>
+        <ng-container *ngIf="priceChange !== undefined && priceChange !== null && !isPercent">
+            {{ priceChange | number: '1.2-2'}}%
+        </ng-container>
         <ng-container *ngIf="priceChange && isPercent">{{ priceChange | percent: '1.2-2' }}</ng-container>
 
         <!-- positive / negative icon -->

@@ -1,6 +1,6 @@
 <!-- body -->
 <ion-card [class]="additionalClasses" [ngClass]="{'left-padding-small-screen': applyLeftPadding}">
-    <ion-card-header>
+    <ion-card-header *ngIf="!removeHeader">
         <ion-card-subtitle>
             {{ subtitle }}
         </ion-card-subtitle>

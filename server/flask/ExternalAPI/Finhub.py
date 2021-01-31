@@ -51,22 +51,6 @@ class Finhub:
                 result.append(data['symbol'])
         return result
 
-    def getEarningsCalendarForOneWeeks(self):
-        today = datetime.today()
-        nextTwoWeeks = today + relativedelta(weeks=1)
-
-        today = today.strftime('%Y-%m-%d')
-        nextTwoWeeks = nextTwoWeeks.strftime('%Y-%m-%d')
-
-        params = {'token': self.FINHUB_SECRET_KEY, 'to': nextTwoWeeks, 'from': today}
-        req = get('https://finnhub.io/api/v1/calendar/earnings', params=params).json()
-        res = []
-        for earnigns in req['earningsCalendar']:
-            res.append({
-                'date': datetime.strptime(earnigns['date'], '%Y-%m-%d').strftime('%d.%m.%y'),
-                'symbol': earnigns['symbol']
-            })
-        return res
 
     def getStockYearlyFinancialReport(self, symbol):
         params = {'token': self.FINHUB_SECRET_KEY, 'symbol': symbol, 'freq': 'quarterly'}

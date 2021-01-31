@@ -17,7 +17,7 @@ ERROR_MESSAGE = 'Error in Search controller, method: '
 
 
 @app.route('/news')
-def getEconomicNews():
+def get_economic_news():
     try:
         return json_response(news=StockNews.getJsonDataFromFile())
     except Exception as e:
@@ -27,9 +27,11 @@ def getEconomicNews():
 @app.route('/calendar_events')
 def get_calendar():
     try:
-        return json_response(**YahooFinanceTopSymbols.get_calendar_events())
+        date = request.args.get('date')
+        return json_response(events=YahooFinanceTopSymbols.get_calendar_events(date))
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'get_calendar(), message: ' + str(e))
+
 
 @app.route('/calendar_events_earnings')
 def get_calendar_events_earnings():
@@ -39,18 +41,9 @@ def get_calendar_events_earnings():
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'get_calendar_events_earnings(), message: ' + str(e))
 
-'''
-@app.route('/earnings')
-def getEarningsCalendarForTwoWeeks():
-    try:
-        return json_response(earnings=Finhub.getEarningsCalendarForOneWeeks())
-    except Exception as e:
-        raise JsonError(status=500, error='Could not find any earnings')
-'''
-
 
 @app.route('/search_symbol')
-def searchSymbol():
+def search_symbol():
     try:
         return json_response(data=Finhub.searchSymbol(request.args.get('symbol').upper()))
     except Exception as e:
@@ -58,7 +51,7 @@ def searchSymbol():
 
 
 @app.route('/search_all_symbols')
-def searchAllSymbols():
+def search_all_symbols():
     try:
         return json_response(data=Finhub.searchAllSymbols())
     except Exception as e:

@@ -114,36 +114,36 @@ ion-spinner {
 }
 
 .st-font-0 {
-  color: #{$st-var-font-0};
+  color: #{$st-var-font-0} !important;
 }
 
 .st-font-1 {
-  color: #{$st-var-font-1};
+  color: #{$st-var-font-1} !important;
 }
 
 .st-font-2 {
-  color: #{$st-var-font-2};
+  color: #{$st-var-font-2} !important;
 }
 
 .st-font-3 {
-  color: #{$st-var-font-3};
+  color: #{$st-var-font-3} !important;
 }
 
 .st-font-4 {
-  color: #{$st-var-font-3};
+  color: #{$st-var-font-3} !important;
 }
 
 .st-font-5 {
-  color: #{$st-var-font-4};
+  color: #{$st-var-font-4} !important;
 }
 
 .st-font-0-bold {
-  color: #{$st-var-font-0};
+  color: #{$st-var-font-0} !important;
   font-weight: bold;
 }
 
 .st-font-1-bold {
-  color: #{$st-var-font-1};
+  color: #{$st-var-font-1} !important;
   font-weight: bold;
 }
 
@@ -187,6 +187,13 @@ ion-spinner {
   color: #{$st-var-font-2}; // !important
   font-size: 14px !important;
   word-wrap: break-word;
+}
+
+.st-data-item {
+  padding-left: 20px;
+  @media (max-width: #{$st-var-sm-split}) {
+    padding-left: 0;
+  }
 }
 
 .st-flex-end {
@@ -417,6 +424,13 @@ ion-spinner {
   width: 70%;
   color: white !important;
   margin: 8px !important;
+  @media (max-width: #{$st-var-md-split}) {
+    width: 100% !important;
+  }
+}
+
+.st-button-size {
+  width: 70%;
   @media (max-width: #{$st-var-md-split}) {
     width: 100% !important;
   }

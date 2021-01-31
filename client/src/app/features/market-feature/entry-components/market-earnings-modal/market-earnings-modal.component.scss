@@ -1,0 +1,11 @@
+@import "variables";
+
+:host {
+  .grouped-earnings-data {
+    width: 70%;
+    margin: auto;
+    @media (max-width: #{$st-var-md-split}) {
+      width: 100%;
+    }
+  }
+}

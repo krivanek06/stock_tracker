@@ -1,6 +1,7 @@
 import {ApolloError} from "apollo-server";
 import * as admin from "firebase-admin";
 import * as api from 'stock-tracker-common-interfaces';
+import {stockDataAPI} from "../enviroment";
 
 
 export const querySTMarketHistoryOverview = async (): Promise<api.STMarketHistoryOverview> => {
@@ -53,3 +54,22 @@ export const queryStMarketData = async (key: string): Promise<api.STMarketChartD
         throw new ApolloError(error);
     }
 };
+
+export const queryStMarketCalendarEvents = async(date: string): Promise<api.StMarketCalendarEvents> => {
+    try {
+        const data = await global.fetch(`${stockDataAPI}/search/calendar_events?date=${date}`);
+        return data.json();
+    } catch (error) {
+        throw new ApolloError(error);
+    }
+};
+
+export const queryStMarketCalendarEventsEarnings = async(date: string): Promise<api.StMarketCalendarEventsEarnings> => {
+    try {
+        const data = await global.fetch(`${stockDataAPI}/search/calendar_events_earnings?date=${date}`);
+        return data.json();
+    } catch (error) {
+        throw new ApolloError(error);
+    }
+};
+

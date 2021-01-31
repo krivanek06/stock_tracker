@@ -4,7 +4,16 @@ import {StockDetailsService} from '../../stock-details-feature/services/stock-de
 import {Observable} from 'rxjs';
 import {filter, map, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {
-    QueryMarketDailyOverviewGQL, QueryStMarketHistoryOverviewGQL, StMarketDailyOverview, StMarketOverviewPartialData,
+    QueryMarketDailyOverviewGQL,
+    QueryStMarketCalendarEventsEarningsGQL,
+    QueryStMarketCalendarEventsGQL,
+    QueryStMarketHistoryOverviewGQL,
+    StEventCalendarData,
+    StEventCalendarEarningsData,
+    StMarketCalendarEvents,
+    StMarketCalendarEventsEarnings,
+    StMarketDailyOverview,
+    StMarketOverviewPartialData,
 } from '../../../api/customGraphql.service';
 
 @Injectable({
@@ -15,7 +24,9 @@ export class MarketService {
     constructor(private marketPriceWebsocket: MarketPriceWebsocketService,
                 private stockDetailsService: StockDetailsService,
                 private queryMarketDailyOverviewGQL: QueryMarketDailyOverviewGQL,
-                private queryStMarketHistoryOverviewGQL: QueryStMarketHistoryOverviewGQL) {
+                private queryStMarketHistoryOverviewGQL: QueryStMarketHistoryOverviewGQL,
+                private queryStMarketCalendarEventsGQL: QueryStMarketCalendarEventsGQL,
+                private queryStMarketCalendarEventsEarningsGQL: QueryStMarketCalendarEventsEarningsGQL) {
     }
 
     /**
@@ -37,5 +48,17 @@ export class MarketService {
 
     queryStMarketHistoryOverview(): Observable<StMarketOverviewPartialData> {
         return this.queryStMarketHistoryOverviewGQL.fetch().pipe(map(x => x.data.querySTMarketHistoryOverview));
+    }
+
+    queryStMarketCalendarEvents(date: string): Observable<StEventCalendarData[]> {
+        return this.queryStMarketCalendarEventsGQL.fetch({
+            date
+        }).pipe(map(x => x.data.queryStMarketCalendarEvents.events));
+    }
+
+    queryStMarketCalendarEventsEarnings(date: string): Observable<StEventCalendarEarningsData[]> {
+        return this.queryStMarketCalendarEventsEarningsGQL.fetch({
+            date
+        }).pipe(map(x => x.data.queryStMarketCalendarEventsEarnings.earnings));
     }
 }

@@ -1,0 +1,32 @@
+<ion-list>
+    <ion-item class="ion-margin-bottom">
+        <!-- previous date -->
+        <ion-button fill="clear" (click)="previousWeek()">
+            <ion-icon name="chevron-back-outline"></ion-icon>
+        </ion-button>
+
+        <!-- selected date -->
+        <ion-label class="ion-text-center st-font-1-bold">
+            <ng-container *ngIf="events && events.length > 0" >
+                {{ events[0].startdatetime | date: 'dd.MM.YYYY' }} - {{ events[events.length - 1].startdatetime | date: 'dd.MM.YYYY' }}
+            </ng-container>
+        </ion-label>
+
+        <!-- next date -->
+        <ion-button fill="clear" (click)="nextWeek()">
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+        </ion-button>
+    </ion-item>
+
+    <!-- data -->
+    <ion-item button *ngFor="let event of events"
+              class="st-data-item-wrapper"
+              (click)="selectDate(event.startdatetime)">
+        <ion-label class="st-data-label ion-text-center">
+            Earnings: {{ event.earningscount }}
+        </ion-label>
+        <ion-label class="st-font-5 ion-text-center">
+            {{ event.startdatetime | date: 'EEEE, dd.MM.YYYY' }}
+        </ion-label>
+    </ion-item>
+</ion-list>
