@@ -31,7 +31,6 @@ class CustomYahooParser:
 
             return json_info
         except Exception as e:
-            print('parse_json', e)
             return None
 
     def parseAnalysisInfo(self, site):

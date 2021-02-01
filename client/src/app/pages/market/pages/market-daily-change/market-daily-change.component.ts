@@ -80,11 +80,9 @@ export class MarketDailyChangeComponent extends ComponentScreenUpdateBase implem
         });
         await modal.present();
         const closed = await modal.onDidDismiss();
-        console.log('closed', closed);
         const symbolIdentification = closed?.data?.symbolIdentification;
 
         if (symbolIdentification) {
-            console.log('symbolIdentification', symbolIdentification);
             const modalSymbolLookup = await this.modalController.create({
                 component: SymbolLookupModalComponent,
                 componentProps: {symbolIdentification},

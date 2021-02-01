@@ -4,6 +4,7 @@ from threading import Thread
 from queue import Queue
 from pytz import UTC
 from ExternalAPI import utils
+
 from ExternalAPI.utils import cammelCaseToWord
 
 utc = UTC
@@ -43,6 +44,7 @@ class FundamentalsService:
         dataFormatter.formatDividends()
         dataFormatter.formatEarningsFinancialChart()
         dataFormatter.formatStatementData()
+        dataFormatter.formatHistoricalMetrics()
         data['recommendation'].reverse()
 
         # remove data
@@ -58,16 +60,16 @@ class FundamentalsService:
         # declare threads
         t1 = Thread(target=lambda q, arg1: q.put({'companyData': self.yRequester.get_company_data(arg1)}),
                     args=(que, symbol))
-        t2 = Thread(target=lambda q, arg1: q.put({'analysis': self.yRequester.get_analysts_info(arg1)}), args=(que, symbol))
+        t2 = Thread(target=lambda q, arg1: q.put({'analysis': self.yRequester.get_analysts_info(arg1)}),
+                    args=(que, symbol))
         t3 = Thread(target=lambda q, arg1: q.put({'stats': self.yRequester.get_stats(arg1)}), args=(que, symbol))
         t4 = Thread(target=lambda q, arg1: q.put({'summary': self.yRequester.get_quote_table(arg1)}),
                     args=(que, symbol))
-        t5 = Thread(target=lambda q, arg1: q.put({'incomeStatement': self.yRequester.get_income_statement(arg1)}), args=(que, symbol))
-        t8 = Thread(target=lambda q, arg1: q.put({'balanceSheet': self.yRequester.get_balance_sheet(arg1)}),
-                    args=(que, symbol))
-        t9 = Thread(target=lambda q, arg1: q.put({'cashFlow': self.yRequester.get_cash_flow(arg1)}), args=(que, symbol))
+        t8 = Thread(target=lambda q, arg1: q.put(self.yRequester.get_financial_sheets(arg1)), args=(que, symbol))
         t10 = Thread(target=lambda q, arg1: q.put(self.__getUpToDateStockNews(arg1)), args=(que, symbol))
+        t12 = Thread(target=lambda q, arg1: q.put(self.yRequester.get_holders(arg1)), args=(que, symbol))
 
+        # FINHUB
         t6 = Thread(target=lambda q, arg1: q.put(self.finhub.getRecomendationForSymbol(arg1)), args=(que, symbol))
         t7 = Thread(target=lambda q, arg1: q.put(self.finhub.getStockYearlyFinancialReport(arg1)), args=(que, symbol))
         t11 = Thread(target=lambda q, arg1: q.put(self.finhub.getStockMetrics(arg1)), args=(que, symbol))
@@ -77,30 +79,28 @@ class FundamentalsService:
         t2.start()
         t3.start()
         t4.start()
-        t5.start()
         t6.start()
         t7.start()
         t8.start()
-        t9.start()
         t10.start()
         t11.start()
+        t12.start()
 
         # wait threads to finish
         t1.join()
         t2.join()
         t3.join()
         t4.join()
-        t5.join()
         t6.join()
         t7.join()
         t8.join()
-        t9.join()
         t10.join()
         t11.join()
+        t12.join()
 
         # get result from threads into one dict
         merge = {**que.get(), **que.get(), **que.get(), **que.get(), **que.get(), **que.get(), **que.get(),
-                 **que.get(), **que.get(), **que.get(), **que.get()}
+                 **que.get(), **que.get(), **que.get()}
 
         return merge
 
@@ -133,6 +133,18 @@ class FundamentalServiceFormatter:
             print('formatAnalysis exception: ' + str(e))
             pass
 
+    def formatHistoricalMetrics(self):
+        if self.data['historicalMetrics'] is None:
+            return None
+
+        result = {}
+        for k in self.data['historicalMetrics']:
+            result[k] = {'data': [], 'dates': [], 'name': utils.cammelCaseToWord(k)}
+            for data in self.data['historicalMetrics'][k]:
+                result[k]['data'].append(round(data.get('v'), 3))
+                result[k]['dates'].append(data.get('period'))
+        self.data['historicalMetrics'] = result
+
     def formatStatementData(self):
         res = {'balanceSheet': {},  # 'quaretly': {}, 'yearly': {}
                'cashFlow': {},  # 'quaretly': {}, 'yearly': {}
@@ -158,11 +170,11 @@ class FundamentalServiceFormatter:
                     }
                     for timePeriodDataNumber in range(dataLoop):
                         try:
-                            value = data[timePeriodDataNumber][periodKeys[periodKeysIndex]]  # may not exists
+                            value = utils.force_float(data[timePeriodDataNumber][periodKeys[periodKeysIndex]])
                             change = None
                             try:
                                 nextValue = data[timePeriodDataNumber + 1][periodKeys[periodKeysIndex]]
-                                change = round((value - nextValue) / abs(nextValue) * 100, 2)
+                                change = (value - nextValue) / abs(nextValue)
                             except:
                                 pass
 
@@ -223,6 +235,7 @@ class FundamentalServiceFormatter:
             print('formatEarningsFinancialChart exception: ' + str(e))
             pass
 
+    # TODO refactor
     def fomatFinancialReports(self):
         quarterly = self.data.get('financialReportsQuarterly')
         yearly = self.data.get('financialReportsYearly')
@@ -306,6 +319,8 @@ class FundamentalServiceFormatter:
                     for data in yearly[i]['report'][statement]:
                         if data['concept'] in neededData[statement]:
                             newKey = neededData[statement][data['concept']]
+                            if len(self.data[statementNew][statementNewKey + 'HistoryYearly']) <= i:
+                                self.data[statementNew][statementNewKey + 'HistoryYearly'].append({})
                             self.data[statementNew][statementNewKey + 'HistoryYearly'][i][newKey] = data['value']
 
     def formatSummary(self):
@@ -345,18 +360,23 @@ class FundamentalServiceFormatter:
             self.data['summary']['marketCap'] = price.get('marketCap')
 
             self.data['summary']['sharesOutstanding'] = defaultKeyStatistics.get('sharesOutstanding')
-            self.data['summary']['sandPFiveTwoWeekChange'] = defaultKeyStatistics.get('sandPFiveTwoWeekChange')
-            self.data['summary']['fiveTwoWeekChange'] = defaultKeyStatistics.get('fiveTwoWeekChange')
+            self.data['summary']['sandPFiveTwoWeekChange'] = utils.force_round(defaultKeyStatistics.get('sandPFiveTwoWeekChange'))
+            self.data['summary']['yearToDatePriceReturn'] = utils.force_round(defaultKeyStatistics.get('fiveTwoWeekChange'))
             self.data['summary']['lastSplitFactor'] = defaultKeyStatistics.get('lastSplitFactor')
             self.data['summary']['lastSplitDate'] = defaultKeyStatistics.get('lastSplitDate')
 
             self.data['summary']['netIncomeEmployeeAnnual'] = self.data['metric'].get('netIncomeEmployeeAnnual')
             self.data['summary']['revenueEmployeeAnnual'] = self.data['metric'].get('revenueEmployeeAnnual')
 
+            # format volume string to float
+            avgVolume = self.data['summary'].get('avgVolume')
+            volume = self.data['summary'].get('volume')
+            if avgVolume is not None and volume:
+                self.data['summary']['avgVolume'] = utils.force_float(''.join(avgVolume.split(',')))
+                self.data['summary']['volume'] = utils.force_float(''.join(volume.split(',')))
 
         except Exception as e:
             print('formatSummary exception: ' + str(e))
-            pass
 
     def formatDividends(self):
         try:
@@ -405,6 +425,7 @@ class FundamentalServiceFormatter:
             self.data['metric'].pop("trailingAnnualDividendRateThree", None)
             self.data['stats'].pop("trailingAnnualDividendYieldThree", None)
             self.data['companyData'].pop("summaryProfile", None)
+            self.data['companyData']['defaultKeyStatistics'].pop('52WeekChange', None)
 
             self.data.pop('financialReportsQuarterly', None)
             self.data.pop('financialReportsYearly', None)

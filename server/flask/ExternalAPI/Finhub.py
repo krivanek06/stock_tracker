@@ -51,7 +51,6 @@ class Finhub:
                 result.append(data['symbol'])
         return result
 
-
     def getStockYearlyFinancialReport(self, symbol):
         params = {'token': self.FINHUB_SECRET_KEY, 'symbol': symbol, 'freq': 'quarterly'}
         quarter = get('https://finnhub.io/api/v1/stock/financials-reported', params=params).json()['data'][0:4]
@@ -61,12 +60,10 @@ class Finhub:
 
         return {'financialReportsQuarterly': quarter, 'financialReportsYearly': year}
 
-    # TODO contains more data
-    # TODO - add yearToDatePriceReturnDaily to summary
     def getStockMetrics(self, symbol):
         params = {'token': self.FINHUB_SECRET_KEY, 'symbol': symbol}
-        r = get('https://finnhub.io/api/v1/stock/metric', params=params).json()['metric']
-        return {'metric': r}
+        data = get('https://finnhub.io/api/v1/stock/metric', params=params).json()
+        return {'metric': data['metric'], 'historicalMetrics': data['series'].get('annual')}
 
     def getRecomendationForSymbol(self, symbol):
         params = {'token': self.FINHUB_SECRET_KEY, 'symbol': symbol}

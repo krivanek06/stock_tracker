@@ -13,7 +13,6 @@ fragment SummaryResidanceFragment on SummaryResidance {
 fragment StockSummaryFragment on Summary {
     id
     sandPFiveTwoWeekChange
-    fiveTwoWeekChange
     lastSplitFactor
     lastSplitDate
     fullTimeEmployees
@@ -46,6 +45,9 @@ fragment StockSummaryFragment on Summary {
     marketCap
     sharesOutstanding
     longBusinessSummary
+    yearToDatePriceReturn
+    volume
+    avgVolume
 }
 
 fragment SheetDataFragment on SheetData {
@@ -359,9 +361,21 @@ fragment revenueEstimateFragment on RevenueEstimate {
 }
 
 fragment statsFragment on Stats {
-    marketCapintradayFive
     priceSalesttm
     leveredFreeCashFlowttm
+    forwardPEOne
+    quarterlyEarningsGrowthyoy
+    quarterlyRevenueGrowthyoy
+    returnonEquityttm
+    revenuePerSharettm
+    totalCashPerSharemrq
+    totalDebtEquitymrq
+    totalDebtmrq
+    trailingPE
+    eBITDA
+    bookValuePerSharemrq
+    currentRatiomrq
+    dilutedEPSttm
 }
 
 fragment recommendationFragment on Recommendations {
@@ -384,8 +398,6 @@ fragment newsArticleFragment on NewsArticle {
 }
 
 fragment defaultKeyStatisticsFragment on DefaultKeyStatistics {
-    fiveTwoWeekChange
-    sandPFiveTwoWeekChange
     bookValue
     dateShortInterest
     earningsQuarterlyGrowth
@@ -409,9 +421,11 @@ fragment defaultKeyStatisticsFragment on DefaultKeyStatistics {
     priceToBook
     profitMargins
     sharesOutstanding
+    sharesPercentSharesOut
     sharesShort
     sharesShortPreviousMonthDate
     sharesShortPriorMonth
+    shortPercentOfFloat
     shortRatio
     trailingEps
 }
@@ -629,6 +643,12 @@ fragment earningsFragment on Earnings {
     }
 }
 
+fragment historicalMetricsDataFragment on HistoricalMetricsData {
+    name
+    dates
+    data
+}
+
 # -----------------------------------------
 # QUERY
 
@@ -705,6 +725,80 @@ query QueryStockDetails($symbol: String!) {
         }
         dividends {
             ...dividensFragment
+        }
+        historicalMetrics {
+            cashRatio {
+                ...historicalMetricsDataFragment
+            }
+            currentRatio {
+                ...historicalMetricsDataFragment
+            }
+            ebitPerShare {
+                ...historicalMetricsDataFragment
+            }
+            eps {
+                ...historicalMetricsDataFragment
+            }
+            grossMargin {
+                ...historicalMetricsDataFragment
+            }
+            longtermDebtTotalAsset {
+                ...historicalMetricsDataFragment
+            }
+            longtermDebtTotalCapital {
+                ...historicalMetricsDataFragment
+            }
+            longtermDebtTotalEquity {
+                ...historicalMetricsDataFragment
+            }
+            netDebtToTotalCapital {
+                ...historicalMetricsDataFragment
+            }
+            netDebtToTotalEquity {
+                ...historicalMetricsDataFragment
+            }
+            netMargin {
+                ...historicalMetricsDataFragment
+            }
+            operatingMargin {
+                ...historicalMetricsDataFragment
+            }
+            pretaxMargin {
+                ...historicalMetricsDataFragment
+            }
+            salesPerShare {
+                ...historicalMetricsDataFragment
+            }
+            sgaToSale {
+                ...historicalMetricsDataFragment
+            }
+            totalDebtToEquity {
+                ...historicalMetricsDataFragment
+            }
+            totalDebtToTotalAsset {
+                ...historicalMetricsDataFragment
+            }
+            totalDebtToTotalCapital {
+                ...historicalMetricsDataFragment
+            }
+            totalRatio {
+                ...historicalMetricsDataFragment
+            }
+        }
+        institutionOwnerships {
+            organization
+            pctHeld
+            position
+            reportDate
+            value
+        }
+        insiderTransactions {
+            filerName
+            filerRelation
+            shares
+            startDate
+            transactionText
+            value
         }
     }
 }

@@ -17,7 +17,7 @@ def changeUnsupportedCharactersForDictKey(data):
     for k, v in data.items():
         if isinstance(v, dict):
             v = changeUnsupportedCharactersForDictKey(v)
-        k = k.translate(str.maketrans(unsupportedCharacter))
+        k = changeUnsupportedCharacters(k)
         k = k[0].lower() + k[1:]
         res[k] = v
 
@@ -37,6 +37,13 @@ def changeUnsupportedCharactersExceptNumber(value):
 
 def cammelCaseToWord(name):
     return sub(r'(?<!^)(?=[A-Z])', ' ', name).lower().capitalize()
+
+
+def force_round(number, roundNumber=4):
+    try:
+        return round(number, roundNumber) if number is not None else None
+    except:
+        return None
 
 
 def force_float(elt):

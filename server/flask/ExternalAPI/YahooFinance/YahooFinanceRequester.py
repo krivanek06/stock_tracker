@@ -1,6 +1,8 @@
 from requests import get
 from ExternalAPI import utils
+
 from ExternalAPI.YahooFinance import CustomYahooParser
+
 
 class YahooFinanceRequester:
     def __init__(self):
@@ -17,8 +19,7 @@ class YahooFinanceRequester:
         result['weekRange52Max'] = utils.force_float(result['FiveTwoWeekRange'].split(' - ')[1]) if result.get(
             'FiveTwoWeekRange') is not None else None
         try:
-            result['targetEst1yPercent'] = utils.force_float(
-                round(100 / float(result['OneyTargetEst']) * livePrice['marketPrice'], 2))
+            result['targetEst1yPercent'] = utils.force_round(1 / float(result['OneyTargetEst']) * livePrice['marketPrice'])
         except:
             result['targetEst1yPercent'] = None
 
@@ -28,68 +29,43 @@ class YahooFinanceRequester:
         stats_site = "https://finance.yahoo.com/quote/" + ticker + "/key-statistics?p=" + ticker
         return utils.parseMultipleDropdownTables(stats_site)
 
-    def get_income_statement(self, ticker):
-        income_site = "https://finance.yahoo.com/quote/" + ticker + "/financials?p=" + ticker
-        json_info = self.helperClass.parse_json(income_site, 'QuoteSummaryStore')
-
-        if json_info is None:
-            return None
-
-        result = {
-            'incomeStatementHistoryYearly': json_info["incomeStatementHistory"]["incomeStatementHistory"],
-            'incomeStatementHistoryQuarterly': json_info["incomeStatementHistoryQuarterly"]["incomeStatementHistory"]
-        }
-
-        return result
-
-    def get_balance_sheet(self, ticker):
+    def get_financial_sheets(self, ticker):
         balance_sheet_site = "https://finance.yahoo.com/quote/" + ticker + "/balance-sheet?p=" + ticker
         json_info = self.helperClass.parse_json(balance_sheet_site, 'QuoteSummaryStore')
 
         if json_info is None or json_info.get('balanceSheetHistory') is None:
             return None
 
-        result = {
+        balanceSheet = {
             'balanceSheetHistoryYearly': json_info["balanceSheetHistory"]["balanceSheetStatements"],
             'balanceSheetHistoryQuarterly': json_info["balanceSheetHistoryQuarterly"]["balanceSheetStatements"]
         }
 
-        return result
-
-    def get_cash_flow(self, ticker):
-        cash_flow_site = "https://finance.yahoo.com/quote/" + ticker + "/cash-flow?p=" + ticker
-        json_info = self.helperClass.parse_json(cash_flow_site, 'QuoteSummaryStore')
-
-        if json_info is None:
-            return None
-
-        result = {
+        cashFlow = {
             'cashflowStatementHistoryYearly': json_info["cashflowStatementHistory"]["cashflowStatements"],
             'cashflowStatementHistoryQuarterly': json_info["cashflowStatementHistoryQuarterly"]["cashflowStatements"]
         }
 
-        return result
+        incomeStatement = {
+            'incomeStatementHistoryYearly': json_info["incomeStatementHistory"]["incomeStatementHistory"],
+            'incomeStatementHistoryQuarterly': json_info["incomeStatementHistoryQuarterly"]["incomeStatementHistory"]
+        }
 
-    #TODO - make it alive
-    '''
-    def get_holders(ticker):
-        holders_site = "https://finance.yahoo.com/quote/" + \
-                       ticker + "/holders?p=" + ticker
+        return {'balanceSheet': balanceSheet, 'incomeStatement': incomeStatement, 'cashFlow': cashFlow}
 
-        tables = pd.read_html(holders_site, header=0)
+    def get_holders(self, ticker):
+        url = "https://finance.yahoo.com/quote/" + ticker + "/holders?p=" + ticker
+        ownerShip = self.helperClass.parse_json(url, 'QuoteSummaryStore', 'institutionOwnership', 'ownershipList')
+        transactions = self.helperClass.parse_json(url, 'QuoteSummaryStore', 'insiderTransactions', 'transactions')
 
-        table_names = ["Major Holders", "Direct Holders (Forms 3 and 4)",
-                       "Top Institutional Holders", "Top Mutual Fund Holders"]
+        ownerShip = ownerShip[0:8] if ownerShip is not None else []
+        transactions = transactions[0:8] if transactions is not None else []
 
-        table_mapper = {key: val for key, val in zip(table_names, tables)}
-
-        return table_mapper
-    '''
+        return {'institutionOwnerships': ownerShip, 'insiderTransactions': transactions}
 
     def get_analysts_info(self, ticker):
         analysts_site = "https://finance.yahoo.com/quote/" + ticker + "/analysts?p=" + ticker
-        data = self.helperClass.parseAnalysisInfo(analysts_site)
-        return data
+        return self.helperClass.parseAnalysisInfo(analysts_site)
 
     def get_live_price(self, ticker):
         data = get('https://query1.finance.yahoo.com/v8/finance/chart/' + ticker + '?interval=1d').json()
@@ -148,8 +124,7 @@ class YahooFinanceRequester:
                 result['price'].append(round(close[i], 2))
             else:
                 milliseconds = timestamp[i] * 1000
-                result['price'].append([milliseconds, round(open[i], 2), round(high[i], 2), round(low[i], 2), round(close[i], 2)])
+                result['price'].append(
+                    [milliseconds, round(open[i], 2), round(high[i], 2), round(low[i], 2), round(close[i], 2)])
                 result['volume'].append([milliseconds, volume[i]])
         return result
-
-

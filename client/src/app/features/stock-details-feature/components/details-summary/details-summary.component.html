@@ -51,7 +51,7 @@
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">1y change</ion-label>
         <ion-label class="st-flex-end">
-            <app-price-change-item [priceChange]="summary.fiveTwoWeekChange" [isPercent]="true">
+            <app-price-change-item [priceChange]="summary.yearToDatePriceReturn" [isPercent]="true">
             </app-price-change-item>
         </ion-label>
     </ion-item>
@@ -64,10 +64,6 @@
         </ion-label>
     </ion-item>
 
-    <!-- <ion-item>
-        <ion-label position="fixed" class="fixedLabel">Industry</ion-label>
-        <ion-label> {{ summary.industry }}</ion-label>
-    </ion-item> -->
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Sector</ion-label>
