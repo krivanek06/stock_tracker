@@ -141,8 +141,8 @@ class FundamentalServiceFormatter:
         for k in self.data['historicalMetrics']:
             result[k] = {'data': [], 'dates': [], 'name': utils.cammelCaseToWord(k)}
             for data in self.data['historicalMetrics'][k]:
-                result[k]['data'].append(round(data.get('v'), 3))
-                result[k]['dates'].append(data.get('period'))
+                result[k]['data'].insert(0, round(data.get('v'), 3))
+                result[k]['dates'].insert(0, data.get('period'))
         self.data['historicalMetrics'] = result
 
     def formatStatementData(self):

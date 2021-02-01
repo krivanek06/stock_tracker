@@ -13,7 +13,7 @@ export class WatchlistPickerModalContainerComponent implements OnInit {
 
     constructor(private navParams: NavParams,
                 private watchlistService: WatchlistService,
-                private popoverController: PopoverController,) {
+                private popoverController: PopoverController) {
         this.symbol = this.navParams.get('symbol');
     }
 

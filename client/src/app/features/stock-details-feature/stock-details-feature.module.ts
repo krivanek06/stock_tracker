@@ -20,6 +20,9 @@ import {StockSearchComponent} from './containers/stock-search/stock-search.compo
 import {SummarySectorChartComponent} from './components/summary-sector-chart/summary-sector-chart.component';
 import {StockInfoListChangeComponent} from './components/stock-info-list-change/stock-info-list-change.component';
 import {TrendItemComponent} from './components/stock-trend/trend-item/trend-item.component';
+import {DetailsOwnershipComponent} from './components/details-ownership/details-ownership.component';
+import {DetailsTransactionsComponent} from './components/details-transactions/details-transactions.component';
+import {DetailsEsgScoreComponent} from './components/details-esg-score/details-esg-score.component';
 
 
 @NgModule({
@@ -42,7 +45,10 @@ import {TrendItemComponent} from './components/stock-trend/trend-item/trend-item
         StockSearchComponent,
         SummarySectorChartComponent,
         StockInfoListChangeComponent,
-        TrendItemComponent
+        TrendItemComponent,
+        DetailsOwnershipComponent,
+        DetailsTransactionsComponent,
+        DetailsEsgScoreComponent
     ],
     imports: [
         CommonModule,
@@ -66,7 +72,10 @@ import {TrendItemComponent} from './components/stock-trend/trend-item/trend-item
         StockInfoListIdentificationComponent,
         StockSearchComponent,
         SummarySectorChartComponent,
-        StockInfoListChangeComponent
+        StockInfoListChangeComponent,
+        DetailsOwnershipComponent,
+        DetailsTransactionsComponent,
+        DetailsEsgScoreComponent
     ],
     entryComponents: [
         DetailsFinancialReportModalComponent,

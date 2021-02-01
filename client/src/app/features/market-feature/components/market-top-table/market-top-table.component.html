@@ -79,15 +79,18 @@
                   (click)="itemClicked(data.symbol,data.shortName)">
             <!-- LOGO + SYMBOL -->
             <ion-label class="st-display-flex-center">
-                <ion-img [src]="data.logo_url" class="st-symbol-image"></ion-img>
+                <ion-img appDefaultImg [src]="data.logo_url" class="st-symbol-image"></ion-img>
                 <div class="st-flex-col">
                     <ion-text>{{ data.symbol }}</ion-text>
                     <ion-text class="st-hide-xs-down st-font-size-12 st-font-5">{{ data.longName }}</ion-text>
                 </div>
             </ion-label>
 
-            <!-- daily change -->
-            <ion-label class="st-font-1 st-font-size-16 st-flex-end">
+            <!-- daily change + price -->
+            <ion-label class="st-flex-end st-flex-col">
+                <ion-text class="st-font-1-normal st-font-size-16" [@marketValueChange]="data.regularMarketPrice">
+                    {{ data.regularMarketPrice | currency }}
+                </ion-text>
                 <app-price-compare-item
                         [currentPrice]="data.regularMarketPrice"
                         [inlineDisplay]="true"

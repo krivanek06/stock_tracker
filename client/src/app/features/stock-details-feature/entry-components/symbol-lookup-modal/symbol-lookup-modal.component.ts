@@ -25,6 +25,7 @@ export class SymbolLookupModalComponent implements OnInit {
 
     symbolIdentification: SymbolIdentification;
     watchlistId: string;
+    showAddToWatchlistOption = true;
     isSymbolInWatchlist = false;
 
     user: StUserPublicData;
@@ -42,6 +43,7 @@ export class SymbolLookupModalComponent implements OnInit {
     ngOnInit() {
         this.symbolIdentification = this.navParams.get('symbolIdentification');
         this.watchlistId = this.navParams.get('watchlistId');
+        this.showAddToWatchlistOption = this.navParams.get('showAddToWatchlistOption');
 
         this.stockSummary$ = this.stockDetailsService.getStockSummary(this.symbolIdentification.symbol);
         this.checkIfSymbolIsInWatchlist();  // checked if opened symbol is in my watchlist

@@ -2223,6 +2223,34 @@ export type NewsArticleFragmentFragment = (
     & Pick<NewsArticle, 'datetime' | 'headline' | 'image' | 'sourceName' | 'summary' | 'url'>
     );
 
+export type CalculationFragmentFragment = (
+    { __typename?: 'Calculation' }
+    & Pick<Calculation, 'avg' | 'max' | 'min'>
+    );
+
+export type EsgScoreFragmentFragment = (
+    { __typename?: 'EsgScores' }
+    & Pick<EsgScores, 'totalEsg' | 'environmentScore' | 'governanceScore' | 'highestControversy' | 'esgPerformance' | 'socialScore' | 'peerCount' | 'percentile' | 'peerGroup' | 'relatedControversy'>
+    & {
+    peerEnvironmentPerformance?: Maybe<(
+        { __typename?: 'Calculation' }
+        & CalculationFragmentFragment
+        )>, peerEsgScorePerformance?: Maybe<(
+        { __typename?: 'Calculation' }
+        & CalculationFragmentFragment
+        )>, peerGovernancePerformance?: Maybe<(
+        { __typename?: 'Calculation' }
+        & CalculationFragmentFragment
+        )>, peerHighestControversyPerformance?: Maybe<(
+        { __typename?: 'Calculation' }
+        & CalculationFragmentFragment
+        )>, peerSocialPerformance?: Maybe<(
+        { __typename?: 'Calculation' }
+        & CalculationFragmentFragment
+        )>
+}
+    );
+
 export type DefaultKeyStatisticsFragmentFragment = (
     { __typename?: 'DefaultKeyStatistics' }
     & Pick<DefaultKeyStatistics, 'bookValue' | 'dateShortInterest' | 'earningsQuarterlyGrowth' | 'enterpriseToEbitda' | 'enterpriseToRevenue' | 'enterpriseValue' | 'fiveYearAverageReturn' | 'floatShares' | 'forwardEps' | 'forwardPE' | 'heldPercentInsiders' | 'heldPercentInstitutions' | 'lastFiscalYearEnd' | 'lastSplitDate' | 'lastSplitFactor' | 'mostRecentQuarter' | 'netIncomeToCommon' | 'nextFiscalYearEnd' | 'pegRatio' | 'priceHint' | 'priceToBook' | 'profitMargins' | 'sharesOutstanding' | 'sharesPercentSharesOut' | 'sharesShort' | 'sharesShortPreviousMonthDate' | 'sharesShortPriorMonth' | 'shortPercentOfFloat' | 'shortRatio' | 'trailingEps'>
@@ -2385,6 +2413,9 @@ export type QueryStockDetailsQuery = (
                     & HistoryFragmentFragment
                     )>>>
             }
+                )>, esgScores?: Maybe<(
+                { __typename?: 'EsgScores' }
+                & EsgScoreFragmentFragment
                 )>
         }
             )>, summary: (
@@ -3337,6 +3368,42 @@ export const NewsArticleFragmentFragmentDoc = gql`
         url
     }
 `;
+export const CalculationFragmentFragmentDoc = gql`
+    fragment calculationFragment on Calculation {
+        avg
+        max
+        min
+    }
+`;
+export const EsgScoreFragmentFragmentDoc = gql`
+    fragment esgScoreFragment on EsgScores {
+        totalEsg
+        environmentScore
+        governanceScore
+        highestControversy
+        esgPerformance
+        socialScore
+        peerCount
+        peerEnvironmentPerformance {
+            ...calculationFragment
+        }
+        peerEsgScorePerformance {
+            ...calculationFragment
+        }
+        peerGovernancePerformance {
+            ...calculationFragment
+        }
+        peerHighestControversyPerformance {
+            ...calculationFragment
+        }
+        peerSocialPerformance {
+            ...calculationFragment
+        }
+        percentile
+        peerGroup
+        relatedControversy
+    }
+${CalculationFragmentFragmentDoc}`;
 export const DefaultKeyStatisticsFragmentFragmentDoc = gql`
     fragment defaultKeyStatisticsFragment on DefaultKeyStatistics {
         bookValue
@@ -4128,6 +4195,9 @@ export const QueryStockDetailsDocument = gql`
                         ...historyFragment
                     }
                 }
+                esgScores {
+                    ...esgScoreFragment
+                }
             }
             summary {
                 ...StockSummaryFragment
@@ -4226,6 +4296,7 @@ export const QueryStockDetailsDocument = gql`
     ${EarningsFragmentFragmentDoc}
     ${FinancialDataFragmentFragmentDoc}
     ${HistoryFragmentFragmentDoc}
+    ${EsgScoreFragmentFragmentDoc}
     ${StockSummaryFragmentFragmentDoc}
     ${MetricFragmentFragmentDoc}
     ${DividensFragmentFragmentDoc}

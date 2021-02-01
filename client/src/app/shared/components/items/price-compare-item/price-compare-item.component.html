@@ -5,7 +5,7 @@
                     'st-price-up': currentPrice - compareToPrice >= 0,
                     'st-price-down': currentPrice - compareToPrice < 0
                      }">
-        <ion-text class="st-flex-row" [style.marginRight.px]="showIcons ? 10 : 0">
+        <ion-text class="st-flex-row" [style.marginRight.px]="showIcons ? 10 : 0" [ngClass]="{'st-font-size-13': inlineDisplay}">
             <span *ngIf="currentPrice > compareToPrice">+</span>
             {{ ((currentPrice - compareToPrice) / compareToPrice) | percent: '1.2' }}
             <ng-container *ngIf="showIcons">
@@ -18,9 +18,9 @@
             </ng-container>
         </ion-text>
 
-        <ion-text class="st-font-5" [@marketValueChange]="currentPrice"
+        <ion-text class="st-font-5" [@marketValueChange]="currentPrice" *ngIf="showPrice"
                   [ngClass]="{
-                      'st-font-size-14': inlineDisplay,
+                      'st-font-size-13': inlineDisplay,
                       'st-font-size-12': !inlineDisplay
                   }">
             {{ currentPrice - compareToPrice | currency}}

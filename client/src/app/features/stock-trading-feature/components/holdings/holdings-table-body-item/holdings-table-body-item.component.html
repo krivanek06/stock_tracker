@@ -4,7 +4,7 @@
 
     <!-- stock name -->
     <ion-label class="st-display-flex-center">
-        <ion-img [src]="transaction.summary.logo_url" class="st-symbol-image"></ion-img>
+        <ion-img appDefaultImg [src]="transaction.summary.logo_url" class="st-symbol-image"></ion-img>
         <ion-text class="ion-hide-md-down st-font-4">{{ transaction.summary.symbol }}</ion-text>
     </ion-label>
 
@@ -34,7 +34,7 @@
 
     <!-- Value -->
     <ion-label class="st-data-label st-flex-col">
-        <ion-text>{{ (currentPrice * transaction.units) | currency }} </ion-text>
+        <ion-text [@marketValueChange]="currentPrice">{{ (currentPrice * transaction.units) | currency }} </ion-text>
         <ion-text class="st-font-size-12 st-font-5">
             {{ currentPrice | currency }} * {{ transaction.units }}
         </ion-text>
@@ -67,7 +67,7 @@
     <ion-item>
         <!-- LOGO + SYMBOL -->
         <ion-label class="st-display-flex-center st-fit-content">
-            <ion-img [src]="transaction.summary.logo_url" class="st-symbol-image"></ion-img>
+            <ion-img appDefaultImg [src]="transaction.summary.logo_url" class="st-symbol-image"></ion-img>
             <div class="st-flex-col">
                 <ion-text>{{ transaction.summary.symbol }}</ion-text>
                 <ion-text class="st-hide-xs-down st-font-size-12">{{ transaction.summary.longName }}</ion-text>
@@ -75,7 +75,7 @@
         </ion-label>
 
         <!-- Value -->
-        <ion-label class="st-font-1 st-font-size-16 st-flex-end" [@marketValueChange]="currentPrice">
+        <ion-label class="st-font-1-normal st-font-size-16 st-flex-end" [@marketValueChange]="currentPrice">
             {{ (currentPrice * transaction.units) | currency }}
         </ion-label>
     </ion-item>

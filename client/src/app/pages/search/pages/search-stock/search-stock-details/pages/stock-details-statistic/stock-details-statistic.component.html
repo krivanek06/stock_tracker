@@ -35,7 +35,7 @@
                 </app-generic-card>
             </ion-col>
             <ion-col size-xl="5" size="12">
-                <app-generic-card [subtitle]="'Financial growth'" [additionalClasses]="'st-height-100'"
+                <app-generic-card [subtitle]="'Financial yearly growth'" [additionalClasses]="'st-height-100'"
                                   [applyLeftPadding]="false">
                     <app-generic-chart
                             [chartType]="ChartType.bar"
@@ -84,7 +84,7 @@
                             [series]="[{
                                 colorByPoint: true,
                                  data:[
-                                 {name: 'Gross ttm.', y: stockDetails.metric.grossMarginTTM},
+                                 {name: 'Gross margin ttm.', y: stockDetails.metric.grossMarginTTM},
                                  {name: 'Net growth 5y', y: stockDetails.metric.netMarginGrowthFiveY},
                                  {name: 'Net profit ttm.', y: stockDetails.metric.netProfitMarginTTM},
                                  {name: 'Operating ttm.', y: stockDetails.metric.operatingMarginTTM},
@@ -212,43 +212,56 @@
         </ion-row>
 
         <ion-row>
-            <ion-col size-md="6" size="12">
-                <ion-row>
-                    <ion-col size="12" size-sm="6" size-md="12">
-                        <!-- Current price to 1y target -->
-                        <app-generic-card [subtitle]="'Current price to 1y target'"
-                                          [additionalClasses]="'st-height-100'"
-                                          [applyLeftPadding]="false">
-                            <app-gauge-chart
-                                    [tooltipName]="'Completed'"
-                                    [height]="160"
-                                    [displayValue]="stockDetails.summary.targetEstOneyPercent"
-                                    [startingPoint]="0"
-                                    [endingPoint]="stockDetails.summary.oneyTargetEst"
-                                    [currentPoint]="stockDetails.summary.marketPrice">
-                            </app-gauge-chart>
-                        </app-generic-card>
-                    </ion-col>
-                    <ion-col size="12" size-sm="6" size-md="12">
-                        <!-- Cash to Debt -->
-                        <app-generic-card [subtitle]="'Cash to Debt'" [additionalClasses]="'st-height-100'"
-                                          [applyLeftPadding]="false">
-                            <app-gauge-chart
-                                    [tooltipName]="'Cash to Debt'"
-                                    [height]="160"
-                                    [displayValue]=" 100 / (   stockDetails.companyData.financialData.totalCash +
+            <ion-col size="12" size-lg="6" style="padding: 0 !important;">
+                <ion-col size="12" style="padding: 0 !important;">
+                    <ion-row>
+                        <ion-col size="12" size-sm="6">
+                            <!--  Current price to 1y target -->
+                            <app-generic-card [subtitle]="'Price to 1y target'"
+                                              [additionalClasses]="'st-height-100'"
+                                              [applyLeftPadding]="false">
+                                <app-gauge-chart
+                                        [tooltipName]="'Completed'"
+                                        [height]="125"
+                                        [displayValue]="stockDetails.summary.targetEstOneyPercent * 100"
+                                        [startingPoint]="0"
+                                        [endingPoint]="stockDetails.summary.oneyTargetEst"
+                                        [currentPoint]="stockDetails.summary.marketPrice">
+                                </app-gauge-chart>
+                            </app-generic-card>
+                        </ion-col>
+                        <ion-col size="12" size-sm="6">
+                            <!--  Cash to Debt -->
+                            <app-generic-card [subtitle]="'Cash to Debt'"
+                                              [additionalClasses]="'st-height-100'"
+                                              [applyLeftPadding]="false">
+                                <app-gauge-chart
+                                        [tooltipName]="'Cash to Debt'"
+                                        [height]="125"
+                                        [displayValue]=" 100 / (   stockDetails.companyData.financialData.totalCash +
                                 stockDetails.companyData.financialData.totalDebt )
                                 * stockDetails.companyData.financialData.totalCash | number: '1.2-2'"
-                                    [startingPoint]="0"
-                                    [endingPoint]="stockDetails.companyData.financialData.totalCash +
+                                        [startingPoint]="0"
+                                        [endingPoint]="stockDetails.companyData.financialData.totalCash +
                                 stockDetails.companyData.financialData.totalDebt "
-                                    [currentPoint]="stockDetails.companyData.financialData.totalCash">
-                            </app-gauge-chart>
-                        </app-generic-card>
-                    </ion-col>
-                </ion-row>
+                                        [currentPoint]="stockDetails.companyData.financialData.totalCash">
+                                </app-gauge-chart>
+                            </app-generic-card>
+                        </ion-col>
+                    </ion-row>
+                </ion-col>
+                <ion-col size="12" class="st-height-100" style="padding: 0">
+                    <!-- ESG score -->
+                    <app-generic-card [subtitle]="'ESG risk rating'"
+                                      [additionalClasses]="'st-height-100'"
+                                      [showNoData]="!stockDetails.companyData.esgScores">
+                        <app-details-esg-score [esgScore]="stockDetails.companyData.esgScores">
+                        </app-details-esg-score>
+                    </app-generic-card>
+                </ion-col>
             </ion-col>
-            <ion-col size-md="6" size="12">
+
+            <ion-col size="12" size-lg="6">
                 <!--  grading history -->
                 <app-generic-card [subtitle]="'Stock grading'" [additionalClasses]="'st-height-100'">
                     <ion-item-group class="ion-margin-bottom">
@@ -261,11 +274,30 @@
             </ion-col>
         </ion-row>
 
+        <!-- ownership + transactions -->
+        <ion-row>
+            <ion-col size="12">
+                <app-generic-card [subtitle]="'Institution ownership'">
+                    <app-details-ownership [ownerships]="stockDetails.institutionOwnerships">
+                    </app-details-ownership>
+                </app-generic-card>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12">
+                <app-generic-card [subtitle]="'Insider transactions'">
+                    <app-details-transactions [transactions]="stockDetails.insiderTransactions">
+                    </app-details-transactions>
+                </app-generic-card>
+            </ion-col>
+        </ion-row>
+
         <!-- news -->
         <ion-row>
             <ion-col size="12">
                 <div *ngIf="stockDetails.stockNews.length > 0" class="st-news-container">
-                    <app-article-cards *ngFor="let article of stockDetails.stockNews" [article]="article"></app-article-cards>
+                    <app-article-cards *ngFor="let article of stockDetails.stockNews"
+                                       [article]="article"></app-article-cards>
                 </div>
             </ion-col>
         </ion-row>

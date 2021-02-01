@@ -86,14 +86,18 @@
         <ion-item button class="st-data-item-wrapper ion-hide-sm-up st-sm-table-item" (click)="itemClicked(summary)">
             <!-- LOGO + SYMBOL -->
             <ion-label class="st-display-flex-center">
-                <ion-img [src]="summary.logo_url" class="st-symbol-image"></ion-img>
+                <ion-img appDefaultImg [src]="summary.logo_url" class="st-symbol-image"></ion-img>
                 <div class="st-flex-col">
                     <ion-text>{{ summary.symbol }}</ion-text>
                     <ion-text class="st-hide-xs-down st-font-size-12 st-font-5">{{ summary.longName }}</ion-text>
                 </div>
             </ion-label>
 
-            <ion-label class="st-font-1 st-font-size-16 st-flex-end">
+            <ion-label class="st-flex-end st-flex-col">
+                <!-- current price -->
+                <ion-text class="st-font-1-normal st-font-size-16" [@marketValueChange]="summary.marketPrice">
+                    {{ summary.marketPrice | currency }}
+                </ion-text>
                 <!-- daily change -->
                 <app-price-compare-item
                         *ngIf="showDailyChange"

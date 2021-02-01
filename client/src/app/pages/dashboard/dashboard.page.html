@@ -53,7 +53,7 @@
                     <app-holdings-table
                             [userPortfolioTotal]="clonedPortfolio.portfolioCash + clonedPortfolio.portfolioInvested"
                             [stTransactions]="clonedHoldings"
-                            [clickable]="false">
+                            (itemClickedEmitter)="showSummary($event)">
                     </app-holdings-table>
                 </app-generic-card>
             </ion-col>
