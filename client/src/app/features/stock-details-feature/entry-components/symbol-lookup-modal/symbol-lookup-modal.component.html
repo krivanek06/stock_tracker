@@ -2,26 +2,23 @@
     <ion-grid>
         <ion-row>
             <ion-col size="6">
-                <!-- add to watchlist button -->
-                <ion-button *ngIf="!isSymbolInWatchlist"
-                            (click)="addSymbolToWatchlist()"
-                            class="ion-float-start"
-                            fill="clear">
-                    <ion-icon name="star-outline" class="st-font-main-color-orange"
-                              style="margin-right: 5px"></ion-icon>
-                    <ion-text class="st-font-1">Add symbol</ion-text>
-                </ion-button>
+                <ng-container *ngIf="showAddToWatchlistOption">
+                    <!-- add to watchlist button -->
+                    <ion-button *ngIf="!isSymbolInWatchlist" (click)="addSymbolToWatchlist()"
+                                class="ion-float-start" fill="clear">
+                        <ion-icon name="star-outline" class="st-font-main-color-orange"
+                                  style="margin-right: 5px"></ion-icon>
+                        <ion-text class="st-font-1">Add symbol</ion-text>
+                    </ion-button>
 
-                <!-- remove from  watchlist button -->
-                <ion-button *ngIf="isSymbolInWatchlist"
-                            (click)="removeSymbolFromWatchlist()"
-                            class="ion-float-start"
-                            fill="clear">
-                    <ion-icon name="star"
-                              class="st-font-main-color-orange watchlist-not-added"
-                              style="margin-right: 5px"></ion-icon>
-                    <ion-text class="st-font-1 watchlist-not-added">Remove symbol</ion-text>
-                </ion-button>
+                    <!-- remove from  watchlist button -->
+                    <ion-button *ngIf="isSymbolInWatchlist" (click)="removeSymbolFromWatchlist()"
+                                class="ion-float-start" fill="clear">
+                        <ion-icon name="star" class="st-font-main-color-orange watchlist-not-added"
+                                  style="margin-right: 5px"></ion-icon>
+                        <ion-text class="st-font-1 watchlist-not-added">Remove symbol</ion-text>
+                    </ion-button>
+                </ng-container>
             </ion-col>
 
             <ion-col size="6">

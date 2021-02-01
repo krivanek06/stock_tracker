@@ -113,6 +113,30 @@ ion-spinner {
   color: white !important;
 }
 
+.st-font-0-normal {
+  color: #{$st-var-font-0};
+}
+
+.st-font-1-normal {
+  color: #{$st-var-font-1};
+}
+
+.st-font-2-normal {
+  color: #{$st-var-font-2};
+}
+
+.st-font-3-normal {
+  color: #{$st-var-font-3};
+}
+
+.st-font-4-normal {
+  color: #{$st-var-font-3};
+}
+
+.st-font-5-normal {
+  color: #{$st-var-font-4};
+}
+
 .st-font-0 {
   color: #{$st-var-font-0} !important;
 }
@@ -162,6 +186,10 @@ ion-spinner {
   font-weight: bold !important;
 }
 
+.st-small-right-space {
+  margin-right: 5px;
+}
+
 // custom headers
 .st-title {
   color: #{$st-var-font-0};
@@ -189,6 +217,36 @@ ion-spinner {
   word-wrap: break-word;
 }
 
+.st-data-label-first-main {
+  min-width: 40%;
+  max-width: 40%;
+  margin-right: 15px !important;
+  @media (max-width: #{$st-var-sm-split}) {
+    margin-right: 10px !important;
+    min-width: 53%;
+    max-width: 53%;
+  }
+  @media (max-width: #{$st-var-xs-split}) {
+    margin-right: 10px !important;
+    min-width: 45%;
+    max-width: 45%;
+  }
+}
+
+.st-data-label-first-main-small {
+  margin-right: 15px !important;
+  @media (max-width: #{$st-var-sm-split}) {
+    margin-right: 10px !important;
+    min-width: 53%;
+    max-width: 53%;
+  }
+  @media (max-width: #{$st-var-xs-split}) {
+    margin-right: 10px !important;
+    min-width: 45%;
+    max-width: 45%;
+  }
+}
+
 .st-data-item {
   padding-left: 20px;
   @media (max-width: #{$st-var-sm-split}) {
@@ -200,7 +258,18 @@ ion-spinner {
   text-align: end !important;
   display: flex !important;
   justify-content: flex-end;
+  align-items: flex-end;
 }
+
+.st-flex-end-sm {
+  @media (max-width: #{$st-var-sm-split}) {
+    text-align: end !important;
+    display: flex !important;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+}
+
 
 .st-data-item-wrapper {
   border-bottom: 1px solid #66666633 !important;

@@ -397,6 +397,41 @@ fragment newsArticleFragment on NewsArticle {
     url
 }
 
+
+fragment calculationFragment on Calculation {
+    avg
+    max
+    min
+}
+
+fragment esgScoreFragment on EsgScores {
+    totalEsg
+    environmentScore
+    governanceScore
+    highestControversy
+    esgPerformance
+    socialScore
+    peerCount
+    peerEnvironmentPerformance {
+        ...calculationFragment
+    }
+    peerEsgScorePerformance {
+        ...calculationFragment
+    }
+    peerGovernancePerformance {
+        ...calculationFragment
+    }
+    peerHighestControversyPerformance {
+        ...calculationFragment
+    }
+    peerSocialPerformance {
+        ...calculationFragment
+    }
+    percentile
+    peerGroup
+    relatedControversy
+}
+
 fragment defaultKeyStatisticsFragment on DefaultKeyStatistics {
     bookValue
     dateShortInterest
@@ -715,6 +750,9 @@ query QueryStockDetails($symbol: String!) {
                 history {
                     ...historyFragment
                 }
+            }
+            esgScores {
+                ...esgScoreFragment
             }
         }
         summary {

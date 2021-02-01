@@ -19,7 +19,6 @@ import {SymbolLookupModalComponent} from '../../features/stock-details-feature/e
 import {takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
 import {ComponentScreenUpdateBase} from '../../shared/utils/component-base/component-screen-update.base';
-import {fromEvent} from 'rxjs';
 
 @Component({
     selector: 'app-watchlist',

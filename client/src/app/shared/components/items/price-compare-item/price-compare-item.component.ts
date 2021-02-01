@@ -15,6 +15,7 @@ export class PriceCompareItemComponent implements OnInit {
     @Input() compareToPrice: number;
     @Input() inlineDisplay = false;
     @Input() showIcons = true;
+    @Input() showPrice = true;
 
     /**
      * version 1 - show  currentPrice - compareToPrice

@@ -7,5 +7,6 @@
     </ion-card-header>
     <ion-card-content>
         <ng-content></ng-content>
+        <div *ngIf="showNoData" style="margin-top: 16px">No data has been found...</div>
     </ion-card-content>
 </ion-card>

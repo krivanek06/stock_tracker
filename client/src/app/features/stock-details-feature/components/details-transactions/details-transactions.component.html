@@ -1,0 +1,22 @@
+<ion-list>
+    <!-- table header -->
+    <ion-item class="st-font-1-bold">
+        <ion-label class="st-data-label-first-main-small">Person</ion-label>
+        <ion-label class="ion-hide-md-down description">Description</ion-label>
+        <ion-label>Value</ion-label>
+        <ion-label class="ion-hide-sm-down">Shares</ion-label>
+        <ion-label>Date</ion-label>
+    </ion-item>
+
+    <!-- body -->
+    <ion-item *ngFor="let transaction of transactions" class="st-data-item-wrapper">
+        <ion-label class="st-data-label st-flex-col st-data-label-first-main-small">
+            <ion-text>{{ transaction.filerName | titlecase }}</ion-text>
+            <ion-text class="st-font-5 st-font-size-12">({{ transaction.filerRelation }})</ion-text>
+        </ion-label>
+        <ion-label class="st-font-5 ion-hide-md-down description">{{ transaction.transactionText }}</ion-label>
+        <ion-label class="st-data-label">{{ transaction.value | numberFormatter }}</ion-label>
+        <ion-label class="st-data-label ion-hide-sm-down">{{ transaction.shares |  numberFormatter }}</ion-label>
+        <ion-label class="st-font-5">{{ transaction.startDate * 1000 | date:'dd.MM.YYYY' }}</ion-label>
+    </ion-item>
+</ion-list>

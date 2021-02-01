@@ -37,6 +37,7 @@ import {GenericFadingCardContentComponent} from './components/generic/generic-fa
 import {TableHighLowRangeComponent} from './components/range-selector/table-high-low-range/table-high-low-range.component';
 import {RecommendationDirective} from './directives/recommendation.directive';
 import {ArticleCardsComponent} from './components/cards/article-cards/article-cards.component';
+import {SumUpPipe} from './pipes/sumUp.pipe';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import {ArticleCardsComponent} from './components/cards/article-cards/article-ca
         GaugeChartComponent,
         NumberFormatterPipe,
         RelativeTimePipe,
+        SumUpPipe,
         HeaderComponent,
         InlineModificationFormComponent,
         GenericChartComponent,
@@ -98,6 +100,7 @@ import {ArticleCardsComponent} from './components/cards/article-cards/article-ca
         GaugeChartComponent,
         NumberFormatterPipe,
         RelativeTimePipe,
+        SumUpPipe,
         HeaderComponent,
         InlineModificationFormComponent,
         GenericChartComponent,

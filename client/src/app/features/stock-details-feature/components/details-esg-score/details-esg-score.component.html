@@ -1,0 +1,104 @@
+<ion-list *ngIf="esgScore">
+    <!-- table header -->
+    <ion-item class="st-font-1-bold">
+        <ion-label class="st-data-label-first-main">Name</ion-label>
+        <ion-label>score</ion-label>
+        <ion-label>Peer avg.</ion-label>
+    </ion-item>
+
+    <!-- total esg -->
+    <ion-item class="st-data-item-wrapper">
+        <ion-label class="st-font-5 st-data-label-first-main">Total ESG score</ion-label>
+        <ion-label class="st-flex-row-important">
+            <ion-text class="st-small-right-space">{{ esgScore.totalEsg }}</ion-text>
+            <app-price-compare-item
+                    class="ion-hide-sm-down"
+                    [showIcons]="false"
+                    [showPrice]="false"
+                    [currentPrice]="esgScore.totalEsg"
+                    [compareToPrice]="esgScore.peerEsgScorePerformance.avg">
+            </app-price-compare-item>
+        </ion-label>
+        <ion-label>{{ esgScore.peerEsgScorePerformance.avg |  number: '1.2-2'}}</ion-label>
+    </ion-item>
+
+    <!-- Governance -->
+    <ion-item class="st-data-item-wrapper">
+        <ion-label class="st-font-5 st-data-label-first-main">Governance</ion-label>
+        <ion-label class="st-flex-row-important">
+            <ion-text class="st-small-right-space">{{ esgScore.governanceScore }}</ion-text>
+            <app-price-compare-item
+                    class="ion-hide-sm-down"
+                    [showIcons]="false"
+                    [showPrice]="false"
+                    [currentPrice]="esgScore.governanceScore"
+                    [compareToPrice]="esgScore.peerGovernancePerformance.avg">
+            </app-price-compare-item>
+        </ion-label>
+        <ion-label>{{ esgScore.peerGovernancePerformance.avg |  number: '1.2-2'}}</ion-label>
+    </ion-item>
+
+    <!-- Environment -->
+    <ion-item class="st-data-item-wrapper">
+        <ion-label class="st-font-5 st-data-label-first-main">Environment</ion-label>
+        <ion-label class="st-flex-row-important">
+            <ion-text class="st-small-right-space">{{ esgScore.environmentScore }}</ion-text>
+            <app-price-compare-item
+                    class="ion-hide-sm-down"
+                    [showIcons]="false"
+                    [showPrice]="false"
+                    [currentPrice]="esgScore.environmentScore"
+                    [compareToPrice]="esgScore.peerEnvironmentPerformance.avg">
+            </app-price-compare-item>
+        </ion-label>
+        <ion-label>{{ esgScore.peerEnvironmentPerformance.avg |  number: '1.2-2'}}</ion-label>
+    </ion-item>
+
+    <!-- Social -->
+    <ion-item class="st-data-item-wrapper">
+        <ion-label class="st-font-5 st-data-label-first-main">Social</ion-label>
+        <ion-label class="st-flex-row-important">
+            <ion-text class="st-small-right-space">{{ esgScore.socialScore }}</ion-text>
+            <app-price-compare-item
+                    class="ion-hide-sm-down"
+                    [showIcons]="false"
+                    [showPrice]="false"
+                    [currentPrice]="esgScore.socialScore"
+                    [compareToPrice]="esgScore.peerSocialPerformance.avg">
+            </app-price-compare-item>
+        </ion-label>
+        <ion-label>{{ esgScore.peerSocialPerformance.avg |  number: '1.2-2'}}</ion-label>
+    </ion-item>
+
+    <!-- Controversy -->
+    <ion-item class="st-data-item-wrapper">
+        <ion-label class="st-font-5 st-data-label-first-main">Controversy</ion-label>
+        <ion-label class="st-flex-row-important">
+            <ion-text class="st-small-right-space">{{ esgScore.highestControversy }}</ion-text>
+            <app-price-compare-item
+                    class="ion-hide-sm-down"
+                    [showIcons]="false"
+                    [showPrice]="false"
+                    [currentPrice]="esgScore.highestControversy"
+                    [compareToPrice]="esgScore.peerHighestControversyPerformance.avg">
+            </app-price-compare-item>
+        </ion-label>
+        <ion-label>{{ esgScore.peerHighestControversyPerformance.avg |  number: '1.2-2'}}</ion-label>
+    </ion-item>
+
+    <!-- final result -->
+    <ion-item class="ion-hide-sm-down">
+        <ion-label class="st-data-label-first-main">
+            <ion-text class="st-font-5 st-small-right-space">Group:</ion-text>
+            <ion-text>{{ esgScore.peerGroup }}</ion-text>
+        </ion-label>
+        <ion-label>
+            <ion-text class="st-font-5 st-small-right-space">Peers:</ion-text>
+            <ion-text>{{ esgScore.peerCount }}</ion-text>
+        </ion-label>
+        <ion-label>
+            <ion-text class="st-font-5 st-small-right-space">Percentile:</ion-text>
+            <ion-text>{{ esgScore.percentile }}</ion-text>
+        </ion-label>
+    </ion-item>
+</ion-list>

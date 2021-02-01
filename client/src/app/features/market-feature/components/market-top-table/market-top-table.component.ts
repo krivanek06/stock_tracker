@@ -7,7 +7,7 @@ import {StMarketTopTableSymbolData} from '../../../../api/customGraphql.service'
     selector: 'app-market-top-table',
     templateUrl: './market-top-table.component.html',
     styleUrls: ['./market-top-table.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    // changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [
         marketValueChange
     ]
