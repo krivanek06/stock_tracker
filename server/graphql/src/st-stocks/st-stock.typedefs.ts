@@ -20,6 +20,55 @@ export const stockDetailsTypeDefs = gql`
         summary: Summary!
         metric: Metric
         dividends: Dividens
+        historicalMetrics: HistoricalMetrics
+        institutionOwnerships: [InstitutionOwnership]
+        insiderTransactions: [InsiderTransaction]
+    }
+    
+    type InsiderTransaction {
+        filerName: String
+        filerRelation: String
+        shares: Float
+        startDate: Float
+        transactionText: String
+        value: Float
+    }
+    
+    type InstitutionOwnership {
+        maxAge: Float
+        organization: String
+        pctHeld: Float
+        position: Float
+        reportDate: Float
+        value: Float
+    }
+    
+    type HistoricalMetrics {
+        cashRatio: HistoricalMetricsData
+        currentRatio: HistoricalMetricsData
+        ebitPerShare: HistoricalMetricsData
+        eps: HistoricalMetricsData
+        grossMargin: HistoricalMetricsData
+        longtermDebtTotalAsset: HistoricalMetricsData
+        longtermDebtTotalCapital: HistoricalMetricsData
+        longtermDebtTotalEquity: HistoricalMetricsData
+        netDebtToTotalCapital: HistoricalMetricsData
+        netDebtToTotalEquity: HistoricalMetricsData
+        netMargin: HistoricalMetricsData
+        operatingMargin: HistoricalMetricsData
+        pretaxMargin: HistoricalMetricsData
+        salesPerShare: HistoricalMetricsData
+        sgaToSale: HistoricalMetricsData
+        totalDebtToEquity: HistoricalMetricsData
+        totalDebtToTotalAsset: HistoricalMetricsData
+        totalDebtToTotalCapital: HistoricalMetricsData
+        totalRatio: HistoricalMetricsData
+    }
+
+    type HistoricalMetricsData {
+        name: String
+        dates: [String]
+        data: [Float]
     }
 
 
@@ -208,8 +257,6 @@ export const stockDetailsTypeDefs = gql`
     }
 
     type DefaultKeyStatistics {
-        fiveTwoWeekChange: Float ## *100
-        sandPFiveTwoWeekChange: Float ## *100
         ## annualHoldingsTurnover: Float
         ## annualReportExpenseRatio: Float
         ## beta": 1.284838,
@@ -248,9 +295,11 @@ export const stockDetailsTypeDefs = gql`
         ## revenueQuarterlyGrowth": null,
         sharesOutstanding: Float
         ## sharesPercentSharesOut": 0.0055,
+        sharesPercentSharesOut: Float
         sharesShort: Float
         sharesShortPreviousMonthDate: Float
         sharesShortPriorMonth: Float
+        shortPercentOfFloat: Float
         ## shortPercentOfFloat": 0.0055,
         shortRatio: Float
         ## threeYearAverageReturn": null,
@@ -415,9 +464,10 @@ export const stockDetailsTypeDefs = gql`
         dilutedEPSttm: String
         dividendDateThree: String
         eBITDA: String
-        enterpriseValueEBITDASix: [String]
-        enterpriseValueRevenueThree: [String]
-        enterpriseValueThree: [String]
+        enterpriseValueEBITDASix: String
+        enterpriseValueRevenueThree: String
+        enterpriseValueThree: String
+        exDividendDateFour: String
         fiveDayMovingAverageThree: String
         fiveTwoWeekChangeThree: String
         fiveTwoWeekHighThree: String
@@ -425,38 +475,37 @@ export const stockDetailsTypeDefs = gql`
         fiveYearAverageDividendYieldFour: String
         float: String
         forwardAnnualDividendYieldFour: String
-        forwardPEOne: [String]
+        forwardPEOne: String
         grossProfitttm: String
         lastSplitDateThree: String
         lastSplitFactorTwo: String
         leveredFreeCashFlowttm: String
-        marketCapintradayFive: [String]
         mostRecentQuartermrq: String
         netIncomeAvitoCommonttm: String
         operatingMarginttm: String
-        pEGRatioFiveyrexpectedOne: [String]
+        pEGRatioFiveyrexpectedOne: String
         payoutRatioFour: String
         pctHeldbyInsidersOne: String
         pctHeldbyInstitutionsOne: String
-        priceBookmrq: [String]
-        priceSalesttm: [String]
+        priceBookmrq: String
+        priceSalesttm: String
         quarterlyEarningsGrowthyoy: String
         quarterlyRevenueGrowthyoy: String
         returnonEquityttm: String
         revenuePerSharettm: String
         sPFiveFiveTwoWeekChangeThree: String
         sharesOutstandingFive: String
-        sharesShortAugOneThreeTwoTwoFour: String
-        sharesShortpriormonthJulOneFourTwoTwoFour: String
-        shortPctofFloatAugOneThreeTwoTwoFour: String
-        shortPctofSharesOutstandingAugOneThreeTwoTwoFour: String
-        shortRatioAugOneThreeTwoTwoFour: String
+        sharesShortJanOneFourTwoTwoOneFour: String
+        sharesShortpriormonthDecOneFourTwoTwoFour: String
+        shortPctofFloatJanOneFourTwoTwoOneFour: String
+        shortPctofSharesOutstandingJanOneFourTwoTwoOneFour: String
+        shortRatioJanOneFourTwoTwoOneFour: String
         totalCashPerSharemrq: String
         totalDebtEquitymrq: String
         totalDebtmrq: String
-        trailingPE: [String]
+        trailingAnnualDividendRateThree: String
+        trailingPE: String
         twoDayMovingAverageThree: String
-        dateTime: [String]
     }
 
     type SummaryResidance {
@@ -470,7 +519,6 @@ export const stockDetailsTypeDefs = gql`
     type Summary {
         id: String
         sandPFiveTwoWeekChange: Float
-        fiveTwoWeekChange: Float
         lastSplitFactor: String
         lastSplitDate: Float
         fullTimeEmployees: Float
@@ -478,7 +526,7 @@ export const stockDetailsTypeDefs = gql`
         revenueEmployeeAnnual: Float
         website: String
         residance: SummaryResidance
-        avgVolume: String
+        avgVolume: Float
         ePSTTM: String
         earningsDate: String
         exDividendDate: String
@@ -487,7 +535,7 @@ export const stockDetailsTypeDefs = gql`
         oneyTargetEst: Float
         open: String
         pERatioTTM: String
-        volume: String
+        volume: Float
         currency: String
         industry: String
         logo_url: String
@@ -506,6 +554,7 @@ export const stockDetailsTypeDefs = gql`
         marketCap: Float
         sharesOutstanding: Float
         longBusinessSummary: String
+        yearToDatePriceReturn: Float
     }
 
 
