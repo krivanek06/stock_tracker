@@ -1,4 +1,4 @@
-import {stockDataAPI} from './../enviroment';
+import {stockDataAPI} from '../enviroment';
 import {ApolloError} from 'apollo-server';
 import * as api from 'stock-tracker-common-interfaces';
 import * as admin from "firebase-admin";
@@ -15,6 +15,7 @@ export const queryStockDetails = async (symbol: string): Promise<api.StockDetail
         const data = stockDetailsDocs.data() as api.StockDetailsWrapper | undefined;
 
         return !!data ? data.details : await getAndSaveStockDetailsFromApi(upperSymbol);
+        //return await getAndSaveStockDetailsFromApi(upperSymbol);
     } catch (error) {
         throw new ApolloError(error);
     }

@@ -2,42 +2,42 @@
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Current ratio</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.metric.currentRatioQuarterly | number: '1.2-2' }}
+            {{ details.metric.currentRatioQuarterly | numberFormatter }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Quick ratio</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.metric.quickRatioQuarterly | number: '1.2-2' }}
+            {{ details.metric.quickRatioQuarterly | numberFormatter }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Short ratio</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.companyData.defaultKeyStatistics.shortRatio | number: '1.2-2'}}
+            {{ details.companyData.defaultKeyStatistics.shortRatio | numberFormatter }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">OCF to revenue ttm.</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.metric.freeOperatingCashFlowrevenueTTM | number: '1.2-2'}}
+            {{ details.metric.freeOperatingCashFlowrevenueTTM | numberFormatter }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Long term Debt/Equity</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.metric.longTermDebtequityQuarterly | number: '1.2-2'}}
+            {{ details.metric.longTermDebtequityQuarterly | numberFormatter }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Total Debt/Equity</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.metric.totalDebttotalEquityQuarterly | number: '1.2-2'}}
+            {{ details.metric.totalDebttotalEquityQuarterly | numberFormatter }}
         </ion-label>
     </ion-item>
 

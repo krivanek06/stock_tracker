@@ -1,5 +1,5 @@
 <!-- header info -->
-<ion-list-header *ngIf="title">
+<ion-list-header *ngIf="title" [ngClass]="{'ion-margin-top': applyMarginTop, 'c-left-padding': applyMarginLeft}">
     <ion-icon *ngIf="iconTitle" class="st-icon-title" [name]="iconTitle"></ion-icon>
 
     <ion-label class="st-flex-col">

@@ -2,7 +2,7 @@
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Yield</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.dividends.dividendsPerShareTTM  | number: '1.2-2' }}
+            {{ details.dividends.dividendsPerShareTTM  | numberFormatter }}
             ({{ details.dividends.currentDividendYieldTTM | number: '1.2-2' }}%)
         </ion-label>
     </ion-item>
@@ -23,7 +23,7 @@
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">5y yield & growth</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.dividends.dividendPerShareFiveY | number: '1.2-2' }}
+            {{ details.dividends.dividendPerShareFiveY | numberFormatter }}
             ({{ details.dividends.dividendYieldFiveY | number: '1.2-2' }}%)
         </ion-label>
     </ion-item>
