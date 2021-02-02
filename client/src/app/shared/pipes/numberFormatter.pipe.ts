@@ -1,4 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
+import {stFormatLargeNumber} from '../utils/shared-functions.functions';
 
 @Pipe({
     name: 'numberFormatter'
@@ -6,40 +7,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class NumberFormatterPipe implements PipeTransform {
 
     transform(value: number): unknown {
-        if (!this.isNumber(value)) {
-            // console.log('not number', value);
-            // return value;
-            return 'N/A';
-        }
-
-        let symbol = '';
-        if (value > 1000 || value < -1000) {
-            value = value / 1000;
-            symbol = 'K';
-        }
-
-        if (value > 1000 || value < -1000) {
-            value = value / 1000;
-            symbol = 'M';
-        }
-
-        if (value > 1000 || value < -1000) {
-            value = value / 1000;
-            symbol = 'B';
-        }
-
-        if (value > 1000 || value < -1000) {
-            value = value / 1000;
-            symbol = 'T';
-        }
-        const result = value.toFixed(2);
-        return result + symbol;
-    }
-
-    isNumber(value: string | number): boolean {
-        return ((value != null) &&
-            (value !== '') &&
-            !isNaN(Number(value.toString())));
+        return stFormatLargeNumber(value);
     }
 }
 

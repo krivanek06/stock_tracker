@@ -40,7 +40,8 @@
                     <app-generic-chart
                             [chartType]="ChartType.bar"
                             [heightPx]="315"
-                            [showYAxis]="true"
+                            [showDataLabel]="true"
+                            [isPercentage]="true"
                             [series]="[{
                              colorByPoint: true,
                              data:[
@@ -80,7 +81,8 @@
                     <app-generic-chart
                             [chartType]="ChartType.bar"
                             [heightPx]="285"
-                            [showYAxis]="true"
+                            [isPercentage]="true"
+                            [showDataLabel]="true"
                             [series]="[{
                                 colorByPoint: true,
                                  data:[
@@ -117,7 +119,8 @@
                                     !!stockDetails.metric.roiTTM"
                             [chartType]="ChartType.column"
                             [heightPx]="220"
-                            [showYAxis]="true"
+                            [isPercentage]="true"
+                            [showDataLabel]="true"
                             [series]="[{
                                  colorByPoint: true,
                                  data:[
@@ -137,7 +140,8 @@
                     <app-generic-chart
                             [chartType]="ChartType.column"
                             [heightPx]="220"
-                            [showYAxis]="true"
+                            [isPercentage]="true"
+                            [showDataLabel]="true"
                             [series]="[{
                             colorByPoint: true,
                              data:[
@@ -188,7 +192,6 @@
                     <app-generic-chart
                             [chartType]="ChartType.column"
                             [heightPx]="220"
-                            [showYAxis]="true"
                             [showLegend]="true"
                             [categories]="stockDetails.companyData.earnings.financialsChart.yearly.categories"
                             [series]="stockDetails.companyData.earnings.financialsChart.yearly.series">
@@ -204,7 +207,6 @@
                     <app-generic-chart
                             [chartType]="ChartType.column"
                             [heightPx]="220"
-                            [showYAxis]="true"
                             [showLegend]="true"
                             [categories]="stockDetails.companyData.earnings.financialsChart.quarterly.categories"
                             [series]="stockDetails.companyData.earnings.financialsChart.quarterly.series">
@@ -285,8 +287,7 @@
         </ion-row>
 
         <!-- ownership -->
-        <app-generic-list [title]="'Ownerships'" [applyMarginTop]="true" [applyMarginLeft]="true">
-        </app-generic-list>
+        <app-generic-list [title]="'Ownerships'" [applyMarginTop]="true"></app-generic-list>
         <ion-row>
             <ion-col size="12">
                 <app-generic-card [subtitle]="'Institution ownership'">
@@ -308,8 +309,7 @@
         </ion-row>
 
         <!-- historical metrics -->
-        <app-generic-list [title]="'Yearly metrics'" [applyMarginTop]="true" [applyMarginLeft]="true">
-        </app-generic-list>
+        <app-generic-list [title]="'Yearly metrics'" [applyMarginTop]="true"></app-generic-list>
         <ion-row>
             <ng-container *ngFor="let key of stockDetails.historicalMetrics | objNgFor; let i = index; let last=last">
                 <ion-col size="12" [sizeSm]="last ? 12 : 6" [sizeLg]="i > 15 ? 6  : 4" *ngIf="key !== '__typename'">
@@ -329,8 +329,7 @@
         </ion-row>
 
         <!-- news -->
-        <app-generic-list [title]="'News'" [applyMarginTop]="true" [applyMarginLeft]="true">
-        </app-generic-list>
+        <app-generic-list [title]="'News'" [applyMarginTop]="true"></app-generic-list>
         <ion-row>
             <ion-col size="12">
                 <div *ngIf="stockDetails.stockNews.length > 0" class="st-news-container">

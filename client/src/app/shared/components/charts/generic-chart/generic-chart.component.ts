@@ -3,6 +3,7 @@ import {ChartType} from '../../../models/sharedModel';
 
 import * as Highcharts from 'highcharts/highstock';
 import highcharts3D from 'highcharts/highcharts-3d';
+import {stFormatLargeNumber} from '../../../utils/shared-functions.functions';
 
 highcharts3D(Highcharts);
 
@@ -20,13 +21,14 @@ export class GenericChartComponent implements OnInit, OnChanges {
     @Input() chartTitle: string;
     @Input() chartTitlePosition = 'left';
     @Input() showTimelineSlider = false;
-    @Input() showYAxis = true;
-    @Input() showXAxis = true;
     @Input() enableLegendTogging = false;
     @Input() showTooltip = true;
     @Input() showDataLabel = false;
     @Input() categories: string[];
     @Input() enable3D = false;
+    @Input() isPercentage = false;
+    @Input() showYAxis = true;
+    @Input() showXAxis = true;
 
     Highcharts: typeof Highcharts = Highcharts;
     chart;
@@ -46,44 +48,36 @@ export class GenericChartComponent implements OnInit, OnChanges {
         this.initChart();
 
         if (this.chartType === ChartType.column) {
-            this.initColumnChart();
-        }
-        if (this.chartType === ChartType.bar) {
-            this.initBarChart();
-        }
-        if (this.chartType === ChartType.areaChange) {
+            this.chartOptions.xAxis.type = 'category';
+            this.chartOptions.xAxis.labels.rotation = -30;
+        } else if (this.chartType === ChartType.bar) {
+            this.chartOptions.xAxis.type = 'category';
+        } else if (this.chartType === ChartType.areaChange) {
             this.initAreaChange();
-        }
-        if (this.chartType === ChartType.pieSemiCircle) {
-            this.initSemiCirclePieChart();
-        }
-        if (this.chartType === ChartType.pie) {
+        } else if (this.chartType === ChartType.pie) {
             this.initPieChart();
         }
 
         if (this.categories) {
-            this.initColumnChart();
-            this.chartOptions.xAxis.categories = this.categories;
-            this.chartOptions.plotOptions.series.dataLabels.enabled = false; // do not show values on charts
-            this.chartOptions = {
-                ...this.chartOptions,
-                tooltip: {
-                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                        '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
-                    footerFormat: '</table>',
-                    shared: true,
-                    useHTML: true
+            this.initCategories();
+        }
+
+        if (this.isPercentage) {
+            this.chartOptions.tooltip = {
+                ...this.chartOptions.tooltip,
+                headerFormat: '',
+                pointFormat: '<span style="color:{point.color};">{point.name}</span>: <b>{point.y:.2f}%</b><br/>'
+            };
+            if (this.showDataLabel) {
+                this.chartOptions.plotOptions.series.dataLabels.format = '{point.y:.1f}%';
+            }
+        } else {
+            this.chartOptions.plotOptions.column.tooltip = {
+                ...this.chartOptions.plotOptions.column.tooltip,
+                pointFormatter: function() {
+                    const value = stFormatLargeNumber(this.y);
+                    return `<p><span style="color: ${this.color}; font-weight: bold">● ${this.series.name}: </span><span>${value}</span></p><br/>`;
                 }
-                /*xAxis: {
-                    type: 'category',
-                    labels: {
-                        rotation: -30,
-                        style: {
-                            font: '10px Trebuchet MS, Verdana, sans-serif'
-                        }
-                    },
-                }*/
             };
         }
 
@@ -93,8 +87,13 @@ export class GenericChartComponent implements OnInit, OnChanges {
         setTimeout(() => {
             window.dispatchEvent(new Event('resize'));
         }, 300);
+    }
 
-
+    private initCategories() {
+        this.chartOptions.plotOptions.series.dataLabels.enabled = false;
+        this.chartOptions.xAxis.categories = this.categories;
+        this.chartOptions.xAxis.type = 'category';
+        this.chartOptions.xAxis.labels.rotation = -30;
     }
 
 
@@ -139,6 +138,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
                     day: '%e of %b'
                 },
                 labels: {
+                    rotation: 0,
                     style: {
                         font: '10px Trebuchet MS, Verdana, sans-serif'
                     }
@@ -181,7 +181,6 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 outside: true,
                 borderWidth: 1,
                 padding: 11,
-                // headerFormat: '<span>Date: { point.x } </span><br/>',
                 backgroundColor: '#232323',
                 style: {
                     fontSize: '12px',
@@ -189,12 +188,14 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 },
                 shared: true,
                 valueDecimals: 2
-                // pointFormat: '<span style="color:{point.color}; font-weight: bold">{series.name}</span> :<b>{point.y:.2f}</b><br/>'
             },
             rangeSelector: {
                 enabled: false
             },
             plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                },
                 series: {
                     headerFormat: null,
                     style: {
@@ -203,7 +204,9 @@ export class GenericChartComponent implements OnInit, OnChanges {
                     },
                     borderWidth: 0,
                     dataLabels: {
-                        enabled: true,
+                        color: '#cecece',
+                        enabled: this.showDataLabel,
+                        format: undefined
                     },
                     enableMouseTracking: this.showTooltip,
                     events: {
@@ -229,12 +232,9 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 pie: {
                     showInLegend: this.showLegend,
                     allowPointSelect: false,
-                    //cursor: 'normal',
                     depth: 35,
                     size: this.heightPx - 100,
                     dataLabels: {
-                        color: '#c3c3c3',
-                        enabled: this.showDataLabel,
                         style: {
                             fontSize: '12px',
                             width: '80px'
@@ -246,14 +246,6 @@ export class GenericChartComponent implements OnInit, OnChanges {
                             operator: '>',
                             value: 4
                         }
-                    },
-                    tooltip: {
-                        headerFormat: null,
-                        style: {
-                            fontSize: '12px',
-                            color: '#D9D8D8',
-                        },
-                        pointFormat: '<span style="color:{point.color}; font-weight: bold">{point.name}</span> :<b>{point.percentage:.1f} %</b><br/>'
                     },
                     colors: Highcharts.map(Highcharts.getOptions().colors, function(color) {
                         return {
@@ -271,63 +263,9 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 },
                 areaspline: {
                     threshold: null
-                },
-                line: {
-                    marker: {
-                        enabled: false
-                    },
-                    tooltip: {
-                        style: {
-                            fontSize: '12px',
-                            color: '#D9D8D8',
-                        },
-                        pointFormat: '<span style="color:{point.color}; font-weight: bold">{series.name}</span> :<b>{point.y:.2f}</b><br/>'
-                    }
                 }
             },
             series: this.series,
-        };
-    }
-
-    private initSemiCirclePieChart() {
-        this.chartOptions = {
-            ...this.chartOptions,
-            title: {
-                ...this.chartOptions.title,
-                align: 'center',
-                verticalAlign: 'middle',
-                y: 50
-            },
-            plotOptions: {
-                pie: {
-                    dataLabels: {
-                        enabled: false,
-                    },
-                    startAngle: -90,
-                    endAngle: 90,
-                    center: ['50%', '75%'],
-                    size: '100%'
-                }
-            },
-            series: [{
-                type: 'pie',
-                innerSize: '65%',
-                enableMouseTracking: false,
-                data: this.series
-            }],
-            colors: Highcharts.map(Highcharts.getOptions().colors, function(color) {
-                return {
-                    radialGradient: {
-                        cx: 0.5,
-                        cy: 0.3,
-                        r: 0.1
-                    },
-                    stops: [
-                        [0, color],
-                        [1, Highcharts.color(color).brighten(-0.5).get('rgb')] // darken
-                    ]
-                };
-            })
         };
     }
 
@@ -362,85 +300,13 @@ export class GenericChartComponent implements OnInit, OnChanges {
         };
     }
 
-    private initBarChart() {
-        this.chartOptions = {
-            ...this.chartOptions,
-            xAxis: {
-                type: 'category',
-                labels: {
-                    style: {
-                        font: '10px Trebuchet MS, Verdana, sans-serif'
-                    }
-                },
-            },
-            plotOptions: {
-                ...this.chartOptions.plotOptions,
-                series: {
-                    ...this.chartOptions.plotOptions.series,
-                    borderWidth: 0,
-                    dataLabels: {
-                        color: '#cecece',
-                        enabled: true,
-                        format: '{point.y:.1f}%'
-                    }
-                },
-            },
-            tooltip: {
-                ...this.chartOptions.tooltip,
-                pointFormat: '<span style="color:{point.color}; font-weight: bold">{point.name}</span> : <b>{point.y:.2f}%</b><br/>'
-            }
-        };
-    }
-
-    private initColumnChart() {
-        this.chartOptions = {
-            ...this.chartOptions,
-            xAxis: {
-                type: 'category',
-                labels: {
-                    rotation: -30,
-                    style: {
-                        font: '10px Trebuchet MS, Verdana, sans-serif'
-                    }
-                },
-            },
-            plotOptions: {
-                ...this.chartOptions.plotOptions,
-                column: {
-                    pointPadding: 0.2,
-                    borderWidth: 0
-                },
-                series: {
-                    borderWidth: 0,
-                    dataLabels: {
-                        color: '#cecece',
-                        enabled: true,
-                        format: '{point.y:.1f}%'
-                    }
-                }
-            },
-            tooltip: {
-                ...this.chartOptions.tooltip,
-                pointFormat: '<b style="color:{point.color};">{point.name}</b> : <b>{point.y:.2f}%</b><br/>'
-            },
-        };
-
-    }
-
     private initPieChart() {
         if (this.showDataLabel) {
             return;
         }
-        this.chartOptions = {
-            ...this.chartOptions,
-            legend: {
-                ...this.chartOptions.legend,
-                enabled: true,
-                labelFormatter: function() {
-                    const value = this.percentage.toFixed(2);
-                    return '<span style="color:' + this.color + '">' + this.name + ': </span>(<b>' + value + '%)<br/>';
-                }
-            },
+        this.chartOptions.legend.labelFormatter = function() {
+            const value = this.percentage.toFixed(2);
+            return '<span style="color:' + this.color + '">' + this.name + ': </span>(<b>' + value + '%)<br/>';
         };
     }
 }

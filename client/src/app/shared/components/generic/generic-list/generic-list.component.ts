@@ -11,7 +11,6 @@ export class GenericListComponent implements OnInit {
     @Input() additionalInfo: string;
     @Input() iconTitle: string;
     @Input() applyMarginTop = false;
-    @Input() applyMarginLeft = false;
 
     constructor() {
     }
