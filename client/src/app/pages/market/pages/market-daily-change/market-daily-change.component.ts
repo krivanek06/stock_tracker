@@ -10,7 +10,7 @@ import {filter, first, takeUntil} from 'rxjs/operators';
 import {MarketPriceWebsocketService} from '../../../../shared/services/market-price-websocket.service';
 import {cloneDeep} from 'lodash';
 import {MARKET_DAILY_CHANGE_SELECT} from '../../model/market.model';
-import {NameValueContainer} from '../../../../shared/models/sharedModel';
+import {NameValueContainer, SymbolIdentification} from '../../../../shared/models/sharedModel';
 import {Observable, of} from 'rxjs';
 import {ModalController} from '@ionic/angular';
 import {MarketEarningsModalComponent} from '../../../../features/market-feature/entry-components/market-earnings-modal/market-earnings-modal.component';
@@ -90,6 +90,15 @@ export class MarketDailyChangeComponent extends ComponentScreenUpdateBase implem
             });
             return await modalSymbolLookup.present();
         }
+    }
+
+    async showSummary(symbolIdentification: SymbolIdentification) {
+        const modal = await this.modalController.create({
+            component: SymbolLookupModalComponent,
+            componentProps: {symbolIdentification, showAddToWatchlistOption: false},
+            cssClass: 'custom-modal'
+        });
+        await modal.present();
     }
 
     private createCopyOfDailyOverview() {

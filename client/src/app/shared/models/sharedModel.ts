@@ -3,8 +3,6 @@ export enum ChartType {
     line = 'line',
     column = 'column',
     pie = 'pie',
-    pieSemiCircle = 'pie-semi-circle',
-    variablepie = 'variablepie',
     area = 'area',
     areaChange = 'area-change',
     areaspline = 'areaspline',
