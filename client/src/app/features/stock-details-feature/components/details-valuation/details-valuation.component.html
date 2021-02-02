@@ -37,7 +37,7 @@
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">CE to FCF ttm.</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.metric.currentEvfreeCashFlowTTM | number: '1.2-2'}}
+            {{ details.metric.currentEvfreeCashFlowTTM | numberFormatter }}
         </ion-label>
     </ion-item>
 
@@ -65,7 +65,7 @@
     <ion-item>
         <ion-label class="st-data-label-parent">Price hint</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.companyData.defaultKeyStatistics.priceHint  }}
+            {{ details.companyData.defaultKeyStatistics.priceHint  }} <!-- // TODO remove -->
         </ion-label>
     </ion-item>
 </ion-list>

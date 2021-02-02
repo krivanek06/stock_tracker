@@ -2,63 +2,63 @@
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Revenue per share ttm.</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.metric.revenuePerShareTTM | number: '1.2-2'}}
+            {{ details.metric.revenuePerShareTTM | numberFormatter}}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">BV per share qrt.</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.metric.bookValuePerShareQuarterly | number: '1.2-2'}}
+            {{ details.metric.bookValuePerShareQuarterly | numberFormatter }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">BV per share ann.</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.metric.bookValuePerShareAnnual | number: '1.2-2'}}
+            {{ details.metric.bookValuePerShareAnnual | numberFormatter }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">TBV per share qrt.</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.metric.tangibleBookValuePerShareQuarterly | number: '1.2-2'}}
+            {{ details.metric.tangibleBookValuePerShareQuarterly | numberFormatter }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">TBV per share ann.</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.metric.tangibleBookValuePerShareAnnual | number: '1.2-2'}}
+            {{ details.metric.tangibleBookValuePerShareAnnual | numberFormatter }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Cash per share qrt.</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.metric.cashPerSharePerShareQuarterly | number: '1.2-2'}}
+            {{ details.metric.cashPerSharePerShareQuarterly | numberFormatter }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">CF per share ttm.</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.metric.cashFlowPerShareTTM | number: '1.2-2'}}
+            {{ details.metric.cashFlowPerShareTTM | numberFormatter }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">FCF per share ttm.</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.metric.freeCashFlowPerShareTTM | number: '1.2-2'}}
+            {{ details.metric.freeCashFlowPerShareTTM | numberFormatter }}
         </ion-label>
     </ion-item>
 
     <ion-item>
         <ion-label class="st-data-label-parent">EBITDA per share ttm.</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.metric.ebitdPerShareTTM | number: '1.2-2'}}
+            {{ details.metric.ebitdPerShareTTM | numberFormatter }}
         </ion-label>
     </ion-item>
 </ion-list>

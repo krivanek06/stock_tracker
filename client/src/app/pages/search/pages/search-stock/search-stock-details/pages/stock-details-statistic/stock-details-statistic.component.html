@@ -85,11 +85,11 @@
                                 colorByPoint: true,
                                  data:[
                                  {name: 'Gross margin ttm.', y: stockDetails.metric.grossMarginTTM},
-                                 {name: 'Net growth 5y', y: stockDetails.metric.netMarginGrowthFiveY},
-                                 {name: 'Net profit ttm.', y: stockDetails.metric.netProfitMarginTTM},
-                                 {name: 'Operating ttm.', y: stockDetails.metric.operatingMarginTTM},
-                                 {name: 'Pretax ttm.', y: stockDetails.metric.pretaxMarginTTM},
-                                 {name: 'EBITDA ttm.', y: stockDetails.companyData.financialData.ebitdaMargins * 100}
+                                 {name: 'Net growth margin 5y', y: stockDetails.metric.netMarginGrowthFiveY},
+                                 {name: 'Net profit margin ttm.', y: stockDetails.metric.netProfitMarginTTM},
+                                 {name: 'Operating margin ttm.', y: stockDetails.metric.operatingMarginTTM},
+                                 {name: 'Pretax margin ttm.', y: stockDetails.metric.pretaxMarginTTM},
+                                 {name: 'EBITDA margin ttm.', y: stockDetails.companyData.financialData.ebitdaMargins * 100}
                               ]
                           }]">
                     </app-generic-chart>
@@ -105,19 +105,26 @@
                 </app-generic-card>
             </ion-col>
             <ion-col size-lg="3" size-sm="6" size="12">
-                <app-generic-card [subtitle]="'Effectiveness'" [applyLeftPadding]="false"
+                <app-generic-card [subtitle]="'Effectiveness'"
+                                  [showNoData]="!stockDetails.companyData.financialData.returnOnAssets &&
+                                                !stockDetails.companyData.financialData.returnOnEquity &&
+                                                !stockDetails.metric.roiTTM"
+                                  [applyLeftPadding]="false"
                                   [additionalClasses]="'st-height-100'">
                     <app-generic-chart
+                            *ngIf="!!stockDetails.companyData.financialData.returnOnAssets &&
+                                    !!stockDetails.companyData.financialData.returnOnEquity &&
+                                    !!stockDetails.metric.roiTTM"
                             [chartType]="ChartType.column"
                             [heightPx]="220"
                             [showYAxis]="true"
                             [series]="[{
-                         colorByPoint: true,
-                         data:[
-                              {name: 'ROA', y: stockDetails.companyData.financialData.returnOnAssets * 100},
-                              {name: 'ROE', y: stockDetails.companyData.financialData.returnOnEquity * 100},
-                              {name: 'ROI ', y: stockDetails.metric.roiTTM}
-                          ]
+                                 colorByPoint: true,
+                                 data:[
+                                      {name: 'ROA', y: stockDetails.companyData.financialData.returnOnAssets * 100},
+                                      {name: 'ROE', y: stockDetails.companyData.financialData.returnOnEquity * 100},
+                                      {name: 'ROI ', y: stockDetails.metric.roiTTM}
+                                  ]
                       }]">
                     </app-generic-chart>
                 </app-generic-card>
@@ -152,8 +159,8 @@
             <ion-col size-md="6" size="12">
                 <!-- revenue growth chart -->
                 <app-generic-card [subtitle]="'Revenue growth estimation'"
-                                  [additionalClasses]="'st-height-100'"
-                                  [applyLeftPadding]="false">
+                                  [applyLeftPadding]="false"
+                                  [additionalClasses]="'st-height-100'">
                     <app-details-revenue-estimate
                             [revenueEstimates]="stockDetails.analysis.revenueEstimate">
                     </app-details-revenue-estimate>
@@ -161,7 +168,8 @@
             </ion-col>
             <ion-col size-md="6" size="12">
                 <!-- recommendation chart -->
-                <app-generic-card [subtitle]="'Recommendation'" [applyLeftPadding]="false"
+                <app-generic-card [subtitle]="'Recommendation'"
+                                  [applyLeftPadding]="false"
                                   [additionalClasses]="'st-height-100'">
                     <app-details-recommendation-chart
                             [recommendations]="stockDetails.recommendation">
@@ -174,7 +182,8 @@
         <ion-row>
             <ion-col size-lg="4" size-sm="6" size="12">
                 <!-- Financial yearly -->
-                <app-generic-card [subtitle]="'Financial yearly'" [applyLeftPadding]="false"
+                <app-generic-card [subtitle]="'Financial yearly'"
+                                  [applyLeftPadding]="false"
                                   [additionalClasses]="'st-height-100'">
                     <app-generic-chart
                             [chartType]="ChartType.column"
@@ -189,7 +198,8 @@
 
             <ion-col size-lg="4" size-sm="6" size="12">
                 <!-- Financial quarterly -->
-                <app-generic-card [subtitle]="'Financial quarterly'" [applyLeftPadding]="false"
+                <app-generic-card [subtitle]="'Financial quarterly'"
+                                  [applyLeftPadding]="false"
                                   [additionalClasses]="'st-height-100'">
                     <app-generic-chart
                             [chartType]="ChartType.column"
@@ -274,7 +284,9 @@
             </ion-col>
         </ion-row>
 
-        <!-- ownership + transactions -->
+        <!-- ownership -->
+        <app-generic-list [title]="'Ownerships'" [applyMarginTop]="true" [applyMarginLeft]="true">
+        </app-generic-list>
         <ion-row>
             <ion-col size="12">
                 <app-generic-card [subtitle]="'Institution ownership'">
@@ -283,16 +295,42 @@
                 </app-generic-card>
             </ion-col>
         </ion-row>
+
+        <!-- transaction -->
         <ion-row>
             <ion-col size="12">
-                <app-generic-card [subtitle]="'Insider transactions'">
+                <app-generic-card [subtitle]="'Insider transactions'"
+                                  [showNoData]="stockDetails.insiderTransactions.length === 0">
                     <app-details-transactions [transactions]="stockDetails.insiderTransactions">
                     </app-details-transactions>
                 </app-generic-card>
             </ion-col>
         </ion-row>
 
+        <!-- historical metrics -->
+        <app-generic-list [title]="'Yearly metrics'" [applyMarginTop]="true" [applyMarginLeft]="true">
+        </app-generic-list>
+        <ion-row>
+            <ng-container *ngFor="let key of stockDetails.historicalMetrics | objNgFor; let i = index; let last=last">
+                <ion-col size="12" [sizeSm]="last ? 12 : 6" [sizeLg]="i > 15 ? 6  : 4" *ngIf="key !== '__typename'">
+                    <ng-container *ngIf="stockDetails.historicalMetrics[key] as data">
+                        <app-generic-card [subtitle]="data.name + ': ' + data.data[data.data.length - 1]"
+                                          [showNoData]="data.dates.length === 0"
+                                          [additionalClasses]="'st-height-100'">
+                            <app-generic-chart *ngIf="data.dates.length > 0"
+                                               [categories]="data.dates"
+                                               [series]="[data]"
+                                               [heightPx]="130">
+                            </app-generic-chart>
+                        </app-generic-card>
+                    </ng-container>
+                </ion-col>
+            </ng-container>
+        </ion-row>
+
         <!-- news -->
+        <app-generic-list [title]="'News'" [applyMarginTop]="true" [applyMarginLeft]="true">
+        </app-generic-list>
         <ion-row>
             <ion-col size="12">
                 <div *ngIf="stockDetails.stockNews.length > 0" class="st-news-container">

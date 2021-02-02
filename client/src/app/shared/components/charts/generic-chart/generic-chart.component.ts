@@ -20,7 +20,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
     @Input() chartTitle: string;
     @Input() chartTitlePosition = 'left';
     @Input() showTimelineSlider = false;
-    @Input() showYAxis = false;
+    @Input() showYAxis = true;
     @Input() showXAxis = true;
     @Input() enableLegendTogging = false;
     @Input() showTooltip = true;
@@ -62,8 +62,9 @@ export class GenericChartComponent implements OnInit, OnChanges {
         }
 
         if (this.categories) {
+            this.initColumnChart();
             this.chartOptions.xAxis.categories = this.categories;
-            this.chartOptions.plotOptions.series.dataLabels.enabled = false;
+            this.chartOptions.plotOptions.series.dataLabels.enabled = false; // do not show values on charts
             this.chartOptions = {
                 ...this.chartOptions,
                 tooltip: {
@@ -73,7 +74,16 @@ export class GenericChartComponent implements OnInit, OnChanges {
                     footerFormat: '</table>',
                     shared: true,
                     useHTML: true
-                },
+                }
+                /*xAxis: {
+                    type: 'category',
+                    labels: {
+                        rotation: -30,
+                        style: {
+                            font: '10px Trebuchet MS, Verdana, sans-serif'
+                        }
+                    },
+                }*/
             };
         }
 
@@ -190,6 +200,10 @@ export class GenericChartComponent implements OnInit, OnChanges {
                     style: {
                         fontSize: '12px',
                         color: '#D9D8D8',
+                    },
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
                     },
                     enableMouseTracking: this.showTooltip,
                     events: {

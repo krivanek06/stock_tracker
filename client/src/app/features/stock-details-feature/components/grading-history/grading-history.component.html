@@ -1,12 +1,12 @@
 <ion-list>
     <ion-item *ngFor="let data of history.history" class="st-data-item-wrapper">
         <!-- date time -->
-        <ion-label style="min-width: 40%; max-width: 40%" class="st-font-5 ion-hide-sm-down">
+        <ion-label style="min-width: 38%; max-width: 38%" class="st-font-5 ion-hide-sm-down">
             {{ data.epochGradeDate * 1000 | relativeTime}}
         </ion-label>
 
         <!-- company -->
-        <ion-label class="ion-hide-sm-down" style="min-width: 40%; max-width: 40%"> {{ data.firm }}</ion-label>
+        <ion-label class="ion-hide-sm-down" style="min-width: 38%; max-width: 38%"> {{ data.firm }}</ion-label>
 
         <!-- small screen datetime + company -->
         <ion-label class="ion-hide-sm-up st-fit-content">
