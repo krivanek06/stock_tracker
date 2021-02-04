@@ -9,7 +9,7 @@ import {
 
 export const marketValueChange = trigger('marketValueChange', [
     transition(':increment', [
-        animate('500ms', style({
+        animate('700ms', style({
             color: 'green',
            // transform: 'scale(1.1, 1.1)',
         })),
@@ -17,7 +17,7 @@ export const marketValueChange = trigger('marketValueChange', [
     ]),
 
     transition(':decrement', [
-        animate('500ms', style({
+        animate('700ms', style({
             color: 'red',
          //   transform: 'scale(0.9, 0.9)',
         })),

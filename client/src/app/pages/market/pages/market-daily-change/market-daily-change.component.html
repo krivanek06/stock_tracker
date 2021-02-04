@@ -4,10 +4,10 @@
         <ion-col size="12">
             <app-generic-list [title]="'Daily top gainers'"></app-generic-list>
             <app-generic-card>
-                <app-market-top-table
+                <app-market-top-table-stocks
                         [topTableSymbolData]="topGainers"
                         (itemClickedEmitter)="showSummary($event)">
-                </app-market-top-table>
+                </app-market-top-table-stocks>
             </app-generic-card>
         </ion-col>
     </ion-row>
@@ -31,10 +31,10 @@
                 </ion-item>
             </ion-list-header>
             <app-generic-card>
-                <app-market-top-table
+                <app-market-top-table-stocks
                         [topTableSymbolData]="selectedTable"
                         (itemClickedEmitter)="showSummary($event)">
-                </app-market-top-table>
+                </app-market-top-table-stocks>
             </app-generic-card>
         </ion-col>
     </ion-row>

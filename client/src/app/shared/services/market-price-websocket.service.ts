@@ -49,8 +49,9 @@ export class MarketPriceWebsocketService {
     /**
      * Will initialise socket if does not exists
      * @param symbol to receive up to date data
+     * @param isCrypto - modify sending params to finhub
      */
-    async createSubscribeForSymbol(symbol: string) {
+    async createSubscribeForSymbol(symbol: string, isCrypto: boolean = false) {
         this.tryingToCreateSubscribeForSymbol = true;
         this.isConnected$.next(true);
 
@@ -71,6 +72,11 @@ export class MarketPriceWebsocketService {
         }
 
         console.log('websocket sending subscription for symbol ', symbol);
+        if (isCrypto) {
+            symbol = 'BINANCE:' + ''.concat(...symbol.split('-')).toUpperCase();
+            console.log('Crypto: ', symbol);
+        }
+
         this.socket.send(JSON.stringify({type: 'subscribe', symbol}));
 
 

@@ -17,11 +17,6 @@ export class PriceCompareItemComponent implements OnInit {
     @Input() showIcons = true;
     @Input() showPrice = true;
 
-    /**
-     * version 1 - show  currentPrice - compareToPrice
-     */
-    @Input() versionType = 1; // 1 / 2
-
     constructor() {
     }
 

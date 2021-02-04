@@ -555,6 +555,7 @@ export const stockDetailsTypeDefs = gql`
         sharesOutstanding: Float
         longBusinessSummary: String
         yearToDatePriceReturn: Float
+        yearToDatePrice: Float
     }
 
 

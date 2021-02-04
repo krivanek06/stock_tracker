@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {StMarketChartDataResult, StMarketChartDataResultContainer} from '../../../../api/customGraphql.service';
 import * as Highcharts from 'highcharts/highstock';
 import {ChartSeriesData} from '../../../../shared/models/chartDataModel';
+import {stFormatLargeNumber} from '../../../../shared/utils/shared-functions.functions';
 
 @Component({
     selector: 'app-market-chart',
@@ -141,8 +142,8 @@ export class MarketChartComponent implements OnInit {
                 align: 'left',
                 x: -20,
                 labelFormatter: function() {
-                    const value = this.yData[this.yData.length - 1];
-                    return '<span style="color:' + this.color + '">● ' + this.name + ': </span><b>' + value;
+                    const value = stFormatLargeNumber(this.yData[this.yData.length - 1]);
+                    return '<span style="color:' + this.color + '">' + this.name + ': </span><b>' + value;
                 }
             },
             tooltip: {
@@ -157,15 +158,21 @@ export class MarketChartComponent implements OnInit {
                 shared: true,
                 headerFormat: '<p style="color:#909592; font-size: 12px">{point.key:%e %B %Y}, {point.key:%A}</p><br/>',
                 pointFormatter: function() {
-                    return `<p><span style="color: ${this.series.color}; font-weight: bold">● ${this.series.name}: </span><span>${this.y}</span></p><br/>`;
+                    return `<p><span style="color: ${this.series.color}; font-weight: bold">● ${this.series.name}: </span><span>${stFormatLargeNumber(this.y)}</span></p><br/>`;
                 }
             },
             plotOptions: {
                 line: {
                     marker: {
-                        enabled: false,
+                        enabled: true,
+                        radius: 2
                     },
-                    lineWidth: 3,
+                    lineWidth: 2.5,
+                    states: {
+                        hover: {
+                            lineWidth: 2.5
+                        }
+                    },
                     threshold: null
                 },
                 series: {

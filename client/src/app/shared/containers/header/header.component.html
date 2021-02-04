@@ -1,38 +1,35 @@
 <!-- header -->
-<ion-header class="ion-no-border">
-    <ion-toolbar>
-        <ion-menu-toggle slot="start">
-            <ion-menu-button style="font-size: 25px;"></ion-menu-button>
-        </ion-menu-toggle>
+<ion-header class="ion-no-border ion-padding">
+    <ion-menu-toggle slot="start">
+        <ion-menu-button style="font-size: 25px;"></ion-menu-button>
+    </ion-menu-toggle>
 
-        <!-- content -->
-        <ion-item-group class="group-container">
-            <ion-item>
-                <ion-label class="st-icon headline">
-                    <!-- search bar -->
-                    <ion-chip class="ion-search-chip" (click)="redirectToSearch()">
-                        <ion-searchbar [disabled]="true"></ion-searchbar>
-                    </ion-chip>
-                </ion-label>
-            </ion-item>
-
-            <!-- bell icon -->
-            <ion-item class="bell-icon">
-                <ion-label class="ion-text-end content-fit" position="fixed">
-                    <ion-icon name="notifications"></ion-icon>
-                </ion-label>
-            </ion-item>
+    <div class=" st-flex-end">
+        <!-- search -->
+        <ion-item-group class="st-flex-end" style="position: relative">
+            <ion-chip class="ion-search-chip">
+                <ion-searchbar #mySearchbar
+                               debounce="500"
+                               placeholder="Search symbol"
+                               (ionChange)="searchSymbol($event)">
+                </ion-searchbar>
+            </ion-chip>
+            <ion-item-group class="search-results">
+                <app-stock-info-identification-item
+                        *ngFor="let summary of searchedSummaries$ | async"
+                        (click)="clickedSummary(summary)"
+                        [summary]="summary"
+                        [clickable]="true">
+                </app-stock-info-identification-item>
+            </ion-item-group>
         </ion-item-group>
-    </ion-toolbar>
 
-    <!--  <ion-toolbar class="ion-margin-bottom">
-       Title etc.
-        <ion-item>
-            <ion-label class="st-icon headline">
-                <ng-content></ng-content>
-            </ion-label>
-        </ion-item>
-    </ion-toolbar> -->
+        <!-- notifications -->
+        <ion-button slot="end" fill="clear">
+            <ion-icon name="notifications"></ion-icon>
+            <ion-label>3</ion-label>
+        </ion-button>
+    </div>
 </ion-header>
 
 <!-- Page title -->

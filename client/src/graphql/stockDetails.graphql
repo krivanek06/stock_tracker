@@ -48,6 +48,7 @@ fragment StockSummaryFragment on Summary {
     yearToDatePriceReturn
     volume
     avgVolume
+    yearToDatePrice
 }
 
 fragment SheetDataFragment on SheetData {

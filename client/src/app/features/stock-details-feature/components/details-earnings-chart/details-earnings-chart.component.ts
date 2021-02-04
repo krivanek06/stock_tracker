@@ -20,12 +20,12 @@ interface DetailsEarnings {
 }
 
 @Component({
-    selector: 'app-details-earnings-per-share-chart',
-    templateUrl: './details-earnings-per-share-chart.component.html',
-    styleUrls: ['./details-earnings-per-share-chart.component.scss'],
+    selector: 'app-details-earnings-chart',
+    templateUrl: './details-earnings-chart.component.html',
+    styleUrls: ['./details-earnings-chart.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DetailsEarningsPerShareChartComponent implements OnInit, OnChanges {
+export class DetailsEarningsChartComponent implements OnInit, OnChanges {
     @Input() earnings: EarningsChart;
 
 
@@ -118,6 +118,7 @@ export class DetailsEarningsPerShareChartComponent implements OnInit, OnChanges 
             },
             xAxis: {
                 labels: {
+                    rotation: -20,
                     enabled: true,
                     style: {
                         font: '10px Trebuchet MS, Verdana, sans-serif'

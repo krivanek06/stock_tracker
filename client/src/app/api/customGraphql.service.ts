@@ -1336,6 +1336,7 @@ export type Summary = {
     sharesOutstanding?: Maybe<Scalars['Float']>;
     longBusinessSummary?: Maybe<Scalars['String']>;
     yearToDatePriceReturn?: Maybe<Scalars['Float']>;
+    yearToDatePrice?: Maybe<Scalars['Float']>;
 };
 
 export type SummaryProfile = {
@@ -1902,7 +1903,7 @@ export type SummaryResidanceFragmentFragment = (
 
 export type StockSummaryFragmentFragment = (
     { __typename?: 'Summary' }
-    & Pick<Summary, 'id' | 'sandPFiveTwoWeekChange' | 'lastSplitFactor' | 'lastSplitDate' | 'fullTimeEmployees' | 'netIncomeEmployeeAnnual' | 'revenueEmployeeAnnual' | 'website' | 'ePSTTM' | 'earningsDate' | 'exDividendDate' | 'fiveTwoWeekRange' | 'oneyTargetEst' | 'pERatioTTM' | 'currency' | 'industry' | 'logo_url' | 'marketPrice' | 'previousClose' | 'recommendationKey' | 'recommendationMean' | 'sector' | 'targetEstOneyPercent' | 'symbol' | 'weekRangeFiveTwoMax' | 'weekRangeFiveTwoMin' | 'longName' | 'marketCap' | 'sharesOutstanding' | 'longBusinessSummary' | 'yearToDatePriceReturn' | 'volume' | 'avgVolume'>
+    & Pick<Summary, 'id' | 'sandPFiveTwoWeekChange' | 'lastSplitFactor' | 'lastSplitDate' | 'fullTimeEmployees' | 'netIncomeEmployeeAnnual' | 'revenueEmployeeAnnual' | 'website' | 'ePSTTM' | 'earningsDate' | 'exDividendDate' | 'fiveTwoWeekRange' | 'oneyTargetEst' | 'pERatioTTM' | 'currency' | 'industry' | 'logo_url' | 'marketPrice' | 'previousClose' | 'recommendationKey' | 'recommendationMean' | 'sector' | 'targetEstOneyPercent' | 'symbol' | 'weekRangeFiveTwoMax' | 'weekRangeFiveTwoMin' | 'longName' | 'marketCap' | 'sharesOutstanding' | 'longBusinessSummary' | 'yearToDatePriceReturn' | 'volume' | 'avgVolume' | 'yearToDatePrice'>
     & {
     residance?: Maybe<(
         { __typename?: 'SummaryResidance' }
@@ -3714,6 +3715,7 @@ export const StockSummaryFragmentFragmentDoc = gql`
         yearToDatePriceReturn
         volume
         avgVolume
+        yearToDatePrice
     }
 ${SummaryResidanceFragmentFragmentDoc}`;
 export const StStockWatchlistFragmentFragmentDoc = gql`

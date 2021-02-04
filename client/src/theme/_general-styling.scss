@@ -187,8 +187,13 @@ ion-spinner {
 }
 
 .st-small-right-space {
-  margin-right: 5px;
+  margin-right: 8px;
 }
+
+.st-small-left-space {
+  margin-left: 8px !important;
+}
+
 
 // custom headers
 .st-title {
@@ -255,7 +260,7 @@ ion-spinner {
 }
 
 .st-flex-end {
-  text-align: end !important;
+  //text-align: end !important;
   display: flex !important;
   justify-content: flex-end;
   align-items: flex-end;
@@ -282,8 +287,8 @@ ion-spinner {
 }
 
 .st-sm-table-item {
-  padding-top: 6px;
-  padding-bottom: 6px;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
 }
 
 .st-label-xl-space {

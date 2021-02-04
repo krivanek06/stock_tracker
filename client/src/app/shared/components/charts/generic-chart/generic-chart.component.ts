@@ -49,7 +49,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
 
         if (this.chartType === ChartType.column) {
             this.chartOptions.xAxis.type = 'category';
-            this.chartOptions.xAxis.labels.rotation = -30;
+            this.chartOptions.xAxis.labels.rotation = -20;
         } else if (this.chartType === ChartType.bar) {
             this.chartOptions.xAxis.type = 'category';
         } else if (this.chartType === ChartType.areaChange) {
@@ -93,7 +93,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
         this.chartOptions.plotOptions.series.dataLabels.enabled = false;
         this.chartOptions.xAxis.categories = this.categories;
         this.chartOptions.xAxis.type = 'category';
-        this.chartOptions.xAxis.labels.rotation = -30;
+        this.chartOptions.xAxis.labels.rotation = -20;
     }
 
 
@@ -193,6 +193,18 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 enabled: false
             },
             plotOptions: {
+                line: {
+                    marker: {
+                        radius: 3
+                    },
+                    lineWidth: 2,
+                    states: {
+                        hover: {
+                            lineWidth: 2
+                        }
+                    },
+                    threshold: null
+                },
                 column: {
                     pointPadding: 0.2,
                 },
