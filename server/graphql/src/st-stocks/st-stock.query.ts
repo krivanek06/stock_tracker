@@ -70,7 +70,7 @@ export const queryStockSummaries = async (symbolPrefix: string): Promise<api.Sea
         // get summaries for symbols
         const summaries = await Promise.all(searchingSymbols.map(x => queryStockSummary(x))) as api.Summary[];
 
-        const notNullSummaries = summaries.filter(x => !!x);
+        const notNullSummaries = summaries.filter(x => !!x && !!x.symbol);
         console.log('return symbols', notNullSummaries.map(x => x.symbol));
 
         console.timeEnd();

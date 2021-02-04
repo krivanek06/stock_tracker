@@ -1,25 +1,17 @@
 @import 'custom-variables';
 
 :host {
-  .bell-icon {
-    cursor: pointer;
-    padding-right: 16px;
-    @media (max-width: #{$st-var-sm-split}) {
-      padding-right: 6px;
-    }
-  }
-
   ion-menu-button {
     color: #{$st-var-font-1}
   }
 
-  ion-col{
+  ion-col {
     padding: 0;
   }
 
   ion-searchbar {
     --background: transparent;
-    --color: #{$st-var-font-2};
+    --color: #{$st-var-font-4};
     --box-shadow: none;
     --icon-color: #{$st-var-blue-1};
     --placeholder-opacity: 0.9;
@@ -34,14 +26,17 @@
     }
   }
 
-  .group-container {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-
   ion-icon {
     color: #{$st-var-blue-1};
+  }
+
+  .search-results {
+    background-color: #{$background-blue};
+    position: absolute;
+    right: 10px;
+    top: 32px;
+    width: 90%;
+    border-radius: 8px;
   }
 
 }

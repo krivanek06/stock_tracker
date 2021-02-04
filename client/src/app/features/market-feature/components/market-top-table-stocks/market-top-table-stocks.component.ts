@@ -4,15 +4,15 @@ import {SymbolIdentification} from '../../../../shared/models/sharedModel';
 import {StMarketTopTableSymbolData} from '../../../../api/customGraphql.service';
 
 @Component({
-    selector: 'app-market-top-table',
-    templateUrl: './market-top-table.component.html',
-    styleUrls: ['./market-top-table.component.scss'],
+    selector: 'app-market-top-table-stocks',
+    templateUrl: './market-top-table-stocks.component.html',
+    styleUrls: ['./market-top-table-stocks.component.scss'],
     // changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [
         marketValueChange
     ]
 })
-export class MarketTopTableComponent implements OnInit {
+export class MarketTopTableStocksComponent implements OnInit {
     @Output() itemClickedEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
 
     @Input() topTableSymbolData: StMarketTopTableSymbolData[] = [];

@@ -10,8 +10,6 @@ import {
     QueryStMarketHistoryOverviewGQL,
     StEventCalendarData,
     StEventCalendarEarningsData,
-    StMarketCalendarEvents,
-    StMarketCalendarEventsEarnings,
     StMarketDailyOverview,
     StMarketOverviewPartialData,
 } from '../../../api/customGraphql.service';

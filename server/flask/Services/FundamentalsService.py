@@ -362,6 +362,7 @@ class FundamentalServiceFormatter:
             self.data['summary']['sharesOutstanding'] = defaultKeyStatistics.get('sharesOutstanding')
             self.data['summary']['sandPFiveTwoWeekChange'] = utils.force_round(defaultKeyStatistics.get('sandPFiveTwoWeekChange'))
             self.data['summary']['yearToDatePriceReturn'] = utils.force_round(defaultKeyStatistics.get('fiveTwoWeekChange'))
+            self.data['summary']['yearToDatePrice'] = utils.force_round(self.data['summary']['marketPrice'] / (1 + self.data['summary']['yearToDatePriceReturn']),2)
             self.data['summary']['lastSplitFactor'] = defaultKeyStatistics.get('lastSplitFactor')
             self.data['summary']['lastSplitDate'] = defaultKeyStatistics.get('lastSplitDate')
 

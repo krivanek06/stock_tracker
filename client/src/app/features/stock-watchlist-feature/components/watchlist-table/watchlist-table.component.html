@@ -47,7 +47,7 @@
             <!-- year change -->
             <ion-label>
                 <app-price-compare-item [currentPrice]="summary.marketPrice"
-                                        [compareToPrice]="summary.weekRangeFiveTwoMin">
+                                        [compareToPrice]="summary.yearToDatePrice">
                 </app-price-compare-item>
             </ion-label>
 
@@ -111,7 +111,7 @@
                         *ngIf="!showDailyChange"
                         [currentPrice]="summary.marketPrice"
                         [inlineDisplay]="true"
-                        [compareToPrice]="summary.weekRangeFiveTwoMin">
+                        [compareToPrice]="summary.yearToDatePrice">
                 </app-price-compare-item>
             </ion-label>
         </ion-item>

@@ -9,10 +9,10 @@
 
 <!-- listed symbols -->
 <ion-list class="flex-flow-wrap">
-    <app-stock-info-list-identification
+    <app-stock-info-identification-item
             *ngFor="let summary of searchedSummaries$ | async"
             (click)="clickedSummary(summary)"
             [summary]="summary"
             [clickable]="true">
-    </app-stock-info-list-identification>
+    </app-stock-info-identification-item>
 </ion-list>

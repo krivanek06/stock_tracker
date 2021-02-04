@@ -17,17 +17,18 @@ import {ComponentScreenUpdateBase} from '../../utils/component-base/component-sc
 export class FinancialChartContainerComponent extends ComponentScreenUpdateBase implements OnInit, OnDestroy, OnChanges {
     volume: number[] = [];
     price: number[][] = []; // [open, high, low, close]
-    currentPrice: number;
-    closedPrice: number;
     selectedRange = '1d';
     priceRangeFrom: number;
     priceRangeTo: number;
+    financialChart = true;
 
+    @Input() currentPrice: number;
+    @Input() closedPrice: number;
     @Input() symbol: string;
     @Input() logoUrl: string;
     @Input() name: string;
     @Input() height = 300;
-    @Input() showYAxis = false;
+    @Input() showYAxis = true;
 
     constructor(private chartDataService: ChartDataApiService,
                 private marketPriceWebsocket: MarketPriceWebsocketService,
@@ -61,6 +62,10 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBase 
         this.priceRangeTo = priceRange[1];
     }
 
+    toggleFinancialChartView() {
+        this.financialChart = !this.financialChart;
+    }
+
     private initWebsocketConnection() {
         this.marketPriceWebsocket.createSubscribeForSymbol(this.symbol);
         this.marketPriceWebsocket.getSubscribedSymbolsResult().pipe(
@@ -81,9 +86,11 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBase 
             this.price = res.price;
             this.priceRangeFrom = this.price[0][4];
             this.priceRangeTo = this.price[this.price.length - 1][4];
-            this.closedPrice = this.priceRangeTo;
+
+            if (!this.closedPrice) {
+                this.closedPrice = this.priceRangeFrom;
+            }
         });
     }
-
 
 }

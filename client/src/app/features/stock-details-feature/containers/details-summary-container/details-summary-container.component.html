@@ -28,31 +28,36 @@
         <ion-label class="st-data-label-parent">Price</ion-label>
         <ion-label class="st-flex-row st-flex-end">
             <app-price-compare-item
-                    [versionType]="2"
+                    [showPrice]="false"
                     [compareToPrice]="summary.previousClose"
-                    [currentPrice]="summary.marketPrice">
+                    [currentPrice]="currentPrice">
             </app-price-compare-item>
-            <ion-text style="margin-left: 10px" class="st-data-label">{{ summary.marketPrice | currency }}</ion-text>
+            <ion-text style="margin-left: 10px" class="st-data-label" [@marketValueChange]="currentPrice">
+                {{ currentPrice | currency }}
+            </ion-text>
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">1y target</ion-label>
-        <ion-label class="st-flex-row st-flex-end">
+        <ion-label class="st-flex-end st-display-flex-center">
             <app-price-compare-item
-                    [versionType]="2"
+                    [showPrice]="false"
                     [compareToPrice]="summary.oneyTargetEst"
-                    [currentPrice]="summary.marketPrice">
+                    [currentPrice]="currentPrice">
             </app-price-compare-item>
-            <ion-text style="margin-left: 10px" class="st-data-label">{{ summary.oneyTargetEst | currency }}</ion-text>
+            <ion-text class="st-data-label st-small-left-space">{{ summary.oneyTargetEst | currency }}</ion-text>
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">1y change</ion-label>
         <ion-label class="st-flex-end">
-            <app-price-change-item [priceChange]="summary.yearToDatePriceReturn" [isPercent]="true">
-            </app-price-change-item>
+            <app-price-compare-item
+                    [showPrice]="false"
+                    [currentPrice]="currentPrice"
+                    [compareToPrice]="summary.yearToDatePrice">
+            </app-price-compare-item>
         </ion-label>
     </ion-item>
 

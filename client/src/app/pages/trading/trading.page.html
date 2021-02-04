@@ -27,7 +27,8 @@
             <!-- financial chart -->
             <ion-col size="12" size-lg="7" size-xl="6">
                 <app-financial-chart-container
-                        [showYAxis]="true"
+                        [currentPrice]="selectedSummary.marketPrice"
+                        [closedPrice]="selectedSummary.previousClose"
                         [logoUrl]="selectedSummary.logo_url"
                         [name]="selectedSummary.longName"
                         [height]="460"
@@ -39,7 +40,7 @@
                 <app-generic-list [iconTitle]="'barcode-outline'" [title]="'Summary'"></app-generic-list>
                 <app-generic-card>
                     <!-- symbol summary -->
-                    <app-details-summary [summary]="selectedSummary"></app-details-summary>
+                    <app-details-summary-container [summary]="selectedSummary"></app-details-summary-container>
 
                     <!-- buttons -->
                     <ion-buttons class="st-buttons-container st-justify-center">

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {MARKET_PAGE_ENUM, MARKET_PAGE_PATH} from './model/market.model';
 import {Router} from '@angular/router';
 
@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
     selector: 'app-market',
     templateUrl: './market.page.html',
     styleUrls: ['./market.page.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MarketPage implements OnInit {
     segmentValue = MARKET_PAGE_ENUM.dailyChange;

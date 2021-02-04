@@ -38,6 +38,7 @@ import {TableHighLowRangeComponent} from './components/range-selector/table-high
 import {RecommendationDirective} from './directives/recommendation.directive';
 import {ArticleCardsComponent} from './components/cards/article-cards/article-cards.component';
 import {SumUpPipe} from './pipes/sumUp.pipe';
+import {StockInfoIdentificationItemComponent} from './components/items/stock-info-identification-item/stock-info-identification-item.component';
 
 
 @NgModule({
@@ -71,7 +72,8 @@ import {SumUpPipe} from './pipes/sumUp.pipe';
         GenericFadingCardContentComponent,
         TableHighLowRangeComponent,
         RecommendationDirective,
-        ArticleCardsComponent
+        ArticleCardsComponent,
+        StockInfoIdentificationItemComponent
     ],
     imports: [
         CommonModule,
@@ -122,7 +124,8 @@ import {SumUpPipe} from './pipes/sumUp.pipe';
         GenericFadingCardContentComponent,
         TableHighLowRangeComponent,
         RecommendationDirective,
-        ArticleCardsComponent
+        ArticleCardsComponent,
+        StockInfoIdentificationItemComponent
     ],
     entryComponents: [
         InlineInputPopUpComponent

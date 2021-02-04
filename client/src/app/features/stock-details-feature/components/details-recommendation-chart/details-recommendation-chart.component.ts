@@ -54,6 +54,7 @@ export class DetailsRecommendationChartComponent implements OnInit, OnChanges {
             },
             xAxis: {
                 labels: {
+                    rotation: -20,
                     style: {
                         font: '10px Trebuchet MS, Verdana, sans-serif'
                     }

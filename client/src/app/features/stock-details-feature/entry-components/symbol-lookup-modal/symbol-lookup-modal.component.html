@@ -35,7 +35,8 @@
                 <!-- financial chart -->
                 <ion-col size="12" size-md="6.5" size-xl="7.5" class="st-md-border-bottom">
                     <app-financial-chart-container
-                            [showYAxis]="true"
+                            [currentPrice]="summary.marketPrice"
+                            [closedPrice]="summary.previousClose"
                             [logoUrl]="summary.logo_url"
                             [name]="symbolIdentification.name"
                             [height]="375"
@@ -47,8 +48,8 @@
                 <ion-col size="12" size-md="5.5" size-xl="4.5" class="st-md-border-bottom ion-padding">
                     <!-- summary -->
                     <app-generic-list [iconTitle]="'barcode-outline'" [title]="'Summary'"></app-generic-list>
-                    <app-details-summary [summary]="summary">
-                    </app-details-summary>
+                    <app-details-summary-container [summary]="summary">
+                    </app-details-summary-container>
 
                     <!-- button-->
                     <ion-buttons class="st-buttons-container st-justify-center">

@@ -563,6 +563,7 @@ export interface Summary {
   sharesOutstanding: number;
   longBusinessSummary: string;
   yearToDatePriceReturn: number;
+  yearToDatePrice: number;
 }
 
 export interface Dividens {

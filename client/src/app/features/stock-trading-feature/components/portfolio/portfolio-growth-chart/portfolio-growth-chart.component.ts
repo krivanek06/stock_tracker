@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {StPortfolio, StPortfolioWeeklyChange} from '../../../../../api/customGraphql.service';
 import * as Highcharts from 'highcharts/highstock';
+import {stFormatLargeNumber} from '../../../../../shared/utils/shared-functions.functions';
 
 @Component({
     selector: 'app-portfolio-growth-chart',
@@ -117,7 +118,8 @@ export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
                 shared: true,
                 headerFormat: '<p style="color:#909592; font-size: 12px">{point.key}</p><br/>',
                 pointFormatter: function() {
-                    return `<p><span style="color: ${this.series.color}; font-weight: bold">● Portfolio ${this.series.name.toLowerCase()}: </span><span>$${this.y}</span></p><br/>`;
+                    const value = stFormatLargeNumber(this.y);
+                    return `<p><span style="color: ${this.series.color}; font-weight: bold">● Portfolio ${this.series.name.toLowerCase()}: </span><span>$${value}</span></p><br/>`;
                 }
             },
             plotOptions: {

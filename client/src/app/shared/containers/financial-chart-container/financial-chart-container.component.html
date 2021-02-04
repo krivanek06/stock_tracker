@@ -1,4 +1,4 @@
-<ion-item button class="ion-margin-bottom">
+<ion-item button class="ion-margin-bottom" (click)="toggleFinancialChartView()">
     <!-- title & image -->
     <ion-label class="st-display-flex-center st-fit-content">
         <ion-img *ngIf="logoUrl" [src]="logoUrl" class="st-symbol-image"></ion-img>
@@ -54,8 +54,22 @@
 
 <!-- chart -->
 <div [style.height.px]="height">
+    <!-- financial chart -->
     <app-financial-chart
+            *ngIf="financialChart"
             (priceRangeEmitter)="savePriceRange($event)"
+            [financialChart]="true"
+            [showYAxis]="showYAxis"
+            [volume]="volume"
+            [height]="height"
+            [price]="price">
+    </app-financial-chart>
+
+    <!-- normal chart -->
+    <app-financial-chart
+            *ngIf="!financialChart"
+            (priceRangeEmitter)="savePriceRange($event)"
+            [financialChart]="false"
             [showYAxis]="showYAxis"
             [volume]="volume"
             [height]="height"

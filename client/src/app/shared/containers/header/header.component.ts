@@ -1,8 +1,10 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs';
 import {AuthFeatureService} from '../../../features/auth-feature/services/auth-feature.service';
-import {Router} from '@angular/router';
-import {StUserPublicData} from '../../../api/customGraphql.service';
+import {StUserPublicData, Summary} from '../../../api/customGraphql.service';
+import {FirebaseSearchService} from '../../services/firebase-search.service';
+import {IonSearchbar, ModalController} from '@ionic/angular';
+import {SymbolLookupModalComponent} from '../../../features/stock-details-feature/entry-components/symbol-lookup-modal/symbol-lookup-modal.component';
 
 @Component({
     selector: 'app-header',
@@ -14,10 +16,14 @@ export class HeaderComponent implements OnInit {
     @Input() pageName: string;
     @Input() pageIcon: string;
 
+    @ViewChild('mySearchbar') searchBar: IonSearchbar;
+
     user$: Observable<StUserPublicData>;
+    searchedSummaries$: Observable<Summary[]>;
 
     constructor(private authFeatureService: AuthFeatureService,
-                private router: Router) {
+                private firebaseSearchService: FirebaseSearchService,
+                private modalController: ModalController) {
     }
 
     ngOnInit() {
@@ -25,7 +31,25 @@ export class HeaderComponent implements OnInit {
         this.user$.subscribe(console.log);
     }
 
-    redirectToSearch() {
-        this.router.navigate([`/menu/search`]);
+    searchSymbol(event: CustomEvent) {
+        console.log('event', !!event.detail.value,  event.detail.value)
+        if (!event.detail.value) {
+            this.searchedSummaries$ = undefined;
+        } else {
+            this.searchedSummaries$ = this.firebaseSearchService.queryStockSummaries(event.detail.value);
+            this.searchedSummaries$.subscribe(x => console.log(x));
+        }
+    }
+
+    async clickedSummary(summary: Summary) {
+        this.searchedSummaries$ = undefined;
+        this.searchBar.value = null;
+
+        const modal = await this.modalController.create({
+            component: SymbolLookupModalComponent,
+            componentProps: {symbolIdentification: {symbol: summary.symbol, name: summary.shortName}},
+            cssClass: 'custom-modal'
+        });
+        await modal.present();
     }
 }

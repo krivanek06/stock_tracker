@@ -1,0 +1,7 @@
+@import "variables";
+
+.symbol-md-space {
+  @media (max-width: #{$st-var-md-split}) {
+    min-width: 33%;
+  }
+}

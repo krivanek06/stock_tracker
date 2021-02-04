@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChan
 import {StPortfolio, StPortfolioWeeklyChange} from '../../../../../api/customGraphql.service';
 
 import * as Highcharts from 'highcharts/highstock';
+import {stFormatLargeNumber} from '../../../../../shared/utils/shared-functions.functions';
 
 @Component({
     selector: 'app-portfolio-change-chart',
@@ -106,7 +107,8 @@ export class PortfolioChangeChartComponent implements OnInit, OnChanges {
                     const isPositive = this.y >= 0;
                     const color = isPositive ? '#0d920d' : '#bf0000';
                     const label = isPositive ? 'Gains' : 'Loses';
-                    return `<span style="font-weight: bold; color: ${color}">● Weekly ${label}: </span><span>$${this.y} </span><br/>`;
+                    const value = stFormatLargeNumber(this.y);
+                    return `<span style="font-weight: bold; color: ${color}">● Weekly ${label}: </span><span>$${value} </span><br/>`;
                 }
             },
             series: [{

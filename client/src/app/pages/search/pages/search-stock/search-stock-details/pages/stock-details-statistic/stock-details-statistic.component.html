@@ -4,7 +4,8 @@
             <ion-col size="12" size-md="7" size-lg="6.5">
                 <!-- stock chart -->
                 <app-financial-chart-container
-                        [showYAxis]="true"
+                        [currentPrice]="stockDetails.summary.marketPrice"
+                        [closedPrice]="stockDetails.summary.previousClose"
                         [logoUrl]="stockDetails.summary.logo_url"
                         [name]="stockDetails.summary.longName"
                         [height]="390"
@@ -16,8 +17,8 @@
                 <!-- summary -->
                 <app-generic-list [iconTitle]="'barcode-outline'" [title]="'Summary'"></app-generic-list>
                 <app-generic-card>
-                    <app-details-summary [summary]="stockDetails.summary">
-                    </app-details-summary>
+                    <app-details-summary-container [summary]="stockDetails.summary">
+                    </app-details-summary-container>
                 </app-generic-card>
             </ion-col>
         </ion-row>
@@ -216,9 +217,9 @@
 
             <ion-col size-lg="4" size="12">
                 <app-generic-card [subtitle]="'Earnings'" [applyLeftPadding]="false">
-                    <app-details-earnings-per-share-chart
+                    <app-details-earnings-chart
                             [earnings]="stockDetails.companyData.earnings.earningsChart">
-                    </app-details-earnings-per-share-chart>
+                    </app-details-earnings-chart>
                 </app-generic-card>
             </ion-col>
         </ion-row>
@@ -235,7 +236,7 @@
                                 <app-gauge-chart
                                         [tooltipName]="'Completed'"
                                         [height]="125"
-                                        [displayValue]="stockDetails.summary.targetEstOneyPercent * 100"
+                                        [displayValue]="stockDetails.summary.targetEstOneyPercent | percent: '1.2'"
                                         [startingPoint]="0"
                                         [endingPoint]="stockDetails.summary.oneyTargetEst"
                                         [currentPoint]="stockDetails.summary.marketPrice">
@@ -250,9 +251,9 @@
                                 <app-gauge-chart
                                         [tooltipName]="'Cash to Debt'"
                                         [height]="125"
-                                        [displayValue]=" 100 / (   stockDetails.companyData.financialData.totalCash +
+                                        [displayValue]=" 1 / (   stockDetails.companyData.financialData.totalCash +
                                 stockDetails.companyData.financialData.totalDebt )
-                                * stockDetails.companyData.financialData.totalCash | number: '1.2-2'"
+                                * stockDetails.companyData.financialData.totalCash | percent: '1.2'"
                                         [startingPoint]="0"
                                         [endingPoint]="stockDetails.companyData.financialData.totalCash +
                                 stockDetails.companyData.financialData.totalDebt "
