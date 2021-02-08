@@ -7,7 +7,7 @@ import {tmpSuggestionSymbols} from "./st-stock.model";
 import {getStockHistoricalClosedData} from "./st-stock.fetch";
 
 
-// check if details already exists in firestore, else fetch form api and save them
+// check if details already exists in firestore, else fetch from api and save
 export const queryStockDetails = async (symbol: string): Promise<api.StockDetails> => {
     try {
         const upperSymbol = symbol.toUpperCase();
@@ -69,8 +69,8 @@ export const queryStockSummaries = async (symbolPrefix: string): Promise<api.Sea
         console.log('searchingSymbols', searchingSymbols)
         // get summaries for symbols
         const summaries = await Promise.all(searchingSymbols.map(x => queryStockSummary(x))) as api.Summary[];
-
         const notNullSummaries = summaries.filter(x => !!x && !!x.symbol);
+
         console.log('return symbols', notNullSummaries.map(x => x.symbol));
 
         console.timeEnd();
@@ -151,7 +151,7 @@ const getAndSaveStockDetailsFromApi = async (symbol: string): Promise<api.StockD
     const response = await resolverPromise.json() as api.StockDetails;
 
     // no data has been found
-    const isNull = !response.summary.symbol || !response.summary.marketPrice;
+    const isNull = !response && (!response.summary?.symbol || !response.summary?.marketPrice);
 
     // save details
     admin.firestore().collection(`${api.ST_STOCK_DATA_COLLECTION}`).doc(symbol).set({

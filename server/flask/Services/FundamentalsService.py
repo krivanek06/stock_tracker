@@ -187,7 +187,7 @@ class FundamentalServiceFormatter:
                     # if empty do not include
                     if len(res[statement][timePeriod][periodKeys[periodKeysIndex]]['data']) == 0:
                         del res[statement][timePeriod][periodKeys[periodKeysIndex]]
-                del res[statement][timePeriod]['maxAge']
+                res[statement][timePeriod].pop('maxAge', None)
 
         # rename some element
         rename = {

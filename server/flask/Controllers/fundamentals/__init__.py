@@ -16,7 +16,9 @@ def getStockFundamentals():
     try:
         return json_response(**fundamentals.getStockDetails(request.args.get('symbol')))
     except Exception as e:
-        raise JsonError(status=500, error=ERROR_MESSAGE + 'getStockFundamentals(), message: ' + str(e))
+        print(ERROR_MESSAGE + 'getStockFundamentals(), message: ' + str(e))
+        return json_response(summary=None)
+        #raise JsonError(status=500, error=ERROR_MESSAGE + 'getStockFundamentals(), message: ' + str(e))
 
 
 if __name__ == '__main__':
