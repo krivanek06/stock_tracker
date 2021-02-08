@@ -7,7 +7,6 @@ import {
 import {MarketService} from '../../../../features/market-feature/services/market.service';
 import {ComponentScreenUpdateBase} from '../../../../shared/utils/component-base/component-screen-update.base';
 import {filter, first, takeUntil} from 'rxjs/operators';
-import {MarketPriceWebsocketService} from '../../../../shared/services/market-price-websocket.service';
 import {cloneDeep} from 'lodash';
 import {MARKET_DAILY_CHANGE_SELECT} from '../../model/market.model';
 import {NameValueContainer, SymbolIdentification} from '../../../../shared/models/sharedModel';
@@ -15,6 +14,7 @@ import {Observable, of} from 'rxjs';
 import {ModalController} from '@ionic/angular';
 import {MarketEarningsModalComponent} from '../../../../features/market-feature/entry-components/market-earnings-modal/market-earnings-modal.component';
 import {SymbolLookupModalComponent} from '../../../../features/stock-details-feature/entry-components/symbol-lookup-modal/symbol-lookup-modal.component';
+import {FinnhubWebsocketService} from '../../../../shared/services/finnhub-websocket.service';
 
 @Component({
     selector: 'app-market-daily-change',
@@ -34,10 +34,10 @@ export class MarketDailyChangeComponent extends ComponentScreenUpdateBase implem
     MARKET_DAILY_CHANGE_SELECT = MARKET_DAILY_CHANGE_SELECT;
 
     constructor(private marketService: MarketService,
-                private marketPriceWebsocket: MarketPriceWebsocketService,
+                private finnhubWebsocketService: FinnhubWebsocketService,
                 private modalController: ModalController,
                 cdr: ChangeDetectorRef) {
-        super(cdr);
+        super(cdr, 'MarketDailyChangeComponent');
     }
 
     ngOnInit() {
@@ -47,7 +47,7 @@ export class MarketDailyChangeComponent extends ComponentScreenUpdateBase implem
 
     ngOnDestroy() {
         super.ngOnDestroy();
-        this.marketPriceWebsocket.closeConnection();
+        this.finnhubWebsocketService.closeConnection(this.componentName);
     }
 
     changeSelectedTopTable(event: CustomEvent) {
@@ -56,7 +56,7 @@ export class MarketDailyChangeComponent extends ComponentScreenUpdateBase implem
             const topGainersSymbols = this.topGainers.map(s => s.symbol);
             this.selectedTable.map(s => s.symbol)
                 .filter(s => !topGainersSymbols.includes(s))
-                .forEach(s => this.marketPriceWebsocket.closeConnectionForSymbol(s));
+                .forEach(s => this.finnhubWebsocketService.closeConnectionForSymbol(this.componentName, s));
         }
 
         this.selectedTableName = event.detail.value;
@@ -64,7 +64,7 @@ export class MarketDailyChangeComponent extends ComponentScreenUpdateBase implem
         // init subscription for new symbols
         this.marketService.queryMarketDailyOverview().pipe(takeUntil(this.destroy$)).subscribe(res => {
             this.selectedTable = cloneDeep(res[this.selectedTableName.value]);
-            this.selectedTable.forEach(s => this.marketPriceWebsocket.createSubscribeForSymbol(s.symbol));
+            this.selectedTable.forEach(s => this.finnhubWebsocketService.createSubscribeForSymbol(this.componentName, s.symbol));
         });
     }
 
@@ -113,12 +113,10 @@ export class MarketDailyChangeComponent extends ComponentScreenUpdateBase implem
     }
 
     private initSubscriptionForDailyOverview() {
-        this.marketPriceWebsocket.getIsConnected().pipe(filter(x => !x), first()).subscribe(() => {
-            this.topGainers.forEach(data => this.marketPriceWebsocket.createSubscribeForSymbol(data.symbol));
-        });
+        this.topGainers.forEach(data => this.finnhubWebsocketService.createSubscribeForSymbol(this.componentName, data.symbol));
+        this.selectedTable.forEach(data => this.finnhubWebsocketService.createSubscribeForSymbol(this.componentName, data.symbol));
 
-        this.marketPriceWebsocket.getSubscribedSymbolsResult().pipe(
-            filter(res => !!res), // filter null & undefined
+        this.finnhubWebsocketService.getSubscribedSymbolsResult().pipe(
             takeUntil(this.destroy$)
         ).subscribe(res => {
             let data = this.topGainers.find(s => s.symbol === res.s);

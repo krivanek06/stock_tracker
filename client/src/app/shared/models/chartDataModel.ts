@@ -7,7 +7,7 @@ export interface HistoricalChartData {
 
 export interface ChartSeriesData {
     name: string;
-    data: number[];
+    data: number[] | number[][];
     color?: any;
     type?: string;
     threshold?: any;
@@ -17,6 +17,7 @@ export interface ChartSeriesData {
     visible?: boolean;
     linearGradient?: any;
     stops?: any;
+    additionalKey?: any;
 }
 
 

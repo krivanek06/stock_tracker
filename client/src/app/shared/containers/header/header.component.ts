@@ -21,6 +21,8 @@ export class HeaderComponent implements OnInit {
     user$: Observable<StUserPublicData>;
     searchedSummaries$: Observable<Summary[]>;
 
+    loading = false;
+
     constructor(private authFeatureService: AuthFeatureService,
                 private firebaseSearchService: FirebaseSearchService,
                 private modalController: ModalController) {
@@ -32,12 +34,12 @@ export class HeaderComponent implements OnInit {
     }
 
     searchSymbol(event: CustomEvent) {
-        console.log('event', !!event.detail.value,  event.detail.value)
         if (!event.detail.value) {
             this.searchedSummaries$ = undefined;
+            this.loading = false;
         } else {
             this.searchedSummaries$ = this.firebaseSearchService.queryStockSummaries(event.detail.value);
-            this.searchedSummaries$.subscribe(x => console.log(x));
+            this.loading = true;
         }
     }
 

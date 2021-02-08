@@ -1,6 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {marketValueChange} from '../../../../shared/animations/marketValueChange.animation';
 import {StMarketTopTableCryptoData} from '../../../../api/customGraphql.service';
+import {SymbolIdentification} from '../../../../shared/models/sharedModel';
 
 @Component({
     selector: 'app-market-top-table-crypto',
@@ -11,6 +12,7 @@ import {StMarketTopTableCryptoData} from '../../../../api/customGraphql.service'
     ]
 })
 export class MarketTopTableCryptoComponent implements OnInit {
+    @Output() itemClickedEmitter: EventEmitter<StMarketTopTableCryptoData> = new EventEmitter<StMarketTopTableCryptoData>();
     @Input() topTableCryptoData: StMarketTopTableCryptoData[] = [];
 
     constructor() {
@@ -18,5 +20,10 @@ export class MarketTopTableCryptoComponent implements OnInit {
 
     ngOnInit() {
     }
+
+    itemClicked(data: StMarketTopTableCryptoData) {
+        this.itemClickedEmitter.emit(data);
+    }
+
 
 }

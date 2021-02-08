@@ -23,6 +23,7 @@ export class TradingScreenUpdateBase extends ComponentBase implements OnInit, On
     }
 
     ngOnInit(): void {
+        super.ngOnInit();
         this.initComponentAttributes();
         this.subscribeForSymbolPriceChange();
         this.updateScreen();

@@ -1,32 +1,5 @@
 @import "custom-variables";
 
-// class to add for each ion-content
-.st-content-padding {
-  width: 100% !important;
-  height: 100% !important;
-  padding: 10px 45px 50px 20px !important;
-  position: relative !important;
-  @media (max-width: #{$st-var-xxl-split}) {
-    padding: 10px 30px 50px 20px !important;
-  }
-  @media (max-width: #{$st-var-md-split}) {
-    text-align: center !important;
-    margin: auto !important;
-  }
-
-  @media (max-width: #{$st-var-sm-split}) {
-    width: 98% !important;
-    padding: 2px 10px 25px 10px !important;
-  }
-}
-
-.st-content-card {
-  padding: 2px 8px !important;
-  background: linear-gradient(126deg, rgba(28, 52, 113, 1) 0%, rgba(18, 44, 107, 1) 29%, rgba(24, 42, 99, 1) 44%, rgba(14, 30, 82, 1) 73%, rgba(11, 20, 49, 1) 100%);
-  border-radius: 4px;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
-}
-
 
 .content-fit {
   min-width: fit-content !important;
@@ -275,42 +248,14 @@ ion-spinner {
   }
 }
 
-
 .st-data-item-wrapper {
   border-bottom: 1px solid #66666633 !important;
-}
-
-.st-data-label-fixedLabel {
-  min-width: 60% !important;
-  max-width: 60% !important;
-  color: #{$st-var-font-1} !important;
 }
 
 .st-sm-table-item {
   padding-top: 6px !important;
   padding-bottom: 6px !important;
 }
-
-.st-label-xl-space {
-  min-width: 150px !important;
-  //max-width: 150px !important;
-}
-
-.st-label-md-space {
-  min-width: 110px !important;
-  //max-width: 110px !important;
-}
-
-
-.st-label-small-space {
-  min-width: 80px !important;
-  //max-width: 80px !important;
-  @media (max-width: #{$st-var-md-split}) {
-    min-width: 70px !important;
-    //max-width: 70px !important;
-  }
-}
-
 
 // ---------------------------------------------
 // FONT SIZES
@@ -503,12 +448,6 @@ ion-spinner {
   }
 }
 
-.st-button-size {
-  width: 70%;
-  @media (max-width: #{$st-var-md-split}) {
-    width: 100% !important;
-  }
-}
 
 .st-edit-button {
   color: #{$st-var-edit-1};
@@ -568,18 +507,12 @@ ion-spinner {
   }
 }
 
-.st-clickable-card {
-  cursor: pointer;
-  transition: All 0.4s ease-out;
-
-  &:hover {
-    transform: scale(0.96);
-    border-radius: 15px;
-    -webkit-box-shadow: 1px 3px 5px 2px #01002a;
-    -moz-box-shadow: 1px 3px 5px 2px #01002a;
-    box-shadow: 1px 3px 5px 2px #01002a;
-  }
+/* Custom Skeleton Line Height and Margin */
+ion-skeleton-text {
+  line-height: 16px;
+  --background-rgb: 200,200,255;
 }
+
 
 .st-news-container {
   column-count: 4;

@@ -3,7 +3,7 @@ import {Summary} from '../../../../api/customGraphql.service';
 import {Observable, of} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {FirebaseSearchService} from '../../../../shared/services/firebase-search.service';
-import {debounceTime, switchMap} from 'rxjs/operators';
+import {debounceTime, map, switchMap} from 'rxjs/operators';
 
 @Component({
     selector: 'app-stock-search',

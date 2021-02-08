@@ -6,37 +6,33 @@ import {TradeConfirmationPopOverComponent} from '../entry-components/trade-confi
 import {StTransactionInput, Summary} from '../../../api/customGraphql.service';
 import {GraphqlTradingService} from './graphql-trading.service';
 import {Observable} from 'rxjs';
-import {MarketPriceWebsocketService, MarketSymbolResult} from '../../../shared/services/market-price-websocket.service';
 import {filter, first, map, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {FinnhubWebsocketService} from '../../../shared/services/finnhub-websocket.service';
+import {MarketSymbolResult} from '../../../shared/models/sharedModel';
 
 @Injectable({
     providedIn: 'root'
 })
 export class TradingService {
+    private serviceName = 'TradingService';
 
     constructor(private ionicDialogService: IonicDialogService,
                 private popoverController: PopoverController,
                 private authService: AuthFeatureService,
                 private graphqlTradingService: GraphqlTradingService,
-                private marketPriceWebsocket: MarketPriceWebsocketService) {
+                private finnhubWebsocket: FinnhubWebsocketService) {
     }
 
     initSubscriptionForHoldings(): Observable<MarketSymbolResult> {
-        return this.marketPriceWebsocket.getIsConnected().pipe(
-            filter(x => !x),
+        return this.authService.getUser().pipe(
+            filter(x => !!x),
             first(),
-            switchMap(() => this.authService.getUser().pipe(
-                filter(x => !!x),
-                tap(user => user.holdings.forEach(h => this.marketPriceWebsocket.createSubscribeForSymbol(h.symbol))),
-                switchMap(() => this.marketPriceWebsocket.getSubscribedSymbolsResult().pipe(
-                    filter(res => !!res), // filter null & undefined
-                ))
-            ))
-        );
+            tap(user => user.holdings.forEach(h => this.finnhubWebsocket.createSubscribeForSymbol(this.serviceName, h.symbol))),
+            switchMap(() => this.finnhubWebsocket.getSubscribedSymbolsResult()));
     }
 
     closeMarketSubscription() {
-        this.marketPriceWebsocket.closeConnection();
+        this.finnhubWebsocket.closeConnection(this.serviceName);
     }
 
     async performTransaction(summary: Summary) {

@@ -2,8 +2,8 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges,
 import {filter, takeUntil} from 'rxjs/operators';
 import {ChartDataApiService} from '../../../api/chart-data-api.service';
 import {marketValueChange} from '../../animations/marketValueChange.animation';
-import {MarketPriceWebsocketService} from '../../services/market-price-websocket.service';
 import {ComponentScreenUpdateBase} from '../../utils/component-base/component-screen-update.base';
+import {FinnhubWebsocketService} from '../../services/finnhub-websocket.service';
 
 @Component({
     selector: 'app-financial-chart-container',
@@ -29,11 +29,12 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBase 
     @Input() name: string;
     @Input() height = 300;
     @Input() showYAxis = true;
+    @Input() isCrypto = false;
 
     constructor(private chartDataService: ChartDataApiService,
-                private marketPriceWebsocket: MarketPriceWebsocketService,
+                private finnhubWebsocketService: FinnhubWebsocketService,
                 private cd: ChangeDetectorRef) {
-        super(cd);
+        super(cd, 'FinancialChartContainerComponent');
     }
 
     ngOnInit() {
@@ -50,6 +51,7 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBase 
 
     ngOnDestroy() {
         super.ngOnDestroy();
+        this.finnhubWebsocketService.closeConnection(this.componentName);
     }
 
     segmentChanged(event: CustomEvent) {
@@ -67,10 +69,17 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBase 
     }
 
     private initWebsocketConnection() {
-        this.marketPriceWebsocket.createSubscribeForSymbol(this.symbol);
-        this.marketPriceWebsocket.getSubscribedSymbolsResult().pipe(
-            filter(res => !!res), // filter null & undefined
-            filter(res => res.s === this.symbol),
+        this.finnhubWebsocketService.createSubscribeForSymbol(this.componentName, this.symbol, this.isCrypto);
+        this.finnhubWebsocketService.getSubscribedSymbolsResult().pipe(
+            filter(res => {
+                let symbol = res.s;
+                if (this.isCrypto) {
+                    symbol = res.s.replace('BINANCE:', '').slice(0, -1);
+                    return this.symbol.replace('-', '') === symbol;
+                }
+                return symbol === this.symbol;
+            }),
+            //filter(res => res.s === this.symbol),
             takeUntil(this.destroy$)
         ).subscribe(res => {
             this.currentPrice = res.p;

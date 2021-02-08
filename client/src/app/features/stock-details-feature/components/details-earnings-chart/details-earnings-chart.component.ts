@@ -98,6 +98,8 @@ export class DetailsEarningsChartComponent implements OnInit, OnChanges {
             },
             tooltip: {
                 padding: 11,
+                outside: true,
+                borderWidth: 1,
                 enabled: true,
                 backgroundColor: '#232323',
                 style: {

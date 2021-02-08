@@ -1,9 +1,10 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {ChartType} from '../../../models/sharedModel';
 
 import * as Highcharts from 'highcharts/highstock';
 import highcharts3D from 'highcharts/highcharts-3d';
 import {stFormatLargeNumber} from '../../../utils/shared-functions.functions';
+import {ChartSeriesData} from '../../../models/chartDataModel';
 
 highcharts3D(Highcharts);
 
@@ -14,14 +15,14 @@ highcharts3D(Highcharts);
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GenericChartComponent implements OnInit, OnChanges {
+    @Output() expandEmitter: EventEmitter<any> = new EventEmitter<any>();
+
     @Input() series: any[]; // y-axis
     @Input() heightPx = 400;
     @Input() chartType: ChartType = ChartType.line;
-    @Input() showLegend = false;
     @Input() chartTitle: string;
     @Input() chartTitlePosition = 'left';
     @Input() showTimelineSlider = false;
-    @Input() enableLegendTogging = false;
     @Input() showTooltip = true;
     @Input() showDataLabel = false;
     @Input() categories: string[];
@@ -29,23 +30,47 @@ export class GenericChartComponent implements OnInit, OnChanges {
     @Input() isPercentage = false;
     @Input() showYAxis = true;
     @Input() showXAxis = true;
+    @Input() sharedTooltip = true;
+
+    // legend
+    @Input() showLegend = false;
+    @Input() enableLegendTogging = false;
+    @Input() showLegendLatestValue = false;
+
+    @Input() showExpandableButton = false;
+    @Input() addFancyColoring = false;
+
 
     Highcharts: typeof Highcharts = Highcharts;
     chart;
-    updateFromInput = false;
+    updateFromInput = true;
     chartCallback;
     chartOptions: any = {}; //  : Highcharts.Options
     constructor() {
         const self = this;
 
         this.chartCallback = (chart) => {
-            self.chart = chart;
+            self.chart = chart; // new Highcharts.Chart(this.chartOptions); //chart;
         };
     }
 
     ngOnChanges(changes: SimpleChanges): void {
+        if (this.addFancyColoring) {
+            this.fancyColoring();
+        }
 
         this.initChart();
+
+        // legend formatting
+        if (this.showLegendLatestValue) {
+            this.chartOptions.legend = {
+                ...this.chartOptions.legend,
+                labelFormatter: function() {
+                    const value = stFormatLargeNumber(this.yData[this.yData.length - 1]);
+                    return '<span style="color:' + this.color + '">' + this.name + ': </span><b>' + value;
+                }
+            };
+        }
 
         if (this.chartType === ChartType.column) {
             this.chartOptions.xAxis.type = 'category';
@@ -72,21 +97,24 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 this.chartOptions.plotOptions.series.dataLabels.format = '{point.y:.1f}%';
             }
         } else {
-            this.chartOptions.plotOptions.column.tooltip = {
-                ...this.chartOptions.plotOptions.column.tooltip,
+            this.chartOptions.tooltip = {
+                ...this.chartOptions.tooltip,
                 pointFormatter: function() {
                     const value = stFormatLargeNumber(this.y);
                     return `<p><span style="color: ${this.color}; font-weight: bold">● ${this.series.name}: </span><span>${value}</span></p><br/>`;
                 }
             };
         }
-
     }
 
     ngOnInit() {
         setTimeout(() => {
             window.dispatchEvent(new Event('resize'));
         }, 300);
+    }
+
+    expand() {
+        this.expandEmitter.emit();
     }
 
     private initCategories() {
@@ -170,7 +198,10 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 },
                 itemHiddenStyle: {
                     color: this.enableLegendTogging ? '#494949' : '#acacac'
-                }
+                },
+                verticalAlign: 'top',
+                align: 'left',
+                x: -20
             },
             accessibility: {
                 point: {
@@ -186,8 +217,9 @@ export class GenericChartComponent implements OnInit, OnChanges {
                     fontSize: '12px',
                     color: '#D9D8D8',
                 },
-                shared: true,
+                shared: this.sharedTooltip,
                 valueDecimals: 2
+                //headerFormat: '<p style="color:#909592; font-size: 12px">{point.x}</p><br/>',
             },
             rangeSelector: {
                 enabled: false
@@ -320,5 +352,24 @@ export class GenericChartComponent implements OnInit, OnChanges {
             const value = this.percentage.toFixed(2);
             return '<span style="color:' + this.color + '">' + this.name + ': </span>(<b>' + value + '%)<br/>';
         };
+    }
+
+    private fancyColoring() {
+        let count = 0;
+        this.series = this.series.map(s => {
+            const data: ChartSeriesData = {
+                name: s.name,
+                data: s.data,
+                color: {
+                    linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1},
+                    stops: [
+                        [0, Highcharts.getOptions().colors[(count % 5) + 2]], // '#25aedd'
+                        [1, Highcharts.getOptions().colors[count % 10]]
+                    ]
+                }
+            };
+            count += 1;
+            return data;
+        });
     }
 }

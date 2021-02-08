@@ -649,7 +649,6 @@ export type Query = {
     querySTMarketHistoryOverview?: Maybe<StMarketOverviewPartialData>;
     queryStMarketAllCategories?: Maybe<StMarketDatasetKeyCategories>;
     queryMarketDailyOverview?: Maybe<StMarketDailyOverview>;
-    queryMultipleStMarketData?: Maybe<StMarketChartDataResultSearch>;
     queryStMarketData?: Maybe<StMarketChartDataResultCombined>;
     queryStMarketCalendarEvents?: Maybe<StMarketCalendarEvents>;
     queryStMarketCalendarEventsEarnings?: Maybe<StMarketCalendarEventsEarnings>;
@@ -693,11 +692,6 @@ export type QueryQueryStockSummaryArgs = {
 
 export type QueryQueryStockSummariesArgs = {
     symbolPrefix: Scalars['String'];
-};
-
-
-export type QueryQueryMultipleStMarketDataArgs = {
-    key: Scalars['String'];
 };
 
 
@@ -968,18 +962,6 @@ export type StMarketDatasetKeyCategory = {
     name: Scalars['String'];
 };
 
-export type StMarketChartDataResult = {
-    __typename?: 'STMarketChartDataResult';
-    currentDate?: Maybe<Scalars['String']>;
-    currentValue?: Maybe<Scalars['Float']>;
-    documentKey?: Maybe<Scalars['String']>;
-    name?: Maybe<Scalars['String']>;
-    parentName?: Maybe<Scalars['String']>;
-    quandalKey?: Maybe<Scalars['String']>;
-    lastUpdate?: Maybe<Scalars['String']>;
-    data?: Maybe<Array<Maybe<Scalars['Float']>>>;
-};
-
 export type StMarketChartDataResultCombined = {
     __typename?: 'STMarketChartDataResultCombined';
     currentDate?: Maybe<Scalars['String']>;
@@ -987,39 +969,26 @@ export type StMarketChartDataResultCombined = {
     documentKey?: Maybe<Scalars['String']>;
     name?: Maybe<Scalars['String']>;
     parentName?: Maybe<Scalars['String']>;
-    quandalKey?: Maybe<Scalars['String']>;
     lastUpdate?: Maybe<Scalars['String']>;
     data?: Maybe<Array<Maybe<Array<Maybe<Scalars['Float']>>>>>;
 };
 
-export type StMarketChartDataResultContainer = {
-    __typename?: 'STMarketChartDataResultContainer';
-    result?: Maybe<Array<Maybe<StMarketChartDataResult>>>;
-    timestamp?: Maybe<Array<Maybe<Scalars['Float']>>>;
-    keyName?: Maybe<Scalars['String']>;
-};
-
-export type StMarketChartDataResultSearch = {
-    __typename?: 'STMarketChartDataResultSearch';
-    result?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
-};
-
 export type StMarketOverviewPartialData = {
     __typename?: 'STMarketOverviewPartialData';
-    sp500?: Maybe<StMarketChartDataResultContainer>;
-    bonds?: Maybe<StMarketChartDataResultContainer>;
-    social_security?: Maybe<StMarketChartDataResultContainer>;
-    consumer_price_index_states?: Maybe<StMarketChartDataResultContainer>;
-    consumer_us_price_index?: Maybe<StMarketChartDataResultContainer>;
-    producer_us_price_index?: Maybe<StMarketChartDataResultContainer>;
-    inflation_rate?: Maybe<StMarketChartDataResultContainer>;
-    employment?: Maybe<StMarketChartDataResultContainer>;
-    manufacturing?: Maybe<StMarketChartDataResultContainer>;
-    exports?: Maybe<StMarketChartDataResultContainer>;
-    misery_index?: Maybe<StMarketChartDataResultContainer>;
-    treasury_yield?: Maybe<StMarketChartDataResultContainer>;
-    investor_sentiment?: Maybe<StMarketChartDataResultContainer>;
-    bitcoin?: Maybe<StMarketChartDataResultContainer>;
+    sp500?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
+    bonds?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
+    social_security?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
+    consumer_price_index_states?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
+    consumer_us_price_index?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
+    producer_us_price_index?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
+    inflation_rate?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
+    employment?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
+    manufacturing?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
+    exports?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
+    misery_index?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
+    treasury_yield?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
+    investor_sentiment?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
+    bitcoin?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
     lastUpdate?: Maybe<Scalars['String']>;
 };
 
@@ -1596,20 +1565,9 @@ export type LeaveGroupMutation = (
     & Pick<Mutation, 'leaveGroup'>
     );
 
-export type StMarketChartDataFragmentFragment = (
-    { __typename?: 'STMarketChartDataResult' }
-    & Pick<StMarketChartDataResult, 'currentDate' | 'currentValue' | 'data' | 'documentKey' | 'name' | 'parentName' | 'quandalKey' | 'lastUpdate'>
-    );
-
-export type StMarketChartDataResultContainerFragmentFragment = (
-    { __typename?: 'STMarketChartDataResultContainer' }
-    & Pick<StMarketChartDataResultContainer, 'timestamp' | 'keyName'>
-    & {
-    result?: Maybe<Array<Maybe<(
-        { __typename?: 'STMarketChartDataResult' }
-        & StMarketChartDataFragmentFragment
-        )>>>
-}
+export type StMarketChartDataResultCombinedFragmentFragment = (
+    { __typename?: 'STMarketChartDataResultCombined' }
+    & Pick<StMarketChartDataResultCombined, 'currentDate' | 'currentValue' | 'data' | 'documentKey' | 'name' | 'parentName' | 'lastUpdate'>
     );
 
 export type StMarketTopTableCryptoDataFragmentFragment = (
@@ -1632,49 +1590,49 @@ export type QueryStMarketHistoryOverviewQuery = (
         { __typename?: 'STMarketOverviewPartialData' }
         & Pick<StMarketOverviewPartialData, 'lastUpdate'>
         & {
-        sp500?: Maybe<(
-            { __typename?: 'STMarketChartDataResultContainer' }
-            & StMarketChartDataResultContainerFragmentFragment
-            )>, bonds?: Maybe<(
-            { __typename?: 'STMarketChartDataResultContainer' }
-            & StMarketChartDataResultContainerFragmentFragment
-            )>, social_security?: Maybe<(
-            { __typename?: 'STMarketChartDataResultContainer' }
-            & StMarketChartDataResultContainerFragmentFragment
-            )>, consumer_price_index_states?: Maybe<(
-            { __typename?: 'STMarketChartDataResultContainer' }
-            & StMarketChartDataResultContainerFragmentFragment
-            )>, consumer_us_price_index?: Maybe<(
-            { __typename?: 'STMarketChartDataResultContainer' }
-            & StMarketChartDataResultContainerFragmentFragment
-            )>, producer_us_price_index?: Maybe<(
-            { __typename?: 'STMarketChartDataResultContainer' }
-            & StMarketChartDataResultContainerFragmentFragment
-            )>, inflation_rate?: Maybe<(
-            { __typename?: 'STMarketChartDataResultContainer' }
-            & StMarketChartDataResultContainerFragmentFragment
-            )>, employment?: Maybe<(
-            { __typename?: 'STMarketChartDataResultContainer' }
-            & StMarketChartDataResultContainerFragmentFragment
-            )>, manufacturing?: Maybe<(
-            { __typename?: 'STMarketChartDataResultContainer' }
-            & StMarketChartDataResultContainerFragmentFragment
-            )>, exports?: Maybe<(
-            { __typename?: 'STMarketChartDataResultContainer' }
-            & StMarketChartDataResultContainerFragmentFragment
-            )>, misery_index?: Maybe<(
-            { __typename?: 'STMarketChartDataResultContainer' }
-            & StMarketChartDataResultContainerFragmentFragment
-            )>, treasury_yield?: Maybe<(
-            { __typename?: 'STMarketChartDataResultContainer' }
-            & StMarketChartDataResultContainerFragmentFragment
-            )>, investor_sentiment?: Maybe<(
-            { __typename?: 'STMarketChartDataResultContainer' }
-            & StMarketChartDataResultContainerFragmentFragment
-            )>, bitcoin?: Maybe<(
-            { __typename?: 'STMarketChartDataResultContainer' }
-            & StMarketChartDataResultContainerFragmentFragment
-            )>
+        sp500?: Maybe<Array<Maybe<(
+            { __typename?: 'STMarketChartDataResultCombined' }
+            & StMarketChartDataResultCombinedFragmentFragment
+            )>>>, bonds?: Maybe<Array<Maybe<(
+            { __typename?: 'STMarketChartDataResultCombined' }
+            & StMarketChartDataResultCombinedFragmentFragment
+            )>>>, social_security?: Maybe<Array<Maybe<(
+            { __typename?: 'STMarketChartDataResultCombined' }
+            & StMarketChartDataResultCombinedFragmentFragment
+            )>>>, consumer_price_index_states?: Maybe<Array<Maybe<(
+            { __typename?: 'STMarketChartDataResultCombined' }
+            & StMarketChartDataResultCombinedFragmentFragment
+            )>>>, consumer_us_price_index?: Maybe<Array<Maybe<(
+            { __typename?: 'STMarketChartDataResultCombined' }
+            & StMarketChartDataResultCombinedFragmentFragment
+            )>>>, producer_us_price_index?: Maybe<Array<Maybe<(
+            { __typename?: 'STMarketChartDataResultCombined' }
+            & StMarketChartDataResultCombinedFragmentFragment
+            )>>>, inflation_rate?: Maybe<Array<Maybe<(
+            { __typename?: 'STMarketChartDataResultCombined' }
+            & StMarketChartDataResultCombinedFragmentFragment
+            )>>>, employment?: Maybe<Array<Maybe<(
+            { __typename?: 'STMarketChartDataResultCombined' }
+            & StMarketChartDataResultCombinedFragmentFragment
+            )>>>, manufacturing?: Maybe<Array<Maybe<(
+            { __typename?: 'STMarketChartDataResultCombined' }
+            & StMarketChartDataResultCombinedFragmentFragment
+            )>>>, exports?: Maybe<Array<Maybe<(
+            { __typename?: 'STMarketChartDataResultCombined' }
+            & StMarketChartDataResultCombinedFragmentFragment
+            )>>>, misery_index?: Maybe<Array<Maybe<(
+            { __typename?: 'STMarketChartDataResultCombined' }
+            & StMarketChartDataResultCombinedFragmentFragment
+            )>>>, treasury_yield?: Maybe<Array<Maybe<(
+            { __typename?: 'STMarketChartDataResultCombined' }
+            & StMarketChartDataResultCombinedFragmentFragment
+            )>>>, investor_sentiment?: Maybe<Array<Maybe<(
+            { __typename?: 'STMarketChartDataResultCombined' }
+            & StMarketChartDataResultCombinedFragmentFragment
+            )>>>, bitcoin?: Maybe<Array<Maybe<(
+            { __typename?: 'STMarketChartDataResultCombined' }
+            & StMarketChartDataResultCombinedFragmentFragment
+            )>>>
     }
         )>
 }
@@ -1817,26 +1775,6 @@ export type QueryStMarketAllCategoriesQuery = (
 }
     );
 
-export type QueryMultipleStMarketDataQueryVariables = Exact<{
-    key: Scalars['String'];
-}>;
-
-
-export type QueryMultipleStMarketDataQuery = (
-    { __typename?: 'Query' }
-    & {
-    queryMultipleStMarketData?: Maybe<(
-        { __typename?: 'STMarketChartDataResultSearch' }
-        & {
-        result?: Maybe<Array<Maybe<(
-            { __typename?: 'STMarketChartDataResultCombined' }
-            & Pick<StMarketChartDataResultCombined, 'currentDate' | 'currentValue' | 'documentKey' | 'name' | 'parentName' | 'quandalKey' | 'lastUpdate' | 'data'>
-            )>>>
-    }
-        )>
-}
-    );
-
 export type QueryStMarketDataQueryVariables = Exact<{
     key: Scalars['String'];
 }>;
@@ -1847,7 +1785,7 @@ export type QueryStMarketDataQuery = (
     & {
     queryStMarketData?: Maybe<(
         { __typename?: 'STMarketChartDataResultCombined' }
-        & Pick<StMarketChartDataResultCombined, 'currentDate' | 'currentValue' | 'documentKey' | 'name' | 'parentName' | 'quandalKey' | 'lastUpdate' | 'data'>
+        & StMarketChartDataResultCombinedFragmentFragment
         )>
 }
     );
@@ -2904,27 +2842,17 @@ export const StGroupAllDataFragmentFragmentDoc = gql`
     ${StRankFragmentFragmentDoc}
     ${StTransactionFragmentFragmentDoc}
 ${StLogsFragmentFragmentDoc}`;
-export const StMarketChartDataFragmentFragmentDoc = gql`
-    fragment STMarketChartDataFragment on STMarketChartDataResult {
+export const StMarketChartDataResultCombinedFragmentFragmentDoc = gql`
+    fragment STMarketChartDataResultCombinedFragment on STMarketChartDataResultCombined {
         currentDate
         currentValue
         data
         documentKey
         name
         parentName
-        quandalKey
         lastUpdate
     }
 `;
-export const StMarketChartDataResultContainerFragmentFragmentDoc = gql`
-    fragment STMarketChartDataResultContainerFragment on STMarketChartDataResultContainer {
-        result {
-            ...STMarketChartDataFragment
-        }
-        timestamp
-        keyName
-    }
-${StMarketChartDataFragmentFragmentDoc}`;
 export const StMarketTopTableCryptoDataFragmentFragmentDoc = gql`
     fragment STMarketTopTableCryptoDataFragment on STMarketTopTableCryptoData {
         circulatingSupply
@@ -3883,51 +3811,51 @@ export const QueryStMarketHistoryOverviewDocument = gql`
     query QuerySTMarketHistoryOverview {
         querySTMarketHistoryOverview {
             sp500 {
-                ...STMarketChartDataResultContainerFragment
+                ...STMarketChartDataResultCombinedFragment
             }
             bonds {
-                ...STMarketChartDataResultContainerFragment
+                ...STMarketChartDataResultCombinedFragment
             }
             social_security {
-                ...STMarketChartDataResultContainerFragment
+                ...STMarketChartDataResultCombinedFragment
             }
             consumer_price_index_states {
-                ...STMarketChartDataResultContainerFragment
+                ...STMarketChartDataResultCombinedFragment
             }
             consumer_us_price_index {
-                ...STMarketChartDataResultContainerFragment
+                ...STMarketChartDataResultCombinedFragment
             }
             producer_us_price_index {
-                ...STMarketChartDataResultContainerFragment
+                ...STMarketChartDataResultCombinedFragment
             }
             inflation_rate {
-                ...STMarketChartDataResultContainerFragment
+                ...STMarketChartDataResultCombinedFragment
             }
             employment {
-                ...STMarketChartDataResultContainerFragment
+                ...STMarketChartDataResultCombinedFragment
             }
             manufacturing {
-                ...STMarketChartDataResultContainerFragment
+                ...STMarketChartDataResultCombinedFragment
             }
             exports {
-                ...STMarketChartDataResultContainerFragment
+                ...STMarketChartDataResultCombinedFragment
             }
             misery_index {
-                ...STMarketChartDataResultContainerFragment
+                ...STMarketChartDataResultCombinedFragment
             }
             treasury_yield {
-                ...STMarketChartDataResultContainerFragment
+                ...STMarketChartDataResultCombinedFragment
             }
             investor_sentiment {
-                ...STMarketChartDataResultContainerFragment
+                ...STMarketChartDataResultCombinedFragment
             }
             bitcoin {
-                ...STMarketChartDataResultContainerFragment
+                ...STMarketChartDataResultCombinedFragment
             }
             lastUpdate
         }
     }
-${StMarketChartDataResultContainerFragmentFragmentDoc}`;
+${StMarketChartDataResultCombinedFragmentFragmentDoc}`;
 
 @Injectable({
     providedIn: 'root'
@@ -4078,48 +4006,13 @@ export class QueryStMarketAllCategoriesGQL extends Apollo.Query<QueryStMarketAll
     }
 }
 
-export const QueryMultipleStMarketDataDocument = gql`
-    query QueryMultipleStMarketData($key: String!) {
-        queryMultipleStMarketData(key: $key) {
-            result {
-                currentDate
-                currentValue
-                documentKey
-                name
-                parentName
-                quandalKey
-                lastUpdate
-                data
-            }
-        }
-    }
-`;
-
-@Injectable({
-    providedIn: 'root'
-})
-export class QueryMultipleStMarketDataGQL extends Apollo.Query<QueryMultipleStMarketDataQuery, QueryMultipleStMarketDataQueryVariables> {
-    document = QueryMultipleStMarketDataDocument;
-
-    constructor(apollo: Apollo.Apollo) {
-        super(apollo);
-    }
-}
-
 export const QueryStMarketDataDocument = gql`
     query QueryStMarketData($key: String!) {
         queryStMarketData(key: $key) {
-            currentDate
-            currentValue
-            documentKey
-            name
-            parentName
-            quandalKey
-            lastUpdate
-            data
+            ...STMarketChartDataResultCombinedFragment
         }
     }
-`;
+${StMarketChartDataResultCombinedFragmentFragmentDoc}`;
 
 @Injectable({
     providedIn: 'root'

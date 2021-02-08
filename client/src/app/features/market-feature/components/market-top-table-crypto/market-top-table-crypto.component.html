@@ -14,7 +14,7 @@
     <ng-container *ngFor="let data of topTableCryptoData">
 
         <!-- BIG SCREEN -->
-        <ion-item button class="st-data-item-wrapper ion-hide-sm-down">
+        <ion-item button class="st-data-item-wrapper ion-hide-sm-down" (click)="itemClicked(data)">
             <!-- logo + symbol name -->
             <ion-label class="st-display-flex-center st-data-label symbol-md-space">
                 <ion-img appDefaultImg [src]="data.coinImageUrl" class="st-symbol-image"></ion-img>
@@ -57,7 +57,7 @@
 
 
         <!-- SMALL SCREEN -->
-        <ion-item button class="st-data-item-wrapper ion-hide-sm-up st-sm-table-item">
+        <ion-item button class="st-data-item-wrapper ion-hide-sm-up st-sm-table-item" (click)="itemClicked(data)">
             <!-- LOGO + SYMBOL -->
             <ion-label class="st-display-flex-center">
                 <ion-img appDefaultImg [src]="data.coinImageUrl" class="st-symbol-image"></ion-img>
