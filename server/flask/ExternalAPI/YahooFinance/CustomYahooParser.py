@@ -42,22 +42,25 @@ class CustomYahooParser:
 
         for table in tables:
             # The first tr contains the field names, keys.
-            headings = [th.get_text() for th in table.find("tr").find_all("th")]
-            lines = []
-            # save each line
-            for row in table.find_all("tr")[1:]:
-                line = [td.get_text() for td in row.find_all("td")]
-                lines.append(line)
+            try:
+                headings = [th.get_text() for th in table.find("tr").find_all("th")]
+                lines = []
+                # save each line
+                for row in table.find_all("tr")[1:]:
+                    line = [td.get_text() for td in row.find_all("td")]
+                    lines.append(line)
 
-            tmpContainer = []
-            # parse dropdown lines
-            for i in range(1, len(headings)):
-                tmpObject = {line[0]: line[i] for line in lines}
-                tmpObject['name'] = headings[i]
-                tmpObject = utils.changeUnsupportedCharactersForDictKey(tmpObject)
-                tmpContainer.append(tmpObject)
+                tmpContainer = []
+                # parse dropdown lines
+                for i in range(1, len(headings)):
+                    tmpObject = {line[0]: line[i] for line in lines}
+                    tmpObject['name'] = headings[i]
+                    tmpObject = utils.changeUnsupportedCharactersForDictKey(tmpObject)
+                    tmpContainer.append(tmpObject)
 
-            result[utils.changeUnsupportedCharacters(headings[0])] = tmpContainer
+                result[utils.changeUnsupportedCharacters(headings[0])] = tmpContainer
+            except:
+                continue
         return result
 
     def get_json(self, url, proxy=None):
