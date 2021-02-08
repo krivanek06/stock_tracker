@@ -1,8 +1,11 @@
+<ion-icon *ngIf="showExpandableButton" name="expand-outline" class="expand-icon" (click)="expand()"></ion-icon>
+
 <highcharts-chart [Highcharts]="Highcharts"
                   [options]="chartOptions"
                   [constructorType]=" showTimelineSlider ? 'stockChart' :'' "
                   [callbackFunction]="chartCallback"
                   [(update)]="updateFromInput"
+                  [oneToOne]="true"
                   style="width: 100%; display: block;"
                   [style.height.px]="heightPx">
 </highcharts-chart>

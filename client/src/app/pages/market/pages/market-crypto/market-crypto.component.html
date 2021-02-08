@@ -2,8 +2,9 @@
     <ion-row class="ion-justify-content-center">
         <ion-col size="12" size-lg="11">
             <app-financial-chart-container
+                    [isCrypto]="true"
                     [name]="'Bitcoin - USD'"
-                    [height]="425"
+                    [height]="385"
                     [symbol]="'BTC-USD'">
             </app-financial-chart-container>
         </ion-col>
@@ -11,13 +12,15 @@
 
     <app-generic-list [title]="'Bitcoin stats'" [applyMarginTop]="true"></app-generic-list>
     <ion-row *ngIf="marketOverview$ | async as marketOverview">
-        <ion-col *ngFor="let data of marketOverview.bitcoin.result; let i = index; let last=last"
-                 size="12" [sizeSm]="last ? 12 : 6" [sizeMd]="i > 2 ? 6 : 4" [sizeLg]="i > 3 ? 4 : 3">
-            <app-market-chart
+        <ion-col *ngFor="let data of marketOverview.bitcoin" size="12" size-sm="6"  size-md="4">
+            <app-generic-chart
+                    (expandEmitter)="expand(data.documentKey)"
+                    [showExpandableButton]="true"
+                    [showLegend]="true"
+                    [showLegendLatestValue]="true"
                     [heightPx]="185"
-                    [timestamp]="marketOverview.sp500.timestamp"
-                    [chartDataResult]="data">
-            </app-market-chart>
+                    [series]="[{name: data.name,  data: data.data}]">
+            </app-generic-chart>
         </ion-col>
     </ion-row>
 
@@ -25,7 +28,10 @@
     <ion-row>
         <ion-col size="12">
             <app-generic-card>
-                <app-market-top-table-crypto [topTableCryptoData]="topCrypto"></app-market-top-table-crypto>
+                <app-market-top-table-crypto
+                        (itemClickedEmitter)="showSummary($event)"
+                        [topTableCryptoData]="topCrypto">
+                </app-market-top-table-crypto>
             </app-generic-card>
         </ion-col>
     </ion-row>

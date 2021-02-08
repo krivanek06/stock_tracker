@@ -1,0 +1,28 @@
+@import "variables";
+
+:host {
+  .category-container {
+    column-count: 5;
+
+  }
+
+  .category-container-section {
+    padding: 10px;
+    display: inline-grid;
+  }
+
+  .category-header {
+    padding: 4px;
+    color: white;
+    margin-bottom: 8px;
+  }
+
+  .category-item {
+    padding: 4px;
+    color: #{$st-var-font-4};
+
+    &:hover {
+      color: #{$st-var-font-1};
+    }
+  }
+}

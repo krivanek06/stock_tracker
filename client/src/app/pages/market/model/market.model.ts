@@ -3,7 +3,6 @@ import {NameValueContainer} from '../../../shared/models/sharedModel';
 export enum MARKET_PAGE_ENUM {
     overview = 'overview',
     production = 'production',
-    people = 'people',
     dailyChange = 'daily-change',
     crypto = 'crypto'
 }
@@ -12,7 +11,6 @@ export const MARKET_PAGE_PATH: NameValueContainer[] = [
     {name: 'daily-change', value: MARKET_PAGE_ENUM.dailyChange},
     {name: 'overview', value: MARKET_PAGE_ENUM.overview},
     {name: 'production', value: MARKET_PAGE_ENUM.production},
-    {name: 'people', value: MARKET_PAGE_ENUM.people},
     {name: 'crypto', value: MARKET_PAGE_ENUM.crypto}
 ];
 

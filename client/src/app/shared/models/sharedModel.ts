@@ -30,3 +30,9 @@ export interface GenericChartSeries {
     y: number;
 }
 
+export interface MarketSymbolResult {
+    p: number;  // price
+    s: string;  // source
+    t: number;  // timestamp
+    v: number; // volume
+}

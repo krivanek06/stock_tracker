@@ -3,26 +3,27 @@ import {ModalController, PopoverController} from '@ionic/angular';
 import {IonicDialogService} from '../../../shared/services/ionic-dialog.service';
 import {AuthFeatureService} from '../../auth-feature/services/auth-feature.service';
 import {WatchlistPickerModalContainerComponent} from '../entry-components/watchlist-picker-modal-container/watchlist-picker-modal-container.component';
-import {SymbolIdentification} from '../../../shared/models/sharedModel';
+import {MarketSymbolResult, SymbolIdentification} from '../../../shared/models/sharedModel';
 import {filter, first, map, takeUntil} from 'rxjs/operators';
 import {Observable, Subject} from 'rxjs';
 import {
     Maybe,
     StStockWatchInputlistIdentifier,
-    StStockWatchlist,
     StStockWatchlistFragmentFragment
 } from '../../../api/customGraphql.service';
 import {GraphqlWatchlistService} from './graphql-watchlist.service';
 import {InlineInputPopUpComponent} from '../../../shared/components/pop-ups/inline-input-pop-up/inline-input-pop-up.component';
-import {MarketPriceWebsocketService, MarketSymbolResult} from '../../../shared/services/market-price-websocket.service';
+import {FinnhubWebsocketService} from '../../../shared/services/finnhub-websocket.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class WatchlistService {
+    private serviceName = 'WatchlistService';
+
     constructor(private ionicDialogService: IonicDialogService,
                 private popoverController: PopoverController,
-                private marketPriceWebsocket: MarketPriceWebsocketService,
+                private finnhubWebsocketService: FinnhubWebsocketService,
                 private graphqlWatchlistService: GraphqlWatchlistService,
                 private authService: AuthFeatureService) {
     }
@@ -38,17 +39,13 @@ export class WatchlistService {
         const userWatchlist = this.authService.user.stockWatchlist;
         const distinctStocks = [...new Set([].concat(...userWatchlist.map(w => w.summaries.map(x => x.symbol))))] as string[];
 
-        this.marketPriceWebsocket.getIsConnected().pipe(filter(x => !x), first()).subscribe(() => {
-            distinctStocks.forEach(stock => this.marketPriceWebsocket.createSubscribeForSymbol(stock));
-        });
+        distinctStocks.forEach(stock => this.finnhubWebsocketService.createSubscribeForSymbol(this.serviceName, stock));
 
-        return this.marketPriceWebsocket.getSubscribedSymbolsResult().pipe(
-            filter(res => !!res), // filter null & undefined
-        );
+        return this.finnhubWebsocketService.getSubscribedSymbolsResult();
     }
 
     closeMarketSubscription() {
-        this.marketPriceWebsocket.closeConnection();
+        this.finnhubWebsocketService.closeConnection(this.serviceName);
     }
 
 

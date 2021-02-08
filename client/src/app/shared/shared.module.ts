@@ -39,6 +39,7 @@ import {RecommendationDirective} from './directives/recommendation.directive';
 import {ArticleCardsComponent} from './components/cards/article-cards/article-cards.component';
 import {SumUpPipe} from './pipes/sumUp.pipe';
 import {StockInfoIdentificationItemComponent} from './components/items/stock-info-identification-item/stock-info-identification-item.component';
+import {FinancialChartModalComponent} from './entry-components/financial-chart-modal/financial-chart-modal.component';
 
 
 @NgModule({
@@ -73,7 +74,8 @@ import {StockInfoIdentificationItemComponent} from './components/items/stock-inf
         TableHighLowRangeComponent,
         RecommendationDirective,
         ArticleCardsComponent,
-        StockInfoIdentificationItemComponent
+        StockInfoIdentificationItemComponent,
+        FinancialChartModalComponent
     ],
     imports: [
         CommonModule,
@@ -125,7 +127,8 @@ import {StockInfoIdentificationItemComponent} from './components/items/stock-inf
         TableHighLowRangeComponent,
         RecommendationDirective,
         ArticleCardsComponent,
-        StockInfoIdentificationItemComponent
+        StockInfoIdentificationItemComponent,
+        FinancialChartModalComponent
     ],
     entryComponents: [
         InlineInputPopUpComponent

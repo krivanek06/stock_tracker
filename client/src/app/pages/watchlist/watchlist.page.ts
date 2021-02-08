@@ -34,7 +34,7 @@ export class WatchlistPage extends ComponentScreenUpdateBase implements OnInit, 
                 private authFeatureService: AuthFeatureService,
                 private modalController: ModalController,
                 cdr: ChangeDetectorRef) {
-        super(cdr);
+        super(cdr, 'WatchlistPage');
     }
 
 

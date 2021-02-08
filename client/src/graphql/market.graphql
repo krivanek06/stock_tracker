@@ -1,20 +1,11 @@
-fragment STMarketChartDataFragment on STMarketChartDataResult {
+fragment STMarketChartDataResultCombinedFragment on STMarketChartDataResultCombined {
     currentDate
     currentValue
     data
     documentKey
     name
     parentName
-    quandalKey
     lastUpdate
-}
-
-fragment STMarketChartDataResultContainerFragment on STMarketChartDataResultContainer {
-    result {
-        ...STMarketChartDataFragment
-    }
-    timestamp
-    keyName
 }
 
 fragment STMarketTopTableCryptoDataFragment on STMarketTopTableCryptoData {
@@ -65,46 +56,46 @@ fragment STMarketTopTableSymbolDataFragment on STMarketTopTableSymbolData {
 query QuerySTMarketHistoryOverview {
     querySTMarketHistoryOverview {
         sp500 {
-            ...STMarketChartDataResultContainerFragment
+            ...STMarketChartDataResultCombinedFragment
         }
         bonds {
-            ...STMarketChartDataResultContainerFragment
+            ...STMarketChartDataResultCombinedFragment
         }
         social_security {
-            ...STMarketChartDataResultContainerFragment
+            ...STMarketChartDataResultCombinedFragment
         }
         consumer_price_index_states {
-            ...STMarketChartDataResultContainerFragment
+            ...STMarketChartDataResultCombinedFragment
         }
         consumer_us_price_index {
-            ...STMarketChartDataResultContainerFragment
+            ...STMarketChartDataResultCombinedFragment
         }
         producer_us_price_index {
-            ...STMarketChartDataResultContainerFragment
+            ...STMarketChartDataResultCombinedFragment
         }
         inflation_rate {
-            ...STMarketChartDataResultContainerFragment
+            ...STMarketChartDataResultCombinedFragment
         }
         employment {
-            ...STMarketChartDataResultContainerFragment
+            ...STMarketChartDataResultCombinedFragment
         }
         manufacturing {
-            ...STMarketChartDataResultContainerFragment
+            ...STMarketChartDataResultCombinedFragment
         }
         exports {
-            ...STMarketChartDataResultContainerFragment
+            ...STMarketChartDataResultCombinedFragment
         }
         misery_index {
-            ...STMarketChartDataResultContainerFragment
+            ...STMarketChartDataResultCombinedFragment
         }
         treasury_yield {
-            ...STMarketChartDataResultContainerFragment
+            ...STMarketChartDataResultCombinedFragment
         }
         investor_sentiment {
-            ...STMarketChartDataResultContainerFragment
+            ...STMarketChartDataResultCombinedFragment
         }
         bitcoin {
-            ...STMarketChartDataResultContainerFragment
+            ...STMarketChartDataResultCombinedFragment
         }
         lastUpdate
     }
@@ -220,31 +211,9 @@ query QueryStMarketAllCategories {
     }
 }
 
-query QueryMultipleStMarketData($key: String!) {
-    queryMultipleStMarketData(key: $key) {
-        result {
-            currentDate
-            currentValue
-            documentKey
-            name
-            parentName
-            quandalKey
-            lastUpdate
-            data
-        }
-    }
-}
 
 query QueryStMarketData($key: String!) {
     queryStMarketData(key: $key) {
-        currentDate
-        currentValue
-        documentKey
-        name
-        parentName
-        quandalKey
-        lastUpdate
-        data
+        ...STMarketChartDataResultCombinedFragment
     }
 }
-

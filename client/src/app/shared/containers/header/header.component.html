@@ -15,12 +15,26 @@
                 </ion-searchbar>
             </ion-chip>
             <ion-item-group class="search-results">
-                <app-stock-info-identification-item
-                        *ngFor="let summary of searchedSummaries$ | async"
-                        (click)="clickedSummary(summary)"
-                        [summary]="summary"
-                        [clickable]="true">
-                </app-stock-info-identification-item>
+                <!-- searched symbol results -->
+                <ng-container *ngIf="searchedSummaries$ | async as summaries; else skeletons">
+                    <app-stock-info-identification-item
+                            *ngFor="let summary of summaries"
+                            (click)="clickedSummary(summary)"
+                            [summary]="summary"
+                            [clickable]="true">
+                    </app-stock-info-identification-item>
+                </ng-container>
+
+                <!-- show skeleton text when loading -->
+                <ng-template #skeletons>
+                    <ng-container *ngIf="loading">
+                        <ion-item *ngFor="let empty of [].constructor(5)">
+                            <ion-label>
+                                <ion-skeleton-text animated></ion-skeleton-text>
+                            </ion-label>
+                        </ion-item>
+                    </ng-container>
+                </ng-template>
             </ion-item-group>
         </ion-item-group>
 

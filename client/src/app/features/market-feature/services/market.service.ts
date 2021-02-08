@@ -1,30 +1,34 @@
 import {Injectable} from '@angular/core';
-import {MarketPriceWebsocketService, MarketSymbolResult} from '../../../shared/services/market-price-websocket.service';
 import {StockDetailsService} from '../../stock-details-feature/services/stock-details.service';
 import {Observable} from 'rxjs';
-import {filter, map, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {map, switchMap, tap} from 'rxjs/operators';
 import {
-    QueryMarketDailyOverviewGQL,
+    QueryMarketDailyOverviewGQL, QueryStMarketAllCategoriesGQL,
     QueryStMarketCalendarEventsEarningsGQL,
-    QueryStMarketCalendarEventsGQL,
+    QueryStMarketCalendarEventsGQL, QueryStMarketDataGQL,
     QueryStMarketHistoryOverviewGQL,
     StEventCalendarData,
-    StEventCalendarEarningsData,
-    StMarketDailyOverview,
+    StEventCalendarEarningsData, StMarketChartDataResultCombined,
+    StMarketDailyOverview, StMarketDatasetKeyCategories, StMarketDatasetKeyCategory,
     StMarketOverviewPartialData,
 } from '../../../api/customGraphql.service';
+import {FinnhubWebsocketService} from '../../../shared/services/finnhub-websocket.service';
+import {MarketSymbolResult} from '../../../shared/models/sharedModel';
 
 @Injectable({
     providedIn: 'root'
 })
 export class MarketService {
+    private serviceName = 'MarketService';
 
-    constructor(private marketPriceWebsocket: MarketPriceWebsocketService,
+    constructor(private finnhubWebsocketService: FinnhubWebsocketService,
                 private stockDetailsService: StockDetailsService,
                 private queryMarketDailyOverviewGQL: QueryMarketDailyOverviewGQL,
                 private queryStMarketHistoryOverviewGQL: QueryStMarketHistoryOverviewGQL,
                 private queryStMarketCalendarEventsGQL: QueryStMarketCalendarEventsGQL,
-                private queryStMarketCalendarEventsEarningsGQL: QueryStMarketCalendarEventsEarningsGQL) {
+                private queryStMarketCalendarEventsEarningsGQL: QueryStMarketCalendarEventsEarningsGQL,
+                private queryStMarketDataGQL: QueryStMarketDataGQL,
+                private queryStMarketAllCategoriesGQL: QueryStMarketAllCategoriesGQL) {
     }
 
     /**
@@ -33,10 +37,9 @@ export class MarketService {
     initSubscriptionForStockSuggestions(): Observable<MarketSymbolResult> {
         return this.queryMarketDailyOverview().pipe(
             map(x => x.stock_suggestions),
-            tap(suggestions => suggestions.forEach(s => this.marketPriceWebsocket.createSubscribeForSymbol(s.summary.symbol))),
-            switchMap(() => this.marketPriceWebsocket.getSubscribedSymbolsResult().pipe(
-                filter(res => !!res), // filter null & undefined
-            ))
+            tap(suggestions => suggestions.forEach(s =>
+                this.finnhubWebsocketService.createSubscribeForSymbol(this.serviceName, s.summary.symbol))),
+            switchMap(() => this.finnhubWebsocketService.getSubscribedSymbolsResult())
         );
     }
 
@@ -58,5 +61,15 @@ export class MarketService {
         return this.queryStMarketCalendarEventsEarningsGQL.fetch({
             date
         }).pipe(map(x => x.data.queryStMarketCalendarEventsEarnings.earnings));
+    }
+
+    queryStMarketData(key: string): Observable<StMarketChartDataResultCombined> {
+        return this.queryStMarketDataGQL.fetch({
+            key
+        }).pipe(map(x => x.data.queryStMarketData));
+    }
+
+    queryStMarketAllCategories(): Observable<StMarketDatasetKeyCategory[]> {
+        return this.queryStMarketAllCategoriesGQL.fetch().pipe(map(x => x.data.queryStMarketAllCategories.categories));
     }
 }

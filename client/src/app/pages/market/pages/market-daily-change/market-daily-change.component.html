@@ -55,7 +55,7 @@
             <app-generic-card [additionalClasses]="'st-height-100'"
                               [subtitle]="earnings.length === 0 ?
                         'No earnings found' : earnings[0].startdatetime | date: 'EEEE, dd.MM.YYYY'">
-                <app-market-earnings-table [earnings]="earnings"></app-market-earnings-table>
+                <app-market-earnings-table [earnings]="earnings | slice: 0: 7"></app-market-earnings-table>
             </app-generic-card>
         </ion-col>
     </ion-row>

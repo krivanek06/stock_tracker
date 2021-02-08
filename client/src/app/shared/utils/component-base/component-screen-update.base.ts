@@ -4,11 +4,14 @@ import {ComponentBase} from './component.base';
 
 export class ComponentScreenUpdateBase extends ComponentBase implements OnInit, OnDestroy {
     interval: any;
+    componentName: string;
 
     updateIntervalMs = 1200;
 
-    constructor(private cdr: ChangeDetectorRef) {
+    constructor(private cdr: ChangeDetectorRef,
+                private componentNameBse: string) {
         super();
+        this.componentName = componentNameBse;
     }
 
     ngOnInit(): void {

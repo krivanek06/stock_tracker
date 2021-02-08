@@ -16,3 +16,22 @@ highcharts-chart::ng-deep {
     font-size: inherit;
   }
 }
+
+:host {
+  .expand-icon {
+    position: absolute;
+    right: 10px;
+    top: 13px;
+    width: 22px;
+    transition: All 0.3s ease-out;
+    cursor: pointer;
+    color: #5d5d5d;
+    z-index: 1;
+
+    &:hover {
+      transform: scale(0.9);
+      color: white;
+    }
+  }
+}
+

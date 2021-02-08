@@ -3,7 +3,7 @@
         <ion-col size="12" size-lg="11">
             <app-financial-chart-container
                     [name]="'S&P 500'"
-                    [height]="425"
+                    [height]="385"
                     [symbol]="'^GSPC'">
             </app-financial-chart-container>
         </ion-col>
@@ -13,12 +13,17 @@
         <!-- SP 500 stats -->
         <app-generic-list [title]="'S&P 500 stats'"></app-generic-list>
         <ion-row>
-            <ng-container *ngFor="let data of marketOverview.sp500.result; let i = index">
-                <ion-col size="12" size-sm="6" [sizeMd]="i > 6 ? 6 : 4" [sizeLg]="i > 5 ? 3 : 2.4">
-                    <app-market-chart [heightPx]="chartHeight"
-                                      [timestamp]="marketOverview.sp500.timestamp"
-                                      [chartDataResult]="data">
-                    </app-market-chart>
+            <ng-container *ngFor="let data of marketOverview.sp500; let i = index">
+                <ion-col size="12" size-sm="6" [sizeMd]="i > 6 ? 6 : 4" [sizeLg]="i > 4 ? 3 : 2.4">
+                    <app-generic-chart
+                            (expandEmitter)="expand(data.documentKey)"
+                            [showExpandableButton]="true"
+                            [addFancyColoring]="true"
+                            [showLegend]="true"
+                            [showLegendLatestValue]="true"
+                            [heightPx]="chartHeight"
+                            [series]="[{name: data.name,  data: data.data}]">
+                    </app-generic-chart>
                 </ion-col>
             </ng-container>
         </ion-row>
@@ -27,23 +32,30 @@
         <app-generic-list [title]="'Investor sentiment'"></app-generic-list>
         <ion-row>
             <ion-col size="12">
-                <app-market-chart [heightPx]="300"
-                                  [enableLegendClick]="true"
-                                  [timestamp]="marketOverview.investor_sentiment.timestamp"
-                                  [chartDataResultContainer]="marketOverview.investor_sentiment">
-                </app-market-chart>
+                <app-generic-chart
+                        (expandEmitter)="expand(marketOverview.investor_sentiment[0].documentKey)"
+                        [showExpandableButton]="true"
+                        [showLegend]="true"
+                        [showLegendLatestValue]="true"
+                        [heightPx]="300"
+                        [series]="marketOverview.investor_sentiment">
+                </app-generic-chart>
             </ion-col>
         </ion-row>
 
-        <!-- Treasury yield-->
+        <!-- Treasury yield -->
         <app-generic-list [title]="'Treasury yield'"></app-generic-list>
         <ion-row>
-            <ng-container *ngFor="let data of marketOverview.treasury_yield.result">
-                <ion-col size="12" size-sm="6" size-md="4" size-lg="3">
-                    <app-market-chart [heightPx]="chartHeight"
-                                      [timestamp]="marketOverview.treasury_yield.timestamp"
-                                      [chartDataResult]="data">
-                    </app-market-chart>
+            <ng-container *ngFor="let data of marketOverview.treasury_yield">
+                <ion-col size="12" size-sm="6" size-md="4">
+                    <app-generic-chart
+                            (expandEmitter)="expand(data.documentKey)"
+                            [showExpandableButton]="true"
+                            [showLegend]="true"
+                            [showLegendLatestValue]="true"
+                            [heightPx]="chartHeight"
+                            [series]="[{name: data.name,  data: data.data}]">
+                    </app-generic-chart>
                 </ion-col>
             </ng-container>
         </ion-row>
@@ -51,12 +63,16 @@
         <!-- Corporate bond market -->
         <app-generic-list [title]="'Corporate bond market'"></app-generic-list>
         <ion-row>
-            <ng-container *ngFor="let data of marketOverview.bonds.result; let i = index">
+            <ng-container *ngFor="let data of marketOverview.bonds; let i = index">
                 <ion-col size="12" size-sm="6" [sizeMd]="i > 3 ? 4 : 3" [sizeLg]="i > 3 ? 4 : 3">
-                    <app-market-chart [heightPx]="chartHeight"
-                                      [timestamp]="marketOverview.bonds.timestamp"
-                                      [chartDataResult]="data">
-                    </app-market-chart>
+                    <app-generic-chart
+                            (expandEmitter)="expand(data.documentKey)"
+                            [showExpandableButton]="true"
+                            [showLegend]="true"
+                            [showLegendLatestValue]="true"
+                            [heightPx]="chartHeight"
+                            [series]="[{name: data.name,  data: data.data}]">
+                    </app-generic-chart>
                 </ion-col>
             </ng-container>
         </ion-row>
