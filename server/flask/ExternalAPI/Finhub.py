@@ -1,24 +1,12 @@
 from datetime import datetime
 from private_data import enviroments
 from dateutil.relativedelta import relativedelta
-from firebase_admin import credentials, firestore, initialize_app, _apps as firestoreApps
 from requests import get
-
-from Services import FileManagerService
-
 
 class Finhub:
     def __init__(self):
         self.FINHUB_SECRET_KEY = enviroments.FINHUB_SECRET_KEY
-        self.__FOLDER = 'resource/other'
-        self.SEARCH_US_EXCHANGE_FOLDER = 'us_exchange.json'
 
-        self.fileManagerService = FileManagerService.FileManagerService()
-
-        if not firestoreApps:
-            cred = credentials.Certificate('private_data/firebase_key.json')
-            default_app = initialize_app(cred)
-        self.db = firestore.client()
 
     def getIpoOneMonthCalendar(self):
         today = datetime.today()
@@ -27,19 +15,10 @@ class Finhub:
         return get('https://finnhub.io/api/v1/calendar/ipo', params=params).json()
 
     def searchSymbol(self, symbolPrefix):
-        exchangeUSLastModification = self.fileManagerService.getDocumentLastModification(self.SEARCH_US_EXCHANGE_FOLDER)
-        exchangeUS = self.fileManagerService.getJsonFile(self.SEARCH_US_EXCHANGE_FOLDER)
-        # update once per week
-        if exchangeUSLastModification is None or exchangeUSLastModification[0] > 7:
-            params = {'token': self.FINHUB_SECRET_KEY, 'exchange': 'US'}
-            exchangeUS = get('https://finnhub.io/api/v1/stock/symbol', params=params).json()
-            for data in exchangeUS:
-                data['displayName'] = '[' + data['symbol'] + ']' + ' ' + data['description']
-            self.fileManagerService.saveFile(self.SEARCH_US_EXCHANGE_FOLDER, exchangeUS)
+        params = {'token': self.FINHUB_SECRET_KEY, 'exchange': 'US'}
+        exchangeUS = get('https://finnhub.io/api/v1/stock/symbol', params=params).json()
+        return [k for k in exchangeUS if k['symbol'].startswith(symbolPrefix)][0:6]
 
-        result = [k for k in exchangeUS if k['symbol'].startswith(symbolPrefix)][0:6]
-
-        return result
 
     def searchAllSymbols(self):
         params = {'token': self.FINHUB_SECRET_KEY, 'exchange': 'US'}

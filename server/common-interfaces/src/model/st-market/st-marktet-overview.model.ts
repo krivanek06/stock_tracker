@@ -9,7 +9,7 @@ export interface STMarketDailyOverview {
     stocks_growth_technology_stocks: STMarketTopTableSymbolData[];
     stocks_undervalued_large_caps: STMarketTopTableSymbolData[];
     stocks_aggressive_small_caps: STMarketTopTableSymbolData[];
-    stock_small_cap_gainers: STMarketTopTableSymbolData[];
+    stocks_small_cap_gainers: STMarketTopTableSymbolData[];
     stock_suggestions?: STStockSuggestion[];
     top_crypto: STMarketTopTableCryptoData[];
     news: NewsArticle[];

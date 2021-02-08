@@ -6,7 +6,6 @@ from flask_json import FlaskJSON
 from Controllers.fundamentals import app as fundamentals
 from Controllers.chart_data import app as chart_data
 from Controllers.search import app as search
-from Controllers.quandl import app as quandl_controller
 
 app = Flask(__name__)
 FlaskJSON(app)
@@ -17,7 +16,6 @@ app.wsgi_app = DispatcherMiddleware(NotFound(), {
     "/fundamentals": fundamentals,
     '/chart_data': chart_data,
     '/search': search,
-    '/quandl': quandl_controller,
 })
 
 # https://stackoverflow.com/questions/30906489/how-to-implement-flask-application-dispatching-by-path-with-wsgi/30915745

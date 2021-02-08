@@ -31,20 +31,20 @@ export const STMarketSharedTypeDefs = gql`
 
     # Market history overview
     type STMarketOverviewPartialData {
-        sp500: STMarketChartDataResultContainer
-        bonds: STMarketChartDataResultContainer
-        social_security: STMarketChartDataResultContainer
-        consumer_price_index_states: STMarketChartDataResultContainer
-        consumer_us_price_index: STMarketChartDataResultContainer
-        producer_us_price_index: STMarketChartDataResultContainer
-        inflation_rate: STMarketChartDataResultContainer
-        employment: STMarketChartDataResultContainer
-        manufacturing: STMarketChartDataResultContainer
-        exports: STMarketChartDataResultContainer
-        misery_index: STMarketChartDataResultContainer
-        treasury_yield: STMarketChartDataResultContainer
-        investor_sentiment: STMarketChartDataResultContainer
-        bitcoin: STMarketChartDataResultContainer
+        sp500: [STMarketChartDataResultCombined]
+        bonds: [STMarketChartDataResultCombined]
+        social_security: [STMarketChartDataResultCombined]
+        consumer_price_index_states: [STMarketChartDataResultCombined]
+        consumer_us_price_index: [STMarketChartDataResultCombined]
+        producer_us_price_index: [STMarketChartDataResultCombined]
+        inflation_rate: [STMarketChartDataResultCombined]
+        employment: [STMarketChartDataResultCombined]
+        manufacturing: [STMarketChartDataResultCombined]
+        exports: [STMarketChartDataResultCombined]
+        misery_index: [STMarketChartDataResultCombined]
+        treasury_yield: [STMarketChartDataResultCombined]
+        investor_sentiment: [STMarketChartDataResultCombined]
+        bitcoin: [STMarketChartDataResultCombined]
         lastUpdate: String
     }
     
@@ -120,37 +120,14 @@ export const STMarketSharedTypeDefs = gql`
         volumeAllCurrencies: Float
     }
 
-
-    type STMarketChartDataResultContainer {
-        result: [STMarketChartDataResult]
-        timestamp: [Float]
-        keyName: String
-    }
-
-    type STMarketChartDataResult {
-        currentDate: String
-        currentValue: Float
-        documentKey: String
-        name: String
-        parentName: String
-        quandalKey: String
-        lastUpdate: String
-        data: [Float]
-    }
-
     type STMarketChartDataResultCombined {
         currentDate: String
         currentValue: Float
         documentKey: String
         name: String
         parentName: String
-        quandalKey: String
         lastUpdate: String
         data: [[Float]]
-    }
-
-    type STMarketChartDataResultSearch {
-        result: [STMarketChartDataResultCombined]
     }
 
     type STMarketDatasetKeyCategories {

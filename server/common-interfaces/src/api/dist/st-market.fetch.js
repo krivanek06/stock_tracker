@@ -43,68 +43,47 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
 exports.__esModule = true;
-exports.searchStMarketData = exports.searchMultilpleStMarketData = exports.getStMarketAllCategories = exports.getStMarketOverview = exports.getStMarketTopTables = void 0;
+exports.searchStMarketData = exports.getStMarketAllCategories = exports.getStMarketTopTables = void 0;
 var node_fetch_1 = require("node-fetch");
 var environments_1 = require("./../../environments");
-var QUNDAL_ENDPOINT = environments_1.stockDataAPI + "/quandl";
 var SEARCH_ENDPOINT = environments_1.stockDataAPI + "/search";
+var QUNDAL_ENDPOINT = SEARCH_ENDPOINT + "/quandl";
 exports.getStMarketTopTables = function () { return __awaiter(void 0, void 0, Promise, function () {
-    var p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, promises, dataPromises, result, dataPromises_1, dataPromises_1_1, data, _i, _a, _b, key, value, e_1_1;
+    var promises, dataPromises, result, dataPromises_1, dataPromises_1_1, data, _i, _a, _b, key, value, e_1_1;
     var e_1, _c;
     return __generator(this, function (_d) {
         switch (_d.label) {
-            case 0: return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/news")];
+            case 0: return [4 /*yield*/, Promise.all([
+                    node_fetch_1["default"](SEARCH_ENDPOINT + "/news"),
+                    node_fetch_1["default"](SEARCH_ENDPOINT + "/calendar_events"),
+                    node_fetch_1["default"](SEARCH_ENDPOINT + "/top_crypto"),
+                    node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_day_gainers"),
+                    node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_day_losers"),
+                    node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_day_active"),
+                    node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_undervalued_growth_stocks"),
+                    node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_growth_technology_stocks"),
+                    node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_undervalued_large_caps"),
+                    node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_aggressive_small_caps"),
+                    node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_small_cap_gainers"),
+                    node_fetch_1["default"](SEARCH_ENDPOINT + "/calendar_events_earnings"),
+                ])];
             case 1:
-                p1 = _d.sent();
-                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/calendar_events")];
-            case 2:
-                p2 = _d.sent();
-                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/top_crypto")];
-            case 3:
-                p3 = _d.sent();
-                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_day_gainers")];
-            case 4:
-                p4 = _d.sent();
-                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_day_losers")];
-            case 5:
-                p5 = _d.sent();
-                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_day_active")];
-            case 6:
-                p6 = _d.sent();
-                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_undervalued_growth_stocks")];
-            case 7:
-                p7 = _d.sent();
-                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_growth_technology_stocks")];
-            case 8:
-                p8 = _d.sent();
-                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_undervalued_large_caps")];
-            case 9:
-                p9 = _d.sent();
-                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_aggressive_small_caps")];
-            case 10:
-                p10 = _d.sent();
-                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/stocks_small_cap_gainers")];
-            case 11:
-                p11 = _d.sent();
-                return [4 /*yield*/, node_fetch_1["default"](SEARCH_ENDPOINT + "/calendar_events_earnings")];
-            case 12:
-                p12 = _d.sent();
-                promises = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12];
+                promises = _d.sent();
                 dataPromises = promises.map(function (p) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0: return [4 /*yield*/, p.json()];
-                        case 1: return [2 /*return*/, _a.sent()];
+                        case 1: return [2 /*return*/, (_a.sent())];
                     }
                 }); }); });
                 result = {};
-                _d.label = 13;
-            case 13:
-                _d.trys.push([13, 18, 19, 24]);
+                _d.label = 2;
+            case 2:
+                _d.trys.push([2, 7, 8, 13]);
                 dataPromises_1 = __asyncValues(dataPromises);
-                _d.label = 14;
-            case 14: return [4 /*yield*/, dataPromises_1.next()];
-            case 15:
-                if (!(dataPromises_1_1 = _d.sent(), !dataPromises_1_1.done)) return [3 /*break*/, 17];
+                _d.label = 3;
+            case 3: return [4 /*yield*/, dataPromises_1.next()];
+            case 4:
+                if (!(dataPromises_1_1 = _d.sent(), !dataPromises_1_1.done)) return [3 /*break*/, 6];
                 data = dataPromises_1_1.value;
                 // example, keys is : 'stocks_aggressive_small_caps'
                 for (_i = 0, _a = Object.entries(data); _i < _a.length; _i++) {
@@ -113,159 +92,48 @@ exports.getStMarketTopTables = function () { return __awaiter(void 0, void 0, Pr
                         result[key] = value;
                     }
                 }
-                _d.label = 16;
-            case 16: return [3 /*break*/, 14];
-            case 17: return [3 /*break*/, 24];
-            case 18:
+                _d.label = 5;
+            case 5: return [3 /*break*/, 3];
+            case 6: return [3 /*break*/, 13];
+            case 7:
                 e_1_1 = _d.sent();
                 e_1 = { error: e_1_1 };
-                return [3 /*break*/, 24];
-            case 19:
-                _d.trys.push([19, , 22, 23]);
-                if (!(dataPromises_1_1 && !dataPromises_1_1.done && (_c = dataPromises_1["return"]))) return [3 /*break*/, 21];
+                return [3 /*break*/, 13];
+            case 8:
+                _d.trys.push([8, , 11, 12]);
+                if (!(dataPromises_1_1 && !dataPromises_1_1.done && (_c = dataPromises_1["return"]))) return [3 /*break*/, 10];
                 return [4 /*yield*/, _c.call(dataPromises_1)];
-            case 20:
+            case 9:
                 _d.sent();
-                _d.label = 21;
-            case 21: return [3 /*break*/, 23];
-            case 22:
+                _d.label = 10;
+            case 10: return [3 /*break*/, 12];
+            case 11:
                 if (e_1) throw e_1.error;
                 return [7 /*endfinally*/];
-            case 23: return [7 /*endfinally*/];
-            case 24: return [2 /*return*/, result];
+            case 12: return [7 /*endfinally*/];
+            case 13: return [2 /*return*/, result];
         }
     });
 }); };
-exports.getStMarketOverview = function () { return __awaiter(void 0, void 0, Promise, function () {
-    var social_security, investor_sentiment, employment, exports, manufacturing, sp500, inflation_rate, consumer_price_index_states, consumer_us_price_index, producer_us_price_index, misery_index, treasury_yield, bonds, bitcoin, promises, dataPromises, result, dataPromises_2, dataPromises_2_1, data, e_2_1;
-    var e_2, _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0: return [4 /*yield*/, node_fetch_1["default"](QUNDAL_ENDPOINT + "/social_security")];
-            case 1:
-                social_security = _b.sent();
-                return [4 /*yield*/, node_fetch_1["default"](QUNDAL_ENDPOINT + "/investor_sentiment")];
-            case 2:
-                investor_sentiment = _b.sent();
-                return [4 /*yield*/, node_fetch_1["default"](QUNDAL_ENDPOINT + "/employment")];
-            case 3:
-                employment = _b.sent();
-                return [4 /*yield*/, node_fetch_1["default"](QUNDAL_ENDPOINT + "/exports")];
-            case 4:
-                exports = _b.sent();
-                return [4 /*yield*/, node_fetch_1["default"](QUNDAL_ENDPOINT + "/manufacturing")];
-            case 5:
-                manufacturing = _b.sent();
-                return [4 /*yield*/, node_fetch_1["default"](QUNDAL_ENDPOINT + "/sp500")];
-            case 6:
-                sp500 = _b.sent();
-                return [4 /*yield*/, node_fetch_1["default"](QUNDAL_ENDPOINT + "/inflation_rate")];
-            case 7:
-                inflation_rate = _b.sent();
-                return [4 /*yield*/, node_fetch_1["default"](QUNDAL_ENDPOINT + "/consumer_price_index_states")];
-            case 8:
-                consumer_price_index_states = _b.sent();
-                return [4 /*yield*/, node_fetch_1["default"](QUNDAL_ENDPOINT + "/consumer_us_price_index")];
-            case 9:
-                consumer_us_price_index = _b.sent();
-                return [4 /*yield*/, node_fetch_1["default"](QUNDAL_ENDPOINT + "/producer_us_price_index")];
-            case 10:
-                producer_us_price_index = _b.sent();
-                return [4 /*yield*/, node_fetch_1["default"](QUNDAL_ENDPOINT + "/misery_index")];
-            case 11:
-                misery_index = _b.sent();
-                return [4 /*yield*/, node_fetch_1["default"](QUNDAL_ENDPOINT + "/treasury_yield")];
-            case 12:
-                treasury_yield = _b.sent();
-                return [4 /*yield*/, node_fetch_1["default"](QUNDAL_ENDPOINT + "/bonds")];
-            case 13:
-                bonds = _b.sent();
-                return [4 /*yield*/, node_fetch_1["default"](QUNDAL_ENDPOINT + "/bitcoin")];
-            case 14:
-                bitcoin = _b.sent();
-                promises = [
-                    investor_sentiment,
-                    social_security,
-                    employment,
-                    exports,
-                    manufacturing,
-                    sp500,
-                    inflation_rate,
-                    consumer_price_index_states,
-                    consumer_us_price_index,
-                    producer_us_price_index,
-                    misery_index,
-                    treasury_yield,
-                    bonds,
-                    bitcoin
-                ];
-                dataPromises = promises.map(function (p) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, p.json()];
-                        case 1: return [2 /*return*/, (_a.sent())];
-                    }
-                }); }); });
-                result = {};
-                _b.label = 15;
-            case 15:
-                _b.trys.push([15, 20, 21, 26]);
-                dataPromises_2 = __asyncValues(dataPromises);
-                _b.label = 16;
-            case 16: return [4 /*yield*/, dataPromises_2.next()];
-            case 17:
-                if (!(dataPromises_2_1 = _b.sent(), !dataPromises_2_1.done)) return [3 /*break*/, 19];
-                data = dataPromises_2_1.value;
-                result[data.keyName] = data;
-                _b.label = 18;
-            case 18: return [3 /*break*/, 16];
-            case 19: return [3 /*break*/, 26];
-            case 20:
-                e_2_1 = _b.sent();
-                e_2 = { error: e_2_1 };
-                return [3 /*break*/, 26];
-            case 21:
-                _b.trys.push([21, , 24, 25]);
-                if (!(dataPromises_2_1 && !dataPromises_2_1.done && (_a = dataPromises_2["return"]))) return [3 /*break*/, 23];
-                return [4 /*yield*/, _a.call(dataPromises_2)];
-            case 22:
-                _b.sent();
-                _b.label = 23;
-            case 23: return [3 /*break*/, 25];
-            case 24:
-                if (e_2) throw e_2.error;
-                return [7 /*endfinally*/];
-            case 25: return [7 /*endfinally*/];
-            case 26: return [2 /*return*/, result];
-        }
+exports.getStMarketAllCategories = function (onlyMain) {
+    if (onlyMain === void 0) { onlyMain = false; }
+    return __awaiter(void 0, void 0, Promise, function () {
+        var res;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, node_fetch_1["default"](QUNDAL_ENDPOINT + "/categories?onlyMain=" + onlyMain)];
+                case 1:
+                    res = _a.sent();
+                    return [2 /*return*/, res.json()];
+            }
+        });
     });
-}); };
-exports.getStMarketAllCategories = function () { return __awaiter(void 0, void 0, Promise, function () {
-    var res;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, node_fetch_1["default"](QUNDAL_ENDPOINT + "/categories")];
-            case 1:
-                res = _a.sent();
-                return [2 /*return*/, res.json()];
-        }
-    });
-}); };
-exports.searchMultilpleStMarketData = function (key) { return __awaiter(void 0, void 0, Promise, function () {
-    var res;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, node_fetch_1["default"](QUNDAL_ENDPOINT + "/search?quandlKey=" + key)];
-            case 1:
-                res = _a.sent();
-                return [2 /*return*/, res.json()];
-        }
-    });
-}); };
+};
 exports.searchStMarketData = function (key) { return __awaiter(void 0, void 0, Promise, function () {
     var res;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, node_fetch_1["default"](QUNDAL_ENDPOINT + "/search?quandlKey=" + key)];
+            case 0: return [4 /*yield*/, node_fetch_1["default"](QUNDAL_ENDPOINT + "?documentKey=" + key)];
             case 1:
                 res = _a.sent();
                 return [2 /*return*/, res.json()];

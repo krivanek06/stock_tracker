@@ -31,7 +31,7 @@ class CustomYahooParser:
 
             return json_info
         except Exception as e:
-            return None
+            return []
 
     def parseAnalysisInfo(self, site):
         # parse multiple html table dropdown data order
