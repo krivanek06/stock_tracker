@@ -1,7 +1,7 @@
 from flask import Flask, request
 from flask_json import FlaskJSON, JsonError, json_response
 from flask_cors import CORS
-from ExternalAPI import EconomicNews, Finhub
+from ExternalAPI import EconomicNews, Finhub, Quandl
 from ExternalAPI.YahooFinance import YahooFinanceTopSymbols
 
 app = Flask(__name__)
@@ -12,8 +12,26 @@ CORS(app, resources={r"*": {"origins": "*"}})
 StockNews = EconomicNews.EconomicNews()
 YahooFinanceTopSymbols = YahooFinanceTopSymbols.YahooFinanceTopSymbols()
 Finhub = Finhub.Finhub()
-
+quandl = Quandl.Quandl()
 ERROR_MESSAGE = 'Error in Search controller, method: '
+
+
+@app.route('/quandl')
+def getAllDataForkey():
+    try:
+        documentKey = request.args.get('documentKey')
+        return json_response(**quandl.getAllDataForDocumentKey(documentKey))
+    except Exception as e:
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'getAllDataForQundalKey(), message: ' + str(e))
+
+
+@app.route('/quandl/categories')
+def getAllCategories():
+    try:
+        onlyMain = request.args.get('onlyMain') in ['True', 'true']
+        return json_response(**quandl.getAllCategories(onlyMain))
+    except Exception as e:
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'getAllCategories(), message: ' + str(e))
 
 
 @app.route('/news')

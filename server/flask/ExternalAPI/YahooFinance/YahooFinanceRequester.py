@@ -19,7 +19,8 @@ class YahooFinanceRequester:
         result['weekRange52Max'] = utils.force_float(result['FiveTwoWeekRange'].split(' - ')[1]) if result.get(
             'FiveTwoWeekRange') is not None else None
         try:
-            result['targetEst1yPercent'] = utils.force_round(1 / float(result['OneyTargetEst']) * livePrice['marketPrice'])
+            result['targetEst1yPercent'] = utils.force_round(
+                1 / float(result['OneyTargetEst']) * livePrice['marketPrice'])
         except:
             result['targetEst1yPercent'] = None
 
@@ -106,7 +107,13 @@ class YahooFinanceRequester:
             params = {'range': period, 'interval': '1mo'}
 
         data = get('https://query1.finance.yahoo.com/v8/finance/chart/' + symbol, params=params).json()
-        # get data from json
+
+        result = {'price': [], 'volume': [], 'livePrice': 0, 'symbol': symbol, 'period': period}
+
+        # may request fail
+        if 'timestamp' not in data['chart']['result'][0]:
+            return result
+
         timestamp = data['chart']['result'][0]['timestamp']
         open = data['chart']['result'][0]['indicators']['quote'][0]['open']
         high = data['chart']['result'][0]['indicators']['quote'][0]['high']
@@ -115,7 +122,7 @@ class YahooFinanceRequester:
         volume = data['chart']['result'][0]['indicators']['quote'][0]['volume']
 
         # format data
-        result = {'price': [], 'volume': [], 'livePrice': round(close[-1], 2), 'symbol': symbol, 'period': period}
+
         for i in range(len(timestamp)):
             if open[i] is None or high[i] is None or low[i] is None or close[i] is None:
                 continue
@@ -127,4 +134,7 @@ class YahooFinanceRequester:
                 result['price'].append(
                     [milliseconds, round(open[i], 2), round(high[i], 2), round(low[i], 2), round(close[i], 2)])
                 result['volume'].append([milliseconds, volume[i]])
+
+        result['livePrice'] = round(result['price'][-1], 2) if onlyClosed else round(result['price'][-1][4], 2)
+
         return result
