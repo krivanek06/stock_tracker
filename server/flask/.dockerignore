@@ -2,8 +2,8 @@ __pycache__/
 downloaded_libs/yfinance/__pycache__/
 /__pycache__/
 .idea
-resource/
-
+venv/
+/venv/
 
 .git
 *.gitignore

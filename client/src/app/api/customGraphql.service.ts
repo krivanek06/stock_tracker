@@ -20,8 +20,9 @@ export type Scalars = {
 
 export type Analysis = {
     __typename?: 'Analysis';
-    growthEstimates?: Maybe<GrowthEstimates>;
-    revenueEstimate?: Maybe<Array<Maybe<RevenueEstimate>>>;
+    earningsEstimate?: Maybe<Array<Maybe<Estimates>>>;
+    revenueEstimate?: Maybe<Array<Maybe<Estimates>>>;
+    growthEstimates?: Maybe<Array<Maybe<DataSet>>>;
 };
 
 export type BalanceSheet = {
@@ -134,7 +135,13 @@ export type CompanyData = {
     esgScores?: Maybe<EsgScores>;
     financialData?: Maybe<FinancialData>;
     pageViews?: Maybe<PageViews>;
-    upgradeDowngradeHistory?: Maybe<UpgradeDowngradeHistory>;
+    upgradeDowngradeHistory?: Maybe<Array<Maybe<UpgradeDowngradeHistory>>>;
+};
+
+export type DataSet = {
+    __typename?: 'DataSet';
+    y?: Maybe<Scalars['Float']>;
+    name?: Maybe<Scalars['String']>;
 };
 
 export type DefaultKeyStatistics = {
@@ -246,18 +253,30 @@ export type EsgScores = {
     totalEsg?: Maybe<Scalars['Float']>;
 };
 
+export type Estimates = {
+    __typename?: 'Estimates';
+    avg?: Maybe<Scalars['Float']>;
+    growth?: Maybe<Scalars['Float']>;
+    high?: Maybe<Scalars['Float']>;
+    low?: Maybe<Scalars['Float']>;
+    name?: Maybe<Scalars['String']>;
+    noofAnalysts?: Maybe<Scalars['Float']>;
+    yearAgo?: Maybe<Scalars['Float']>;
+};
+
 export type FinancialData = {
     __typename?: 'FinancialData';
     currentPrice?: Maybe<Scalars['Float']>;
     currentRatio?: Maybe<Scalars['Float']>;
     debtToEquity?: Maybe<Scalars['Float']>;
+    earningsGrowth?: Maybe<Scalars['Float']>;
     ebitda?: Maybe<Scalars['Float']>;
     ebitdaMargins?: Maybe<Scalars['Float']>;
     financialCurrency?: Maybe<Scalars['String']>;
     freeCashflow?: Maybe<Scalars['Float']>;
     grossMargins?: Maybe<Scalars['Float']>;
     grossProfits?: Maybe<Scalars['Float']>;
-    FloatOfAnalystOpinions?: Maybe<Scalars['Float']>;
+    numberOfAnalystOpinions?: Maybe<Scalars['Float']>;
     operatingCashflow?: Maybe<Scalars['Float']>;
     operatingMargins?: Maybe<Scalars['Float']>;
     profitMargins?: Maybe<Scalars['Float']>;
@@ -288,23 +307,6 @@ export type FinancialsChartData = {
     __typename?: 'FinancialsChartData';
     categories?: Maybe<Array<Maybe<Scalars['String']>>>;
     series?: Maybe<Array<Maybe<Series>>>;
-};
-
-export type GrowthEstimates = {
-    __typename?: 'GrowthEstimates';
-    currentQtr?: Maybe<Scalars['String']>;
-    currentQtrPrct?: Maybe<Scalars['Float']>;
-    currentYear?: Maybe<Scalars['String']>;
-    currentYearPrct?: Maybe<Scalars['Float']>;
-    nextFiveYearsperannum?: Maybe<Scalars['String']>;
-    nextFiveYearsperannumPrct?: Maybe<Scalars['Float']>;
-    nextQtr?: Maybe<Scalars['String']>;
-    nextQtrPrct?: Maybe<Scalars['Float']>;
-    nextYear?: Maybe<Scalars['String']>;
-    nextYearPrct?: Maybe<Scalars['Float']>;
-    pastFiveYearsperannum?: Maybe<Scalars['String']>;
-    pastFiveYearsperannumPrct?: Maybe<Scalars['Float']>;
-    name?: Maybe<Scalars['String']>;
 };
 
 export type HistoricalMetrics = {
@@ -720,21 +722,6 @@ export type Recommendations = {
     symbol?: Maybe<Scalars['String']>;
 };
 
-export type RevenueEstimate = {
-    __typename?: 'RevenueEstimate';
-    avgEstimate?: Maybe<Scalars['String']>;
-    avgEstimateNumber?: Maybe<Scalars['Float']>;
-    highEstimate?: Maybe<Scalars['String']>;
-    highEstimateNumber?: Maybe<Scalars['Float']>;
-    lowEstimate?: Maybe<Scalars['String']>;
-    lowEstimateNumber?: Maybe<Scalars['Float']>;
-    noofAnalysts?: Maybe<Scalars['Float']>;
-    salesGrowthyearest?: Maybe<Scalars['String']>;
-    salesGrowthyearestNumber?: Maybe<Scalars['Float']>;
-    yearAgoSales?: Maybe<Scalars['String']>;
-    name?: Maybe<Scalars['String']>;
-};
-
 export type SearchSymbol = {
     __typename?: 'SearchSymbol';
     summaries: Array<Maybe<Summary>>;
@@ -751,58 +738,6 @@ export type SheetData = {
     change?: Maybe<Array<Maybe<Scalars['Float']>>>;
     data?: Maybe<Array<Maybe<Scalars['Float']>>>;
     name?: Maybe<Scalars['String']>;
-};
-
-export type Stats = {
-    __typename?: 'Stats';
-    avgVolOnedayThree?: Maybe<Scalars['String']>;
-    bookValuePerSharemrq?: Maybe<Scalars['String']>;
-    currentRatiomrq?: Maybe<Scalars['String']>;
-    dilutedEPSttm?: Maybe<Scalars['String']>;
-    dividendDateThree?: Maybe<Scalars['String']>;
-    eBITDA?: Maybe<Scalars['String']>;
-    enterpriseValueEBITDASix?: Maybe<Scalars['String']>;
-    enterpriseValueRevenueThree?: Maybe<Scalars['String']>;
-    enterpriseValueThree?: Maybe<Scalars['String']>;
-    exDividendDateFour?: Maybe<Scalars['String']>;
-    fiveDayMovingAverageThree?: Maybe<Scalars['String']>;
-    fiveTwoWeekChangeThree?: Maybe<Scalars['String']>;
-    fiveTwoWeekHighThree?: Maybe<Scalars['String']>;
-    fiveTwoWeekLowThree?: Maybe<Scalars['String']>;
-    fiveYearAverageDividendYieldFour?: Maybe<Scalars['String']>;
-    float?: Maybe<Scalars['String']>;
-    forwardAnnualDividendYieldFour?: Maybe<Scalars['String']>;
-    forwardPEOne?: Maybe<Scalars['String']>;
-    grossProfitttm?: Maybe<Scalars['String']>;
-    lastSplitDateThree?: Maybe<Scalars['String']>;
-    lastSplitFactorTwo?: Maybe<Scalars['String']>;
-    leveredFreeCashFlowttm?: Maybe<Scalars['String']>;
-    mostRecentQuartermrq?: Maybe<Scalars['String']>;
-    netIncomeAvitoCommonttm?: Maybe<Scalars['String']>;
-    operatingMarginttm?: Maybe<Scalars['String']>;
-    pEGRatioFiveyrexpectedOne?: Maybe<Scalars['String']>;
-    payoutRatioFour?: Maybe<Scalars['String']>;
-    pctHeldbyInsidersOne?: Maybe<Scalars['String']>;
-    pctHeldbyInstitutionsOne?: Maybe<Scalars['String']>;
-    priceBookmrq?: Maybe<Scalars['String']>;
-    priceSalesttm?: Maybe<Scalars['String']>;
-    quarterlyEarningsGrowthyoy?: Maybe<Scalars['String']>;
-    quarterlyRevenueGrowthyoy?: Maybe<Scalars['String']>;
-    returnonEquityttm?: Maybe<Scalars['String']>;
-    revenuePerSharettm?: Maybe<Scalars['String']>;
-    sPFiveFiveTwoWeekChangeThree?: Maybe<Scalars['String']>;
-    sharesOutstandingFive?: Maybe<Scalars['String']>;
-    sharesShortJanOneFourTwoTwoOneFour?: Maybe<Scalars['String']>;
-    sharesShortpriormonthDecOneFourTwoTwoFour?: Maybe<Scalars['String']>;
-    shortPctofFloatJanOneFourTwoTwoOneFour?: Maybe<Scalars['String']>;
-    shortPctofSharesOutstandingJanOneFourTwoTwoOneFour?: Maybe<Scalars['String']>;
-    shortRatioJanOneFourTwoTwoOneFour?: Maybe<Scalars['String']>;
-    totalCashPerSharemrq?: Maybe<Scalars['String']>;
-    totalDebtEquitymrq?: Maybe<Scalars['String']>;
-    totalDebtmrq?: Maybe<Scalars['String']>;
-    trailingAnnualDividendRateThree?: Maybe<Scalars['String']>;
-    trailingPE?: Maybe<Scalars['String']>;
-    twoDayMovingAverageThree?: Maybe<Scalars['String']>;
 };
 
 export type StEventCalendarData = {
@@ -1043,7 +978,6 @@ export type StockDetails = {
     balanceSheet?: Maybe<BalanceSheet>;
     cashFlow?: Maybe<CashFlow>;
     incomeStatement?: Maybe<IncomeStatement>;
-    stats: Stats;
     recommendation?: Maybe<Array<Maybe<Recommendations>>>;
     stockNews?: Maybe<Array<Maybe<NewsArticle>>>;
     companyData?: Maybe<CompanyData>;
@@ -1267,45 +1201,49 @@ export type StUserResetedAccount = {
 
 export type Summary = {
     __typename?: 'Summary';
-    id?: Maybe<Scalars['String']>;
-    sandPFiveTwoWeekChange?: Maybe<Scalars['Float']>;
-    lastSplitFactor?: Maybe<Scalars['String']>;
-    lastSplitDate?: Maybe<Scalars['Float']>;
-    fullTimeEmployees?: Maybe<Scalars['Float']>;
-    netIncomeEmployeeAnnual?: Maybe<Scalars['Float']>;
-    revenueEmployeeAnnual?: Maybe<Scalars['Float']>;
-    website?: Maybe<Scalars['String']>;
     residance?: Maybe<SummaryResidance>;
+    id?: Maybe<Scalars['String']>;
     avgVolume?: Maybe<Scalars['Float']>;
-    ePSTTM?: Maybe<Scalars['String']>;
-    earningsDate?: Maybe<Scalars['String']>;
-    exDividendDate?: Maybe<Scalars['String']>;
-    fiveTwoWeekRange?: Maybe<Scalars['String']>;
-    forwardDividendYield?: Maybe<Scalars['String']>;
-    oneyTargetEst?: Maybe<Scalars['Float']>;
-    open?: Maybe<Scalars['String']>;
-    pERatioTTM?: Maybe<Scalars['String']>;
-    volume?: Maybe<Scalars['Float']>;
     currency?: Maybe<Scalars['String']>;
+    currencySymbol?: Maybe<Scalars['String']>;
+    dividendDate?: Maybe<Scalars['Float']>;
+    ePSTTM?: Maybe<Scalars['Float']>;
+    earningsDate?: Maybe<Scalars['Float']>;
+    exDividendDate?: Maybe<Scalars['Float']>;
+    exchangeName?: Maybe<Scalars['String']>;
+    fiveTwoWeekRange?: Maybe<Scalars['String']>;
+    forwardDividendRate?: Maybe<Scalars['Float']>;
+    forwardDividendYield?: Maybe<Scalars['Float']>;
+    forwardEPS?: Maybe<Scalars['Float']>;
+    forwardPE?: Maybe<Scalars['Float']>;
+    fullTimeEmployees?: Maybe<Scalars['Float']>;
     industry?: Maybe<Scalars['String']>;
+    lastSplitDate?: Maybe<Scalars['Float']>;
+    lastSplitFactor?: Maybe<Scalars['String']>;
     logo_url?: Maybe<Scalars['String']>;
+    longBusinessSummary?: Maybe<Scalars['String']>;
+    longName?: Maybe<Scalars['String']>;
+    marketCap?: Maybe<Scalars['Float']>;
     marketPrice?: Maybe<Scalars['Float']>;
+    oneyTargetEst?: Maybe<Scalars['Float']>;
+    open?: Maybe<Scalars['Float']>;
+    pERatioTTM?: Maybe<Scalars['Float']>;
     previousClose?: Maybe<Scalars['Float']>;
     recommendationKey?: Maybe<Scalars['String']>;
     recommendationMean?: Maybe<Scalars['Float']>;
+    sandPFiveTwoWeekChange?: Maybe<Scalars['Float']>;
     sector?: Maybe<Scalars['String']>;
+    sharesOutstanding?: Maybe<Scalars['Float']>;
+    shortName?: Maybe<Scalars['String']>;
+    shortRatio?: Maybe<Scalars['Float']>;
     symbol?: Maybe<Scalars['String']>;
     targetEstOneyPercent?: Maybe<Scalars['Float']>;
+    volume?: Maybe<Scalars['Float']>;
+    website?: Maybe<Scalars['String']>;
     weekRangeFiveTwoMax?: Maybe<Scalars['Float']>;
     weekRangeFiveTwoMin?: Maybe<Scalars['Float']>;
-    currencySymbol?: Maybe<Scalars['String']>;
-    shortName?: Maybe<Scalars['String']>;
-    longName?: Maybe<Scalars['String']>;
-    marketCap?: Maybe<Scalars['Float']>;
-    sharesOutstanding?: Maybe<Scalars['Float']>;
-    longBusinessSummary?: Maybe<Scalars['String']>;
-    yearToDatePriceReturn?: Maybe<Scalars['Float']>;
     yearToDatePrice?: Maybe<Scalars['Float']>;
+    yearToDatePriceReturn?: Maybe<Scalars['Float']>;
 };
 
 export type SummaryProfile = {
@@ -1336,11 +1274,6 @@ export type SummaryResidance = {
 
 export type UpgradeDowngradeHistory = {
     __typename?: 'UpgradeDowngradeHistory';
-    history?: Maybe<Array<Maybe<UpgradeDowngradeHistoryData>>>;
-};
-
-export type UpgradeDowngradeHistoryData = {
-    __typename?: 'UpgradeDowngradeHistoryData';
     action?: Maybe<Scalars['String']>;
     epochGradeDate?: Maybe<Scalars['Float']>;
     firm?: Maybe<Scalars['String']>;
@@ -1841,7 +1774,7 @@ export type SummaryResidanceFragmentFragment = (
 
 export type StockSummaryFragmentFragment = (
     { __typename?: 'Summary' }
-    & Pick<Summary, 'id' | 'sandPFiveTwoWeekChange' | 'lastSplitFactor' | 'lastSplitDate' | 'fullTimeEmployees' | 'netIncomeEmployeeAnnual' | 'revenueEmployeeAnnual' | 'website' | 'ePSTTM' | 'earningsDate' | 'exDividendDate' | 'fiveTwoWeekRange' | 'oneyTargetEst' | 'pERatioTTM' | 'currency' | 'industry' | 'logo_url' | 'marketPrice' | 'previousClose' | 'recommendationKey' | 'recommendationMean' | 'sector' | 'targetEstOneyPercent' | 'symbol' | 'weekRangeFiveTwoMax' | 'weekRangeFiveTwoMin' | 'longName' | 'marketCap' | 'sharesOutstanding' | 'longBusinessSummary' | 'yearToDatePriceReturn' | 'volume' | 'avgVolume' | 'yearToDatePrice'>
+    & Pick<Summary, 'id' | 'avgVolume' | 'currency' | 'currencySymbol' | 'dividendDate' | 'ePSTTM' | 'earningsDate' | 'exDividendDate' | 'exchangeName' | 'fiveTwoWeekRange' | 'forwardDividendRate' | 'forwardDividendYield' | 'forwardEPS' | 'forwardPE' | 'fullTimeEmployees' | 'industry' | 'lastSplitDate' | 'lastSplitFactor' | 'logo_url' | 'longBusinessSummary' | 'longName' | 'marketCap' | 'marketPrice' | 'oneyTargetEst' | 'open' | 'pERatioTTM' | 'previousClose' | 'recommendationKey' | 'recommendationMean' | 'sandPFiveTwoWeekChange' | 'sector' | 'sharesOutstanding' | 'shortName' | 'shortRatio' | 'symbol' | 'targetEstOneyPercent' | 'volume' | 'website' | 'weekRangeFiveTwoMax' | 'weekRangeFiveTwoMin' | 'yearToDatePrice' | 'yearToDatePriceReturn'>
     & {
     residance?: Maybe<(
         { __typename?: 'SummaryResidance' }
@@ -2137,19 +2070,14 @@ export type IncomeStatementFragmentFragment = (
 }
     );
 
-export type GrowthEstimatesFragmentFragment = (
-    { __typename?: 'GrowthEstimates' }
-    & Pick<GrowthEstimates, 'currentQtr' | 'currentQtrPrct' | 'currentYear' | 'currentYearPrct' | 'nextFiveYearsperannum' | 'nextFiveYearsperannumPrct' | 'nextQtr' | 'nextQtrPrct' | 'nextYear' | 'nextYearPrct' | 'pastFiveYearsperannum' | 'pastFiveYearsperannumPrct' | 'name'>
+export type EstimatesFragmentFragment = (
+    { __typename?: 'Estimates' }
+    & Pick<Estimates, 'avg' | 'growth' | 'high' | 'low' | 'name' | 'noofAnalysts' | 'yearAgo'>
     );
 
-export type RevenueEstimateFragmentFragment = (
-    { __typename?: 'RevenueEstimate' }
-    & Pick<RevenueEstimate, 'avgEstimate' | 'avgEstimateNumber' | 'highEstimate' | 'highEstimateNumber' | 'lowEstimate' | 'lowEstimateNumber' | 'noofAnalysts' | 'salesGrowthyearest' | 'salesGrowthyearestNumber' | 'yearAgoSales' | 'name'>
-    );
-
-export type StatsFragmentFragment = (
-    { __typename?: 'Stats' }
-    & Pick<Stats, 'priceSalesttm' | 'leveredFreeCashFlowttm' | 'forwardPEOne' | 'quarterlyEarningsGrowthyoy' | 'quarterlyRevenueGrowthyoy' | 'returnonEquityttm' | 'revenuePerSharettm' | 'totalCashPerSharemrq' | 'totalDebtEquitymrq' | 'totalDebtmrq' | 'trailingPE' | 'eBITDA' | 'bookValuePerSharemrq' | 'currentRatiomrq' | 'dilutedEPSttm'>
+export type DataSetFragmentFragment = (
+    { __typename?: 'DataSet' }
+    & Pick<DataSet, 'y' | 'name'>
     );
 
 export type RecommendationFragmentFragment = (
@@ -2197,7 +2125,7 @@ export type DefaultKeyStatisticsFragmentFragment = (
 
 export type FinancialDataFragmentFragment = (
     { __typename?: 'FinancialData' }
-    & Pick<FinancialData, 'currentPrice' | 'currentRatio' | 'debtToEquity' | 'ebitda' | 'ebitdaMargins' | 'financialCurrency' | 'freeCashflow' | 'grossMargins' | 'grossProfits' | 'FloatOfAnalystOpinions' | 'operatingCashflow' | 'operatingMargins' | 'profitMargins' | 'quickRatio' | 'recommendationKey' | 'recommendationMean' | 'returnOnAssets' | 'returnOnEquity' | 'revenueGrowth' | 'revenuePerShare' | 'targetHighPrice' | 'targetLowPrice' | 'targetMeanPrice' | 'targetMedianPrice' | 'totalCash' | 'totalCashPerShare' | 'totalDebt' | 'totalRevenue'>
+    & Pick<FinancialData, 'currentPrice' | 'currentRatio' | 'debtToEquity' | 'earningsGrowth' | 'ebitda' | 'ebitdaMargins' | 'financialCurrency' | 'freeCashflow' | 'grossMargins' | 'grossProfits' | 'numberOfAnalystOpinions' | 'operatingCashflow' | 'operatingMargins' | 'profitMargins' | 'quickRatio' | 'recommendationKey' | 'recommendationMean' | 'returnOnAssets' | 'returnOnEquity' | 'revenueGrowth' | 'revenuePerShare' | 'targetHighPrice' | 'targetLowPrice' | 'targetMeanPrice' | 'targetMedianPrice' | 'totalCash' | 'totalCashPerShare' | 'totalDebt' | 'totalRevenue'>
     );
 
 export type MetricFragmentFragment = (
@@ -2208,11 +2136,6 @@ export type MetricFragmentFragment = (
 export type DividensFragmentFragment = (
     { __typename?: 'Dividens' }
     & Pick<Dividens, 'currentDividendYieldTTM' | 'dividendGrowthRateFiveY' | 'dividendPerShareAnnual' | 'dividendPerShareFiveY' | 'dividendYieldFiveY' | 'dividendYieldIndicatedAnnual' | 'dividendsPerShareTTM' | 'exDividendDate' | 'trailingAnnualDividendRate' | 'trailingAnnualDividendYield' | 'forwardDividendYield'>
-    );
-
-export type HistoryFragmentFragment = (
-    { __typename?: 'UpgradeDowngradeHistoryData' }
-    & Pick<UpgradeDowngradeHistoryData, 'action' | 'epochGradeDate' | 'firm' | 'fromGrade' | 'toGrade'>
     );
 
 export type EarningsChartFragmentFragment = (
@@ -2279,12 +2202,15 @@ export type QueryStockDetailsQuery = (
         analysis?: Maybe<(
             { __typename?: 'Analysis' }
             & {
-            growthEstimates?: Maybe<(
-                { __typename?: 'GrowthEstimates' }
-                & GrowthEstimatesFragmentFragment
-                )>, revenueEstimate?: Maybe<Array<Maybe<(
-                { __typename?: 'RevenueEstimate' }
-                & RevenueEstimateFragmentFragment
+            growthEstimates?: Maybe<Array<Maybe<(
+                { __typename?: 'DataSet' }
+                & DataSetFragmentFragment
+                )>>>, revenueEstimate?: Maybe<Array<Maybe<(
+                { __typename?: 'Estimates' }
+                & EstimatesFragmentFragment
+                )>>>, earningsEstimate?: Maybe<Array<Maybe<(
+                { __typename?: 'Estimates' }
+                & EstimatesFragmentFragment
                 )>>>
         }
             )>, balanceSheet?: Maybe<(
@@ -2320,10 +2246,7 @@ export type QueryStockDetailsQuery = (
                 & IncomeStatementFragmentFragment
                 )>
         }
-            )>, stats: (
-            { __typename?: 'Stats' }
-            & StatsFragmentFragment
-            ), recommendation?: Maybe<Array<Maybe<(
+            )>, recommendation?: Maybe<Array<Maybe<(
             { __typename?: 'Recommendations' }
             & RecommendationFragmentFragment
             )>>>, stockNews?: Maybe<Array<Maybe<(
@@ -2344,15 +2267,10 @@ export type QueryStockDetailsQuery = (
                 )>, pageViews?: Maybe<(
                 { __typename?: 'PageViews' }
                 & Pick<PageViews, 'longTermTrend' | 'midTermTrend' | 'shortTermTrend'>
-                )>, upgradeDowngradeHistory?: Maybe<(
+                )>, upgradeDowngradeHistory?: Maybe<Array<Maybe<(
                 { __typename?: 'UpgradeDowngradeHistory' }
-                & {
-                history?: Maybe<Array<Maybe<(
-                    { __typename?: 'UpgradeDowngradeHistoryData' }
-                    & HistoryFragmentFragment
-                    )>>>
-            }
-                )>, esgScores?: Maybe<(
+                & Pick<UpgradeDowngradeHistory, 'action' | 'epochGradeDate' | 'firm' | 'fromGrade' | 'toGrade'>
+                )>>>, esgScores?: Maybe<(
                 { __typename?: 'EsgScores' }
                 & EsgScoreFragmentFragment
                 )>
@@ -3225,55 +3143,21 @@ export const IncomeStatementFragmentFragmentDoc = gql`
         }
     }
 ${SheetDataFragmentFragmentDoc}`;
-export const GrowthEstimatesFragmentFragmentDoc = gql`
-    fragment growthEstimatesFragment on GrowthEstimates {
-        currentQtr
-        currentQtrPrct
-        currentYear
-        currentYearPrct
-        nextFiveYearsperannum
-        nextFiveYearsperannumPrct
-        nextQtr
-        nextQtrPrct
-        nextYear
-        nextYearPrct
-        pastFiveYearsperannum
-        pastFiveYearsperannumPrct
+export const EstimatesFragmentFragmentDoc = gql`
+    fragment estimatesFragment on Estimates {
+        avg
+        growth
+        high
+        low
         name
-    }
-`;
-export const RevenueEstimateFragmentFragmentDoc = gql`
-    fragment revenueEstimateFragment on RevenueEstimate {
-        avgEstimate
-        avgEstimateNumber
-        highEstimate
-        highEstimateNumber
-        lowEstimate
-        lowEstimateNumber
         noofAnalysts
-        salesGrowthyearest
-        salesGrowthyearestNumber
-        yearAgoSales
-        name
+        yearAgo
     }
 `;
-export const StatsFragmentFragmentDoc = gql`
-    fragment statsFragment on Stats {
-        priceSalesttm
-        leveredFreeCashFlowttm
-        forwardPEOne
-        quarterlyEarningsGrowthyoy
-        quarterlyRevenueGrowthyoy
-        returnonEquityttm
-        revenuePerSharettm
-        totalCashPerSharemrq
-        totalDebtEquitymrq
-        totalDebtmrq
-        trailingPE
-        eBITDA
-        bookValuePerSharemrq
-        currentRatiomrq
-        dilutedEPSttm
+export const DataSetFragmentFragmentDoc = gql`
+    fragment dataSetFragment on DataSet {
+        y
+        name
     }
 `;
 export const RecommendationFragmentFragmentDoc = gql`
@@ -3372,13 +3256,14 @@ export const FinancialDataFragmentFragmentDoc = gql`
         currentPrice
         currentRatio
         debtToEquity
+        earningsGrowth
         ebitda
         ebitdaMargins
         financialCurrency
         freeCashflow
         grossMargins
         grossProfits
-        FloatOfAnalystOpinions
+        numberOfAnalystOpinions
         operatingCashflow
         operatingMargins
         profitMargins
@@ -3540,15 +3425,6 @@ export const DividensFragmentFragmentDoc = gql`
         forwardDividendYield
     }
 `;
-export const HistoryFragmentFragmentDoc = gql`
-    fragment historyFragment on UpgradeDowngradeHistoryData {
-        action
-        epochGradeDate
-        firm
-        fromGrade
-        toGrade
-    }
-`;
 export const EarningsChartFragmentFragmentDoc = gql`
     fragment earningsChartFragment on EarningsChart {
         currentQuarterEstimate
@@ -3606,44 +3482,51 @@ export const SummaryResidanceFragmentFragmentDoc = gql`
 `;
 export const StockSummaryFragmentFragmentDoc = gql`
     fragment StockSummaryFragment on Summary {
-        id
-        sandPFiveTwoWeekChange
-        lastSplitFactor
-        lastSplitDate
-        fullTimeEmployees
-        netIncomeEmployeeAnnual
-        revenueEmployeeAnnual
-        website
         residance {
             ...SummaryResidanceFragment
         }
+        id
+        avgVolume
+        currency
+        currencySymbol
+        dividendDate
         ePSTTM
         earningsDate
         exDividendDate
+        exchangeName
         fiveTwoWeekRange
-        oneyTargetEst
-        pERatioTTM
-        currency
+        forwardDividendRate
+        forwardDividendYield
+        forwardEPS
+        forwardPE
+        fullTimeEmployees
         industry
+        lastSplitDate
+        lastSplitFactor
         logo_url
+        longBusinessSummary
+        longName
+        marketCap
         marketPrice
+        oneyTargetEst
+        open
+        pERatioTTM
         previousClose
         recommendationKey
         recommendationMean
+        sandPFiveTwoWeekChange
         sector
-        targetEstOneyPercent
+        sharesOutstanding
+        shortName
+        shortRatio
         symbol
+        targetEstOneyPercent
+        volume
+        website
         weekRangeFiveTwoMax
         weekRangeFiveTwoMin
-        longName
-        oneyTargetEst
-        marketCap
-        sharesOutstanding
-        longBusinessSummary
-        yearToDatePriceReturn
-        volume
-        avgVolume
         yearToDatePrice
+        yearToDatePriceReturn
     }
 ${SummaryResidanceFragmentFragmentDoc}`;
 export const StStockWatchlistFragmentFragmentDoc = gql`
@@ -4031,10 +3914,13 @@ export const QueryStockDetailsDocument = gql`
             id
             analysis {
                 growthEstimates {
-                    ...growthEstimatesFragment
+                    ...dataSetFragment
                 }
                 revenueEstimate {
-                    ...revenueEstimateFragment
+                    ...estimatesFragment
+                }
+                earningsEstimate {
+                    ...estimatesFragment
                 }
             }
             balanceSheet {
@@ -4061,9 +3947,6 @@ export const QueryStockDetailsDocument = gql`
                     ...incomeStatementFragment
                 }
             }
-            stats {
-                ...statsFragment
-            }
             recommendation {
                 ...recommendationFragment
             }
@@ -4086,9 +3969,11 @@ export const QueryStockDetailsDocument = gql`
                     shortTermTrend
                 }
                 upgradeDowngradeHistory {
-                    history {
-                        ...historyFragment
-                    }
+                    action
+                    epochGradeDate
+                    firm
+                    fromGrade
+                    toGrade
                 }
                 esgScores {
                     ...esgScoreFragment
@@ -4179,18 +4064,16 @@ export const QueryStockDetailsDocument = gql`
             }
         }
     }
-    ${GrowthEstimatesFragmentFragmentDoc}
-    ${RevenueEstimateFragmentFragmentDoc}
+    ${DataSetFragmentFragmentDoc}
+    ${EstimatesFragmentFragmentDoc}
     ${BalanceSheetDataFragmentFragmentDoc}
     ${CashFlowDataFragmentFragmentDoc}
     ${IncomeStatementFragmentFragmentDoc}
-    ${StatsFragmentFragmentDoc}
     ${RecommendationFragmentFragmentDoc}
     ${NewsArticleFragmentFragmentDoc}
     ${DefaultKeyStatisticsFragmentFragmentDoc}
     ${EarningsFragmentFragmentDoc}
     ${FinancialDataFragmentFragmentDoc}
-    ${HistoryFragmentFragmentDoc}
     ${EsgScoreFragmentFragmentDoc}
     ${StockSummaryFragmentFragmentDoc}
     ${MetricFragmentFragmentDoc}

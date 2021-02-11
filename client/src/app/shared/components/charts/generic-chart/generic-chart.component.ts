@@ -58,6 +58,16 @@ export class GenericChartComponent implements OnInit, OnChanges {
         if (this.addFancyColoring) {
             this.fancyColoring();
         }
+        if (this.isPercentage) {
+            this.series = this.series.map(s => {
+                return {
+                    ...s,
+                    data: s.data.map(d => {
+                        return {...d, y: d.y * 100};
+                    })
+                };
+            });
+        }
 
         this.initChart();
 
@@ -81,6 +91,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
             this.initAreaChange();
         } else if (this.chartType === ChartType.pie) {
             this.initPieChart();
+            return;
         }
 
         if (this.categories) {
@@ -278,6 +289,14 @@ export class GenericChartComponent implements OnInit, OnChanges {
                     allowPointSelect: false,
                     depth: 35,
                     size: this.heightPx - 100,
+                    tooltip: {
+                        headerFormat: null,
+                        style: {
+                            fontSize: '12px',
+                            color: '#D9D8D8',
+                        },
+                        pointFormat: '<span style="color:{point.color}; font-weight: bold">{point.name}</span> :<b>{point.percentage:.1f} %</b><br/>'
+                    },
                     dataLabels: {
                         style: {
                             fontSize: '12px',

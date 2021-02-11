@@ -1,10 +1,11 @@
 from requests import get
 from datetime import datetime
-from private_data import enviroments
+import environments_keys
+
 
 class EconomicNews:
     def __init__(self):
-        self.API_KEY = enviroments.NEWS_API_KEY
+        self.API_KEY = environments_keys.NEWS_API_KEY
 
     # fetch news if older than 6 hours else return from file
     def getJsonDataFromFile(self):

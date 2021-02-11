@@ -1,5 +1,4 @@
 from requests import get
-from ExternalAPI import utils
 
 from ExternalAPI.YahooFinance import CustomYahooParser
 
@@ -8,48 +7,49 @@ class YahooFinanceRequester:
     def __init__(self):
         self.helperClass = CustomYahooParser.CustomYahooParser()
 
-    def get_quote_table(self, ticker):
+    def get_company_data(self, ticker):
         site = "https://finance.yahoo.com/quote/" + ticker + "?p=" + ticker
+        data = self.helperClass.parse_json(site, 'QuoteSummaryStore')
 
-        result = utils.parseMultipleDropdownTables(site)
-        livePrice = self.get_live_price(ticker)
+        if not data:
+            return None
 
-        result['weekRange52Min'] = utils.force_float(result['FiveTwoWeekRange'].split(' - ')[0]) if result.get(
-            'FiveTwoWeekRange') is not None else None
-        result['weekRange52Max'] = utils.force_float(result['FiveTwoWeekRange'].split(' - ')[1]) if result.get(
-            'FiveTwoWeekRange') is not None else None
+        # format recommendation and upgraded history
+        if data['upgradeDowngradeHistory'] is not None:
+            history = data['upgradeDowngradeHistory'].get('history')
+            data['upgradeDowngradeHistory'] = [] if not history else history[0:15]
+        else:
+            data['upgradeDowngradeHistory'] = []
+
+        # format logo
         try:
-            result['targetEst1yPercent'] = utils.force_round(
-                1 / float(result['OneyTargetEst']) * livePrice['marketPrice'])
-        except:
-            result['targetEst1yPercent'] = None
+            domain = data['summaryProfile']['website'].split('://')[1].split('/')[0].replace('www.', '')
+            data['summaryProfile']['logo_url'] = 'https://logo.clearbit.com/%s' % domain
+        except Exception:
+            data['summaryProfile']['logo_url'] = None
 
-        return {**result, **livePrice, **{'symbol': ticker}}
-
-    def get_stats(self, ticker):
-        stats_site = "https://finance.yahoo.com/quote/" + ticker + "/key-statistics?p=" + ticker
-        return utils.parseMultipleDropdownTables(stats_site)
+        return data
 
     def get_financial_sheets(self, ticker):
         balance_sheet_site = "https://finance.yahoo.com/quote/" + ticker + "/balance-sheet?p=" + ticker
         json_info = self.helperClass.parse_json(balance_sheet_site, 'QuoteSummaryStore')
 
-        if json_info is None or json_info.get('balanceSheetHistory') is None:
+        if not json_info:
             return None
 
         balanceSheet = {
-            'balanceSheetHistoryYearly': json_info["balanceSheetHistory"]["balanceSheetStatements"],
-            'balanceSheetHistoryQuarterly': json_info["balanceSheetHistoryQuarterly"]["balanceSheetStatements"]
+            'balanceSheetHistoryYearly': json_info["balanceSheetHistory"].get('balanceSheetStatements'),
+            'balanceSheetHistoryQuarterly': json_info["balanceSheetHistoryQuarterly"].get('balanceSheetStatements')
         }
 
         cashFlow = {
-            'cashflowStatementHistoryYearly': json_info["cashflowStatementHistory"]["cashflowStatements"],
-            'cashflowStatementHistoryQuarterly': json_info["cashflowStatementHistoryQuarterly"]["cashflowStatements"]
+            'cashflowStatementHistoryYearly': json_info["cashflowStatementHistory"].get('cashflowStatements'),
+            'cashflowStatementHistoryQuarterly': json_info["cashflowStatementHistoryQuarterly"].get('cashflowStatements')
         }
 
         incomeStatement = {
-            'incomeStatementHistoryYearly': json_info["incomeStatementHistory"]["incomeStatementHistory"],
-            'incomeStatementHistoryQuarterly': json_info["incomeStatementHistoryQuarterly"]["incomeStatementHistory"]
+            'incomeStatementHistoryYearly': json_info["incomeStatementHistory"].get('incomeStatementHistory'),
+            'incomeStatementHistoryQuarterly': json_info["incomeStatementHistoryQuarterly"].get('incomeStatementHistory')
         }
 
         return {'balanceSheet': balanceSheet, 'incomeStatement': incomeStatement, 'cashFlow': cashFlow}
@@ -59,14 +59,11 @@ class YahooFinanceRequester:
         ownerShip = self.helperClass.parse_json(url, 'QuoteSummaryStore', 'institutionOwnership', 'ownershipList')
         transactions = self.helperClass.parse_json(url, 'QuoteSummaryStore', 'insiderTransactions', 'transactions')
 
-        ownerShip = ownerShip[0:8] if ownerShip is not None else []
-        transactions = transactions[0:8] if transactions is not None else []
-
-        return {'institutionOwnerships': ownerShip, 'insiderTransactions': transactions}
+        return {'institutionOwnerships': ownerShip[0:8], 'insiderTransactions': transactions[0:8]}
 
     def get_analysts_info(self, ticker):
-        analysts_site = "https://finance.yahoo.com/quote/" + ticker + "/analysts?p=" + ticker
-        return self.helperClass.parseAnalysisInfo(analysts_site)
+        url = "https://finance.yahoo.com/quote/" + ticker + "/analysts?p=" + ticker
+        return self.helperClass.parse_json(url, 'QuoteSummaryStore', 'earningsTrend', 'trend')
 
     def get_live_price(self, ticker):
         data = get('https://query1.finance.yahoo.com/v8/finance/chart/' + ticker + '?interval=1d').json()
@@ -76,23 +73,6 @@ class YahooFinanceRequester:
             'previousClose': res[0]['meta'].get('chartPreviousClose') if res is not None else None
         }
         return result
-
-    def get_company_data(self, symbol):
-        url = 'https://finance.yahoo.com/quote/' + symbol
-        data = self.helperClass.get_json(url, None)
-        # try to get image
-        try:
-            domain = data['summaryProfile']['website'].split('://')[1].split('/')[0].replace('www.', '')
-            data['summaryProfile']['logo_url'] = 'https://logo.clearbit.com/%s' % domain
-        except Exception:
-            pass
-        # format recommendation and upgraded history
-        try:
-            data['upgradeDowngradeHistory']['history'] = data['upgradeDowngradeHistory']['history'][0:10]
-        except:
-            pass
-
-        return data
 
     def get_chart_data(self, symbol, period, onlyClosed=False):
         if period == '1d':

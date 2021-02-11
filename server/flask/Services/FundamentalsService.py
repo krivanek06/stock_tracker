@@ -1,10 +1,11 @@
-from ExternalAPI import Finhub
-from ExternalAPI.YahooFinance import YahooFinanceRequester
 from threading import Thread
 from queue import Queue
 from pytz import UTC
-from ExternalAPI import utils
+from datetime import datetime
 
+from ExternalAPI import Finhub
+from ExternalAPI.YahooFinance import YahooFinanceRequester
+from ExternalAPI import utils
 from ExternalAPI.utils import cammelCaseToWord
 
 utc = UTC
@@ -51,19 +52,22 @@ class FundamentalsService:
         dataFormatter.removeUnnecessaryData()
         return data
 
-    '''
-        fetch all details about one stock, call method to fetch fundamentals
-    '''
-
     def __fetchStockDetails(self, symbol):
+        '''
+        t4 = self.yRequester.get_company_data(symbol)
+        t2 = self.yRequester.get_analysts_info(symbol)
+        t8 = self.yRequester.get_financial_sheets(symbol)
+        t10 = self.__getUpToDateStockNews(symbol)
+        t12 = self.yRequester.get_holders(symbol)
+        t6 = self.finhub.getRecomendationForSymbol(symbol)
+        t7 = self.finhub.getStockYearlyFinancialReport(symbol)
+        t11 = self.finhub.getStockMetrics(symbol)
+        '''
         que = Queue()
         # declare threads
-        t1 = Thread(target=lambda q, arg1: q.put({'companyData': self.yRequester.get_company_data(arg1)}),
+        t2 = Thread(target=lambda q, arg1: q.put({'analysis_all': self.yRequester.get_analysts_info(arg1)}),
                     args=(que, symbol))
-        t2 = Thread(target=lambda q, arg1: q.put({'analysis': self.yRequester.get_analysts_info(arg1)}),
-                    args=(que, symbol))
-        t3 = Thread(target=lambda q, arg1: q.put({'stats': self.yRequester.get_stats(arg1)}), args=(que, symbol))
-        t4 = Thread(target=lambda q, arg1: q.put({'summary': self.yRequester.get_quote_table(arg1)}),
+        t4 = Thread(target=lambda q, arg1: q.put({'companyData': self.yRequester.get_company_data(arg1)}),
                     args=(que, symbol))
         t8 = Thread(target=lambda q, arg1: q.put(self.yRequester.get_financial_sheets(arg1)), args=(que, symbol))
         t10 = Thread(target=lambda q, arg1: q.put(self.__getUpToDateStockNews(arg1)), args=(que, symbol))
@@ -75,9 +79,7 @@ class FundamentalsService:
         t11 = Thread(target=lambda q, arg1: q.put(self.finhub.getStockMetrics(arg1)), args=(que, symbol))
 
         # start threads
-        t1.start()
         t2.start()
-        t3.start()
         t4.start()
         t6.start()
         t7.start()
@@ -87,9 +89,7 @@ class FundamentalsService:
         t12.start()
 
         # wait threads to finish
-        t1.join()
         t2.join()
-        t3.join()
         t4.join()
         t6.join()
         t7.join()
@@ -99,8 +99,7 @@ class FundamentalsService:
         t12.join()
 
         # get result from threads into one dict
-        merge = {**que.get(), **que.get(), **que.get(), **que.get(), **que.get(), **que.get(), **que.get(),
-                 **que.get(), **que.get(), **que.get()}
+        merge = {**que.get(), **que.get(), **que.get(), **que.get(), **que.get(), **que.get(), **que.get(), **que.get()}
 
         return merge
 
@@ -111,27 +110,50 @@ class FundamentalServiceFormatter:
 
     def formatAnalysis(self):
         try:
+            analysis_all = self.data.get('analysis_all')
+            if not analysis_all:
+                self.data['analysis'] = None
+                return
+            growth = []
+            revenueEstimate = []
+            earningsEstimate = []
+            seasons = ['Current Qrt.', 'Next Qrt.', 'Current Year', 'Next Year', 'Next 5y.', 'Past 5y.']
 
-            if self.data['analysis'].get('growthEstimates') is not None:
-                self.data['analysis']['growthEstimates'] = self.data['analysis']['growthEstimates'][0]
-                GrowthEstimates = self.data['analysis']['growthEstimates']
-                for k in list(GrowthEstimates.keys()):
-                    if k != 'name':
-                        GrowthEstimates[k + 'Prct'] = utils.force_float_skipping_last_char(GrowthEstimates[k])
+            for i in range(len(analysis_all)):
+                data = analysis_all[i]
+                date = seasons[i]
 
-            if self.data['analysis'].get('revenueEstimate') is not None:
-                RevenueEstimate = self.data['analysis']['revenueEstimate']
-                for tmp in RevenueEstimate:
-                    tmp['avgEstimateNumber'] = utils.force_float_skipping_last_char(tmp['avgEstimate'])
-                    tmp['highEstimateNumber'] = utils.force_float_skipping_last_char(tmp['highEstimate'])
-                    tmp['lowEstimateNumber'] = utils.force_float_skipping_last_char(tmp['lowEstimate'])
-                    tmp['salesGrowthyearestNumber'] = utils.force_float_skipping_last_char(tmp['salesGrowthyearest'])
-                    # if "HighEstimate": "1.48B" and "LowEstimate": "2M"
-                    if tmp['lowEstimate'] != 'N/A' and tmp['highEstimate'][-1] != tmp['lowEstimate'][-1]:
-                        tmp['highEstimateNumber'] = tmp['highEstimateNumber'] * 1000
+                growth.append({'name': date, 'y': data.get('growth')})
+                if i < 4:
+                    date = seasons[i] + ' ' + datetime.strptime(data.get('endDate'), '%Y-%m-%d').strftime('(%b.) %Y')
+                    rev = data.get('revenueEstimate')
+                    revenueEstimate.append({
+                        "avg": rev.get('avg'),
+                        "high": rev.get('high'),
+                        "low": rev.get('low'),
+                        "name": date,
+                        "noofAnalysts": rev.get('numberOfAnalysts'),
+                        "growth": rev.get('growth'),
+                        "yearAgo": rev.get('yearAgoRevenue')
+                    })
+                    ear = data.get('earningsEstimate')
+                    earningsEstimate.append({
+                        "avg": ear.get('avg'),
+                        "high": ear.get('high'),
+                        "low": ear.get('low'),
+                        "name": date,
+                        "noofAnalysts": ear.get('numberOfAnalysts'),
+                        "growth": ear.get('growth'),
+                        "yearAgo": ear.get('yearAgoEps')
+                    })
+            self.data['analysis'] = {
+                'growthEstimates': growth,
+                'revenueEstimate': revenueEstimate,
+                'earningsEstimate': earningsEstimate
+            }
         except Exception as e:
             print('formatAnalysis exception: ' + str(e))
-            pass
+            self.data['analysis'] = None
 
     def formatHistoricalMetrics(self):
         if self.data['historicalMetrics'] is None:
@@ -142,7 +164,7 @@ class FundamentalServiceFormatter:
             result[k] = {'data': [], 'dates': [], 'name': utils.cammelCaseToWord(k)}
             for data in self.data['historicalMetrics'][k]:
                 result[k]['data'].insert(0, round(data.get('v'), 3))
-                result[k]['dates'].insert(0, data.get('period').split('-')[0]) #2020-X-X
+                result[k]['dates'].insert(0, data.get('period').split('-')[0])  # 2020-X-X
         self.data['historicalMetrics'] = result
 
     def formatStatementData(self):
@@ -325,57 +347,77 @@ class FundamentalServiceFormatter:
 
     def formatSummary(self):
         try:
-            financialData = {} if self.data['companyData']['financialData'] is None else self.data['companyData'][
-                'financialData']
-            summaryDetail = {} if self.data['companyData']['summaryDetail'] is None else self.data['companyData'][
-                'summaryDetail']
-            summaryProfile = {} if self.data['companyData']['summaryProfile'] is None else self.data['companyData'][
-                'summaryProfile']
-            defaultKeyStatistics = {} if self.data['companyData']['defaultKeyStatistics'] is None else \
-                self.data['companyData']['defaultKeyStatistics']
-            price = {} if self.data['companyData']['price'] is None else self.data['companyData']['price']
+            summary_all = self.data['companyData']
+            summaryProfile = summary_all.get('summaryProfile')
+            price = summary_all.get('price')
+            quote = summary_all.get('quoteType')
+            detail = summary_all.get('summaryDetail')
+            stats = summary_all.get('defaultKeyStatistics')
+            financialData = summary_all.get('financialData')
+            events = summary_all.get('calendarEvents')
+            earnings = events.get('earnings').get('earningsDate')
 
-            self.data['summary']['recommendationKey'] = financialData.get('recommendationKey')
-            self.data['summary']['recommendationMean'] = financialData.get('recommendationMean')
+            try:
+                domain = summaryProfile['website'].split('://')[1].split('/')[0].replace('www.', '')
+                logo_url = 'https://logo.clearbit.com/%s' % domain
+            except Exception:
+                logo_url = None
 
-            self.data['summary']['currency'] = summaryDetail.get('currency')
-
-            self.data['summary']['logo_url'] = summaryProfile.get('logo_url')
-            self.data['summary']['sector'] = summaryProfile.get('sector')
-            self.data['summary']['industry'] = summaryProfile.get('industry')
-            self.data['summary']['longBusinessSummary'] = summaryProfile.get('longBusinessSummary')
-            self.data['summary']['website'] = summaryProfile.get('website')
-            self.data['summary']['fullTimeEmployees'] = summaryProfile.get('fullTimeEmployees')
-            self.data['summary']['residance'] = {}
-            self.data['summary']['residance']['city'] = summaryProfile.get('city')
-            self.data['summary']['residance']['state'] = summaryProfile.get('state')
-            self.data['summary']['residance']['country'] = summaryProfile.get('country')
-            self.data['summary']['residance']['addressOne'] = summaryProfile.get('addressOne')
-            self.data['summary']['residance']['zip'] = summaryProfile.get('zip')
-
-            self.data['summary']['oneyTargetEst'] = utils.force_float(self.data['summary'].get('oneyTargetEst'))
-            self.data['summary']['currencySymbol'] = price.get('currencySymbol')
-            self.data['summary']['shortName'] = price.get('shortName')
-            self.data['summary']['longName'] = price.get('longName')
-            self.data['summary']['marketCap'] = price.get('marketCap')
-
-            self.data['summary']['sharesOutstanding'] = defaultKeyStatistics.get('sharesOutstanding')
-            self.data['summary']['sandPFiveTwoWeekChange'] = utils.force_round(defaultKeyStatistics.get('sandPFiveTwoWeekChange'))
-            self.data['summary']['yearToDatePriceReturn'] = utils.force_round(defaultKeyStatistics.get('fiveTwoWeekChange'))
-            self.data['summary']['yearToDatePrice'] = utils.force_round(self.data['summary']['marketPrice'] / (1 + self.data['summary']['yearToDatePriceReturn']),2)
-            self.data['summary']['lastSplitFactor'] = defaultKeyStatistics.get('lastSplitFactor')
-            self.data['summary']['lastSplitDate'] = defaultKeyStatistics.get('lastSplitDate')
-
-            self.data['summary']['netIncomeEmployeeAnnual'] = self.data['metric'].get('netIncomeEmployeeAnnual')
-            self.data['summary']['revenueEmployeeAnnual'] = self.data['metric'].get('revenueEmployeeAnnual')
-
-            # format volume string to float
-            avgVolume = self.data['summary'].get('avgVolume')
-            volume = self.data['summary'].get('volume')
-            if avgVolume is not None and volume:
-                self.data['summary']['avgVolume'] = utils.force_float(''.join(avgVolume.split(',')))
-                self.data['summary']['volume'] = utils.force_float(''.join(volume.split(',')))
-
+            summary = {
+                'id': summary_all.get('symbol'),
+                'shortRatio': stats.get('shortRatio'),
+                'sandPFiveTwoWeekChange': stats.get('sandPFiveTwoWeekChange'),
+                'lastSplitFactor': stats.get('lastSplitFactor'),
+                'exchangeName': price.get('exchangeName'),
+                'lastSplitDate': stats.get('lastSplitDate'),
+                'fullTimeEmployees': summaryProfile.get('fullTimeEmployees'),
+                'website': summaryProfile.get('website'),
+                'residance': {
+                    'city': summaryProfile.get('city'),
+                    'state': summaryProfile.get('state'),
+                    'country': summaryProfile.get('country'),
+                    'addressOne': summaryProfile.get('addressOne'),
+                    'zip': summaryProfile.get('zip'),
+                },
+                'avgVolume': detail.get('averageDailyVolumeOneDay'),
+                'ePSTTM': stats.get('trailingEps'),
+                'forwardEPS': stats.get('forwardEps'),
+                'earningsDate': earnings[0] if earnings is not None and len(earnings) > 0 else None,
+                'dividendDate': events.get('dividendDate'),
+                'exDividendDate': events.get('exDividendDate'),
+                'forwardDividendYield': detail.get('dividendYield'),
+                'forwardDividendRate': detail.get('dividendRate'),
+                'fiveTwoWeekRange': str(detail.get('fiftyTwoWeekLow')) + ' - ' + str(detail.get('fiftyTwoWeekHigh')),
+                'oneyTargetEst': financialData.get('targetMeanPrice'),
+                'open': price.get('regularMarketOpen'),
+                'pERatioTTM': detail.get('trailingPE'),
+                'forwardPE': detail.get('forwardPE'),
+                'volume': detail.get('volume'),
+                'currency': price.get('currency'),
+                'industry': summaryProfile.get('industry'),
+                'logo_url': logo_url,
+                'marketPrice': financialData.get('currentPrice'),
+                'previousClose': detail.get('previousClose'),
+                'recommendationKey': financialData.get('recommendationKey'),
+                'recommendationMean': financialData.get('recommendationMean'),
+                'sector': summaryProfile.get('sector'),
+                'symbol': summary_all.get('symbol'),
+                'targetEstOneyPercent': utils.force_round(
+                    financialData.get('currentPrice') / financialData.get('targetMeanPrice'), 2) if financialData.get(
+                    'targetMeanPrice') is not None else None,
+                'weekRangeFiveTwoMax': detail.get('fiftyTwoWeekHigh'),
+                'weekRangeFiveTwoMin': detail.get('fiftyTwoWeekLow'),
+                'currencySymbol': price.get('currencySymbol'),
+                'shortName': quote.get('shortName'),
+                'longName': quote.get('longName'),
+                'marketCap': detail.get('marketCap'),
+                'sharesOutstanding': stats.get('sharesOutstanding'),
+                'longBusinessSummary': summaryProfile.get('longBusinessSummary'),
+                'yearToDatePriceReturn': stats.get('fiveTwoWeekChange'),
+                'yearToDatePrice': utils.force_round(
+                    financialData.get('currentPrice') / (1 + stats.get('fiveTwoWeekChange')), 2)
+            }
+            self.data['summary'] = summary
         except Exception as e:
             print('formatSummary exception: ' + str(e))
 
@@ -391,8 +433,10 @@ class FundamentalServiceFormatter:
                 'dividendsPerShareTTM': self.data['metric'].get('dividendsPerShareTTM'),
                 'exDividendDate': self.data['summary'].get('exDividendDate'),
                 'forwardDividendYield': self.data['summary'].get('forwardDividendYield'),
-                'trailingAnnualDividendRate': self.data['stats'].get('trailingAnnualDividendRateThree'),
-                'trailingAnnualDividendYield': self.data['stats'].get('trailingAnnualDividendYieldThree')
+                'trailingAnnualDividendRate': self.data['companyData']['summaryDetail'].get(
+                    'trailingAnnualDividendRate'),
+                'trailingAnnualDividendYield': self.data['companyData']['summaryDetail'].get(
+                    'trailingAnnualDividendYield'),
             }
         except Exception as e:
             print('formatDividends exception: ' + str(e))
@@ -400,17 +444,9 @@ class FundamentalServiceFormatter:
 
     def removeUnnecessaryData(self):
         try:
-            self.data['summary'].pop("ask", None)
-            self.data['summary'].pop("betaFiveYMonthly", None)
-            self.data['summary'].pop("bid", None)
-            self.data['analysis'].pop("earningsEstimate", None)
-            self.data['analysis'].pop("earningsHistory", None)
-            self.data['analysis'].pop("ePSRevisions", None)
-            self.data['analysis'].pop("ePSTrend", None)
             self.data['companyData'].pop("calendarEvents", None)
             self.data['companyData'].pop("recommendationTrend", None)
             self.data['companyData'].pop("financialsTemplate", None)
-            self.data['summary'].pop("day'sRange", None)
             self.data['companyData'].pop("quoteType", None)
             self.data['companyData'].pop("price", None)
             self.data['companyData'].pop("summaryDetail", None)
@@ -424,11 +460,9 @@ class FundamentalServiceFormatter:
             self.data['metric'].pop("dividendsPerShareTTM", None)
             self.data['metric'].pop("forwardAnnualDividendYieldFour", None)
             self.data['metric'].pop("trailingAnnualDividendRateThree", None)
-            self.data['stats'].pop("trailingAnnualDividendYieldThree", None)
-            self.data['companyData'].pop("summaryProfile", None)
-            self.data['companyData']['defaultKeyStatistics'].pop('52WeekChange', None)
 
             self.data.pop('financialReportsQuarterly', None)
             self.data.pop('financialReportsYearly', None)
+            self.data.pop('analysis_all')
         except Exception as e:
             print('Exception in removeUnnecessaryData: ' + str(e))

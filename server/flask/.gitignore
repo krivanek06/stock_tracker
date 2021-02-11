@@ -23,5 +23,5 @@ ENV/
 
 #custom
 private_data/
-resource/
 test.py
+environments_keys.py

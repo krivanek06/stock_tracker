@@ -1,12 +1,12 @@
 from datetime import datetime
-from private_data import enviroments
+import environments_keys
 from dateutil.relativedelta import relativedelta
 from requests import get
 
+
 class Finhub:
     def __init__(self):
-        self.FINHUB_SECRET_KEY = enviroments.FINHUB_SECRET_KEY
-
+        self.FINHUB_SECRET_KEY = environments_keys.FINHUB_SECRET_KEY
 
     def getIpoOneMonthCalendar(self):
         today = datetime.today()
@@ -18,7 +18,6 @@ class Finhub:
         params = {'token': self.FINHUB_SECRET_KEY, 'exchange': 'US'}
         exchangeUS = get('https://finnhub.io/api/v1/stock/symbol', params=params).json()
         return [k for k in exchangeUS if k['symbol'].startswith(symbolPrefix)][0:6]
-
 
     def searchAllSymbols(self):
         params = {'token': self.FINHUB_SECRET_KEY, 'exchange': 'US'}
@@ -42,7 +41,8 @@ class Finhub:
     def getStockMetrics(self, symbol):
         params = {'token': self.FINHUB_SECRET_KEY, 'symbol': symbol}
         data = get('https://finnhub.io/api/v1/stock/metric', params=params).json()
-        return {'metric': data['metric'], 'historicalMetrics': data['series'].get('annual')}
+        metric = data['series'].get('annual') if data.get('series') is not None else None
+        return {'metric': data.get('metric'), 'historicalMetrics': metric}
 
     def getRecomendationForSymbol(self, symbol):
         params = {'token': self.FINHUB_SECRET_KEY, 'symbol': symbol}

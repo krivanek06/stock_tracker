@@ -50,7 +50,7 @@ export const queryStockSummaries = async (symbolPrefix: string): Promise<api.Sea
             .collection(api.ST_STOCK_DATA_COLLECTION_MORE_INFORMATION)
             .doc(api.ST_STOCK_DATA_DOCUMENT_SEARCH_SYMBOL);
 
-        console.log('symbolPrefix', symbolPrefix)
+        console.log('symbolPrefix', symbolPrefix);
         const symbolsDoc = await symbolsDocRef.get();
         let searchSymbols = symbolsDoc.data() as api.SearchStockSymbol;
 

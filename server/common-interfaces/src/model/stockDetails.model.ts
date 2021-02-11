@@ -21,7 +21,6 @@ export interface StockDetails {
   incomeStatement: IncomeStatement;
   financialReports: any[];
   financialReportSnippets: string[];
-  stats: Stats;
   recommendation: Recommendations[];
   stockNews: NewsArticle[];
   companyData: CompanyData;
@@ -34,21 +33,21 @@ export interface StockDetails {
 }
 
 export interface InsiderTransaction {
-    filerName: string;
-    filerRelation: string;
-    shares: number;
-    startDate: number;
-    transactionText: string;
-    value?: number;
+  filerName: string;
+  filerRelation: string;
+  shares: number;
+  startDate: number;
+  transactionText: string;
+  value?: number;
 }
 
 export interface InstitutionOwnership {
-    maxAge: number;
-    organization: string;
-    pctHeld: number;
-    position: number;
-    reportDate: number;
-    value: number;
+  maxAge: number;
+  organization: string;
+  pctHeld: number;
+  position: number;
+  reportDate: number;
+  value: number;
 }
 
 export interface HistoricalMetrics {
@@ -95,7 +94,7 @@ export interface CompanyData {
   financialData: FinancialData;
   pageViews: PageViews;
   summaryProfile: SummaryProfile;
-  upgradeDowngradeHistory: UpgradeDowngradeHistory;
+  upgradeDowngradeHistory: UpgradeDowngradeHistory[];
 }
 
 export interface Recommendations {
@@ -233,39 +232,25 @@ export interface SheetData {
   name: string;
 }
 
-export interface RevenueEstimate {
-  AvgEstimate: string;
-  AvgEstimateNumber: number;
-  HighEstimate: string;
-  HighEstimateNumber: number;
-  LowEstimate: string;
-  LowEstimateNumber: number;
-  NoofAnalysts: number;
-  SalesGrowthyearest: string;
-  SalesGrowthyearestNumber: number;
-  YearAgoSales: string;
+export interface DataSet {
+  y: number;
   name: string;
 }
 
-export interface GrowthEstimates {
-  CurrentQtr: string;
-  CurrentQtrPrct: number;
-  CurrentYear: string;
-  CurrentYearPrct: number;
-  NextFiveYearsperannum: string;
-  NextFiveYearsperannumPrct: number;
-  NextQtr: string;
-  NextQtrPrct: number;
-  NextYear: string;
-  NextYearPrct: number;
-  PastFiveYearsperannum: string;
-  PastFiveYearsperannumPrct: number;
+export interface Estimates {
+  avg: number;
+  growth: number;
+  high: number;
+  low: number;
   name: string;
+  noofAnalysts: number;
+  yearAgo: number;
 }
 
 export interface Analysis {
-  GrowthEstimates: GrowthEstimates;
-  RevenueEstimate: RevenueEstimate[];
+  earningsEstimate: Estimates[];
+  revenueEstimate: Estimates[];
+  growthEstimates: DataSet[];
 }
 
 export interface DefaultKeyStatistics {
@@ -405,22 +390,23 @@ export interface FinancialData {
   currentPrice: number;
   currentRatio: number;
   debtToEquity: number;
+  earningsGrowth: number;
   ebitda: number;
-  ebitdaMargins: number; // *100
+  ebitdaMargins: number;
   financialCurrency: string;
   freeCashflow: number;
-  grossMargins: number; // *100
+  grossMargins: number;
   grossProfits: number;
   numberOfAnalystOpinions: number;
   operatingCashflow: number;
-  operatingMargins: number; // *100
-  profitMargins: number; // *100
+  operatingMargins: number;
+  profitMargins: number;
   quickRatio: number;
   recommendationKey: string;
   recommendationMean: number;
-  returnOnAssets: number; // *100
-  returnOnEquity: number; // *100
-  revenueGrowth: number; // *100
+  returnOnAssets: number;
+  returnOnEquity: number;
+  revenueGrowth: number;
   revenuePerShare: number;
   targetHighPrice: number;
   targetLowPrice: number;
@@ -455,10 +441,6 @@ export interface SummaryProfile {
 }
 
 export interface UpgradeDowngradeHistory {
-  history: UpgradeDowngradeHistoryData[];
-}
-
-export interface UpgradeDowngradeHistoryData {
   action: string;
   epochGradeDate: number;
   firm: string;
@@ -466,104 +448,56 @@ export interface UpgradeDowngradeHistoryData {
   toGrade: string;
 }
 
-export interface Stats {
-  avgVolOnedayThree: string;
-  bookValuePerSharemrq: string;
-  currentRatiomrq: string;
-  dilutedEPSttm: string;
-  dividendDateThree: string;
-  eBITDA: string;
-  enterpriseValueEBITDASix: string;
-  enterpriseValueRevenueThree: string;
-  enterpriseValueThree: string;
-  exDividendDateFour: string;
-  fiveDayMovingAverageThree: string;
-  fiveTwoWeekChangeThree: string;
-  fiveTwoWeekHighThree: string;
-  fiveTwoWeekLowThree: string;
-  fiveYearAverageDividendYieldFour: string;
-  float: string;
-  forwardAnnualDividendYieldFour: string;
-  forwardPEOne: string;
-  grossProfitttm: string;
-  lastSplitDateThree: string;
-  lastSplitFactorTwo: string;
-  leveredFreeCashFlowttm: string;
-  mostRecentQuartermrq: string;
-  netIncomeAvitoCommonttm: string;
-  operatingMarginttm: string;
-  pEGRatioFiveyrexpectedOne: string;
-  payoutRatioFour: string;
-  pctHeldbyInsidersOne: string;
-  pctHeldbyInstitutionsOne: string;
-  priceBookmrq: string;
-  priceSalesttm: string;
-  quarterlyEarningsGrowthyoy: string;
-  quarterlyRevenueGrowthyoy: string;
-  returnonEquityttm: string;
-  revenuePerSharettm: string;
-  sPFiveFiveTwoWeekChangeThree: string;
-  sharesOutstandingFive: string;
-  sharesShortJanOneFourTwoTwoOneFour: string;
-  sharesShortpriormonthDecOneFourTwoTwoFour: string;
-  shortPctofFloatJanOneFourTwoTwoOneFour: string;
-  shortPctofSharesOutstandingJanOneFourTwoTwoOneFour: string;
-  shortRatioJanOneFourTwoTwoOneFour: string;
-  totalCashPerSharemrq: string;
-  totalDebtEquitymrq: string;
-  totalDebtmrq: string;
-  trailingAnnualDividendRateThree: string;
-  trailingPE: string;
-  twoDayMovingAverageThree: string;
-}
-
 export interface Summary {
   id: string;
-  sandPFiveTwoWeekChange: number;
-  fiveTwoWeekChange: number;
-  lastSplitFactor: string;
-  lastSplitDate: number;
-  fullTimeEmployees: number;
-  netIncomeEmployeeAnnual: number;
-  revenueEmployeeAnnual: number;
-  website: string;
-  residance: {
-    city: string;
-    state: string;
-    country: string;
-    addressOne: string;
-    zip: string;
-  };
   avgVolume: number;
-  ePSTTM: string;
-  earningsDate: string;
-  exDividendDate: string;
-  fiveTwoWeekRange: string;
-  forwardDividendYield: string;
-  oneyTargetEst: number;
-  open: string;
-  pERatioTTM: string;
-  volume: number;
   currency: string;
+  currencySymbol: string;
+  dividendDate: number;
+  ePSTTM: number;
+  earningsDate: number;
+  exDividendDate: number;
+  exchangeName: string;
+  fiveTwoWeekRange: string;
+  forwardDividendRate: number;
+  forwardDividendYield: number;
+  forwardEPS: number;
+  forwardPE: number;
+  fullTimeEmployees: number;
   industry: string;
+  lastSplitDate: number;
+  lastSplitFactor: string;
   logo_url: string;
+  longBusinessSummary: string;
+  longName: string;
+  marketCap: number;
   marketPrice: number;
+  oneyTargetEst: number;
+  open: number;
+  pERatioTTM: number;
   previousClose: number;
   recommendationKey: string;
   recommendationMean: number;
+  residance: {
+    addressOne: string;
+    city: string;
+    country: string;
+    state: string;
+    zip: string;
+  };
+  sandPFiveTwoWeekChange: null;
   sector: string;
+  sharesOutstanding: number;
+  shortName: string;
+  shortRatio: number;
   symbol: string;
   targetEstOneyPercent: number;
+  volume: number;
+  website: string;
   weekRangeFiveTwoMax: number;
   weekRangeFiveTwoMin: number;
-  currencySymbol: string;
-  shortName: string;
-  longName: string;
-  marketCap: number;
-  sharesOutstanding: number;
-  longBusinessSummary: string;
-  yearToDatePriceReturn: number;
   yearToDatePrice: number;
+  yearToDatePriceReturn: number;
 }
 
 export interface Dividens {

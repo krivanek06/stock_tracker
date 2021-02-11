@@ -11,9 +11,6 @@ export class FixedRangeSliderComponent implements OnInit {
     @Input() max: number;
     @Input() value: number;
 
-    @Input() minDisplayName: string | number;
-    @Input() maxDisplayName: string | number;
-
     constructor() {
     }
 

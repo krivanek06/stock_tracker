@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {RevenueEstimate} from '../../../../api/customGraphql.service';
+import {Estimates} from '../../../../api/customGraphql.service';
 
 @Component({
   selector: 'app-details-revenue-estimate',
@@ -8,7 +8,7 @@ import {RevenueEstimate} from '../../../../api/customGraphql.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailsRevenueEstimateComponent implements OnInit {
-  @Input() revenueEstimates: RevenueEstimate[];
+  @Input() revenueEstimates: Estimates[];
 
   constructor() { }
 

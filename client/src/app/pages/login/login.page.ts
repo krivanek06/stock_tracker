@@ -1,34 +1,30 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthFeatureService} from '../../features/auth-feature/services/auth-feature.service';
-import {filter, takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs';
+import {filter} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
+import {StUserPublicData} from '../../api/customGraphql.service';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.page.html',
     styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit, OnDestroy {
-    private destroy$: Subject<boolean> = new Subject<boolean>();
+export class LoginPage implements OnInit {
+
+    user$: Observable<StUserPublicData>;
 
     constructor(private authFeatureService: AuthFeatureService,
                 private router: Router) {
     }
 
     ngOnInit() {
-        this.authFeatureService.getUser().pipe(
-            filter(user => !!user),
-            takeUntil(this.destroy$)
-        ).subscribe(() => {
-            console.log('loginComponent')
-            ;
-        });
+        this.user$ = this.authFeatureService.getUser().pipe(filter(user => !!user));
     }
 
-    ngOnDestroy(): void {
-        this.destroy$.next(true);
-        this.destroy$.complete();
+
+    redirectToApp() {
+        this.router.navigate(['/menu/dashboard']);
     }
 
 }

@@ -1,0 +1,1274 @@
+{
+  "sections": [
+    {
+      "name": "S&P 500",
+      "key": "sp500",
+      "main": [
+        {
+          "quandlKey": "MULTPL/SP500_PE_RATIO_MONTH",
+          "replacements": [
+            {
+              "name": "S&P 500 - PE ratio",
+              "documentKey": "qundal_sp_500_pe_ratio_by_month_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "MULTPL/SHILLER_PE_RATIO_MONTH",
+          "replacements": [
+            {
+              "name": "S&P 500 - Shiller PE",
+              "documentKey": "qundal_shiller_pe_ratio_by_month_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "MULTPL/SP500_BVPS_QUARTER",
+          "replacements": [
+            {
+              "name": "S&P 500 - Book value",
+              "documentKey": "qundal_sp_500_book_value_per_share_by_quarter_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "MULTPL/SP500_PBV_RATIO_QUARTER",
+          "replacements": [
+            {
+              "name": "S&P 500 - Price to book",
+              "documentKey": "qundal_sp_500_price_to_book_value_by_quarter_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "MULTPL/SP500_REAL_SALES_QUARTER",
+          "replacements": [
+            {
+              "name": "S&P 500 - Sales",
+              "documentKey": "qundal_sp_500_real_sales_by_quarter_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "MULTPL/SP500_REAL_SALES_GROWTH_QUARTER",
+          "replacements": [
+            {
+              "name": "S&P 500 - Sales growth",
+              "documentKey": "qundal_sp_500_real_sales_growth_by_quarter_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "MULTPL/SP500_PSR_QUARTER",
+          "replacements": [
+            {
+              "name": "S&P 500 - Price to sale",
+              "documentKey": "qundal_sp_500_price_to_sales_ratio_by_quarter_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "MULTPL/SP500_EARNINGS_MONTH",
+          "replacements": [
+            {
+              "name": "S&P 500 - Earnings",
+              "documentKey": "qundal_sp_500_earnings_by_month_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "MULTPL/SP500_EARNINGS_GROWTH_QUARTER",
+          "replacements": [
+            {
+              "name": "S&P 500 - Earnings growth",
+              "documentKey": "qundal_sp_500_earnings_growth_rate_by_quarter_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "MULTPL/SP500_EARNINGS_YIELD_MONTH",
+          "replacements": [
+            {
+              "name": "S&P 500 - Earnings yield",
+              "documentKey": "qundal_sp_500_earnings_yield_by_month_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "MULTPL/SP500_DIV_YIELD_MONTH",
+          "replacements": [
+            {
+              "name": "S&P 500 - Dividend yield",
+              "documentKey": "qundal_sp_500_dividend_yield_by_month_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "MULTPL/SP500_DIV_MONTH",
+          "replacements": [
+            {
+              "name": "S&P 500 - Dividends",
+              "documentKey": "qundal_sp_500_dividend_by_month_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "MULTPL/SP500_DIV_GROWTH_QUARTER",
+          "replacements": [
+            {
+              "name": "S&P 500 - Dividend growth",
+              "documentKey": "qundal_sp_500_dividend_growth_by_quarter_value",
+              "isMain": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Employment",
+      "key": "employment",
+      "main": [
+        {
+          "quandlKey": "BLSE/CES9000000001",
+          "replacements": [
+            {
+              "name": "Employment - Government industry (thousands)",
+              "documentKey": "qundal_employment__all_employees_thousands_government_industry_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSE/CES0500000001",
+          "replacements": [
+            {
+              "name": "Employment - Private industry (thousands)",
+              "documentKey": "qundal_employment__all_employees_thousands_total_private_industry_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSE/CES0000000001",
+          "replacements": [
+            {
+              "name": "Employment - Nonfarm industry (thousands)",
+              "documentKey": "qundal_employment__all_employees_thousands_total_nonfarm_industry_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSE/CES0700000001",
+          "replacements": [
+            {
+              "name": "Employment - Service providing industry (thousands)",
+              "documentKey": "qundal_employment__all_employees_thousands_serviceproviding_industry_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSE/CES0600000001",
+          "replacements": [
+            {
+              "name": "Employment - Goods producing industry (thousands)",
+              "documentKey": "qundal_employment__all_employees_thousands_goodsproducing_industry_value",
+              "isMain": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bonds",
+      "key": "bonds",
+      "main": [
+        {
+          "quandlKey": "ML/AAAEY",
+          "replacements": [
+            {
+              "name": "Bond - US AAA yield",
+              "documentKey": "qundal_us_aaa_rated_bond_index_yield_bamlc0a1caaaey",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "ML/AAY",
+          "replacements": [
+            {
+              "name": "Bond - US AA yield",
+              "documentKey": "qundal_us_aa_bond_index_yield_bamlc0a2caaey",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "ML/AEY",
+          "replacements": [
+            {
+              "name": "Bond - US A yield",
+              "documentKey": "qundal_us_corporate_bond_a_rated_index_yield_bamlc0a3caey",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "ML/BBY",
+          "replacements": [
+            {
+              "name": "Bond - US BB yield",
+              "documentKey": "qundal_us_high_yield_bb_corporate_bond_index_yield_bamlh0a1hybbey",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "ML/BEY",
+          "replacements": [
+            {
+              "name": "Bond - US B yield",
+              "documentKey": "qundal_us_b_rated_corporate_bond_index_yield_bamlh0a2hybey",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "ML/CCCY",
+          "replacements": [
+            {
+              "name": "Bond - US CCC yield",
+              "documentKey": "qundal_us_cccrated_bond_index_yield_bamlh0a3hycey",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "ML/USEY",
+          "replacements": [
+            {
+              "name": "Bond - US yield",
+              "documentKey": "qundal_us_corporate_bond_index_yield_bamlc0a0cmey",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "ML/USTRI",
+          "replacements": [
+            {
+              "name": "Bond - US high yield",
+              "documentKey": "qundal_us_high_yield_corporate_bond_index_yield_bamlh0a0hym2ey",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "ML/EEMCBI",
+          "replacements": [
+            {
+              "name": "Bond - Euro emerging markets yield",
+              "documentKey": "qundal_euro_emerging_markets_corporate_bond_index_yield_bamlemebcrpieey",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "ML/EMHYY",
+          "replacements": [
+            {
+              "name": "Bond - Emerging markets high yield",
+              "documentKey": "qundal_emerging_markets_high_yield_corporate_bond_index_yield_bamlemhbhycrpiey",
+              "isMain": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Manufacturing",
+      "key": "manufacturing",
+      "main": [
+        {
+          "quandlKey": "BLSN/EIUCOASEANZ311",
+          "replacements": [
+            {
+              "name": "Manufacturing index - Food",
+              "documentKey": "qundal_importexport_price_indexes_food_manufacturing_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSN/EIUCOASEANZ334",
+          "replacements": [
+            {
+              "name": "Manufacturing index - Electronics",
+              "documentKey": "qundal_importexport_price_indexes_computer_and_electronic_product_manufacturing_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSN/EIUCOASEANZ337",
+          "replacements": [
+            {
+              "name": "Manufacturing index - Furniture",
+              "documentKey": "qundal_importexport_price_indexes_furniture_and_related_product_manufacturing_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSN/EIUCOASEANZ11",
+          "replacements": [
+            {
+              "name": "Manufacturing index - Agriculture",
+              "documentKey": "qundal_importexport_price_indexes_agriculture_forestry_fishing_and_hunting_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSN/EIUCOASEANZ315",
+          "replacements": [
+            {
+              "name": "Manufacturing index - Apparel",
+              "documentKey": "qundal_importexport_price_indexes_apparel_manufacturing_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSN/EIUCOCANZ21",
+          "replacements": [
+            {
+              "name": "Manufacturing index - Mining",
+              "documentKey": "qundal_importexport_price_indexes_mining_value",
+              "isMain": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Exports",
+      "key": "exports",
+      "main": [
+        {
+          "quandlKey": "BLSN/EIUCOLATTOT",
+          "replacements": [
+            {
+              "name": "Exports index - Latin America",
+              "documentKey": "qundal_importexport_price_indexes_latin_america__all_commodities_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSN/EIUIH1422",
+          "replacements": [
+            {
+              "name": "Exports index - Asia",
+              "documentKey": "qundal_importexport_price_indexes_asia_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSN/EIUCOCHNTOT",
+          "replacements": [
+            {
+              "name": "Exports index - China",
+              "documentKey": "qundal_importexport_price_indexes_china_dec_2003100__all_commodities_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSN/EIUIH1421",
+          "replacements": [
+            {
+              "name": "Exports index - Europe",
+              "documentKey": "qundal_importexport_price_indexes_europe_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSN/EIUCOEECTOT",
+          "replacements": [
+            {
+              "name": "Exports index - European Union",
+              "documentKey": "qundal_importexport_price_indexes_european_union__all_commodities_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSN/EIUCOJPNTOT",
+          "replacements": [
+            {
+              "name": "Exports index - Japan",
+              "documentKey": "qundal_importexport_price_indexes_japan__all_commodities_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSN/EIUIH14211",
+          "replacements": [
+            {
+              "name": "Exports index - United kingdom",
+              "documentKey": "qundal_importexport_price_indexes_united_kingdom_dec_2002100_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSN/EIUCOGERTOT",
+          "replacements": [
+            {
+              "name": "Exports index - Germany",
+              "documentKey": "qundal_importexport_price_indexes_germany_dec_2003100__all_commodities_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSN/EIUCOCANTOT",
+          "replacements": [
+            {
+              "name": "Exports index - Canada",
+              "documentKey": "qundal_importexport_price_indexes_canada__all_commodities_value",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSN/EIUCOFRNTOT",
+          "replacements": [
+            {
+              "name": "Exports index - France",
+              "documentKey": "qundal_importexport_price_indexes_france_dec_2003100__all_commodities_value",
+              "isMain": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Treasury yield",
+      "key": "treasury_yield",
+      "main": [
+        {
+          "quandlKey": "USTREASURY/YIELD",
+          "replacements": [
+            {
+              "name": "Treasury yield 1 MO",
+              "documentKey": "qundal_treasury_yield_curve_rates_1_mo",
+              "isMain": true
+            },
+            {
+              "name": "Treasury yield 2 MO",
+              "documentKey": "qundal_treasury_yield_curve_rates_2_mo",
+              "isMain": false
+            },
+            {
+              "name": "Treasury yield 3 MO",
+              "documentKey": "qundal_treasury_yield_curve_rates_3_mo",
+              "isMain": false
+            },
+            {
+              "name": "Treasury yield 6 MO",
+              "documentKey": "qundal_treasury_yield_curve_rates_6_mo",
+              "isMain": true
+            },
+            {
+              "name": "Treasury yield 1 YR",
+              "documentKey": "qundal_treasury_yield_curve_rates_1_yr",
+              "isMain": true
+            },
+            {
+              "name": "Treasury yield 2 YR",
+              "documentKey": "qundal_treasury_yield_curve_rates_2_yr",
+              "isMain": false
+            },
+            {
+              "name": "Treasury yield 3 YR",
+              "documentKey": "qundal_treasury_yield_curve_rates_2_yr",
+              "isMain": false
+            },
+            {
+              "name": "Treasury yield 5 YR",
+              "documentKey": "qundal_treasury_yield_curve_rates_5_yr",
+              "isMain": true
+            },
+            {
+              "name": "Treasury yield 7 YR",
+              "documentKey": "qundal_treasury_yield_curve_rates_7_yr",
+              "isMain": false
+            },
+            {
+              "name": "Treasury yield 10 YR",
+              "documentKey": "qundal_treasury_yield_curve_rates_10_yr",
+              "isMain": true
+            },
+            {
+              "name": "Treasury yield 20 YR",
+              "documentKey": "qundal_treasury_yield_curve_rates_20_yr",
+              "isMain": false
+            },
+            {
+              "name": "Treasury yield 30 YR",
+              "documentKey": "qundal_treasury_yield_curve_rates_30_yr",
+              "isMain": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Misery index",
+      "key": "misery_index",
+      "main": [
+        {
+          "quandlKey": "USMISERY/INDEX",
+          "replacements": [
+            {
+              "name": "US - Unemployment Rate",
+              "documentKey": "qundal_united_states_misery_index_unemployment_rate",
+              "isMain": true
+            },
+            {
+              "name": "US - Inflation Rate",
+              "documentKey": "qundal_united_states_misery_index_inflation_rate",
+              "skip": true,
+              "skip_reason": "Same data is in 'Inflation rate' -> 'Inflation YOY - USA' ",
+              "isMain": false
+            },
+            {
+              "name": "US - Misery Index",
+              "documentKey": "qundal_united_states_misery_index_misery_index",
+              "isMain": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Investor sentiment",
+      "key": "investor_sentiment",
+      "main": [
+        {
+          "quandlKey": "AAII/AAII_SENTIMENT",
+          "replacements": [
+            {
+              "name": "Bullish outlook",
+              "documentKey": "qundal_aaii_investor_sentiment_data_bullish",
+              "isMain": true
+            },
+            {
+              "name": "Neutral outlook",
+              "documentKey": "qundal_aaii_investor_sentiment_data_neutral",
+              "isMain": true
+            },
+            {
+              "name": "Bearish outlook",
+              "documentKey": "qundal_aaii_investor_sentiment_data_bearish",
+              "isMain": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Consumer price index states",
+      "key": "consumer_price_index_states",
+      "main": [
+        {
+          "quandlKey": "RATEINF/CPI_USA",
+          "replacements": [
+            {
+              "name": "Consumer price index - USA",
+              "documentKey": "qundal_consumer_price_index__usa_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/CPI_EUR",
+          "replacements": [
+            {
+              "name": "Consumer price index - Europe",
+              "documentKey": "qundal_consumer_price_index__euro_area_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/CPI_GBR",
+          "replacements": [
+            {
+              "name": "Consumer price index - UK",
+              "documentKey": "qundal_consumer_price_index__uk_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/CPI_JPN",
+          "replacements": [
+            {
+              "name": "Consumer price index - Japan",
+              "documentKey": "qundal_consumer_price_index__japan_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/CPI_CAN",
+          "replacements": [
+            {
+              "name": "Consumer price index - Canada",
+              "documentKey": "qundal_consumer_price_index__canada_value",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/CPI_CHE",
+          "replacements": [
+            {
+              "name": "Consumer price index - Switzerland",
+              "documentKey": "qundal_consumer_price_index__switzerland_value",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/CPI_RUS",
+          "replacements": [
+            {
+              "name": "Consumer price index - Russia",
+              "documentKey": "qundal_consumer_price_index__russia_value",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/CPI_AUS",
+          "replacements": [
+            {
+              "name": "Consumer price index - Australia",
+              "documentKey": "qundal_consumer_price_index__australia_value",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/CPI_ARG",
+          "replacements": [
+            {
+              "name": "Consumer price index - Argentina",
+              "documentKey": "qundal_consumer_price_index__argentina_value",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/CPI_DEU",
+          "replacements": [
+            {
+              "name": "Consumer price index - Germany",
+              "documentKey": "qundal_consumer_price_index__germany_value",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/CPI_FRA",
+          "replacements": [
+            {
+              "name": "Consumer price index - France",
+              "documentKey": "qundal_consumer_price_index__france_value",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/CPI_ITA",
+          "replacements": [
+            {
+              "name": "Consumer price index - Italy",
+              "documentKey": "qundal_consumer_price_index__italy_value",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/CPI_NZL",
+          "replacements": [
+            {
+              "name": "Consumer price index - New Zealand",
+              "documentKey": "qundal_consumer_price_index__new_zealand_value",
+              "isMain": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Consumer US price index",
+      "key": "consumer_us_price_index",
+      "main": [
+        {
+          "quandlKey": "BLSI/CUSR0000SA0E",
+          "replacements": [
+            {
+              "name": "Consumer US price index - Energy",
+              "documentKey": "qundal_consumer_price_index_cpi__all_urban_consumers__energy__us_city_average__value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSI/WPS0571",
+          "replacements": [
+            {
+              "name": "Consumer US price index - Gasoline",
+              "documentKey": "qundal_producer_price_index_commodities_gasoline_fuels_and_related_products_and_power_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSI/WPS054",
+          "replacements": [
+            {
+              "name": "Consumer US price index - Electric power",
+              "documentKey": "qundal_producer_price_index_commodities_electric_power_fuels_and_related_products_and_power_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSI/WPSFD49501",
+          "replacements": [
+            {
+              "name": "Consumer US price index - Personal consumption",
+              "documentKey": "qundal_producer_price_index_commodities_personal_consumption_final_demand_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSI/WPS023",
+          "replacements": [
+            {
+              "name": "Consumer US price index - Dairy products",
+              "documentKey": "qundal_producer_price_index_commodities_dairy_products_processed_foods_and_feeds_value",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSI/WPS022",
+          "replacements": [
+            {
+              "name": "Consumer US price index - Processed foods",
+              "documentKey": "qundal_producer_price_index_commodities_meats_poultry_and_fish_processed_foods_and_feeds_value",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSI/PCU326_326",
+          "replacements": [
+            {
+              "name": "Consumer US price index - Plastics products",
+              "documentKey": "qundal_producer_price_index_ppi__plastics_and_rubber_products_mfg_value",
+              "isMain": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Producer US price index",
+      "key": "producer_us_price_index",
+      "main": [
+        {
+          "quandlKey": "BLSI/CUSR0000SAT",
+          "replacements": [
+            {
+              "name": "Producer US price index - Transportation",
+              "documentKey": "qundal_consumer_price_index_cpi__all_urban_consumers__transportation__us_city_average__value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSI/WPS1411",
+          "replacements": [
+            {
+              "name": "Producer US price index - Motor vehicles",
+              "documentKey": "qundal_producer_price_index_commodities_motor_vehicles_transportation_equipment_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSI/CUSR0000SEHF01",
+          "replacements": [
+            {
+              "name": "Producer US price index - Electricity",
+              "documentKey": "qundal_consumer_price_index_cpi__all_urban_consumers__electricity__us_city_average__value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSI/CUSR0000SA0",
+          "replacements": [
+            {
+              "name": "Producer US price index - All items",
+              "documentKey": "qundal_consumer_price_index_cpi__all_urban_consumers__all_items__us_city_average__value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSI/CUSR0000SAE2",
+          "replacements": [
+            {
+              "name": "Producer US price index - Communication",
+              "documentKey": "qundal_consumer_price_index_cpi__all_urban_consumers__communication__us_city_average__value",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSI/CUSR0000SAF113",
+          "replacements": [
+            {
+              "name": "Producer US price index - Fruits and vegetables",
+              "documentKey": "qundal_consumer_price_index_cpi__all_urban_consumers__fruits_and_vegetables__us_city_average__value",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "BLSI/CUSR0000SEFK",
+          "replacements": [
+            {
+              "name": "Producer US price index - Fresh fruits",
+              "documentKey": "qundal_consumer_price_index_cpi__all_urban_consumers__fresh_fruits__us_city_average__value",
+              "isMain": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Inflation rate",
+      "key": "inflation_rate",
+      "main": [
+        {
+          "quandlKey": "RATEINF/INFLATION_USA",
+          "replacements": [
+            {
+              "name": "Inflation YOY - USA",
+              "documentKey": "qundal_inflation_yoy__usa_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/INFLATION_EUR",
+          "replacements": [
+            {
+              "name": "Inflation YOY - Europe",
+              "documentKey": "qundal_inflation_yoy__euro_area_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/INFLATION_GBR",
+          "replacements": [
+            {
+              "name": "Inflation YOY - UK",
+              "documentKey": "qundal_inflation_yoy__uk_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/INFLATION_CAN",
+          "replacements": [
+            {
+              "name": "Inflation YOY - Canada",
+              "documentKey": "qundal_inflation_yoy__canada_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/INFLATION_JPN",
+          "replacements": [
+            {
+              "name": "Inflation YOY - Japan",
+              "documentKey": "qundal_inflation_yoy__japan_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/INFLATION_CHE",
+          "replacements": [
+            {
+              "name": "Inflation YOY - Switzerland",
+              "documentKey": "qundal_inflation_yoy__switzerland_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/INFLATION_RUS",
+          "replacements": [
+            {
+              "name": "Inflation YOY - Russia",
+              "documentKey": "qundal_inflation_yoy__russia_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/INFLATION_AUS",
+          "replacements": [
+            {
+              "name": "Inflation YOY - Australia",
+              "documentKey": "qundal_inflation_yoy__australia_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/INFLATION_ARG",
+          "replacements": [
+            {
+              "name": "Inflation YOY - Argentina",
+              "documentKey": "qundal_inflation_yoy__argentina_value",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/INFLATION_DEU",
+          "replacements": [
+            {
+              "name": "Inflation YOY - Germany",
+              "documentKey": "qundal_inflation_yoy__germany_value",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/INFLATION_FRA",
+          "replacements": [
+            {
+              "name": "Inflation YOY - France",
+              "documentKey": "qundal_inflation_yoy__france_value",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/INFLATION_ITA",
+          "replacements": [
+            {
+              "name": "Inflation YOY - Italy",
+              "documentKey": "qundal_inflation_yoy__italy_value",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "RATEINF/INFLATION_NZL",
+          "replacements": [
+            {
+              "name": "Inflation YOY - New Zealand",
+              "documentKey": "qundal_inflation_yoy__new_zealand_value",
+              "isMain": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bitcoin",
+      "key": "bitcoin",
+      "main": [
+        {
+          "quandlKey": "BCHAIN/MKTCP",
+          "replacements": [
+            {
+              "name": "Market cap",
+              "documentKey": "qundal_bitcoin_market_capitalization_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BCHAIN/TRVOU",
+          "replacements": [
+            {
+              "name": "Traiding volume",
+              "documentKey": "qundal_bitcoin_usd_exchange_trade_volume_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BCHAIN/TRFUS",
+          "replacements": [
+            {
+              "name": "Transaction fees",
+              "documentKey": "qundal_bitcoin_total_transaction_fees_usd_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BCHAIN/ATRCT",
+          "replacements": [
+            {
+              "name": "Transaction time",
+              "documentKey": "qundal_bitcoin_median_transaction_confirmation_time_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BCHAIN/CPTRA",
+          "replacements": [
+            {
+              "name": "Transaction cost",
+              "documentKey": "qundal_bitcoin_cost_per_transaction_value",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "BCHAIN/NTRAN",
+          "replacements": [
+            {
+              "name": "Daily transactions",
+              "documentKey": "qundal_bitcoin_number_of_transactions_value",
+              "isMain": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Social security",
+      "key": "social_security",
+      "main": [
+        {
+          "quandlKey": "SOCSEC/TRUST_FUND_OP",
+          "replacements": [
+            {
+              "name": "Social security fiscal year operations - total income",
+              "documentKey": "qundal_fiscal_year_trust_fund_operations_total_receipts",
+              "isMain": true
+            },
+            {
+              "name": "Social security fiscal year operations - total costs",
+              "documentKey": "qundal_fiscal_year_trust_fund_operations_total_expenditures",
+              "isMain": true
+            },
+            {
+              "name": "Social security fiscal year operations - net increase",
+              "documentKey": "qundal_fiscal_year_trust_fund_operations_assets:_net_increase_during_year",
+              "isMain": true
+            },
+            {
+              "name": "Social security fiscal year operations - end year amount",
+              "documentKey": "qundal_fiscal_year_trust_fund_operations_assets:_amount_at_end_of_year",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "quandlKey": "SOCSEC/ALL",
+          "replacements": [
+            {
+              "name": "Social security - total number",
+              "documentKey": "qundal_social_security_beneficiary_data__all_beneficiaries_total_number",
+              "isMain": false
+            },
+            {
+              "name": "Social security - avg. amount",
+              "documentKey": "qundal_social_security_beneficiary_data__all_beneficiaries_total_avg_amount",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "SOCSEC/RETWORK",
+          "replacements": [
+            {
+              "name": "Social security retired worker - total number",
+              "documentKey": "qundal_social_security_beneficiary_data__retired_worker_total_number",
+              "isMain": false
+            },
+            {
+              "name": "Social security retired worker - avg. amount",
+              "documentKey": "qundal_social_security_beneficiary_data__retired_worker_total_avg_amount",
+              "isMain": false
+            },
+            {
+              "name": "Social security retired worker - male",
+              "documentKey": "qundal_social_security_beneficiary_data__retired_worker_male_number",
+              "isMain": false
+            },
+            {
+              "name": "Social security retired worker - male avg. amount",
+              "documentKey": "qundal_social_security_beneficiary_data__retired_worker_male_avg_amount",
+              "isMain": false
+            },
+            {
+              "name": "Social security retired worker - female",
+              "documentKey": "qundal_social_security_beneficiary_data__retired_worker_female_number",
+              "isMain": false
+            },
+            {
+              "name": "Social security retired worker - female avg. amount",
+              "documentKey": "qundal_social_security_beneficiary_data__retired_worker_female_avg_amount",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "SOCSEC/DISABLED",
+          "replacements": [
+            {
+              "name": "Social security disabled worker - total number",
+              "documentKey": "qundal_social_security_beneficiary_data__disabled_workers_and_dependants_total_number",
+              "isMain": false
+            },
+            {
+              "name": "Social security disabled worker - avg. amount",
+              "documentKey": "qundal_social_security_beneficiary_data__disabled_workers_and_dependants_total_avg_amount",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "SOCSEC/SURVIVORS",
+          "replacements": [
+            {
+              "name": "Social security survivors - total number",
+              "documentKey": "qundal_social_security_beneficiary_data__survivors_total_number",
+              "isMain": false
+            },
+            {
+              "name": "Social security survivors - avg. amount",
+              "documentKey": "qundal_social_security_beneficiary_data__survivors_total_avg_amount",
+              "isMain": false
+            }
+          ]
+        },
+        {
+          "quandlKey": "SOCSEC/RETSPOUSE",
+          "replacements": [
+            {
+              "name": "Social security spouse of retired workers - total number",
+              "documentKey": "qundal_social_security_beneficiary_data__spouse_of_retired_workers_total_number",
+              "isMain": false
+            },
+            {
+              "name": "Social security spouse of retired workers - avg. amount",
+              "documentKey": "qundal_social_security_beneficiary_data__spouse_of_retired_workers_total_avg_amount",
+              "isMain": false
+            },
+            {
+              "name": "Social security spouse of retired workers - male",
+              "documentKey": "qundal_social_security_beneficiary_data__spouse_of_retired_workers_male_number",
+              "isMain": false
+            },
+            {
+              "name": "Social security spouse of retired workers - male avg. amount",
+              "documentKey": "qundal_social_security_beneficiary_data__spouse_of_retired_workers_male_avg_amount",
+              "isMain": false
+            },
+            {
+              "name": "Social security spouse of retired workers - female",
+              "documentKey": "qundal_social_security_beneficiary_data__spouse_of_retired_workers_female_number",
+              "isMain": false
+            },
+            {
+              "name": "Social security spouse of retired workers - female avg. amount",
+              "documentKey": "qundal_social_security_beneficiary_data__spouse_of_retired_workers_female_avg_amount",
+              "isMain": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "keys": [
+    "S&P 500",
+    "Bonds",
+    "Misery index",
+    "Investor sentiment",
+    "Employment",
+    "Inflation rate",
+    "Consumer price index states",
+    "Consumer US price index",
+    "Producer US price index",
+    "Manufacturing",
+    "Exports",
+    "Social security",
+    "Bitcoin",
+    "Historical unemployment"
+  ],
+  "section_all_data": [
+    {
+      "name": "Historical unemployment",
+      "main": [
+        {
+          "quandlKey": "ULMI/YUNEM_GBR",
+          "name": "Unemployment - United Kingdom"
+        },
+        {
+          "quandlKey": "ULMI/YUNEM_TUR",
+          "name": "Unemployment - Turkey"
+        },
+        {
+          "quandlKey": "ULMI/YUNEM_SYR",
+          "name": "Unemployment - Syrian Arab Republic"
+        },
+        {
+          "quandlKey": "ULMI/YUNEM_CHE",
+          "name": "Unemployment - Switzerland"
+        }
+      ]
+    }
+  ]
+}

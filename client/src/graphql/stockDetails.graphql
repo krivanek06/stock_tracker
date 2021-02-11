@@ -11,44 +11,51 @@ fragment SummaryResidanceFragment on SummaryResidance {
 }
 
 fragment StockSummaryFragment on Summary {
-    id
-    sandPFiveTwoWeekChange
-    lastSplitFactor
-    lastSplitDate
-    fullTimeEmployees
-    netIncomeEmployeeAnnual
-    revenueEmployeeAnnual
-    website
     residance {
         ...SummaryResidanceFragment
     }
+    id
+    avgVolume
+    currency
+    currencySymbol
+    dividendDate
     ePSTTM
     earningsDate
     exDividendDate
+    exchangeName
     fiveTwoWeekRange
-    oneyTargetEst
-    pERatioTTM
-    currency
+    forwardDividendRate
+    forwardDividendYield
+    forwardEPS
+    forwardPE
+    fullTimeEmployees
     industry
+    lastSplitDate
+    lastSplitFactor
     logo_url
+    longBusinessSummary
+    longName
+    marketCap
     marketPrice
+    oneyTargetEst
+    open
+    pERatioTTM
     previousClose
     recommendationKey
     recommendationMean
+    sandPFiveTwoWeekChange
     sector
-    targetEstOneyPercent
+    sharesOutstanding
+    shortName
+    shortRatio
     symbol
+    targetEstOneyPercent
+    volume
+    website
     weekRangeFiveTwoMax
     weekRangeFiveTwoMin
-    longName
-    oneyTargetEst
-    marketCap
-    sharesOutstanding
-    longBusinessSummary
-    yearToDatePriceReturn
-    volume
-    avgVolume
     yearToDatePrice
+    yearToDatePriceReturn
 }
 
 fragment SheetDataFragment on SheetData {
@@ -329,54 +336,19 @@ fragment incomeStatementFragment on IncomeStatementData {
     }
 }
 
-
-
-fragment growthEstimatesFragment on GrowthEstimates {
-    currentQtr
-    currentQtrPrct
-    currentYear
-    currentYearPrct
-    nextFiveYearsperannum
-    nextFiveYearsperannumPrct
-    nextQtr
-    nextQtrPrct
-    nextYear
-    nextYearPrct
-    pastFiveYearsperannum
-    pastFiveYearsperannumPrct
+fragment estimatesFragment on Estimates {
+    avg
+    growth
+    high
+    low
     name
-}
-
-fragment revenueEstimateFragment on RevenueEstimate {
-    avgEstimate
-    avgEstimateNumber
-    highEstimate
-    highEstimateNumber
-    lowEstimate
-    lowEstimateNumber
     noofAnalysts
-    salesGrowthyearest
-    salesGrowthyearestNumber
-    yearAgoSales
-    name
+    yearAgo
 }
 
-fragment statsFragment on Stats {
-    priceSalesttm
-    leveredFreeCashFlowttm
-    forwardPEOne
-    quarterlyEarningsGrowthyoy
-    quarterlyRevenueGrowthyoy
-    returnonEquityttm
-    revenuePerSharettm
-    totalCashPerSharemrq
-    totalDebtEquitymrq
-    totalDebtmrq
-    trailingPE
-    eBITDA
-    bookValuePerSharemrq
-    currentRatiomrq
-    dilutedEPSttm
+fragment dataSetFragment on DataSet {
+    y
+    name
 }
 
 fragment recommendationFragment on Recommendations {
@@ -470,13 +442,14 @@ fragment financialDataFragment on FinancialData {
     currentPrice
     currentRatio
     debtToEquity
+    earningsGrowth
     ebitda
     ebitdaMargins
     financialCurrency
     freeCashflow
     grossMargins
     grossProfits
-    FloatOfAnalystOpinions
+    numberOfAnalystOpinions
     operatingCashflow
     operatingMargins
     profitMargins
@@ -636,13 +609,6 @@ fragment dividensFragment on Dividens {
     forwardDividendYield
 }
 
-fragment historyFragment on UpgradeDowngradeHistoryData {
-    action
-    epochGradeDate
-    firm
-    fromGrade
-    toGrade
-}
 
 fragment earningsChartFragment on EarningsChart {
     currentQuarterEstimate
@@ -693,10 +659,13 @@ query QueryStockDetails($symbol: String!) {
         id
         analysis {
             growthEstimates {
-                ...growthEstimatesFragment
+                ...dataSetFragment
             }
             revenueEstimate {
-                ...revenueEstimateFragment
+                ...estimatesFragment
+            }
+            earningsEstimate{
+                ...estimatesFragment
             }
         }
         balanceSheet {
@@ -723,9 +692,6 @@ query QueryStockDetails($symbol: String!) {
                 ...incomeStatementFragment
             }
         }
-        stats {
-            ...statsFragment
-        }
         recommendation {
             ...recommendationFragment
         }
@@ -748,9 +714,11 @@ query QueryStockDetails($symbol: String!) {
                 shortTermTrend
             }
             upgradeDowngradeHistory {
-                history {
-                    ...historyFragment
-                }
+                action
+                epochGradeDate
+                firm
+                fromGrade
+                toGrade
             }
             esgScores {
                 ...esgScoreFragment
