@@ -10,6 +10,7 @@ server/common-interfaces/environments.ts
 server/common-interfaces/package-lock.json
 
 
+
 server/functions/dist
 server/functions/package-lock.json
 server/functions/firebase-debug.log
@@ -26,8 +27,10 @@ server/functions/firebase-debug.log
 *.so
 *.idea
 *.so
+*.vscode
 *node_modules*
 *firebase_key*
+*enviroment*
 
 # Packages #
 ############

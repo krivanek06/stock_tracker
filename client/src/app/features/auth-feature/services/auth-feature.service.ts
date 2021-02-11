@@ -89,9 +89,10 @@ export class AuthFeatureService {
             map(x => x.data.authenticateUser),
             filter(x => !!x),
         ).subscribe(user => {
-            if (user && !this.user$.getValue()) {
+            console.log('user exists')
+            /*if (user && !this.user$.getValue()) {
                 this.router.navigate(['/menu/dashboard']);
-            }
+            }*/
             this.user$.next(user as StUserPublicData);
         });
     }

@@ -15,7 +15,8 @@
 
             <ion-col size="12" size-md="5">
                 <!-- summary -->
-                <app-generic-list [iconTitle]="'barcode-outline'" [title]="'Summary'"></app-generic-list>
+                <app-generic-list [iconTitle]="'barcode-outline'"
+                                  [title]="'Summary: ' + stockDetails.id"></app-generic-list>
                 <app-generic-card>
                     <app-details-summary-container [summary]="stockDetails.summary">
                     </app-details-summary-container>
@@ -46,16 +47,16 @@
                             [series]="[{
                              colorByPoint: true,
                              data:[
-                                {name: 'Revenue ttm. yoy', y: stockDetails.metric.revenueGrowthTTMYoy},
-                                {name: 'Revenue qrt. yoy', y: stockDetails.metric.revenueGrowthQuarterlyYoy},
-                                {name: 'Revenue 5y', y: stockDetails.metric.revenueGrowthFiveY},
-                                {name: 'EPS qrt. yoy', y: stockDetails.metric.epsGrowthQuarterlyYoy},
-                                {name: 'EPS ttm yoy', y: stockDetails.metric.epsGrowthTTMYoy},
-                                {name: 'Capital spending yoy', y: stockDetails.metric.capitalSpendingGrowthFiveY },
-                                {name: 'BV per share 5y', y: stockDetails.metric.bookValueShareGrowthFiveY },
-                                {name: 'Assets turnover ttm', y: stockDetails.metric.assetTurnoverTTM},
-                                {name: 'Inventory turnover ttm', y: stockDetails.metric.inventoryTurnoverTTM},
-                                {name: 'Dividend rate 5y', y: stockDetails.dividends.dividendGrowthRateFiveY}
+                                {name: 'Revenue ttm. yoy', y: stockDetails.metric.revenueGrowthTTMYoy / 100},
+                                {name: 'Revenue qrt. yoy', y: stockDetails.metric.revenueGrowthQuarterlyYoy / 100},
+                                {name: 'Revenue 5y', y: stockDetails.metric.revenueGrowthFiveY / 100},
+                                {name: 'EPS qrt. yoy', y: stockDetails.metric.epsGrowthQuarterlyYoy / 100},
+                                {name: 'EPS ttm yoy', y: stockDetails.metric.epsGrowthTTMYoy / 100},
+                                {name: 'Capital spending yoy', y: stockDetails.metric.capitalSpendingGrowthFiveY  / 100},
+                                {name: 'BV per share 5y', y: stockDetails.metric.bookValueShareGrowthFiveY  / 100},
+                                {name: 'Assets turnover ttm', y: stockDetails.metric.assetTurnoverTTM} / 100,
+                                {name: 'Inventory turnover ttm', y: stockDetails.metric.inventoryTurnoverTTM / 100},
+                                {name: 'Dividend rate 5y', y: stockDetails.dividends.dividendGrowthRateFiveY / 100}
                               ]
                           }]">
                     </app-generic-chart>
@@ -87,12 +88,12 @@
                             [series]="[{
                                 colorByPoint: true,
                                  data:[
-                                 {name: 'Gross margin ttm.', y: stockDetails.metric.grossMarginTTM},
-                                 {name: 'Net growth margin 5y', y: stockDetails.metric.netMarginGrowthFiveY},
-                                 {name: 'Net profit margin ttm.', y: stockDetails.metric.netProfitMarginTTM},
-                                 {name: 'Operating margin ttm.', y: stockDetails.metric.operatingMarginTTM},
-                                 {name: 'Pretax margin ttm.', y: stockDetails.metric.pretaxMarginTTM},
-                                 {name: 'EBITDA margin ttm.', y: stockDetails.companyData.financialData.ebitdaMargins * 100}
+                                 {name: 'Gross margin ttm.', y: stockDetails.companyData.financialData.grossMargins},
+                                 {name: 'Net growth margin 5y', y: stockDetails.metric.netMarginGrowthFiveY / 100},
+                                 {name: 'Net profit margin ttm.', y: stockDetails.companyData.financialData.profitMargins},
+                                 {name: 'Operating margin ttm.', y: stockDetails.metric.operatingMarginTTM / 100},
+                                 {name: 'Pretax margin ttm.', y: stockDetails.metric.pretaxMarginTTM / 100},
+                                 {name: 'EBITDA margin ttm.', y: stockDetails.companyData.financialData.ebitdaMargins}
                               ]
                           }]">
                     </app-generic-chart>
@@ -125,9 +126,9 @@
                             [series]="[{
                                  colorByPoint: true,
                                  data:[
-                                      {name: 'ROA', y: stockDetails.companyData.financialData.returnOnAssets * 100},
-                                      {name: 'ROE', y: stockDetails.companyData.financialData.returnOnEquity * 100},
-                                      {name: 'ROI ', y: stockDetails.metric.roiTTM}
+                                      {name: 'ROA', y: stockDetails.companyData.financialData.returnOnAssets},
+                                      {name: 'ROE', y: stockDetails.companyData.financialData.returnOnEquity},
+                                      {name: 'ROI ', y: stockDetails.metric.roiTTM / 100}
                                   ]
                       }]">
                     </app-generic-chart>
@@ -144,16 +145,9 @@
                             [isPercentage]="true"
                             [showDataLabel]="true"
                             [series]="[{
-                            colorByPoint: true,
-                             data:[
-                                {name: 'Past 5y', y: stockDetails.analysis.growthEstimates.pastFiveYearsperannumPrct},
-                                {name: 'Next 5y', y: stockDetails.analysis.growthEstimates.nextFiveYearsperannumPrct},
-                                {name: 'Current y.', y: stockDetails.analysis.growthEstimates.currentQtrPrct},
-                                {name: 'Next y.', y: stockDetails.analysis.growthEstimates.nextYearPrct},
-                                {name: 'Current qrt.', y: stockDetails.analysis.growthEstimates.currentQtrPrct},
-                                {name: 'Next qrt.', y: stockDetails.analysis.growthEstimates.nextQtrPrct}
-                              ]
-                      }]">
+                                colorByPoint: true,
+                                data:stockDetails.analysis.growthEstimates
+                          }]">
                     </app-generic-chart>
                 </app-generic-card>
             </ion-col>
@@ -161,7 +155,7 @@
 
 
         <ion-row>
-            <ion-col size-md="6" size="12">
+            <ion-col size-xl="6.5" size-md="7.5" size="12">
                 <!-- revenue growth chart -->
                 <app-generic-card [subtitle]="'Revenue growth estimation'"
                                   [applyLeftPadding]="false"
@@ -171,7 +165,7 @@
                     </app-details-revenue-estimate>
                 </app-generic-card>
             </ion-col>
-            <ion-col size-md="6" size="12">
+            <ion-col size-xl="5.5" size-md="4.5" size="12">
                 <!-- recommendation chart -->
                 <app-generic-card [subtitle]="'Recommendation'"
                                   [applyLeftPadding]="false"
@@ -277,7 +271,8 @@
                 <app-generic-card [subtitle]="'Stock grading'" [additionalClasses]="'st-height-100'">
                     <ion-item-group class="ion-margin-bottom">
                         <app-grading-history
-                                [history]="stockDetails.companyData.upgradeDowngradeHistory"></app-grading-history>
+                                [history]="stockDetails.companyData.upgradeDowngradeHistory | slice: 0: 11">
+                        </app-grading-history>
                     </ion-item-group>
                     <app-stock-trend
                             [trend]="stockDetails.companyData.pageViews"></app-stock-trend>

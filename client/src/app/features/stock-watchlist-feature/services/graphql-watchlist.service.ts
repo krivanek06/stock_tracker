@@ -186,35 +186,6 @@ export class GraphqlWatchlistService {
                 additionalData: symbol
             }
         }, {
-            optimisticResponse: {
-                __typename: 'Mutation',
-                addStockIntoStockWatchlist: {
-                    __typename: 'Summary',
-                    symbol,
-                    currency: 'USD',
-                    earningsDate: new Date().toISOString(),
-                    ePSTTM: '-1',
-                    exDividendDate: '-1',
-                    fiveTwoWeekRange: '-1',
-                    industry: 'None',
-                    logo_url: '',
-                    marketPrice: -1,
-                    oneyTargetEst: -1,
-                    pERatioTTM: '-1',
-                    previousClose: -1,
-                    recommendationKey: '-1',
-                    recommendationMean: -1,
-                    sector: 'None',
-                    targetEstOneyPercent: -1,
-                    longBusinessSummary: '',
-                    longName: '',
-                    marketCap: -1,
-                    sharesOutstanding: -1,
-                    weekRangeFiveTwoMax: -1,
-                    weekRangeFiveTwoMin: -1
-                }
-
-            },
             update: (store: DataProxy, {data: {addStockIntoStockWatchlist}}) => {
                 const watchlist = store.readFragment<StStockWatchlistFragmentFragment>({
                     id: `STStockWatchlist:${watchListId}`,

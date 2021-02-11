@@ -1,36 +1,24 @@
 <div class="container" *ngFor="let revenue of revenueEstimates"
-    [appTooltip]="revenue.name + '\n\n' + 'Estimate: ' + revenue.avgEstimate + '\n' + 'Number of analysis: ' + revenue.noofAnalysts">
-    <!-- TODO REFACTOR TO ION modules -->
-    <!-- additional info -->
-    <div class="ion-text-wrap">
-        <div class="ion-float-start time-est">
-            <span style="margin-right: 10px" class="st-font-2">{{revenue.name}}</span>
-        </div>
-        <div class="ion-float-start" style="display: flex">
-            <span style="margin-right: 5px" class="st-font-2"> {{ revenue.avgEstimate }}</span>
-            <span style="display: flex" [ngClass]="{
-                    'st-price-up': revenue.salesGrowthyearestNumber > 0 ,
-                    'st-price-down': revenue.salesGrowthyearestNumber < 0
-                    }"> <ion-text>({{revenue.salesGrowthyearest}})</ion-text>
+     [appTooltip]="revenue.name + '\n\n' + 'Estimate: ' + (revenue.avg | numberFormatter) + '\n' + 'Number of analysis: ' + revenue.noofAnalysts">
 
-                <ion-icon name="trending-up-outline" class="price-icon"
-                          *ngIf="revenue.salesGrowthyearestNumber > 0"></ion-icon>
-                <ion-icon name="trending-down-outline" class="price-icon"
-                          *ngIf="revenue.salesGrowthyearestNumber < 0"></ion-icon>
-            </span>
+    <!-- additional info -->
+    <div class="ion-text-wrap st-flex-row-md-justify-center">
+        <div class="st-display-flex-center">
+            <ion-text class="st-font-5 st-small-right-space">{{revenue.name}}</ion-text>
+            <span class="st-font-2 st-small-right-space ion-hide-sm-down"> {{ revenue.avg | numberFormatter }}</span>
+            <app-price-change-item [priceChange]="revenue.growth" [isPercent]="true"></app-price-change-item>
         </div>
-        <span class="ion-float-end st-font-2">
+
+        <span class="ion-float-end st-font-2 ion-hide-sm-down">
              <span>Year ago: </span>
-            {{revenue.yearAgoSales}}
+            {{revenue.yearAgo | numberFormatter}}
          </span>
     </div>
 
 
     <!-- range chart -->
-    <app-fixed-range-slider [min]="revenue.lowEstimateNumber"
-                            [max]="revenue.highEstimateNumber"
-                            [value]="revenue.avgEstimateNumber"
-                            [maxDisplayName]="revenue.highEstimate"
-                            [minDisplayName]="revenue.lowEstimate">
+    <app-fixed-range-slider [min]="revenue.low"
+                            [max]="revenue.high"
+                            [value]="revenue.avg">
     </app-fixed-range-slider>
 </div>

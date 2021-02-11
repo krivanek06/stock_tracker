@@ -8,7 +8,7 @@ import {UpgradeDowngradeHistory} from '../../../../api/customGraphql.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GradingHistoryComponent implements OnInit {
-  @Input() history: UpgradeDowngradeHistory;
+  @Input() history: UpgradeDowngradeHistory[];
 
   constructor() { }
 

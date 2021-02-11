@@ -13,7 +13,6 @@ export const stockDetailsTypeDefs = gql`
         balanceSheet: BalanceSheet
         cashFlow: CashFlow
         incomeStatement: IncomeStatement
-        stats: Stats!
         recommendation: [Recommendations]
         stockNews: [NewsArticle]
         companyData: CompanyData
@@ -24,7 +23,7 @@ export const stockDetailsTypeDefs = gql`
         institutionOwnerships: [InstitutionOwnership]
         insiderTransactions: [InsiderTransaction]
     }
-    
+
     type InsiderTransaction {
         filerName: String
         filerRelation: String
@@ -33,7 +32,7 @@ export const stockDetailsTypeDefs = gql`
         transactionText: String
         value: Float
     }
-    
+
     type InstitutionOwnership {
         maxAge: Float
         organization: String
@@ -42,7 +41,7 @@ export const stockDetailsTypeDefs = gql`
         reportDate: Float
         value: Float
     }
-    
+
     type HistoricalMetrics {
         cashRatio: HistoricalMetricsData
         currentRatio: HistoricalMetricsData
@@ -78,7 +77,7 @@ export const stockDetailsTypeDefs = gql`
         esgScores: EsgScores
         financialData: FinancialData
         pageViews: PageViews
-        upgradeDowngradeHistory: UpgradeDowngradeHistory
+        upgradeDowngradeHistory: [UpgradeDowngradeHistory]
     }
 
     type Recommendations {
@@ -213,47 +212,32 @@ export const stockDetailsTypeDefs = gql`
         netEquity: SheetData
         prepaidAssets: SheetData
     }
-    
+
     type SheetData {
         change: [Float]
         data: [Float]
         name: String
     }
 
-    type RevenueEstimate {
-        avgEstimate: String
-        avgEstimateNumber: Float
-        highEstimate: String
-        highEstimateNumber: Float
-        lowEstimate: String
-        lowEstimateNumber: Float
-        noofAnalysts: Float
-        salesGrowthyearest: String
-        salesGrowthyearestNumber: Float
-        yearAgoSales: String
+    type Estimates {
+        avg: Float
+        growth: Float
+        high: Float
+        low: Float
         name: String
+        noofAnalysts: Float
+        yearAgo: Float
     }
 
-
-    type GrowthEstimates {
-        currentQtr: String
-        currentQtrPrct: Float
-        currentYear: String
-        currentYearPrct: Float
-        nextFiveYearsperannum: String
-        nextFiveYearsperannumPrct: Float
-        nextQtr: String
-        nextQtrPrct: Float
-        nextYear: String
-        nextYearPrct: Float
-        pastFiveYearsperannum: String
-        pastFiveYearsperannumPrct: Float
+    type DataSet {
+        y: Float
         name: String
     }
 
     type Analysis {
-        growthEstimates: GrowthEstimates
-        revenueEstimate: [RevenueEstimate]
+        earningsEstimate: [Estimates]
+        revenueEstimate: [Estimates]
+        growthEstimates: [DataSet]
     }
 
     type DefaultKeyStatistics {
@@ -395,22 +379,23 @@ export const stockDetailsTypeDefs = gql`
         currentPrice: Float
         currentRatio: Float
         debtToEquity: Float
+        earningsGrowth: Float
         ebitda: Float
-        ebitdaMargins: Float ## *100
+        ebitdaMargins: Float
         financialCurrency: String
         freeCashflow: Float
-        grossMargins: Float ## *100
+        grossMargins: Float
         grossProfits: Float
-        FloatOfAnalystOpinions: Float
+        numberOfAnalystOpinions: Float
         operatingCashflow: Float
-        operatingMargins: Float ## *100
-        profitMargins: Float ## *100
+        operatingMargins: Float
+        profitMargins: Float
         quickRatio: Float
         recommendationKey: String
         recommendationMean: Float
-        returnOnAssets: Float ## *100
-        returnOnEquity: Float ## *100
-        revenueGrowth: Float ## *100
+        returnOnAssets: Float
+        returnOnEquity: Float
+        revenueGrowth: Float
         revenuePerShare: Float
         targetHighPrice: Float
         targetLowPrice: Float
@@ -446,66 +431,11 @@ export const stockDetailsTypeDefs = gql`
     }
 
     type UpgradeDowngradeHistory {
-        history: [UpgradeDowngradeHistoryData]
-    }
-
-    type UpgradeDowngradeHistoryData {
         action: String
         epochGradeDate: Float
         firm: String
         fromGrade: String
         toGrade: String
-    }
-
-    type Stats {
-        avgVolOnedayThree: String
-        bookValuePerSharemrq: String
-        currentRatiomrq: String
-        dilutedEPSttm: String
-        dividendDateThree: String
-        eBITDA: String
-        enterpriseValueEBITDASix: String
-        enterpriseValueRevenueThree: String
-        enterpriseValueThree: String
-        exDividendDateFour: String
-        fiveDayMovingAverageThree: String
-        fiveTwoWeekChangeThree: String
-        fiveTwoWeekHighThree: String
-        fiveTwoWeekLowThree: String
-        fiveYearAverageDividendYieldFour: String
-        float: String
-        forwardAnnualDividendYieldFour: String
-        forwardPEOne: String
-        grossProfitttm: String
-        lastSplitDateThree: String
-        lastSplitFactorTwo: String
-        leveredFreeCashFlowttm: String
-        mostRecentQuartermrq: String
-        netIncomeAvitoCommonttm: String
-        operatingMarginttm: String
-        pEGRatioFiveyrexpectedOne: String
-        payoutRatioFour: String
-        pctHeldbyInsidersOne: String
-        pctHeldbyInstitutionsOne: String
-        priceBookmrq: String
-        priceSalesttm: String
-        quarterlyEarningsGrowthyoy: String
-        quarterlyRevenueGrowthyoy: String
-        returnonEquityttm: String
-        revenuePerSharettm: String
-        sPFiveFiveTwoWeekChangeThree: String
-        sharesOutstandingFive: String
-        sharesShortJanOneFourTwoTwoOneFour: String
-        sharesShortpriormonthDecOneFourTwoTwoFour: String
-        shortPctofFloatJanOneFourTwoTwoOneFour: String
-        shortPctofSharesOutstandingJanOneFourTwoTwoOneFour: String
-        shortRatioJanOneFourTwoTwoOneFour: String
-        totalCashPerSharemrq: String
-        totalDebtEquitymrq: String
-        totalDebtmrq: String
-        trailingAnnualDividendRateThree: String
-        trailingPE: String
-        twoDayMovingAverageThree: String
     }
 
     type SummaryResidance {
@@ -517,45 +447,49 @@ export const stockDetailsTypeDefs = gql`
     }
 
     type Summary {
-        id: String
-        sandPFiveTwoWeekChange: Float
-        lastSplitFactor: String
-        lastSplitDate: Float
-        fullTimeEmployees: Float
-        netIncomeEmployeeAnnual: Float
-        revenueEmployeeAnnual: Float
-        website: String
         residance: SummaryResidance
+        id: String
         avgVolume: Float
-        ePSTTM: String
-        earningsDate: String
-        exDividendDate: String
-        fiveTwoWeekRange: String
-        forwardDividendYield: String
-        oneyTargetEst: Float
-        open: String
-        pERatioTTM: String
-        volume: Float
         currency: String
+        currencySymbol: String
+        dividendDate: Float
+        ePSTTM: Float
+        earningsDate: Float
+        exDividendDate: Float
+        exchangeName: String
+        fiveTwoWeekRange: String
+        forwardDividendRate: Float
+        forwardDividendYield: Float
+        forwardEPS: Float
+        forwardPE: Float
+        fullTimeEmployees: Float
         industry: String
+        lastSplitDate: Float
+        lastSplitFactor: String
         logo_url: String
+        longBusinessSummary: String
+        longName: String
+        marketCap: Float
         marketPrice: Float
+        oneyTargetEst: Float
+        open: Float
+        pERatioTTM: Float
         previousClose: Float
         recommendationKey: String
         recommendationMean: Float
+        sandPFiveTwoWeekChange: Float
         sector: String
+        sharesOutstanding: Float
+        shortName: String
+        shortRatio: Float
         symbol: String
         targetEstOneyPercent: Float
+        volume: Float
+        website: String
         weekRangeFiveTwoMax: Float
         weekRangeFiveTwoMin: Float
-        currencySymbol: String
-        shortName: String
-        longName: String
-        marketCap: Float
-        sharesOutstanding: Float
-        longBusinessSummary: String
-        yearToDatePriceReturn: Float
         yearToDatePrice: Float
+        yearToDatePriceReturn: Float
     }
 
 

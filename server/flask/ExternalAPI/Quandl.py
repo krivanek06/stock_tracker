@@ -1,14 +1,15 @@
-from private_data import enviroments
 from calendar import timegm
-from ExternalAPI import utils
 from datetime import datetime
 from requests import get
+
 from Services import FileManagerService
+from ExternalAPI import utils
+import environments_keys
 
 
 class Quandl:
     def __init__(self):
-        self.APIKEY = enviroments.QUANDL_SECRET_KEY
+        self.APIKEY = environments_keys.QUANDL_SECRET_KEY
         self.fileManager = FileManagerService.FileManagerService()
 
     def getAllDataForDocumentKey(self, documentKey):

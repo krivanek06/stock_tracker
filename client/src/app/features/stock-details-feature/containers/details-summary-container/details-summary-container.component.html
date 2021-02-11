@@ -5,23 +5,28 @@
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
-        <ion-label class="st-data-label-parent">Symbol</ion-label>
-        <ion-label class="st-data-label st-flex-end"> {{ summary.symbol }}</ion-label>
-    </ion-item>
-
-    <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Market cap.</ion-label>
         <ion-label class="st-data-label st-flex-end"> {{ summary.marketCap | numberFormatter }}</ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
-        <ion-label class="st-data-label-parent">PE [ttm.]</ion-label>
-        <ion-label class="st-data-label st-flex-end"> {{ summary.pERatioTTM }}</ion-label>
+        <ion-label class="st-data-label-parent">PE</ion-label>
+        <ion-label class="st-data-label st-flex-end"> {{ summary.pERatioTTM | numberFormatter}}</ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
-        <ion-label class="st-data-label-parent">EPS [ttm.]</ion-label>
-        <ion-label class="st-data-label st-flex-end"> {{ summary.ePSTTM }}</ion-label>
+        <ion-label class="st-data-label-parent">Forward PE</ion-label>
+        <ion-label class="st-data-label st-flex-end"> {{ summary.forwardPE | numberFormatter}}</ion-label>
+    </ion-item>
+
+    <ion-item class="st-data-item-wrapper">
+        <ion-label class="st-data-label-parent">EPS</ion-label>
+        <ion-label class="st-data-label st-flex-end"> {{ summary.ePSTTM | numberFormatter }}</ion-label>
+    </ion-item>
+
+    <ion-item class="st-data-item-wrapper">
+        <ion-label class="st-data-label-parent">Forward EPS</ion-label>
+        <ion-label class="st-data-label st-flex-end"> {{ summary.forwardEPS | numberFormatter }}</ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
@@ -95,17 +100,17 @@
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Earnings date</ion-label>
-        <ion-label class="st-data-label st-flex-end" style="padding-left: 16px">
-            {{ summary.earningsDate }}
+        <ion-label class="st-data-label st-flex-end">
+            {{ summary.earningsDate * 1000 | date: 'dd.MM.YYYY'}}
         </ion-label>
     </ion-item>
 
-    <ion-item>
+    <!--<ion-item>
         <ion-label class="st-data-label-parent">Employees</ion-label>
         <ion-label class="st-data-label st-flex-end">
             {{ summary.fullTimeEmployees | numberFormatter }}
         </ion-label>
-    </ion-item>
+    </ion-item> -->
 
     <!--<ion-item *ngIf="summary.lastSplitDate">
         <ion-label position="fixed" class="fixedLabel">Last split</ion-label>

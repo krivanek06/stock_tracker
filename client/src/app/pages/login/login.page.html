@@ -1,7 +1,16 @@
 <div class="page-container">
 
-    <div class="authentication-container">
-        <app-authentication-container></app-authentication-container>
-    </div>
+    <ng-container *ngIf="user$ | async; else authentication">
+        <div class="loader" (click)="redirectToApp()">
+            <div class="loader-text">Launch</div>
+            <span></span>
+        </div>
+    </ng-container>
+
+    <ng-template #authentication>
+        <div class="authentication-container">
+            <app-authentication-container></app-authentication-container>
+        </div>
+    </ng-template>
 
 </div>

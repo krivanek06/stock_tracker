@@ -9,14 +9,6 @@
     margin-top: 8px;
   }
 
-  .time-est{
-    @media (max-width: #{$st-var-lg-split}) {
-      width: 100%;
-      text-align: center;
-      margin-top: 5px;
-    }
-  }
-
   .price-icon {
     //position: absolute;
     //top: -4px;

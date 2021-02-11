@@ -7,8 +7,8 @@
            disabled>
 
 
-    <div class="range-values-container" *ngIf="minDisplayName || maxDisplayName">
-        <span class="low-est" *ngIf="minDisplayName">Low: {{minDisplayName}}</span>
-        <span class="high-est" *ngIf="maxDisplayName">High: {{ maxDisplayName}}</span>
+    <div class="range-values-container" *ngIf="min || max">
+        <span class="low-est" *ngIf="min || min === 0">Low: {{min | numberFormatter}}</span>
+        <span class="high-est" *ngIf="max || max === 0">High: {{ max | numberFormatter}}</span>
     </div>
 </div>

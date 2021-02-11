@@ -1,7 +1,8 @@
 from flask import Flask, request
-from flask_json import FlaskJSON, JsonError, json_response
+from flask_json import FlaskJSON, json_response
 from flask_cors import CORS
 from Services import FundamentalsService
+
 
 fundamentals = FundamentalsService.FundamentalsService()
 
@@ -9,20 +10,19 @@ app = Flask(__name__)
 FlaskJSON(app)
 CORS(app, resources={r"*": {"origins": "*"}})
 
-ERROR_MESSAGE = 'Error in Fundamentals controller, method: '
 
 @app.route('/all')
 def getStockFundamentals():
+    symbol = 'None'
     try:
-        return json_response(**fundamentals.getStockDetails(request.args.get('symbol')))
+        symbol = request.args.get('symbol')
+        return json_response(**fundamentals.getStockDetails(symbol))
     except Exception as e:
-        print(ERROR_MESSAGE + 'getStockFundamentals(), message: ' + str(e))
+        print('Error in Fundamentals controller, method: getStockFundamentals(), symbol: '
+              + symbol + ' , message: ' + str(e))
         return json_response(summary=None)
-        #raise JsonError(status=500, error=ERROR_MESSAGE + 'getStockFundamentals(), message: ' + str(e))
 
 
 if __name__ == '__main__':
     print('Fundamentals controller app is running')
     app.run()
-
-
