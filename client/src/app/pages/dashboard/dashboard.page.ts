@@ -4,7 +4,7 @@ import {StPortfolio} from '../../api/customGraphql.service';
 import {getFakeTransactionTable} from '../../features/stock-trading-feature/models/trading.fakeData';
 import {SymbolIdentification} from '../../shared/models/sharedModel';
 import {TradingService} from '../../features/stock-trading-feature/services/trading.service';
-import {TradingScreenUpdateBase} from '../../features/stock-trading-feature/utils/trading-screen-update.base';
+import {TradingScreenUpdateBaseDirective} from '../../features/stock-trading-feature/utils/trading-screen-update-base.directive';
 import {SymbolLookupModalComponent} from '../../features/stock-details-feature/entry-components/symbol-lookup-modal/symbol-lookup-modal.component';
 import {ModalController} from '@ionic/angular';
 
@@ -14,7 +14,7 @@ import {ModalController} from '@ionic/angular';
     styleUrls: ['./dashboard.page.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DashboardPage extends TradingScreenUpdateBase implements OnInit, OnDestroy {
+export class DashboardPage extends TradingScreenUpdateBaseDirective implements OnInit, OnDestroy {
     stPortfolioHistory: StPortfolio[] = [];
     fakeDataTransactionTable = getFakeTransactionTable();
 

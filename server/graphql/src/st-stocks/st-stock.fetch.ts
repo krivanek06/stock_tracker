@@ -1,4 +1,4 @@
-import {stockDataAPI} from "../enviroment";
+import {stockDataAPI} from "../environment";
 import * as api from "stock-tracker-common-interfaces";
 
 export const getStockHistoricalClosedData = async (symbol: string, period: string): Promise<api.STStockHistoricalClosedDataWithPeriod> => {

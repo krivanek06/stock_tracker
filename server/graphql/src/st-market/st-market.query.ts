@@ -1,9 +1,10 @@
 import {ApolloError} from "apollo-server";
 import * as admin from "firebase-admin";
 import * as api from 'stock-tracker-common-interfaces';
-import {stockDataAPI} from "../enviroment";
+import {stockDataAPI} from "../environment";
 import {getCurrentIOSDate} from "../st-shared/st-shared.functions";
 import {convertToSTMarketChartDataResultCombined} from "./st-market.functions";
+import {getStMarketAllCategoriesLocal, searchStMarketDataLocal} from "../later_removable";
 
 export const querySTMarketHistoryOverview = async (): Promise<api.STMarketHistoryOverview> => {
     try {
@@ -27,7 +28,7 @@ export const querySTMarketHistoryOverview = async (): Promise<api.STMarketHistor
         // not exist, fetch from API
         if (!docData) {
             docData = {};
-            const categories = await api.getStMarketAllCategories(true);
+            const categories = await getStMarketAllCategoriesLocal(true);
 
             const resolvedPromises = await Promise.all(categories.categories.map(c => getSTMarketDatasetKeyCategory(c)));
             // UNCOMMENT ONLY WHEN INIT DATA INTO DB
@@ -71,7 +72,7 @@ export const querySTMarketHistoryOverview = async (): Promise<api.STMarketHistor
 
 export const queryStMarketAllCategories = async (): Promise<api.STMarketDatasetKeyCategories> => {
     try {
-        return await api.getStMarketAllCategories(false);
+        return await getStMarketAllCategoriesLocal(false);
     } catch (error) {
         throw new ApolloError(error);
     }
@@ -136,7 +137,7 @@ const querySTMarketChartDataResultCombined = async (documentKey: string): Promis
 
         // does not exists or too old data
         if (!firebaseData) {
-            const apiPromise = await api.searchStMarketData(documentKey);
+            const apiPromise = await searchStMarketDataLocal(documentKey);
             const apiData = apiPromise['result'] as api.STMarketChartDataResultAPI[];
 
             // getting multiple data, save in separated documents

@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Summary} from '../../../../api/customGraphql.service';
-import {ComponentScreenUpdateBase} from '../../../../shared/utils/component-base/component-screen-update.base';
+import {ComponentScreenUpdateBaseDirective} from '../../../../shared/utils/component-base/component-screen-update-base.directive';
 import {filter, takeUntil} from 'rxjs/operators';
 import {marketValueChange} from '../../../../shared/animations/marketValueChange.animation';
 import {FinnhubWebsocketService} from '../../../../shared/services/finnhub-websocket.service';
@@ -14,7 +14,7 @@ import {FinnhubWebsocketService} from '../../../../shared/services/finnhub-webso
         marketValueChange
     ]
 })
-export class DetailsSummaryContainerComponent extends ComponentScreenUpdateBase implements OnInit, OnDestroy {
+export class DetailsSummaryContainerComponent extends ComponentScreenUpdateBaseDirective implements OnInit, OnDestroy {
     @Input() summary: Summary;
     currentPrice: number;
 

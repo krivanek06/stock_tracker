@@ -8,27 +8,30 @@ class YahooFinanceRequester:
         self.helperClass = CustomYahooParser.CustomYahooParser()
 
     def get_company_data(self, ticker):
-        site = "https://finance.yahoo.com/quote/" + ticker + "?p=" + ticker
-        data = self.helperClass.parse_json(site, 'QuoteSummaryStore')
-
-        if not data:
-            return None
-
-        # format recommendation and upgraded history
-        if data['upgradeDowngradeHistory'] is not None:
-            history = data['upgradeDowngradeHistory'].get('history')
-            data['upgradeDowngradeHistory'] = [] if not history else history[0:15]
-        else:
-            data['upgradeDowngradeHistory'] = []
-
-        # format logo
         try:
-            domain = data['summaryProfile']['website'].split('://')[1].split('/')[0].replace('www.', '')
-            data['summaryProfile']['logo_url'] = 'https://logo.clearbit.com/%s' % domain
-        except Exception:
-            data['summaryProfile']['logo_url'] = None
+            site = "https://finance.yahoo.com/quote/" + ticker + "?p=" + ticker
+            data = self.helperClass.parse_json(site, 'QuoteSummaryStore')
 
-        return data
+            if not data:
+                return None
+
+            # format recommendation and upgraded history
+            if data.get('upgradeDowngradeHistory') is not None:
+                history = data['upgradeDowngradeHistory'].get('history')
+                data['upgradeDowngradeHistory'] = [] if not history else history[0:15]
+            else:
+                data['upgradeDowngradeHistory'] = []
+
+            # format logo
+            try:
+                domain = data['summaryProfile']['website'].split('://')[1].split('/')[0].replace('www.', '')
+                data['summaryProfile']['logo_url'] = 'https://logo.clearbit.com/%s' % domain
+            except Exception:
+                data['summaryProfile']['logo_url'] = None
+
+            return data
+        except:
+            return None
 
     def get_financial_sheets(self, ticker):
         balance_sheet_site = "https://finance.yahoo.com/quote/" + ticker + "/balance-sheet?p=" + ticker
@@ -36,21 +39,29 @@ class YahooFinanceRequester:
 
         if not json_info:
             return None
+        try:
+            balanceSheet = {
+                'balanceSheetHistoryYearly': json_info["balanceSheetHistory"].get('balanceSheetStatements'),
+                'balanceSheetHistoryQuarterly': json_info["balanceSheetHistoryQuarterly"].get('balanceSheetStatements')
+            }
+        except:
+            balanceSheet = None
 
-        balanceSheet = {
-            'balanceSheetHistoryYearly': json_info["balanceSheetHistory"].get('balanceSheetStatements'),
-            'balanceSheetHistoryQuarterly': json_info["balanceSheetHistoryQuarterly"].get('balanceSheetStatements')
-        }
+        try:
+            cashFlow = {
+                'cashflowStatementHistoryYearly': json_info["cashflowStatementHistory"].get('cashflowStatements'),
+                'cashflowStatementHistoryQuarterly': json_info["cashflowStatementHistoryQuarterly"].get('cashflowStatements')
+            }
+        except:
+            cashFlow = None
 
-        cashFlow = {
-            'cashflowStatementHistoryYearly': json_info["cashflowStatementHistory"].get('cashflowStatements'),
-            'cashflowStatementHistoryQuarterly': json_info["cashflowStatementHistoryQuarterly"].get('cashflowStatements')
-        }
-
-        incomeStatement = {
-            'incomeStatementHistoryYearly': json_info["incomeStatementHistory"].get('incomeStatementHistory'),
-            'incomeStatementHistoryQuarterly': json_info["incomeStatementHistoryQuarterly"].get('incomeStatementHistory')
-        }
+        try:
+            incomeStatement = {
+                'incomeStatementHistoryYearly': json_info["incomeStatementHistory"].get('incomeStatementHistory'),
+                'incomeStatementHistoryQuarterly': json_info["incomeStatementHistoryQuarterly"].get('incomeStatementHistory')
+            }
+        except:
+            incomeStatement = None
 
         return {'balanceSheet': balanceSheet, 'incomeStatement': incomeStatement, 'cashFlow': cashFlow}
 

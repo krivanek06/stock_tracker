@@ -11,6 +11,7 @@ import {PortfolioChangeChartComponent} from './components/portfolio/portfolio-ch
 import {PortfolioGrowthChartComponent} from './components/portfolio/portfolio-growth-chart/portfolio-growth-chart.component';
 import {PortfolioStateComponent} from './components/portfolio/portfolio-state/portfolio-state.component';
 import {HoldingsAllocationChartComponent} from './components/holdings/holdings-allocation-chart/holdings-allocation-chart.component';
+import {TradingScreenUpdateBaseDirective} from './utils/trading-screen-update-base.directive';
 
 
 @NgModule({

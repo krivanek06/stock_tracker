@@ -1,17 +1,18 @@
-import os
-import json
+from os import path, makedirs
+from json import dump, load
 from datetime import datetime
+
 
 class FileManagerService:
     def __init__(self):
         self.FOLDER = 'resource'
-        if not os.path.exists(self.FOLDER):
-            os.makedirs(self.FOLDER)
+        if not path.exists(self.FOLDER):
+            makedirs(self.FOLDER)
 
     def getJsonFile(self, document):
-        if os.path.exists(self.FOLDER + "/" + document):
+        if path.exists(self.FOLDER + "/" + document):
             with open(self.FOLDER + "/" + document, encoding='utf-8') as f:
-                data = json.load(f)
+                data = load(f)
             return data
         return None
 
@@ -37,9 +38,9 @@ class FileManagerService:
 
     def saveFile(self, document, data):
         with open(self.FOLDER + "/" + document, "w+", encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=4)
+            dump(data, f, ensure_ascii=False, indent=4)
 
     def __getDocumentLastModificationTimestamp(self, document):
-        if os.path.exists(self.FOLDER + "/" + document):
-            return os.path.getmtime(self.FOLDER + "/" + document)
+        if path.exists(self.FOLDER + "/" + document):
+            return path.getmtime(self.FOLDER + "/" + document)
         return None

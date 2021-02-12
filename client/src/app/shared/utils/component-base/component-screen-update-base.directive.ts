@@ -1,15 +1,15 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewRef} from '@angular/core';
-import {ComponentBase} from './component.base';
+import {ChangeDetectorRef, Component, Directive, OnDestroy, OnInit, ViewRef} from '@angular/core';
+import {ComponentBaseDirective} from './component-base.directive';
 
-
-export class ComponentScreenUpdateBase extends ComponentBase implements OnInit, OnDestroy {
+@Directive()
+export abstract class ComponentScreenUpdateBaseDirective extends ComponentBaseDirective implements OnInit, OnDestroy {
     interval: any;
     componentName: string;
 
     updateIntervalMs = 1200;
 
-    constructor(private cdr: ChangeDetectorRef,
-                private componentNameBse: string) {
+    protected constructor(private cdr: ChangeDetectorRef,
+                          private componentNameBse: string) {
         super();
         this.componentName = componentNameBse;
     }

@@ -4,7 +4,6 @@ import {SharedModule} from '../../shared/shared.module';
 import {RouterModule, Routes} from '@angular/router';
 import {MarketOverviewComponent} from './pages/market-overview/market-overview.component';
 import {MarketFeatureModule} from '../../features/market-feature/market-feature.module';
-import {MarketProductionComponent} from './pages/market-production/market-production.component';
 import {MarketDailyChangeComponent} from './pages/market-daily-change/market-daily-change.component';
 import {MarketCryptoComponent} from './pages/market-crypto/market-crypto.component';
 
@@ -27,10 +26,6 @@ const routes: Routes = [
                 component: MarketOverviewComponent
             },
             {
-                path: 'production',
-                component: MarketProductionComponent
-            },
-            {
                 path: 'crypto',
                 component: MarketCryptoComponent
             }
@@ -47,7 +42,6 @@ const routes: Routes = [
     declarations: [
         MarketPage,
         MarketOverviewComponent,
-        MarketProductionComponent,
         MarketDailyChangeComponent,
         MarketCryptoComponent
     ]

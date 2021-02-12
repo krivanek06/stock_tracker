@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthFeatureService} from '../../features/auth-feature/services/auth-feature.service';
 import {NavigationEnd, Router} from '@angular/router';
-import {ComponentBase} from '../../shared/utils/component-base/component.base';
+import {ComponentBaseDirective} from '../../shared/utils/component-base/component-base.directive';
 import {distinctUntilChanged, filter, map, takeUntil} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {StUserPublicData, User_Roles_Enum} from '../../api/customGraphql.service';
@@ -21,7 +21,7 @@ interface MenuPageInterface {
     templateUrl: './menu.page.html',
     styleUrls: ['./menu.page.scss'],
 })
-export class MenuPage extends ComponentBase implements OnInit, OnDestroy {
+export class MenuPage extends ComponentBaseDirective implements OnInit, OnDestroy {
     showOverlay = false;
     user: StUserPublicData;
     selectedNavigation: MenuPageInterface;

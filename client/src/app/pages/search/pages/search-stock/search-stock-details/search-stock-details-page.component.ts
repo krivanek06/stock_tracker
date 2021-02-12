@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {StockDetailsService} from '../../../../../features/stock-details-feature/services/stock-details.service';
-import {ComponentBase} from '../../../../../shared/utils/component-base/component.base';
+import {ComponentBaseDirective} from '../../../../../shared/utils/component-base/component-base.directive';
 import {takeUntil} from 'rxjs/operators';
 import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_DETAILS_ENUM, SEARCH_PAGE_STOCK_ENUM} from '../../../models/pages.model';
 
@@ -11,7 +11,7 @@ import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_DETAILS_ENUM, SEARCH_PAGE_STOCK_ENUM
     styleUrls: ['./search-stock-details-page.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchStockDetailsPage extends ComponentBase implements OnInit, OnDestroy {
+export class SearchStockDetailsPage extends ComponentBaseDirective implements OnInit, OnDestroy {
     segmentValue = SEARCH_PAGE_STOCK_DETAILS_ENUM.STATISTICS;
     SEARCH_PAGE_STOCK_DETAILS_ENUM = SEARCH_PAGE_STOCK_DETAILS_ENUM;
     showSpinner = true;

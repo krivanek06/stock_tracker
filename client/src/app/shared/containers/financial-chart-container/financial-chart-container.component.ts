@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges,
 import {filter, takeUntil} from 'rxjs/operators';
 import {ChartDataApiService} from '../../../api/chart-data-api.service';
 import {marketValueChange} from '../../animations/marketValueChange.animation';
-import {ComponentScreenUpdateBase} from '../../utils/component-base/component-screen-update.base';
+import {ComponentScreenUpdateBaseDirective} from '../../utils/component-base/component-screen-update-base.directive';
 import {FinnhubWebsocketService} from '../../services/finnhub-websocket.service';
 
 @Component({
@@ -14,7 +14,7 @@ import {FinnhubWebsocketService} from '../../services/finnhub-websocket.service'
         marketValueChange
     ]
 })
-export class FinancialChartContainerComponent extends ComponentScreenUpdateBase implements OnInit, OnDestroy, OnChanges {
+export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseDirective implements OnInit, OnDestroy, OnChanges {
     volume: number[] = [];
     price: number[][] = []; // [open, high, low, close]
     selectedRange = '1d';

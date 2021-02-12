@@ -40,6 +40,8 @@ import {ArticleCardsComponent} from './components/cards/article-cards/article-ca
 import {SumUpPipe} from './pipes/sumUp.pipe';
 import {StockInfoIdentificationItemComponent} from './components/items/stock-info-identification-item/stock-info-identification-item.component';
 import {FinancialChartModalComponent} from './entry-components/financial-chart-modal/financial-chart-modal.component';
+import {ComponentBaseDirective} from './utils/component-base/component-base.directive';
+import {ComponentScreenUpdateBaseDirective} from './utils/component-base/component-screen-update-base.directive';
 
 
 @NgModule({

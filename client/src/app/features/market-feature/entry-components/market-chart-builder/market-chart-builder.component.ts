@@ -5,7 +5,7 @@ import {
     StMarketChartDataResultCombined,
     StMarketDatasetKeyCategory
 } from '../../../../api/customGraphql.service';
-import {ComponentBase} from '../../../../shared/utils/component-base/component.base';
+import {ComponentBaseDirective} from '../../../../shared/utils/component-base/component-base.directive';
 import {takeUntil} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {cloneDeep} from 'lodash';
@@ -15,7 +15,7 @@ import {cloneDeep} from 'lodash';
     templateUrl: './market-chart-builder.component.html',
     styleUrls: ['./market-chart-builder.component.scss']
 })
-export class MarketChartBuilderComponent extends ComponentBase implements OnInit, OnDestroy {
+export class MarketChartBuilderComponent extends ComponentBaseDirective implements OnInit, OnDestroy {
     categories$: Observable<StMarketDatasetKeyCategory[]>;
 
     activeDocumentKeys: string[] = [];

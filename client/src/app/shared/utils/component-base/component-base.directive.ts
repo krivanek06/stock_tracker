@@ -1,10 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Directive, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 
-
-export class ComponentBase implements OnInit, OnDestroy {
+@Directive()
+export abstract class ComponentBaseDirective implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
-  constructor() { }
+  protected constructor() { }
 
   ngOnInit(): void {
   }

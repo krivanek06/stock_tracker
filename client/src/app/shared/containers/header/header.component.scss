@@ -5,6 +5,19 @@
     color: #{$st-var-font-1}
   }
 
+  ion-menu-toggle {
+    float: left;
+    display: block !important;
+  }
+
+  ion-header {
+    @media (max-width: #{$st-var-lg-split}) {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
   ion-col {
     padding: 0;
   }

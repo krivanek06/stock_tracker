@@ -12,6 +12,3 @@ export * from './src/model/st-chart.model';
 // model - market
 export * from './src/model/st-market/index';
 
-
-// api
-export * from './src/api/st-market.fetch';
