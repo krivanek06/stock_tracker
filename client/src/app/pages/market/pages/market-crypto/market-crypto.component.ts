@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {MarketService} from '../../../../features/market-feature/services/market.service';
 import {cloneDeep} from 'lodash';
-import {ComponentScreenUpdateBase} from '../../../../shared/utils/component-base/component-screen-update.base';
+import {ComponentScreenUpdateBaseDirective} from '../../../../shared/utils/component-base/component-screen-update-base.directive';
 import {filter, first, takeUntil} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {StMarketOverviewPartialData, StMarketTopTableCryptoData} from '../../../../api/customGraphql.service';
@@ -15,7 +15,7 @@ import {FinancialChartModalComponent} from '../../../../shared/entry-components/
     templateUrl: './market-crypto.component.html',
     styleUrls: ['./market-crypto.component.scss'],
 })
-export class MarketCryptoComponent extends ComponentScreenUpdateBase implements OnInit, OnDestroy {
+export class MarketCryptoComponent extends ComponentScreenUpdateBaseDirective implements OnInit, OnDestroy {
     marketOverview$: Observable<StMarketOverviewPartialData>;
     topCrypto: StMarketTopTableCryptoData[] = [];
 

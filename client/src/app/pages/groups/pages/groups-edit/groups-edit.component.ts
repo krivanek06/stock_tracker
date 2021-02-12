@@ -5,7 +5,7 @@ import {StGroupAllData, StUserPartialInformation, User_Status_In_Group} from '..
 import {GroupService} from '../../../../features/group-feature/services/group.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UploaderComponent} from '../../../../shared/components/image-manipulation/uploader/uploader.component';
-import {ComponentBase} from '../../../../shared/utils/component-base/component.base';
+import {ComponentBaseDirective} from '../../../../shared/utils/component-base/component-base.directive';
 import {cloneDeep} from 'lodash';
 import {UploadedFile} from '../../../../shared/models/sharedModel';
 import {PopoverController} from '@ionic/angular';
@@ -23,7 +23,7 @@ import {GroupUserRolesService} from '../../../../features/group-feature/services
     templateUrl: './groups-edit.component.html',
     styleUrls: ['./groups-edit.component.scss']
 })
-export class GroupsEditComponent extends ComponentBase implements OnInit, OnDestroy {
+export class GroupsEditComponent extends ComponentBaseDirective implements OnInit, OnDestroy {
     @ViewChild('uploader') uploader: UploaderComponent;
     group: StGroupAllData;
     form: FormGroup;

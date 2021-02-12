@@ -1,5 +1,5 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewRef} from '@angular/core';
-import {ComponentBase} from '../../../shared/utils/component-base/component.base';
+import {ChangeDetectorRef, Component, Directive, OnDestroy, OnInit, ViewRef} from '@angular/core';
+import {ComponentBaseDirective} from '../../../shared/utils/component-base/component-base.directive';
 import {TradingChangeModel} from '../models/trading.model';
 import {StPortfolio, StTransaction, StUserPublicData, Summary} from '../../../api/customGraphql.service';
 import {filter, takeUntil} from 'rxjs/operators';
@@ -7,7 +7,8 @@ import {cloneDeep} from 'lodash';
 import {AuthFeatureService} from '../../auth-feature/services/auth-feature.service';
 import {TradingService} from '../services/trading.service';
 
-export class TradingScreenUpdateBase extends ComponentBase implements OnInit, OnDestroy {
+@Directive()
+export abstract class TradingScreenUpdateBaseDirective extends ComponentBaseDirective implements OnInit, OnDestroy {
     user: StUserPublicData;
     daily: TradingChangeModel;
     selectedSummary: Summary;
@@ -16,9 +17,9 @@ export class TradingScreenUpdateBase extends ComponentBase implements OnInit, On
     clonedHoldings: StTransaction[] = [];
     private interval: any;
 
-    constructor(public authService: AuthFeatureService,
-                public tradingService: TradingService,
-                public cdr: ChangeDetectorRef) {
+    protected constructor(public authService: AuthFeatureService,
+                          public tradingService: TradingService,
+                          public cdr: ChangeDetectorRef) {
         super();
     }
 

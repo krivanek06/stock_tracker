@@ -5,7 +5,7 @@ import {
     StMarketTopTableSymbolData
 } from '../../../../api/customGraphql.service';
 import {MarketService} from '../../../../features/market-feature/services/market.service';
-import {ComponentScreenUpdateBase} from '../../../../shared/utils/component-base/component-screen-update.base';
+import {ComponentScreenUpdateBaseDirective} from '../../../../shared/utils/component-base/component-screen-update-base.directive';
 import {filter, first, takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
 import {MARKET_DAILY_CHANGE_SELECT} from '../../model/market.model';
@@ -22,7 +22,7 @@ import {FinnhubWebsocketService} from '../../../../shared/services/finnhub-webso
     styleUrls: ['./market-daily-change.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MarketDailyChangeComponent extends ComponentScreenUpdateBase implements OnInit, OnDestroy {
+export class MarketDailyChangeComponent extends ComponentScreenUpdateBaseDirective implements OnInit, OnDestroy {
     calendarEvents$: Observable<StEventCalendarData[]>;
 
     topGainers: StMarketTopTableSymbolData[] = [];

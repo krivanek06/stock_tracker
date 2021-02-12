@@ -43,6 +43,21 @@
             </ion-col>
         </ion-row>
 
+        <!-- misery index -->
+        <app-generic-list [title]="'Misery index'"></app-generic-list>
+        <ion-row>
+            <ion-col *ngFor="let data of marketOverview.misery_index" size="12" size-xs="6">
+                <app-generic-chart
+                        (expandEmitter)="expand(data.documentKey)"
+                        [showExpandableButton]="true"
+                        [showLegend]="true"
+                        [showLegendLatestValue]="true"
+                        [heightPx]="chartHeight"
+                        [series]="[{name: data.name,  data: data.data}]">
+                </app-generic-chart>
+            </ion-col>
+        </ion-row>
+
         <!-- Treasury yield -->
         <app-generic-list [title]="'Treasury yield'"></app-generic-list>
         <ion-row>

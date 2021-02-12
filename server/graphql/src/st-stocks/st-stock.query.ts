@@ -1,10 +1,11 @@
-import {stockDataAPI} from '../enviroment';
+import {stockDataAPI} from '../environment';
 import {ApolloError} from 'apollo-server';
 import * as api from 'stock-tracker-common-interfaces';
 import * as admin from "firebase-admin";
 import {getCurrentIOSDate, stRandomSlice} from "../st-shared/st-shared.functions";
 import {tmpSuggestionSymbols} from "./st-stock.model";
 import {getStockHistoricalClosedData} from "./st-stock.fetch";
+import {getStMarketTopTablesLocal} from "../later_removable";
 
 
 // check if details already exists in firestore, else fetch from api and save
@@ -110,7 +111,7 @@ export const queryMarketDailyOverview = async (): Promise<api.STMarketDailyOverv
             });
 
             // may return empty array because cannot make too much request on yahoo finance
-            const resultFromApi = await api.getStMarketTopTables();
+            const resultFromApi = await getStMarketTopTablesLocal();
             dailyInfoData = {
                 news: resultFromApi.news.length > 0 ? resultFromApi.news : dailyInfoData.news,
                 events: resultFromApi.events.length > 0 ? resultFromApi.events : dailyInfoData.events,

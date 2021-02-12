@@ -5,3 +5,7 @@ node_modules
 npm-debug.log
 lib
 package-lock.json
+
+.vscode
+*/dist/*
+dist

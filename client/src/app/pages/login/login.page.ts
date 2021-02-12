@@ -1,6 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {AuthFeatureService} from '../../features/auth-feature/services/auth-feature.service';
-import {filter} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {StUserPublicData} from '../../api/customGraphql.service';
@@ -9,6 +8,7 @@ import {StUserPublicData} from '../../api/customGraphql.service';
     selector: 'app-login',
     templateUrl: './login.page.html',
     styleUrls: ['./login.page.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginPage implements OnInit {
 
@@ -19,7 +19,7 @@ export class LoginPage implements OnInit {
     }
 
     ngOnInit() {
-        this.user$ = this.authFeatureService.getUser().pipe(filter(user => !!user));
+        this.user$ = this.authFeatureService.getUser();
     }
 
 

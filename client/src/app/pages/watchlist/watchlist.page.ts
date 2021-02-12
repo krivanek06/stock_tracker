@@ -18,7 +18,7 @@ import {SymbolIdentification} from '../../shared/models/sharedModel';
 import {SymbolLookupModalComponent} from '../../features/stock-details-feature/entry-components/symbol-lookup-modal/symbol-lookup-modal.component';
 import {takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
-import {ComponentScreenUpdateBase} from '../../shared/utils/component-base/component-screen-update.base';
+import {ComponentScreenUpdateBaseDirective} from '../../shared/utils/component-base/component-screen-update-base.directive';
 
 @Component({
     selector: 'app-watchlist',
@@ -26,7 +26,7 @@ import {ComponentScreenUpdateBase} from '../../shared/utils/component-base/compo
     styleUrls: ['./watchlist.page.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WatchlistPage extends ComponentScreenUpdateBase implements OnInit, OnDestroy {
+export class WatchlistPage extends ComponentScreenUpdateBaseDirective implements OnInit, OnDestroy {
     stockWatchlists: StStockWatchlistFragmentFragment[];
 
     constructor(private watchlistService: WatchlistService,

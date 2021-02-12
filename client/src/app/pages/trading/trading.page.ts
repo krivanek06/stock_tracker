@@ -7,7 +7,7 @@ import {map, takeUntil} from 'rxjs/operators';
 import {TradingService} from '../../features/stock-trading-feature/services/trading.service';
 import {Router} from '@angular/router';
 import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_ENUM} from '../search/models/pages.model';
-import {TradingScreenUpdateBase} from '../../features/stock-trading-feature/utils/trading-screen-update.base';
+import {TradingScreenUpdateBaseDirective} from '../../features/stock-trading-feature/utils/trading-screen-update-base.directive';
 import {MarketService} from '../../features/market-feature/services/market.service';
 import {cloneDeep} from 'lodash';
 import {PortfolioStateEnum} from '../../features/stock-trading-feature/components/portfolio/portfolio-state/portfolio-state.component';
@@ -18,7 +18,7 @@ import {PortfolioStateEnum} from '../../features/stock-trading-feature/component
     styleUrls: ['./trading.page.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TradingPage extends TradingScreenUpdateBase implements OnInit, OnDestroy {
+export class TradingPage extends TradingScreenUpdateBaseDirective implements OnInit, OnDestroy {
     suggestions: StStockSuggestion[] = [];
     PortfolioStateEnum = PortfolioStateEnum;
 

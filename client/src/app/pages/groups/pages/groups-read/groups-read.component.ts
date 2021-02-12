@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ComponentBase} from '../../../../shared/utils/component-base/component.base';
+import {ComponentBaseDirective} from '../../../../shared/utils/component-base/component-base.directive';
 import {filter, switchMap, takeUntil} from 'rxjs/operators';
 import {GroupService} from '../../../../features/group-feature/services/group.service';
 import {StGroupAllData} from '../../../../api/customGraphql.service';
@@ -13,7 +13,7 @@ import {GroupUserRolesService} from '../../../../features/group-feature/services
     styleUrls: ['./groups-read.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GroupsReadComponent extends ComponentBase implements OnInit, OnDestroy {
+export class GroupsReadComponent extends ComponentBaseDirective implements OnInit, OnDestroy {
     queriedGroup: StGroupAllData;
     isUserOwner: boolean;
     isUserManager: boolean;

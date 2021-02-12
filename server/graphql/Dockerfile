@@ -1,11 +1,18 @@
-FROM node:12
+FROM node:12-alpine
 
 WORKDIR /app
 
-COPY package*.json /app/
+# copy configs to /app folder
+COPY package.json .
 
 RUN npm install
 
-COPY . /app
+ADD . /app
+
+RUN npm run build
+
+# check files list
+RUN ls -la /
 
 CMD ["npm", "start"]
+#CMD [ "node", "./lib/index.js" ]
