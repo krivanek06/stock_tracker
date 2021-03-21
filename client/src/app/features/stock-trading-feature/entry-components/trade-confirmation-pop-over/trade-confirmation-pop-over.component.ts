@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NavParams, PopoverController} from '@ionic/angular';
-import {StTransactionInput, StTransactionOperationEnum} from '../../../../api/customGraphql.service';
-import {AuthFeatureService} from '../../../auth-feature/services/auth-feature.service';
+import {StTransactionInput, StTransactionOperationEnum, UserStorageService} from '@core';
 
 @Component({
     selector: 'app-trade-confirmation-pop-over',
@@ -18,7 +17,7 @@ export class TradeConfirmationPopOverComponent implements OnInit {
     symbolLogoUrl: string;
     price: number;
 
-    constructor(private authService: AuthFeatureService,
+    constructor(private userStorageService: UserStorageService,
                 private popoverController: PopoverController,
                 private navParams: NavParams,
                 private fb: FormBuilder) {
@@ -39,7 +38,7 @@ export class TradeConfirmationPopOverComponent implements OnInit {
                 symbol: this.symbol,
                 symbol_logo_url: this.symbolLogoUrl,
                 price: this.price,
-                userId: this.authService.user.uid,
+                userId: this.userStorageService.user.uid,
                 units: this.units.value,
                 operation
             };

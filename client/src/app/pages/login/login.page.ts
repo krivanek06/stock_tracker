@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {AuthFeatureService} from '../../features/auth-feature/services/auth-feature.service';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
-import {StUserPublicData} from '../../api/customGraphql.service';
+import {StUserPublicData, UserStorageService} from '@core';
 
 @Component({
     selector: 'app-login',
@@ -14,12 +13,12 @@ export class LoginPage implements OnInit {
 
     user$: Observable<StUserPublicData>;
 
-    constructor(private authFeatureService: AuthFeatureService,
+    constructor(private userStorageService: UserStorageService,
                 private router: Router) {
     }
 
     ngOnInit() {
-        this.user$ = this.authFeatureService.getUser();
+        this.user$ = this.userStorageService.getUser();
     }
 
 

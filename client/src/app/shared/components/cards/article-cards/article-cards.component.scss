@@ -18,7 +18,7 @@
 
 
   // cards
-  .overlay{
+  .overlay {
     width: 100%;
     position: absolute;
     z-index: 99;
@@ -27,9 +27,11 @@
     background: #000;
     color: #fff;
   }
+
   .upper-overlay {
     top: 0;
   }
+
   .bottom-overlay {
     bottom: 0;
   }

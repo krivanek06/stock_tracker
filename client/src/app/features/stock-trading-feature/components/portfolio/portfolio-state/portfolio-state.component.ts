@@ -1,7 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {StPortfolio} from '../../../../../api/customGraphql.service';
-import {STARTING_PORTFOLIO} from '../../../models/trading.model';
-import {marketValueChange} from '../../../../../shared/animations/marketValueChange.animation';
+import {STARTING_PORTFOLIO} from '../../../models';
 
 export enum PortfolioStateEnum {
     CARD = 'CARD',

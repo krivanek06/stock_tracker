@@ -1,11 +1,9 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {AuthFeatureService} from '../../features/auth-feature/services/auth-feature.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
-import {ComponentBaseDirective} from '../../shared/utils/component-base/component-base.directive';
-import {distinctUntilChanged, filter, map, takeUntil} from 'rxjs/operators';
-import {Observable} from 'rxjs';
-import {StUserPublicData, User_Roles_Enum} from '../../api/customGraphql.service';
+import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
+import {ComponentBaseDirective, StUserPublicData, User_Roles_Enum, UserStorageService} from '@core';
 import {MenuController} from '@ionic/angular';
+import {LoginFeatureService} from '@login-feature';
 
 
 interface MenuPageInterface {
@@ -28,7 +26,8 @@ export class MenuPage extends ComponentBaseDirective implements OnInit, OnDestro
     mainPages: MenuPageInterface[] = [];
     otherPages: MenuPageInterface[] = [];
 
-    constructor(private authFeatureService: AuthFeatureService,
+    constructor(private userStorageService: UserStorageService,
+                private loginFeatureService: LoginFeatureService,
                 private router: Router,
                 private menu: MenuController) {
         super();
@@ -52,7 +51,7 @@ export class MenuPage extends ComponentBaseDirective implements OnInit, OnDestro
     }
 
     async logout() {
-        await this.authFeatureService.logout();
+        await this.loginFeatureService.logout();
     }
 
     private watchRouterUrlChange() {
@@ -73,7 +72,7 @@ export class MenuPage extends ComponentBaseDirective implements OnInit, OnDestro
     }
 
     private initPages() {
-        this.authFeatureService.getUser().pipe(
+        this.userStorageService.getUser().pipe(
             filter(x => !!x && !!x.userPrivateData),
             distinctUntilChanged((prev, curr) =>
                 prev.nickName === curr.nickName &&       // changed nickname

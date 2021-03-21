@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {marketValueChange} from '../../../../shared/animations/marketValueChange.animation';
-import {StMarketTopTableCryptoData} from '../../../../api/customGraphql.service';
-import {SymbolIdentification} from '../../../../shared/models/sharedModel';
+import {marketValueChange} from '@shared';
+import {StMarketTopTableCryptoData} from '@core';
 
 @Component({
     selector: 'app-market-top-table-crypto',

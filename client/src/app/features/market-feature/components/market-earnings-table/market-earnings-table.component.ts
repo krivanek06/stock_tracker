@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StEventCalendarEarningsData} from '../../../../api/customGraphql.service';
-import {SymbolIdentification} from '../../../../shared/models/sharedModel';
+import {StEventCalendarEarningsData} from '@core';
+import {SymbolIdentification} from '@shared';
 
 @Component({
     selector: 'app-market-earnings-table',

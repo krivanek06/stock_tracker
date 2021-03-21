@@ -1,24 +1,12 @@
-import {
-    AfterContentChecked,
-    AfterViewChecked,
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewRef
-} from '@angular/core';
-import {WatchlistService} from '../../features/stock-watchlist-feature/services/watchlist.service';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {WatchlistFeatureService} from '@stock-watchlist-feature';
 import {Router} from '@angular/router';
-import {AuthFeatureService} from '../../features/auth-feature/services/auth-feature.service';
 import {ModalController} from '@ionic/angular';
-import {StStockWatchlistFragmentFragment} from '../../api/customGraphql.service';
-import {SymbolIdentification} from '../../shared/models/sharedModel';
-import {SymbolLookupModalComponent} from '../../features/stock-details-feature/entry-components/symbol-lookup-modal/symbol-lookup-modal.component';
+import {ComponentScreenUpdateBaseDirective, StStockWatchlistFragmentFragment, UserStorageService} from '@core';
+import {SymbolIdentification} from '@shared';
+import {SymbolLookupModalComponent} from '@stock-details-feature';
 import {takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
-import {ComponentScreenUpdateBaseDirective} from '../../shared/utils/component-base/component-screen-update-base.directive';
 
 @Component({
     selector: 'app-watchlist',
@@ -29,11 +17,11 @@ import {ComponentScreenUpdateBaseDirective} from '../../shared/utils/component-b
 export class WatchlistPage extends ComponentScreenUpdateBaseDirective implements OnInit, OnDestroy {
     stockWatchlists: StStockWatchlistFragmentFragment[];
 
-    constructor(private watchlistService: WatchlistService,
+    constructor(private watchlistService: WatchlistFeatureService,
                 private router: Router,
-                private authFeatureService: AuthFeatureService,
+                private userStorageService: UserStorageService,
                 private modalController: ModalController,
-                cdr: ChangeDetectorRef) {
+                public cdr: ChangeDetectorRef) {
         super(cdr, 'WatchlistPage');
     }
 

@@ -1,16 +1,18 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {PageViews} from '../../../../api/customGraphql.service';
+import {PageViews} from '@core';
 
 @Component({
-  selector: 'app-stock-trend',
-  templateUrl: './stock-trend.component.html',
-  styleUrls: ['./stock-trend.component.scss'],
+    selector: 'app-stock-trend',
+    templateUrl: './stock-trend.component.html',
+    styleUrls: ['./stock-trend.component.scss'],
 })
 export class StockTrendComponent implements OnInit {
-  @Input() trend: PageViews;
+    @Input() trend: PageViews;
 
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit() {}
+    ngOnInit() {
+    }
 
 }

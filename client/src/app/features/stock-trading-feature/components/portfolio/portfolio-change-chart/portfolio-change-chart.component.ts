@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {StPortfolio, StPortfolioWeeklyChange} from '../../../../../api/customGraphql.service';
+import {StPortfolio} from '@core';
 
 import * as Highcharts from 'highcharts/highstock';
-import {stFormatLargeNumber} from '../../../../../shared/utils/shared-functions.functions';
+import {stFormatLargeNumber} from '@shared';
 
 @Component({
     selector: 'app-portfolio-change-chart',
@@ -117,7 +117,7 @@ export class PortfolioChangeChartComponent implements OnInit, OnChanges {
                     value: 0,
                     //color: '#FF0000',
                     color: {
-                        linearGradient: { x1: 0, x2: 0, y1: 1, y2: 0 },
+                        linearGradient: {x1: 0, x2: 0, y1: 1, y2: 0},
                         stops: [
                             [0, '#bf0000'],
                             [1, 'transparent']
@@ -126,7 +126,7 @@ export class PortfolioChangeChartComponent implements OnInit, OnChanges {
                 }, {
                     //color: '#0d920d'
                     color: {
-                        linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
+                        linearGradient: {x1: 0, x2: 0, y1: 0, y2: 1},
                         stops: [
                             [0, '#0d920d'],
                             [1, 'transparent']

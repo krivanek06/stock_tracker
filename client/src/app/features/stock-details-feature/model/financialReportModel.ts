@@ -18,7 +18,7 @@ export interface Report {
     ic: ReportContent[];
 }
 
-export interface ReportContent{
+export interface ReportContent {
     concept: string;
     label: string;
     unit: string;

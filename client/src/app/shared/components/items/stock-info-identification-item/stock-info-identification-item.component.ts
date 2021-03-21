@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Summary} from '../../../../api/customGraphql.service';
+import {Summary} from '@core';
 
 @Component({
     selector: 'app-stock-info-identification-item',

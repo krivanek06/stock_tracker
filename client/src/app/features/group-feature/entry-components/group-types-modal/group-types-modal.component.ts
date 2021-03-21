@@ -1,7 +1,6 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StGroupPartialData, StUserGroups} from '../../../../api/customGraphql.service';
-import {ModalController, NavParams, PopoverController} from '@ionic/angular';
-import {AuthFeatureService} from '../../../auth-feature/services/auth-feature.service';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {StGroupPartialData, StUserGroups, UserStorageService} from '@core';
+import {NavParams, PopoverController} from '@ionic/angular';
 
 @Component({
     selector: 'app-group-types-modal',
@@ -15,16 +14,16 @@ export class GroupTypesModalComponent implements OnInit {
 
     constructor(private popoverController: PopoverController,
                 private navParams: NavParams,
-                private authService: AuthFeatureService) {
-      this.activeGroup = this.navParams.get('activeGroup');
+                private userStorageService: UserStorageService) {
+        this.activeGroup = this.navParams.get('activeGroup');
     }
 
     ngOnInit() {
-        this.groups = this.authService.user.groups;
+        this.groups = this.userStorageService.user.groups;
     }
 
     dismissModal() {
-      this.popoverController.dismiss();
+        this.popoverController.dismiss();
     }
 
     clickedGroup(group: StGroupPartialData) {

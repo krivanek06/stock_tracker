@@ -2,14 +2,16 @@ import {Injectable} from '@angular/core';
 import {
     AuthenticateUserDocument,
     AuthenticateUserQuery,
-    PerformTransactionGQL, PerformTransactionMutation,
+    PerformTransactionGQL,
+    PerformTransactionMutation,
     StTransaction,
     StTransactionInput,
-    StTransactionOperationEnum, StUserPublicData
-} from '../../../api/customGraphql.service';
+    StTransactionOperationEnum,
+    StUserPublicData,
+    UserStorageService
+} from '@core';
 import {DataProxy} from '@apollo/client/cache/core/types/DataProxy';
-import {AuthFeatureService} from '../../auth-feature/services/auth-feature.service';
-import {addTransactionToUserHolding, substractTransactionFromUserHolding} from '../utils/trading-feature.functions';
+import {addTransactionToUserHolding, substractTransactionFromUserHolding} from '../utils';
 import {Observable} from 'rxjs';
 import {FetchResult} from '@apollo/client';
 
@@ -18,7 +20,7 @@ import {FetchResult} from '@apollo/client';
 })
 export class GraphqlTradingService {
 
-    constructor(private authService: AuthFeatureService,
+    constructor(private userStorageService: UserStorageService,
                 private performTransactionGQL: PerformTransactionGQL) {
     }
 
@@ -30,7 +32,7 @@ export class GraphqlTradingService {
                 const user = store.readQuery<AuthenticateUserQuery>({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.authService.user.uid
+                        uid: this.userStorageService.user.uid
                     }
                 });
 
@@ -52,7 +54,7 @@ export class GraphqlTradingService {
                 store.writeQuery({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.authService.user.uid
+                        uid: this.userStorageService.user.uid
                     },
                     data: {
                         ...user,

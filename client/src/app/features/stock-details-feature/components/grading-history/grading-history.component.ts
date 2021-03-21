@@ -1,17 +1,19 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {UpgradeDowngradeHistory} from '../../../../api/customGraphql.service';
+import {UpgradeDowngradeHistory} from '@core';
 
 @Component({
-  selector: 'app-grading-history',
-  templateUrl: './grading-history.component.html',
-  styleUrls: ['./grading-history.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-grading-history',
+    templateUrl: './grading-history.component.html',
+    styleUrls: ['./grading-history.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GradingHistoryComponent implements OnInit {
-  @Input() history: UpgradeDowngradeHistory[];
+    @Input() history: UpgradeDowngradeHistory[];
 
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit() {}
+    ngOnInit() {
+    }
 
 }

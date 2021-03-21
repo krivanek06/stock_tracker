@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {StPortfolioWeeklyChange} from '../../../../../api/customGraphql.service';
+import {StPortfolioWeeklyChange} from '@core';
 
 import * as Highcharts from 'highcharts/highstock';
-import {stFormatLargeNumber} from '../../../../../shared/utils/shared-functions.functions';
+import {stFormatLargeNumber} from '@shared';
 
 @Component({
     selector: 'app-transactions-chart',

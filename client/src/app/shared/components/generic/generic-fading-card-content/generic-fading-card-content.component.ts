@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {fadeOut} from '../../../animations/fadeOut.animation';
+import {fadeOut} from '../../../animations';
 
 @Component({
     selector: 'app-generic-fading-card-content',

@@ -1,16 +1,8 @@
-import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    Input,
-    OnChanges,
-    OnInit,
-    SimpleChanges
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 
 import * as Highcharts from 'highcharts/highstock';
 import HighchartsMoreModule from 'highcharts/highcharts-more';
-import {EarningsChart} from '../../../../api/customGraphql.service';
+import {EarningsChart} from '@core';
 
 HighchartsMoreModule(Highcharts);
 

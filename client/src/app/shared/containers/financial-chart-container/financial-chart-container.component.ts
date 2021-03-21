@@ -1,9 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {filter, takeUntil} from 'rxjs/operators';
-import {ChartDataApiService} from '../../../api/chart-data-api.service';
-import {marketValueChange} from '../../animations/marketValueChange.animation';
-import {ComponentScreenUpdateBaseDirective} from '../../utils/component-base/component-screen-update-base.directive';
-import {FinnhubWebsocketService} from '../../services/finnhub-websocket.service';
+import {ChartDataApiService, ComponentScreenUpdateBaseDirective, FinnhubWebsocketService} from '@core';
+import {marketValueChange} from '../../animations';
 
 @Component({
     selector: 'app-financial-chart-container',
@@ -33,7 +31,7 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseD
 
     constructor(private chartDataService: ChartDataApiService,
                 private finnhubWebsocketService: FinnhubWebsocketService,
-                private cd: ChangeDetectorRef) {
+                public cd: ChangeDetectorRef) {
         super(cd, 'FinancialChartContainerComponent');
     }
 

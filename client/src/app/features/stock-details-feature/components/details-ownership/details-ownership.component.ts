@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {InstitutionOwnership} from '../../../../api/customGraphql.service';
+import {InstitutionOwnership} from '@core';
 
 @Component({
     selector: 'app-details-ownership',

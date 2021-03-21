@@ -2,23 +2,28 @@ import {FetchResult} from '@apollo/client/core';
 import {Injectable} from '@angular/core';
 import {
     AddStockIntoWatchlistGQL,
-    AddStockIntoWatchlistMutation, AuthenticateUserDocument, AuthenticateUserQuery,
+    AddStockIntoWatchlistMutation,
+    AuthenticateUserDocument,
+    AuthenticateUserQuery,
     CreateStockWatchlistGQL,
     CreateStockWatchlistMutation,
     DeleteUserWatchlistGQL,
-    RemoveStockFromWatchlistGQL, RemoveStockFromWatchlistMutation,
-    RenameStockWatchlistGQL, StStockWatchlistFragmentFragment, StStockWatchlistFragmentFragmentDoc
-} from '../../../api/customGraphql.service';
+    RemoveStockFromWatchlistGQL,
+    RemoveStockFromWatchlistMutation,
+    RenameStockWatchlistGQL,
+    StStockWatchlistFragmentFragment,
+    StStockWatchlistFragmentFragmentDoc,
+    UserStorageService
+} from '@core';
 import {Observable} from 'rxjs';
 
-import {AuthFeatureService} from '../../auth-feature/services/auth-feature.service';
 import {DataProxy} from '@apollo/client/cache/core/types/DataProxy';
 
 @Injectable({
     providedIn: 'root'
 })
 export class GraphqlWatchlistService {
-    constructor(private authService: AuthFeatureService,
+    constructor(private userStorageService: UserStorageService,
                 private createStockWatchlistGQL: CreateStockWatchlistGQL,
                 private addStockIntoWatchlistGQL: AddStockIntoWatchlistGQL,
                 private deleteUserWatchlistGQL: DeleteUserWatchlistGQL,
@@ -30,7 +35,7 @@ export class GraphqlWatchlistService {
     createWatchList(watchlistName: string): Observable<FetchResult<CreateStockWatchlistMutation>> {
         return this.createStockWatchlistGQL.mutate({
                 identifier: {
-                    userId: this.authService.user.uid,
+                    userId: this.userStorageService.user.uid,
                     additionalData: watchlistName
                 },
             }, {
@@ -50,7 +55,7 @@ export class GraphqlWatchlistService {
                     const data = store.readQuery<AuthenticateUserQuery>({
                         query: AuthenticateUserDocument,
                         variables: {
-                            uid: this.authService.user.uid
+                            uid: this.userStorageService.user.uid
                         }
                     });
 
@@ -58,7 +63,7 @@ export class GraphqlWatchlistService {
                     store.writeQuery({
                         query: AuthenticateUserDocument,
                         variables: {
-                            uid: this.authService.user.uid
+                            uid: this.userStorageService.user.uid
                         },
                         data: {
                             ...data,
@@ -78,7 +83,7 @@ export class GraphqlWatchlistService {
         return this.renameStockWatchlistGQL.mutate({
             identifier: {
                 id: watchlistId,
-                userId: this.authService.user.uid,
+                userId: this.userStorageService.user.uid,
                 additionalData: newWatchlistName
             },
         }, {
@@ -108,7 +113,7 @@ export class GraphqlWatchlistService {
         return this.deleteUserWatchlistGQL.mutate({
             identifier: {
                 id: watchlistId,
-                userId: this.authService.user.uid,
+                userId: this.userStorageService.user.uid,
                 additionalData: undefined
             },
         }, {
@@ -120,7 +125,7 @@ export class GraphqlWatchlistService {
                 const data = store.readQuery<AuthenticateUserQuery>({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.authService.user.uid
+                        uid: this.userStorageService.user.uid
                     }
                 });
                 const updatedWatchlist = data.authenticateUser.stockWatchlist.filter(x => x.id !== watchlistId);
@@ -129,7 +134,7 @@ export class GraphqlWatchlistService {
                 store.writeQuery({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.authService.user.uid
+                        uid: this.userStorageService.user.uid
                     },
                     data: {
                         ...data,
@@ -148,7 +153,7 @@ export class GraphqlWatchlistService {
         return this.removeStockFromWatchlistGQL.mutate({
             identifier: {
                 id: watchlistId,
-                userId: this.authService.user.uid,
+                userId: this.userStorageService.user.uid,
                 additionalData: symbol
             },
         }, {
@@ -182,7 +187,7 @@ export class GraphqlWatchlistService {
         return this.addStockIntoWatchlistGQL.mutate({
             identifier: {
                 id: watchListId,
-                userId: this.authService.user.uid,
+                userId: this.userStorageService.user.uid,
                 additionalData: symbol
             }
         }, {

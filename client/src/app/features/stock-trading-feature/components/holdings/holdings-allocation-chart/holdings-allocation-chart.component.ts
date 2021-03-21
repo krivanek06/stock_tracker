@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {StPortfolio, StTransaction, Summary} from '../../../../../api/customGraphql.service';
-import {ChartType, GenericChartSeries} from '../../../../../shared/models/sharedModel';
+import {StTransaction} from '@core';
+import {ChartType, GenericChartSeries} from '@shared';
 
 @Component({
     selector: 'app-holdings-allocation-chart',

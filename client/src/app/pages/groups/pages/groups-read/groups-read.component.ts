@@ -1,11 +1,8 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ComponentBaseDirective} from '../../../../shared/utils/component-base/component-base.directive';
 import {filter, switchMap, takeUntil} from 'rxjs/operators';
-import {GroupService} from '../../../../features/group-feature/services/group.service';
-import {StGroupAllData} from '../../../../api/customGraphql.service';
-import {convertStGroupAllDataToStGroupPartialData} from '../../../../features/group-feature/utils/convertor';
-import {GroupUserRolesService} from '../../../../features/group-feature/services/group-user-roles.service';
+import {convertStGroupAllDataToStGroupPartialData, GroupService, GroupStorageService} from '@group-feature';
+import {ComponentBaseDirective, StGroupAllData} from '@core';
 
 @Component({
     selector: 'app-groups-read',
@@ -23,7 +20,7 @@ export class GroupsReadComponent extends ComponentBaseDirective implements OnIni
 
     constructor(private activatedRoute: ActivatedRoute,
                 private router: Router,
-                private groupUserRolesService: GroupUserRolesService,
+                private groupUserRolesService: GroupStorageService,
                 private groupService: GroupService,
                 private cd: ChangeDetectorRef) {
         super();

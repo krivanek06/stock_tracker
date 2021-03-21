@@ -1,14 +1,11 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {MarketService} from '../../../../features/market-feature/services/market.service';
+import {MarketChartBuilderComponent, MarketFeatureService} from '@market-feature';
 import {cloneDeep} from 'lodash';
-import {ComponentScreenUpdateBaseDirective} from '../../../../shared/utils/component-base/component-screen-update-base.directive';
-import {filter, first, takeUntil} from 'rxjs/operators';
-import {Observable, of} from 'rxjs';
-import {StMarketOverviewPartialData, StMarketTopTableCryptoData} from '../../../../api/customGraphql.service';
-import {FinnhubWebsocketService} from '../../../../shared/services/finnhub-websocket.service';
-import {MarketChartBuilderComponent} from '../../../../features/market-feature/entry-components/market-chart-builder/market-chart-builder.component';
+import {FinancialChartModalComponent} from '@shared';
+import {takeUntil} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {ComponentScreenUpdateBaseDirective, FinnhubWebsocketService, StMarketOverviewPartialData, StMarketTopTableCryptoData} from '@core';
 import {ModalController} from '@ionic/angular';
-import {FinancialChartModalComponent} from '../../../../shared/entry-components/financial-chart-modal/financial-chart-modal.component';
 
 @Component({
     selector: 'app-market-crypto',
@@ -19,10 +16,10 @@ export class MarketCryptoComponent extends ComponentScreenUpdateBaseDirective im
     marketOverview$: Observable<StMarketOverviewPartialData>;
     topCrypto: StMarketTopTableCryptoData[] = [];
 
-    constructor(private marketService: MarketService,
+    constructor(private marketService: MarketFeatureService,
                 private finnhubWebsocketService: FinnhubWebsocketService,
                 private modalController: ModalController,
-                cdr: ChangeDetectorRef) {
+                public cdr: ChangeDetectorRef) {
         super(cdr, 'MarketCryptoComponent');
     }
 

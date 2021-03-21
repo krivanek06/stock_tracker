@@ -6,6 +6,7 @@
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
+    "emitDecoratorMetadata": false,
     "experimentalDecorators": true,
     "module": "esnext",
     "moduleResolution": "node",
@@ -17,11 +18,52 @@
       "dom",
       "esnext.asynciterable"
     ],
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@core": [
+        "src/app/core/index"
+      ],
+      "@api": [
+        "src/app/api/index"
+      ],
+      "@environment": [
+        "src/environments/*"
+      ],
+      "@shared": [
+        "src/app/shared/index"
+      ],
+      "@login-feature": [
+        "src/app/features/login-feature/index"
+      ],
+      "@account-feature": [
+        "src/app/features/account-feature/index"
+      ],
+      "@auth-feature": [
+        "src/app/features/auth-feature/index"
+      ],
+      "@group-feature": [
+        "src/app/features/group-feature/index"
+      ],
+      "@market-feature": [
+        "src/app/features/market-feature/index"
+      ],
+      "@stock-details-feature": [
+        "src/app/features/stock-details-feature/index"
+      ],
+      "@stock-trading-feature": [
+        "src/app/features/stock-trading-feature/index"
+      ],
+      "@stock-watchlist-feature": [
+        "src/app/features/stock-watchlist-feature/index"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "enableIvy": true,
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

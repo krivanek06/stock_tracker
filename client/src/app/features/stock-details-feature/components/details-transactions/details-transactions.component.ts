@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {InsiderTransaction} from '../../../../api/customGraphql.service';
+import {InsiderTransaction} from '@core';
 
 @Component({
     selector: 'app-details-transactions',

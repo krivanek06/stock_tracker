@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {ChartType, GenericChartSeries} from '../../../../shared/models/sharedModel';
-import {StTransaction, Summary} from '../../../../api/customGraphql.service';
+import {ChartType, GenericChartSeries} from '@shared';
+import {StTransaction, Summary} from '@core';
 
 @Component({
     selector: 'app-summary-sector-chart',

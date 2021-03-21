@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthFeatureService} from '../../features/auth-feature/services/auth-feature.service';
 import {Observable} from 'rxjs';
-import {StGroupPartialData, StUserPublicData} from '../../api/customGraphql.service';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {filter, map, takeUntil} from 'rxjs/operators';
-import {ModalController, PopoverController} from '@ionic/angular';
-import {GroupTypesModalComponent} from '../../features/group-feature/entry-components/group-types-modal/group-types-modal.component';
+import {StGroupPartialData, StUserPublicData, UserStorageService} from '@core';
+import {NavigationEnd, Router} from '@angular/router';
+import {filter, map} from 'rxjs/operators';
+import {PopoverController} from '@ionic/angular';
+import {GroupTypesModalComponent} from '@group-feature';
 
 @Component({
     selector: 'app-groups',
@@ -16,13 +15,13 @@ export class GroupsComponent implements OnInit {
     user$: Observable<StUserPublicData>;
     selectedGroupId$: Observable<string>;
 
-    constructor(private authService: AuthFeatureService,
+    constructor(private userStorageService: UserStorageService,
                 private popoverController: PopoverController,
                 private router: Router) {
     }
 
     ngOnInit() {
-        this.user$ = this.authService.getUser();
+        this.user$ = this.userStorageService.getUser();
 
         this.watchSelectedGroup();
     }

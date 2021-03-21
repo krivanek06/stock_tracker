@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {marketValueChange} from '../../../animations/marketValueChange.animation';
+import {marketValueChange} from '../../../animations';
 
 @Component({
     selector: 'app-price-compare-item',

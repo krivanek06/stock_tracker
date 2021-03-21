@@ -1,16 +1,12 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {AuthFeatureService} from '../../features/auth-feature/services/auth-feature.service';
-import {StStockSuggestion, Summary} from '../../api/customGraphql.service';
-import {SymbolIdentification} from '../../shared/models/sharedModel';
-import {StockDetailsService} from '../../features/stock-details-feature/services/stock-details.service';
-import {map, takeUntil} from 'rxjs/operators';
-import {TradingService} from '../../features/stock-trading-feature/services/trading.service';
+import {StStockSuggestion, Summary, SymbolStorageService, UserStorageService} from '@core';
+import {SymbolIdentification} from '@shared';
+import {takeUntil} from 'rxjs/operators';
+import {PortfolioStateEnum, TradingScreenUpdateBaseDirective, TradingFeatureService} from '@stock-trading-feature';
 import {Router} from '@angular/router';
 import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_ENUM} from '../search/models/pages.model';
-import {TradingScreenUpdateBaseDirective} from '../../features/stock-trading-feature/utils/trading-screen-update-base.directive';
-import {MarketService} from '../../features/market-feature/services/market.service';
+import {MarketFeatureService} from '@market-feature';
 import {cloneDeep} from 'lodash';
-import {PortfolioStateEnum} from '../../features/stock-trading-feature/components/portfolio/portfolio-state/portfolio-state.component';
 
 @Component({
     selector: 'app-trading',
@@ -22,13 +18,13 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
     suggestions: StStockSuggestion[] = [];
     PortfolioStateEnum = PortfolioStateEnum;
 
-    constructor(private stockDetailsService: StockDetailsService,
+    constructor(private symbolStorageService: SymbolStorageService,
                 private router: Router,
-                private marketService: MarketService,
-                public authService: AuthFeatureService,
-                public tradingService: TradingService,
+                private marketService: MarketFeatureService,
+                public userStorageService: UserStorageService,
+                public tradingService: TradingFeatureService,
                 public cdr: ChangeDetectorRef) {
-        super(authService, tradingService, cdr);
+        super(userStorageService, tradingService, cdr);
     }
 
     ngOnInit() {
@@ -42,7 +38,7 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
     }
 
     changeSymbol(symbolIdentification: SymbolIdentification) {
-        this.stockDetailsService.getStockSummary(symbolIdentification.symbol).pipe(takeUntil(this.destroy$)).subscribe(res => {
+        this.symbolStorageService.getStockSummary(symbolIdentification.symbol).pipe(takeUntil(this.destroy$)).subscribe(res => {
             this.selectedSummary = res;
         });
     }

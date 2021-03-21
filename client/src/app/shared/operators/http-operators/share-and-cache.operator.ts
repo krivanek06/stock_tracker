@@ -1,5 +1,5 @@
-import { startWith, tap, shareReplay } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import {shareReplay, startWith, tap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 
 /**
  * Stores every emitted value in localStorage,
@@ -13,14 +13,15 @@ export const shareAndCache = (cacheKey: string) => <T>(source: Observable<T>) =>
     let cachedValue: T | null = null;
     try {
         cachedValue = JSON.parse(localStorage[cacheKey]);
-    } catch (parseException) {}
+    } catch (parseException) {
+    }
 
     // Cache future values
     let result = source.pipe(tap(next => (localStorage[cacheKey] = JSON.stringify(next))));
 
 
     if (cachedValue) {
-        result = result.pipe(startWith(<T>cachedValue));
+        result = result.pipe(startWith(<T> cachedValue));
     }
     // shareReplay is a stylistic / personal choice? good idea or bad idea? who knows!?
     return result.pipe(shareReplay(1));

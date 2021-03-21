@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {marketValueChange} from '../../../../../shared/animations/marketValueChange.animation';
-import {StTransaction} from '../../../../../api/customGraphql.service';
-import {SymbolIdentification} from '../../../../../shared/models/sharedModel';
+import {marketValueChange, SymbolIdentification} from '@shared';
+import {StTransaction} from '@core';
 
 @Component({
     selector: 'app-holdings-table-body-item',

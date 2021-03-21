@@ -18,7 +18,8 @@
     <!-- sum up % held -->
     <ion-item style="margin-top: 8px">
         <ion-label>
-            <ion-text class="st-font-5">Held together:</ion-text> {{ ownerships | sumUp:'pctHeld' | percent: '1.2'}}
+            <ion-text class="st-font-5">Held together:</ion-text>
+            {{ ownerships | sumUp:'pctHeld' | percent: '1.2'}}
             ({{ ownerships | sumUp: 'value'   |  numberFormatter}})
         </ion-label>
     </ion-item>

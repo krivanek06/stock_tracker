@@ -1,17 +1,19 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {Estimates} from '../../../../api/customGraphql.service';
+import {Estimates} from '@core';
 
 @Component({
-  selector: 'app-details-revenue-estimate',
-  templateUrl: './details-revenue-estimate.component.html',
-  styleUrls: ['./details-revenue-estimate.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-details-revenue-estimate',
+    templateUrl: './details-revenue-estimate.component.html',
+    styleUrls: ['./details-revenue-estimate.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailsRevenueEstimateComponent implements OnInit {
-  @Input() revenueEstimates: Estimates[];
+    @Input() revenueEstimates: Estimates[];
 
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit() {}
+    ngOnInit() {
+    }
 
 }

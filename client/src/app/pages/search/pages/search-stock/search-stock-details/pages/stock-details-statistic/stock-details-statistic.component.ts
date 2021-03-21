@@ -1,7 +1,6 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {StockDetailsService} from '../../../../../../../features/stock-details-feature/services/stock-details.service';
-import {StockDetails} from '../../../../../../../api/customGraphql.service';
-import {ChartType} from '../../../../../../../shared/models/sharedModel';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {StockDetails, SymbolStorageService} from '@core';
+import {ChartType} from '@shared';
 import {Observable} from 'rxjs';
 
 @Component({
@@ -14,11 +13,11 @@ export class StockDetailsStatisticComponent implements OnInit {
     stockDetails$: Observable<StockDetails>;
     ChartType = ChartType;
 
-    constructor(private stockDetailsService: StockDetailsService) {
+    constructor(private symbolStorageService: SymbolStorageService) {
     }
 
 
     ngOnInit(): void {
-        this.stockDetails$ = this.stockDetailsService.getStockDetails();
+        this.stockDetails$ = this.symbolStorageService.getStockDetails();
     }
 }

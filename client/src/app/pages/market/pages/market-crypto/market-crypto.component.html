@@ -12,7 +12,7 @@
 
     <app-generic-list [title]="'Bitcoin stats'" [applyMarginTop]="true"></app-generic-list>
     <ion-row *ngIf="marketOverview$ | async as marketOverview">
-        <ion-col *ngFor="let data of marketOverview.bitcoin" size="12" size-sm="6"  size-md="4">
+        <ion-col *ngFor="let data of marketOverview.bitcoin" size="12" size-sm="6" size-md="4">
             <app-generic-chart
                     (expandEmitter)="expand(data.documentKey)"
                     [showExpandableButton]="true"

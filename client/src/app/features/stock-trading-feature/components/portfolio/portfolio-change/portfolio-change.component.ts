@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {StPortfolio, StTransaction} from '../../../../../api/customGraphql.service';
-import {TradingChangeModel} from '../../../models/trading.model';
-import {marketValueChange} from '../../../../../shared/animations/marketValueChange.animation';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {StPortfolio, StTransaction} from '@core';
+import {TradingChangeModel} from '../../../models';
+import {marketValueChange} from '@shared';
 
 @Component({
     selector: 'app-portfolio-change',

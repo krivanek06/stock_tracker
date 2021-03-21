@@ -1,9 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {StockDetailsService} from '../../../../../features/stock-details-feature/services/stock-details.service';
-import {ComponentBaseDirective} from '../../../../../shared/utils/component-base/component-base.directive';
 import {takeUntil} from 'rxjs/operators';
 import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_DETAILS_ENUM, SEARCH_PAGE_STOCK_ENUM} from '../../../models/pages.model';
+import {ComponentBaseDirective, SymbolStorageService} from '@core';
 
 @Component({
     selector: 'app-search-stock-details',
@@ -18,12 +17,12 @@ export class SearchStockDetailsPage extends ComponentBaseDirective implements On
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
-                private stockDetailsService: StockDetailsService) {
+                private stockDetailsService: SymbolStorageService) {
         super();
     }
 
     ngOnInit() {
-        this.stockDetailsService.activeSymbol = this.route.snapshot.paramMap.get('symbol');
+        this.stockDetailsService.setActiveSymbol(this.route.snapshot.paramMap.get('symbol') as string);
         this.stockDetailsService.getStockDetails().pipe(takeUntil(this.destroy$)).subscribe(res => {
             this.showSpinner = false;
         });

@@ -1,6 +1,6 @@
 export enum FinancialPeriod {
-    QUARTERLY= 'QUARTERLY',
-    YEARLY= 'YEARLY'
+    QUARTERLY = 'QUARTERLY',
+    YEARLY = 'YEARLY'
 }
 
 

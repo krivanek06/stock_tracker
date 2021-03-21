@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {StTransaction, StTransactionOperationEnum} from '../../../../../api/customGraphql.service';
+import {StTransaction, StTransactionOperationEnum} from '@core';
 
 @Component({
     selector: 'app-transactions-table',

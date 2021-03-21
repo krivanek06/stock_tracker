@@ -1,9 +1,8 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {Summary} from '../../../../api/customGraphql.service';
-import {ComponentScreenUpdateBaseDirective} from '../../../../shared/utils/component-base/component-screen-update-base.directive';
+import {ComponentScreenUpdateBaseDirective, FinnhubWebsocketService, Summary} from '@core';
+import {marketValueChange} from '@shared';
 import {filter, takeUntil} from 'rxjs/operators';
-import {marketValueChange} from '../../../../shared/animations/marketValueChange.animation';
-import {FinnhubWebsocketService} from '../../../../shared/services/finnhub-websocket.service';
+
 
 @Component({
     selector: 'app-details-summary-container',
@@ -19,7 +18,7 @@ export class DetailsSummaryContainerComponent extends ComponentScreenUpdateBaseD
     currentPrice: number;
 
     constructor(private finnhubWebsocketService: FinnhubWebsocketService,
-                private cd: ChangeDetectorRef) {
+                public cd: ChangeDetectorRef) {
         super(cd, 'DetailsSummaryContainerComponent');
     }
 

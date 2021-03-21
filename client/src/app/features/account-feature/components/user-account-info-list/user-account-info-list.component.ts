@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StUserPartialInformation} from '../../../../api/customGraphql.service';
+import {StUserPartialInformation} from '@core';
 
 @Component({
     selector: 'app-user-account-info-list',

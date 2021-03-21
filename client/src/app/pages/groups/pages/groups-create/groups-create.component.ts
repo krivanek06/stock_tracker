@@ -1,9 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {UploadedFile} from '../../../../shared/models/sharedModel';
-import {StUserPartialInformation} from '../../../../api/customGraphql.service';
-import {GroupService} from '../../../../features/group-feature/services/group.service';
-import {UploaderComponent} from '../../../../shared/components/image-manipulation/uploader/uploader.component';
+import {UploadedFile, UploaderComponent} from '@shared';
+import {StUserPartialInformation} from '@core';
+import {GroupService} from '@group-feature';
 
 @Component({
     selector: 'app-groups-create',
