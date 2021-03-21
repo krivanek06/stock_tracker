@@ -1,7 +1,6 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {QueryStockDetailsQuery, StockDetails} from '../../../../../../../api/customGraphql.service';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {StockDetails, SymbolStorageService} from '@core';
 import {Observable} from 'rxjs';
-import {StockDetailsService} from '../../../../../../../features/stock-details-feature/services/stock-details.service';
 
 enum STATEMENT_TYPE {
     BALANCE_SHEET = 'Balance sheet',
@@ -21,12 +20,12 @@ export class StockDetailsFinancialComponent implements OnInit {
     activeStatement = STATEMENT_TYPE.BALANCE_SHEET;
     STATEMENT_TYPE = STATEMENT_TYPE;
 
-    constructor(private stockDetailsService: StockDetailsService) {
+    constructor(private symbolStorageService: SymbolStorageService) {
     }
 
 
     ngOnInit() {
-        this.stockDetails$ = this.stockDetailsService.getStockDetails();
+        this.stockDetails$ = this.symbolStorageService.getStockDetails();
         this.stockDetails$.subscribe(console.log);
     }
 

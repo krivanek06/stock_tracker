@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StEventCalendarData} from '../../../../api/customGraphql.service';
-import {stFormattedDate} from '../../../../shared/utils/shared-functions.functions';
+import {StEventCalendarData} from '@core';
+import {stFormattedDate} from '@shared';
 
 @Component({
     selector: 'app-market-events-selector',

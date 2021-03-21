@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StGroupPartialData, StUserGroups} from '../../../../api/customGraphql.service';
+import {StGroupPartialData, StUserGroups} from '@core';
 
 @Component({
     selector: 'app-group-types-card',

@@ -14,7 +14,6 @@ import {AccountFeatureModule} from '../../features/account-feature/account-featu
 import {GroupManagementFeatureModule} from '../../features/group-feature/group-management-feature.module';
 
 
-
 @NgModule({
     imports: [
         SharedModule,

@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {StPortfolio, StPortfolioWeeklyChange} from '../../../../../api/customGraphql.service';
+import {StPortfolio} from '@core';
 import * as Highcharts from 'highcharts/highstock';
-import {stFormatLargeNumber} from '../../../../../shared/utils/shared-functions.functions';
+import {stFormatLargeNumber} from '@shared';
 
 @Component({
     selector: 'app-portfolio-growth-chart',

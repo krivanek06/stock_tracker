@@ -1,14 +1,5 @@
-import {
-    Observable,
-    timer,
-    Subscriber,
-    TeardownLogic,
-    Operator,
-    SchedulerLike,
-    asyncScheduler,
-    Subscription,
-} from 'rxjs';
-import { retryWhen, switchMap, mergeMap, tap } from 'rxjs/operators';
+import {asyncScheduler, Observable, SchedulerLike, Subscription, timer,} from 'rxjs';
+import {retryWhen, switchMap, tap} from 'rxjs/operators';
 
 /**
  * Repeats underlying observable on a timer
@@ -17,10 +8,10 @@ import { retryWhen, switchMap, mergeMap, tap } from 'rxjs/operators';
  * @param initialWait Number of seconds to wait for refresh
  */
 export const retryExponentialBackoff = (
-        maxTries = -1,
-        initialWait = 1,
-        scheduler: SchedulerLike = asyncScheduler
-    ) => <T> (
+    maxTries = -1,
+    initialWait = 1,
+    scheduler: SchedulerLike = asyncScheduler
+) => <T>(
     source: Observable<T>
 ) => {
     return new Observable<T>(subscriber => {
@@ -84,8 +75,7 @@ export const retryExponentialBackoff = (
 // }
 
 
-
-export const retryWhenExponentialbackoff = (maxTries = -1, initialWait = 1, ) => <T>(source: Observable<T>) => {
+export const retryWhenExponentialbackoff = (maxTries = -1, initialWait = 1,) => <T>(source: Observable<T>) => {
 
     return source.pipe(
         (innerSource: Observable<T>) => {
@@ -94,7 +84,7 @@ export const retryWhenExponentialbackoff = (maxTries = -1, initialWait = 1, ) =>
                 retryWhen((errors) => {
                     return errors.pipe(
                         switchMap(error => {
-                            return timer(initialWait * Math.pow(count++, 2));
+                                return timer(initialWait * Math.pow(count++, 2));
                             }
                         ),
                     );
@@ -102,6 +92,5 @@ export const retryWhenExponentialbackoff = (maxTries = -1, initialWait = 1, ) =>
                 tap(() => count = 1),
             );
         }
-
     );
 };

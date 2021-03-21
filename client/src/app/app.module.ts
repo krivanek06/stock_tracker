@@ -16,6 +16,7 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {GraphQlModule} from './graph-ql.module';
+import {CoreModule} from './core/core.module';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import {GraphQlModule} from './graph-ql.module';
 
         BrowserModule,
         IonicModule.forRoot(),
+        CoreModule.forRoot(),
         AppRoutingModule,
     ],
     providers: [

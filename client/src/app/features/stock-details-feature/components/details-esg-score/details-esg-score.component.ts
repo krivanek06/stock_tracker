@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {EsgScores} from '../../../../api/customGraphql.service';
+import {EsgScores} from '@core';
 
 @Component({
     selector: 'app-details-esg-score',

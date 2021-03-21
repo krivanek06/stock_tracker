@@ -1,8 +1,7 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-
+import {RouterModule, Routes} from '@angular/router';
 import {MenuPage} from './menu.page';
-import {AuthGuard} from '../../features/auth-feature/guards/auth.guard';
+import {AuthGuard} from '@core';
 
 const routes: Routes = [
     {
@@ -26,15 +25,15 @@ const routes: Routes = [
             },
             {
                 path: 'trading',
-                loadChildren: () => import('../trading/trading.module').then( m => m.TradingPageModule)
+                loadChildren: () => import('../trading/trading.module').then(m => m.TradingPageModule)
             },
             {
                 path: 'market',
-                loadChildren: () => import('../market/market.module').then( m => m.MarketPageModule)
+                loadChildren: () => import('../market/market.module').then(m => m.MarketPageModule)
             },
             {
                 path: 'ranking',
-                loadChildren: () => import('../ranking/ranking.module').then( m => m.RankingPageModule)
+                loadChildren: () => import('../ranking/ranking.module').then(m => m.RankingPageModule)
             },
             {
                 path: 'about',
@@ -58,7 +57,7 @@ const routes: Routes = [
             },
             {
                 path: 'search',
-                loadChildren: () => import('../search/search.module').then( m => m.SearchPageModule)
+                loadChildren: () => import('../search/search.module').then(m => m.SearchPageModule)
             }
         ]
     },

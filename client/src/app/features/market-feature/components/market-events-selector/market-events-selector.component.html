@@ -7,8 +7,9 @@
 
         <!-- selected date -->
         <ion-label class="ion-text-center st-font-1-bold">
-            <ng-container *ngIf="events && events.length > 0" >
-                {{ events[0].startdatetime | date: 'dd.MM.YYYY' }} - {{ events[events.length - 1].startdatetime | date: 'dd.MM.YYYY' }}
+            <ng-container *ngIf="events && events.length > 0">
+                {{ events[0].startdatetime | date: 'dd.MM.YYYY' }}
+                - {{ events[events.length - 1].startdatetime | date: 'dd.MM.YYYY' }}
             </ng-container>
         </ion-label>
 

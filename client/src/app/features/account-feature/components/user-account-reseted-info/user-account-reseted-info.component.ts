@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StUserResetedAccount} from '../../../../api/customGraphql.service';
+import {StUserResetedAccount} from '@core';
 
 @Component({
     selector: 'app-user-account-reseted-info',

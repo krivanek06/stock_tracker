@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {stFormatLargeNumber} from '../utils/shared-functions.functions';
+import {stFormatLargeNumber} from '../utils';
 
 @Pipe({
     name: 'numberFormatter'

@@ -2,22 +2,24 @@ import {Injectable} from '@angular/core';
 import {
     AuthenticateUserDocument,
     AuthenticateUserQuery,
-    EditUserGQL, EditUserMutation,
-    ResetUserAccountGQL, ResetUserAccountMutation,
-    StUserEditDataInput, StUserPublicData
-} from '../../../api/customGraphql.service';
+    EditUserGQL,
+    EditUserMutation,
+    ResetUserAccountGQL,
+    ResetUserAccountMutation,
+    StUserEditDataInput,
+    UserStorageService
+} from '@core';
 import {DataProxy} from '@apollo/client/cache/core/types/DataProxy';
 import {Observable} from 'rxjs';
 import {FetchResult} from '@apollo/client';
-import {AuthFeatureService} from '../../auth-feature/services/auth-feature.service';
-import {resetedPortfolio} from '../models/account-feature.functions';
+import {resetedPortfolio} from '../models';
 
 @Injectable({
     providedIn: 'root'
 })
 export class GraphqlAccountService {
 
-    constructor(private authService: AuthFeatureService,
+    constructor(private userStorageService: UserStorageService,
                 private editUserGQL: EditUserGQL,
                 private resetUserAccountGQL: ResetUserAccountGQL) {
     }
@@ -40,7 +42,7 @@ export class GraphqlAccountService {
                 const data = store.readQuery<AuthenticateUserQuery>({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.authService.user.uid
+                        uid: this.userStorageService.user.uid
                     }
                 });
 
@@ -50,7 +52,7 @@ export class GraphqlAccountService {
                 store.writeQuery({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.authService.user.uid
+                        uid: this.userStorageService.user.uid
                     },
                     data: {
                         ...data,
@@ -72,7 +74,7 @@ export class GraphqlAccountService {
 
     resetUserAccount(): Observable<FetchResult<ResetUserAccountMutation>> {
         return this.resetUserAccountGQL.mutate({
-            userId: this.authService.user.uid
+            userId: this.userStorageService.user.uid
         }, {
             optimisticResponse: {
                 __typename: 'Mutation',
@@ -82,7 +84,7 @@ export class GraphqlAccountService {
                 const data = store.readQuery<AuthenticateUserQuery>({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.authService.user.uid
+                        uid: this.userStorageService.user.uid
                     }
                 });
 
@@ -91,7 +93,7 @@ export class GraphqlAccountService {
                 store.writeQuery({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.authService.user.uid
+                        uid: this.userStorageService.user.uid
                     },
                     data: {
                         ...data,

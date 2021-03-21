@@ -1,20 +1,20 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {
-    NewsArticle, StEventCalendarData,
+    ComponentScreenUpdateBaseDirective,
+    FinnhubWebsocketService,
+    NewsArticle,
+    StEventCalendarData,
     StEventCalendarEarningsData,
     StMarketTopTableSymbolData
-} from '../../../../api/customGraphql.service';
-import {MarketService} from '../../../../features/market-feature/services/market.service';
-import {ComponentScreenUpdateBaseDirective} from '../../../../shared/utils/component-base/component-screen-update-base.directive';
-import {filter, first, takeUntil} from 'rxjs/operators';
+} from '@core';
+import {MarketEarningsModalComponent, MarketFeatureService} from '@market-feature';
+import {NameValueContainer, SymbolIdentification} from '@shared';
+import {takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
 import {MARKET_DAILY_CHANGE_SELECT} from '../../model/market.model';
-import {NameValueContainer, SymbolIdentification} from '../../../../shared/models/sharedModel';
 import {Observable, of} from 'rxjs';
 import {ModalController} from '@ionic/angular';
-import {MarketEarningsModalComponent} from '../../../../features/market-feature/entry-components/market-earnings-modal/market-earnings-modal.component';
-import {SymbolLookupModalComponent} from '../../../../features/stock-details-feature/entry-components/symbol-lookup-modal/symbol-lookup-modal.component';
-import {FinnhubWebsocketService} from '../../../../shared/services/finnhub-websocket.service';
+import {SymbolLookupModalComponent} from '@stock-details-feature';
 
 @Component({
     selector: 'app-market-daily-change',
@@ -33,10 +33,10 @@ export class MarketDailyChangeComponent extends ComponentScreenUpdateBaseDirecti
 
     MARKET_DAILY_CHANGE_SELECT = MARKET_DAILY_CHANGE_SELECT;
 
-    constructor(private marketService: MarketService,
+    constructor(private marketService: MarketFeatureService,
                 private finnhubWebsocketService: FinnhubWebsocketService,
                 private modalController: ModalController,
-                cdr: ChangeDetectorRef) {
+                public cdr: ChangeDetectorRef) {
         super(cdr, 'MarketDailyChangeComponent');
     }
 

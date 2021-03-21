@@ -1,22 +1,20 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {filter, map, switchMap, takeUntil} from 'rxjs/operators';
-import {StGroupAllData, StUserPartialInformation, User_Status_In_Group} from '../../../../api/customGraphql.service';
-import {GroupService} from '../../../../features/group-feature/services/group.service';
+import {filter, switchMap, takeUntil} from 'rxjs/operators';
+import {ComponentBaseDirective, StGroupAllData, StUserPartialInformation, User_Status_In_Group, UserStorageService} from '@core';
+import {
+    convertStGroupAllDataToStGroupPartialData,
+    GroupMemberPosition,
+    GroupMemberPositionChangeEnum,
+    GroupMemberPositionChangePopOverComponent,
+    GroupService,
+    GroupStorageService
+} from '@group-feature';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {UploaderComponent} from '../../../../shared/components/image-manipulation/uploader/uploader.component';
-import {ComponentBaseDirective} from '../../../../shared/utils/component-base/component-base.directive';
+import {UploadedFile, UploaderComponent} from '@shared';
 import {cloneDeep} from 'lodash';
-import {UploadedFile} from '../../../../shared/models/sharedModel';
 import {PopoverController} from '@ionic/angular';
 import {GROUPS_PAGES} from '../../model/groups.enum';
-import {GroupMemberPositionChangePopOverComponent} from '../../../../features/group-feature/entry-components/group-member-position-change-pop-over/group-member-position-change-pop-over.component';
-import {GroupMemberPosition} from '../../../../features/group-feature/model/group.model';
-import {GroupMemberPositionChangeEnum} from '../../../../features/group-feature/model/group.enum';
-import {IonicDialogService} from '../../../../shared/services/ionic-dialog.service';
-import {AuthFeatureService} from '../../../../features/auth-feature/services/auth-feature.service';
-import {convertStGroupAllDataToStGroupPartialData} from '../../../../features/group-feature/utils/convertor';
-import {GroupUserRolesService} from '../../../../features/group-feature/services/group-user-roles.service';
 
 @Component({
     selector: 'app-groups-edit',
@@ -32,10 +30,9 @@ export class GroupsEditComponent extends ComponentBaseDirective implements OnIni
 
     constructor(private activatedRoute: ActivatedRoute,
                 private groupService: GroupService,
-                private authService: AuthFeatureService,
+                private userStorageService: UserStorageService,
                 private route: Router,
-                private groupUserRolesService: GroupUserRolesService,
-                private ionicDialogService: IonicDialogService,
+                private groupUserRolesService: GroupStorageService,
                 private popoverController: PopoverController,
                 private fb: FormBuilder) {
         super();

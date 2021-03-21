@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StGroupUser, StUserPartialInformation} from '../../../../api/customGraphql.service';
+import {StGroupUser, StUserPartialInformation} from '@core';
 
 @Component({
     selector: 'app-group-list-members-in-row',

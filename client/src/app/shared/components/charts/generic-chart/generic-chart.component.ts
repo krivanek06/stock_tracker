@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {ChartType} from '../../../models/sharedModel';
+import {ChartType} from '../../../models';
 
 import * as Highcharts from 'highcharts/highstock';
 import highcharts3D from 'highcharts/highcharts-3d';
-import {stFormatLargeNumber} from '../../../utils/shared-functions.functions';
-import {ChartSeriesData} from '../../../models/chartDataModel';
+import {stFormatLargeNumber} from '../../../utils';
+import {ChartSeriesData} from '@core';
 
 highcharts3D(Highcharts);
 

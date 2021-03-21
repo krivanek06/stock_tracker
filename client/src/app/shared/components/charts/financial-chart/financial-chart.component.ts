@@ -1,23 +1,7 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    EventEmitter,
-    Input,
-    OnChanges,
-    OnInit,
-    Output,
-    SimpleChanges,
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,} from '@angular/core';
 
 import * as Highcharts from 'highcharts/highstock';
-import HIndicatorsAll from 'highcharts/indicators/indicators-all';
-import HDragPanes from 'highcharts/modules/drag-panes';
-import HAnnotationsAdvanced from 'highcharts/modules/annotations-advanced';
-import HPriceIndicator from 'highcharts/modules/price-indicator';
-import HFullScreen from 'highcharts/modules/full-screen';
-import HStockTools from 'highcharts/modules/stock-tools';
-import HighchartsMoreModule from 'highcharts/highcharts-more';
-import {stFormatDateWithHours, stFormattedDate} from '../../../utils/shared-functions.functions';
+import {stFormatDateWithHours} from '../../../utils';
 
 // import HC_exporting from 'highcharts/modules/exporting';
 /*

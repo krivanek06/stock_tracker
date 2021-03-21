@@ -1,7 +1,6 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {marketValueChange} from '../../../../shared/animations/marketValueChange.animation';
-import {SymbolIdentification} from '../../../../shared/models/sharedModel';
-import {StMarketTopTableSymbolData} from '../../../../api/customGraphql.service';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {marketValueChange, SymbolIdentification} from '@shared';
+import {StMarketTopTableSymbolData} from '@core';
 
 @Component({
     selector: 'app-market-top-table-stocks',

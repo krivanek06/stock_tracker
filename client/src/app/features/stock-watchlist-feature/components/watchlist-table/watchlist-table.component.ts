@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StStockWatchlist, StStockWatchlistFragmentFragment, Summary} from '../../../../api/customGraphql.service';
-import {SymbolIdentification} from '../../../../shared/models/sharedModel';
-import {marketValueChange} from '../../../../shared/animations/marketValueChange.animation';
+import {StStockWatchlist, Summary} from '@core';
+import {marketValueChange, SymbolIdentification} from '@shared';
 
 @Component({
     selector: 'app-watchlist-table',

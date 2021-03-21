@@ -1,7 +1,6 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StStockWatchInputlistIdentifier, StStockWatchlist} from '../../../../api/customGraphql.service';
-import {AuthFeatureService} from '../../../auth-feature/services/auth-feature.service';
-import {WatchlistService} from '../../services/watchlist.service';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {StStockWatchInputlistIdentifier, StStockWatchlist, UserStorageService} from '@core';
+import {WatchlistFeatureService} from '../../services';
 
 @Component({
     selector: 'app-watchlist-modification-container',
@@ -12,8 +11,8 @@ import {WatchlistService} from '../../services/watchlist.service';
 export class WatchlistModificationContainerComponent implements OnInit {
     @Input() watchlists: StStockWatchlist[];
 
-    constructor(private authService: AuthFeatureService,
-                private watchlistService: WatchlistService) {
+    constructor(private userStorageService: UserStorageService,
+                private watchlistService: WatchlistFeatureService) {
     }
 
     ngOnInit() {
@@ -22,7 +21,7 @@ export class WatchlistModificationContainerComponent implements OnInit {
     changeName(watchlistNewName: string, watchlist: StStockWatchlist) {
         const input: StStockWatchInputlistIdentifier = {
             id: watchlist.id,
-            userId: this.authService.user.uid,
+            userId: this.userStorageService.user.uid,
             additionalData: watchlistNewName
         };
         this.watchlistService.renameWatchlist(input);
@@ -31,7 +30,7 @@ export class WatchlistModificationContainerComponent implements OnInit {
     deleteWatchlist(watchlist: StStockWatchlist) {
         const input: StStockWatchInputlistIdentifier = {
             id: watchlist.id,
-            userId: this.authService.user.uid,
+            userId: this.userStorageService.user.uid,
             additionalData: watchlist.name
         };
         this.watchlistService.deleteWatchlist(input);

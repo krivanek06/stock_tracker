@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {AuthFeatureService} from '../../features/auth-feature/services/auth-feature.service';
-import {StUserEditDataInput, StUserPublicData} from '../../api/customGraphql.service';
+import {StUserEditDataInput, StUserPublicData, UserStorageService} from '@core';
 import {Observable} from 'rxjs';
-import {UserAccountService} from '../../features/account-feature/services/user-account.service';
+import {AccountFeatureService} from '@account-feature';
 
 @Component({
     selector: 'app-account',
@@ -14,12 +13,12 @@ export class AccountPage implements OnInit {
     user$: Observable<StUserPublicData>;
     editing = false;
 
-    constructor(private authService: AuthFeatureService,
-                private userAccountService: UserAccountService) {
+    constructor(private userStorageService: UserStorageService,
+                private userAccountService: AccountFeatureService) {
     }
 
     ngOnInit() {
-        this.user$ = this.authService.getUser();
+        this.user$ = this.userStorageService.getUser();
     }
 
     toggleEdit() {

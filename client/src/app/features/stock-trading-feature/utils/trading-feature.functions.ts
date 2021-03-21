@@ -1,4 +1,4 @@
-import {StTransaction, StUserPublicData} from '../../../api/customGraphql.service';
+import {StTransaction, StUserPublicData} from '@core';
 
 export const addTransactionToUserHolding = (user: StUserPublicData, transaction: StTransaction): StTransaction[] => {
     let holdings = [...user.holdings];

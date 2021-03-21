@@ -1,11 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ModalController, NavParams} from '@ionic/angular';
-import {MarketService} from '../../services/market.service';
-import {
-    StMarketChartDataResultCombined,
-    StMarketDatasetKeyCategory
-} from '../../../../api/customGraphql.service';
-import {ComponentBaseDirective} from '../../../../shared/utils/component-base/component-base.directive';
+import {MarketFeatureService} from '../../services';
+import {ComponentBaseDirective, StMarketChartDataResultCombined, StMarketDatasetKeyCategory} from '@core';
 import {takeUntil} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {cloneDeep} from 'lodash';
@@ -23,7 +19,7 @@ export class MarketChartBuilderComponent extends ComponentBaseDirective implemen
 
     constructor(private navParams: NavParams,
                 private modalController: ModalController,
-                private marketService: MarketService) {
+                private marketService: MarketFeatureService) {
         super();
     }
 

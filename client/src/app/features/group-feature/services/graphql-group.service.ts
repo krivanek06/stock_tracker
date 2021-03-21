@@ -1,31 +1,36 @@
 import {Injectable} from '@angular/core';
-import {AuthFeatureService} from '../../auth-feature/services/auth-feature.service';
 import {
-    AnswerReceivedGroupInvitationGQL, AnswerReceivedGroupInvitationMutation,
+    AnswerReceivedGroupInvitationGQL,
+    AnswerReceivedGroupInvitationMutation,
     AuthenticateUserDocument,
     AuthenticateUserQuery,
     CreateGroupGQL,
     CreateGroupMutation,
-    DeleteGroupGQL, DeleteGroupMutation,
+    DeleteGroupGQL,
+    DeleteGroupMutation,
     EditGroupGQL,
     EditGroupMutation,
-    LeaveGroupGQL, LeaveGroupMutation,
+    LeaveGroupGQL,
+    LeaveGroupMutation,
     QueryStGroupAllDataByGroupIdGQL,
     StGroupAllData,
-    StGroupAllDataInput, StGroupPartialData,
-    ToggleInvitationRequestToGroupGQL, ToggleInvitationRequestToGroupMutation,
-} from '../../../api/customGraphql.service';
+    StGroupAllDataInput,
+    StGroupPartialData,
+    ToggleInvitationRequestToGroupGQL,
+    ToggleInvitationRequestToGroupMutation,
+    UserStorageService
+} from '@core';
 import {Observable} from 'rxjs';
 import {FetchResult} from '@apollo/client';
 import {DataProxy} from '@apollo/client/cache/core/types/DataProxy';
 import {map} from 'rxjs/operators';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: GraphqlGroupService
 })
 export class GraphqlGroupService {
 
-    constructor(private authService: AuthFeatureService,
+    constructor(private userStorageService: UserStorageService,
                 private queryStGroupAllDataByGroupIdGQL: QueryStGroupAllDataByGroupIdGQL,
                 private editGroupGQL: EditGroupGQL,
                 private createGroupGQL: CreateGroupGQL,
@@ -52,7 +57,7 @@ export class GraphqlGroupService {
                 const user = store.readQuery<AuthenticateUserQuery>({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.authService.user.uid
+                        uid: this.userStorageService.user.uid
                     }
                 });
 
@@ -60,7 +65,7 @@ export class GraphqlGroupService {
                 store.writeQuery({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.authService.user.uid
+                        uid: this.userStorageService.user.uid
                     },
                     data: {
                         ...user,
@@ -85,11 +90,11 @@ export class GraphqlGroupService {
                 const user = store.readQuery<AuthenticateUserQuery>({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.authService.user.uid
+                        uid: this.userStorageService.user.uid
                     }
                 });
                 // save group as owner's or as member's
-                const isGroupOwner = editGroup.owner.user.uid === this.authService.user.uid;
+                const isGroupOwner = editGroup.owner.user.uid === this.userStorageService.user.uid;
                 const groupOwner = [...user.authenticateUser.groups.groupOwner];
                 const groupMember = [...user.authenticateUser.groups.groupMember];
 
@@ -105,7 +110,7 @@ export class GraphqlGroupService {
                 store.writeQuery({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.authService.user.uid
+                        uid: this.userStorageService.user.uid
                     },
                     data: {
                         ...user,
@@ -127,7 +132,7 @@ export class GraphqlGroupService {
     deleteGroup(stGroupPartialData: StGroupPartialData): Observable<FetchResult<DeleteGroupMutation>> {
         return this.deleteGroupGQL.mutate({
             groupId: stGroupPartialData.groupId,
-            uid: this.authService.user.uid
+            uid: this.userStorageService.user.uid
         }, {
             optimisticResponse: {
                 __typename: 'Mutation',
@@ -137,7 +142,7 @@ export class GraphqlGroupService {
                 const user = store.readQuery<AuthenticateUserQuery>({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.authService.user.uid
+                        uid: this.userStorageService.user.uid
                     }
                 });
 
@@ -148,7 +153,7 @@ export class GraphqlGroupService {
                 store.writeQuery({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.authService.user.uid
+                        uid: this.userStorageService.user.uid
                     },
                     data: {
                         ...user,
@@ -173,7 +178,7 @@ export class GraphqlGroupService {
     toggleInvitationRequestToGroup(stGroupPartialData: StGroupPartialData): Observable<FetchResult<ToggleInvitationRequestToGroupMutation>> {
         return this.toggleInvitationRequestToGroupGQL.mutate({
             groupId: stGroupPartialData.groupId,
-            uid: this.authService.user.uid
+            uid: this.userStorageService.user.uid
         }, {
             optimisticResponse: {
                 __typename: 'Mutation',
@@ -185,7 +190,7 @@ export class GraphqlGroupService {
                 const user = store.readQuery<AuthenticateUserQuery>({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.authService.user.uid
+                        uid: this.userStorageService.user.uid
                     }
                 });
 
@@ -203,7 +208,7 @@ export class GraphqlGroupService {
                 store.writeQuery({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.authService.user.uid
+                        uid: this.userStorageService.user.uid
                     },
                     data: {
                         ...user,
@@ -228,7 +233,7 @@ export class GraphqlGroupService {
         return this.answerReceivedGroupInvitationGQL.mutate({
             groupId: stGroupPartialData.groupId,
             accept,
-            uid: this.authService.user.uid
+            uid: this.userStorageService.user.uid
         }, {
             optimisticResponse: {
                 __typename: 'Mutation',
@@ -240,7 +245,7 @@ export class GraphqlGroupService {
                 const user = store.readQuery<AuthenticateUserQuery>({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.authService.user.uid
+                        uid: this.userStorageService.user.uid
                     }
                 });
 
@@ -253,7 +258,7 @@ export class GraphqlGroupService {
                 store.writeQuery({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.authService.user.uid
+                        uid: this.userStorageService.user.uid
                     },
                     data: {
                         ...user,
@@ -275,7 +280,7 @@ export class GraphqlGroupService {
     leaveGroup(groupId: string): Observable<FetchResult<LeaveGroupMutation>> {
         return this.leaveGroupGQL.mutate({
             groupId,
-            uid: this.authService.user.uid
+            uid: this.userStorageService.user.uid
         }, {
             optimisticResponse: {
                 __typename: 'Mutation',
@@ -285,7 +290,7 @@ export class GraphqlGroupService {
                 const user = store.readQuery<AuthenticateUserQuery>({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.authService.user.uid
+                        uid: this.userStorageService.user.uid
                     }
                 });
 
@@ -293,7 +298,7 @@ export class GraphqlGroupService {
                 store.writeQuery({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.authService.user.uid
+                        uid: this.userStorageService.user.uid
                     },
                     data: {
                         ...user,
@@ -301,7 +306,7 @@ export class GraphqlGroupService {
                             ...user.authenticateUser,
                             groups: {
                                 ...user.authenticateUser.groups,
-                                groupMember: this.authService.user.groups.groupMember.filter(x => x.groupId !== groupId)
+                                groupMember: this.userStorageService.user.groups.groupMember.filter(x => x.groupId !== groupId)
                             }
                         }
                     }

@@ -1,9 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {MarketService} from '../../../../features/market-feature/services/market.service';
-import {StMarketOverviewPartialData} from '../../../../api/customGraphql.service';
+import {MarketChartBuilderComponent, MarketFeatureService} from '@market-feature';
+import {StMarketOverviewPartialData} from '@core';
 import {Observable} from 'rxjs';
 import {ModalController} from '@ionic/angular';
-import {MarketChartBuilderComponent} from '../../../../features/market-feature/entry-components/market-chart-builder/market-chart-builder.component';
 
 @Component({
     selector: 'app-market-overview',
@@ -16,7 +15,7 @@ export class MarketOverviewComponent implements OnInit {
 
     chartHeight = 185;
 
-    constructor(private marketService: MarketService,
+    constructor(private marketService: MarketFeatureService,
                 private modalController: ModalController) {
     }
 

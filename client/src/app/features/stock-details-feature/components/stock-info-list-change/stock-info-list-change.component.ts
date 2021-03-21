@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {ChartType} from '../../../../shared/models/sharedModel';
-import {marketValueChange} from '../../../../shared/animations/marketValueChange.animation';
-import {StStockSuggestion} from '../../../../api/customGraphql.service';
+import {ChartType, marketValueChange} from '@shared';
+import {StStockSuggestion} from '@core';
 
 @Component({
     selector: 'app-stock-info-list-change',

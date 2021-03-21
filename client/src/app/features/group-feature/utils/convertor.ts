@@ -1,5 +1,5 @@
-import {StGroupAllData, StGroupAllDataInput, StGroupPartialData, StUserPartialInformation} from '../../../api/customGraphql.service';
-import {GroupForm} from '../model/group.model';
+import {StGroupAllData, StGroupAllDataInput, StGroupPartialData, StUserPartialInformation} from '@core';
+import {GroupForm} from '../model';
 
 export const convertStGroupAllDataToStGroupPartialData = (data: StGroupAllData): StGroupPartialData => {
     const result: StGroupPartialData = {

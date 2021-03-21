@@ -1,11 +1,9 @@
-import {ChangeDetectorRef, Component, Directive, OnDestroy, OnInit, ViewRef} from '@angular/core';
-import {ComponentBaseDirective} from '../../../shared/utils/component-base/component-base.directive';
-import {TradingChangeModel} from '../models/trading.model';
-import {StPortfolio, StTransaction, StUserPublicData, Summary} from '../../../api/customGraphql.service';
+import {ChangeDetectorRef, Directive, OnDestroy, OnInit, ViewRef} from '@angular/core';
+import {TradingChangeModel} from '../models';
+import {ComponentBaseDirective, StPortfolio, StTransaction, StUserPublicData, Summary, UserStorageService} from '@core';
 import {filter, takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
-import {AuthFeatureService} from '../../auth-feature/services/auth-feature.service';
-import {TradingService} from '../services/trading.service';
+import {TradingFeatureService} from '../services';
 
 @Directive()
 export abstract class TradingScreenUpdateBaseDirective extends ComponentBaseDirective implements OnInit, OnDestroy {
@@ -17,8 +15,8 @@ export abstract class TradingScreenUpdateBaseDirective extends ComponentBaseDire
     clonedHoldings: StTransaction[] = [];
     private interval: any;
 
-    protected constructor(public authService: AuthFeatureService,
-                          public tradingService: TradingService,
+    protected constructor(public userStorageService: UserStorageService,
+                          public tradingService: TradingFeatureService,
                           public cdr: ChangeDetectorRef) {
         super();
     }
@@ -40,7 +38,7 @@ export abstract class TradingScreenUpdateBaseDirective extends ComponentBaseDire
      * All components which will extend TradingScreenUpdateBase needs these attributes
      */
     private initComponentAttributes() {
-        this.authService.getUser().pipe(
+        this.userStorageService.getUser().pipe(
             filter(x => !!x),
             takeUntil(this.destroy$)
         ).subscribe(user => {

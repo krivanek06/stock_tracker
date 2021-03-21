@@ -1,5 +1,5 @@
-import { exhaustMap } from 'rxjs/operators';
-import { Observable, timer } from 'rxjs';
+import {exhaustMap} from 'rxjs/operators';
+import {Observable, timer} from 'rxjs';
 
 /**
  * Repeats underlying observable on a timer

@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ModalController, NavParams} from '@ionic/angular';
 import {Router} from '@angular/router';
-import {MarketService} from '../../services/market.service';
+import {MarketFeatureService} from '../../services';
 import {Observable} from 'rxjs';
-import {StEventCalendarEarningsData, StMarketCalendarEventsEarnings} from '../../../../api/customGraphql.service';
-import {SymbolIdentification} from '../../../../shared/models/sharedModel';
+import {StEventCalendarEarningsData} from '@core';
+import {SymbolIdentification} from '@shared';
 
 @Component({
     selector: 'app-market-earnings-modal',
@@ -19,7 +19,7 @@ export class MarketEarningsModalComponent implements OnInit {
     constructor(private navParams: NavParams,
                 private router: Router,
                 private modalController: ModalController,
-                private marketService: MarketService) {
+                private marketService: MarketFeatureService) {
     }
 
     ngOnInit() {

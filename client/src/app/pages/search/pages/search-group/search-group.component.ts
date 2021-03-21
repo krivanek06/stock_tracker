@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {StGroupPartialData} from '../../../../api/customGraphql.service';
+import {StGroupPartialData} from '@core';
 import {Router} from '@angular/router';
 import {SEARCH_PAGE_ENUM} from '../../models/pages.model';
 
@@ -19,6 +19,6 @@ export class SearchGroupComponent implements OnInit {
 
     showGroupInformation(groupPartialData: StGroupPartialData) {
         console.log('groupPartialData', groupPartialData);
-        this.router.navigate([`menu/search/${SEARCH_PAGE_ENUM.GROUP}/${groupPartialData.groupId}`])
+        this.router.navigate([`menu/search/${SEARCH_PAGE_ENUM.GROUP}/${groupPartialData.groupId}`]);
     }
 }

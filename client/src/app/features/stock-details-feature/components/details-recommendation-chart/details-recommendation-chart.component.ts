@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChan
 
 import * as Highcharts from 'highcharts/highstock';
 import HighchartsMoreModule from 'highcharts/highcharts-more';
-import {Recommendations} from '../../../../api/customGraphql.service';
+import {Recommendations} from '@core';
 
 HighchartsMoreModule(Highcharts);
 
@@ -59,7 +59,7 @@ export class DetailsRecommendationChartComponent implements OnInit, OnChanges {
                         font: '10px Trebuchet MS, Verdana, sans-serif'
                     }
                 },
-                categories: !this.recommendations ? [] : this.recommendations.map(rec => new  Date (rec.period).toString().split(' ')[1])
+                categories: !this.recommendations ? [] : this.recommendations.map(rec => new Date(rec.period).toString().split(' ')[1])
             },
             yAxis: {
                 title: false,

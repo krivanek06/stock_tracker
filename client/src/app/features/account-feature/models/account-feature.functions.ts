@@ -1,4 +1,4 @@
-import {StPortfolioFragmentFragment, StUserEditDataInput} from '../../../api/customGraphql.service';
+import {StPortfolioFragmentFragment, StUserEditDataInput} from '@core';
 import {UserAccountForm} from './account-feature.model';
 
 export const convertUserAccountFormToStUserEditDataInput = (userId: string, accountForm: UserAccountForm): StUserEditDataInput => {

@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {SymbolIdentification} from '../../models/sharedModel';
+import {SymbolIdentification} from '../../models';
 import {ModalController, NavParams} from '@ionic/angular';
 
 @Component({

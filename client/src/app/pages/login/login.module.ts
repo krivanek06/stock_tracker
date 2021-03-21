@@ -1,9 +1,9 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 
 import {LoginPage} from './login.page';
-import {AuthFeatureModule} from '../../features/auth-feature/auth-feature.module';
+import {LoginFeatureModule} from '../../features/login-feature/login-feature.module';
 
 const routes: Routes = [
     {
@@ -16,7 +16,7 @@ const routes: Routes = [
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
-        AuthFeatureModule
+        LoginFeatureModule
     ],
     declarations: [LoginPage]
 })

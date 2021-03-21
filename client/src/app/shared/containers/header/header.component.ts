@@ -1,10 +1,8 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs';
-import {AuthFeatureService} from '../../../features/auth-feature/services/auth-feature.service';
-import {StUserPublicData, Summary} from '../../../api/customGraphql.service';
-import {FirebaseSearchService} from '../../services/firebase-search.service';
+import {FirebaseSearchService, StUserPublicData, Summary, UserStorageService} from '@core';
 import {IonSearchbar, ModalController} from '@ionic/angular';
-import {SymbolLookupModalComponent} from '../../../features/stock-details-feature/entry-components/symbol-lookup-modal/symbol-lookup-modal.component';
+import {SymbolLookupModalComponent} from '@stock-details-feature';
 
 @Component({
     selector: 'app-header',
@@ -23,13 +21,13 @@ export class HeaderComponent implements OnInit {
 
     loading = false;
 
-    constructor(private authFeatureService: AuthFeatureService,
+    constructor(private userStorageService: UserStorageService,
                 private firebaseSearchService: FirebaseSearchService,
                 private modalController: ModalController) {
     }
 
     ngOnInit() {
-        this.user$ = this.authFeatureService.getUser();
+        this.user$ = this.userStorageService.getUser();
         this.user$.subscribe(console.log);
     }
 

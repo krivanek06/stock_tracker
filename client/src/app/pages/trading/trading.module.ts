@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { TradingPage } from './trading.page';
+import {NgModule} from '@angular/core';
+import {TradingPage} from './trading.page';
 import {RouterModule, Routes} from '@angular/router';
 import {SharedModule} from '../../shared/shared.module';
 import {StockTradingFeatureModule} from '../../features/stock-trading-feature/stock-trading-feature.module';
@@ -7,10 +7,10 @@ import {StockDetailsFeatureModule} from '../../features/stock-details-feature/st
 import {StockWatchlistModule} from '../../features/stock-watchlist-feature/stock-watchlist.module';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: TradingPage
-  }
+    {
+        path: '',
+        component: TradingPage
+    }
 ];
 
 @NgModule({
@@ -21,6 +21,7 @@ const routes: Routes = [
         StockDetailsFeatureModule,
         StockWatchlistModule
     ],
-  declarations: [TradingPage]
+    declarations: [TradingPage]
 })
-export class TradingPageModule {}
+export class TradingPageModule {
+}

@@ -1,4 +1,4 @@
-import {StPortfolioWeeklyChange, StTransactionOperationEnum} from '../../../api/customGraphql.service';
+import {StPortfolioWeeklyChange, StTransactionOperationEnum} from '@core';
 
 export const fakeDataTransactionTable: StPortfolioWeeklyChange[] = [
     {

@@ -1,18 +1,10 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ModalController, NavParams} from '@ionic/angular';
-import {SymbolIdentification} from '../../../../shared/models/sharedModel';
+import {SymbolIdentification} from '@shared';
 import {Router} from '@angular/router';
-import {
-    QueryStockDetailsGQL,
-    StockDetails,
-    StockSummaryFragmentFragment,
-    StUserPublicData,
-    Summary
-} from '../../../../api/customGraphql.service';
-import {StockDetailsService} from '../../services/stock-details.service';
+import {StUserPublicData, Summary, SymbolStorageService, UserStorageService} from '@core';
 import {Observable} from 'rxjs';
-import {AuthFeatureService} from '../../../auth-feature/services/auth-feature.service';
-import {WatchlistService} from '../../../stock-watchlist-feature/services/watchlist.service';
+import {WatchlistFeatureService} from '@stock-watchlist-feature';
 import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_ENUM} from '../../../../pages/search/models/pages.model';
 
 @Component({
@@ -33,9 +25,9 @@ export class SymbolLookupModalComponent implements OnInit {
 
     constructor(private navParams: NavParams,
                 private router: Router,
-                private stockDetailsService: StockDetailsService,
-                private watchlistService: WatchlistService,
-                private authFeatureService: AuthFeatureService,
+                private stockDetailsService: SymbolStorageService,
+                private watchlistService: WatchlistFeatureService,
+                private userStorageService: UserStorageService,
                 private cd: ChangeDetectorRef,
                 private modalController: ModalController) {
     }
@@ -70,7 +62,7 @@ export class SymbolLookupModalComponent implements OnInit {
 
     private checkIfSymbolIsInWatchlist() {
         if (this.watchlistId) {
-            const watchlist = this.authFeatureService.user.stockWatchlist.find(s => s.id === this.watchlistId);
+            const watchlist = this.userStorageService.user.stockWatchlist.find(s => s.id === this.watchlistId);
             if (watchlist) {
                 this.isSymbolInWatchlist = watchlist.summaries.map(s => s.symbol).includes(this.symbolIdentification.symbol);
                 this.cd.detectChanges();

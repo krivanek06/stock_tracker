@@ -1,5 +1,5 @@
 import {Directive, ElementRef, Input, OnInit, Renderer2} from '@angular/core';
-import {stToTitleCase} from '../utils/shared-functions.functions';
+import {stToTitleCase} from '../utils';
 
 interface RecommendationColor {
     value: string;

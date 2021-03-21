@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {StGroupAllData, StGroupPartialData} from '../../../../api/customGraphql.service';
+import {StGroupAllData} from '@core';
 
 @Component({
     selector: 'app-group-info',

@@ -1,11 +1,8 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewRef} from '@angular/core';
-import {AuthFeatureService} from '../../features/auth-feature/services/auth-feature.service';
-import {StPortfolio} from '../../api/customGraphql.service';
-import {getFakeTransactionTable} from '../../features/stock-trading-feature/models/trading.fakeData';
-import {SymbolIdentification} from '../../shared/models/sharedModel';
-import {TradingService} from '../../features/stock-trading-feature/services/trading.service';
-import {TradingScreenUpdateBaseDirective} from '../../features/stock-trading-feature/utils/trading-screen-update-base.directive';
-import {SymbolLookupModalComponent} from '../../features/stock-details-feature/entry-components/symbol-lookup-modal/symbol-lookup-modal.component';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {StPortfolio, UserStorageService} from '@core';
+import {getFakeTransactionTable, TradingScreenUpdateBaseDirective, TradingFeatureService} from '@stock-trading-feature';
+import {SymbolIdentification} from '@shared';
+import {SymbolLookupModalComponent} from '@stock-details-feature';
 import {ModalController} from '@ionic/angular';
 
 @Component({
@@ -18,11 +15,11 @@ export class DashboardPage extends TradingScreenUpdateBaseDirective implements O
     stPortfolioHistory: StPortfolio[] = [];
     fakeDataTransactionTable = getFakeTransactionTable();
 
-    constructor(public authService: AuthFeatureService,
-                public tradingService: TradingService,
+    constructor(public userStorageService: UserStorageService,
+                public tradingService: TradingFeatureService,
                 public cdr: ChangeDetectorRef,
                 private modalController: ModalController) {
-        super(authService, tradingService, cdr);
+        super(userStorageService, tradingService, cdr);
     }
 
     ngOnInit(): void {

@@ -1,4 +1,4 @@
-import {NameValueContainer} from '../../../shared/models/sharedModel';
+import {NameValueContainer} from '@shared';
 
 export enum MARKET_PAGE_ENUM {
     overview = 'overview',

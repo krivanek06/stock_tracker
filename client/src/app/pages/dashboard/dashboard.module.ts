@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {DashboardPage} from './dashboard.page';
 import {StockWatchlistModule} from '../../features/stock-watchlist-feature/stock-watchlist.module';
 import {SharedModule} from 'src/app/shared/shared.module';

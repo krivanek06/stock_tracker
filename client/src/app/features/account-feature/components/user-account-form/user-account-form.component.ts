@@ -1,11 +1,9 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {UploadedFile} from '../../../../shared/models/sharedModel';
-import {StUserEditDataInput, StUserPublicData} from '../../../../api/customGraphql.service';
-import {UploaderComponent} from '../../../../shared/components/image-manipulation/uploader/uploader.component';
-import {convertUserAccountFormToStUserEditDataInput} from '../../models/account-feature.functions';
-import {UserAccountForm} from '../../models/account-feature.model';
-import {IonicDialogService} from '../../../../shared/services/ionic-dialog.service';
+import {UploadedFile, UploaderComponent} from '@shared';
+import {Confirmable, IonicDialogService, StUserEditDataInput, StUserPublicData} from '@core';
+import {convertUserAccountFormToStUserEditDataInput} from '../../models';
+
 
 @Component({
     selector: 'app-user-account-form',
@@ -27,50 +25,6 @@ export class UserAccountFormComponent implements OnChanges, OnInit {
     constructor(private fb: FormBuilder,
                 private ionicDialogService: IonicDialogService) {
     }
-
-    // needed to show user new data in form
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.user && !changes.user.firstChange) {
-            this.initForm();
-        }
-    }
-
-    ngOnInit() {
-        this.initForm();
-    }
-
-    async submit() {
-        const confirmation = await this.ionicDialogService.presentAlertConfirm(`Please confirm editing account information`);
-
-        if (confirmation) {
-            this.submitClickedEmitter.emit(convertUserAccountFormToStUserEditDataInput(this.user.uid, this.form.getRawValue()));
-            this.cancel();
-        }
-    }
-
-
-    uploadedImage(files: UploadedFile[]) {
-        this.form.get('photoURL').patchValue(files[0].downloadURL);
-    }
-
-    edit() {
-        this.editing = true;
-        this.editClickedEmitter.emit(this.editing);
-        this.finnhubKey.enable();
-        this.nickName.enable();
-        this.photoURL.enable();
-    }
-
-    cancel() {
-        this.editing = false;
-        this.editClickedEmitter.emit(this.editing);
-        this.uploader.clearImages();
-        this.finnhubKey.disable();
-        this.nickName.disable();
-        this.photoURL.disable();
-        this.initForm();
-    }
-
 
     get displayName(): AbstractControl {
         return this.form.get('displayName');
@@ -94,6 +48,45 @@ export class UserAccountFormComponent implements OnChanges, OnInit {
 
     get locale(): AbstractControl {
         return this.form.get('locale');
+    }
+
+    // needed to show user new data in form
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.user && !changes.user.firstChange) {
+            this.initForm();
+        }
+    }
+
+    ngOnInit() {
+        this.initForm();
+    }
+
+    @Confirmable('Please confirm editing account information')
+    async submit() {
+        this.submitClickedEmitter.emit(convertUserAccountFormToStUserEditDataInput(this.user.uid, this.form.getRawValue()));
+        this.cancel();
+    }
+
+    uploadedImage(files: UploadedFile[]) {
+        this.form.get('photoURL').patchValue(files[0].downloadURL);
+    }
+
+    edit() {
+        this.editing = true;
+        this.editClickedEmitter.emit(this.editing);
+        this.finnhubKey.enable();
+        this.nickName.enable();
+        this.photoURL.enable();
+    }
+
+    cancel() {
+        this.editing = false;
+        this.editClickedEmitter.emit(this.editing);
+        this.uploader.clearImages();
+        this.finnhubKey.disable();
+        this.nickName.disable();
+        this.photoURL.disable();
+        this.initForm();
     }
 
     private initForm() {

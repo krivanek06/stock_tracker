@@ -1,9 +1,8 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Summary} from '../../../../api/customGraphql.service';
+import {FirebaseSearchService, Summary} from '@core';
 import {Observable, of} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {FirebaseSearchService} from '../../../../shared/services/firebase-search.service';
-import {debounceTime, map, switchMap} from 'rxjs/operators';
+import {debounceTime, switchMap} from 'rxjs/operators';
 
 @Component({
     selector: 'app-stock-search',

@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {QueryStockDetailsQuery, StockDetails} from '../../../../api/customGraphql.service';
+import {StockDetails} from '@core';
 
 @Component({
     selector: 'app-details-valuation',

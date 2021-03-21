@@ -1,47 +1,29 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {RouterModule} from '@angular/router';
-import {AngularFirestoreModule} from '@angular/fire/firestore';
-import {AngularFireAuthModule} from '@angular/fire/auth';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {AngularFireStorageModule} from '@angular/fire/storage';
-import {IonicModule} from '@ionic/angular';
-import {HighchartsChartModule} from 'highcharts-angular';
-import {DefaultImgDirective} from './directives/default-img.directive';
-import {FinancialChartComponent} from './components/charts/financial-chart/financial-chart.component';
-import {GaugeChartComponent} from './components/charts/gauge-chart/gauge-chart.component';
-import {FixedRangeSliderComponent} from './components/range-selector/fixed-range-slider/fixed-range-slider.component';
-import {NumberFormatterPipe} from './pipes/numberFormatter.pipe';
-import {HeaderComponent} from './containers/header/header.component';
-import {InlineModificationFormComponent} from './components/forms/inline-modification-form/inline-modification-form.component';
-import {GenericChartComponent} from './components/charts/generic-chart/generic-chart.component';
-import {GenericCardComponent} from './components/generic/generic-card/generic-card.component';
-import {FinancialChartContainerComponent} from './containers/financial-chart-container/financial-chart-container.component';
-import {RelativeTimePipe} from './pipes/relatimeTime.pipe';
-import {NgxDatatableModule} from '@swimlane/ngx-datatable';
-import {PriceCompareItemComponent} from './components/items/price-compare-item/price-compare-item.component';
-import {InlineInputPopUpComponent} from './components/pop-ups/inline-input-pop-up/inline-input-pop-up.component';
-import {DropzoneDirective} from './directives/dropzone.directive';
-import {UploaderComponent} from './components/image-manipulation/uploader/uploader.component';
-import {UploadTaskComponent} from './components/image-manipulation/upload-task/upload-task.component';
-import {PriceChangeItemComponent} from './components/items/price-change-item/price-change-item.component';
-import {ClickableNameItemComponent} from './components/items/clickable-name-item/clickable-name-item.component';
-import {GenericListComponent} from './components/generic/generic-list/generic-list.component';
-import {TitleWithLogoItemComponent} from './components/items/title-with-logo-item/title-with-logo-item.component';
-import {TooltipDirective} from './directives/tooltip.directive';
-import {SearchWrapperComponent} from './components/search-wrapper/search-wrapper.component';
-import {ScrollOffsetDirective} from './directives/scroll-offset.directive';
-import {GenericFancyCardComponent} from './components/generic/generic-fancy-card/generic-fancy-card.component';
-import { ObjNgForPipe } from './pipes/obj-ng-for.pipe';
-import {GenericFadingCardContentComponent} from './components/generic/generic-fading-card-content/generic-fading-card-content.component';
-import {TableHighLowRangeComponent} from './components/range-selector/table-high-low-range/table-high-low-range.component';
-import {RecommendationDirective} from './directives/recommendation.directive';
-import {ArticleCardsComponent} from './components/cards/article-cards/article-cards.component';
-import {SumUpPipe} from './pipes/sumUp.pipe';
-import {StockInfoIdentificationItemComponent} from './components/items/stock-info-identification-item/stock-info-identification-item.component';
-import {FinancialChartModalComponent} from './entry-components/financial-chart-modal/financial-chart-modal.component';
-import {ComponentBaseDirective} from './utils/component-base/component-base.directive';
-import {ComponentScreenUpdateBaseDirective} from './utils/component-base/component-screen-update-base.directive';
+import {DefaultImgDirective, DropzoneDirective, RecommendationDirective, ScrollOffsetDirective, TooltipDirective} from './directives';
+import {FinancialChartComponent, GaugeChartComponent, GenericChartComponent} from './components/charts';
+import {FixedRangeSliderComponent, TableHighLowRangeComponent} from './components/range-selector';
+import {NumberFormatterPipe, ObjNgForPipe, RelativeTimePipe, SumUpPipe} from './pipes';
+import {FinancialChartContainerComponent, HeaderComponent} from './containers';
+import {InlineModificationFormComponent} from './components/forms';
+import {
+    GenericCardComponent,
+    GenericFadingCardContentComponent,
+    GenericFancyCardComponent,
+    GenericListComponent
+} from './components/generic';
+import {
+    ClickableNameItemComponent,
+    PriceChangeItemComponent,
+    PriceCompareItemComponent,
+    StockInfoIdentificationItemComponent,
+    TitleWithLogoItemComponent
+} from './components/items';
+import {InlineInputPopUpComponent} from './components/pop-ups';
+import {UploaderComponent, UploadTaskComponent} from './components/image-manipulation';
+import {SearchWrapperComponent} from './components';
+import {ArticleCardsComponent} from './components/cards';
+import {FinancialChartModalComponent} from './entry-components';
+import {SharedProvidersModule} from './shared-providers.module';
 
 
 @NgModule({
@@ -80,27 +62,10 @@ import {ComponentScreenUpdateBaseDirective} from './utils/component-base/compone
         FinancialChartModalComponent
     ],
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        FormsModule,
-        RouterModule,
-        AngularFirestoreModule,
-        AngularFireAuthModule,
-        AngularFireStorageModule,
-        HighchartsChartModule,
-        IonicModule,
-        NgxDatatableModule
+        SharedProvidersModule
     ],
     exports: [
-        CommonModule,
-        ReactiveFormsModule,
-        FormsModule,
-        RouterModule,
-        AngularFirestoreModule,
-        AngularFireAuthModule,
-        AngularFireStorageModule,
-        IonicModule,
-        HighchartsChartModule,
+        SharedProvidersModule,
         FixedRangeSliderComponent,
         DefaultImgDirective,
         GaugeChartComponent,
@@ -112,7 +77,6 @@ import {ComponentScreenUpdateBaseDirective} from './utils/component-base/compone
         GenericChartComponent,
         GenericCardComponent,
         FinancialChartContainerComponent,
-        NgxDatatableModule,
         PriceCompareItemComponent,
         InlineInputPopUpComponent,
         UploaderComponent,

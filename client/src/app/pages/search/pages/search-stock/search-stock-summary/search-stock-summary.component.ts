@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {Summary} from '../../../../../api/customGraphql.service';
-import {WatchlistService} from '../../../../../features/stock-watchlist-feature/services/watchlist.service';
+import {Summary} from '../../../../../core/api';
+import {WatchlistFeatureService} from '@stock-watchlist-feature';
 import {Router} from '@angular/router';
 import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_ENUM} from '../../../models/pages.model';
 
@@ -13,7 +13,7 @@ import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_ENUM} from '../../../models/pages.mo
 export class SearchStockSummaryComponent implements OnInit {
     selectedSummary: Summary;
 
-    constructor(private watchlistService: WatchlistService,
+    constructor(private watchlistService: WatchlistFeatureService,
                 private router: Router) {
     }
 
