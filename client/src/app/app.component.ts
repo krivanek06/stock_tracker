@@ -3,6 +3,7 @@ import {Platform} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {ThemeService} from '@core';
+import {LanguageService} from './core/services/language.service';
 
 @Component({
     selector: 'app-root',
@@ -10,14 +11,11 @@ import {ThemeService} from '@core';
     styleUrls: ['app.component.scss']
 })
 export class AppComponent implements OnInit {
-    constructor(
-        private platform: Platform,
-        private splashScreen: SplashScreen,
-        private statusBar: StatusBar,
-        private themeService: ThemeService
-    ) {
-        this.themeService.enableDark();
-
+    constructor(private platform: Platform,
+                private splashScreen: SplashScreen,
+                private statusBar: StatusBar,
+                private themeService: ThemeService,
+                private languageService: LanguageService) {
         this.initializeApp();
     }
 
@@ -25,6 +23,9 @@ export class AppComponent implements OnInit {
         this.platform.ready().then(() => {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
+
+            this.themeService.enableDark();
+            this.languageService.setInitialLanguage();
         });
     }
 
