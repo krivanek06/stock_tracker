@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
 import {Observable, of} from 'rxjs';
 import {distinctUntilChanged, filter, map, mergeAll} from 'rxjs/operators';
-import {UserStorageService} from './storage';
 import {MarketSymbolResult} from '../model';
+import {UserStorageService} from './storage/user-storage.service';
 
 
 @Injectable({

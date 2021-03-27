@@ -8,6 +8,7 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 import {HighchartsChartModule} from 'highcharts-angular';
 import {IonicModule} from '@ionic/angular';
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
+import {TranslateModule} from '@ngx-translate/core';
 
 
 
@@ -23,7 +24,8 @@ import {NgxDatatableModule} from '@swimlane/ngx-datatable';
     AngularFireStorageModule,
     HighchartsChartModule,
     IonicModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    TranslateModule
   ],
   exports: [
     CommonModule,
@@ -35,7 +37,8 @@ import {NgxDatatableModule} from '@swimlane/ngx-datatable';
     AngularFireStorageModule,
     HighchartsChartModule,
     IonicModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    TranslateModule
   ]
 })
 export class SharedProvidersModule { }
