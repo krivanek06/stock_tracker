@@ -1,9 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
-import {ComponentBaseDirective, StUserPublicData, User_Roles_Enum, UserStorageService} from '@core';
+import {AuthenticationService, ComponentBaseDirective, StUserPublicData, User_Roles_Enum, UserStorageService} from '@core';
 import {MenuController} from '@ionic/angular';
-import {LoginFeatureService} from '@login-feature';
 
 
 interface MenuPageInterface {
@@ -27,7 +26,7 @@ export class MenuPage extends ComponentBaseDirective implements OnInit, OnDestro
     otherPages: MenuPageInterface[] = [];
 
     constructor(private userStorageService: UserStorageService,
-                private loginFeatureService: LoginFeatureService,
+                private loginFeatureService: AuthenticationService,
                 private router: Router,
                 private menu: MenuController) {
         super();

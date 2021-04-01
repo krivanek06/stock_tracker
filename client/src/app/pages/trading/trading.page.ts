@@ -1,11 +1,16 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {StStockSuggestion, Summary, SymbolStorageService, UserStorageService} from '@core';
+import {
+    GraphqlQueryService,
+    StStockSuggestion,
+    SubscriptionWebsocketService,
+    Summary,
+    SymbolStorageService,
+    UserStorageService
+} from '@core';
 import {SymbolIdentification} from '@shared';
 import {takeUntil} from 'rxjs/operators';
-import {PortfolioStateEnum, TradingScreenUpdateBaseDirective, TradingFeatureService} from '@stock-trading-feature';
+import {PortfolioStateEnum, TradingFeatureFacadeService, TradingScreenUpdateBaseDirective} from '@stock-trading-feature';
 import {Router} from '@angular/router';
-import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_ENUM} from '../search/models/pages.model';
-import {MarketFeatureService} from '@market-feature';
 import {cloneDeep} from 'lodash';
 
 @Component({
@@ -20,11 +25,12 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
 
     constructor(private symbolStorageService: SymbolStorageService,
                 private router: Router,
-                private marketService: MarketFeatureService,
+                public subscriptionWebsocketService: SubscriptionWebsocketService,
+                private graphqlQueryService: GraphqlQueryService,
                 public userStorageService: UserStorageService,
-                public tradingService: TradingFeatureService,
+                public tradingService: TradingFeatureFacadeService,
                 public cdr: ChangeDetectorRef) {
-        super(userStorageService, tradingService, cdr);
+        super(userStorageService, subscriptionWebsocketService, cdr);
     }
 
     ngOnInit() {
@@ -53,11 +59,11 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
     }
 
     redirectToDetails() {
-        this.router.navigate([`/menu/search/${SEARCH_PAGE_ENUM.STOCK}/${SEARCH_PAGE_STOCK_ENUM.DETAILS}/${this.selectedSummary.symbol}`]);
+        this.router.navigate([`/menu/search/stock/details/${this.selectedSummary.symbol}`]);
     }
 
     private initSuggestions() {
-        this.marketService.queryMarketDailyOverview().pipe(takeUntil(this.destroy$)).subscribe(overview => {
+        this.graphqlQueryService.queryMarketDailyOverview().pipe(takeUntil(this.destroy$)).subscribe(overview => {
             this.suggestions = cloneDeep(overview.stock_suggestions);
             console.log('this.suggestions', this.suggestions);
             if (!this.selectedSummary) {
@@ -67,7 +73,7 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
     }
 
     private subscribeForSuggestionPriceChange() {
-        this.marketService.initSubscriptionForStockSuggestions().pipe(takeUntil(this.destroy$)).subscribe(res => {
+        this.subscriptionWebsocketService.initSubscriptionStockSuggestions().pipe(takeUntil(this.destroy$)).subscribe(res => {
             const suggestion = this.suggestions.find(s => s.summary.symbol === res.s);
             if (suggestion) {
                 suggestion.summary.marketPrice = res.p;

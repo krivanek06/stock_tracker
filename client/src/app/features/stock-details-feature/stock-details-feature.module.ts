@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {
     DetailsDividendComponent,
     DetailsEarningsChartComponent,
@@ -13,15 +12,14 @@ import {
     DetailsStatementTableComponent,
     DetailsTransactionsComponent,
     DetailsValuationComponent,
-    GradingHistoryComponent,
-    StockInfoListChangeComponent,
-    StockTrendComponent,
-    SummarySectorChartComponent
+    DetailsGradingHistoryComponent,
+    DetailsStockSuggestionChangeComponent,
+    DetailsStockTrendComponent,
+    DetailsSectorChartComponent,
+    TrendItemComponent
 } from './components';
-import {SymbolLookupModalComponent} from './entry-components';
-import {SharedModule} from '../../shared/shared.module';
-import {DetailsSummaryContainerComponent, StockSearchComponent} from './containers';
-import {TrendItemComponent} from './components/stock-trend/trend-item/trend-item.component';
+import {StockSearchComponent} from './containers';
+import {SharedModule} from '@shared';
 
 
 @NgModule({
@@ -34,21 +32,18 @@ import {TrendItemComponent} from './components/stock-trend/trend-item/trend-item
         DetailsRecommendationChartComponent,
         DetailsFinancialStrengthRatioComponent,
         DetailsEarningsChartComponent,
-        GradingHistoryComponent,
-        StockTrendComponent,
-        SymbolLookupModalComponent,
-        DetailsSummaryContainerComponent,
+        DetailsGradingHistoryComponent,
+        DetailsStockTrendComponent,
         DetailsRevenueEstimateComponent,
         StockSearchComponent,
-        SummarySectorChartComponent,
-        StockInfoListChangeComponent,
+        DetailsSectorChartComponent,
+        DetailsStockSuggestionChangeComponent,
         TrendItemComponent,
         DetailsOwnershipComponent,
         DetailsTransactionsComponent,
         DetailsEsgScoreComponent
     ],
     imports: [
-        CommonModule,
         SharedModule
     ],
     exports: [
@@ -60,20 +55,15 @@ import {TrendItemComponent} from './components/stock-trend/trend-item/trend-item
         DetailsRecommendationChartComponent,
         DetailsFinancialStrengthRatioComponent,
         DetailsEarningsChartComponent,
-        GradingHistoryComponent,
-        StockTrendComponent,
-        SymbolLookupModalComponent,
-        DetailsSummaryContainerComponent,
+        DetailsGradingHistoryComponent,
+        DetailsStockTrendComponent,
         DetailsRevenueEstimateComponent,
         StockSearchComponent,
-        SummarySectorChartComponent,
-        StockInfoListChangeComponent,
+        DetailsSectorChartComponent,
+        DetailsStockSuggestionChangeComponent,
         DetailsOwnershipComponent,
         DetailsTransactionsComponent,
         DetailsEsgScoreComponent
-    ],
-    entryComponents: [
-        SymbolLookupModalComponent
     ]
 })
 export class StockDetailsFeatureModule {

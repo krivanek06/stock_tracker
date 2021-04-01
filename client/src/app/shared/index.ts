@@ -7,3 +7,6 @@ export * from './utils/index';
 export * from './animations';
 export * from './directives';
 export * from './operators';
+export * from './decorators';
+export * from './services';
+export * from './shared.module';

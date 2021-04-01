@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/co
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UploadedFile, UploaderComponent} from '@shared';
 import {StUserPartialInformation} from '@core';
-import {GroupService} from '@group-feature';
+import {GroupFeatureFacadeService} from '@group-feature';
 
 @Component({
     selector: 'app-groups-create',
@@ -16,7 +16,7 @@ export class GroupsCreateComponent implements OnInit {
     form: FormGroup;
 
     constructor(private fb: FormBuilder,
-                private groupService: GroupService) {
+                private groupService: GroupFeatureFacadeService) {
     }
 
     ngOnInit() {

@@ -5,8 +5,9 @@ import {
     UserAccountInfoListComponent,
     UserAccountResetedInfoComponent
 } from './components';
-import {SharedModule} from '../../shared/shared.module';
+import {SharedModule} from '@shared';
 import {UserAccountSearchComponent} from './containers';
+import {AccountFeatureFacadeService} from './services';
 
 
 @NgModule({
@@ -26,6 +27,9 @@ import {UserAccountSearchComponent} from './containers';
         UserAccountSearchComponent,
         UserAccountFormComponent,
         UserAccountResetedInfoComponent
+    ],
+    providers: [
+        AccountFeatureFacadeService
     ]
 })
 export class AccountFeatureModule {

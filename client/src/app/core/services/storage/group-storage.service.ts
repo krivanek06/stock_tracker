@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {UserStorageService, StGroupAllData} from '@core';
 import {map} from 'rxjs/operators';
+import {StGroupAllData} from '../../graphql-schema';
+import {UserStorageService} from './user-storage.service';
 
 @Injectable({
     providedIn: 'root'

@@ -7,9 +7,9 @@ import {
     PortfolioStateComponent
 } from './components/portfolio';
 import {HoldingsAllocationChartComponent, HoldingsTableBodyItemComponent, HoldingsTableComponent} from './components/holdings';
-import {SharedModule} from '../../shared/shared.module';
-import {StockDetailsFeatureModule} from '../stock-details-feature/stock-details-feature.module';
+import {SharedModule} from '@shared';
 import {TradeConfirmationPopOverComponent} from './entry-components';
+import {TradingFeatureFacadeService} from './services';
 
 
 @NgModule({
@@ -26,8 +26,7 @@ import {TradeConfirmationPopOverComponent} from './entry-components';
         HoldingsAllocationChartComponent
     ],
     imports: [
-        SharedModule,
-        StockDetailsFeatureModule
+        SharedModule
     ],
     exports: [
         TransactionsTableComponent,
@@ -39,7 +38,8 @@ import {TradeConfirmationPopOverComponent} from './entry-components';
         PortfolioGrowthChartComponent,
         PortfolioStateComponent,
         HoldingsAllocationChartComponent
-    ]
+    ],
+    providers: [TradingFeatureFacadeService]
 })
 export class StockTradingFeatureModule {
 }

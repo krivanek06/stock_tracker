@@ -1,24 +1,30 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {MarketChartBuilderComponent, MarketFeatureService} from '@market-feature';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {cloneDeep} from 'lodash';
-import {FinancialChartModalComponent} from '@shared';
+import {SymbolIdentification} from '@shared';
 import {takeUntil} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import {ComponentScreenUpdateBaseDirective, FinnhubWebsocketService, StMarketOverviewPartialData, StMarketTopTableCryptoData} from '@core';
-import {ModalController} from '@ionic/angular';
+import {
+    ComponentScreenUpdateBaseDirective,
+    FinnhubWebsocketService,
+    GraphqlQueryService,
+    StMarketOverviewPartialData,
+    StMarketTopTableCryptoData
+} from '@core';
+import {MarketPageFacadeService} from '../../services/market-page-facade.service';
 
 @Component({
     selector: 'app-market-crypto',
     templateUrl: './market-crypto.component.html',
     styleUrls: ['./market-crypto.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MarketCryptoComponent extends ComponentScreenUpdateBaseDirective implements OnInit, OnDestroy {
     marketOverview$: Observable<StMarketOverviewPartialData>;
     topCrypto: StMarketTopTableCryptoData[] = [];
 
-    constructor(private marketService: MarketFeatureService,
+    constructor(private graphqlQueryService: GraphqlQueryService,
                 private finnhubWebsocketService: FinnhubWebsocketService,
-                private modalController: ModalController,
+                private marketPageFacadeService: MarketPageFacadeService,
                 public cdr: ChangeDetectorRef) {
         super(cdr, 'MarketCryptoComponent');
     }
@@ -27,7 +33,7 @@ export class MarketCryptoComponent extends ComponentScreenUpdateBaseDirective im
     ngOnInit() {
         super.ngOnInit();
         this.createCopyOfTopCrypto();
-        this.marketOverview$ = this.marketService.queryStMarketHistoryOverview();
+        this.marketOverview$ = this.graphqlQueryService.queryStMarketHistoryOverview();
     }
 
     ngOnDestroy() {
@@ -36,32 +42,16 @@ export class MarketCryptoComponent extends ComponentScreenUpdateBaseDirective im
     }
 
     async showSummary(data: StMarketTopTableCryptoData) {
-        const modal = await this.modalController.create({
-            component: FinancialChartModalComponent,
-            componentProps: {
-                symbolIdentification: {
-                    symbol: data.symbol,
-                    name: data.shortName
-                },
-                logoUrl: data.coinImageUrl,
-                isCrypto: true
-            },
-            cssClass: 'custom-modal'
-        });
-        await modal.present();
+        const symbolIdentification: SymbolIdentification = {symbol: data.symbol, name: data.shortName};
+        await this.marketPageFacadeService.showFinancialChart(symbolIdentification, data.coinImageUrl, true);
     }
 
     async expand(documentKey: string) {
-        const modal = await this.modalController.create({
-            component: MarketChartBuilderComponent,
-            componentProps: {documentKey},
-            cssClass: 'custom-modal'
-        });
-        return await modal.present();
+        await this.marketPageFacadeService.showMarketChartBuilder(documentKey);
     }
 
     private createCopyOfTopCrypto() {
-        this.marketService.queryMarketDailyOverview().pipe(takeUntil(this.destroy$)).subscribe(res => {
+        this.graphqlQueryService.queryMarketDailyOverview().pipe(takeUntil(this.destroy$)).subscribe(res => {
             this.topCrypto = cloneDeep(res.top_crypto);
             this.initSubscriptionForTopCrypto();
         });

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {QueryStockDetailsGQL, QueryStockSummaryGQL, StockDetails, Summary} from '@core';
+import {QueryStockDetailsGQL, QueryStockSummaryGQL, StockDetails, Summary} from '../../graphql-schema';
 
 @Injectable({
     providedIn: 'root'

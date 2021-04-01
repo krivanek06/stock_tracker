@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 
 import * as Highcharts from 'highcharts/highstock';
-import HighchartsMoreModule from 'highcharts/highcharts-more';
+//import HighchartsMoreModule from 'highcharts/highcharts-more';
 import {Recommendations} from '@core';
 
-HighchartsMoreModule(Highcharts);
+//HighchartsMoreModule(Highcharts);
 
 @Component({
     selector: 'app-details-recommendation-chart',

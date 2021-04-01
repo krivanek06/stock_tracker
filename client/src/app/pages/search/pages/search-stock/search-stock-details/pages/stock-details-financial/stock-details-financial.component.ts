@@ -26,7 +26,6 @@ export class StockDetailsFinancialComponent implements OnInit {
 
     ngOnInit() {
         this.stockDetails$ = this.symbolStorageService.getStockDetails();
-        this.stockDetails$.subscribe(console.log);
     }
 
 

@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 
 import {LoginPage} from './login.page';
-import {LoginFeatureModule} from '../../features/login-feature/login-feature.module';
+import {LoginFeatureModule} from '@login-feature';
 
 const routes: Routes = [
     {

@@ -1,11 +1,14 @@
 import {NgModule} from '@angular/core';
 import {MarketPage} from './market.page';
-import {SharedModule} from '../../shared/shared.module';
+import {SharedModule} from '@shared';
 import {RouterModule, Routes} from '@angular/router';
 import {MarketOverviewComponent} from './pages/market-overview/market-overview.component';
-import {MarketFeatureModule} from '../../features/market-feature/market-feature.module';
+import {MarketFeatureModule} from '@market-feature';
 import {MarketDailyChangeComponent} from './pages/market-daily-change/market-daily-change.component';
 import {MarketCryptoComponent} from './pages/market-crypto/market-crypto.component';
+import {MarketPageFacadeService} from './services/market-page-facade.service';
+import {PagesSharedModule} from '@pages-shared';
+import {StockWatchlistModule} from '@stock-watchlist-feature';
 
 const routes: Routes = [
     {
@@ -37,13 +40,18 @@ const routes: Routes = [
     imports: [
         SharedModule,
         RouterModule.forChild(routes),
-        MarketFeatureModule
+        MarketFeatureModule,
+        PagesSharedModule,
+        StockWatchlistModule
     ],
     declarations: [
         MarketPage,
         MarketOverviewComponent,
         MarketDailyChangeComponent,
         MarketCryptoComponent
+    ],
+    providers: [
+        MarketPageFacadeService
     ]
 })
 export class MarketPageModule {

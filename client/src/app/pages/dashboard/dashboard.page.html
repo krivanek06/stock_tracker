@@ -1,5 +1,7 @@
-<!-- body -->
 <ion-content class="ion-padding">
+    <!-- menu page header -->
+    <app-menu-header></app-menu-header>
+
     <!-- header -->
     <app-header [pageIcon]="'grid'" [pageName]="'Dashboard'"></app-header>
 
@@ -64,10 +66,10 @@
             <ion-row class="ion-padding ion-hide-sm-down">
                 <ion-col size="12" size-md="6" size-xl="5">
                     <!-- BIG SCREEN holdings sector chart -->
-                    <app-summary-sector-chart [chartTitle]="'Holdings sectors'" [heightPx]="300" [enable3D]="true"
+                    <app-details-sector-chart [chartTitle]="'Holdings sectors'" [heightPx]="300" [enable3D]="true"
                                               [showLegend]="false" [showDataLabel]="true"
                                               [stTransactions]="user.holdings">
-                    </app-summary-sector-chart>
+                    </app-details-sector-chart>
                 </ion-col>
                 <ion-col size="12" size-md="6" size-xl="5">
                     <!-- BIG SCREEN holdings allocation -->
@@ -82,9 +84,9 @@
             <ion-row class="ion-padding ion-hide-sm-up">
                 <ion-col size="12">
                     <!-- SMALL SCREEN holdings sector chart -->
-                    <app-summary-sector-chart [chartTitle]="'Holdings sectors'" [heightPx]="300"
+                    <app-details-sector-chart [chartTitle]="'Holdings sectors'" [heightPx]="300"
                                               [enable3D]="true" [stTransactions]="user.holdings">
-                    </app-summary-sector-chart>
+                    </app-details-sector-chart>
                 </ion-col>
                 <ion-col size="12">
                     <!-- SMALL SCREEN  holdings allocation -->

@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {IonicDialogService, RegisterIUser} from '@core';
+import {RegisterIUser} from '@core';
+import {DialogService} from '@shared';
 
 @Component({
     selector: 'app-registration',
@@ -35,7 +36,7 @@ export class RegistrationComponent implements OnInit {
             this.password2.patchValue(null);
             this.password1.updateValueAndValidity();
             this.password2.updateValueAndValidity();
-            IonicDialogService.presentToast('Passwords do not match!');
+            DialogService.presentToast('Passwords do not match!');
             return;
         }
 

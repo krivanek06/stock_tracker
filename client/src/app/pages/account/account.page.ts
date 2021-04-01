@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {StUserEditDataInput, StUserPublicData, UserStorageService} from '@core';
 import {Observable} from 'rxjs';
-import {AccountFeatureService} from '@account-feature';
+import {AccountFeatureFacadeService} from '@account-feature';
 
 @Component({
     selector: 'app-account',
@@ -14,7 +14,7 @@ export class AccountPage implements OnInit {
     editing = false;
 
     constructor(private userStorageService: UserStorageService,
-                private userAccountService: AccountFeatureService) {
+                private userAccountService: AccountFeatureFacadeService) {
     }
 
     ngOnInit() {

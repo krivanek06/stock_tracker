@@ -23,6 +23,14 @@ export class TradeConfirmationPopOverComponent implements OnInit {
                 private fb: FormBuilder) {
     }
 
+    get units(): AbstractControl {
+        return this.form.get('units');
+    }
+
+    get confirmation(): AbstractControl {
+        return this.form.get('confirmation');
+    }
+
     ngOnInit() {
         this.symbol = this.navParams.get('symbol');
         this.symbolLogoUrl = this.navParams.get('symbolLogoUrl');
@@ -48,14 +56,6 @@ export class TradeConfirmationPopOverComponent implements OnInit {
 
     dismiss() {
         this.popoverController.dismiss(null);
-    }
-
-    get units(): AbstractControl {
-        return this.form.get('units');
-    }
-
-    get confirmation(): AbstractControl {
-        return this.form.get('confirmation');
     }
 
     private initForm() {

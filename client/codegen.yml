@@ -6,7 +6,7 @@ documents:
   - src/**/*.graphql
 
 generates:
-  ./src/app/core/api/customGraphql.service.ts:
+  ./src/app/core/graphql-schema/customGraphql.service.ts:
     plugins:
       - typescript
       - typescript-operations

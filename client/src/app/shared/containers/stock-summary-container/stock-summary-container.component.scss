@@ -1,0 +1,11 @@
+@import "../../../../theme/variables";
+
+:host {
+  ion-list {
+    ion-item {
+      --min-height: #{$st-ionic-label-min-height};
+    }
+  }
+
+
+}

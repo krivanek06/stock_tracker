@@ -18,8 +18,8 @@
                 <app-generic-list [iconTitle]="'barcode-outline'"
                                   [title]="'Summary: ' + stockDetails.id"></app-generic-list>
                 <app-generic-card>
-                    <app-details-summary-container [summary]="stockDetails.summary">
-                    </app-details-summary-container>
+                    <app-stock-summary-container [summary]="stockDetails.summary">
+                    </app-stock-summary-container>
                 </app-generic-card>
             </ion-col>
         </ion-row>
@@ -270,12 +270,12 @@
                 <!--  grading history -->
                 <app-generic-card [subtitle]="'Stock grading'" [additionalClasses]="'st-height-100'">
                     <ion-item-group class="ion-margin-bottom">
-                        <app-grading-history
+                        <app-details-grading-history
                                 [history]="stockDetails.companyData.upgradeDowngradeHistory | slice: 0: 11">
-                        </app-grading-history>
+                        </app-details-grading-history>
                     </ion-item-group>
-                    <app-stock-trend
-                            [trend]="stockDetails.companyData.pageViews"></app-stock-trend>
+                    <app-details-stock-trend
+                            [trend]="stockDetails.companyData.pageViews"></app-details-stock-trend>
                 </app-generic-card>
             </ion-col>
         </ion-row>

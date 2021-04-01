@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {MarketChartBuilderComponent, MarketFeatureService} from '@market-feature';
-import {StMarketOverviewPartialData} from '@core';
+import {GraphqlQueryService, StMarketOverviewPartialData} from '@core';
 import {Observable} from 'rxjs';
-import {ModalController} from '@ionic/angular';
+import {MarketPageFacadeService} from '../../services/market-page-facade.service';
 
 @Component({
     selector: 'app-market-overview',
@@ -15,20 +14,15 @@ export class MarketOverviewComponent implements OnInit {
 
     chartHeight = 185;
 
-    constructor(private marketService: MarketFeatureService,
-                private modalController: ModalController) {
+    constructor(private graphqlQueryService: GraphqlQueryService,
+                private marketPageFacadeService: MarketPageFacadeService) {
     }
 
     ngOnInit() {
-        this.marketOverview$ = this.marketService.queryStMarketHistoryOverview();
+        this.marketOverview$ = this.graphqlQueryService.queryStMarketHistoryOverview();
     }
 
     async expand(documentKey: string) {
-        const modal = await this.modalController.create({
-            component: MarketChartBuilderComponent,
-            componentProps: {documentKey},
-            cssClass: 'custom-modal'
-        });
-        return await modal.present();
+        await this.marketPageFacadeService.showMarketChartBuilder(documentKey);
     }
 }

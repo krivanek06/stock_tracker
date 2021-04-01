@@ -15,8 +15,8 @@
                     class="ion-hide-sm-down"
                     [showIcons]="false"
                     [showPrice]="false"
-                    [currentPrice]="esgScore.totalEsg"
-                    [compareToPrice]="esgScore.peerEsgScorePerformance.avg">
+                    [currentPrice]="esgScore?.totalEsg"
+                    [compareToPrice]="esgScore?.peerEsgScorePerformance.avg">
             </app-price-compare-item>
         </ion-label>
         <ion-label>{{ esgScore.peerEsgScorePerformance.avg |  number: '1.2-2'}}</ion-label>

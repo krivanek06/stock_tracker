@@ -3,7 +3,7 @@ import {DefaultImgDirective, DropzoneDirective, RecommendationDirective, ScrollO
 import {FinancialChartComponent, GaugeChartComponent, GenericChartComponent} from './components/charts';
 import {FixedRangeSliderComponent, TableHighLowRangeComponent} from './components/range-selector';
 import {NumberFormatterPipe, ObjNgForPipe, RelativeTimePipe, SumUpPipe} from './pipes';
-import {FinancialChartContainerComponent, HeaderComponent} from './containers';
+import {FinancialChartContainerComponent, HeaderComponent, StockSummaryContainerComponent} from './containers';
 import {InlineModificationFormComponent} from './components/forms';
 import {
     GenericCardComponent,
@@ -59,7 +59,8 @@ import {SharedProvidersModule} from './shared-providers.module';
         RecommendationDirective,
         ArticleCardsComponent,
         StockInfoIdentificationItemComponent,
-        FinancialChartModalComponent
+        FinancialChartModalComponent,
+        StockSummaryContainerComponent
     ],
     imports: [
         SharedProvidersModule
@@ -94,7 +95,8 @@ import {SharedProvidersModule} from './shared-providers.module';
         RecommendationDirective,
         ArticleCardsComponent,
         StockInfoIdentificationItemComponent,
-        FinancialChartModalComponent
+        FinancialChartModalComponent,
+        StockSummaryContainerComponent
     ],
     entryComponents: [
         InlineInputPopUpComponent

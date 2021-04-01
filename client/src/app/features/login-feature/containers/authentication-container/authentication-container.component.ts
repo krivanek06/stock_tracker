@@ -1,8 +1,8 @@
 import {LoginComponent, RegistrationComponent} from '../../components';
 import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
-import {IonicDialogService, LoginIUser, RegisterIUser} from '@core';
-import {LoginFeatureService} from '../../services';
+import {AuthenticationService, LoginIUser, RegisterIUser} from '@core';
+import {DialogService} from '@shared';
 
 @Component({
     selector: 'app-authentication-container',
@@ -16,7 +16,7 @@ export class AuthenticationContainerComponent implements OnInit {
 
     segmentValue = 'login';
 
-    constructor(private loginFeatureService: LoginFeatureService,
+    constructor(private loginFeatureService: AuthenticationService,
                 private router: Router) {
     }
 
@@ -34,7 +34,7 @@ export class AuthenticationContainerComponent implements OnInit {
             this.router.navigate(['/menu/dashboard']);
         } catch (e) {
             this.loginComp.loginForm.reset();
-            IonicDialogService.presentToast(e.message);
+            DialogService.presentToast(e.message);
         }
     }
 
@@ -44,7 +44,7 @@ export class AuthenticationContainerComponent implements OnInit {
             this.router.navigate(['/menu/dashboard']);
         } catch (e) {
             this.registrationComp.registrationForm.reset();
-            IonicDialogService.presentToast(e.message);
+            DialogService.presentToast(e.message);
         }
     }
 
