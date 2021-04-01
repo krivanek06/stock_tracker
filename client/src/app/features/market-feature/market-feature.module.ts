@@ -1,11 +1,12 @@
 import {NgModule} from '@angular/core';
-import {SharedModule} from '../../shared/shared.module';
-import {MarketTopTableStocksComponent} from './components';
-import {MarketEarningsTableComponent} from './components';
-import {MarketEventsSelectorComponent} from './components';
-import {MarketEarningsModalComponent} from './entry-components';
-import {MarketTopTableCryptoComponent} from './components';
-import {MarketChartBuilderComponent} from './entry-components';
+import {SharedModule} from '@shared';
+import {
+    MarketEarningsTableComponent,
+    MarketEventsSelectorComponent,
+    MarketTopTableCryptoComponent,
+    MarketTopTableStocksComponent
+} from './components';
+import {MarketChartBuilderComponent, MarketEarningsModalComponent} from './entry-components';
 
 
 @NgModule({

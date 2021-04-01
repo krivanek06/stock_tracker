@@ -3,7 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {retry} from 'rxjs/operators';
-import {HistoricalChartData} from '../model/chartDataModel';
+import {HistoricalChartData} from '../model';
 
 @Injectable({
     providedIn: 'root'

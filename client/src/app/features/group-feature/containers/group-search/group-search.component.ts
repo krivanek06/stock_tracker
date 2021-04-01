@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FirebaseSearchService, StGroupPartialData} from '@core';
+import {GraphqlQueryService, StGroupPartialData} from '@core';
 import {Observable, of} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {debounceTime, switchMap} from 'rxjs/operators';
@@ -19,7 +19,7 @@ export class GroupSearchComponent implements OnInit {
     form: FormGroup;
 
     constructor(private fb: FormBuilder,
-                private firebaseSearchService: FirebaseSearchService) {
+                private firebaseSearchService: GraphqlQueryService) {
     }
 
     ngOnInit() {

@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AboutPage} from './about.page';
 import {SharedModule} from '../../shared/shared.module';
+import {PagesSharedModule} from '@pages-shared';
 
 const routes: Routes = [
     {
@@ -13,7 +14,8 @@ const routes: Routes = [
 @NgModule({
     imports: [
         SharedModule,
-        RouterModule.forChild(routes)
+        RouterModule.forChild(routes),
+        PagesSharedModule
     ],
     declarations: [AboutPage]
 })

@@ -4,6 +4,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {SharedModule} from '../../shared/shared.module';
 import {AccountFeatureModule} from '../../features/account-feature/account-feature.module';
 import {StockWatchlistModule} from '../../features/stock-watchlist-feature/stock-watchlist.module';
+import {PagesSharedModule} from '@pages-shared';
 
 const routes: Routes = [
     {
@@ -17,7 +18,8 @@ const routes: Routes = [
         SharedModule,
         RouterModule.forChild(routes),
         AccountFeatureModule,
-        StockWatchlistModule
+        StockWatchlistModule,
+        PagesSharedModule
     ],
     declarations: [
         AccountPage

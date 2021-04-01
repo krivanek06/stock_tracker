@@ -34,7 +34,7 @@ export class SearchStockDetailsPage extends ComponentBaseDirective implements On
 
     segmentChanged(data: CustomEvent) {
         this.segmentValue = data.detail.value;
-        this.router.navigate([`menu/search/${SEARCH_PAGE_ENUM.STOCK}/${SEARCH_PAGE_STOCK_ENUM.DETAILS}/${this.stockDetailsService.activeSymbol}/${this.segmentValue}`]);
+        this.router.navigate([`menu/search/stock/details/${this.stockDetailsService.activeSymbol}/${this.segmentValue}`]);
     }
 
 }

@@ -1,4 +1,7 @@
 <ion-content class="ion-padding">
+    <!-- menu page header -->
+    <app-menu-header></app-menu-header>
+
     <!-- header -->
     <app-header [pageIcon]="'analytics'" [pageName]="'Trading'"></app-header>
 
@@ -40,7 +43,7 @@
                 <app-generic-list [iconTitle]="'barcode-outline'" [title]="'Summary'"></app-generic-list>
                 <app-generic-card>
                     <!-- symbol summary -->
-                    <app-details-summary-container [summary]="selectedSummary"></app-details-summary-container>
+                    <app-stock-summary-container [summary]="selectedSummary"></app-stock-summary-container>
 
                     <!-- buttons -->
                     <ion-buttons class="st-buttons-container st-justify-center">
@@ -84,10 +87,10 @@
                             <app-generic-card (click)="changeSummary(suggestion.summary)"
                                               [applyLeftPadding]="false"
                                               [additionalClasses]="'st-height-100 ion-activatable'">
-                                <app-stock-info-list-change
+                                <app-details-stock-suggestion-change
                                         [suggestionMarketPrice]="suggestion.summary.marketPrice"
                                         [suggestion]="suggestion">
-                                </app-stock-info-list-change>
+                                </app-details-stock-suggestion-change>
 
                                 <!-- ripple effect on click -->
                                 <ion-ripple-effect></ion-ripple-effect>

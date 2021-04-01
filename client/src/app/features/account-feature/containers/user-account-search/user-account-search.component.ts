@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output}
 import {Observable, of} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {debounceTime, switchMap} from 'rxjs/operators';
-import {FirebaseSearchService, StUserPartialInformation} from '@core';
+import {GraphqlQueryService, StUserPartialInformation} from '@core';
 
 @Component({
     selector: 'app-user-account-search',
@@ -18,7 +18,7 @@ export class UserAccountSearchComponent implements OnInit {
     form: FormGroup;
 
     constructor(private fb: FormBuilder,
-                private firebaseSearchService: FirebaseSearchService) {
+                private firebaseSearchService: GraphqlQueryService) {
     }
 
     ngOnInit() {

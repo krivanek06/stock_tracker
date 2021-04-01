@@ -11,7 +11,8 @@ import {StockDetailsFeatureModule} from '../../features/stock-details-feature/st
 import {SearchStockSummaryComponent} from './pages/search-stock/search-stock-summary/search-stock-summary.component';
 import {SearchPageRoutingModule} from './search-routing.module.ts.module';
 import {AccountFeatureModule} from '../../features/account-feature/account-feature.module';
-import {GroupManagementFeatureModule} from '../../features/group-feature/group-management-feature.module';
+import {GroupFeatureModule} from '../../features/group-feature/group-feature.module';
+import {PagesSharedModule} from '@pages-shared';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import {GroupManagementFeatureModule} from '../../features/group-feature/group-m
         StockDetailsFeatureModule,
         SearchPageRoutingModule,
         AccountFeatureModule,
-        GroupManagementFeatureModule
+        GroupFeatureModule,
+        PagesSharedModule
     ],
     declarations: [
         SearchPage,

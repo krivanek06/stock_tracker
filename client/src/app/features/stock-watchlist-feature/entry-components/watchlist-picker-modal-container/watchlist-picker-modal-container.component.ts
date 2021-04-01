@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {NavParams, PopoverController} from '@ionic/angular';
-import {WatchlistFeatureService} from '../../services';
+import {UserStorageService} from '@core';
 
 @Component({
     selector: 'app-watchlist-picker-modal-container',
@@ -10,15 +10,13 @@ import {WatchlistFeatureService} from '../../services';
 })
 export class WatchlistPickerModalContainerComponent implements OnInit {
     symbol: string;
+    stockWatchLists$ = this.userStorageService.getUserWatchlists();
 
     constructor(private navParams: NavParams,
-                private watchlistService: WatchlistFeatureService,
+                private userStorageService: UserStorageService,
                 private popoverController: PopoverController) {
         this.symbol = this.navParams.get('symbol');
     }
-
-    stockWatchLists$ = this.watchlistService.getUserStockWatchlists();
-
 
     ngOnInit(): void {
 

@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ModalController, NavParams} from '@ionic/angular';
-import {MarketFeatureService} from '../../services';
-import {ComponentBaseDirective, StMarketChartDataResultCombined, StMarketDatasetKeyCategory} from '@core';
+import {ComponentBaseDirective, GraphqlQueryService, StMarketChartDataResultCombined, StMarketDatasetKeyCategory} from '@core';
 import {takeUntil} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {cloneDeep} from 'lodash';
@@ -19,14 +18,13 @@ export class MarketChartBuilderComponent extends ComponentBaseDirective implemen
 
     constructor(private navParams: NavParams,
                 private modalController: ModalController,
-                private marketService: MarketFeatureService) {
+                private graphqlQueryService: GraphqlQueryService) {
         super();
     }
 
     ngOnInit() {
-        const key = this.navParams.get('documentKey');
-        this.queryData(key);
-        this.categories$ = this.marketService.queryStMarketAllCategories();
+        this.queryData(this.navParams.get('documentKey'));
+        this.categories$ = this.graphqlQueryService.queryStMarketAllCategories();
     }
 
     ngOnDestroy() {
@@ -44,7 +42,7 @@ export class MarketChartBuilderComponent extends ComponentBaseDirective implemen
             this.series = this.series.filter(k => k.documentKey !== key);
         } else {
             this.activeDocumentKeys = [...this.activeDocumentKeys, key];
-            this.marketService.queryStMarketData(key).pipe(takeUntil(this.destroy$)).subscribe(res => {
+            this.graphqlQueryService.queryStMarketData(key).pipe(takeUntil(this.destroy$)).subscribe(res => {
                 this.series = [...this.series, cloneDeep(res)];
             });
         }

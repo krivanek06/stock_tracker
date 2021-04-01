@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {StUserPartialInformation, StUserPublicData,} from '../../api';
+import {Maybe, StStockWatchlistFragmentFragment, StUserPartialInformation, StUserPublicData,} from '../../graphql-schema';
+import {map} from 'rxjs/operators';
 
 
 @Injectable({
@@ -43,5 +44,7 @@ export class UserStorageService {
         this.user$.next(user);
     }
 
-
+    getUserWatchlists(): Observable<Array<Maybe<{ __typename?: 'STStockWatchlist' } & StStockWatchlistFragmentFragment>> | null> {
+        return this.getUser().pipe(map(u => u.stockWatchlist));
+    }
 }

@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {Summary} from '../../../../../core/api';
-import {WatchlistFeatureService} from '@stock-watchlist-feature';
+import {Summary} from '@core';
+import {WatchlistFeatureFacadeService} from '@stock-watchlist-feature';
 import {Router} from '@angular/router';
-import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_ENUM} from '../../../models/pages.model';
 
 @Component({
     selector: 'app-search-stock-summary',
@@ -13,7 +12,7 @@ import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_ENUM} from '../../../models/pages.mo
 export class SearchStockSummaryComponent implements OnInit {
     selectedSummary: Summary;
 
-    constructor(private watchlistService: WatchlistFeatureService,
+    constructor(private watchlistService: WatchlistFeatureFacadeService,
                 private router: Router) {
     }
 
@@ -29,6 +28,6 @@ export class SearchStockSummaryComponent implements OnInit {
     }
 
     redirectToDetails() {
-        this.router.navigate([`/menu/search/${SEARCH_PAGE_ENUM.STOCK}/${SEARCH_PAGE_STOCK_ENUM.DETAILS}/${this.selectedSummary.symbol}`]);
+        this.router.navigate([`/menu/search/stock/details/${this.selectedSummary.symbol}`]);
     }
 }

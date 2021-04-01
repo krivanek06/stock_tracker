@@ -1,55 +1,5 @@
-@import 'custom-variables';
-
 :host {
-  ion-menu-button {
-    color: #{$st-var-font-1}
-  }
-
-  ion-menu-toggle {
-    float: left;
-    display: block !important;
-  }
-
-  ion-header {
-    @media (max-width: #{$st-var-lg-split}) {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-  }
-
   ion-col {
     padding: 0;
   }
-
-  ion-searchbar {
-    --background: transparent;
-    --color: #{$st-var-font-4};
-    --box-shadow: none;
-    --icon-color: #{$st-var-blue-1};
-    --placeholder-opacity: 0.9;
-    padding: 0;
-  }
-
-  .ion-search-chip {
-    background-color: #{$st-var-blue-3};
-
-    @media (max-width: #{$st-var-sm-split}) {
-      width: 175px;
-    }
-  }
-
-  ion-icon {
-    color: #{$st-var-blue-1};
-  }
-
-  .search-results {
-    background-color: #{$background-blue};
-    position: absolute;
-    right: 10px;
-    top: 32px;
-    width: 90%;
-    border-radius: 8px;
-  }
-
 }

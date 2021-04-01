@@ -1,12 +1,15 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {WatchlistFeatureService} from '@stock-watchlist-feature';
-import {Router} from '@angular/router';
-import {ModalController} from '@ionic/angular';
-import {ComponentScreenUpdateBaseDirective, StStockWatchlistFragmentFragment, UserStorageService} from '@core';
+import {
+    ComponentScreenUpdateBaseDirective,
+    StStockWatchlistFragmentFragment,
+    SubscriptionWebsocketService,
+    UserStorageService
+} from '@core';
 import {SymbolIdentification} from '@shared';
-import {SymbolLookupModalComponent} from '@stock-details-feature';
 import {takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
+import {ModalController} from '@ionic/angular';
+import {SymbolLookupModalComponent, WatchlistFeatureFacadeService} from '@stock-watchlist-feature';
 
 @Component({
     selector: 'app-watchlist',
@@ -17,9 +20,9 @@ import {cloneDeep} from 'lodash';
 export class WatchlistPage extends ComponentScreenUpdateBaseDirective implements OnInit, OnDestroy {
     stockWatchlists: StStockWatchlistFragmentFragment[];
 
-    constructor(private watchlistService: WatchlistFeatureService,
-                private router: Router,
+    constructor(private watchlistFeatureFacadeService: WatchlistFeatureFacadeService,
                 private userStorageService: UserStorageService,
+                private subscriptionWebsocketService: SubscriptionWebsocketService,
                 private modalController: ModalController,
                 public cdr: ChangeDetectorRef) {
         super(cdr, 'WatchlistPage');
@@ -35,27 +38,22 @@ export class WatchlistPage extends ComponentScreenUpdateBaseDirective implements
 
     ngOnDestroy(): void {
         super.ngOnDestroy();
-        this.watchlistService.closeMarketSubscription();
+        this.subscriptionWebsocketService.closeSubscriptionWatchlist();
     }
 
 
     async showChartForSymbol(symbolIdentification: SymbolIdentification, watchlistId: string) {
-        const modal = await this.modalController.create({
-            component: SymbolLookupModalComponent,
-            componentProps: {symbolIdentification, watchlistId},
-            cssClass: 'custom-modal'
-        });
-        return await modal.present();
+        await this.watchlistFeatureFacadeService.showSymbolSummary(symbolIdentification, false, watchlistId);
     }
 
     private subscribeForWatchlistChange() {
-        this.watchlistService.getUserStockWatchlists().pipe(takeUntil(this.destroy$)).subscribe(watchlists => {
+        this.userStorageService.getUserWatchlists().pipe(takeUntil(this.destroy$)).subscribe(watchlists => {
             this.stockWatchlists = cloneDeep(watchlists);
         });
     }
 
     private subscribeForSymbolPriceChange() {
-        this.watchlistService.initSubscriptionForWatchlist().pipe(
+        this.subscriptionWebsocketService.initSubscriptionWatchlist().pipe(
             takeUntil(this.destroy$)
         ).subscribe(res => {
             for (const watchlist of this.stockWatchlists) {

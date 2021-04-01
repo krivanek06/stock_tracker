@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {UploadedFile, UploaderComponent} from '@shared';
-import {Confirmable, IonicDialogService, StUserEditDataInput, StUserPublicData} from '@core';
+import {Confirmable, UploadedFile, UploaderComponent} from '@shared';
+import {StUserEditDataInput, StUserPublicData} from '@core';
 import {convertUserAccountFormToStUserEditDataInput} from '../../models';
 
 
@@ -22,8 +22,7 @@ export class UserAccountFormComponent implements OnChanges, OnInit {
     form: FormGroup;
     editing = false;
 
-    constructor(private fb: FormBuilder,
-                private ionicDialogService: IonicDialogService) {
+    constructor(private fb: FormBuilder) {
     }
 
     get displayName(): AbstractControl {

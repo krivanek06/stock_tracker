@@ -1,14 +1,20 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {filter, switchMap, takeUntil} from 'rxjs/operators';
-import {ComponentBaseDirective, StGroupAllData, StUserPartialInformation, User_Status_In_Group, UserStorageService} from '@core';
+import {
+    ComponentBaseDirective,
+    GroupStorageService,
+    StGroupAllData,
+    StUserPartialInformation,
+    User_Status_In_Group,
+    UserStorageService
+} from '@core';
 import {
     convertStGroupAllDataToStGroupPartialData,
     GroupMemberPosition,
     GroupMemberPositionChangeEnum,
     GroupMemberPositionChangePopOverComponent,
-    GroupService,
-    GroupStorageService
+    GroupFeatureFacadeService
 } from '@group-feature';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UploadedFile, UploaderComponent} from '@shared';
@@ -29,7 +35,7 @@ export class GroupsEditComponent extends ComponentBaseDirective implements OnIni
     User_Status_In_Group = User_Status_In_Group;
 
     constructor(private activatedRoute: ActivatedRoute,
-                private groupService: GroupService,
+                private groupService: GroupFeatureFacadeService,
                 private userStorageService: UserStorageService,
                 private route: Router,
                 private groupUserRolesService: GroupStorageService,

@@ -1,4 +1,4 @@
-import {StPortfolioFragmentFragment, StUserEditDataInput} from '@core';
+import {StUserEditDataInput} from '@core';
 import {UserAccountForm} from './account-feature.model';
 
 export const convertUserAccountFormToStUserEditDataInput = (userId: string, accountForm: UserAccountForm): StUserEditDataInput => {
@@ -13,14 +13,4 @@ export const convertUserAccountFormToStUserEditDataInput = (userId: string, acco
 };
 
 
-export const resetedPortfolio = (): StPortfolioFragmentFragment => {
-    const portfolio: StPortfolioFragmentFragment = {
-        __typename: 'STPortfolio',
-        portfolioWeeklyGrowth: 0,
-        portfolioCash: 15000,
-        portfolioInvested: 0,
-        portfolioWeeklyChange: 0
-    };
-    return portfolio;
-};
 

@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 
 import * as Highcharts from 'highcharts/highstock';
-import HighchartsMore from 'highcharts/highcharts-more';
+//import HighchartsMore from 'highcharts/highcharts-more';
 import HighchartsSolidGauge from 'highcharts/modules/solid-gauge';
 
-HighchartsMore(Highcharts);
+//HighchartsMore(Highcharts);
 HighchartsSolidGauge(Highcharts);
 
 

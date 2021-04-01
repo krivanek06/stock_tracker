@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {StStockWatchInputlistIdentifier, StStockWatchlist, UserStorageService} from '@core';
-import {WatchlistFeatureService} from '../../services';
+import {WatchlistFeatureFacadeService} from '../../services';
 
 @Component({
     selector: 'app-watchlist-modification-container',
@@ -12,7 +12,7 @@ export class WatchlistModificationContainerComponent implements OnInit {
     @Input() watchlists: StStockWatchlist[];
 
     constructor(private userStorageService: UserStorageService,
-                private watchlistService: WatchlistFeatureService) {
+                private watchlistService: WatchlistFeatureFacadeService) {
     }
 
     ngOnInit() {

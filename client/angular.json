@@ -18,6 +18,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "rxjs-compat",
+              "highcharts/highstock",
+              "highcharts/highcharts-3d",
+              "highcharts/modules/solid-gauge",
+              "zen-observable",
+              "lodash"
+            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "src/theme"

@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {IonicDialogService} from './services';
 
 
 @NgModule({
@@ -7,14 +6,13 @@ import {IonicDialogService} from './services';
     imports: []
 })
 export class CoreModule {
-    public constructor(ionicDialogService: IonicDialogService) {
-        // ^^^ forces an instance to be created
+    public constructor() {
     }
 
     static forRoot() {
         return {
             ngModule: CoreModule,
-            providers: [IonicDialogService]
+            providers: []
         };
     }
 }

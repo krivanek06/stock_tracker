@@ -26,6 +26,9 @@
       "@api": [
         "src/app/api/index"
       ],
+      "@providers": [
+        "src/app/providers/index"
+      ],
       "@environment": [
         "src/environments/*"
       ],
@@ -55,6 +58,9 @@
       ],
       "@stock-watchlist-feature": [
         "src/app/features/stock-watchlist-feature/index"
+      ],
+      "@pages-shared": [
+        "src/app/pages/pages-shared/index"
       ]
     }
   },

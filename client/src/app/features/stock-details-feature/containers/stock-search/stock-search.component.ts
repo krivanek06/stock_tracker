@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FirebaseSearchService, Summary} from '@core';
+import {GraphqlQueryService, Summary} from '@core';
 import {Observable, of} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {debounceTime, switchMap} from 'rxjs/operators';
@@ -18,7 +18,7 @@ export class StockSearchComponent implements OnInit {
     form: FormGroup;
 
     constructor(private fb: FormBuilder,
-                private firebaseSearchService: FirebaseSearchService) {
+                private firebaseSearchService: GraphqlQueryService) {
     }
 
     ngOnInit() {

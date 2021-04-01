@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {StPortfolio, UserStorageService} from '@core';
-import {getFakeTransactionTable, TradingScreenUpdateBaseDirective, TradingFeatureService} from '@stock-trading-feature';
+import {StPortfolio, SubscriptionWebsocketService, UserStorageService} from '@core';
+import {getFakeTransactionTable, TradingScreenUpdateBaseDirective} from '@stock-trading-feature';
 import {SymbolIdentification} from '@shared';
-import {SymbolLookupModalComponent} from '@stock-details-feature';
+import {SymbolLookupModalComponent} from '@stock-watchlist-feature';
 import {ModalController} from '@ionic/angular';
 
 @Component({
@@ -16,10 +16,10 @@ export class DashboardPage extends TradingScreenUpdateBaseDirective implements O
     fakeDataTransactionTable = getFakeTransactionTable();
 
     constructor(public userStorageService: UserStorageService,
-                public tradingService: TradingFeatureService,
+                public subscriptionWebsocketService: SubscriptionWebsocketService,
                 public cdr: ChangeDetectorRef,
                 private modalController: ModalController) {
-        super(userStorageService, tradingService, cdr);
+        super(userStorageService, subscriptionWebsocketService, cdr);
     }
 
     ngOnInit(): void {
@@ -34,7 +34,7 @@ export class DashboardPage extends TradingScreenUpdateBaseDirective implements O
     async showSummary(symbolIdentification: SymbolIdentification) {
         const modal = await this.modalController.create({
             component: SymbolLookupModalComponent,
-            componentProps: {symbolIdentification, showAddToWatchlistOption: false},
+            componentProps: {symbolIdentification},
             cssClass: 'custom-modal'
         });
         await modal.present();

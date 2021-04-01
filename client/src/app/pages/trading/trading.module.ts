@@ -5,6 +5,7 @@ import {SharedModule} from '../../shared/shared.module';
 import {StockTradingFeatureModule} from '../../features/stock-trading-feature/stock-trading-feature.module';
 import {StockDetailsFeatureModule} from '../../features/stock-details-feature/stock-details-feature.module';
 import {StockWatchlistModule} from '../../features/stock-watchlist-feature/stock-watchlist.module';
+import {PagesSharedModule} from '@pages-shared';
 
 const routes: Routes = [
     {
@@ -19,7 +20,8 @@ const routes: Routes = [
         RouterModule.forChild(routes),
         StockTradingFeatureModule,
         StockDetailsFeatureModule,
-        StockWatchlistModule
+        StockWatchlistModule,
+        PagesSharedModule
     ],
     declarations: [TradingPage]
 })

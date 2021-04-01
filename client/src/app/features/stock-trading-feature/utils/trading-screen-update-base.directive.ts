@@ -3,7 +3,7 @@ import {TradingChangeModel} from '../models';
 import {ComponentBaseDirective, StPortfolio, StTransaction, StUserPublicData, Summary, UserStorageService} from '@core';
 import {filter, takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
-import {TradingFeatureService} from '../services';
+import {SubscriptionWebsocketService} from '@core';
 
 @Directive()
 export abstract class TradingScreenUpdateBaseDirective extends ComponentBaseDirective implements OnInit, OnDestroy {
@@ -16,7 +16,7 @@ export abstract class TradingScreenUpdateBaseDirective extends ComponentBaseDire
     private interval: any;
 
     protected constructor(public userStorageService: UserStorageService,
-                          public tradingService: TradingFeatureService,
+                          public subscriptionWebsocketService: SubscriptionWebsocketService,
                           public cdr: ChangeDetectorRef) {
         super();
     }
@@ -30,7 +30,7 @@ export abstract class TradingScreenUpdateBaseDirective extends ComponentBaseDire
 
     ngOnDestroy() {
         super.ngOnDestroy();
-        this.tradingService.closeMarketSubscription();
+        this.subscriptionWebsocketService.closeSubscriptionHoldings();
         clearInterval(this.interval);
     }
 
@@ -55,7 +55,7 @@ export abstract class TradingScreenUpdateBaseDirective extends ComponentBaseDire
      * Init subscription for symbols which are in holdings
      */
     private subscribeForSymbolPriceChange() {
-        this.tradingService.initSubscriptionForHoldings().pipe(takeUntil(this.destroy$)).subscribe(res => {
+        this.subscriptionWebsocketService.initSubscriptionHoldings().pipe(takeUntil(this.destroy$)).subscribe(res => {
             const transaction = this.clonedHoldings.find(s => s.symbol === res.s);
             if (transaction) {
                 transaction.summary.marketPrice = res.p;

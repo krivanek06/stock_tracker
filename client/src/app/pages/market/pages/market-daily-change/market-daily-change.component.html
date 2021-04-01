@@ -46,8 +46,8 @@
             <app-generic-card [additionalClasses]="'st-height-100'">
                 <app-market-events-selector
                         [events]="calendarEvents$ | async"
-                        (selectedDateEmitter)="changeDisplayedEarningsDate($event)"
-                        (changeDatesEmitter)="changeDisplayedEvents($event)">
+                        (selectedDateEmitter)="showStockEarningsOnDate($event)"
+                        (changeDatesEmitter)="changeDisplayedEarningsDate($event)">
                 </app-market-events-selector>
             </app-generic-card>
         </ion-col>

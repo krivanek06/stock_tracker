@@ -2,19 +2,18 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit
 import {
     ComponentScreenUpdateBaseDirective,
     FinnhubWebsocketService,
+    GraphqlQueryService,
     NewsArticle,
     StEventCalendarData,
     StEventCalendarEarningsData,
     StMarketTopTableSymbolData
 } from '@core';
-import {MarketEarningsModalComponent, MarketFeatureService} from '@market-feature';
 import {NameValueContainer, SymbolIdentification} from '@shared';
 import {takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
 import {MARKET_DAILY_CHANGE_SELECT} from '../../model/market.model';
 import {Observable, of} from 'rxjs';
-import {ModalController} from '@ionic/angular';
-import {SymbolLookupModalComponent} from '@stock-details-feature';
+import {MarketPageFacadeService} from '../../services/market-page-facade.service';
 
 @Component({
     selector: 'app-market-daily-change',
@@ -33,9 +32,9 @@ export class MarketDailyChangeComponent extends ComponentScreenUpdateBaseDirecti
 
     MARKET_DAILY_CHANGE_SELECT = MARKET_DAILY_CHANGE_SELECT;
 
-    constructor(private marketService: MarketFeatureService,
+    constructor(private graphqlQueryService: GraphqlQueryService,
                 private finnhubWebsocketService: FinnhubWebsocketService,
-                private modalController: ModalController,
+                private marketPageFacadeService: MarketPageFacadeService,
                 public cdr: ChangeDetectorRef) {
         super(cdr, 'MarketDailyChangeComponent');
     }
@@ -62,47 +61,26 @@ export class MarketDailyChangeComponent extends ComponentScreenUpdateBaseDirecti
         this.selectedTableName = event.detail.value;
 
         // init subscription for new symbols
-        this.marketService.queryMarketDailyOverview().pipe(takeUntil(this.destroy$)).subscribe(res => {
+        this.graphqlQueryService.queryMarketDailyOverview().pipe(takeUntil(this.destroy$)).subscribe(res => {
             this.selectedTable = cloneDeep(res[this.selectedTableName.value]);
             this.selectedTable.forEach(s => this.finnhubWebsocketService.createSubscribeForSymbol(this.componentName, s.symbol));
         });
     }
 
-    changeDisplayedEvents(date: string) {
-        this.calendarEvents$ = this.marketService.queryStMarketCalendarEvents(date);
+    changeDisplayedEarningsDate(date: string) {
+        this.calendarEvents$ = this.graphqlQueryService.queryStMarketCalendarEvents(date);
     }
 
-    async changeDisplayedEarningsDate(selectedDate: string) {
-        const modal = await this.modalController.create({
-            component: MarketEarningsModalComponent,
-            componentProps: {selectedDate},
-            cssClass: 'custom-modal'
-        });
-        await modal.present();
-        const closed = await modal.onDidDismiss();
-        const symbolIdentification = closed?.data?.symbolIdentification;
-
-        if (symbolIdentification) {
-            const modalSymbolLookup = await this.modalController.create({
-                component: SymbolLookupModalComponent,
-                componentProps: {symbolIdentification},
-                cssClass: 'custom-modal'
-            });
-            return await modalSymbolLookup.present();
-        }
+    async showStockEarningsOnDate(selectedDate: string) {
+        await this.marketPageFacadeService.showStockEarningsOnDate(selectedDate);
     }
 
     async showSummary(symbolIdentification: SymbolIdentification) {
-        const modal = await this.modalController.create({
-            component: SymbolLookupModalComponent,
-            componentProps: {symbolIdentification, showAddToWatchlistOption: false},
-            cssClass: 'custom-modal'
-        });
-        await modal.present();
+        await this.marketPageFacadeService.showSymbolSummary(symbolIdentification, false);
     }
 
     private createCopyOfDailyOverview() {
-        this.marketService.queryMarketDailyOverview().pipe(takeUntil(this.destroy$)).subscribe(res => {
+        this.graphqlQueryService.queryMarketDailyOverview().pipe(takeUntil(this.destroy$)).subscribe(res => {
             this.calendarEvents$ = of(res.events);
             this.dailyNews = res.news;
             this.earnings = res.earnings;
