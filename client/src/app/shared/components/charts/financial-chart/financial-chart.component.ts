@@ -25,7 +25,7 @@ export class FinancialChartComponent implements OnInit, OnChanges {
     @Output() priceRangeEmitter: EventEmitter<number[]> = new EventEmitter<number[]>();
 
     @Input() price: any[][];
-    @Input() volume: any[];
+    @Input() volume: any[][];
     @Input() height = 350;
     @Input() showYAxis = true;
     @Input() financialChart: boolean;

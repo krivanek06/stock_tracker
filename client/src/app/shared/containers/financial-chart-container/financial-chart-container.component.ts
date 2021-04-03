@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {filter, takeUntil} from 'rxjs/operators';
-import {ChartDataApiService, ComponentScreenUpdateBaseDirective, FinnhubWebsocketService} from '@core';
+import {ComponentScreenUpdateBaseDirective, FinnhubWebsocketService, GraphqlQueryService} from '@core';
 import {marketValueChange} from '../../animations';
 
 @Component({
@@ -13,7 +13,7 @@ import {marketValueChange} from '../../animations';
     ]
 })
 export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseDirective implements OnInit, OnDestroy, OnChanges {
-    volume: number[] = [];
+    volume: number[][] = [];
     price: number[][] = []; // [open, high, low, close]
     selectedRange = '1d';
     priceRangeFrom: number;
@@ -29,7 +29,7 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseD
     @Input() showYAxis = true;
     @Input() isCrypto = false;
 
-    constructor(private chartDataService: ChartDataApiService,
+    constructor(private graphqlQueryService: GraphqlQueryService,
                 private finnhubWebsocketService: FinnhubWebsocketService,
                 public cd: ChangeDetectorRef) {
         super(cd, 'FinancialChartContainerComponent');
@@ -85,7 +85,7 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseD
     }
 
     private loadChartData() {
-        this.chartDataService.getHistoricalDataForSymbol(this.symbol, this.selectedRange).pipe(
+        this.graphqlQueryService.queryStMarketSymbolHistoricalChartData(this.symbol, this.selectedRange).pipe(
             takeUntil(this.destroy$)
         ).subscribe(res => {
             this.currentPrice = res.livePrice;

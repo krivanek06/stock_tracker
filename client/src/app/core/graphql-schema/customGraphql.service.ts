@@ -654,6 +654,7 @@ export type Query = {
     queryStockDetails?: Maybe<StockDetails>;
     queryStockSummary?: Maybe<Summary>;
     queryStockSummaries?: Maybe<SearchSymbol>;
+    querySTMarketSymbolHistoricalChartData?: Maybe<StMarketSymbolHistoricalChartData>;
     querySTMarketHistoryOverview?: Maybe<StMarketOverviewPartialData>;
     queryStMarketAllCategories?: Maybe<StMarketDatasetKeyCategories>;
     queryMarketDailyOverview?: Maybe<StMarketDailyOverview>;
@@ -700,6 +701,12 @@ export type QueryQueryStockSummaryArgs = {
 
 export type QueryQueryStockSummariesArgs = {
     symbolPrefix: Scalars['String'];
+};
+
+
+export type QueryQueryStMarketSymbolHistoricalChartDataArgs = {
+    symbol: Scalars['String'];
+    period: Scalars['String'];
 };
 
 
@@ -934,6 +941,15 @@ export type StMarketOverviewPartialData = {
     lastUpdate?: Maybe<Scalars['String']>;
 };
 
+export type StMarketSymbolHistoricalChartData = {
+    __typename?: 'STMarketSymbolHistoricalChartData';
+    livePrice?: Maybe<Scalars['Float']>;
+    symbol?: Maybe<Scalars['String']>;
+    period?: Maybe<Scalars['String']>;
+    price?: Maybe<Array<Maybe<Array<Maybe<Scalars['Float']>>>>>;
+    volume?: Maybe<Array<Maybe<Array<Maybe<Scalars['Float']>>>>>;
+};
+
 export type StMarketTopTableCryptoData = {
     __typename?: 'STMarketTopTableCryptoData';
     circulatingSupply?: Maybe<Scalars['Float']>;
@@ -1036,14 +1052,6 @@ export type StStockHistoricalClosedDataWithPeriod = {
     __typename?: 'STStockHistoricalClosedDataWithPeriod';
     livePrice?: Maybe<Scalars['Float']>;
     price?: Maybe<Array<Maybe<Scalars['Float']>>>;
-    symbol?: Maybe<Scalars['String']>;
-    period?: Maybe<Scalars['String']>;
-};
-
-export type StStockHistoricalDataWithPeriod = {
-    __typename?: 'STStockHistoricalDataWithPeriod';
-    livePrice?: Maybe<Scalars['Float']>;
-    price?: Maybe<Array<Maybe<Array<Maybe<Scalars['Float']>>>>>;
     symbol?: Maybe<Scalars['String']>;
     period?: Maybe<Scalars['String']>;
 };
@@ -1570,6 +1578,22 @@ export type StEventCalendarDataFragmentFragment = (
 export type StEventCalendarEarningsDataFragmentFragment = (
     { __typename?: 'STEventCalendarEarningsData' }
     & Pick<StEventCalendarEarningsData, 'companyshortname' | 'epsactual' | 'epsestimate' | 'epssurprisepct' | 'gmtOffsetMilliSeconds' | 'quoteType' | 'startdatetime' | 'startdatetimetype' | 'ticker' | 'timeZoneShortName'>
+    );
+
+export type QueryStMarketSymbolHistoricalChartDataQueryVariables = Exact<{
+    symbol: Scalars['String'];
+    period: Scalars['String'];
+}>;
+
+
+export type QueryStMarketSymbolHistoricalChartDataQuery = (
+    { __typename?: 'Query' }
+    & {
+    querySTMarketSymbolHistoricalChartData?: Maybe<(
+        { __typename?: 'STMarketSymbolHistoricalChartData' }
+        & Pick<StMarketSymbolHistoricalChartData, 'livePrice' | 'symbol' | 'period' | 'price' | 'volume'>
+        )>
+}
     );
 
 export type QueryMarketDailyOverviewQueryVariables = Exact<{ [key: string]: never; }>;
@@ -3743,6 +3767,29 @@ ${StMarketChartDataResultCombinedFragmentFragmentDoc}`;
 })
 export class QueryStMarketHistoryOverviewGQL extends Apollo.Query<QueryStMarketHistoryOverviewQuery, QueryStMarketHistoryOverviewQueryVariables> {
     document = QueryStMarketHistoryOverviewDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+        super(apollo);
+    }
+}
+
+export const QueryStMarketSymbolHistoricalChartDataDocument = gql`
+    query QuerySTMarketSymbolHistoricalChartData($symbol: String!, $period: String!) {
+        querySTMarketSymbolHistoricalChartData(symbol: $symbol, period: $period) {
+            livePrice
+            symbol
+            period
+            price
+            volume
+        }
+    }
+`;
+
+@Injectable({
+    providedIn: 'root'
+})
+export class QueryStMarketSymbolHistoricalChartDataGQL extends Apollo.Query<QueryStMarketSymbolHistoricalChartDataQuery, QueryStMarketSymbolHistoricalChartDataQueryVariables> {
+    document = QueryStMarketSymbolHistoricalChartDataDocument;
 
     constructor(apollo: Apollo.Apollo) {
         super(apollo);
