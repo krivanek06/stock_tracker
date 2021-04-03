@@ -35,14 +35,14 @@ export const createSTUserPublicData = (user: api.STUserAuthenticationInput): api
             groupMember: [],
             groupOwner: []
         },
-        currentWeek: {
+        latestPortfolioChange: {
             portfolio: null,
-            transactionsBuy: [],
-            transactionsSell: [],
+            transactionsBuy: 0,
+            transactionsSell: 0,
             date: getCurrentIOSDate(),
         },
         holdings: [],
-        portfolio: null,
+        portfolioCash: 0,
         rank: null
     };
     return stUserPublicData;
@@ -51,7 +51,7 @@ export const createSTUserPublicData = (user: api.STUserAuthenticationInput): api
 
 export const createSTUserHistoricalData = (): api.STUserHistoricalData => {
     const historicalData: api.STUserHistoricalData = {
-        portfolioWeeklyChange: [],
+        portfolioChange: [],
         resetedAccount: [],
         bestAchievedRanks: [],
         userLogs: [],
@@ -60,15 +60,3 @@ export const createSTUserHistoricalData = (): api.STUserHistoricalData => {
 };
 
 
-export const convertSTUserPublicDataToSTUserPartialInformation = (publicData: api.STUserPublicData) => {
-    const partial: api.STUserPartialInformation = {
-        rank: publicData.rank,
-        portfolio: publicData.portfolio,
-        accountCreatedDate: publicData.accountCreatedDate,
-        locale: publicData.locale,
-        uid: publicData.uid,
-        nickName: publicData.nickName,
-        photoURL: publicData.photoURL
-    };
-    return partial;
-}

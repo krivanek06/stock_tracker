@@ -10,22 +10,12 @@ export const userTypeDefs = gql`
         groupMember: [STGroupPartialData]
     }
 
-    type STUserIndetificationInformation {
+    type STUserIndetification {
         uid: String!
         nickName: String!
         locale: String
         photoURL: String!
         accountCreatedDate: String!
-    }
-
-    type STUserPartialInformation {
-        uid: String!
-        nickName: String!
-        locale: String
-        photoURL: String
-        accountCreatedDate: String!
-        portfolio: STPortfolio
-        rank: STRank
     }
 
     type STUserPublicData {
@@ -35,12 +25,13 @@ export const userTypeDefs = gql`
         photoURL: String
         accountCreatedDate: String!
         lastSignInDate: String!
-        portfolio: STPortfolio
+        portfolioCash: Float!
         rank: STRank
         holdings: [STTransaction]!
         transactionsSnippets: [STTransaction]!
         activity: USER_ACTIVITY
         groups: STUserGroups!
+        latestPortfolioChange: STPortfolioChange
         userPrivateData: STUserPrivateData!
         userHistoricalData: STUserHistoricalData!
         stockWatchlist: [STStockWatchlist]!
@@ -60,22 +51,17 @@ export const userTypeDefs = gql`
     }
 
     type STUserHistoricalData {
-        portfolioWeeklyChange: [STPortfolioWeeklyChange]!
+        portfolioChange: [STPortfolioChange]!
         bestAchievedRanks: [STRank]!
         resetedAccount: [STUserResetedAccount]!
         userLogs: [STLog]!
     }
 
-    type STPortfolioWeeklyChange {
+    type STPortfolioChange {
         portfolio: STPortfolio!
-        transactionsBuy: STPortfolioWeeklyChangeTransactions!
-        transactionsSell: STPortfolioWeeklyChangeTransactions!
+        transactionsBuy: Float
+        transactionsSell: Float
         date: String
-    }
-
-    type STPortfolioWeeklyChangeTransactions {
-        total: Float!
-        transactions: [STTransaction]
     }
 
     type STUserResetedAccount {

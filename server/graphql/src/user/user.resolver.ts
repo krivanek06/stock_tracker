@@ -7,11 +7,8 @@ import {querySTGroupAllDataByGroupId} from "../st-group/st-group.query";
 
 const resolveStockWatchlists = async (uid: string): Promise<api.STStockWatchlist[]> => {
     try {
-        const watchlistDocs = await admin
-            .firestore()
-            .collection(api.ST_WATCHLIST_COLLECTION)
-            .where('userId', '==', uid)
-            .get();
+        const watchlistDocs = await admin.firestore().collection(api.ST_WATCHLIST_COLLECTION)
+                    .where('userId', '==', uid).get();
 
         return watchlistDocs.docs.map(list => {
             return {...list.data(), id: list.id}

@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StUserPartialInformation} from '@core';
+import {StUserPublicData} from '@core';
 
 @Component({
     selector: 'app-user-account-info-list',
@@ -11,7 +11,7 @@ export class UserAccountInfoListComponent implements OnInit {
     @Output() deleteEmitter: EventEmitter<any> = new EventEmitter<any>();
     @Output() clickedEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-    @Input() userPartialInformation: StUserPartialInformation;
+    @Input() stUserPublicData: StUserPublicData;
     @Input() sinceDate: string;
     @Input() clickable = false;
     @Input() showDeleteButton = false;

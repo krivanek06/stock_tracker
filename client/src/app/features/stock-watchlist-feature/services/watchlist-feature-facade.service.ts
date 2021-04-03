@@ -15,20 +15,9 @@ export class WatchlistFeatureFacadeService {
     constructor(private popoverController: PopoverController,
                 private finnhubWebsocketService: FinnhubWebsocketService,
                 private graphqlWatchlistService: GraphqlWatchlistService,
-                private userStorageService: UserStorageService,
-                private modalController: ModalController) {
+                private userStorageService: UserStorageService) {
     }
 
-    async showSymbolSummary(symbolIdentification: SymbolIdentification,
-                            showAddToWatchlistOption: boolean = false,
-                            watchlistId: string = null){
-        const modal = await this.modalController.create({
-            component: SymbolLookupModalComponent,
-            componentProps: {symbolIdentification, showAddToWatchlistOption, watchlistId},
-            cssClass: 'custom-modal'
-        });
-        await modal.present();
-    }
 
     // if user has only one watchlist, return it automatically, else show pop-up to pick
     async addSymbolToWatchlist(symbol: string): Promise<void> {

@@ -1,7 +1,7 @@
+import { STPortfolio } from './st-portfolio.model';
 import { STGroupPartialData } from './st-group.model';
 import { STTransaction } from './st-transaction.model';
 import { STRank } from './st-rank.model';
-import { STPortfolio } from "./st-portfolio.model";
 import { STLog, STGeographic } from './st-share.model';
 
 
@@ -16,7 +16,7 @@ export enum USER_STATUS {
     ALLOWED = "ALLOWED",
 }
 
-export interface STUserIndentificationInformation {
+export interface STUserIndentification {
     uid: string;
     nickName: string;
     locale: string;
@@ -24,14 +24,11 @@ export interface STUserIndentificationInformation {
     accountCreatedDate: string;
 }
 
-export interface STUserPartialInformation extends STUserIndentificationInformation {
-    portfolio?: STPortfolio;
+export interface STUserPublicData extends STUserIndentification {
+    portfolioCash: number;
     rank?: STRank; // weekly update
-}
-
-export interface STUserPublicData extends STUserPartialInformation {
     transactionsSnippets: STTransaction[]; // last N
-    currentWeek: STPortfolioWeeklyChange;
+    latestPortfolioChange?: STPortfolioChange;
     lastSignInDate: string;
     holdings: STTransaction[]; // only open transactions
     groups: STUserGroupsIdentification;
@@ -40,24 +37,20 @@ export interface STUserPublicData extends STUserPartialInformation {
 }
 
 export interface STUserHistoricalData {
-    portfolioWeeklyChange: STPortfolioWeeklyChange[];
+    portfolioChange: STPortfolioChange[];
     resetedAccount: STUserResetedAccount[];
     bestAchievedRanks: STRank[];
     userLogs: STLog[];
 }
 
 
-export interface STPortfolioWeeklyChange {
+export interface STPortfolioChange {
     portfolio: STPortfolio;
-    transactionsBuy: STPortfolioWeeklyChangeTransactions[];
-    transactionsSell: STPortfolioWeeklyChangeTransactions[];
-	date?: string;
+    transactionsBuy: number;
+    transactionsSell: number;
+	date: string;  // daily intervals
 }
 
-export interface STPortfolioWeeklyChangeTransactions {
-    total: number;
-    transactions: STTransaction[];
-}
 
 export interface STUserPrivateData {
     uid: string;

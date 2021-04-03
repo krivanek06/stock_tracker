@@ -1,4 +1,4 @@
-import { STUserPartialInformation } from './user.model';
+import { STUserIndentification } from './user.model';
 import { STLog } from './st-share.model';
 import { STRank } from './st-rank.model';
 import { STTransaction } from './st-transaction.model';
@@ -37,7 +37,8 @@ export interface STGroupAllData extends STGroupPartialData {
 
 
 export interface STGroupUser {
-    user: STUserPartialInformation;
+    userIdentification: STUserIndentification;
+    portfolio: STPortfolio;
     sinceDate: string;
 }
 

@@ -1,8 +1,9 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {StPortfolioWeeklyChange} from '@core';
+
 
 import * as Highcharts from 'highcharts/highstock';
 import {stFormatLargeNumber} from '@shared';
+import {StPortfolioChange} from '@core';
 
 @Component({
     selector: 'app-transactions-chart',
@@ -11,7 +12,7 @@ import {stFormatLargeNumber} from '@shared';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TransactionsChartComponent implements OnInit, OnChanges {
-    @Input() stPortfolioWeeklyChanges: StPortfolioWeeklyChange[];
+    @Input() stPortfolioChanges: StPortfolioChange[];
     @Input() heightPx = 350;
 
     Highcharts: typeof Highcharts = Highcharts;
@@ -154,7 +155,7 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
                 },
                 name: 'Total buys',
                 data: (() => {
-                    return this.stPortfolioWeeklyChanges.map(point => [Date.parse(point.date), point.transactionsBuy.total]);
+                    return this.stPortfolioChanges.map(point => [Date.parse(point.date), point.transactionsBuy]);
                 })()
             }, {
                 color: '#dd1ec2',
@@ -172,7 +173,7 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
                 },
                 name: 'Total sells',
                 data: (() => {
-                    return this.stPortfolioWeeklyChanges.map(point => [Date.parse(point.date), point.transactionsSell.total]);
+                    return this.stPortfolioChanges.map(point => [Date.parse(point.date), point.transactionsSell]);
                 })()
             }]
         };

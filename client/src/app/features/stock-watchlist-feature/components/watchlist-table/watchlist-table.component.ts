@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {StStockWatchlist, Summary} from '@core';
 import {marketValueChange, SymbolIdentification} from '@shared';
 
@@ -29,5 +29,9 @@ export class WatchlistTableComponent implements OnInit {
 
     toggleDailyChange() {
         this.showDailyChange = !this.showDailyChange;
+    }
+
+    identify(index, item: Summary) {
+        return item.symbol;
     }
 }

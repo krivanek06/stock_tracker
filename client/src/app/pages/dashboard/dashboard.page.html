@@ -8,113 +8,42 @@
     <ion-grid *ngIf="user">
 
         <!-- portfolio state -->
-        <ion-row>
-            <ion-col size="12">
-                <app-portfolio-state
-                        [portfolioCash]="clonedPortfolio.portfolioCash"
-                        [portfolioInvested]="clonedPortfolio.portfolioInvested">
-                </app-portfolio-state>
-            </ion-col>
-        </ion-row>
+        <app-dashboard-portfolio-state
+                [portfolioCash]="user.portfolioCash"
+                [portfolioInvested]="portfolioInvested">
+        </app-dashboard-portfolio-state>
 
         <!-- portfolio change  weekly / monthly etc. -->
-        <ion-row class="ion-padding-horizontal">
-            <ion-col size="12" class="st-flex ion-justify-content-center">
-                <app-portfolio-change
-                        [daily]="daily"
-                        [stPortfolioHistory]="stPortfolioHistory"
-                        [holdings]="clonedHoldings">
-                </app-portfolio-change>
-            </ion-col>
-        </ion-row>
+        <app-dashboard-portfolio-change
+                [daily]="daily"
+                [stPortfolioChanges]="user.userHistoricalData.portfolioChange"
+                [stTransactions]="clonedHoldings">
+        </app-dashboard-portfolio-change>
 
-
-        <ion-row>
-            <!-- portfolio growth chart -->
-            <ion-col size="12" size-md="6" size-lg="5.5" size-xl="5">
-                <app-portfolio-growth-chart
-                        [heightPx]="260"
-                        [stPortfolio]="stPortfolioHistory">
-                </app-portfolio-growth-chart>
-            </ion-col>
-
-            <!-- portfolio change chart -->
-            <ion-col size="12" size-md="6" size-lg="5.5" size-xl="5">
-                <app-portfolio-change-chart
-                        [heightPx]="260"
-                        [stPortfolios]="stPortfolioHistory">
-                </app-portfolio-change-chart>
-            </ion-col>
-        </ion-row>
+        <!-- portfolio change charts -->
+        <app-dashboard-portfolio-change-charts
+                [stPortfolio]="user.userHistoricalData.portfolioChange"
+                [stPortfolioChanges]="user.userHistoricalData.portfolioChange">
+        </app-dashboard-portfolio-change-charts>
 
         <!-- holdings table -->
-        <ion-row>
-            <ion-col size="12" size-lg="11" size-xl="10">
-                <app-generic-list [title]="'Holdings'" [iconTitle]="'pricetags'"></app-generic-list>
-                <app-generic-card>
-                    <app-holdings-table
-                            [userPortfolioTotal]="clonedPortfolio.portfolioCash + clonedPortfolio.portfolioInvested"
-                            [stTransactions]="clonedHoldings"
-                            (itemClickedEmitter)="showSummary($event)">
-                    </app-holdings-table>
-                </app-generic-card>
-            </ion-col>
-        </ion-row>
+        <app-dashboard-holdings-table
+                [totalPortfolio]="portfolioInvested + user.portfolioCash"
+                [stTransactions]="clonedHoldings">
+        </app-dashboard-holdings-table>
 
         <!-- holdings sector + allocation -->
-        <ng-container *ngIf="clonedHoldings.length > 0">
-            <ion-row class="ion-padding ion-hide-sm-down">
-                <ion-col size="12" size-md="6" size-xl="5">
-                    <!-- BIG SCREEN holdings sector chart -->
-                    <app-details-sector-chart [chartTitle]="'Holdings sectors'" [heightPx]="300" [enable3D]="true"
-                                              [showLegend]="false" [showDataLabel]="true"
-                                              [stTransactions]="user.holdings">
-                    </app-details-sector-chart>
-                </ion-col>
-                <ion-col size="12" size-md="6" size-xl="5">
-                    <!-- BIG SCREEN holdings allocation -->
-                    <app-holdings-allocation-chart [enable3D]="true" [showDataLabel]="true" [showLegend]="false"
-                                                   [holdings]="user.holdings" [heightPx]="300"
-                                                   [portfolioInvested]="user.portfolio.portfolioInvested"
-                                                   [portfolioCash]="user.portfolio.portfolioCash">
-                    </app-holdings-allocation-chart>
-                </ion-col>
-            </ion-row>
-
-            <ion-row class="ion-padding ion-hide-sm-up">
-                <ion-col size="12">
-                    <!-- SMALL SCREEN holdings sector chart -->
-                    <app-details-sector-chart [chartTitle]="'Holdings sectors'" [heightPx]="300"
-                                              [enable3D]="true" [stTransactions]="user.holdings">
-                    </app-details-sector-chart>
-                </ion-col>
-                <ion-col size="12">
-                    <!-- SMALL SCREEN  holdings allocation -->
-                    <app-holdings-allocation-chart [enable3D]="true" [heightPx]="300"
-                                                   [holdings]="user.holdings"
-                                                   [portfolioInvested]="user.portfolio.portfolioInvested"
-                                                   [portfolioCash]="user.portfolio.portfolioCash">
-                    </app-holdings-allocation-chart>
-                </ion-col>
-            </ion-row>
-        </ng-container>
+        <app-dashboard-holdings-allocation
+                *ngIf="clonedHoldings.length > 0"
+                [portfolioInvested]="portfolioInvested"
+                [portfolioCash]="user.portfolioCash"
+                [stTransactions]="user.holdings">
+        </app-dashboard-holdings-allocation>
 
         <!-- transactions -->
-        <ion-row>
-            <ion-col size="12" size-md="6" size-lg="5.5" size-xl="5">
-                <app-generic-list [title]="'Transactions'" [iconTitle]="'reader'"></app-generic-list>
-                <app-generic-card>
-                    <app-transactions-table
-                            [transactions]="user.transactionsSnippets | slice:0:5">
-                    </app-transactions-table>
-                </app-generic-card>
-            </ion-col>
-            <ion-col size="12" size-md="6" size-lg="5.5" size-xl="5" class="ion-padding">
-                <app-transactions-chart
-                        [heightPx]="360"
-                        [stPortfolioWeeklyChanges]="fakeDataTransactionTable">
-                </app-transactions-chart>
-            </ion-col>
-        </ion-row>
+        <app-dashboard-transactions
+                [transactions]="user.transactionsSnippets | slice:0:5"
+                [stPortfolioChanges]="user.userHistoricalData.portfolioChange">
+        </app-dashboard-transactions>
     </ion-grid>
 </ion-content>

@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UploadedFile, UploaderComponent} from '@shared';
-import {StUserPartialInformation} from '@core';
+import {StUserPublicData} from '@core';
 import {GroupFeatureFacadeService} from '@group-feature';
 
 @Component({
@@ -12,7 +12,7 @@ import {GroupFeatureFacadeService} from '@group-feature';
 })
 export class GroupsCreateComponent implements OnInit {
     @ViewChild('uploader') uploader: UploaderComponent;
-    invitationSent: StUserPartialInformation[] = [];
+    invitationSent: StUserPublicData[] = [];
     form: FormGroup;
 
     constructor(private fb: FormBuilder,
@@ -38,15 +38,15 @@ export class GroupsCreateComponent implements OnInit {
         this.form.get('imageUrl').patchValue(files[0].downloadURL);
     }
 
-    sendInvitation(userPartialInformation: StUserPartialInformation) {
-        if (this.invitationSent.includes(userPartialInformation)) {
+    sendInvitation(userPublicData: StUserPublicData) {
+        if (this.invitationSent.includes(userPublicData)) {
             return;
         }
-        this.invitationSent = [...this.invitationSent, userPartialInformation];
+        this.invitationSent = [...this.invitationSent, userPublicData];
     }
 
-    invitationRemove(user: StUserPartialInformation) {
-        this.invitationSent = this.invitationSent.filter(x => x.uid !== user.uid);
+    invitationRemove(userPublicData: StUserPublicData) {
+        this.invitationSent = this.invitationSent.filter(x => x.uid !== userPublicData.uid);
     }
 
     private initForm() {

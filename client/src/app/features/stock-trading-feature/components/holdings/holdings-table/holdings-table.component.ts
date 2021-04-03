@@ -12,7 +12,7 @@ export class HoldingsTableComponent implements OnInit {
     @Output() itemClickedEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
 
     @Input() stTransactions: StTransaction[];
-    @Input() userPortfolioTotal: number;
+    @Input() totalPortfolio: number;
     @Input() clickable = true;
 
     showDailyChange = true;
@@ -32,5 +32,9 @@ export class HoldingsTableComponent implements OnInit {
 
     toggleDailyChange() {
         this.showDailyChange = !this.showDailyChange;
+    }
+
+    identify(index, item: StTransaction){
+        return item.symbol;
     }
 }

@@ -4,10 +4,8 @@ import {
     AuthenticateUserQuery,
     PerformTransactionGQL,
     PerformTransactionMutation,
-    StTransaction,
     StTransactionInput,
-    StTransactionOperationEnum,
-    StUserPublicData
+    StTransactionOperationEnum
 } from '../graphql-schema';
 import {DataProxy} from '@apollo/client/cache/core/types/DataProxy';
 import {Observable} from 'rxjs';
@@ -35,19 +33,9 @@ export class GraphqlTradingService {
                     }
                 });
 
-                let holdings: StTransaction[];
-                const totalPrice = transactionInput.price * transactionInput.units;
-                const portfolio = {...user.authenticateUser.portfolio};
-
-                if (transactionInput.operation === StTransactionOperationEnum.Buy) {
-                    portfolio.portfolioCash -= totalPrice;
-                    portfolio.portfolioInvested += totalPrice;
-                    holdings = addTransactionToUserHolding(user.authenticateUser as StUserPublicData, performTransaction as StTransaction);
-                } else {
-                    portfolio.portfolioCash += totalPrice;
-                    portfolio.portfolioInvested -= totalPrice;
-                    holdings = substractTransactionFromUserHolding(user.authenticateUser as StUserPublicData, performTransaction as StTransaction);
-                }
+                const lastTrans = performTransaction.lastTransaction;
+                const addCash = lastTrans.operation === StTransactionOperationEnum.Buy ?
+                    lastTrans.price * lastTrans.units : -(lastTrans.price * lastTrans.units);
 
                 // update cache
                 store.writeQuery({
@@ -59,11 +47,9 @@ export class GraphqlTradingService {
                         ...user,
                         authenticateUser: {
                             ...user.authenticateUser,
-                            holdings,
-                            transactionsSnippets: [performTransaction, ...user.authenticateUser.transactionsSnippets].splice(0, 10),
-                            portfolio: {
-                                ...portfolio
-                            }
+                            holdings: performTransaction.holdings,
+                            transactionsSnippets: [performTransaction.lastTransaction, ...user.authenticateUser.transactionsSnippets].splice(0, 10),
+                            portfolioCash: user.authenticateUser.portfolioCash + addCash
                         }
                     }
                 });
@@ -74,43 +60,3 @@ export class GraphqlTradingService {
     }
 
 }
-
-
-
-const addTransactionToUserHolding = (user: StUserPublicData, transaction: StTransaction): StTransaction[] => {
-    let holdings = [...user.holdings];
-    const index = holdings.map(x => x.symbol).indexOf(transaction.symbol);
-    if (index > -1) {
-        // symbol already in user's holdings
-        const oldHolding = holdings[index];
-        const updatedHolding: StTransaction = {
-            ...oldHolding,
-            price: (oldHolding.price * oldHolding.units + transaction.price * transaction.units) / (oldHolding.units + transaction.units),
-            units: oldHolding.units + transaction.units,
-            date: transaction.date
-        };
-        holdings[index] = updatedHolding;
-    } else {
-        holdings = [...holdings, transaction];    // user is not needed
-    }
-    return holdings;
-};
-
-
-const substractTransactionFromUserHolding = (user: StUserPublicData, transaction: StTransaction): StTransaction[] => {
-    let holdings: StTransaction[] = [...user.holdings];
-    const userHolding = user.holdings.find(x => x.symbol === transaction.symbol);
-
-    if (userHolding.units > transaction.units) {
-        const updatedHolding: StTransaction = {
-            ...userHolding,
-            units: userHolding.units - transaction.units,
-            date: transaction.date
-        };
-        const index = user.holdings.map(x => x.symbol).indexOf(transaction.symbol);
-        holdings[index] = updatedHolding;
-    } else {
-        holdings = holdings.filter(x => x.symbol !== transaction.symbol);
-    }
-    return holdings;
-};

@@ -1,10 +1,10 @@
+import { sumOfHoldings } from './../st-transaction/st-transaction-util';
 import {ApolloError} from 'apollo-server';
 import * as api from 'stock-tracker-common-interfaces';
 import * as admin from "firebase-admin";
-import {createSTUserHistoricalData, createSTUserPrivateData, createSTUserPublicData} from "./user.utils";
+import {createSTUserHistoricalData, createSTUserPrivateData, createSTUserPublicData} from "./user.creator";
 import {queryUserPublicData} from "./user.query";
 import {getCurrentIOSDate, stSeep} from "../st-shared/st-shared.functions";
-import {resetedPortfolio} from "../st-portfolio/st.portfolio.functions";
 import {resolveUserPrivateData} from "./user.resolver";
 
 export const registerUser = async (user: api.STUserAuthenticationInput): Promise<boolean> => {
@@ -55,7 +55,7 @@ export const editUser = async (editInput: api.STUserEditDataInput): Promise<bool
         }
 
         const userPublicData = await queryUserPublicData(editInput.userId) as api.STUserPublicData;
-        const initPortfolio = !userPrivateData.tradingEnabledDate && !!editInput.finnhubKey && !userPublicData.portfolio;
+        const initPortfolio = !userPrivateData.tradingEnabledDate && !!editInput.finnhubKey && !userPublicData.portfolioCash;
 
         // update public data - TODO cloud function propagate through groups
         if (initPortfolio || userPublicData.nickName !== editInput.nickName || userPublicData.photoURL !== editInput.photoURL) {
@@ -64,7 +64,7 @@ export const editUser = async (editInput: api.STUserEditDataInput): Promise<bool
                     ...userPublicData,
                     nickName: editInput.nickName,
                     photoURL: editInput.photoURL,
-                    portfolio: initPortfolio ? resetedPortfolio() : userPublicData.portfolio
+                    portfolioCash: initPortfolio ? 15000 : userPublicData.portfolioCash
                 } as api.STUserPublicData, {merge: true})
         }
 
@@ -76,13 +76,13 @@ export const editUser = async (editInput: api.STUserEditDataInput): Promise<bool
 };
 
 // TODO prevent not reseting someone else account
-export const resetUserAccount = async (userId: string): Promise<boolean> => {
+export const resetUserAccount = async (userId: string): Promise<api.STUserResetedAccount> => {
     try {
         const user = await queryUserPublicData(userId) as api.STUserPublicData;
 
         const reset: api.STUserResetedAccount = {
             date: getCurrentIOSDate(),
-            portfolioTotal: user.portfolio.portfolioInvested + user.portfolio.portfolioCash
+            portfolioTotal: user.portfolioCash + sumOfHoldings(user.holdings)
         };
 
         // save reseted account
@@ -96,11 +96,11 @@ export const resetUserAccount = async (userId: string): Promise<boolean> => {
 
         // save portfolio
         admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(user.uid).set({
-            portfolio: resetedPortfolio(),
+            portfolioCash: 15000,
             holdings: [],
         }, {merge: true});
 
-        return true;
+        return reset;
     } catch (error) {
         throw new ApolloError(error);
     }

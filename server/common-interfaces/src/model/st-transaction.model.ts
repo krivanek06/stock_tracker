@@ -1,9 +1,9 @@
-import { STUserIndentificationInformation } from './user.model';
+import { STUserIndentification } from './user.model';
 
 
 export interface STTransaction {
     transactionId?: string;
-    user?: STUserIndentificationInformation;
+    user?: STUserIndentification;
     symbol: string;
     symbol_logo_url: string;
     price: number;

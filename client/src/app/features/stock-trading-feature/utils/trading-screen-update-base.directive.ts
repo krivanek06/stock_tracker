@@ -1,9 +1,8 @@
 import {ChangeDetectorRef, Directive, OnDestroy, OnInit, ViewRef} from '@angular/core';
 import {TradingChangeModel} from '../models';
-import {ComponentBaseDirective, StPortfolio, StTransaction, StUserPublicData, Summary, UserStorageService} from '@core';
+import {ComponentBaseDirective, StTransaction, StUserPublicData, SubscriptionWebsocketService, Summary, UserStorageService} from '@core';
 import {filter, takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
-import {SubscriptionWebsocketService} from '@core';
 
 @Directive()
 export abstract class TradingScreenUpdateBaseDirective extends ComponentBaseDirective implements OnInit, OnDestroy {
@@ -11,8 +10,9 @@ export abstract class TradingScreenUpdateBaseDirective extends ComponentBaseDire
     daily: TradingChangeModel;
     selectedSummary: Summary;
 
-    clonedPortfolio: StPortfolio;
     clonedHoldings: StTransaction[] = [];
+    portfolioInvested: number;
+
     private interval: any;
 
     protected constructor(public userStorageService: UserStorageService,
@@ -43,8 +43,7 @@ export abstract class TradingScreenUpdateBaseDirective extends ComponentBaseDire
             takeUntil(this.destroy$)
         ).subscribe(user => {
             this.user = user;
-            this.clonedPortfolio = cloneDeep(this.user.portfolio);
-            this.clonedHoldings = cloneDeep(user.holdings);
+            this.clonedHoldings = cloneDeep(this.user.holdings);
 
             // select first summary in holdings
             this.selectedSummary = user.holdings.length > 0 ? user.holdings[0].summary : undefined;
@@ -69,7 +68,7 @@ export abstract class TradingScreenUpdateBaseDirective extends ComponentBaseDire
         this.interval = setInterval(() => {
             if (this.cdr && !(this.cdr as ViewRef).destroyed) {
                 // console.log('bb');
-                this.updateUsersPortfolio();
+                this.calculateTotalPortfolio();
                 this.calculateDailyPortfolioChange();
                 this.cdr.detectChanges();
             }
@@ -92,17 +91,8 @@ export abstract class TradingScreenUpdateBaseDirective extends ComponentBaseDire
         }
     }
 
-    /**
-     * By constantly changing marketPrice, user's invested amount must be recalculated
-     */
-    private updateUsersPortfolio() {
-        const invested = this.clonedHoldings
-            .map(transaction => transaction.summary.marketPrice * transaction.units)
-            .reduce((a, b) => a + b, 0);
-        this.clonedPortfolio = {
-            ...this.clonedPortfolio,
-            portfolioInvested: invested
-        };
+    private calculateTotalPortfolio(){
+        this.portfolioInvested = this.clonedHoldings.map(h => h.price * h.units).reduce((a, b) => a + b, 0);
     }
 
 }

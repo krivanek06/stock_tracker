@@ -30,8 +30,8 @@ export class TradingFeatureFacadeService {
         const data = res?.data?.data as StTransactionInput;
 
         if (!!data) {
-            this.graphqlTradingService.performTransaction(data)
-                .subscribe(() => DialogService.presentToast(`${data.operation} operation on ${data.symbol} has been completed `));
+            await this.graphqlTradingService.performTransaction(data).toPromise();
+            await DialogService.presentToast(`${data.operation} operation on ${data.symbol} has been completed `);
         }
     }
 }

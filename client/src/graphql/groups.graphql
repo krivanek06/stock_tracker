@@ -1,7 +1,11 @@
 fragment STGroupUserFragment on STGroupUser {
     sinceDate
-    user {
-        ...STUserPartialInformationFragment
+    useridentification {
+        ...STUserIndetificationFragment
+    }
+    portfolio {
+        portfolioInvested
+        portfolioCash
     }
 }
 

@@ -1,27 +1,14 @@
 fragment STPortfolioFragment on STPortfolio {
     portfolioInvested
     portfolioCash
-    portfolioWeeklyChange
-    portfolioWeeklyGrowth
-    date
 }
 
 
-fragment STPortfolioWeeklyChangeFragment on STPortfolioWeeklyChange {
+fragment STPortfolioChangeFragment on STPortfolioChange {
     portfolio {
         ...STPortfolioFragment
     }
-    transactionsBuy {
-        total
-        transactions {
-            ...STTransactionFragment
-        }
-    }
-    transactionsSell {
-        total
-        transactions {
-            ...STTransactionFragment
-        }
-    }
+    transactionsBuy
+    transactionsSell
     date
 }

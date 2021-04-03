@@ -5,16 +5,18 @@ import {
     ComponentBaseDirective,
     GroupStorageService,
     StGroupAllData,
-    StUserPartialInformation,
+    StGroupUser,
+    StUserPublicData,
     User_Status_In_Group,
     UserStorageService
 } from '@core';
 import {
     convertStGroupAllDataToStGroupPartialData,
+    createNewStGroupUser,
+    GroupFeatureFacadeService,
     GroupMemberPosition,
     GroupMemberPositionChangeEnum,
-    GroupMemberPositionChangePopOverComponent,
-    GroupFeatureFacadeService
+    GroupMemberPositionChangePopOverComponent
 } from '@group-feature';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UploadedFile, UploaderComponent} from '@shared';
@@ -71,32 +73,32 @@ export class GroupsEditComponent extends ComponentBaseDirective implements OnIni
     }
 
 
-    sendInvitation(invitedUser: StUserPartialInformation) {
+    sendInvitation(invitedUser: StUserPublicData) {
         // do not send invitation twice
-        const invitedUIDs = this.group.invitationSent.map(u => u.user.uid);
-        const memberUIDs = this.group.invitationSent.map(u => u.user.uid);
+        const invitedUIDs = this.group.invitationSent.map(u => u.useridentification.uid);
+        const memberUIDs = this.group.invitationSent.map(u => u.useridentification.uid);
         if (invitedUIDs.includes(invitedUser.uid) || memberUIDs.includes(invitedUser.uid)) {
             return;
         }
-        this.group.invitationSent = [...this.group.invitationSent, {user: invitedUser, sinceDate: undefined}];
+        this.group.invitationSent = [...this.group.invitationSent, createNewStGroupUser(invitedUser)];
     }
 
-    removeUserFromSection(selectedUser: StUserPartialInformation, status: User_Status_In_Group) {
+    removeUserFromSection(selectedUser: StGroupUser, status: User_Status_In_Group) {
         if (!this.isUserOwner && status === User_Status_In_Group.Manager) {
             return;
         }
         if (status === User_Status_In_Group.InvitationSent) {
-            this.group.invitationSent = this.group.invitationSent.filter(groupUser => groupUser.user.uid !== selectedUser.uid);
+            this.group.invitationSent = this.group.invitationSent.filter(groupUser => groupUser.useridentification.uid !== selectedUser.useridentification.uid);
         } else if (status === User_Status_In_Group.InvitationReceived) {
-            this.group.invitationReceived = this.group.invitationReceived.filter(groupUser => groupUser.user.uid !== selectedUser.uid);
+            this.group.invitationReceived = this.group.invitationReceived.filter(groupUser => groupUser.useridentification.uid !== selectedUser.useridentification.uid);
         } else if (status === User_Status_In_Group.Member) {
-            this.group.members = this.group.members.filter(groupUser => groupUser.user.uid !== selectedUser.uid);
+            this.group.members = this.group.members.filter(groupUser => groupUser.useridentification.uid !== selectedUser.useridentification.uid);
         } else if (status === User_Status_In_Group.Manager) {
-            this.group.managers = this.group.managers.filter(groupUser => groupUser.user.uid !== selectedUser.uid);
+            this.group.managers = this.group.managers.filter(groupUser => groupUser.useridentification.uid !== selectedUser.useridentification.uid);
         }
     }
 
-    async changeGroupMemberSection(user: StUserPartialInformation, status: User_Status_In_Group) {
+    async changeGroupMemberSection(user: StGroupUser, status: User_Status_In_Group) {
         if (!this.isUserOwner && status === User_Status_In_Group.Manager) {
             return;
         }
@@ -114,22 +116,22 @@ export class GroupsEditComponent extends ComponentBaseDirective implements OnIni
             this.removeUserFromSection(user, User_Status_In_Group.Manager);
         } else if (result.values === GroupMemberPositionChangeEnum.ACCEPT_RECEIVED_INVITATION) {
             this.removeUserFromSection(user, User_Status_In_Group.InvitationReceived);
-            this.group.members = [...this.group.members, {user, sinceDate: new Date().toDateString()}];
+            this.group.members = [...this.group.members, user];
         } else if (result.values === GroupMemberPositionChangeEnum.SET_AS_MANAGER) {
-            this.group.managers = [...this.group.managers, {user, sinceDate: new Date().toDateString()}];
+            this.group.managers = [...this.group.managers, user];
         } else if (result.values === GroupMemberPositionChangeEnum.SET_AS_OWNER) {
-            this.group.owner = {user, sinceDate: new Date().toDateString()};
+            this.group.owner = user;
         }
     }
 
-    private async showGroupMemberModification(user: StUserPartialInformation, status: User_Status_In_Group): Promise<GroupMemberPosition> {
+    private async showGroupMemberModification(user: StGroupUser, status: User_Status_In_Group): Promise<GroupMemberPosition> {
         const popover = await this.popoverController.create({
             component: GroupMemberPositionChangePopOverComponent,
             cssClass: 'custom-popover',
             translucent: true,
             componentProps: {
                 userStatus: status,
-                userName: user.nickName
+                userName: user.useridentification.nickName
             }
         });
 

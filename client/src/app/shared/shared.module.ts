@@ -1,27 +1,29 @@
 import {NgModule} from '@angular/core';
 import {DefaultImgDirective, DropzoneDirective, RecommendationDirective, ScrollOffsetDirective, TooltipDirective} from './directives';
-import {FinancialChartComponent, GaugeChartComponent, GenericChartComponent} from './components/charts';
-import {FixedRangeSliderComponent, TableHighLowRangeComponent} from './components/range-selector';
-import {NumberFormatterPipe, ObjNgForPipe, RelativeTimePipe, SumUpPipe} from './pipes';
-import {FinancialChartContainerComponent, HeaderComponent, StockSummaryContainerComponent} from './containers';
-import {InlineModificationFormComponent} from './components/forms';
 import {
+    ArticleCardsComponent,
+    ClickableNameItemComponent,
+    FinancialChartComponent,
+    FixedRangeSliderComponent,
+    GaugeChartComponent,
     GenericCardComponent,
+    GenericChartComponent,
     GenericFadingCardContentComponent,
     GenericFancyCardComponent,
-    GenericListComponent
-} from './components/generic';
-import {
-    ClickableNameItemComponent,
+    GenericListComponent,
+    InlineInputPopUpComponent,
+    InlineModificationFormComponent,
     PriceChangeItemComponent,
     PriceCompareItemComponent,
+    SearchWrapperComponent,
     StockInfoIdentificationItemComponent,
-    TitleWithLogoItemComponent
-} from './components/items';
-import {InlineInputPopUpComponent} from './components/pop-ups';
-import {UploaderComponent, UploadTaskComponent} from './components/image-manipulation';
-import {SearchWrapperComponent} from './components';
-import {ArticleCardsComponent} from './components/cards';
+    TableHighLowRangeComponent,
+    TitleWithLogoItemComponent,
+    UploaderComponent,
+    UploadTaskComponent
+} from './components';
+import {HoldingsTotalInvestedPipe, NumberFormatterPipe, ObjNgForPipe, RelativeTimePipe, SumUpPipe} from './pipes';
+import {FinancialChartContainerComponent, HeaderComponent, StockSummaryContainerComponent} from './containers';
 import {FinancialChartModalComponent} from './entry-components';
 import {SharedProvidersModule} from './shared-providers.module';
 
@@ -60,7 +62,8 @@ import {SharedProvidersModule} from './shared-providers.module';
         ArticleCardsComponent,
         StockInfoIdentificationItemComponent,
         FinancialChartModalComponent,
-        StockSummaryContainerComponent
+        StockSummaryContainerComponent,
+        HoldingsTotalInvestedPipe
     ],
     imports: [
         SharedProvidersModule
@@ -96,7 +99,8 @@ import {SharedProvidersModule} from './shared-providers.module';
         ArticleCardsComponent,
         StockInfoIdentificationItemComponent,
         FinancialChartModalComponent,
-        StockSummaryContainerComponent
+        StockSummaryContainerComponent,
+        HoldingsTotalInvestedPipe
     ],
     entryComponents: [
         InlineInputPopUpComponent

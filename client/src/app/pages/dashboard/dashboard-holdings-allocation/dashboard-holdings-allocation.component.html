@@ -1,0 +1,43 @@
+<ion-row class="ion-padding ion-hide-sm-down ion-justify-content-center">
+    <ion-col size="12" size-md="6" size-xl="5">
+        <!-- BIG SCREEN holdings sector chart -->
+        <app-details-sector-chart [chartTitle]="'Holdings sectors'"
+                                  [heightPx]="300"
+                                  [enable3D]="true"
+                                  [showLegend]="false"
+                                  [showDataLabel]="true"
+                                  [stTransactions]="stTransactions">
+        </app-details-sector-chart>
+    </ion-col>
+    <ion-col size="12" size-md="6" size-xl="5">
+        <!-- BIG SCREEN holdings allocation -->
+        <app-holdings-allocation-chart [enable3D]="true"
+                                       [showDataLabel]="true"
+                                       [showLegend]="false"
+                                       [holdings]="stTransactions"
+                                       [heightPx]="300"
+                                       [portfolioInvested]="portfolioInvested"
+                                       [portfolioCash]="portfolioCash">
+        </app-holdings-allocation-chart>
+    </ion-col>
+</ion-row>
+
+<ion-row class="ion-padding ion-hide-sm-up ion-justify-content-center">
+    <ion-col size="12">
+        <!-- SMALL SCREEN holdings sector chart -->
+        <app-details-sector-chart [chartTitle]="'Holdings sectors'"
+                                  [heightPx]="300"
+                                  [enable3D]="true"
+                                  [stTransactions]="stTransactions">
+        </app-details-sector-chart>
+    </ion-col>
+    <ion-col size="12">
+        <!-- SMALL SCREEN  holdings allocation -->
+        <app-holdings-allocation-chart [enable3D]="true"
+                                       [heightPx]="300"
+                                       [holdings]="stTransactions"
+                                       [portfolioInvested]="portfolioInvested"
+                                       [portfolioCash]="portfolioCash">
+        </app-holdings-allocation-chart>
+    </ion-col>
+</ion-row>

@@ -12,14 +12,15 @@
         <ion-label class="st-flex-row-important">
             <ion-text class="st-small-right-space">{{ esgScore.totalEsg }}</ion-text>
             <app-price-compare-item
+                    *ngIf="esgScore?.peerEsgScorePerformance?.avg"
                     class="ion-hide-sm-down"
                     [showIcons]="false"
                     [showPrice]="false"
                     [currentPrice]="esgScore?.totalEsg"
-                    [compareToPrice]="esgScore?.peerEsgScorePerformance.avg">
+                    [compareToPrice]="esgScore?.peerEsgScorePerformance?.avg">
             </app-price-compare-item>
         </ion-label>
-        <ion-label>{{ esgScore.peerEsgScorePerformance.avg |  number: '1.2-2'}}</ion-label>
+        <ion-label>{{ esgScore?.peerEsgScorePerformance?.avg |  number: '1.2-2'}}</ion-label>
     </ion-item>
 
     <!-- Governance -->
@@ -28,14 +29,15 @@
         <ion-label class="st-flex-row-important">
             <ion-text class="st-small-right-space">{{ esgScore.governanceScore }}</ion-text>
             <app-price-compare-item
+                    *ngIf="esgScore?.peerGovernancePerformance?.avg"
                     class="ion-hide-sm-down"
                     [showIcons]="false"
                     [showPrice]="false"
                     [currentPrice]="esgScore.governanceScore"
-                    [compareToPrice]="esgScore.peerGovernancePerformance.avg">
+                    [compareToPrice]="esgScore?.peerGovernancePerformance?.avg">
             </app-price-compare-item>
         </ion-label>
-        <ion-label>{{ esgScore.peerGovernancePerformance.avg |  number: '1.2-2'}}</ion-label>
+        <ion-label>{{ esgScore?.peerGovernancePerformance?.avg |  number: '1.2-2'}}</ion-label>
     </ion-item>
 
     <!-- Environment -->
@@ -44,14 +46,15 @@
         <ion-label class="st-flex-row-important">
             <ion-text class="st-small-right-space">{{ esgScore.environmentScore }}</ion-text>
             <app-price-compare-item
+                    *ngIf="esgScore?.peerEnvironmentPerformance?.avg"
                     class="ion-hide-sm-down"
                     [showIcons]="false"
                     [showPrice]="false"
                     [currentPrice]="esgScore.environmentScore"
-                    [compareToPrice]="esgScore.peerEnvironmentPerformance.avg">
+                    [compareToPrice]="esgScore?.peerEnvironmentPerformance?.avg">
             </app-price-compare-item>
         </ion-label>
-        <ion-label>{{ esgScore.peerEnvironmentPerformance.avg |  number: '1.2-2'}}</ion-label>
+        <ion-label>{{ esgScore?.peerEnvironmentPerformance?.avg |  number: '1.2-2'}}</ion-label>
     </ion-item>
 
     <!-- Social -->
@@ -60,14 +63,15 @@
         <ion-label class="st-flex-row-important">
             <ion-text class="st-small-right-space">{{ esgScore.socialScore }}</ion-text>
             <app-price-compare-item
+                    *ngIf="esgScore?.peerSocialPerformance?.avg"
                     class="ion-hide-sm-down"
                     [showIcons]="false"
                     [showPrice]="false"
                     [currentPrice]="esgScore.socialScore"
-                    [compareToPrice]="esgScore.peerSocialPerformance.avg">
+                    [compareToPrice]="esgScore?.peerSocialPerformance?.avg">
             </app-price-compare-item>
         </ion-label>
-        <ion-label>{{ esgScore.peerSocialPerformance.avg |  number: '1.2-2'}}</ion-label>
+        <ion-label>{{ esgScore?.peerSocialPerformance?.avg |  number: '1.2-2'}}</ion-label>
     </ion-item>
 
     <!-- Controversy -->
@@ -76,14 +80,15 @@
         <ion-label class="st-flex-row-important">
             <ion-text class="st-small-right-space">{{ esgScore.highestControversy }}</ion-text>
             <app-price-compare-item
+                    *ngIf="esgScore?.peerHighestControversyPerformance?.avg"
                     class="ion-hide-sm-down"
                     [showIcons]="false"
                     [showPrice]="false"
                     [currentPrice]="esgScore.highestControversy"
-                    [compareToPrice]="esgScore.peerHighestControversyPerformance.avg">
+                    [compareToPrice]="esgScore?.peerHighestControversyPerformance?.avg">
             </app-price-compare-item>
         </ion-label>
-        <ion-label>{{ esgScore.peerHighestControversyPerformance.avg |  number: '1.2-2'}}</ion-label>
+        <ion-label>{{ esgScore?.peerHighestControversyPerformance?.avg |  number: '1.2-2'}}</ion-label>
     </ion-item>
 
     <!-- final result -->

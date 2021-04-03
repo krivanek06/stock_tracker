@@ -1,28 +1,25 @@
-<ion-item *ngIf="userPartialInformation" class="user-info-item" [ngClass]="{'st-width-100': fullWith}">
+<ion-item *ngIf="stUserPublicData" class="user-info-item" [ngClass]="{'st-width-100': fullWith}">
     <ion-label (click)="clickedPerson()"
                class="st-info-item-result" [ngClass]="{
                 'ion-activatable': clickable,
                 'width-100': clickable
             }">
-        <ion-img [src]="userPartialInformation.photoURL"></ion-img>
+        <ion-img [src]="stUserPublicData.photoURL"></ion-img>
         <ion-label class="ion-margin-start" style="display: grid">
-            <ion-text>{{ userPartialInformation.nickName }}</ion-text>
+            <ion-text>{{ stUserPublicData.nickName }}</ion-text>
 
             <!-- user's portfolio data -->
-            <ng-container *ngIf="userPartialInformation.portfolio as portfolio">
-                <div class="st-flex-row-sm-col">
-                    <ion-text class="st-font-size-12 st-font-5" style="margin-right: 5px;">Portfolio:</ion-text>
-                    <ion-text
-                            class="st-font-size-14">{{ (portfolio.portfolioCash + portfolio.portfolioInvested) | currency }}</ion-text>
-                </div>
-                <div class="st-flex-row-sm-col" *ngIf="portfolio.portfolioWeeklyGrowth">
-                    <ion-text class="st-font-size-12 st-font-5">Weekly change:</ion-text>
-                    <app-price-change-item
-                            [price]="portfolio.portfolioWeeklyGrowth"
-                            [priceChange]="portfolio.portfolioWeeklyChange">
-                    </app-price-change-item>
-                </div>
-            </ng-container>
+            <div class="st-flex-row-sm-col">
+                <ion-text class="st-font-size-12 st-font-5" style="margin-right: 5px;">Portfolio:</ion-text>
+                <ion-text class="st-font-size-14">{{ (stUserPublicData.holdings | holdingsTotalInvested) + stUserPublicData.portfolioCash | currency }}</ion-text>
+            </div>
+            <!--<div class="st-flex-row-sm-col" *ngIf="portfolio.portfolioWeeklyGrowth">
+                <ion-text class="st-font-size-12 st-font-5">Weekly change:</ion-text>
+                <app-price-change-item
+                        [price]="portfolio.portfolioWeeklyGrowth"
+                        [priceChange]="portfolio.portfolioWeeklyChange">
+                </app-price-change-item>
+            </div>-->
 
             <ion-text class="st-font-size-12 st-font-5">Since: {{ sinceDate | date: 'dd.MM.yyyy' }}</ion-text>
         </ion-label>

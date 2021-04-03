@@ -80,7 +80,7 @@
             <div class="portfolioStateParentDot st-main-color-purple-background"></div>
             <ion-text class="st-font-size-18 st-font-main-color-purple">Invested</ion-text>
         </ion-label>
-        <ion-label>{{ portfolioInvested  | numberFormatter }}</ion-label>
+        <ion-label>{{ portfolioInvested  | currency }}</ion-label>
     </ion-item>
     <!-- Cash -->
     <ion-item>
@@ -88,6 +88,6 @@
             <div class="portfolioStateParentDot st-main-color-orange-background"></div>
             <ion-text class="st-font-size-18 st-font-main-color-orange">Cash</ion-text>
         </ion-label>
-        <ion-label>{{ portfolioCash | numberFormatter }}</ion-label>
+        <ion-label>{{ portfolioCash | currency }}</ion-label>
     </ion-item>
 </ion-list>

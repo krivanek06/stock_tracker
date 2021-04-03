@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {StPortfolio, StTransaction} from '@core';
+import {StPortfolio, StPortfolioChange, StTransaction} from '@core';
 import {TradingChangeModel} from '../../../models';
 import {marketValueChange} from '@shared';
 
@@ -13,8 +13,8 @@ import {marketValueChange} from '@shared';
     ]
 })
 export class PortfolioChangeComponent implements OnInit {
-    @Input() stPortfolioHistory: StPortfolio[];
-    @Input() holdings: StTransaction[];
+    @Input() stPortfolioChanges: StPortfolioChange[];
+    @Input() stTransactions: StTransaction[];
     @Input() daily: TradingChangeModel;
 
     weeklyChange: TradingChangeModel;
@@ -31,12 +31,12 @@ export class PortfolioChangeComponent implements OnInit {
     }
 
     private filterPortfolioHistoryChanges() {
-        if (!this.stPortfolioHistory) {
+        if (!this.stPortfolioChanges) {
             return;
         }
 
-        const numberOfData = this.stPortfolioHistory.length; // [oldest....newest]
-        if (numberOfData >= 0) {
+        const numberOfData = this.stPortfolioChanges.length; // [oldest....newest]
+        /*if (numberOfData >= 0) {
             this.weeklyChange = {
                 change: this.stPortfolioHistory[numberOfData - 1].portfolioWeeklyChange,
                 growth: this.stPortfolioHistory[numberOfData - 1].portfolioWeeklyGrowth
@@ -59,7 +59,7 @@ export class PortfolioChangeComponent implements OnInit {
                 change: this.stPortfolioHistory[numberOfData - 52].portfolioWeeklyChange,
                 growth: this.stPortfolioHistory[numberOfData - 52].portfolioWeeklyGrowth
             };
-        }
+        }*/
 
     }
 

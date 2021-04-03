@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StGroupUser, StUserPartialInformation} from '@core';
+import {StGroupUser} from '@core';
 
 @Component({
     selector: 'app-group-list-members-in-row',
@@ -8,8 +8,8 @@ import {StGroupUser, StUserPartialInformation} from '@core';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroupListMembersInRowComponent implements OnInit {
-    @Output() deleteEmitter: EventEmitter<StUserPartialInformation> = new EventEmitter<StUserPartialInformation>();
-    @Output() clickedEmitter: EventEmitter<StUserPartialInformation> = new EventEmitter<StUserPartialInformation>();
+    @Output() deleteEmitter: EventEmitter<StGroupUser> = new EventEmitter<StGroupUser>();
+    @Output() clickedEmitter: EventEmitter<StGroupUser> = new EventEmitter<StGroupUser>();
 
     @Input() groupUsers: StGroupUser[] = [];
     @Input() showDeleteButton = false;
@@ -23,11 +23,11 @@ export class GroupListMembersInRowComponent implements OnInit {
     ngOnInit() {
     }
 
-    deleteClicked(user: StUserPartialInformation) {
+    deleteClicked(user: StGroupUser) {
         this.deleteEmitter.emit(user);
     }
 
-    userClicked(user: StUserPartialInformation) {
+    userClicked(user: StGroupUser) {
         this.clickedEmitter.emit(user);
     }
 }
