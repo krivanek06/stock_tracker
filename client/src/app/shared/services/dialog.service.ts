@@ -64,6 +64,20 @@ export class DialogService {
         toast.present();
     }
 
+    static async presentErrorToast(message): Promise<void> {
+        if (!DialogService.toastController) {
+            throw new Error('DialogService.toastController not initialized');
+        }
+
+        const toast = await DialogService.toastController.create({
+            message,
+            duration: 3500,
+            color: 'danger',
+            position: 'bottom',
+        });
+        toast.present();
+    }
+
     static async presentInlineInputPopOver(): Promise<string> {
         if (!DialogService.popoverController) {
             throw new Error('DialogService.popoverController not initialized');
