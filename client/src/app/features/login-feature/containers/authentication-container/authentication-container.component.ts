@@ -15,6 +15,7 @@ export class AuthenticationContainerComponent implements OnInit {
     @ViewChild('registrationComp') registrationComp: RegistrationComponent;
 
     segmentValue = 'login';
+    showSpinner = false;
 
     constructor(private loginFeatureService: AuthenticationService,
                 private router: Router) {
@@ -30,9 +31,12 @@ export class AuthenticationContainerComponent implements OnInit {
 
     async normalLogin(data: LoginIUser) {
         try {
+            this.toggleSpinner();
             await this.loginFeatureService.normalLogin(data);
-            this.router.navigate(['/menu/dashboard']);
+            this.toggleSpinner();
+            //this.router.navigate(['/menu/dashboard']);
         } catch (e) {
+            this.toggleSpinner();
             this.loginComp.loginForm.reset();
             DialogService.presentToast(e.message);
         }
@@ -40,9 +44,12 @@ export class AuthenticationContainerComponent implements OnInit {
 
     async registration(registerIUser: RegisterIUser) {
         try {
+            this.toggleSpinner();
             await this.loginFeatureService.normalRegistration(registerIUser);
-            this.router.navigate(['/menu/dashboard']);
+            this.toggleSpinner();
+            // this.router.navigate(['/menu/dashboard']);
         } catch (e) {
+            this.toggleSpinner();
             this.registrationComp.registrationForm.reset();
             DialogService.presentToast(e.message);
         }
@@ -55,5 +62,9 @@ export class AuthenticationContainerComponent implements OnInit {
 
     signInWithFacebook() {
         // TODO
+    }
+
+    private toggleSpinner() {
+        this.showSpinner = !this.showSpinner;
     }
 }
