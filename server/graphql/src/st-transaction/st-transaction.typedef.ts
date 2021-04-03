@@ -5,7 +5,7 @@ export const STTransactionTypeDefs = gql`
     # TYPES
     type STTransaction {
         transactionId: String
-        user: STUserIndetificationInformation
+        user: STUserIndetification
         symbol: String!
         symbol_logo_url: String!
         price: Float!
@@ -15,6 +15,11 @@ export const STTransactionTypeDefs = gql`
         date: String!
         operation: STTransactionOperationEnum!
         summary: Summary
+    }
+
+    type PerformedTransaction {
+        holdings: [STTransaction]!
+        lastTransaction: STTransaction!
     }
     
     #INPUTS

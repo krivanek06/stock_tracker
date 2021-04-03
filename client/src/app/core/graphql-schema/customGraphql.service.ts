@@ -526,7 +526,7 @@ export type Mutation = {
     __typename?: 'Mutation';
     registerUser?: Maybe<Scalars['Boolean']>;
     editUser?: Maybe<Scalars['Boolean']>;
-    resetUserAccount?: Maybe<Scalars['Boolean']>;
+    resetUserAccount?: Maybe<StUserResetedAccount>;
     createGroup?: Maybe<StGroupPartialData>;
     editGroup?: Maybe<StGroupPartialData>;
     deleteGroup?: Maybe<Scalars['Boolean']>;
@@ -538,7 +538,7 @@ export type Mutation = {
     deleteWatchlist?: Maybe<Scalars['Boolean']>;
     addStockIntoStockWatchlist?: Maybe<Summary>;
     removeStockFromStockWatchlist?: Maybe<Scalars['Boolean']>;
-    performTransaction?: Maybe<StTransaction>;
+    performTransaction?: Maybe<PerformedTransaction>;
 };
 
 
@@ -638,10 +638,16 @@ export type PageViews = {
     shortTermTrend?: Maybe<Scalars['String']>;
 };
 
+export type PerformedTransaction = {
+    __typename?: 'PerformedTransaction';
+    holdings: Array<Maybe<StTransaction>>;
+    lastTransaction: StTransaction;
+};
+
 export type Query = {
     __typename?: 'Query';
     queryUserData?: Maybe<StUserPublicData>;
-    querySTUserPartialInformationByUsername: Array<Maybe<StUserPartialInformation>>;
+    queryUserPublicDataByUsername: Array<Maybe<StUserPublicData>>;
     authenticateUser?: Maybe<StUserPublicData>;
     querySTGroupAllDataByGroupId?: Maybe<StGroupAllData>;
     querySTGroupPartialDataByGroupName?: Maybe<StSearchGroups>;
@@ -662,7 +668,7 @@ export type QueryQueryUserDataArgs = {
 };
 
 
-export type QueryQueryStUserPartialInformationByUsernameArgs = {
+export type QueryQueryUserPublicDataByUsernameArgs = {
     usernamePrefix: Scalars['String'];
 };
 
@@ -827,7 +833,8 @@ export type StGroupPartialData = {
 
 export type StGroupUser = {
     __typename?: 'STGroupUser';
-    user: StUserPartialInformation;
+    useridentification: StUserIndetification;
+    portfolio: StPortfolio;
     sinceDate: Scalars['String'];
 };
 
@@ -993,23 +1000,14 @@ export type StPortfolio = {
     __typename?: 'STPortfolio';
     portfolioInvested: Scalars['Float'];
     portfolioCash: Scalars['Float'];
-    portfolioWeeklyChange: Scalars['Float'];
-    portfolioWeeklyGrowth: Scalars['Float'];
-    date?: Maybe<Scalars['String']>;
 };
 
-export type StPortfolioWeeklyChange = {
-    __typename?: 'STPortfolioWeeklyChange';
+export type StPortfolioChange = {
+    __typename?: 'STPortfolioChange';
     portfolio: StPortfolio;
-    transactionsBuy: StPortfolioWeeklyChangeTransactions;
-    transactionsSell: StPortfolioWeeklyChangeTransactions;
+    transactionsBuy?: Maybe<Scalars['Float']>;
+    transactionsSell?: Maybe<Scalars['Float']>;
     date?: Maybe<Scalars['String']>;
-};
-
-export type StPortfolioWeeklyChangeTransactions = {
-    __typename?: 'STPortfolioWeeklyChangeTransactions';
-    total: Scalars['Float'];
-    transactions?: Maybe<Array<Maybe<StTransaction>>>;
 };
 
 export type StRank = {
@@ -1074,7 +1072,7 @@ export type StStockWatchlist = {
 export type StTransaction = {
     __typename?: 'STTransaction';
     transactionId?: Maybe<Scalars['String']>;
-    user?: Maybe<StUserIndetificationInformation>;
+    user?: Maybe<StUserIndetification>;
     symbol: Scalars['String'];
     symbol_logo_url: Scalars['String'];
     price: Scalars['Float'];
@@ -1126,14 +1124,14 @@ export type StUserGroups = {
 
 export type StUserHistoricalData = {
     __typename?: 'STUserHistoricalData';
-    portfolioWeeklyChange: Array<Maybe<StPortfolioWeeklyChange>>;
+    portfolioChange: Array<Maybe<StPortfolioChange>>;
     bestAchievedRanks: Array<Maybe<StRank>>;
     resetedAccount: Array<Maybe<StUserResetedAccount>>;
     userLogs: Array<Maybe<StLog>>;
 };
 
-export type StUserIndetificationInformation = {
-    __typename?: 'STUserIndetificationInformation';
+export type StUserIndetification = {
+    __typename?: 'STUserIndetification';
     uid: Scalars['String'];
     nickName: Scalars['String'];
     locale?: Maybe<Scalars['String']>;
@@ -1147,17 +1145,6 @@ export type StUserIndetificationInformationInput = {
     locale?: Maybe<Scalars['String']>;
     photoURL: Scalars['String'];
     accountCreatedDate: Scalars['String'];
-};
-
-export type StUserPartialInformation = {
-    __typename?: 'STUserPartialInformation';
-    uid: Scalars['String'];
-    nickName: Scalars['String'];
-    locale?: Maybe<Scalars['String']>;
-    photoURL?: Maybe<Scalars['String']>;
-    accountCreatedDate: Scalars['String'];
-    portfolio?: Maybe<StPortfolio>;
-    rank?: Maybe<StRank>;
 };
 
 export type StUserPrivateData = {
@@ -1182,12 +1169,13 @@ export type StUserPublicData = {
     photoURL?: Maybe<Scalars['String']>;
     accountCreatedDate: Scalars['String'];
     lastSignInDate: Scalars['String'];
-    portfolio?: Maybe<StPortfolio>;
+    portfolioCash: Scalars['Float'];
     rank?: Maybe<StRank>;
     holdings: Array<Maybe<StTransaction>>;
     transactionsSnippets: Array<Maybe<StTransaction>>;
     activity?: Maybe<User_Activity>;
     groups: StUserGroups;
+    latestPortfolioChange?: Maybe<StPortfolioChange>;
     userPrivateData: StUserPrivateData;
     userHistoricalData: StUserHistoricalData;
     stockWatchlist: Array<Maybe<StStockWatchlist>>;
@@ -1310,9 +1298,12 @@ export type StGroupUserFragmentFragment = (
     { __typename?: 'STGroupUser' }
     & Pick<StGroupUser, 'sinceDate'>
     & {
-    user: (
-        { __typename?: 'STUserPartialInformation' }
-        & StUserPartialInformationFragmentFragment
+    useridentification: (
+        { __typename?: 'STUserIndetification' }
+        & StUserIndetificationFragmentFragment
+        ), portfolio: (
+        { __typename?: 'STPortfolio' }
+        & Pick<StPortfolio, 'portfolioInvested' | 'portfolioCash'>
         )
 }
     );
@@ -1725,34 +1716,16 @@ export type QueryStMarketDataQuery = (
 
 export type StPortfolioFragmentFragment = (
     { __typename?: 'STPortfolio' }
-    & Pick<StPortfolio, 'portfolioInvested' | 'portfolioCash' | 'portfolioWeeklyChange' | 'portfolioWeeklyGrowth' | 'date'>
+    & Pick<StPortfolio, 'portfolioInvested' | 'portfolioCash'>
     );
 
-export type StPortfolioWeeklyChangeFragmentFragment = (
-    { __typename?: 'STPortfolioWeeklyChange' }
-    & Pick<StPortfolioWeeklyChange, 'date'>
+export type StPortfolioChangeFragmentFragment = (
+    { __typename?: 'STPortfolioChange' }
+    & Pick<StPortfolioChange, 'transactionsBuy' | 'transactionsSell' | 'date'>
     & {
     portfolio: (
         { __typename?: 'STPortfolio' }
         & StPortfolioFragmentFragment
-        ), transactionsBuy: (
-        { __typename?: 'STPortfolioWeeklyChangeTransactions' }
-        & Pick<StPortfolioWeeklyChangeTransactions, 'total'>
-        & {
-        transactions?: Maybe<Array<Maybe<(
-            { __typename?: 'STTransaction' }
-            & StTransactionFragmentFragment
-            )>>>
-    }
-        ), transactionsSell: (
-        { __typename?: 'STPortfolioWeeklyChangeTransactions' }
-        & Pick<StPortfolioWeeklyChangeTransactions, 'total'>
-        & {
-        transactions?: Maybe<Array<Maybe<(
-            { __typename?: 'STTransaction' }
-            & StTransactionFragmentFragment
-            )>>>
-    }
         )
 }
     );
@@ -2395,7 +2368,7 @@ export type QueryStockSummariesQuery = (
 
 export type StTransactionFragmentFragment = (
     { __typename?: 'STTransaction' }
-    & Pick<StTransaction, 'symbol' | 'price' | 'return' | 'returnChange' | 'units' | 'date' | 'operation' | 'symbol_logo_url'>
+    & Pick<StTransaction, 'transactionId' | 'symbol' | 'price' | 'return' | 'returnChange' | 'units' | 'date' | 'operation' | 'symbol_logo_url'>
     );
 
 export type PerformTransactionMutationVariables = Exact<{
@@ -2407,28 +2380,41 @@ export type PerformTransactionMutation = (
     { __typename?: 'Mutation' }
     & {
     performTransaction?: Maybe<(
-        { __typename?: 'STTransaction' }
+        { __typename?: 'PerformedTransaction' }
         & {
-        summary?: Maybe<(
-            { __typename?: 'Summary' }
-            & StockSummaryFragmentFragment
-            )>
+        holdings: Array<Maybe<(
+            { __typename?: 'STTransaction' }
+            & StTransactionFragmentFragment
+            )>>, lastTransaction: (
+            { __typename?: 'STTransaction' }
+            & StTransactionFragmentFragment
+            )
     }
-        & StTransactionFragmentFragment
         )>
 }
     );
 
-export type StUserPartialInformationFragmentFragment = (
-    { __typename?: 'STUserPartialInformation' }
-    & Pick<StUserPartialInformation, 'uid' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate'>
+export type StUserIndetificationFragmentFragment = (
+    { __typename?: 'STUserIndetification' }
+    & Pick<StUserIndetification, 'uid' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate'>
+    );
+
+export type StUserPublicDataFragmentFragment = (
+    { __typename?: 'STUserPublicData' }
+    & Pick<StUserPublicData, 'uid' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate' | 'lastSignInDate' | 'portfolioCash' | 'activity'>
     & {
-    portfolio?: Maybe<(
-        { __typename?: 'STPortfolio' }
-        & StPortfolioFragmentFragment
-        )>, rank?: Maybe<(
+    rank?: Maybe<(
         { __typename?: 'STRank' }
         & StRankFragmentFragment
+        )>, holdings: Array<Maybe<(
+        { __typename?: 'STTransaction' }
+        & StTransactionFragmentFragment
+        )>>, transactionsSnippets: Array<Maybe<(
+        { __typename?: 'STTransaction' }
+        & StTransactionFragmentFragment
+        )>>, latestPortfolioChange?: Maybe<(
+        { __typename?: 'STPortfolioChange' }
+        & StPortfolioChangeFragmentFragment
         )>
 }
     );
@@ -2443,12 +2429,9 @@ export type AuthenticateUserQuery = (
     & {
     authenticateUser?: Maybe<(
         { __typename?: 'STUserPublicData' }
-        & Pick<StUserPublicData, 'uid' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate' | 'lastSignInDate' | 'activity'>
+        & Pick<StUserPublicData, 'uid' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate' | 'lastSignInDate' | 'portfolioCash' | 'activity'>
         & {
-        portfolio?: Maybe<(
-            { __typename?: 'STPortfolio' }
-            & StPortfolioFragmentFragment
-            )>, rank?: Maybe<(
+        rank?: Maybe<(
             { __typename?: 'STRank' }
             & StRankFragmentFragment
             )>, transactionsSnippets: Array<Maybe<(
@@ -2492,9 +2475,9 @@ export type AuthenticateUserQuery = (
                 )>>, bestAchievedRanks: Array<Maybe<(
                 { __typename?: 'STRank' }
                 & StRankFragmentFragment
-                )>>, portfolioWeeklyChange: Array<Maybe<(
-                { __typename?: 'STPortfolioWeeklyChange' }
-                & StPortfolioWeeklyChangeFragmentFragment
+                )>>, portfolioChange: Array<Maybe<(
+                { __typename?: 'STPortfolioChange' }
+                & StPortfolioChangeFragmentFragment
                 )>>
         }
             ), userPrivateData: (
@@ -2509,17 +2492,17 @@ export type AuthenticateUserQuery = (
 }
     );
 
-export type QueryStUserPartialInformationByUsernameQueryVariables = Exact<{
+export type QueryUserPublicDataByUsernameQueryVariables = Exact<{
     usernamePrefix: Scalars['String'];
 }>;
 
 
-export type QueryStUserPartialInformationByUsernameQuery = (
+export type QueryUserPublicDataByUsernameQuery = (
     { __typename?: 'Query' }
     & {
-    querySTUserPartialInformationByUsername: Array<Maybe<(
-        { __typename?: 'STUserPartialInformation' }
-        & StUserPartialInformationFragmentFragment
+    queryUserPublicDataByUsername: Array<Maybe<(
+        { __typename?: 'STUserPublicData' }
+        & StUserPublicDataFragmentFragment
         )>>
 }
     );
@@ -2551,7 +2534,12 @@ export type ResetUserAccountMutationVariables = Exact<{
 
 export type ResetUserAccountMutation = (
     { __typename?: 'Mutation' }
-    & Pick<Mutation, 'resetUserAccount'>
+    & {
+    resetUserAccount?: Maybe<(
+        { __typename?: 'STUserResetedAccount' }
+        & Pick<StUserResetedAccount, 'date' | 'portfolioTotal'>
+        )>
+}
     );
 
 export type StStockWatchlistFragmentFragment = (
@@ -2629,11 +2617,29 @@ export const StPortfolioFragmentFragmentDoc = gql`
     fragment STPortfolioFragment on STPortfolio {
         portfolioInvested
         portfolioCash
-        portfolioWeeklyChange
-        portfolioWeeklyGrowth
-        date
     }
 `;
+export const StUserIndetificationFragmentFragmentDoc = gql`
+    fragment STUserIndetificationFragment on STUserIndetification {
+        uid
+        nickName
+        locale
+        photoURL
+        accountCreatedDate
+    }
+`;
+export const StGroupUserFragmentFragmentDoc = gql`
+    fragment STGroupUserFragment on STGroupUser {
+        sinceDate
+        useridentification {
+            ...STUserIndetificationFragment
+        }
+        portfolio {
+            portfolioInvested
+            portfolioCash
+        }
+    }
+${StUserIndetificationFragmentFragmentDoc}`;
 export const StRankFragmentFragmentDoc = gql`
     fragment STRankFragment on STRank {
         rankGainers
@@ -2644,30 +2650,6 @@ export const StRankFragmentFragmentDoc = gql`
         date
     }
 `;
-export const StUserPartialInformationFragmentFragmentDoc = gql`
-    fragment STUserPartialInformationFragment on STUserPartialInformation {
-        uid
-        nickName
-        locale
-        photoURL
-        accountCreatedDate
-        portfolio {
-            ...STPortfolioFragment
-        }
-        rank {
-            ...STRankFragment
-        }
-    }
-    ${StPortfolioFragmentFragmentDoc}
-${StRankFragmentFragmentDoc}`;
-export const StGroupUserFragmentFragmentDoc = gql`
-    fragment STGroupUserFragment on STGroupUser {
-        sinceDate
-        user {
-            ...STUserPartialInformationFragment
-        }
-    }
-${StUserPartialInformationFragmentFragmentDoc}`;
 export const StGroupPartialDataFragmentFragmentDoc = gql`
     fragment STGroupPartialDataFragment on STGroupPartialData {
         groupId
@@ -2691,6 +2673,7 @@ export const StGroupPartialDataFragmentFragmentDoc = gql`
 ${StRankFragmentFragmentDoc}`;
 export const StTransactionFragmentFragmentDoc = gql`
     fragment STTransactionFragment on STTransaction {
+        transactionId
         symbol
         price
         return
@@ -2842,27 +2825,6 @@ export const StEventCalendarEarningsDataFragmentFragmentDoc = gql`
         timeZoneShortName
     }
 `;
-export const StPortfolioWeeklyChangeFragmentFragmentDoc = gql`
-    fragment STPortfolioWeeklyChangeFragment on STPortfolioWeeklyChange {
-        portfolio {
-            ...STPortfolioFragment
-        }
-        transactionsBuy {
-            total
-            transactions {
-                ...STTransactionFragment
-            }
-        }
-        transactionsSell {
-            total
-            transactions {
-                ...STTransactionFragment
-            }
-        }
-        date
-    }
-    ${StPortfolioFragmentFragmentDoc}
-${StTransactionFragmentFragmentDoc}`;
 export const SheetDataFragmentFragmentDoc = gql`
     fragment SheetDataFragment on SheetData {
         change
@@ -3471,6 +3433,42 @@ export const HistoricalMetricsDataFragmentFragmentDoc = gql`
         data
     }
 `;
+export const StPortfolioChangeFragmentFragmentDoc = gql`
+    fragment STPortfolioChangeFragment on STPortfolioChange {
+        portfolio {
+            ...STPortfolioFragment
+        }
+        transactionsBuy
+        transactionsSell
+        date
+    }
+${StPortfolioFragmentFragmentDoc}`;
+export const StUserPublicDataFragmentFragmentDoc = gql`
+    fragment STUserPublicDataFragment on STUserPublicData {
+        uid
+        nickName
+        locale
+        photoURL
+        accountCreatedDate
+        lastSignInDate
+        portfolioCash
+        rank {
+            ...STRankFragment
+        }
+        holdings {
+            ...STTransactionFragment
+        }
+        transactionsSnippets {
+            ...STTransactionFragment
+        }
+        activity
+        latestPortfolioChange {
+            ...STPortfolioChangeFragment
+        }
+    }
+    ${StRankFragmentFragmentDoc}
+    ${StTransactionFragmentFragmentDoc}
+${StPortfolioChangeFragmentFragmentDoc}`;
 export const SummaryResidanceFragmentFragmentDoc = gql`
     fragment SummaryResidanceFragment on SummaryResidance {
         city
@@ -4134,13 +4132,14 @@ export class QueryStockSummariesGQL extends Apollo.Query<QueryStockSummariesQuer
 export const PerformTransactionDocument = gql`
     mutation PerformTransaction($transactionInput: STTransactionInput!) {
         performTransaction(transactionInput: $transactionInput) {
-            summary {
-                ...StockSummaryFragment
+            holdings {
+                ...STTransactionFragment
             }
-            ...STTransactionFragment
+            lastTransaction {
+                ...STTransactionFragment
+            }
         }
     }
-    ${StockSummaryFragmentFragmentDoc}
 ${StTransactionFragmentFragmentDoc}`;
 
 @Injectable({
@@ -4162,13 +4161,11 @@ export const AuthenticateUserDocument = gql`
             locale
             photoURL
             accountCreatedDate
-            portfolio {
-                ...STPortfolioFragment
-            }
+            lastSignInDate
+            portfolioCash
             rank {
                 ...STRankFragment
             }
-            lastSignInDate
             transactionsSnippets {
                 ...STTransactionFragment
             }
@@ -4204,8 +4201,8 @@ export const AuthenticateUserDocument = gql`
                 bestAchievedRanks {
                     ...STRankFragment
                 }
-                portfolioWeeklyChange {
-                    ...STPortfolioWeeklyChangeFragment
+                portfolioChange {
+                    ...STPortfolioChangeFragment
                 }
             }
             userPrivateData {
@@ -4223,13 +4220,12 @@ export const AuthenticateUserDocument = gql`
             }
         }
     }
-    ${StPortfolioFragmentFragmentDoc}
     ${StRankFragmentFragmentDoc}
     ${StTransactionFragmentFragmentDoc}
     ${StockSummaryFragmentFragmentDoc}
     ${StGroupPartialDataFragmentFragmentDoc}
     ${StLogsFragmentFragmentDoc}
-    ${StPortfolioWeeklyChangeFragmentFragmentDoc}
+    ${StPortfolioChangeFragmentFragmentDoc}
 ${StStockWatchlistFragmentFragmentDoc}`;
 
 @Injectable({
@@ -4243,19 +4239,19 @@ export class AuthenticateUserGQL extends Apollo.Query<AuthenticateUserQuery, Aut
     }
 }
 
-export const QueryStUserPartialInformationByUsernameDocument = gql`
-    query QuerySTUserPartialInformationByUsername($usernamePrefix: String!) {
-        querySTUserPartialInformationByUsername(usernamePrefix: $usernamePrefix) {
-            ...STUserPartialInformationFragment
+export const QueryUserPublicDataByUsernameDocument = gql`
+    query QueryUserPublicDataByUsername($usernamePrefix: String!) {
+        queryUserPublicDataByUsername(usernamePrefix: $usernamePrefix) {
+            ...STUserPublicDataFragment
         }
     }
-${StUserPartialInformationFragmentFragmentDoc}`;
+${StUserPublicDataFragmentFragmentDoc}`;
 
 @Injectable({
     providedIn: 'root'
 })
-export class QueryStUserPartialInformationByUsernameGQL extends Apollo.Query<QueryStUserPartialInformationByUsernameQuery, QueryStUserPartialInformationByUsernameQueryVariables> {
-    document = QueryStUserPartialInformationByUsernameDocument;
+export class QueryUserPublicDataByUsernameGQL extends Apollo.Query<QueryUserPublicDataByUsernameQuery, QueryUserPublicDataByUsernameQueryVariables> {
+    document = QueryUserPublicDataByUsernameDocument;
 
     constructor(apollo: Apollo.Apollo) {
         super(apollo);
@@ -4298,7 +4294,10 @@ export class EditUserGQL extends Apollo.Mutation<EditUserMutation, EditUserMutat
 
 export const ResetUserAccountDocument = gql`
     mutation ResetUserAccount($userId: String!) {
-        resetUserAccount(userId: $userId)
+        resetUserAccount(userId: $userId) {
+            date
+            portfolioTotal
+        }
     }
 `;
 

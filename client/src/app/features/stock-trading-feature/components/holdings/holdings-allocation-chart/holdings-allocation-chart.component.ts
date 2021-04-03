@@ -10,8 +10,8 @@ import {ChartType, GenericChartSeries} from '@shared';
 })
 export class HoldingsAllocationChartComponent implements OnInit, OnChanges {
     @Input() holdings: StTransaction[];
-    @Input() portfolioInvested: number;
     @Input() portfolioCash: number;
+    @Input() portfolioInvested: number;
 
     @Input() showDataLabel = false;
     @Input() heightPx = 350;

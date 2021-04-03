@@ -1,0 +1,12 @@
+<ion-row class="ion-justify-content-center">
+    <ion-col size="12" size-lg="11" size-xl="10">
+        <app-generic-list [title]="'Holdings'" [iconTitle]="'pricetags'"></app-generic-list>
+        <app-generic-card>
+            <app-holdings-table
+                    [totalPortfolio]="totalPortfolio"
+                    [stTransactions]="stTransactions"
+                    (itemClickedEmitter)="showSummary($event)">
+            </app-holdings-table>
+        </app-generic-card>
+    </ion-col>
+</ion-row>

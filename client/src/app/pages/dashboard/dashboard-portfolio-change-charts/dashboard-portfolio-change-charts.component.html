@@ -1,0 +1,17 @@
+<ion-row class="ion-justify-content-center">
+    <!-- portfolio growth chart -->
+    <ion-col size="12" size-md="6" size-lg="5.5" size-xl="5">
+        <app-portfolio-growth-chart
+                [heightPx]="260"
+                [stPortfolio]="stPortfolio">
+        </app-portfolio-growth-chart>
+    </ion-col>
+
+    <!-- portfolio change chart -->
+    <ion-col size="12" size-md="6" size-lg="5.5" size-xl="5">
+        <app-portfolio-change-chart
+                [heightPx]="260"
+                [stPortfolioChanges]="stPortfolioChanges">
+        </app-portfolio-change-chart>
+    </ion-col>
+</ion-row>

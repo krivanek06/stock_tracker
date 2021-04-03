@@ -2,12 +2,18 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {DashboardPage} from './dashboard.page';
-import {StockWatchlistModule} from '../../features/stock-watchlist-feature/stock-watchlist.module';
+import {StockWatchlistModule} from '@stock-watchlist-feature';
 import {SharedModule} from 'src/app/shared/shared.module';
-import {GroupFeatureModule} from '../../features/group-feature/group-feature.module';
-import {StockTradingFeatureModule} from '../../features/stock-trading-feature/stock-trading-feature.module';
-import {StockDetailsFeatureModule} from '../../features/stock-details-feature/stock-details-feature.module';
+import {GroupFeatureModule} from '@group-feature';
+import {StockTradingFeatureModule} from '@stock-trading-feature';
+import {StockDetailsFeatureModule} from '@stock-details-feature';
 import {PagesSharedModule} from '@pages-shared';
+import {DashboardTransactionsComponent} from './dashboard-transactions/dashboard-transactions.component';
+import {DashboardHoldingsAllocationComponent} from './dashboard-holdings-allocation/dashboard-holdings-allocation.component';
+import {DashboardHoldingsTableComponent} from './dashboard-holdings-table/dashboard-holdings-table.component';
+import {DashboardPortfolioChangeChartsComponent} from './dashboard-portfolio-change-charts/dashboard-portfolio-change-charts.component';
+import {DashboardPortfolioChangeComponent} from './dashboard-portfolio-change/dashboard-portfolio-change.component';
+import {DashboardPortfolioStateComponent} from './dashboard-portfolio-state/dashboard-portfolio-state.component';
 
 const routes: Routes = [
     {
@@ -28,7 +34,13 @@ const routes: Routes = [
         PagesSharedModule
     ],
     declarations: [
-        DashboardPage
+        DashboardPage,
+        DashboardTransactionsComponent,
+        DashboardHoldingsAllocationComponent,
+        DashboardHoldingsTableComponent,
+        DashboardPortfolioChangeChartsComponent,
+        DashboardPortfolioChangeComponent,
+        DashboardPortfolioStateComponent
     ]
 })
 export class DashboardPageModule {

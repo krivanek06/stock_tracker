@@ -25,11 +25,11 @@
 
     <!-- table body -->
     <app-holdings-table-body-item
-            *ngFor="let transaction of stTransactions"
+            *ngFor="let transaction of stTransactions; trackBy:identify"
             [transaction]="transaction"
             [clickable]="clickable"
             [showDailyChange]="showDailyChange"
-            [userPortfolioTotal]="userPortfolioTotal"
+            [userPortfolioTotal]="totalPortfolio"
             [currentPrice]="transaction.summary.marketPrice"
             (itemClickedEmitter)="itemClicked($event)">
     </app-holdings-table-body-item>

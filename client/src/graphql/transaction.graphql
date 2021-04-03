@@ -1,4 +1,5 @@
 fragment STTransactionFragment on STTransaction {
+    transactionId
     symbol
     price
     return
@@ -15,10 +16,13 @@ fragment STTransactionFragment on STTransaction {
 # MUTATIONS
 
 mutation PerformTransaction($transactionInput: STTransactionInput!) {
-    performTransaction(transactionInput: $transactionInput){
-        summary{
-            ...StockSummaryFragment
-        },
-        ...STTransactionFragment
+    performTransaction(transactionInput: $transactionInput) {
+        holdings {
+            ...STTransactionFragment
+        }
+        lastTransaction {
+            ...STTransactionFragment
+        }
     }
 }
+

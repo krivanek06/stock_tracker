@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output}
 import {Observable, of} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {debounceTime, switchMap} from 'rxjs/operators';
-import {GraphqlQueryService, StUserPartialInformation} from '@core';
+import {GraphqlQueryService, StUserPublicData} from '@core';
 
 @Component({
     selector: 'app-user-account-search',
@@ -11,14 +11,14 @@ import {GraphqlQueryService, StUserPartialInformation} from '@core';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserAccountSearchComponent implements OnInit {
-    @Output() clickedUserEmitter: EventEmitter<StUserPartialInformation> = new EventEmitter<StUserPartialInformation>();
+    @Output() clickedUserEmitter: EventEmitter<StUserPublicData> = new EventEmitter<StUserPublicData>();
 
     @Input() fullWith = false;
-    searchedUsers$: Observable<StUserPartialInformation[]>;
+    searchedUsers$: Observable<StUserPublicData[]>;
     form: FormGroup;
 
     constructor(private fb: FormBuilder,
-                private firebaseSearchService: GraphqlQueryService) {
+                private graphqlQueryService: GraphqlQueryService) {
     }
 
     ngOnInit() {
@@ -26,7 +26,7 @@ export class UserAccountSearchComponent implements OnInit {
         this.watchForm();
     }
 
-    clickedUser(user: StUserPartialInformation) {
+    clickedUser(user: StUserPublicData) {
         this.clickedUserEmitter.emit(user);
     }
 
@@ -43,7 +43,7 @@ export class UserAccountSearchComponent implements OnInit {
                 if (res.length <= 3) {
                     return of(null);
                 }
-                return this.firebaseSearchService.queryUserPartialInformationByUsername(res);
+                return this.graphqlQueryService.queryUserPublicDataByUsername(res);
             })
         );
     }

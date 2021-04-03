@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {StPortfolio} from '@core';
+import {StPortfolio, StPortfolioChange} from '@core';
 
 import * as Highcharts from 'highcharts/highstock';
 import {stFormatLargeNumber} from '@shared';
@@ -12,8 +12,10 @@ import {stFormatLargeNumber} from '@shared';
 })
 export class PortfolioChangeChartComponent implements OnInit, OnChanges {
 
-    @Input() stPortfolios: StPortfolio[];
+    @Input() stPortfolioChanges: StPortfolioChange[];
     @Input() heightPx = 350;
+
+    private data: any[];
 
     Highcharts: typeof Highcharts = Highcharts;
     chart;
@@ -29,6 +31,7 @@ export class PortfolioChangeChartComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
+        this.calculatePortfolioChange();
         this.initChart();
     }
 
@@ -36,6 +39,16 @@ export class PortfolioChangeChartComponent implements OnInit, OnChanges {
         setTimeout(() => {
             window.dispatchEvent(new Event('resize'));
         }, 300);
+    }
+
+    private calculatePortfolioChange(){
+        this.data = [];
+        for(let i = 1; i < this.stPortfolioChanges.length; i++){
+            const current = this.stPortfolioChanges[i].portfolio.portfolioCash + this.stPortfolioChanges[i].portfolio.portfolioInvested;
+            const before = this.stPortfolioChanges[i - 1].portfolio.portfolioCash + this.stPortfolioChanges[i - 1].portfolio.portfolioInvested;
+
+            this.data.push([Date.parse(this.stPortfolioChanges[i].date), current - before, current / 100 * before]);
+        }
     }
 
     private initChart() {
@@ -133,13 +146,7 @@ export class PortfolioChangeChartComponent implements OnInit, OnChanges {
                         ]
                     }
                 }],
-                data: (() => {
-                    return this.stPortfolios.map(point => [
-                        Date.parse(point.date),
-                        point.portfolioWeeklyGrowth,
-                        {change: point.portfolioWeeklyChange}
-                    ]);
-                })()
+                data: this.data
             }]
         };
     }

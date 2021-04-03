@@ -1,3 +1,4 @@
+import { queryUserPublicData } from './../user/user.query';
 import {ApolloError} from "apollo-server";
 import {querySTGroupAllDataByGroupId} from "./st-group.query";
 import {
@@ -5,10 +6,9 @@ import {
     createSTGroupPartialDataFromSTGroupAllData,
     createSTGroupUser
 } from "./st-group.util";
-import {querySTUserPartialInformationByUid} from "../user/user.query";
 import * as admin from "firebase-admin";
 import * as api from 'stock-tracker-common-interfaces';
-import {getCurrentIOSDate, stSeep} from "../st-shared/st-shared.functions";
+import {getCurrentIOSDate} from "../st-shared/st-shared.functions";
 
 
 export const createGroup = async (groupInput: api.STGroupAllDataInput): Promise<api.STGroupPartialData> => {
@@ -18,10 +18,10 @@ export const createGroup = async (groupInput: api.STGroupAllDataInput): Promise<
         group.description = groupInput.description;
         group.imagePath = groupInput.imagePath;
         group.imageUrl = groupInput.imageUrl;
-        group.owner = createSTGroupUser(await querySTUserPartialInformationByUid(groupInput.owner));
+        group.owner = createSTGroupUser(await queryUserPublicData(groupInput.owner));
 
         // load users who were invited
-        const invitationSent = await Promise.all([...new Set(groupInput.invitationSent)].map(m => querySTUserPartialInformationByUid(m)));
+        const invitationSent = await Promise.all([...new Set(groupInput.invitationSent)].map(m => queryUserPublicData(m)));
         group.invitationSent = invitationSent.map(m => createSTGroupUser(m));
 
         // persist
@@ -61,27 +61,27 @@ export const editGroup = async (groupInput: api.STGroupAllDataInput): Promise<ap
         group.description = groupInput.description;
         group.imagePath = groupInput.imagePath;
         group.imageUrl = groupInput.imageUrl;
-        group.owner = createSTGroupUser(await querySTUserPartialInformationByUid(groupInput.owner));
+        group.owner = createSTGroupUser(await queryUserPublicData(groupInput.owner));
         group.lastEditedDate = getCurrentIOSDate();
 
         // delete uses which are not in groupInput
-        group.members = group.members.filter(m => groupInput.members.includes(m.user.uid));
-        group.managers = group.managers.filter(m => groupInput.managers.includes(m.user.uid));
-        group.invitationSent = group.invitationSent.filter(m => groupInput.invitationSent.includes(m.user.uid));
-        group.invitationReceived = group.invitationReceived.filter(m => groupInput.invitationReceived.includes(m.user.uid));
+        group.members = group.members.filter(m => groupInput.members.includes(m.userIdentification.uid));
+        group.managers = group.managers.filter(m => groupInput.managers.includes(m.userIdentification.uid));
+        group.invitationSent = group.invitationSent.filter(m => groupInput.invitationSent.includes(m.userIdentification.uid));
+        group.invitationReceived = group.invitationReceived.filter(m => groupInput.invitationReceived.includes(m.userIdentification.uid));
 
         // delete users in groupInput which are already in the group, do not load them again from firestore
         // right outer join groupInput
-        const groupMembersIds = group.members.map(m => m.user.uid);
-        const groupManagersIds = group.managers.map(m => m.user.uid);
-        const groupInvitationSentIds = group.invitationSent.map(m => m.user.uid);
-        const groupInvitationReceivedIds = group.invitationReceived.map(m => m.user.uid);
+        const groupMembersIds = group.members.map(m => m.userIdentification.uid);
+        const groupManagersIds = group.managers.map(m => m.userIdentification.uid);
+        const groupInvitationSentIds = group.invitationSent.map(m => m.userIdentification.uid);
+        const groupInvitationReceivedIds = group.invitationReceived.map(m => m.userIdentification.uid);
 
-        // load STUserPartialInformation for users which are not already in group
-        const newMembers = [...new Set(groupInput.members)].filter(mId => !groupMembersIds.includes(mId)).map(m => querySTUserPartialInformationByUid(m));
-        const newManagers = [...new Set(groupInput.managers)].filter(mId => !groupManagersIds.includes(mId)).map(m => querySTUserPartialInformationByUid(m));
-        const newInvitationSent = [...new Set(groupInput.invitationSent)].filter(mId => !groupInvitationSentIds.includes(mId)).map(m => querySTUserPartialInformationByUid(m));
-        const newInvitationReceived = [...new Set(groupInput.invitationReceived)].filter(mId => !groupInvitationReceivedIds.includes(mId)).map(m => querySTUserPartialInformationByUid(m));
+        // load STUserInformation for users which are not already in group
+        const newMembers = [...new Set(groupInput.members)].filter(mId => !groupMembersIds.includes(mId)).map(m => queryUserPublicData(m));
+        const newManagers = [...new Set(groupInput.managers)].filter(mId => !groupManagersIds.includes(mId)).map(m => queryUserPublicData(m));
+        const newInvitationSent = [...new Set(groupInput.invitationSent)].filter(mId => !groupInvitationSentIds.includes(mId)).map(m => queryUserPublicData(m));
+        const newInvitationReceived = [...new Set(groupInput.invitationReceived)].filter(mId => !groupInvitationReceivedIds.includes(mId)).map(m => queryUserPublicData(m));
 
         const notSaved = await Promise.all([
             Promise.all(newMembers),
@@ -96,13 +96,15 @@ export const editGroup = async (groupInput: api.STGroupAllDataInput): Promise<ap
         group.invitationSent = [...group.invitationSent, ...notSaved[2].map(m => createSTGroupUser(m))];
         group.invitationReceived = [...group.invitationReceived, ...notSaved[3].map(m => createSTGroupUser(m))];
 
-        if (group.members.length > 0) {
-            group.portfolio = group.members.map(member => member.user.portfolio).reduce((acc, cur) => {
+        /*if (group.members.length > 0) {
+            group.portfolio = group.members.map(member => member.userIdentification.portfolio).reduce((acc, cur) => {
                 acc.portfolioCash += cur.portfolioCash;
                 acc.portfolioInvested += cur.portfolioInvested;
                 return acc;
             });
-        }
+        }*/
+
+        // TODO update group portfolio
 
         // persist
         await admin.firestore()
@@ -121,7 +123,7 @@ export const editGroup = async (groupInput: api.STGroupAllDataInput): Promise<ap
 export const deleteGroup = async (uid: string, groupId: string): Promise<boolean> => {
     try {
         const group = await querySTGroupAllDataByGroupId(groupId);
-        if (group.owner.user.uid !== uid) {
+        if (group.owner.userIdentification.uid !== uid) {
             throw new ApolloError("Only owner can delete a group");
         }
 
@@ -142,18 +144,16 @@ export const deleteGroup = async (uid: string, groupId: string): Promise<boolean
 export const answerReceivedGroupInvitation = async (uid: string, groupId: string, accept: Boolean): Promise<api.STGroupPartialData> => {
     try {
         const group = await querySTGroupAllDataByGroupId(groupId);
-        if (!group.invitationSent.map(x => x.user.uid).includes(uid)) {
+        if (!group.invitationSent.map(x => x.userIdentification.uid).includes(uid)) {
             throw new ApolloError(`You have no invitation from group ${group.name}`);
         }
 
-        let modifyingUser;
+        // add as member
         if (accept) {
-            // add as member
-            modifyingUser = createSTGroupUser(group.invitationSent.find(x => x.user.uid === uid).user);
-            group.members = [...group.members, modifyingUser]
+            group.members = [...group.members, group.invitationSent.find(x => x.userIdentification.uid === uid)];
         }
         // remove invitation
-        group.invitationSent = group.invitationSent.filter(x => x.user.uid !== uid);
+        group.invitationSent = group.invitationSent.filter(x => x.userIdentification.uid !== uid);
 
         await admin.firestore()
             .collection(`${api.ST_GROUP_COLLECTION_GROUPS}`)
@@ -178,21 +178,21 @@ export const answerReceivedGroupInvitation = async (uid: string, groupId: string
 export const toggleInvitationRequestToGroup = async (uid: string, groupId: string): Promise<api.STGroupPartialData> => {
     try {
         const group = await querySTGroupAllDataByGroupId(groupId);
-        if (group.members.map(x => x.user.uid).includes(uid)) {
+        if (group.members.map(x => x.userIdentification.uid).includes(uid)) {
             throw new ApolloError(`Cannot send / cancel invitation, you are already a member in group ${group.name}`);
         }
 
-        if (group.invitationSent.map(x => x.user.uid).includes(uid)) {
+        if (group.invitationSent.map(x => x.userIdentification.uid).includes(uid)) {
             throw new ApolloError(`You are already invited from group ${group.name}`);
         }
 
         let user;
-        if (group.invitationReceived.map(x => x.user.uid).includes(uid)) {
+        if (group.invitationReceived.map(x => x.userIdentification.uid).includes(uid)) {
             // already sent invitation -> cancel it
-            group.invitationReceived = group.invitationReceived.filter(x => x.user.uid !== uid);
+            group.invitationReceived = group.invitationReceived.filter(x => x.userIdentification.uid !== uid);
         } else {
             // sent invitation request to group
-            user = await querySTUserPartialInformationByUid(uid);
+            user = await queryUserPublicData(uid);
             group.invitationReceived = [...group.invitationReceived, createSTGroupUser(user)];
         }
 
@@ -213,15 +213,15 @@ export const toggleInvitationRequestToGroup = async (uid: string, groupId: strin
 export const leaveGroup = async (uid: string, groupId: string): Promise<boolean> => {
     try {
         const group = await querySTGroupAllDataByGroupId(groupId);
-        if (!group.members.map(x => x.user.uid).includes(uid) && !group.managers.map(x => x.user.uid).includes(uid)) {
+        if (!group.members.map(x => x.userIdentification.uid).includes(uid) && !group.managers.map(x => x.userIdentification.uid).includes(uid)) {
             throw new ApolloError("You cannot leave a group you are not a member or manager");
         }
-        if (group.owner.user.uid === groupId) {
+        if (group.owner.userIdentification.uid === groupId) {
             throw new ApolloError("Owner can only delete whole group");
         }
 
-        const filteredManagers = group.managers.filter(x => x.user.uid !== uid);
-        const filteredMembers = group.members.filter(x => x.user.uid !== uid);
+        const filteredManagers = group.managers.filter(x => x.userIdentification.uid !== uid);
+        const filteredMembers = group.members.filter(x => x.userIdentification.uid !== uid);
 
         await admin.firestore()
             .collection(`${api.ST_GROUP_COLLECTION_GROUPS}`)

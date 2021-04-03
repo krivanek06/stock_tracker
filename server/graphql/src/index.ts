@@ -6,7 +6,7 @@ import {userTypeDefs} from './user/user.typeDefs';
 import {userResolvers} from './user/user.resolver';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
-import {authenticateUser, querySTUserPartialInformationByUsername, queryUserPublicData} from './user/user.query';
+import { authenticateUser, queryUserPublicData, queryUserPublicDataByUsername } from './user/user.query';
 import {
     createStockWatchlist,
     addStockIntoStockWatchlist,
@@ -58,7 +58,7 @@ const mainTypeDefs = gql`
     type Query {
         # user
         queryUserData(uid: String!): STUserPublicData
-        querySTUserPartialInformationByUsername(usernamePrefix: String!): [STUserPartialInformation]!
+        queryUserPublicDataByUsername(usernamePrefix: String!): [STUserPublicData]!
         authenticateUser(uid: String!): STUserPublicData
 
         # groups
@@ -84,7 +84,7 @@ const mainTypeDefs = gql`
         # user
         registerUser(user: STUserAuthenticationInput): Boolean
         editUser(editInput: STUserEditDataInput): Boolean
-        resetUserAccount(userId: String!): Boolean
+        resetUserAccount(userId: String!): STUserResetedAccount
 
         # groups
         createGroup(groupInput: STGroupAllDataInput!): STGroupPartialData
@@ -102,7 +102,7 @@ const mainTypeDefs = gql`
         removeStockFromStockWatchlist(identifier: STStockWatchInputlistIdentifier!): Boolean
 
         # trading
-        performTransaction(transactionInput: STTransactionInput): STTransaction
+        performTransaction(transactionInput: STTransactionInput): PerformedTransaction
     }
 `;
 
@@ -112,7 +112,7 @@ const mainResolver = {
         // USER
         authenticateUser: async (_: null, args: { uid: string }) => await authenticateUser(args.uid),
         queryUserData: async (_: null, args: { uid: string }) => await queryUserPublicData(args.uid),
-        querySTUserPartialInformationByUsername: async (_: null, args: { usernamePrefix: string }) => await querySTUserPartialInformationByUsername(args.usernamePrefix),
+        queryUserPublicDataByUsername: async (_: null, args: { usernamePrefix: string }) => await queryUserPublicDataByUsername(args.usernamePrefix),
 
         // GROUP
         querySTGroupAllDataByGroupId: async (_: null, args: { groupId: string }) => await querySTGroupAllDataByGroupId(args.groupId),

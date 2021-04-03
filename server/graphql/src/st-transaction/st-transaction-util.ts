@@ -57,7 +57,7 @@ export const addTransactionToUserHolding = (user: api.STUserPublicData, transact
         };
         holdings[index] = updatedHolding;
     } else {
-        holdings = [...holdings, transaction];    // user is not needed
+        holdings = [...holdings, transaction];    // new symbol in holdings
     }
     return holdings;
 }
@@ -80,3 +80,8 @@ export const substractTransactionFromUserHolding = (user: api.STUserPublicData, 
     }
     return holdings;
 }
+
+
+export const sumOfHoldings = (userHoldings: api.STTransaction[]): number => {
+    return userHoldings.map(h => h.price * h.units).reduce((a,b) => a+b, 0);
+} 

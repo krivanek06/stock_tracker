@@ -94,7 +94,7 @@ export class GraphqlGroupService {
                     }
                 });
                 // save group as owner's or as member's
-                const isGroupOwner = editGroup.owner.user.uid === this.userStorageService.user.uid;
+                const isGroupOwner = editGroup.owner.useridentification.uid === this.userStorageService.user.uid;
                 const groupOwner = [...user.authenticateUser.groups.groupOwner];
                 const groupMember = [...user.authenticateUser.groups.groupMember];
 

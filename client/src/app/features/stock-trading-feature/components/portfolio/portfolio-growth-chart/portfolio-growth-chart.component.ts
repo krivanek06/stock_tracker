@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {StPortfolio} from '@core';
+import {StPortfolioChange} from '@core';
 import * as Highcharts from 'highcharts/highstock';
 import {stFormatLargeNumber} from '@shared';
 
@@ -11,7 +11,7 @@ import {stFormatLargeNumber} from '@shared';
 })
 export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
 
-    @Input() stPortfolio: StPortfolio[];
+    @Input() stPortfolio: StPortfolioChange[];
     @Input() heightPx = 350;
 
     Highcharts: typeof Highcharts = Highcharts;
@@ -152,7 +152,7 @@ export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
                 },
                 name: 'Total',
                 data: (() => {
-                    return this.stPortfolio.map(point => [Date.parse(point.date), point.portfolioCash + point.portfolioInvested]);
+                    return this.stPortfolio.map(point => [Date.parse(point.date), point.portfolio.portfolioCash + point.portfolio.portfolioInvested]);
                 })()
             }, {
                 color: '#6b00fa',
@@ -170,7 +170,7 @@ export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
                 },
                 name: 'Invested',
                 data: (() => {
-                    return this.stPortfolio.map(point => [Date.parse(point.date), point.portfolioInvested]);
+                    return this.stPortfolio.map(point => [Date.parse(point.date), point.portfolio.portfolioInvested]);
                 })()
             }, {
                 color: '#f24f18',
@@ -188,7 +188,7 @@ export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
                 },
                 name: 'Cash',
                 data: (() => {
-                    return this.stPortfolio.map(point => [Date.parse(point.date), point.portfolioCash]);
+                    return this.stPortfolio.map(point => [Date.parse(point.date), point.portfolio.portfolioCash]);
                 })()
             }]
         };

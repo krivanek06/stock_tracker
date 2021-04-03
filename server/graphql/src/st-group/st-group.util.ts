@@ -1,5 +1,7 @@
+import { sumOfHoldings } from './../st-transaction/st-transaction-util';
 import * as api from 'stock-tracker-common-interfaces';
 import {getCurrentIOSDate} from "../st-shared/st-shared.functions";
+import { convertSTUserPublicDataToSTUserIndentification } from '../user/user.convertor';
 
 export const createEmptySTGroupAllData = (): api.STGroupAllData => {
     const now = getCurrentIOSDate();
@@ -19,11 +21,8 @@ export const createEmptySTGroupAllData = (): api.STGroupAllData => {
         name: null,
         owner: null,
         portfolio: {
-            portfolioWeeklyChange: 0,
-            portfolioInvested: 0,
             portfolioCash: 0,
-            portfolioWeeklyGrowth: 0,
-            date: now
+            portfolioInvested: 0
         },
         portfolioChart: [],
         topTransactions: []
@@ -32,9 +31,13 @@ export const createEmptySTGroupAllData = (): api.STGroupAllData => {
 }
 
 
-export const createSTGroupUser = (userPartial: api.STUserPartialInformation): api.STGroupUser => {
+export const createSTGroupUser = (userPublic: api.STUserPublicData): api.STGroupUser => {
     const groupUser: api.STGroupUser = {
-        user: userPartial,
+        userIdentification: convertSTUserPublicDataToSTUserIndentification(userPublic),
+        portfolio: {
+            portfolioCash: userPublic.portfolioCash,
+            portfolioInvested: sumOfHoldings(userPublic.holdings)
+        },
         sinceDate: getCurrentIOSDate()
     }
     return groupUser;

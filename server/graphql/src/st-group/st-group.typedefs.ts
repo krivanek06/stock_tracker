@@ -9,7 +9,8 @@ export const STGroupTypeDefs = gql`
     }
     
     type STGroupUser {
-        user: STUserPartialInformation!
+        useridentification: STUserIndetification!
+        portfolio: STPortfolio!
         sinceDate: String!
     }
 

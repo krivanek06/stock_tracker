@@ -24,7 +24,7 @@
     </ion-item>
 
     <!-- table body -->
-    <ng-container *ngFor="let summary of watchlist.summaries">
+    <ng-container *ngFor="let summary of watchlist.summaries; trackBy:identify">
         <ion-item button (click)="itemClicked(summary)" class="st-data-item-wrapper ion-hide-sm-down">
             <!-- logo + symbol name -->
             <ion-label class="st-display-flex-center st-data-label">

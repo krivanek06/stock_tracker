@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {StUserPartialInformation} from '@core';
+import {StUserPublicData} from '@core';
 
 @Component({
     selector: 'app-search-user',
@@ -14,7 +14,7 @@ export class SearchUserComponent implements OnInit {
     ngOnInit() {
     }
 
-    showUserInformation(userPartialInformation: StUserPartialInformation) {
+    showUserInformation(userPartialInformation: StUserPublicData) {
         console.log('showUserInformation', userPartialInformation);
     }
 }

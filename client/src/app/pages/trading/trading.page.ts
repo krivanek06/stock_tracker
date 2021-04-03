@@ -8,7 +8,7 @@ import {
     UserStorageService
 } from '@core';
 import {SymbolIdentification} from '@shared';
-import {takeUntil} from 'rxjs/operators';
+import {first, takeUntil} from 'rxjs/operators';
 import {PortfolioStateEnum, TradingFeatureFacadeService, TradingScreenUpdateBaseDirective} from '@stock-trading-feature';
 import {Router} from '@angular/router';
 import {cloneDeep} from 'lodash';
@@ -54,8 +54,8 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
         // TODO smooth scroll to top
     }
 
-    tradeSymbol() {
-        this.tradingService.performTransaction(this.selectedSummary);
+    async tradeSymbol() {
+        await this.tradingService.performTransaction(this.selectedSummary);
     }
 
     redirectToDetails() {
@@ -63,9 +63,9 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
     }
 
     private initSuggestions() {
-        this.graphqlQueryService.queryMarketDailyOverview().pipe(takeUntil(this.destroy$)).subscribe(overview => {
+        this.graphqlQueryService.queryMarketDailyOverview().pipe(first()).subscribe(overview => {
             this.suggestions = cloneDeep(overview.stock_suggestions);
-            console.log('this.suggestions', this.suggestions);
+
             if (!this.selectedSummary) {
                 this.selectedSummary = this.suggestions[0].summary;
             }

@@ -7,12 +7,12 @@
         </ion-item>
         <ion-item-group>
             <app-user-account-info-list *ngFor="let user of groupUsers"
-                                        (clickedEmitter)="userClicked(user.user)"
-                                        (deleteEmitter)="deleteClicked(user.user)"
+                                        (clickedEmitter)="userClicked(user)"
+                                        (deleteEmitter)="deleteClicked(user)"
                                         [showDeleteButton]="showDeleteButton"
                                         [clickable]="clickable"
                                         [sinceDate]="user.sinceDate"
-                                        [userPartialInformation]="user.user">
+                                        [stUserPublicData]="user.useridentification">
             </app-user-account-info-list>
         </ion-item-group>
     </ion-col>

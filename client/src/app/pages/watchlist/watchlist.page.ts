@@ -8,8 +8,8 @@ import {
 import {SymbolIdentification} from '@shared';
 import {takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
-import {ModalController} from '@ionic/angular';
 import {SymbolLookupModalComponent, WatchlistFeatureFacadeService} from '@stock-watchlist-feature';
+import {ModalController} from '@ionic/angular';
 
 @Component({
     selector: 'app-watchlist',
@@ -43,7 +43,12 @@ export class WatchlistPage extends ComponentScreenUpdateBaseDirective implements
 
 
     async showChartForSymbol(symbolIdentification: SymbolIdentification, watchlistId: string) {
-        await this.watchlistFeatureFacadeService.showSymbolSummary(symbolIdentification, false, watchlistId);
+        const modal = await this.modalController.create({
+            component: SymbolLookupModalComponent,
+            componentProps: {symbolIdentification, showAddToWatchlistOption: true, watchlistId},
+            cssClass: 'custom-modal'
+        });
+        await modal.present();
     }
 
     private subscribeForWatchlistChange() {

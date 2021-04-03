@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {Maybe, StStockWatchlistFragmentFragment, StUserPartialInformation, StUserPublicData,} from '../../graphql-schema';
+import {Maybe, StStockWatchlistFragmentFragment, StUserIndetification, StUserPublicData,} from '../../graphql-schema';
 import {map} from 'rxjs/operators';
 
 
@@ -21,19 +21,16 @@ export class UserStorageService {
         return this.user$.getValue();
     }
 
-    get userPartialInformation(): StUserPartialInformation {
+    get userIdentification(): StUserIndetification {
         const user = this.user;
-        const partialInfo: StUserPartialInformation = {
+        return {
             uid: user.uid,
             accountCreatedDate: user.accountCreatedDate,
             nickName: user.nickName,
             photoURL: user.photoURL,
-            portfolio: user.portfolio,
             locale: user.locale,
-            rank: user.rank,
-            __typename: 'STUserPartialInformation'
+            __typename: 'STUserIndetification'
         };
-        return partialInfo;
     }
 
     getUser(): Observable<StUserPublicData> {

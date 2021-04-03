@@ -40,7 +40,10 @@ export class MenuHeaderComponent implements OnInit {
 
         const modal = await this.modalController.create({
             component: SymbolLookupModalComponent,
-            componentProps: {symbolIdentification: {symbol: summary.symbol, name: summary.shortName}},
+            componentProps: {
+                symbolIdentification: {symbol: summary.symbol, name: summary.shortName},
+                showAddToWatchlistOption: true
+            },
             cssClass: 'custom-modal'
         });
         await modal.present();

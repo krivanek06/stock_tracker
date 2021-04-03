@@ -6,9 +6,6 @@ export const STPortfolioTypeDefs = gql`
     type STPortfolio {
         portfolioInvested: Float!
         portfolioCash: Float!
-        portfolioWeeklyChange: Float!
-        portfolioWeeklyGrowth: Float!
-        date: String
     }
 
 

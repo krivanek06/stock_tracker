@@ -11,27 +11,3 @@ export const resolveStockSummaryForSymbols = async (symbols: string[]) => {
         throw new ApolloError(error);
     }
 };
-
-
-/*
-export const resolveFinancialReports = async(symbol: string) => {
-    try {
-        const reportDoc = await admin.firestore()
-            .collection(`${api.ST_STOCK_DATA_COLLECTION}`)
-            .doc(symbol)
-            .collection(api.ST_STOCK_DATA_COLLECTION_MORE_INFORMATION)
-            .doc(api.ST_STOCK_DATA_DOCUMENT_FINACIAL_REPORTS)
-            .get();
-
-        return reportDoc.data();
-    } catch (error) {
-        throw new ApolloError(error);
-    }
-}
-
-export const stockDetailsResolvers = {
-    StockDetails: {
-        financialReports: async (stockDetails: api.StockDetails) => await resolveFinancialReports(stockDetails.id)
-    }
-};
-*/

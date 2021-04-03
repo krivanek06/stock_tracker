@@ -18,11 +18,10 @@
             <ion-col size-md="6" size-lg="4.5" size-xl="4" class="portfolio-container-col ion-hide-md-down">
                 <!-- portfolio state -->
                 <app-portfolio-state
-                        *ngIf="clonedPortfolio"
                         style="margin-top: -35px"
                         [portfolioState]="PortfolioStateEnum.PARTIAL"
-                        [portfolioCash]="clonedPortfolio.portfolioCash"
-                        [portfolioInvested]="clonedPortfolio.portfolioInvested">
+                        [portfolioCash]="user?.portfolioCash"
+                        [portfolioInvested]="portfolioInvested">
                 </app-portfolio-state>
             </ion-col>
         </ion-row>
@@ -58,48 +57,46 @@
             </ion-col>
         </ion-row>
 
-        <ng-container *ngIf="user">
-            <ion-row class="ion-justify-content-center">
-                <!-- holdings -->
-                <ion-col size="12" size-lg="11" size-xl="10">
-                    <app-generic-list [title]="'Holdings'" [iconTitle]="'pricetags'"></app-generic-list>
-                    <app-generic-card>
-                        <app-holdings-table
-                                [userPortfolioTotal]="clonedPortfolio.portfolioCash + clonedPortfolio.portfolioInvested"
-                                [stTransactions]="clonedHoldings"
-                                (itemClickedEmitter)="changeSymbol($event)">
-                        </app-holdings-table>
-                    </app-generic-card>
-                </ion-col>
-            </ion-row>
+        <ion-row class="ion-justify-content-center">
+            <!-- holdings -->
+            <ion-col size="12" size-lg="11" size-xl="10">
+                <app-generic-list [title]="'Holdings'" [iconTitle]="'pricetags'"></app-generic-list>
+                <app-generic-card>
+                    <app-holdings-table
+                            [totalPortfolio]="user?.portfolioCash + portfolioInvested"
+                            [stTransactions]="clonedHoldings"
+                            (itemClickedEmitter)="changeSymbol($event)">
+                    </app-holdings-table>
+                </app-generic-card>
+            </ion-col>
+        </ion-row>
 
-            <!-- suggestion -->
-            <ion-row class="ion-justify-content-center">
-                <ion-col size="12" size-lg="11" size-xl="10">
-                    <ion-list-header>
-                        <ion-label style="margin-left: 8px">
-                            <ion-text class="st-title">Suggestions</ion-text>
-                        </ion-label>
-                    </ion-list-header>
-                    <ion-row>
-                        <ion-col size="12" size-sm="6" size-lg="4" size-xl="3" *ngFor="let suggestion of suggestions">
-                            <!-- suggestion in card with ripple effect -->
-                            <app-generic-card (click)="changeSummary(suggestion.summary)"
-                                              [applyLeftPadding]="false"
-                                              [additionalClasses]="'st-height-100 ion-activatable'">
-                                <app-details-stock-suggestion-change
-                                        [suggestionMarketPrice]="suggestion.summary.marketPrice"
-                                        [suggestion]="suggestion">
-                                </app-details-stock-suggestion-change>
+        <!-- suggestion -->
+        <ion-row class="ion-justify-content-center">
+            <ion-col size="12" size-lg="11" size-xl="10">
+                <ion-list-header>
+                    <ion-label style="margin-left: 8px">
+                        <ion-text class="st-title">Suggestions</ion-text>
+                    </ion-label>
+                </ion-list-header>
+                <ion-row>
+                    <ion-col size="12" size-sm="6" size-lg="4" size-xl="3" *ngFor="let suggestion of suggestions">
+                        <!-- suggestion in card with ripple effect -->
+                        <app-generic-card (click)="changeSummary(suggestion.summary)"
+                                          [applyLeftPadding]="false"
+                                          [additionalClasses]="'st-height-100 ion-activatable'">
+                            <app-details-stock-suggestion-change
+                                    [suggestionMarketPrice]="suggestion.summary.marketPrice"
+                                    [suggestion]="suggestion">
+                            </app-details-stock-suggestion-change>
 
-                                <!-- ripple effect on click -->
-                                <ion-ripple-effect></ion-ripple-effect>
-                            </app-generic-card>
-                        </ion-col>
-                    </ion-row>
-                </ion-col>
-            </ion-row>
-        </ng-container>
+                            <!-- ripple effect on click -->
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </app-generic-card>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
     </ion-grid>
 </ion-content>
 

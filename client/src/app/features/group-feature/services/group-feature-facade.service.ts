@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {GraphqlGroupService} from '@core';
-import {StGroupAllData, StGroupPartialData, StUserPartialInformation, UserStorageService} from '@core';
+import {GraphqlGroupService, StUserPublicData} from '@core';
+import {StGroupAllData, StGroupPartialData, UserStorageService} from '@core';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
-import {createSTGroupAllDataInput} from '../utils';
+import {createSTGroupAllDataInput, createSTGroupAllDataInputFromGroup} from '../utils';
 import {GroupForm} from '../model';
 import {Confirmable, DialogService} from '@shared';
 
@@ -20,7 +20,7 @@ export class GroupFeatureFacadeService {
     }
 
     @Confirmable('Please confirm creating new group')
-    async createGroup(form: GroupForm, invitationSent: StUserPartialInformation[] = []): Promise<boolean> {
+    async createGroup(form: GroupForm, invitationSent: StUserPublicData[] = []): Promise<boolean> {
         const groupInput = createSTGroupAllDataInput(this.userStorageService.user.uid, form, invitationSent);
         this.graphqlGroupService.createGroup(groupInput).subscribe(() =>
             DialogService.presentToast(`Group ${groupInput.name} has been created`));
@@ -30,12 +30,7 @@ export class GroupFeatureFacadeService {
 
     @Confirmable('Please confirm making changes in group')
     async editGroup(form: GroupForm, group: StGroupAllData): Promise<void> {
-        const groupInput = createSTGroupAllDataInput(group.owner.user.uid,
-            form,
-            group.invitationSent.map(x => x.user),
-            group.invitationReceived.map(x => x.user),
-            group.managers.map(x => x.user),
-            group.members.map(x => x.user));
+        const groupInput = createSTGroupAllDataInputFromGroup(form, group);
 
         groupInput.groupId = group.groupId;
 

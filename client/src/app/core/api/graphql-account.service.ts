@@ -58,7 +58,7 @@ export class GraphqlAccountService {
                             ...data.authenticateUser,
                             photoURL: editInput.photoURL,
                             nickName: editInput.nickName,
-                            portfolio: initPortfolio ? resetedPortfolio() : data.authenticateUser.portfolio,
+                            portfolioCash: initPortfolio ? 15000 : data.authenticateUser.portfolioCash,
                             userPrivateData: {
                                 ...data.authenticateUser.userPrivateData,
                                 finnhubKey: editInput.finnhubKey
@@ -74,10 +74,6 @@ export class GraphqlAccountService {
         return this.resetUserAccountGQL.mutate({
             userId: this.userStorageService.user.uid
         }, {
-            optimisticResponse: {
-                __typename: 'Mutation',
-                resetUserAccount: true
-            },
             update: (store: DataProxy, {data: {resetUserAccount}}) => {
                 const data = store.readQuery<AuthenticateUserQuery>({
                     query: AuthenticateUserDocument,
@@ -86,7 +82,6 @@ export class GraphqlAccountService {
                     }
                 });
 
-                const portfolio = data.authenticateUser.portfolio;
                 // update watchlist inside cache
                 store.writeQuery({
                     query: AuthenticateUserDocument,
@@ -97,15 +92,11 @@ export class GraphqlAccountService {
                         ...data,
                         authenticateUser: {
                             ...data.authenticateUser,
-                            portfolio: resetedPortfolio(),
+                            portfolioCash: 15000,
                             holdings: [],
                             userHistoricalData: {
                                 ...data.authenticateUser.userHistoricalData,
-                                resetedAccount: [...data.authenticateUser.userHistoricalData.resetedAccount, {
-                                    __typename: 'STUserResetedAccount',
-                                    date: new Date().toISOString(),
-                                    portfolioTotal: portfolio.portfolioCash + portfolio.portfolioInvested
-                                }],
+                                resetedAccount: [...data.authenticateUser.userHistoricalData.resetedAccount, resetUserAccount],
                             }
                         }
                     }
@@ -114,15 +105,3 @@ export class GraphqlAccountService {
         });
     }
 }
-
-
-const resetedPortfolio = (): StPortfolioFragmentFragment => {
-    const portfolio: StPortfolioFragmentFragment = {
-        __typename: 'STPortfolio',
-        portfolioWeeklyGrowth: 0,
-        portfolioCash: 15000,
-        portfolioInvested: 0,
-        portfolioWeeklyChange: 0
-    };
-    return portfolio;
-};

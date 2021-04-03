@@ -1,0 +1,16 @@
+<ion-row class="ion-justify-content-center">
+    <ion-col size="12" size-md="6" size-lg="5.5" size-xl="5">
+        <app-generic-list [title]="'Transactions'" [iconTitle]="'reader'"></app-generic-list>
+        <app-generic-card>
+            <app-transactions-table
+                    [transactions]="transactions">
+            </app-transactions-table>
+        </app-generic-card>
+    </ion-col>
+    <ion-col size="12" size-md="6" size-lg="5.5" size-xl="5" class="ion-padding">
+        <app-transactions-chart
+                [heightPx]="360"
+                [stPortfolioChanges]="stPortfolioChanges">
+        </app-transactions-chart>
+    </ion-col>
+</ion-row>
