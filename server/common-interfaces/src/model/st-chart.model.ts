@@ -5,9 +5,10 @@ export interface STStockHistoricalClosedDataWithPeriod {
     period: string;
 }
 
-export interface STStockHistoricalDataWithPeriod {
+export interface STMarketSymbolHistoricalChartData {
     livePrice: number;
-    price: number[][];  // [[timestamp, open, high, low, close], [timestamp, open, high, low, close], ... ]
     symbol: string;
     period: string;
+    price: number[][];  // [[timestamp, open, high, low, close], [timestamp, open, high, low, close], ... ]
+    volume:number[][];  // [[timestamp, volume], [timestamp, volume], ... ]
 }

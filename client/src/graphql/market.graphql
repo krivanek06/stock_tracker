@@ -129,6 +129,17 @@ fragment STEventCalendarEarningsDataFragment on STEventCalendarEarningsData {
 
 # QUERY --------------------
 
+
+query QuerySTMarketSymbolHistoricalChartData($symbol: String!, $period: String!) {
+    querySTMarketSymbolHistoricalChartData(symbol: $symbol, period: $period) {
+        livePrice
+        symbol
+        period
+        price
+        volume
+    }
+}
+
 query QueryMarketDailyOverview {
     queryMarketDailyOverview {
         stocks_day_gainers {

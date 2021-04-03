@@ -3,6 +3,7 @@ frontend/src/environments
 frontend/package-lock.json
 
 tmp/
+dist/
 
 server/common-interfaces/dist
 server/common-interfaces/node_modules

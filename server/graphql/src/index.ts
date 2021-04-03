@@ -38,7 +38,8 @@ import {performTransaction} from "./st-transaction/st-transaction.mutation";
 import {STMarketSharedTypeDefs} from "./st-market/st-market.typedefs";
 import {
     queryStMarketAllCategories, queryStMarketCalendarEvents, queryStMarketCalendarEventsEarnings, queryStMarketData,
-    querySTMarketHistoryOverview
+    querySTMarketHistoryOverview,
+    querySTMarketSymbolHistoricalChartData
 } from "./st-market/st-market.query";
 
 global.fetch = require("node-fetch");
@@ -71,6 +72,7 @@ const mainTypeDefs = gql`
         queryStockSummaries(symbolPrefix: String!): SearchSymbol
 
         # market data
+        querySTMarketSymbolHistoricalChartData(symbol: String!, period: String!): STMarketSymbolHistoricalChartData
         querySTMarketHistoryOverview: STMarketOverviewPartialData
         queryStMarketAllCategories: STMarketDatasetKeyCategories
         queryMarketDailyOverview: STMarketDailyOverview
@@ -130,6 +132,7 @@ const mainResolver = {
         queryStMarketData: async (_: null, args: { key: string }) => await queryStMarketData(args.key),
         queryStMarketCalendarEvents: async (_: null, args: { date: string }) => await queryStMarketCalendarEvents(args.date),
         queryStMarketCalendarEventsEarnings: async (_: null, args: { date: string }) => await queryStMarketCalendarEventsEarnings(args.date),
+        querySTMarketSymbolHistoricalChartData: async (_: null, args: { symbol: string, period: string }) => await querySTMarketSymbolHistoricalChartData(args.symbol, args.period),
     },
 
     Mutation: {

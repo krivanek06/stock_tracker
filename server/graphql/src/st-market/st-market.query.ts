@@ -106,6 +106,17 @@ export const queryStMarketCalendarEventsEarnings = async (date: string): Promise
     }
 };
 
+
+export const querySTMarketSymbolHistoricalChartData = async (symbol: string, period: string): Promise<api.STMarketSymbolHistoricalChartData> => {
+    try {
+        const data = await global.fetch(`${stockDataAPI}/chart_data/historical_data?symbol=${symbol}&period=${period}`);
+        return data.json();
+    } catch (error) {
+        throw new ApolloError(error);
+    }
+}
+
+
 // ------------- PRIVATE ---------------
 
 const getSTMarketDatasetKeyCategory = async (category: api.STMarketDatasetKeyCategory):

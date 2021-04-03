@@ -8,6 +8,7 @@ import {
     QueryStMarketCalendarEventsGQL,
     QueryStMarketDataGQL,
     QueryStMarketHistoryOverviewGQL,
+    QueryStMarketSymbolHistoricalChartDataGQL,
     QueryStockSummariesGQL,
     QueryUserPublicDataByUsernameGQL,
     StEventCalendarData,
@@ -17,6 +18,7 @@ import {
     StMarketDailyOverview,
     StMarketDatasetKeyCategory,
     StMarketOverviewPartialData,
+    StMarketSymbolHistoricalChartData,
     StUserPublicDataFragmentFragment,
     Summary,
 } from '../graphql-schema';
@@ -36,9 +38,17 @@ export class GraphqlQueryService {
                 private queryStMarketCalendarEventsGQL: QueryStMarketCalendarEventsGQL,
                 private queryStMarketCalendarEventsEarningsGQL: QueryStMarketCalendarEventsEarningsGQL,
                 private queryStMarketDataGQL: QueryStMarketDataGQL,
-                private queryStMarketAllCategoriesGQL: QueryStMarketAllCategoriesGQL) {
+                private queryStMarketAllCategoriesGQL: QueryStMarketAllCategoriesGQL,
+                private queryStMarketSymbolHistoricalChartDataGQL: QueryStMarketSymbolHistoricalChartDataGQL) {
     }
 
+
+    queryStMarketSymbolHistoricalChartData(symbol: string, period: string = '1d'): Observable<StMarketSymbolHistoricalChartData> {
+        return this.queryStMarketSymbolHistoricalChartDataGQL.fetch({
+            symbol,
+            period
+        }).pipe(map(x => x.data.querySTMarketSymbolHistoricalChartData));
+    }
 
     queryUserPublicDataByUsername(usernamePrefix: string): Observable<Array<Maybe<{ __typename?: 'STUserPublicData' } & StUserPublicDataFragmentFragment>>> {
         return this.queryUserPublicDataByUsernameGQL.fetch({
