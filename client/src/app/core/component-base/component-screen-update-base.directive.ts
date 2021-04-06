@@ -6,7 +6,7 @@ export abstract class ComponentScreenUpdateBaseDirective extends ComponentBaseDi
     interval: any;
     componentName: string;
 
-    updateIntervalMs = 1200;
+    updateIntervalMs = 1800;
 
     protected constructor(public cdr: ChangeDetectorRef,
                           private componentNameBse: string) {

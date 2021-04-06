@@ -44,9 +44,8 @@ export class GraphqlQueryService {
 
 
     queryStMarketSymbolHistoricalChartData(symbol: string, period: string = '1d'): Observable<StMarketSymbolHistoricalChartData> {
-        return this.queryStMarketSymbolHistoricalChartDataGQL.fetch({
-            symbol,
-            period
+        return this.queryStMarketSymbolHistoricalChartDataGQL.fetch({symbol, period}, {
+            fetchPolicy: 'network-only'
         }).pipe(map(x => x.data.querySTMarketSymbolHistoricalChartData));
     }
 

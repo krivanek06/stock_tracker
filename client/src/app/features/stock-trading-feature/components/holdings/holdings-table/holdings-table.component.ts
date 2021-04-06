@@ -6,7 +6,7 @@ import {SymbolIdentification} from '@shared';
     selector: 'app-holdings-table',
     templateUrl: './holdings-table.component.html',
     styleUrls: ['./holdings-table.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HoldingsTableComponent implements OnInit {
     @Output() itemClickedEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();

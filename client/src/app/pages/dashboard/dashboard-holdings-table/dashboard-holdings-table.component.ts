@@ -8,7 +8,7 @@ import {ModalController} from '@ionic/angular';
     selector: 'app-dashboard-holdings-table',
     templateUrl: './dashboard-holdings-table.component.html',
     styleUrls: ['./dashboard-holdings-table.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardHoldingsTableComponent implements OnInit {
 
