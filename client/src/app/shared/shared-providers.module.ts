@@ -7,7 +7,6 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {HighchartsChartModule} from 'highcharts-angular';
 import {IonicModule} from '@ionic/angular';
-import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {TranslateModule} from '@ngx-translate/core';
 import {DialogService} from './services';
 
@@ -24,7 +23,6 @@ import {DialogService} from './services';
         AngularFireStorageModule,
         HighchartsChartModule,
         IonicModule,
-        NgxDatatableModule,
         TranslateModule
     ],
     exports: [
@@ -37,7 +35,6 @@ import {DialogService} from './services';
         AngularFireStorageModule,
         HighchartsChartModule,
         IonicModule,
-        NgxDatatableModule,
         TranslateModule
     ],
     providers: [
