@@ -1,6 +1,4 @@
 node_modules/
-firebase_key.json
 lib/
-src/environment.ts
 package-lock.json
 .idea

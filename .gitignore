@@ -1,5 +1,4 @@
 client/node_modules/
-client/src/environments
 client/package-lock.json
 
 tmp/
@@ -7,7 +6,6 @@ dist/
 
 common-interfaces/dist
 common-interfaces/node_modules
-common-interfaces/environments.ts
 common-interfaces/package-lock.json
 
 
