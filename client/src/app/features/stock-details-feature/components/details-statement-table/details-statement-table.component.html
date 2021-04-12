@@ -23,7 +23,7 @@
                     <ion-text *ngIf="statement[key].change[i] as change"
                               class="st-font-size-13 st-display-flex-center"
                               [ngClass]="{ 'st-price-up': change > 0, 'st-price-down': change < 0}">
-                        {{ change | number: '1.2-2'}}%
+                        {{ change | percent: '1.2-2'}}
                         <ion-icon name="trending-up-outline" class="st-price-icon" *ngIf="change > 0"></ion-icon>
                         <ion-icon name="trending-down-outline" class="st-price-icon" *ngIf="change < 0"></ion-icon>
                     </ion-text>
@@ -52,11 +52,9 @@
                                       class="st-font-size-13 ion-hide-sm-down ion-margin-end"
                                       style="display: flex; align-items: center;"
                                       [ngClass]="{ 'st-price-up': change > 0, 'st-price-down': change < 0}">
-                                {{ change | number: '1.2-2'}}%
-                                <ion-icon name="trending-up-outline" class="st-price-icon"
-                                          *ngIf="change > 0"></ion-icon>
-                                <ion-icon name="trending-down-outline" class="st-price-icon"
-                                          *ngIf="change < 0"></ion-icon>
+                                {{ change | percent: '1.2-2'}}
+                                <ion-icon name="trending-up-outline" class="st-price-icon" *ngIf="change > 0"></ion-icon>
+                                <ion-icon name="trending-down-outline" class="st-price-icon" *ngIf="change < 0"></ion-icon>
                             </ion-text>
 
                             <ion-text class="st-data-label" style="min-width: 65px">

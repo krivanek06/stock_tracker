@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {StPortfolio, StPortfolioChange} from '@core';
+import {StPortfolioChange} from '@core';
 
-import * as Highcharts from 'highcharts/highstock';
+import * as Highcharts from 'highcharts';
 import {stFormatLargeNumber} from '@shared';
 
 @Component({
@@ -14,14 +14,13 @@ export class PortfolioChangeChartComponent implements OnInit, OnChanges {
 
     @Input() stPortfolioChanges: StPortfolioChange[];
     @Input() heightPx = 350;
-
-    private data: any[];
-
     Highcharts: typeof Highcharts = Highcharts;
     chart;
     updateFromInput = true;
     chartCallback;
     chartOptions: any = {}; //  : Highcharts.Options
+    private data: any[];
+
     constructor() {
         const self = this;
 
@@ -41,9 +40,9 @@ export class PortfolioChangeChartComponent implements OnInit, OnChanges {
         }, 300);
     }
 
-    private calculatePortfolioChange(){
+    private calculatePortfolioChange() {
         this.data = [];
-        for(let i = 1; i < this.stPortfolioChanges.length; i++){
+        for (let i = 1; i < this.stPortfolioChanges.length; i++) {
             const current = this.stPortfolioChanges[i].portfolio.portfolioCash + this.stPortfolioChanges[i].portfolio.portfolioInvested;
             const before = this.stPortfolioChanges[i - 1].portfolio.portfolioCash + this.stPortfolioChanges[i - 1].portfolio.portfolioInvested;
 
