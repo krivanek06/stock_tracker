@@ -28,8 +28,6 @@ functions/firebase-debug.log
 *.so
 *.vscode
 *node_modules*
-*firebase_key*
-*enviroment*
 
 # Packages #
 ############

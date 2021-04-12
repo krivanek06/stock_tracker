@@ -1,5 +1,5 @@
 build:
   docker:
-    graphql:  ./graphql/Dockerfile
-    flask:  ./flask/Dockerfile
-    nginx:  ./Dockerfile
+    graphql:  graphql/Dockerfile
+    flask:  flask/Dockerfile
+    web:  Dockerfile
