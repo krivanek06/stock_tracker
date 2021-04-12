@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {StPortfolioChange} from '@core';
-import * as Highcharts from 'highcharts/highstock';
+import * as Highcharts from 'highcharts';
 import {stFormatLargeNumber} from '@shared';
 
 @Component({
