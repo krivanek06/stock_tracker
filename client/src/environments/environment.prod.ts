@@ -1,14 +1,16 @@
 export const environment = {
     production: true,
+    // heroku
+    // graphql: 'https://krivanek-stock-tracker-test.herokuapp.com/graphql',
 
     // docker - outside
-    graphql: 'http://127.0.0.1:5001/graphql',
+    // graphql: 'http://127.0.0.1:5001/graphql',
 
     // local
     // graphql: 'http://localhost:4000/graphql',
 
     // GCP
-    //graphql: 'https://servergraphql-eqvqg22pdq-ew.a.run.app/graphql',
+    graphql: 'https://servergraphql-eqvqg22pdq-lz.a.run.app/graphql',
 
     // PROD env
     /*firebase: {
