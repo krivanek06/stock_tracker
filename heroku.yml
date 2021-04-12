@@ -1,0 +1,5 @@
+build:
+  docker:
+    graphql:  ./graphql/Dockerfile
+    flask:  ./flask/Dockerfile
+    nginx:  ./nginx/Dockerfile
