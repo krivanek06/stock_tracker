@@ -1,10 +1,10 @@
 from flask import Flask, request
 from flask_json import FlaskJSON, json_response
 from flask_cors import CORS
-from Services import FundamentalsService
+from Services import FundamentalService
 
 
-fundamentals = FundamentalsService.FundamentalsService()
+fundamentals = FundamentalService.FundamentalService()
 
 app = Flask(__name__)
 FlaskJSON(app)

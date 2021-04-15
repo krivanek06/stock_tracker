@@ -29,9 +29,9 @@ class YahooFinanceRequester:
             except Exception:
                 data['summaryProfile']['logo_url'] = None
 
-            return data
+            return {'companyData': data}
         except:
-            return None
+            return {'companyData': None}
 
     def get_financial_sheets(self, ticker):
         balance_sheet_site = "https://finance.yahoo.com/quote/" + ticker + "/balance-sheet?p=" + ticker
@@ -41,24 +41,24 @@ class YahooFinanceRequester:
             return None
         try:
             balanceSheet = {
-                'balanceSheetHistoryYearly': json_info["balanceSheetHistory"].get('balanceSheetStatements'),
-                'balanceSheetHistoryQuarterly': json_info["balanceSheetHistoryQuarterly"].get('balanceSheetStatements')
+                'yearly': json_info["balanceSheetHistory"].get('balanceSheetStatements'),
+                'quarterly': json_info["balanceSheetHistoryQuarterly"].get('balanceSheetStatements')
             }
         except:
             balanceSheet = None
 
         try:
             cashFlow = {
-                'cashflowStatementHistoryYearly': json_info["cashflowStatementHistory"].get('cashflowStatements'),
-                'cashflowStatementHistoryQuarterly': json_info["cashflowStatementHistoryQuarterly"].get('cashflowStatements')
+                'yearly': json_info["cashflowStatementHistory"].get('cashflowStatements'),
+                'quarterly': json_info["cashflowStatementHistoryQuarterly"].get('cashflowStatements')
             }
         except:
             cashFlow = None
 
         try:
             incomeStatement = {
-                'incomeStatementHistoryYearly': json_info["incomeStatementHistory"].get('incomeStatementHistory'),
-                'incomeStatementHistoryQuarterly': json_info["incomeStatementHistoryQuarterly"].get('incomeStatementHistory')
+                'yearly': json_info["incomeStatementHistory"].get('incomeStatementHistory'),
+                'quarterly': json_info["incomeStatementHistoryQuarterly"].get('incomeStatementHistory')
             }
         except:
             incomeStatement = None
@@ -74,7 +74,8 @@ class YahooFinanceRequester:
 
     def get_analysts_info(self, ticker):
         url = "https://finance.yahoo.com/quote/" + ticker + "/analysts?p=" + ticker
-        return self.helperClass.parse_json(url, 'QuoteSummaryStore', 'earningsTrend', 'trend')
+        analysis_all = self.helperClass.parse_json(url, 'QuoteSummaryStore', 'earningsTrend', 'trend')
+        return {'analysis_all': analysis_all}
 
     def get_live_price(self, ticker):
         data = get('https://query1.finance.yahoo.com/v8/finance/chart/' + ticker + '?interval=1d').json()
@@ -122,8 +123,11 @@ class YahooFinanceRequester:
                 result['price'].append(round(close[i], 2))
             else:
                 milliseconds = timestamp[i] * 1000
-                result['price'].append(
-                    [milliseconds, round(open[i], 2), round(high[i], 2), round(low[i], 2), round(close[i], 2)])
+                result['price'].append([milliseconds,  # time
+                                        round(open[i], 2),  # open
+                                        round(high[i], 2),  # high
+                                        round(low[i], 2),  # low
+                                        round(close[i], 2)])  # closed
                 result['volume'].append([milliseconds, volume[i]])
 
         result['livePrice'] = round(result['price'][-1], 2) if onlyClosed else round(result['price'][-1][4], 2)

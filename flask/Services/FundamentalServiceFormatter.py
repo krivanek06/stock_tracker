@@ -1,107 +1,5 @@
-from threading import Thread
-from queue import Queue
-from pytz import UTC
 from datetime import datetime
-
-from ExternalAPI import Finhub
-from ExternalAPI.YahooFinance import YahooFinanceRequester
 from ExternalAPI import utils
-from ExternalAPI.utils import cammelCaseToWord
-
-utc = UTC
-
-
-class FundamentalsService:
-    def __init__(self):
-        self.yRequester = YahooFinanceRequester.YahooFinanceRequester()
-        self.finhub = Finhub.Finhub()
-
-    def getStockDetails(self, symbol):
-        data = self.__fetchStockDetails(symbol)
-        return self.__modifyFetchedStockDetails(symbol, data)
-
-    # --------------------------------------------------------------------
-    # --------------------------------------------------------------------
-    # private methods
-
-    '''
-       get stock news if does not exists or older than 8 hours
-    '''
-
-    def __getUpToDateStockNews(self, symbol):
-        stockNewsFinhubArray = self.finhub.getNewsForSymbol(symbol)['stockNews']
-        return {'stockNews': stockNewsFinhubArray}
-
-    def __modifyFetchedStockDetails(self, symbol, data):
-        data['id'] = symbol
-
-        data = utils.changeUnsupportedCharactersForDictKey(data)
-        dataFormatter = FundamentalServiceFormatter(data)
-
-        # format data
-        dataFormatter.formatAnalysis()
-        dataFormatter.fomatFinancialReports()
-        dataFormatter.formatSummary()
-        dataFormatter.formatDividends()
-        dataFormatter.formatEarningsFinancialChart()
-        dataFormatter.formatStatementData()
-        dataFormatter.formatHistoricalMetrics()
-        data['recommendation'].reverse()
-
-        # remove data
-        dataFormatter.removeUnnecessaryData()
-        return data
-
-    def __fetchStockDetails(self, symbol):
-        '''
-        t4 = self.yRequester.get_company_data(symbol)
-        t2 = self.yRequester.get_analysts_info(symbol)
-        t8 = self.yRequester.get_financial_sheets(symbol)
-        t10 = self.__getUpToDateStockNews(symbol)
-        t12 = self.yRequester.get_holders(symbol)
-        t6 = self.finhub.getRecomendationForSymbol(symbol)
-        t7 = self.finhub.getStockYearlyFinancialReport(symbol)
-        t11 = self.finhub.getStockMetrics(symbol)
-        '''
-        que = Queue()
-        # declare threads
-        t2 = Thread(target=lambda q, arg1: q.put({'analysis_all': self.yRequester.get_analysts_info(arg1)}),
-                    args=(que, symbol))
-        t4 = Thread(target=lambda q, arg1: q.put({'companyData': self.yRequester.get_company_data(arg1)}),
-                    args=(que, symbol))
-        t8 = Thread(target=lambda q, arg1: q.put(self.yRequester.get_financial_sheets(arg1)), args=(que, symbol))
-        t10 = Thread(target=lambda q, arg1: q.put(self.__getUpToDateStockNews(arg1)), args=(que, symbol))
-        t12 = Thread(target=lambda q, arg1: q.put(self.yRequester.get_holders(arg1)), args=(que, symbol))
-
-        # FINHUB
-        t6 = Thread(target=lambda q, arg1: q.put(self.finhub.getRecomendationForSymbol(arg1)), args=(que, symbol))
-        t7 = Thread(target=lambda q, arg1: q.put(self.finhub.getStockYearlyFinancialReport(arg1)), args=(que, symbol))
-        t11 = Thread(target=lambda q, arg1: q.put(self.finhub.getStockMetrics(arg1)), args=(que, symbol))
-
-        # start threads
-        t2.start()
-        t4.start()
-        t6.start()
-        t7.start()
-        t8.start()
-        t10.start()
-        t11.start()
-        t12.start()
-
-        # wait threads to finish
-        t2.join()
-        t4.join()
-        t6.join()
-        t7.join()
-        t8.join()
-        t10.join()
-        t11.join()
-        t12.join()
-
-        # get result from threads into one dict
-        merge = {**que.get(), **que.get(), **que.get(), **que.get(), **que.get(), **que.get(), **que.get(), **que.get()}
-
-        return merge
 
 
 class FundamentalServiceFormatter:
@@ -186,7 +84,7 @@ class FundamentalServiceFormatter:
                 dataLoop = len(data)  # usualy 4 quartes and 4 years but may be lower
                 for periodKeysIndex in range(len(periodKeys)):
                     res[statement][timePeriod][periodKeys[periodKeysIndex]] = {
-                        'name': cammelCaseToWord(periodKeys[periodKeysIndex]),
+                        'name': utils.cammelCaseToWord(periodKeys[periodKeysIndex]),
                         'data': [],
                         'change': []
                     }
@@ -228,10 +126,16 @@ class FundamentalServiceFormatter:
         }
         for sheet in rename:
             for k in rename[sheet]:
+                for period in ['quarterly', 'yearly']:
+                    if k in res[sheet][period]:
+                        res[sheet][period][k]['name'] = rename[sheet][k]
+        '''
+        for sheet in rename:
+            for k in rename[sheet]:
                 sheet = sheet + 'Statement' if sheet == 'cashFlow' else sheet
                 if k in res[sheet][sheet + 'HistoryQuarterly']:
                     res[sheet][sheet + 'HistoryQuarterly'][k]['name'] = rename[sheet][k]
-
+        '''
         # save
         self.data['balanceSheet'] = res['balanceSheet']
         self.data['cashFlow'] = res['cashFlow']
@@ -322,7 +226,6 @@ class FundamentalServiceFormatter:
         for i in range(len(quarterly)):
             for statement in ['bs', 'cf', 'ic']:
                 statementNew = 'balanceSheet' if statement == 'bs' else 'cashFlow' if statement == 'cf' else 'incomeStatement'
-                statementNewKey = 'cashflowStatement' if statementNew == 'cashFlow' else statementNew
 
                 # QUARTERS
                 for data in quarterly[i]['report'][statement]:
@@ -334,16 +237,16 @@ class FundamentalServiceFormatter:
                     '''
                     if data['concept'] in neededData[statement]:
                         newKey = neededData[statement][data['concept']]
-                        self.data[statementNew][statementNewKey + 'HistoryQuarterly'][i][newKey] = data['value']
+                        self.data[statementNew]['quarterly'][i][newKey] = data['value']
 
                 # YEARS - may be less than quarterly data
                 if i < len(yearly):
                     for data in yearly[i]['report'][statement]:
                         if data['concept'] in neededData[statement]:
                             newKey = neededData[statement][data['concept']]
-                            if len(self.data[statementNew][statementNewKey + 'HistoryYearly']) <= i:
-                                self.data[statementNew][statementNewKey + 'HistoryYearly'].append({})
-                            self.data[statementNew][statementNewKey + 'HistoryYearly'][i][newKey] = data['value']
+                            if len(self.data[statementNew]['yearly']) <= i:
+                                self.data[statementNew]['yearly'].append({})
+                            self.data[statementNew]['yearly'][i][newKey] = data['value']
 
     def formatSummary(self):
         try:
