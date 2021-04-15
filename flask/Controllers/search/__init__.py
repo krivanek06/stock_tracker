@@ -37,7 +37,7 @@ def getAllCategories():
 @app.route('/news')
 def get_economic_news():
     try:
-        return json_response(news=StockNews.getJsonDataFromFile())
+        return json_response(news=StockNews.getNews())
     except Exception as e:
         raise JsonError(status=500, error='Failed to get economic news')
 
@@ -147,6 +147,14 @@ def get_small_cap_gainers():
         return json_response(stocks_small_cap_gainers=YahooFinanceTopSymbols.get_small_cap_gainers())
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'get_small_cap_gainers(), message: ' + str(e))
+
+
+@app.route('/top_index_states')
+def get_top_index_states():
+    try:
+        return json_response(data=YahooFinanceTopSymbols.get_top_index_states())
+    except Exception as e:
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'get_top_index_states(), message: ' + str(e))
 
 
 if __name__ == '__main__':

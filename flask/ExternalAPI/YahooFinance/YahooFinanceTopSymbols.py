@@ -1,6 +1,6 @@
 from ExternalAPI.YahooFinance import CustomYahooParser, YahooFinanceRequester
 from datetime import datetime, timedelta
-
+from collections import ChainMap
 
 class YahooFinanceTopSymbols:
     def __init__(self):
@@ -57,6 +57,21 @@ class YahooFinanceTopSymbols:
             i += 1
         return result
 
+    def get_top_index_states(self):
+        url = 'https://finance.yahoo.com/bonds'
+        bonds = self.yahooFinanceParser.parse_json(url, 'StreamDataStore', 'quoteData')
+        bonds = [{key: {
+            'quoteType': bonds[key].get('quoteType', None),
+            'symbol': bonds[key].get('symbol', None),
+            'shortName': bonds[key].get('shortName', None),
+            'exchange': bonds[key].get('exchange', None),
+            'exchangeTimezoneName': bonds[key].get('exchangeTimezoneName', None),
+            'previousClose': bonds[key].get('regularMarketPreviousClose', None),
+            'marketPrice': bonds[key].get('regularMarketPrice', None),
+            'marketChange': bonds[key].get('regularMarketChangePercent', None)
+        }} for key in bonds]
+        return dict(ChainMap(*bonds))
+
     # PRIVATE -----------------------------
 
     def __get_symbol_table(self, url):
@@ -68,14 +83,15 @@ class YahooFinanceTopSymbols:
         result = []
         for d in data:
             try:
-                companyData = self.yahooFinanceRequester.get_company_data(d['symbol'])
-                tmp = d
-                tmp['logo_url'] = companyData['summaryProfile']['logo_url']
-                tmp['regularMarketPreviousClose'] = companyData['price']['regularMarketPreviousClose']
-                tmp['recommendationKey'] = companyData['financialData']['recommendationKey']
-                tmp['recommendationMean'] = companyData['financialData']['recommendationMean']
-                tmp['trailingPE'] = round(tmp.get('trailingPE'), 2) if tmp.get('trailingPE') is not None else 'N/A'
-                result.append(d)
+                companyData = self.yahooFinanceRequester.get_company_data(d['symbol'])['companyData']
+                if companyData is not None:
+                    tmp = d
+                    tmp['logo_url'] = companyData['summaryProfile']['logo_url']
+                    tmp['regularMarketPreviousClose'] = companyData['price']['regularMarketPreviousClose']
+                    tmp['recommendationKey'] = companyData['financialData']['recommendationKey']
+                    tmp['recommendationMean'] = companyData['financialData']['recommendationMean']
+                    tmp['trailingPE'] = round(tmp.get('trailingPE'), 2) if tmp.get('trailingPE') is not None else 'N/A'
+                    result.append(d)
             except:
                 pass
         return result
