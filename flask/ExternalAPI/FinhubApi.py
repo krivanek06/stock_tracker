@@ -4,7 +4,7 @@ from dateutil.relativedelta import relativedelta
 from requests import get
 
 
-class Finhub:
+class FinhubApi:
     def __init__(self):
         self.FINHUB_SECRET_KEY = environments_keys.FINHUB_SECRET_KEY
 

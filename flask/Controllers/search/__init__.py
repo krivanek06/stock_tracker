@@ -1,31 +1,30 @@
 from flask import Flask, request
 from flask_json import FlaskJSON, JsonError, json_response
 from flask_cors import CORS
-from ExternalAPI import EconomicNews, Finhub, Quandl
-from ExternalAPI.YahooFinance import YahooFinanceTopSymbols
+from ExternalAPI import EconomicNewsApi, FinhubApi, QuandlApi
+from ExternalAPI.YahooFinance import YahooFinanceTopSymbolsApi
+from ExternalAPI.AlphaVantageApi import AlphaVantageApi
 
 app = Flask(__name__)
 FlaskJSON(app)
 CORS(app, resources={r"*": {"origins": "*"}})
 
 # CUSTOM singleton
-StockNews = EconomicNews.EconomicNews()
-YahooFinanceTopSymbols = YahooFinanceTopSymbols.YahooFinanceTopSymbols()
-Finhub = Finhub.Finhub()
-quandl = Quandl.Quandl()
+StockNews = EconomicNewsApi.EconomicNewsApi()
+YahooFinanceTopSymbols = YahooFinanceTopSymbolsApi.YahooFinanceTopSymbolsApi()
+Finhub = FinhubApi.FinhubApi()
+quandl = QuandlApi.QuandlApi()
 ERROR_MESSAGE = 'Error in Search controller, method: '
 
-
-@app.route('/quandl')
-def getAllDataForkey():
+@app.route('/technical_indicators')
+def getAllTechnicalIndicators():
     try:
-        documentKey = request.args.get('documentKey')
-        return json_response(**quandl.getAllDataForDocumentKey(documentKey))
+        return json_response(**AlphaVantageApi().getIndicators())
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'getAllDataForQundalKey(), message: ' + str(e))
 
 
-@app.route('/quandl/categories')
+@app.route('/quandl_categories')
 def getAllCategories():
     try:
         onlyMain = request.args.get('onlyMain') in ['True', 'true']

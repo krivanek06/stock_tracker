@@ -1,9 +1,11 @@
 from flask import Flask, request
 from flask_json import FlaskJSON, JsonError, json_response
 from flask_cors import CORS
-from ExternalAPI.YahooFinance import YahooFinanceRequester
 
-YahooFinanceRequester = YahooFinanceRequester.YahooFinanceRequester()
+from ExternalAPI.YahooFinance.YahooFinanceRequesterApi import YahooFinanceRequesterApi
+from ExternalAPI.QuandlApi import QuandlApi
+from ExternalAPI.AlphaVantageApi import AlphaVantageApi
+
 
 # yf.pdr_override()
 app = Flask(__name__)
@@ -20,7 +22,7 @@ def getStockHistoricalDataWithPeriod():
     try:
         symbol = request.args.get('symbol')
         period = request.args.get('period')
-        return json_response(**YahooFinanceRequester.get_chart_data(symbol, period, False))
+        return json_response(**YahooFinanceRequesterApi().get_chart_data(symbol, period, False))
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'getStockHistoricalDataWithPeriod(), message: ' + str(e))
 
@@ -32,10 +34,29 @@ def getStockHistoricalClosedDataWithPeriod():
     try:
         symbol = request.args.get('symbol')
         period = request.args.get('period')
-        return json_response(**YahooFinanceRequester.get_chart_data(symbol, period, True))
+        return json_response(**YahooFinanceRequesterApi().get_chart_data(symbol, period, True))
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'getStockHistoricalClosedDataWithPeriod(), message: ' + str(e))
 
+
+@app.route('/quandl')
+def getAllDataForkey():
+    try:
+        documentKey = request.args.get('documentKey')
+        return json_response(**QuandlApi().getAllDataForDocumentKey(documentKey))
+    except Exception as e:
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'getAllDataForQundalKey(), message: ' + str(e))
+
+
+@app.route('/technical_indicator')
+def getDataForTechnicalIndicator():
+    try:
+        symbol = request.args.get('symbol')
+        indicator = request.args.get('indicator')
+        interval = request.args.get('interval')
+        return json_response(**AlphaVantageApi().getData(symbol, indicator, interval))
+    except Exception as e:
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'getDataForTechnicalIndicator(), message: ' + str(e))
 
 if __name__ == '__main__':
     print('Chart data controller app is running')

@@ -3,7 +3,7 @@ from requests import get
 from ExternalAPI.YahooFinance import CustomYahooParser
 
 
-class YahooFinanceRequester:
+class YahooFinanceRequesterApi:
     def __init__(self):
         self.helperClass = CustomYahooParser.CustomYahooParser()
 

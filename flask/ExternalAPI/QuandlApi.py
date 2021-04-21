@@ -7,7 +7,7 @@ from ExternalAPI import utils
 import environments_keys
 
 
-class Quandl:
+class QuandlApi:
     def __init__(self):
         self.APIKEY = environments_keys.QUANDL_SECRET_KEY
         self.fileManager = FileManagerService.FileManagerService()
