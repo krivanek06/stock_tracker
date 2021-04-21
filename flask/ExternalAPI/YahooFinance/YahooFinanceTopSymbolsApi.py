@@ -1,11 +1,11 @@
-from ExternalAPI.YahooFinance import CustomYahooParser, YahooFinanceRequester
+from ExternalAPI.YahooFinance import CustomYahooParser, YahooFinanceRequesterApi
 from datetime import datetime, timedelta
 from collections import ChainMap
 
-class YahooFinanceTopSymbols:
+class YahooFinanceTopSymbolsApi:
     def __init__(self):
         self.yahooFinanceParser = CustomYahooParser.CustomYahooParser()
-        self.yahooFinanceRequester = YahooFinanceRequester.YahooFinanceRequester()
+        self.yahooFinanceRequester = YahooFinanceRequesterApi.YahooFinanceRequesterApi()
 
     def get_day_gainers(self):
         return self.__get_symbol_table('https://finance.yahoo.com/screener/predefined/day_gainers')

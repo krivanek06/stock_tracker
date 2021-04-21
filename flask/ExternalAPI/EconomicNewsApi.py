@@ -3,7 +3,7 @@ from datetime import datetime
 import environments_keys
 
 
-class EconomicNews:
+class EconomicNewsApi:
     def __init__(self):
         self.API_KEY = environments_keys.NEWS_API_KEY
 
