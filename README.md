@@ -1,8 +1,8 @@
 # stock_tracker
 
-Application to analyze financial details about publicly listed companies
+Application to analyze financial details about publicly listed companies. Project is still in development, so some functions does not work correctly.
 
-[link](https://stocktrackertest-e51fc.web.app/)
+[link](https://stocktrackertest-e51fc.web.app/)  - Window resize is required after log in to fix charts
 
 testing login:
 - email: krivanek1234.1@gmail.com
