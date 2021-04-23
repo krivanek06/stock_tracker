@@ -6,7 +6,26 @@ class FundamentalServiceFormatter:
     def __init__(self, data):
         self.data = data
 
-    def formatAnalysis(self):
+    def formatFetchedStockDetails(self, symbol):
+        self.data['id'] = symbol
+
+        self.data = utils.changeUnsupportedCharactersForDictKey(self.data)
+
+        # format data
+        self._formatAnalysis()
+        self._formatFinancialReports()
+        self._formatSummary()
+        self._formatDividends()
+        self._formatEarningsFinancialChart()
+        self._formatStatementData()
+        self._formatHistoricalMetrics()
+        self.data['recommendation'].reverse()
+
+        # remove data
+        self._removeUnnecessaryData()
+        return self.data
+
+    def _formatAnalysis(self):
         try:
             analysis_all = self.data.get('analysis_all')
             if not analysis_all:
@@ -53,7 +72,7 @@ class FundamentalServiceFormatter:
             print('formatAnalysis exception: ' + str(e))
             self.data['analysis'] = None
 
-    def formatHistoricalMetrics(self):
+    def _formatHistoricalMetrics(self):
         if self.data['historicalMetrics'] is None:
             return None
 
@@ -62,10 +81,10 @@ class FundamentalServiceFormatter:
             result[k] = {'data': [], 'dates': [], 'name': utils.cammelCaseToWord(k)}
             for data in self.data['historicalMetrics'][k]:
                 result[k]['data'].insert(0, round(data.get('v'), 3))
-                result[k]['dates'].insert(0, data.get('period').split('-')[0])  # 2020-X-X
+                result[k]['dates'].insert(0, data.get('data_aggregation').split('-')[0])  # 2020-X-X
         self.data['historicalMetrics'] = result
 
-    def formatStatementData(self):
+    def _formatStatementData(self):
         res = {'balanceSheet': {},  # 'quaretly': {}, 'yearly': {}
                'cashFlow': {},  # 'quaretly': {}, 'yearly': {}
                'incomeStatement': {}  # 'quaretly': {}, 'yearly': {}
@@ -129,19 +148,12 @@ class FundamentalServiceFormatter:
                 for period in ['quarterly', 'yearly']:
                     if k in res[sheet][period]:
                         res[sheet][period][k]['name'] = rename[sheet][k]
-        '''
-        for sheet in rename:
-            for k in rename[sheet]:
-                sheet = sheet + 'Statement' if sheet == 'cashFlow' else sheet
-                if k in res[sheet][sheet + 'HistoryQuarterly']:
-                    res[sheet][sheet + 'HistoryQuarterly'][k]['name'] = rename[sheet][k]
-        '''
         # save
         self.data['balanceSheet'] = res['balanceSheet']
         self.data['cashFlow'] = res['cashFlow']
         self.data['incomeStatement'] = res['incomeStatement']
 
-    def formatEarningsFinancialChart(self):
+    def _formatEarningsFinancialChart(self):
         try:
             if self.data['companyData']['earnings'] is None:
                 return
@@ -162,7 +174,7 @@ class FundamentalServiceFormatter:
             pass
 
     # TODO refactor
-    def fomatFinancialReports(self):
+    def _formatFinancialReports(self):
         quarterly = self.data.get('financialReportsQuarterly')
         yearly = self.data.get('financialReportsYearly')
 
@@ -248,7 +260,7 @@ class FundamentalServiceFormatter:
                                 self.data[statementNew]['yearly'].append({})
                             self.data[statementNew]['yearly'][i][newKey] = data['value']
 
-    def formatSummary(self):
+    def _formatSummary(self):
         try:
             summary_all = self.data['companyData']
             summaryProfile = summary_all.get('summaryProfile')
@@ -324,7 +336,7 @@ class FundamentalServiceFormatter:
         except Exception as e:
             print('formatSummary exception: ' + str(e))
 
-    def formatDividends(self):
+    def _formatDividends(self):
         try:
             self.data['dividends'] = {
                 'dividendGrowthRateFiveY': self.data['metric'].get('dividendGrowthRateFiveY'),
@@ -345,7 +357,7 @@ class FundamentalServiceFormatter:
             print('formatDividends exception: ' + str(e))
             pass
 
-    def removeUnnecessaryData(self):
+    def _removeUnnecessaryData(self):
         try:
             self.data['companyData'].pop("calendarEvents", None)
             self.data['companyData'].pop("recommendationTrend", None)

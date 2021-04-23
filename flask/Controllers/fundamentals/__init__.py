@@ -1,10 +1,8 @@
 from flask import Flask, request
 from flask_json import FlaskJSON, json_response
 from flask_cors import CORS
-from Services import FundamentalService
+from Services.FundamentalService import FundamentalService
 
-
-fundamentals = FundamentalService.FundamentalService()
 
 app = Flask(__name__)
 FlaskJSON(app)
@@ -16,7 +14,7 @@ def getStockFundamentals():
     symbol = 'None'
     try:
         symbol = request.args.get('symbol')
-        return json_response(**fundamentals.getStockDetails(symbol))
+        return json_response(**FundamentalService().getStockDetails(symbol))
     except Exception as e:
         print('Error in Fundamentals controller, method: getStockFundamentals(), symbol: '
               + symbol + ' , message: ' + str(e))
