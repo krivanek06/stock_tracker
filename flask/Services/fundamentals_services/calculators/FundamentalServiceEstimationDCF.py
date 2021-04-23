@@ -11,49 +11,34 @@
     Do not forget to add margin of safety to the end intrinsic value
 '''
 from statistics import mean
-from enum import Enum
 
 
-class RISK_TOLERANCE_ENUM(Enum):
-    LOW_RISK = 'LOW_RISK',
-    MEDIUM_RISK = 'MEDIUM_RISK',
-    HIGH_RISK = 'HIGH_RISK'
-
-
-class FundamentalServiceDCFCalculation:
+class FundamentalServiceEstimationDCF:
     def __init__(self, data):
         self.data = data
         self.balanceSheet = self.data['balanceSheet']['yearly']
         self.cashFlow = self.data['cashFlow']['yearly']
         self.incomeStatement = self.data['incomeStatement']['yearly']
-        self.ESTIMATED_TIME_PERIOD = 2  # how much further in time to go
-        self.riskTolerance = None
 
-    def calculateDFC(self):
+        self.ESTIMATED_TIME_PERIOD = 2  # how much further in time to go
+
+    def estimateDFC(self):
         try:
             if not self.__checkIfCalculationIsPossible():
                 return None
-            return self.__calculateDFC(RISK_TOLERANCE_ENUM.MEDIUM_RISK)
+            return self.__calculateDFC()
         except Exception as e:
             print(e)
             return None
-        # return {
-        # RISK_TOLERANCE_ENUM.LOW_RISK.name: self.__calculateDFC(RISK_TOLERANCE_ENUM.LOW_RISK),
-        # RISK_TOLERANCE_ENUM.MEDIUM_RISK.name: self.__calculateDFC(RISK_TOLERANCE_ENUM.MEDIUM_RISK),
-        # RISK_TOLERANCE_ENUM.HIGH_RISK.name: self.__calculateDFC(RISK_TOLERANCE_ENUM.HIGH_RISK)
-        # }
 
     # TODO do not forget to add time periods - how to know which year
-    def __calculateDFC(self, riskTolerance):
-        self.riskTolerance = riskTolerance
-
+    def __calculateDFC(self):
         estimatedFreeCashFlowRate, estimatedFreeCashFlowRates = self.__calculateFreeCashFlowRates()
         revenue, revenueGrowthRates, estimatedRevenueGrowthRate, estimatedRevenues = self.__estimateRevenues()
         netIncome, netIncomeMargins, estimatedNetIncomeMargin, estimatedNetIncomes = self.__estimateNetIncome(revenue, estimatedRevenues)
         freeCashFlows, estimatedFreeCashFlows = self.__estimateFreeCashFlows(estimatedNetIncomes, estimatedFreeCashFlowRate)
 
-        WACC = self.__calculateWACC()
-        requiredRateOfReturn = WACC['result']  # this number may be personalized, but generally using WACC
+        requiredRateOfReturn = self.data['calculations']['WACC']['result']  # this number may be personalized, but generally using WACC
         sharesOutstanding = self.data['summary']['sharesOutstanding']
         perpetualGrowthRate = 0.025  # constant growth rate - 2.5% -  rate of which free cash flow gonna grow forever
 
@@ -90,7 +75,6 @@ class FundamentalServiceDCFCalculation:
                 'revenue': revenue,
                 'revenueGrowthRates': revenueGrowthRates
             },
-            'WACC': WACC,
             'terminalValue': terminalValue,
             'discountedTerminalValue': discountedTerminalValue,
             'discountedFactors': discountedFactors,
@@ -99,7 +83,7 @@ class FundamentalServiceDCFCalculation:
 
     # traditional loop because freeCashFlowRate or estimatedNetIncome can be negative and two negative number result positive
     def __estimateFreeCashFlows(self, estimatedNetIncome, freeCashFlowRate):
-        freeCashFlows = self.cashFlow['freeCashFlow']['data'][::-1]  # historical cash flow, past 4 period
+        freeCashFlows = self.cashFlow['freeCashFlow']['data'][::-1]  # historical cash flow, past 4 data_aggregation
         estimateFreeCashFlows = []
         # estimateFreeCashFlows += [round(income * freeCashFlowRate, 0) for income in estimatedNetIncome[len(estimateFreeCashFlows):]]
         for income in estimatedNetIncome:
@@ -155,51 +139,8 @@ class FundamentalServiceDCFCalculation:
 
         return freeCashFlowRate, freeCashFlowRates
 
-    ''' 
-        link > https://www.youtube.com/watch?v=0inqw9cCJnM&ab_channel=LearntoInvest
-        equation > WACC = Wd * Rd * (1 - taxRate) + We * Re
-    '''
-
-    def __calculateWACC(self):
-        interestExpense = self.incomeStatement['interestExpense']['data'][0]
-        totalDebt = self.balanceSheet['longTermDebt']['data'][0] + self.balanceSheet['shortLongTermDebt']['data'][0]
-        Rd = round(abs(interestExpense / totalDebt), 4)  # cost of debt
-        taxRate = round(self.incomeStatement['incomeTaxExpense']['data'][0] / self.incomeStatement['incomeBeforeTax']['data'][0], 4)  # percent
-
-        if self.data['companyData']['defaultKeyStatistics'].get('beta', None) is not None:
-            CAPM = self.__calculateCAPM()
-            Re = CAPM['result']  # cost of equity
-        else:
-            CAPM = None
-            Re = 0.1
-        taxAdjustedCostOfDebt = Rd * (1 - taxRate)
-        totalDebt = self.data['companyData']['financialData']['totalDebt']
-        Wd = round(totalDebt / (totalDebt + self.data['summary']['marketCap']), 4)  # weight of debt
-        We = round(1 - Wd, 4)  # weight of equity
-        wacc = round(Wd * taxAdjustedCostOfDebt + We * Re, 4)
-        return {'result': wacc, 'CAPM': CAPM, 'Wd': Wd, 'Rd': Rd, 'taxRate': taxRate, 'We': We, 'Re': Re}
-
-    '''
-        Capital Asset pricing model
-        link > https://www.youtube.com/watch?v=-fCYZjNA7Ps&ab_channel=LearntoInvest
-        equation > Ra = Rf + Beta * (Rm - Rf)
-    '''
-
-    def __calculateCAPM(self):
-        Rf = 0.025  # Risk free rate - hardcoded 2.5% , TODO may be 10y US treasury yield
-        beta = round(self.data['companyData']['defaultKeyStatistics']['beta'], 2)
-        Rm = 0.10  # expected return of market (SP500)
-
-        return {'result': round(Rf + beta * (Rm - Rf), 4), 'Rf': Rf, 'Beta': beta, 'Rm': Rm}
-
     def __getNumberFromList(self, data):
-        if self.riskTolerance == RISK_TOLERANCE_ENUM.LOW_RISK:
-            return round(min(data), 4)
-        if self.riskTolerance == RISK_TOLERANCE_ENUM.MEDIUM_RISK:
-            return round(mean(data), 4)
-        if self.riskTolerance == RISK_TOLERANCE_ENUM.HIGH_RISK:
-            return round(max(data), 4)
-        raise Exception('Risk tolerance is not defined')
+        return round(mean(data), 4)
 
     '''
         check if at least 3 positive free cash flows

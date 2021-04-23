@@ -1,5 +1,6 @@
 from requests import get
 
+from ExternalAPI.utils import getIntervalFromPeriod
 from ExternalAPI.YahooFinance import CustomYahooParser
 
 
@@ -87,20 +88,11 @@ class YahooFinanceRequesterApi:
         return result
 
     def get_chart_data(self, symbol, period, onlyClosed=False):
-        if period == '1d':
-            params = {'range': period, 'interval': '1m'}
-        elif period in ['5d', '1mo', '3mo']:
-            params = {'range': period, 'interval': '30m'}
-        elif period in ['6mo', '1y']:
-            params = {'range': period, 'interval': '1d'}
-        elif period in ['2y', '5y']:
-            params = {'range': period, 'interval': '1wk'}
-        else:
-            params = {'range': period, 'interval': '1mo'}
-
+        params = {'range': period, 'interval': getIntervalFromPeriod(period)[0]}
         data = get('https://query1.finance.yahoo.com/v8/finance/chart/' + symbol, params=params).json()
 
-        result = {'price': [], 'volume': [], 'livePrice': 0, 'symbol': symbol, 'period': period}
+        dataGranularity = data['chart']['result'][0]['meta']['dataGranularity']
+        result = {'price': [], 'volume': [], 'livePrice': 0, 'symbol': symbol, 'data_aggregation': period, 'dataGranularity': dataGranularity}
 
         # may request fail
         if 'timestamp' not in data['chart']['result'][0]:
