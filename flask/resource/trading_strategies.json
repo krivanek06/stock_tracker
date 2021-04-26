@@ -1,0 +1,34 @@
+{
+  "data": [
+    {
+      "name": "Red white blue",
+      "symbol": "RWB",
+      "description": "",
+      "url": ""
+    },
+    {
+      "name": "Green line breakout",
+      "symbol": "GLB",
+      "description": "",
+      "url": ""
+    },
+    {
+      "name": "Resistance pivot points",
+      "symbol": "RPP",
+      "description": "",
+      "url": ""
+    },
+    {
+      "name": "Extended marker verification",
+      "symbol": "EMV",
+      "description": "",
+      "url": ""
+    },
+    {
+      "name": "Risk management calculator",
+      "symbol": "RMC",
+      "description": "",
+      "url": ""
+    }
+  ]
+}
