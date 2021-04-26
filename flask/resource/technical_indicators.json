@@ -1,110 +1,110 @@
 {
-  "indicators": [
+  "data": [
     {
       "name": "Simple moving average (SMA)",
-      "indicator": "SMA",
+      "symbol": "SMA",
       "description": "",
       "url": "https://www.investopedia.com/terms/s/sma.asp"
     },
     {
       "name": "Exponential moving average (EMA)",
-      "indicator": "EMA",
+      "symbol": "EMA",
       "description": "",
       "url": ""
     },
     {
       "name": "Moving average convergence / divergence (MACD)",
-      "indicator": "MACD",
+      "symbol": "MACD",
       "description": "",
       "url": ""
     },
     {
       "name": "Stochastic oscillator (STOCH)",
-      "indicator": "STOCH",
+      "symbol": "STOCH",
       "description": "",
       "url": ""
     },
     {
       "name": "Relative strength index (RSI)",
-      "indicator": "RSI",
+      "symbol": "RSI",
       "description": "",
       "url": ""
     },
     {
       "name": "Average directional movement index (ADX)",
-      "indicator": "ADX",
+      "symbol": "ADX",
       "description": "",
       "url": ""
     },
     {
       "name": "Commodity channel index (CCI)",
-      "indicator": "CCI",
+      "symbol": "CCI",
       "description": "",
       "url": ""
     },
     {
       "name": "Aroon (AROON)",
-      "indicator": "AROON",
+      "symbol": "AROON",
       "description": "",
       "url": ""
     },
     {
       "name": "Chaikin A/D line (AD)",
-      "indicator": "AD",
+      "symbol": "AD",
       "description": "",
       "url": ""
     },
     {
       "name": "Balance volume (OBV)",
-      "indicator": "OBV",
+      "symbol": "OBV",
       "description": "",
       "url": ""
     },
     {
       "name": "Money flow index (MFI)",
-      "indicator": "MFI",
+      "symbol": "MFI",
       "description": "",
       "url": ""
     },
     {
       "name": "Rate of change (ROC)",
-      "indicator": "ROC",
+      "symbol": "ROC",
       "description": "",
       "url": ""
     },
     {
       "name": "Momentum (MOM) ",
-      "indicator": "MOM",
+      "symbol": "MOM",
       "description": "",
       "url": ""
     },
     {
       "name": "Williams' %R (WILLR)",
-      "indicator": "WILLR",
+      "symbol": "WILLR",
       "description": "",
       "url": ""
     },
     {
       "name": "Balance of power (BOP)",
-      "indicator": "BOP",
+      "symbol": "BOP",
       "description": "",
       "url": ""
     },
     {
       "name": "Chande momentum oscillator (CMO)",
-      "indicator": "CMO",
+      "symbol": "CMO",
       "description": "",
       "url": ""
     },
      {
       "name": "Ultimate oscillator (ULTOSC)",
-      "indicator": "ULTOSC",
+      "symbol": "ULTOSC",
       "description": "",
       "url": ""
     },
     {
       "name": " Hilbert transform, sine wave (HT_SINE)",
-      "indicator": "HT_SINE",
+      "symbol": "HT_SINE",
       "description": "",
       "url": ""
     }

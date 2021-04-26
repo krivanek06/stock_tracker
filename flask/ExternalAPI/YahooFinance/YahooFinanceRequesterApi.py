@@ -92,7 +92,7 @@ class YahooFinanceRequesterApi:
         data = get('https://query1.finance.yahoo.com/v8/finance/chart/' + symbol, params=params).json()
 
         dataGranularity = data['chart']['result'][0]['meta']['dataGranularity']
-        result = {'price': [], 'volume': [], 'livePrice': 0, 'symbol': symbol, 'data_aggregation': period, 'dataGranularity': dataGranularity}
+        result = {'price': [], 'volume': [], 'livePrice': 0, 'symbol': symbol, 'period': period, 'dataGranularity': dataGranularity}
 
         # may request fail
         if 'timestamp' not in data['chart']['result'][0]:

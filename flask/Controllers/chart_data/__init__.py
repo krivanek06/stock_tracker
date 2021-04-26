@@ -6,42 +6,25 @@ from ExternalAPI.YahooFinance.YahooFinanceRequesterApi import YahooFinanceReques
 from ExternalAPI.QuandlApi import QuandlApi
 
 from Services.TechnicalIndicatorsService import TechnicalIndicatorsService
+from Services.TradingStrategiesService import TradingStrategiesService
 
-# yf.pdr_override()
 app = Flask(__name__)
 FlaskJSON(app)
 CORS(app, resources={r"*": {"origins": "*"}})
 
 ERROR_MESSAGE = 'Error in Chart_data controller, method: '
 
-'''
-    Return [open, high, low, closed, volume]
-'''
-
 
 @app.route('/historical_data')
 def getStockHistoricalDataWithPeriod():
     try:
         symbol = request.args.get('symbol')
-        period = request.args.get('data_aggregation')
-        return json_response(**YahooFinanceRequesterApi().get_chart_data(symbol, period, False))
+        period = request.args.get('period')
+        onlyClosed = request.args.get('onlyClosed') in ['True', 'true']
+        #  Return [open, high, low, closed, volume]
+        return json_response(**YahooFinanceRequesterApi().get_chart_data(symbol, period, onlyClosed))
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'getStockHistoricalDataWithPeriod(), message: ' + str(e))
-
-
-'''
-    Return only closed prices for symbol
-'''
-
-
-@app.route('/historical_closed_data')
-def getStockHistoricalClosedDataWithPeriod():
-    try:
-        symbol = request.args.get('symbol')
-        period = request.args.get('data_aggregation')
-        return json_response(**YahooFinanceRequesterApi().get_chart_data(symbol, period, True))
-    except Exception as e:
-        raise JsonError(status=500, error=ERROR_MESSAGE + 'getStockHistoricalClosedDataWithPeriod(), message: ' + str(e))
 
 
 @app.route('/quandl')
@@ -54,15 +37,26 @@ def getAllDataForkey():
 
 
 @app.route('/technical_indicator')
-def getDataForTechnicalIndicator():
+def getDataForIndicator():
     try:
         symbol = request.args.get('symbol')
         indicator = request.args.get('indicator')
         data_aggregation = request.args.get('data_aggregation')  # number of periods to aggregate data
         period = request.args.get('period')  # 1d, 1y, etc.
-        return json_response(**TechnicalIndicatorsService().getData(symbol, indicator, period, data_aggregation))
+        return json_response(**TechnicalIndicatorsService().getDataForIndicator(symbol, indicator, period, data_aggregation))
     except Exception as e:
-        raise JsonError(status=500, error=ERROR_MESSAGE + 'getDataForTechnicalIndicator(), message: ' + str(e))
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'getDataForIndicator(), message: ' + str(e))
+
+
+@app.route('/trading_strategy')
+def getDataForStrategy():
+    try:
+        symbol = request.args.get('symbol')
+        strategy = request.args.get('strategy')
+        period = request.args.get('period')  # 1d, 1y, etc.
+        return json_response(**TradingStrategiesService().getDataForStrategy(symbol, strategy, period))
+    except Exception as e:
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'getDataForStrategy(), message: ' + str(e))
 
 
 if __name__ == '__main__':

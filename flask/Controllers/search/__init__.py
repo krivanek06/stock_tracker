@@ -3,7 +3,8 @@ from flask_json import FlaskJSON, JsonError, json_response
 from flask_cors import CORS
 from ExternalAPI import EconomicNewsApi, FinhubApi, QuandlApi
 from ExternalAPI.YahooFinance import YahooFinanceTopSymbolsApi
-from ExternalAPI.AlphaVantageApi import AlphaVantageApi
+from Services.TechnicalIndicatorsService import TechnicalIndicatorsService
+from Services.TradingStrategiesService import TradingStrategiesService
 
 app = Flask(__name__)
 FlaskJSON(app)
@@ -16,12 +17,21 @@ Finhub = FinhubApi.FinhubApi()
 quandl = QuandlApi.QuandlApi()
 ERROR_MESSAGE = 'Error in Search controller, method: '
 
+
 @app.route('/technical_indicators')
 def getAllTechnicalIndicators():
     try:
-        return json_response(**AlphaVantageApi().getIndicators())
+        return json_response(**TechnicalIndicatorsService().getIndicators())
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'getAllDataForQundalKey(), message: ' + str(e))
+
+
+@app.route('/trading_strategies')
+def getAllTradingStrategies():
+    try:
+        return json_response(**TradingStrategiesService().getStrategies())
+    except Exception as e:
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'getAllTradingStrategies(), message: ' + str(e))
 
 
 @app.route('/quandl_categories')
