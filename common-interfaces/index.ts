@@ -8,6 +8,7 @@ export * from './src/model/stockDetails.model';
 export * from './src/model/user.model';
 export * from './src/model/watchList.model';
 export * from './src/model/st-chart.model';
+export * from './src/model/st-trading-strategy.model';
 
 // model - market
 export * from './src/model/st-market/index';

@@ -30,20 +30,14 @@ class TradingStrategiesService(TechnicalIndicatorCalculator):
     def getStrategies(self):
         return FileManagerService().getJsonFile(self.fileName)
 
-    def getDataForStrategy(self, symbol: str, strategy: str, period: str):
+    def getDataForStrategy(self, symbol: str, strategy: str):
         strategy = strategy.upper()
-        interval = getIntervalFromPeriod(period)
-        end = datetime.now()
-        start = getPastDatetimeFromPeriod(period)
-
-        series = self._makeLocalCalculation(symbol, strategy, period, interval[0])
-
+        series, period, interval = self._makeLocalCalculation(symbol, strategy)
         return {
-            'series': series,
-            'start': start,
-            'end': end,
+            **series,
+            'period': period,
+            'interval': interval,
             'strategy': strategy,
-            'interval': interval[1],
         }
 
     def _downloadData(self, symbol: str, period: str, interval: str) -> DataFrame:
@@ -53,22 +47,29 @@ class TradingStrategiesService(TechnicalIndicatorCalculator):
 
         return data
 
-    def _makeLocalCalculation(self, symbol: str, strategy: str, period: str, interval: str):
+    def _makeLocalCalculation(self, symbol: str, strategy: str):
         series, timestamp = [], []
+        period, interval = None, None
+
         if strategy == TradingStrategiesEnum.RED_WHITE_BLUE.value:
+            period, interval = '5y', '1d'
             data = self._downloadData(symbol, period, interval)
             series, timestamp = self._redWhiteBlue(data)
         elif strategy == TradingStrategiesEnum.RESISTANCE_PIVOT_POINTS.value:
+            period, interval = '1y', '1d'
             data = self._downloadData(symbol, period, interval)
             series, timestamp = self._resistancePivotPoints(data)
         elif strategy == TradingStrategiesEnum.GREEN_LINE_BREAKOUT.value:
-            data = self._downloadData(symbol, 'max', '1d')
+            period, interval = '5y', '1mo'
+            data = self._downloadData(symbol, period, interval)
             series, timestamp = self._greenLineBreakout(data)
         elif strategy == TradingStrategiesEnum.EXTENDED_MARKER_VERIFICATION.value:
-            data = self._downloadData(symbol, 'max', '1d')
+            period, interval = 'max', '1d'
+            data = self._downloadData(symbol, period, interval)
             series, timestamp = self._extendedMarketVerification(data)
         elif strategy == TradingStrategiesEnum.RISK_MANAGEMENT_CALCULATOR.value:
-            data = self._downloadData(symbol, '1y', '1d')
+            period, interval = '1y', '1d'
+            data = self._downloadData(symbol, period, interval)
             series, timestamp = self._riskManagementCalculator(data)
 
         result = {
@@ -78,7 +79,7 @@ class TradingStrategiesService(TechnicalIndicatorCalculator):
             } for s in series],
             'timestamp': [t.timestamp() * 1000 for t in timestamp]  # miliseconds
         }
-        return result
+        return result, period, interval
 
     '''
         source > https://www.youtube.com/watch?v=Oq4BBZvuyec&list=PLPfme2mwsQ1FQhH1icKEfiYdLSUHE-Wo5&index=9
@@ -275,8 +276,8 @@ class TradingStrategiesService(TechnicalIndicatorCalculator):
         '''
         ax = result[0]['data'].plot()
         for i in range(len(result)):
-           result[i]['data'].plot(ax=ax, x='Lat', y='Lon')
-        #data['Close'].plot(ax=ax, x='Lat', y='Lon')
+            result[i]['data'].plot(ax=ax, x='Lat', y='Lon')
+        # data['Close'].plot(ax=ax, x='Lat', y='Lon')
         plt.show()
         '''
-        return result, []
+        return result, data.index

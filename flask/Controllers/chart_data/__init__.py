@@ -53,8 +53,7 @@ def getDataForStrategy():
     try:
         symbol = request.args.get('symbol')
         strategy = request.args.get('strategy')
-        period = request.args.get('period')  # 1d, 1y, etc.
-        return json_response(**TradingStrategiesService().getDataForStrategy(symbol, strategy, period))
+        return json_response(**TradingStrategiesService().getDataForStrategy(symbol, strategy))
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'getDataForStrategy(), message: ' + str(e))
 

@@ -18,6 +18,11 @@ export const STSharedTypeDefs = gql`
         data: Float!
         label: String
     }
+
+    type STSeries {
+        data: [float]!
+        name: String!
+    }
     
     #input
     input STInputLog {

@@ -12,3 +12,9 @@ export interface STMarketSymbolHistoricalChartData {
     price: number[][];  // [[timestamp, open, high, low, close], [timestamp, open, high, low, close], ... ]
     volume:number[][];  // [[timestamp, volume], [timestamp, volume], ... ]
 }
+
+
+export interface STSeries {
+    data: number[];
+    name: string;
+}
