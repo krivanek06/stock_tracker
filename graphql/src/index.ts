@@ -83,8 +83,8 @@ const mainTypeDefs = gql`
         queryStMarketCalendarEventsEarnings(date: String!): StMarketCalendarEventsEarnings
 
         # trading strategy
-        queryTradingStrategies: STTradingStrategySearch
-        queryTradingStrategyData(symbol: String!, strategy: String!): STTradingStrategyData
+        querySTTradingStrategies: STTradingStrategySearch
+        querySTTradingStrategyData(symbol: String!, strategy: String!): STTradingStrategyData
     }
 
     #### MUTATION
@@ -141,8 +141,8 @@ const mainResolver = {
         querySTMarketSymbolHistoricalChartData: async (_: null, args: { symbol: string, period: string }) => await querySTMarketSymbolHistoricalChartData(args.symbol, args.period),
 
         // trading strategy
-        queryTradingStrategies: async (_: null, args: null) => await queryTradingStrategies(),
-        queryTradingStrategyData: async (_: null, args: { symbol: string, strategy: string }) => await queryTradingStrategyData(args.symbol, args.strategy),
+        querySTTradingStrategies: async (_: null, args: null) => await queryTradingStrategies(),
+        querySTTradingStrategyData: async (_: null, args: { symbol: string, strategy: string }) => await queryTradingStrategyData(args.symbol, args.strategy),
     },
 
     Mutation: {

@@ -6,7 +6,7 @@ import * as admin from "firebase-admin";
 
 export const queryTradingStrategies = async (): Promise<api.STTradingStrategySearch> => {
     try {
-        const res = await fetch(`${stockDataAPI}/search}/trading_strategies`);
+        const res = await fetch(`${stockDataAPI}/search/trading_strategies`);
         return res.json();
     } catch (error) {
         throw new ApolloError(error);

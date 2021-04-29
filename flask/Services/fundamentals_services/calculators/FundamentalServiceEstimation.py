@@ -7,7 +7,7 @@ class FundamentalServiceEstimation:
         eps = self.data['summary']['ePSTTM']
         growthRateNext5y = self.data['analysis']['growthEstimates'][-2]['y']
         minimumRateReturn = 0.12  # 12%
-        growthPeRatio = 2 * growthRateNext5y * 100  # self.data['summary']['forwardPE']
+        growthPeRatio = round(2 * growthRateNext5y * 100, 2)  # self.data['summary']['forwardPE']
 
         # earnings for next 10y
         estimatedEarnings = [eps]

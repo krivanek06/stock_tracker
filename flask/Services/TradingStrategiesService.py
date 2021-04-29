@@ -9,17 +9,18 @@ from ExternalAPI.utils import getIntervalFromPeriod, getPastDatetimeFromPeriod
 from enum import Enum
 
 # TODO delete later
+'''
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.ticker as mticker
-
+'''
 
 class TradingStrategiesEnum(Enum):
-    RED_WHITE_BLUE = 'RWB'
-    GREEN_LINE_BREAKOUT = 'GLB'
-    RESISTANCE_PIVOT_POINTS = 'RPP'
-    EXTENDED_MARKER_VERIFICATION = 'EMV'
-    RISK_MANAGEMENT_CALCULATOR = 'RMC'
+    RED_WHITE_BLUE = 'RED_WHITE_BLUE'
+    GREEN_LINE_BREAKOUT = 'GREEN_LINE_BREAKOUT'
+    RESISTANCE_PIVOT_POINTS = 'RESISTANCE_PIVOT_POINTS'
+    EXTENDED_MARKER_VERIFICATION = 'EXTENDED_MARKER_VERIFICATION'
+    RISK_MANAGEMENT_CALCULATOR = 'RISK_MANAGEMENT_CALCULATOR'
 
 
 class TradingStrategiesService(TechnicalIndicatorCalculator):
@@ -56,11 +57,11 @@ class TradingStrategiesService(TechnicalIndicatorCalculator):
             data = self._downloadData(symbol, period, interval)
             series, timestamp = self._redWhiteBlue(data)
         elif strategy == TradingStrategiesEnum.RESISTANCE_PIVOT_POINTS.value:
-            period, interval = '1y', '1d'
+            period, interval = '5y', '1d'
             data = self._downloadData(symbol, period, interval)
             series, timestamp = self._resistancePivotPoints(data)
         elif strategy == TradingStrategiesEnum.GREEN_LINE_BREAKOUT.value:
-            period, interval = '5y', '1mo'
+            period, interval = '5y', '1wk'
             data = self._downloadData(symbol, period, interval)
             series, timestamp = self._greenLineBreakout(data)
         elif strategy == TradingStrategiesEnum.EXTENDED_MARKER_VERIFICATION.value:
@@ -112,6 +113,7 @@ class TradingStrategiesService(TechnicalIndicatorCalculator):
         pf200 = round(((close / sma200) - 1) * 100, 2)
         pf21 = round(((close / ema21) - 1) * 100, 2)
         pfl = round(((close / low5) - 1) * 100, 2)
+
         '''
         print()
         print(" Price: " + str(round(close, 2)))
@@ -128,14 +130,12 @@ class TradingStrategiesService(TechnicalIndicatorCalculator):
         print("From 200 Day SMA " + str(pf200) + "% - (Over 100% from 200 SMA): " + str(((close / data["SMA_200"][-1]) - 1) * 100 > 100))
         '''
         return [
+                   {'name': 'Close', 'data': [close]},
+                   {'name': 'Average loss', 'data': [AvgLoss]},
                    {'name': 'Low (5 days)', 'data': [low5]},
                    {'name': 'EMA (21 days)', 'data': [ema21]},
                    {'name': 'SMA (50 days)', 'data': [sma50]},
                    {'name': 'SMA (200 days)', 'data': [sma200]},
-                   {'name': 'From 5 Day Low', 'data': [pfl]},
-                   {'name': 'From 21 day EMA', 'data': [pf21]},
-                   {'name': 'From 50 day SMA', 'data': [pf50]},
-                   {'name': 'From 200 Day SMA', 'data': [pf200]}
                ], []
 
     '''
@@ -186,7 +186,6 @@ class TradingStrategiesService(TechnicalIndicatorCalculator):
         print(data)
 
         fig2, ax2 = plt.subplots()  # Create Plots
-        data = data[-150:]
 
         data['PC'].plot(label='close', color='k')  # plotting
         plt.title('AAPL' + "-- % From " + str(sma) + " Over last 100 days")
@@ -270,7 +269,8 @@ class TradingStrategiesService(TechnicalIndicatorCalculator):
     '''
 
     def _redWhiteBlue(self, data: DataFrame):
-        emasUsed = [3, 5, 8, 10, 12, 15, 30, 35, 40, 45, 50, 60]
+        # emasUsed = [3, 5, 8, 10, 12, 15, 30, 35, 40, 45, 50, 60]
+        emasUsed = [3, 5, 8, 10, 30, 40, 50, 60]
 
         result = [{'name': f'EMA_{p}', 'data': self._EMA(data, p)} for p in emasUsed]
         '''

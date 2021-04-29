@@ -661,6 +661,8 @@ export type Query = {
     queryStMarketData?: Maybe<StMarketChartDataResultCombined>;
     queryStMarketCalendarEvents?: Maybe<StMarketCalendarEvents>;
     queryStMarketCalendarEventsEarnings?: Maybe<StMarketCalendarEventsEarnings>;
+    querySTTradingStrategies?: Maybe<StTradingStrategySearch>;
+    querySTTradingStrategyData?: Maybe<StTradingStrategyData>;
 };
 
 
@@ -722,6 +724,12 @@ export type QueryQueryStMarketCalendarEventsArgs = {
 
 export type QueryQueryStMarketCalendarEventsEarningsArgs = {
     date: Scalars['String'];
+};
+
+
+export type QueryQueryStTradingStrategyDataArgs = {
+    symbol: Scalars['String'];
+    strategy: Scalars['String'];
 };
 
 export type Recommendations = {
@@ -1041,6 +1049,12 @@ export type StSearchGroups = {
     groups: Array<Maybe<StGroupPartialData>>;
 };
 
+export type StSeries = {
+    __typename?: 'STSeries';
+    data: Array<Maybe<Scalars['Float']>>;
+    name: Scalars['String'];
+};
+
 export type StSimpleChart = {
     __typename?: 'STSimpleChart';
     date: Scalars['String'];
@@ -1075,6 +1089,35 @@ export type StStockWatchlist = {
     date?: Maybe<Scalars['String']>;
     userId: Scalars['String'];
     summaries?: Maybe<Array<Maybe<Summary>>>;
+};
+
+export type StTradingStrategyData = {
+    __typename?: 'STTradingStrategyData';
+    interval: Scalars['String'];
+    period: Scalars['String'];
+    series: Array<Maybe<StSeries>>;
+    timestamp: Array<Maybe<Scalars['Float']>>;
+};
+
+export enum StTradingStrategyEnum {
+    RedWhiteBlue = 'RED_WHITE_BLUE',
+    GreenLineBreakout = 'GREEN_LINE_BREAKOUT',
+    ResistancePivotPoints = 'RESISTANCE_PIVOT_POINTS',
+    ExtendedMarkerVerification = 'EXTENDED_MARKER_VERIFICATION',
+    RiskManagementCalculator = 'RISK_MANAGEMENT_CALCULATOR'
+}
+
+export type StTradingStrategySearch = {
+    __typename?: 'STTradingStrategySearch';
+    data: Array<Maybe<StTradingStrategySearchData>>;
+};
+
+export type StTradingStrategySearchData = {
+    __typename?: 'STTradingStrategySearchData';
+    description?: Maybe<Scalars['String']>;
+    name: Scalars['String'];
+    symbol: Scalars['String'];
+    url?: Maybe<Scalars['String']>;
 };
 
 export type StTransaction = {
@@ -2384,6 +2427,46 @@ export type QueryStockSummariesQuery = (
         summaries: Array<Maybe<(
             { __typename?: 'Summary' }
             & StockSummaryFragmentFragment
+            )>>
+    }
+        )>
+}
+    );
+
+export type QueryStTradingStrategiesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type QueryStTradingStrategiesQuery = (
+    { __typename?: 'Query' }
+    & {
+    querySTTradingStrategies?: Maybe<(
+        { __typename?: 'STTradingStrategySearch' }
+        & {
+        data: Array<Maybe<(
+            { __typename?: 'STTradingStrategySearchData' }
+            & Pick<StTradingStrategySearchData, 'description' | 'name' | 'symbol' | 'url'>
+            )>>
+    }
+        )>
+}
+    );
+
+export type QueryStTradingStrategyDataQueryVariables = Exact<{
+    symbol: Scalars['String'];
+    strategy: Scalars['String'];
+}>;
+
+
+export type QueryStTradingStrategyDataQuery = (
+    { __typename?: 'Query' }
+    & {
+    querySTTradingStrategyData?: Maybe<(
+        { __typename?: 'STTradingStrategyData' }
+        & Pick<StTradingStrategyData, 'interval' | 'period' | 'timestamp'>
+        & {
+        series: Array<Maybe<(
+            { __typename?: 'STSeries' }
+            & Pick<StSeries, 'data' | 'name'>
             )>>
     }
         )>
@@ -4170,6 +4253,55 @@ ${StockSummaryFragmentFragmentDoc}`;
 })
 export class QueryStockSummariesGQL extends Apollo.Query<QueryStockSummariesQuery, QueryStockSummariesQueryVariables> {
     document = QueryStockSummariesDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+        super(apollo);
+    }
+}
+
+export const QueryStTradingStrategiesDocument = gql`
+    query QuerySTTradingStrategies {
+        querySTTradingStrategies {
+            data {
+                description
+                name
+                symbol
+                url
+            }
+        }
+    }
+`;
+
+@Injectable({
+    providedIn: 'root'
+})
+export class QueryStTradingStrategiesGQL extends Apollo.Query<QueryStTradingStrategiesQuery, QueryStTradingStrategiesQueryVariables> {
+    document = QueryStTradingStrategiesDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+        super(apollo);
+    }
+}
+
+export const QueryStTradingStrategyDataDocument = gql`
+    query QuerySTTradingStrategyData($symbol: String!, $strategy: String!) {
+        querySTTradingStrategyData(symbol: $symbol, strategy: $strategy) {
+            interval
+            period
+            timestamp
+            series {
+                data
+                name
+            }
+        }
+    }
+`;
+
+@Injectable({
+    providedIn: 'root'
+})
+export class QueryStTradingStrategyDataGQL extends Apollo.Query<QueryStTradingStrategyDataQuery, QueryStTradingStrategyDataQueryVariables> {
+    document = QueryStTradingStrategyDataDocument;
 
     constructor(apollo: Apollo.Apollo) {
         super(apollo);

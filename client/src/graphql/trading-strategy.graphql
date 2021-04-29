@@ -1,0 +1,24 @@
+query QuerySTTradingStrategies {
+    querySTTradingStrategies {
+        data {
+            description
+            name
+            symbol
+            url
+        }
+    }
+}
+
+query QuerySTTradingStrategyData($symbol: String!, $strategy: String!) {
+    querySTTradingStrategyData(symbol: $symbol, strategy: $strategy) {
+        interval
+        period
+        timestamp
+        series {
+            data
+            name
+        }
+    }
+}
+
+

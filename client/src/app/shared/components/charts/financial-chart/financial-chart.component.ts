@@ -64,11 +64,19 @@ export class FinancialChartComponent implements OnInit, OnChanges {
         }, 300);
     }
 
-    recalculatePriceRange(priceRange: number[][]) {
-        const lastIndex = priceRange[0].length - 1;
-        const startingPrice = priceRange[0][lastIndex];
-        const endingPrice = priceRange[priceRange.length - 1][lastIndex];
-        this.priceRangeEmitter.emit([startingPrice, endingPrice]);
+    recalculatePriceRange(priceRange: number[][] | number[]) {
+        const start = priceRange[0];
+        const end = priceRange[priceRange.length - 1];
+
+        if (typeof start === "number" && typeof end === "number") {
+            this.priceRangeEmitter.emit([start, end]);
+        } else if (start instanceof Array) {
+            const lastIndex = start.length - 1;
+            const startingPrice = start[lastIndex];
+            const endingPrice = end[lastIndex];
+            this.priceRangeEmitter.emit([startingPrice, endingPrice]);
+        }
+
     }
 
     private initNonFinancialChart() {

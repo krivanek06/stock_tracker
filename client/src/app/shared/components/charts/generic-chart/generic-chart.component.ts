@@ -26,6 +26,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
     @Input() showTooltip = true;
     @Input() showDataLabel = false;
     @Input() categories: string[];
+    @Input() timestamp: number[];
     @Input() enable3D = false;
     @Input() isPercentage = false;
     @Input() showYAxis = true;
@@ -98,6 +99,10 @@ export class GenericChartComponent implements OnInit, OnChanges {
             this.initCategories();
         }
 
+        if (this.timestamp) {
+            this.initTimestamp();
+        }
+
         if (this.isPercentage) {
             this.chartOptions.tooltip = {
                 ...this.chartOptions.tooltip,
@@ -135,6 +140,17 @@ export class GenericChartComponent implements OnInit, OnChanges {
         this.chartOptions.xAxis.labels.rotation = -20;
     }
 
+    private initTimestamp() {
+        this.chartOptions.plotOptions.series.dataLabels.enabled = false;
+        this.chartOptions.xAxis.categories = this.timestamp;
+        this.chartOptions.xAxis.type = 'datetime';
+        this.chartOptions.xAxis.labels.rotation = -20;
+        /*this.chartOptions.xAxis.labels.formatter = function() {
+            return Highcharts.dateFormat('%d.%m.%Y', this.value);
+        }*/
+        this.chartOptions.xAxis.labels.format = '{value:%e %b %Y}';
+    }
+
 
     private initChart() {
         this.chartOptions = {
@@ -151,6 +167,16 @@ export class GenericChartComponent implements OnInit, OnChanges {
                     enabled: this.enable3D,
                     alpha: 45,
                     beta: 0
+                }
+            },
+            navigator: {
+                enabled: this.showTimelineSlider,
+                xAxis: {
+                    labels: {
+                        formatter: function() {
+                            return '';
+                        }
+                    }
                 }
             },
             yAxis: {

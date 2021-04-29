@@ -81,7 +81,7 @@ class FundamentalServiceFormatter:
             result[k] = {'data': [], 'dates': [], 'name': utils.cammelCaseToWord(k)}
             for data in self.data['historicalMetrics'][k]:
                 result[k]['data'].insert(0, round(data.get('v'), 3))
-                result[k]['dates'].insert(0, data.get('data_aggregation').split('-')[0])  # 2020-X-X
+                result[k]['dates'].insert(0, data.get('period').split('-')[0])  # 2020-X-X
         self.data['historicalMetrics'] = result
 
     def _formatStatementData(self):
