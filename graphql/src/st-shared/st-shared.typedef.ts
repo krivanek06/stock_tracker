@@ -20,7 +20,7 @@ export const STSharedTypeDefs = gql`
     }
 
     type STSeries {
-        data: [float]!
+        data: [Float]!
         name: String!
     }
     

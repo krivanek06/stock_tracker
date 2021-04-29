@@ -6,7 +6,9 @@ export enum ChartType {
     area = 'area',
     areaChange = 'area-change',
     areaspline = 'areaspline',
-    bar = 'bar'
+    bar = 'bar',
+    spline = 'spline',
+    histogram = 'histogram'
 }
 
 export interface SymbolIdentification {

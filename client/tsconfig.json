@@ -56,6 +56,9 @@
       "@stock-trading-feature": [
         "src/app/features/stock-trading-feature/index"
       ],
+      "@stock-trading-strategy-feature": [
+        "src/app/features/stock-trading-strategy-feature/index"
+      ],
       "@stock-watchlist-feature": [
         "src/app/features/stock-watchlist-feature/index"
       ],
