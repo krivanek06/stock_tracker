@@ -26,6 +26,11 @@ export interface NameValueContainer {
     value: string;
 }
 
+export interface IdNameContainer {
+    name: string;
+    id: string;
+}
+
 export interface GenericChartSeries {
     name?: string;
     sliced?: boolean;

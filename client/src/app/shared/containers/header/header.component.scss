@@ -2,4 +2,8 @@
   ion-col {
     padding: 0;
   }
+
+  ion-toolbar {
+    z-index: -1;
+  }
 }

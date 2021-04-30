@@ -1,8 +1,9 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
 import {GraphqlQueryService, Summary} from '@core';
-import {IonSearchbar, ModalController} from '@ionic/angular';
+import {IonSearchbar} from '@ionic/angular';
 import {Observable} from 'rxjs';
-import {SymbolLookupModalComponent} from '@stock-watchlist-feature';
+import {WatchlistFeatureEntryPointsFacadeService} from '@stock-watchlist-feature';
+import {SymbolIdentification} from '@shared';
 
 @Component({
     selector: 'app-menu-header',
@@ -18,7 +19,7 @@ export class MenuHeaderComponent implements OnInit {
     loading = false;
 
     constructor(private firebaseSearchService: GraphqlQueryService,
-                private modalController: ModalController) {
+                private watchlistFeatureEntryPointsFacadeService: WatchlistFeatureEntryPointsFacadeService) {
     }
 
     ngOnInit() {
@@ -38,15 +39,8 @@ export class MenuHeaderComponent implements OnInit {
         this.searchedSummaries$ = undefined;
         this.searchBar.value = null;
 
-        const modal = await this.modalController.create({
-            component: SymbolLookupModalComponent,
-            componentProps: {
-                symbolIdentification: {symbol: summary.symbol, name: summary.shortName},
-                showAddToWatchlistOption: true
-            },
-            cssClass: 'custom-modal'
-        });
-        await modal.present();
+        const identification: SymbolIdentification = {symbol: summary.symbol, name: summary.shortName};
+        this.watchlistFeatureEntryPointsFacadeService.presentSymbolLookupModal(identification, true);
     }
 
 }

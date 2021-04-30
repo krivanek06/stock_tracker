@@ -10,7 +10,6 @@ import {
 import {SymbolIdentification} from '@shared';
 import {first, takeUntil} from 'rxjs/operators';
 import {PortfolioStateEnum, TradingFeatureFacadeService, TradingScreenUpdateBaseDirective} from '@stock-trading-feature';
-import {Router} from '@angular/router';
 import {cloneDeep} from 'lodash';
 
 @Component({
@@ -24,7 +23,6 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
     PortfolioStateEnum = PortfolioStateEnum;
 
     constructor(private symbolStorageService: SymbolStorageService,
-                private router: Router,
                 public subscriptionWebsocketService: SubscriptionWebsocketService,
                 private graphqlQueryService: GraphqlQueryService,
                 public userStorageService: UserStorageService,
@@ -56,10 +54,6 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
 
     async tradeSymbol() {
         await this.tradingService.performTransaction(this.selectedSummary);
-    }
-
-    redirectToDetails() {
-        this.router.navigate([`/menu/search/stock/details/${this.selectedSummary.symbol}`]);
     }
 
     private initSuggestions() {
