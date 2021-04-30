@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
-import {AuthenticationService, ComponentBaseDirective, StUserPublicData, User_Roles_Enum, UserStorageService} from '@core';
+import {AuthenticationService, componentDestroyed, StUserPublicData, User_Roles_Enum, UserStorageService} from '@core';
 import {MenuController} from '@ionic/angular';
 
 
@@ -18,7 +18,7 @@ interface MenuPageInterface {
     templateUrl: './menu.page.html',
     styleUrls: ['./menu.page.scss'],
 })
-export class MenuPage extends ComponentBaseDirective implements OnInit, OnDestroy {
+export class MenuPage implements OnInit, OnDestroy {
     showOverlay = false;
     user: StUserPublicData;
     selectedNavigation: MenuPageInterface;
@@ -29,16 +29,15 @@ export class MenuPage extends ComponentBaseDirective implements OnInit, OnDestro
                 private loginFeatureService: AuthenticationService,
                 private router: Router,
                 private menu: MenuController) {
-        super();
+    }
+
+    ngOnDestroy(): void {
+
     }
 
     ngOnInit() {
         this.initPages();
         this.watchRouterUrlChange();
-    }
-
-    ngOnDestroy() {
-        super.ngOnDestroy();
     }
 
     dismissMenu() {
@@ -56,7 +55,7 @@ export class MenuPage extends ComponentBaseDirective implements OnInit, OnDestro
     private watchRouterUrlChange() {
         this.router.events.pipe(
             filter(event => event instanceof NavigationEnd),
-            takeUntil(this.destroy$)
+            takeUntil(componentDestroyed(this))
         ).subscribe((res: NavigationEnd) => {
             let path = res.url.split('/menu/')[1];
             if (!!path) {
@@ -79,7 +78,7 @@ export class MenuPage extends ComponentBaseDirective implements OnInit, OnDestro
                 prev.userPrivateData.finnhubKey === curr.userPrivateData.finnhubKey &&
                 prev.userPrivateData.roles.length === curr.userPrivateData.roles.length
             ),
-            takeUntil(this.destroy$)
+            takeUntil(componentDestroyed(this))
         ).subscribe(user => {
             this.user = user;
             this.mainPages = [

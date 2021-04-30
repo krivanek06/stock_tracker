@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {
+    componentDestroyed,
     GraphqlQueryService,
     StStockSuggestion,
     SubscriptionWebsocketService,
@@ -42,7 +43,9 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
     }
 
     changeSymbol(symbolIdentification: SymbolIdentification) {
-        this.symbolStorageService.getStockSummary(symbolIdentification.symbol).pipe(takeUntil(this.destroy$)).subscribe(res => {
+        this.symbolStorageService.getStockSummary(symbolIdentification.symbol).pipe(
+            takeUntil(componentDestroyed(this))
+        ).subscribe(res => {
             this.selectedSummary = res;
         });
     }
@@ -67,7 +70,9 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
     }
 
     private subscribeForSuggestionPriceChange() {
-        this.subscriptionWebsocketService.initSubscriptionStockSuggestions().pipe(takeUntil(this.destroy$)).subscribe(res => {
+        this.subscriptionWebsocketService.initSubscriptionStockSuggestions().pipe(
+            takeUntil(componentDestroyed(this))
+        ).subscribe(res => {
             const suggestion = this.suggestions.find(s => s.summary.symbol === res.s);
             if (suggestion) {
                 suggestion.summary.marketPrice = res.p;

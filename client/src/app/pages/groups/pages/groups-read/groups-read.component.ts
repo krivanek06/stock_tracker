@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit
 import {ActivatedRoute, Router} from '@angular/router';
 import {filter, switchMap, takeUntil} from 'rxjs/operators';
 import {convertStGroupAllDataToStGroupPartialData, GroupFeatureFacadeService} from '@group-feature';
-import {ComponentBaseDirective, GroupStorageService, StGroupAllData} from '@core';
+import {componentDestroyed, GroupStorageService, StGroupAllData} from '@core';
 
 @Component({
     selector: 'app-groups-read',
@@ -10,7 +10,7 @@ import {ComponentBaseDirective, GroupStorageService, StGroupAllData} from '@core
     styleUrls: ['./groups-read.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GroupsReadComponent extends ComponentBaseDirective implements OnInit, OnDestroy {
+export class GroupsReadComponent implements OnInit, OnDestroy {
     queriedGroup: StGroupAllData;
     isUserOwner: boolean;
     isUserManager: boolean;
@@ -23,7 +23,6 @@ export class GroupsReadComponent extends ComponentBaseDirective implements OnIni
                 private groupUserRolesService: GroupStorageService,
                 private groupService: GroupFeatureFacadeService,
                 private cd: ChangeDetectorRef) {
-        super();
     }
 
     ngOnInit() {
@@ -31,7 +30,6 @@ export class GroupsReadComponent extends ComponentBaseDirective implements OnIni
     }
 
     ngOnDestroy() {
-        super.ngOnDestroy();
         this.groupUserRolesService.activeGroup = null;
     }
 
@@ -64,7 +62,7 @@ export class GroupsReadComponent extends ComponentBaseDirective implements OnIni
         this.activatedRoute.params.pipe(
             filter(x => x.id),
             switchMap(x => this.groupService.querySTGroupAllDataByGroupId(x.id)),
-            takeUntil(this.destroy$)
+            takeUntil(componentDestroyed(this))
         ).subscribe(res => {
             this.groupUserRolesService.activeGroup = res;
             this.queriedGroup = res;

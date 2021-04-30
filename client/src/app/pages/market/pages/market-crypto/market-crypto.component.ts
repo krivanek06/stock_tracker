@@ -4,6 +4,7 @@ import {SymbolIdentification} from '@shared';
 import {takeUntil} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {
+    componentDestroyed,
     ComponentScreenUpdateBaseDirective,
     FinnhubWebsocketService,
     GraphqlQueryService,
@@ -51,7 +52,7 @@ export class MarketCryptoComponent extends ComponentScreenUpdateBaseDirective im
     }
 
     private createCopyOfTopCrypto() {
-        this.graphqlQueryService.queryMarketDailyOverview().pipe(takeUntil(this.destroy$)).subscribe(res => {
+        this.graphqlQueryService.queryMarketDailyOverview().pipe(takeUntil(componentDestroyed(this))).subscribe(res => {
             this.topCrypto = cloneDeep(res.top_crypto);
             this.initSubscriptionForTopCrypto();
         });
@@ -61,7 +62,7 @@ export class MarketCryptoComponent extends ComponentScreenUpdateBaseDirective im
         this.topCrypto.forEach(data => this.finnhubWebsocketService.createSubscribeForSymbol(this.componentName, data.symbol, true));
 
         this.finnhubWebsocketService.getSubscribedSymbolsResult().pipe(
-            takeUntil(this.destroy$)
+            takeUntil(componentDestroyed(this))
         ).subscribe(res => {
             const symbol = res.s.replace('BINANCE:', '').slice(0, -1);
             const crypto = this.topCrypto.find(s => s.symbol.replace('-', '') === symbol);

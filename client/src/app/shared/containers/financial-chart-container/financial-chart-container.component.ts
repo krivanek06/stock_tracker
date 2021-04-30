@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {filter, takeUntil} from 'rxjs/operators';
-import {ComponentScreenUpdateBaseDirective, FinnhubWebsocketService, GraphqlQueryService} from '@core';
+import {componentDestroyed, ComponentScreenUpdateBaseDirective, FinnhubWebsocketService, GraphqlQueryService} from '@core';
 import {marketValueChange} from '../../animations';
 
 @Component({
@@ -78,7 +78,7 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseD
                 return symbol === this.symbol;
             }),
             //filter(res => res.s === this.symbol),
-            takeUntil(this.destroy$)
+            takeUntil(componentDestroyed(this))
         ).subscribe(res => {
             this.currentPrice = res.p;
         });
@@ -86,7 +86,7 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseD
 
     private loadChartData() {
         this.graphqlQueryService.queryStMarketSymbolHistoricalChartData(this.symbol, this.selectedRange).pipe(
-            takeUntil(this.destroy$)
+            takeUntil(componentDestroyed(this))
         ).subscribe(res => {
             this.currentPrice = res.livePrice;
             this.volume = res.volume;

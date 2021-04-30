@@ -3,7 +3,7 @@
  * If the component already has a `ngOnDestroy` method defined, it will call this first.
  * Note that the component *must* implement OnDestroy for this to work (the typings will enforce this anyway)
  *
- * source > https://stackoverflow.com/questions/56395879/using-single-ngondestroy-in-parent-component
+ * source > https://stackoverflow.com/questions/42490265/rxjs-takeuntil-angular-components-ngondestroy
  */
 import {OnDestroy} from '@angular/core';
 import {ReplaySubject} from 'rxjs';

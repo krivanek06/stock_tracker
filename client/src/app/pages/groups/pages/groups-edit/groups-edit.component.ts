@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {filter, switchMap, takeUntil} from 'rxjs/operators';
 import {
-    ComponentBaseDirective,
+    componentDestroyed,
     GroupStorageService,
     StGroupAllData,
     StGroupUser,
@@ -29,7 +29,7 @@ import {GROUPS_PAGES} from '../../model/groups.enum';
     templateUrl: './groups-edit.component.html',
     styleUrls: ['./groups-edit.component.scss']
 })
-export class GroupsEditComponent extends ComponentBaseDirective implements OnInit, OnDestroy {
+export class GroupsEditComponent implements OnInit, OnDestroy {
     @ViewChild('uploader') uploader: UploaderComponent;
     group: StGroupAllData;
     form: FormGroup;
@@ -43,15 +43,14 @@ export class GroupsEditComponent extends ComponentBaseDirective implements OnIni
                 private groupUserRolesService: GroupStorageService,
                 private popoverController: PopoverController,
                 private fb: FormBuilder) {
-        super();
+    }
+
+    ngOnDestroy(): void {
+
     }
 
     ngOnInit() {
         this.initGroup();
-    }
-
-    ngOnDestroy() {
-        super.ngOnDestroy();
     }
 
     async submit() {
@@ -144,7 +143,7 @@ export class GroupsEditComponent extends ComponentBaseDirective implements OnIni
         this.activatedRoute.params.pipe(
             filter(x => x.id),
             switchMap(x => this.groupService.querySTGroupAllDataByGroupId(x.id)),
-            takeUntil(this.destroy$)
+            takeUntil(componentDestroyed(this))
         ).subscribe(res => {
             this.group = cloneDeep(res);
             this.groupUserRolesService.activeGroup = res;

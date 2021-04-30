@@ -1,11 +1,11 @@
 import {ChangeDetectorRef, Directive, OnDestroy, OnInit, ViewRef} from '@angular/core';
 import {TradingChangeModel} from '../models';
-import {ComponentBaseDirective, StTransaction, StUserPublicData, SubscriptionWebsocketService, Summary, UserStorageService} from '@core';
+import {componentDestroyed, StTransaction, StUserPublicData, SubscriptionWebsocketService, Summary, UserStorageService} from '@core';
 import {filter, takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
 
 @Directive()
-export abstract class TradingScreenUpdateBaseDirective extends ComponentBaseDirective implements OnInit, OnDestroy {
+export abstract class TradingScreenUpdateBaseDirective implements OnInit, OnDestroy {
     user: StUserPublicData;
     daily: TradingChangeModel;
     selectedSummary: Summary;
@@ -18,18 +18,15 @@ export abstract class TradingScreenUpdateBaseDirective extends ComponentBaseDire
     protected constructor(public userStorageService: UserStorageService,
                           public subscriptionWebsocketService: SubscriptionWebsocketService,
                           public cdr: ChangeDetectorRef) {
-        super();
     }
 
     ngOnInit(): void {
-        super.ngOnInit();
         this.initComponentAttributes();
         this.subscribeForSymbolPriceChange();
         this.updateScreen();
     }
 
     ngOnDestroy() {
-        super.ngOnDestroy();
         this.subscriptionWebsocketService.closeSubscriptionHoldings();
         clearInterval(this.interval);
     }
@@ -40,7 +37,7 @@ export abstract class TradingScreenUpdateBaseDirective extends ComponentBaseDire
     private initComponentAttributes() {
         this.userStorageService.getUser().pipe(
             filter(x => !!x),
-            takeUntil(this.destroy$)
+            takeUntil(componentDestroyed(this))
         ).subscribe(user => {
             this.user = user;
             this.clonedHoldings = cloneDeep(this.user.holdings);
@@ -54,7 +51,9 @@ export abstract class TradingScreenUpdateBaseDirective extends ComponentBaseDire
      * Init subscription for symbols which are in holdings
      */
     private subscribeForSymbolPriceChange() {
-        this.subscriptionWebsocketService.initSubscriptionHoldings().pipe(takeUntil(this.destroy$)).subscribe(res => {
+        this.subscriptionWebsocketService.initSubscriptionHoldings().pipe(
+            takeUntil(componentDestroyed(this))
+        ).subscribe(res => {
             const transaction = this.clonedHoldings.find(s => s.symbol === res.s);
             if (transaction) {
                 transaction.summary.marketPrice = res.p;
@@ -91,7 +90,7 @@ export abstract class TradingScreenUpdateBaseDirective extends ComponentBaseDire
         }
     }
 
-    private calculateTotalPortfolio(){
+    private calculateTotalPortfolio() {
         this.portfolioInvested = this.clonedHoldings.map(h => h.price * h.units).reduce((a, b) => a + b, 0);
     }
 
