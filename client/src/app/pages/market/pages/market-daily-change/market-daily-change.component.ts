@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {
+    componentDestroyed,
     ComponentScreenUpdateBaseDirective,
     FinnhubWebsocketService,
     GraphqlQueryService,
@@ -61,7 +62,7 @@ export class MarketDailyChangeComponent extends ComponentScreenUpdateBaseDirecti
         this.selectedTableName = event.detail.value;
 
         // init subscription for new symbols
-        this.graphqlQueryService.queryMarketDailyOverview().pipe(takeUntil(this.destroy$)).subscribe(res => {
+        this.graphqlQueryService.queryMarketDailyOverview().pipe(takeUntil(componentDestroyed(this))).subscribe(res => {
             this.selectedTable = cloneDeep(res[this.selectedTableName.value]);
             this.selectedTable.forEach(s => this.finnhubWebsocketService.createSubscribeForSymbol(this.componentName, s.symbol));
         });
@@ -80,7 +81,7 @@ export class MarketDailyChangeComponent extends ComponentScreenUpdateBaseDirecti
     }
 
     private createCopyOfDailyOverview() {
-        this.graphqlQueryService.queryMarketDailyOverview().pipe(takeUntil(this.destroy$)).subscribe(res => {
+        this.graphqlQueryService.queryMarketDailyOverview().pipe(takeUntil(componentDestroyed(this))).subscribe(res => {
             this.calendarEvents$ = of(res.events);
             this.dailyNews = res.news;
             this.earnings = res.earnings;
@@ -95,7 +96,7 @@ export class MarketDailyChangeComponent extends ComponentScreenUpdateBaseDirecti
         this.selectedTable.forEach(data => this.finnhubWebsocketService.createSubscribeForSymbol(this.componentName, data.symbol));
 
         this.finnhubWebsocketService.getSubscribedSymbolsResult().pipe(
-            takeUntil(this.destroy$)
+            takeUntil(componentDestroyed(this))
         ).subscribe(res => {
             let data = this.topGainers.find(s => s.symbol === res.s);
             if (data) {

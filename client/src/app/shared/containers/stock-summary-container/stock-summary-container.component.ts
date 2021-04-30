@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {ComponentScreenUpdateBaseDirective, FinnhubWebsocketService, Summary} from '@core';
+import {componentDestroyed, ComponentScreenUpdateBaseDirective, FinnhubWebsocketService, Summary} from '@core';
 import {filter, takeUntil} from 'rxjs/operators';
 import {marketValueChange} from '../../animations';
 
@@ -37,7 +37,7 @@ export class StockSummaryContainerComponent extends ComponentScreenUpdateBaseDir
         this.finnhubWebsocketService.createSubscribeForSymbol(this.componentName, this.summary.symbol);
         this.finnhubWebsocketService.getSubscribedSymbolsResult().pipe(
             filter(res => res.s === this.summary.symbol),
-            takeUntil(this.destroy$)
+            takeUntil(componentDestroyed(this))
         ).subscribe(res => {
             this.currentPrice = res.p;
         });
