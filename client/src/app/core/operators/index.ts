@@ -1,1 +1,1 @@
-export * from './takeUntilDestroyed.operator';
+export * from './componentDestroyed.operator';

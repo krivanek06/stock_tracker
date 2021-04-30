@@ -59,12 +59,9 @@ class FundamentalServiceCalculator:
         Rd = round(abs(interestExpense / totalDebt), 4)  # cost of debt
         taxRate = round(self.incomeStatement['incomeTaxExpense']['data'][0] / self.incomeStatement['incomeBeforeTax']['data'][0], 4)  # percent
 
-        if self.data['companyData']['defaultKeyStatistics'].get('beta', None) is not None:
-            CAPM = self.calculateCAPM()
-            Re = CAPM['result']  # cost of equity
-        else:
-            CAPM = None
-            Re = 0.1
+        CAPM = self.calculateCAPM()
+        Re = 0.1 if CAPM is None else CAPM['result']  # cost of equity
+
         taxAdjustedCostOfDebt = Rd * (1 - taxRate)
         totalDebt = self.data['companyData']['financialData']['totalDebt']
         Wd = round(totalDebt / (totalDebt + self.data['summary']['marketCap']), 4)  # weight of debt
@@ -79,6 +76,8 @@ class FundamentalServiceCalculator:
     '''
 
     def calculateCAPM(self):
+        if self.data['companyData']['defaultKeyStatistics'].get('beta') is None:
+            return None
         Rf = 0.025  # Risk free rate - hardcoded 2.5% , TODO may be 10y US treasury yield
         beta = round(self.data['companyData']['defaultKeyStatistics']['beta'], 2)
         Rm = 0.10  # expected return of market (SP500)

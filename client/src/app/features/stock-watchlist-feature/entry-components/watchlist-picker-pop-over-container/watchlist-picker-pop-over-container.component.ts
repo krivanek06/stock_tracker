@@ -3,12 +3,12 @@ import {NavParams, PopoverController} from '@ionic/angular';
 import {UserStorageService} from '@core';
 
 @Component({
-    selector: 'app-watchlist-picker-modal-container',
-    templateUrl: './watchlist-picker-modal-container.component.html',
-    styleUrls: ['./watchlist-picker-modal-container.component.scss'],
+    selector: 'app-watchlist-picker-pop-over-container',
+    templateUrl: './watchlist-picker-pop-over-container.component.html',
+    styleUrls: ['./watchlist-picker-pop-over-container.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WatchlistPickerModalContainerComponent implements OnInit {
+export class WatchlistPickerPopOverContainerComponent implements OnInit {
     symbol: string;
     stockWatchLists$ = this.userStorageService.getUserWatchlists();
 

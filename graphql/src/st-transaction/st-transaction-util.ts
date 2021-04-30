@@ -76,7 +76,7 @@ export const substractTransactionFromUserHolding = (user: api.STUserPublicData, 
         };
         holdings[index] = updatedHolding;   // not all units is sold
     } else {
-        holdings = holdings.splice(index, 1); // all units are sold
+        holdings.splice(index, 1); // all units are sold - remove symbol from holdings
     }
     return holdings;
 }

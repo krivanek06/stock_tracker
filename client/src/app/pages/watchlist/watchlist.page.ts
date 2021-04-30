@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {
+    componentDestroyed,
     ComponentScreenUpdateBaseDirective,
     StStockWatchlistFragmentFragment,
     SubscriptionWebsocketService,
@@ -8,8 +9,8 @@ import {
 import {SymbolIdentification} from '@shared';
 import {takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
-import {SymbolLookupModalComponent, WatchlistFeatureFacadeService} from '@stock-watchlist-feature';
-import {ModalController} from '@ionic/angular';
+import {WatchlistFeatureEntryPointsFacadeService, WatchlistFeatureFacadeService} from '@stock-watchlist-feature';
+
 
 @Component({
     selector: 'app-watchlist',
@@ -21,9 +22,9 @@ export class WatchlistPage extends ComponentScreenUpdateBaseDirective implements
     stockWatchlists: StStockWatchlistFragmentFragment[];
 
     constructor(private watchlistFeatureFacadeService: WatchlistFeatureFacadeService,
+                private watchlistFeatureEntryPointsFacadeService: WatchlistFeatureEntryPointsFacadeService,
                 private userStorageService: UserStorageService,
                 private subscriptionWebsocketService: SubscriptionWebsocketService,
-                private modalController: ModalController,
                 public cdr: ChangeDetectorRef) {
         super(cdr, 'WatchlistPage');
     }
@@ -43,12 +44,7 @@ export class WatchlistPage extends ComponentScreenUpdateBaseDirective implements
 
 
     async showChartForSymbol(symbolIdentification: SymbolIdentification, watchlistId: string) {
-        const modal = await this.modalController.create({
-            component: SymbolLookupModalComponent,
-            componentProps: {symbolIdentification, showAddToWatchlistOption: true, watchlistId},
-            cssClass: 'custom-modal'
-        });
-        await modal.present();
+        this.watchlistFeatureEntryPointsFacadeService.presentSymbolLookupModal(symbolIdentification, true, watchlistId);
     }
 
     private subscribeForWatchlistChange() {
@@ -59,7 +55,7 @@ export class WatchlistPage extends ComponentScreenUpdateBaseDirective implements
 
     private subscribeForSymbolPriceChange() {
         this.subscriptionWebsocketService.initSubscriptionWatchlist().pipe(
-            takeUntil(this.destroy$)
+            takeUntil(componentDestroyed(this))
         ).subscribe(res => {
             for (const watchlist of this.stockWatchlists) {
                 const objIndex = watchlist.summaries.findIndex(obj => obj.symbol === res.s);

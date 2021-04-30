@@ -2,12 +2,13 @@ import {Injectable} from '@angular/core';
 import {FinancialChartModalComponent, SymbolIdentification} from '@shared';
 import {ModalController} from '@ionic/angular';
 import {MarketChartBuilderComponent, MarketEarningsModalComponent} from '@market-feature';
-import {SymbolLookupModalComponent} from '@stock-watchlist-feature';
+import {WatchlistFeatureEntryPointsFacadeService} from '@stock-watchlist-feature';
 
 @Injectable()
 export class MarketPageFacadeService {
 
-    constructor(private modalController: ModalController) {
+    constructor(private modalController: ModalController,
+                private watchlistFeatureEntryPointsFacadeService: WatchlistFeatureEntryPointsFacadeService) {
     }
 
     async showFinancialChart(symbolIdentification: SymbolIdentification, logoUrl: string, isCrypto: boolean) {
@@ -48,11 +49,6 @@ export class MarketPageFacadeService {
     }
 
     async showSymbolSummary(symbolIdentification: SymbolIdentification, showAddToWatchlistOption = false) {
-        const modal = await this.modalController.create({
-            component: SymbolLookupModalComponent,
-            componentProps: {symbolIdentification, showAddToWatchlistOption},
-            cssClass: 'custom-modal'
-        });
-        await modal.present();
+        this.watchlistFeatureEntryPointsFacadeService.presentSymbolLookupModal(symbolIdentification, showAddToWatchlistOption);
     }
 }
