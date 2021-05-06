@@ -2,7 +2,7 @@
 
 Application to analyze financial details about publicly listed companies. Project is still in development, so some functions does not work correctly.
 
-For document check documents folder
+Click to download the [presentation](documents/diplomovka_projektovy_seminar_1.pptx)
 
 [stocktrackertest](https://stocktrackertest-e51fc.web.app/)  - Window resize is required after log in to fix charts
 
