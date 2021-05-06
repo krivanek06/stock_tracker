@@ -2,7 +2,9 @@
 
 Application to analyze financial details about publicly listed companies. Project is still in development, so some functions does not work correctly.
 
-[link](https://stocktrackertest-e51fc.web.app/)  - Window resize is required after log in to fix charts
+For document check documents folder
+
+[stocktrackertest](https://stocktrackertest-e51fc.web.app/)  - Window resize is required after log in to fix charts
 
 testing login:
 - email: krivanek1234.1@gmail.com
