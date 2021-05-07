@@ -2,7 +2,7 @@ import * as api from 'stock-tracker-common-interfaces';
 import {stockDataAPI} from "./environment";
 
 const SEARCH_ENDPOINT = `${stockDataAPI}/search`;
-const QUNDAL_ENDPOINT = `${SEARCH_ENDPOINT}/quandl`;
+const CHART_DATA_ENDPOINT = `${SEARCH_ENDPOINT}/chart_data`;
 
 export const getStMarketTopTablesLocal = async (): Promise<api.STMarketDailyOverview> => {
     const promises = await Promise.all([
@@ -37,11 +37,11 @@ export const getStMarketTopTablesLocal = async (): Promise<api.STMarketDailyOver
 
 
 export const getStMarketAllCategoriesLocal = async (onlyMain: boolean = false): Promise<api.STMarketDatasetKeyCategories> => {
-    const res = await fetch(`${QUNDAL_ENDPOINT}/categories?onlyMain=${onlyMain}`);
+    const res = await fetch(`${SEARCH_ENDPOINT}/quandl_categories?onlyMain=${onlyMain}`);
     return res.json();
 };
 
 export const searchStMarketDataLocal = async (key: string): Promise<api.STMarketChartDataResultCombined> => {
-    const res = await fetch(`${QUNDAL_ENDPOINT}?documentKey=${key}`);
+    const res = await fetch(`${CHART_DATA_ENDPOINT}/quandl?documentKey=${key}`);
     return res.json();
 };

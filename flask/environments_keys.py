@@ -49,3 +49,8 @@ FINHUB_SECRET_KEY = 'brsrc5vrh5r9dg9d77pg'
         # https://www.quandl.com/data/BCHAIN-Blockchain
 '''
 QUANDL_SECRET_KEY = 'EngrQ3ssvi8xdyRgrU5z'
+
+
+
+
+ALPHA_VANTAGE = 'TC32TR44B7M4RJMG'

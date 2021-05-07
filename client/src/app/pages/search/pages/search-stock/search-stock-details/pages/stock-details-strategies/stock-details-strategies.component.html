@@ -1,0 +1,70 @@
+<ion-grid *ngIf="activeSymbol$ | async as activeSymbol">
+    <ion-row>
+        <ion-col size="12" size-lg="8">
+            <app-generic-card>
+                <app-financial-chart-container
+                        *ngIf="stockDetails$ | async as stockDetails"
+                        [currentPrice]="stockDetails.summary.marketPrice"
+                        [closedPrice]="stockDetails.summary.previousClose"
+                        [logoUrl]="stockDetails.summary.logo_url"
+                        [name]="stockDetails.summary.longName"
+                        [height]="285"
+                        [symbol]="stockDetails.summary.symbol">
+                </app-financial-chart-container>
+            </app-generic-card>
+        </ion-col>
+
+        <!-- risk management calculator -->
+        <ion-col size="12" size-lg="4">
+            <app-generic-card subtitle="Risk management calculator" additionalClasses="st-height-100">
+                <app-trading-strategy-rmc-container
+                        [symbol]="activeSymbol">
+                </app-trading-strategy-rmc-container>
+            </app-generic-card>
+        </ion-col>
+    </ion-row>
+
+    <!-- red white blue -->
+    <ion-row>
+        <ion-col size="12">
+            <app-generic-card>
+                <app-trading-strategy-rwb-container
+                        [heightPx]="370"
+                        [symbol]="activeSymbol">
+                </app-trading-strategy-rwb-container>
+            </app-generic-card>
+        </ion-col>
+    </ion-row>
+
+    <!-- extended market verification -->
+    <ion-row>
+        <ion-col size="12" size-lg="6">
+            <app-generic-card>
+                <app-trading-strategy-emv-histogram-container
+                        [heightPx]="250"
+                        [symbol]="activeSymbol">
+                </app-trading-strategy-emv-histogram-container>
+            </app-generic-card>
+        </ion-col>
+        <ion-col size="12" size-lg="6">
+            <app-generic-card>
+                <app-trading-strategy-emv-container
+                        [heightPx]="250"
+                        [symbol]="activeSymbol">
+                </app-trading-strategy-emv-container>
+            </app-generic-card>
+        </ion-col>
+    </ion-row>
+
+    <!-- green line breakout and resistance pivot points -->
+    <ion-row>
+        <ion-col size="12">
+            <app-generic-card>
+                <app-trading-strategy-rpp-glb-container
+                        [heightPx]="310"
+                        [symbol]="activeSymbol">
+                </app-trading-strategy-rpp-glb-container>
+            </app-generic-card>
+        </ion-col>
+    </ion-row>
+</ion-grid>

@@ -1,3 +1,5 @@
+import { queryTradingStrategies, queryTradingStrategyData } from './st-trading-strategy/st-trading-strategy.query';
+import { STTraingStrategyTypeDefs } from './st-trading-strategy/st-trading-strategy.typedef';
 import {STGroupTypeDefs} from './st-group/st-group.typedefs';
 import {STSharedTypeDefs} from './st-shared/st-shared.typedef';
 import {watchlistTypeDefs} from './watchlist/watchlist.typedefs';
@@ -79,6 +81,10 @@ const mainTypeDefs = gql`
         queryStMarketData(key: String!): STMarketChartDataResultCombined
         queryStMarketCalendarEvents(date: String!): StMarketCalendarEvents
         queryStMarketCalendarEventsEarnings(date: String!): StMarketCalendarEventsEarnings
+
+        # trading strategy
+        querySTTradingStrategies: STTradingStrategySearch
+        querySTTradingStrategyData(symbol: String!, strategy: String!): STTradingStrategyData
     }
 
     #### MUTATION
@@ -133,6 +139,10 @@ const mainResolver = {
         queryStMarketCalendarEvents: async (_: null, args: { date: string }) => await queryStMarketCalendarEvents(args.date),
         queryStMarketCalendarEventsEarnings: async (_: null, args: { date: string }) => await queryStMarketCalendarEventsEarnings(args.date),
         querySTMarketSymbolHistoricalChartData: async (_: null, args: { symbol: string, period: string }) => await querySTMarketSymbolHistoricalChartData(args.symbol, args.period),
+
+        // trading strategy
+        querySTTradingStrategies: async (_: null, args: null) => await queryTradingStrategies(),
+        querySTTradingStrategyData: async (_: null, args: { symbol: string, strategy: string }) => await queryTradingStrategyData(args.symbol, args.strategy),
     },
 
     Mutation: {
@@ -182,7 +192,8 @@ const server = new ApolloServer({
         STSharedTypeDefs,
         STRankTypeDefs,
         STPortfolioTypeDefs,
-        STGroupTypeDefs
+        STGroupTypeDefs,
+        STTraingStrategyTypeDefs
     ],
     resolvers,
     introspection: true

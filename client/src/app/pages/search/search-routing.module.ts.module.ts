@@ -1,14 +1,9 @@
 import {RouterModule, Routes} from '@angular/router';
+import {NgModule} from '@angular/core';
 import {SearchPage} from './search.page';
-import {SearchStockComponent} from './pages/search-stock/search-stock.component';
-import {SearchStockSummaryComponent} from './pages/search-stock/search-stock-summary/search-stock-summary.component';
-import {SearchStockDetailsPage} from './pages/search-stock/search-stock-details/search-stock-details-page.component';
-import {StockDetailsStatisticComponent} from './pages/search-stock/search-stock-details/pages/stock-details-statistic/stock-details-statistic.component';
-import {StockDetailsFinancialComponent} from './pages/search-stock/search-stock-details/pages/stock-details-financial/stock-details-financial.component';
 import {SearchUserComponent} from './pages/search-user/search-user.component';
 import {SearchGroupComponent} from './pages/search-group/search-group.component';
-import {SEARCH_PAGE_ENUM, SEARCH_PAGE_STOCK_DETAILS_ENUM, SEARCH_PAGE_STOCK_ENUM} from './models/pages.model';
-import {NgModule} from '@angular/core';
+import {SEARCH_PAGE_ENUM} from './models/pages.model';
 import {GroupsReadComponent} from '../groups/pages/groups-read/groups-read.component';
 
 const routes: Routes = [
@@ -32,37 +27,7 @@ const routes: Routes = [
             },
             {
                 path: SEARCH_PAGE_ENUM.STOCK,
-                component: SearchStockComponent,
-                children: [
-                    {
-                        path: '',
-                        redirectTo: SEARCH_PAGE_STOCK_ENUM.SUMMARY,
-                        pathMatch: 'full'
-                    },
-                    {
-                        path: SEARCH_PAGE_STOCK_ENUM.SUMMARY,
-                        component: SearchStockSummaryComponent
-                    },
-                    {
-                        path: `${SEARCH_PAGE_STOCK_ENUM.DETAILS}/:symbol`,
-                        component: SearchStockDetailsPage,
-                        children: [
-                            {
-                                path: '',
-                                redirectTo: SEARCH_PAGE_STOCK_DETAILS_ENUM.STATISTICS,
-                                pathMatch: 'full'
-                            },
-                            {
-                                path: SEARCH_PAGE_STOCK_DETAILS_ENUM.STATISTICS,
-                                component: StockDetailsStatisticComponent
-                            },
-                            {
-                                path: SEARCH_PAGE_STOCK_DETAILS_ENUM.FINANCIAL,
-                                component: StockDetailsFinancialComponent
-                            }
-                        ]
-                    }
-                ]
+                loadChildren: () => import('./pages/search-stock/search-stock.module').then(m => m.SearchStockModule)
             },
             {
                 path: '',

@@ -1,10 +1,8 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ModalController, NavParams} from '@ionic/angular';
 import {SymbolIdentification} from '@shared';
-import {Router} from '@angular/router';
 import {StUserPublicData, Summary, SymbolStorageService, UserStorageService} from '@core';
 import {Observable} from 'rxjs';
-import {WatchlistFeatureFacadeService} from '../../services';  // TODO circular dependency
 
 @Component({
     selector: 'app-symbol-lookup-modal',
@@ -23,9 +21,7 @@ export class SymbolLookupModalComponent implements OnInit {
     stockSummary$: Observable<Summary>;
 
     constructor(private navParams: NavParams,
-                private router: Router,
                 private symbolStorageService: SymbolStorageService,
-                private watchlistFeatureFacadeService: WatchlistFeatureFacadeService,
                 private userStorageService: UserStorageService,
                 private cd: ChangeDetectorRef,
                 private modalController: ModalController) {
@@ -46,17 +42,14 @@ export class SymbolLookupModalComponent implements OnInit {
 
     redirectToDetails() {
         this.modalController.dismiss({redirect: true});
-        this.router.navigate([`/menu/search/stock/details/${this.symbolIdentification.symbol}`]);
     }
 
-    async addSymbolToWatchlist() {
-        await this.watchlistFeatureFacadeService.addSymbolToWatchlist(this.symbolIdentification.symbol);
-        this.checkIfSymbolIsInWatchlist();
+    addSymbolToWatchlist() {
+        this.modalController.dismiss({addSymbol: true});
     }
 
-    async removeSymbolFromWatchlist() {
-        await this.watchlistFeatureFacadeService.removeStockFromWatchlist(this.symbolIdentification, this.watchlistId);
-        this.checkIfSymbolIsInWatchlist();
+    removeSymbolFromWatchlist() {
+        this.modalController.dismiss({removeSymbol: true});
     }
 
     private checkIfSymbolIsInWatchlist() {
