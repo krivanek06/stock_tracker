@@ -4,7 +4,7 @@ Application to analyze financial details about publicly listed companies. Projec
 
 Click to download the [presentation](documents/diplomovka_projektovy_seminar_1.pptx)
 
-[stocktrackertest](https://stocktrackertest-e51fc.web.app/)  - Window resize is required after log in to fix charts
+Click to launch the [application](https://stocktrackertest-e51fc.web.app/)  - Window resize is required after log in to fix charts
 
 testing login:
 - email: krivanek1234.1@gmail.com
