@@ -45,14 +45,14 @@
         <div class="table-space">
             <app-details-statement-table
                     [title]="'Balance sheet quarterly'"
-                    [statement]="details.balanceSheet.balanceSheetHistoryQuarterly">
+                    [statement]="details.balanceSheet.quarterly">
             </app-details-statement-table>
         </div>
 
         <app-details-statement-table
                 [isQuarterlyData]="false"
                 [title]="'Balance sheet yearly'"
-                [statement]="details.balanceSheet.balanceSheetHistoryYearly">
+                [statement]="details.balanceSheet.yearly">
         </app-details-statement-table>
     </ng-container>
 
@@ -61,14 +61,14 @@
         <div class="table-space">
             <app-details-statement-table
                     [title]="'Income statement quarterly'"
-                    [statement]="details.incomeStatement.incomeStatementHistoryQuarterly">
+                    [statement]="details.incomeStatement.quarterly">
             </app-details-statement-table>
         </div>
 
         <app-details-statement-table
                 [isQuarterlyData]="false"
                 [title]="'Income statement yearly'"
-                [statement]="details.incomeStatement.incomeStatementHistoryYearly">
+                [statement]="details.incomeStatement.yearly">
         </app-details-statement-table>
     </ng-container>
 
@@ -77,14 +77,14 @@
         <div class="table-space">
             <app-details-statement-table
                     [title]="'Cash flow quarterly'"
-                    [statement]="details.cashFlow.cashflowStatementHistoryQuarterly">
+                    [statement]="details.cashFlow.quarterly">
             </app-details-statement-table>
         </div>
 
         <app-details-statement-table
                 [isQuarterlyData]="false"
                 [title]="'Cash flow yearly'"
-                [statement]="details.cashFlow.cashflowStatementHistoryYearly">
+                [statement]="details.cashFlow.yearly">
         </app-details-statement-table>
     </ng-container>
 </ng-container>

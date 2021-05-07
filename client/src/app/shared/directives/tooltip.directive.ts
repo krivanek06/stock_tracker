@@ -89,7 +89,6 @@ export class TooltipDirective {
             left = hostPos.right + this.offset;
         }
 
-        // 스크롤이 발생한 경우, tooltip 요소의 top에 세로 스크롤 좌표값을 반영하여야 한다.
         this.renderer.setStyle(this.tooltip, 'top', `${top + scrollPos}px`);
         this.renderer.setStyle(this.tooltip, 'left', `${left}px`);
     }

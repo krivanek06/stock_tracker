@@ -6,7 +6,9 @@ export enum ChartType {
     area = 'area',
     areaChange = 'area-change',
     areaspline = 'areaspline',
-    bar = 'bar'
+    bar = 'bar',
+    spline = 'spline',
+    histogram = 'histogram'
 }
 
 export interface SymbolIdentification {
@@ -22,6 +24,11 @@ export interface UploadedFile {
 export interface NameValueContainer {
     name: string;
     value: string;
+}
+
+export interface IdNameContainer {
+    name: string;
+    id: string;
 }
 
 export interface GenericChartSeries {

@@ -1,15 +1,14 @@
 import {NgModule} from '@angular/core';
 import {SharedModule} from '@shared';
-import {SymbolLookupModalComponent, WatchlistPickerModalContainerComponent} from './entry-components';
+import {SymbolLookupModalComponent, WatchlistPickerPopOverContainerComponent} from './entry-components';
 import {WatchlistTableComponent} from './components';
 import {WatchlistModificationContainerComponent} from './containers';
 import {StockDetailsFeatureModule} from '@stock-details-feature';
-import {WatchlistFeatureFacadeService} from './services';
 
 
 @NgModule({
     declarations: [
-        WatchlistPickerModalContainerComponent,
+        WatchlistPickerPopOverContainerComponent,
         WatchlistTableComponent,
         WatchlistModificationContainerComponent,
         SymbolLookupModalComponent
@@ -19,16 +18,13 @@ import {WatchlistFeatureFacadeService} from './services';
         StockDetailsFeatureModule
     ],
     exports: [
-        WatchlistPickerModalContainerComponent,
+        WatchlistPickerPopOverContainerComponent,
         WatchlistTableComponent,
         WatchlistModificationContainerComponent,
         SymbolLookupModalComponent
     ],
     entryComponents: [
-        WatchlistPickerModalContainerComponent,
-    ],
-    providers: [
-        WatchlistFeatureFacadeService
+        WatchlistPickerPopOverContainerComponent,
     ]
 })
 export class StockWatchlistModule {

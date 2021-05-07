@@ -1,4 +1,6 @@
 from re import sub
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 '''
     transform {'Test (With % is)' : 55} -> {'Test_With_Pct_is' : 55} 
@@ -49,3 +51,38 @@ def force_float(elt):
         return float(elt)
     except:
         return None
+
+
+# data_aggregation - 1d, 5d, 1m ...
+def getIntervalFromPeriod(period: str) -> (str, str):
+    if period == '1d':
+        return '1m', '1min'
+    elif period in ['5d']:
+        return '15m', '15min'
+    elif period in ['1mo']:
+        return '30m', '30min'
+    elif period in ['3mo']:
+        return '1h', '60min'
+    elif period in ['6mo', '1y', '2y']:
+        return '1d', 'daily'
+    elif period in ['5y']:
+        return '1wk', 'weekly'
+    else:
+        return '1mo', 'monthly'
+
+
+def getPastDatetimeFromPeriod(period: str) -> datetime:
+    if period.upper() == 'MAX':
+        return datetime(1920, 1, 1)
+
+    now = datetime.now()
+    if period in ['1d', '5d']:
+        subtracting = int(period[:-1])
+        return now + relativedelta(days=-subtracting)
+    elif period in ['1mo', '3mo', '6mo']:
+        subtracting = int(period[:-2])
+        return now + relativedelta(months=-subtracting)
+    elif period in ['1y', '2y', '5y', '10y']:
+        subtracting = int(period[:-1])
+        return now + relativedelta(years=-subtracting)
+    raise Exception(f'Cannot return datetime for period: {period}')

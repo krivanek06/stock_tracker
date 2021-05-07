@@ -1,31 +1,40 @@
 from flask import Flask, request
 from flask_json import FlaskJSON, JsonError, json_response
 from flask_cors import CORS
-from ExternalAPI import EconomicNews, Finhub, Quandl
-from ExternalAPI.YahooFinance import YahooFinanceTopSymbols
+from ExternalAPI import EconomicNewsApi, FinhubApi, QuandlApi
+from ExternalAPI.YahooFinance import YahooFinanceTopSymbolsApi
+from Services.TechnicalIndicatorsService import TechnicalIndicatorsService
+from Services.TradingStrategiesService import TradingStrategiesService
 
 app = Flask(__name__)
 FlaskJSON(app)
 CORS(app, resources={r"*": {"origins": "*"}})
 
 # CUSTOM singleton
-StockNews = EconomicNews.EconomicNews()
-YahooFinanceTopSymbols = YahooFinanceTopSymbols.YahooFinanceTopSymbols()
-Finhub = Finhub.Finhub()
-quandl = Quandl.Quandl()
+StockNews = EconomicNewsApi.EconomicNewsApi()
+YahooFinanceTopSymbols = YahooFinanceTopSymbolsApi.YahooFinanceTopSymbolsApi()
+Finhub = FinhubApi.FinhubApi()
+quandl = QuandlApi.QuandlApi()
 ERROR_MESSAGE = 'Error in Search controller, method: '
 
 
-@app.route('/quandl')
-def getAllDataForkey():
+@app.route('/technical_indicators')
+def getAllTechnicalIndicators():
     try:
-        documentKey = request.args.get('documentKey')
-        return json_response(**quandl.getAllDataForDocumentKey(documentKey))
+        return json_response(**TechnicalIndicatorsService().getIndicators())
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'getAllDataForQundalKey(), message: ' + str(e))
 
 
-@app.route('/quandl/categories')
+@app.route('/trading_strategies')
+def getAllTradingStrategies():
+    try:
+        return json_response(**TradingStrategiesService().getStrategies())
+    except Exception as e:
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'getAllTradingStrategies(), message: ' + str(e))
+
+
+@app.route('/quandl_categories')
 def getAllCategories():
     try:
         onlyMain = request.args.get('onlyMain') in ['True', 'true']
@@ -37,7 +46,7 @@ def getAllCategories():
 @app.route('/news')
 def get_economic_news():
     try:
-        return json_response(news=StockNews.getJsonDataFromFile())
+        return json_response(news=StockNews.getNews())
     except Exception as e:
         raise JsonError(status=500, error='Failed to get economic news')
 
@@ -58,14 +67,6 @@ def get_calendar_events_earnings():
         return json_response(earnings=YahooFinanceTopSymbols.get_calendar_events_earnings(date))
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'get_calendar_events_earnings(), message: ' + str(e))
-
-
-@app.route('/search_symbol')
-def search_symbol():
-    try:
-        return json_response(data=Finhub.searchSymbol(request.args.get('symbol').upper()))
-    except Exception as e:
-        raise JsonError(status=500, error='Could not search any stock for symbol')
 
 
 @app.route('/search_all_symbols')
@@ -147,6 +148,14 @@ def get_small_cap_gainers():
         return json_response(stocks_small_cap_gainers=YahooFinanceTopSymbols.get_small_cap_gainers())
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'get_small_cap_gainers(), message: ' + str(e))
+
+
+@app.route('/top_index_states')
+def get_top_index_states():
+    try:
+        return json_response(data=YahooFinanceTopSymbols.get_top_index_states())
+    except Exception as e:
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'get_top_index_states(), message: ' + str(e))
 
 
 if __name__ == '__main__':
