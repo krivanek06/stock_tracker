@@ -91,8 +91,8 @@ export const stockDetailsTypeDefs = gql`
     }
 
     type IncomeStatement {
-        incomeStatementHistoryQuarterly: IncomeStatementData
-        incomeStatementHistoryYearly: IncomeStatementData
+        quarterly: IncomeStatementData
+        yearly: IncomeStatementData
     }
 
 
@@ -127,8 +127,8 @@ export const stockDetailsTypeDefs = gql`
     }
 
     type CashFlow {
-        cashflowStatementHistoryQuarterly: CashFlowData
-        cashflowStatementHistoryYearly: CashFlowData
+        quarterly: CashFlowData
+        yearly: CashFlowData
     }
 
     type CashFlowData {
@@ -172,8 +172,8 @@ export const stockDetailsTypeDefs = gql`
     }
 
     type BalanceSheet {
-        balanceSheetHistoryQuarterly: BalanceSheetData
-        balanceSheetHistoryYearly: BalanceSheetData
+        quarterly: BalanceSheetData
+        yearly: BalanceSheetData
     }
 
     type BalanceSheetData {

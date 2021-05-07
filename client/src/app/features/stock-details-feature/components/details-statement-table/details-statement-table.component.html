@@ -2,7 +2,7 @@
     <ion-list>
         <ion-item>
             <ion-label class="header-label"></ion-label>
-            <ion-label *ngFor="let item of statement.endDate.data; let i = index; let last=last"
+            <ion-label *ngFor="let item of statement?.endDate?.data; let i = index; let last=last"
                        [class]="'st-font-1-bold label-'+i" [ngClass]="{'ion-padding-start' :!last}">
                 {{isQuarterlyData ? (item * 1000 | date:'dd.MM.YYYY') : (item * 1000 | date:'YYYY')}}
             </ion-label>
@@ -37,7 +37,7 @@
 
 <!-- small screen, SLIDING CARDS -->
 <ion-slides class="ion-hide-md-up" [options]="sliderConfig">
-    <ion-slide *ngFor="let item of statement.endDate.data; let i = index">
+    <ion-slide *ngFor="let item of statement?.endDate?.data; let i = index">
         <app-generic-card style="width: 100%"
                           [subtitle]=" title + '   ' +  (isQuarterlyData ? (item * 1000 | date:'dd.MM.YYYY') :  (item * 1000 | date:'YYYY')) ">
             <ion-list>

@@ -7,8 +7,8 @@ class FundamentalServiceCalculator:
         self.incomeStatement = self.data['incomeStatement']['yearly']
 
     def calculateNetIncomeMargin(self, period: str):
-        netIncome = self.data['cashFlow'][period]['netIncome']['data']
-        revenue = self.data['incomeStatement'][period]['totalRevenue']['data']
+        netIncome = list(filter(lambda data: data is not None, self.data['cashFlow'][period]['netIncome']['data']))
+        revenue = list(filter(lambda data: data is not None, self.data['incomeStatement'][period]['totalRevenue']['data']))
 
         netIncomeMargin = {
             'change': [],
@@ -55,7 +55,11 @@ class FundamentalServiceCalculator:
 
     def calculateWACC(self):
         interestExpense = self.incomeStatement['interestExpense']['data'][0]
-        totalDebt = self.balanceSheet['longTermDebt']['data'][0] + self.balanceSheet['shortLongTermDebt']['data'][0]
+        interestExpense = interestExpense if interestExpense is not None else 0
+        try:
+            totalDebt = self.balanceSheet['longTermDebt']['data'][0] + self.balanceSheet['shortLongTermDebt']['data'][0]
+        except:
+            totalDebt = self.data['companyData']['financialData']['totalDebt']
         Rd = round(abs(interestExpense / totalDebt), 4)  # cost of debt
         taxRate = round(self.incomeStatement['incomeTaxExpense']['data'][0] / self.incomeStatement['incomeBeforeTax']['data'][0], 4)  # percent
 

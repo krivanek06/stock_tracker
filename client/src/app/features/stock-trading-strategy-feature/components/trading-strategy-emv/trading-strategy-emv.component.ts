@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {StTradingStrategyData} from '@core';
 import * as Highcharts from 'highcharts/highstock';
 import {ChartType} from '@shared';
+import {takeRight} from 'lodash';
 
 @Component({
     selector: 'app-trading-strategy-emv',
@@ -27,7 +28,6 @@ export class TradingStrategyEmvComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('emc', this.data);
         this.initChart();
     }
 
@@ -77,7 +77,7 @@ export class TradingStrategyEmvComponent implements OnInit {
             xAxis: {
                 visible: true,
                 type: 'datetime',
-                categories: this.data.timestamp,
+                categories: takeRight(this.data.timestamp, 300),
                 labels: {
                     rotation: -10,
                     format: '{value:%b %Y}',
@@ -134,7 +134,10 @@ export class TradingStrategyEmvComponent implements OnInit {
                     enableMouseTracking: true
                 }
             },
-            series: this.data.series
+            series: [{
+                data: takeRight(this.data.series[0].data, 300),
+                name: this.data.series[0].name
+            }]
         };
     }
 

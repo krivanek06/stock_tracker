@@ -669,26 +669,26 @@ query QueryStockDetails($symbol: String!) {
             }
         }
         balanceSheet {
-            balanceSheetHistoryQuarterly {
+            quarterly {
                 ...balanceSheetDataFragment
             }
-            balanceSheetHistoryYearly {
+            yearly {
                 ...balanceSheetDataFragment
             }
         }
         cashFlow {
-            cashflowStatementHistoryQuarterly {
+            quarterly {
                 ...cashFlowDataFragment
             }
-            cashflowStatementHistoryYearly {
+            yearly {
                 ...cashFlowDataFragment
             }
         }
         incomeStatement {
-            incomeStatementHistoryQuarterly {
+            quarterly {
                 ...incomeStatementFragment
             }
-            incomeStatementHistoryYearly {
+            yearly {
                 ...incomeStatementFragment
             }
         }

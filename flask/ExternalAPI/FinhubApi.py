@@ -14,11 +14,6 @@ class FinhubApi:
         params = {'token': self.FINHUB_SECRET_KEY, 'from': today, 'to': nextmonth}
         return get('https://finnhub.io/api/v1/calendar/ipo', params=params).json()
 
-    def searchSymbol(self, symbolPrefix):
-        params = {'token': self.FINHUB_SECRET_KEY, 'exchange': 'US'}
-        exchangeUS = get('https://finnhub.io/api/v1/stock/symbol', params=params).json()
-        return [k for k in exchangeUS if k['symbol'].startswith(symbolPrefix)][0:6]
-
     def searchAllSymbols(self):
         params = {'token': self.FINHUB_SECRET_KEY, 'exchange': 'US'}
         exchangeUS = get('https://finnhub.io/api/v1/stock/symbol', params=params).json()

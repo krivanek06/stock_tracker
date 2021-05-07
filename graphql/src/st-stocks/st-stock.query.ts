@@ -1,7 +1,8 @@
-import {stockDataAPI} from '../environment';
+import {stockDataAPI, IS_PRODUCTION} from '../environment';
 import {ApolloError} from 'apollo-server';
 import * as api from 'stock-tracker-common-interfaces';
 import * as admin from "firebase-admin";
+import * as moment from 'moment';
 import {getCurrentIOSDate, stRandomSlice} from "../st-shared/st-shared.functions";
 import {tmpSuggestionSymbols} from "./st-stock.model";
 import {getStockHistoricalClosedData} from "./st-stock.fetch";
@@ -14,9 +15,20 @@ export const queryStockDetails = async (symbol: string): Promise<api.StockDetail
         const upperSymbol = symbol.toUpperCase();
         const stockDetailsDocs = await admin.firestore().collection(`${api.ST_STOCK_DATA_COLLECTION}`).doc(upperSymbol).get();
         const data = stockDetailsDocs.data() as api.StockDetailsWrapper | undefined;
-
-        return !!data ? data.details : await getAndSaveStockDetailsFromApi(upperSymbol);
-        //return await getAndSaveStockDetailsFromApi(upperSymbol);
+        
+        // first fetch or older than 7 days
+        if(!data || (Math.abs(moment(data.detailsLastUpdate).diff(new Date(), 'days')) > 7 && IS_PRODUCTION)){
+            console.log(`Query all stock details for symbol: ${upperSymbol}`)
+            return await getAndSaveStockDetailsFromApi(upperSymbol);
+        } 
+        // fetch fresh news
+        if(!!data.details && Math.abs(moment(data.newsLastUpdate).diff(new Date(), "hours")) > 8){
+            console.log(`Query stock news for symbol: ${upperSymbol}`)
+            const news = await getAndSaveStockNewsFromApi(upperSymbol, data);
+            data.details.stockNews = news;
+        }
+        
+        return data.details;
     } catch (error) {
         throw new ApolloError(error);
     }
@@ -26,7 +38,7 @@ export const queryStockSummary = async (symbol: string): Promise<api.Summary> =>
     try {
         const upperSymbol = symbol.toUpperCase();
         const details = await queryStockDetails(upperSymbol);
-
+        console.log(`Summary for ${symbol}`);
         if (!!details && !!details.summary) {
             details.summary.id = symbol;
             return details.summary;
@@ -152,7 +164,7 @@ const getAndSaveStockDetailsFromApi = async (symbol: string): Promise<api.StockD
     const response = await resolverPromise.json() as api.StockDetails;
 
     // no data has been found
-    const isNull = !response && (!response.summary?.symbol || !response.summary?.marketPrice);
+    const isNull = !response || !response.summary;
 
     // save details
     admin.firestore().collection(`${api.ST_STOCK_DATA_COLLECTION}`).doc(symbol).set({
@@ -164,3 +176,19 @@ const getAndSaveStockDetailsFromApi = async (symbol: string): Promise<api.StockD
 
     return isNull ? null : response;
 };
+
+const getAndSaveStockNewsFromApi = async (symbol: string, data: api.StockDetailsWrapper): Promise<api.NewsArticle[]> => {
+    const resolverPromise = await global.fetch(`${stockDataAPI}/fundamentals/stock_news?symbol=${symbol}`);
+    const response = (await resolverPromise.json())['data'] as api.NewsArticle[];
+
+    // save details
+    admin.firestore().collection(`${api.ST_STOCK_DATA_COLLECTION}`).doc(symbol).set({
+        details: {
+            ...data.details,
+            stockNews: response
+        },
+        newsLastUpdate: getCurrentIOSDate(),
+    }, {merge: true});
+
+    return response;
+}

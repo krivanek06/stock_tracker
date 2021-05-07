@@ -13,6 +13,12 @@ class FundamentalServiceDataFetcher:
         self.yRequester = YahooFinanceRequesterApi.YahooFinanceRequesterApi()
         self.finhub = FinhubApi.FinhubApi()
 
+    def fetchStockNews(self, symbol):
+        return self.finhub.getNewsForSymbol(symbol)
+
+    def fetchStockClosedPrice(self, symbol):
+        return self.yRequester.get_closed_price(symbol)
+
     def fetchStockDetails(self, symbol):
         return self.__fetchStockDetails(symbol)
 
