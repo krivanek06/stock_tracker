@@ -8,6 +8,15 @@ class YahooFinanceRequesterApi:
     def __init__(self):
         self.helperClass = CustomYahooParser.CustomYahooParser()
 
+    def get_closed_price(self, symbol):
+        data = get(f'https://query1.finance.yahoo.com/v8/finance/chart/{symbol}').json()
+        if (data['chart'] is None or
+                data['chart']['result'] is None or
+                data['chart']['result'][0] is None or
+                data['chart']['result'][0]['meta'] is None):
+            return None
+        return data['chart']['result'][0]['meta'].get('previousClose', None)
+
     def get_company_data(self, ticker):
         try:
             site = "https://finance.yahoo.com/quote/" + ticker + "?p=" + ticker

@@ -13,8 +13,9 @@ class CustomYahooParser:
 
     def parse_json(self, url, *jsonPathArgs):
         try:
-            html = get(url=url).text
+            html = get(url=url).text # downlaod whole html as text
 
+            # find only the important part in html
             json_str = html.split('root.App.main =')[1].split('(this)')[0].split(';\n}')[0].strip()
             data = loads(json_str)['context']['dispatcher']['stores']
             for path in jsonPathArgs:

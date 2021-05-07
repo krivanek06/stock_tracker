@@ -27,8 +27,8 @@ export type Analysis = {
 
 export type BalanceSheet = {
     __typename?: 'BalanceSheet';
-    balanceSheetHistoryQuarterly?: Maybe<BalanceSheetData>;
-    balanceSheetHistoryYearly?: Maybe<BalanceSheetData>;
+    quarterly?: Maybe<BalanceSheetData>;
+    yearly?: Maybe<BalanceSheetData>;
 };
 
 export type BalanceSheetData = {
@@ -83,8 +83,8 @@ export type Calculation = {
 
 export type CashFlow = {
     __typename?: 'CashFlow';
-    cashflowStatementHistoryQuarterly?: Maybe<CashFlowData>;
-    cashflowStatementHistoryYearly?: Maybe<CashFlowData>;
+    quarterly?: Maybe<CashFlowData>;
+    yearly?: Maybe<CashFlowData>;
 };
 
 export type CashFlowData = {
@@ -341,8 +341,8 @@ export type HistoricalMetricsData = {
 
 export type IncomeStatement = {
     __typename?: 'IncomeStatement';
-    incomeStatementHistoryQuarterly?: Maybe<IncomeStatementData>;
-    incomeStatementHistoryYearly?: Maybe<IncomeStatementData>;
+    quarterly?: Maybe<IncomeStatementData>;
+    yearly?: Maybe<IncomeStatementData>;
 };
 
 export type IncomeStatementData = {
@@ -2256,10 +2256,10 @@ export type QueryStockDetailsQuery = (
             )>, balanceSheet?: Maybe<(
             { __typename?: 'BalanceSheet' }
             & {
-            balanceSheetHistoryQuarterly?: Maybe<(
+            quarterly?: Maybe<(
                 { __typename?: 'BalanceSheetData' }
                 & BalanceSheetDataFragmentFragment
-                )>, balanceSheetHistoryYearly?: Maybe<(
+                )>, yearly?: Maybe<(
                 { __typename?: 'BalanceSheetData' }
                 & BalanceSheetDataFragmentFragment
                 )>
@@ -2267,10 +2267,10 @@ export type QueryStockDetailsQuery = (
             )>, cashFlow?: Maybe<(
             { __typename?: 'CashFlow' }
             & {
-            cashflowStatementHistoryQuarterly?: Maybe<(
+            quarterly?: Maybe<(
                 { __typename?: 'CashFlowData' }
                 & CashFlowDataFragmentFragment
-                )>, cashflowStatementHistoryYearly?: Maybe<(
+                )>, yearly?: Maybe<(
                 { __typename?: 'CashFlowData' }
                 & CashFlowDataFragmentFragment
                 )>
@@ -2278,10 +2278,10 @@ export type QueryStockDetailsQuery = (
             )>, incomeStatement?: Maybe<(
             { __typename?: 'IncomeStatement' }
             & {
-            incomeStatementHistoryQuarterly?: Maybe<(
+            quarterly?: Maybe<(
                 { __typename?: 'IncomeStatementData' }
                 & IncomeStatementFragmentFragment
-                )>, incomeStatementHistoryYearly?: Maybe<(
+                )>, yearly?: Maybe<(
                 { __typename?: 'IncomeStatementData' }
                 & IncomeStatementFragmentFragment
                 )>
@@ -4052,26 +4052,26 @@ export const QueryStockDetailsDocument = gql`
                 }
             }
             balanceSheet {
-                balanceSheetHistoryQuarterly {
+                quarterly {
                     ...balanceSheetDataFragment
                 }
-                balanceSheetHistoryYearly {
+                yearly {
                     ...balanceSheetDataFragment
                 }
             }
             cashFlow {
-                cashflowStatementHistoryQuarterly {
+                quarterly {
                     ...cashFlowDataFragment
                 }
-                cashflowStatementHistoryYearly {
+                yearly {
                     ...cashFlowDataFragment
                 }
             }
             incomeStatement {
-                incomeStatementHistoryQuarterly {
+                quarterly {
                     ...incomeStatementFragment
                 }
-                incomeStatementHistoryYearly {
+                yearly {
                     ...incomeStatementFragment
                 }
             }

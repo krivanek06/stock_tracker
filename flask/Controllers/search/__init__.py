@@ -69,14 +69,6 @@ def get_calendar_events_earnings():
         raise JsonError(status=500, error=ERROR_MESSAGE + 'get_calendar_events_earnings(), message: ' + str(e))
 
 
-@app.route('/search_symbol')
-def search_symbol():
-    try:
-        return json_response(data=Finhub.searchSymbol(request.args.get('symbol').upper()))
-    except Exception as e:
-        raise JsonError(status=500, error='Could not search any stock for symbol')
-
-
 @app.route('/search_all_symbols')
 def search_all_symbols():
     try:

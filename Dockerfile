@@ -1,18 +1,18 @@
-# Stage 1
+## Stage 1
 FROM node:14.16-alpine as node
 
-# ENV NODE_OPTIONS --max-old-space-size=8192
+## ENV NODE_OPTIONS --max-old-space-size=8192
 
 WORKDIR /app
 
-COPY ./client/package.json .
+#COPY ./client/package.json .
 
-RUN npm cache clean --force
-RUN npm install
+#RUN npm cache clean --force
+#RUN npm install
 
-COPY ./client/ .
+#COPY ./client/ .
 
-RUN npm run build
+#RUN npm run build
 
 
 # stage 2
@@ -24,6 +24,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d/
 
 # Copy angular static files
-COPY --from=node /app/www /usr/share/nginx/html
-# COPY --from=node /app/nginx.conf /etc/nginx/conf.d/default.conf
+#COPY --from=node /app/www /usr/share/nginx/html=
+COPY  nginx.conf /etc/nginx/conf.d/default.conf
+
 
