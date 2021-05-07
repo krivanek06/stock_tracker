@@ -160,4 +160,4 @@ def get_top_index_states():
 
 if __name__ == '__main__':
     print('Search controller app is running')
-    app.run()
+    app.run(threaded=True)
