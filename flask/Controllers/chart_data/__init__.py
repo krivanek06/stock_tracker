@@ -60,4 +60,4 @@ def getDataForStrategy():
 
 if __name__ == '__main__':
     print('Chart data controller app is running')
-    app.run()
+    app.run(threaded=True)

@@ -38,7 +38,7 @@ export const queryStockSummary = async (symbol: string): Promise<api.Summary> =>
     try {
         const upperSymbol = symbol.toUpperCase();
         const details = await queryStockDetails(upperSymbol);
-        console.log(`Summary for ${symbol}`);
+    
         if (!!details && !!details.summary) {
             details.summary.id = symbol;
             return details.summary;

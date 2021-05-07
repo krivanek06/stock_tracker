@@ -42,4 +42,4 @@ def getStockNews():
 
 if __name__ == '__main__':
     print('Fundamentals controller app is running')
-    app.run()
+    app.run(threaded=True)
