@@ -63,10 +63,8 @@ export abstract class TradingScreenUpdateBaseDirective implements OnInit, OnDest
 
     // websockets update view
     private updateScreen(): void {
-        // console.log('updateScreen');
         this.interval = setInterval(() => {
             if (this.cdr && !(this.cdr as ViewRef).destroyed) {
-                // console.log('bb');
                 this.calculateTotalPortfolio();
                 this.calculateDailyPortfolioChange();
                 this.cdr.detectChanges();
@@ -91,7 +89,7 @@ export abstract class TradingScreenUpdateBaseDirective implements OnInit, OnDest
     }
 
     private calculateTotalPortfolio() {
-        this.portfolioInvested = this.clonedHoldings.map(h => h.price * h.units).reduce((a, b) => a + b, 0);
+        this.portfolioInvested = this.clonedHoldings.map(h => h.summary.marketPrice * h.units).reduce((a, b) => a + b, 0);
     }
 
 }
