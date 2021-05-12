@@ -1,14 +1,13 @@
 import {Injectable} from '@angular/core';
 import {filter, map} from 'rxjs/operators';
 import {Apollo} from 'apollo-angular';
-import {Router} from '@angular/router';
 import auth from 'firebase';
 import firebase from 'firebase';
 import {AngularFireAuth} from '@angular/fire/auth';
-import UserCredential = firebase.auth.UserCredential;
 import {UserStorageService} from './storage/user-storage.service';
 import {AuthenticateUserGQL, RegisterUserGQL, StUserAuthenticationInput} from '../graphql-schema';
 import {LoginIUser, RegisterIUser} from '../model';
+import UserCredential = firebase.auth.UserCredential;
 
 @Injectable({
     providedIn: 'root'
@@ -17,7 +16,6 @@ export class AuthenticationService {
 
     constructor(private userStorageService: UserStorageService,
                 private apollo: Apollo,
-                private router: Router,
                 private authenticateUserGQL: AuthenticateUserGQL,
                 private registerUserGQL: RegisterUserGQL,
                 private afAuth: AngularFireAuth) {
@@ -46,10 +44,13 @@ export class AuthenticationService {
         this.userStorageService.setUser(null);
         await this.apollo.getClient().clearStore();
         await this.afAuth.signOut();
-        await this.router.navigate(['/login']);
     }
 
     private initUserIfExists(userId: string) {
+        this.afAuth.user.subscribe(u => {
+            this.userStorageService.setIsAuthenticating(!!u);
+        });
+
         this.authenticateUserGQL.watch({uid: userId}).valueChanges.pipe(
             filter(x => !!x.data),
             map(x => x.data.authenticateUser),
@@ -60,6 +61,7 @@ export class AuthenticationService {
                 this.router.navigate(['/menu/dashboard']);
             }*/
             this.userStorageService.setUser(user);
+            this.userStorageService.setIsAuthenticating(false);
         });
     }
 

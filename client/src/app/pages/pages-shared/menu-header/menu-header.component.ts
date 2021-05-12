@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
-import {GraphqlQueryService, Summary} from '@core';
+import {GraphqlQueryService, StUserPublicData, Summary, UserStorageService} from '@core';
 import {IonSearchbar} from '@ionic/angular';
 import {Observable} from 'rxjs';
 import {WatchlistFeatureEntryPointsFacadeService} from '@stock-watchlist-feature';
@@ -18,11 +18,17 @@ export class MenuHeaderComponent implements OnInit {
 
     loading = false;
 
+    user$: Observable<StUserPublicData>;
+    isAuthenticating$: Observable<boolean>;
+
     constructor(private firebaseSearchService: GraphqlQueryService,
+                private userStorageService: UserStorageService,
                 private watchlistFeatureEntryPointsFacadeService: WatchlistFeatureEntryPointsFacadeService) {
     }
 
     ngOnInit() {
+        this.user$ = this.userStorageService.getUser();
+        this.isAuthenticating$ = this.userStorageService.getIsAuthenticating();
     }
 
     searchSymbol(event: CustomEvent) {

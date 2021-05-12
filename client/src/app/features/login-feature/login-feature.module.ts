@@ -1,12 +1,12 @@
 import {NgModule} from '@angular/core';
-import {AuthenticationContainerComponent} from './containers';
+import {AuthenticationPopoverComponent} from './entry-points';
 import {LoginComponent, RegistrationComponent} from './components';
 import {SharedModule} from '@shared';
 
 
 @NgModule({
     declarations: [
-        AuthenticationContainerComponent,
+        AuthenticationPopoverComponent,
         RegistrationComponent,
         LoginComponent
     ],
@@ -14,7 +14,7 @@ import {SharedModule} from '@shared';
         SharedModule
     ],
     exports: [
-        AuthenticationContainerComponent,
+        AuthenticationPopoverComponent,
         RegistrationComponent,
         LoginComponent
     ]

@@ -52,4 +52,38 @@
     border-radius: 8px;
   }
 
+  .login-text {
+    padding: 7px;
+    margin-right: 34px;
+    margin-left: 20px;
+    font-size: 18px;
+    color: #25aedd;
+
+
+
+    &:after {
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: bottom;
+      -webkit-animation: ellipsis steps(8,end) 1500ms infinite;
+      animation: ellipsis steps(8,end) 1500ms infinite;
+      content: "\2026"; /* ascii code for the ellipsis character */
+      width: 0;
+      position: absolute;
+    }
+
+    @keyframes ellipsis {
+      to {
+        width: 40px;
+      }
+    }
+
+    @-webkit-keyframes ellipsis {
+      to {
+        width: 40px;
+      }
+    }
+
+
+  }
 }

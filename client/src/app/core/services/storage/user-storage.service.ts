@@ -9,6 +9,7 @@ import {map} from 'rxjs/operators';
 })
 export class UserStorageService {
     private user$: BehaviorSubject<StUserPublicData> = new BehaviorSubject<StUserPublicData>(null);
+    private authenticating$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     constructor() {
     }
@@ -41,7 +42,15 @@ export class UserStorageService {
         this.user$.next(user);
     }
 
+    getIsAuthenticating(): Observable<boolean> {
+        return this.authenticating$.asObservable();
+    }
+
+    setIsAuthenticating(isAuthentication: boolean) {
+        this.authenticating$.next(isAuthentication);
+    }
+
     getUserWatchlists(): Observable<Array<Maybe<{ __typename?: 'STStockWatchlist' } & StStockWatchlistFragmentFragment>> | null> {
-        return this.getUser().pipe(map(u => u.stockWatchlist));
+        return this.getUser().pipe(map(u => u?.stockWatchlist));
     }
 }

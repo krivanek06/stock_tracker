@@ -13,15 +13,37 @@
             </ion-item>
             <!-- avatar -->
             <div class="navigation-avatar">
-                <ng-container *ngIf="user">
+                <!-- logged in user -->
+                <ng-container *ngIf="user$ | async as user; else noUser">
                     <ion-avatar>
                         <ion-img [src]="user.photoURL"></ion-img>
                     </ion-avatar>
-                    <ion-label
-                            class="navigation-avatar-name st-font-1">{{ user.userPrivateData.displayName }}</ion-label>
-                    <ion-label class="navigation-avatar-name st-font-4 st-font-size-12">({{ user.nickName }})
+                    <ion-label class="navigation-avatar-name st-font-1">
+                        {{ user.userPrivateData.displayName }}
+                    </ion-label>
+                    <ion-label class="navigation-avatar-name st-font-4 st-font-size-12">
+                        ({{ user.nickName }})
                     </ion-label>
                 </ng-container>
+
+                <!-- no logged in user -->
+                <ng-template #noUser>
+                    <ion-thumbnail>
+                        <ion-skeleton-text [animated]="authenticating$ | async"></ion-skeleton-text>
+                    </ion-thumbnail>
+                    <ion-label>
+                        <ion-skeleton-text
+                                [animated]="authenticating$ | async"
+                                style="width: 80%">
+                        </ion-skeleton-text>
+                    </ion-label>
+                    <ion-label>
+                        <ion-skeleton-text
+                                [animated]="authenticating$ | async"
+                                style="width: 60%">
+                        </ion-skeleton-text>
+                    </ion-label>
+                </ng-template>
             </div>
 
             <!-- navigation main -->
@@ -56,6 +78,7 @@
                              class="navigation-rectangle-selected"></div>
                         <ion-item (click)="selectedNavigation = p"
                                   class="navigation"
+                                  [disabled]="p.disabled"
                                   routerDirection="root"
                                   [routerLink]="[p.url]"
                                   lines="none"
@@ -66,13 +89,24 @@
                         </ion-item>
                     </ng-container>
                 </ion-menu-toggle>
+
                 <!-- logout -->
-                <ion-menu-toggle auto-hide="false">
-                    <ion-item (click)="logout()" class="navigation" routerLink="/login">
+                <ion-menu-toggle auto-hide="false" *ngIf="user$ | async; else loginButton">
+                    <ion-item (click)="logout()" class="navigation" routerLink="/menu/market">
                         <ion-icon name="log-out-outline"></ion-icon>
                         <ion-label class="ion-margin-start">LogOut</ion-label>
                     </ion-item>
                 </ion-menu-toggle>
+
+                <!-- login -->
+                <ng-template #loginButton>
+                    <ion-menu-toggle auto-hide="false">
+                        <ion-item button (click)="showLoginModal()" class="navigation">
+                            <ion-icon name="log-in-outline"></ion-icon>
+                            <ion-label class="ion-margin-start">LogIn</ion-label>
+                        </ion-item>
+                    </ion-menu-toggle>
+                </ng-template>
             </ion-list>
         </ion-content>
     </ion-menu>
