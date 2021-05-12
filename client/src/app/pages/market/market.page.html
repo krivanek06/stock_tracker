@@ -12,8 +12,7 @@
             <ion-col size="12" size-lg="11" size-xl="10">
                 <ion-segment color="primary"
                              class="ion-justify-content-end ion-margin-bottom"
-                             [value]="segmentValue"
-                             (ionChange)="segmentChanged($event)">
+                             [(ngModel)]="segmentValue">
                     <ion-segment-button *ngFor="let path of MARKET_PAGE_PATH" [value]="path.value">
                         <ion-label>{{ path.name }}</ion-label>
                     </ion-segment-button>
@@ -24,7 +23,11 @@
         <!-- sub pages -->
         <ion-row class="ion-justify-content-center">
             <ion-col size="12" size-lg="11" size-xl="10">
-                <router-outlet></router-outlet>
+                <ng-container [ngSwitch]="segmentValue">
+                    <app-market-overview *ngSwitchCase="MARKET_PAGE_ENUM.overview"></app-market-overview>
+                    <app-market-daily-change *ngSwitchCase="MARKET_PAGE_ENUM.dailyChange"></app-market-daily-change>
+                    <app-market-crypto *ngSwitchCase="MARKET_PAGE_ENUM.crypto"></app-market-crypto>
+                </ng-container>
             </ion-col>
         </ion-row>
     </ion-grid>

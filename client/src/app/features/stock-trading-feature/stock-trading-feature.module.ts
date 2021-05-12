@@ -10,6 +10,7 @@ import {HoldingsAllocationChartComponent, HoldingsTableBodyItemComponent, Holdin
 import {SharedModule} from '@shared';
 import {TradeConfirmationPopOverComponent} from './entry-components';
 import {TradingFeatureFacadeService} from './services';
+import {PortfolioChangePipe} from './pipes';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import {TradingFeatureFacadeService} from './services';
         PortfolioChangeChartComponent,
         PortfolioGrowthChartComponent,
         PortfolioStateComponent,
-        HoldingsAllocationChartComponent
+        HoldingsAllocationChartComponent,
+        PortfolioChangePipe
     ],
     imports: [
         SharedModule

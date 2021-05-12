@@ -225,7 +225,8 @@
                                           [additionalClasses]="'st-height-100'"
                                           [applyLeftPadding]="false">
                             <app-gauge-chart
-                                    [tooltipName]="'Completed'"
+                                    [tooltipName]="'Target'"
+                                    [tooltipValue]="'$' + stockDetails.summary.oneyTargetEst + ' (' + (stockDetails.summary.targetEstOneyPercent | percent: '1.2') + ')'"
                                     [height]="125"
                                     [displayValue]="stockDetails.summary.targetEstOneyPercent | percent: '1.2'"
                                     [startingPoint]="0"
@@ -242,12 +243,10 @@
                             <app-gauge-chart
                                     [tooltipName]="'Cash to Debt'"
                                     [height]="125"
-                                    [displayValue]=" 1 / (   stockDetails.companyData.financialData.totalCash +
-                                stockDetails.companyData.financialData.totalDebt )
-                                * stockDetails.companyData.financialData.totalCash | percent: '1.2'"
+                                    [displayValue]=" 1 / stockDetails.companyData.financialData.totalDebt
+                                        * stockDetails.companyData.financialData.totalCash | percent: '1.2'"
                                     [startingPoint]="0"
-                                    [endingPoint]="stockDetails.companyData.financialData.totalCash +
-                                stockDetails.companyData.financialData.totalDebt "
+                                    [endingPoint]="stockDetails.companyData.financialData.totalDebt"
                                     [currentPoint]="stockDetails.companyData.financialData.totalCash">
                             </app-gauge-chart>
                         </app-generic-card>

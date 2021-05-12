@@ -127,20 +127,20 @@ export class MenuPage implements OnInit, OnDestroy {
                     disabled: false,
                     hidden: false
                 },
-                {
+                /*{
                     title: 'Groups',
                     url: '/menu/groups',
                     icon: 'people-outline',
                     disabled: false,
                     hidden: false
-                },
-                {
+                },*/
+                /*{
                     title: 'Ranking',
                     url: '/menu/ranking',
                     icon: 'medal-outline',
                     disabled: false,
                     hidden: false
-                },
+                },*/
                 {
                     title: 'Admin',
                     url: '/menu/admin',
@@ -148,13 +148,13 @@ export class MenuPage implements OnInit, OnDestroy {
                     disabled: false,
                     hidden: !user.userPrivateData.roles.includes(User_Roles_Enum.RoleAdmin)
                 },
-                {
+               /* {
                     title: 'About',
                     url: '/menu/about',
                     icon: 'help-circle-outline',
                     disabled: false,
                     hidden: false
-                },
+                },*/
             ];
         });
     }
