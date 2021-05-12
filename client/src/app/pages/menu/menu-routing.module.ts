@@ -25,6 +25,7 @@ const routes: Routes = [
             },
             {
                 path: 'trading',
+                canActivate: [AuthGuard],
                 loadChildren: () => import('../trading/trading.module').then(m => m.TradingPageModule)
             },
             {
@@ -33,6 +34,7 @@ const routes: Routes = [
             },
             {
                 path: 'ranking',
+                canActivate: [AuthGuard],
                 loadChildren: () => import('../ranking/ranking.module').then(m => m.RankingPageModule)
             },
             {

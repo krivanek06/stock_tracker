@@ -2,7 +2,9 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {AuthenticationService, componentDestroyed, StUserPublicData, User_Roles_Enum, UserStorageService} from '@core';
-import {MenuController} from '@ionic/angular';
+import {MenuController, PopoverController} from '@ionic/angular';
+import {Observable} from 'rxjs';
+import {AuthenticationPopoverComponent} from '@login-feature';
 
 
 interface MenuPageInterface {
@@ -19,14 +21,17 @@ interface MenuPageInterface {
     styleUrls: ['./menu.page.scss'],
 })
 export class MenuPage implements OnInit, OnDestroy {
+    user$: Observable<StUserPublicData>;
+    authenticating$: Observable<boolean>;
+
     showOverlay = false;
-    user: StUserPublicData;
     selectedNavigation: MenuPageInterface;
     mainPages: MenuPageInterface[] = [];
     otherPages: MenuPageInterface[] = [];
 
     constructor(private userStorageService: UserStorageService,
-                private loginFeatureService: AuthenticationService,
+                private authenticationService: AuthenticationService,
+                private popoverController: PopoverController,
                 private router: Router,
                 private menu: MenuController) {
     }
@@ -36,6 +41,9 @@ export class MenuPage implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.user$ = this.userStorageService.getUser();
+        this.authenticating$ = this.userStorageService.getIsAuthenticating();
+
         this.initPages();
         this.watchRouterUrlChange();
     }
@@ -48,8 +56,18 @@ export class MenuPage implements OnInit, OnDestroy {
         this.showOverlay = event;
     }
 
+    async showLoginModal() {
+        const modal = await this.popoverController.create({
+            component: AuthenticationPopoverComponent,
+            cssClass: 'custom-popover',
+            translucent: true,
+        });
+
+        return await modal.present();
+    }
+
     async logout() {
-        await this.loginFeatureService.logout();
+        await this.authenticationService.logout();
     }
 
     private watchRouterUrlChange() {
@@ -71,22 +89,21 @@ export class MenuPage implements OnInit, OnDestroy {
 
     private initPages() {
         this.userStorageService.getUser().pipe(
-            filter(x => !!x && !!x.userPrivateData),
+            /*filter(x => !!x && !!x.userPrivateData),*/
             distinctUntilChanged((prev, curr) =>
-                prev.nickName === curr.nickName &&       // changed nickname
-                prev.photoURL === curr.photoURL &&    // changed photo
-                prev.userPrivateData.finnhubKey === curr.userPrivateData.finnhubKey &&
-                prev.userPrivateData.roles.length === curr.userPrivateData.roles.length
+                prev?.nickName === curr?.nickName &&       // changed nickname
+                prev?.photoURL === curr?.photoURL &&    // changed photo
+                prev?.userPrivateData.finnhubKey === curr?.userPrivateData?.finnhubKey &&
+                prev?.userPrivateData.roles.length === curr?.userPrivateData?.roles?.length
             ),
             takeUntil(componentDestroyed(this))
         ).subscribe(user => {
-            this.user = user;
             this.mainPages = [
                 {
                     title: 'Dashboard',
                     url: '/menu/dashboard',
                     icon: 'grid-outline',
-                    disabled: false,
+                    disabled: !user,
                     hidden: false
                 },
                 {
@@ -100,14 +117,14 @@ export class MenuPage implements OnInit, OnDestroy {
                     title: 'Watchlist',
                     url: '/menu/watchlist',
                     icon: 'stats-chart-outline',
-                    disabled: false,
+                    disabled: !user,
                     hidden: false
                 },
                 {
                     title: 'Trading',
                     url: '/menu/trading',
                     icon: 'analytics-outline',
-                    disabled: !user.userPrivateData.finnhubKey,
+                    disabled: !user || !user.userPrivateData.finnhubKey,
                     hidden: false
                 },
                 {
@@ -124,7 +141,7 @@ export class MenuPage implements OnInit, OnDestroy {
                     title: 'Account',
                     url: '/menu/account',
                     icon: 'person-outline',
-                    disabled: false,
+                    disabled: !user,
                     hidden: false
                 },
                 /*{
@@ -145,16 +162,16 @@ export class MenuPage implements OnInit, OnDestroy {
                     title: 'Admin',
                     url: '/menu/admin',
                     icon: 'finger-print-outline',
-                    disabled: false,
-                    hidden: !user.userPrivateData.roles.includes(User_Roles_Enum.RoleAdmin)
+                    disabled: !user,
+                    hidden: !user || !user.userPrivateData.roles.includes(User_Roles_Enum.RoleAdmin)
                 },
-               /* {
-                    title: 'About',
-                    url: '/menu/about',
-                    icon: 'help-circle-outline',
-                    disabled: false,
-                    hidden: false
-                },*/
+                /* {
+                     title: 'About',
+                     url: '/menu/about',
+                     icon: 'help-circle-outline',
+                     disabled: false,
+                     hidden: false
+                 },*/
             ];
         });
     }
