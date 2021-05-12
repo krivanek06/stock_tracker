@@ -1,6 +1,6 @@
 from flask import Flask, request
 from flask_json import FlaskJSON, JsonError, json_response
-from flask_cors import CORS
+#from flask_cors import CORS
 
 from ExternalAPI.YahooFinance.YahooFinanceRequesterApi import YahooFinanceRequesterApi
 from ExternalAPI.QuandlApi import QuandlApi
@@ -10,7 +10,7 @@ from Services.TradingStrategiesService import TradingStrategiesService
 
 app = Flask(__name__)
 FlaskJSON(app)
-CORS(app, resources={r"*": {"origins": "*"}})
+#CORS(app, resources={r"*": {"origins": "*"}})
 
 ERROR_MESSAGE = 'Error in Chart_data controller, method: '
 
@@ -57,7 +57,8 @@ def getDataForStrategy():
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'getDataForStrategy(), message: ' + str(e))
 
-
+'''
 if __name__ == '__main__':
     print('Chart data controller app is running')
     app.run()
+'''
