@@ -76,9 +76,9 @@ const resolveGroups = async (stUserGroups: api.STUserGroupsIdentification): Prom
 export const userResolvers = {
     STUserPublicData: {
         groups: async (stUserPublicData: api.STUserPublicData) => await resolveGroups(stUserPublicData.groups),
-        stockWatchlist: async (stUserPublicData: api.STUserPublicData) => await resolveStockWatchlists(stUserPublicData.uid),
-        userPrivateData: async (stUserPublicData: api.STUserPublicData) => await resolveUserPrivateData(stUserPublicData.uid),
-        userHistoricalData: async (stUserPublicData: api.STUserPublicData) => await resolveUserHistoricalData(stUserPublicData.uid)
+        stockWatchlist: async (stUserPublicData: api.STUserPublicData) => await resolveStockWatchlists(stUserPublicData.id),
+        userPrivateData: async (stUserPublicData: api.STUserPublicData) => await resolveUserPrivateData(stUserPublicData.id),
+        userHistoricalData: async (stUserPublicData: api.STUserPublicData) => await resolveUserHistoricalData(stUserPublicData.id)
     }
 };
 

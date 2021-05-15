@@ -17,7 +17,7 @@ export enum USER_STATUS {
 }
 
 export interface STUserIndentification {
-    uid: string;
+    id: string;
     nickName: string;
     locale: string;
     photoURL: string;
@@ -53,7 +53,7 @@ export interface STPortfolioChange {
 
 
 export interface STUserPrivateData {
-    uid: string;
+    id: string;
     finnhubKey: string;
     tradingEnabledDate: string;
     roles?: string[];

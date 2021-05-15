@@ -1,3 +1,5 @@
+
+import { queryStockLivePrice } from './../st-stocks/st-stock.query';
 import { getCurrentIOSDate, datesAreOnSameDay } from './../st-shared/st-shared.functions';
 import {ApolloError} from 'apollo-server';
 import * as api from 'stock-tracker-common-interfaces';
@@ -11,16 +13,21 @@ import {queryUserPublicData} from "../user/user.query";
 import { PerformedTransaction } from './st-transaction.model.local';
 
 
-export const performTransaction = async (transactionInput: api.STTransactionInput): Promise<PerformedTransaction> => {
+export const performTransaction = async (transactionInput: api.STTransactionInput): Promise<api.STTransaction> => {
     try {
         const user = await queryUserPublicData(transactionInput.userId) as api.STUserPublicData;
 
         const isBuy = transactionInput.operation === api.STTransactionOperationEnum.BUY;
-        const {holdings, lastTransaction } = isBuy ? await performBuyTransaction(user, transactionInput) : await performSellTransaction(user, transactionInput);
+        const livePrice = await queryStockLivePrice(transactionInput.symbol);
+
+        transactionInput.price = livePrice.price; // get stock live price from api
+
+        const {holdings, lastTransaction } = isBuy ? await performBuyTransaction(user, transactionInput) : 
+                                                     await performSellTransaction(user, transactionInput);
 
         await updatePortfolioChange(user, transactionInput, holdings);
 
-        return {holdings, lastTransaction };
+        return lastTransaction;
     } catch (error) {
         throw new ApolloError(error);
     }
@@ -47,7 +54,7 @@ const performBuyTransaction = async (user: api.STUserPublicData, transactionInpu
         const holdings = addTransactionToUserHolding(user, lastTransaction);
 
         // update user's holdings
-        admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(user.uid).set({
+        admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(user.id).set({
             holdings,
             transactionsSnippets: [lastTransaction, ...user.transactionsSnippets].slice(0, 10),
             portfolioCash: user.portfolioCash - totalPrice // decrease cash
@@ -84,7 +91,7 @@ const performSellTransaction = async (user: api.STUserPublicData, transactionInp
         const holdings = substractTransactionFromUserHolding(user, lastTransaction);
 
         // update user's holdings
-        admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(user.uid).set({
+        admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(user.id).set({
             holdings,
             transactionsSnippets: [lastTransaction, ...user.transactionsSnippets].slice(0, 10),
             portfolioCash: user.portfolioCash  + totalPrice // increase cash
@@ -96,9 +103,9 @@ const performSellTransaction = async (user: api.STUserPublicData, transactionInp
     }
 };
 
-const updatePortfolioChange = async ({uid, portfolioCash}: api.STUserPublicData, transaction: api.STTransactionInput, userHoldings: api.STTransaction[]) => {
+const updatePortfolioChange = async ({id, portfolioCash}: api.STUserPublicData, transaction: api.STTransactionInput, userHoldings: api.STTransaction[]) => {
      const userHistoricaldataRef = await admin.firestore().collection('users')
-            .doc(uid).collection('more_information').doc('historical_data');
+            .doc(id).collection('more_information').doc('historical_data');
 
     const {portfolioChange} = (await userHistoricaldataRef.get()).data() as api.STUserHistoricalData;
 

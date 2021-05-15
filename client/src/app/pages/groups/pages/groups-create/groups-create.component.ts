@@ -46,7 +46,7 @@ export class GroupsCreateComponent implements OnInit {
     }
 
     invitationRemove(userPublicData: StUserPublicData) {
-        this.invitationSent = this.invitationSent.filter(x => x.uid !== userPublicData.uid);
+        this.invitationSent = this.invitationSent.filter(x => x.id !== userPublicData.id);
     }
 
     private initForm() {

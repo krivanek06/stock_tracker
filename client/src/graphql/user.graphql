@@ -1,5 +1,5 @@
 fragment STUserIndetificationFragment on STUserIndetification {
-    uid
+    id
     nickName
     locale
     photoURL
@@ -7,7 +7,7 @@ fragment STUserIndetificationFragment on STUserIndetification {
 }
 
 fragment STUserPublicDataFragment on STUserPublicData {
-    uid
+    id
     nickName
     locale
     photoURL
@@ -30,9 +30,9 @@ fragment STUserPublicDataFragment on STUserPublicData {
 
 }
 
-query AuthenticateUser($uid: String!) {
-    authenticateUser(uid: $uid) {
-        uid
+query AuthenticateUser($id: String!) {
+    authenticateUser(id: $id) {
+        id
         nickName
         locale
         photoURL
@@ -46,10 +46,10 @@ query AuthenticateUser($uid: String!) {
             ...STTransactionFragment
         }
         holdings {
-            ...STTransactionFragment,
-            summary{
+            ...STTransactionFragment
+            summary {
                 ...StockSummaryFragment
-            },
+            }
         }
         groups {
             groupInvitationSent {
@@ -96,6 +96,7 @@ query AuthenticateUser($uid: String!) {
         }
     }
 }
+
 
 
 query QueryUserPublicDataByUsername($usernamePrefix: String!) {

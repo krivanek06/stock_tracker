@@ -11,7 +11,7 @@ export const createSTUserPrivateData = (user: api.STUserAuthenticationInput): ap
         finnhubKey: null,
         tradingEnabledDate: null,
         geographic: null,
-        uid: user.uid,
+        id: user.uid,
         nicknameLastChange: null,
         roles: [],
         status: api.USER_STATUS.PENDING
@@ -22,7 +22,7 @@ export const createSTUserPrivateData = (user: api.STUserAuthenticationInput): ap
 export const createSTUserPublicData = (user: api.STUserAuthenticationInput): api.STUserPublicData => {
     const stUserPublicData: api.STUserPublicData = {
         nickName: user.email.split('@')[0],
-        uid: user.uid,
+        id: user.uid,
         activity: api.USER_ACTIVITY.SIGNED_IN,
         locale: user.locale || null,
         photoURL: user.photoURL || defaultImage,

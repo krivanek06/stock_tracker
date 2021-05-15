@@ -1,17 +1,23 @@
+import { Summary } from './stockDetails.model';
 import { STUserIndentification } from './user.model';
 
+export interface STSymbolPrice {
+    price: number;
+    symbol: string;
+}
 
 export interface STTransaction {
     transactionId?: string;
     user?: STUserIndentification;
     symbol: string;
     symbol_logo_url: string;
-    price: number;
+    price?: number;
     return?: number;
     returnChange?: number;
     units: number;
     operation: STTransactionOperationEnum;
     date: string;
+    summary?: Summary;
 
 }
 

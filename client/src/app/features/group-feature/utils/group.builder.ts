@@ -14,7 +14,7 @@ export const createSTGroupAllDataInput = (ownerId: string,
         invitationReceived: [],
         managers: [],
         members: [],
-        invitationSent: [...invitationSent.map(x => x.uid)]
+        invitationSent: [...invitationSent.map(x => x.id)]
     };
     return result;
 };
@@ -25,11 +25,11 @@ export const createSTGroupAllDataInputFromGroup = (form: GroupForm, group: StGro
         description: form.description,
         imagePath: form.imagePath,
         imageUrl: form.imageUrl,
-        owner: group.owner.useridentification.uid,
-        invitationReceived: [...group.invitationReceived.map(x => x.useridentification.uid)],
-        managers: [...group.managers.map(x => x.useridentification.uid)],
-        members: [...group.members.map(x => x.useridentification.uid)],
-        invitationSent: [...group.invitationSent.map(x => x.useridentification.uid)]
+        owner: group.owner.useridentification.id,
+        invitationReceived: [...group.invitationReceived.map(x => x.useridentification.id)],
+        managers: [...group.managers.map(x => x.useridentification.id)],
+        members: [...group.members.map(x => x.useridentification.id)],
+        invitationSent: [...group.invitationSent.map(x => x.useridentification.id)]
     };
     return result;
 };
@@ -44,7 +44,7 @@ export const createNewStGroupUser = (userPublic: StUserPublicData): StGroupUser 
             locale: userPublic.locale,
             nickName: userPublic.nickName,
             photoURL: userPublic.photoURL,
-            uid: userPublic.uid
+            id: userPublic.id
         },
         sinceDate: new Date().toISOString(),
         portfolio: {

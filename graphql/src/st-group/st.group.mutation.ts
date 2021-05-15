@@ -65,17 +65,17 @@ export const editGroup = async (groupInput: api.STGroupAllDataInput): Promise<ap
         group.lastEditedDate = getCurrentIOSDate();
 
         // delete uses which are not in groupInput
-        group.members = group.members.filter(m => groupInput.members.includes(m.userIdentification.uid));
-        group.managers = group.managers.filter(m => groupInput.managers.includes(m.userIdentification.uid));
-        group.invitationSent = group.invitationSent.filter(m => groupInput.invitationSent.includes(m.userIdentification.uid));
-        group.invitationReceived = group.invitationReceived.filter(m => groupInput.invitationReceived.includes(m.userIdentification.uid));
+        group.members = group.members.filter(m => groupInput.members.includes(m.userIdentification.id));
+        group.managers = group.managers.filter(m => groupInput.managers.includes(m.userIdentification.id));
+        group.invitationSent = group.invitationSent.filter(m => groupInput.invitationSent.includes(m.userIdentification.id));
+        group.invitationReceived = group.invitationReceived.filter(m => groupInput.invitationReceived.includes(m.userIdentification.id));
 
         // delete users in groupInput which are already in the group, do not load them again from firestore
         // right outer join groupInput
-        const groupMembersIds = group.members.map(m => m.userIdentification.uid);
-        const groupManagersIds = group.managers.map(m => m.userIdentification.uid);
-        const groupInvitationSentIds = group.invitationSent.map(m => m.userIdentification.uid);
-        const groupInvitationReceivedIds = group.invitationReceived.map(m => m.userIdentification.uid);
+        const groupMembersIds = group.members.map(m => m.userIdentification.id);
+        const groupManagersIds = group.managers.map(m => m.userIdentification.id);
+        const groupInvitationSentIds = group.invitationSent.map(m => m.userIdentification.id);
+        const groupInvitationReceivedIds = group.invitationReceived.map(m => m.userIdentification.id);
 
         // load STUserInformation for users which are not already in group
         const newMembers = [...new Set(groupInput.members)].filter(mId => !groupMembersIds.includes(mId)).map(m => queryUserPublicData(m));
@@ -123,7 +123,7 @@ export const editGroup = async (groupInput: api.STGroupAllDataInput): Promise<ap
 export const deleteGroup = async (uid: string, groupId: string): Promise<boolean> => {
     try {
         const group = await querySTGroupAllDataByGroupId(groupId);
-        if (group.owner.userIdentification.uid !== uid) {
+        if (group.owner.userIdentification.id !== uid) {
             throw new ApolloError("Only owner can delete a group");
         }
 
@@ -144,16 +144,16 @@ export const deleteGroup = async (uid: string, groupId: string): Promise<boolean
 export const answerReceivedGroupInvitation = async (uid: string, groupId: string, accept: Boolean): Promise<api.STGroupPartialData> => {
     try {
         const group = await querySTGroupAllDataByGroupId(groupId);
-        if (!group.invitationSent.map(x => x.userIdentification.uid).includes(uid)) {
+        if (!group.invitationSent.map(x => x.userIdentification.id).includes(uid)) {
             throw new ApolloError(`You have no invitation from group ${group.name}`);
         }
 
         // add as member
         if (accept) {
-            group.members = [...group.members, group.invitationSent.find(x => x.userIdentification.uid === uid)];
+            group.members = [...group.members, group.invitationSent.find(x => x.userIdentification.id === uid)];
         }
         // remove invitation
-        group.invitationSent = group.invitationSent.filter(x => x.userIdentification.uid !== uid);
+        group.invitationSent = group.invitationSent.filter(x => x.userIdentification.id !== uid);
 
         await admin.firestore()
             .collection(`${api.ST_GROUP_COLLECTION_GROUPS}`)
@@ -178,18 +178,18 @@ export const answerReceivedGroupInvitation = async (uid: string, groupId: string
 export const toggleInvitationRequestToGroup = async (uid: string, groupId: string): Promise<api.STGroupPartialData> => {
     try {
         const group = await querySTGroupAllDataByGroupId(groupId);
-        if (group.members.map(x => x.userIdentification.uid).includes(uid)) {
+        if (group.members.map(x => x.userIdentification.id).includes(uid)) {
             throw new ApolloError(`Cannot send / cancel invitation, you are already a member in group ${group.name}`);
         }
 
-        if (group.invitationSent.map(x => x.userIdentification.uid).includes(uid)) {
+        if (group.invitationSent.map(x => x.userIdentification.id).includes(uid)) {
             throw new ApolloError(`You are already invited from group ${group.name}`);
         }
 
         let user;
-        if (group.invitationReceived.map(x => x.userIdentification.uid).includes(uid)) {
+        if (group.invitationReceived.map(x => x.userIdentification.id).includes(uid)) {
             // already sent invitation -> cancel it
-            group.invitationReceived = group.invitationReceived.filter(x => x.userIdentification.uid !== uid);
+            group.invitationReceived = group.invitationReceived.filter(x => x.userIdentification.id !== uid);
         } else {
             // sent invitation request to group
             user = await queryUserPublicData(uid);
@@ -213,15 +213,15 @@ export const toggleInvitationRequestToGroup = async (uid: string, groupId: strin
 export const leaveGroup = async (uid: string, groupId: string): Promise<boolean> => {
     try {
         const group = await querySTGroupAllDataByGroupId(groupId);
-        if (!group.members.map(x => x.userIdentification.uid).includes(uid) && !group.managers.map(x => x.userIdentification.uid).includes(uid)) {
+        if (!group.members.map(x => x.userIdentification.id).includes(uid) && !group.managers.map(x => x.userIdentification.id).includes(uid)) {
             throw new ApolloError("You cannot leave a group you are not a member or manager");
         }
-        if (group.owner.userIdentification.uid === groupId) {
+        if (group.owner.userIdentification.id === groupId) {
             throw new ApolloError("Owner can only delete whole group");
         }
 
-        const filteredManagers = group.managers.filter(x => x.userIdentification.uid !== uid);
-        const filteredMembers = group.members.filter(x => x.userIdentification.uid !== uid);
+        const filteredManagers = group.managers.filter(x => x.userIdentification.id !== uid);
+        const filteredMembers = group.members.filter(x => x.userIdentification.id !== uid);
 
         await admin.firestore()
             .collection(`${api.ST_GROUP_COLLECTION_GROUPS}`)

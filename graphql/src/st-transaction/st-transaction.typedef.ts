@@ -16,17 +16,11 @@ export const STTransactionTypeDefs = gql`
         operation: STTransactionOperationEnum!
         summary: Summary
     }
-
-    type PerformedTransaction {
-        holdings: [STTransaction]!
-        lastTransaction: STTransaction!
-    }
     
     #INPUTS
     input STTransactionInput {
         symbol: String!
         symbol_logo_url: String!
-        price: Float!
         userId: String!
         units: Float!
         operation: STTransactionOperationEnum!

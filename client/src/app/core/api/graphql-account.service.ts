@@ -40,7 +40,7 @@ export class GraphqlAccountService {
                 const data = store.readQuery<AuthenticateUserQuery>({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.userStorageService.user.uid
+                        id: this.userStorageService.user.id
                     }
                 });
 
@@ -50,7 +50,7 @@ export class GraphqlAccountService {
                 store.writeQuery({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.userStorageService.user.uid
+                        id: this.userStorageService.user.id
                     },
                     data: {
                         ...data,
@@ -72,13 +72,13 @@ export class GraphqlAccountService {
 
     resetUserAccount(): Observable<FetchResult<ResetUserAccountMutation>> {
         return this.resetUserAccountGQL.mutate({
-            userId: this.userStorageService.user.uid
+            userId: this.userStorageService.user.id
         }, {
             update: (store: DataProxy, {data: {resetUserAccount}}) => {
                 const data = store.readQuery<AuthenticateUserQuery>({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.userStorageService.user.uid
+                        id: this.userStorageService.user.id
                     }
                 });
 
@@ -86,7 +86,7 @@ export class GraphqlAccountService {
                 store.writeQuery({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.userStorageService.user.uid
+                        id: this.userStorageService.user.id
                     },
                     data: {
                         ...data,

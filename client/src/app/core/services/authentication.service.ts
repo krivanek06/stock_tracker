@@ -47,22 +47,23 @@ export class AuthenticationService {
     }
 
     private initUserIfExists(userId: string) {
+        console.log(`Init user ${userId}`);
         this.afAuth.user.subscribe(u => {
             this.userStorageService.setIsAuthenticating(!!u);
         });
 
-        this.authenticateUserGQL.watch({uid: userId}).valueChanges.pipe(
+        this.authenticateUserGQL.watch({id: userId}, {
+            nextFetchPolicy: 'cache-only'
+        }).valueChanges.pipe(
             filter(x => !!x.data),
             map(x => x.data.authenticateUser),
             filter(x => !!x),
         ).subscribe(user => {
-            console.log('user exists');
-            /*if (user && !this.user$.getValue()) {
-                this.router.navigate(['/menu/dashboard']);
-            }*/
+            console.log('updating user');
             this.userStorageService.setUser(user);
             this.userStorageService.setIsAuthenticating(false);
         });
+
     }
 
     // ToDO create interceptor with token

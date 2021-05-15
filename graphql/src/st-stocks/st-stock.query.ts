@@ -37,14 +37,13 @@ export const queryStockDetails = async (symbol: string): Promise<api.StockDetail
 export const queryStockSummary = async (symbol: string): Promise<api.Summary> => {
     try {
         const upperSymbol = symbol.toUpperCase();
-        const details = await queryStockDetails(upperSymbol);
         console.log(`Summary for ${symbol}`);
-        if (!!details && !!details.summary) {
-            details.summary.id = symbol;
-            return details.summary;
-        }
 
-        return null
+        const stockDetailsDocs = await admin.firestore().collection(`${api.ST_STOCK_DATA_COLLECTION}`).doc(upperSymbol).get();
+        const wrapper = stockDetailsDocs.data() as api.StockDetailsWrapper | undefined;
+        const details = !!wrapper ? wrapper.details : await queryStockDetails(upperSymbol);
+        
+        return details?.summary;
     } catch (error) {
         throw new ApolloError(error);
     }
@@ -156,6 +155,17 @@ export const queryMarketDailyOverview = async (): Promise<api.STMarketDailyOverv
     }
 };
 
+
+export const queryStockLivePrice = async (symbol: string): Promise<api.STSymbolPrice> => {
+    try{
+        const upperSymbol = symbol.toUpperCase();
+        const resolverPromise = await global.fetch(`${stockDataAPI}/chart_data/live_price?symbol=${upperSymbol}`);
+        const response = await resolverPromise.json() as api.STSymbolPrice;
+        return response;
+    } catch (error) {
+        throw new ApolloError(error);
+    }
+}
 
 // ------------------------------------------------
 // PRIVATE FUNCTIONS
