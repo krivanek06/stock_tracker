@@ -8,7 +8,7 @@ export const convertSTUserPublicDataToSTUserIndentification = (publicData: api.S
         locale: publicData.locale,
         nickName: publicData.nickName,
         photoURL: publicData.photoURL,
-        uid: publicData.uid
+        id: publicData.id
     };
     return identification;
 }

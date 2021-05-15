@@ -26,6 +26,14 @@ def getStockHistoricalDataWithPeriod():
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'getStockHistoricalDataWithPeriod(), message: ' + str(e))
 
+@app.route('/live_price')
+def getStockLivePrice():
+    try:
+        symbol = request.args.get('symbol')
+        return json_response(price=YahooFinanceRequesterApi().get_live_price(symbol), symbol=symbol)
+    except Exception as e:
+        return JsonError(status=500, error=ERROR_MESSAGE + 'getStockLivePrice(), message: ' + str(e))
+
 
 @app.route('/quandl')
 def getAllDataForkey():

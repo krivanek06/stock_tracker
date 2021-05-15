@@ -10,7 +10,7 @@ export const createTransactionBuy = (user: api.STUserPublicData, transactionInpu
         units: transactionInput.units,
         date: getCurrentIOSDate(),
         user: {
-            uid: user.uid,
+            id: user.id,
             photoURL: user.photoURL,
             nickName: user.nickName,
             locale: user.locale,
@@ -30,7 +30,7 @@ export const createTransactionSell = (user: api.STUserPublicData, transaction: a
         units: transactionInput.units,
         date: getCurrentIOSDate(),
         user: {
-            uid: user.uid,
+            id: user.id,
             photoURL: user.photoURL,
             nickName: user.nickName,
             locale: user.locale,

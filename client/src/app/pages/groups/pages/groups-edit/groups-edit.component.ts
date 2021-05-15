@@ -74,9 +74,9 @@ export class GroupsEditComponent implements OnInit, OnDestroy {
 
     sendInvitation(invitedUser: StUserPublicData) {
         // do not send invitation twice
-        const invitedUIDs = this.group.invitationSent.map(u => u.useridentification.uid);
-        const memberUIDs = this.group.invitationSent.map(u => u.useridentification.uid);
-        if (invitedUIDs.includes(invitedUser.uid) || memberUIDs.includes(invitedUser.uid)) {
+        const invitedUIDs = this.group.invitationSent.map(u => u.useridentification.id);
+        const memberUIDs = this.group.invitationSent.map(u => u.useridentification.id);
+        if (invitedUIDs.includes(invitedUser.id) || memberUIDs.includes(invitedUser.id)) {
             return;
         }
         this.group.invitationSent = [...this.group.invitationSent, createNewStGroupUser(invitedUser)];
@@ -87,13 +87,13 @@ export class GroupsEditComponent implements OnInit, OnDestroy {
             return;
         }
         if (status === User_Status_In_Group.InvitationSent) {
-            this.group.invitationSent = this.group.invitationSent.filter(groupUser => groupUser.useridentification.uid !== selectedUser.useridentification.uid);
+            this.group.invitationSent = this.group.invitationSent.filter(groupUser => groupUser.useridentification.id !== selectedUser.useridentification.id);
         } else if (status === User_Status_In_Group.InvitationReceived) {
-            this.group.invitationReceived = this.group.invitationReceived.filter(groupUser => groupUser.useridentification.uid !== selectedUser.useridentification.uid);
+            this.group.invitationReceived = this.group.invitationReceived.filter(groupUser => groupUser.useridentification.id !== selectedUser.useridentification.id);
         } else if (status === User_Status_In_Group.Member) {
-            this.group.members = this.group.members.filter(groupUser => groupUser.useridentification.uid !== selectedUser.useridentification.uid);
+            this.group.members = this.group.members.filter(groupUser => groupUser.useridentification.id !== selectedUser.useridentification.id);
         } else if (status === User_Status_In_Group.Manager) {
-            this.group.managers = this.group.managers.filter(groupUser => groupUser.useridentification.uid !== selectedUser.useridentification.uid);
+            this.group.managers = this.group.managers.filter(groupUser => groupUser.useridentification.id !== selectedUser.useridentification.id);
         }
     }
 

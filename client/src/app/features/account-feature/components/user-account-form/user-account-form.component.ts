@@ -62,7 +62,7 @@ export class UserAccountFormComponent implements OnChanges, OnInit {
 
     @Confirmable('Please confirm editing account information')
     async submit() {
-        this.submitClickedEmitter.emit(convertUserAccountFormToStUserEditDataInput(this.user.uid, this.form.getRawValue()));
+        this.submitClickedEmitter.emit(convertUserAccountFormToStUserEditDataInput(this.user.id, this.form.getRawValue()));
         this.cancel();
     }
 

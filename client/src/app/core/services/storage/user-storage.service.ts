@@ -25,7 +25,7 @@ export class UserStorageService {
     get userIdentification(): StUserIndetification {
         const user = this.user;
         return {
-            uid: user.uid,
+            id: user.id,
             accountCreatedDate: user.accountCreatedDate,
             nickName: user.nickName,
             photoURL: user.photoURL,

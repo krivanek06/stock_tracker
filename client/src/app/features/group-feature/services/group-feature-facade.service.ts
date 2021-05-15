@@ -21,7 +21,7 @@ export class GroupFeatureFacadeService {
 
     @Confirmable('Please confirm creating new group')
     async createGroup(form: GroupForm, invitationSent: StUserPublicData[] = []): Promise<boolean> {
-        const groupInput = createSTGroupAllDataInput(this.userStorageService.user.uid, form, invitationSent);
+        const groupInput = createSTGroupAllDataInput(this.userStorageService.user.id, form, invitationSent);
         this.graphqlGroupService.createGroup(groupInput).subscribe(() =>
             DialogService.presentToast(`Group ${groupInput.name} has been created`));
 

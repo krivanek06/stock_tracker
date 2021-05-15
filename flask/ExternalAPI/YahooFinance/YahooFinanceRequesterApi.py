@@ -88,13 +88,11 @@ class YahooFinanceRequesterApi:
         return {'analysis_all': analysis_all}
 
     def get_live_price(self, ticker):
-        data = get('https://query1.finance.yahoo.com/v8/finance/chart/' + ticker + '?interval=1d').json()
-        res = data['chart']['result']
-        result = {
-            'marketPrice': res[0]['meta'].get('regularMarketPrice') if res is not None else None,
-            'previousClose': res[0]['meta'].get('chartPreviousClose') if res is not None else None
-        }
-        return result
+        try:
+            data = get(f'https://query1.finance.yahoo.com/v8/finance/chart/{ticker}').json()
+            return data['chart']['result'][0]['meta']['regularMarketPrice']
+        except:
+            return None
 
     def get_chart_data(self, symbol, period, onlyClosed=False):
         params = {'range': period, 'interval': getIntervalFromPeriod(period)[0]}

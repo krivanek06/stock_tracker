@@ -11,7 +11,7 @@ export const userTypeDefs = gql`
     }
 
     type STUserIndetification {
-        uid: String!
+        id: String!
         nickName: String!
         locale: String
         photoURL: String!
@@ -19,7 +19,7 @@ export const userTypeDefs = gql`
     }
 
     type STUserPublicData {
-        uid: String!
+        id: String!
         nickName: String!
         locale: String
         photoURL: String
@@ -38,7 +38,7 @@ export const userTypeDefs = gql`
     }
 
     type STUserPrivateData {
-        uid: String
+        id: String
         finnhubKey: String
         tradingEnabledDate: String
         roles: [String]
@@ -88,7 +88,7 @@ export const userTypeDefs = gql`
     }
 
     input STUserIndetificationInformationInput {
-        uid: String!
+        id: String!
         nickName: String!
         locale: String
         photoURL: String!
