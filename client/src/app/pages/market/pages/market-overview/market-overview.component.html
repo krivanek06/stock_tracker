@@ -61,7 +61,7 @@
         <!-- Treasury yield -->
         <app-generic-list [title]="'Treasury yield'"></app-generic-list>
         <ion-row>
-            <ng-container *ngFor="let data of marketOverview.treasury_yield">
+            <ng-container *ngFor="let data of marketOverview.treasury_yield | slice: 3">
                 <ion-col size="12" size-sm="6" size-md="4">
                     <app-generic-chart
                             (expandEmitter)="expand(data.documentKey)"
@@ -78,7 +78,7 @@
         <!-- Corporate bond market -->
         <app-generic-list [title]="'Corporate bond market'"></app-generic-list>
         <ion-row>
-            <ng-container *ngFor="let data of marketOverview.bonds; let i = index">
+            <ng-container *ngFor="let data of marketOverview.bonds | slice: 0: 4; let i = index">
                 <ion-col size="12" size-sm="6" [sizeMd]="i > 3 ? 4 : 3" [sizeLg]="i > 3 ? 4 : 3">
                     <app-generic-chart
                             (expandEmitter)="expand(data.documentKey)"
@@ -95,7 +95,7 @@
         <!-- Inflation rate -->
         <app-generic-list [title]="'Inflation rate'"></app-generic-list>
         <ion-row>
-            <ng-container *ngFor="let data of marketOverview.inflation_rate">
+            <ng-container *ngFor="let data of marketOverview.inflation_rate | slice: 0: 3">
                 <ion-col size="12" size-sm="6" size-md="4">
                     <app-generic-chart
                             (expandEmitter)="expand(data.documentKey)"
