@@ -14,6 +14,9 @@ class QuandlService:
     '''
 
     def getMarketOverview(self):
+        manager = FileManagerService()
+        if manager.getJsonFile('quandl_temp'):
+            return manager.getJsonFile('quandl_temp')
         t1 = self._getMarketOverviewSP500()
         t2 = self._getBonds()
         t3 = self._getTreasuryYield()
@@ -22,6 +25,7 @@ class QuandlService:
         t6 = self._getInflationRate()
         t7 = self._getBitcoin()
         res = {**t1, **t2, **t3, **t4, **t5, **t6, **t7}
+        manager.saveFile('quandl_temp', res)
         return res
 
     def _getBitcoin(self):
