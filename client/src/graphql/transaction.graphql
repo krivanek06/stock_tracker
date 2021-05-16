@@ -18,6 +18,9 @@ fragment STTransactionFragment on STTransaction {
 mutation PerformTransaction($transactionInput: STTransactionInput!) {
     performTransaction(transactionInput: $transactionInput) {
         ...STTransactionFragment
+        summary {
+            ...StockSummaryFragment
+        }
     }
 }
 

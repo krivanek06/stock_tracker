@@ -3,7 +3,7 @@ import {
     AuthenticateUserDocument,
     AuthenticateUserQuery,
     PerformTransactionGQL,
-    PerformTransactionMutation,
+    PerformTransactionMutation, StTransaction,
     StTransactionInput,
     StTransactionOperationEnum
 } from '../graphql-schema';
@@ -37,13 +37,21 @@ export class GraphqlTradingService {
 
                 const updatedHoldingIndex = user.authenticateUser.holdings.findIndex(h => h.symbol === performTransaction.symbol);
 
-                let holdings = [];
+                let holdings: StTransaction[] = [];
                 let addCash = 0;
                 if (transactionInput.operation === StTransactionOperationEnum.Buy) {
                     addCash = -(performTransaction.price * performTransaction.units);
-                    holdings = user.authenticateUser.holdings.map(h => {
-                        return h.symbol !== performTransaction.symbol ? h : {...h, units: h.units + performTransaction.units};
-                    });
+
+                    if (user.authenticateUser.holdings.map(h => h.symbol).includes(performTransaction.symbol)) {
+                        // symbol already exists in my portfolio
+                        holdings = user.authenticateUser.holdings.map(h => {
+                            return h.symbol !== performTransaction.symbol ? h : {...h, units: h.units + performTransaction.units};
+                        });
+                    } else {
+                        // new symbol in my portfolio
+                        holdings = [...user.authenticateUser.holdings, performTransaction];
+                    }
+
                 } else {
                     addCash = performTransaction.price * performTransaction.units;
 

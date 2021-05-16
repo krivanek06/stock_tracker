@@ -111,5 +111,6 @@ const updateMarketOverviewCollection = async(oldOverview: api.STMarketDailyOverv
 
 const getStockHistoricalClosedData = async (symbol: string, period: string): Promise<api.STStockHistoricalClosedDataWithPeriod> => {
     const dataPromise = await fetch(`${stockDataAPI}/chart_data/historical_data?symbol=${symbol}&period=${period}&onlyClosed=True`);
-    return await dataPromise.json() || {livePrice: 0, price: [], period, symbol};
+    const result =  await dataPromise.json();
+    return result || {livePrice: 0, price: [], period, symbol};
 };

@@ -2453,6 +2453,12 @@ export type PerformTransactionMutation = (
     & {
     performTransaction?: Maybe<(
         { __typename?: 'STTransaction' }
+        & {
+        summary?: Maybe<(
+            { __typename?: 'Summary' }
+            & StockSummaryFragmentFragment
+            )>
+    }
         & StTransactionFragmentFragment
         )>
 }
@@ -4248,9 +4254,13 @@ export const PerformTransactionDocument = gql`
     mutation PerformTransaction($transactionInput: STTransactionInput!) {
         performTransaction(transactionInput: $transactionInput) {
             ...STTransactionFragment
+            summary {
+                ...StockSummaryFragment
+            }
         }
     }
-${StTransactionFragmentFragmentDoc}`;
+    ${StTransactionFragmentFragmentDoc}
+${StockSummaryFragmentFragmentDoc}`;
 
 @Injectable({
     providedIn: 'root'
