@@ -51,7 +51,7 @@ export class WatchlistPage extends ComponentScreenUpdateBaseDirective implements
         this.userStorageService.getUserWatchlists().pipe(
             takeUntil(componentDestroyed(this))
         ).subscribe(watchlists => {
-            this.stockWatchlists = cloneDeep(watchlists);
+            this.stockWatchlists = cloneDeep(watchlists) || [];
         });
     }
 

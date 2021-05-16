@@ -538,7 +538,7 @@ export type Mutation = {
     deleteWatchlist?: Maybe<Scalars['Boolean']>;
     addStockIntoStockWatchlist?: Maybe<Summary>;
     removeStockFromStockWatchlist?: Maybe<Scalars['Boolean']>;
-    performTransaction?: Maybe<PerformedTransaction>;
+    performTransaction?: Maybe<StTransaction>;
 };
 
 
@@ -618,7 +618,7 @@ export type MutationRemoveStockFromStockWatchlistArgs = {
 
 
 export type MutationPerformTransactionArgs = {
-    transactionInput?: Maybe<StTransactionInput>;
+    transactionInput: StTransactionInput;
 };
 
 export type NewsArticle = {
@@ -636,12 +636,6 @@ export type PageViews = {
     longTermTrend?: Maybe<Scalars['String']>;
     midTermTrend?: Maybe<Scalars['String']>;
     shortTermTrend?: Maybe<Scalars['String']>;
-};
-
-export type PerformedTransaction = {
-    __typename?: 'PerformedTransaction';
-    holdings: Array<Maybe<StTransaction>>;
-    lastTransaction: StTransaction;
 };
 
 export type Query = {
@@ -667,7 +661,7 @@ export type Query = {
 
 
 export type QueryQueryUserDataArgs = {
-    uid: Scalars['String'];
+    id: Scalars['String'];
 };
 
 
@@ -677,7 +671,7 @@ export type QueryQueryUserPublicDataByUsernameArgs = {
 
 
 export type QueryAuthenticateUserArgs = {
-    uid: Scalars['String'];
+    id: Scalars['String'];
 };
 
 
@@ -934,14 +928,7 @@ export type StMarketOverviewPartialData = {
     __typename?: 'STMarketOverviewPartialData';
     sp500?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
     bonds?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
-    social_security?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
-    consumer_price_index_states?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
-    consumer_us_price_index?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
-    producer_us_price_index?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
     inflation_rate?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
-    employment?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
-    manufacturing?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
-    exports?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
     misery_index?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
     treasury_yield?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
     investor_sentiment?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
@@ -1138,7 +1125,6 @@ export type StTransaction = {
 export type StTransactionInput = {
     symbol: Scalars['String'];
     symbol_logo_url: Scalars['String'];
-    price: Scalars['Float'];
     userId: Scalars['String'];
     units: Scalars['Float'];
     operation: StTransactionOperationEnum;
@@ -1183,7 +1169,7 @@ export type StUserHistoricalData = {
 
 export type StUserIndetification = {
     __typename?: 'STUserIndetification';
-    uid: Scalars['String'];
+    id: Scalars['String'];
     nickName: Scalars['String'];
     locale?: Maybe<Scalars['String']>;
     photoURL: Scalars['String'];
@@ -1191,7 +1177,7 @@ export type StUserIndetification = {
 };
 
 export type StUserIndetificationInformationInput = {
-    uid: Scalars['String'];
+    id: Scalars['String'];
     nickName: Scalars['String'];
     locale?: Maybe<Scalars['String']>;
     photoURL: Scalars['String'];
@@ -1200,7 +1186,7 @@ export type StUserIndetificationInformationInput = {
 
 export type StUserPrivateData = {
     __typename?: 'STUserPrivateData';
-    uid?: Maybe<Scalars['String']>;
+    id?: Maybe<Scalars['String']>;
     finnhubKey?: Maybe<Scalars['String']>;
     tradingEnabledDate?: Maybe<Scalars['String']>;
     roles?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -1214,7 +1200,7 @@ export type StUserPrivateData = {
 
 export type StUserPublicData = {
     __typename?: 'STUserPublicData';
-    uid: Scalars['String'];
+    id: Scalars['String'];
     nickName: Scalars['String'];
     locale?: Maybe<Scalars['String']>;
     photoURL?: Maybe<Scalars['String']>;
@@ -1571,28 +1557,7 @@ export type QueryStMarketHistoryOverviewQuery = (
             )>>>, bonds?: Maybe<Array<Maybe<(
             { __typename?: 'STMarketChartDataResultCombined' }
             & StMarketChartDataResultCombinedFragmentFragment
-            )>>>, social_security?: Maybe<Array<Maybe<(
-            { __typename?: 'STMarketChartDataResultCombined' }
-            & StMarketChartDataResultCombinedFragmentFragment
-            )>>>, consumer_price_index_states?: Maybe<Array<Maybe<(
-            { __typename?: 'STMarketChartDataResultCombined' }
-            & StMarketChartDataResultCombinedFragmentFragment
-            )>>>, consumer_us_price_index?: Maybe<Array<Maybe<(
-            { __typename?: 'STMarketChartDataResultCombined' }
-            & StMarketChartDataResultCombinedFragmentFragment
-            )>>>, producer_us_price_index?: Maybe<Array<Maybe<(
-            { __typename?: 'STMarketChartDataResultCombined' }
-            & StMarketChartDataResultCombinedFragmentFragment
             )>>>, inflation_rate?: Maybe<Array<Maybe<(
-            { __typename?: 'STMarketChartDataResultCombined' }
-            & StMarketChartDataResultCombinedFragmentFragment
-            )>>>, employment?: Maybe<Array<Maybe<(
-            { __typename?: 'STMarketChartDataResultCombined' }
-            & StMarketChartDataResultCombinedFragmentFragment
-            )>>>, manufacturing?: Maybe<Array<Maybe<(
-            { __typename?: 'STMarketChartDataResultCombined' }
-            & StMarketChartDataResultCombinedFragmentFragment
-            )>>>, exports?: Maybe<Array<Maybe<(
             { __typename?: 'STMarketChartDataResultCombined' }
             & StMarketChartDataResultCombinedFragmentFragment
             )>>>, misery_index?: Maybe<Array<Maybe<(
@@ -2487,28 +2452,20 @@ export type PerformTransactionMutation = (
     { __typename?: 'Mutation' }
     & {
     performTransaction?: Maybe<(
-        { __typename?: 'PerformedTransaction' }
-        & {
-        holdings: Array<Maybe<(
-            { __typename?: 'STTransaction' }
-            & StTransactionFragmentFragment
-            )>>, lastTransaction: (
-            { __typename?: 'STTransaction' }
-            & StTransactionFragmentFragment
-            )
-    }
+        { __typename?: 'STTransaction' }
+        & StTransactionFragmentFragment
         )>
 }
     );
 
 export type StUserIndetificationFragmentFragment = (
     { __typename?: 'STUserIndetification' }
-    & Pick<StUserIndetification, 'uid' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate'>
+    & Pick<StUserIndetification, 'id' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate'>
     );
 
 export type StUserPublicDataFragmentFragment = (
     { __typename?: 'STUserPublicData' }
-    & Pick<StUserPublicData, 'uid' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate' | 'lastSignInDate' | 'portfolioCash' | 'activity'>
+    & Pick<StUserPublicData, 'id' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate' | 'lastSignInDate' | 'portfolioCash' | 'activity'>
     & {
     rank?: Maybe<(
         { __typename?: 'STRank' }
@@ -2527,7 +2484,7 @@ export type StUserPublicDataFragmentFragment = (
     );
 
 export type AuthenticateUserQueryVariables = Exact<{
-    uid: Scalars['String'];
+    id: Scalars['String'];
 }>;
 
 
@@ -2536,7 +2493,7 @@ export type AuthenticateUserQuery = (
     & {
     authenticateUser?: Maybe<(
         { __typename?: 'STUserPublicData' }
-        & Pick<StUserPublicData, 'uid' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate' | 'lastSignInDate' | 'portfolioCash' | 'activity'>
+        & Pick<StUserPublicData, 'id' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate' | 'lastSignInDate' | 'portfolioCash' | 'activity'>
         & {
         rank?: Maybe<(
             { __typename?: 'STRank' }
@@ -2728,7 +2685,7 @@ export const StPortfolioFragmentFragmentDoc = gql`
 `;
 export const StUserIndetificationFragmentFragmentDoc = gql`
     fragment STUserIndetificationFragment on STUserIndetification {
-        uid
+        id
         nickName
         locale
         photoURL
@@ -3552,7 +3509,7 @@ export const StPortfolioChangeFragmentFragmentDoc = gql`
 ${StPortfolioFragmentFragmentDoc}`;
 export const StUserPublicDataFragmentFragmentDoc = gql`
     fragment STUserPublicDataFragment on STUserPublicData {
-        uid
+        id
         nickName
         locale
         photoURL
@@ -3804,28 +3761,7 @@ export const QueryStMarketHistoryOverviewDocument = gql`
             bonds {
                 ...STMarketChartDataResultCombinedFragment
             }
-            social_security {
-                ...STMarketChartDataResultCombinedFragment
-            }
-            consumer_price_index_states {
-                ...STMarketChartDataResultCombinedFragment
-            }
-            consumer_us_price_index {
-                ...STMarketChartDataResultCombinedFragment
-            }
-            producer_us_price_index {
-                ...STMarketChartDataResultCombinedFragment
-            }
             inflation_rate {
-                ...STMarketChartDataResultCombinedFragment
-            }
-            employment {
-                ...STMarketChartDataResultCombinedFragment
-            }
-            manufacturing {
-                ...STMarketChartDataResultCombinedFragment
-            }
-            exports {
                 ...STMarketChartDataResultCombinedFragment
             }
             misery_index {
@@ -4311,12 +4247,7 @@ export class QueryStTradingStrategyDataGQL extends Apollo.Query<QueryStTradingSt
 export const PerformTransactionDocument = gql`
     mutation PerformTransaction($transactionInput: STTransactionInput!) {
         performTransaction(transactionInput: $transactionInput) {
-            holdings {
-                ...STTransactionFragment
-            }
-            lastTransaction {
-                ...STTransactionFragment
-            }
+            ...STTransactionFragment
         }
     }
 ${StTransactionFragmentFragmentDoc}`;
@@ -4333,9 +4264,9 @@ export class PerformTransactionGQL extends Apollo.Mutation<PerformTransactionMut
 }
 
 export const AuthenticateUserDocument = gql`
-    query AuthenticateUser($uid: String!) {
-        authenticateUser(uid: $uid) {
-            uid
+    query AuthenticateUser($id: String!) {
+        authenticateUser(id: $id) {
+            id
             nickName
             locale
             photoURL

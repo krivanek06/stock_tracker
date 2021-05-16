@@ -7,10 +7,10 @@ const routes: Routes = [
         redirectTo: 'login',
         pathMatch: 'full'
     },
-    {
+    /*{
         path: 'login',
         loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule)
-    },
+    },*/
     {
         path: 'menu',
         loadChildren: () => import('./pages/menu/menu.module').then(m => m.MenuPageModule)

@@ -14,7 +14,8 @@ const routes: Routes = [
     {
         path: '',
         component: MarketPage,
-        children: [
+        pathMatch: 'full',
+        /*children: [
             {
                 path: '',
                 redirectTo: 'daily-change',
@@ -32,7 +33,7 @@ const routes: Routes = [
                 path: 'crypto',
                 component: MarketCryptoComponent
             }
-        ]
+        ]*/
     }
 ];
 

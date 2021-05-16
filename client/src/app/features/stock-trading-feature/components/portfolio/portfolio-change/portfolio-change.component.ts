@@ -1,7 +1,9 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {StPortfolio, StPortfolioChange, StTransaction} from '@core';
+import {StPortfolio, StPortfolioChange} from '@core';
 import {TradingChangeModel} from '../../../models';
 import {marketValueChange} from '@shared';
+import * as moment from 'moment';
+
 
 @Component({
     selector: 'app-portfolio-change',
@@ -13,54 +15,30 @@ import {marketValueChange} from '@shared';
     ]
 })
 export class PortfolioChangeComponent implements OnInit {
-    @Input() stPortfolioChanges: StPortfolioChange[];
-    @Input() stTransactions: StTransaction[];
+    @Input() stPortfolioChanges: StPortfolioChange[] = [];
+    @Input() balance: number;
     @Input() daily: TradingChangeModel;
 
-    weeklyChange: TradingChangeModel;
-    monthlyChange: TradingChangeModel;
-    quarterly: TradingChangeModel;
-    yearlyChange: TradingChangeModel;
+    weeklyPortfolio: StPortfolio;
+    monthlyPortfolio: StPortfolio;
+    quarterlyPortfolio: StPortfolio;
+    yearlyPortfolio: StPortfolio;
 
     constructor() {
     }
-
 
     ngOnInit() {
         this.filterPortfolioHistoryChanges();
     }
 
     private filterPortfolioHistoryChanges() {
-        if (!this.stPortfolioChanges) {
-            return;
-        }
+        const today: moment.Moment = moment();
+        const portfolioChanges = this.stPortfolioChanges.slice().reverse(); // create copy in strict mode
 
-        const numberOfData = this.stPortfolioChanges.length; // [oldest....newest]
-        /*if (numberOfData >= 0) {
-            this.weeklyChange = {
-                change: this.stPortfolioHistory[numberOfData - 1].portfolioWeeklyChange,
-                growth: this.stPortfolioHistory[numberOfData - 1].portfolioWeeklyGrowth
-            };
-        }
-        if (numberOfData >= 4) {
-            this.monthlyChange = {
-                change: this.stPortfolioHistory[numberOfData - 4].portfolioWeeklyChange,
-                growth: this.stPortfolioHistory[numberOfData - 4].portfolioWeeklyGrowth
-            };
-        }
-        if (numberOfData >= 12) {
-            this.quarterly = {
-                change: this.stPortfolioHistory[numberOfData - 12].portfolioWeeklyChange,
-                growth: this.stPortfolioHistory[numberOfData - 12].portfolioWeeklyGrowth
-            };
-        }
-        if (numberOfData >= 52) {
-            this.yearlyChange = {
-                change: this.stPortfolioHistory[numberOfData - 52].portfolioWeeklyChange,
-                growth: this.stPortfolioHistory[numberOfData - 52].portfolioWeeklyGrowth
-            };
-        }*/
-
+        this.weeklyPortfolio = portfolioChanges.find(change => today.diff(moment(change.date), 'days') > 7)?.portfolio;
+        this.monthlyPortfolio = portfolioChanges.find(change => today.diff(moment(change.date), 'months') >= 1)?.portfolio;
+        this.quarterlyPortfolio = portfolioChanges.find(change => today.diff(moment(change.date), 'months') >= 4)?.portfolio;
+        this.yearlyPortfolio = portfolioChanges.find(change => today.diff(moment(change.date), 'years') >= 1)?.portfolio;
     }
 
 }

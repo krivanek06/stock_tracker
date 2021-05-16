@@ -17,8 +17,9 @@ export class SymbolLookupModalComponent implements OnInit {
     showAddToWatchlistOption = true;
     isSymbolInWatchlist = false;
 
-    user: StUserPublicData;
+    //user: StUserPublicData;
     stockSummary$: Observable<Summary>;
+    user$: Observable<StUserPublicData>;
 
     constructor(private navParams: NavParams,
                 private symbolStorageService: SymbolStorageService,
@@ -33,6 +34,7 @@ export class SymbolLookupModalComponent implements OnInit {
         this.showAddToWatchlistOption = this.navParams.get('showAddToWatchlistOption');
 
         this.stockSummary$ = this.symbolStorageService.getStockSummary(this.symbolIdentification.symbol);
+        this.user$ = this.userStorageService.getUser();
         this.checkIfSymbolIsInWatchlist();  // checked if opened symbol is in my watchlist
     }
 

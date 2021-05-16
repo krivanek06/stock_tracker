@@ -21,7 +21,7 @@ export class WatchlistModificationContainerComponent implements OnInit {
     changeName(watchlistNewName: string, watchlist: StStockWatchlist) {
         const input: StStockWatchInputlistIdentifier = {
             id: watchlist.id,
-            userId: this.userStorageService.user.uid,
+            userId: this.userStorageService.user.id,
             additionalData: watchlistNewName
         };
         this.watchlistService.renameWatchlist(input);
@@ -30,7 +30,7 @@ export class WatchlistModificationContainerComponent implements OnInit {
     deleteWatchlist(watchlist: StStockWatchlist) {
         const input: StStockWatchInputlistIdentifier = {
             id: watchlist.id,
-            userId: this.userStorageService.user.uid,
+            userId: this.userStorageService.user.id,
             additionalData: watchlist.name
         };
         this.watchlistService.deleteWatchlist(input);

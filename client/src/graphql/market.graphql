@@ -52,7 +52,6 @@ fragment STMarketTopTableSymbolDataFragment on STMarketTopTableSymbolData {
 
 # -----------------------------------------
 # QUERY
-
 query QuerySTMarketHistoryOverview {
     querySTMarketHistoryOverview {
         sp500 {
@@ -61,28 +60,7 @@ query QuerySTMarketHistoryOverview {
         bonds {
             ...STMarketChartDataResultCombinedFragment
         }
-        social_security {
-            ...STMarketChartDataResultCombinedFragment
-        }
-        consumer_price_index_states {
-            ...STMarketChartDataResultCombinedFragment
-        }
-        consumer_us_price_index {
-            ...STMarketChartDataResultCombinedFragment
-        }
-        producer_us_price_index {
-            ...STMarketChartDataResultCombinedFragment
-        }
         inflation_rate {
-            ...STMarketChartDataResultCombinedFragment
-        }
-        employment {
-            ...STMarketChartDataResultCombinedFragment
-        }
-        manufacturing {
-            ...STMarketChartDataResultCombinedFragment
-        }
-        exports {
             ...STMarketChartDataResultCombinedFragment
         }
         misery_index {

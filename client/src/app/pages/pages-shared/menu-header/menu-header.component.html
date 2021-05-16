@@ -38,9 +38,14 @@
         </ion-item-group>
 
         <!-- notifications -->
-        <ion-button slot="end" fill="clear">
+        <ion-button slot="end" fill="clear" *ngIf="user$ | async as user; else showLogin">
             <ion-icon name="notifications"></ion-icon>
             <ion-label>3</ion-label>
         </ion-button>
+
+        <!-- logging in -->
+        <ng-template #showLogin>
+            <ion-text *ngIf="isAuthenticating$ | async" class="login-text">Logging in</ion-text>
+        </ng-template>
     </div>
 </ion-header>

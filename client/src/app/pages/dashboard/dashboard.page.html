@@ -17,7 +17,8 @@
         <app-dashboard-portfolio-change
                 [daily]="daily"
                 [stPortfolioChanges]="user.userHistoricalData.portfolioChange"
-                [stTransactions]="clonedHoldings">
+                [portfolioCash]="user.portfolioCash"
+                [portfolioInvested]="portfolioInvested">
         </app-dashboard-portfolio-change>
 
         <!-- portfolio change charts -->

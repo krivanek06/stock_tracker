@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 
 import * as Highcharts from 'highcharts/highstock';
-//import HighchartsMore from 'highcharts/highcharts-more';
+import HighchartsMore from 'highcharts/highcharts-more';
 import HighchartsSolidGauge from 'highcharts/modules/solid-gauge';
 
-//HighchartsMore(Highcharts);
+HighchartsMore(Highcharts);
 HighchartsSolidGauge(Highcharts);
 
 
@@ -21,6 +21,7 @@ export class GaugeChartComponent implements OnInit, OnChanges {
     @Input() displayValue: any;
     @Input() height = 350;
     @Input() tooltipName = 'Current value';
+    @Input() tooltipValue = '';
 
 
     // chart options
@@ -86,7 +87,8 @@ export class GaugeChartComponent implements OnInit, OnChanges {
                 },
                 shared: true,
                 formatter: (tooltip) => {
-                    return `<span style="color: #008F88; font-weight: bold">${this.tooltipName}</span> : <b>${this.displayValue}</b>`;
+                    const display = this.tooltipValue || this.displayValue;
+                    return `<span style="color: #008F88; font-weight: bold">${this.tooltipName}</span> : <b>${display}</b>`;
                 }
             },
 
