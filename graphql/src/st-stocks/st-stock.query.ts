@@ -3,11 +3,7 @@ import {ApolloError} from 'apollo-server';
 import * as api from 'stock-tracker-common-interfaces';
 import * as admin from "firebase-admin";
 import * as moment from 'moment';
-import {getCurrentIOSDate, stRandomSlice} from "../st-shared/st-shared.functions";
-import {tmpSuggestionSymbols} from "./st-stock.model";
-import {getStockHistoricalClosedData} from "./st-stock.fetch";
-import {getStMarketTopTablesLocal} from "../later_removable";
-
+import {getCurrentIOSDate} from "../st-shared/st-shared.functions";
 
 // check if details already exists in firestore, else fetch from api and save
 export const queryStockDetails = async (symbol: string): Promise<api.StockDetails> => {
@@ -100,54 +96,7 @@ export const queryMarketDailyOverview = async (): Promise<api.STMarketDailyOverv
             .doc(api.ST_SHARED_ENUM.MARKET_DAILY_OVERVIEW)
             .get();
 
-        // const oneDayTimestamp = 1000/*ms*/ * 60/*s*/ * 60/*min*/ * 24/*h*/;
-        const today = new Date();
-        let dailyInfoData = await dailyInfoDoc.data() as api.STMarketDailyOverview;
-
-        console.time(); // TODO DELETE
-
-        // update suggestions
-        if (!dailyInfoData) { //  || new Date(dailyInfoData.lastUpdate).getDay() !== today.getDay()
-            const randomSymbols = stRandomSlice(tmpSuggestionSymbols, 8);
-
-            const randomSummaries = await Promise.all(randomSymbols.map(x => queryStockSummary(x)));
-            const randomHistoricalData = await Promise.all(randomSymbols.map(x => getStockHistoricalClosedData(x, '1d')));
-
-            const suggestions: api.STStockSuggestion[] = randomSymbols.map(x => {
-                const result: api.STStockSuggestion = {
-                    summary: randomSummaries.find(s => s.symbol === x),
-                    historicalData: randomHistoricalData.find(s => s.symbol === x)
-                };
-                return result;
-            });
-
-            // may return empty array because cannot make too much request on yahoo finance
-            const resultFromApi = await getStMarketTopTablesLocal();
-            dailyInfoData = {
-                news: resultFromApi.news.length > 0 ? resultFromApi.news : dailyInfoData.news,
-                events: resultFromApi.events.length > 0 ? resultFromApi.events : dailyInfoData.events,
-                earnings: resultFromApi.earnings.length > 0 ? resultFromApi.earnings : dailyInfoData.earnings,
-                top_crypto: resultFromApi.top_crypto.length > 0 ? resultFromApi.top_crypto : dailyInfoData.top_crypto,
-                stocks_undervalued_large_caps: resultFromApi.stocks_undervalued_large_caps.length > 0 ? resultFromApi.stocks_undervalued_large_caps : dailyInfoData.stocks_undervalued_large_caps,
-                stocks_undervalued_growth_stocks: resultFromApi.stocks_undervalued_growth_stocks.length > 0 ? resultFromApi.stocks_undervalued_growth_stocks : dailyInfoData.stocks_undervalued_growth_stocks,
-                stocks_growth_technology_stocks: resultFromApi.stocks_growth_technology_stocks.length > 0 ? resultFromApi.stocks_growth_technology_stocks : dailyInfoData.stocks_growth_technology_stocks,
-                stocks_day_losers: resultFromApi.stocks_day_losers.length > 0 ? resultFromApi.stocks_day_losers : dailyInfoData.stocks_day_losers,
-                stocks_day_gainers: resultFromApi.stocks_day_gainers.length > 0 ? resultFromApi.stocks_day_gainers : dailyInfoData.stocks_day_gainers,
-                stocks_day_active: resultFromApi.stocks_day_active.length > 0 ? resultFromApi.stocks_day_active : dailyInfoData.stocks_day_active,
-                stocks_aggressive_small_caps: resultFromApi.stocks_aggressive_small_caps.length > 0 ? resultFromApi.stocks_aggressive_small_caps : dailyInfoData.stocks_aggressive_small_caps,
-                stocks_small_cap_gainers: resultFromApi.stocks_small_cap_gainers.length > 0 ? resultFromApi.stocks_small_cap_gainers : dailyInfoData.stocks_small_cap_gainers,
-                stock_suggestions: suggestions,
-                lastUpdate: getCurrentIOSDate()
-            };
-
-            // save updated data
-            await admin.firestore()
-                .collection(api.ST_SHARED_ENUM.ST_COLLECTION)
-                .doc(api.ST_SHARED_ENUM.MARKET_DAILY_OVERVIEW)
-                .set(dailyInfoData, {merge: true});
-        }
-
-        console.timeEnd(); // TODO DELETE
+        const dailyInfoData = dailyInfoDoc.data() as api.STMarketDailyOverview;
 
         return dailyInfoData;
     } catch (error) {
