@@ -928,14 +928,7 @@ export type StMarketOverviewPartialData = {
     __typename?: 'STMarketOverviewPartialData';
     sp500?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
     bonds?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
-    social_security?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
-    consumer_price_index_states?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
-    consumer_us_price_index?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
-    producer_us_price_index?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
     inflation_rate?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
-    employment?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
-    manufacturing?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
-    exports?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
     misery_index?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
     treasury_yield?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
     investor_sentiment?: Maybe<Array<Maybe<StMarketChartDataResultCombined>>>;
@@ -1564,28 +1557,7 @@ export type QueryStMarketHistoryOverviewQuery = (
             )>>>, bonds?: Maybe<Array<Maybe<(
             { __typename?: 'STMarketChartDataResultCombined' }
             & StMarketChartDataResultCombinedFragmentFragment
-            )>>>, social_security?: Maybe<Array<Maybe<(
-            { __typename?: 'STMarketChartDataResultCombined' }
-            & StMarketChartDataResultCombinedFragmentFragment
-            )>>>, consumer_price_index_states?: Maybe<Array<Maybe<(
-            { __typename?: 'STMarketChartDataResultCombined' }
-            & StMarketChartDataResultCombinedFragmentFragment
-            )>>>, consumer_us_price_index?: Maybe<Array<Maybe<(
-            { __typename?: 'STMarketChartDataResultCombined' }
-            & StMarketChartDataResultCombinedFragmentFragment
-            )>>>, producer_us_price_index?: Maybe<Array<Maybe<(
-            { __typename?: 'STMarketChartDataResultCombined' }
-            & StMarketChartDataResultCombinedFragmentFragment
             )>>>, inflation_rate?: Maybe<Array<Maybe<(
-            { __typename?: 'STMarketChartDataResultCombined' }
-            & StMarketChartDataResultCombinedFragmentFragment
-            )>>>, employment?: Maybe<Array<Maybe<(
-            { __typename?: 'STMarketChartDataResultCombined' }
-            & StMarketChartDataResultCombinedFragmentFragment
-            )>>>, manufacturing?: Maybe<Array<Maybe<(
-            { __typename?: 'STMarketChartDataResultCombined' }
-            & StMarketChartDataResultCombinedFragmentFragment
-            )>>>, exports?: Maybe<Array<Maybe<(
             { __typename?: 'STMarketChartDataResultCombined' }
             & StMarketChartDataResultCombinedFragmentFragment
             )>>>, misery_index?: Maybe<Array<Maybe<(
@@ -3789,28 +3761,7 @@ export const QueryStMarketHistoryOverviewDocument = gql`
             bonds {
                 ...STMarketChartDataResultCombinedFragment
             }
-            social_security {
-                ...STMarketChartDataResultCombinedFragment
-            }
-            consumer_price_index_states {
-                ...STMarketChartDataResultCombinedFragment
-            }
-            consumer_us_price_index {
-                ...STMarketChartDataResultCombinedFragment
-            }
-            producer_us_price_index {
-                ...STMarketChartDataResultCombinedFragment
-            }
             inflation_rate {
-                ...STMarketChartDataResultCombinedFragment
-            }
-            employment {
-                ...STMarketChartDataResultCombinedFragment
-            }
-            manufacturing {
-                ...STMarketChartDataResultCombinedFragment
-            }
-            exports {
                 ...STMarketChartDataResultCombinedFragment
             }
             misery_index {

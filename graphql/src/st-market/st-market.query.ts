@@ -1,68 +1,36 @@
-import {ApolloError} from "apollo-server";
+import { ApolloError } from "apollo-server";
 import * as admin from "firebase-admin";
 import * as api from 'stock-tracker-common-interfaces';
-import {stockDataAPI} from "../environment";
-import {getCurrentIOSDate} from "../st-shared/st-shared.functions";
-import {convertToSTMarketChartDataResultCombined} from "./st-market.functions";
-import {getStMarketAllCategoriesLocal, searchStMarketDataLocal} from "../later_removable";
+import { stockDataAPI } from "../environment";
+import { convertToSTMarketChartDataResultCombined } from "./st-market.functions";
 
 export const querySTMarketHistoryOverview = async (): Promise<api.STMarketHistoryOverview> => {
     try {
-        console.time(); // TODO DELETE
         // check if already saved
         const dataDoc = await admin.firestore()
             .collection(api.ST_SHARED_ENUM.ST_COLLECTION)
             .doc(api.ST_SHARED_ENUM.MARKET_HISTORY_OVERVIEW)
             .get();
 
-        // DELETE PREVIOUS DATA
-        /*const docs = await admin.firestore().collection('quandl').get();
-        console.log(`start delete ${docs.docs.length}`);
-        for await (const d of docs.docs){
-            await d.ref.delete();
-        }
-        console.log('deleted quandl');*/
 
-        let docData = dataDoc.data() as api.STMarketHistoryOverview;
-
+        const docData = dataDoc.data() as api.STMarketHistoryOverview;
         // not exist, fetch from API
-        if (!docData) {
-            docData = {};
-            const categories = await getStMarketAllCategoriesLocal(true);
-
-            const resolvedPromises = await Promise.all(categories.categories.map(c => getSTMarketDatasetKeyCategory(c)));
-            // UNCOMMENT ONLY WHEN INIT DATA INTO DB
-            /*const resolvedPromises = [];
-            for await (const c of categories.categories) {
-                resolvedPromises.push(await getSTMarketDatasetKeyCategory(c));
-            }*/
-
-            resolvedPromises.forEach(promise => {
-                docData[promise.key] = promise.result;
-            });
-            docData['lastUpdate'] = getCurrentIOSDate();
-
-            // save
-            admin.firestore()
-                .collection(api.ST_SHARED_ENUM.ST_COLLECTION)
-                .doc(api.ST_SHARED_ENUM.MARKET_HISTORY_OVERVIEW)
-                .set(docData);
-
-        }
+       /* if (!docData) {
+            await updateStMarketOverview();
+            console.log('recursion');
+            docData = await querySTMarketHistoryOverview();
+        }*/
 
         // convert into chart format -> [timestamp, value]
         const result = {};
         for (const [key, value] of Object.entries(docData)) {
-            if (key !== 'lastUpdate') {
+            if (key !== 'lastUpdate' && key !== 'status') {
                 result[key] = [];
                 for (const v of value) {
                     result[key].push(convertToSTMarketChartDataResultCombined(v));
                 }
             }
         }
-        result['lastUpdate'] = getCurrentIOSDate();
-
-        console.timeEnd(); // TODO DELETE
         return result;
     } catch (error) {
         throw new ApolloError(error);
@@ -72,7 +40,8 @@ export const querySTMarketHistoryOverview = async (): Promise<api.STMarketHistor
 
 export const queryStMarketAllCategories = async (): Promise<api.STMarketDatasetKeyCategories> => {
     try {
-        return await getStMarketAllCategoriesLocal(false);
+        const res = await fetch(`${stockDataAPI}/search/quandl_categories?onlyMain=${false}`);
+        return res.json();
     } catch (error) {
         throw new ApolloError(error);
     }
@@ -81,8 +50,25 @@ export const queryStMarketAllCategories = async (): Promise<api.STMarketDatasetK
 
 export const queryStMarketData = async (key: string): Promise<api.STMarketChartDataResultCombined> => {
     try {
-        const data = await querySTMarketChartDataResultCombined(key);
-        return convertToSTMarketChartDataResultCombined(data);
+         // check if document exists in firestore
+         const dataDoc = await admin.firestore().collection('quandl').doc(key).get();
+         let firebaseData = await dataDoc.data() as api.STMarketChartDataResultAPI;
+ 
+         // does not exists or too old data
+         if (!firebaseData) {
+            const resPromise = await fetch(`${stockDataAPI}/chart_data/quandl?documentKey=${key}`);
+            const apiData = await resPromise.json() as api.STMarketChartDataResultSearch;
+    
+            // getting multiple data, save in separated documents
+            for await (const data of apiData.result) {
+                await admin.firestore().collection('quandl').doc(data.documentKey).set(data);
+            }
+    
+            // from multiple result find the right one
+            firebaseData = apiData.result.find(s => s.documentKey === key);
+        }
+
+        return convertToSTMarketChartDataResultCombined(firebaseData);
     } catch (error) {
         throw new ApolloError(error);
     }
@@ -118,7 +104,7 @@ export const querySTMarketSymbolHistoricalChartData = async (symbol: string, per
 
 
 // ------------- PRIVATE ---------------
-
+/*
 const getSTMarketDatasetKeyCategory = async (category: api.STMarketDatasetKeyCategory):
     Promise<{ result: api.STMarketChartDataResultAPI[], key: string }> => {
 
@@ -134,12 +120,12 @@ const getSTMarketDatasetKeyCategory = async (category: api.STMarketDatasetKeyCat
             } as api.STMarketChartDataResultAPI;
             result.push(slicedData);
         }
-        return {result, key: category.key};
+        return { result, key: category.key };
     } catch (error) {
         throw new ApolloError(error);
     }
-};
-
+};*/
+/*
 const querySTMarketChartDataResultCombined = async (documentKey: string): Promise<api.STMarketChartDataResultAPI> => {
     try {
         // check if document exists in firestore
@@ -148,16 +134,16 @@ const querySTMarketChartDataResultCombined = async (documentKey: string): Promis
 
         // does not exists or too old data
         if (!firebaseData) {
-            const apiPromise = await searchStMarketDataLocal(documentKey);
-            const apiData = apiPromise['result'] as api.STMarketChartDataResultAPI[];
+        const apiPromise = await searchStMarketDataLocal(documentKey); // TODO find by key
+        const apiData = apiPromise['result'] as api.STMarketChartDataResultAPI[];
 
-            // getting multiple data, save in separated documents
-            for await (const data of apiData) {
-                await admin.firestore().collection('quandl').doc(data.documentKey).set(data);
-            }
+        // getting multiple data, save in separated documents
+        for await (const data of apiData) {
+            await admin.firestore().collection('quandl').doc(data.documentKey).set(data);
+        }
 
-            // from multiple result find the right one
-            firebaseData = apiData.find(s => s.documentKey === documentKey);
+        // from multiple result find the right one
+        firebaseData = apiData.find(s => s.documentKey === documentKey);
         }
 
         return firebaseData;
@@ -166,3 +152,4 @@ const querySTMarketChartDataResultCombined = async (documentKey: string): Promis
         throw new ApolloError(error + `, documentKey: ${documentKey}`);
     }
 };
+*/

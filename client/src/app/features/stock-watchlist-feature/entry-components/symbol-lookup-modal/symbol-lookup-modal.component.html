@@ -2,7 +2,7 @@
     <ion-grid>
         <ion-row>
             <ion-col size="6">
-                <ng-container *ngIf="showAddToWatchlistOption">
+                <ng-container *ngIf="showAddToWatchlistOption && (user$ | async)">
                     <!-- add to watchlist button -->
                     <ion-button *ngIf="!isSymbolInWatchlist"
                                 (click)="addSymbolToWatchlist()"

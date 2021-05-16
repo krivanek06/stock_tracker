@@ -1,14 +1,7 @@
 export interface STMarketHistoryOverview {
   sp500?: STMarketChartDataResultAPI[];
   bonds?: STMarketChartDataResultAPI[];
-  social_security?: STMarketChartDataResultAPI[];
-  consumer_price_index_states?: STMarketChartDataResultAPI[];
-  consumer_us_price_index?: STMarketChartDataResultAPI[];
-  producer_us_price_index?: STMarketChartDataResultAPI[];
   inflation_rate?: STMarketChartDataResultAPI[];
-  employment?: STMarketChartDataResultAPI[];
-  manufacturing?: STMarketChartDataResultAPI[];
-  exports?: STMarketChartDataResultAPI[];
   misery_index?: STMarketChartDataResultAPI[];
   treasury_yield?: STMarketChartDataResultAPI[];
   investor_sentiment?: STMarketChartDataResultAPI[];
@@ -35,7 +28,7 @@ export interface STMarketChartDataResultCombined extends STMarketChartDataResult
 }
 
 export interface STMarketChartDataResultSearch {
-  result: STMarketChartDataResultCombined[];
+  result: STMarketChartDataResultAPI[];
 }
 
 export interface STMarketDatasetKeyCategories {
