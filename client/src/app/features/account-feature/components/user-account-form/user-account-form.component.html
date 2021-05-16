@@ -7,7 +7,7 @@
                    #uploader
                    [showInput]="editing"
                    [filePath]="'users'"
-                   [fileName]="user.uid"
+                   [fileName]="user.id"
                    [defaultUrl]="photoURL.value"
                    (uploadedFilesEmitter)="uploadedImage($event)">
                 </app-uploader>

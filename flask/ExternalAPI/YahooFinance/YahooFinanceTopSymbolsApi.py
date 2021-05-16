@@ -82,7 +82,7 @@ class YahooFinanceTopSymbolsApi:
     def __add_necessary_information_to_table_data(self, data):
         result = []
         for d in data:
-            if len(result) > 9:
+            if len(result) > 15:
                 return result
             try:
                 companyData = self.yahooFinanceRequester.get_company_data(d['symbol'])['companyData']

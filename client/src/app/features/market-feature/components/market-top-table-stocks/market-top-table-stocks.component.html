@@ -14,7 +14,7 @@
 
 
     <!-- table body -->
-    <ng-container *ngFor="let data of topTableSymbolData">
+    <ng-container *ngFor="let data of topTableSymbolData | slice: 0: 15">
         <ion-item button (click)="itemClicked(data.symbol, data.shortName)"
                   class="st-data-item-wrapper ion-hide-sm-down">
             <!-- logo + symbol name -->
