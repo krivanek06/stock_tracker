@@ -1,8 +1,10 @@
+import { getCurrentIOSDate } from './st-shared/st-shared.functions';
+import * as admin from "firebase-admin";
 import * as api from 'stock-tracker-common-interfaces';
 import {stockDataAPI} from "./environment";
 
 const SEARCH_ENDPOINT = `${stockDataAPI}/search`;
-const CHART_DATA_ENDPOINT = `${SEARCH_ENDPOINT}/chart_data`;
+const CHART_DATA_ENDPOINT = `${stockDataAPI}/chart_data`;
 
 export const getStMarketTopTablesLocal = async (): Promise<api.STMarketDailyOverview> => {
     const promises = await Promise.all([
@@ -36,12 +38,25 @@ export const getStMarketTopTablesLocal = async (): Promise<api.STMarketDailyOver
 };
 
 
-export const getStMarketAllCategoriesLocal = async (onlyMain: boolean = false): Promise<api.STMarketDatasetKeyCategories> => {
-    const res = await fetch(`${SEARCH_ENDPOINT}/quandl_categories?onlyMain=${onlyMain}`);
-    return res.json();
+export const updateStMarketOverview = async(): Promise<void> => {
+    const res = await fetch(`${SEARCH_ENDPOINT}/market_history_overview`);
+    const data = await res.json() as api.STMarketHistoryOverview;
+
+    data['lastUpdate'] = getCurrentIOSDate();
+
+    admin.firestore().collection(api.ST_SHARED_ENUM.ST_COLLECTION).doc(api.ST_SHARED_ENUM.MARKET_HISTORY_OVERVIEW).set(data);
+}
+/*
+export const searchStMarketDataLocal = async (key: string): Promise<api.STMarketChartDataResultCombined> => {
+    const resPromise = await fetch(`${CHART_DATA_ENDPOINT}/quandl?documentKey=${key}`);
+    const res = await resPromise.json() as api.STMarketChartDataResultSearch;
+
+    return res.result.find(r => r.documentKey === key);
 };
 
-export const searchStMarketDataLocal = async (key: string): Promise<api.STMarketChartDataResultCombined> => {
-    const res = await fetch(`${CHART_DATA_ENDPOINT}/quandl?documentKey=${key}`);
-    return res.json();
-};
+export const searchStMarketDatas = async (key: string): Promise<api.STMarketChartDataResultCombined[]> => {
+    const resPromise = await fetch(`${CHART_DATA_ENDPOINT}/quandl?documentKey=${key}`);
+    const res = await resPromise.json() as api.STMarketChartDataResultSearch;
+
+    return res.result;
+};*/

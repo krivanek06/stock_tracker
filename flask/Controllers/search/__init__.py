@@ -7,6 +7,7 @@ from ExternalAPI.QuandlApi import QuandlApi
 from ExternalAPI.YahooFinance.YahooFinanceTopSymbolsApi import YahooFinanceTopSymbolsApi
 from Services.TechnicalIndicatorsService import TechnicalIndicatorsService
 from Services.TradingStrategiesService import TradingStrategiesService
+from Services.QuandlService import QuandlService
 
 app = Flask(__name__)
 FlaskJSON(app)
@@ -16,6 +17,14 @@ FlaskJSON(app)
 
 
 ERROR_MESSAGE = 'Error in Search controller, method: '
+
+@app.route('/market_history_overview')
+def getMarketOverview():
+    try:
+        return json_response(**QuandlService().getMarketOverview())
+    except Exception as e:
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'getMarketOverview(), message: ' + str(e))
+
 
 
 @app.route('/technical_indicators')
