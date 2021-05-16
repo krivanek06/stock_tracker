@@ -13,8 +13,12 @@ class QuandlApi:
         self.fileManager = FileManagerService.FileManagerService()
 
     def getAllDataForDocumentKey(self, documentKey):
-        data = self._findDataForDocumentKey(documentKey)
-        return self._generatInformationProvider(data['quandlKey'], data['replacements'])
+        try:
+            data = self._findDataForDocumentKey(documentKey)
+            return self._generatInformationProvider(data['quandlKey'], data['replacements'])
+        except Exception as e:
+            print(e)
+            return None
 
     def getAllCategories(self, onlyMain=False):
         return {'categories': self._getAllCategories(onlyMain)}

@@ -59,7 +59,7 @@ export const editUser = async (editInput: api.STUserEditDataInput): Promise<bool
 
         // update public data - TODO cloud function propagate through groups
         if (initPortfolio || userPublicData.nickName !== editInput.nickName || userPublicData.photoURL !== editInput.photoURL) {
-            admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(`${userPublicData.uid}`)
+            admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(`${userPublicData.id}`)
                 .set({
                     ...userPublicData,
                     nickName: editInput.nickName,
@@ -86,16 +86,14 @@ export const resetUserAccount = async (userId: string): Promise<api.STUserResete
         };
 
         // save reseted account
-        admin.firestore().collection(api.ST_USER_COLLECTION_USER)
-            .doc(user.uid)
-            .collection(api.ST_USER_COLLECTION_MORE_INFORMATION)
-            .doc(api.ST_USER_DOCUMENT_HISTORICAL_DATA)
-            .set({
+        admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(user.id)
+            .collection(api.ST_USER_COLLECTION_MORE_INFORMATION).doc(api.ST_USER_DOCUMENT_HISTORICAL_DATA)
+            .set({ 
                 resetedAccount: admin.firestore.FieldValue.arrayUnion(reset)
             }, {merge: true});
 
         // save portfolio
-        admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(user.uid).set({
+        admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(user.id).set({
             portfolioCash: 15000,
             holdings: [],
         }, {merge: true});

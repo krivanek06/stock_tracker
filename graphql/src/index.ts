@@ -60,9 +60,9 @@ const mainTypeDefs = gql`
     ###### QUERY
     type Query {
         # user
-        queryUserData(uid: String!): STUserPublicData
+        queryUserData(id: String!): STUserPublicData
         queryUserPublicDataByUsername(usernamePrefix: String!): [STUserPublicData]!
-        authenticateUser(uid: String!): STUserPublicData
+        authenticateUser(id: String!): STUserPublicData
 
         # groups
         querySTGroupAllDataByGroupId(groupId: String!): STGroupAllData
@@ -110,7 +110,7 @@ const mainTypeDefs = gql`
         removeStockFromStockWatchlist(identifier: STStockWatchInputlistIdentifier!): Boolean
 
         # trading
-        performTransaction(transactionInput: STTransactionInput): PerformedTransaction
+        performTransaction(transactionInput: STTransactionInput!): STTransaction
     }
 `;
 
@@ -118,8 +118,8 @@ const mainTypeDefs = gql`
 const mainResolver = {
     Query: {
         // USER
-        authenticateUser: async (_: null, args: { uid: string }) => await authenticateUser(args.uid),
-        queryUserData: async (_: null, args: { uid: string }) => await queryUserPublicData(args.uid),
+        authenticateUser: async (_: null, args: { id: string }) => await authenticateUser(args.id),
+        queryUserData: async (_: null, args: { id: string }) => await queryUserPublicData(args.id),
         queryUserPublicDataByUsername: async (_: null, args: { usernamePrefix: string }) => await queryUserPublicDataByUsername(args.usernamePrefix),
 
         // GROUP

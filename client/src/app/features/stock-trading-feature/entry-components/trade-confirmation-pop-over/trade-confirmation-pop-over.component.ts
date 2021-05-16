@@ -45,8 +45,7 @@ export class TradeConfirmationPopOverComponent implements OnInit {
             const data: StTransactionInput = {
                 symbol: this.symbol,
                 symbol_logo_url: this.symbolLogoUrl,
-                price: this.price,
-                userId: this.userStorageService.user.uid,
+                userId: this.userStorageService.user.id,
                 units: this.units.value,
                 operation
             };

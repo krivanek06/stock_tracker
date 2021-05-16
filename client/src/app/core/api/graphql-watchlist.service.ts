@@ -35,7 +35,7 @@ export class GraphqlWatchlistService {
     createWatchList(watchlistName: string): Observable<FetchResult<CreateStockWatchlistMutation>> {
         return this.createStockWatchlistGQL.mutate({
                 identifier: {
-                    userId: this.userStorageService.user.uid,
+                    userId: this.userStorageService.user.id,
                     additionalData: watchlistName
                 },
             }, {
@@ -55,7 +55,7 @@ export class GraphqlWatchlistService {
                     const data = store.readQuery<AuthenticateUserQuery>({
                         query: AuthenticateUserDocument,
                         variables: {
-                            uid: this.userStorageService.user.uid
+                            id: this.userStorageService.user.id
                         }
                     });
 
@@ -63,7 +63,7 @@ export class GraphqlWatchlistService {
                     store.writeQuery({
                         query: AuthenticateUserDocument,
                         variables: {
-                            uid: this.userStorageService.user.uid
+                            id: this.userStorageService.user.id
                         },
                         data: {
                             ...data,
@@ -83,7 +83,7 @@ export class GraphqlWatchlistService {
         return this.renameStockWatchlistGQL.mutate({
             identifier: {
                 id: watchlistId,
-                userId: this.userStorageService.user.uid,
+                userId: this.userStorageService.user.id,
                 additionalData: newWatchlistName
             },
         }, {
@@ -113,7 +113,7 @@ export class GraphqlWatchlistService {
         return this.deleteUserWatchlistGQL.mutate({
             identifier: {
                 id: watchlistId,
-                userId: this.userStorageService.user.uid,
+                userId: this.userStorageService.user.id,
                 additionalData: undefined
             },
         }, {
@@ -125,7 +125,7 @@ export class GraphqlWatchlistService {
                 const data = store.readQuery<AuthenticateUserQuery>({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.userStorageService.user.uid
+                        id: this.userStorageService.user.id
                     }
                 });
                 const updatedWatchlist = data.authenticateUser.stockWatchlist.filter(x => x.id !== watchlistId);
@@ -134,7 +134,7 @@ export class GraphqlWatchlistService {
                 store.writeQuery({
                     query: AuthenticateUserDocument,
                     variables: {
-                        uid: this.userStorageService.user.uid
+                        id: this.userStorageService.user.id
                     },
                     data: {
                         ...data,
@@ -153,7 +153,7 @@ export class GraphqlWatchlistService {
         return this.removeStockFromWatchlistGQL.mutate({
             identifier: {
                 id: watchlistId,
-                userId: this.userStorageService.user.uid,
+                userId: this.userStorageService.user.id,
                 additionalData: symbol
             },
         }, {
@@ -187,7 +187,7 @@ export class GraphqlWatchlistService {
         return this.addStockIntoWatchlistGQL.mutate({
             identifier: {
                 id: watchListId,
-                userId: this.userStorageService.user.uid,
+                userId: this.userStorageService.user.id,
                 additionalData: symbol
             }
         }, {

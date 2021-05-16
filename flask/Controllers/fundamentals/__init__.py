@@ -5,7 +5,7 @@ from Services.FundamentalService import FundamentalService
 
 app = Flask(__name__)
 FlaskJSON(app)
-CORS(app, resources={r"*": {"origins": "*"}})
+#CORS(app, resources={r"*": {"origins": "*"}})
 
 ERROR_MESSAGE = 'Error in Fundamentals controller, method: '
 
@@ -39,7 +39,3 @@ def getStockNews():
         print(f'{ERROR_MESSAGE} getStockNews(), message: {e}')
         return json_response(data=None)
 
-
-if __name__ == '__main__':
-    print('Fundamentals controller app is running')
-    app.run(threaded=True)
