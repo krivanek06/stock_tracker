@@ -11,6 +11,7 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   parserOptions: {
     project: "tsconfig.json",
+    tsconfigRootDir: __dirname,
     sourceType: "module",
   },
   plugins: [
@@ -61,6 +62,11 @@ module.exports = {
     "prefer-const": "warn",
   },
   settings: {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    },
     jsdoc: {
       tagNamePreference: {
         returns: "return",
