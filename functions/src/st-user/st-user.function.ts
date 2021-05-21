@@ -32,7 +32,7 @@ export const updateGroupIdsForUsers = functions.database
 
 
 const updateUserGroup = (userArray: api.STGroupUser[], groupId: string, field: string, add: boolean) => {
-    userArray.forEach(m => admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(m.user.uid).set({
+    userArray.forEach(m => admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(m.userIdentification.id).set({
         groups: {
             [`${field}`]: add ? admin.firestore.FieldValue.arrayUnion(groupId) : admin.firestore.FieldValue.arrayRemove(groupId)
         }

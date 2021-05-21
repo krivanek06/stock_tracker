@@ -1,18 +1,23 @@
-import { stockDataAPI } from '../environment';
 import * as admin from "firebase-admin";
 import * as functions from 'firebase-functions';
 import * as api from 'stock-tracker-common-interfaces';
+import { stockDataAPI } from './../../environment';
 
 const fetch = require('node-fetch');
 const SEARCH_ENDPOINT = `${stockDataAPI}/search`;
 
 export const updateMarketDailyOverview = functions.pubsub.topic('updateMarketDailyOverview').onPublish(async () => {
+    console.log(`Started updating at ${admin.firestore.Timestamp.now().toDate()}`)
     const oldOverview = await getCurrentDataFromFirestore();
+    console.log('Fetched old overview')
 
     const newOverview = await fetchDailyOverviewFromApi();
+    console.log('Fetched new overview')
     const suggestions = await fetchSuggestions();
+    console.log('Fetched suggestions')
 
     await updateMarketOverviewCollection(oldOverview, newOverview, suggestions);
+    console.log(`Completed updating at ${admin.firestore.Timestamp.now().toDate()}`)
 });
 
 
@@ -61,11 +66,16 @@ const fetchDailyOverviewFromApi = async() :Promise<api.STMarketDailyOverview> =>
 const fetchSuggestions = async(): Promise<api.STStockSuggestion[]> => {
     const randomDetailDocs = await admin.firestore()
                                 .collection('stock_data')
+                                .where('details.summary.id', '>=', '')
+                                .orderBy('details.summary.id', 'desc')
                                 .orderBy('summaryLastUpdate', 'desc')
                                 .limit(8)
                                 .get();
 
-    const randomSummaries = randomDetailDocs.docs.map(d => d.data() as api.StockDetailsWrapper).map(d => d.details.summary);
+    const randomSummaries = randomDetailDocs.docs.map(d => d.data() as api.StockDetailsWrapper)
+                                                .filter(d => !!d.details)
+                                                .map(d => d.details.summary);
+
     const randomHistoricalData = await Promise.all(randomSummaries.map(summary => getStockHistoricalClosedData(summary.symbol, '1d')));
 
     const suggestions: api.STStockSuggestion[] = randomSummaries.map(summary => {
@@ -98,7 +108,7 @@ const updateMarketOverviewCollection = async(oldOverview: api.STMarketDailyOverv
         stocks_aggressive_small_caps: newOverview.stocks_aggressive_small_caps.length > 0 ? newOverview.stocks_aggressive_small_caps : oldOverview.stocks_aggressive_small_caps,
         stocks_small_cap_gainers: newOverview.stocks_small_cap_gainers.length > 0 ? newOverview.stocks_small_cap_gainers : oldOverview.stocks_small_cap_gainers,
         stock_suggestions: suggestions,
-        lastUpdate: admin.firestore.Timestamp.now().toMillis()
+        lastUpdate: admin.firestore.Timestamp.now().toDate().toISOString()
     };
 
     // save updated data
