@@ -6,6 +6,7 @@ import { stockDataAPI } from './../../environment';
 const fetch = require('node-fetch');
 const SEARCH_ENDPOINT = `${stockDataAPI}/search`;
 
+// functions.https.onRequest( 
 export const updateMarketDailyOverview = functions.pubsub.topic('updateMarketDailyOverview').onPublish(async () => {
     console.log(`Started updating at ${admin.firestore.Timestamp.now().toDate()}`)
     const oldOverview = await getCurrentDataFromFirestore();
@@ -66,8 +67,7 @@ const fetchDailyOverviewFromApi = async() :Promise<api.STMarketDailyOverview> =>
 const fetchSuggestions = async(): Promise<api.STStockSuggestion[]> => {
     const randomDetailDocs = await admin.firestore()
                                 .collection('stock_data')
-                                .where('details.summary.id', '>=', '')
-                                .orderBy('details.summary.id', 'desc')
+                                .where('summaryLastUpdate', '>=', '')
                                 .orderBy('summaryLastUpdate', 'desc')
                                 .limit(8)
                                 .get();

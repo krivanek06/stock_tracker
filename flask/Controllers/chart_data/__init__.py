@@ -1,6 +1,7 @@
 from flask import Flask, request
 from flask_json import FlaskJSON, JsonError, json_response
-#from flask_cors import CORS
+import json
+# from flask_cors import CORS
 
 from ExternalAPI.YahooFinance.YahooFinanceRequesterApi import YahooFinanceRequesterApi
 from ExternalAPI.QuandlApi import QuandlApi
@@ -10,7 +11,7 @@ from Services.TradingStrategiesService import TradingStrategiesService
 
 app = Flask(__name__)
 FlaskJSON(app)
-#CORS(app, resources={r"*": {"origins": "*"}})
+# CORS(app, resources={r"*": {"origins": "*"}})
 
 ERROR_MESSAGE = 'Error in Chart_data controller, method: '
 
@@ -33,6 +34,15 @@ def getStockLivePrice():
         return json_response(price=YahooFinanceRequesterApi().get_live_price(symbol), symbol=symbol)
     except Exception as e:
         return JsonError(status=500, error=ERROR_MESSAGE + 'getStockLivePrice(), message: ' + str(e))
+
+
+@app.route("/live_prices", methods=["POST"])
+def getStocksLivePrice():
+    try:
+        data = json.loads(request.data)
+        return json_response(data=YahooFinanceRequesterApi().get_live_prices(data['symbols']))
+    except Exception as e:
+        return JsonError(status=500, error=ERROR_MESSAGE + 'getStocksLivePrice(), message: ' + str(e))
 
 
 @app.route('/quandl')

@@ -129,8 +129,8 @@ const getAndSaveStockDetailsFromApi = async (symbol: string): Promise<api.StockD
     // save details
     admin.firestore().collection(`${api.ST_STOCK_DATA_COLLECTION}`).doc(symbol).set({
         details: isNull ? null : response,
-        detailsLastUpdate: getCurrentIOSDate(),
-        summaryLastUpdate: getCurrentIOSDate(),
+        detailsLastUpdate: isNull ? null : getCurrentIOSDate(),
+        summaryLastUpdate: isNull ? null : getCurrentIOSDate(),
         newsLastUpdate: getCurrentIOSDate(),
     });
 

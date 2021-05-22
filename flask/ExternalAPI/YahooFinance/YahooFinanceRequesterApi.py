@@ -87,12 +87,27 @@ class YahooFinanceRequesterApi:
         analysis_all = self.helperClass.parse_json(url, 'QuoteSummaryStore', 'earningsTrend', 'trend')
         return {'analysis_all': analysis_all}
 
-    def get_live_price(self, ticker):
+    def get_live_price(self, ticker: str):
         try:
             data = get(f'https://query1.finance.yahoo.com/v8/finance/chart/{ticker}').json()
             return data['chart']['result'][0]['meta']['regularMarketPrice']
         except:
             return None
+
+    def get_live_prices(self, symbols: []):
+        result = []
+        for symbol in symbols:
+            try:
+                data = get(f'https://query1.finance.yahoo.com/v8/finance/chart/{symbol}').json()
+                meta = data['chart']['result'][0]['meta']
+                result.append({
+                    'symbol': symbol,
+                    'price': meta['regularMarketPrice'],
+                    'previousClose': meta['previousClose']
+                })
+            except:
+                pass
+        return result
 
     def get_chart_data(self, symbol, period, onlyClosed=False):
         params = {'range': period, 'interval': getIntervalFromPeriod(period)[0]}
