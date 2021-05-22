@@ -20,6 +20,20 @@
         </ion-label>
     </ion-item>
 
+    <ion-item class="st-data-item-wrapper" *ngIf="details.companyData.defaultKeyStatistics as dk">
+        <ion-label class="st-data-label-parent">Floating shares</ion-label>
+        <ion-label class="st-data-label st-flex-end">
+            {{ dk.floatShares | numberFormatter }} ({{1 / dk.sharesOutstanding * dk.floatShares | percent: '1.2-2'}})
+        </ion-label>
+    </ion-item>
+
+    <ion-item class="st-data-item-wrapper" *ngIf="details.companyData.defaultKeyStatistics as dk">
+        <ion-label class="st-data-label-parent">Shorted shares</ion-label>
+        <ion-label class="st-data-label st-flex-end">
+            {{ dk.sharesShort | numberFormatter }} ({{1 / dk.sharesOutstanding * dk.sharesShort | percent: '1.2-2'}})
+        </ion-label>
+    </ion-item>
+
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">OCF to revenue ttm.</ion-label>
         <ion-label class="st-data-label st-flex-end">
