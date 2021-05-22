@@ -1,6 +1,10 @@
 @import "variables";
 
 :host {
+  ion-card {
+    min-height: 150px;
+  }
+
   .left-padding-small-screen {
     padding-left: 16px !important;
     @media (max-width: #{$st-var-sm-split}) {

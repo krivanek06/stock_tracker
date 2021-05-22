@@ -115,9 +115,9 @@
                               [applyLeftPadding]="false"
                               [additionalClasses]="'st-height-100'">
                 <app-generic-chart
-                        *ngIf="!!stockDetails.companyData.financialData.returnOnAssets &&
-                                    !!stockDetails.companyData.financialData.returnOnEquity &&
-                                    !!stockDetails.metric.roiTTM"
+                        *ngIf="stockDetails.companyData.financialData.returnOnAssets ||
+                                    stockDetails.companyData.financialData.returnOnEquity ||
+                                    stockDetails.metric.roiTTM"
                         [chartType]="ChartType.column"
                         [heightPx]="220"
                         [isPercentage]="true"
@@ -136,16 +136,19 @@
 
         <ion-col size="12" size-lg="5">
             <!-- company growth -->
-            <app-generic-card [subtitle]="'Company growth'" [applyLeftPadding]="false"
+            <app-generic-card [subtitle]="'Company growth'"
+                              [showNoData]="!stockDetails.analysis?.growthEstimates"
+                              [applyLeftPadding]="false"
                               [additionalClasses]="'st-height-100'">
                 <app-generic-chart
+                        *ngIf="stockDetails.analysis?.growthEstimates"
                         [chartType]="ChartType.column"
                         [heightPx]="220"
                         [isPercentage]="true"
                         [showDataLabel]="true"
                         [series]="[{
                                 colorByPoint: true,
-                                data:stockDetails.analysis.growthEstimates
+                                data: stockDetails.analysis?.growthEstimates
                           }]">
                 </app-generic-chart>
             </app-generic-card>
@@ -157,10 +160,12 @@
         <ion-col size-xl="6.5" size-md="7.5" size="12">
             <!-- revenue growth chart -->
             <app-generic-card [subtitle]="'Revenue growth estimation'"
+                              [showNoData]="!stockDetails.analysis?.revenueEstimate"
                               [applyLeftPadding]="false"
                               [additionalClasses]="'st-height-100'">
                 <app-details-revenue-estimate
-                        [revenueEstimates]="stockDetails.analysis.revenueEstimate">
+                        *ngIf="stockDetails.analysis?.revenueEstimate"
+                        [revenueEstimates]="stockDetails.analysis?.revenueEstimate">
                 </app-details-revenue-estimate>
             </app-generic-card>
         </ion-col>
@@ -168,8 +173,10 @@
             <!-- recommendation chart -->
             <app-generic-card [subtitle]="'Recommendation'"
                               [applyLeftPadding]="false"
+                              [showNoData]="stockDetails.recommendation.length === 0"
                               [additionalClasses]="'st-height-100'">
                 <app-details-recommendation-chart
+                        *ngIf="stockDetails.recommendation.length > 0"
                         [recommendations]="stockDetails.recommendation">
                 </app-details-recommendation-chart>
             </app-generic-card>
@@ -182,12 +189,14 @@
             <!-- Financial yearly -->
             <app-generic-card [subtitle]="'Financial yearly'"
                               [applyLeftPadding]="false"
+                              [showNoData]="!stockDetails.companyData.earnings?.financialsChart"
                               [additionalClasses]="'st-height-100'">
                 <app-generic-chart
+                        *ngIf="stockDetails.companyData.earnings?.financialsChart as fc"
                         [chartType]="ChartType.column"
                         [heightPx]="185"
-                        [categories]="stockDetails.companyData.earnings.financialsChart.yearly.categories"
-                        [series]="stockDetails.companyData.earnings.financialsChart.yearly.series">
+                        [categories]="fc.yearly.categories"
+                        [series]="fc.yearly.series">
                 </app-generic-chart>
             </app-generic-card>
         </ion-col>
@@ -196,20 +205,26 @@
             <!-- Financial quarterly -->
             <app-generic-card [subtitle]="'Financial quarterly'"
                               [applyLeftPadding]="false"
+                              [showNoData]="!stockDetails.companyData.earnings?.financialsChart"
                               [additionalClasses]="'st-height-100'">
                 <app-generic-chart
+                        *ngIf="stockDetails.companyData.earnings?.financialsChart as fc"
                         [chartType]="ChartType.column"
                         [heightPx]="185"
-                        [categories]="stockDetails.companyData.earnings.financialsChart.quarterly.categories"
-                        [series]="stockDetails.companyData.earnings.financialsChart.quarterly.series">
+                        [categories]="fc.quarterly.categories"
+                        [series]="fc.quarterly.series">
                 </app-generic-chart>
             </app-generic-card>
         </ion-col>
 
         <ion-col size-lg="4" size="12">
-            <app-generic-card [subtitle]="'Earnings'" [applyLeftPadding]="false">
+            <app-generic-card
+                    [subtitle]="'Earnings'"
+                    [applyLeftPadding]="false"
+                    [showNoData]="!stockDetails.companyData.earnings?.earningsChart">
                 <app-details-earnings-chart
-                        [earnings]="stockDetails.companyData.earnings.earningsChart">
+                        *ngIf="stockDetails.companyData.earnings?.earningsChart as earningsChart"
+                        [earnings]="earningsChart">
                 </app-details-earnings-chart>
             </app-generic-card>
         </ion-col>
@@ -268,14 +283,19 @@
 
         <ion-col size="12" size-lg="6">
             <!--  grading history -->
-            <app-generic-card [subtitle]="'Stock grading'" [additionalClasses]="'st-height-100'">
+            <app-generic-card
+                    [subtitle]="'Stock grading'"
+                    [showNoData]="stockDetails.companyData.upgradeDowngradeHistory.length === 0"
+                    [additionalClasses]="'st-height-100'">
                 <ion-item-group class="ion-margin-bottom">
                     <app-details-grading-history
+                            *ngIf="stockDetails.companyData.upgradeDowngradeHistory.length > 0"
                             [history]="stockDetails.companyData.upgradeDowngradeHistory | slice: 0: 11">
                     </app-details-grading-history>
                 </ion-item-group>
                 <app-details-stock-trend
-                        [trend]="stockDetails.companyData.pageViews">
+                        *ngIf="stockDetails.companyData.pageViews as trend"
+                        [trend]="trend">
                 </app-details-stock-trend>
             </app-generic-card>
         </ion-col>
@@ -304,24 +324,26 @@
     </ion-row>
 
     <!-- historical metrics -->
-    <app-generic-list [title]="'Yearly metrics'" [applyMarginTop]="true"></app-generic-list>
-    <ion-row>
-        <ng-container *ngFor="let key of stockDetails.historicalMetrics | objNgFor; let i = index; let last=last">
-            <ion-col size="12" [sizeSm]="last ? 12 : 6" [sizeLg]="i > 15 ? 6  : 4" *ngIf="key !== '__typename'">
-                <ng-container *ngIf="stockDetails.historicalMetrics[key] as data">
-                    <app-generic-card [subtitle]="data.name + ': ' + data.data[data.data.length - 1]"
-                                      [showNoData]="data.dates.length === 0"
-                                      [additionalClasses]="'st-height-100'">
-                        <app-generic-chart *ngIf="data.dates.length > 0"
-                                           [categories]="data.dates"
-                                           [series]="[data]"
-                                           [heightPx]="130">
-                        </app-generic-chart>
-                    </app-generic-card>
-                </ng-container>
-            </ion-col>
-        </ng-container>
-    </ion-row>
+    <ng-container *ngIf="stockDetails.historicalMetrics">
+        <app-generic-list [title]="'Yearly metrics'" [applyMarginTop]="true"></app-generic-list>
+        <ion-row>
+            <ng-container *ngFor="let key of stockDetails.historicalMetrics | objNgFor; let i = index; let last=last">
+                <ion-col size="12" [sizeSm]="last ? 12 : 6" [sizeLg]="i > 15 ? 6  : 4" *ngIf="key !== '__typename'">
+                    <ng-container *ngIf="stockDetails.historicalMetrics[key] as data">
+                        <app-generic-card [subtitle]="data.name + ': ' + data.data[data.data.length - 1]"
+                                          [showNoData]="data.dates.length === 0"
+                                          [additionalClasses]="'st-height-100'">
+                            <app-generic-chart *ngIf="data.dates.length > 0"
+                                               [categories]="data.dates"
+                                               [series]="[data]"
+                                               [heightPx]="130">
+                            </app-generic-chart>
+                        </app-generic-card>
+                    </ng-container>
+                </ion-col>
+            </ng-container>
+        </ion-row>
+    </ng-container>
 
     <!-- news -->
     <app-generic-list [title]="'News'" [applyMarginTop]="true"></app-generic-list>
