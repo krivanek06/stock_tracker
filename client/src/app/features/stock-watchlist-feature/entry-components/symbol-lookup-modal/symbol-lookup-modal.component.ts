@@ -1,8 +1,9 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ModalController, NavParams} from '@ionic/angular';
-import {SymbolIdentification} from '@shared';
-import {StUserPublicData, Summary, SymbolStorageService, UserStorageService} from '@core';
+import {DialogService, SymbolIdentification} from '@shared';
+import {StockDetails, StUserPublicData, SymbolStorageService, UserStorageService} from '@core';
 import {Observable} from 'rxjs';
+import {first} from 'rxjs/operators';
 
 @Component({
     selector: 'app-symbol-lookup-modal',
@@ -11,14 +12,13 @@ import {Observable} from 'rxjs';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SymbolLookupModalComponent implements OnInit {
-
     symbolIdentification: SymbolIdentification;
     watchlistId: string;
     showAddToWatchlistOption = true;
     isSymbolInWatchlist = false;
+    showSpinner = true;
 
-    //user: StUserPublicData;
-    stockSummary$: Observable<Summary>;
+    stockDetails$: Observable<StockDetails>;
     user$: Observable<StUserPublicData>;
 
     constructor(private navParams: NavParams,
@@ -33,9 +33,10 @@ export class SymbolLookupModalComponent implements OnInit {
         this.watchlistId = this.navParams.get('watchlistId');
         this.showAddToWatchlistOption = this.navParams.get('showAddToWatchlistOption');
 
-        this.stockSummary$ = this.symbolStorageService.getStockSummary(this.symbolIdentification.symbol);
+        this.stockDetails$ = this.symbolStorageService.getStockDetails(this.symbolIdentification.symbol);
         this.user$ = this.userStorageService.getUser();
         this.checkIfSymbolIsInWatchlist();  // checked if opened symbol is in my watchlist
+        this.checkIfDetailsExists();
     }
 
     dismissModal() {
@@ -52,6 +53,15 @@ export class SymbolLookupModalComponent implements OnInit {
 
     removeSymbolFromWatchlist() {
         this.modalController.dismiss({removeSymbol: true});
+    }
+
+    private checkIfDetailsExists() {
+        this.stockDetails$.pipe(first()).subscribe((details) => {
+            this.showSpinner = false;
+            if (!details) {
+                DialogService.presentErrorToast(`Could not find details for symbol ${this.symbolIdentification.symbol}`);
+            }
+        });
     }
 
     private checkIfSymbolIsInWatchlist() {

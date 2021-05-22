@@ -89,8 +89,8 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseD
             takeUntil(componentDestroyed(this))
         ).subscribe(res => {
             this.currentPrice = res.livePrice;
-            this.volume = res.volume;
-            this.price = res.price;
+            this.volume = [...res.volume]; // needed copy because used to get error for read only
+            this.price = [...res.price]; // needed copy because used to get error for read only
             this.priceRangeFrom = this.price[0][4];
             this.priceRangeTo = this.price[this.price.length - 1][4];
 

@@ -8,15 +8,15 @@ class FundamentalServiceCalculator:
 
     def calculateNetIncomeMargin(self, period: str):
         netIncome = list(filter(lambda data: data is not None, self.data['cashFlow'][period]['netIncome']['data']))
-        revenue = list(filter(lambda data: data is not None, self.data['incomeStatement'][period]['totalRevenue']['data']))
+        revenue = list(filter(lambda data: data is not None and data != 0, self.data['incomeStatement'][period]['totalRevenue']['data']))
 
         netIncomeMargin = {
             'change': [],
-            'data': [round(netIncome[i] / revenue[i], 4) for i in range(len(netIncome))],
+            'data': [round(netIncome[i] / revenue[i], 4) for i in range(len(revenue))],
             'name': 'Free cash flow'
         }
-        netIncomeMargin['change'] = [(netIncomeMargin['data'][i] - netIncomeMargin['data'][i + 1]) / abs(netIncomeMargin['data'][i + 1])
-                                     for i in range(len(netIncome) - 1)]
+        netIncomeMargin['change'] = [round((netIncomeMargin['data'][i] - netIncomeMargin['data'][i + 1]) / abs(netIncomeMargin['data'][i + 1]), 4)
+                                     for i in range(len(netIncomeMargin['data']) - 1)]
         return netIncomeMargin
 
     def calculateFreeCashFlow(self, period: str):

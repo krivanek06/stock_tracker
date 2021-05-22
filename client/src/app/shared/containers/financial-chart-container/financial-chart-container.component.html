@@ -75,4 +75,9 @@
             [height]="height"
             [price]="price">
     </app-financial-chart>
+
+    <!-- loader -->
+    <div class="spinner-container" *ngIf="price" style="min-height: 45vh;">
+        <ion-spinner color="primary"></ion-spinner>
+    </div>
 </div>
