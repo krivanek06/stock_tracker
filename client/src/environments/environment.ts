@@ -9,10 +9,10 @@ export const environment = {
     //graphql: 'http://127.0.0.1:5001/graphql',
 
     // local
-    //graphql: 'http://localhost:4000/graphql',
+    graphql: 'http://localhost:4000/graphql',
 
     // GCP
-    graphql: 'https://servergraphql-eqvqg22pdq-lz.a.run.app/graphql',
+    //graphql: 'https://servergraphql-eqvqg22pdq-lz.a.run.app/graphql',
 
     // finnhubKEY: 'brsrc5vrh5r9dg9d77pg',
     firebase: {

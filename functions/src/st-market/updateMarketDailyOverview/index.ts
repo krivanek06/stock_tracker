@@ -43,7 +43,7 @@ const fetchDailyOverviewFromApi = async() :Promise<api.STMarketDailyOverview> =>
         fetch(`${SEARCH_ENDPOINT}/stocks_undervalued_large_caps`),
         fetch(`${SEARCH_ENDPOINT}/stocks_aggressive_small_caps`),
         fetch(`${SEARCH_ENDPOINT}/stocks_small_cap_gainers`),
-        fetch(`${SEARCH_ENDPOINT}/calendar_events_earnings`),
+        fetch(`${SEARCH_ENDPOINT}/calendar_events_earnings`)
     ]);
 
     // execute promises 
