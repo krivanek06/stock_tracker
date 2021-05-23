@@ -4,7 +4,7 @@ import {UserAccountForm} from './account-feature.model';
 export const convertUserAccountFormToStUserEditDataInput = (userId: string, accountForm: UserAccountForm): StUserEditDataInput => {
     const editInput: StUserEditDataInput = {
         userId,
-        finnhubKey: accountForm.finnhubKey.trim(),
+        finnhubKey: !!accountForm.finnhubKey ? accountForm.finnhubKey.trim() : null,
         nickName: accountForm.nickName.trim(),
         photoURL: accountForm.photoURL.trim()
     };

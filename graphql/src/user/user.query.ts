@@ -9,7 +9,7 @@ export const authenticateUser = async (uid: string) => {
         const userDoc = await admin.firestore().doc(`${api.ST_USER_COLLECTION_USER}/${uid}`).get();
         const user = userDoc.data() as api.STUserPublicData | undefined;
 
-        console.log(`Singing in ${user.nickName}`)
+        console.log(`Singing in ${user?.nickName}`)
 
         return user || new ValidationError('User ID not found');
 
