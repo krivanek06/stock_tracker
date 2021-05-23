@@ -33,7 +33,7 @@
                     <app-user-account-reseted-info
                             (resetAccountEmitter)="resetAccount()"
                             [resetedAccountInfo]="user.userHistoricalData.resetedAccount"
-                            [showResetButton]="editing && !!user.portfolio">
+                            [showResetButton]="editing && !!user.userPrivateData.finnhubKey">
                     </app-user-account-reseted-info>
                 </app-generic-card>
 

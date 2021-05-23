@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {filter, map} from 'rxjs/operators';
+import {filter, first, map, takeUntil} from 'rxjs/operators';
 import {Apollo} from 'apollo-angular';
 import auth from 'firebase';
 import firebase from 'firebase';
@@ -7,19 +7,23 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {UserStorageService} from './storage/user-storage.service';
 import {AuthenticateUserGQL, RegisterUserGQL, StUserAuthenticationInput} from '../graphql-schema';
 import {LoginIUser, RegisterIUser} from '../model';
+import {Subject} from 'rxjs';
 import UserCredential = firebase.auth.UserCredential;
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthenticationService {
+    private logout$: Subject<boolean> = new Subject<boolean>();
 
     constructor(private userStorageService: UserStorageService,
                 private apollo: Apollo,
                 private authenticateUserGQL: AuthenticateUserGQL,
                 private registerUserGQL: RegisterUserGQL,
                 private afAuth: AngularFireAuth) {
+        // check if user is cached and automatically authenticate
         this.afAuth.authState.pipe(
+            first(),
             filter(x => !!x),
         ).subscribe(user => this.initUserIfExists(user.uid));
     }
@@ -42,6 +46,7 @@ export class AuthenticationService {
 
     async logout() {
         this.userStorageService.setUser(null);
+        this.logout$.next(true);
         await this.apollo.getClient().clearStore();
         await this.afAuth.signOut();
     }
@@ -58,6 +63,7 @@ export class AuthenticationService {
             filter(x => !!x.data),
             map(x => x.data.authenticateUser),
             filter(x => !!x),
+            takeUntil(this.logout$)
         ).subscribe(user => {
             console.log('updating user');
             this.userStorageService.setUser(user);
@@ -80,7 +86,7 @@ export class AuthenticationService {
             };
 
             await this.registerUserGQL.mutate({stUserAuthenticationInput}).toPromise();
-            this.initUserIfExists(credential.user.uid);
         }
+        this.initUserIfExists(credential.user.uid);
     }
 }

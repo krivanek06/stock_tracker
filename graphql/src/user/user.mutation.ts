@@ -12,7 +12,6 @@ export const registerUser = async (user: api.STUserAuthenticationInput): Promise
         const newUserPrivateData = createSTUserPrivateData(user);
         const newUserPublicData = createSTUserPublicData(user);
         const newUserHistoricalData = createSTUserHistoricalData();
-        console.log('registerUser')
 
         // save public data
         let userDocRef = admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(`${user.uid}`);
@@ -27,7 +26,6 @@ export const registerUser = async (user: api.STUserAuthenticationInput): Promise
         await userDocRef.collection(api.ST_USER_COLLECTION_MORE_INFORMATION)
             .doc(api.ST_USER_DOCUMENT_HISTORICAL_DATA)
             .set(newUserHistoricalData);
-
         return true;
     } catch (error) {
         throw new ApolloError(error);

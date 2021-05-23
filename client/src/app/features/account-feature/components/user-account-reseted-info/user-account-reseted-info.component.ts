@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {StUserResetedAccount} from '@core';
+import {Confirmable} from '@shared';
 
 @Component({
     selector: 'app-user-account-reseted-info',
@@ -19,6 +20,7 @@ export class UserAccountResetedInfoComponent implements OnInit {
     ngOnInit() {
     }
 
+    @Confirmable('Please confirm reseting account. You will start again with 15 000$ portfolio. All your holdings will be lost.')
     resetAccount() {
         this.resetAccountEmitter.emit();
     }

@@ -34,6 +34,10 @@ export class UserStorageService {
         };
     }
 
+    get isAuthenticating(): boolean {
+        return this.authenticating$.getValue();
+    }
+
     getUser(): Observable<StUserPublicData> {
         return this.user$.asObservable();
     }

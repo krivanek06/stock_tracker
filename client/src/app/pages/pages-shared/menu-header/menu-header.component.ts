@@ -17,6 +17,7 @@ export class MenuHeaderComponent implements OnInit {
     searchedSummaries$: Observable<Summary[]>;
 
     loading = false;
+    showNotifications = false;
 
     user$: Observable<StUserPublicData>;
     isAuthenticating$: Observable<boolean>;
@@ -39,6 +40,10 @@ export class MenuHeaderComponent implements OnInit {
             this.searchedSummaries$ = this.firebaseSearchService.queryStockSummaries(event.detail.value);
             this.loading = true;
         }
+    }
+
+    toggleNotifications() {
+        this.showNotifications = !this.showNotifications;
     }
 
     async clickedSummary(summary: Summary) {
