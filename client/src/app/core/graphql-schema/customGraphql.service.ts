@@ -657,6 +657,7 @@ export type Query = {
     queryStMarketCalendarEventsEarnings?: Maybe<StMarketCalendarEventsEarnings>;
     querySTTradingStrategies?: Maybe<StTradingStrategySearch>;
     querySTTradingStrategyData?: Maybe<StTradingStrategyData>;
+    queryUsersRegistration?: Maybe<StUserRegistrationDoc>;
 };
 
 
@@ -1042,6 +1043,12 @@ export type StSeries = {
     name: Scalars['String'];
 };
 
+export type StSeriesNumber = {
+    __typename?: 'STSeriesNumber';
+    data: Scalars['Float'];
+    timestamp: Scalars['Float'];
+};
+
 export type StSimpleChart = {
     __typename?: 'STSimpleChart';
     date: Scalars['String'];
@@ -1218,6 +1225,14 @@ export type StUserPublicData = {
     stockWatchlist: Array<Maybe<StStockWatchlist>>;
 };
 
+export type StUserRegistrationDoc = {
+    __typename?: 'STUserRegistrationDoc';
+    totalRegistratedUsers: Scalars['Float'];
+    totalActiveUsers: Scalars['Float'];
+    userRegistrationSnippets?: Maybe<Array<Maybe<StUserIndetification>>>;
+    weeklyRegistratedUsers?: Maybe<Array<Maybe<StSeriesNumber>>>;
+};
+
 export type StUserResetedAccount = {
     __typename?: 'STUserResetedAccount';
     date: Scalars['String'];
@@ -1330,6 +1345,28 @@ export enum User_Status_In_Group {
     InvitationSent = 'INVITATION_SENT',
     InvitationReceived = 'INVITATION_RECEIVED'
 }
+
+export type QueryUsersRegistrationQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type QueryUsersRegistrationQuery = (
+    { __typename?: 'Query' }
+    & {
+    queryUsersRegistration?: Maybe<(
+        { __typename?: 'STUserRegistrationDoc' }
+        & Pick<StUserRegistrationDoc, 'totalRegistratedUsers' | 'totalActiveUsers'>
+        & {
+        userRegistrationSnippets?: Maybe<Array<Maybe<(
+            { __typename?: 'STUserIndetification' }
+            & StUserIndetificationFragmentFragment
+            )>>>, weeklyRegistratedUsers?: Maybe<Array<Maybe<(
+            { __typename?: 'STSeriesNumber' }
+            & Pick<StSeriesNumber, 'data' | 'timestamp'>
+            )>>>
+    }
+        )>
+}
+    );
 
 export type StGroupUserFragmentFragment = (
     { __typename?: 'STGroupUser' }
@@ -3608,6 +3645,33 @@ export const StStockWatchlistFragmentFragmentDoc = gql`
         }
     }
 ${StockSummaryFragmentFragmentDoc}`;
+export const QueryUsersRegistrationDocument = gql`
+    query QueryUsersRegistration {
+        queryUsersRegistration {
+            totalRegistratedUsers
+            totalActiveUsers
+            userRegistrationSnippets {
+                ...STUserIndetificationFragment
+            }
+            weeklyRegistratedUsers {
+                data
+                timestamp
+            }
+        }
+    }
+${StUserIndetificationFragmentFragmentDoc}`;
+
+@Injectable({
+    providedIn: 'root'
+})
+export class QueryUsersRegistrationGQL extends Apollo.Query<QueryUsersRegistrationQuery, QueryUsersRegistrationQueryVariables> {
+    document = QueryUsersRegistrationDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+        super(apollo);
+    }
+}
+
 export const QueryStGroupAllDataByGroupIdDocument = gql`
     query QuerySTGroupAllDataByGroupId($groupId: String!) {
         querySTGroupAllDataByGroupId(groupId: $groupId) {

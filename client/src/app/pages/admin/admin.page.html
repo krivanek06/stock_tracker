@@ -3,9 +3,15 @@
     <app-menu-header></app-menu-header>
 
     <!-- header -->
-    <app-header></app-header>
+    <app-header [pageIcon]="'finger-print'" [pageName]="'Admin'"></app-header>
 
     <!-- body -->
-    ADMIN
-</ion-content>
+    <ion-grid>
+        <ion-row class="ion-justify-content-center">
+            <ion-col size="12" size-lg="11" size-xl="10">
+                <router-outlet></router-outlet>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 
+</ion-content>

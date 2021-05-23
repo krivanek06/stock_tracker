@@ -1,0 +1,13 @@
+query QueryUsersRegistration {
+    queryUsersRegistration {
+        totalRegistratedUsers
+        totalActiveUsers
+        userRegistrationSnippets {
+            ...STUserIndetificationFragment
+        }
+        weeklyRegistratedUsers {
+            data
+            timestamp
+        }
+    }
+}

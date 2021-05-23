@@ -1,3 +1,5 @@
+import { queryUsersRegistration } from './st-admin/st-admin.query';
+import { STAdminTypeDefs } from './st-admin/st-admin.typeDefs';
 import { queryTradingStrategies, queryTradingStrategyData } from './st-trading-strategy/st-trading-strategy.query';
 import { STTraingStrategyTypeDefs } from './st-trading-strategy/st-trading-strategy.typedef';
 import {STGroupTypeDefs} from './st-group/st-group.typedefs';
@@ -85,6 +87,9 @@ const mainTypeDefs = gql`
         # trading strategy
         querySTTradingStrategies: STTradingStrategySearch
         querySTTradingStrategyData(symbol: String!, strategy: String!): STTradingStrategyData
+
+        # admin
+        queryUsersRegistration: STUserRegistrationDoc
     }
 
     #### MUTATION
@@ -143,6 +148,9 @@ const mainResolver = {
         // trading strategy
         querySTTradingStrategies: async (_: null, args: null) => await queryTradingStrategies(),
         querySTTradingStrategyData: async (_: null, args: { symbol: string, strategy: string }) => await queryTradingStrategyData(args.symbol, args.strategy),
+
+        // admin
+        queryUsersRegistration: async (_: null, args: null) => await queryUsersRegistration(),
     },
 
     Mutation: {
@@ -193,7 +201,8 @@ const server = new ApolloServer({
         STRankTypeDefs,
         STPortfolioTypeDefs,
         STGroupTypeDefs,
-        STTraingStrategyTypeDefs
+        STTraingStrategyTypeDefs,
+        STAdminTypeDefs
     ],
     resolvers,
     introspection: true

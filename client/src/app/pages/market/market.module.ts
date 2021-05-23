@@ -14,26 +14,7 @@ const routes: Routes = [
     {
         path: '',
         component: MarketPage,
-        pathMatch: 'full',
-        /*children: [
-            {
-                path: '',
-                redirectTo: 'daily-change',
-                pathMatch: 'full'
-            },
-            {
-                path: 'daily-change',
-                component: MarketDailyChangeComponent
-            },
-            {
-                path: 'overview',
-                component: MarketOverviewComponent
-            },
-            {
-                path: 'crypto',
-                component: MarketCryptoComponent
-            }
-        ]*/
+        pathMatch: 'full'
     }
 ];
 

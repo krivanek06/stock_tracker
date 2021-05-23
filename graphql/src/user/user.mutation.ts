@@ -1,3 +1,5 @@
+import { addNewUserIntoUserRegistration } from './../st-admin/st-admin.mutation';
+import { convertSTUserPublicDataToSTUserIndentification } from './user.convertor';
 import { sumOfHoldings } from './../st-transaction/st-transaction-util';
 import {ApolloError} from 'apollo-server';
 import * as api from 'stock-tracker-common-interfaces';
@@ -12,6 +14,7 @@ export const registerUser = async (user: api.STUserAuthenticationInput): Promise
         const newUserPrivateData = createSTUserPrivateData(user);
         const newUserPublicData = createSTUserPublicData(user);
         const newUserHistoricalData = createSTUserHistoricalData();
+        const newUserIdentification = convertSTUserPublicDataToSTUserIndentification(newUserPublicData);
 
         // save public data
         let userDocRef = admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(`${user.uid}`);
@@ -26,6 +29,10 @@ export const registerUser = async (user: api.STUserAuthenticationInput): Promise
         await userDocRef.collection(api.ST_USER_COLLECTION_MORE_INFORMATION)
             .doc(api.ST_USER_DOCUMENT_HISTORICAL_DATA)
             .set(newUserHistoricalData);
+
+        // add user into admin statistics
+        await addNewUserIntoUserRegistration(newUserIdentification) ;
+
         return true;
     } catch (error) {
         throw new ApolloError(error);
@@ -39,17 +46,16 @@ export const editUser = async (editInput: api.STUserEditDataInput): Promise<bool
         // update private data
         const userPrivateData = await resolveUserPrivateData(editInput.userId);
         if (userPrivateData.finnhubKey !== editInput.finnhubKey) {
-            admin
-                .firestore()
-                .collection(api.ST_USER_COLLECTION_USER)
-                .doc(editInput.userId)
-                .collection(api.ST_USER_COLLECTION_MORE_INFORMATION)
-                .doc(api.ST_USER_DOCUMENT_PRIVATE_DATA)
-                .set({
-                    ...userPrivateData,
-                    finnhubKey: !!editInput.finnhubKey ? editInput.finnhubKey : null,
-                    tradingEnabledDate: userPrivateData.tradingEnabledDate || getCurrentIOSDate()
-                } as api.STUserPrivateData, {merge: true})
+            admin.firestore()
+                    .collection(api.ST_USER_COLLECTION_USER)
+                    .doc(editInput.userId)
+                    .collection(api.ST_USER_COLLECTION_MORE_INFORMATION)
+                    .doc(api.ST_USER_DOCUMENT_PRIVATE_DATA)
+                    .set({
+                        ...userPrivateData,
+                        finnhubKey: !!editInput.finnhubKey ? editInput.finnhubKey : null,
+                        tradingEnabledDate: userPrivateData.tradingEnabledDate || getCurrentIOSDate()
+                    } as api.STUserPrivateData, {merge: true})
         }
 
         const userPublicData = await queryUserPublicData(editInput.userId) as api.STUserPublicData;
