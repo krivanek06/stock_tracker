@@ -534,7 +534,8 @@ ion-skeleton-text {
 .custom-modal .modal-wrapper {
   background: linear-gradient(126deg, #10255a 0%, #0c1d44 29%, #0c183e 44%, #061238 73%, #060e28 100%);
   width: 85% !important;
-  height: 750px !important;
+  height: 90%;
+  max-height: 850px !important;
   @media (max-width: #{$st-var-md-split}) {
     width: 100% !important;
     height: 100% !important;

@@ -3,7 +3,7 @@ import {
     UserAccountFormComponent,
     UserAccountInfoComponent,
     UserAccountInfoListComponent,
-    UserAccountResetedInfoComponent
+    UserAccountResetedInfoComponent, UserIdentificationInfoComponent
 } from './components';
 import {SharedModule} from '@shared';
 import {UserAccountSearchComponent} from './containers';
@@ -16,7 +16,8 @@ import {AccountFeatureFacadeService} from './services';
         UserAccountInfoListComponent,
         UserAccountSearchComponent,
         UserAccountFormComponent,
-        UserAccountResetedInfoComponent
+        UserAccountResetedInfoComponent,
+        UserIdentificationInfoComponent
     ],
     imports: [
         SharedModule
@@ -26,7 +27,8 @@ import {AccountFeatureFacadeService} from './services';
         UserAccountInfoListComponent,
         UserAccountSearchComponent,
         UserAccountFormComponent,
-        UserAccountResetedInfoComponent
+        UserAccountResetedInfoComponent,
+        UserIdentificationInfoComponent
     ],
     providers: [
         AccountFeatureFacadeService

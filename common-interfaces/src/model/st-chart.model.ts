@@ -20,3 +20,8 @@ export interface STSeries {
     data: number[];
     name: string;
 }
+
+export interface STSeriesNumber {
+    data: number;
+    timestamp: number;
+}

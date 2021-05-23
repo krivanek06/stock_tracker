@@ -19,6 +19,7 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseD
     priceRangeFrom: number;
     priceRangeTo: number;
     financialChart = true;
+    noDataFound = false;
 
     @Input() currentPrice: number;
     @Input() closedPrice: number;
@@ -85,9 +86,15 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseD
     }
 
     private loadChartData() {
+        this.noDataFound = false;
+        this.price = [];
         this.graphqlQueryService.queryStMarketSymbolHistoricalChartData(this.symbol, this.selectedRange).pipe(
             takeUntil(componentDestroyed(this))
         ).subscribe(res => {
+            if (res.price.length === 0) {
+                this.noDataFound = true;
+                return;
+            }
             this.currentPrice = res.livePrice;
             this.volume = [...res.volume]; // needed copy because used to get error for read only
             this.price = [...res.price]; // needed copy because used to get error for read only

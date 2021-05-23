@@ -76,15 +76,11 @@ const fetchSuggestions = async(): Promise<api.STStockSuggestion[]> => {
                                                 .filter(d => !!d.details)
                                                 .map(d => d.details.summary);
 
-    const randomHistoricalData = await Promise.all(randomSummaries.map(summary => getStockHistoricalClosedData(summary.symbol, '1d')));
-
-    const suggestions: api.STStockSuggestion[] = randomSummaries.map(summary => {
-        const result: api.STStockSuggestion = {
-            summary: summary,
-            historicalData: randomHistoricalData.find(s => s.symbol === summary.symbol) as api.STStockHistoricalClosedDataWithPeriod
-        };
-        return result;
-    });
+    const suggestions: api.STStockSuggestion[] = [];
+    for await(const summary of randomSummaries){
+        const historicalData = await getStockHistoricalClosedData(summary.symbol, '1y');
+        suggestions.push({ summary, historicalData })
+    }
 
     return suggestions;
 }
