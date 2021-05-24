@@ -10,9 +10,6 @@ class FundamentalService:
     def getStockNews(self, symbol):
         return FundamentalServiceDataFetcher().fetchStockNews(symbol)
 
-    def getStockClosedPrice(self, symbol):
-        return FundamentalServiceDataFetcher().fetchStockClosedPrice(symbol)
-
     def getStockDetails(self, symbol):
         fetcher = FundamentalServiceDataFetcher()
         data = fetcher.fetchStockDetails(symbol)
@@ -26,6 +23,3 @@ class FundamentalService:
         calculatorFacade.calculatePredictions()
 
         return data
-
-
-

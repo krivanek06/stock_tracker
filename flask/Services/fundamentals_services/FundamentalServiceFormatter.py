@@ -1,5 +1,5 @@
 from datetime import datetime
-from ExternalAPI import utils
+from Utils import characterModificationUtil
 
 
 class FundamentalServiceFormatter:
@@ -9,7 +9,7 @@ class FundamentalServiceFormatter:
     def formatFetchedStockDetails(self, symbol):
         self.data['id'] = symbol
 
-        self.data = utils.changeUnsupportedCharactersForDictKey(self.data)
+        self.data = characterModificationUtil.changeUnsupportedCharactersForDictKey(self.data)
 
         # format data
         self._formatAnalysis()
@@ -78,7 +78,7 @@ class FundamentalServiceFormatter:
 
         result = {}
         for k in self.data['historicalMetrics']:
-            result[k] = {'data': [], 'dates': [], 'name': utils.cammelCaseToWord(k)}
+            result[k] = {'data': [], 'dates': [], 'name': characterModificationUtil.cammelCaseToWord(k)}
             for data in self.data['historicalMetrics'][k]:
                 result[k]['data'].insert(0, round(data.get('v'), 3))
                 result[k]['dates'].insert(0, data.get('period').split('-')[0])  # 2020-X-X
@@ -103,13 +103,13 @@ class FundamentalServiceFormatter:
                 dataLoop = len(data)  # usualy 4 quartes and 4 years but may be lower
                 for periodKeysIndex in range(len(periodKeys)):
                     res[statement][timePeriod][periodKeys[periodKeysIndex]] = {
-                        'name': utils.cammelCaseToWord(periodKeys[periodKeysIndex]),
+                        'name': characterModificationUtil.cammelCaseToWord(periodKeys[periodKeysIndex]),
                         'data': [],
                         'change': []
                     }
                     for timePeriodDataNumber in range(dataLoop):
                         try:
-                            value = utils.force_float(data[timePeriodDataNumber][periodKeys[periodKeysIndex]])
+                            value = characterModificationUtil.force_float(data[timePeriodDataNumber][periodKeys[periodKeysIndex]])
                             change = None
                             try:
                                 nextValue = data[timePeriodDataNumber + 1][periodKeys[periodKeysIndex]]
@@ -249,6 +249,8 @@ class FundamentalServiceFormatter:
                     '''
                     if data['concept'] in neededData[statement]:
                         newKey = neededData[statement][data['concept']]
+                        if len(self.data[statementNew]['quarterly']) <= i:
+                            self.data[statementNew]['quarterly'].append({})
                         self.data[statementNew]['quarterly'][i][newKey] = data['value']
 
                 # YEARS - may be less than quarterly data
@@ -317,7 +319,7 @@ class FundamentalServiceFormatter:
                 'recommendationMean': financialData.get('recommendationMean'),
                 'sector': summaryProfile.get('sector'),
                 'symbol': summary_all.get('symbol'),
-                'targetEstOneyPercent': utils.force_round(
+                'targetEstOneyPercent': characterModificationUtil.force_round(
                     financialData.get('currentPrice') / financialData.get('targetMeanPrice'), 2) if financialData.get(
                     'targetMeanPrice') is not None else None,
                 'weekRangeFiveTwoMax': detail.get('fiftyTwoWeekHigh'),
@@ -329,7 +331,7 @@ class FundamentalServiceFormatter:
                 'sharesOutstanding': stats.get('sharesOutstanding'),
                 'longBusinessSummary': summaryProfile.get('longBusinessSummary'),
                 'yearToDatePriceReturn': stats.get('fiveTwoWeekChange'),
-                'yearToDatePrice': utils.force_round(
+                'yearToDatePrice': characterModificationUtil.force_round(
                     financialData.get('currentPrice') / (1 + stats.get('fiveTwoWeekChange')), 2)
             }
             self.data['summary'] = summary

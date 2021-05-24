@@ -44,7 +44,7 @@ export class TradingStrategyEmvComponent implements OnInit {
                 }
             },
             title: {
-                text: 'Extended market verification',
+                text: '',
                 align: 'left',
                 style: {
                     color: '#bababa',

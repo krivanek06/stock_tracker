@@ -1,7 +1,7 @@
 from re import sub
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-
+from math import isnan
 '''
     transform {'Test (With % is)' : 55} -> {'Test_With_Pct_is' : 55} 
 '''
@@ -41,7 +41,9 @@ def cammelCaseToWord(name):
 
 def force_round(number, roundNumber=4):
     try:
-        return round(number, roundNumber) if number is not None else None
+        if isnan(number):
+            return None
+        return round(number, roundNumber)
     except:
         return None
 

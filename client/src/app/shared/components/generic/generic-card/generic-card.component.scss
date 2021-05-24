@@ -11,4 +11,10 @@
       padding-left: 8px !important;
     }
   }
+
+  ion-card-content {
+    .default-content:not(:only-child) {
+      display: none; // hide no content text
+    }
+  }
 }

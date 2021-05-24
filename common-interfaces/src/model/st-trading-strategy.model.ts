@@ -1,5 +1,6 @@
 import { STSeries } from "./st-chart.model";
 
+
 export interface STTradingStrategyData {
   interval: string;
   period: string;
@@ -8,7 +9,7 @@ export interface STTradingStrategyData {
 }
 
 export interface STTradingStrategySearch {
-  data: STTradingStrategySearch[];
+  data: STTradingStrategySearchData[];
 }
 
 export interface STTradingStrategySearchData {

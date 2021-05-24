@@ -2,7 +2,7 @@ from requests import get
 from datetime import datetime
 from calendar import timegm
 
-from ExternalAPI.utils import force_float
+from Utils.characterModificationUtil import force_float
 import environments_keys
 
 

@@ -34,7 +34,9 @@ export const queryStockSummary = async (symbol: string): Promise<api.Summary> =>
     try {
         const upperSymbol = symbol.toUpperCase();
         
-        console.log(`Summary for ${symbol}`);
+        if(!IS_PRODUCTION){
+            console.log(`Summary for ${symbol}`);
+        }
 
         const stockDetailsDocs = await admin.firestore().collection(`${api.ST_STOCK_DATA_COLLECTION}`).doc(upperSymbol).get();
         const wrapper = stockDetailsDocs.data() as api.StockDetailsWrapper | undefined;

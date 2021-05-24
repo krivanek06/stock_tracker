@@ -26,6 +26,7 @@ export class SearchStockDetailsPage implements OnInit, OnDestroy {
         this.stockDetailsService.getStockDetails().pipe(takeUntil(componentDestroyed(this))).subscribe(res => {
             this.showSpinner = false;
         });
+        console.log(this.segmentValue)
     }
 
     ngOnDestroy() {

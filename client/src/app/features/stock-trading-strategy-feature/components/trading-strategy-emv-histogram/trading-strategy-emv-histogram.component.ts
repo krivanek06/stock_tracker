@@ -47,7 +47,7 @@ export class TradingStrategyEMVHistogramComponent implements OnInit {
                 }
             },
             title: {
-                text: 'Extended market verification histogram',
+                text: '',
                 align: 'left',
                 style: {
                     color: '#bababa',

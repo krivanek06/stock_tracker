@@ -11,7 +11,7 @@ export class GenericCardComponent implements OnInit {
     @Input() additionalClasses: string;
     @Input() applyLeftPadding = true;
     @Input() removeHeader = false;
-    @Input() showNoData = false;
+
 
     constructor() {
     }

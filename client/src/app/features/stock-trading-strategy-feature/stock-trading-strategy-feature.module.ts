@@ -7,13 +7,6 @@ import {
     TradingStrategyRppGlbComponent,
     TradingStrategyRwbComponent
 } from './components';
-import {
-    TradingStrategyEmvContainerComponent,
-    TradingStrategyEmvHistogramContainerComponent,
-    TradingStrategyRmcContainerComponent,
-    TradingStrategyRppGlbContainerComponent,
-    TradingStrategyRwbContainerComponent
-} from './containers';
 
 
 @NgModule({
@@ -22,19 +15,14 @@ import {
         TradingStrategyEmvComponent,
         TradingStrategyRwbComponent,
         TradingStrategyRppGlbComponent,
-        TradingStrategyRwbContainerComponent,
-        TradingStrategyRppGlbContainerComponent,
-        TradingStrategyEmvHistogramContainerComponent,
-        TradingStrategyEmvContainerComponent,
         TradingStrategyRmcComponent,
-        TradingStrategyRmcContainerComponent
     ],
     exports: [
-        TradingStrategyRwbContainerComponent,
-        TradingStrategyRppGlbContainerComponent,
-        TradingStrategyEmvHistogramContainerComponent,
-        TradingStrategyEmvContainerComponent,
-        TradingStrategyRmcContainerComponent
+        TradingStrategyEMVHistogramComponent,
+        TradingStrategyEmvComponent,
+        TradingStrategyRwbComponent,
+        TradingStrategyRppGlbComponent,
+        TradingStrategyRmcComponent,
     ],
     imports: [
         SharedModule

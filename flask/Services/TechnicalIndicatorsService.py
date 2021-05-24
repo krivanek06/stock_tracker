@@ -4,7 +4,7 @@ import yfinance as yf
 
 from Services.FileManagerService import FileManagerService
 from ExternalAPI.AlphaVantageApi import AlphaVantageApi
-from ExternalAPI.utils import getIntervalFromPeriod, getPastDatetimeFromPeriod
+from Utils.characterModificationUtil import getIntervalFromPeriod, getPastDatetimeFromPeriod
 from Services.technicalIndicators.TechnicalIndicatorCalculator import TechnicalIndicatorCalculator
 
 
