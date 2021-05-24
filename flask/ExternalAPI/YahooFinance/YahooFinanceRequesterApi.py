@@ -1,6 +1,6 @@
 from requests import get
 
-from ExternalAPI.utils import getIntervalFromPeriod
+from Utils.characterModificationUtil import getIntervalFromPeriod
 from ExternalAPI.YahooFinance import CustomYahooParser
 
 

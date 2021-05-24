@@ -71,6 +71,6 @@ def getDataForStrategy():
     try:
         symbol = request.args.get('symbol')
         strategy = request.args.get('strategy')
-        return json_response(**TradingStrategiesService().getDataForStrategy(symbol, strategy))
+        return json_response(data=TradingStrategiesService().getDataForStrategy(symbol, strategy))
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'getDataForStrategy(), message: ' + str(e))

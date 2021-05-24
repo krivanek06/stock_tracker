@@ -18,16 +18,17 @@ export const queryTradingStrategies = async (): Promise<api.STTradingStrategySea
 export const queryTradingStrategyData = async (symbol: string, strategy: string): Promise<api.STTradingStrategyData> => {
     try {
          // check if exists in firestore
-         const dataDoc = await admin.firestore().collection('trading_strategies').doc(`${symbol}_${strategy}`).get()
+         const collectionRef =  admin.firestore().collection('stock_data').doc(symbol).collection('trading_strategies').doc(strategy);
+         const dataDoc = await collectionRef.get()
          let data = dataDoc.data() as STTradingStrategyFirebaseModel;
 
          if(!data || !moment(data.lastModification).isSame(new Date(), "day")){
             const resJson = await fetch(`${stockDataAPI}/chart_data/trading_strategy?symbol=${symbol}&strategy=${strategy}`);
-            const res = await resJson.json() as api.STTradingStrategyData;
+            const res = (await resJson.json()).data as api.STTradingStrategyData;
             
             data = { lastModification: new Date().toISOString(), data: res };
-            // save
-            await admin.firestore().collection('trading_strategies').doc(`${symbol}_${strategy}`).set(data);
+            
+            await collectionRef.set(data); // save
          }
 
         return data.data;

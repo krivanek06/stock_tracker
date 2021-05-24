@@ -1,6 +1,6 @@
 from flask import Flask, request
 from flask_json import FlaskJSON, JsonError, json_response
-#from flask_cors import CORS
+# from flask_cors import CORS
 from ExternalAPI.EconomicNewsApi import EconomicNewsApi
 from ExternalAPI.FinhubApi import FinhubApi
 from ExternalAPI.QuandlApi import QuandlApi
@@ -11,12 +11,13 @@ from Services.QuandlService import QuandlService
 
 app = Flask(__name__)
 FlaskJSON(app)
-#CORS(app, resources={r"*": {"origins": "*"}})
+# CORS(app, resources={r"*": {"origins": "*"}})
 
 # CUSTOM singleton
 
 
 ERROR_MESSAGE = 'Error in Search controller, method: '
+
 
 @app.route('/market_history_overview')
 def getMarketOverview():
@@ -24,7 +25,6 @@ def getMarketOverview():
         return json_response(**QuandlService().getMarketOverview())
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'getMarketOverview(), message: ' + str(e))
-
 
 
 @app.route('/technical_indicators')
@@ -165,4 +165,3 @@ def get_top_index_states():
         return json_response(data=YahooFinanceTopSymbolsApi().get_top_index_states())
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'get_top_index_states(), message: ' + str(e))
-

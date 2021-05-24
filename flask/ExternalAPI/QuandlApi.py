@@ -3,7 +3,7 @@ from datetime import datetime
 from requests import get
 
 from Services import FileManagerService
-from ExternalAPI import utils
+from Utils import characterModificationUtil
 import environments_keys
 
 
@@ -56,7 +56,7 @@ class QuandlApi:
 
         parentName = data.get('name')
         currentDate = data.get('end_date')
-        documentKey = utils.changeUnsupportedCharactersExceptNumber(
+        documentKey = characterModificationUtil.changeUnsupportedCharactersExceptNumber(
             'qundal_' + '_'.join(data.get('name').lower().split(' ')))
         customKeys = [d['name'] for d in replacements]
 
@@ -80,7 +80,7 @@ class QuandlApi:
             timestamp = timegm(datetime.strptime(block[0], "%Y-%m-%d").utctimetuple()) * 1000  # milliseconds
             timestamps.insert(0, timestamp)
             for i in range(len(block[1:])):
-                result[keys[i]].insert(0, utils.force_round(block[i + 1], 2))
+                result[keys[i]].insert(0, characterModificationUtil.force_round(block[i + 1], 2))
 
         # changing names for keys
         customKeys = keys if customKeys is None else customKeys
@@ -90,7 +90,7 @@ class QuandlApi:
             'timestamp': timestamps,
             'data': result[keys[i]],
             'documentKey': '_'.join(keys[i].lower().split(' ')),
-            'currentValue': utils.force_round(result[keys[i]][len(result[keys[i]]) - 1], 2)
+            'currentValue': characterModificationUtil.force_round(result[keys[i]][len(result[keys[i]]) - 1], 2)
         } for i in range(len(customKeys))]
 
         return final

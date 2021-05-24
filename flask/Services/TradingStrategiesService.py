@@ -1,10 +1,10 @@
 import yfinance as yf
 from datetime import datetime
 from pandas import DataFrame, Grouper
-
+from Utils.characterModificationUtil import force_round
 from Services.technicalIndicators.TechnicalIndicatorCalculator import TechnicalIndicatorCalculator
 from Services.FileManagerService import FileManagerService
-from ExternalAPI.utils import getIntervalFromPeriod, getPastDatetimeFromPeriod
+from Utils.ThreadUtil import synchronized
 
 from enum import Enum
 
@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.ticker as mticker
 '''
+
 
 class TradingStrategiesEnum(Enum):
     RED_WHITE_BLUE = 'RED_WHITE_BLUE'
@@ -32,15 +33,10 @@ class TradingStrategiesService(TechnicalIndicatorCalculator):
         return FileManagerService().getJsonFile(self.fileName)
 
     def getDataForStrategy(self, symbol: str, strategy: str):
-        strategy = strategy.upper()
         series, period, interval = self._makeLocalCalculation(symbol, strategy)
-        return {
-            **series,
-            'period': period,
-            'interval': interval,
-            'strategy': strategy,
-        }
+        return {**series, 'period': period, 'interval': interval, 'strategy': strategy}
 
+    @synchronized
     def _downloadData(self, symbol: str, period: str, interval: str) -> DataFrame:
         data = yf.download(tickers=symbol, period=period, interval=interval, auto_adjust=True)
         data.drop(data[data["Volume"] < 1000].index, inplace=True)  # dropping data before IPO
@@ -68,6 +64,10 @@ class TradingStrategiesService(TechnicalIndicatorCalculator):
             period, interval = 'max', '1d'
             data = self._downloadData(symbol, period, interval)
             series, timestamp = self._extendedMarketVerification(data)
+            # remove None values
+            noneValues = len([x for x in series[0]['data'] if x is None])
+            series[0]['data'] = series[0]['data'][noneValues:]
+            timestamp = timestamp[noneValues:]
         elif strategy == TradingStrategiesEnum.RISK_MANAGEMENT_CALCULATOR.value:
             period, interval = '1y', '1d'
             data = self._downloadData(symbol, period, interval)
@@ -104,15 +104,15 @@ class TradingStrategiesService(TechnicalIndicatorCalculator):
         for ema in emaUsed:
             data[f'EMA_{ema}'] = self._EMA(data, ema)
 
-        sma50 = round(data["SMA_50"][-1], 2)
-        sma200 = round(data["SMA_200"][-1], 2)
-        ema21 = round(data["EMA_21"][-1], 2)
-        low5 = round(min(filter(lambda low: low is not None, data["Low"].tail(5))), 2)  # low may be None, filter out
+        sma50 = force_round(data["SMA_50"][-1], 2)
+        sma200 = force_round(data["SMA_200"][-1], 2)
+        ema21 = force_round(data["EMA_21"][-1], 2)
+        low5 = force_round(min(filter(lambda low: low is not None, data["Low"].tail(5))), 2)  # low may be None, filter out
 
-        pf50 = round(((close / sma50) - 1) * 100, 2)
-        pf200 = round(((close / sma200) - 1) * 100, 2)
-        pf21 = round(((close / ema21) - 1) * 100, 2)
-        pfl = round(((close / low5) - 1) * 100, 2)
+        pf50 = round(((close / sma50) - 1) * 100, 2) if sma50 is not None else None
+        pf200 = round(((close / sma200) - 1) * 100, 2) if sma200 is not None else None
+        pf21 = round(((close / ema21) - 1) * 100, 2) if ema21 is not None else None
+        pfl = round(((close / low5) - 1) * 100, 2) if low5 is not None else None
 
         '''
         print()

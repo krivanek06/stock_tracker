@@ -1,7 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {StockDetails, SymbolStorageService} from '@core';
+import {
+    GraphqlQueryService,
+    GraphqlTradingStrategyService,
+    StMarketSymbolHistoricalChartData,
+    StockDetails,
+    StTradingStrategyData,
+    SymbolStorageService
+} from '@core';
 import {Observable} from 'rxjs';
-import {ChartType} from '@shared';
 
 @Component({
     selector: 'app-stock-details-strategies',
@@ -10,18 +16,32 @@ import {ChartType} from '@shared';
 })
 export class StockDetailsStrategiesComponent implements OnInit {
     stockDetails$: Observable<StockDetails>;
-    activeSymbol$: Observable<string>;
 
-
-    ChartType = ChartType;
+    // strategies
+    resistancePivotPoints$: Observable<StTradingStrategyData>;
+    greenLineBreakout$: Observable<StTradingStrategyData>;
+    historical5yData$: Observable<StMarketSymbolHistoricalChartData>;
+    riskManagementCalculator$: Observable<StTradingStrategyData>;
+    extendedMarketVerification$: Observable<StTradingStrategyData>;
+    redWhiteBlue$: Observable<StTradingStrategyData>;
 
     constructor(private symbolStorageService: SymbolStorageService,
+                private graphqlTradingStrategyService: GraphqlTradingStrategyService,
+                private graphqlQueryService: GraphqlQueryService,
     ) {
     }
 
     ngOnInit() {
-        this.activeSymbol$ = this.symbolStorageService.getActiveSymbol();
+        const activeSymbol = this.symbolStorageService.activeSymbol;
+
         this.stockDetails$ = this.symbolStorageService.getStockDetails();
+
+        this.resistancePivotPoints$ = this.graphqlTradingStrategyService.queryStTradingStrategyDataRPP(activeSymbol);
+        this.greenLineBreakout$ = this.graphqlTradingStrategyService.queryStTradingStrategyDataGLB(activeSymbol);
+        this.historical5yData$ = this.graphqlQueryService.queryStMarketSymbolHistoricalChartData(activeSymbol, '5y');
+        this.riskManagementCalculator$ = this.graphqlTradingStrategyService.queryStTradingStrategyDataRMC(activeSymbol);
+        this.extendedMarketVerification$ = this.graphqlTradingStrategyService.queryStTradingStrategyDataEMV(activeSymbol);
+        this.redWhiteBlue$ = this.graphqlTradingStrategyService.queryStTradingStrategyDataRWB(activeSymbol);
     }
 
 }

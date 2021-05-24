@@ -15,9 +15,11 @@
         <ion-col size="12" size-md="5">
             <!-- summary -->
             <app-generic-list [iconTitle]="'barcode-outline'"
-                              [title]="'Summary: ' + stockDetails.id"></app-generic-list>
+                              [title]="'Summary: ' + stockDetails.id">
+            </app-generic-list>
             <app-generic-card>
-                <app-stock-summary-container [summary]="stockDetails.summary">
+                <app-stock-summary-container
+                        [summary]="stockDetails.summary">
                 </app-stock-summary-container>
             </app-generic-card>
         </ion-col>
@@ -27,16 +29,20 @@
         <ion-col size-xl="3.5" size-sm="6" size="12">
             <app-generic-card [subtitle]="'Financial strength'" [additionalClasses]="'st-height-100'">
                 <app-details-financial-strength
-                        [stockDetails]="stockDetails"></app-details-financial-strength>
+                        [stockDetails]="stockDetails">
+                </app-details-financial-strength>
             </app-generic-card>
         </ion-col>
         <ion-col size-xl="3.5" size-sm="6" size="12">
             <app-generic-card [subtitle]="'Valuation'" [additionalClasses]="'st-height-100'">
-                <app-details-valuation [stockDetails]="stockDetails"></app-details-valuation>
+                <app-details-valuation
+                        [stockDetails]="stockDetails">
+                </app-details-valuation>
             </app-generic-card>
         </ion-col>
         <ion-col size-xl="5" size="12">
-            <app-generic-card [subtitle]="'Financial yearly growth'" [additionalClasses]="'st-height-100'"
+            <app-generic-card [subtitle]="'Financial yearly growth'"
+                              [additionalClasses]="'st-height-100'"
                               [applyLeftPadding]="false">
                 <app-generic-chart
                         [chartType]="ChartType.bar"
@@ -109,15 +115,12 @@
         </ion-col>
         <ion-col size-lg="3" size-sm="6" size="12">
             <app-generic-card [subtitle]="'Effectiveness'"
-                              [showNoData]="!stockDetails.companyData.financialData.returnOnAssets &&
-                                                !stockDetails.companyData.financialData.returnOnEquity &&
-                                                !stockDetails.metric.roiTTM"
                               [applyLeftPadding]="false"
                               [additionalClasses]="'st-height-100'">
                 <app-generic-chart
                         *ngIf="stockDetails.companyData.financialData.returnOnAssets ||
-                                    stockDetails.companyData.financialData.returnOnEquity ||
-                                    stockDetails.metric.roiTTM"
+                               stockDetails.companyData.financialData.returnOnEquity ||
+                               stockDetails.metric.roiTTM"
                         [chartType]="ChartType.column"
                         [heightPx]="220"
                         [isPercentage]="true"
@@ -137,7 +140,6 @@
         <ion-col size="12" size-lg="5">
             <!-- company growth -->
             <app-generic-card [subtitle]="'Company growth'"
-                              [showNoData]="!stockDetails.analysis?.growthEstimates"
                               [applyLeftPadding]="false"
                               [additionalClasses]="'st-height-100'">
                 <app-generic-chart
@@ -160,7 +162,6 @@
         <ion-col size-xl="6.5" size-md="7.5" size="12">
             <!-- revenue growth chart -->
             <app-generic-card [subtitle]="'Revenue growth estimation'"
-                              [showNoData]="!stockDetails.analysis?.revenueEstimate"
                               [applyLeftPadding]="false"
                               [additionalClasses]="'st-height-100'">
                 <app-details-revenue-estimate
@@ -173,7 +174,6 @@
             <!-- recommendation chart -->
             <app-generic-card [subtitle]="'Recommendation'"
                               [applyLeftPadding]="false"
-                              [showNoData]="stockDetails.recommendation.length === 0"
                               [additionalClasses]="'st-height-100'">
                 <app-details-recommendation-chart
                         *ngIf="stockDetails.recommendation.length > 0"
@@ -189,7 +189,6 @@
             <!-- Financial yearly -->
             <app-generic-card [subtitle]="'Financial yearly'"
                               [applyLeftPadding]="false"
-                              [showNoData]="!stockDetails.companyData.earnings?.financialsChart"
                               [additionalClasses]="'st-height-100'">
                 <app-generic-chart
                         *ngIf="stockDetails.companyData.earnings?.financialsChart as fc"
@@ -205,7 +204,6 @@
             <!-- Financial quarterly -->
             <app-generic-card [subtitle]="'Financial quarterly'"
                               [applyLeftPadding]="false"
-                              [showNoData]="!stockDetails.companyData.earnings?.financialsChart"
                               [additionalClasses]="'st-height-100'">
                 <app-generic-chart
                         *ngIf="stockDetails.companyData.earnings?.financialsChart as fc"
@@ -220,8 +218,7 @@
         <ion-col size-lg="4" size="12">
             <app-generic-card
                     [subtitle]="'Earnings'"
-                    [applyLeftPadding]="false"
-                    [showNoData]="!stockDetails.companyData.earnings?.earningsChart">
+                    [applyLeftPadding]="false">
                 <app-details-earnings-chart
                         *ngIf="stockDetails.companyData.earnings?.earningsChart as earningsChart"
                         [earnings]="earningsChart">
@@ -272,9 +269,9 @@
                 <!-- ESG score -->
                 <app-generic-card
                         [subtitle]="'ESG risk rating'"
-                        [additionalClasses]="'st-height-100'"
-                        [showNoData]="!stockDetails.companyData.esgScores">
+                        [additionalClasses]="'st-height-100'">
                     <app-details-esg-score
+                            *ngIf="stockDetails.companyData.esgScores"
                             [esgScore]="stockDetails.companyData.esgScores">
                     </app-details-esg-score>
                 </app-generic-card>
@@ -285,7 +282,6 @@
             <!--  grading history -->
             <app-generic-card
                     [subtitle]="'Stock grading'"
-                    [showNoData]="stockDetails.companyData.upgradeDowngradeHistory.length === 0"
                     [additionalClasses]="'st-height-100'">
                 <ion-item-group class="ion-margin-bottom">
                     <app-details-grading-history
@@ -306,7 +302,9 @@
     <ion-row>
         <ion-col size="12">
             <app-generic-card [subtitle]="'Institution ownership'">
-                <app-details-ownership [ownerships]="stockDetails.institutionOwnerships">
+                <app-details-ownership
+                        *ngIf="stockDetails.institutionOwnerships.length > 0"
+                        [ownerships]="stockDetails.institutionOwnerships">
                 </app-details-ownership>
             </app-generic-card>
         </ion-col>
@@ -315,9 +313,10 @@
     <!-- transaction -->
     <ion-row>
         <ion-col size="12">
-            <app-generic-card [subtitle]="'Insider transactions'"
-                              [showNoData]="stockDetails.insiderTransactions.length === 0">
-                <app-details-transactions [transactions]="stockDetails.insiderTransactions">
+            <app-generic-card [subtitle]="'Insider transactions'">
+                <app-details-transactions
+                        *ngIf="stockDetails.insiderTransactions.length > 0"
+                        [transactions]="stockDetails.insiderTransactions">
                 </app-details-transactions>
             </app-generic-card>
         </ion-col>
@@ -331,7 +330,6 @@
                 <ion-col size="12" [sizeSm]="last ? 12 : 6" [sizeLg]="i > 15 ? 6  : 4" *ngIf="key !== '__typename'">
                     <ng-container *ngIf="stockDetails.historicalMetrics[key] as data">
                         <app-generic-card [subtitle]="data.name + ': ' + data.data[data.data.length - 1]"
-                                          [showNoData]="data.dates.length === 0"
                                           [additionalClasses]="'st-height-100'">
                             <app-generic-chart *ngIf="data.dates.length > 0"
                                                [categories]="data.dates"

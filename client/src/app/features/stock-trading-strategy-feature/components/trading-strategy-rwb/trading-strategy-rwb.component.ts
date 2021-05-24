@@ -55,7 +55,7 @@ export class TradingStrategyRwbComponent implements OnInit {
                 }
             },
             title: {
-                text: 'Red white blue',
+                text: '',
                 align: 'left',
                 style: {
                     color: '#bababa',

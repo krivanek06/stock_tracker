@@ -74,7 +74,7 @@ export class TradingStrategyRppGlbComponent implements OnInit {
                 }
             },
             title: {
-                text: 'Green line breakouts with resistance pivot points',
+                text: '',
                 align: 'left',
                 style: {
                     color: '#bababa',
