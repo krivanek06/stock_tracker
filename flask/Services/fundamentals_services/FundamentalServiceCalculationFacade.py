@@ -22,7 +22,6 @@ class FundamentalServiceCalculationFacade:
         self.data['incomeStatement'][self.YEARLY]['netIncomeMargin'] = self.calculator.calculateNetIncomeMargin(self.YEARLY)
         self.data['incomeStatement'][self.QUARTERLY]['netIncomeMargin'] = self.calculator.calculateNetIncomeMargin(self.QUARTERLY)
 
-
         self.data['calculations'] = {
             'WACC': self.calculator.calculateWACC(),
             'CAPM': self.calculator.calculateCAPM()
@@ -32,6 +31,7 @@ class FundamentalServiceCalculationFacade:
         self.data['calculatedPredictions'] = {
             'DCF_V1': self.dcfEstimation.estimateDFC(),
             'DDF_V1': self.estimation.estimateDividendDiscountedFormula(),
-            'INTRINSIC_V1': self.estimation.estimateIntrinsicValueV1()
+            'FCF_V1': self.estimation.estimateFCFValuation(),
+            'INTRINSIC_V1': self.estimation.estimateIntrinsicFromEarnings(),
         }
 

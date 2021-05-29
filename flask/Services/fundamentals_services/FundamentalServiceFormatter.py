@@ -2,6 +2,7 @@ from datetime import datetime
 from Utils import characterModificationUtil
 
 
+
 class FundamentalServiceFormatter:
     def __init__(self, data):
         self.data = data
@@ -20,6 +21,9 @@ class FundamentalServiceFormatter:
         self._formatStatementData()
         self._formatHistoricalMetrics()
         self.data['recommendation'].reverse()
+
+        # change: nan, infinity -> null
+        self.data = characterModificationUtil.check_value_correction(self.data)
 
         # remove data
         self._removeUnnecessaryData()
@@ -308,7 +312,7 @@ class FundamentalServiceFormatter:
                 'oneyTargetEst': financialData.get('targetMeanPrice'),
                 'open': price.get('regularMarketOpen'),
                 'pERatioTTM': detail.get('trailingPE'),
-                'forwardPE': detail.get('forwardPE'),
+                'forwardPE': stats.get('forwardPE'),
                 'volume': detail.get('volume'),
                 'currency': price.get('currency'),
                 'industry': summaryProfile.get('industry'),
