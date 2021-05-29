@@ -2,6 +2,7 @@ from re import sub
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from math import isnan
+
 '''
     transform {'Test (With % is)' : 55} -> {'Test_With_Pct_is' : 55} 
 '''
@@ -24,10 +25,32 @@ def changeUnsupportedCharactersForDictKey(data):
     return res
 
 
-def changeUnsupportedCharacters(value):
+def changeUnsupportedCharacters(value: str):
     value = value.translate(str.maketrans(unsupportedCharacter))
     value = value.translate(str.maketrans(unsupportedCharacterNumbers))
     return value
+
+
+# https://stackoverflow.com/questions/50337256/how-to-change-values-in-a-nested-dictionary
+def change_key(d, required_key, new_value):
+    for k, v in d.items():
+        if isinstance(v, dict):
+            change_key(v, required_key, new_value)
+        if k == required_key:
+            d[k] = new_value
+
+
+# change nan or "infinity" values for null
+def check_value_correction(data):
+    res = {}
+    for k, v in data.items():
+        if isinstance(v, dict):
+            v = check_value_correction(v)
+        if v == 'Infinity' or ((isinstance(v, int) or isinstance(v, float)) and isnan(v)):
+            v = None
+        res[k] = v
+
+    return res
 
 
 def changeUnsupportedCharactersExceptNumber(value):

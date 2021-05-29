@@ -1,5 +1,7 @@
 '''
-    Calculating intrinsic value of the company by discounted cash flow method
+    Discounted Cash Flow
+
+    Calculating intrinsic value of the company by Discounted Cash Flow method
     link > https://www.youtube.com/watch?v=fd_emLLzJnk&ab_channel=LearntoInvest
 
     Creating 2 calculating byt taking lowest % growth or average growth for last 4 years
@@ -11,7 +13,7 @@
     Do not forget to add margin of safety to the end intrinsic value
 '''
 from statistics import mean
-
+from datetime import datetime
 
 class FundamentalServiceEstimationDCF:
     def __init__(self, data):
@@ -42,27 +44,20 @@ class FundamentalServiceEstimationDCF:
         sharesOutstanding = self.data['summary']['sharesOutstanding']
         perpetualGrowthRate = 0.025  # constant growth rate - 2.5% -  rate of which free cash flow gonna grow forever
 
-        terminalValue = round((estimatedFreeCashFlows[-1] * (1 + perpetualGrowthRate)) / (requiredRateOfReturn - perpetualGrowthRate), 0)
+        estimatedTerminalValue = round((estimatedFreeCashFlows[-1] * (1 + perpetualGrowthRate)) / (requiredRateOfReturn - perpetualGrowthRate), 0)
 
-        discountedFactors = [round((1 + requiredRateOfReturn) ** i, 2) for i in range(1, self.ESTIMATED_TIME_PERIOD + 2 + 1)]
-        discountedTerminalValue = round(terminalValue / discountedFactors[-1], 0)
+        estimatedDiscountedFactors = [round((1 + requiredRateOfReturn) ** i, 2) for i in range(1, self.ESTIMATED_TIME_PERIOD + 2 + 1)]
+        estimatedDiscountedTerminalValue = round(estimatedTerminalValue / estimatedDiscountedFactors[-1], 0)
 
-        estimatedPresentValueOfFutureCashFlows = [round(estimatedFreeCashFlows[i] / discountedFactors[i], 0) for i in range(4)]
+        estimatedPresentValueOfFutureCashFlows = [round(estimatedFreeCashFlows[i] / estimatedDiscountedFactors[i], 0) for i in range(4)]
 
-        estimatedCompanyTodayValue = sum(estimatedPresentValueOfFutureCashFlows) + discountedTerminalValue
-        intrinsicValue = round(estimatedCompanyTodayValue / sharesOutstanding, 2)
+        estimatedCompanyTodayValue = sum(estimatedPresentValueOfFutureCashFlows) + estimatedDiscountedTerminalValue
+        estimatedIntrinsicValue = round(estimatedCompanyTodayValue / sharesOutstanding, 2)
+        thisYear = datetime.now().year
+        historicalYears = [str(thisYear - i - 1) for i in range(len(revenue))][::-1]
+        years = [str(thisYear + i) for i in range(len(estimatedRevenues))]
+
         return {
-            'estimations': {
-                'estimatedFreeCashFlowRate': estimatedFreeCashFlowRate,
-                'estimatedFreeCashFlowRates': estimatedFreeCashFlowRates,
-                'estimatedRevenues': estimatedRevenues,
-                'estimatedRevenueGrowthRate': estimatedRevenueGrowthRate,
-                'estimatedNetIncomes': estimatedNetIncomes,
-                'estimatedNetIncomeMargin': estimatedNetIncomeMargin,
-                'estimatedFreeCashFlows': estimatedFreeCashFlows,
-                'estimatedPresentValueOfFutureCashFlows': estimatedPresentValueOfFutureCashFlows,
-                'estimatedCompanyTodayValue': estimatedCompanyTodayValue
-            },
             'variable': {
                 'requiredRateOfReturn': requiredRateOfReturn,
                 'perpetualGrowthRate': perpetualGrowthRate
@@ -73,19 +68,30 @@ class FundamentalServiceEstimationDCF:
                 'netIncomeMargins': netIncomeMargins,
                 'netIncome': netIncome,
                 'revenue': revenue,
-                'revenueGrowthRates': revenueGrowthRates
+                'revenueGrowthRates': revenueGrowthRates,
+                'historicalYears': historicalYears
             },
-            'terminalValue': terminalValue,
-            'discountedTerminalValue': discountedTerminalValue,
-            'discountedFactors': discountedFactors,
-            'intrinsicValue': intrinsicValue
+            'years': years,
+            'estimatedTerminalValue': estimatedTerminalValue,
+            'estimatedDiscountedTerminalValue': estimatedDiscountedTerminalValue,
+            'estimatedDiscountedFactors': estimatedDiscountedFactors,
+            'estimatedFreeCashFlowRate': estimatedFreeCashFlowRate,
+            'estimatedFreeCashFlowRates': estimatedFreeCashFlowRates,
+            'estimatedRevenues': estimatedRevenues,
+            'estimatedRevenueGrowthRate': estimatedRevenueGrowthRate,
+            'estimatedNetIncomes': estimatedNetIncomes,
+            'estimatedNetIncomeMargin': estimatedNetIncomeMargin,
+            'estimatedFreeCashFlows': estimatedFreeCashFlows,
+            'estimatedPresentValueOfFutureCashFlows': estimatedPresentValueOfFutureCashFlows,
+            'estimatedCompanyTodayValue': estimatedCompanyTodayValue,
+            'estimatedIntrinsicValue': estimatedIntrinsicValue
         }
 
     # traditional loop because freeCashFlowRate or estimatedNetIncome can be negative and two negative number result positive
     def __estimateFreeCashFlows(self, estimatedNetIncome, freeCashFlowRate):
         freeCashFlows = self.cashFlow['freeCashFlow']['data'][::-1]  # historical cash flow, past 4 data_aggregation
         estimateFreeCashFlows = []
-        # estimateFreeCashFlows += [round(income * freeCashFlowRate, 0) for income in estimatedNetIncome[len(estimateFreeCashFlows):]]
+
         for income in estimatedNetIncome:
             isNegative = income < 0 or freeCashFlowRate < 0
             timePeriodEstimateFreeCashFlow = round(abs(income * freeCashFlowRate), 0)
@@ -100,8 +106,6 @@ class FundamentalServiceEstimationDCF:
         netIncome = self.cashFlow['netIncome']['data'][::-1]
         netIncomeMargins = [round(netIncome[i] / revenue[i], 4) for i in range(len(netIncome))]
         estimatedNetIncomeMargin = self.__getNumberFromList(netIncomeMargins)
-
-        # netIncomeMargins += [netIncomeGrowthRate] * 4  # just to have a nice table
         estimatedNetIncomes = [round(revenue * estimatedNetIncomeMargin, 0) for revenue in estimatedRevenue]
         return netIncome, netIncomeMargins, estimatedNetIncomeMargin, estimatedNetIncomes
 
@@ -115,11 +119,11 @@ class FundamentalServiceEstimationDCF:
         mergedRevenues = revenues + estimatedRevenue
         revenueGrowthRates = [round((mergedRevenues[i] - mergedRevenues[i - 1]) / abs(mergedRevenues[i - 1]), 4) for i in
                               range(1, len(mergedRevenues))]
-        estimatedRevenueGrowthRate = 1 + self.__getNumberFromList(revenueGrowthRates)
+        estimatedRevenueGrowthRate = self.__getNumberFromList(revenueGrowthRates)
         revenueGrowthRates = [None] + revenueGrowthRates[:-2]  # remove current year and next year
 
         for _ in range(self.ESTIMATED_TIME_PERIOD):
-            estimatedRevenue.append(round(estimatedRevenue[-1] * estimatedRevenueGrowthRate, 0))
+            estimatedRevenue.append(round(estimatedRevenue[-1] * (1 + estimatedRevenueGrowthRate), 0))
 
         return revenues, revenueGrowthRates, estimatedRevenueGrowthRate, estimatedRevenue
 
