@@ -273,7 +273,7 @@ class FundamentalServiceFormatter:
             price = summary_all.get('price')
             quote = summary_all.get('quoteType')
             detail = summary_all.get('summaryDetail')
-            stats = summary_all.get('defaultKeyStatistics')
+            stats = {} if summary_all.get('defaultKeyStatistics') is None else summary_all.get('defaultKeyStatistics')
             financialData = summary_all.get('financialData')
             events = summary_all.get('calendarEvents')
             earnings = events.get('earnings').get('earningsDate')
@@ -336,7 +336,7 @@ class FundamentalServiceFormatter:
                 'longBusinessSummary': summaryProfile.get('longBusinessSummary'),
                 'yearToDatePriceReturn': stats.get('fiveTwoWeekChange'),
                 'yearToDatePrice': characterModificationUtil.force_round(
-                    financialData.get('currentPrice') / (1 + stats.get('fiveTwoWeekChange')), 2)
+                    financialData.get('currentPrice') / (1 + stats.get('fiveTwoWeekChange', 0)), 2)
             }
             self.data['summary'] = summary
         except Exception as e:

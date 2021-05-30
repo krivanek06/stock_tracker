@@ -53,6 +53,9 @@
       "@stock-details-feature": [
         "src/app/features/stock-details-feature/index"
       ],
+      "@stock-valuation-feature": [
+        "src/app/features/stock-valuation-feature/index"
+      ],
       "@stock-trading-feature": [
         "src/app/features/stock-trading-feature/index"
       ],

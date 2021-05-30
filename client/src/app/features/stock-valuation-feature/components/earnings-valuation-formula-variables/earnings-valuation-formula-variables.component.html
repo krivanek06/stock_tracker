@@ -1,0 +1,31 @@
+<ion-list>
+    <ion-list-header class="ion-margin-bottom">
+        <ion-label class="ion-text-center">
+            Variables
+        </ion-label>
+    </ion-list-header>
+
+    <app-range-rating-slider
+            name="Growth rate up to 5y"
+            [value]="variables.growthRateNext5y"
+            [isPercent]="true">
+    </app-range-rating-slider>
+
+    <app-range-rating-slider
+            name="Growth rate from 5y to 10y"
+            [value]="variables.growthRateFrom5yTo10y"
+            [isPercent]="true">
+    </app-range-rating-slider>
+
+    <app-range-rating-slider
+            name="Minimum return"
+            [value]="variables.minimumRateReturn"
+            [isPercent]="true">
+    </app-range-rating-slider>
+
+    <app-range-rating-slider
+            name="Terminal multiple"
+            [value]="variables.terminalMultiple"
+            [step]="0.1">
+    </app-range-rating-slider>
+</ion-list>

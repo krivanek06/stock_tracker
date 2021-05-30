@@ -1,0 +1,19 @@
+<app-generic-card subtitle="Earnings valuation">
+    <ion-grid *ngIf="earningsFormula$ | async as formula">
+        <ion-row>
+            <!-- variables -->
+            <ion-col size="12" size-md="4" offset-md="0.5">
+                <app-earnings-valuation-formula-variables
+                        [variables]="formula.variable">
+                </app-earnings-valuation-formula-variables>
+            </ion-col>
+
+            <!-- formula -->
+            <ion-col size="12" size-md="6.5" offset-md="1">
+                <app-earnings-valuation-formula
+                        [formula]="formula">
+                </app-earnings-valuation-formula>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</app-generic-card>

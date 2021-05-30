@@ -22,6 +22,20 @@ export const stockDetailsTypeDefs = gql`
         historicalMetrics: HistoricalMetrics
         institutionOwnerships: [InstitutionOwnership]
         insiderTransactions: [InsiderTransaction]
+        calculations: STStockDetailsCalculations
+        calculatedPredictions: STStockDetailsCalculatedPredictions
+    }
+
+    type STStockDetailsCalculatedPredictions {
+        DCF_V1: STDiscountedCashFlowFormula
+        DDF_V1: STDividendDiscountedFormula
+        FCF_V1: STFreeCashFlowFormula
+        INTRINSIC_V1: STEarningsValuationFormula
+    }
+
+    type STStockDetailsCalculations {
+        CAPM: CAPM
+        WACC: WACC
     }
 
     type InsiderTransaction {
@@ -168,7 +182,8 @@ export const stockDetailsTypeDefs = gql`
         commercialPaperRepayments: SheetData
         shortTermDebtRepayments: SheetData
         longTermDebtInsurance: SheetData
-        CustomerDeposits: SheetData
+        customerDeposits: SheetData
+        freeCashFlow: SheetData
     }
 
     type BalanceSheet {

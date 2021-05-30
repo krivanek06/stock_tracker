@@ -2,10 +2,16 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {SEARCH_PAGE_STOCK_DETAILS_ENUM} from '../../../models/pages.model';
 import {SearchStockDetailsPage} from './search-stock-details-page.component';
-import {StockDetailsFinancialComponent, StockDetailsStatisticComponent, StockDetailsStrategiesComponent} from './pages';
+import {
+    StockDetailsFinancialComponent,
+    StockDetailsStatisticComponent,
+    StockDetailsStrategiesComponent,
+    StockDetailsValuationComponent
+} from './pages';
 import {SharedModule} from '@shared';
 import {StockDetailsFeatureModule} from '@stock-details-feature';
 import {StockTradingStrategyFeatureModule} from '@stock-trading-strategy-feature';
+import {StockValuationFeatureModule} from '@stock-valuation-feature';
 
 const routes: Routes = [
     {
@@ -28,6 +34,10 @@ const routes: Routes = [
             {
                 path: SEARCH_PAGE_STOCK_DETAILS_ENUM.STRATEGIES,
                 component: StockDetailsStrategiesComponent
+            },
+            {
+                path: SEARCH_PAGE_STOCK_DETAILS_ENUM.VALUATION,
+                component: StockDetailsValuationComponent
             }
         ]
     }
@@ -38,13 +48,15 @@ const routes: Routes = [
         SearchStockDetailsPage,
         StockDetailsFinancialComponent,
         StockDetailsStatisticComponent,
-        StockDetailsStrategiesComponent
+        StockDetailsStrategiesComponent,
+        StockDetailsValuationComponent
     ],
     imports: [
         RouterModule.forChild(routes),
         SharedModule,
         StockDetailsFeatureModule,
-        StockTradingStrategyFeatureModule
+        StockTradingStrategyFeatureModule,
+        StockValuationFeatureModule
     ]
 })
 export class SearchStockDetailsModule {

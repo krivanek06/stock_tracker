@@ -1,0 +1,15 @@
+<ion-item>
+    <ion-label class="st-table-main-label">{{ name }}</ion-label>
+    <ion-label>{{ data[0] | numberFormatter }}</ion-label>
+    <ion-label *ngFor="let d of data | slice: 1; let i = index"
+               class="st-flex-row-important">
+        <ion-text> {{ d | numberFormatter }}</ion-text>
+        <app-price-compare-item
+                class="ion-hide-md-down"
+                [showIcons]="false"
+                [showPrice]="false"
+                [currentPrice]="d"
+                [compareToPrice]="data[i]">
+        </app-price-compare-item>
+    </ion-label>
+</ion-item>

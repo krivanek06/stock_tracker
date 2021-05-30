@@ -1,3 +1,7 @@
+import { STFreeCashFlowFormulaTypeDefs } from './st-stock-calculations/st-free-cash-flow-formula.typedef';
+import { STDividendDiscountedFormulaTypeDefs } from './st-stock-calculations/st-dividend-discounted-formula.typedef';
+import { STEarningsValuationFormulaTypeDefs } from './st-stock-calculations/st-earnings-valuation-formula.typedef';
+import { STDiscountedCashFlowFormulaTypeDefs } from './st-stock-calculations/st-discounted-cash-flow-formula.typedef';
 import { queryUsersRegistration } from './st-admin/st-admin.query';
 import { STAdminTypeDefs } from './st-admin/st-admin.typeDefs';
 import { queryTradingStrategies, queryTradingStrategyData } from './st-trading-strategy/st-trading-strategy.query';
@@ -45,6 +49,7 @@ import {
     querySTMarketHistoryOverview,
     querySTMarketSymbolHistoricalChartData
 } from "./st-market/st-market.query";
+import { STStockDetailsCalculationsTypeDefs } from './st-stock-calculations';
 
 global.fetch = require("node-fetch");
 
@@ -202,7 +207,12 @@ const server = new ApolloServer({
         STPortfolioTypeDefs,
         STGroupTypeDefs,
         STTraingStrategyTypeDefs,
-        STAdminTypeDefs
+        STAdminTypeDefs,
+        STStockDetailsCalculationsTypeDefs,
+        STDiscountedCashFlowFormulaTypeDefs,
+        STDividendDiscountedFormulaTypeDefs,
+        STEarningsValuationFormulaTypeDefs,
+        STFreeCashFlowFormulaTypeDefs
     ],
     resolvers,
     introspection: true

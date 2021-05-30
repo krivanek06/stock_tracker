@@ -4,14 +4,14 @@
             <ion-label class="header-label"></ion-label>
             <ion-label *ngFor="let item of statement?.endDate?.data; let i = index; let last=last"
                        [class]="'st-font-1-bold label-'+i" [ngClass]="{'ion-padding-start' :!last}">
-                {{isQuarterlyData ? (item * 1000 | date:'dd.MM.YYYY') : (item * 1000 | date:'YYYY')}}
+                {{isQuarterlyData ? (item * 1000 | date:'dd.MM.YYYY') : ((item - 200000) * 1000  | date:'YYYY')}}
             </ion-label>
         </ion-item>
         <ng-container *ngFor="let key of statement | objNgFor">
             <ion-item *ngIf="key !== 'endDate' && !!statement[key] && !!statement[key]?.data"
                       class="st-data-item-wrapper">
                 <!-- key name -->
-                <ion-label class="st-font-1-bold header-label">{{ statement[key].name }}</ion-label>
+                <ion-label class="st-font-2-bold header-label">{{ statement[key].name }}</ion-label>
 
                 <!-- ex. 236mil. +35.8% -->
                 <ion-label *ngFor="let value of statement[key].data; let i = index"

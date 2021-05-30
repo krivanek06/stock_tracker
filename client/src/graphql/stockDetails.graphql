@@ -185,7 +185,7 @@ fragment cashFlowDataFragment on CashFlowData {
     accruedExpenses {
         ...SheetDataFragment
     }
-    CustomerDeposits {
+    customerDeposits {
         ...SheetDataFragment
     }
     shareBasedCompensation {
@@ -257,8 +257,10 @@ fragment cashFlowDataFragment on CashFlowData {
     repurchaseOfStock {
         ...SheetDataFragment
     }
+    freeCashFlow {
+        ...SheetDataFragment
+    }
 }
-
 
 fragment incomeStatementFragment on IncomeStatementData {
     totalRevenue {
@@ -369,7 +371,6 @@ fragment newsArticleFragment on NewsArticle {
     summary
     url
 }
-
 
 fragment calculationFragment on Calculation {
     avg
@@ -609,7 +610,6 @@ fragment dividensFragment on Dividens {
     forwardDividendYield
 }
 
-
 fragment earningsChartFragment on EarningsChart {
     currentQuarterEstimate
     currentQuarterEstimateDate
@@ -651,6 +651,25 @@ fragment historicalMetricsDataFragment on HistoricalMetricsData {
     data
 }
 
+fragment CAPMFragment on CAPM {
+    Beta
+    Rf
+    Rm
+    result
+}
+
+fragment WACCFragment on WACC {
+    CAPM {
+        ...CAPMFragment
+    }
+    Rd
+    Re
+    Wd
+    We
+    result
+    taxRate
+}
+
 # -----------------------------------------
 # QUERY
 
@@ -664,7 +683,7 @@ query QueryStockDetails($symbol: String!) {
             revenueEstimate {
                 ...estimatesFragment
             }
-            earningsEstimate{
+            earningsEstimate {
                 ...estimatesFragment
             }
         }
@@ -807,8 +826,77 @@ query QueryStockDetails($symbol: String!) {
             transactionText
             value
         }
+        calculations {
+            CAPM {
+                ...CAPMFragment
+            }
+            WACC {
+                ...WACCFragment
+            }
+        }
+        calculatedPredictions {
+            DCF_V1 {
+                estimatedCompanyTodayValue
+                estimatedDiscountedFactors
+                estimatedDiscountedTerminalValue
+                estimatedFreeCashFlowRate
+                estimatedFreeCashFlowRates
+                estimatedFreeCashFlows
+                estimatedIntrinsicValue
+                estimatedNetIncomeMargin
+                estimatedNetIncomes
+                estimatedPresentValueOfFutureCashFlows
+                estimatedRevenueGrowthRate
+                estimatedRevenues
+                estimatedTerminalValue
+                historical {
+                    freeCashFlows
+                    sharesOutstanding
+                    netIncomeMargins
+                    netIncome
+                    revenue
+                    revenueGrowthRates
+                    historicalYears
+                }
+                variable {
+                    perpetualGrowthRate
+                    requiredRateOfReturn
+                }
+                years
+            }
+            DDF_V1 {
+                dividendGrowthRate
+                dividendsPerShareTTM
+                minimumRateReturn
+                estimatedIntrinsicValue
+            }
+            FCF_V1 {
+                avgFcf
+                estimatedIntrinsicMarketCap
+                estimatedIntrinsicValue
+                historicalYears
+                minimumRateReturn
+                netBorrowings
+                freeCashFlows
+                sharesOutstanding
+            }
+            INTRINSIC_V1 {
+                dates
+                eps
+                estimatedDiscountedPV
+                estimatedEarnings
+                estimatedIntrinsicValue
+                variable {
+                    growthRateFrom5yTo10y
+                    growthRateNext5y
+                    minimumRateReturn
+                    terminalMultiple
+                }
+            }
+        }
     }
 }
+
 
 query QueryStockSummary($symbol: String!) {
     queryStockSummary(symbol: $symbol) {

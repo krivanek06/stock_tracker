@@ -239,6 +239,24 @@ ion-spinner {
   align-items: flex-end;
 }
 
+.st-data-label-end {
+  display: flex;
+  justify-content: flex-end;
+  max-width: fit-content;
+  min-width: fit-content;
+  margin-left: 8px !important;
+}
+
+.st-table-main-label {
+  min-width: 30%;
+  max-width: 30%;
+  color: #{$st-var-font-0} !important;
+  @media (max-width: #{$st-var-sm-split}) {
+    min-width: 27%;
+    max-width: 27%;
+  }
+}
+
 .st-flex-end-sm {
   @media (max-width: #{$st-var-sm-split}) {
     text-align: end !important;
@@ -510,7 +528,7 @@ ion-spinner {
 /* Custom Skeleton Line Height and Margin */
 ion-skeleton-text {
   line-height: 16px;
-  --background-rgb: 200,200,255;
+  --background-rgb: 200, 200, 255;
 }
 
 
@@ -641,6 +659,22 @@ ion-skeleton-text {
     flex-flow: column !important;
   }
 }
+
+.st-flex-space-evenly {
+  display: flex;
+  justify-content: space-evenly;
+  flex-flow: row;
+
+  ion-label {
+    color: #{$st-var-font-2};
+  }
+}
+
+.st-small-vertical-padding {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
 
 .st-flex-col {
   display: flex !important;

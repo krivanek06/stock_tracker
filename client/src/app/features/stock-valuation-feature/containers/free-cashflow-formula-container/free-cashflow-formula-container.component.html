@@ -1,0 +1,7 @@
+<app-generic-card subtitle="Free cash flow valuation">
+    <ng-container *ngIf="freeCashFlowFormula$ | async as formula">
+        <app-free-cashflow-formula
+                [formula]="formula">
+        </app-free-cashflow-formula>
+    </ng-container>
+</app-generic-card>

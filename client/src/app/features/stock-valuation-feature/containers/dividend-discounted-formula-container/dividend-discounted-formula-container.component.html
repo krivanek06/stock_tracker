@@ -1,0 +1,7 @@
+<app-generic-card subtitle="Dividend discounted valuation">
+    <ng-container *ngIf="dividendDiscountedFormula$ | async as formula">
+        <app-dividend-discounted-formula
+                [formula]="formula">
+        </app-dividend-discounted-formula>
+    </ng-container>
+</app-generic-card>
