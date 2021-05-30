@@ -17,13 +17,18 @@ class FundamentalServiceEstimation:
                 return None
             # inputs
             sharesOutstanding = self.data['summary']['sharesOutstanding']
-            pastFreeCashFlows = self.data['cashFlow']['yearly']['freeCashFlow']['data'][::-1]
+            freeCashFlows = self.data['cashFlow']['yearly']['freeCashFlow']['data'][::-1]
             netBorrowings = self.data['cashFlow']['yearly']['netBorrowings']['data'][::-1]
 
-            avgFcf = mean(pastFreeCashFlows)
+            avgFcf = mean(freeCashFlows)
+
+            # negative free cash flow, company is loosing money
+            if avgFcf < 0:
+                return None
+
             minimumRateReturn = self.data['calculations']['WACC'].get('result', 0.1)
             thisYear = datetime.now().year
-            historicalYears = [str(thisYear - i - 1) for i in range(len(pastFreeCashFlows))][::-1]
+            historicalYears = [str(thisYear - i - 1) for i in range(len(freeCashFlows))][::-1]
 
             # calculation
             estimatedIntrinsicMarketCap = round(avgFcf / minimumRateReturn, 0)
@@ -33,7 +38,7 @@ class FundamentalServiceEstimation:
                 'sharesOutstanding': sharesOutstanding,
                 'avgFcf': avgFcf,
                 'minimumRateReturn': minimumRateReturn,
-                'pastFreeCashFlows': pastFreeCashFlows,
+                'freeCashFlows': freeCashFlows,
                 'netBorrowings': netBorrowings,
                 'historicalYears': historicalYears,
                 'estimatedIntrinsicMarketCap': estimatedIntrinsicMarketCap,
@@ -101,9 +106,9 @@ class FundamentalServiceEstimation:
             minimumRateReturn = dividendGrowthRate * 1.125 if dividendGrowthRate > minimumRateReturn else minimumRateReturn
 
             # Next year dividend per share / (Required Rate of Return – Dividend Growth Rate)
-            result = round(dividendsPerShareTTM * (1 + dividendGrowthRate) / (minimumRateReturn - dividendGrowthRate), 2)
+            estimatedIntrinsicValue = round(dividendsPerShareTTM * (1 + dividendGrowthRate) / (minimumRateReturn - dividendGrowthRate), 2)
             return {
-                'result': result,
+                'estimatedIntrinsicValue': estimatedIntrinsicValue,
                 'dividendGrowthRate': dividendGrowthRate,
                 'dividendsPerShareTTM': dividendsPerShareTTM,
                 'minimumRateReturn': minimumRateReturn

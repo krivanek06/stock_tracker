@@ -23,8 +23,8 @@ class FundamentalServiceCalculationFacade:
         self.data['incomeStatement'][self.QUARTERLY]['netIncomeMargin'] = self.calculator.calculateNetIncomeMargin(self.QUARTERLY)
 
         self.data['calculations'] = {
-            'WACC': self.calculator.calculateWACC(),
-            'CAPM': self.calculator.calculateCAPM()
+            'CAPM': self.calculator.calculateCAPM(),
+            'WACC': self.calculator.calculateWACC()
         }
 
     def calculatePredictions(self):

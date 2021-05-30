@@ -32,6 +32,6 @@ export class WatchlistTableComponent implements OnInit {
     }
 
     identify(index, item: Summary) {
-        return item.symbol;
+        return item?.symbol || index;
     }
 }

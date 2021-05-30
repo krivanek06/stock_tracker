@@ -1,3 +1,12 @@
+import {
+  CAPM,
+  WACC,
+  STDiscountedCashFlowFormula,
+  STDividendDiscountedFormula,
+  STEarningsValuationFormula,
+  STFreeCashFlowFormula,
+} from "./st-stock-calculations";
+
 export interface StockDetailsWrapper {
   details: StockDetails;
   detailsLastUpdate: string;
@@ -30,6 +39,20 @@ export interface StockDetails {
   historicalMetrics: HistoricalMetrics;
   institutionOwnerships: InstitutionOwnership[];
   insiderTransactions: InsiderTransaction[];
+  calculations: STStockDetailsCalculations;
+  calculatedPredictions: STStockDetailsCalculatedPredictions;
+}
+
+export interface STStockDetailsCalculatedPredictions {
+  DCF_V1: STDiscountedCashFlowFormula;
+  DDF_V1: STDividendDiscountedFormula;
+  FCF_V1: STFreeCashFlowFormula;
+  INTRINSIC_V1: STEarningsValuationFormula;
+}
+
+export interface STStockDetailsCalculations {
+  CAPM: CAPM;
+  WACC: WACC;
 }
 
 export interface InsiderTransaction {

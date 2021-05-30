@@ -14,10 +14,10 @@ import {
     InlineInputPopUpComponent,
     InlineModificationFormComponent,
     PriceChangeItemComponent,
-    PriceCompareItemComponent,
+    PriceCompareItemComponent, RangeRatingSliderComponent,
     SearchWrapperComponent,
     StockInfoIdentificationItemComponent,
-    TableHighLowRangeComponent,
+    TableHighLowRangeComponent, TableIncreasingItemComponent,
     TitleWithLogoItemComponent,
     UploaderComponent,
     UploadTaskComponent
@@ -63,7 +63,9 @@ import {SharedProvidersModule} from './shared-providers.module';
         StockInfoIdentificationItemComponent,
         FinancialChartModalComponent,
         StockSummaryContainerComponent,
-        HoldingsTotalInvestedPipe
+        HoldingsTotalInvestedPipe,
+        RangeRatingSliderComponent,
+        TableIncreasingItemComponent
     ],
     imports: [
         SharedProvidersModule
@@ -100,7 +102,9 @@ import {SharedProvidersModule} from './shared-providers.module';
         StockInfoIdentificationItemComponent,
         FinancialChartModalComponent,
         StockSummaryContainerComponent,
-        HoldingsTotalInvestedPipe
+        HoldingsTotalInvestedPipe,
+        RangeRatingSliderComponent,
+        TableIncreasingItemComponent
     ],
     entryComponents: [
         InlineInputPopUpComponent

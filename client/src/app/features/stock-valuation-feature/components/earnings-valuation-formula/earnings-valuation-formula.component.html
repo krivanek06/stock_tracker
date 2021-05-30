@@ -1,0 +1,19 @@
+<ion-list>
+    <ion-item>
+        <ion-label></ion-label>
+        <ion-label class="st-font-0">Discounted PV</ion-label>
+        <ion-label class="st-font-0">Estimated EPS</ion-label>
+    </ion-item>
+
+    <ion-item *ngFor="let data of formula.dates; let i = index">
+        <ion-label class="st-font-0">{{ formula.dates[i] }}</ion-label>
+        <ion-label>{{ formula.estimatedDiscountedPV[i] }}</ion-label>
+        <ion-label>{{ formula.estimatedEarnings[i] }}</ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label>
+            Intrinsic value: <ion-text class="st-font-0">{{ formula.estimatedIntrinsicValue | currency}}</ion-text>
+        </ion-label>
+    </ion-item>
+</ion-list>

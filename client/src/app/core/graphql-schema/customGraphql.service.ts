@@ -81,6 +81,14 @@ export type Calculation = {
     min?: Maybe<Scalars['Float']>;
 };
 
+export type Capm = {
+    __typename?: 'CAPM';
+    Beta: Scalars['Float'];
+    Rf: Scalars['Float'];
+    Rm: Scalars['Float'];
+    result: Scalars['Float'];
+};
+
 export type CashFlow = {
     __typename?: 'CashFlow';
     quarterly?: Maybe<CashFlowData>;
@@ -125,7 +133,8 @@ export type CashFlowData = {
     commercialPaperRepayments?: Maybe<SheetData>;
     shortTermDebtRepayments?: Maybe<SheetData>;
     longTermDebtInsurance?: Maybe<SheetData>;
-    CustomerDeposits?: Maybe<SheetData>;
+    customerDeposits?: Maybe<SheetData>;
+    freeCashFlow?: Maybe<SheetData>;
 };
 
 export type CompanyData = {
@@ -756,6 +765,69 @@ export type SheetData = {
     name?: Maybe<Scalars['String']>;
 };
 
+export type StDiscountedCashFlowFormula = {
+    __typename?: 'STDiscountedCashFlowFormula';
+    estimatedCompanyTodayValue: Scalars['Float'];
+    estimatedDiscountedFactors: Array<Maybe<Scalars['Float']>>;
+    estimatedDiscountedTerminalValue: Scalars['Float'];
+    estimatedFreeCashFlowRate: Scalars['Float'];
+    estimatedFreeCashFlowRates: Array<Maybe<Scalars['Float']>>;
+    estimatedFreeCashFlows: Array<Maybe<Scalars['Float']>>;
+    estimatedIntrinsicValue: Scalars['Float'];
+    estimatedNetIncomeMargin: Scalars['Float'];
+    estimatedNetIncomes: Array<Maybe<Scalars['Float']>>;
+    estimatedPresentValueOfFutureCashFlows: Array<Maybe<Scalars['Float']>>;
+    estimatedRevenueGrowthRate: Scalars['Float'];
+    estimatedRevenues: Array<Maybe<Scalars['Float']>>;
+    estimatedTerminalValue: Scalars['Float'];
+    historical: StDiscountedCashFlowFormulaHistorical;
+    variable: StDiscountedCashFlowFormulaVariable;
+    years: Array<Maybe<Scalars['String']>>;
+};
+
+export type StDiscountedCashFlowFormulaHistorical = {
+    __typename?: 'STDiscountedCashFlowFormulaHistorical';
+    freeCashFlows: Array<Maybe<Scalars['Float']>>;
+    sharesOutstanding: Scalars['Float'];
+    netIncomeMargins: Array<Maybe<Scalars['Float']>>;
+    netIncome: Array<Maybe<Scalars['Float']>>;
+    revenue: Array<Maybe<Scalars['Float']>>;
+    revenueGrowthRates: Array<Maybe<Scalars['Float']>>;
+    historicalYears: Array<Maybe<Scalars['String']>>;
+};
+
+export type StDiscountedCashFlowFormulaVariable = {
+    __typename?: 'STDiscountedCashFlowFormulaVariable';
+    perpetualGrowthRate: Scalars['Float'];
+    requiredRateOfReturn: Scalars['Float'];
+};
+
+export type StDividendDiscountedFormula = {
+    __typename?: 'STDividendDiscountedFormula';
+    dividendGrowthRate: Scalars['Float'];
+    dividendsPerShareTTM: Scalars['Float'];
+    minimumRateReturn: Scalars['Float'];
+    estimatedIntrinsicValue: Scalars['Float'];
+};
+
+export type StEarningsValuationFormula = {
+    __typename?: 'STEarningsValuationFormula';
+    dates: Array<Maybe<Scalars['String']>>;
+    eps: Scalars['Float'];
+    estimatedDiscountedPV: Array<Maybe<Scalars['Float']>>;
+    estimatedEarnings: Array<Maybe<Scalars['Float']>>;
+    estimatedIntrinsicValue: Scalars['Float'];
+    variable: StEarningsValuationFormulaVariable;
+};
+
+export type StEarningsValuationFormulaVariable = {
+    __typename?: 'STEarningsValuationFormulaVariable';
+    growthRateFrom5yTo10y: Scalars['Float'];
+    growthRateNext5y: Scalars['Float'];
+    minimumRateReturn: Scalars['Float'];
+    terminalMultiple: Scalars['Float'];
+};
+
 export type StEventCalendarData = {
     __typename?: 'STEventCalendarData';
     date?: Maybe<Scalars['Float']>;
@@ -781,6 +853,18 @@ export type StEventCalendarEarningsData = {
     startdatetimetype?: Maybe<Scalars['String']>;
     ticker?: Maybe<Scalars['String']>;
     timeZoneShortName?: Maybe<Scalars['String']>;
+};
+
+export type StFreeCashFlowFormula = {
+    __typename?: 'STFreeCashFlowFormula';
+    avgFcf: Scalars['Float'];
+    estimatedIntrinsicMarketCap: Scalars['Float'];
+    estimatedIntrinsicValue: Scalars['Float'];
+    historicalYears?: Maybe<Array<Maybe<Scalars['String']>>>;
+    minimumRateReturn: Scalars['Float'];
+    netBorrowings: Array<Maybe<Scalars['Float']>>;
+    freeCashFlows: Array<Maybe<Scalars['Float']>>;
+    sharesOutstanding: Scalars['Float'];
 };
 
 export type StGeographic = {
@@ -1006,6 +1090,8 @@ export type StockDetails = {
     historicalMetrics?: Maybe<HistoricalMetrics>;
     institutionOwnerships?: Maybe<Array<Maybe<InstitutionOwnership>>>;
     insiderTransactions?: Maybe<Array<Maybe<InsiderTransaction>>>;
+    calculations?: Maybe<StStockDetailsCalculations>;
+    calculatedPredictions?: Maybe<StStockDetailsCalculatedPredictions>;
 };
 
 export type StPortfolio = {
@@ -1054,6 +1140,20 @@ export type StSimpleChart = {
     date: Scalars['String'];
     data: Scalars['Float'];
     label?: Maybe<Scalars['String']>;
+};
+
+export type StStockDetailsCalculatedPredictions = {
+    __typename?: 'STStockDetailsCalculatedPredictions';
+    DCF_V1?: Maybe<StDiscountedCashFlowFormula>;
+    DDF_V1?: Maybe<StDividendDiscountedFormula>;
+    FCF_V1?: Maybe<StFreeCashFlowFormula>;
+    INTRINSIC_V1?: Maybe<StEarningsValuationFormula>;
+};
+
+export type StStockDetailsCalculations = {
+    __typename?: 'STStockDetailsCalculations';
+    CAPM?: Maybe<Capm>;
+    WACC?: Maybe<Wacc>;
 };
 
 export type StStockHistoricalClosedDataWithPeriod = {
@@ -1345,6 +1445,17 @@ export enum User_Status_In_Group {
     InvitationSent = 'INVITATION_SENT',
     InvitationReceived = 'INVITATION_RECEIVED'
 }
+
+export type Wacc = {
+    __typename?: 'WACC';
+    CAPM: Capm;
+    Rd: Scalars['Float'];
+    Re: Scalars['Float'];
+    Wd: Scalars['Float'];
+    We: Scalars['Float'];
+    result: Scalars['Float'];
+    taxRate: Scalars['Float'];
+};
 
 export type QueryUsersRegistrationQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1957,7 +2068,7 @@ export type CashFlowDataFragmentFragment = (
         )>, accruedExpenses?: Maybe<(
         { __typename?: 'SheetData' }
         & SheetDataFragmentFragment
-        )>, CustomerDeposits?: Maybe<(
+        )>, customerDeposits?: Maybe<(
         { __typename?: 'SheetData' }
         & SheetDataFragmentFragment
         )>, shareBasedCompensation?: Maybe<(
@@ -2027,6 +2138,9 @@ export type CashFlowDataFragmentFragment = (
         { __typename?: 'SheetData' }
         & SheetDataFragmentFragment
         )>, repurchaseOfStock?: Maybe<(
+        { __typename?: 'SheetData' }
+        & SheetDataFragmentFragment
+        )>, freeCashFlow?: Maybe<(
         { __typename?: 'SheetData' }
         & SheetDataFragmentFragment
         )>
@@ -2229,6 +2343,22 @@ export type HistoricalMetricsDataFragmentFragment = (
     & Pick<HistoricalMetricsData, 'name' | 'dates' | 'data'>
     );
 
+export type CapmFragmentFragment = (
+    { __typename?: 'CAPM' }
+    & Pick<Capm, 'Beta' | 'Rf' | 'Rm' | 'result'>
+    );
+
+export type WaccFragmentFragment = (
+    { __typename?: 'WACC' }
+    & Pick<Wacc, 'Rd' | 'Re' | 'Wd' | 'We' | 'result' | 'taxRate'>
+    & {
+    CAPM: (
+        { __typename?: 'CAPM' }
+        & CapmFragmentFragment
+        )
+}
+    );
+
 export type QueryStockDetailsQueryVariables = Exact<{
     symbol: Scalars['String'];
 }>;
@@ -2394,7 +2524,50 @@ export type QueryStockDetailsQuery = (
             )>>>, insiderTransactions?: Maybe<Array<Maybe<(
             { __typename?: 'InsiderTransaction' }
             & Pick<InsiderTransaction, 'filerName' | 'filerRelation' | 'shares' | 'startDate' | 'transactionText' | 'value'>
-            )>>>
+            )>>>, calculations?: Maybe<(
+            { __typename?: 'STStockDetailsCalculations' }
+            & {
+            CAPM?: Maybe<(
+                { __typename?: 'CAPM' }
+                & CapmFragmentFragment
+                )>, WACC?: Maybe<(
+                { __typename?: 'WACC' }
+                & WaccFragmentFragment
+                )>
+        }
+            )>, calculatedPredictions?: Maybe<(
+            { __typename?: 'STStockDetailsCalculatedPredictions' }
+            & {
+            DCF_V1?: Maybe<(
+                { __typename?: 'STDiscountedCashFlowFormula' }
+                & Pick<StDiscountedCashFlowFormula, 'estimatedCompanyTodayValue' | 'estimatedDiscountedFactors' | 'estimatedDiscountedTerminalValue' | 'estimatedFreeCashFlowRate' | 'estimatedFreeCashFlowRates' | 'estimatedFreeCashFlows' | 'estimatedIntrinsicValue' | 'estimatedNetIncomeMargin' | 'estimatedNetIncomes' | 'estimatedPresentValueOfFutureCashFlows' | 'estimatedRevenueGrowthRate' | 'estimatedRevenues' | 'estimatedTerminalValue' | 'years'>
+                & {
+                historical: (
+                    { __typename?: 'STDiscountedCashFlowFormulaHistorical' }
+                    & Pick<StDiscountedCashFlowFormulaHistorical, 'freeCashFlows' | 'sharesOutstanding' | 'netIncomeMargins' | 'netIncome' | 'revenue' | 'revenueGrowthRates' | 'historicalYears'>
+                    ), variable: (
+                    { __typename?: 'STDiscountedCashFlowFormulaVariable' }
+                    & Pick<StDiscountedCashFlowFormulaVariable, 'perpetualGrowthRate' | 'requiredRateOfReturn'>
+                    )
+            }
+                )>, DDF_V1?: Maybe<(
+                { __typename?: 'STDividendDiscountedFormula' }
+                & Pick<StDividendDiscountedFormula, 'dividendGrowthRate' | 'dividendsPerShareTTM' | 'minimumRateReturn' | 'estimatedIntrinsicValue'>
+                )>, FCF_V1?: Maybe<(
+                { __typename?: 'STFreeCashFlowFormula' }
+                & Pick<StFreeCashFlowFormula, 'avgFcf' | 'estimatedIntrinsicMarketCap' | 'estimatedIntrinsicValue' | 'historicalYears' | 'minimumRateReturn' | 'netBorrowings' | 'freeCashFlows' | 'sharesOutstanding'>
+                )>, INTRINSIC_V1?: Maybe<(
+                { __typename?: 'STEarningsValuationFormula' }
+                & Pick<StEarningsValuationFormula, 'dates' | 'eps' | 'estimatedDiscountedPV' | 'estimatedEarnings' | 'estimatedIntrinsicValue'>
+                & {
+                variable: (
+                    { __typename?: 'STEarningsValuationFormulaVariable' }
+                    & Pick<StEarningsValuationFormulaVariable, 'growthRateFrom5yTo10y' | 'growthRateNext5y' | 'minimumRateReturn' | 'terminalMultiple'>
+                    )
+            }
+                )>
+        }
+            )>
     }
         )>
 }
@@ -3062,7 +3235,7 @@ export const CashFlowDataFragmentFragmentDoc = gql`
         accruedExpenses {
             ...SheetDataFragment
         }
-        CustomerDeposits {
+        customerDeposits {
             ...SheetDataFragment
         }
         shareBasedCompensation {
@@ -3132,6 +3305,9 @@ export const CashFlowDataFragmentFragmentDoc = gql`
             ...SheetDataFragment
         }
         repurchaseOfStock {
+            ...SheetDataFragment
+        }
+        freeCashFlow {
             ...SheetDataFragment
         }
     }
@@ -3540,6 +3716,27 @@ export const HistoricalMetricsDataFragmentFragmentDoc = gql`
         data
     }
 `;
+export const CapmFragmentFragmentDoc = gql`
+    fragment CAPMFragment on CAPM {
+        Beta
+        Rf
+        Rm
+        result
+    }
+`;
+export const WaccFragmentFragmentDoc = gql`
+    fragment WACCFragment on WACC {
+        CAPM {
+            ...CAPMFragment
+        }
+        Rd
+        Re
+        Wd
+        We
+        result
+        taxRate
+    }
+${CapmFragmentFragmentDoc}`;
 export const StPortfolioChangeFragmentFragmentDoc = gql`
     fragment STPortfolioChangeFragment on STPortfolioChange {
         portfolio {
@@ -4196,6 +4393,74 @@ export const QueryStockDetailsDocument = gql`
                 transactionText
                 value
             }
+            calculations {
+                CAPM {
+                    ...CAPMFragment
+                }
+                WACC {
+                    ...WACCFragment
+                }
+            }
+            calculatedPredictions {
+                DCF_V1 {
+                    estimatedCompanyTodayValue
+                    estimatedDiscountedFactors
+                    estimatedDiscountedTerminalValue
+                    estimatedFreeCashFlowRate
+                    estimatedFreeCashFlowRates
+                    estimatedFreeCashFlows
+                    estimatedIntrinsicValue
+                    estimatedNetIncomeMargin
+                    estimatedNetIncomes
+                    estimatedPresentValueOfFutureCashFlows
+                    estimatedRevenueGrowthRate
+                    estimatedRevenues
+                    estimatedTerminalValue
+                    historical {
+                        freeCashFlows
+                        sharesOutstanding
+                        netIncomeMargins
+                        netIncome
+                        revenue
+                        revenueGrowthRates
+                        historicalYears
+                    }
+                    variable {
+                        perpetualGrowthRate
+                        requiredRateOfReturn
+                    }
+                    years
+                }
+                DDF_V1 {
+                    dividendGrowthRate
+                    dividendsPerShareTTM
+                    minimumRateReturn
+                    estimatedIntrinsicValue
+                }
+                FCF_V1 {
+                    avgFcf
+                    estimatedIntrinsicMarketCap
+                    estimatedIntrinsicValue
+                    historicalYears
+                    minimumRateReturn
+                    netBorrowings
+                    freeCashFlows
+                    sharesOutstanding
+                }
+                INTRINSIC_V1 {
+                    dates
+                    eps
+                    estimatedDiscountedPV
+                    estimatedEarnings
+                    estimatedIntrinsicValue
+                    variable {
+                        growthRateFrom5yTo10y
+                        growthRateNext5y
+                        minimumRateReturn
+                        terminalMultiple
+                    }
+                }
+            }
         }
     }
     ${DataSetFragmentFragmentDoc}
@@ -4212,7 +4477,9 @@ export const QueryStockDetailsDocument = gql`
     ${StockSummaryFragmentFragmentDoc}
     ${MetricFragmentFragmentDoc}
     ${DividensFragmentFragmentDoc}
-${HistoricalMetricsDataFragmentFragmentDoc}`;
+    ${HistoricalMetricsDataFragmentFragmentDoc}
+    ${CapmFragmentFragmentDoc}
+${WaccFragmentFragmentDoc}`;
 
 @Injectable({
     providedIn: 'root'

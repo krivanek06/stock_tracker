@@ -240,6 +240,22 @@
     white-space: pre-line !important;
   }
 
+  ion-list {
+    ion-list-header {
+      color: #{$st-var-font-0};
+
+      ion-label {
+        font-size: 18px;
+      }
+    }
+
+    ion-item-group {
+      @media (max-width: #{$st-var-md-split}) {
+        display: block;
+      }
+    }
+  }
+
   ion-item {
     ion-label {
       white-space: pre-line !important;
@@ -252,7 +268,8 @@
 
   ion-row {
     ion-col {
-      padding: 0 4px 6px 0;
+      //padding: 0 4px 6px 0;
+      padding: 0;
       overflow: hidden;
     }
   }
@@ -384,7 +401,8 @@
         }
 
         ion-card-subtitle {
-          --color: #{$st-var-font-4} !important;
+          //--color: #{$st-var-font-4} !important;
+          --color: #758dc7 !important;
           padding-top: 12px;
           // --color: #{$default-word};
         }

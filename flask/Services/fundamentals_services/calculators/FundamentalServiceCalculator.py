@@ -86,10 +86,11 @@ class FundamentalServiceCalculator:
     '''
 
     def calculateCAPM(self):
-        if self.data['companyData']['defaultKeyStatistics'].get('beta') is None:
-            return None
-        Rf = 0.025  # Risk free rate - hardcoded 2.5% , TODO may be 10y US treasury yield
-        beta = round(self.data['companyData']['defaultKeyStatistics']['beta'], 2)
-        Rm = 0.10  # expected return of market (SP500)
+        try:
+            Rf = 0.025  # Risk free rate - hardcoded 2.5% , TODO may be 10y US treasury yield
+            beta = round(self.data['companyData']['defaultKeyStatistics']['beta'], 2)
+            Rm = 0.10  # expected return of market (SP500)
 
-        return {'result': round(Rf + beta * (Rm - Rf), 4), 'Rf': Rf, 'Beta': beta, 'Rm': Rm}
+            return {'result': round(Rf + beta * (Rm - Rf), 4), 'Rf': Rf, 'Beta': beta, 'Rm': Rm}
+        except:
+            return None

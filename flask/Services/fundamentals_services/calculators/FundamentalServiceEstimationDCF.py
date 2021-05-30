@@ -33,7 +33,6 @@ class FundamentalServiceEstimationDCF:
             print(e)
             return None
 
-    # TODO do not forget to add time periods - how to know which year
     def __calculateDFC(self):
         estimatedFreeCashFlowRate, estimatedFreeCashFlowRates = self.__calculateFreeCashFlowRates()
         revenue, revenueGrowthRates, estimatedRevenueGrowthRate, estimatedRevenues = self.__estimateRevenues()
@@ -56,6 +55,9 @@ class FundamentalServiceEstimationDCF:
         thisYear = datetime.now().year
         historicalYears = [str(thisYear - i - 1) for i in range(len(revenue))][::-1]
         years = [str(thisYear + i) for i in range(len(estimatedRevenues))]
+
+        if estimatedIntrinsicValue < 0:
+            return None
 
         return {
             'variable': {
@@ -134,7 +136,8 @@ class FundamentalServiceEstimationDCF:
             netIncome = self.cashFlow['netIncome']['data'][i]
             freeCashFlowRates += [round(freeCashFlow / netIncome, 4)]
 
-        positiveFreeCashFlowRates = list(filter(lambda x: (x > 0), freeCashFlowRates))
+        # ignore negative rates and anomalies
+        positiveFreeCashFlowRates = list(filter(lambda x: (0 < x < 5), freeCashFlowRates))
 
         if len(positiveFreeCashFlowRates) <= 2:
             raise Exception(f'Less than 3 data in to calculate freeCashFlowRate. Company is losing money')

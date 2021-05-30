@@ -1,0 +1,8 @@
+<div class="ion-text-center">
+    <ion-text class="st-font-2">{{ name }}
+        : {{ isPercent ? (value | percent: '1.2') : (value | number: '1.2-2') }}</ion-text>
+</div>
+<ion-range [min]="min" [max]="max" [step]="step" [(ngModel)]="value" (ngModelChange)="change($event)">
+    <ion-icon style="color: red" slot="start" name="caret-down-outline"></ion-icon>
+    <ion-icon style="color: green" slot="end" name="caret-up-outline"></ion-icon>
+</ion-range>

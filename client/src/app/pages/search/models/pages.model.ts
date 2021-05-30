@@ -12,5 +12,6 @@ export enum SEARCH_PAGE_STOCK_ENUM {
 export enum SEARCH_PAGE_STOCK_DETAILS_ENUM {
     STATISTICS = 'statistics',
     FINANCIALS = 'financials',
-    STRATEGIES = 'strategies'
+    STRATEGIES = 'strategies',
+    VALUATION = 'valuation'
 }

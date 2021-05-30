@@ -37,6 +37,8 @@ class YahooFinanceRequesterApi:
                 domain = data['summaryProfile']['website'].split('://')[1].split('/')[0].replace('www.', '')
                 data['summaryProfile']['logo_url'] = 'https://logo.clearbit.com/%s' % domain
             except Exception:
+                if data['summaryProfile'] is None:
+                    data['summaryProfile'] = {}
                 data['summaryProfile']['logo_url'] = None
 
             return {'companyData': data}

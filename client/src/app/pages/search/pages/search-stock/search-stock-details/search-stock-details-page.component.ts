@@ -23,10 +23,9 @@ export class SearchStockDetailsPage implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.stockDetailsService.setActiveSymbol(this.route.snapshot.paramMap.get('symbol') as string);
-        this.stockDetailsService.getStockDetails().pipe(takeUntil(componentDestroyed(this))).subscribe(res => {
+        this.stockDetailsService.getStockDetails().pipe(takeUntil(componentDestroyed(this))).subscribe(() => {
             this.showSpinner = false;
         });
-        console.log(this.segmentValue)
     }
 
     ngOnDestroy() {

@@ -1,4 +1,3 @@
-// model
 export * from './src/model/st-group.model';
 export * from './src/model/st-portfolio.model';
 export * from './src/model/st-rank.model';
@@ -10,7 +9,6 @@ export * from './src/model/watchList.model';
 export * from './src/model/st-chart.model';
 export * from './src/model/st-trading-strategy.model';
 export * from './src/model/st-admin.model';
-
-// model - market
+export * from './src/model/st-stock-calculations/index';
 export * from './src/model/st-market/index';
 

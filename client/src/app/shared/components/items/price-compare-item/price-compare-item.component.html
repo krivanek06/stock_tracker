@@ -33,7 +33,7 @@
                       'st-font-size-13': inlineDisplay,
                       'st-font-size-12': !inlineDisplay
                   }">
-        {{ currentPrice - compareToPrice | currency}}
+        {{ currentPrice - compareToPrice | numberFormatter }}
     </ion-text>
 </ion-label>
 
