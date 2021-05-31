@@ -6,26 +6,38 @@
     </ion-list-header>
 
     <app-range-rating-slider
+            (valueEmitter)="growthRate5yChange($event)"
             name="Growth rate up to 5y"
             [value]="variables.growthRateNext5y"
             [isPercent]="true">
     </app-range-rating-slider>
 
     <app-range-rating-slider
+            (valueEmitter)="growthRate10yChange($event)"
             name="Growth rate from 5y to 10y"
             [value]="variables.growthRateFrom5yTo10y"
             [isPercent]="true">
     </app-range-rating-slider>
 
     <app-range-rating-slider
+            (valueEmitter)="minimumReturnChange($event)"
             name="Minimum return"
             [value]="variables.minimumRateReturn"
             [isPercent]="true">
     </app-range-rating-slider>
 
     <app-range-rating-slider
+            (valueEmitter)="terminalMultipleChange($event)"
             name="Terminal multiple"
             [value]="variables.terminalMultiple"
             [step]="0.1">
     </app-range-rating-slider>
+
+    <ion-item>
+        <ion-label class="ion-padding">
+            <ion-button expand="full" shape="round" fill="outline" (click)="resetVariables()">
+                Reset
+            </ion-button>
+        </ion-label>
+    </ion-item>
 </ion-list>

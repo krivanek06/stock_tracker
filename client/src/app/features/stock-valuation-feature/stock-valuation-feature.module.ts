@@ -3,7 +3,7 @@ import {
     DiscountedCashflowFormulaComponent,
     DividendDiscountedFormulaComponent,
     EarningsValuationFormulaComponent,
-    EarningsValuationFormulaVariablesComponent,
+    EarningsValuationFormulaVariablesComponent, FreeCashflowFormulaCheckboxComponent,
     FreeCashflowFormulaComponent
 } from './components';
 import {SharedModule} from '@shared';
@@ -24,7 +24,8 @@ import {
         EarningsValuationFormulaVariablesComponent,
         DiscountedCashflowFormulaContainerComponent,
         DividendDiscountedFormulaContainerComponent,
-        FreeCashflowFormulaContainerComponent
+        FreeCashflowFormulaContainerComponent,
+        FreeCashflowFormulaCheckboxComponent
     ],
     imports: [
         SharedModule

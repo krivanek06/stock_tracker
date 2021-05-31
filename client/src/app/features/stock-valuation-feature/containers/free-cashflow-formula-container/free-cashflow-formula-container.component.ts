@@ -18,4 +18,7 @@ export class FreeCashflowFormulaContainerComponent implements OnInit {
         this.freeCashFlowFormula$ = this.freeCashFlowFormulaService.getFreeCashFlowFormula();
     }
 
+    applyNetBorrowings(value: boolean) {
+        this.freeCashFlowFormulaService.calculateFormulaResult(value)
+    }
 }

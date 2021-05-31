@@ -877,6 +877,8 @@ query QueryStockDetails($symbol: String!) {
                 historicalYears
                 minimumRateReturn
                 netBorrowings
+                operatingActivities
+                capitalExpenditures
                 freeCashFlows
                 sharesOutstanding
             }

@@ -7,8 +7,8 @@
 
     <ion-item *ngFor="let data of formula.dates; let i = index">
         <ion-label class="st-font-0">{{ formula.dates[i] }}</ion-label>
-        <ion-label>{{ formula.estimatedDiscountedPV[i] }}</ion-label>
-        <ion-label>{{ formula.estimatedEarnings[i] }}</ion-label>
+        <ion-label>{{ formula.estimatedDiscountedPV[i] | number : '1.2-2'}}</ion-label>
+        <ion-label>{{ formula.estimatedEarnings[i] | number : '1.2-2'}}</ion-label>
     </ion-item>
 
     <ion-item>

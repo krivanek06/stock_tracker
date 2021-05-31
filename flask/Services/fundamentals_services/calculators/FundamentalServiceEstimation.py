@@ -17,8 +17,10 @@ class FundamentalServiceEstimation:
                 return None
             # inputs
             sharesOutstanding = self.data['summary']['sharesOutstanding']
-            freeCashFlows = self.data['cashFlow']['yearly']['freeCashFlow']['data'][::-1]
+            capitalExpenditures = self.data['cashFlow']['yearly']['capitalExpenditures']['data'][::-1]
+            operatingActivities = self.data['cashFlow']['yearly']['totalCashFromOperatingActivities']['data'][::-1]
             netBorrowings = self.data['cashFlow']['yearly']['netBorrowings']['data'][::-1]
+            freeCashFlows = self.data['cashFlow']['yearly']['freeCashFlow']['data'][::-1]
 
             avgFcf = mean(freeCashFlows)
 
@@ -40,6 +42,8 @@ class FundamentalServiceEstimation:
                 'minimumRateReturn': minimumRateReturn,
                 'freeCashFlows': freeCashFlows,
                 'netBorrowings': netBorrowings,
+                'capitalExpenditures': capitalExpenditures,
+                'operatingActivities': operatingActivities,
                 'historicalYears': historicalYears,
                 'estimatedIntrinsicMarketCap': estimatedIntrinsicMarketCap,
                 'estimatedIntrinsicValue': estimatedIntrinsicValue
@@ -63,10 +67,10 @@ class FundamentalServiceEstimation:
             estimatedEarnings = [eps]
             estimatedDiscountedPV = []
             dates = [datetime.now().year]
-            for i in range(1, 10):
-                tmpGrowth = growthRate if i < 5 else growthRate / 2
+            for i in range(1, 11):
+                tmpGrowth = growthRate if i <= 5 else growthRate / 2
                 estimatedEarnings.append(round(estimatedEarnings[-1] * (1 + tmpGrowth), 2))
-                estimatedDiscountedPV.append(round(estimatedEarnings[i] * (1 + minimumRateReturn) ** (i - 1), 2))
+                estimatedDiscountedPV.append(round(estimatedEarnings[i] * (1 + minimumRateReturn) ** (-i), 2))
                 dates.append(dates[-1] + 1)
 
             estimatedEarnings.pop(0)  # remove initial eps
