@@ -4,6 +4,11 @@
             <!-- variables -->
             <ion-col size="12" size-md="4" offset-md="0.5">
                 <app-earnings-valuation-formula-variables
+                        (resetVariablesEmitter)="resetVariables()"
+                        (growthRate5yEmitter)="growthRate5yChange($event)"
+                        (growthRate10yEmitter)="growthRate10yChange($event)"
+                        (minimumReturnEmitter)="minimumReturnChange($event)"
+                        (terminalMultipleEmitter)="terminalMultipleChange($event)"
                         [variables]="formula.variable">
                 </app-earnings-valuation-formula-variables>
             </ion-col>

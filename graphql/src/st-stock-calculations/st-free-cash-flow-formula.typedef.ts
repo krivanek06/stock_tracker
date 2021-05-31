@@ -7,6 +7,8 @@ export const STFreeCashFlowFormulaTypeDefs = gql`
         historicalYears: [String]
         minimumRateReturn: Float!
         netBorrowings: [Float]!
+        capitalExpenditures: [Float]!
+        operatingActivities: [Float]!
         freeCashFlows: [Float]!
         sharesOutstanding: Float!
     }

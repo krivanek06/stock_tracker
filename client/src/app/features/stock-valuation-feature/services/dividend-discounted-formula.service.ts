@@ -11,12 +11,7 @@ export class DividendDiscountedFormulaService {
     private formula$: BehaviorSubject<StDividendDiscountedFormula> = new BehaviorSubject<StDividendDiscountedFormula>(null);
 
     constructor(private symbolStorageService: SymbolStorageService) {
-        this.symbolStorageService.getActiveSymbol().pipe(
-            filter(symbol => !!symbol),
-            switchMap((symbol) => this.symbolStorageService.getStockDetails(symbol))
-        ).subscribe(details => {
-            this.formula$.next(details.calculatedPredictions?.DDF_V1);
-        });
+        this.watchActiveSymbolChange();
     }
 
     get dividendDiscountedFormula(): StDividendDiscountedFormula {
@@ -25,5 +20,14 @@ export class DividendDiscountedFormulaService {
 
     getDividendDiscountedFormula(): Observable<StDividendDiscountedFormula> {
         return this.formula$.asObservable();
+    }
+
+    private watchActiveSymbolChange() {
+        this.symbolStorageService.getActiveSymbol().pipe(
+            filter(symbol => !!symbol),
+            switchMap((symbol) => this.symbolStorageService.getStockDetails(symbol))
+        ).subscribe(details => {
+            this.formula$.next(details.calculatedPredictions?.DDF_V1);
+        });
     }
 }

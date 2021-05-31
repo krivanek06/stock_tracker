@@ -1,7 +1,13 @@
 <app-generic-card subtitle="Free cash flow valuation">
     <ng-container *ngIf="freeCashFlowFormula$ | async as formula">
+        <!-- formula -->
         <app-free-cashflow-formula
                 [formula]="formula">
         </app-free-cashflow-formula>
+
+        <!-- checkbox for net borrowings -->
+        <app-free-cashflow-formula-checkbox
+                (changedCheckedValueEmitter)="applyNetBorrowings($event)">
+        </app-free-cashflow-formula-checkbox>
     </ng-container>
 </app-generic-card>

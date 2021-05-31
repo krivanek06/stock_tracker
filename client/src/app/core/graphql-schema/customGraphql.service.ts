@@ -863,6 +863,8 @@ export type StFreeCashFlowFormula = {
     historicalYears?: Maybe<Array<Maybe<Scalars['String']>>>;
     minimumRateReturn: Scalars['Float'];
     netBorrowings: Array<Maybe<Scalars['Float']>>;
+    capitalExpenditures: Array<Maybe<Scalars['Float']>>;
+    operatingActivities: Array<Maybe<Scalars['Float']>>;
     freeCashFlows: Array<Maybe<Scalars['Float']>>;
     sharesOutstanding: Scalars['Float'];
 };
@@ -1448,7 +1450,7 @@ export enum User_Status_In_Group {
 
 export type Wacc = {
     __typename?: 'WACC';
-    CAPM: Capm;
+    CAPM?: Maybe<Capm>;
     Rd: Scalars['Float'];
     Re: Scalars['Float'];
     Wd: Scalars['Float'];
@@ -2352,10 +2354,10 @@ export type WaccFragmentFragment = (
     { __typename?: 'WACC' }
     & Pick<Wacc, 'Rd' | 'Re' | 'Wd' | 'We' | 'result' | 'taxRate'>
     & {
-    CAPM: (
+    CAPM?: Maybe<(
         { __typename?: 'CAPM' }
         & CapmFragmentFragment
-        )
+        )>
 }
     );
 
@@ -2555,7 +2557,7 @@ export type QueryStockDetailsQuery = (
                 & Pick<StDividendDiscountedFormula, 'dividendGrowthRate' | 'dividendsPerShareTTM' | 'minimumRateReturn' | 'estimatedIntrinsicValue'>
                 )>, FCF_V1?: Maybe<(
                 { __typename?: 'STFreeCashFlowFormula' }
-                & Pick<StFreeCashFlowFormula, 'avgFcf' | 'estimatedIntrinsicMarketCap' | 'estimatedIntrinsicValue' | 'historicalYears' | 'minimumRateReturn' | 'netBorrowings' | 'freeCashFlows' | 'sharesOutstanding'>
+                & Pick<StFreeCashFlowFormula, 'avgFcf' | 'estimatedIntrinsicMarketCap' | 'estimatedIntrinsicValue' | 'historicalYears' | 'minimumRateReturn' | 'netBorrowings' | 'operatingActivities' | 'capitalExpenditures' | 'freeCashFlows' | 'sharesOutstanding'>
                 )>, INTRINSIC_V1?: Maybe<(
                 { __typename?: 'STEarningsValuationFormula' }
                 & Pick<StEarningsValuationFormula, 'dates' | 'eps' | 'estimatedDiscountedPV' | 'estimatedEarnings' | 'estimatedIntrinsicValue'>
@@ -4444,6 +4446,8 @@ export const QueryStockDetailsDocument = gql`
                     historicalYears
                     minimumRateReturn
                     netBorrowings
+                    operatingActivities
+                    capitalExpenditures
                     freeCashFlows
                     sharesOutstanding
                 }

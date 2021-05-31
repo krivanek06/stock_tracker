@@ -4,7 +4,9 @@ export interface STFreeCashFlowFormula {
     estimatedIntrinsicValue: number;
     historicalYears: string[];
     minimumRateReturn: number;
-    netBorrowings: number;
-    freeCashFlows: number;
+    netBorrowings: number[];
+    operatingActivities: number[];
+    capitalExpenditures: number[];
+    freeCashFlows: number[];
     sharesOutstanding: number;
 }

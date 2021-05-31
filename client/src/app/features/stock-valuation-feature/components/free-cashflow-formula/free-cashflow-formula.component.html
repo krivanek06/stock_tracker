@@ -5,14 +5,25 @@
     </ion-item>
 
     <app-table-increasing-item
-            name="Free cash flow"
-            [data]="formula.freeCashFlows">
+            name="Operating activities"
+            [data]="formula.operatingActivities">
+    </app-table-increasing-item>
+
+    <app-table-increasing-item
+            name="Capital expenditures"
+            [data]="formula.capitalExpenditures">
     </app-table-increasing-item>
 
     <app-table-increasing-item
             name="Net borrowings"
             [data]="formula.netBorrowings">
     </app-table-increasing-item>
+
+    <app-table-increasing-item
+            name="Free cash flow"
+            [data]="formula.freeCashFlows">
+    </app-table-increasing-item>
+
 </ion-list>
 
 <ion-list>

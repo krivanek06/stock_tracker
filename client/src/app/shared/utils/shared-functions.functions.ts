@@ -7,6 +7,8 @@ export const stToTitleCase = (str: string) => {
     );
 };
 
+export const lastElement = <T extends unknown>(elementArray: T[]): T => elementArray.slice(-1)[0];
+
 export const stFormatLargeNumber = (value: number) => {
     if (!stIsNumber(value)) {
         return 'N/A';

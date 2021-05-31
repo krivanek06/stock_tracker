@@ -13,12 +13,13 @@ export const queryStockDetails = async (symbol: string): Promise<api.StockDetail
         const data = stockDetailsDocs.data() as api.StockDetailsWrapper | undefined;
         
         // first fetch or older than 7 days
-        if(!data || (Math.abs(moment(data.detailsLastUpdate).diff(new Date(), 'days')) > 1 && IS_PRODUCTION)){
+        if(!data || (Math.abs(moment(data.detailsLastUpdate).diff(new Date(), 'days')) > 7 && IS_PRODUCTION)){
             console.log(`Query all stock details for symbol: ${upperSymbol}`)
             return await getAndSaveStockDetailsFromApi(upperSymbol);
         } 
+        
         // fetch fresh news
-        if(!!data.details && Math.abs(moment(data.newsLastUpdate).diff(new Date(), "hours")) > 8){
+        if(!!data.details && Math.abs(moment(data.newsLastUpdate).diff(new Date(), "days")) > 1){
             console.log(`Query stock news for symbol: ${upperSymbol}`)
             const news = await getAndSaveStockNewsFromApi(upperSymbol, data);
             data.details.stockNews = news;
