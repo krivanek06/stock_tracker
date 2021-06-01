@@ -253,6 +253,7 @@ export interface SheetData {
   change: number[];
   data: number[];
   name: string;
+  isPercent?: boolean;
 }
 
 export interface DataSet {

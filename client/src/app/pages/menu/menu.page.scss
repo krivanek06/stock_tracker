@@ -9,12 +9,6 @@
     font-size: 14px;
   }
 
-  .log-out-button {
-    position: absolute;
-    bottom: 8px;
-    width: 100%;
-  }
-
   .navigation-avatar {
     text-align: -webkit-center;
     margin-bottom: 12px;
@@ -31,7 +25,7 @@
     margin-bottom: 8px;
   }
 
-  ion-menu {
+  ion-menu, ion-content {
     min-width: 230px !important;
     max-width: 230px !important;
     @media (max-width: #{$st-var-xl-split}) {
@@ -40,13 +34,13 @@
     }
   }
 
-  ion-content {
-    min-width: 230px !important;
-    max-width: 230px !important;
-    @media (max-width: #{$st-var-xl-split}) {
-      min-width: 250px !important;
-      max-width: 250px !important;
-    }
+  .c-version {
+    position: fixed;
+    bottom: 0;
+    margin-left: 16px;
+    margin-bottom: 10px;
+    color: #{$st-var-font-4};
+    font-size: 13px;
   }
 
   .navigation {

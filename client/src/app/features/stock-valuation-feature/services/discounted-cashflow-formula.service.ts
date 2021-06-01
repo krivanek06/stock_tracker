@@ -27,7 +27,7 @@ export class DiscountedCashflowFormulaService {
             filter(symbol => !!symbol),
             switchMap((symbol) => this.symbolStorageService.getStockDetails(symbol))
         ).subscribe(details => {
-            this.formula$.next(details.calculatedPredictions?.DCF_V1);
+            this.formula$.next(details.calculatedPredictions.DCF_V1);
         });
     }
 }

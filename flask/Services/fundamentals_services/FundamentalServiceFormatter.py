@@ -109,7 +109,8 @@ class FundamentalServiceFormatter:
                     res[statement][timePeriod][periodKeys[periodKeysIndex]] = {
                         'name': characterModificationUtil.cammelCaseToWord(periodKeys[periodKeysIndex]),
                         'data': [],
-                        'change': []
+                        'change': [],
+                        'isPercent': False
                     }
                     for timePeriodDataNumber in range(dataLoop):
                         try:

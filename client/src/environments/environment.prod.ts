@@ -1,7 +1,5 @@
 export const environment = {
     production: true,
-    // heroku
-    // graphql: 'https://krivanek-stock-tracker-test.herokuapp.com/graphql',
 
     // docker - outside
     // graphql: 'http://127.0.0.1:5001/graphql',
@@ -34,5 +32,7 @@ export const environment = {
         messagingSenderId: '514791811531',
         appId: '1:514791811531:web:c865792582281fc865ae4e',
         measurementId: 'G-73NKLPNQ5G'
-    }
+    },
+
+    version: '0.2.0'
 };

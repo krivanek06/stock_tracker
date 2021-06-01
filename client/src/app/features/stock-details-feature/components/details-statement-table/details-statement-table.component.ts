@@ -10,6 +10,7 @@ export class DetailsStatementTableComponent implements OnInit {
     /**
      * Example
      * "accruedExpenses": {
+                "isPercent": false,
                 "change": [
                     4.89,
                     31.56,

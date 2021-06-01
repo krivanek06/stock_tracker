@@ -6,6 +6,7 @@
     </ion-card-header>
     <ion-card-content>
         <ng-content></ng-content>
-        <div class="default-content" style="margin-top: 16px">No data has been found...</div>
+        <div *ngIf="!showSkeleton" class="default-content" style="margin-top: 16px">No data has been found...</div>
+        <ion-skeleton-text *ngIf="showSkeleton" animated class="default-content"></ion-skeleton-text>
     </ion-card-content>
 </ion-card>

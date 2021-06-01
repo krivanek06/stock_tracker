@@ -5,6 +5,7 @@ import {AuthenticationService, componentDestroyed, StUserPublicData, User_Roles_
 import {MenuController, PopoverController} from '@ionic/angular';
 import {Observable} from 'rxjs';
 import {AuthenticationPopoverComponent} from '@login-feature';
+import {environment} from '../../../environments/environment';
 
 
 interface MenuPageInterface {
@@ -28,6 +29,8 @@ export class MenuPage implements OnInit, OnDestroy {
     selectedNavigation: MenuPageInterface;
     mainPages: MenuPageInterface[] = [];
     otherPages: MenuPageInterface[] = [];
+
+    version = environment.version;
 
     constructor(private userStorageService: UserStorageService,
                 private authenticationService: AuthenticationService,

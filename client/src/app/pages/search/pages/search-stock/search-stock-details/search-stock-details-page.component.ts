@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
-import {SEARCH_PAGE_STOCK_DETAILS_ENUM} from '../../../models/pages.model';
+import {SEARCH_PAGE_STOCK_DETAILS_ENUM, STOCK_SEARCH_DETAILS_PAGES} from '../../../models/pages.model';
 import {componentDestroyed, SymbolStorageService} from '@core';
 
 @Component({
@@ -12,7 +12,7 @@ import {componentDestroyed, SymbolStorageService} from '@core';
 })
 export class SearchStockDetailsPage implements OnInit, OnDestroy {
     segmentValue = SEARCH_PAGE_STOCK_DETAILS_ENUM.STATISTICS;
-    SEARCH_PAGE_STOCK_DETAILS_ENUM = SEARCH_PAGE_STOCK_DETAILS_ENUM;
+    STOCK_SEARCH_DETAILS_PAGES = STOCK_SEARCH_DETAILS_PAGES;
     showSpinner = true;
 
     constructor(private router: Router,

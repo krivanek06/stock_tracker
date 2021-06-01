@@ -138,6 +138,7 @@ export const stockDetailsTypeDefs = gql`
         costOfSales: SheetData
         incomeTaxProvision: SheetData
         marketingExpense: SheetData
+        netIncomeMargin: SheetData
     }
 
     type CashFlow {
@@ -232,6 +233,7 @@ export const stockDetailsTypeDefs = gql`
         change: [Float]
         data: [Float]
         name: String
+        isPercent: Boolean
     }
 
     type Estimates {

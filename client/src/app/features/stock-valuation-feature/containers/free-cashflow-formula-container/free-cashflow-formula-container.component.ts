@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {FreeCashflowFormulaService} from '../../services';
 import {Observable} from 'rxjs';
 import {StFreeCashFlowFormula} from '@core';
@@ -7,6 +7,7 @@ import {StFreeCashFlowFormula} from '@core';
     selector: 'app-free-cashflow-formula-container',
     templateUrl: './free-cashflow-formula-container.component.html',
     styleUrls: ['./free-cashflow-formula-container.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FreeCashflowFormulaContainerComponent implements OnInit {
     freeCashFlowFormula$: Observable<StFreeCashFlowFormula>;

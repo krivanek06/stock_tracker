@@ -15,11 +15,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding-left: 0;
+      padding-right: 0;
     }
-  }
-
-  ion-col {
-    padding: 0;
   }
 
   ion-searchbar {
@@ -35,7 +33,7 @@
     background-color: #{$st-var-blue-3};
 
     @media (max-width: #{$st-var-sm-split}) {
-      width: 175px;
+      width: 82%;
     }
   }
 

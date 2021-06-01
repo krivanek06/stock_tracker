@@ -1,12 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {StockDetails, SymbolStorageService} from '@core';
 import {Observable} from 'rxjs';
+import {STATEMENT_TYPE, STOCK_SEARCH_DETAILS_FINANCIAL_PAGES} from '../../../../../models/pages.model';
 
-enum STATEMENT_TYPE {
-    BALANCE_SHEET = 'Balance sheet',
-    INCOME_STATEMENT = 'Income statement',
-    CASH_FLOW = 'Cash flow'
-}
 
 @Component({
     selector: 'app-stock-details-financial',
@@ -19,6 +15,7 @@ export class StockDetailsFinancialComponent implements OnInit {
 
     activeStatement = STATEMENT_TYPE.BALANCE_SHEET;
     STATEMENT_TYPE = STATEMENT_TYPE;
+    STOCK_SEARCH_DETAILS_FINANCIAL_PAGES = STOCK_SEARCH_DETAILS_FINANCIAL_PAGES;
 
     constructor(private symbolStorageService: SymbolStorageService) {
     }
@@ -26,7 +23,7 @@ export class StockDetailsFinancialComponent implements OnInit {
 
     ngOnInit() {
         this.stockDetails$ = this.symbolStorageService.getStockDetails();
-        this.stockDetails$.subscribe(console.log)
+        this.stockDetails$.subscribe(console.log);
     }
 
 

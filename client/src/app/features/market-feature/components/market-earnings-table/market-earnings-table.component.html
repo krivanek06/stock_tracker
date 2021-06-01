@@ -18,7 +18,7 @@
               [ngClass]="{'ion-activatable': clickable}"
               (click)="clickedItem(earning.ticker, earning.companyshortname)">
         <ion-label class="st-font-4">{{ earning.ticker }}</ion-label>
-        <ion-label class="st-data-label">{{ earning.epsestimate }}</ion-label>
+        <ion-label class="st-data-label">{{ earning.epsestimate || 'N/A' }}</ion-label>
         <ion-label class="st-data-label">{{ earning.epsactual }}</ion-label>
         <ion-label>
             <app-price-change-item [priceChange]="earning.epssurprisepct" [showIcon]="false"></app-price-change-item>
