@@ -35,7 +35,6 @@ export class TradingStrategyRmcComponent implements OnInit {
 
     private watchForm() {
         this.averageLoss.valueChanges.subscribe(value => {
-            console.log('value changed', value);
             this.maxStopLoss = this.data.series[0].data[0] * (1 - (value / 100));
         });
     }

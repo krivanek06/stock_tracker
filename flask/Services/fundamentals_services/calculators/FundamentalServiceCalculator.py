@@ -7,14 +7,15 @@ class FundamentalServiceCalculator:
         self.incomeStatement = self.data['incomeStatement']['yearly']
 
     def calculateNetIncomeMargin(self, period: str):
-        netIncomeMargin = { 'change': [], 'data': [], 'name': 'Free cash flow' }
+        netIncomeMargin = {'change': [], 'data': [], 'name': 'Net income margin', 'isPercent': True}
         try:
             netIncome = list(filter(lambda data: data is not None, self.data['cashFlow'][period]['netIncome']['data']))
             revenue = list(filter(lambda data: data is not None and data != 0, self.data['incomeStatement'][period]['totalRevenue']['data']))
 
             netIncomeMargin['data'] = [round(netIncome[i] / revenue[i], 4) for i in range(len(revenue))]
-            netIncomeMargin['change'] = [round((netIncomeMargin['data'][i] - netIncomeMargin['data'][i + 1]) / abs(netIncomeMargin['data'][i + 1]), 4)
-                                         for i in range(len(netIncomeMargin['data']) - 1)]
+            netIncomeMargin['change'] = [
+                round((netIncomeMargin['data'][i] - netIncomeMargin['data'][i + 1]) / abs(netIncomeMargin['data'][i + 1]), 4)
+                for i in range(len(netIncomeMargin['data']) - 1)]
         except:
             pass
         return netIncomeMargin
@@ -23,7 +24,8 @@ class FundamentalServiceCalculator:
         freeCashFlow = {
             'change': [],
             'data': [],
-            'name': 'Free cash flow'
+            'name': 'Free cash flow',
+            'isPercent': False
         }
         try:
             dataLength = len(self.data['cashFlow'][period]['totalCashFromOperatingActivities']['data'])
@@ -65,7 +67,8 @@ class FundamentalServiceCalculator:
             except:
                 totalDebt = self.data['companyData']['financialData']['totalDebt']
             Rd = round(abs(interestExpense / totalDebt), 4)  # cost of debt
-            taxRate = round(self.incomeStatement['incomeTaxExpense']['data'][0] / self.incomeStatement['incomeBeforeTax']['data'][0], 4)  # percent
+            taxRate = round(self.incomeStatement['incomeTaxExpense']['data'][0] / self.incomeStatement['incomeBeforeTax']['data'][0],
+                            4)  # percent
 
             CAPM = self.calculateCAPM()
             Re = 0.1 if CAPM is None else CAPM['result']  # cost of equity

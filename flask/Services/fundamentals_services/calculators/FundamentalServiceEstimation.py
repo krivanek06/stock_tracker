@@ -13,8 +13,9 @@ class FundamentalServiceEstimation:
     # https://www.youtube.com/watch?v=OyloOasPAFw
     def estimateFCFValuation(self):
         try:
-            if self.data['cashFlow']['yearly']['freeCashFlow'] is None:
+            if self.data['cashFlow']['yearly']['freeCashFlow'] is None or self.data['summary']['sharesOutstanding'] == 0:
                 return None
+
             # inputs
             sharesOutstanding = self.data['summary']['sharesOutstanding']
             capitalExpenditures = self.data['cashFlow']['yearly']['capitalExpenditures']['data'][::-1]

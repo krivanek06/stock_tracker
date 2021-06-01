@@ -52,7 +52,7 @@ export class FreeCashflowFormulaService {
             filter(symbol => !!symbol),
             switchMap((symbol) => this.symbolStorageService.getStockDetails(symbol))
         ).subscribe(details => {
-            this.formula$.next({...details.calculatedPredictions?.FCF_V1});
+            this.formula$.next(details.calculatedPredictions.FCF_V1);
         });
     }
 }

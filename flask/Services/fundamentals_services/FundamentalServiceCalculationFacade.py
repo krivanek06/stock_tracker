@@ -15,12 +15,16 @@ class FundamentalServiceCalculationFacade:
 
     def calculateAdditionalData(self):
         # free cash flow
-        self.data['cashFlow'][self.YEARLY]['freeCashFlow'] = self.calculator.calculateFreeCashFlow(self.YEARLY)
-        self.data['cashFlow'][self.QUARTERLY]['freeCashFlow'] = self.calculator.calculateFreeCashFlow(self.QUARTERLY)
+        if self.data['cashFlow'][self.YEARLY]:
+            self.data['cashFlow'][self.YEARLY]['freeCashFlow'] = self.calculator.calculateFreeCashFlow(self.YEARLY)
+        if self.data['cashFlow'][self.QUARTERLY]:
+            self.data['cashFlow'][self.QUARTERLY]['freeCashFlow'] = self.calculator.calculateFreeCashFlow(self.QUARTERLY)
 
         # net income margin
-        self.data['incomeStatement'][self.YEARLY]['netIncomeMargin'] = self.calculator.calculateNetIncomeMargin(self.YEARLY)
-        self.data['incomeStatement'][self.QUARTERLY]['netIncomeMargin'] = self.calculator.calculateNetIncomeMargin(self.QUARTERLY)
+        if self.data['incomeStatement'][self.YEARLY]:
+            self.data['incomeStatement'][self.YEARLY]['netIncomeMargin'] = self.calculator.calculateNetIncomeMargin(self.YEARLY)
+        if self.data['incomeStatement'][self.QUARTERLY]:
+            self.data['incomeStatement'][self.QUARTERLY]['netIncomeMargin'] = self.calculator.calculateNetIncomeMargin(self.QUARTERLY)
 
         self.data['calculations'] = {
             'CAPM': self.calculator.calculateCAPM(),

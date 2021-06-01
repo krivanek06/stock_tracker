@@ -50,10 +50,10 @@ class YahooFinanceTopSymbolsApi:
         date = date if date else yesterday
         result = []
         i = 0
-        while i == 0 or len(result) == 100:
+        while i == 0 or (len(result) > 0 and len(result) % 100 == 0) :
             url = 'https://finance.yahoo.com/calendar/earnings?day=' + date + '&offset=' + str(i)
             data = self.yahooFinanceParser.parse_json(url, 'ScreenerResultsStore', 'results', 'rows')
-            result += [d for d in data if d.get('epsestimate') is not None]
+            result += data
             i += 1
         return result
 

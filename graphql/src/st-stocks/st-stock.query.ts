@@ -11,9 +11,19 @@ export const queryStockDetails = async (symbol: string): Promise<api.StockDetail
         const upperSymbol = symbol.toUpperCase();
         const stockDetailsDocs = await admin.firestore().collection(`${api.ST_STOCK_DATA_COLLECTION}`).doc(upperSymbol).get();
         const data = stockDetailsDocs.data() as api.StockDetailsWrapper | undefined;
+
+        /*console.log('Start deleting');
+        const ref = admin.firestore().collection(api.ST_STOCK_DATA_COLLECTION);
+        ref.onSnapshot((snapshot) => {
+            snapshot.docs.forEach((doc) =>  { 
+                console.log(`Deleting ${doc.id}`);
+                ref.doc(doc.id).delete()
+            })
+        })
+        console.log('Deleting done');*/
         
         // first fetch or older than 7 days
-        if(!data || (Math.abs(moment(data.detailsLastUpdate).diff(new Date(), 'days')) > 7 && IS_PRODUCTION)){
+        if(!data || (Math.abs(moment(data.detailsLastUpdate).diff(new Date(), 'days')) > 7)){
             console.log(`Query all stock details for symbol: ${upperSymbol}`)
             return await getAndSaveStockDetailsFromApi(upperSymbol);
         } 

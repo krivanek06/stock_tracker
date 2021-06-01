@@ -2,9 +2,9 @@
 
 :host {
   ion-segment {
+    overflow: visible;
     @media (max-width: #{$st-var-xl-split}) {
-      display: block;
-      column-count: 3;
+      overflow: auto;
     }
   }
 }

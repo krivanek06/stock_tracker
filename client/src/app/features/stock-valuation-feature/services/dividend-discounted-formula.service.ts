@@ -27,7 +27,7 @@ export class DividendDiscountedFormulaService {
             filter(symbol => !!symbol),
             switchMap((symbol) => this.symbolStorageService.getStockDetails(symbol))
         ).subscribe(details => {
-            this.formula$.next(details.calculatedPredictions?.DDF_V1);
+            this.formula$.next(details.calculatedPredictions.DDF_V1);
         });
     }
 }

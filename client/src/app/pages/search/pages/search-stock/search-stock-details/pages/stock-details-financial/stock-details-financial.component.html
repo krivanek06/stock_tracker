@@ -6,30 +6,17 @@
     <ion-label>
         <ion-list>
             <ion-radio-group (ionChange)="changeActiveStatement($event)" [value]="activeStatement">
-                <ion-item [ngClass]="{'ion-activatable-focus': activeStatement === STATEMENT_TYPE.BALANCE_SHEET }">
-                    <ion-label>
-                        Balance sheet
-                    </ion-label>
-                    <ion-radio [value]="STATEMENT_TYPE.BALANCE_SHEET"></ion-radio>
-                </ion-item>
-
-                <ion-item [ngClass]="{'ion-activatable-focus': activeStatement === STATEMENT_TYPE.CASH_FLOW }">
-                    <ion-label>
-                        Cash flow
-                    </ion-label>
-                    <ion-radio [value]="STATEMENT_TYPE.CASH_FLOW"></ion-radio>
-                </ion-item>
-
-                <ion-item [ngClass]="{'ion-activatable-focus': activeStatement === STATEMENT_TYPE.INCOME_STATEMENT }">
-                    <ion-label>
-                        Income statement
-                    </ion-label>
-                    <ion-radio [value]="STATEMENT_TYPE.INCOME_STATEMENT"></ion-radio>
+                <ion-item *ngFor="let data of STOCK_SEARCH_DETAILS_FINANCIAL_PAGES"
+                          [ngClass]="{'ion-activatable-focus': activeStatement === data.value }">
+                    <ion-label>{{ data.name }}</ion-label>
+                    <ion-radio [value]="data.value"></ion-radio>
                 </ion-item>
             </ion-radio-group>
         </ion-list>
     </ion-label>
 </ion-item>
+
+<!-- active statement -->
 <ion-item class="ion-hide-md-up">
     <ion-label class="st-font-size-18 st-font-white ion-text-center">
         {{ activeStatement }}

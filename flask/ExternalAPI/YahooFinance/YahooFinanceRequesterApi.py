@@ -51,29 +51,20 @@ class YahooFinanceRequesterApi:
 
         if not json_info:
             return None
-        try:
-            balanceSheet = {
-                'yearly': json_info["balanceSheetHistory"].get('balanceSheetStatements'),
-                'quarterly': json_info["balanceSheetHistoryQuarterly"].get('balanceSheetStatements')
-            }
-        except:
-            balanceSheet = None
 
-        try:
-            cashFlow = {
-                'yearly': json_info["cashflowStatementHistory"].get('cashflowStatements'),
-                'quarterly': json_info["cashflowStatementHistoryQuarterly"].get('cashflowStatements')
-            }
-        except:
-            cashFlow = None
+        balanceSheet = {
+            'yearly': json_info.get('balanceSheetHistory', {}).get('balanceSheetStatements', []),
+            'quarterly': json_info.get('balanceSheetHistoryQuarterly', {}).get('balanceSheetStatements', [])
+        }
+        cashFlow = {
+            'yearly': json_info.get('cashflowStatementHistory', {}).get('cashflowStatements', []),
+            'quarterly': json_info.get('cashflowStatementHistoryQuarterly', {}).get('cashflowStatements', [])
+        }
 
-        try:
-            incomeStatement = {
-                'yearly': json_info["incomeStatementHistory"].get('incomeStatementHistory'),
-                'quarterly': json_info["incomeStatementHistoryQuarterly"].get('incomeStatementHistory')
-            }
-        except:
-            incomeStatement = None
+        incomeStatement = {
+            'yearly': json_info.get('incomeStatementHistory', {}).get('incomeStatementHistory', []),
+            'quarterly': json_info.get('incomeStatementHistoryQuarterly', {}).get('incomeStatementHistory', [])
+        }
 
         return {'balanceSheet': balanceSheet, 'incomeStatement': incomeStatement, 'cashFlow': cashFlow}
 

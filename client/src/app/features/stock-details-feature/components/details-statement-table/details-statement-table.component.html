@@ -1,5 +1,5 @@
 <app-generic-card [subtitle]="title" class="ion-hide-md-down">
-    <ion-list>
+    <ion-list *ngIf="statement?.endDate?.data?.length > 0">
         <ion-item>
             <ion-label class="header-label"></ion-label>
             <ion-label *ngFor="let item of statement?.endDate?.data; let i = index; let last=last"
@@ -17,7 +17,7 @@
                 <ion-label *ngFor="let value of statement[key].data; let i = index"
                            [class]="'st-display-flex-center label-'+i ">
 
-                    <ion-text class="st-data-label" style="min-width: 66px">{{ value | numberFormatter }}</ion-text>
+                    <ion-text class="st-data-label" style="min-width: 66px">{{ value | numberFormatter: statement[key].isPercent }}</ion-text>
 
                     <!-- positive / negative icon -->
                     <ion-text *ngIf="statement[key].change[i] as change"
@@ -58,7 +58,7 @@
                             </ion-text>
 
                             <ion-text class="st-data-label" style="min-width: 65px">
-                                {{  statement[key].data[i] | numberFormatter }}
+                                {{  statement[key].data[i] | numberFormatter: statement[key].isPercent  }}
                             </ion-text>
                         </ion-label>
 

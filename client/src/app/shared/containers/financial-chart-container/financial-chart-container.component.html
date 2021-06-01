@@ -31,23 +31,26 @@
 </ion-item>
 
 <!-- range buttons -->
-<ion-segment (ionChange)="segmentChanged($event)" [value]="selectedRange">
-    <ion-segment-button value="1d" layout="icon-start">
+<ion-segment (ionChange)="segmentChanged($event)" [value]="selectedRange" scrollable>
+    <ion-segment-button value="1d">
         <ion-label>1d</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="1mo" layout="icon-start">
+    <ion-segment-button value="5d">
+        <ion-label>5d</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="1mo">
         <ion-label>1mo</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="6mo" layout="icon-start">
+    <ion-segment-button value="6mo">
         <ion-label>6mo</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="1y" layout="icon-start">
+    <ion-segment-button value="1y">
         <ion-label>1y</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="5y" layout="icon-start">
+    <ion-segment-button value="5y">
         <ion-label>5y</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="max" layout="icon-start">
+    <ion-segment-button value="max">
         <ion-label>Max</ion-label>
     </ion-segment-button>
 </ion-segment>

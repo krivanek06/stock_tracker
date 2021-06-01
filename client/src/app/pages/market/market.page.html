@@ -10,9 +10,7 @@
         <!-- initial subpage picker -->
         <ion-row class="ion-justify-content-center">
             <ion-col size="12" size-lg="11" size-xl="10">
-                <ion-segment color="primary"
-                             class="ion-justify-content-end ion-margin-bottom"
-                             [(ngModel)]="segmentValue">
+                <ion-segment color="primary" scrollable [(ngModel)]="segmentValue">
                     <ion-segment-button *ngFor="let path of MARKET_PAGE_PATH" [value]="path.value">
                         <ion-label>{{ path.name }}</ion-label>
                     </ion-segment-button>

@@ -1,7 +1,5 @@
 export const stToTitleCase = (str: string) => {
-    return str.replace(
-        /\w\S*/g,
-        (txt) => {
+    return str.replace(/\w\S*/g, (txt) => {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         }
     );
@@ -9,9 +7,14 @@ export const stToTitleCase = (str: string) => {
 
 export const lastElement = <T extends unknown>(elementArray: T[]): T => elementArray.slice(-1)[0];
 
-export const stFormatLargeNumber = (value: number) => {
+export const stFormatLargeNumber = (value: number, isPercent: boolean = false) => {
     if (!stIsNumber(value)) {
         return 'N/A';
+    }
+
+    if (isPercent) {
+        const rounded = Math.round((value * 100) * 100) / 100;
+        return `${rounded}%`;
     }
 
     let symbol = '';
@@ -39,9 +42,7 @@ export const stFormatLargeNumber = (value: number) => {
 };
 
 export const stIsNumber = (value: string | number): boolean => {
-    return ((value != null) &&
-        (value !== '') &&
-        !isNaN(Number(value.toString())));
+    return ((value != null) && (value !== '') && !isNaN(Number(value.toString())));
 };
 
 // return YYYY-MM-DD

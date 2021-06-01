@@ -24,6 +24,9 @@ export class EarningsFormulaService {
     }
 
     resetFormulaVariables() {
+        if (!this.earningsFormula) {
+            return;
+        }
         this.formula$.next({...this.earningsFormula, variable: this.initialVariablesState});
         this.calculateFormulaResult();
     }
@@ -48,7 +51,7 @@ export class EarningsFormulaService {
         const estimatedEarnings: number[] = [formula.eps];
         const estimatedDiscountedPV: number[] = [];
 
-        for (let i = 1; i <= 10; i++) {
+        for (let i = 1; i < formula.dates.length; i++) {
             const tmpGrowth = i <= 5 ? variable.growthRateNext5y : variable.growthRateFrom5yTo10y;
             estimatedEarnings.push(lastElement(estimatedEarnings) * (1 + tmpGrowth));
             estimatedDiscountedPV.push(estimatedEarnings[i] * (1 + variable.minimumRateReturn) ** (-i));
@@ -60,6 +63,10 @@ export class EarningsFormulaService {
         const pvTerminalValue = earningsTerminalValue * (1 + variable.minimumRateReturn) ** (-estimatedDiscountedPV.length - 1);
         const estimatedIntrinsicValue = estimatedDiscountedPV.reduce((a, b) => a + b, 0) + pvTerminalValue;
 
+        // save terminal values
+        estimatedDiscountedPV.push(pvTerminalValue);
+        estimatedEarnings.push(earningsTerminalValue);
+
         // save formula new estimation
         this.formula$.next({...formula, estimatedDiscountedPV, estimatedEarnings, estimatedIntrinsicValue});
     }
@@ -69,7 +76,7 @@ export class EarningsFormulaService {
             filter(symbol => !!symbol),
             switchMap((symbol) => this.symbolStorageService.getStockDetails(symbol))
         ).subscribe(details => {
-            const formula = {...details.calculatedPredictions?.INTRINSIC_V1};
+            const formula = details.calculatedPredictions.INTRINSIC_V1;
             this.formula$.next(formula);
             this.initialVariablesState = formula?.variable;
         });

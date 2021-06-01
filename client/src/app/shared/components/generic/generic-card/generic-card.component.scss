@@ -13,8 +13,17 @@
   }
 
   ion-card-content {
+    height: 90%;
+
     .default-content:not(:only-child) {
       display: none; // hide no content text
+    }
+
+    ion-skeleton-text {
+      margin-top: 10px;
+      width: 100%;
+      height: 95%;
+      min-height: 75px;
     }
   }
 }

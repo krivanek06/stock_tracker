@@ -154,7 +154,7 @@ class FundamentalServiceEstimationDCF:
     '''
 
     def __checkIfCalculationIsPossible(self):
-        positiveCashFlows = list(filter(lambda x: (x > 0), self.cashFlow['freeCashFlow']['data']))
+        positiveCashFlows = list(filter(lambda x: (x is not None and x > 0), self.cashFlow['freeCashFlow']['data']))
         if len(positiveCashFlows) < 3:
             return False
         return True

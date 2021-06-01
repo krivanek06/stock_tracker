@@ -32,16 +32,10 @@
                         <ion-skeleton-text [animated]="authenticating$ | async"></ion-skeleton-text>
                     </ion-thumbnail>
                     <ion-label>
-                        <ion-skeleton-text
-                                [animated]="authenticating$ | async"
-                                style="width: 80%">
-                        </ion-skeleton-text>
+                        <ion-skeleton-text [animated]="authenticating$ | async" style="width: 80%"></ion-skeleton-text>
                     </ion-label>
                     <ion-label>
-                        <ion-skeleton-text
-                                [animated]="authenticating$ | async"
-                                style="width: 60%">
-                        </ion-skeleton-text>
+                        <ion-skeleton-text [animated]="authenticating$ | async" style="width: 60%"></ion-skeleton-text>
                     </ion-label>
                 </ng-template>
             </div>
@@ -51,8 +45,7 @@
                 <ion-text class="page-section">Main section</ion-text>
                 <ion-menu-toggle auto-hide="false" *ngFor="let p of mainPages">
                     <ng-container *ngIf="!p.hidden">
-                        <div *ngIf="selectedNavigation === p"
-                             class="navigation-rectangle-selected"></div>
+                        <div *ngIf="selectedNavigation === p" class="navigation-rectangle-selected"></div>
                         <ion-item (click)="selectedNavigation = p"
                                   [disabled]="p.disabled"
                                   class="navigation"
@@ -74,8 +67,7 @@
                 <ion-text class="page-section">Other</ion-text>
                 <ion-menu-toggle auto-hide="false" *ngFor="let p of otherPages">
                     <ng-container *ngIf="!p.hidden">
-                        <div *ngIf="selectedNavigation === p"
-                             class="navigation-rectangle-selected"></div>
+                        <div *ngIf="selectedNavigation === p" class="navigation-rectangle-selected"></div>
                         <ion-item (click)="selectedNavigation = p"
                                   class="navigation"
                                   [disabled]="p.disabled"
@@ -108,6 +100,9 @@
                     </ion-menu-toggle>
                 </ng-template>
             </ion-list>
+
+            <!-- version -->
+            <ion-text class="c-version">Version: {{ version }}</ion-text>
         </ion-content>
     </ion-menu>
 
@@ -120,6 +115,4 @@
                        [ngClass]="{'custom-overlay': showOverlay}">
     </ion-router-outlet>
 
-
 </ion-split-pane>
-

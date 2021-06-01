@@ -383,6 +383,7 @@ export type IncomeStatementData = {
     costOfSales?: Maybe<SheetData>;
     incomeTaxProvision?: Maybe<SheetData>;
     marketingExpense?: Maybe<SheetData>;
+    netIncomeMargin?: Maybe<SheetData>;
 };
 
 export type InsiderTransaction = {
@@ -763,6 +764,7 @@ export type SheetData = {
     change?: Maybe<Array<Maybe<Scalars['Float']>>>;
     data?: Maybe<Array<Maybe<Scalars['Float']>>>;
     name?: Maybe<Scalars['String']>;
+    isPercent?: Maybe<Scalars['Boolean']>;
 };
 
 export type StDiscountedCashFlowFormula = {
@@ -1940,7 +1942,7 @@ export type StockSummaryFragmentFragment = (
 
 export type SheetDataFragmentFragment = (
     { __typename?: 'SheetData' }
-    & Pick<SheetData, 'change' | 'data' | 'name'>
+    & Pick<SheetData, 'change' | 'data' | 'name' | 'isPercent'>
     );
 
 export type BalanceSheetDataFragmentFragment = (
@@ -2174,6 +2176,9 @@ export type IncomeStatementFragmentFragment = (
         { __typename?: 'SheetData' }
         & SheetDataFragmentFragment
         )>, netIncome?: Maybe<(
+        { __typename?: 'SheetData' }
+        & SheetDataFragmentFragment
+        )>, netIncomeMargin?: Maybe<(
         { __typename?: 'SheetData' }
         & SheetDataFragmentFragment
         )>, netIncomeFromContinuingOps?: Maybe<(
@@ -3112,6 +3117,7 @@ export const SheetDataFragmentFragmentDoc = gql`
         change
         data
         name
+        isPercent
     }
 `;
 export const BalanceSheetDataFragmentFragmentDoc = gql`
@@ -3338,6 +3344,9 @@ export const IncomeStatementFragmentFragmentDoc = gql`
             ...SheetDataFragment
         }
         netIncome {
+            ...SheetDataFragment
+        }
+        netIncomeMargin {
             ...SheetDataFragment
         }
         netIncomeFromContinuingOps {
