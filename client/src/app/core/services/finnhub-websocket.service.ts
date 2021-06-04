@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
-import {Observable, of} from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {distinctUntilChanged, filter, map, mergeAll} from 'rxjs/operators';
 import {MarketSymbolResult} from '../model';
 import {UserStorageService} from './storage/user-storage.service';
@@ -12,16 +12,24 @@ import {UserStorageService} from './storage/user-storage.service';
 export class FinnhubWebsocketService {
     private subscribedSymbols: Map<string, string[]> = new Map<string, string[]>();
     private endpoint = 'wss://ws.finnhub.io?token=';
-    private privateKeyExists = false;
 
-    myWebSocket: WebSocketSubject<any>;
+    private myWebSocket: WebSocketSubject<any>;
+    private isConnectionInitialized$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     constructor(private userStorageService: UserStorageService) {
         this.initConnection();
     }
 
+    get isConnectionInitialized(): boolean {
+        return this.isConnectionInitialized$.getValue();
+    }
+
+    isConnectionInitializedObs(): Observable<boolean> {
+        return this.isConnectionInitialized$.asObservable();
+    }
+
     getSubscribedSymbolsResult(): Observable<MarketSymbolResult> {
-        if (!this.privateKeyExists || !this.myWebSocket) {
+        if (!this.isConnectionInitialized$.value || !this.myWebSocket) {
             console.log('Websocket getSubscribedSymbolsResult return, no connection initialized');
             return of({s: 'NOT EXISTS', v: 0, p: 0, t: 0});
         }
@@ -35,7 +43,7 @@ export class FinnhubWebsocketService {
     }
 
     createSubscribeForSymbol(componentName: string, symbol: string, isCrypto: boolean = false) {
-        if (!this.privateKeyExists || !this.myWebSocket) {
+        if (!this.isConnectionInitialized$.value || !this.myWebSocket) {
             console.log('Websocket createSubscribeForSymbol return, no connection initialized');
             return;
         }
@@ -56,7 +64,7 @@ export class FinnhubWebsocketService {
     }
 
     closeConnection(componentName: string) {
-        if (!this.privateKeyExists || !this.myWebSocket) {
+        if (!this.isConnectionInitialized$.value || !this.myWebSocket) {
             console.log('Websocket closeConnection return, no connection initialized');
             return;
         }
@@ -72,7 +80,7 @@ export class FinnhubWebsocketService {
      * First check if another component is subscribed for symbol. If not send unsubscribe message.
      */
     closeConnectionForSymbol(componentName: string, symbol: string) {
-        if (!this.privateKeyExists || !this.myWebSocket) {
+        if (!this.isConnectionInitialized$.value || !this.myWebSocket) {
             console.log('Websocket closeConnectionForSymbol return, no connection initialized');
             return;
         }
@@ -97,10 +105,9 @@ export class FinnhubWebsocketService {
             map(x => x.userPrivateData.finnhubKey),
             distinctUntilChanged()
         ).subscribe(key => {
-            console.log('key', key);
+            console.log('User finhub token: ', key);
             this.myWebSocket = webSocket(this.endpoint + key);
-            this.privateKeyExists = !!key;
-            console.log('this.privateKeyExists', this.privateKeyExists);
+            this.isConnectionInitialized$.next(true);
         });
     }
 

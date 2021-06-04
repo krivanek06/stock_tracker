@@ -1,4 +1,4 @@
-<ion-list>
+<ion-list *ngIf="topTableSymbolData.length > 0; else showSkelleton">
 
     <!-- table header -->
     <ion-item class="ion-no-padding ion-hide-sm-down st-font-1-bold">
@@ -100,3 +100,14 @@
         </ion-item>
     </ng-container>
 </ion-list>
+
+<!-- loading screen -->
+<ng-template #showSkelleton>
+    <ion-list>
+        <ion-item *ngFor="let _ of [].constructor(10)" style="height: 24px">
+            <ion-label>
+                <ion-skeleton-text animated></ion-skeleton-text>
+            </ion-label>
+        </ion-item>
+    </ion-list>
+</ng-template>

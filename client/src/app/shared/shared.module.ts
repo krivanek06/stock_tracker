@@ -22,7 +22,7 @@ import {
     UploaderComponent,
     UploadTaskComponent
 } from './components';
-import {HoldingsTotalInvestedPipe, NumberFormatterPipe, ObjNgForPipe, RelativeTimePipe, SumUpPipe} from './pipes';
+import {HoldingsTotalInvestedPipe, NumberFormatterPipe, ObjNgForPipe, RelativeTimePipe, SplitKeyToTitlecasePipe, SumUpPipe} from './pipes';
 import {FinancialChartContainerComponent, HeaderComponent, StockSummaryContainerComponent} from './containers';
 import {FinancialChartModalComponent} from './entry-components';
 import {SharedProvidersModule} from './shared-providers.module';
@@ -65,7 +65,8 @@ import {SharedProvidersModule} from './shared-providers.module';
         StockSummaryContainerComponent,
         HoldingsTotalInvestedPipe,
         RangeRatingSliderComponent,
-        TableIncreasingItemComponent
+        TableIncreasingItemComponent,
+        SplitKeyToTitlecasePipe
     ],
     imports: [
         SharedProvidersModule
@@ -104,7 +105,8 @@ import {SharedProvidersModule} from './shared-providers.module';
         StockSummaryContainerComponent,
         HoldingsTotalInvestedPipe,
         RangeRatingSliderComponent,
-        TableIncreasingItemComponent
+        TableIncreasingItemComponent,
+        SplitKeyToTitlecasePipe
     ],
     entryComponents: [
         InlineInputPopUpComponent

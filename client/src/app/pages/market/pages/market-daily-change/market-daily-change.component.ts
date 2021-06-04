@@ -10,10 +10,10 @@ import {
     StMarketTopTableSymbolData
 } from '@core';
 import {NameValueContainer, SymbolIdentification} from '@shared';
-import {takeUntil} from 'rxjs/operators';
+import {filter, first, map, takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
 import {MARKET_DAILY_CHANGE_SELECT} from '../../model/market.model';
-import {Observable, of} from 'rxjs';
+import {Observable, of, pipe} from 'rxjs';
 import {MarketPageFacadeService} from '../../services/market-page-facade.service';
 
 @Component({
@@ -87,7 +87,11 @@ export class MarketDailyChangeComponent extends ComponentScreenUpdateBaseDirecti
             this.earnings = res.earnings;
             this.topGainers = cloneDeep(res.stocks_day_gainers);
             this.selectedTable = cloneDeep(res.stocks_day_losers);
-            this.initSubscriptionForDailyOverview();
+
+            // init subscription only if service is initialized
+            this.finnhubWebsocketService.isConnectionInitializedObs().pipe(
+                first(res => res)
+            ).subscribe(() => this.initSubscriptionForDailyOverview())
         });
     }
 
