@@ -1,6 +1,7 @@
-<ion-list>
+<!-- BIG SCREEN -->
+<ion-list class="ion-hide-sm-down">
     <!-- table header -->
-    <ion-item class="ion-hide-sm-down st-font-1-bold">
+    <ion-item class="st-font-1-bold">
         <ion-label>Symbol</ion-label>
         <ion-label>Price</ion-label>
         <ion-label>Daily +/-</ion-label>
@@ -9,18 +10,6 @@
         <ion-label class="ion-hide-md-down">PE ratio</ion-label>
         <ion-label>Recommend</ion-label>
         <ion-label class="ion-hide-lg-down">52 week range</ion-label>
-    </ion-item>
-
-    <!-- view buttons -->
-    <ion-item class="ion-hide-sm-up">
-        <ion-label class="st-flex-end">
-            <ion-button fill="clear" class="st-icon" *ngIf="showDailyChange" (click)="toggleDailyChange()">
-                Daily +/-
-            </ion-button>
-            <ion-button fill="clear" class="st-icon" *ngIf="!showDailyChange" (click)="toggleDailyChange()">
-                Yearly +/-
-            </ion-button>
-        </ion-label>
     </ion-item>
 
     <!-- table body -->
@@ -80,9 +69,26 @@
                 </div>
             </ion-label>
         </ion-item>
+    </ng-container>
+</ion-list>
 
 
-        <!-- SMALL SCREEN -->
+<!-- SMALL SCREEN -->
+<ion-list class="ion-hide-sm-up">
+    <!-- table header -->
+    <ion-item>
+        <ion-label class="st-flex-end">
+            <ion-button fill="clear" class="st-icon" *ngIf="showDailyChange" (click)="toggleDailyChange()">
+                Daily +/-
+            </ion-button>
+            <ion-button fill="clear" class="st-icon" *ngIf="!showDailyChange" (click)="toggleDailyChange()">
+                Yearly +/-
+            </ion-button>
+        </ion-label>
+    </ion-item>
+
+    <!-- table body -->
+    <ng-container *ngFor="let summary of watchlist.summaries; trackBy:identify">
         <ion-item button class="st-data-item-wrapper ion-hide-sm-up st-sm-table-item" (click)="itemClicked(summary)">
             <!-- LOGO + SYMBOL -->
             <ion-label class="st-display-flex-center">

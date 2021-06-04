@@ -326,9 +326,10 @@
         <app-generic-list title="Yearly metrics" [applyMarginTop]="true"></app-generic-list>
         <ion-row>
             <ng-container *ngFor="let key of stockDetails.historicalMetrics | objNgFor; let i = index; let last=last">
-                <ion-col size="12" [sizeSm]="last ? 12 : 6" [sizeLg]="i > 15 ? 6  : 4" *ngIf="key !== '__typename'">
-                    <ng-container *ngIf="stockDetails.historicalMetrics[key] as data">
-                        <app-generic-card [subtitle]="data.name + ': ' + data.data[data.data.length - 1]"
+                <ion-col *ngIf="key !== '__typename'" size="12" [sizeSm]="last ? 12 : 6" [sizeLg]="i > 15 ? 6  : 4">
+                    <ng-container *ngIf="stockDetails.historicalMetrics[key] as data; else emptyCard">
+                        <app-generic-card *ngIf="data.data.length > 0; else emptyCard"
+                                          [subtitle]="data.name + ': ' + data.data[data.data.length - 1]"
                                           additionalClasses="st-height-100">
                             <app-generic-chart *ngIf="data.dates.length > 0"
                                                [categories]="data.dates"
@@ -337,6 +338,11 @@
                             </app-generic-chart>
                         </app-generic-card>
                     </ng-container>
+                    <ng-template #emptyCard>
+                        <app-generic-card [subtitle]="key | splitKeyToTitlecase"
+                                          additionalClasses="st-height-100">
+                        </app-generic-card>
+                    </ng-template>
                 </ion-col>
             </ng-container>
         </ion-row>
