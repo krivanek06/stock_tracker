@@ -39,8 +39,10 @@ export abstract class TradingScreenUpdateBaseDirective implements OnInit, OnDest
             filter(x => !!x),
             takeUntil(componentDestroyed(this))
         ).subscribe(user => {
+            this.clonedHoldings = cloneDeep(user.holdings);
+            this.calculateTotalPortfolio();
+
             this.user = user;
-            this.clonedHoldings = cloneDeep(this.user.holdings);
 
             // select first summary in holdings
             this.selectedSummary = user.holdings.length > 0 ? user.holdings[0].summary : undefined;

@@ -1,7 +1,8 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {componentDestroyed, ComponentScreenUpdateBaseDirective, FinnhubWebsocketService, Summary} from '@core';
+import {componentDestroyed, ComponentScreenUpdateBaseDirective, FinnhubWebsocketService, Summary, UserStorageService} from '@core';
 import {filter, takeUntil} from 'rxjs/operators';
 import {marketValueChange} from '../../animations';
+import {Observable} from 'rxjs';
 
 
 @Component({

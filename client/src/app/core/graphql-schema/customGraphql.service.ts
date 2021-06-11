@@ -698,6 +698,7 @@ export type QueryQueryStGroupPartialDataByGroupNameArgs = {
 
 export type QueryQueryStockDetailsArgs = {
     symbol: Scalars['String'];
+    reload?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -2368,6 +2369,7 @@ export type WaccFragmentFragment = (
 
 export type QueryStockDetailsQueryVariables = Exact<{
     symbol: Scalars['String'];
+    reload?: Maybe<Scalars['Boolean']>;
 }>;
 
 
@@ -4251,8 +4253,8 @@ export class QueryStMarketDataGQL extends Apollo.Query<QueryStMarketDataQuery, Q
 }
 
 export const QueryStockDetailsDocument = gql`
-    query QueryStockDetails($symbol: String!) {
-        queryStockDetails(symbol: $symbol) {
+    query QueryStockDetails($symbol: String!, $reload: Boolean) {
+        queryStockDetails(symbol: $symbol, reload: $reload) {
             id
             analysis {
                 growthEstimates {

@@ -14,10 +14,17 @@
 
         <ion-col size="12" size-md="5">
             <!-- summary -->
-            <app-generic-list
-                    iconTitle="barcode-outline"
-                    [title]="'Summary: ' + stockDetails.id">
-            </app-generic-list>
+            <ion-list-header>
+                <ion-label class="st-display-flex-center">
+                    <ion-icon class="st-icon-title" name="barcode-outline"></ion-icon>
+                    <ion-text class="st-font-size-18 st-font-0"> {{ 'Summary: ' + stockDetails.id }}</ion-text>
+                </ion-label>
+                <ion-button *ngIf="isAdmin$ | async" (click)="reloadStockDetails()">
+                    <ion-icon class="st-icon-title" name="refresh-circle"></ion-icon>
+                    Reload data
+                </ion-button>
+            </ion-list-header>
+
             <app-generic-card>
                 <app-stock-summary-container
                         [summary]="stockDetails.summary">
@@ -110,7 +117,8 @@
     <ion-row>
         <ion-col size-lg="4" size-sm="6" size="12">
             <app-generic-card subtitle="Dividend" additionalClasses="st-height-100">
-                <app-details-dividend [stockDetails]="stockDetails"></app-details-dividend>
+                <app-details-dividend [stockDetails]="stockDetails">
+                </app-details-dividend>
             </app-generic-card>
         </ion-col>
         <ion-col size-lg="3" size-sm="6" size="12">

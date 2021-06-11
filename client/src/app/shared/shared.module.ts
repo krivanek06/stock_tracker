@@ -26,6 +26,7 @@ import {HoldingsTotalInvestedPipe, NumberFormatterPipe, ObjNgForPipe, RelativeTi
 import {FinancialChartContainerComponent, HeaderComponent, StockSummaryContainerComponent} from './containers';
 import {FinancialChartModalComponent} from './entry-components';
 import {SharedProvidersModule} from './shared-providers.module';
+import {SplitPipe} from './pipes/split.pipe';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import {SharedProvidersModule} from './shared-providers.module';
         HoldingsTotalInvestedPipe,
         RangeRatingSliderComponent,
         TableIncreasingItemComponent,
-        SplitKeyToTitlecasePipe
+        SplitKeyToTitlecasePipe,
+        SplitPipe
     ],
     imports: [
         SharedProvidersModule
@@ -106,7 +108,8 @@ import {SharedProvidersModule} from './shared-providers.module';
         HoldingsTotalInvestedPipe,
         RangeRatingSliderComponent,
         TableIncreasingItemComponent,
-        SplitKeyToTitlecasePipe
+        SplitKeyToTitlecasePipe,
+        SplitPipe
     ],
     entryComponents: [
         InlineInputPopUpComponent

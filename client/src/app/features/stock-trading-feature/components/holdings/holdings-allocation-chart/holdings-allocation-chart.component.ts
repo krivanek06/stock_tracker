@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {StTransaction} from '@core';
 import {ChartType, GenericChartSeries} from '@shared';
 
@@ -8,7 +8,7 @@ import {ChartType, GenericChartSeries} from '@shared';
     styleUrls: ['./holdings-allocation-chart.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HoldingsAllocationChartComponent implements OnInit, OnChanges {
+export class HoldingsAllocationChartComponent implements OnInit {
     @Input() holdings: StTransaction[];
     @Input() portfolioCash: number;
     @Input() portfolioInvested: number;
@@ -24,13 +24,9 @@ export class HoldingsAllocationChartComponent implements OnInit, OnChanges {
     constructor() {
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.portfolioInvested) {
-            this.formatHoldingsIntoChartInput();
-        }
-    }
 
     ngOnInit() {
+        this.formatHoldingsIntoChartInput();
     }
 
 

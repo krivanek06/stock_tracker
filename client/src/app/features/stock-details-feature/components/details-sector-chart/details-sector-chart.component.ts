@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {ChartType, GenericChartSeries} from '@shared';
 import {StTransaction, Summary} from '@core';
 
@@ -8,7 +8,7 @@ import {StTransaction, Summary} from '@core';
     styleUrls: ['./details-sector-chart.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DetailsSectorChartComponent implements OnInit, OnChanges {
+export class DetailsSectorChartComponent implements OnInit {
     @Input() summaries: Summary[];
     @Input() stTransactions: StTransaction[] = [];
     @Input() showDataLabel = false;
@@ -24,13 +24,7 @@ export class DetailsSectorChartComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
-
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (!!changes && (!!changes.summaries || changes.stTransactions)) {
-            this.renderChart();
-        }
+        this.renderChart();
     }
 
     private renderChart() {

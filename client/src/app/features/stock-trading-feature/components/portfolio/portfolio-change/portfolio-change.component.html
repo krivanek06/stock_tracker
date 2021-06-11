@@ -1,5 +1,5 @@
-<!-- Daily -->
 <ion-list>
+    <!-- Daily -->
     <ion-item-group *ngIf="daily">
         <ion-item class="change-title-item">
             <ion-label class="st-font-size-16">
@@ -16,78 +16,21 @@
         </ion-item>
     </ion-item-group>
 
-    <!-- weekly -->
-    <ion-item-group *ngIf="weeklyPortfolio">
+    <!-- Weekly + Monthly + From beginning -->
+    <ion-item-group *ngFor="let wrapper of tradingChangeWrapper">
         <ion-item class="change-title-item">
             <ion-label class="st-font-size-16">
-                Weekly
+                {{ wrapper.timeIntervalName }}
             </ion-label>
         </ion-item>
         <ion-item>
             <label class="st-flex-row">
                 <ion-text class="st-font-size-18 weekly-change" [@marketValueChange]="balance">
-                    {{ balance - (weeklyPortfolio.portfolioCash + weeklyPortfolio.portfolioInvested) | currency }}
+                    {{ balance - wrapper.historicalBalance | currency }}
                 </ion-text>
                 <app-price-change-item
-                        [priceChange]="weeklyPortfolio | portfolioChange: balance">
-                </app-price-change-item>
-            </label>
-        </ion-item>
-    </ion-item-group>
-
-
-    <!-- monthly -->
-    <ion-item-group *ngIf="monthlyPortfolio">
-        <ion-item class="change-title-item">
-            <ion-label class="st-font-size-16">
-                Monthly
-            </ion-label>
-        </ion-item>
-        <ion-item>
-            <label class="st-flex-row">
-                <ion-text class="st-font-size-18 weekly-change" [@marketValueChange]="balance">
-                    {{ balance - (monthlyPortfolio.portfolioCash + monthlyPortfolio.portfolioInvested) | currency }}
-                </ion-text>
-                <app-price-change-item
-                        [priceChange]="monthlyPortfolio | portfolioChange: balance">
-                </app-price-change-item>
-            </label>
-        </ion-item>
-    </ion-item-group>
-
-    <!-- Quarterly -->
-    <ion-item-group *ngIf="quarterlyPortfolio">
-        <ion-item class="change-title-item">
-            <ion-label class="st-font-size-16">
-                Quarterly
-            </ion-label>
-        </ion-item>
-        <ion-item>
-            <label class="st-flex-row">
-                <ion-text class="st-font-size-18 weekly-change" [@marketValueChange]="balance">
-                    {{ balance - (quarterlyPortfolio.portfolioCash + quarterlyPortfolio.portfolioInvested) | currency }}
-                </ion-text>
-                <app-price-change-item
-                        [priceChange]="quarterlyPortfolio | portfolioChange: balance">
-                </app-price-change-item>
-            </label>
-        </ion-item>
-    </ion-item-group>
-
-    <!-- Yearly -->
-    <ion-item-group *ngIf="yearlyPortfolio">
-        <ion-item class="change-title-item">
-            <ion-label class="st-font-size-16">
-                Yearly
-            </ion-label>
-        </ion-item>
-        <ion-item>
-            <label class="st-flex-row">
-                <ion-text class="st-font-size-18 weekly-change" [@marketValueChange]="balance">
-                    {{ balance - (yearlyPortfolio.portfolioCash + yearlyPortfolio.portfolioInvested) | currency }}
-                </ion-text>
-                <app-price-change-item
-                        [priceChange]="yearlyPortfolio | portfolioChange: balance">
+                        [isPercent]="true"
+                        [priceChange]="(balance - wrapper.historicalBalance) / wrapper.historicalBalance">
                 </app-price-change-item>
             </label>
         </ion-item>

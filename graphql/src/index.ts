@@ -76,7 +76,7 @@ const mainTypeDefs = gql`
         querySTGroupPartialDataByGroupName(groupName: String!): STSearchGroups
 
         # details
-        queryStockDetails(symbol: String!): StockDetails
+        queryStockDetails(symbol: String!, reload: Boolean): StockDetails
         queryStockSummary(symbol: String!): Summary
         queryStockSummaries(symbolPrefix: String!): SearchSymbol
 
@@ -137,7 +137,7 @@ const mainResolver = {
         querySTGroupPartialDataByGroupName: async (_: null, args: { groupName: string }) => await querySTGroupPartialDataByGroupName(args.groupName),
 
         // stock details
-        queryStockDetails: async (_: null, args: { symbol: string }) => await queryStockDetails(args.symbol),
+        queryStockDetails: async (_: null, args: { symbol: string, reload: boolean }) => await queryStockDetails(args.symbol, args.reload),
         queryStockSummary: async (_: null, args: { symbol: string }) => await queryStockSummary(args.symbol),
         queryStockSummaries: async (_: null, args: { symbolPrefix: string }) => await queryStockSummaries(args.symbolPrefix),
 

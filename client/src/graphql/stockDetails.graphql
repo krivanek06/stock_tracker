@@ -676,8 +676,8 @@ fragment WACCFragment on WACC {
 # -----------------------------------------
 # QUERY
 
-query QueryStockDetails($symbol: String!) {
-    queryStockDetails(symbol: $symbol) {
+query QueryStockDetails($symbol: String!, $reload: Boolean) {
+    queryStockDetails(symbol: $symbol, reload: $reload) {
         id
         analysis {
             growthEstimates {

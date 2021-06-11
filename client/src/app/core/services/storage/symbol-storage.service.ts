@@ -32,6 +32,15 @@ export class SymbolStorageService {
         }).pipe(map(res => res.data.queryStockDetails));
     }
 
+    reloadStockDetails(symbol: string = this.activeSymbol) {
+        return this.queryStockDetailsGQL.fetch({
+            symbol,
+            reload: true
+        }, {
+            fetchPolicy: 'network-only'
+        }).pipe(map(res => res.data.queryStockDetails));
+    }
+
     getStockSummary(symbol: string = this.activeSymbol): Observable<Summary> {
         return this.queryStockSummaryGQL.fetch({
             symbol
