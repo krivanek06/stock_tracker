@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {StPortfolio, StPortfolioChange} from '@core';
+import {StPortfolio, StPortfolioSnapshot} from '@core';
 import {PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingChangeModel} from '../../../models';
-import {lastElement, marketValueChange, zipArrays} from '@shared';
+import {marketValueChange, zipArrays} from '@shared';
 import * as moment from 'moment';
 
 
@@ -15,7 +15,7 @@ import * as moment from 'moment';
     ]
 })
 export class PortfolioChangeComponent implements OnInit {
-    @Input() stPortfolioChanges: StPortfolioChange[] = [];
+    @Input() stPortfolioSnapshots: StPortfolioSnapshot[] = [];
     @Input() balance: number;
     @Input() daily: TradingChangeModel;
 
@@ -30,14 +30,13 @@ export class PortfolioChangeComponent implements OnInit {
 
     private filterPortfolioHistoryChanges() {
         const today: moment.Moment = moment();
-        const portfolioChanges = this.stPortfolioChanges.slice().reverse(); // create copy in strict mode
 
         // find needed portfolio
-        const weeklyPortfolio = portfolioChanges.find(change => today.diff(moment(change.date), 'days') > 7)?.portfolio;
-        const monthlyPortfolio = portfolioChanges.find(change => today.diff(moment(change.date), 'months') >= 1)?.portfolio;
-        const quarterlyPortfolio = portfolioChanges.find(change => today.diff(moment(change.date), 'months') >= 4)?.portfolio;
-        const yearlyPortfolio = portfolioChanges.find(change => today.diff(moment(change.date), 'years') >= 1)?.portfolio;
-        const fromBeginning = lastElement(portfolioChanges)?.portfolio;
+        const weeklyPortfolio = this.stPortfolioSnapshots.find(change => today.diff(moment(change.date), 'days') >= 7);
+        const monthlyPortfolio = this.stPortfolioSnapshots.find(change => today.diff(moment(change.date), 'months') >= 1);
+        const quarterlyPortfolio = this.stPortfolioSnapshots.find(change => today.diff(moment(change.date), 'months') >= 4);
+        const yearlyPortfolio = this.stPortfolioSnapshots.find(change => today.diff(moment(change.date), 'years') >= 1);
+        const fromBeginning = this.stPortfolioSnapshots[0];
 
         const portfolios = [weeklyPortfolio, monthlyPortfolio, fromBeginning];
 

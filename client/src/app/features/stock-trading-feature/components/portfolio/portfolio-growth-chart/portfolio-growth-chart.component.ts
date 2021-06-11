@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {StPortfolioChange} from '@core';
+import {StPortfolioSnapshot} from '@core';
 import * as Highcharts from 'highcharts';
 import {stFormatLargeNumber} from '@shared';
 
@@ -11,7 +11,7 @@ import {stFormatLargeNumber} from '@shared';
 })
 export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
 
-    @Input() stPortfolio: StPortfolioChange[];
+    @Input() stPortfolioSnapshots: StPortfolioSnapshot[];
     @Input() heightPx = 350;
 
     Highcharts: typeof Highcharts = Highcharts;
@@ -111,6 +111,7 @@ export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
                 padding: 11,
                 enabled: true,
                 backgroundColor: '#232323',
+                xDateFormat: '%A, %b %e, %Y',
                 style: {
                     fontSize: '12px',
                     color: '#D9D8D8',
@@ -152,7 +153,7 @@ export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
                 },
                 name: 'Total',
                 data: (() => {
-                    return this.stPortfolio.map(point => [Date.parse(point.date), point.portfolio.portfolioCash + point.portfolio.portfolioInvested]);
+                    return this.stPortfolioSnapshots.map(point => [Date.parse(point.date), point.portfolioCash + point.portfolioInvested]);
                 })()
             }, {
                 color: '#6b00fa',
@@ -170,7 +171,7 @@ export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
                 },
                 name: 'Invested',
                 data: (() => {
-                    return this.stPortfolio.map(point => [Date.parse(point.date), point.portfolio.portfolioInvested]);
+                    return this.stPortfolioSnapshots.map(point => [Date.parse(point.date), point.portfolioInvested]);
                 })()
             }, {
                 color: '#f24f18',
@@ -188,7 +189,7 @@ export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
                 },
                 name: 'Cash',
                 data: (() => {
-                    return this.stPortfolio.map(point => [Date.parse(point.date), point.portfolio.portfolioCash]);
+                    return this.stPortfolioSnapshots.map(point => [Date.parse(point.date), point.portfolioCash]);
                 })()
             }]
         };

@@ -29,17 +29,13 @@ export const createSTUserPublicData = (user: api.STUserAuthenticationInput): api
         accountCreatedDate: getCurrentIOSDate(),
         lastSignInDate: getCurrentIOSDate(),
         transactionsSnippets: [],
+        lastPortfolioSnapshot: null,
+        lastTransactionSnapshot: null,
         groups: {
             groupInvitationReceived: [],
             groupInvitationSent: [],
             groupMember: [],
             groupOwner: []
-        },
-        latestPortfolioChange: {
-            portfolio: null,
-            transactionsBuy: 0,
-            transactionsSell: 0,
-            date: getCurrentIOSDate(),
         },
         holdings: [],
         portfolioCash: 0,
@@ -51,7 +47,8 @@ export const createSTUserPublicData = (user: api.STUserAuthenticationInput): api
 
 export const createSTUserHistoricalData = (): api.STUserHistoricalData => {
     const historicalData: api.STUserHistoricalData = {
-        portfolioChange: [],
+        portfolioSnapshots: [],
+        transactionSnapshots: [],
         resetedAccount: [],
         bestAchievedRanks: [],
         userLogs: [],

@@ -31,7 +31,8 @@ export const userTypeDefs = gql`
         transactionsSnippets: [STTransaction]!
         activity: USER_ACTIVITY
         groups: STUserGroups!
-        latestPortfolioChange: STPortfolioChange
+        lastPortfolioSnapshot: STPortfolioSnapshot
+        lastTransactionSnapshot: STTransactionSnapshot
         userPrivateData: STUserPrivateData!
         userHistoricalData: STUserHistoricalData!
         stockWatchlist: [STStockWatchlist]!
@@ -51,18 +52,13 @@ export const userTypeDefs = gql`
     }
 
     type STUserHistoricalData {
-        portfolioChange: [STPortfolioChange]!
+        portfolioSnapshots: [STPortfolioSnapshot]!
+        transactionSnapshots: [STTransactionSnapshot]!
         bestAchievedRanks: [STRank]!
         resetedAccount: [STUserResetedAccount]!
         userLogs: [STLog]!
     }
 
-    type STPortfolioChange {
-        portfolio: STPortfolio!
-        transactionsBuy: Float
-        transactionsSell: Float
-        date: String
-    }
 
     type STUserResetedAccount {
         date: String!

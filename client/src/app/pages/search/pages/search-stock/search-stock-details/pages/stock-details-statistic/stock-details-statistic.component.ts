@@ -1,7 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {StockDetails, SymbolStorageService, UserStorageService} from '@core';
-import {ChartType} from '@shared';
+import {ChartType, DialogService} from '@shared';
 import {Observable} from 'rxjs';
+import {first} from 'rxjs/operators';
 
 @Component({
     selector: 'app-stock-details-statistic',
@@ -25,7 +26,9 @@ export class StockDetailsStatisticComponent implements OnInit {
         this.isAdmin$ = this.userStorageService.isAdmin();
     }
 
-    reloadStockDetails(){
+    reloadStockDetails() {
         this.stockDetails$ = this.symbolStorageService.reloadStockDetails();
+        this.stockDetails$.pipe(first()).subscribe(res =>
+            DialogService.presentToast(`Data for symbol ${res.id} has been reloaded`));
     }
 }

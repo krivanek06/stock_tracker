@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {StPortfolioChange} from '@core';
+import {StPortfolioSnapshot} from '@core';
 import {TradingChangeModel} from '@stock-trading-feature';
 
 @Component({
@@ -9,7 +9,7 @@ import {TradingChangeModel} from '@stock-trading-feature';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardPortfolioChangeComponent implements OnInit {
-    @Input() stPortfolioChanges: StPortfolioChange[];
+    @Input() stPortfolioSnapshots: StPortfolioSnapshot[];
     @Input() portfolioCash: number;
     @Input() portfolioInvested: number;
     @Input() daily: TradingChangeModel;

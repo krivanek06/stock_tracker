@@ -4,11 +4,8 @@ fragment STPortfolioFragment on STPortfolio {
 }
 
 
-fragment STPortfolioChangeFragment on STPortfolioChange {
-    portfolio {
-        ...STPortfolioFragment
-    }
-    transactionsBuy
-    transactionsSell
+fragment STPortfolioSnapshotFragment on STPortfolioSnapshot {
+    portfolioInvested
+    portfolioCash
     date
 }

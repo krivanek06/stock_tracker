@@ -1,6 +1,6 @@
 import * as admin from "firebase-admin";
 import * as functions from 'firebase-functions';
-
+import * as api from 'stock-tracker-common-interfaces';
 import { stockDataAPI } from './../../environment';
 
 const fetch = require("node-fetch");
@@ -19,7 +19,7 @@ export const updateStockPrices = functions.pubsub.topic('updateStockPrices').onP
 
 
 
-const saveCurrentPriceForSymbols = async(priceUpdates: CurrentPrice[] = []) => {
+const saveCurrentPriceForSymbols = async(priceUpdates: api.STCurrentPrice[] = []) => {
     for(const priceUpdate of priceUpdates){
         await admin.firestore().collection('stock_data').doc(priceUpdate.symbol).update({
             'details.summary.marketPrice': priceUpdate.price,
@@ -30,7 +30,7 @@ const saveCurrentPriceForSymbols = async(priceUpdates: CurrentPrice[] = []) => {
 
 }
 
-const getSymbolsCurrentPrice = async(symbols: string[]): Promise<CurrentPrice[]> => {
+const getSymbolsCurrentPrice = async(symbols: string[]): Promise<api.STCurrentPrice[]> => {
     const body = {'symbols': symbols};
     const symbolsCurrentPriceResponse = await fetch(`${stockDataAPI}/chart_data/live_prices`,  { 
                                                         method: 'POST', 
@@ -38,7 +38,7 @@ const getSymbolsCurrentPrice = async(symbols: string[]): Promise<CurrentPrice[]>
                                                         headers: { 'Content-Type': 'application/json' }
                                                     });
     const response =  await symbolsCurrentPriceResponse.json();
-    return response['data'] as CurrentPrice[];                                   
+    return response['data'] as api.STCurrentPrice[];                                   
 }
 
 const getLastUpdatedSymbols = async(): Promise<string[]> => {
@@ -49,11 +49,4 @@ const getLastUpdatedSymbols = async(): Promise<string[]> => {
 
     const symbols = symbolDetailsDocs.docs.map(d => d.id);
     return symbols;
-}
-
-
-interface CurrentPrice {
-    price: number;
-    previousClose: number;
-    symbol: string;
 }

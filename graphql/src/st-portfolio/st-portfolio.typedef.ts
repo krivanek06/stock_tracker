@@ -8,5 +8,11 @@ export const STPortfolioTypeDefs = gql`
         portfolioCash: Float!
     }
 
+    type STPortfolioSnapshot {
+        portfolioInvested: Float!
+        portfolioCash: Float!
+        date: String!
+    }
+
 
 `;
