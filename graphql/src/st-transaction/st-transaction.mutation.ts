@@ -25,7 +25,7 @@ export const performTransaction = async (transactionInput: api.STTransactionInpu
         const {holdings, lastTransaction } = isBuy ? await performBuyTransaction(user, transactionInput) : 
                                                      await performSellTransaction(user, transactionInput);
 
-        await updatePortfolioChange(user, transactionInput, holdings);
+        await updateTransactionSnapshots(user, transactionInput, holdings);
 
         return lastTransaction;
     } catch (error) {
@@ -103,17 +103,16 @@ const performSellTransaction = async (user: api.STUserPublicData, transactionInp
     }
 };
 
-const updatePortfolioChange = async ({id, portfolioCash}: api.STUserPublicData, transaction: api.STTransactionInput, userHoldings: api.STTransaction[]) => {
-     const userHistoricaldataRef = await admin.firestore().collection('users')
-            .doc(id).collection('more_information').doc('historical_data');
+const updateTransactionSnapshots = async ({id, portfolioCash}: api.STUserPublicData, transaction: api.STTransactionInput, userHoldings: api.STTransaction[]) => {
+     const userHistoricaldataRef = admin.firestore().collection('users').doc(id)
+                                                    .collection('more_information').doc('historical_data');
 
-    const {portfolioChange} = (await userHistoricaldataRef.get()).data() as api.STUserHistoricalData;
-
+    const {transactionSnapshots} = (await userHistoricaldataRef.get()).data() as api.STUserHistoricalData;
     
     // check if last saved exists and are on same day
-    let lastPortfolioChange:  api.STPortfolioChange;
-    if(portfolioChange.length > 0 && datesAreOnSameDay(portfolioChange[portfolioChange.length - 1].date, new Date().toUTCString())){ 
-        lastPortfolioChange = portfolioChange.pop();
+    let lastTransactionSnapshots:  api.STTransactionSnapshot;
+    if(transactionSnapshots.length > 0 && datesAreOnSameDay(transactionSnapshots[transactionSnapshots.length - 1].date, new Date().toUTCString())){ 
+        lastTransactionSnapshots = transactionSnapshots.pop();
     }
     
     // create new portfolio change
@@ -121,18 +120,19 @@ const updatePortfolioChange = async ({id, portfolioCash}: api.STUserPublicData, 
     const transactionsBuy = isBuy ? transaction.units * transaction.price : 0
     const transactionsSell = !isBuy ? transaction.units * transaction.price : 0;
 
-    const newPortfolioChange: api.STPortfolioChange = {
-        transactionsBuy: transactionsBuy + (lastPortfolioChange?.transactionsBuy ?? 0),
-        transactionsSell: transactionsSell + (lastPortfolioChange?.transactionsSell ?? 0),
-        portfolio: {
-            portfolioCash: portfolioCash,
-            portfolioInvested: sumOfHoldings(userHoldings)
-        },
+    const newTransactionSnapshots: api.STTransactionSnapshot = {
+        transactionsBuy: transactionsBuy + (lastTransactionSnapshots?.transactionsBuy ?? 0),
+        transactionsSell: transactionsSell + (lastTransactionSnapshots?.transactionsSell ?? 0),
         date: getCurrentIOSDate()
     }
 
-    // save portfolio change
+    // save portfolio change array
     userHistoricaldataRef.set({
-        portfolioChange: [...portfolioChange, newPortfolioChange]
+        transactionSnapshots: [...transactionSnapshots, newTransactionSnapshots]
+    }, {merge: true});
+
+    // save alst transaction snapshot 
+    admin.firestore().collection('users').doc(id).set({
+        lastTransactionSnapshot: newTransactionSnapshots
     }, {merge: true});
 }

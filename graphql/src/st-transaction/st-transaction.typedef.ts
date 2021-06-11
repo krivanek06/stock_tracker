@@ -16,6 +16,12 @@ export const STTransactionTypeDefs = gql`
         operation: STTransactionOperationEnum!
         summary: Summary
     }
+
+    type STTransactionSnapshot {
+        transactionsBuy: Float
+        transactionsSell: Float
+        date: String!
+    }
     
     #INPUTS
     input STTransactionInput {

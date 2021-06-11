@@ -30,6 +30,12 @@ export interface STTransactionInput {
     operation: STTransactionOperationEnum;
 }
 
+export interface STTransactionSnapshot {
+    transactionsBuy: number;
+    transactionsSell: number;
+	date: string;  // daily intervals
+}
+
 export enum STTransactionOperationEnum {
     BUY  = 'BUY',
     SELL = 'SELL'

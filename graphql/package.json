@@ -15,7 +15,7 @@
         "moment": "^2.29.1",
         "node-fetch": "^2.6.1",
         "reflect-metadata": "^0.1.13",
-        "stock-tracker-common-interfaces": "1.0.18",
+        "stock-tracker-common-interfaces": "1.0.20",
         "type-graphql": "^1.1.1"
     },
     "devDependencies": {

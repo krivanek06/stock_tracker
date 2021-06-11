@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {StPortfolioChange} from '@core';
+import {StPortfolioSnapshot} from '@core';
 
 import * as Highcharts from 'highcharts';
 import {stFormatLargeNumber} from '@shared';
@@ -12,7 +12,7 @@ import {stFormatLargeNumber} from '@shared';
 })
 export class PortfolioChangeChartComponent implements OnInit, OnChanges {
 
-    @Input() stPortfolioChanges: StPortfolioChange[];
+    @Input() stPortfolioSnapshots: StPortfolioSnapshot[];
     @Input() heightPx = 350;
     Highcharts: typeof Highcharts = Highcharts;
     chart;
@@ -42,11 +42,11 @@ export class PortfolioChangeChartComponent implements OnInit, OnChanges {
 
     private calculatePortfolioChange() {
         this.data = [];
-        for (let i = 1; i < this.stPortfolioChanges.length; i++) {
-            const current = this.stPortfolioChanges[i].portfolio.portfolioCash + this.stPortfolioChanges[i].portfolio.portfolioInvested;
-            const before = this.stPortfolioChanges[i - 1].portfolio.portfolioCash + this.stPortfolioChanges[i - 1].portfolio.portfolioInvested;
+        for (let i = 1; i < this.stPortfolioSnapshots.length; i++) {
+            const current = this.stPortfolioSnapshots[i].portfolioCash + this.stPortfolioSnapshots[i].portfolioInvested;
+            const before = this.stPortfolioSnapshots[i - 1].portfolioCash + this.stPortfolioSnapshots[i - 1].portfolioInvested;
 
-            this.data.push([Date.parse(this.stPortfolioChanges[i].date), current - before, current / 100 * before]);
+            this.data.push([Date.parse(this.stPortfolioSnapshots[i].date), current - before, current / 100 * before]);
         }
     }
 

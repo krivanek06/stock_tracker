@@ -1,9 +1,8 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-
-
-import * as Highcharts from 'highcharts/highstock';
 import {stFormatLargeNumber} from '@shared';
-import {StPortfolioChange} from '@core';
+import {StTransactionSnapshot} from '@core';
+import * as Highcharts from 'highcharts/highstock';
+
 
 @Component({
     selector: 'app-transactions-chart',
@@ -12,7 +11,7 @@ import {StPortfolioChange} from '@core';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TransactionsChartComponent implements OnInit, OnChanges {
-    @Input() stPortfolioChanges: StPortfolioChange[];
+    @Input() stTransactionSnapshots: StTransactionSnapshot[];
     @Input() heightPx = 350;
 
     Highcharts: typeof Highcharts = Highcharts;
@@ -80,7 +79,7 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
                 },
             },
             title: {
-                text: 'Weekly transactions',
+                text: 'Transaction records',
                 align: 'left',
                 style: {
                     color: '#bababa',
@@ -122,7 +121,7 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
                 headerFormat: '<p style="color:#909592; font-size: 12px">{point.key}</p><br/>',
                 pointFormatter: function() {
                     const value = stFormatLargeNumber(this.y);
-                    return `<p><span style="color: ${this.series.color}; font-weight: bold">● Weekly ${this.series.name.toLowerCase()}: </span><span>$${value}</span></p><br/>`;
+                    return `<p><span style="color: ${this.series.color}; font-weight: bold">● ${this.series.name.toLowerCase()}: </span><span>$${value}</span></p><br/>`;
                 }
             },
             plotOptions: {
@@ -153,9 +152,9 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
                         [1, 'transparent']
                     ]
                 },
-                name: 'Total buys',
+                name: 'Transaction buys',
                 data: (() => {
-                    return this.stPortfolioChanges.map(point => [Date.parse(point.date), point.transactionsBuy]);
+                    return this.stTransactionSnapshots.map(point => [Date.parse(point.date), point.transactionsBuy]);
                 })()
             }, {
                 color: '#dd1ec2',
@@ -171,9 +170,9 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
                         [1, 'transparent']
                     ]
                 },
-                name: 'Total sells',
+                name: 'Transaction sells',
                 data: (() => {
-                    return this.stPortfolioChanges.map(point => [Date.parse(point.date), point.transactionsSell]);
+                    return this.stTransactionSnapshots.map(point => [Date.parse(point.date), point.transactionsSell]);
                 })()
             }]
         };

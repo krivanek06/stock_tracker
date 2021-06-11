@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {StPortfolioChange} from '@core';
+import {StPortfolioSnapshot} from '@core';
 
 @Component({
     selector: 'app-dashboard-portfolio-change-charts',
@@ -8,8 +8,7 @@ import {StPortfolioChange} from '@core';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardPortfolioChangeChartsComponent implements OnInit {
-    @Input() stPortfolio: StPortfolioChange[];
-    @Input() stPortfolioChanges: StPortfolioChange[];
+    @Input() stPortfolioSnapshots: StPortfolioSnapshot[];
 
     constructor() {
     }

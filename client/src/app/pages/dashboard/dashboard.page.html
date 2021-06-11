@@ -16,15 +16,14 @@
         <!-- portfolio change  weekly / monthly etc. -->
         <app-dashboard-portfolio-change
                 [daily]="daily"
-                [stPortfolioChanges]="user.userHistoricalData.portfolioChange"
+                [stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots"
                 [portfolioCash]="user.portfolioCash"
                 [portfolioInvested]="portfolioInvested">
         </app-dashboard-portfolio-change>
 
         <!-- portfolio change charts -->
         <app-dashboard-portfolio-change-charts
-                [stPortfolio]="user.userHistoricalData.portfolioChange"
-                [stPortfolioChanges]="user.userHistoricalData.portfolioChange">
+                [stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots">
         </app-dashboard-portfolio-change-charts>
 
         <!-- holdings table -->
@@ -44,7 +43,7 @@
         <!-- transactions -->
         <app-dashboard-transactions
                 [transactions]="user.transactionsSnippets | slice:0:5"
-                [stPortfolioChanges]="user.userHistoricalData.portfolioChange">
+                [stTransactionSnapshots]="user.userHistoricalData.transactionSnapshots">
         </app-dashboard-transactions>
     </ion-grid>
 </ion-content>

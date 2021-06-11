@@ -11,6 +11,11 @@ fragment STTransactionFragment on STTransaction {
     symbol_logo_url
 }
 
+fragment STTransactionSnapshotFragment on STTransactionSnapshot {
+    transactionsBuy
+    transactionsSell
+    date
+}
 
 # -------------------------------------------------------
 # MUTATIONS

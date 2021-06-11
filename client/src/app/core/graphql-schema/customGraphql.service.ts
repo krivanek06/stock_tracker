@@ -1105,12 +1105,11 @@ export type StPortfolio = {
     portfolioCash: Scalars['Float'];
 };
 
-export type StPortfolioChange = {
-    __typename?: 'STPortfolioChange';
-    portfolio: StPortfolio;
-    transactionsBuy?: Maybe<Scalars['Float']>;
-    transactionsSell?: Maybe<Scalars['Float']>;
-    date?: Maybe<Scalars['String']>;
+export type StPortfolioSnapshot = {
+    __typename?: 'STPortfolioSnapshot';
+    portfolioInvested: Scalars['Float'];
+    portfolioCash: Scalars['Float'];
+    date: Scalars['String'];
 };
 
 export type StRank = {
@@ -1247,6 +1246,13 @@ export enum StTransactionOperationEnum {
     Sell = 'SELL'
 }
 
+export type StTransactionSnapshot = {
+    __typename?: 'STTransactionSnapshot';
+    transactionsBuy?: Maybe<Scalars['Float']>;
+    transactionsSell?: Maybe<Scalars['Float']>;
+    date: Scalars['String'];
+};
+
 export type StUserAuthenticationInput = {
     uid?: Maybe<Scalars['String']>;
     displayName?: Maybe<Scalars['String']>;
@@ -1273,7 +1279,8 @@ export type StUserGroups = {
 
 export type StUserHistoricalData = {
     __typename?: 'STUserHistoricalData';
-    portfolioChange: Array<Maybe<StPortfolioChange>>;
+    portfolioSnapshots: Array<Maybe<StPortfolioSnapshot>>;
+    transactionSnapshots: Array<Maybe<StTransactionSnapshot>>;
     bestAchievedRanks: Array<Maybe<StRank>>;
     resetedAccount: Array<Maybe<StUserResetedAccount>>;
     userLogs: Array<Maybe<StLog>>;
@@ -1324,7 +1331,8 @@ export type StUserPublicData = {
     transactionsSnippets: Array<Maybe<StTransaction>>;
     activity?: Maybe<User_Activity>;
     groups: StUserGroups;
-    latestPortfolioChange?: Maybe<StPortfolioChange>;
+    lastPortfolioSnapshot?: Maybe<StPortfolioSnapshot>;
+    lastTransactionSnapshot?: Maybe<StTransactionSnapshot>;
     userPrivateData: StUserPrivateData;
     userHistoricalData: StUserHistoricalData;
     stockWatchlist: Array<Maybe<StStockWatchlist>>;
@@ -1904,15 +1912,9 @@ export type StPortfolioFragmentFragment = (
     & Pick<StPortfolio, 'portfolioInvested' | 'portfolioCash'>
     );
 
-export type StPortfolioChangeFragmentFragment = (
-    { __typename?: 'STPortfolioChange' }
-    & Pick<StPortfolioChange, 'transactionsBuy' | 'transactionsSell' | 'date'>
-    & {
-    portfolio: (
-        { __typename?: 'STPortfolio' }
-        & StPortfolioFragmentFragment
-        )
-}
+export type StPortfolioSnapshotFragmentFragment = (
+    { __typename?: 'STPortfolioSnapshot' }
+    & Pick<StPortfolioSnapshot, 'portfolioInvested' | 'portfolioCash' | 'date'>
     );
 
 export type StRankFragmentFragment = (
@@ -2662,6 +2664,11 @@ export type StTransactionFragmentFragment = (
     & Pick<StTransaction, 'transactionId' | 'symbol' | 'price' | 'return' | 'returnChange' | 'units' | 'date' | 'operation' | 'symbol_logo_url'>
     );
 
+export type StTransactionSnapshotFragmentFragment = (
+    { __typename?: 'STTransactionSnapshot' }
+    & Pick<StTransactionSnapshot, 'transactionsBuy' | 'transactionsSell' | 'date'>
+    );
+
 export type PerformTransactionMutationVariables = Exact<{
     transactionInput: StTransactionInput;
 }>;
@@ -2701,10 +2708,7 @@ export type StUserPublicDataFragmentFragment = (
         )>>, transactionsSnippets: Array<Maybe<(
         { __typename?: 'STTransaction' }
         & StTransactionFragmentFragment
-        )>>, latestPortfolioChange?: Maybe<(
-        { __typename?: 'STPortfolioChange' }
-        & StPortfolioChangeFragmentFragment
-        )>
+        )>>
 }
     );
 
@@ -2752,7 +2756,13 @@ export type AuthenticateUserQuery = (
                 & StGroupPartialDataFragmentFragment
                 )>>>
         }
-            ), userHistoricalData: (
+            ), lastPortfolioSnapshot?: Maybe<(
+            { __typename?: 'STPortfolioSnapshot' }
+            & StPortfolioSnapshotFragmentFragment
+            )>, lastTransactionSnapshot?: Maybe<(
+            { __typename?: 'STTransactionSnapshot' }
+            & StTransactionSnapshotFragmentFragment
+            )>, userHistoricalData: (
             { __typename?: 'STUserHistoricalData' }
             & {
             userLogs: Array<Maybe<(
@@ -2764,9 +2774,12 @@ export type AuthenticateUserQuery = (
                 )>>, bestAchievedRanks: Array<Maybe<(
                 { __typename?: 'STRank' }
                 & StRankFragmentFragment
-                )>>, portfolioChange: Array<Maybe<(
-                { __typename?: 'STPortfolioChange' }
-                & StPortfolioChangeFragmentFragment
+                )>>, portfolioSnapshots: Array<Maybe<(
+                { __typename?: 'STPortfolioSnapshot' }
+                & StPortfolioSnapshotFragmentFragment
+                )>>, transactionSnapshots: Array<Maybe<(
+                { __typename?: 'STTransactionSnapshot' }
+                & StTransactionSnapshotFragmentFragment
                 )>>
         }
             ), userPrivateData: (
@@ -3112,6 +3125,13 @@ export const StEventCalendarEarningsDataFragmentFragmentDoc = gql`
         startdatetimetype
         ticker
         timeZoneShortName
+    }
+`;
+export const StPortfolioSnapshotFragmentFragmentDoc = gql`
+    fragment STPortfolioSnapshotFragment on STPortfolioSnapshot {
+        portfolioInvested
+        portfolioCash
+        date
     }
 `;
 export const SheetDataFragmentFragmentDoc = gql`
@@ -3750,16 +3770,13 @@ export const WaccFragmentFragmentDoc = gql`
         taxRate
     }
 ${CapmFragmentFragmentDoc}`;
-export const StPortfolioChangeFragmentFragmentDoc = gql`
-    fragment STPortfolioChangeFragment on STPortfolioChange {
-        portfolio {
-            ...STPortfolioFragment
-        }
+export const StTransactionSnapshotFragmentFragmentDoc = gql`
+    fragment STTransactionSnapshotFragment on STTransactionSnapshot {
         transactionsBuy
         transactionsSell
         date
     }
-${StPortfolioFragmentFragmentDoc}`;
+`;
 export const StUserPublicDataFragmentFragmentDoc = gql`
     fragment STUserPublicDataFragment on STUserPublicData {
         id
@@ -3779,13 +3796,9 @@ export const StUserPublicDataFragmentFragmentDoc = gql`
             ...STTransactionFragment
         }
         activity
-        latestPortfolioChange {
-            ...STPortfolioChangeFragment
-        }
     }
     ${StRankFragmentFragmentDoc}
-    ${StTransactionFragmentFragmentDoc}
-${StPortfolioChangeFragmentFragmentDoc}`;
+${StTransactionFragmentFragmentDoc}`;
 export const SummaryResidanceFragmentFragmentDoc = gql`
     fragment SummaryResidanceFragment on SummaryResidance {
         city
@@ -4655,6 +4668,12 @@ export const AuthenticateUserDocument = gql`
                     ...STGroupPartialDataFragment
                 }
             }
+            lastPortfolioSnapshot {
+                ...STPortfolioSnapshotFragment
+            }
+            lastTransactionSnapshot {
+                ...STTransactionSnapshotFragment
+            }
             activity
             userHistoricalData {
                 userLogs {
@@ -4667,8 +4686,11 @@ export const AuthenticateUserDocument = gql`
                 bestAchievedRanks {
                     ...STRankFragment
                 }
-                portfolioChange {
-                    ...STPortfolioChangeFragment
+                portfolioSnapshots {
+                    ...STPortfolioSnapshotFragment
+                }
+                transactionSnapshots {
+                    ...STTransactionSnapshotFragment
                 }
             }
             userPrivateData {
@@ -4690,8 +4712,9 @@ export const AuthenticateUserDocument = gql`
     ${StTransactionFragmentFragmentDoc}
     ${StockSummaryFragmentFragmentDoc}
     ${StGroupPartialDataFragmentFragmentDoc}
+    ${StPortfolioSnapshotFragmentFragmentDoc}
+    ${StTransactionSnapshotFragmentFragmentDoc}
     ${StLogsFragmentFragmentDoc}
-    ${StPortfolioChangeFragmentFragmentDoc}
 ${StStockWatchlistFragmentFragmentDoc}`;
 
 @Injectable({

@@ -24,10 +24,6 @@ fragment STUserPublicDataFragment on STUserPublicData {
         ...STTransactionFragment
     }
     activity
-    latestPortfolioChange {
-        ...STPortfolioChangeFragment
-    }
-
 }
 
 query AuthenticateUser($id: String!) {
@@ -65,6 +61,12 @@ query AuthenticateUser($id: String!) {
                 ...STGroupPartialDataFragment
             }
         }
+        lastPortfolioSnapshot {
+            ...STPortfolioSnapshotFragment
+        }
+        lastTransactionSnapshot {
+            ...STTransactionSnapshotFragment
+        }
         activity
         userHistoricalData {
             userLogs {
@@ -77,8 +79,11 @@ query AuthenticateUser($id: String!) {
             bestAchievedRanks {
                 ...STRankFragment
             }
-            portfolioChange {
-                ...STPortfolioChangeFragment
+            portfolioSnapshots {
+                ...STPortfolioSnapshotFragment
+            }
+            transactionSnapshots {
+                ...STTransactionSnapshotFragment
             }
         }
         userPrivateData {
