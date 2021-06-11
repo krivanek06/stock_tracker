@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {StPortfolio, StPortfolioChange} from '@core';
-import {TradingChangeModel} from '../../../models';
-import {marketValueChange} from '@shared';
+import {PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingChangeModel} from '../../../models';
+import {lastElement, marketValueChange, zipArrays} from '@shared';
 import * as moment from 'moment';
 
 
@@ -19,10 +19,7 @@ export class PortfolioChangeComponent implements OnInit {
     @Input() balance: number;
     @Input() daily: TradingChangeModel;
 
-    weeklyPortfolio: StPortfolio;
-    monthlyPortfolio: StPortfolio;
-    quarterlyPortfolio: StPortfolio;
-    yearlyPortfolio: StPortfolio;
+    tradingChangeWrapper: PortfolioHistoricalWrapper[] = [];
 
     constructor() {
     }
@@ -35,10 +32,26 @@ export class PortfolioChangeComponent implements OnInit {
         const today: moment.Moment = moment();
         const portfolioChanges = this.stPortfolioChanges.slice().reverse(); // create copy in strict mode
 
-        this.weeklyPortfolio = portfolioChanges.find(change => today.diff(moment(change.date), 'days') > 7)?.portfolio;
-        this.monthlyPortfolio = portfolioChanges.find(change => today.diff(moment(change.date), 'months') >= 1)?.portfolio;
-        this.quarterlyPortfolio = portfolioChanges.find(change => today.diff(moment(change.date), 'months') >= 4)?.portfolio;
-        this.yearlyPortfolio = portfolioChanges.find(change => today.diff(moment(change.date), 'years') >= 1)?.portfolio;
+        // find needed portfolio
+        const weeklyPortfolio = portfolioChanges.find(change => today.diff(moment(change.date), 'days') > 7)?.portfolio;
+        const monthlyPortfolio = portfolioChanges.find(change => today.diff(moment(change.date), 'months') >= 1)?.portfolio;
+        const quarterlyPortfolio = portfolioChanges.find(change => today.diff(moment(change.date), 'months') >= 4)?.portfolio;
+        const yearlyPortfolio = portfolioChanges.find(change => today.diff(moment(change.date), 'years') >= 1)?.portfolio;
+        const fromBeginning = lastElement(portfolioChanges)?.portfolio;
+
+        const portfolios = [weeklyPortfolio, monthlyPortfolio, fromBeginning];
+
+        // create time interval array
+        const timeIntervals = [TIME_INTERVAL_ENUM.WEEKLY, TIME_INTERVAL_ENUM.MONTHLY, TIME_INTERVAL_ENUM.FROM_BEGINNING];
+
+        // zip them
+        this.tradingChangeWrapper = zipArrays(timeIntervals as any[], portfolios)
+            .map((intervalPortfolio: [TIME_INTERVAL_ENUM, StPortfolio]) => {
+                return {
+                    timeIntervalName: intervalPortfolio[0],
+                    historicalBalance: intervalPortfolio[1]?.portfolioInvested + intervalPortfolio[1]?.portfolioCash
+                };
+            }).filter(wrapper => !!wrapper.historicalBalance);
     }
 
 }

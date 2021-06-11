@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {Maybe, StStockWatchlistFragmentFragment, StUserIndetification, StUserPublicData,} from '../../graphql-schema';
+import {Maybe, StStockWatchlistFragmentFragment, StUserIndetification, StUserPublicData, User_Roles_Enum,} from '../../graphql-schema';
 import {map} from 'rxjs/operators';
 
 
@@ -52,6 +52,10 @@ export class UserStorageService {
 
     setIsAuthenticating(isAuthentication: boolean) {
         this.authenticating$.next(isAuthentication);
+    }
+
+    isAdmin(): Observable<boolean> {
+        return this.getUser().pipe(map(user => user?.userPrivateData?.roles.includes(User_Roles_Enum.RoleAdmin)));
     }
 
     getUserWatchlists(): Observable<Array<Maybe<{ __typename?: 'STStockWatchlist' } & StStockWatchlistFragmentFragment>> | null> {

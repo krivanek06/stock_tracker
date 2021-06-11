@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import {getCurrentIOSDate} from "../st-shared/st-shared.functions";
 
 // check if details already exists in firestore, else fetch from api and save
-export const queryStockDetails = async (symbol: string): Promise<api.StockDetails> => {
+export const queryStockDetails = async (symbol: string, reload = false): Promise<api.StockDetails> => {
     try {
         const upperSymbol = symbol.toUpperCase();
         const stockDetailsDocs = await admin.firestore().collection(`${api.ST_STOCK_DATA_COLLECTION}`).doc(upperSymbol).get();
@@ -23,7 +23,7 @@ export const queryStockDetails = async (symbol: string): Promise<api.StockDetail
         console.log('Deleting done');*/
         
         // first fetch or older than 7 days
-        if(!data || (Math.abs(moment(data.detailsLastUpdate).diff(new Date(), 'days')) > 7)){
+        if(!data || reload || (Math.abs(moment(data.detailsLastUpdate).diff(new Date(), 'days')) > 7)){
             console.log(`Query all stock details for symbol: ${upperSymbol}`)
             return await getAndSaveStockDetailsFromApi(upperSymbol);
         } 

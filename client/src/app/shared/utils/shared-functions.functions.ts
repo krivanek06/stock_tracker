@@ -7,6 +7,8 @@ export const stToTitleCase = (str: string) => {
 
 export const lastElement = <T extends unknown>(elementArray: T[]): T => elementArray.slice(-1)[0];
 
+export const zipArrays = <T extends unknown>(a: T[], b: T[]): T[][] => a.map((k, i) => [k, b[i]]);
+
 export const stFormatLargeNumber = (value: number, isPercent: boolean = false) => {
     if (!stIsNumber(value)) {
         return 'N/A';

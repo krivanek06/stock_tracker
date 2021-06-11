@@ -18,7 +18,7 @@
             <!-- logo + symbol name -->
             <ion-label class="st-display-flex-center st-data-label symbol-md-space">
                 <ion-img appDefaultImg [src]="data.coinImageUrl" class="st-symbol-image"></ion-img>
-                <ion-text class="st-font-4">{{ data.symbol }}</ion-text>
+                <ion-text class="st-font-4">{{ data.symbol | split: '-':0}}</ion-text>
             </ion-label>
 
             <!-- current price -->
