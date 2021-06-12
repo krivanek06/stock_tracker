@@ -23,6 +23,8 @@
 
         <!-- portfolio change charts -->
         <app-dashboard-portfolio-change-charts
+                [portfolioCash]="user.portfolioCash"
+                [portfolioInvested]="portfolioInvested"
                 [stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots">
         </app-dashboard-portfolio-change-charts>
 

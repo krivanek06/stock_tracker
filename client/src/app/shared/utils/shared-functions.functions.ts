@@ -9,6 +9,8 @@ export const lastElement = <T extends unknown>(elementArray: T[]): T => elementA
 
 export const zipArrays = <T extends unknown>(a: T[], b: T[]): T[][] => a.map((k, i) => [k, b[i]]);
 
+export const roundNumber = (num: number) => Math.round(num * 100) / 100;
+
 export const stFormatLargeNumber = (value: number, isPercent: boolean = false) => {
     if (!stIsNumber(value)) {
         return 'N/A';

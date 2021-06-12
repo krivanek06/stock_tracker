@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChan
 import {StPortfolioSnapshot} from '@core';
 
 import * as Highcharts from 'highcharts';
-import {stFormatLargeNumber} from '@shared';
+import {ChartType, stFormatLargeNumber} from '@shared';
 
 @Component({
     selector: 'app-portfolio-change-chart',
@@ -53,7 +53,7 @@ export class PortfolioChangeChartComponent implements OnInit, OnChanges {
     private initChart() {
         this.chartOptions = {
             chart: {
-                type: 'area',
+                type: ChartType.area,
                 backgroundColor: 'transparent',
                 panning: {
                     enable: true
@@ -109,6 +109,7 @@ export class PortfolioChangeChartComponent implements OnInit, OnChanges {
                 padding: 11,
                 enabled: true,
                 backgroundColor: '#232323',
+                xDateFormat: '%A, %b %e, %Y',
                 style: {
                     fontSize: '12px',
                     color: '#D9D8D8',
@@ -118,9 +119,9 @@ export class PortfolioChangeChartComponent implements OnInit, OnChanges {
                 pointFormatter: function() {
                     const isPositive = this.y >= 0;
                     const color = isPositive ? '#0d920d' : '#bf0000';
-                    const label = isPositive ? 'Gains' : 'Loses';
+                    const label = isPositive ? 'Profit' : 'Loss';
                     const value = stFormatLargeNumber(this.y);
-                    return `<span style="font-weight: bold; color: ${color}">● Weekly ${label}: </span><span>$${value} </span><br/>`;
+                    return `<span style="font-weight: bold; color: ${color}">● ${label}: </span><span>$${value} </span><br/>`;
                 }
             },
             series: [{

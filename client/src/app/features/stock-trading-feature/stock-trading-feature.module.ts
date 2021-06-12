@@ -3,7 +3,7 @@ import {TransactionsChartComponent, TransactionsTableComponent} from './componen
 import {
     PortfolioChangeChartComponent,
     PortfolioChangeComponent,
-    PortfolioGrowthChartComponent,
+    PortfolioGrowthChartComponent, PortfolioIncreaseChartComponent,
     PortfolioStateComponent
 } from './components/portfolio';
 import {HoldingsAllocationChartComponent, HoldingsTableBodyItemComponent, HoldingsTableComponent} from './components/holdings';
@@ -23,7 +23,8 @@ import {TradingFeatureFacadeService} from './services';
         PortfolioChangeChartComponent,
         PortfolioGrowthChartComponent,
         PortfolioStateComponent,
-        HoldingsAllocationChartComponent
+        HoldingsAllocationChartComponent,
+        PortfolioIncreaseChartComponent
     ],
     imports: [
         SharedModule
@@ -37,7 +38,8 @@ import {TradingFeatureFacadeService} from './services';
         PortfolioChangeChartComponent,
         PortfolioGrowthChartComponent,
         PortfolioStateComponent,
-        HoldingsAllocationChartComponent
+        HoldingsAllocationChartComponent,
+        PortfolioIncreaseChartComponent
     ],
     providers: [TradingFeatureFacadeService]
 })

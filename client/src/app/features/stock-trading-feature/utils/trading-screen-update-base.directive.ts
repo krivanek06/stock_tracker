@@ -45,7 +45,9 @@ export abstract class TradingScreenUpdateBaseDirective implements OnInit, OnDest
             this.user = user;
 
             // select first summary in holdings
-            this.selectedSummary = user.holdings.length > 0 ? user.holdings[0].summary : undefined;
+            if (!this.selectedSummary) {
+                this.selectedSummary = user.holdings.length > 0 ? user.holdings[0].summary : undefined;
+            }
         });
     }
 
