@@ -151,7 +151,7 @@ export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
                         [1, 'transparent']
                     ]
                 },
-                name: 'Total',
+                name: 'Balance',
                 data: (() => {
                     return this.stPortfolioSnapshots.map(point => [Date.parse(point.date), point.portfolioCash + point.portfolioInvested]);
                 })()

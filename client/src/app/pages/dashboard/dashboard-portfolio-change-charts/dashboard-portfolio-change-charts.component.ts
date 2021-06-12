@@ -9,6 +9,8 @@ import {StPortfolioSnapshot} from '@core';
 })
 export class DashboardPortfolioChangeChartsComponent implements OnInit {
     @Input() stPortfolioSnapshots: StPortfolioSnapshot[];
+    @Input() portfolioInvested: number;
+    @Input() portfolioCash: number;
 
     constructor() {
     }
