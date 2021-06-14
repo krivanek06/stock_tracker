@@ -1,10 +1,15 @@
 import {NgModule} from '@angular/core';
-import {SharedModule} from '@shared';
-import {GroupInfoComponent, GroupInfoListComponent, GroupListMembersInRowComponent, GroupTypesCardComponent} from './components';
-import {GroupMemberPositionChangePopOverComponent, GroupTypesModalComponent} from './entry-components';
+import {SharedMaterialModule, SharedModule} from '@shared';
+import {
+    GroupCreateFormComponent,
+    GroupInfoComponent,
+    GroupInfoListComponent,
+    GroupListMembersInRowComponent,
+    GroupTypesCardComponent
+} from './components';
+import {GroupCreateModalComponent, GroupMemberPositionChangePopOverComponent} from './entry-components';
 import {GroupSearchComponent} from './containers';
 import {AccountFeatureModule} from '@account-feature';
-import {GroupFeatureFacadeService} from './services';
 
 
 @NgModule({
@@ -14,12 +19,14 @@ import {GroupFeatureFacadeService} from './services';
         GroupInfoComponent,
         GroupListMembersInRowComponent,
         GroupMemberPositionChangePopOverComponent,
-        GroupTypesModalComponent,
-        GroupSearchComponent
+        GroupSearchComponent,
+        GroupCreateFormComponent,
+        GroupCreateModalComponent
     ],
     imports: [
         SharedModule,
-        AccountFeatureModule
+        AccountFeatureModule,
+        SharedMaterialModule
     ],
     exports: [
         GroupTypesCardComponent,
@@ -27,12 +34,11 @@ import {GroupFeatureFacadeService} from './services';
         GroupInfoComponent,
         GroupListMembersInRowComponent,
         GroupMemberPositionChangePopOverComponent,
-        GroupTypesModalComponent,
-        GroupSearchComponent
-    ],
-    providers: [
-        GroupFeatureFacadeService
+        GroupSearchComponent,
+        GroupCreateFormComponent,
+        GroupCreateModalComponent
     ]
 })
 export class GroupFeatureModule {
 }
+

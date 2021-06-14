@@ -15,6 +15,8 @@ export class UploaderComponent implements OnInit {
     @Input() singleFile = true;
     @Input() oneLine = false;
     @Input() showInput = true;
+    @Input() maxWidth = 130;
+    @Input() maxHeight = 130;
 
     files: File[] = [];
     isHovering: boolean;
@@ -35,6 +37,14 @@ export class UploaderComponent implements OnInit {
 
     toggleHover(event: boolean) {
         this.isHovering = event;
+    }
+
+    onFileSelected(event) {
+        const file: File = event.target.files[0];
+        if (file) {
+            this.clearImages();
+            this.files.push(file);
+        }
     }
 
     onDrop(files: FileList) {

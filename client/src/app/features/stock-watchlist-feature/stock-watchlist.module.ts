@@ -3,8 +3,6 @@ import {SharedModule} from '@shared';
 import {SymbolLookupModalComponent, WatchlistPickerPopOverContainerComponent} from './entry-components';
 import {WatchlistTableComponent} from './components';
 import {WatchlistModificationContainerComponent} from './containers';
-import {StockDetailsFeatureModule} from '@stock-details-feature';
-
 
 @NgModule({
     declarations: [
@@ -14,8 +12,7 @@ import {StockDetailsFeatureModule} from '@stock-details-feature';
         SymbolLookupModalComponent
     ],
     imports: [
-        SharedModule,
-        StockDetailsFeatureModule
+        SharedModule
     ],
     exports: [
         WatchlistPickerPopOverContainerComponent,

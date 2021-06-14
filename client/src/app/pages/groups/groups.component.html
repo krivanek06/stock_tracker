@@ -7,36 +7,9 @@
 
     <!-- body -->
     <ion-grid>
-        <ion-row class="ion-justify-content-center">
-            <ion-col size="12" class="ion-hide-md-up">
-                <!-- chip select users -->
-                <ion-item *ngIf="selectedGroupId$ | async as selectedGroupId">
-                    <ion-label>
-                        <ion-chip class="st-width-100"
-                                  style="justify-content: center;"
-                                  (click)="showGroupsInModal(selectedGroupId)">
-                            <ion-text class="st-font-2">
-                                Select group
-                            </ion-text>
-                        </ion-chip>
-                    </ion-label>
-                </ion-item>
-            </ion-col>
-
-            <ion-col size="12" size-md="9.5" size-lg="8" size-xl="7.5">
-                <!-- sub pages -->
+        <ion-row>
+            <ion-col size="12" size-lg="11" size-xl="10">
                 <router-outlet></router-outlet>
-            </ion-col>
-
-            <ion-col size="12" size-md="2.5" size-lg="3" size-xl="2.5" class="ion-hide-md-down">
-                <!-- list groups -->
-                <ng-container *ngIf="user$ | async as user ">
-                    <app-group-types-card
-                            (clickedGroupEmitter)="redirectToGroupReadOnly($event)"
-                            [activeGroup]="selectedGroupId$ | async"
-                            [groups]="user.groups">
-                    </app-group-types-card>
-                </ng-container>
             </ion-col>
         </ion-row>
     </ion-grid>

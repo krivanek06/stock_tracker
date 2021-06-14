@@ -1,29 +1,21 @@
-fragment STUserIndetificationFragment on STUserIndetification {
-    id
-    nickName
-    locale
-    photoURL
-    accountCreatedDate
-}
-
-fragment STUserPublicDataFragment on STUserPublicData {
+fragment STUserIndentificationData on STUserPublicData {
     id
     nickName
     locale
     photoURL
     accountCreatedDate
     lastSignInDate
-    portfolioCash
-    rank {
-        ...STRankFragment
+    numberOfExecutedTransactions
+    lastPortfolioSnapshot {
+        portfolioInvested
+        portfolioCash
+        date
     }
-    holdings {
-        ...STTransactionFragment,
+    lastTransactionSnapshot {
+        transactionsBuy
+        transactionsSell
+        date
     }
-    transactionsSnippets {
-        ...STTransactionFragment
-    }
-    activity
 }
 
 query AuthenticateUser($id: String!) {
@@ -49,16 +41,16 @@ query AuthenticateUser($id: String!) {
         }
         groups {
             groupInvitationSent {
-                ...STGroupPartialDataFragment
+                ...STGroupIdentificationData
             }
             groupInvitationReceived {
-                ...STGroupPartialDataFragment
+                ...STGroupIdentificationData
             }
             groupOwner {
-                ...STGroupPartialDataFragment
+                ...STGroupIdentificationData
             }
             groupMember {
-                ...STGroupPartialDataFragment
+                ...STGroupIdentificationData
             }
         }
         lastPortfolioSnapshot {
@@ -106,7 +98,7 @@ query AuthenticateUser($id: String!) {
 
 query QueryUserPublicDataByUsername($usernamePrefix: String!) {
     queryUserPublicDataByUsername(usernamePrefix: $usernamePrefix) {
-        ...STUserPublicDataFragment
+        ...STUserIndentificationData
     }
 }
 

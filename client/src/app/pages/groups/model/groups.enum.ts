@@ -1,5 +1,4 @@
 export enum GROUPS_PAGES {
-    CREATE = 'create',
-    EDIT = 'edit',
-    READ = 'read'
+    OVERVIEW = 'overview',
+    DETAILS = 'details',
 }

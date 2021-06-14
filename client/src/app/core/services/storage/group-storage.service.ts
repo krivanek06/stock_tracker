@@ -29,52 +29,52 @@ export class GroupStorageService {
     }
 
     isUserOwner(): boolean {
-        return this.activeGroup.owner.useridentification.id === this.userStorageService.user.id;
+        return this.activeGroup.owner.id === this.userStorageService.user.id;
     }
 
     isUserManager(): boolean {
-        return this.activeGroup.managers.map(m => m.useridentification.id).includes(this.userStorageService.user.id);
+        return this.activeGroup.managers.map(m => m.id).includes(this.userStorageService.user.id);
     }
 
     isUserMember(): boolean {
-        return this.activeGroup.members.map(m => m.useridentification.id).includes(this.userStorageService.user.id);
+        return this.activeGroup.members.map(m => m.id).includes(this.userStorageService.user.id);
     }
 
     isUserInvited(): boolean {
-        return this.activeGroup.invitationSent.map(m => m.useridentification.id).includes(this.userStorageService.user.id);
+        return this.activeGroup.invitationSent.map(m => m.id).includes(this.userStorageService.user.id);
     }
 
     isUserInvitationReceived(): boolean {
-        return this.activeGroup.invitationReceived.map(m => m.useridentification.id).includes(this.userStorageService.user.id);
+        return this.activeGroup.invitationReceived.map(m => m.id).includes(this.userStorageService.user.id);
     }
 
     isUserOwnerObs(): Observable<boolean> {
         return this.getActiveGroup().pipe(
-            map(g => g.owner.useridentification.id === this.userStorageService.user.id)
+            map(g => g.owner.id === this.userStorageService.user.id)
         );
     }
 
     isUserManagerObs(): Observable<boolean> {
         return this.getActiveGroup().pipe(
-            map(g => g.managers.map(m => m.useridentification.id).includes(this.userStorageService.user.id))
+            map(g => g.managers.map(m => m.id).includes(this.userStorageService.user.id))
         );
     }
 
     isUserMemberObs(): Observable<boolean> {
         return this.getActiveGroup().pipe(
-            map(g => g.members.map(m => m.useridentification.id).includes(this.userStorageService.user.id))
+            map(g => g.members.map(m => m.id).includes(this.userStorageService.user.id))
         );
     }
 
     isUserInvitedObs(): Observable<boolean> {
         return this.getActiveGroup().pipe(
-            map(g => g.invitationSent.map(m => m.useridentification.id).includes(this.userStorageService.user.id))
+            map(g => g.invitationSent.map(m => m.id).includes(this.userStorageService.user.id))
         );
     }
 
     isUserInvitationReceivedObs(): Observable<boolean> {
         return this.getActiveGroup().pipe(
-            map(g => g.invitationReceived.map(m => m.useridentification.id).includes(this.userStorageService.user.id))
+            map(g => g.invitationReceived.map(m => m.id).includes(this.userStorageService.user.id))
         );
     }
 

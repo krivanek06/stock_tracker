@@ -1,8 +1,8 @@
-import { STUserIndentification } from './user.model';
+import { STUserIndentificationWithPortfolio } from './user.model';
 import { STLog } from './st-share.model';
 import { STRank } from './st-rank.model';
-import { STTransaction } from './st-transaction.model';
-import { STPortfolio } from './st-portfolio.model';
+import { STTransaction, STTransactionSnapshot } from './st-transaction.model';
+import { STPortfolioSnapshot } from './st-portfolio.model';
 
 
 export interface STSearchGroups {
@@ -15,30 +15,39 @@ export interface STGroupPartialData {
     description: string;
     imagePath?: string
     imageUrl?: string
-    portfolio: STPortfolio;
+    lastPortfolioSnapshot: STPortfolioSnapshot;
+    lastTransactionSnapshot: STTransactionSnapshot;
     owner: STGroupUser;
     lastUpdateDate: string;
     lastEditedDate: string;
     createdDate: string;
     currentAchievedRank: STRank;
+    startDate: string;
+    endDate: string;
+    isInfinite: boolean;
+    isPrivate: boolean; // if true then group is invite only
+    numberOfExecutedTransactions: number;
 }
 
 export interface STGroupAllData extends STGroupPartialData {
     bestAchievedRanks: STRank[];
     topTransactions: STTransaction[]; // only sold stock, top profit desc
-    lastTransactions: STTransaction[];
+    lastTransactions: STTransaction[]; // last 20 transactions
     groupLogs: STLog[];
-    portfolioChart: STPortfolio[];
+    portfolioSnapshots: STPortfolioSnapshot[];
+    transactionSnapshots: STTransactionSnapshot[];
     managers: STGroupUser[];
     members: STGroupUser[];
     invitationSent: STGroupUser[];
     invitationReceived: STGroupUser[];
+    holdings: STTransaction[];
 }
 
 
-export interface STGroupUser {
-    userIdentification: STUserIndentification;
-    portfolio: STPortfolio;
+export interface STGroupUser extends STUserIndentificationWithPortfolio {
+    currentPosition: number;  // position in highest balance
+    previousPosition: number; // position in highest balance
+    startingPortfolioSnapshot: STPortfolioSnapshot;
     sinceDate: string;
 }
 
@@ -49,7 +58,10 @@ export interface STGroupAllDataInput {
     description: string
     imagePath?: string
     imageUrl?: string
-    owner: string
+    startDate: string;
+    endDate: string;
+    isInfinite: boolean;
+    isPrivate: boolean;
     managers?: string[]
     members?: string[]
     invitationSent: string[]

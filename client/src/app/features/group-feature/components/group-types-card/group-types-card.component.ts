@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StGroupPartialData, StUserGroups} from '@core';
+import {StGroupIdentificationDataFragment, StUserGroups} from '@core';
 
 @Component({
     selector: 'app-group-types-card',
@@ -8,7 +8,7 @@ import {StGroupPartialData, StUserGroups} from '@core';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroupTypesCardComponent implements OnInit {
-    @Output() clickedGroupEmitter: EventEmitter<StGroupPartialData> = new EventEmitter<StGroupPartialData>();
+    @Output() clickedGroupEmitter: EventEmitter<StGroupIdentificationDataFragment> = new EventEmitter<StGroupIdentificationDataFragment>();
 
     @Input() groups: StUserGroups;
     @Input() activeGroup: string;
@@ -19,7 +19,7 @@ export class GroupTypesCardComponent implements OnInit {
     ngOnInit() {
     }
 
-    clickedGroup(group: StGroupPartialData) {
+    clickedGroup(group: StGroupIdentificationDataFragment) {
         this.activeGroup = group.groupId;
         this.clickedGroupEmitter.emit(group);
     }

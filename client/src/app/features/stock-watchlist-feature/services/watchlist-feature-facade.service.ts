@@ -1,18 +1,60 @@
 import {Injectable} from '@angular/core';
-import {PopoverController} from '@ionic/angular';
-import {Confirmable, DialogService, SymbolIdentification} from '@shared';
-import {WatchlistPickerPopOverContainerComponent} from '../entry-components'; // TODO circular dependency
+import {ModalController, PopoverController} from '@ionic/angular';
+import {Confirmable, DialogService, IdNameContainer, SymbolIdentification} from '@shared';
+import {SymbolLookupModalComponent, WatchlistPickerPopOverContainerComponent} from '../entry-components'; // TODO circular dependency
 import {FinnhubWebsocketService, GraphqlWatchlistService, StStockWatchInputlistIdentifier, UserStorageService} from '@core';
+import {Router} from '@angular/router';
 
 @Injectable({
     providedIn: 'root'
 })
 export class WatchlistFeatureFacadeService {
 
-    constructor(private popoverController: PopoverController,
-                private finnhubWebsocketService: FinnhubWebsocketService,
+    constructor(private finnhubWebsocketService: FinnhubWebsocketService,
                 private graphqlWatchlistService: GraphqlWatchlistService,
-                private userStorageService: UserStorageService) {
+                private userStorageService: UserStorageService,
+                private modalController: ModalController,
+                private popoverController: PopoverController,
+                private router: Router,) {
+    }
+
+    async presentSymbolLookupModal(symbolIdentification: SymbolIdentification,
+                                   showAddToWatchlistOption: boolean,
+                                   watchlistId: string = null) {
+        const modal = await this.modalController.create({
+            component: SymbolLookupModalComponent,
+            componentProps: {symbolIdentification, showAddToWatchlistOption, watchlistId},
+            cssClass: 'custom-modal'
+        });
+        await modal.present();
+
+        const dismiss = await modal.onDidDismiss();
+        console.log('dismiss', dismiss);
+
+        if (dismiss.data?.redirect) {
+            this.router.navigate([`/menu/search/stock/details/${symbolIdentification.symbol}`]);
+        } else if (dismiss.data?.addSymbol) {
+            this.addSymbolToWatchlist(symbolIdentification.symbol);
+        } else if (dismiss.data?.removeSymbol) {
+            this.removeStockFromWatchlist(symbolIdentification, watchlistId);
+        }
+    }
+
+    async presentWatchlistPickerPopOver(symbol: string): Promise<IdNameContainer> {
+        const popOver = await this.popoverController.create({
+            component: WatchlistPickerPopOverContainerComponent,
+            componentProps: {symbol},
+            cssClass: 'custom-popover',
+            translucent: true,
+        });
+        await popOver.present();
+
+        const dismiss = await popOver.onDidDismiss(); // get data on dismiss
+
+        const watchlistId = dismiss?.data?.watchListId;
+        const watchlistName = dismiss?.data?.watchlistName;
+
+        return {id: watchlistId, name: watchlistName};
     }
 
 

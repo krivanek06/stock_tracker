@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/co
 import {GraphqlQueryService, StUserPublicData, Summary, UserStorageService} from '@core';
 import {IonSearchbar} from '@ionic/angular';
 import {Observable} from 'rxjs';
-import {WatchlistFeatureEntryPointsFacadeService} from '@stock-watchlist-feature';
+import {WatchlistFeatureFacadeService} from '@stock-watchlist-feature';
 import {SymbolIdentification} from '@shared';
 
 @Component({
@@ -24,7 +24,7 @@ export class MenuHeaderComponent implements OnInit {
 
     constructor(private firebaseSearchService: GraphqlQueryService,
                 private userStorageService: UserStorageService,
-                private watchlistFeatureEntryPointsFacadeService: WatchlistFeatureEntryPointsFacadeService) {
+                private watchlistFeatureFacadeService: WatchlistFeatureFacadeService) {
     }
 
     ngOnInit() {
@@ -51,7 +51,7 @@ export class MenuHeaderComponent implements OnInit {
         this.searchBar.value = null;
 
         const identification: SymbolIdentification = {symbol: summary.symbol, name: summary.shortName};
-        this.watchlistFeatureEntryPointsFacadeService.presentSymbolLookupModal(identification, true);
+        this.watchlistFeatureFacadeService.presentSymbolLookupModal(identification, true);
     }
 
 }

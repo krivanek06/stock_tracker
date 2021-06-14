@@ -5,6 +5,8 @@
                 <app-upload-task
                         (uploadedFilesEmitter)="uploadFile($event)"
                         [file]="file"
+                        [maxWidth]="maxWidth"
+                        [maxHeight]="maxHeight"
                         [fileName]="fileName"
                         [filePath]="filePath">
                 </app-upload-task>
@@ -12,7 +14,7 @@
         </ng-container>
 
         <ng-template #defaultImage>
-            <ion-img *ngIf="defaultUrl" [src]="defaultUrl"></ion-img>
+            <ion-img [src]="defaultUrl" appDefaultImg [style.max-width.px]="maxWidth"></ion-img>
         </ng-template>
     </div>
 
@@ -21,8 +23,9 @@
          appDropzone
          (hovered)="toggleHover($event)"
          (dropped)="onDrop($event)"
+         (click)="fileUpload.click()"
          [class.hovering]="isHovering">
-
+        <input style="display: none"  type="file"  (change)="onFileSelected($event)"  #fileUpload/>
         <p>Drag and Drop a File</p>
     </div>
 </div>

@@ -233,9 +233,31 @@
   }
 }
 
-/* CUSTOM DARK SCHEME */
 
+/* CUSTOM DARK SCHEME */
 :root {
+  // material
+  .mat-form-field-empty.mat-form-field-label {
+    color: #{$st-var-font-2};
+  }
+
+  mat-form-field {
+    mat-icon {
+      color: #{$st-var-font-2};
+    }
+  }
+
+  // Angular material disabled state
+  .disabled-state input, .disabled-state button {
+    cursor: no-drop !important;
+  }
+
+  .disabled-state .mat-form-field-flex {
+    cursor: no-drop !important;
+    background-color: #25252587 !important;
+  }
+
+  // ionic
   ion-content {
     white-space: pre-line !important;
   }

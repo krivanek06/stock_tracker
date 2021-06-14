@@ -1,22 +1,47 @@
 fragment STGroupUserFragment on STGroupUser {
+    id
+    nickName
+    locale
+    photoURL
+    accountCreatedDate
+    lastPortfolioSnapshot {
+        ...STPortfolioSnapshotFragment
+    }
+    lastPortfolioIncreaseNumber
+    lastPortfolioIncreasePrct
+    numberOfExecutedTransactions
+    lastTransactionSnapshot {
+        ...STTransactionSnapshotFragment
+    }
+    previousPosition
+    currentPosition
+    startingPortfolioSnapshot {
+        ...STPortfolioSnapshotFragment
+    }
     sinceDate
-    useridentification {
-        ...STUserIndetificationFragment
-    }
-    portfolio {
-        portfolioInvested
-        portfolioCash
-    }
 }
 
-fragment STGroupPartialDataFragment on STGroupPartialData {
+fragment STGroupIdentificationData on STGroupAllData {
     groupId
     name
     description
-    portfolio {
-        ...STPortfolioFragment
-    }
+    imagePath
+    imageUrl
     owner {
+        ...STGroupUserFragment
+    }
+    lastPortfolioSnapshot {
+        ...STPortfolioSnapshotFragment
+    }
+    lastTransactionSnapshot {
+        ...STTransactionSnapshotFragment
+    }
+    startDate
+    endDate
+    isInfinite
+    isPrivate
+    numberOfExecutedTransactions
+    topMembers {
         ...STGroupUserFragment
     }
     lastUpdateDate
@@ -27,15 +52,14 @@ fragment STGroupPartialDataFragment on STGroupPartialData {
     }
 }
 
-
 fragment STGroupAllDataFragment on STGroupAllData {
     groupId
     name
     description
     imageUrl
     imagePath
-    portfolio {
-        ...STPortfolioFragment
+    portfolioSnapshots {
+        ...STPortfolioSnapshotFragment
     }
     owner {
         ...STGroupUserFragment
@@ -43,6 +67,20 @@ fragment STGroupAllDataFragment on STGroupAllData {
     lastUpdateDate
     lastEditedDate
     createdDate
+    startDate
+    endDate
+    isPrivate
+    isInfinite
+    numberOfExecutedTransactions
+    holdings {
+        ...STTransactionFragment
+    }
+    lastTransactionSnapshot {
+        ...STTransactionSnapshotFragment
+    }
+    lastPortfolioSnapshot {
+        ...STPortfolioSnapshotFragment
+    }
     currentAchievedRanks {
         ...STRankFragment
     }
@@ -58,9 +96,6 @@ fragment STGroupAllDataFragment on STGroupAllData {
     groupLogs {
         ...STLogsFragment
     }
-    portfolioChart {
-        ...STPortfolioFragment
-    }
     managers {
         ...STGroupUserFragment
     }
@@ -75,6 +110,7 @@ fragment STGroupAllDataFragment on STGroupAllData {
     }
 }
 
+
 # --------------------------------------
 # QUERY
 
@@ -87,7 +123,7 @@ query QuerySTGroupAllDataByGroupId($groupId: String!) {
 query QuerySTGroupPartialDataByGroupName($groupName: String!) {
     querySTGroupPartialDataByGroupName(groupName: $groupName) {
         groups {
-            ...STGroupPartialDataFragment
+            ...STGroupIdentificationData
         }
     }
 }
@@ -98,13 +134,13 @@ query QuerySTGroupPartialDataByGroupName($groupName: String!) {
 
 mutation CreateGroup($groupInput: STGroupAllDataInput!){
     createGroup(groupInput: $groupInput){
-        ...STGroupPartialDataFragment
+        ...STGroupIdentificationData
     }
 }
 
 mutation EditGroup($groupInput: STGroupAllDataInput!){
     editGroup(groupInput: $groupInput){
-        ...STGroupPartialDataFragment
+        ...STGroupIdentificationData
     }
 }
 
@@ -114,13 +150,13 @@ mutation DeleteGroup($uid: String!, $groupId: String!){
 
 mutation ToggleInvitationRequestToGroup($uid: String!, $groupId: String!){
     toggleInvitationRequestToGroup(uid:$uid, groupId: $groupId){
-        ...STGroupPartialDataFragment
+        ...STGroupIdentificationData
     }
 }
 
 mutation AnswerReceivedGroupInvitation($uid: String!, $groupId: String!, $accept: Boolean!){
     answerReceivedGroupInvitation(uid:$uid, groupId: $groupId, accept: $accept){
-        ...STGroupPartialDataFragment
+        ...STGroupIdentificationData
     }
 }
 

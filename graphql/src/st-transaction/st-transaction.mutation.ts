@@ -131,8 +131,9 @@ const updateTransactionSnapshots = async ({id, portfolioCash}: api.STUserPublicD
         transactionSnapshots: [...transactionSnapshots, newTransactionSnapshots]
     }, {merge: true});
 
-    // save alst transaction snapshot 
+    // save last transaction snapshot 
     admin.firestore().collection('users').doc(id).set({
-        lastTransactionSnapshot: newTransactionSnapshots
+        lastTransactionSnapshot: newTransactionSnapshots,
+        numberOfExecutedTransactions: admin.firestore.FieldValue.increment
     }, {merge: true});
 }

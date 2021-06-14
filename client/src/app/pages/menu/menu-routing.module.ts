@@ -49,7 +49,7 @@ const routes: Routes = [
             },
             {
                 path: 'groups',
-                canActivate: [AuthGuard],
+                //canActivate: [AuthGuard],
                 loadChildren: () => import('../groups/groups.module').then(m => m.GroupsModule)
             },
             {

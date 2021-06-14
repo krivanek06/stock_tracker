@@ -9,7 +9,7 @@ import {
 import {SymbolIdentification} from '@shared';
 import {takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
-import {WatchlistFeatureEntryPointsFacadeService, WatchlistFeatureFacadeService} from '@stock-watchlist-feature';
+import {WatchlistFeatureFacadeService} from '@stock-watchlist-feature';
 
 
 @Component({
@@ -22,7 +22,6 @@ export class WatchlistPage extends ComponentScreenUpdateBaseDirective implements
     stockWatchlists: StStockWatchlistFragmentFragment[];
 
     constructor(private watchlistFeatureFacadeService: WatchlistFeatureFacadeService,
-                private watchlistFeatureEntryPointsFacadeService: WatchlistFeatureEntryPointsFacadeService,
                 private userStorageService: UserStorageService,
                 private subscriptionWebsocketService: SubscriptionWebsocketService,
                 public cdr: ChangeDetectorRef) {
@@ -44,7 +43,7 @@ export class WatchlistPage extends ComponentScreenUpdateBaseDirective implements
 
 
     async showChartForSymbol(symbolIdentification: SymbolIdentification, watchlistId: string) {
-        this.watchlistFeatureEntryPointsFacadeService.presentSymbolLookupModal(symbolIdentification, true, watchlistId);
+        this.watchlistFeatureFacadeService.presentSymbolLookupModal(symbolIdentification, true, watchlistId);
     }
 
     private subscribeForWatchlistChange() {
