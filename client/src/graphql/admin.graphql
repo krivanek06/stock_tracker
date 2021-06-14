@@ -3,7 +3,11 @@ query QueryUsersRegistration {
         totalRegistratedUsers
         totalActiveUsers
         userRegistrationSnippets {
-            ...STUserIndetificationFragment
+            id
+            nickName
+            locale
+            photoURL
+            accountCreatedDate
         }
         weeklyRegistratedUsers {
             data

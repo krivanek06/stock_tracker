@@ -6,6 +6,7 @@ import {CommonModule} from '@angular/common';
 import {onError} from '@apollo/client/link/error';
 import {environment} from '../environments/environment';
 import {DialogService} from '@shared';
+import {setContext} from '@apollo/client/link/context';
 
 const errorLink = onError(({graphQLErrors, networkError, response}) => {
     if (graphQLErrors) {
@@ -22,6 +23,21 @@ const errorLink = onError(({graphQLErrors, networkError, response}) => {
     }
 });
 
+const basicContext = setContext((operation, context) => ({
+    headers: {
+        Accept: 'charset=utf-8'
+    }
+}));
+
+const requesterContext = setContext((operation, context) => {
+    const requesterUserId = localStorage.getItem('requesterUserId') || '';
+    console.log('requesterUserId', requesterUserId)
+    return {
+        headers: {
+            requesterUserId: requesterUserId
+        }
+    };
+});
 
 @NgModule({
     declarations: [],
@@ -37,6 +53,8 @@ const errorLink = onError(({graphQLErrors, networkError, response}) => {
                     freezeResults: true,
                     cache: new InMemoryCache(),
                     link: ApolloLink.from([
+                        basicContext,
+                        requesterContext,
                         errorLink,
                         httpLink.create({uri: environment.graphql})
                     ]),

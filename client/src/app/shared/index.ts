@@ -10,3 +10,4 @@ export * from './operators';
 export * from './decorators';
 export * from './services';
 export * from './shared.module';
+export * from './shared-material.module';

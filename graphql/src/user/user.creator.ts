@@ -31,6 +31,9 @@ export const createSTUserPublicData = (user: api.STUserAuthenticationInput): api
         transactionsSnippets: [],
         lastPortfolioSnapshot: null,
         lastTransactionSnapshot: null,
+        lastPortfolioIncreaseNumber: null,
+        lastPortfolioIncreasePrct: null,
+        numberOfExecutedTransactions: 0,
         groups: {
             groupInvitationReceived: [],
             groupInvitationSent: [],

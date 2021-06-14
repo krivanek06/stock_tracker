@@ -12,7 +12,6 @@ import {
 } from '@core';
 import {
     convertStGroupAllDataToStGroupPartialData,
-    createNewStGroupUser,
     GroupFeatureFacadeService,
     GroupMemberPosition,
     GroupMemberPositionChangeEnum,
@@ -58,7 +57,7 @@ export class GroupsEditComponent implements OnInit, OnDestroy {
     }
 
     cancelEdit() {
-        this.route.navigate([`menu/groups/${GROUPS_PAGES.READ}/${this.group.groupId}`]);
+       // this.route.navigate([`menu/groups/${GROUPS_PAGES.READ}/${this.group.groupId}`]);
     }
 
     deleteGroup() {
@@ -74,12 +73,12 @@ export class GroupsEditComponent implements OnInit, OnDestroy {
 
     sendInvitation(invitedUser: StUserPublicData) {
         // do not send invitation twice
-        const invitedUIDs = this.group.invitationSent.map(u => u.useridentification.id);
-        const memberUIDs = this.group.invitationSent.map(u => u.useridentification.id);
+        const invitedUIDs = this.group.invitationSent.map(u => u.id);
+        const memberUIDs = this.group.invitationSent.map(u => u.id);
         if (invitedUIDs.includes(invitedUser.id) || memberUIDs.includes(invitedUser.id)) {
             return;
         }
-        this.group.invitationSent = [...this.group.invitationSent, createNewStGroupUser(invitedUser)];
+        //this.group.invitationSent = [...this.group.invitationSent, createNewStGroupUser(invitedUser)];
     }
 
     removeUserFromSection(selectedUser: StGroupUser, status: User_Status_In_Group) {
@@ -87,13 +86,13 @@ export class GroupsEditComponent implements OnInit, OnDestroy {
             return;
         }
         if (status === User_Status_In_Group.InvitationSent) {
-            this.group.invitationSent = this.group.invitationSent.filter(groupUser => groupUser.useridentification.id !== selectedUser.useridentification.id);
+            this.group.invitationSent = this.group.invitationSent.filter(groupUser => groupUser.id !== selectedUser.id);
         } else if (status === User_Status_In_Group.InvitationReceived) {
-            this.group.invitationReceived = this.group.invitationReceived.filter(groupUser => groupUser.useridentification.id !== selectedUser.useridentification.id);
+            this.group.invitationReceived = this.group.invitationReceived.filter(groupUser => groupUser.id !== selectedUser.id);
         } else if (status === User_Status_In_Group.Member) {
-            this.group.members = this.group.members.filter(groupUser => groupUser.useridentification.id !== selectedUser.useridentification.id);
+            this.group.members = this.group.members.filter(groupUser => groupUser.id !== selectedUser.id);
         } else if (status === User_Status_In_Group.Manager) {
-            this.group.managers = this.group.managers.filter(groupUser => groupUser.useridentification.id !== selectedUser.useridentification.id);
+            this.group.managers = this.group.managers.filter(groupUser => groupUser.id !== selectedUser.id);
         }
     }
 
@@ -130,7 +129,7 @@ export class GroupsEditComponent implements OnInit, OnDestroy {
             translucent: true,
             componentProps: {
                 userStatus: status,
-                userName: user.useridentification.nickName
+                userName: user.nickName
             }
         });
 

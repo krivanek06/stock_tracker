@@ -1,5 +1,5 @@
-<div *ngIf="downloadURL as url">
-    <ion-img [src]="url"></ion-img>
+<div *ngIf="downloadURL as url" class="st-flex ion-justify-content-center">
+    <ion-img [src]="url" [style.max-width.px]="maxWidth"  [style.max-height.px]="maxHeight"></ion-img>
 </div>
 
 

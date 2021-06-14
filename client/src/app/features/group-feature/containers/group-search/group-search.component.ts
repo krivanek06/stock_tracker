@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {GraphqlQueryService, StGroupPartialData} from '@core';
+import {GraphqlQueryService, StGroupIdentificationDataFragment} from '@core';
 import {Observable, of} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {debounceTime, switchMap} from 'rxjs/operators';
@@ -12,10 +12,10 @@ import {debounceTime, switchMap} from 'rxjs/operators';
 })
 export class GroupSearchComponent implements OnInit {
 
-    @Output() clickedGroupEmitter: EventEmitter<StGroupPartialData> = new EventEmitter<StGroupPartialData>();
+    @Output() clickedGroupEmitter: EventEmitter<StGroupIdentificationDataFragment> = new EventEmitter<StGroupIdentificationDataFragment>();
 
     @Input() clearOnClick = false;
-    searchedGroups$: Observable<StGroupPartialData[]>;
+    searchedGroups$: Observable<StGroupIdentificationDataFragment[]>;
     form: FormGroup;
 
     constructor(private fb: FormBuilder,
@@ -27,7 +27,7 @@ export class GroupSearchComponent implements OnInit {
         this.watchForm();
     }
 
-    clickedGroup(group: StGroupPartialData) {
+    clickedGroup(group: StGroupIdentificationDataFragment) {
         this.clickedGroupEmitter.emit(group);
         if (this.clearOnClick) {
             this.form.get('groupName').patchValue(null);

@@ -5,7 +5,7 @@ import auth from 'firebase';
 import firebase from 'firebase';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {UserStorageService} from './storage/user-storage.service';
-import {AuthenticateUserGQL, RegisterUserGQL, StUserAuthenticationInput} from '../graphql-schema';
+import {AuthenticateUserGQL, RegisterUserGQL, StUserAuthenticationInput, StUserPublicData} from '../graphql-schema';
 import {LoginIUser, RegisterIUser} from '../model';
 import {Subject} from 'rxjs';
 import UserCredential = firebase.auth.UserCredential;
@@ -47,6 +47,7 @@ export class AuthenticationService {
     async logout() {
         this.userStorageService.setUser(null);
         this.logout$.next(true);
+        localStorage.removeItem('requesterUserId')
         await this.apollo.getClient().clearStore();
         await this.afAuth.signOut();
     }
@@ -66,7 +67,9 @@ export class AuthenticationService {
             takeUntil(this.logout$)
         ).subscribe(user => {
             console.log('updating user');
-            this.userStorageService.setUser(user);
+            localStorage.setItem('requesterUserId', user.id);
+            console.log('useruser', user)
+            this.userStorageService.setUser(user as StUserPublicData);
             this.userStorageService.setIsAuthenticating(false);
         });
 

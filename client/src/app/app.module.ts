@@ -19,11 +19,26 @@ import {GraphQlModule} from './graph-ql.module';
 import {CoreModule} from './core/core.module';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
+import {MomentDateAdapter} from '@angular/material-moment-adapter';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
+const MY_DATE_FORMATS = {
+    parse: {
+        dateInput: 'DD.MM.YYYY',
+    },
+    display: {
+        dateInput: 'DD.MM.YYYY',
+        monthYearLabel: 'MMMM YYYY',
+        dateA11yLabel: 'LL',
+        monthYearA11yLabel: 'MMMM YYYY'
+    },
+};
 
 @NgModule({
     declarations: [AppComponent],
@@ -40,6 +55,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         AngularFirestoreModule,
         AngularFireAuthModule,
         AngularFireStorageModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
 
         BrowserModule,
         IonicModule.forRoot(),
@@ -57,7 +74,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     providers: [
         StatusBar,
         SplashScreen,
-        {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
+        {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+        MatDatepickerModule,
+        MatNativeDateModule,
+        {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+        {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS},
     ],
     bootstrap: [AppComponent]
 })

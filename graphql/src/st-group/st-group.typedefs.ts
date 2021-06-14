@@ -5,27 +5,24 @@ export const STGroupTypeDefs = gql`
     
     #type
     type STSearchGroups{
-        groups: [STGroupPartialData]!
+        groups: [STGroupAllData]!
     }
     
     type STGroupUser {
-        useridentification: STUserIndetification!
-        portfolio: STPortfolio!
+        id: String!
+        nickName: String!
+        locale: String
+        photoURL: String!
+        accountCreatedDate: String!
+        lastPortfolioSnapshot: STPortfolioSnapshot
+        lastPortfolioIncreaseNumber: Float
+        lastPortfolioIncreasePrct: Float
+        numberOfExecutedTransactions: Float
+        lastTransactionSnapshot: STTransactionSnapshot
+        previousPosition: Float
+        currentPosition: Float
+        startingPortfolioSnapshot: STPortfolioSnapshot
         sinceDate: String!
-    }
-
-    type STGroupPartialData {
-        groupId: String!
-        name: String!
-        description: String
-        imagePath: String
-        imageUrl: String
-        owner: STGroupUser!
-        portfolio: STPortfolio!
-        lastUpdateDate: String!
-        lastEditedDate: String!
-        createdDate: String!
-        currentAchievedRanks: STRank
     }
     
     type STGroupAllData {
@@ -34,21 +31,30 @@ export const STGroupTypeDefs = gql`
         description: String
         imagePath: String
         imageUrl: String
-        portfolio: STPortfolio!
+        lastPortfolioSnapshot: STPortfolioSnapshot
+        lastTransactionSnapshot: STTransactionSnapshot
+        portfolioSnapshots: [STPortfolioSnapshot]
+        transactionSnapshots: [STTransactionSnapshot]
         owner: STGroupUser!
         lastUpdateDate: String!
         lastEditedDate: String!
         createdDate: String!
         currentAchievedRanks: STRank
+        startDate: String!
+        endDate: String
+        isInfinite: Boolean!
+        isPrivate: Boolean!
+        numberOfExecutedTransactions: Float
         bestAchievedRanks: [STRank]!
         topTransactions: [STTransaction]!
         lastTransactions: [STTransaction]!
         groupLogs: [STLog]!
-        portfolioChart: [STPortfolio]!
         managers:[STGroupUser]!
         members: [STGroupUser]!
         invitationSent: [STGroupUser]!
         invitationReceived: [STGroupUser]
+        holdings: [STTransaction]!
+        topMembers: [STGroupUser]
     }
     
     input STGroupAllDataInput {
@@ -57,7 +63,10 @@ export const STGroupTypeDefs = gql`
         description: String
         imagePath: String
         imageUrl: String
-        owner: String!
+        startDate: String!
+        endDate: String
+        isInfinite: Boolean!
+        isPrivate: Boolean!
         managers:[String]!
         members: [String]!
         invitationSent: [String]!

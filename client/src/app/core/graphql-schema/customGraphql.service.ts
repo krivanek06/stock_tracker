@@ -537,11 +537,11 @@ export type Mutation = {
     registerUser?: Maybe<Scalars['Boolean']>;
     editUser?: Maybe<Scalars['Boolean']>;
     resetUserAccount?: Maybe<StUserResetedAccount>;
-    createGroup?: Maybe<StGroupPartialData>;
-    editGroup?: Maybe<StGroupPartialData>;
+    createGroup?: Maybe<StGroupAllData>;
+    editGroup?: Maybe<StGroupAllData>;
     deleteGroup?: Maybe<Scalars['Boolean']>;
-    toggleInvitationRequestToGroup?: Maybe<StGroupPartialData>;
-    answerReceivedGroupInvitation?: Maybe<StGroupPartialData>;
+    toggleInvitationRequestToGroup?: Maybe<StGroupAllData>;
+    answerReceivedGroupInvitation?: Maybe<StGroupAllData>;
     leaveGroup?: Maybe<Scalars['Boolean']>;
     createStockWatchlist?: Maybe<StStockWatchlist>;
     renameStockWatchlist?: Maybe<Scalars['Boolean']>;
@@ -885,21 +885,30 @@ export type StGroupAllData = {
     description?: Maybe<Scalars['String']>;
     imagePath?: Maybe<Scalars['String']>;
     imageUrl?: Maybe<Scalars['String']>;
-    portfolio: StPortfolio;
+    lastPortfolioSnapshot?: Maybe<StPortfolioSnapshot>;
+    lastTransactionSnapshot?: Maybe<StTransactionSnapshot>;
+    portfolioSnapshots?: Maybe<Array<Maybe<StPortfolioSnapshot>>>;
+    transactionSnapshots?: Maybe<Array<Maybe<StTransactionSnapshot>>>;
     owner: StGroupUser;
     lastUpdateDate: Scalars['String'];
     lastEditedDate: Scalars['String'];
     createdDate: Scalars['String'];
     currentAchievedRanks?: Maybe<StRank>;
+    startDate: Scalars['String'];
+    endDate?: Maybe<Scalars['String']>;
+    isInfinite: Scalars['Boolean'];
+    isPrivate: Scalars['Boolean'];
+    numberOfExecutedTransactions?: Maybe<Scalars['Float']>;
     bestAchievedRanks: Array<Maybe<StRank>>;
     topTransactions: Array<Maybe<StTransaction>>;
     lastTransactions: Array<Maybe<StTransaction>>;
     groupLogs: Array<Maybe<StLog>>;
-    portfolioChart: Array<Maybe<StPortfolio>>;
     managers: Array<Maybe<StGroupUser>>;
     members: Array<Maybe<StGroupUser>>;
     invitationSent: Array<Maybe<StGroupUser>>;
     invitationReceived?: Maybe<Array<Maybe<StGroupUser>>>;
+    holdings: Array<Maybe<StTransaction>>;
+    topMembers?: Maybe<Array<Maybe<StGroupUser>>>;
 };
 
 export type StGroupAllDataInput = {
@@ -908,32 +917,31 @@ export type StGroupAllDataInput = {
     description?: Maybe<Scalars['String']>;
     imagePath?: Maybe<Scalars['String']>;
     imageUrl?: Maybe<Scalars['String']>;
-    owner: Scalars['String'];
+    startDate: Scalars['String'];
+    endDate?: Maybe<Scalars['String']>;
+    isInfinite: Scalars['Boolean'];
+    isPrivate: Scalars['Boolean'];
     managers: Array<Maybe<Scalars['String']>>;
     members: Array<Maybe<Scalars['String']>>;
     invitationSent: Array<Maybe<Scalars['String']>>;
     invitationReceived: Array<Maybe<Scalars['String']>>;
 };
 
-export type StGroupPartialData = {
-    __typename?: 'STGroupPartialData';
-    groupId: Scalars['String'];
-    name: Scalars['String'];
-    description?: Maybe<Scalars['String']>;
-    imagePath?: Maybe<Scalars['String']>;
-    imageUrl?: Maybe<Scalars['String']>;
-    owner: StGroupUser;
-    portfolio: StPortfolio;
-    lastUpdateDate: Scalars['String'];
-    lastEditedDate: Scalars['String'];
-    createdDate: Scalars['String'];
-    currentAchievedRanks?: Maybe<StRank>;
-};
-
 export type StGroupUser = {
     __typename?: 'STGroupUser';
-    useridentification: StUserIndetification;
-    portfolio: StPortfolio;
+    id: Scalars['String'];
+    nickName: Scalars['String'];
+    locale?: Maybe<Scalars['String']>;
+    photoURL: Scalars['String'];
+    accountCreatedDate: Scalars['String'];
+    lastPortfolioSnapshot?: Maybe<StPortfolioSnapshot>;
+    lastPortfolioIncreaseNumber?: Maybe<Scalars['Float']>;
+    lastPortfolioIncreasePrct?: Maybe<Scalars['Float']>;
+    numberOfExecutedTransactions?: Maybe<Scalars['Float']>;
+    lastTransactionSnapshot?: Maybe<StTransactionSnapshot>;
+    previousPosition?: Maybe<Scalars['Float']>;
+    currentPosition?: Maybe<Scalars['Float']>;
+    startingPortfolioSnapshot?: Maybe<StPortfolioSnapshot>;
     sinceDate: Scalars['String'];
 };
 
@@ -1124,7 +1132,7 @@ export type StRank = {
 
 export type StSearchGroups = {
     __typename?: 'STSearchGroups';
-    groups: Array<Maybe<StGroupPartialData>>;
+    groups: Array<Maybe<StGroupAllData>>;
 };
 
 export type StSeries = {
@@ -1271,10 +1279,10 @@ export type StUserEditDataInput = {
 
 export type StUserGroups = {
     __typename?: 'STUserGroups';
-    groupInvitationSent?: Maybe<Array<Maybe<StGroupPartialData>>>;
-    groupInvitationReceived?: Maybe<Array<Maybe<StGroupPartialData>>>;
-    groupOwner?: Maybe<Array<Maybe<StGroupPartialData>>>;
-    groupMember?: Maybe<Array<Maybe<StGroupPartialData>>>;
+    groupInvitationSent?: Maybe<Array<Maybe<StGroupAllData>>>;
+    groupInvitationReceived?: Maybe<Array<Maybe<StGroupAllData>>>;
+    groupOwner?: Maybe<Array<Maybe<StGroupAllData>>>;
+    groupMember?: Maybe<Array<Maybe<StGroupAllData>>>;
 };
 
 export type StUserHistoricalData = {
@@ -1331,6 +1339,7 @@ export type StUserPublicData = {
     transactionsSnippets: Array<Maybe<StTransaction>>;
     activity?: Maybe<User_Activity>;
     groups: StUserGroups;
+    numberOfExecutedTransactions?: Maybe<Scalars['Float']>;
     lastPortfolioSnapshot?: Maybe<StPortfolioSnapshot>;
     lastTransactionSnapshot?: Maybe<StTransactionSnapshot>;
     userPrivateData: StUserPrivateData;
@@ -1482,7 +1491,7 @@ export type QueryUsersRegistrationQuery = (
         & {
         userRegistrationSnippets?: Maybe<Array<Maybe<(
             { __typename?: 'STUserIndetification' }
-            & StUserIndetificationFragmentFragment
+            & Pick<StUserIndetification, 'id' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate'>
             )>>>, weeklyRegistratedUsers?: Maybe<Array<Maybe<(
             { __typename?: 'STSeriesNumber' }
             & Pick<StSeriesNumber, 'data' | 'timestamp'>
@@ -1494,29 +1503,38 @@ export type QueryUsersRegistrationQuery = (
 
 export type StGroupUserFragmentFragment = (
     { __typename?: 'STGroupUser' }
-    & Pick<StGroupUser, 'sinceDate'>
+    & Pick<StGroupUser, 'id' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate' | 'lastPortfolioIncreaseNumber' | 'lastPortfolioIncreasePrct' | 'numberOfExecutedTransactions' | 'previousPosition' | 'currentPosition' | 'sinceDate'>
     & {
-    useridentification: (
-        { __typename?: 'STUserIndetification' }
-        & StUserIndetificationFragmentFragment
-        ), portfolio: (
-        { __typename?: 'STPortfolio' }
-        & Pick<StPortfolio, 'portfolioInvested' | 'portfolioCash'>
-        )
+    lastPortfolioSnapshot?: Maybe<(
+        { __typename?: 'STPortfolioSnapshot' }
+        & StPortfolioSnapshotFragmentFragment
+        )>, lastTransactionSnapshot?: Maybe<(
+        { __typename?: 'STTransactionSnapshot' }
+        & StTransactionSnapshotFragmentFragment
+        )>, startingPortfolioSnapshot?: Maybe<(
+        { __typename?: 'STPortfolioSnapshot' }
+        & StPortfolioSnapshotFragmentFragment
+        )>
 }
     );
 
-export type StGroupPartialDataFragmentFragment = (
-    { __typename?: 'STGroupPartialData' }
-    & Pick<StGroupPartialData, 'groupId' | 'name' | 'description' | 'lastUpdateDate' | 'lastEditedDate' | 'createdDate'>
+export type StGroupIdentificationDataFragment = (
+    { __typename?: 'STGroupAllData' }
+    & Pick<StGroupAllData, 'groupId' | 'name' | 'description' | 'imagePath' | 'imageUrl' | 'startDate' | 'endDate' | 'isInfinite' | 'isPrivate' | 'numberOfExecutedTransactions' | 'lastUpdateDate' | 'lastEditedDate' | 'createdDate'>
     & {
-    portfolio: (
-        { __typename?: 'STPortfolio' }
-        & StPortfolioFragmentFragment
-        ), owner: (
+    owner: (
         { __typename?: 'STGroupUser' }
         & StGroupUserFragmentFragment
-        ), currentAchievedRanks?: Maybe<(
+        ), lastPortfolioSnapshot?: Maybe<(
+        { __typename?: 'STPortfolioSnapshot' }
+        & StPortfolioSnapshotFragmentFragment
+        )>, lastTransactionSnapshot?: Maybe<(
+        { __typename?: 'STTransactionSnapshot' }
+        & StTransactionSnapshotFragmentFragment
+        )>, topMembers?: Maybe<Array<Maybe<(
+        { __typename?: 'STGroupUser' }
+        & StGroupUserFragmentFragment
+        )>>>, currentAchievedRanks?: Maybe<(
         { __typename?: 'STRank' }
         & StRankFragmentFragment
         )>
@@ -1525,15 +1543,24 @@ export type StGroupPartialDataFragmentFragment = (
 
 export type StGroupAllDataFragmentFragment = (
     { __typename?: 'STGroupAllData' }
-    & Pick<StGroupAllData, 'groupId' | 'name' | 'description' | 'imageUrl' | 'imagePath' | 'lastUpdateDate' | 'lastEditedDate' | 'createdDate'>
+    & Pick<StGroupAllData, 'groupId' | 'name' | 'description' | 'imageUrl' | 'imagePath' | 'lastUpdateDate' | 'lastEditedDate' | 'createdDate' | 'startDate' | 'endDate' | 'isPrivate' | 'isInfinite' | 'numberOfExecutedTransactions'>
     & {
-    portfolio: (
-        { __typename?: 'STPortfolio' }
-        & StPortfolioFragmentFragment
-        ), owner: (
+    portfolioSnapshots?: Maybe<Array<Maybe<(
+        { __typename?: 'STPortfolioSnapshot' }
+        & StPortfolioSnapshotFragmentFragment
+        )>>>, owner: (
         { __typename?: 'STGroupUser' }
         & StGroupUserFragmentFragment
-        ), currentAchievedRanks?: Maybe<(
+        ), holdings: Array<Maybe<(
+        { __typename?: 'STTransaction' }
+        & StTransactionFragmentFragment
+        )>>, lastTransactionSnapshot?: Maybe<(
+        { __typename?: 'STTransactionSnapshot' }
+        & StTransactionSnapshotFragmentFragment
+        )>, lastPortfolioSnapshot?: Maybe<(
+        { __typename?: 'STPortfolioSnapshot' }
+        & StPortfolioSnapshotFragmentFragment
+        )>, currentAchievedRanks?: Maybe<(
         { __typename?: 'STRank' }
         & StRankFragmentFragment
         )>, bestAchievedRanks: Array<Maybe<(
@@ -1548,9 +1575,6 @@ export type StGroupAllDataFragmentFragment = (
         )>>, groupLogs: Array<Maybe<(
         { __typename?: 'STLog' }
         & StLogsFragmentFragment
-        )>>, portfolioChart: Array<Maybe<(
-        { __typename?: 'STPortfolio' }
-        & StPortfolioFragmentFragment
         )>>, managers: Array<Maybe<(
         { __typename?: 'STGroupUser' }
         & StGroupUserFragmentFragment
@@ -1594,8 +1618,8 @@ export type QueryStGroupPartialDataByGroupNameQuery = (
         { __typename?: 'STSearchGroups' }
         & {
         groups: Array<Maybe<(
-            { __typename?: 'STGroupPartialData' }
-            & StGroupPartialDataFragmentFragment
+            { __typename?: 'STGroupAllData' }
+            & StGroupIdentificationDataFragment
             )>>
     }
         )>
@@ -1611,8 +1635,8 @@ export type CreateGroupMutation = (
     { __typename?: 'Mutation' }
     & {
     createGroup?: Maybe<(
-        { __typename?: 'STGroupPartialData' }
-        & StGroupPartialDataFragmentFragment
+        { __typename?: 'STGroupAllData' }
+        & StGroupIdentificationDataFragment
         )>
 }
     );
@@ -1626,8 +1650,8 @@ export type EditGroupMutation = (
     { __typename?: 'Mutation' }
     & {
     editGroup?: Maybe<(
-        { __typename?: 'STGroupPartialData' }
-        & StGroupPartialDataFragmentFragment
+        { __typename?: 'STGroupAllData' }
+        & StGroupIdentificationDataFragment
         )>
 }
     );
@@ -1653,8 +1677,8 @@ export type ToggleInvitationRequestToGroupMutation = (
     { __typename?: 'Mutation' }
     & {
     toggleInvitationRequestToGroup?: Maybe<(
-        { __typename?: 'STGroupPartialData' }
-        & StGroupPartialDataFragmentFragment
+        { __typename?: 'STGroupAllData' }
+        & StGroupIdentificationDataFragment
         )>
 }
     );
@@ -1670,8 +1694,8 @@ export type AnswerReceivedGroupInvitationMutation = (
     { __typename?: 'Mutation' }
     & {
     answerReceivedGroupInvitation?: Maybe<(
-        { __typename?: 'STGroupPartialData' }
-        & StGroupPartialDataFragmentFragment
+        { __typename?: 'STGroupAllData' }
+        & StGroupIdentificationDataFragment
         )>
 }
     );
@@ -2690,25 +2714,17 @@ export type PerformTransactionMutation = (
 }
     );
 
-export type StUserIndetificationFragmentFragment = (
-    { __typename?: 'STUserIndetification' }
-    & Pick<StUserIndetification, 'id' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate'>
-    );
-
-export type StUserPublicDataFragmentFragment = (
+export type StUserIndentificationDataFragment = (
     { __typename?: 'STUserPublicData' }
-    & Pick<StUserPublicData, 'id' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate' | 'lastSignInDate' | 'portfolioCash' | 'activity'>
+    & Pick<StUserPublicData, 'id' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate' | 'lastSignInDate' | 'numberOfExecutedTransactions'>
     & {
-    rank?: Maybe<(
-        { __typename?: 'STRank' }
-        & StRankFragmentFragment
-        )>, holdings: Array<Maybe<(
-        { __typename?: 'STTransaction' }
-        & StTransactionFragmentFragment
-        )>>, transactionsSnippets: Array<Maybe<(
-        { __typename?: 'STTransaction' }
-        & StTransactionFragmentFragment
-        )>>
+    lastPortfolioSnapshot?: Maybe<(
+        { __typename?: 'STPortfolioSnapshot' }
+        & Pick<StPortfolioSnapshot, 'portfolioInvested' | 'portfolioCash' | 'date'>
+        )>, lastTransactionSnapshot?: Maybe<(
+        { __typename?: 'STTransactionSnapshot' }
+        & Pick<StTransactionSnapshot, 'transactionsBuy' | 'transactionsSell' | 'date'>
+        )>
 }
     );
 
@@ -2743,17 +2759,17 @@ export type AuthenticateUserQuery = (
             { __typename?: 'STUserGroups' }
             & {
             groupInvitationSent?: Maybe<Array<Maybe<(
-                { __typename?: 'STGroupPartialData' }
-                & StGroupPartialDataFragmentFragment
+                { __typename?: 'STGroupAllData' }
+                & StGroupIdentificationDataFragment
                 )>>>, groupInvitationReceived?: Maybe<Array<Maybe<(
-                { __typename?: 'STGroupPartialData' }
-                & StGroupPartialDataFragmentFragment
+                { __typename?: 'STGroupAllData' }
+                & StGroupIdentificationDataFragment
                 )>>>, groupOwner?: Maybe<Array<Maybe<(
-                { __typename?: 'STGroupPartialData' }
-                & StGroupPartialDataFragmentFragment
+                { __typename?: 'STGroupAllData' }
+                & StGroupIdentificationDataFragment
                 )>>>, groupMember?: Maybe<Array<Maybe<(
-                { __typename?: 'STGroupPartialData' }
-                & StGroupPartialDataFragmentFragment
+                { __typename?: 'STGroupAllData' }
+                & StGroupIdentificationDataFragment
                 )>>>
         }
             ), lastPortfolioSnapshot?: Maybe<(
@@ -2804,7 +2820,7 @@ export type QueryUserPublicDataByUsernameQuery = (
     & {
     queryUserPublicDataByUsername: Array<Maybe<(
         { __typename?: 'STUserPublicData' }
-        & StUserPublicDataFragmentFragment
+        & StUserIndentificationDataFragment
         )>>
 }
     );
@@ -2915,33 +2931,45 @@ export type RenameStockWatchlistMutation = (
     & Pick<Mutation, 'renameStockWatchlist'>
     );
 
-export const StPortfolioFragmentFragmentDoc = gql`
-    fragment STPortfolioFragment on STPortfolio {
+export const StPortfolioSnapshotFragmentFragmentDoc = gql`
+    fragment STPortfolioSnapshotFragment on STPortfolioSnapshot {
         portfolioInvested
         portfolioCash
+        date
     }
 `;
-export const StUserIndetificationFragmentFragmentDoc = gql`
-    fragment STUserIndetificationFragment on STUserIndetification {
+export const StTransactionSnapshotFragmentFragmentDoc = gql`
+    fragment STTransactionSnapshotFragment on STTransactionSnapshot {
+        transactionsBuy
+        transactionsSell
+        date
+    }
+`;
+export const StGroupUserFragmentFragmentDoc = gql`
+    fragment STGroupUserFragment on STGroupUser {
         id
         nickName
         locale
         photoURL
         accountCreatedDate
-    }
-`;
-export const StGroupUserFragmentFragmentDoc = gql`
-    fragment STGroupUserFragment on STGroupUser {
+        lastPortfolioSnapshot {
+            ...STPortfolioSnapshotFragment
+        }
+        lastPortfolioIncreaseNumber
+        lastPortfolioIncreasePrct
+        numberOfExecutedTransactions
+        lastTransactionSnapshot {
+            ...STTransactionSnapshotFragment
+        }
+        previousPosition
+        currentPosition
+        startingPortfolioSnapshot {
+            ...STPortfolioSnapshotFragment
+        }
         sinceDate
-        useridentification {
-            ...STUserIndetificationFragment
-        }
-        portfolio {
-            portfolioInvested
-            portfolioCash
-        }
     }
-${StUserIndetificationFragmentFragmentDoc}`;
+    ${StPortfolioSnapshotFragmentFragmentDoc}
+${StTransactionSnapshotFragmentFragmentDoc}`;
 export const StRankFragmentFragmentDoc = gql`
     fragment STRankFragment on STRank {
         rankGainers
@@ -2952,15 +2980,28 @@ export const StRankFragmentFragmentDoc = gql`
         date
     }
 `;
-export const StGroupPartialDataFragmentFragmentDoc = gql`
-    fragment STGroupPartialDataFragment on STGroupPartialData {
+export const StGroupIdentificationDataFragmentDoc = gql`
+    fragment STGroupIdentificationData on STGroupAllData {
         groupId
         name
         description
-        portfolio {
-            ...STPortfolioFragment
-        }
+        imagePath
+        imageUrl
         owner {
+            ...STGroupUserFragment
+        }
+        lastPortfolioSnapshot {
+            ...STPortfolioSnapshotFragment
+        }
+        lastTransactionSnapshot {
+            ...STTransactionSnapshotFragment
+        }
+        startDate
+        endDate
+        isInfinite
+        isPrivate
+        numberOfExecutedTransactions
+        topMembers {
             ...STGroupUserFragment
         }
         lastUpdateDate
@@ -2970,8 +3011,9 @@ export const StGroupPartialDataFragmentFragmentDoc = gql`
             ...STRankFragment
         }
     }
-    ${StPortfolioFragmentFragmentDoc}
     ${StGroupUserFragmentFragmentDoc}
+    ${StPortfolioSnapshotFragmentFragmentDoc}
+    ${StTransactionSnapshotFragmentFragmentDoc}
 ${StRankFragmentFragmentDoc}`;
 export const StTransactionFragmentFragmentDoc = gql`
     fragment STTransactionFragment on STTransaction {
@@ -3000,8 +3042,8 @@ export const StGroupAllDataFragmentFragmentDoc = gql`
         description
         imageUrl
         imagePath
-        portfolio {
-            ...STPortfolioFragment
+        portfolioSnapshots {
+            ...STPortfolioSnapshotFragment
         }
         owner {
             ...STGroupUserFragment
@@ -3009,6 +3051,20 @@ export const StGroupAllDataFragmentFragmentDoc = gql`
         lastUpdateDate
         lastEditedDate
         createdDate
+        startDate
+        endDate
+        isPrivate
+        isInfinite
+        numberOfExecutedTransactions
+        holdings {
+            ...STTransactionFragment
+        }
+        lastTransactionSnapshot {
+            ...STTransactionSnapshotFragment
+        }
+        lastPortfolioSnapshot {
+            ...STPortfolioSnapshotFragment
+        }
         currentAchievedRanks {
             ...STRankFragment
         }
@@ -3024,9 +3080,6 @@ export const StGroupAllDataFragmentFragmentDoc = gql`
         groupLogs {
             ...STLogsFragment
         }
-        portfolioChart {
-            ...STPortfolioFragment
-        }
         managers {
             ...STGroupUserFragment
         }
@@ -3040,10 +3093,11 @@ export const StGroupAllDataFragmentFragmentDoc = gql`
             ...STGroupUserFragment
         }
     }
-    ${StPortfolioFragmentFragmentDoc}
+    ${StPortfolioSnapshotFragmentFragmentDoc}
     ${StGroupUserFragmentFragmentDoc}
-    ${StRankFragmentFragmentDoc}
     ${StTransactionFragmentFragmentDoc}
+    ${StTransactionSnapshotFragmentFragmentDoc}
+    ${StRankFragmentFragmentDoc}
 ${StLogsFragmentFragmentDoc}`;
 export const StMarketChartDataResultCombinedFragmentFragmentDoc = gql`
     fragment STMarketChartDataResultCombinedFragment on STMarketChartDataResultCombined {
@@ -3127,11 +3181,10 @@ export const StEventCalendarEarningsDataFragmentFragmentDoc = gql`
         timeZoneShortName
     }
 `;
-export const StPortfolioSnapshotFragmentFragmentDoc = gql`
-    fragment STPortfolioSnapshotFragment on STPortfolioSnapshot {
+export const StPortfolioFragmentFragmentDoc = gql`
+    fragment STPortfolioFragment on STPortfolio {
         portfolioInvested
         portfolioCash
-        date
     }
 `;
 export const SheetDataFragmentFragmentDoc = gql`
@@ -3770,35 +3823,27 @@ export const WaccFragmentFragmentDoc = gql`
         taxRate
     }
 ${CapmFragmentFragmentDoc}`;
-export const StTransactionSnapshotFragmentFragmentDoc = gql`
-    fragment STTransactionSnapshotFragment on STTransactionSnapshot {
-        transactionsBuy
-        transactionsSell
-        date
-    }
-`;
-export const StUserPublicDataFragmentFragmentDoc = gql`
-    fragment STUserPublicDataFragment on STUserPublicData {
+export const StUserIndentificationDataFragmentDoc = gql`
+    fragment STUserIndentificationData on STUserPublicData {
         id
         nickName
         locale
         photoURL
         accountCreatedDate
         lastSignInDate
-        portfolioCash
-        rank {
-            ...STRankFragment
+        numberOfExecutedTransactions
+        lastPortfolioSnapshot {
+            portfolioInvested
+            portfolioCash
+            date
         }
-        holdings {
-            ...STTransactionFragment
+        lastTransactionSnapshot {
+            transactionsBuy
+            transactionsSell
+            date
         }
-        transactionsSnippets {
-            ...STTransactionFragment
-        }
-        activity
     }
-    ${StRankFragmentFragmentDoc}
-${StTransactionFragmentFragmentDoc}`;
+`;
 export const SummaryResidanceFragmentFragmentDoc = gql`
     fragment SummaryResidanceFragment on SummaryResidance {
         city
@@ -3874,7 +3919,11 @@ export const QueryUsersRegistrationDocument = gql`
             totalRegistratedUsers
             totalActiveUsers
             userRegistrationSnippets {
-                ...STUserIndetificationFragment
+                id
+                nickName
+                locale
+                photoURL
+                accountCreatedDate
             }
             weeklyRegistratedUsers {
                 data
@@ -3882,7 +3931,7 @@ export const QueryUsersRegistrationDocument = gql`
             }
         }
     }
-${StUserIndetificationFragmentFragmentDoc}`;
+`;
 
 @Injectable({
     providedIn: 'root'
@@ -3918,11 +3967,11 @@ export const QueryStGroupPartialDataByGroupNameDocument = gql`
     query QuerySTGroupPartialDataByGroupName($groupName: String!) {
         querySTGroupPartialDataByGroupName(groupName: $groupName) {
             groups {
-                ...STGroupPartialDataFragment
+                ...STGroupIdentificationData
             }
         }
     }
-${StGroupPartialDataFragmentFragmentDoc}`;
+${StGroupIdentificationDataFragmentDoc}`;
 
 @Injectable({
     providedIn: 'root'
@@ -3938,10 +3987,10 @@ export class QueryStGroupPartialDataByGroupNameGQL extends Apollo.Query<QueryStG
 export const CreateGroupDocument = gql`
     mutation CreateGroup($groupInput: STGroupAllDataInput!) {
         createGroup(groupInput: $groupInput) {
-            ...STGroupPartialDataFragment
+            ...STGroupIdentificationData
         }
     }
-${StGroupPartialDataFragmentFragmentDoc}`;
+${StGroupIdentificationDataFragmentDoc}`;
 
 @Injectable({
     providedIn: 'root'
@@ -3957,10 +4006,10 @@ export class CreateGroupGQL extends Apollo.Mutation<CreateGroupMutation, CreateG
 export const EditGroupDocument = gql`
     mutation EditGroup($groupInput: STGroupAllDataInput!) {
         editGroup(groupInput: $groupInput) {
-            ...STGroupPartialDataFragment
+            ...STGroupIdentificationData
         }
     }
-${StGroupPartialDataFragmentFragmentDoc}`;
+${StGroupIdentificationDataFragmentDoc}`;
 
 @Injectable({
     providedIn: 'root'
@@ -3993,10 +4042,10 @@ export class DeleteGroupGQL extends Apollo.Mutation<DeleteGroupMutation, DeleteG
 export const ToggleInvitationRequestToGroupDocument = gql`
     mutation ToggleInvitationRequestToGroup($uid: String!, $groupId: String!) {
         toggleInvitationRequestToGroup(uid: $uid, groupId: $groupId) {
-            ...STGroupPartialDataFragment
+            ...STGroupIdentificationData
         }
     }
-${StGroupPartialDataFragmentFragmentDoc}`;
+${StGroupIdentificationDataFragmentDoc}`;
 
 @Injectable({
     providedIn: 'root'
@@ -4012,10 +4061,10 @@ export class ToggleInvitationRequestToGroupGQL extends Apollo.Mutation<ToggleInv
 export const AnswerReceivedGroupInvitationDocument = gql`
     mutation AnswerReceivedGroupInvitation($uid: String!, $groupId: String!, $accept: Boolean!) {
         answerReceivedGroupInvitation(uid: $uid, groupId: $groupId, accept: $accept) {
-            ...STGroupPartialDataFragment
+            ...STGroupIdentificationData
         }
     }
-${StGroupPartialDataFragmentFragmentDoc}`;
+${StGroupIdentificationDataFragmentDoc}`;
 
 @Injectable({
     providedIn: 'root'
@@ -4656,16 +4705,16 @@ export const AuthenticateUserDocument = gql`
             }
             groups {
                 groupInvitationSent {
-                    ...STGroupPartialDataFragment
+                    ...STGroupIdentificationData
                 }
                 groupInvitationReceived {
-                    ...STGroupPartialDataFragment
+                    ...STGroupIdentificationData
                 }
                 groupOwner {
-                    ...STGroupPartialDataFragment
+                    ...STGroupIdentificationData
                 }
                 groupMember {
-                    ...STGroupPartialDataFragment
+                    ...STGroupIdentificationData
                 }
             }
             lastPortfolioSnapshot {
@@ -4711,7 +4760,7 @@ export const AuthenticateUserDocument = gql`
     ${StRankFragmentFragmentDoc}
     ${StTransactionFragmentFragmentDoc}
     ${StockSummaryFragmentFragmentDoc}
-    ${StGroupPartialDataFragmentFragmentDoc}
+    ${StGroupIdentificationDataFragmentDoc}
     ${StPortfolioSnapshotFragmentFragmentDoc}
     ${StTransactionSnapshotFragmentFragmentDoc}
     ${StLogsFragmentFragmentDoc}
@@ -4731,10 +4780,10 @@ export class AuthenticateUserGQL extends Apollo.Query<AuthenticateUserQuery, Aut
 export const QueryUserPublicDataByUsernameDocument = gql`
     query QueryUserPublicDataByUsername($usernamePrefix: String!) {
         queryUserPublicDataByUsername(usernamePrefix: $usernamePrefix) {
-            ...STUserPublicDataFragment
+            ...STUserIndentificationData
         }
     }
-${StUserPublicDataFragmentFragmentDoc}`;
+${StUserIndentificationDataFragmentDoc}`;
 
 @Injectable({
     providedIn: 'root'

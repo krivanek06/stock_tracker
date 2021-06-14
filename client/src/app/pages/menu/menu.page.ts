@@ -147,13 +147,13 @@ export class MenuPage implements OnInit, OnDestroy {
                     disabled: !user,
                     hidden: false
                 },
-                /*{
+                {
                     title: 'Groups',
                     url: '/menu/groups',
                     icon: 'people-outline',
                     disabled: false,
                     hidden: false
-                },*/
+                },
                 /*{
                     title: 'Ranking',
                     url: '/menu/ranking',

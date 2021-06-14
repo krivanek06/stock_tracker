@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {debounceTime, switchMap} from 'rxjs/operators';
-import {GraphqlQueryService, StUserPublicData} from '@core';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {GraphqlQueryService, StUserIndentificationDataFragment, StUserPublicData} from '@core';
 
 @Component({
     selector: 'app-user-account-search',
@@ -11,10 +11,10 @@ import {GraphqlQueryService, StUserPublicData} from '@core';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserAccountSearchComponent implements OnInit {
-    @Output() clickedUserEmitter: EventEmitter<StUserPublicData> = new EventEmitter<StUserPublicData>();
+    @Output() clickedUserEmitter: EventEmitter<StUserIndentificationDataFragment> = new EventEmitter<StUserIndentificationDataFragment>();
 
     @Input() fullWith = false;
-    searchedUsers$: Observable<StUserPublicData[]>;
+    searchedUsers$: Observable<StUserIndentificationDataFragment[]>;
     form: FormGroup;
 
     constructor(private fb: FormBuilder,
@@ -39,8 +39,9 @@ export class UserAccountSearchComponent implements OnInit {
     private watchForm() {
         this.searchedUsers$ = this.form.get('username').valueChanges.pipe(
             debounceTime(500),
+            distinctUntilChanged(),
             switchMap(res => {
-                if (res.length <= 3) {
+                if (res.length <= 2) {
                     return of(null);
                 }
                 return this.graphqlQueryService.queryUserPublicDataByUsername(res);

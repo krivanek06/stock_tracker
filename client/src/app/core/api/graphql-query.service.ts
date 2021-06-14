@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {
-    Maybe,
     QueryMarketDailyOverviewGQL,
     QueryStGroupPartialDataByGroupNameGQL,
     QueryStMarketAllCategoriesGQL,
@@ -12,14 +11,13 @@ import {
     QueryStockSummariesGQL,
     QueryUserPublicDataByUsernameGQL,
     StEventCalendarData,
-    StEventCalendarEarningsData,
-    StGroupPartialData,
+    StEventCalendarEarningsData, StGroupIdentificationDataFragment,
     StMarketChartDataResultCombined,
     StMarketDailyOverview,
     StMarketDatasetKeyCategory,
     StMarketOverviewPartialData,
     StMarketSymbolHistoricalChartData,
-    StUserPublicDataFragmentFragment,
+    StUserIndentificationDataFragment,
     Summary,
 } from '../graphql-schema';
 import {map} from 'rxjs/operators';
@@ -49,7 +47,7 @@ export class GraphqlQueryService {
         }).pipe(map(x => x.data.querySTMarketSymbolHistoricalChartData));
     }
 
-    queryUserPublicDataByUsername(usernamePrefix: string): Observable<Array<Maybe<{ __typename?: 'STUserPublicData' } & StUserPublicDataFragmentFragment>>> {
+    queryUserPublicDataByUsername(usernamePrefix: string): Observable<StUserIndentificationDataFragment[]> {
         return this.queryUserPublicDataByUsernameGQL.fetch({
             usernamePrefix
         }).pipe(map(x => x.data.queryUserPublicDataByUsername));
@@ -61,7 +59,7 @@ export class GraphqlQueryService {
         }).pipe(map(x => x.data.queryStockSummaries.summaries));
     }
 
-    querySTGroupPartialDataByGroupName(groupName: string): Observable<StGroupPartialData[]> {
+    querySTGroupPartialDataByGroupName(groupName: string): Observable<StGroupIdentificationDataFragment[]> {
         return this.groupPartialDataByGroupNameGQL.fetch({
             groupName
         }).pipe(map(x => x.data.querySTGroupPartialDataByGroupName.groups));

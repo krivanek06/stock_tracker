@@ -24,7 +24,15 @@ export interface STUserIndentification {
     accountCreatedDate: string;
 }
 
-export interface STUserPublicData extends STUserIndentification {
+export interface STUserIndentificationWithPortfolio extends STUserIndentification {
+    lastPortfolioSnapshot: STPortfolioSnapshot;
+    lastPortfolioIncreaseNumber: number;
+    lastPortfolioIncreasePrct: number;
+    numberOfExecutedTransactions: number;
+    lastTransactionSnapshot: STTransactionSnapshot;
+}
+
+export interface STUserPublicData extends STUserIndentificationWithPortfolio {
     portfolioCash: number;
     rank?: STRank; // weekly update
     transactionsSnippets: STTransaction[]; // last N
@@ -32,8 +40,6 @@ export interface STUserPublicData extends STUserIndentification {
     holdings: STTransaction[]; // only open transactions
     groups: STUserGroupsIdentification;
     activity: USER_ACTIVITY;
-    lastPortfolioSnapshot: STPortfolioSnapshot;
-    lastTransactionSnapshot: STTransactionSnapshot;
 }
 
 export interface STUserHistoricalData {

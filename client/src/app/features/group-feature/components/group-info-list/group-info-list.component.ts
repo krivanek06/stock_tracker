@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StGroupPartialData} from '@core';
+import {StGroupIdentificationDataFragment} from '@core';
 
 @Component({
     selector: 'app-group-info-list',
@@ -10,7 +10,7 @@ import {StGroupPartialData} from '@core';
 export class GroupInfoListComponent implements OnInit {
     @Output() clickedEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-    @Input() groupPartialData: StGroupPartialData;
+    @Input() groupPartialData: StGroupIdentificationDataFragment;
     @Input() clickable = true;
 
     constructor() {

@@ -9,7 +9,7 @@ import { STTraingStrategyTypeDefs } from './st-trading-strategy/st-trading-strat
 import {STGroupTypeDefs} from './st-group/st-group.typedefs';
 import {STSharedTypeDefs} from './st-shared/st-shared.typedef';
 import {watchlistTypeDefs} from './watchlist/watchlist.typedefs';
-import {ApolloServer, gql} from 'apollo-server';
+import {gql, ApolloServer} from 'apollo-server';
 import {userTypeDefs} from './user/user.typeDefs';
 import {userResolvers} from './user/user.resolver';
 import * as admin from 'firebase-admin';
@@ -52,7 +52,6 @@ import {
 import { STStockDetailsCalculationsTypeDefs } from './st-stock-calculations';
 
 global.fetch = require("node-fetch");
-
 
 const serviceAccount = require('../firebase_key.json');
 
@@ -105,11 +104,11 @@ const mainTypeDefs = gql`
         resetUserAccount(userId: String!): STUserResetedAccount
 
         # groups
-        createGroup(groupInput: STGroupAllDataInput!): STGroupPartialData
-        editGroup(groupInput: STGroupAllDataInput!): STGroupPartialData
+        createGroup(groupInput: STGroupAllDataInput!): STGroupAllData
+        editGroup(groupInput: STGroupAllDataInput!): STGroupAllData
         deleteGroup(uid: String!, groupId: String!): Boolean
-        toggleInvitationRequestToGroup(uid: String!, groupId: String!): STGroupPartialData
-        answerReceivedGroupInvitation(uid: String!, groupId: String!, accept: Boolean!): STGroupPartialData
+        toggleInvitationRequestToGroup(uid: String!, groupId: String!): STGroupAllData
+        answerReceivedGroupInvitation(uid: String!, groupId: String!, accept: Boolean!): STGroupAllData
         leaveGroup(uid: String!, groupId: String!): Boolean
 
         ## watchlist
@@ -165,7 +164,7 @@ const mainResolver = {
         resetUserAccount: async (_, args: { userId: string }) => await resetUserAccount(args.userId),
 
         // GROUPS
-        createGroup: async (_, args: { groupInput: api.STGroupAllDataInput }) => await createGroup(args.groupInput),
+        createGroup: async (_, args: { groupInput: api.STGroupAllDataInput }, context) => await createGroup(args.groupInput, context),
         editGroup: async (_, args: { groupInput: api.STGroupAllDataInput }) => await editGroup(args.groupInput),
         deleteGroup: async (_, args: { uid: string, groupId: string }) => await deleteGroup(args.uid, args.groupId),
         answerReceivedGroupInvitation: async (_, args: { uid: string, groupId: string, accept: Boolean }) => await answerReceivedGroupInvitation(args.uid, args.groupId, args.accept),
@@ -215,11 +214,17 @@ const server = new ApolloServer({
         STFreeCashFlowFormulaTypeDefs
     ],
     resolvers,
-    introspection: true
+    introspection: true,
+    context: ({ req }) => ({
+        // To find out the correct arguments for a specific integration,
+        // see https://www.apollographql.com/docs/apollo-server/api/apollo-server/#middleware-specific-context-fields
+     
+        // Get the user token from the headers.
+        requesterUserId: req.headers.requesteruserid || ''
+      }),
 });
 
 
 server.listen(process.env.PORT || 4000).then(({url}) => {
     console.log(`🚀  Server ready at ${url}`);
 });
-

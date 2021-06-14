@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {SymbolIdentification} from '@shared';
 import {StTransaction} from '@core';
-import {WatchlistFeatureEntryPointsFacadeService} from '@stock-watchlist-feature';
+import {WatchlistFeatureFacadeService} from '@stock-watchlist-feature';
 
 @Component({
     selector: 'app-dashboard-holdings-table',
@@ -14,14 +14,14 @@ export class DashboardHoldingsTableComponent implements OnInit {
     @Input() stTransactions: StTransaction[];
     @Input() totalPortfolio: number;
 
-    constructor(private watchlistFeatureEntryPointsFacadeService: WatchlistFeatureEntryPointsFacadeService) {
+    constructor(private watchlistFeatureFacadeService: WatchlistFeatureFacadeService) {
     }
 
     ngOnInit() {
     }
 
     async showSummary(symbolIdentification: SymbolIdentification) {
-        this.watchlistFeatureEntryPointsFacadeService.presentSymbolLookupModal(symbolIdentification, false);
+        this.watchlistFeatureFacadeService.presentSymbolLookupModal(symbolIdentification, false);
     }
 
 }

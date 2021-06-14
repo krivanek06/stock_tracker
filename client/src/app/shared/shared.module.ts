@@ -1,5 +1,12 @@
 import {NgModule} from '@angular/core';
-import {DefaultImgDirective, DropzoneDirective, RecommendationDirective, ScrollOffsetDirective, TooltipDirective} from './directives';
+import {
+    DefaultImgDirective,
+    DisableControlDirective,
+    DropzoneDirective,
+    RecommendationDirective,
+    ScrollOffsetDirective,
+    TooltipDirective
+} from './directives';
 import {
     ArticleCardsComponent,
     ClickableNameItemComponent,
@@ -14,19 +21,28 @@ import {
     InlineInputPopUpComponent,
     InlineModificationFormComponent,
     PriceChangeItemComponent,
-    PriceCompareItemComponent, RangeRatingSliderComponent,
+    PriceCompareItemComponent,
+    RangeRatingSliderComponent,
     SearchWrapperComponent,
     StockInfoIdentificationItemComponent,
-    TableHighLowRangeComponent, TableIncreasingItemComponent,
+    TableHighLowRangeComponent,
+    TableIncreasingItemComponent,
     TitleWithLogoItemComponent,
     UploaderComponent,
     UploadTaskComponent
 } from './components';
-import {HoldingsTotalInvestedPipe, NumberFormatterPipe, ObjNgForPipe, RelativeTimePipe, SplitKeyToTitlecasePipe, SumUpPipe} from './pipes';
+import {
+    HoldingsTotalInvestedPipe,
+    NumberFormatterPipe,
+    ObjNgForPipe,
+    RelativeTimePipe,
+    SplitKeyToTitlecasePipe,
+    SplitPipe,
+    SumUpPipe
+} from './pipes';
 import {FinancialChartContainerComponent, HeaderComponent, StockSummaryContainerComponent} from './containers';
 import {FinancialChartModalComponent} from './entry-components';
 import {SharedProvidersModule} from './shared-providers.module';
-import {SplitPipe} from './pipes/split.pipe';
 
 
 @NgModule({
@@ -68,7 +84,8 @@ import {SplitPipe} from './pipes/split.pipe';
         RangeRatingSliderComponent,
         TableIncreasingItemComponent,
         SplitKeyToTitlecasePipe,
-        SplitPipe
+        SplitPipe,
+        DisableControlDirective
     ],
     imports: [
         SharedProvidersModule
@@ -109,7 +126,8 @@ import {SplitPipe} from './pipes/split.pipe';
         RangeRatingSliderComponent,
         TableIncreasingItemComponent,
         SplitKeyToTitlecasePipe,
-        SplitPipe
+        SplitPipe,
+        DisableControlDirective
     ],
     entryComponents: [
         InlineInputPopUpComponent

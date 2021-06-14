@@ -1,24 +1,25 @@
-import {StGroupAllData, StGroupAllDataInput, StGroupUser, StUserPublicData} from '@core';
+import {StGroupAllDataInput, StUserIndentificationDataFragment} from '@core';
 import {GroupForm} from '../model';
 
 
-export const createSTGroupAllDataInput = (ownerId: string,
-                                          form: GroupForm,
-                                          invitationSent: StUserPublicData[]) => {
-    const result: StGroupAllDataInput = {
+export const createSTGroupAllDataInput = (form: GroupForm,
+                                          invitationSent: StUserIndentificationDataFragment[]): StGroupAllDataInput => {
+    return {
         name: form.name,
         description: form.description,
         imagePath: form.imagePath,
         imageUrl: form.imageUrl,
-        owner: ownerId,
+        endDate: form.endDate,
+        startDate: form.startDate,
+        isInfinite: form.isInfinite,
+        isPrivate: form.isPrivate,
         invitationReceived: [],
         managers: [],
         members: [],
         invitationSent: [...invitationSent.map(x => x.id)]
     };
-    return result;
 };
-
+/*
 export const createSTGroupAllDataInputFromGroup = (form: GroupForm, group: StGroupAllData) => {
     const result: StGroupAllDataInput = {
         name: form.name,
@@ -32,20 +33,21 @@ export const createSTGroupAllDataInputFromGroup = (form: GroupForm, group: StGro
         invitationSent: [...group.invitationSent.map(x => x.useridentification.id)]
     };
     return result;
-};
+};*/
 
-
+/*
 export const createNewStGroupUser = (userPublic: StUserPublicData): StGroupUser => {
     return {
         __typename: 'STGroupUser',
-        useridentification: {
-            __typename: 'STUserIndetification',
-            accountCreatedDate: userPublic.accountCreatedDate,
-            locale: userPublic.locale,
-            nickName: userPublic.nickName,
-            photoURL: userPublic.photoURL,
-            id: userPublic.id
-        },
+        accountCreatedDate: userPublic.accountCreatedDate,
+        locale: userPublic.locale,
+        nickName: userPublic.nickName,
+        photoURL: userPublic.photoURL,
+        id: userPublic.id,
+        currentPosition: null,
+        lastPortfolioIncreaseNumber: null,
+        lastPortfolioIncreasePrct: null,
+        lastPortfolioSnapshot
         sinceDate: new Date().toISOString(),
         portfolio: {
             __typename: 'STPortfolio',
@@ -54,3 +56,4 @@ export const createNewStGroupUser = (userPublic: StUserPublicData): StGroupUser 
         }
     };
 };
+*/

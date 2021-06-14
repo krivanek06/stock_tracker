@@ -4,10 +4,10 @@ import {gql} from 'apollo-server';
 export const userTypeDefs = gql`
     # type 
     type STUserGroups {
-        groupInvitationSent: [STGroupPartialData]
-        groupInvitationReceived: [STGroupPartialData]
-        groupOwner: [STGroupPartialData]
-        groupMember: [STGroupPartialData]
+        groupInvitationSent: [STGroupAllData]
+        groupInvitationReceived: [STGroupAllData]
+        groupOwner: [STGroupAllData]
+        groupMember: [STGroupAllData]
     }
 
     type STUserIndetification {
@@ -31,6 +31,7 @@ export const userTypeDefs = gql`
         transactionsSnippets: [STTransaction]!
         activity: USER_ACTIVITY
         groups: STUserGroups!
+        numberOfExecutedTransactions: Float
         lastPortfolioSnapshot: STPortfolioSnapshot
         lastTransactionSnapshot: STTransactionSnapshot
         userPrivateData: STUserPrivateData!

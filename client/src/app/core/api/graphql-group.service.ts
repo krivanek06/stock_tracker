@@ -14,8 +14,7 @@ import {
     LeaveGroupMutation,
     QueryStGroupAllDataByGroupIdGQL,
     StGroupAllData,
-    StGroupAllDataInput,
-    StGroupPartialData,
+    StGroupAllDataInput, StGroupIdentificationDataFragment,
     ToggleInvitationRequestToGroupGQL,
     ToggleInvitationRequestToGroupMutation
 } from '../graphql-schema';
@@ -40,11 +39,9 @@ export class GraphqlGroupService {
                 private leaveGroupGQL: LeaveGroupGQL) {
     }
 
-    querySTGroupAllDataByGroupId(groupId: string, loadFromNetwork = false): Observable<StGroupAllData> {
+    querySTGroupAllDataByGroupId(groupId: string): Observable<StGroupAllData> {
         return this.queryStGroupAllDataByGroupIdGQL.fetch({
             groupId
-        }, {
-            fetchPolicy: 'network-only' // loadFromNetwork ? 'network-only' : 'cache-first'
         }).pipe(map(res => res.data.querySTGroupAllDataByGroupId as StGroupAllData));
     }
 
@@ -94,7 +91,7 @@ export class GraphqlGroupService {
                     }
                 });
                 // save group as owner's or as member's
-                const isGroupOwner = editGroup.owner.useridentification.id === this.userStorageService.user.id;
+                const isGroupOwner = editGroup.owner.id === this.userStorageService.user.id;
                 const groupOwner = [...user.authenticateUser.groups.groupOwner];
                 const groupMember = [...user.authenticateUser.groups.groupMember];
 
@@ -129,9 +126,9 @@ export class GraphqlGroupService {
     }
 
 
-    deleteGroup(stGroupPartialData: StGroupPartialData): Observable<FetchResult<DeleteGroupMutation>> {
+    deleteGroup({groupId}: StGroupIdentificationDataFragment): Observable<FetchResult<DeleteGroupMutation>> {
         return this.deleteGroupGQL.mutate({
-            groupId: stGroupPartialData.groupId,
+            groupId: groupId,
             uid: this.userStorageService.user.id
         }, {
             optimisticResponse: {
@@ -146,8 +143,8 @@ export class GraphqlGroupService {
                     }
                 });
 
-                const groupOwner = user.authenticateUser.groups.groupOwner.filter(x => x.groupId !== stGroupPartialData.groupId);
-                const groupMember = user.authenticateUser.groups.groupMember.filter(x => x.groupId !== stGroupPartialData.groupId);
+                const groupOwner = user.authenticateUser.groups.groupOwner.filter(x => x.groupId !== groupId);
+                const groupMember = user.authenticateUser.groups.groupMember.filter(x => x.groupId !== groupId);
 
                 // update cache
                 store.writeQuery({
@@ -175,7 +172,7 @@ export class GraphqlGroupService {
     /**
      * Send or cancel already existing invitation request to group
      */
-    toggleInvitationRequestToGroup(stGroupPartialData: StGroupPartialData): Observable<FetchResult<ToggleInvitationRequestToGroupMutation>> {
+    toggleInvitationRequestToGroup(stGroupPartialData: StGroupIdentificationDataFragment): Observable<FetchResult<ToggleInvitationRequestToGroupMutation>> {
         return this.toggleInvitationRequestToGroupGQL.mutate({
             groupId: stGroupPartialData.groupId,
             uid: this.userStorageService.user.id
@@ -229,7 +226,7 @@ export class GraphqlGroupService {
     /**
      * if user got group invitation, accept or deny request
      */
-    answerReceivedGroupInvitation(stGroupPartialData: StGroupPartialData, accept: boolean): Observable<FetchResult<AnswerReceivedGroupInvitationMutation>> {
+    answerReceivedGroupInvitation(stGroupPartialData: StGroupIdentificationDataFragment, accept: boolean): Observable<FetchResult<AnswerReceivedGroupInvitationMutation>> {
         return this.answerReceivedGroupInvitationGQL.mutate({
             groupId: stGroupPartialData.groupId,
             accept,

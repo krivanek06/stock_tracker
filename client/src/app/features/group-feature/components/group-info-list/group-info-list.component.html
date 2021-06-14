@@ -1,3 +1,4 @@
+<!--
 <ion-item *ngIf="groupPartialData" class="info-item st-width-100">
     <ion-label (click)="clickedGroup()"
                class="st-info-item-result" [ngClass]="{
@@ -15,16 +16,17 @@
                         {{ (portfolio.portfolioCash + portfolio.portfolioInvested) | currency }}
                     </ion-text>
                 </div>
-                <!--<div class="st-flex-row-sm-col">
+                &lt;!&ndash;<div class="st-flex-row-sm-col">
                     <ion-text class="st-font-size-12 st-font-5" style="margin-right: 5px;">Weekly change:</ion-text>
                     <app-price-change-item
                             [price]="portfolio.portfolioWeeklyGrowth"
                             [priceChange]="portfolio.portfolioWeeklyChange">
                     </app-price-change-item>
-                </div>-->
+                </div>&ndash;&gt;
             </ng-container>
             <ion-text class="st-font-size-12 st-font-5">
                 Created: {{ groupPartialData.createdDate | date: 'dd.MM.yyyy' }}</ion-text>
         </ion-label>
     </ion-label>
 </ion-item>
+-->

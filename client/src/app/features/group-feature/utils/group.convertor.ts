@@ -1,8 +1,8 @@
-import {StGroupAllData, StGroupPartialData} from '@core';
+import {StGroupAllData, StGroupIdentificationDataFragment} from '@core';
 
-export const convertStGroupAllDataToStGroupPartialData = (data: StGroupAllData): StGroupPartialData => {
-    const result: StGroupPartialData = {
-        __typename: 'STGroupPartialData',
+export const convertStGroupAllDataToStGroupPartialData = (data: StGroupAllData): StGroupIdentificationDataFragment => {
+    const result: StGroupIdentificationDataFragment = {
+        __typename: 'STGroupAllData',
         groupId: data.groupId,
         imageUrl: data.imageUrl,
         imagePath: data.imagePath,
@@ -13,7 +13,14 @@ export const convertStGroupAllDataToStGroupPartialData = (data: StGroupAllData):
         lastEditedDate: data.lastEditedDate,
         lastUpdateDate: data.lastUpdateDate,
         owner: data.owner,
-        portfolio: data.portfolio
+        endDate: data.endDate,
+        isInfinite: data.isInfinite,
+        isPrivate: data.isPrivate,
+        lastPortfolioSnapshot: data.lastPortfolioSnapshot,
+        lastTransactionSnapshot: data.lastTransactionSnapshot,
+        numberOfExecutedTransactions: data.numberOfExecutedTransactions,
+        startDate: data.startDate,
+        topMembers: []
     };
 
     return result;

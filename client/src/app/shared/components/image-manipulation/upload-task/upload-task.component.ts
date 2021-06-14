@@ -15,6 +15,8 @@ export class UploadTaskComponent implements OnInit {
     @Input() file: File;
     @Input() filePath: string;
     @Input() fileName: string;
+    @Input() maxWidth = 130;
+    @Input() maxHeight = 130;
 
     task: AngularFireUploadTask;
 
