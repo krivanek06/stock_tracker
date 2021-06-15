@@ -23,6 +23,7 @@ export const createEmptySTGroupAllData = (): api.STGroupAllData => {
     const group: api.STGroupAllData = {
         members: [],
         bestAchievedRanks: [],
+        startedBalance: 0,
         createdDate: now,
         lastUpdateDate: now,
         lastEditedDate: now,
@@ -45,7 +46,8 @@ export const createEmptySTGroupAllData = (): api.STGroupAllData => {
         topTransactions: [],
         holdings: [],
         isPrivate: false,
-        numberOfExecutedTransactions: 0
+        numberOfExecutedTransactions: 0,
+        numberOfMembers: 0
     };
     return group;
 }
@@ -90,7 +92,9 @@ export const createSTGroupPartialDataFromSTGroupAllData = (groupAllData: api.STG
         isInfinite: groupAllData.isInfinite,
         startDate: groupAllData.startDate,
         isPrivate: groupAllData.isPrivate,
-        numberOfExecutedTransactions: groupAllData.numberOfExecutedTransactions
+        numberOfExecutedTransactions: groupAllData.numberOfExecutedTransactions,
+        numberOfMembers: groupAllData.numberOfMembers,
+        startedBalance: groupAllData.startedBalance
     };
     return partial;
 }

@@ -318,6 +318,10 @@ ion-spinner {
   font-size: 20px !important;
 }
 
+.st-font-size-22 {
+  font-size: 22px !important;
+}
+
 .st-font-size-24 {
   font-size: 24px !important;
 }
@@ -613,10 +617,15 @@ ion-skeleton-text {
 .st-flex-row-sm-col {
   display: flex !important;
   flex-flow: row !important;
-  align-items: center !important;
   @media (max-width: #{$st-var-sm-split}) {
-    align-items: start !important;
     flex-flow: column !important;
+  }
+}
+
+.st-flex-space-between-sm-down {
+  @media (max-width: #{$st-var-sm-split}) {
+    display: flex;
+    justify-content: space-between;
   }
 }
 

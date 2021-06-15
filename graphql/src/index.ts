@@ -1,3 +1,4 @@
+import { stGroupResolvers } from './st-group/st-group.resolver';
 import { STFreeCashFlowFormulaTypeDefs } from './st-stock-calculations/st-free-cash-flow-formula.typedef';
 import { STDividendDiscountedFormulaTypeDefs } from './st-stock-calculations/st-dividend-discounted-formula.typedef';
 import { STEarningsValuationFormulaTypeDefs } from './st-stock-calculations/st-earnings-valuation-formula.typedef';
@@ -189,7 +190,8 @@ const resolvers = {
     ...userResolvers,
     ...stTransactionResolvers,
     ...stStockWatchlistResolvers,
-    ...mainResolver
+    ...stGroupResolvers,
+    ...mainResolver,
 };
 
 

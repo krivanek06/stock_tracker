@@ -41,6 +41,8 @@ fragment STGroupIdentificationData on STGroupAllData {
     isInfinite
     isPrivate
     numberOfExecutedTransactions
+    numberOfMembers
+    startedBalance
     topMembers {
         ...STGroupUserFragment
     }
@@ -72,6 +74,8 @@ fragment STGroupAllDataFragment on STGroupAllData {
     isPrivate
     isInfinite
     numberOfExecutedTransactions
+    numberOfMembers
+    startedBalance
     holdings {
         ...STTransactionFragment
     }

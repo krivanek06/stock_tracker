@@ -1,0 +1,27 @@
+@import "src/theme/variables";
+
+:host {
+  .c-top-users-container {
+    column-count: 2;
+    @media (max-width: #{$st-var-md-split}) {
+      width: 100%;
+    }
+    @media (max-width: #{$st-var-sm-split}) {
+      column-count: 1;
+    }
+  }
+
+  .c-portfolio-chart {
+    margin-top: -16px;
+    @media (max-width: #{$st-var-md-split}) {
+      display: none;
+    }
+  }
+
+  .c-base-information-container {
+    margin-bottom: 10px;
+    border-bottom: 1px solid;
+    padding-bottom: 10px;
+  }
+}
+

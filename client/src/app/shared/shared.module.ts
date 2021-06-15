@@ -19,7 +19,7 @@ import {
     GenericFancyCardComponent,
     GenericListComponent,
     InlineInputPopUpComponent,
-    InlineModificationFormComponent,
+    InlineModificationFormComponent, PositionChangeItemComponent,
     PriceChangeItemComponent,
     PriceCompareItemComponent,
     RangeRatingSliderComponent,
@@ -85,7 +85,8 @@ import {SharedProvidersModule} from './shared-providers.module';
         TableIncreasingItemComponent,
         SplitKeyToTitlecasePipe,
         SplitPipe,
-        DisableControlDirective
+        DisableControlDirective,
+        PositionChangeItemComponent
     ],
     imports: [
         SharedProvidersModule
@@ -127,7 +128,8 @@ import {SharedProvidersModule} from './shared-providers.module';
         TableIncreasingItemComponent,
         SplitKeyToTitlecasePipe,
         SplitPipe,
-        DisableControlDirective
+        DisableControlDirective,
+        PositionChangeItemComponent
     ],
     entryComponents: [
         InlineInputPopUpComponent

@@ -1,14 +1,13 @@
 import {NgModule} from '@angular/core';
-import {GroupsReadComponent} from './pages/groups-read/groups-read.component';
 import {GroupsEditComponent} from './pages/groups-edit/groups-edit.component';
 import {GroupsComponent} from './groups.component';
 import {SharedModule} from '@shared';
 import {RouterModule, Routes} from '@angular/router';
-import {GroupFeatureModule} from '@group-feature';
+import {GroupFeatureModule, ResolveGroupDetailsGuard} from '@group-feature';
 import {AccountFeatureModule} from '@account-feature';
 import {PagesSharedModule} from '@pages-shared';
-import {GROUPS_PAGES} from './model/groups.enum';
-import {GroupsOverviewComponent} from './pages/groups-overview/groups-overview.component';
+import {GROUPS_PAGES} from './model/groups.model';
+import {StockTradingFeatureModule} from '@stock-trading-feature';
 
 
 const routes: Routes = [
@@ -18,7 +17,12 @@ const routes: Routes = [
         children: [
             {
                 path: GROUPS_PAGES.OVERVIEW,
-                component: GroupsOverviewComponent
+                loadChildren: () => import('./pages/groups-overview/groups-overview.module').then(m => m.GroupsOverviewModule)
+            },
+            {
+                path: `${GROUPS_PAGES.DETAILS}/:groupId`,
+                loadChildren: () => import('./pages/group-details/group-details.module').then(m => m.GroupDetailsModule),
+                resolve: [ResolveGroupDetailsGuard],
             },
             {
                 path: '',
@@ -32,16 +36,15 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         GroupsEditComponent,
-        GroupsReadComponent,
-        GroupsComponent,
-        GroupsOverviewComponent
+        GroupsComponent
     ],
     imports: [
         SharedModule,
         GroupFeatureModule,
         AccountFeatureModule,
         RouterModule.forChild(routes),
-        PagesSharedModule
+        PagesSharedModule,
+        StockTradingFeatureModule
     ]
 })
 export class GroupsModule {

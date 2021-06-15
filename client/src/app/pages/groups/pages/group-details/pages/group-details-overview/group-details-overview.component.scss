@@ -1,0 +1,18 @@
+@import "src/theme/variables";
+
+:host {
+  .c-portfolio-change-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    @media (max-width: #{$st-var-sm-split}) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .c-portfolio-chart {
+    margin-top: -16px;
+    @media (max-width: #{$st-var-xxl-split}) {
+      display: none;
+    }
+  }
+}

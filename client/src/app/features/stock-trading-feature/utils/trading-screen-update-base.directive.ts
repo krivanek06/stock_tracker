@@ -1,5 +1,4 @@
 import {ChangeDetectorRef, Directive, OnDestroy, OnInit, ViewRef} from '@angular/core';
-import {TradingChangeModel} from '../models';
 import {componentDestroyed, StTransaction, StUserPublicData, SubscriptionWebsocketService, Summary, UserStorageService} from '@core';
 import {filter, takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
@@ -7,7 +6,6 @@ import {cloneDeep} from 'lodash';
 @Directive()
 export abstract class TradingScreenUpdateBaseDirective implements OnInit, OnDestroy {
     user: StUserPublicData;
-    daily: TradingChangeModel;
     selectedSummary: Summary;
 
     clonedHoldings: StTransaction[] = [];
@@ -70,26 +68,10 @@ export abstract class TradingScreenUpdateBaseDirective implements OnInit, OnDest
         this.interval = setInterval(() => {
             if (this.cdr && !(this.cdr as ViewRef).destroyed) {
                 this.calculateTotalPortfolio();
-                this.calculateDailyPortfolioChange();
+                //this.calculateDailyPortfolioChange();
                 this.cdr.detectChanges();
             }
         }, 2000);
-    }
-
-    /**
-     * Calculate by how much user's portfolio is changing this day
-     */
-    private calculateDailyPortfolioChange() {
-        const holdingsDiff = this.clonedHoldings.map(h => [h.units * h.summary.marketPrice, h.units * h.summary.previousClose]);
-
-        if (holdingsDiff.length > 0) {
-            const tmp = holdingsDiff.reduce((acc, val) => [acc[0] + val[0], acc[1] + val[1]]);
-
-            this.daily = {
-                growth: tmp[0] - tmp[1],
-                change: (tmp[0] - tmp[1]) / Math.abs(tmp[1]) * 100
-            };
-        }
     }
 
     private calculateTotalPortfolio() {

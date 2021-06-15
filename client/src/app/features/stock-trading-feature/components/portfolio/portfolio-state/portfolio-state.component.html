@@ -1,5 +1,5 @@
 <!-- balance + invested + cash -->
-<ion-grid *ngIf="portfolioState === PortfolioStateEnum.CARD">
+<ion-grid *ngIf="portfolioState === 'CARD' ">
     <ion-row class="ion-justify-content-center">
 
         <!-- balance -->
@@ -16,8 +16,8 @@
                     </ion-label>
                     <ion-label style="position:absolute; right: 0">
                         <app-price-change-item
-                                [price]="(portfolioCash + portfolioInvested) - STARTING_PORTFOLIO"
-                                [priceChange]="((portfolioCash + portfolioInvested) - STARTING_PORTFOLIO) / STARTING_PORTFOLIO * 100"
+                                [price]="(portfolioCash + portfolioInvested) - startingPortfolio"
+                                [priceChange]="((portfolioCash + portfolioInvested) - startingPortfolio) / startingPortfolio * 100"
                                 [lighterBiggerVersion]="true">
                         </app-price-change-item>
                     </ion-label>
@@ -60,34 +60,41 @@
 
 
 <!-- state 2. -->
-<ion-list *ngIf="portfolioState === PortfolioStateEnum.PARTIAL">
+<ion-list *ngIf="portfolioState === 'PARTIAL' ">
     <!-- Balance -->
-    <ion-item>
+    <div class="st-flex st-flex-space-between-sm-down ion-padding">
         <ion-label class="st-flex-row-important portfolioStateParent">
             <div class="portfolioStateParentDot st-main-color-turquoise-background"></div>
             <ion-text class="st-font-size-18 st-main-color-turquois">Balance</ion-text>
         </ion-label>
-        <ion-label>
+        <ion-label class="st-flex-row-sm-col ion-align-items-center">
+            <ion-text class="st-small-right-space st-font-0 st-font-size-18">
+                {{ (portfolioCash + portfolioInvested) | numberFormatter}}
+            </ion-text>
             <app-price-compare-item
+                    [showPrice]="false"
                     [currentPrice]="portfolioInvested + portfolioCash"
-                    [compareToPrice]="STARTING_PORTFOLIO">
+                    [compareToPrice]="startingPortfolio">
             </app-price-compare-item>
         </ion-label>
-    </ion-item>
+    </div>
+
     <!-- Invested -->
-    <ion-item>
+    <div class="st-flex st-flex-space-between-sm-down ion-padding">
         <ion-label class="st-flex-row-important portfolioStateParent">
             <div class="portfolioStateParentDot st-main-color-purple-background"></div>
             <ion-text class="st-font-size-18 st-font-main-color-purple">Invested</ion-text>
         </ion-label>
-        <ion-label>{{ portfolioInvested  | currency }}</ion-label>
-    </ion-item>
+        <ion-label class="st-font-1">{{ portfolioInvested  | currency }}</ion-label>
+    </div>
+
     <!-- Cash -->
-    <ion-item>
+    <div class="st-flex st-flex-space-between-sm-down ion-padding">
         <ion-label class="st-flex-row-important portfolioStateParent">
             <div class="portfolioStateParentDot st-main-color-orange-background"></div>
             <ion-text class="st-font-size-18 st-font-main-color-orange">Cash</ion-text>
         </ion-label>
-        <ion-label>{{ portfolioCash | currency }}</ion-label>
-    </ion-item>
+        <ion-label class="st-font-1">{{ portfolioCash | currency }}</ion-label>
+    </div>
 </ion-list>
+

@@ -1,7 +1,16 @@
-<ion-grid>
-    <ion-row>
-        <ion-col>
-            <ion-button (click)="createGroup()" class="ion-float-right" fill="clear">Create group</ion-button>
-        </ion-col>
-    </ion-row>
-</ion-grid>
+<!-- Group create button -->
+<ion-toolbar slot="end">
+    <ion-button (click)="createGroup()" class="ion-float-right" fill="clear">Create group</ion-button>
+</ion-toolbar>
+
+<!-- My groups -->
+<ion-list-header>
+    <ion-label class="st-font-size-18 st-font-0">
+        My groups
+    </ion-label>
+</ion-list-header>
+<app-generic-card>
+    <app-groups-overview-group-information-view
+            [groupAllData]="groupTestData">
+    </app-groups-overview-group-information-view>
+</app-generic-card>

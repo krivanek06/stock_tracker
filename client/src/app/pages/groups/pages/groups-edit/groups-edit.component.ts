@@ -21,7 +21,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UploadedFile, UploaderComponent} from '@shared';
 import {cloneDeep} from 'lodash';
 import {PopoverController} from '@ionic/angular';
-import {GROUPS_PAGES} from '../../model/groups.enum';
+import {GROUPS_PAGES} from '../../model/groups.model';
 
 @Component({
     selector: 'app-groups-edit',
@@ -139,7 +139,7 @@ export class GroupsEditComponent implements OnInit, OnDestroy {
     }
 
     private initGroup() {
-        this.activatedRoute.params.pipe(
+        /*this.activatedRoute.params.pipe(
             filter(x => x.id),
             switchMap(x => this.groupService.querySTGroupAllDataByGroupId(x.id)),
             takeUntil(componentDestroyed(this))
@@ -148,7 +148,7 @@ export class GroupsEditComponent implements OnInit, OnDestroy {
             this.groupUserRolesService.activeGroup = res;
             this.isUserOwner = this.groupUserRolesService.isUserOwner();
             this.initForm();
-        });
+        });*/
     }
 
     private initForm() {

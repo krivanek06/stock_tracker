@@ -1,9 +1,7 @@
-<ion-row class="ion-padding-horizontal ion-justify-content-center" >
-    <ion-col size="12" class="st-flex ion-justify-content-center">
-        <app-portfolio-change
-                [daily]="daily"
-                [stPortfolioSnapshots]="stPortfolioSnapshots"
-                [balance]="portfolioCash + portfolioInvested">
-        </app-portfolio-change>
-    </ion-col>
-</ion-row>
+<div class="st-flex-row-sm-col ion-justify-content-center ion-margin-vertical">
+    <app-portfolio-change
+            *ngFor="let tradingChange of tradingChangeWrapper"
+            [tradingChangeWrapper]="tradingChange"
+            [balance]="portfolioCash + portfolioInvested">
+    </app-portfolio-change>
+</div>

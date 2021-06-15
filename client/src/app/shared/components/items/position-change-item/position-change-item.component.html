@@ -1,0 +1,14 @@
+<ion-label>
+    <ion-text class="st-flex-row st-font-size-14"
+              [ngClass]="{
+                    'st-price-up': increaseBy > 0,
+                    'st-price-down': increaseBy < 0
+                     }">
+        <span *ngIf="increaseBy > 0">+</span>
+        <ion-text>{{ increaseBy }}</ion-text>
+
+        <!-- positive / negative icon -->
+        <ion-icon name="caret-up" class="st-price-icon" *ngIf="increaseBy > 0"></ion-icon>
+        <ion-icon name="caret-down" class="st-price-icon" *ngIf="increaseBy < 0"></ion-icon>
+    </ion-text>
+</ion-label>

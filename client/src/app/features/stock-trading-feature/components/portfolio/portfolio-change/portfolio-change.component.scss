@@ -31,6 +31,9 @@
 
   .weekly-change {
     margin-right: 16px;
+    @media (max-width: #{$st-var-sm-split}) {
+      margin-right: 0;
+    }
   }
 
   ion-text {
