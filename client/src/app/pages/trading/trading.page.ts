@@ -10,7 +10,7 @@ import {
 } from '@core';
 import {SymbolIdentification} from '@shared';
 import {first, takeUntil} from 'rxjs/operators';
-import {PortfolioStateEnum, TradingFeatureFacadeService, TradingScreenUpdateBaseDirective} from '@stock-trading-feature';
+import {TradingFeatureFacadeService, TradingScreenUpdateBaseDirective} from '@stock-trading-feature';
 import {cloneDeep} from 'lodash';
 
 @Component({
@@ -21,7 +21,6 @@ import {cloneDeep} from 'lodash';
 })
 export class TradingPage extends TradingScreenUpdateBaseDirective implements OnInit, OnDestroy {
     suggestions: StStockSuggestion[] = [];
-    PortfolioStateEnum = PortfolioStateEnum;
 
     constructor(private symbolStorageService: SymbolStorageService,
                 public subscriptionWebsocketService: SubscriptionWebsocketService,

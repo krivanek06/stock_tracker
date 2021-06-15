@@ -25,7 +25,6 @@ export class SymbolStorageService {
         this.activeSymbol$.next(symbol);
     }
 
-
     getStockDetails(symbol: string = this.activeSymbol): Observable<StockDetails> {
         return this.queryStockDetailsGQL.fetch({
             symbol

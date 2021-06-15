@@ -45,6 +45,8 @@ export const STGroupTypeDefs = gql`
         isInfinite: Boolean!
         isPrivate: Boolean!
         numberOfExecutedTransactions: Float
+        numberOfMembers: Float
+        startedBalance: Float
         bestAchievedRanks: [STRank]!
         topTransactions: [STTransaction]!
         lastTransactions: [STTransaction]!

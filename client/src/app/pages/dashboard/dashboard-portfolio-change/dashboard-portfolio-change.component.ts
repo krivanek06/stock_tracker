@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {StPortfolioSnapshot} from '@core';
-import {TradingChangeModel} from '@stock-trading-feature';
+import {PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingFeatureFacadeService} from '@stock-trading-feature';
 
 @Component({
     selector: 'app-dashboard-portfolio-change',
@@ -12,12 +12,16 @@ export class DashboardPortfolioChangeComponent implements OnInit {
     @Input() stPortfolioSnapshots: StPortfolioSnapshot[];
     @Input() portfolioCash: number;
     @Input() portfolioInvested: number;
-    @Input() daily: TradingChangeModel;
 
-    constructor() {
+    tradingChangeWrapper: PortfolioHistoricalWrapper[] = [];
+
+    constructor(private tradingFeatureFacadeService: TradingFeatureFacadeService) {
     }
 
     ngOnInit() {
+        this.tradingChangeWrapper = this.tradingFeatureFacadeService.createPortfolioHistoricalWrappers(
+            this.stPortfolioSnapshots, [TIME_INTERVAL_ENUM.DAILY, TIME_INTERVAL_ENUM.WEEKLY, TIME_INTERVAL_ENUM.MONTHLY, TIME_INTERVAL_ENUM.FROM_BEGINNING]
+        );
     }
 
 }

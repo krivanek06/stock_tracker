@@ -19,6 +19,7 @@ export class PortfolioIncreaseChartComponent implements OnInit, OnChanges {
     @Input() portfolioInvested: number;
     @Input() portfolioCash: number;
     @Input() heightPx = 350;
+    @Input() startingBalance = STARTING_PORTFOLIO;
 
 
     Highcharts: typeof Highcharts = Highcharts;
@@ -31,28 +32,13 @@ export class PortfolioIncreaseChartComponent implements OnInit, OnChanges {
     private balance: number;
     private increase: number;
     private data = [];
+    private displayTitle: string;
 
     constructor() {
         const self = this;
 
         this.chartCallback = (chart) => {
             self.chart = chart;
-
-            setTimeout(() => {
-                console.log('Pie chart callback function', chart.series[0].data);
-                let centerY = chart.series[0].center[1],
-                    titleHeight = parseInt(chart.title.styles.fontSize);
-                const percentageIncrease = roundNumber(100 * (this.balance - STARTING_PORTFOLIO) / STARTING_PORTFOLIO)
-
-                const text1 = `$${stFormatLargeNumber(this.balance)}`;
-                const text2 = `${percentageIncrease}%  <ion-icon name="trending-up-outline" class="st-price-icon ion-hide-sm-down"></ion-icon>`;
-
-                chart.setTitle({
-                    y: centerY + titleHeight / 2 + 10,
-                    text: `<div>${text1}<br>${text2}</div>`,
-                    useHTML: true
-                });
-            }, 1000);
         };
     }
 
@@ -60,7 +46,6 @@ export class PortfolioIncreaseChartComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log('changes', changes);
         this.calculateIncrease();
         this.initChart();
     }
@@ -69,10 +54,17 @@ export class PortfolioIncreaseChartComponent implements OnInit, OnChanges {
         this.balance = this.stPortfolioSnapshots ?
             this.stPortfolioSnapshots.portfolioCash + this.stPortfolioSnapshots.portfolioInvested : this.portfolioInvested + this.portfolioCash;
         //this.increase = roundNumber(100 * (this.balance - STARTING_PORTFOLIO) / STARTING_PORTFOLIO);
-        this.increase = this.balance - STARTING_PORTFOLIO;
-        console.log(this.balance, this.increase);
+        this.increase = this.balance - this.startingBalance;
 
         this.data = this.increase > 0 ? [['Balance', this.balance], ['Profit', this.increase]] : [['Balance', this.balance]];
+
+        const percentageIncrease = roundNumber(100 * (this.balance - this.startingBalance) / this.startingBalance);
+        const color = percentageIncrease ? '#199419' : '#711205';
+        this.displayTitle = `
+            <span style="font-size: 16px; color: #f0f0f0;">$${stFormatLargeNumber(this.balance)}</span><br/>
+            <span style="color: ${color}">${stFormatLargeNumber(percentageIncrease)}%</span>
+        `;
+
     }
 
     private initChart() {
@@ -80,12 +72,6 @@ export class PortfolioIncreaseChartComponent implements OnInit, OnChanges {
             chart: {
                 type: 'pie',
                 backgroundColor: 'transparent',
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
-                panning: {
-                    enable: true
-                },
                 options3d: {
                     enabled: true,
                     alpha: 15,
@@ -94,7 +80,7 @@ export class PortfolioIncreaseChartComponent implements OnInit, OnChanges {
             },
             plotOptions: {
                 pie: {
-                    innerSize: '55%',
+                    innerSize: '70%',
                     colors: [
                         '#1c7da2',
                         '#6bed31',
@@ -127,9 +113,10 @@ export class PortfolioIncreaseChartComponent implements OnInit, OnChanges {
                 valueDecimals: 2
             },
             title: {
-                text: 'Portfolio increase',
+                text: this.displayTitle,
                 align: 'center',
-                verticalAlign: 'top',
+                verticalAlign: 'middle',
+                useHtml: true,
                 style: {
                     color: '#bababa',
                     fontSize: '12px'

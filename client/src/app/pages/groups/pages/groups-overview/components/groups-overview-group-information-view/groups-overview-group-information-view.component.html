@@ -1,0 +1,28 @@
+<!-- base information -->
+<div class="c-base-information-container">
+    <app-group-base-information
+            (visitEmitter)="visitGroup(groupAllData)"
+            (acceptEmitter)="answerReceivedGroupInvitation(groupAllData, true)"
+            (declineEmitter)="answerReceivedGroupInvitation(groupAllData, false)"
+            [groupIdentification]="groupAllData">
+    </app-group-base-information>
+</div>
+
+<div class="st-flex">
+    <div class="c-top-users-container">
+        <!-- list users -->
+        <div *ngFor="let groupUser of groupAllData.topMembers" style="padding: 10px">
+            <app-group-user-base-information
+                    [groupUser]="groupUser">
+            </app-group-user-base-information>
+        </div>
+    </div>
+    <div class="c-portfolio-chart">
+        <!-- portfolio -->
+        <app-portfolio-increase-chart
+                [heightPx]="200"
+                [startingBalance]="groupAllData.startedBalance"
+                [stPortfolioSnapshots]="groupAllData.lastPortfolioSnapshot">
+        </app-portfolio-increase-chart>
+    </div>
+</div>

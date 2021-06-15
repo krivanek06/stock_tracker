@@ -27,6 +27,8 @@ export interface STGroupPartialData {
     isInfinite: boolean;
     isPrivate: boolean; // if true then group is invite only
     numberOfExecutedTransactions: number;
+    numberOfMembers: number;
+    startedBalance: number;
 }
 
 export interface STGroupAllData extends STGroupPartialData {

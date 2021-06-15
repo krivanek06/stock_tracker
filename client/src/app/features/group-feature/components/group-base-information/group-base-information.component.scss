@@ -1,0 +1,14 @@
+@import "variables";
+
+:host {
+  ion-img {
+    max-width: 75px;
+    max-height: 75px;
+    min-width: 75px;
+    min-height: 75px;
+  }
+
+  ion-button {
+    min-width: 150px;
+  }
+}

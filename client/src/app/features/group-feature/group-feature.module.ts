@@ -1,11 +1,8 @@
 import {NgModule} from '@angular/core';
 import {SharedMaterialModule, SharedModule} from '@shared';
 import {
-    GroupCreateFormComponent,
-    GroupInfoComponent,
-    GroupInfoListComponent,
-    GroupListMembersInRowComponent,
-    GroupTypesCardComponent
+    GroupBaseInformationComponent,
+    GroupCreateFormComponent, GroupUserBaseInformationComponent
 } from './components';
 import {GroupCreateModalComponent, GroupMemberPositionChangePopOverComponent} from './entry-components';
 import {GroupSearchComponent} from './containers';
@@ -14,14 +11,12 @@ import {AccountFeatureModule} from '@account-feature';
 
 @NgModule({
     declarations: [
-        GroupTypesCardComponent,
-        GroupInfoListComponent,
-        GroupInfoComponent,
-        GroupListMembersInRowComponent,
         GroupMemberPositionChangePopOverComponent,
         GroupSearchComponent,
         GroupCreateFormComponent,
-        GroupCreateModalComponent
+        GroupCreateModalComponent,
+        GroupBaseInformationComponent,
+        GroupUserBaseInformationComponent
     ],
     imports: [
         SharedModule,
@@ -29,14 +24,12 @@ import {AccountFeatureModule} from '@account-feature';
         SharedMaterialModule
     ],
     exports: [
-        GroupTypesCardComponent,
-        GroupInfoListComponent,
-        GroupInfoComponent,
-        GroupListMembersInRowComponent,
         GroupMemberPositionChangePopOverComponent,
         GroupSearchComponent,
         GroupCreateFormComponent,
-        GroupCreateModalComponent
+        GroupCreateModalComponent,
+        GroupBaseInformationComponent,
+        GroupUserBaseInformationComponent
     ]
 })
 export class GroupFeatureModule {

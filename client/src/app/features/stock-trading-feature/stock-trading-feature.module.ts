@@ -3,13 +3,13 @@ import {TransactionsChartComponent, TransactionsTableComponent} from './componen
 import {
     PortfolioChangeChartComponent,
     PortfolioChangeComponent,
-    PortfolioGrowthChartComponent, PortfolioIncreaseChartComponent,
+    PortfolioGrowthChartComponent,
+    PortfolioIncreaseChartComponent,
     PortfolioStateComponent
 } from './components/portfolio';
 import {HoldingsAllocationChartComponent, HoldingsTableBodyItemComponent, HoldingsTableComponent} from './components/holdings';
 import {SharedModule} from '@shared';
 import {TradeConfirmationPopOverComponent} from './entry-components';
-import {TradingFeatureFacadeService} from './services';
 
 
 @NgModule({
@@ -40,8 +40,7 @@ import {TradingFeatureFacadeService} from './services';
         PortfolioStateComponent,
         HoldingsAllocationChartComponent,
         PortfolioIncreaseChartComponent
-    ],
-    providers: [TradingFeatureFacadeService]
+    ]
 })
 export class StockTradingFeatureModule {
 }

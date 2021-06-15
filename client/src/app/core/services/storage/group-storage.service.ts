@@ -13,10 +13,6 @@ export class GroupStorageService {
     constructor(private userStorageService: UserStorageService) {
     }
 
-    getActiveGroup(): Observable<StGroupAllData> {
-        return this.activeGroup$.asObservable();
-    }
-
     get activeGroup(): StGroupAllData {
         if (!this.activeGroup$.getValue()) {
             throw new Error('trying to access activeGroup in GroupUserRolesService, but does not exists');
@@ -24,8 +20,12 @@ export class GroupStorageService {
         return this.activeGroup$.getValue();
     }
 
-    set activeGroup(group: StGroupAllData) {
-        this.activeGroup$.next(group);
+    getActiveGroup(): Observable<StGroupAllData> {
+        return this.activeGroup$.asObservable();
+    }
+
+    setActiveGroup(groupAllData: StGroupAllData) {
+        this.activeGroup$.next(groupAllData);
     }
 
     isUserOwner(): boolean {

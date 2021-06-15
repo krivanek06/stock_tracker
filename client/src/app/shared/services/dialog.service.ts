@@ -21,7 +21,7 @@ export class DialogService {
         //DialogService.modalController = modalController;
     }
 
-    static async presentAlertConfirm(message: string, cancelButton = 'Cancel'): Promise<boolean> {
+    static async presentAlertConfirm(message: string, cancelButton = 'Cancel', confirmButton = 'Yes'): Promise<boolean> {
         if (!DialogService.alertController) {
             throw new Error('DialogService.alertController not initialized');
         }
@@ -31,7 +31,7 @@ export class DialogService {
                 message,
                 buttons: [
                     {
-                        text: 'Yes',
+                        text: confirmButton,
                         handler: () => {
                             resolve(true);
                         },

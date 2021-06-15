@@ -1,0 +1,36 @@
+<div class="st-flex">
+    <!-- Image -->
+    <div class="ion-align-self-baseline st-small-right-space">
+        <ion-img [src]="groupUser.photoURL" appDefaultImg></ion-img>
+    </div>
+    <div>
+        <!-- Position -->
+        <div class="st-display-flex-center">
+            <ion-text class="st-font-1 st-small-right-space">Position:</ion-text>
+            <div class="st-display-flex-center">
+                <div class="current-position-number">#{{ groupUser.currentPosition }}</div>
+                <app-position-change-item
+                        [increaseBy]="groupUser.previousPosition - groupUser.currentPosition">
+                </app-position-change-item>
+            </div>
+        </div>
+        <!-- Name -->
+        <div class="st-display-flex-center">
+            <ion-text class="st-font-1 st-small-right-space">Name:</ion-text>
+            <ion-text>{{ groupUser.nickName }}</ion-text>
+        </div>
+        <!-- Portfolio -->
+        <div class="st-display-flex-center">
+            <ion-text class="st-font-1 st-small-right-space">Portfolio:</ion-text>
+            <div class="st-display-flex-center">
+                <ion-text class="st-small-right-space">
+                    {{ (groupUser.lastPortfolioSnapshot.portfolioCash + groupUser.lastPortfolioSnapshot.portfolioInvested) | numberFormatter}}
+                </ion-text>
+                <app-price-change-item
+                        [isPercent]="true"
+                        [priceChange]="groupUser.lastPortfolioIncreasePrct">
+                </app-price-change-item>
+            </div>
+        </div>
+    </div>
+</div>
