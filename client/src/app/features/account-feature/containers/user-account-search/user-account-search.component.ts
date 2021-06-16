@@ -26,7 +26,7 @@ export class UserAccountSearchComponent implements OnInit {
         this.watchForm();
     }
 
-    clickedUser(user: StUserPublicData) {
+    clickedUser(user: StUserIndentificationDataFragment) {
         this.clickedUserEmitter.emit(user);
     }
 

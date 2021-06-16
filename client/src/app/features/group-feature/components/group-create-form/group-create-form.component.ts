@@ -84,7 +84,8 @@ export class GroupCreateFormComponent implements OnInit {
             startDate: [null, [Validators.required]],
             endDate: [null, [Validators.required]],
             isInfinite: [false],
-            isPrivate: [false]
+            isPrivate: [false],
+            isOwnerAlsoMember: [false]
         });
     }
 

@@ -49,18 +49,9 @@ const performBuyTransaction = async (user: api.STUserPublicData, transactionInpu
         const ref = await admin.firestore().collection(api.ST_TRANSACTION_COLLECTION).add(transaction);
         transaction.transactionId = ref.id;
 
-        // TODO CREATE LOG FOR USER which transaction ID has been realized
-        const lastTransaction = {...transaction, user: null};
-        const holdings = addTransactionToUserHolding(user, lastTransaction);
+        const holdings = addTransactionToUserHolding(user, transaction);
 
-        // update user's holdings
-        admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(user.id).set({
-            holdings,
-            transactionsSnippets: [lastTransaction, ...user.transactionsSnippets].slice(0, 10),
-            portfolioCash: user.portfolioCash - totalPrice // decrease cash
-        }, {merge: true});
-
-        return {holdings, lastTransaction };
+        return {holdings, lastTransaction: transaction };
     } catch (error) {
         throw new ApolloError(error);
     }
@@ -70,7 +61,7 @@ const performSellTransaction = async (user: api.STUserPublicData, transactionInp
     try {
         // find existing holding in user's portfolio
         const holdingTransaction = user.holdings.find(s => s.symbol === transactionInput.symbol);
-        const totalPrice = transactionInput.price * transactionInput.units;
+        //const totalPrice = transactionInput.price * transactionInput.units;
 
         // check if holdings exists
         if (!holdingTransaction) {
@@ -83,32 +74,26 @@ const performSellTransaction = async (user: api.STUserPublicData, transactionInp
         }
 
         const transaction = createTransactionSell(user, holdingTransaction, transactionInput);
-        const ref = await admin.firestore().collection(api.ST_TRANSACTION_COLLECTION).add(transactionInput);
+        const ref = await admin.firestore().collection(api.ST_TRANSACTION_COLLECTION).add(transaction);
         transaction.transactionId = ref.id;
 
-        // TODO CREATE LOG FOR USER which transaction ID has been realized
-        const lastTransaction = {...transaction, user: null};
-        const holdings = substractTransactionFromUserHolding(user, lastTransaction);
+        const holdings = substractTransactionFromUserHolding(user, transaction);
 
-        // update user's holdings
-        admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(user.id).set({
-            holdings,
-            transactionsSnippets: [lastTransaction, ...user.transactionsSnippets].slice(0, 10),
-            portfolioCash: user.portfolioCash  + totalPrice // increase cash
-        }, {merge: true});
-
-        return {holdings, lastTransaction };
+        return {holdings, lastTransaction: transaction };
     } catch (error) {
         throw new ApolloError(error);
     }
 };
 
-const updateTransactionSnapshots = async ({id, portfolioCash}: api.STUserPublicData, transaction: api.STTransactionInput, userHoldings: api.STTransaction[]) => {
-     const userHistoricaldataRef = admin.firestore().collection('users').doc(id)
-                                                    .collection('more_information').doc('historical_data');
+const updateTransactionSnapshots = async (user: api.STUserPublicData, transaction: api.STTransactionInput, userHoldings: api.STTransaction[]) => {
+     const userHistoricaldataRef = admin.firestore().collection(api.ST_USER_COLLECTION_USER)
+                                                    .doc(user.id)
+                                                    .collection(api.ST_USER_COLLECTION_MORE_INFORMATION)
+                                                    .doc(api.ST_USER_DOCUMENT_HISTORICAL_DATA);
 
     const {transactionSnapshots} = (await userHistoricaldataRef.get()).data() as api.STUserHistoricalData;
-    
+    const totalPrice = transaction.price * transaction.units;
+
     // check if last saved exists and are on same day
     let lastTransactionSnapshots:  api.STTransactionSnapshot;
     if(transactionSnapshots.length > 0 && datesAreOnSameDay(transactionSnapshots[transactionSnapshots.length - 1].date, new Date().toUTCString())){ 
@@ -132,8 +117,13 @@ const updateTransactionSnapshots = async ({id, portfolioCash}: api.STUserPublicD
     }, {merge: true});
 
     // save last transaction snapshot 
-    admin.firestore().collection('users').doc(id).set({
+    admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(user.id).set({
         lastTransactionSnapshot: newTransactionSnapshots,
-        numberOfExecutedTransactions: admin.firestore.FieldValue.increment
+        holdings: userHoldings,
+        transactionsSnippets: [transaction, ...user.transactionsSnippets].slice(0, 10),
+        portfolioCash: isBuy ? user.portfolioCash  + totalPrice : user.portfolioCash - totalPrice,
+        numberOfExecutedTransactions: admin.firestore.FieldValue.increment(1),
+        numberOfExecutedSellTransactions: isBuy ? user.numberOfExecutedSellTransactions : admin.firestore.FieldValue.increment(1),
+        numberOfExecutedBuyTransactions: isBuy ? admin.firestore.FieldValue.increment(1) : user.numberOfExecutedBuyTransactions
     }, {merge: true});
 }

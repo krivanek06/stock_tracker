@@ -1,21 +1,24 @@
 <!-- base information -->
-<div class="c-base-information-container">
+<div class="c-base-information-container" [ngClass]="{'st-border-bottom': groupAllData.topMembers.length > 0}">
     <app-group-base-information
             (visitEmitter)="visitGroup(groupAllData)"
             (acceptEmitter)="answerReceivedGroupInvitation(groupAllData, true)"
             (declineEmitter)="answerReceivedGroupInvitation(groupAllData, false)"
+            [showVisitButton]="true"
+            [showAcceptButton]="showAcceptButton"
+            [showDeclineButton]="showDeclineButton"
+            [showInviteButton]="showInviteButton"
             [groupIdentification]="groupAllData">
     </app-group-base-information>
 </div>
 
-<div class="st-flex">
-    <div class="c-top-users-container">
+<div class="st-flex" *ngIf="groupAllData.topMembers.length > 0">
+    <div class="st-flex-wrap">
         <!-- list users -->
-        <div *ngFor="let groupUser of groupAllData.topMembers" style="padding: 10px">
-            <app-group-user-base-information
-                    [groupUser]="groupUser">
-            </app-group-user-base-information>
-        </div>
+        <app-group-user-base-information
+                *ngFor="let groupUser of groupAllData.topMembers"
+                [groupUser]="groupUser">
+        </app-group-user-base-information>
     </div>
     <div class="c-portfolio-chart">
         <!-- portfolio -->

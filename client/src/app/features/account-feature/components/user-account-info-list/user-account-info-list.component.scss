@@ -7,6 +7,7 @@
   .user-info-item {
     padding-top: 5px;
     padding-bottom: 5px;
-    display: inline-block;
+    display: flex;
+    align-items: center;
   }
 }

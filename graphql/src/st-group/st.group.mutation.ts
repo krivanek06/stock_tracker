@@ -4,8 +4,8 @@ import {ApolloError} from "apollo-server";
 import {querySTGroupAllDataByGroupId} from "./st-group.query";
 import {
     initGroupFromInput,
-    createSTGroupPartialDataFromSTGroupAllData,
-    createSTGroupUser
+    createSTGroupUser,
+    createEmptySTGroupHistoricalData
 } from "./st-group.util";
 import * as admin from "firebase-admin";
 import * as api from 'stock-tracker-common-interfaces';
@@ -22,37 +22,47 @@ export const createGroup = async (groupInput: api.STGroupAllDataInput, {requeste
         const invitationSent = await Promise.all([...new Set(groupInput.invitationSent)].map(m => queryUserPublicData(m)));
         group.invitationSent = invitationSent.map(m => createSTGroupUser(m));
 
-        // persist
+        // if owner wants to be a member
+        if(groupInput.isOwnerAlsoMember){
+            group.members = [group.owner];
+            group.startedBalance = group.owner.lastPortfolioSnapshot.portfolioCash +  group.owner.lastPortfolioSnapshot.portfolioInvested;
+            group.numberOfMembers = 1;
+        }
+
+
+        // persist public & private data
         const result = await admin.firestore().collection(`${api.ST_GROUP_COLLECTION_GROUPS}`).add(group);
         group.groupId = result.id;
+        await admin.firestore().collection(api.ST_GROUP_COLLECTION_GROUPS)
+                                .doc(result.id)
+                                .collection(api.ST_GROUP_COLLECTION_MORE_INFORMATION)
+                                .doc(api.ST_GROUP_COLLECTION_HISTORICAL_DATA).set(createEmptySTGroupHistoricalData());
+
 
         // update user's groupInvitationReceived
         groupInput.invitationSent.forEach(userId => {
-            admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(userId)
-                .set({
-                    groups: {
-                        groupInvitationReceived: admin.firestore.FieldValue.arrayUnion(group.groupId)
-                    }
-                }, {merge: true})
+            admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(userId).set({
+                groups: {
+                    groupInvitationReceived: admin.firestore.FieldValue.arrayUnion(group.groupId)
+                }
+            }, {merge: true})
         });
 
-        // update owner's group
-        admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(requesterUserId)
-            .set({
-                groups: {
-                    groupOwner: admin.firestore.FieldValue.arrayUnion(group.groupId)
-                }
-            }, {merge: true});
 
-        // format for accepted result
-        //return createSTGroupPartialDataFromSTGroupAllData(group);
+        // update owner's group
+        admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(requesterUserId).set({
+            groups: {
+                groupOwner: admin.firestore.FieldValue.arrayUnion(group.groupId)
+            }
+        }, {merge: true});
+
         return group;
     } catch (error) {
         throw new ApolloError(error);
     }
 };
 // TODO edit group form users -> cloud functions
-export const editGroup = async (groupInput: api.STGroupAllDataInput): Promise<api.STGroupPartialData> => {
+export const editGroup = async (groupInput: api.STGroupAllDataInput): Promise<api.STGroupAllData> => {
     try {
         // load group or create new
         const group = await querySTGroupAllDataByGroupId(groupInput.groupId);
@@ -111,7 +121,7 @@ export const editGroup = async (groupInput: api.STGroupAllDataInput): Promise<ap
             .set(group);
 
         //return querySTGroupAllDataByGroupId(group.groupId);
-        return createSTGroupPartialDataFromSTGroupAllData(group);
+        return group;
     } catch (error) {
         throw new ApolloError(error);
     }
@@ -139,7 +149,7 @@ export const deleteGroup = async (uid: string, groupId: string): Promise<boolean
  * @param groupId
  * @param accept
  */
-export const answerReceivedGroupInvitation = async (uid: string, groupId: string, accept: Boolean): Promise<api.STGroupPartialData> => {
+export const answerReceivedGroupInvitation = async (uid: string, groupId: string, accept: Boolean): Promise<api.STGroupAllData> => {
     try {
         const group = await querySTGroupAllDataByGroupId(groupId);
         if (!group.invitationSent.map(x => x.id).includes(uid)) {
@@ -149,6 +159,9 @@ export const answerReceivedGroupInvitation = async (uid: string, groupId: string
         // add as member
         if (accept) {
             group.members = [...group.members, group.invitationSent.find(x => x.id === uid)];
+            const user = await queryUserPublicData(uid);
+            group.startedBalance += user.lastPortfolioSnapshot.portfolioCash + user.lastPortfolioSnapshot.portfolioInvested;
+            group.numberOfMembers += 1;
         }
         // remove invitation
         group.invitationSent = group.invitationSent.filter(x => x.id !== uid);
@@ -157,11 +170,13 @@ export const answerReceivedGroupInvitation = async (uid: string, groupId: string
             .collection(`${api.ST_GROUP_COLLECTION_GROUPS}`)
             .doc(groupId)
             .set({
+                startedBalance: group.startedBalance,
+                numberOfMembers: group.numberOfMembers,
                 members: group.members,
                 invitationSent: group.invitationSent
             }, {merge: true});
 
-        return createSTGroupPartialDataFromSTGroupAllData(group);
+        return group;
     } catch (error) {
         throw new ApolloError(error);
     }
@@ -173,7 +188,7 @@ export const answerReceivedGroupInvitation = async (uid: string, groupId: string
  * @param uid
  * @param groupId
  */
-export const toggleInvitationRequestToGroup = async (uid: string, groupId: string): Promise<api.STGroupPartialData> => {
+export const toggleInvitationRequestToGroup = async (uid: string, groupId: string): Promise<api.STGroupAllData> => {
     try {
         const group = await querySTGroupAllDataByGroupId(groupId);
         if (group.members.map(x => x.id).includes(uid)) {
@@ -201,7 +216,7 @@ export const toggleInvitationRequestToGroup = async (uid: string, groupId: strin
                 invitationReceived: group.invitationReceived
             }, {merge: true});
 
-        return createSTGroupPartialDataFromSTGroupAllData(group);
+        return group;
     } catch (error) {
         throw new ApolloError(error);
     }

@@ -20,6 +20,8 @@ const user: StGroupUser = {
     },
     previousPosition: 5,
     currentPosition: 3,
+    numberOfExecutedBuyTransactions: 17,
+    numberOfExecutedSellTransactions: 9,
     lastPortfolioIncreasePrct: 0.45,
     lastPortfolioIncreaseNumber: 1025,
     lastTransactionSnapshot: {
@@ -104,6 +106,31 @@ const position2 = {...user, currentPosition: 2, previousPosition: 4} as StGroupU
 const position3 = {...user, currentPosition: 3, previousPosition: 1} as StGroupUser;
 const position10 = {...user, currentPosition: 10, previousPosition: 5} as StGroupUser;
 
+let members = [position1];
+for(let i = 0; i < 25; i++){
+    const previous = members[i];
+    members.push({
+        ...previous,
+        lastPortfolioSnapshot: {
+            ...previous.lastPortfolioSnapshot,
+            portfolioInvested: previous.lastPortfolioSnapshot.portfolioInvested * 1.1
+        },
+        lastPortfolioIncreasePrct: Math.floor(Math.random() * 1) -1
+    } as StGroupUser)
+}
+
+let lastTransactions: StTransaction[] = [transaction];
+for(let i = 0; i < 15; i++){
+    lastTransactions.push({
+        ...transaction,
+        operation: i % 2 == 0 ? StTransactionOperationEnum.Buy : StTransactionOperationEnum.Sell,
+        return: i % 2 == 0 ? null : i + Math.random() * 123,
+        returnChange: i % 2 == 0 ? null : i + Math.random()
+    })
+}
+
+let topTransactions = lastTransactions.filter(t => t.operation === StTransactionOperationEnum.Sell);
+
 export const groupTestData: StGroupAllData = {
     groupId: '123465',
     numberOfExecutedTransactions: 456,
@@ -116,20 +143,18 @@ export const groupTestData: StGroupAllData = {
         ...position1
     },
     invitationSent: [position1, position1],
-    members: [position1, position10, position2, position3],
+    members: members,
     managers: [],
     description: 'This is a group description, remember it',
     currentAchievedRanks: null,
     imageUrl: 'https://firebasestorage.googleapis.com/v0/b/stocktrackertest-e51fc.appspot.com/o/groups%2Fthis.fileName?alt=media&token=c365ad0e-3268-4667-9f8c-6195bcbaef42',
     imagePath: 'groups/this.fileName',
-    groupLogs: [],
     holdings: [],
     createdDate: '2021-06-10T22:00:00.000Z',
     numberOfMembers: 4,
     topMembers: [position1, position2, position3, position10],
     lastUpdateDate: '2021-06-10T22:00:00.000Z',
     lastEditedDate: '2021-06-10T22:00:00.000Z',
-    bestAchievedRanks: [],
     invitationReceived: [position1, position1],
     startedBalance: 25600,
     lastTransactionSnapshot: {
@@ -142,26 +167,35 @@ export const groupTestData: StGroupAllData = {
         portfolioCash: 68510,
         date: '2021-06-15T22:00:00.000Z'
     },
-    portfolioSnapshots: [
-        {portfolioInvested: 18560, portfolioCash: 8510, date: '2021-06-07T22:00:00.000Z'},
-        {portfolioInvested: 18560, portfolioCash: 7510, date: '2021-06-08T22:00:00.000Z'},
-        {portfolioInvested: 19560, portfolioCash: 6510, date: '2021-06-09T22:00:00.000Z'},
-        {portfolioInvested: 18560, portfolioCash: 8510, date: '2021-06-10T22:00:00.000Z'},
-        {portfolioInvested: 18560, portfolioCash: 7510, date: '2021-06-11T22:00:00.000Z'},
-        {portfolioInvested: 19560, portfolioCash: 6510, date: '2021-06-12T22:00:00.000Z'},
-        {portfolioInvested: 22160, portfolioCash: 2510, date: '2021-06-13T22:00:00.000Z'},
-        {portfolioInvested: 16560, portfolioCash: 38510, date: '2021-06-14T22:00:00.000Z'},
-        {portfolioInvested: 18560, portfolioCash: 68510, date: '2021-06-15T22:00:00.000Z'}
-    ],
-    lastTransactions: [transaction, transaction, transaction, transaction, transaction, transaction, transaction, transaction, transaction, transaction, transaction, transaction],
-    topTransactions: [transaction, transaction, transaction, transaction, transaction],
-    transactionSnapshots: [
-        {transactionsBuy: 456, transactionsSell: 4015, date: '2021-06-09T22:00:00.000Z'},
-        {transactionsBuy: 4563, transactionsSell: 4565465, date: '2021-06-10T22:00:00.000Z'},
-        {transactionsBuy: 12356, transactionsSell: 0, date: '2021-06-11T22:00:00.000Z'},
-        {transactionsBuy: 56548, transactionsSell: 0, date: '2021-06-12T22:00:00.000Z'},
-        {transactionsBuy: 98754, transactionsSell: 4015, date: '2021-06-13T22:00:00.000Z'},
-        {transactionsBuy: 0, transactionsSell: 456456, date: '2021-06-14T22:00:00.000Z'},
-        {transactionsBuy: 23132, transactionsSell: 0, date: '2021-06-15T22:00:00.000Z'}
-    ]
+    lastTransactions: lastTransactions,
+    topTransactions: topTransactions,
+    lastPortfolioBalance: 15236,
+    lastPortfolioIncreaseNumber: 105.1,
+    lastPortfolioIncreasePrct: 0.036,
+    numberOfExecutedBuyTransactions: 15,
+    numberOfExecutedSellTransactions: 12,
+    groupHistoricalData: {
+        bestAchievedRanks: [],
+        groupLogs: [],
+        transactionSnapshots: [
+            {transactionsBuy: 456, transactionsSell: 4015, date: '2021-06-09T22:00:00.000Z'},
+            {transactionsBuy: 4563, transactionsSell: 4565465, date: '2021-06-10T22:00:00.000Z'},
+            {transactionsBuy: 12356, transactionsSell: 0, date: '2021-06-11T22:00:00.000Z'},
+            {transactionsBuy: 56548, transactionsSell: 0, date: '2021-06-12T22:00:00.000Z'},
+            {transactionsBuy: 98754, transactionsSell: 4015, date: '2021-06-13T22:00:00.000Z'},
+            {transactionsBuy: 0, transactionsSell: 456456, date: '2021-06-14T22:00:00.000Z'},
+            {transactionsBuy: 23132, transactionsSell: 0, date: '2021-06-15T22:00:00.000Z'}
+        ],
+        portfolioSnapshots: [
+            {portfolioInvested: 18560, portfolioCash: 8510, date: '2021-06-07T22:00:00.000Z'},
+            {portfolioInvested: 18560, portfolioCash: 7510, date: '2021-06-08T22:00:00.000Z'},
+            {portfolioInvested: 19560, portfolioCash: 6510, date: '2021-06-09T22:00:00.000Z'},
+            {portfolioInvested: 18560, portfolioCash: 8510, date: '2021-06-10T22:00:00.000Z'},
+            {portfolioInvested: 18560, portfolioCash: 7510, date: '2021-06-11T22:00:00.000Z'},
+            {portfolioInvested: 19560, portfolioCash: 6510, date: '2021-06-12T22:00:00.000Z'},
+            {portfolioInvested: 22160, portfolioCash: 2510, date: '2021-06-13T22:00:00.000Z'},
+            {portfolioInvested: 16560, portfolioCash: 38510, date: '2021-06-14T22:00:00.000Z'},
+            {portfolioInvested: 18560, portfolioCash: 68510, date: '2021-06-15T22:00:00.000Z'}
+        ],
+    }
 };

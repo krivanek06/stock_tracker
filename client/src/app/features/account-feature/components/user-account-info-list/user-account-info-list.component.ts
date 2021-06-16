@@ -12,7 +12,6 @@ export class UserAccountInfoListComponent implements OnInit {
     @Output() clickedEmitter: EventEmitter<any> = new EventEmitter<any>();
 
     @Input() stUserPublicData: StUserIndentificationDataFragment;
-    @Input() sinceDate: string;
     @Input() clickable = false;
     @Input() showDeleteButton = false;
     @Input() fullWith = false;

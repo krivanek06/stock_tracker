@@ -29,6 +29,10 @@ ion-spinner {
   }
 }
 
+.st-border-bottom {
+  border-bottom: 1px solid #{$st-light-blue-border};
+}
+
 
 // --------------- BORDER END -------------------
 
@@ -84,6 +88,10 @@ ion-spinner {
 
 .st-font-white {
   color: white !important;
+}
+
+.st-font-purple {
+  color: #{$st-var-purple} !important;
 }
 
 .st-font-0-normal {
@@ -629,6 +637,13 @@ ion-skeleton-text {
   }
 }
 
+.st-flex-space-between-md-down {
+  @media (max-width: #{$st-var-md-split}) {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
 .st-flex-row {
   display: flex;
   flex-flow: row;
@@ -675,6 +690,15 @@ ion-skeleton-text {
   flex-flow: row;
   @media (max-width: #{$st-var-md-split}) {
     flex-flow: column !important;
+  }
+}
+
+.st-flex-wrap {
+  display: flex;
+  flex-flow: wrap;
+
+  > * {
+    flex-grow: 1;
   }
 }
 

@@ -1,7 +1,3 @@
-<div>
-    TOTO GROUP BASIC INFO
-</div>
-
 <!-- navigation -->
 <ion-toolbar>
     <ion-segment color="primary" slot="end" scrollable [value]="GROUPS_PAGES_DETAILS_PATH[0].value"
@@ -11,6 +7,15 @@
         </ion-segment-button>
     </ion-segment>
 </ion-toolbar>
+
+
+<div class="c-group-base-information-container">
+    <app-group-base-information
+            [showInviteButton]="true"
+            [groupIdentification]="groupTestData">
+    </app-group-base-information>
+</div>
+
 
 <!-- routing -->
 <router-outlet></router-outlet>

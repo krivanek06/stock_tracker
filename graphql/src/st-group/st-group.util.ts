@@ -22,14 +22,11 @@ export const createEmptySTGroupAllData = (): api.STGroupAllData => {
     const now = getCurrentIOSDate();
     const group: api.STGroupAllData = {
         members: [],
-        bestAchievedRanks: [],
-        startedBalance: 0,
         createdDate: now,
         lastUpdateDate: now,
         lastEditedDate: now,
         currentAchievedRank: null,
         description: null,
-        groupLogs: [],
         invitationReceived: [],
         invitationSent: [],
         lastTransactions: [],
@@ -41,15 +38,30 @@ export const createEmptySTGroupAllData = (): api.STGroupAllData => {
         endDate: null,
         isInfinite: null,
         startDate: null,
-        portfolioSnapshots: [],
-        transactionSnapshots: [],
         topTransactions: [],
         holdings: [],
         isPrivate: false,
         numberOfExecutedTransactions: 0,
-        numberOfMembers: 0
+        numberOfExecutedBuyTransactions: 0,
+        numberOfExecutedSellTransactions: 0,
+        imagePath: null,
+        imageUrl: null,
+        numberOfMembers: 0,
+        lastPortfolioBalance: 0,
+        lastPortfolioIncreaseNumber: 0,
+        lastPortfolioIncreasePrct: 0,
+        startedBalance: 0
     };
     return group;
+}
+
+export const createEmptySTGroupHistoricalData = (): api.STGroupHistoricalData => {
+    return {
+        bestAchievedRanks: [],
+        groupLogs: [],
+        portfolioSnapshots: [],
+        transactionSnapshots: []
+    }
 }
 
 
@@ -61,9 +73,15 @@ export const createSTGroupUser = (userPublic: api.STUserPublicData): api.STGroup
             portfolioInvested: sumOfHoldings(userPublic.holdings),
             date: getCurrentIOSDate()
         },
+        startingPortfolioSnapshot: {
+            portfolioCash: userPublic.portfolioCash,
+            portfolioInvested: sumOfHoldings(userPublic.holdings),
+            date: getCurrentIOSDate()
+        },
         lastTransactionSnapshot: null,
-        startingPortfolioSnapshot: null,
         numberOfExecutedTransactions: 0,
+        numberOfExecutedBuyTransactions: 0,
+        numberOfExecutedSellTransactions: 0,
         lastPortfolioIncreaseNumber: null,
         lastPortfolioIncreasePrct: null, 
         previousPosition: null,
@@ -71,30 +89,4 @@ export const createSTGroupUser = (userPublic: api.STUserPublicData): api.STGroup
         sinceDate: getCurrentIOSDate()
     }
     return groupUser;
-}
-
-
-export const createSTGroupPartialDataFromSTGroupAllData = (groupAllData: api.STGroupAllData): api.STGroupPartialData => {
-    const partial: api.STGroupPartialData = {
-        name: groupAllData.name,
-        description: groupAllData.description,
-        createdDate: groupAllData.createdDate,
-        lastEditedDate: groupAllData.lastEditedDate,
-        imageUrl: groupAllData.imageUrl,
-        imagePath: groupAllData.imagePath,
-        owner: groupAllData.owner,
-        lastUpdateDate: groupAllData.lastUpdateDate,
-        groupId: groupAllData.groupId,
-        lastPortfolioSnapshot: groupAllData.lastPortfolioSnapshot,
-        lastTransactionSnapshot: groupAllData.lastTransactionSnapshot,
-        currentAchievedRank: groupAllData.currentAchievedRank,
-        endDate: groupAllData.endDate,
-        isInfinite: groupAllData.isInfinite,
-        startDate: groupAllData.startDate,
-        isPrivate: groupAllData.isPrivate,
-        numberOfExecutedTransactions: groupAllData.numberOfExecutedTransactions,
-        numberOfMembers: groupAllData.numberOfMembers,
-        startedBalance: groupAllData.startedBalance
-    };
-    return partial;
 }

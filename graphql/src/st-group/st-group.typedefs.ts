@@ -17,7 +17,9 @@ export const STGroupTypeDefs = gql`
         lastPortfolioSnapshot: STPortfolioSnapshot
         lastPortfolioIncreaseNumber: Float
         lastPortfolioIncreasePrct: Float
-        numberOfExecutedTransactions: Float
+        numberOfExecutedTransactions: Float!
+        numberOfExecutedBuyTransactions: Float!
+        numberOfExecutedSellTransactions: Float!
         lastTransactionSnapshot: STTransactionSnapshot
         previousPosition: Float
         currentPosition: Float
@@ -33,30 +35,39 @@ export const STGroupTypeDefs = gql`
         imageUrl: String
         lastPortfolioSnapshot: STPortfolioSnapshot
         lastTransactionSnapshot: STTransactionSnapshot
-        portfolioSnapshots: [STPortfolioSnapshot]
-        transactionSnapshots: [STTransactionSnapshot]
         owner: STGroupUser!
         lastUpdateDate: String!
         lastEditedDate: String!
         createdDate: String!
         currentAchievedRanks: STRank
+        lastPortfolioIncreaseNumber: Float
+        lastPortfolioIncreasePrct: Float
+        lastPortfolioBalance: Float
         startDate: String!
         endDate: String
         isInfinite: Boolean!
         isPrivate: Boolean!
-        numberOfExecutedTransactions: Float
-        numberOfMembers: Float
-        startedBalance: Float
-        bestAchievedRanks: [STRank]!
+        numberOfExecutedTransactions: Float!
+        numberOfExecutedBuyTransactions: Float!
+        numberOfExecutedSellTransactions: Float!
+        numberOfMembers: Float!
+        startedBalance: Float!
         topTransactions: [STTransaction]!
         lastTransactions: [STTransaction]!
-        groupLogs: [STLog]!
         managers:[STGroupUser]!
         members: [STGroupUser]!
         invitationSent: [STGroupUser]!
         invitationReceived: [STGroupUser]
         holdings: [STTransaction]!
-        topMembers: [STGroupUser]
+        groupHistoricalData: STGroupHistoricalData!
+        topMembers: [STGroupUser]!
+    }
+
+    type STGroupHistoricalData {
+        portfolioSnapshots: [STPortfolioSnapshot]!
+        transactionSnapshots: [STTransactionSnapshot]!
+        bestAchievedRanks: [STRank]!
+        groupLogs: [STLog]!
     }
     
     input STGroupAllDataInput {
@@ -69,6 +80,7 @@ export const STGroupTypeDefs = gql`
         endDate: String
         isInfinite: Boolean!
         isPrivate: Boolean!
+        isOwnerAlsoMember: Boolean!
         managers:[String]!
         members: [String]!
         invitationSent: [String]!

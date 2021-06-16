@@ -21,8 +21,8 @@ export const querySTGroupPartialDataByGroupName = async (groupNamePrefix: string
             .get();
 
         const data = groupDocs.docs.map(x => {
-            return {...x.data(), groupId: x.id} as api.STGroupPartialData
-        }) as api.STGroupPartialData[];
+            return {...x.data(), groupId: x.id} as api.STGroupAllData
+        }) as api.STGroupAllData[];
 
         return {groups: data};
     } catch (error) {

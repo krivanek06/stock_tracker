@@ -1,35 +1,35 @@
-<ion-item *ngIf="stUserPublicData" class="user-info-item" [ngClass]="{'st-width-100': fullWith}">
-    <ion-label (click)="clickedPerson()"
-               class="st-info-item-result" [ngClass]="{
+<div *ngIf="stUserPublicData" class="user-info-item">
+    <div (click)="clickedPerson()" class="st-flex-wrap" style="padding: 6px" [ngClass]="{
                 'ion-activatable': clickable,
                 'width-100': clickable
             }">
         <ion-img [src]="stUserPublicData.photoURL"></ion-img>
-        <ion-label class="ion-margin-start" style="display: grid">
-            <ion-text>{{ stUserPublicData.nickName }}</ion-text>
+        <div class="ion-margin-start" style="display: grid">
+            <ion-text class="st-font-0 st-font-size-16">{{ stUserPublicData.nickName }}</ion-text>
 
-            <!-- user's portfolio data -->
-            <div class="st-flex-row-sm-col">
-                <ion-text class="st-font-size-12 st-font-5" style="margin-right: 5px;">Portfolio:</ion-text>
-                <!--<ion-text class="st-font-size-14">{{ (stUserPublicData.holdings | holdingsTotalInvested) + stUserPublicData.portfolioCash | currency }}</ion-text>-->
-            </div>
-            <!--<div class="st-flex-row-sm-col" *ngIf="portfolio.portfolioWeeklyGrowth">
-                <ion-text class="st-font-size-12 st-font-5">Weekly change:</ion-text>
+            <!-- portfolio state -->
+            <div class="st-flex-wrap ion-align-items-center">
+                <ion-text class="st-font-5 st-small-right-space">Portfolio:</ion-text>
+                <ion-text class="st-font-2 st-small-right-space">
+                    {{ stUserPublicData.lastPortfolioSnapshot.portfolioInvested + stUserPublicData.lastPortfolioSnapshot.portfolioCash | currency }}
+                </ion-text>
                 <app-price-change-item
-                        [price]="portfolio.portfolioWeeklyGrowth"
-                        [priceChange]="portfolio.portfolioWeeklyChange">
+                        [isPercent]="true"
+                        [priceChange]="stUserPublicData.lastPortfolioIncreasePrct">
                 </app-price-change-item>
-            </div>-->
+            </div>
 
-            <ion-text class="st-font-size-12 st-font-5">Since: {{ sinceDate | date: 'dd.MM.yyyy' }}</ion-text>
-        </ion-label>
-    </ion-label>
+            <ion-text class="st-font-size-12 st-font-5">
+                Since: {{ stUserPublicData.accountCreatedDate | date: 'dd.MM.yyyy' }}
+            </ion-text>
+        </div>
+    </div>
 
     <!-- delete button  -->
-    <ion-label *ngIf="showDeleteButton">
+    <div *ngIf="showDeleteButton">
         <ion-button class="st-transparent-background st-negative-button st-clickable"
                     (click)="deletePerson()">
             <ion-icon name="trash-bin" style="font-size: 28px;"></ion-icon>
         </ion-button>
-    </ion-label>
-</ion-item>
+    </div>
+</div>

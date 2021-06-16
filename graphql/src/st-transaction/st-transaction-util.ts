@@ -15,7 +15,9 @@ export const createTransactionBuy = (user: api.STUserPublicData, transactionInpu
             nickName: user.nickName,
             locale: user.locale,
             accountCreatedDate: user.accountCreatedDate
-        }
+        },
+        return: null,
+        returnChange: null
     };
     return transactionBuy;
 };
