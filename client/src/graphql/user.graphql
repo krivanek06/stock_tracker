@@ -6,6 +6,10 @@ fragment STUserIndentificationData on STUserPublicData {
     accountCreatedDate
     lastSignInDate
     numberOfExecutedTransactions
+    numberOfExecutedBuyTransactions
+    numberOfExecutedSellTransactions
+    lastPortfolioIncreaseNumber
+    lastPortfolioIncreasePrct
     lastPortfolioSnapshot {
         portfolioInvested
         portfolioCash
@@ -27,6 +31,11 @@ query AuthenticateUser($id: String!) {
         accountCreatedDate
         lastSignInDate
         portfolioCash
+        numberOfExecutedTransactions
+        numberOfExecutedBuyTransactions
+        numberOfExecutedSellTransactions
+        lastPortfolioIncreaseNumber
+        lastPortfolioIncreasePrct
         rank {
             ...STRankFragment
         }

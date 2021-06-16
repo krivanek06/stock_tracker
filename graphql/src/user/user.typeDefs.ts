@@ -31,7 +31,11 @@ export const userTypeDefs = gql`
         transactionsSnippets: [STTransaction]!
         activity: USER_ACTIVITY
         groups: STUserGroups!
-        numberOfExecutedTransactions: Float
+        numberOfExecutedTransactions: Float!
+        numberOfExecutedBuyTransactions: Float!
+        numberOfExecutedSellTransactions: Float!
+        lastPortfolioIncreaseNumber: Float
+        lastPortfolioIncreasePrct: Float
         lastPortfolioSnapshot: STPortfolioSnapshot
         lastTransactionSnapshot: STTransactionSnapshot
         userPrivateData: STUserPrivateData!

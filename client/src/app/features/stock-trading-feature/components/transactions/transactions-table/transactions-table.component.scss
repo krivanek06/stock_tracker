@@ -1,6 +1,26 @@
+@import "variables";
+
 :host {
   .sm-table-item {
     padding-top: 6px;
     padding-bottom: 6px;
+  }
+
+  .c-symbol {
+    max-width: 100px;
+  }
+
+  .c-user {
+    min-width: 40%;
+  }
+
+  .c-item-container ion-label:last-child{
+    max-width: fit-content;
+    align-items: flex-end;
+    text-align: right;
+    @media (max-width: #{$st-var-sm-split}) {
+      max-width: none;
+      text-align: unset;
+    }
   }
 }

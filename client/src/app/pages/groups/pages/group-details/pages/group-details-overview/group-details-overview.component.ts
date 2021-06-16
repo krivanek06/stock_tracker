@@ -23,7 +23,8 @@ export class GroupDetailsOverviewComponent implements OnInit {
             console.log('active group is', res);
         });
         this.tradingChangeWrapper = this.tradingFeatureFacadeService.createPortfolioHistoricalWrappers(
-            this.groupTestData.portfolioSnapshots, [TIME_INTERVAL_ENUM.DAILY, TIME_INTERVAL_ENUM.WEEKLY, TIME_INTERVAL_ENUM.MONTHLY, TIME_INTERVAL_ENUM.FROM_BEGINNING]
+            this.groupTestData.groupHistoricalData.portfolioSnapshots,
+            [TIME_INTERVAL_ENUM.DAILY, TIME_INTERVAL_ENUM.WEEKLY, TIME_INTERVAL_ENUM.MONTHLY, TIME_INTERVAL_ENUM.FROM_BEGINNING]
         );
     }
 

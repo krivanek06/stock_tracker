@@ -14,6 +14,9 @@ import {Router} from '@angular/router';
 export class GroupsOverviewGroupInformationViewComponent implements OnInit {
 
     @Input() groupAllData: StGroupAllData;
+    @Input() showAcceptButton: boolean;
+    @Input() showDeclineButton: boolean;
+    @Input() showInviteButton: boolean;
 
     constructor(private groupFeatureFacadeService: GroupFeatureFacadeService,
                 private router: Router) {

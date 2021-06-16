@@ -28,18 +28,26 @@
         </ion-row>
 
         <ion-row>
-            <ion-col size="12" size-md="6">
+            <ion-col size="12" size-md="4">
                 <!-- Private -->
                 <ion-item>
                     <ion-label class="st-font-0" style="padding: 16px">Private</ion-label>
                     <ion-checkbox slot="end" style="margin-right: 16px" formControlName="isPrivate"></ion-checkbox>
                 </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6">
+            <ion-col size="12" size-md="4">
                 <!-- Infinite -->
                 <ion-item>
                     <ion-label class="st-font-0" style="padding: 16px">Infinite</ion-label>
                     <ion-checkbox slot="end" style="margin-right: 16px" formControlName="isInfinite"></ion-checkbox>
+                </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="4">
+                <!-- Infinite -->
+                <ion-item>
+                    <ion-label class="st-font-0" style="padding: 16px">Add me as member</ion-label>
+                    <ion-checkbox slot="end" style="margin-right: 16px"
+                                  formControlName="isOwnerAlsoMember"></ion-checkbox>
                 </ion-item>
             </ion-col>
         </ion-row>
@@ -94,22 +102,16 @@
         </ion-toolbar>
 
         <!-- listed users -->
-        <ion-row>
-            <ion-col size="12">
-                <ion-item class="ion-margin-top">
-                    <ion-label class="st-font-size-18">
-                        Send invitation
-                    </ion-label>
-                </ion-item>
-                <ion-item-group class="listed-users-container">
-                    <app-user-account-info-list *ngFor="let user of invitationSent"
-                                                (deleteEmitter)="invitationRemove(user)"
-                                                [showDeleteButton]="true"
-                                                [clickable]="false"
-                                                [stUserPublicData]="user">
-                    </app-user-account-info-list>
-                </ion-item-group>
-            </ion-col>
-        </ion-row>
+        <ion-toolbar class="ion-margin-top st-title">
+            Send invitation
+        </ion-toolbar>
+        <ion-item-group class="st-flex-wrap">
+            <app-user-account-info-list *ngFor="let user of invitationSent"
+                                        (deleteEmitter)="invitationRemove(user)"
+                                        [showDeleteButton]="true"
+                                        [clickable]="false"
+                                        [stUserPublicData]="user">
+            </app-user-account-info-list>
+        </ion-item-group>
     </ion-grid>
 </form>

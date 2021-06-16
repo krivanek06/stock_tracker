@@ -9,6 +9,10 @@ import {StTransaction, StTransactionOperationEnum} from '@core';
 })
 export class TransactionsTableComponent implements OnInit {
     @Input() transactions: StTransaction[] = [];
+    @Input() showUser = false;
+    @Input() showDate = true;
+    @Input() showReturn = true;
+    @Input() applyLastChildStyle = false;
 
     StTransactionOperationEnum = StTransactionOperationEnum;
 

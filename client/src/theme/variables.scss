@@ -368,8 +368,8 @@
     ion-segment {
       ion-segment-button {
         --color: #{$st-var-font-2};
-        max-width: 195px;
-        max-height: fit-content;
+        //max-width: 195px;
+        //max-height: fit-content;
 
         ion-label {
           color: white;
@@ -424,7 +424,7 @@
 
         ion-card-subtitle {
           //--color: #{$st-var-font-4} !important;
-          --color: #758dc7 !important;
+          --color: #{$st-var-purple} !important;
           padding-top: 12px;
           // --color: #{$default-word};
         }

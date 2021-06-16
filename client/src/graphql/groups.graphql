@@ -10,6 +10,8 @@ fragment STGroupUserFragment on STGroupUser {
     lastPortfolioIncreaseNumber
     lastPortfolioIncreasePrct
     numberOfExecutedTransactions
+    numberOfExecutedBuyTransactions
+    numberOfExecutedSellTransactions
     lastTransactionSnapshot {
         ...STTransactionSnapshotFragment
     }
@@ -40,7 +42,12 @@ fragment STGroupIdentificationData on STGroupAllData {
     endDate
     isInfinite
     isPrivate
+    lastPortfolioIncreaseNumber
+    lastPortfolioIncreasePrct
+    lastPortfolioBalance
     numberOfExecutedTransactions
+    numberOfExecutedBuyTransactions
+    numberOfExecutedSellTransactions
     numberOfMembers
     startedBalance
     topMembers {
@@ -60,9 +67,6 @@ fragment STGroupAllDataFragment on STGroupAllData {
     description
     imageUrl
     imagePath
-    portfolioSnapshots {
-        ...STPortfolioSnapshotFragment
-    }
     owner {
         ...STGroupUserFragment
     }
@@ -73,9 +77,14 @@ fragment STGroupAllDataFragment on STGroupAllData {
     endDate
     isPrivate
     isInfinite
-    numberOfExecutedTransactions
     numberOfMembers
     startedBalance
+    lastPortfolioIncreaseNumber
+    lastPortfolioIncreasePrct
+    lastPortfolioBalance
+    numberOfExecutedTransactions
+    numberOfExecutedBuyTransactions
+    numberOfExecutedSellTransactions
     holdings {
         ...STTransactionFragment
     }
@@ -88,17 +97,25 @@ fragment STGroupAllDataFragment on STGroupAllData {
     currentAchievedRanks {
         ...STRankFragment
     }
-    bestAchievedRanks {
-        ...STRankFragment
-    }
     topTransactions {
         ...STTransactionFragment
     }
+    groupHistoricalData {
+        portfolioSnapshots {
+            ...STPortfolioSnapshotFragment
+        }
+        transactionSnapshots {
+            ...STTransactionSnapshotFragment
+        }
+        bestAchievedRanks {
+            ...STRankFragment
+        }
+        groupLogs {
+            ...STLogsFragment
+        }
+    }
     lastTransactions {
         ...STTransactionFragment
-    }
-    groupLogs {
-        ...STLogsFragment
     }
     managers {
         ...STGroupUserFragment

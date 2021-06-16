@@ -1,14 +1,45 @@
 @import "variables";
 
 :host {
-  ion-img {
-    max-width: 75px;
-    max-height: 75px;
-    min-width: 75px;
-    min-height: 75px;
+  .c-group-image {
+    max-width: 100px;
+    max-height: 100px;
+    min-width: 100px;
+    min-height: 100px;
+  }
+  .c-content-container{
+    @media (max-width: #{$st-var-md-split}) {
+      margin: auto;
+    }
+  }
+  ion-buttons {
+    max-width: 50%;
+    flex-flow: wrap;
+    justify-content: flex-end;
+    align-items: baseline;
+    margin-top: -12px;
+    @media (max-width: #{$st-var-md-split}) {
+      max-width: 100%;
+      width: 100%;
+      justify-content: center;
+      margin-top: 0;
+    }
+
+    ion-button {
+      min-width: 150px;
+      margin: 5px;
+      @media (max-width: #{$st-var-md-split}) {
+        width: 47%;
+      }
+      @media (max-width: #{$st-var-sm-split}) {
+        width: 100%;
+      }
+    }
   }
 
-  ion-button {
-    min-width: 150px;
+  .c-owner-image {
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
   }
 }

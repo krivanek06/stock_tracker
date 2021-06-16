@@ -12,6 +12,7 @@ export interface GroupForm {
     endDate: string;
     isInfinite: boolean;
     isPrivate: boolean;
+    isOwnerAlsoMember: boolean;
 }
 
 export enum GroupMemberPositionChangeEnum {

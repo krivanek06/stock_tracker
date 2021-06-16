@@ -1,18 +1,17 @@
-@import "src/theme/variables";
+@import "variables";
 
 :host {
-  .c-portfolio-change-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    @media (max-width: #{$st-var-sm-split}) {
-      grid-template-columns: 1fr;
+  .c-portfolio-chart {
+    margin-top: -16px;
+    min-width: 170px;
+    @media (max-width: #{$st-var-md-split}) {
+      display: none;
     }
   }
 
-  .c-portfolio-chart {
-    margin-top: -16px;
-    @media (max-width: #{$st-var-xxl-split}) {
-      display: none;
+  .c-portfolio-change > * {
+    @media (max-width: #{$st-var-sm-split}) {
+      width: 100%;
     }
   }
 }

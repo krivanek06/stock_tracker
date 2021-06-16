@@ -28,16 +28,21 @@ export const createUserPortfolioSnapshot = functions.pubsub.topic('createUserPor
     console.log(`Completed updating at ${admin.firestore.Timestamp.now().toDate()}`);
 });
 
-const savePortfolioSnapShot = async({id}: api.STUserPublicData, portfolioSnapshot: api.STPortfolioSnapshot) => {
+const savePortfolioSnapShot = async({id, lastPortfolioSnapshot}: api.STUserPublicData, portfolioSnapshot: api.STPortfolioSnapshot) => {
     // save into array
     await admin.firestore().collection('users').doc(id).collection('more_information').doc('historical_data').set({
         portfolioSnapshots: admin.firestore.FieldValue.arrayUnion(portfolioSnapshot)
     }, {merge: true});
 
+    const previousBalance = lastPortfolioSnapshot.portfolioCash + lastPortfolioSnapshot.portfolioInvested;
+    const currentBalance = portfolioSnapshot.portfolioCash + portfolioSnapshot.portfolioInvested;
+
     // save as latest snapshot
     await admin.firestore().collection('users').doc(id).set({
-        lastPortfolioSnapshot: portfolioSnapshot
-    }, {merge: true});
+        lastPortfolioSnapshot: portfolioSnapshot,
+        lastPortfolioIncreaseNumber: Number((currentBalance - previousBalance).toFixed(2)),
+        lastPortfolioIncreasePrct: Number(((currentBalance - previousBalance) / previousBalance).toFixed(4))
+    } as  api.STUserPublicData, {merge: true});
 }
 
 const constructPortfolioSnapshot = (user: api.STUserPublicData): api.STPortfolioSnapshot => {
@@ -52,7 +57,9 @@ const constructPortfolioSnapshot = (user: api.STUserPublicData): api.STPortfolio
 }
 
 const getAllUserWithExistingHoldings = async(): Promise<api.STUserPublicData[]> => {
-    const usersWithHoldings = await admin.firestore().collection('users').where("holdings", "!=", []).get();
+    // cannot use holdings for filtering because when somebody had increase 90% and sold everythin,
+    // then he would not be filtered out
+    const usersWithHoldings = await admin.firestore().collection('users').where("numberOfExecutedTransactions", ">", 0).get();
     return usersWithHoldings.docs.map(d => d.data() as api.STUserPublicData);
 }
 

@@ -13,7 +13,7 @@ import {groupTestData} from '../../model/groups.testdata';
 export class GroupDetailsComponent implements OnInit {
 
     GROUPS_PAGES_DETAILS_PATH = GROUPS_PAGES_DETAILS_PATH;
-
+    groupTestData = groupTestData;
 
     constructor(private groupStorageService: GroupStorageService,
                 private router: Router) {

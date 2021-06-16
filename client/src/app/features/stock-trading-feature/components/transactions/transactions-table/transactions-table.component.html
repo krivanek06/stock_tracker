@@ -1,16 +1,18 @@
-<ion-list>
+<ion-list class="ion-hide-sm-down">
     <!-- table header -->
-    <ion-item class="ion-no-padding ion-hide-sm-down st-font-1-bold">
-        <ion-label>Symbol</ion-label>
+    <ion-item class="ion-no-padding ion-hide-sm-down st-font-1-bold"
+              [ngClass]="{'c-item-container': applyLastChildStyle}">
+        <ion-label class="c-symbol">Symbol</ion-label>
+        <ion-label *ngIf="showUser" class="c-user">User</ion-label>
+        <ion-label *ngIf="showReturn">Return</ion-label>
         <ion-label>Value</ion-label>
-        <ion-label>Return</ion-label>
-        <ion-label>Date</ion-label>
+        <ion-label *ngIf="showDate">Date</ion-label>
     </ion-item>
 
-
     <!-- table body -->
-    <ion-item *ngFor="let transaction of transactions" class="st-data-item-wrapper ion-hide-sm-down">
-        <ion-label class="st-display-flex-center st-data-label">
+    <ion-item *ngFor="let transaction of transactions" class="st-data-item-wrapper ion-hide-sm-down"
+              [ngClass]="{'c-item-container': applyLastChildStyle}">
+        <ion-label class="st-display-flex-center st-data-label c-symbol">
             <ion-img [src]="transaction.symbol_logo_url" class="st-symbol-image"></ion-img>
             <div class="st-flex-col">
                 <!-- symbol name -->
@@ -24,17 +26,14 @@
             </div>
         </ion-label>
 
-
-        <!-- Value -->
-        <ion-label class="st-flex-col st-data-label">
-            <ion-text>{{ (transaction.price * transaction.units) | currency }}</ion-text>
-            <ion-text class="st-font-size-12 st-font-5">
-                {{ transaction.price | currency }}* {{ transaction.units }}
-            </ion-text>
+        <!-- image -->
+        <ion-label *ngIf="showUser" class="st-display-flex-center st-data-label c-user">
+            <ion-img appDefaultImg [src]="transaction.user?.photoURL" class="st-symbol-image"></ion-img>
+            <ion-text class="st-font-2">{{ transaction.user?.nickName}}</ion-text>
         </ion-label>
 
         <!-- Return -->
-        <ion-label>
+        <ion-label *ngIf="showReturn">
             <app-price-change-item
                     *ngIf="transaction.operation === StTransactionOperationEnum.Sell"
                     [price]="transaction.return"
@@ -42,15 +41,24 @@
             </app-price-change-item>
         </ion-label>
 
+        <!-- Value -->
+        <ion-label class="st-flex-col st-data-label">
+            <ion-text>{{ (transaction.price * transaction.units) | currency }}</ion-text>
+            <ion-text class="st-font-size-12 st-font-5">
+                {{ transaction.price | currency }} * {{ transaction.units }}
+            </ion-text>
+        </ion-label>
+
         <!-- Date -->
-        <ion-label class="st-data-label">{{ transaction.date | date: 'dd.MM.yyyy HH:mm' }}</ion-label>
+        <ion-label *ngIf="showDate" class="st-data-label">
+            <ion-text>{{ transaction.date | date: 'dd.MM.yyyy HH:mm' }}</ion-text>
+        </ion-label>
     </ion-item>
+</ion-list>
 
-
-    <!-- ***************************************** -->
-
-    <!-- SMALL SCREEN -->
-    <ion-item *ngFor="let transaction of transactions" class="st-data-item-wrapper ion-hide-sm-up sm-table-item">
+<!-- SMALL SCREEN -->
+<ion-list class="ion-hide-sm-up">
+    <ion-item *ngFor="let transaction of transactions" class="st-data-item-wrapper  sm-table-item">
         <!-- LOGO + SYMBOL + TRANSACTION TIME -->
         <ion-label class="st-display-flex-center st-data-label st-fit-content">
             <ion-img [src]="transaction.symbol_logo_url" class="st-symbol-image"></ion-img>

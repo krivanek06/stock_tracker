@@ -15,6 +15,7 @@ import {marketValueChange} from '@shared';
 export class PortfolioChangeComponent implements OnInit {
     @Input() balance: number;
     @Input() tradingChangeWrapper: PortfolioHistoricalWrapper;
+    @Input() inlinePriceWithIncrease = true;
 
     constructor() {
     }

@@ -11,7 +11,6 @@ import {
     UserStorageService
 } from '@core';
 import {
-    convertStGroupAllDataToStGroupPartialData,
     GroupFeatureFacadeService,
     GroupMemberPosition,
     GroupMemberPositionChangeEnum,
@@ -61,8 +60,8 @@ export class GroupsEditComponent implements OnInit, OnDestroy {
     }
 
     deleteGroup() {
-        const groupPartialData = convertStGroupAllDataToStGroupPartialData(this.group);
-        this.groupService.deleteGroup(groupPartialData);
+       // const groupPartialData = convertStGroupAllDataToStGroupPartialData(this.group);
+       // this.groupService.deleteGroup(groupPartialData);
     }
 
     uploadedGroupImage(files: UploadedFile[]) {

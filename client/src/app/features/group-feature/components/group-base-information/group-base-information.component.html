@@ -1,43 +1,63 @@
-<!-- image + info -->
-<div class="st-display-flex-center">
-    <div class="st-small-right-space">
-        <ion-img [src]="groupIdentification.imageUrl" appDefaultImg></ion-img>
-    </div>
-    <div class="st-flex-col">
-        <div class="st-flex ion-align-items-center" style="margin-bottom: 8px;">
-            <div class="st-font-size-22 st-font-0">{{ groupIdentification.name }} </div>
+<div class="st-flex-space-between">
+    <div class="st-flex c-content-container">
+        <div class="st-small-right-space">
+            <ion-img class="c-group-image" [src]="groupIdentification.imageUrl" appDefaultImg></ion-img>
         </div>
-        <div>
-            <ion-text class="st-font-1 st-small-right-space">Members:</ion-text>
-            <ion-text>{{ groupIdentification.numberOfMembers }}</ion-text>
-        </div>
-        <div class="st-font-1">
-            {{ groupIdentification.isPrivate ? 'Private' : 'Public' }}
-        </div>
-    </div>
-    <div class="st-flex ion-align-items-baseline">
-        <ion-buttons class="st-flex-col">
-            <ion-button fill="outline" color="success" class="st-button" shape="round" (click)="accept()">
-                Accept
-            </ion-button>
-            <ion-button fill="outline" color="danger" class="st-button" shape="round" (click)="decline()">
-                Decline
-            </ion-button>
-        </ion-buttons>
-        <ion-buttons>
-            <ion-button color="warning" expand="full" fill="outline" shape="round" (click)="visit()">
-                <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
-                Visit
-            </ion-button>
-        </ion-buttons>
-    </div>
-</div>
+        <div class="st-flex-wrap">
+            <div class="st-flex-col ion-margin-end" style="margin-right: 25px">
+                <ion-text class="st-font-size-24 st-font-purple" style="margin-bottom: 8px;">
+                    {{ groupIdentification.name }}
+                </ion-text>
+                <div class="st-display-flex-center st-data-label c-user">
+                    <ion-text class="st-font-1 st-small-right-space">Owner:</ion-text>
+                    <ion-avatar class="c-owner-image">
+                        <img appDefaultImg [src]="groupIdentification.owner.photoURL" alt="owner's image">
+                    </ion-avatar>
+                    <ion-text>{{ groupIdentification.owner.nickName}}</ion-text>
+                </div>
+                <div class="st-font-1">
+                    {{ groupIdentification.isPrivate ? 'Private' : 'Public' }}
+                </div>
+            </div>
 
-<!-- buttons
-<div class="st-flex-col">
-    <div class="st-flex-end">
-        <ion-text class="st-font-1 st-small-right-space">Duration:</ion-text>
-        <ion-text>{{ groupIdentification.startDate | date: 'dd.MM.YYYY' }}
-            - {{ groupIdentification.endDate | date: 'dd.MM.YYYY' }}</ion-text>
+            <div class="st-flex-col">
+                <div>
+                    <ion-text class="st-font-1 st-small-right-space">Created:</ion-text>
+                    <ion-text>{{ groupIdentification.createdDate | date: 'dd.MM.YYYY' }}</ion-text>
+                </div>
+                <div>
+                    <ion-text class="st-font-1 st-small-right-space">Start:</ion-text>
+                    <ion-text>{{ groupIdentification.startDate | date: 'dd.MM.YYYY' }}</ion-text>
+                </div>
+                <div>
+                    <ion-text class="st-font-1 st-small-right-space">End:</ion-text>
+                    <ion-text>{{ groupIdentification.endDate | date: 'dd.MM.YYYY' }}</ion-text>
+                </div>
+                <div>
+                    <ion-text class="st-font-1 st-small-right-space">Last update:</ion-text>
+                    <ion-text>{{ groupIdentification.lastUpdateDate | date: 'dd.MM.YYYY' }}</ion-text>
+                </div>
+                <div>
+                    <ion-text class="st-font-1 st-small-right-space">Members:</ion-text>
+                    <ion-text>{{ groupIdentification.numberOfMembers }}</ion-text>
+                </div>
+            </div>
+        </div>
     </div>
-</div>-->
+    <!-- buttons -->
+    <ion-buttons *ngIf="showAcceptButton || showDeclineButton || showInviteButton || showVisitButton">
+        <ion-button *ngIf="showAcceptButton" fill="outline" color="success" shape="round" (click)="accept()">
+            Accept
+        </ion-button>
+        <ion-button *ngIf="showDeclineButton" fill="outline" color="danger" shape="round" (click)="decline()">
+            Decline
+        </ion-button>
+        <ion-button *ngIf="showInviteButton" fill="outline" color="primary" shape="round" (click)="invite()">
+            Invite
+        </ion-button>
+        <ion-button *ngIf="showVisitButton" fill="outline" color="warning" shape="round" (click)="visit()">
+            <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+            Visit
+        </ion-button>
+    </ion-buttons>
+</div>
