@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {GraphqlQueryService, StMarketOverviewPartialData} from '@core';
 import {Observable} from 'rxjs';
-import {MarketPageFacadeService} from '../../services/market-page-facade.service';
+import {MarketFeatureFacadeService} from '@market-feature';
 
 @Component({
     selector: 'app-market-overview',
@@ -15,7 +15,7 @@ export class MarketOverviewComponent implements OnInit {
     chartHeight = 185;
 
     constructor(private graphqlQueryService: GraphqlQueryService,
-                private marketPageFacadeService: MarketPageFacadeService) {
+                private marketPageFacadeService: MarketFeatureFacadeService) {
     }
 
     ngOnInit() {

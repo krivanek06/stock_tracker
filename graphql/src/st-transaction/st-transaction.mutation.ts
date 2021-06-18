@@ -25,7 +25,7 @@ export const performTransaction = async (transactionInput: api.STTransactionInpu
         const {holdings, lastTransaction } = isBuy ? await performBuyTransaction(user, transactionInput) : 
                                                      await performSellTransaction(user, transactionInput);
 
-        await updateTransactionSnapshots(user, transactionInput, holdings);
+        await updateTransactionSnapshots(user, lastTransaction, holdings);
 
         return lastTransaction;
     } catch (error) {
@@ -85,7 +85,7 @@ const performSellTransaction = async (user: api.STUserPublicData, transactionInp
     }
 };
 
-const updateTransactionSnapshots = async (user: api.STUserPublicData, transaction: api.STTransactionInput, userHoldings: api.STTransaction[]) => {
+const updateTransactionSnapshots = async (user: api.STUserPublicData, transaction: api.STTransaction, userHoldings: api.STTransaction[]) => {
      const userHistoricaldataRef = admin.firestore().collection(api.ST_USER_COLLECTION_USER)
                                                     .doc(user.id)
                                                     .collection(api.ST_USER_COLLECTION_MORE_INFORMATION)

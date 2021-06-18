@@ -1,80 +1,20 @@
-<div class="st-flex-row-sm-col ion-justify-content-evenly">
-    <!-- portfolio current state -->
-    <app-portfolio-state
-            portfolioState="PARTIAL"
-            [portfolioCash]="groupTestData.lastPortfolioSnapshot.portfolioCash"
-            [portfolioInvested]="groupTestData.lastPortfolioSnapshot.portfolioInvested">
-    </app-portfolio-state>
+<!-- portfolio -->
+<app-group-details-overview-portfolio-container
+        [groupAllData]="groupTestData">
+</app-group-details-overview-portfolio-container>
 
-    <!-- portfolio change -->
-    <div class="st-flex-wrap c-portfolio-change">
-        <app-portfolio-change
-                *ngFor="let tradingChange of tradingChangeWrapper"
-                [inlinePriceWithIncrease]="false"
-                [tradingChangeWrapper]="tradingChange"
-                [balance]="groupTestData.lastPortfolioSnapshot.portfolioInvested + groupTestData.lastPortfolioSnapshot.portfolioCash">
-        </app-portfolio-change>
-    </div>
+<!-- invitations -->
+<app-group-details-overview-invitations-container
+        [groupAllData]="groupTestData">
+</app-group-details-overview-invitations-container>
 
-    <!-- portfolio increase chart -->
-    <div class="c-portfolio-chart">
-        <app-portfolio-increase-chart
-                [heightPx]="200"
-                [startingBalance]="groupTestData.startedBalance"
-                [stPortfolioSnapshots]="groupTestData.lastPortfolioSnapshot">
-        </app-portfolio-increase-chart>
-    </div>
-</div>
+<!-- members -->
+<app-group-details-overview-members-container
+        [user]="user$ | async"
+        [groupAllData]="groupTestData">
+</app-group-details-overview-members-container>
 
-
-<ion-toolbar>
-    <ion-title class="st-font-size-18 st-font-0">
-        Users {{ groupTestData.members.length }}
-    </ion-title>
-</ion-toolbar>
-<div class="st-flex-wrap ion-justify-content-around" style="gap: 10px">
-    <ion-card *ngFor="let groupUser of groupTestData.members">
-        <app-group-user-base-information
-                [groupUser]="groupUser">
-        </app-group-user-base-information>
-    </ion-card>
-</div>
-
-<ion-toolbar>
-    <ion-title class="st-font-size-18 st-font-0">
-        Transactions
-    </ion-title>
-</ion-toolbar>
-
-<ion-grid>
-    <ion-row>
-        <ion-col size="12" size-lg="6">
-            <app-generic-card subtitle="Recent transactions">
-                <app-transactions-table
-                        [applyLastChildStyle]="true"
-                        [showDate]="false"
-                        [showUser]="true"
-                        [showReturn]="false"
-                        [transactions]="groupTestData.lastTransactions">
-                </app-transactions-table>
-            </app-generic-card>
-        </ion-col>
-        <ion-col size="12" size-lg="6">
-            <app-generic-card subtitle="Top transactions">
-                <app-transactions-table
-                        [applyLastChildStyle]="true"
-                        [showUser]="true"
-                        [showDate]="false"
-                        [transactions]="groupTestData.topTransactions">
-                </app-transactions-table>
-            </app-generic-card>
-        </ion-col>
-    </ion-row>
-</ion-grid>
-
-<app-generic-card>
-    <app-transactions-chart
-            [heightPx]="360"
-            [stTransactionSnapshots]="groupTestData.groupHistoricalData.transactionSnapshots">
-    </app-transactions-chart>
-</app-generic-card>
+<!-- transactions -->
+<app-group-details-overview-transactions-container
+        [groupAllData]="groupTestData">
+</app-group-details-overview-transactions-container>

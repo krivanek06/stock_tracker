@@ -1,0 +1,26 @@
+<ion-content class="ion-padding">
+    <ion-toolbar>
+        <ion-title class="ion-text-center st-font-1 st-font-size-16">
+            {{ title | titlecase }}
+        </ion-title>
+        <!--<ion-buttons slot="end">
+            <ion-button color="danger" (click)="dismissModal()">
+                <ion-icon name="close-outline"></ion-icon>
+                Close
+            </ion-button>
+        </ion-buttons>-->
+    </ion-toolbar>
+
+
+    <!-- display all stock watchList names -->
+    <ion-item *ngFor="let option of options"
+              button
+              class="ion-activatable"
+              (click)="addSymbolToWatchlist(option.id)">
+        <ion-label class="ion-text-center">
+            {{ option.name }}
+        </ion-label>
+    </ion-item>
+
+
+</ion-content>

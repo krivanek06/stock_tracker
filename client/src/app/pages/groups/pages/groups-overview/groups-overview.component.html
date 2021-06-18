@@ -10,11 +10,12 @@
     </ion-label>
 </ion-list-header>
 <app-generic-card>
-    <app-groups-overview-group-information-view
-            [showInviteButton]="true"
+    <app-groups-overview-group-information-container
             [groupAllData]="groupTestData">
-    </app-groups-overview-group-information-view>
+    </app-groups-overview-group-information-container>
 </app-generic-card>
+<!-- TODO delete -->
+
 
 <ng-container *ngIf="user$ | async as user">
     <!-- My groups -->
@@ -25,16 +26,15 @@
     </ion-list-header>
     <!-- owner of groups -->
     <app-generic-card *ngFor="let group of user.groups.groupOwner">
-        <app-groups-overview-group-information-view
-                [showInviteButton]="true"
+        <app-groups-overview-group-information-container
                 [groupAllData]="group">
-        </app-groups-overview-group-information-view>
+        </app-groups-overview-group-information-container>
     </app-generic-card>
     <!-- member fo groups -->
     <app-generic-card *ngFor="let group of user.groups.groupMember">
-        <app-groups-overview-group-information-view
+        <app-groups-overview-group-information-container
                 [groupAllData]="group">
-        </app-groups-overview-group-information-view>
+        </app-groups-overview-group-information-container>
     </app-generic-card>
 
 
@@ -46,17 +46,17 @@
     </ion-list-header>
     <!-- Received invitations -->
     <app-generic-card *ngFor="let group of user.groups.groupInvitationReceived">
-        <app-groups-overview-group-information-view
+        <app-groups-overview-group-information-container
                 [showAcceptButton]="true"
                 [showDeclineButton]="true"
                 [groupAllData]="group">
-        </app-groups-overview-group-information-view>
+        </app-groups-overview-group-information-container>
     </app-generic-card>
     <!-- Sent invitations -->
     <app-generic-card *ngFor="let group of user.groups.groupInvitationSent">
-        <app-groups-overview-group-information-view
+        <app-groups-overview-group-information-container
                 [showDeclineButton]="true"
                 [groupAllData]="group">
-        </app-groups-overview-group-information-view>
+        </app-groups-overview-group-information-container>
     </app-generic-card>
 </ng-container>

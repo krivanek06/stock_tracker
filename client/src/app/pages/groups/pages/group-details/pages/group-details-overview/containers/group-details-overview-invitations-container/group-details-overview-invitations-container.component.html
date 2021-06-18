@@ -1,0 +1,51 @@
+<ion-toolbar>
+    <ion-title class="st-font-size-18 st-font-0">
+        Invitations
+    </ion-title>
+</ion-toolbar>
+
+<ion-card>
+    <!-- invite members -->
+    <ion-card-header>
+        <ion-card-subtitle>
+            Invite members
+        </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content class="st-border-bottom st-flex-wrap">
+        <app-user-account-search
+                (clickedUserEmitter)="inviteUser($event)">
+        </app-user-account-search>
+    </ion-card-content>
+
+    <!-- sent invitations -->
+    <ion-card-header>
+        <ion-card-subtitle>
+            Sent invitations
+        </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content class="st-border-bottom st-flex-wrap">
+        <app-group-user-base-information
+                *ngFor="let groupUser of groupAllData.invitationSent"
+                (click)="removeInvitation(groupUser)"
+                [clickable]="true"
+                [groupUser]="groupUser">
+        </app-group-user-base-information>
+    </ion-card-content>
+
+
+    <ion-card-header>
+        <ion-card-subtitle>
+            Received members
+        </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content class="st-flex-wrap">
+        <app-group-user-base-information
+                *ngFor="let groupUser of groupAllData.invitationReceived"
+                (click)="receivedInvitation(groupUser)"
+                [clickable]="true"
+                [groupUser]="groupUser">
+        </app-group-user-base-information>
+    </ion-card-content>
+</ion-card>
+
+

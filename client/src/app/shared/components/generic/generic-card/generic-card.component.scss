@@ -7,6 +7,7 @@
 
   .left-padding-small-screen {
     padding-left: 16px !important;
+    padding-right: 8px;
     @media (max-width: #{$st-var-sm-split}) {
       padding-left: 8px !important;
     }

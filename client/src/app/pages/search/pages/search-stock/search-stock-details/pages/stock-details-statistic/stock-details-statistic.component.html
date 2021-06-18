@@ -49,9 +49,7 @@
             </app-generic-card>
         </ion-col>
         <ion-col size-xl="5" size="12">
-            <app-generic-card subtitle="Financial yearly growth"
-                              additionalClasses="st-height-100"
-                              [applyLeftPadding]="false">
+            <app-generic-card subtitle="Financial yearly growth" additionalClasses="st-height-100">
                 <app-generic-chart
                         [chartType]="ChartType.bar"
                         [heightPx]="315"
@@ -91,7 +89,7 @@
             </app-generic-card>
         </ion-col>
         <ion-col size-lg="5" size="12">
-            <app-generic-card subtitle="Margin" additionalClasses="st-height-100" [applyLeftPadding]="false">
+            <app-generic-card subtitle="Margin" additionalClasses="st-height-100">
                 <app-generic-chart
                         [chartType]="ChartType.bar"
                         [heightPx]="285"
@@ -122,7 +120,7 @@
             </app-generic-card>
         </ion-col>
         <ion-col size-lg="3" size-sm="6" size="12">
-            <app-generic-card subtitle="Effectiveness" [applyLeftPadding]="false" additionalClasses="st-height-100">
+            <app-generic-card subtitle="Effectiveness" additionalClasses="st-height-100">
                 <app-generic-chart
                         *ngIf="stockDetails.companyData.financialData.returnOnAssets ||
                                stockDetails.companyData.financialData.returnOnEquity ||
@@ -145,9 +143,7 @@
 
         <ion-col size="12" size-lg="5">
             <!-- company growth -->
-            <app-generic-card subtitle="Company growth"
-                              [applyLeftPadding]="false"
-                              additionalClasses="st-height-100">
+            <app-generic-card subtitle="Company growth" additionalClasses="st-height-100">
                 <app-generic-chart
                         *ngIf="stockDetails.analysis?.growthEstimates"
                         [chartType]="ChartType.column"
@@ -167,9 +163,7 @@
     <ion-row>
         <ion-col size-xl="6.5" size-md="7.5" size="12">
             <!-- revenue growth chart -->
-            <app-generic-card subtitle="Revenue growth estimation"
-                              [applyLeftPadding]="false"
-                              additionalClasses="st-height-100">
+            <app-generic-card subtitle="Revenue growth estimation" additionalClasses="st-height-100">
                 <app-details-revenue-estimate
                         *ngIf="stockDetails.analysis?.revenueEstimate"
                         [revenueEstimates]="stockDetails.analysis?.revenueEstimate">
@@ -178,9 +172,7 @@
         </ion-col>
         <ion-col size-xl="5.5" size-md="4.5" size="12">
             <!-- recommendation chart -->
-            <app-generic-card subtitle="Recommendation"
-                              [applyLeftPadding]="false"
-                              additionalClasses="st-height-100">
+            <app-generic-card subtitle="Recommendation" additionalClasses="st-height-100">
                 <app-details-recommendation-chart
                         *ngIf="stockDetails.recommendation.length > 0"
                         [recommendations]="stockDetails.recommendation">
@@ -193,9 +185,7 @@
     <ion-row>
         <ion-col size-lg="4" size-sm="6" size="12">
             <!-- Financial yearly -->
-            <app-generic-card subtitle="Financial yearly"
-                              [applyLeftPadding]="false"
-                              additionalClasses="st-height-100">
+            <app-generic-card subtitle="Financial yearly" additionalClasses="st-height-100">
                 <ng-container *ngIf="stockDetails.companyData.earnings?.financialsChart as fc">
                     <app-generic-chart
                             *ngIf="fc?.yearly?.categories?.length > 0"
@@ -210,9 +200,7 @@
 
         <ion-col size-lg="4" size-sm="6" size="12">
             <!-- Financial quarterly -->
-            <app-generic-card subtitle="Financial quarterly"
-                              [applyLeftPadding]="false"
-                              additionalClasses="st-height-100">
+            <app-generic-card subtitle="Financial quarterly" additionalClasses="st-height-100">
                 <ng-container *ngIf="stockDetails.companyData.earnings?.financialsChart as fc">
                     <app-generic-chart
                             *ngIf="fc?.quarterly?.categories?.length > 0"
@@ -226,7 +214,7 @@
         </ion-col>
 
         <ion-col size-lg="4" size="12">
-            <app-generic-card subtitle="Earnings" [applyLeftPadding]="false" additionalClasses="st-height-100">
+            <app-generic-card subtitle="Earnings" additionalClasses="st-height-100">
                 <app-details-earnings-chart
                         *ngIf="stockDetails.companyData.earnings?.earningsChart?.quarterly?.length > 0"
                         [earnings]="stockDetails.companyData.earnings?.earningsChart">
@@ -241,9 +229,7 @@
                 <ion-row>
                     <ion-col size="12" size-sm="6">
                         <!--  Current price to 1y target -->
-                        <app-generic-card subtitle="Price to 1y target"
-                                          additionalClasses="st-height-100"
-                                          [applyLeftPadding]="false">
+                        <app-generic-card subtitle="Price to 1y target" additionalClasses="st-height-100">
                             <app-gauge-chart
                                     *ngIf="stockDetails.summary.oneyTargetEst"
                                     [tooltipName]="'Target'"
@@ -258,9 +244,7 @@
                     </ion-col>
                     <ion-col size="12" size-sm="6">
                         <!--  Cash to Debt -->
-                        <app-generic-card subtitle="Cash to Debt"
-                                          additionalClasses="st-height-100"
-                                          [applyLeftPadding]="false">
+                        <app-generic-card subtitle="Cash to Debt" additionalClasses="st-height-100">
                             <ng-container *ngIf="stockDetails.companyData.financialData as fd">
                                 <app-gauge-chart
                                         *ngIf="fd.totalCash && fd.totalDebt"

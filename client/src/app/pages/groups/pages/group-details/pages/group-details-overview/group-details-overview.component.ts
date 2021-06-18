@@ -1,7 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {groupTestData} from '../../../../model/groups.testdata';
 import {PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingFeatureFacadeService} from '@stock-trading-feature';
-import {GroupStorageService} from '@core';
+import {GroupStorageService, StUserPublicData, UserStorageService} from '@core';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'app-group-details-overview',
@@ -10,22 +11,21 @@ import {GroupStorageService} from '@core';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroupDetailsOverviewComponent implements OnInit {
-    tradingChangeWrapper: PortfolioHistoricalWrapper[] = [];
+    user$: Observable<StUserPublicData>;
 
     groupTestData = groupTestData;
 
     constructor(private groupStorageService: GroupStorageService,
-                private tradingFeatureFacadeService: TradingFeatureFacadeService) {
+
+                private userStorageService: UserStorageService) {
     }
 
     ngOnInit() {
+        this.user$ = this.userStorageService.getUser();
         this.groupStorageService.getActiveGroup().subscribe(res => {
             console.log('active group is', res);
         });
-        this.tradingChangeWrapper = this.tradingFeatureFacadeService.createPortfolioHistoricalWrappers(
-            this.groupTestData.groupHistoricalData.portfolioSnapshots,
-            [TIME_INTERVAL_ENUM.DAILY, TIME_INTERVAL_ENUM.WEEKLY, TIME_INTERVAL_ENUM.MONTHLY, TIME_INTERVAL_ENUM.FROM_BEGINNING]
-        );
+
     }
 
 }

@@ -80,7 +80,6 @@
                     <ion-col size="12" size-sm="6" size-lg="4" size-xl="3" *ngFor="let suggestion of suggestions">
                         <!-- suggestion in card with ripple effect -->
                         <app-generic-card (click)="changeSummary(suggestion.summary)"
-                                          [applyLeftPadding]="false"
                                           [additionalClasses]="'st-height-100 ion-activatable'">
                             <app-details-stock-suggestion-change
                                     [suggestionMarketPrice]="suggestion.summary.marketPrice"

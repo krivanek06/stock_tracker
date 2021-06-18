@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ModalController, PopoverController} from '@ionic/angular';
-import {Confirmable, DialogService, IdNameContainer, SymbolIdentification} from '@shared';
-import {SymbolLookupModalComponent, WatchlistPickerPopOverContainerComponent} from '../entry-components'; // TODO circular dependency
+import {DialogService, IdNameContainer, OptionPickerPopOverComponent, SymbolIdentification} from '@shared';
+import {SymbolLookupModalComponent} from '../entry-components'; // TODO circular dependency
 import {FinnhubWebsocketService, GraphqlWatchlistService, StStockWatchInputlistIdentifier, UserStorageService} from '@core';
 import {Router} from '@angular/router';
 
@@ -15,7 +15,7 @@ export class WatchlistFeatureFacadeService {
                 private userStorageService: UserStorageService,
                 private modalController: ModalController,
                 private popoverController: PopoverController,
-                private router: Router,) {
+                private router: Router) {
     }
 
     async presentSymbolLookupModal(symbolIdentification: SymbolIdentification,
@@ -40,24 +40,6 @@ export class WatchlistFeatureFacadeService {
         }
     }
 
-    async presentWatchlistPickerPopOver(symbol: string): Promise<IdNameContainer> {
-        const popOver = await this.popoverController.create({
-            component: WatchlistPickerPopOverContainerComponent,
-            componentProps: {symbol},
-            cssClass: 'custom-popover',
-            translucent: true,
-        });
-        await popOver.present();
-
-        const dismiss = await popOver.onDidDismiss(); // get data on dismiss
-
-        const watchlistId = dismiss?.data?.watchListId;
-        const watchlistName = dismiss?.data?.watchlistName;
-
-        return {id: watchlistId, name: watchlistName};
-    }
-
-
     async addSymbolToWatchlist(symbol: string): Promise<void> {
         if (this.userStorageService.user.stockWatchlist.length === 0) {
             const confirmation = await DialogService.presentAlertConfirm(`You have not created your watchlist yet. Do you with to create one ?`);
@@ -74,32 +56,26 @@ export class WatchlistFeatureFacadeService {
         let watchlistName;
 
         if (watchlists.length === 1) {
-            watchlistId = watchlists[0].id; // default, only 1 watchlist
+            // default, only 1 watchlist
+            watchlistId = watchlists[0].id;
             watchlistName = watchlists[0].name;
         } else {
-            // multiple watchlist, present entry-components for user to choose
-            const popOver = await this.popoverController.create({
-                component: WatchlistPickerPopOverContainerComponent,
-                componentProps: {symbol},
-                cssClass: 'custom-popover',
-                translucent: true,
+            // multiple watchlist, present entry-containers for user to choose
+            const options = watchlists.map(watchlist => {
+                return {name: `${watchlist.name}  [ ${watchlist?.summaries.length} ]`, id: watchlist.id} as IdNameContainer;
             });
-            await popOver.present();
-
-            const dismiss = await popOver.onDidDismiss(); // get data on dismiss
-
-            watchlistId = dismiss.data ? dismiss.data.watchListId : undefined;
-            watchlistName = dismiss.data ? dismiss.data.watchlistName : undefined;
+            watchlistId = await DialogService.presentOptionsPopOver('Select watchlist', options);
+            watchlistName = watchlists.find(watchlist => watchlist.id === watchlistId)?.name;
         }
 
         if (watchlistId) {
             await this.graphqlWatchlistService.addSymbolToWatchlist(watchlistId, symbol).toPromise();
-            DialogService.presentToast(`Symbol ${symbol} has been added into watchlist ${watchlistName}`);
+            await DialogService.presentToast(`Symbol ${symbol} has been added into watchlist ${watchlistName}`);
         }
     }
 
     async createWatchlist() {
-        const name = await DialogService.presentInlineInputPopOver();
+        const name = await DialogService.presentInlineInputPopOver('Watchlist name');
 
         if (name) {
             await this.graphqlWatchlistService.createWatchList(name).toPromise();
@@ -107,22 +83,19 @@ export class WatchlistFeatureFacadeService {
         }
     }
 
-    @Confirmable('Please confirm removing symbol from watchlist')
     async removeStockFromWatchlist(data: SymbolIdentification, documentId: string) {
         const watchlistName = this.userStorageService.user.stockWatchlist.find(s => s.id === documentId).name;
         await this.graphqlWatchlistService.removeStockFromWatchlist(documentId, data.symbol).toPromise();
-        DialogService.presentToast(`Symbol deleted from watchlist: ${watchlistName}`);
+        await DialogService.presentToast(`Symbol deleted from watchlist: ${watchlistName}`);
     }
 
-    @Confirmable('Please confirm deleting watchlist')
     async deleteWatchlist(input: StStockWatchInputlistIdentifier) {
         await this.graphqlWatchlistService.deleteUserWatchlist(input.id).toPromise();
-        DialogService.presentToast(`Watchlist ${input.additionalData} has been removed`);
+        await DialogService.presentToast(`Watchlist ${input.additionalData} has been removed`);
     }
 
-    @Confirmable('Please confirm renaming watchlist')
     async renameWatchlist(input: StStockWatchInputlistIdentifier) {
         await this.graphqlWatchlistService.renameStockWatchlist(input.id, input.additionalData).toPromise();
-        DialogService.presentToast('Watchlist has been renamed');
+        await DialogService.presentToast('Watchlist has been renamed');
     }
 }

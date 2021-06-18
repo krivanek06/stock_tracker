@@ -18,7 +18,6 @@ import {
     GenericFadingCardContentComponent,
     GenericFancyCardComponent,
     GenericListComponent,
-    InlineInputPopUpComponent,
     InlineModificationFormComponent, PositionChangeItemComponent,
     PriceChangeItemComponent,
     PriceCompareItemComponent,
@@ -41,7 +40,12 @@ import {
     SumUpPipe
 } from './pipes';
 import {FinancialChartContainerComponent, HeaderComponent, StockSummaryContainerComponent} from './containers';
-import {FinancialChartModalComponent} from './entry-components';
+import {
+    ConfirmationPopOverComponent,
+    FinancialChartModalComponent,
+    InlineInputPopUpComponent,
+    OptionPickerPopOverComponent
+} from './entry-components';
 import {SharedProvidersModule} from './shared-providers.module';
 
 
@@ -86,7 +90,9 @@ import {SharedProvidersModule} from './shared-providers.module';
         SplitKeyToTitlecasePipe,
         SplitPipe,
         DisableControlDirective,
-        PositionChangeItemComponent
+        PositionChangeItemComponent,
+        OptionPickerPopOverComponent,
+        ConfirmationPopOverComponent
     ],
     imports: [
         SharedProvidersModule
@@ -129,10 +135,13 @@ import {SharedProvidersModule} from './shared-providers.module';
         SplitKeyToTitlecasePipe,
         SplitPipe,
         DisableControlDirective,
-        PositionChangeItemComponent
+        PositionChangeItemComponent,
+        OptionPickerPopOverComponent,
+        ConfirmationPopOverComponent
     ],
     entryComponents: [
-        InlineInputPopUpComponent
+        InlineInputPopUpComponent,
+        OptionPickerPopOverComponent
     ]
 })
 export class SharedModule {

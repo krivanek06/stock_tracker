@@ -111,6 +111,7 @@ for(let i = 0; i < 25; i++){
     const previous = members[i];
     members.push({
         ...previous,
+        currentPosition: i + 1,
         lastPortfolioSnapshot: {
             ...previous.lastPortfolioSnapshot,
             portfolioInvested: previous.lastPortfolioSnapshot.portfolioInvested * 1.1
@@ -118,6 +119,7 @@ for(let i = 0; i < 25; i++){
         lastPortfolioIncreasePrct: Math.floor(Math.random() * 1) -1
     } as StGroupUser)
 }
+members.splice(0, 1);
 
 let lastTransactions: StTransaction[] = [transaction];
 for(let i = 0; i < 15; i++){
@@ -140,9 +142,10 @@ export const groupTestData: StGroupAllData = {
     isInfinite: false,
     name: 'test group 1',
     owner: {
-        ...position1
+        ...position1,
+        id: 'Rd6txjVNB7UkiVTop1YZVrweUtE2'
     },
-    invitationSent: [position1, position1],
+    invitationSent: [position1, position1, position1, position1].map(user => { return {...user, currentPosition: null, previousPosition: null}}),
     members: members,
     managers: [],
     description: 'This is a group description, remember it',
@@ -155,7 +158,7 @@ export const groupTestData: StGroupAllData = {
     topMembers: [position1, position2, position3, position10],
     lastUpdateDate: '2021-06-10T22:00:00.000Z',
     lastEditedDate: '2021-06-10T22:00:00.000Z',
-    invitationReceived: [position1, position1],
+    invitationReceived: [position1, position1, position1, position1, position1, position1].map(user => { return {...user, currentPosition: null, previousPosition: null}}),
     startedBalance: 25600,
     lastTransactionSnapshot: {
         transactionsBuy: 4512,
