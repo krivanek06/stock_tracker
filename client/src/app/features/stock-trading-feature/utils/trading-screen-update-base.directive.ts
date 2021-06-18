@@ -30,7 +30,7 @@ export abstract class TradingScreenUpdateBaseDirective implements OnInit, OnDest
     }
 
     /**
-     * All components which will extend TradingScreenUpdateBase needs these attributes
+     * All containers which will extend TradingScreenUpdateBase needs these attributes
      */
     private initComponentAttributes() {
         this.userStorageService.getUser().pipe(

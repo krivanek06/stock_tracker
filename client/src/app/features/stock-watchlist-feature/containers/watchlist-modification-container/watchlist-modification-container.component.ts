@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {StStockWatchInputlistIdentifier, StStockWatchlist, UserStorageService} from '@core';
 import {WatchlistFeatureFacadeService} from '../../services';
+import {Confirmable} from '@shared';
 
 @Component({
     selector: 'app-watchlist-modification-container',
@@ -18,6 +19,7 @@ export class WatchlistModificationContainerComponent implements OnInit {
     ngOnInit() {
     }
 
+    @Confirmable('Please confirm renaming watchlist')
     changeName(watchlistNewName: string, watchlist: StStockWatchlist) {
         const input: StStockWatchInputlistIdentifier = {
             id: watchlist.id,
@@ -27,6 +29,7 @@ export class WatchlistModificationContainerComponent implements OnInit {
         this.watchlistService.renameWatchlist(input);
     }
 
+    @Confirmable('Please confirm deleting watchlist')
     deleteWatchlist(watchlist: StStockWatchlist) {
         const input: StStockWatchInputlistIdentifier = {
             id: watchlist.id,

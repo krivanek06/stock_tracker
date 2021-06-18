@@ -45,15 +45,22 @@
         </div>
     </div>
     <!-- buttons -->
-    <ion-buttons *ngIf="showAcceptButton || showDeclineButton || showInviteButton || showVisitButton">
+    <ion-buttons *ngIf="showAcceptButton || showDeclineButton || showDeleteButton ||
+                        showLeaveButton || showVisitButton || showSendInvitation">
         <ion-button *ngIf="showAcceptButton" fill="outline" color="success" shape="round" (click)="accept()">
             Accept
         </ion-button>
         <ion-button *ngIf="showDeclineButton" fill="outline" color="danger" shape="round" (click)="decline()">
             Decline
         </ion-button>
-        <ion-button *ngIf="showInviteButton" fill="outline" color="primary" shape="round" (click)="invite()">
-            Invite
+        <ion-button *ngIf="showLeaveButton" fill="outline" color="danger" shape="round" (click)="leave()">
+            Leave
+        </ion-button>
+        <ion-button *ngIf="showSendInvitation" fill="outline" color="primary" shape="round" (click)="sendInvitation()">
+            Send invitation
+        </ion-button>
+        <ion-button *ngIf="showDeleteButton" fill="outline" color="danger" shape="round" (click)="delete()">
+            Delete
         </ion-button>
         <ion-button *ngIf="showVisitButton" fill="outline" color="warning" shape="round" (click)="visit()">
             <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>

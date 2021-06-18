@@ -7,22 +7,20 @@
     min-width: 100px;
     min-height: 100px;
   }
-  .c-content-container{
+
+  .c-content-container {
     @media (max-width: #{$st-var-md-split}) {
       margin: auto;
     }
   }
+
   ion-buttons {
-    max-width: 50%;
-    flex-flow: wrap;
-    justify-content: flex-end;
-    align-items: baseline;
     margin-top: -12px;
+    display: block;
+    text-align: end;
+    max-width: 325px;
     @media (max-width: #{$st-var-md-split}) {
-      max-width: 100%;
-      width: 100%;
-      justify-content: center;
-      margin-top: 0;
+      margin-top: 8px;
     }
 
     ion-button {

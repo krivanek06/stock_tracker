@@ -1,24 +1,44 @@
 :host {
-  ion-list {
+  .c-main-container {
     position: relative;
+    padding: 10px;
   }
 
   ion-img {
-    max-width: 70px;
-    max-height: 70px;
-    min-width: 70px;
-    min-height: 70px;
+    max-width: 65px;
+    max-height: 65px;
+    min-width: 65px;
+    min-height: 65px;
   }
 
-  .current-position {
+  .max-w {
+    max-width: 350px;
+  }
+
+  .current-position-number-container {
     position: absolute;
-    top: 0;
     right: 0;
-    display: flex;
-    align-items: center;
+    top: 0;
+
+    .current-position-number {
+      margin-right: 8px;
+      font-size: 20px;
+    }
   }
-  .current-position-number {
-    margin-right: 8px;
-    font-size: 16px;
+
+  .first-position {
+    color: #d8bc17;
   }
+  .second-position {
+    color: #b9b9b9;
+  }
+
+  .third-position {
+    color: #ea7a2b ;
+  }
+
+  .my-position {
+    background-color: #c36778;
+  }
+
 }

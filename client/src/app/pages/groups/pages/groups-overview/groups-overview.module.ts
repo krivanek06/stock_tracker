@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {GroupsOverviewComponent} from './groups-overview.component';
 import {GroupFeatureModule} from '@group-feature';
 import {SharedModule} from '@shared';
-import {GroupsOverviewGroupInformationViewComponent} from './components/groups-overview-group-information-view/groups-overview-group-information-view.component';
+import {GroupsOverviewGroupInformationContainerComponent} from './containers';
 import {StockTradingFeatureModule} from '@stock-trading-feature';
 
 
@@ -17,7 +17,7 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         GroupsOverviewComponent,
-        GroupsOverviewGroupInformationViewComponent
+        GroupsOverviewGroupInformationContainerComponent
     ],
     imports: [
         SharedModule,

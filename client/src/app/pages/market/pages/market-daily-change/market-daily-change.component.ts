@@ -10,11 +10,12 @@ import {
     StMarketTopTableSymbolData
 } from '@core';
 import {NameValueContainer, SymbolIdentification} from '@shared';
-import {filter, first, map, takeUntil} from 'rxjs/operators';
+import {first, takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
 import {MARKET_DAILY_CHANGE_SELECT} from '../../model/market.model';
-import {Observable, of, pipe} from 'rxjs';
-import {MarketPageFacadeService} from '../../services/market-page-facade.service';
+import {Observable, of} from 'rxjs';
+import {MarketFeatureFacadeService} from '@market-feature';
+import {WatchlistFeatureFacadeService} from '@stock-watchlist-feature';
 
 @Component({
     selector: 'app-market-daily-change',
@@ -35,7 +36,8 @@ export class MarketDailyChangeComponent extends ComponentScreenUpdateBaseDirecti
 
     constructor(private graphqlQueryService: GraphqlQueryService,
                 private finnhubWebsocketService: FinnhubWebsocketService,
-                private marketPageFacadeService: MarketPageFacadeService,
+                private marketPageFacadeService: MarketFeatureFacadeService,
+                private watchlistFeatureFacadeService: WatchlistFeatureFacadeService,
                 public cdr: ChangeDetectorRef) {
         super(cdr, 'MarketDailyChangeComponent');
     }
@@ -73,11 +75,14 @@ export class MarketDailyChangeComponent extends ComponentScreenUpdateBaseDirecti
     }
 
     async showStockEarningsOnDate(selectedDate: string) {
-        await this.marketPageFacadeService.showStockEarningsOnDate(selectedDate);
+        const symbolIdentification = await this.marketPageFacadeService.showStockEarningsOnDate(selectedDate);
+        this.showSummary(symbolIdentification);
     }
 
     async showSummary(symbolIdentification: SymbolIdentification) {
-        await this.marketPageFacadeService.showSymbolSummary(symbolIdentification, false);
+        if(!!symbolIdentification){
+            await this.watchlistFeatureFacadeService.presentSymbolLookupModal(symbolIdentification, false);
+        }
     }
 
     private createCopyOfDailyOverview() {
@@ -91,7 +96,7 @@ export class MarketDailyChangeComponent extends ComponentScreenUpdateBaseDirecti
             // init subscription only if service is initialized
             this.finnhubWebsocketService.isConnectionInitializedObs().pipe(
                 first(res => res)
-            ).subscribe(() => this.initSubscriptionForDailyOverview())
+            ).subscribe(() => this.initSubscriptionForDailyOverview());
         });
     }
 

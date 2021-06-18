@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {StGroupUser} from '@core';
+import {StGroupUser, StUserPublicData} from '@core';
 
 @Component({
     selector: 'app-group-user-base-information',
@@ -9,6 +9,9 @@ import {StGroupUser} from '@core';
 })
 export class GroupUserBaseInformationComponent implements OnInit {
     @Input() groupUser: StGroupUser;
+    @Input() useClassStyling: 'first-position' | 'second-position' | 'third-position' | 'my-position' | '' = '';
+    @Input() showIncreasePosition: boolean = false;
+    @Input() clickable: boolean = false;
 
     constructor() {
     }

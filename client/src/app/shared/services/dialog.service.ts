@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AlertController, PopoverController, ToastController} from '@ionic/angular';
-import {InlineInputPopUpComponent} from '../components/pop-ups';
+import {ConfirmationPopOverComponent, InlineInputPopUpComponent, OptionPickerPopOverComponent} from '../entry-components';
+import {IdNameContainer} from '../models';
 
 
 @Injectable()
@@ -78,7 +79,7 @@ export class DialogService {
         toast.present();
     }
 
-    static async presentInlineInputPopOver(): Promise<string> {
+    static async presentInlineInputPopOver(inputLabel: string): Promise<string> {
         if (!DialogService.popoverController) {
             throw new Error('DialogService.popoverController not initialized');
         }
@@ -86,12 +87,51 @@ export class DialogService {
             component: InlineInputPopUpComponent,
             cssClass: 'custom-popover',
             translucent: true,
-            componentProps: {inputLabel: 'Watchlist name'}
+            componentProps: {inputLabel}
         });
 
         await popover.present();
         const res = await popover.onDidDismiss();
-        return res?.data.inputData;
+        return res?.data?.inputData;
+    }
+
+    static async presentConfirmationPopOver(message: string, confirmButton: string = null, rejectButton: string = null): Promise<boolean> {
+        if (!DialogService.popoverController) {
+            throw new Error('DialogService.popoverController not initialized');
+        }
+        const popover = await DialogService.popoverController.create({
+            component: ConfirmationPopOverComponent,
+            cssClass: 'custom-popover',
+            translucent: true,
+            componentProps: {
+                message,
+                confirmButton,
+                rejectButton
+            }
+        });
+
+        await popover.present();
+        const res = await popover.onDidDismiss();
+        return res?.data?.confirm;
+    }
+
+    static async presentOptionsPopOver(title: string,  options: IdNameContainer[]): Promise<string> {
+        if (!DialogService.popoverController) {
+            throw new Error('DialogService.popoverController not initialized');
+        }
+        const popOver = await this.popoverController.create({
+            component: OptionPickerPopOverComponent,
+            componentProps: {
+                title,
+                options
+            },
+            cssClass: 'custom-popover',
+            translucent: true,
+        });
+        await popOver.present();
+
+        const res = await popOver.onDidDismiss();
+        return res?.data?.id;
     }
 
 }

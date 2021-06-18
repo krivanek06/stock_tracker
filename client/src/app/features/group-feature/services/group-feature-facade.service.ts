@@ -47,13 +47,10 @@ export class GroupFeatureFacadeService {
         }
     }
 
-    async answerReceivedGroupInvitation(stGroupPartialData: StGroupIdentificationDataFragment, accept: boolean): Promise<boolean> {
+    async answerReceivedGroupInvitation(stGroupPartialData: StGroupIdentificationDataFragment, accept: boolean): Promise<void> {
         await this.graphqlGroupService.answerReceivedGroupInvitation(stGroupPartialData, accept).toPromise();
-
         const result = accept ? 'accepted' : 'declined';
         await DialogService.presentToast(`You ${result} group ${stGroupPartialData.name}'s invitation`);
-
-        return true;
     }
 
     @Confirmable('Please confirm making changes in group')

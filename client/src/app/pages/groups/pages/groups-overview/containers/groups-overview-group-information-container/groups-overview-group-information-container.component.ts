@@ -6,17 +6,16 @@ import {GroupFeatureFacadeService} from '@group-feature';
 import {Router} from '@angular/router';
 
 @Component({
-    selector: 'app-groups-overview-group-information-view',
-    templateUrl: './groups-overview-group-information-view.component.html',
-    styleUrls: ['./groups-overview-group-information-view.component.scss'],
+    selector: 'app-groups-overview-group-information-container',
+    templateUrl: './groups-overview-group-information-container.component.html',
+    styleUrls: ['./groups-overview-group-information-container.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GroupsOverviewGroupInformationViewComponent implements OnInit {
+export class GroupsOverviewGroupInformationContainerComponent implements OnInit {
 
     @Input() groupAllData: StGroupAllData;
     @Input() showAcceptButton: boolean;
     @Input() showDeclineButton: boolean;
-    @Input() showInviteButton: boolean;
 
     constructor(private groupFeatureFacadeService: GroupFeatureFacadeService,
                 private router: Router) {

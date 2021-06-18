@@ -1,0 +1,27 @@
+<div class="st-flex-row-sm-col ion-justify-content-evenly">
+    <!-- portfolio current state -->
+    <app-portfolio-state
+            portfolioState="PARTIAL"
+            [portfolioCash]="groupAllData.lastPortfolioSnapshot.portfolioCash"
+            [portfolioInvested]="groupAllData.lastPortfolioSnapshot.portfolioInvested">
+    </app-portfolio-state>
+
+    <!-- portfolio change -->
+    <div class="st-flex-wrap c-portfolio-change">
+        <app-portfolio-change
+                *ngFor="let tradingChange of tradingChangeWrapper"
+                [inlinePriceWithIncrease]="false"
+                [tradingChangeWrapper]="tradingChange"
+                [balance]="groupAllData.lastPortfolioSnapshot.portfolioInvested + groupAllData.lastPortfolioSnapshot.portfolioCash">
+        </app-portfolio-change>
+    </div>
+
+    <!-- portfolio increase chart -->
+    <div class="c-portfolio-chart">
+        <app-portfolio-increase-chart
+                [heightPx]="200"
+                [startingBalance]="groupAllData.startedBalance"
+                [stPortfolioSnapshots]="groupAllData.lastPortfolioSnapshot">
+        </app-portfolio-increase-chart>
+    </div>
+</div>

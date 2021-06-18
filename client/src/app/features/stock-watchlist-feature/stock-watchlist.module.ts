@@ -1,12 +1,11 @@
 import {NgModule} from '@angular/core';
 import {SharedModule} from '@shared';
-import {SymbolLookupModalComponent, WatchlistPickerPopOverContainerComponent} from './entry-components';
+import {SymbolLookupModalComponent} from './entry-components';
 import {WatchlistTableComponent} from './components';
 import {WatchlistModificationContainerComponent} from './containers';
 
 @NgModule({
     declarations: [
-        WatchlistPickerPopOverContainerComponent,
         WatchlistTableComponent,
         WatchlistModificationContainerComponent,
         SymbolLookupModalComponent
@@ -15,13 +14,9 @@ import {WatchlistModificationContainerComponent} from './containers';
         SharedModule
     ],
     exports: [
-        WatchlistPickerPopOverContainerComponent,
         WatchlistTableComponent,
         WatchlistModificationContainerComponent,
         SymbolLookupModalComponent
-    ],
-    entryComponents: [
-        WatchlistPickerPopOverContainerComponent,
     ]
 })
 export class StockWatchlistModule {

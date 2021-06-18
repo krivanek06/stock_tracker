@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ModalController, NavParams} from '@ionic/angular';
-import {DialogService, SymbolIdentification} from '@shared';
+import {Confirmable, DialogService, SymbolIdentification} from '@shared';
 import {StockDetails, StUserPublicData, SymbolStorageService, UserStorageService} from '@core';
 import {Observable} from 'rxjs';
 import {first} from 'rxjs/operators';
@@ -51,6 +51,7 @@ export class SymbolLookupModalComponent implements OnInit {
         this.modalController.dismiss({addSymbol: true});
     }
 
+    @Confirmable('Please confirm removing symbol from watchlist')
     removeSymbolFromWatchlist() {
         this.modalController.dismiss({removeSymbol: true});
     }

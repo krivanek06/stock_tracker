@@ -6,7 +6,6 @@ import {MarketOverviewComponent} from './pages/market-overview/market-overview.c
 import {MarketFeatureModule} from '@market-feature';
 import {MarketDailyChangeComponent} from './pages/market-daily-change/market-daily-change.component';
 import {MarketCryptoComponent} from './pages/market-crypto/market-crypto.component';
-import {MarketPageFacadeService} from './services/market-page-facade.service';
 import {PagesSharedModule} from '@pages-shared';
 import {StockWatchlistModule} from '@stock-watchlist-feature';
 
@@ -31,9 +30,6 @@ const routes: Routes = [
         MarketOverviewComponent,
         MarketDailyChangeComponent,
         MarketCryptoComponent
-    ],
-    providers: [
-        MarketPageFacadeService
     ]
 })
 export class MarketPageModule {

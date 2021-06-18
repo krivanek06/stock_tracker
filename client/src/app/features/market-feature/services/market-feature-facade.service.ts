@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
 import {FinancialChartModalComponent, SymbolIdentification} from '@shared';
 import {ModalController} from '@ionic/angular';
-import {MarketChartBuilderComponent, MarketEarningsModalComponent} from '@market-feature';
-import {WatchlistFeatureFacadeService} from '@stock-watchlist-feature';
+import {MarketChartBuilderComponent, MarketEarningsModalComponent} from '../entry-components';
 
-@Injectable()
-export class MarketPageFacadeService {
+@Injectable({
+    providedIn: 'root'
+})
+export class MarketFeatureFacadeService {
 
-    constructor(private modalController: ModalController,
-                private watchlistFeatureFacadeService: WatchlistFeatureFacadeService) {
+    constructor(private modalController: ModalController) {
     }
 
     async showFinancialChart(symbolIdentification: SymbolIdentification, logoUrl: string, isCrypto: boolean) {
@@ -33,7 +33,7 @@ export class MarketPageFacadeService {
         return await modal.present();
     }
 
-    async showStockEarningsOnDate(selectedDate: string) {
+    async showStockEarningsOnDate(selectedDate: string): Promise<SymbolIdentification> {
         const modal = await this.modalController.create({
             component: MarketEarningsModalComponent,
             componentProps: {selectedDate},
@@ -41,14 +41,6 @@ export class MarketPageFacadeService {
         });
         await modal.present();
         const closed = await modal.onDidDismiss();
-        const symbolIdentification = closed?.data?.symbolIdentification;
-
-        if (symbolIdentification) {
-            this.showSymbolSummary(symbolIdentification);
-        }
-    }
-
-    async showSymbolSummary(symbolIdentification: SymbolIdentification, showAddToWatchlistOption = false) {
-        this.watchlistFeatureFacadeService.presentSymbolLookupModal(symbolIdentification, showAddToWatchlistOption);
+        return closed?.data?.symbolIdentification;
     }
 }

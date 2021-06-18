@@ -11,7 +11,7 @@ import {
     StMarketOverviewPartialData,
     StMarketTopTableCryptoData
 } from '@core';
-import {MarketPageFacadeService} from '../../services/market-page-facade.service';
+import {MarketFeatureFacadeService} from '@market-feature';
 
 @Component({
     selector: 'app-market-crypto',
@@ -25,7 +25,7 @@ export class MarketCryptoComponent extends ComponentScreenUpdateBaseDirective im
 
     constructor(private graphqlQueryService: GraphqlQueryService,
                 private finnhubWebsocketService: FinnhubWebsocketService,
-                private marketPageFacadeService: MarketPageFacadeService,
+                private marketPageFacadeService: MarketFeatureFacadeService,
                 public cdr: ChangeDetectorRef) {
         super(cdr, 'MarketCryptoComponent');
     }
