@@ -58,9 +58,14 @@ export const STGroupTypeDefs = gql`
         members: [STGroupUser]!
         invitationSent: [STGroupUser]!
         invitationReceived: [STGroupUser]
-        holdings: [STTransaction]!
+        holdings: [STGroupHoldings]!
         groupHistoricalData: STGroupHistoricalData!
         topMembers: [STGroupUser]!
+    }
+
+    type STGroupHoldings {
+        holding: STHolding!
+        numberOfUsers: Float!
     }
 
     type STGroupHistoricalData {

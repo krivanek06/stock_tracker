@@ -1,17 +1,20 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StTransaction} from '@core';
-import {SymbolIdentification} from '@shared';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {StHolding} from '@core';
+import {marketValueChange, SymbolIdentification} from '@shared';
 
 @Component({
     selector: 'app-holdings-table',
     templateUrl: './holdings-table.component.html',
     styleUrls: ['./holdings-table.component.scss'],
+    animations: [
+        marketValueChange
+    ]
     //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HoldingsTableComponent implements OnInit {
     @Output() itemClickedEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
 
-    @Input() stTransactions: StTransaction[];
+    @Input() holdings: StHolding[];
     @Input() totalPortfolio: number;
     @Input() clickable = true;
 
@@ -23,18 +26,18 @@ export class HoldingsTableComponent implements OnInit {
     ngOnInit() {
     }
 
-    itemClicked(symbolIdentification: SymbolIdentification) {
+    itemClicked(holding: StHolding) {
         if (!this.clickable) {
             return;
         }
-        this.itemClickedEmitter.emit(symbolIdentification);
+        this.itemClickedEmitter.emit({symbol: holding.symbol, name: holding.summary.longName});
     }
 
     toggleDailyChange() {
         this.showDailyChange = !this.showDailyChange;
     }
 
-    identify(index, item: StTransaction){
+    identify(index, item: StHolding) {
         return item.symbol;
     }
 }

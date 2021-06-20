@@ -86,7 +86,10 @@ fragment STGroupAllDataFragment on STGroupAllData {
     numberOfExecutedBuyTransactions
     numberOfExecutedSellTransactions
     holdings {
-        ...STTransactionFragment
+        holding {
+            ...STHoldingFragment
+        }
+        numberOfUsers
     }
     lastTransactionSnapshot {
         ...STTransactionSnapshotFragment

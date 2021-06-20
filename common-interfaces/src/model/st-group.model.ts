@@ -1,7 +1,7 @@
 import { STUserIndentificationWithPortfolio } from './user.model';
 import { STLog } from './st-share.model';
 import { STRank } from './st-rank.model';
-import { STTransaction, STTransactionSnapshot } from './st-transaction.model';
+import { STHolding, STTransaction, STTransactionSnapshot } from './st-transaction.model';
 import { STPortfolioSnapshot } from './st-portfolio.model';
 
 
@@ -40,7 +40,12 @@ export interface STGroupAllData {
     members: STGroupUser[];
     invitationSent: STGroupUser[];
     invitationReceived: STGroupUser[];
-    holdings: STTransaction[];
+    holdings: STGroupHoldings[];
+}
+
+export interface STGroupHoldings {
+    holding: STHolding;
+    numberOfUsers: number;
 }
 
 export interface STGroupHistoricalData {

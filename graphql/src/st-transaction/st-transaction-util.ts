@@ -1,7 +1,7 @@
 import * as api from "stock-tracker-common-interfaces";
 import {getCurrentIOSDate} from "../st-shared/st-shared.functions";
 
-export const createTransactionBuy = (user: api.STUserPublicData, transactionInput: api.STTransactionInput) => {
+export const createTransactionBuy = (user: api.STUserPublicData, transactionInput: api.STTransactionInput): api.STTransaction => {
     const transactionBuy: api.STTransaction = {
         operation: api.STTransactionOperationEnum.BUY,
         price: transactionInput.price,
@@ -23,7 +23,7 @@ export const createTransactionBuy = (user: api.STUserPublicData, transactionInpu
 };
 
 
-export const createTransactionSell = (user: api.STUserPublicData, transaction: api.STTransaction, transactionInput: api.STTransactionInput) => {
+export const createTransactionSell = (user: api.STUserPublicData, holding: api.STHolding, transactionInput: api.STTransactionInput): api.STTransaction => {
     const transactionSell: api.STTransaction = {
         operation: api.STTransactionOperationEnum.SELL,
         price: transactionInput.price,
@@ -38,43 +38,44 @@ export const createTransactionSell = (user: api.STUserPublicData, transaction: a
             locale: user.locale,
             accountCreatedDate: user.accountCreatedDate
         },
-        return: Math.round((transactionInput.price - transaction.price) * transactionInput.units),
-        returnChange: Math.round(((transactionInput.price - transaction.price) / transaction.price) * 100)
+        return: Math.round((transactionInput.price - holding.breakEvenPrice) * transactionInput.units),
+        returnChange: Math.round(((transactionInput.price - holding.breakEvenPrice) / holding.breakEvenPrice) * 100)
     };
     return transactionSell;
 };
 
 
-export const addTransactionToUserHolding = (user: api.STUserPublicData, transaction: api.STTransaction): api.STTransaction[] => {
+export const addTransactionToUserHolding = (user: api.STUserPublicData, transaction: api.STTransaction): api.STHolding[] => {
     let holdings = [...user.holdings];
     const index = holdings.map(x => x.symbol).indexOf(transaction.symbol);
     if (index > -1) {
         // symbol already in user's holdings
         const oldHolding = holdings[index];
-        const updatedHolding: api.STTransaction = {
+        const updatedHolding: api.STHolding = {
             ...oldHolding,
-            price: (oldHolding.price * oldHolding.units + transaction.price * transaction.units) / (oldHolding.units + transaction.units),
-            units: oldHolding.units + transaction.units,
-            date: transaction.date
+            breakEvenPrice: (oldHolding.breakEvenPrice * oldHolding.units + transaction.price * transaction.units) / (oldHolding.units + transaction.units),
+            units: oldHolding.units + transaction.units
         };
         holdings[index] = updatedHolding;
     } else {
-        holdings = [...holdings, transaction];    // new symbol in holdings
+        holdings = [...holdings, {
+                symbol: transaction.symbol,
+                breakEvenPrice: transaction.price,
+                units: transaction.units}];    // new symbol in holdings
     }
     return holdings;
 }
 
 
-export const substractTransactionFromUserHolding = (user: api.STUserPublicData, transaction: api.STTransaction): api.STTransaction[] => {
-    let holdings: api.STTransaction[] = [...user.holdings];
+export const substractTransactionFromUserHolding = (user: api.STUserPublicData, transaction: api.STTransaction): api.STHolding[] => {
+    let holdings: api.STHolding[] = [...user.holdings];
     const userHolding = user.holdings.find(x => x.symbol === transaction.symbol);
     const index = user.holdings.map(x => x.symbol).indexOf(transaction.symbol);
 
     if (userHolding.units > transaction.units) {
-        const updatedHolding: api.STTransaction = {
+        const updatedHolding: api.STHolding = {
             ...userHolding,
             units: userHolding.units - transaction.units,
-            date: transaction.date
         };
         holdings[index] = updatedHolding;   // not all units is sold
     } else {
@@ -83,7 +84,6 @@ export const substractTransactionFromUserHolding = (user: api.STUserPublicData, 
     return holdings;
 }
 
-
-export const sumOfHoldings = (userHoldings: api.STTransaction[]): number => {
-    return userHoldings.map(h => h.price * h.units).reduce((a,b) => a+b, 0);
+export const sumOfHoldings = (userHoldings: api.STHolding[]): number => {
+    return userHoldings.map(h => h.breakEvenPrice * h.units).reduce((a,b) => a+b, 0);
 } 

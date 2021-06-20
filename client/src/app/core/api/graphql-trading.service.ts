@@ -3,7 +3,7 @@ import {
     AuthenticateUserDocument,
     AuthenticateUserQuery,
     PerformTransactionGQL,
-    PerformTransactionMutation, StTransaction,
+    PerformTransactionMutation,
     StTransactionInput,
     StTransactionOperationEnum
 } from '../graphql-schema';
@@ -34,35 +34,26 @@ export class GraphqlTradingService {
                         id: this.userStorageService.user.id
                     }
                 });
+                const {transaction, holding} = performTransaction;
 
-                const updatedHoldingIndex = user.authenticateUser.holdings.findIndex(h => h.symbol === performTransaction.symbol);
+                const updatedHoldingIndex = user.authenticateUser.holdings.findIndex(h => h.symbol === transaction.symbol);
 
-                let holdings: StTransaction[] = [];
-                let addCash = 0;
+                let userNewHoldings = [...user.authenticateUser.holdings];
+                let addCash: number;
+
                 if (transactionInput.operation === StTransactionOperationEnum.Buy) {
-                    addCash = -(performTransaction.price * performTransaction.units);
-
-                    if (user.authenticateUser.holdings.map(h => h.symbol).includes(performTransaction.symbol)) {
-                        // symbol already exists in my portfolio
-                        holdings = user.authenticateUser.holdings.map(h => {
-                            return h.symbol !== performTransaction.symbol ? h : {...h, units: h.units + performTransaction.units};
-                        });
+                    addCash = -(transaction.price * transaction.units);
+                    if (updatedHoldingIndex >= 0) {
+                        userNewHoldings[updatedHoldingIndex] = {...holding}; // update data
                     } else {
-                        // new symbol in my portfolio
-                        holdings = [...user.authenticateUser.holdings, performTransaction];
+                        userNewHoldings = [...userNewHoldings, holding]; // new holding
                     }
-
                 } else {
-                    addCash = performTransaction.price * performTransaction.units;
-
-                    if (user.authenticateUser.holdings[updatedHoldingIndex].units === performTransaction.units) {
-                        // sold everything
-                        holdings = user.authenticateUser.holdings.filter(h => h.symbol !== performTransaction.symbol);
+                    addCash = (transaction.price * transaction.units);
+                    if (!performTransaction.holding) {
+                        userNewHoldings.splice(updatedHoldingIndex, 1); // no longer exists
                     } else {
-                        // sold only few stocks
-                        holdings = user.authenticateUser.holdings.map(h => {
-                            return h.symbol !== performTransaction.symbol ? h : {...h, units: h.units - performTransaction.units};
-                        });
+                        userNewHoldings[updatedHoldingIndex] = {...holding}; // update data
                     }
                 }
 
@@ -76,8 +67,8 @@ export class GraphqlTradingService {
                         ...user,
                         authenticateUser: {
                             ...user.authenticateUser,
-                            holdings: holdings,
-                            transactionsSnippets: [performTransaction, ...user.authenticateUser.transactionsSnippets].splice(0, 10),
+                            holdings: userNewHoldings,
+                            transactionsSnippets: [transaction, ...user.authenticateUser.transactionsSnippets].splice(0, 10),
                             portfolioCash: user.authenticateUser.portfolioCash + addCash
                         }
                     }

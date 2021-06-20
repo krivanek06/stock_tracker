@@ -4,7 +4,7 @@ import {queryStockSummary} from "../st-stocks/st-stock.query";
 
 
 export const stTransactionResolvers = {
-    STTransaction: {
+    STHolding: {
         summary: async (stTransaction: api.STTransaction) => await queryStockSummary(stTransaction.symbol)
     }
 };

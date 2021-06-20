@@ -27,7 +27,7 @@ export const userTypeDefs = gql`
         lastSignInDate: String!
         portfolioCash: Float!
         rank: STRank
-        holdings: [STTransaction]!
+        holdings: [STHolding]!
         transactionsSnippets: [STTransaction]!
         activity: USER_ACTIVITY
         groups: STUserGroups!

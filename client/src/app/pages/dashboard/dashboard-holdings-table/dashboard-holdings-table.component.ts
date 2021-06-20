@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {SymbolIdentification} from '@shared';
-import {StTransaction} from '@core';
+import {StHolding} from '@core';
 import {WatchlistFeatureFacadeService} from '@stock-watchlist-feature';
 
 @Component({
@@ -11,7 +11,7 @@ import {WatchlistFeatureFacadeService} from '@stock-watchlist-feature';
 })
 export class DashboardHoldingsTableComponent implements OnInit {
 
-    @Input() stTransactions: StTransaction[];
+    @Input() holdings: StHolding[];
     @Input() totalPortfolio: number;
 
     constructor(private watchlistFeatureFacadeService: WatchlistFeatureFacadeService) {

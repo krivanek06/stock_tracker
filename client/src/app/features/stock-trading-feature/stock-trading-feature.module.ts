@@ -7,7 +7,7 @@ import {
     PortfolioIncreaseChartComponent,
     PortfolioStateComponent
 } from './components/portfolio';
-import {HoldingsAllocationChartComponent, HoldingsTableBodyItemComponent, HoldingsTableComponent} from './components/holdings';
+import {HoldingsAllocationChartComponent, HoldingsTableComponent} from './components/holdings';
 import {SharedModule} from '@shared';
 import {TradeConfirmationPopOverComponent} from './entry-components';
 
@@ -17,7 +17,6 @@ import {TradeConfirmationPopOverComponent} from './entry-components';
         TransactionsTableComponent,
         PortfolioChangeComponent,
         HoldingsTableComponent,
-        HoldingsTableBodyItemComponent,
         TradeConfirmationPopOverComponent,
         TransactionsChartComponent,
         PortfolioChangeChartComponent,

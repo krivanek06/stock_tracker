@@ -548,7 +548,7 @@ export type Mutation = {
     deleteWatchlist?: Maybe<Scalars['Boolean']>;
     addStockIntoStockWatchlist?: Maybe<Summary>;
     removeStockFromStockWatchlist?: Maybe<Scalars['Boolean']>;
-    performTransaction?: Maybe<StTransaction>;
+    performTransaction?: Maybe<PerformedTransaction>;
 };
 
 
@@ -646,6 +646,12 @@ export type PageViews = {
     longTermTrend?: Maybe<Scalars['String']>;
     midTermTrend?: Maybe<Scalars['String']>;
     shortTermTrend?: Maybe<Scalars['String']>;
+};
+
+export type PerformedTransaction = {
+    __typename?: 'PerformedTransaction';
+    holding?: Maybe<StHolding>;
+    transaction: StTransaction;
 };
 
 export type Query = {
@@ -910,7 +916,7 @@ export type StGroupAllData = {
     members: Array<Maybe<StGroupUser>>;
     invitationSent: Array<Maybe<StGroupUser>>;
     invitationReceived?: Maybe<Array<Maybe<StGroupUser>>>;
-    holdings: Array<Maybe<StTransaction>>;
+    holdings: Array<Maybe<StGroupHoldings>>;
     groupHistoricalData: StGroupHistoricalData;
     topMembers: Array<Maybe<StGroupUser>>;
 };
@@ -940,6 +946,12 @@ export type StGroupHistoricalData = {
     groupLogs: Array<Maybe<StLog>>;
 };
 
+export type StGroupHoldings = {
+    __typename?: 'STGroupHoldings';
+    holding: StHolding;
+    numberOfUsers: Scalars['Float'];
+};
+
 export type StGroupUser = {
     __typename?: 'STGroupUser';
     id: Scalars['String'];
@@ -958,6 +970,14 @@ export type StGroupUser = {
     currentPosition?: Maybe<Scalars['Float']>;
     startingPortfolioSnapshot?: Maybe<StPortfolioSnapshot>;
     sinceDate: Scalars['String'];
+};
+
+export type StHolding = {
+    __typename?: 'STHolding';
+    symbol: Scalars['String'];
+    breakEvenPrice: Scalars['Float'];
+    units: Scalars['Float'];
+    summary?: Maybe<Summary>;
 };
 
 export type StInputFielChange = {
@@ -1253,13 +1273,11 @@ export type StTransaction = {
     units: Scalars['Float'];
     date: Scalars['String'];
     operation: StTransactionOperationEnum;
-    summary?: Maybe<Summary>;
 };
 
 export type StTransactionInput = {
     symbol: Scalars['String'];
     symbol_logo_url: Scalars['String'];
-    userId: Scalars['String'];
     units: Scalars['Float'];
     operation: StTransactionOperationEnum;
 };
@@ -1350,7 +1368,7 @@ export type StUserPublicData = {
     lastSignInDate: Scalars['String'];
     portfolioCash: Scalars['Float'];
     rank?: Maybe<StRank>;
-    holdings: Array<Maybe<StTransaction>>;
+    holdings: Array<Maybe<StHolding>>;
     transactionsSnippets: Array<Maybe<StTransaction>>;
     activity?: Maybe<User_Activity>;
     groups: StUserGroups;
@@ -1568,8 +1586,14 @@ export type StGroupAllDataFragmentFragment = (
         { __typename?: 'STGroupUser' }
         & StGroupUserFragmentFragment
         ), holdings: Array<Maybe<(
-        { __typename?: 'STTransaction' }
-        & StTransactionFragmentFragment
+        { __typename?: 'STGroupHoldings' }
+        & Pick<StGroupHoldings, 'numberOfUsers'>
+        & {
+        holding: (
+            { __typename?: 'STHolding' }
+            & StHoldingFragmentFragment
+            )
+    }
         )>>, lastTransactionSnapshot?: Maybe<(
         { __typename?: 'STTransactionSnapshot' }
         & StTransactionSnapshotFragmentFragment
@@ -2710,6 +2734,17 @@ export type QueryStTradingStrategyDataQuery = (
 }
     );
 
+export type StHoldingFragmentFragment = (
+    { __typename?: 'STHolding' }
+    & Pick<StHolding, 'symbol' | 'breakEvenPrice' | 'units'>
+    & {
+    summary?: Maybe<(
+        { __typename?: 'Summary' }
+        & StockSummaryFragmentFragment
+        )>
+}
+    );
+
 export type StTransactionFragmentFragment = (
     { __typename?: 'STTransaction' }
     & Pick<StTransaction, 'transactionId' | 'symbol' | 'price' | 'return' | 'returnChange' | 'units' | 'date' | 'operation' | 'symbol_logo_url'>
@@ -2729,14 +2764,16 @@ export type PerformTransactionMutation = (
     { __typename?: 'Mutation' }
     & {
     performTransaction?: Maybe<(
-        { __typename?: 'STTransaction' }
+        { __typename?: 'PerformedTransaction' }
         & {
-        summary?: Maybe<(
-            { __typename?: 'Summary' }
-            & StockSummaryFragmentFragment
-            )>
+        holding?: Maybe<(
+            { __typename?: 'STHolding' }
+            & StHoldingFragmentFragment
+            )>, transaction: (
+            { __typename?: 'STTransaction' }
+            & StTransactionFragmentFragment
+            )
     }
-        & StTransactionFragmentFragment
         )>
 }
     );
@@ -2774,14 +2811,8 @@ export type AuthenticateUserQuery = (
             { __typename?: 'STTransaction' }
             & StTransactionFragmentFragment
             )>>, holdings: Array<Maybe<(
-            { __typename?: 'STTransaction' }
-            & {
-            summary?: Maybe<(
-                { __typename?: 'Summary' }
-                & StockSummaryFragmentFragment
-                )>
-        }
-            & StTransactionFragmentFragment
+            { __typename?: 'STHolding' }
+            & StHoldingFragmentFragment
             )>>, groups: (
             { __typename?: 'STUserGroups' }
             & {
@@ -3051,6 +3082,74 @@ export const StGroupIdentificationDataFragmentDoc = gql`
     ${StPortfolioSnapshotFragmentFragmentDoc}
     ${StTransactionSnapshotFragmentFragmentDoc}
 ${StRankFragmentFragmentDoc}`;
+export const SummaryResidanceFragmentFragmentDoc = gql`
+    fragment SummaryResidanceFragment on SummaryResidance {
+        city
+        state
+        country
+        addressOne
+        zip
+    }
+`;
+export const StockSummaryFragmentFragmentDoc = gql`
+    fragment StockSummaryFragment on Summary {
+        residance {
+            ...SummaryResidanceFragment
+        }
+        id
+        avgVolume
+        currency
+        currencySymbol
+        dividendDate
+        ePSTTM
+        earningsDate
+        exDividendDate
+        exchangeName
+        fiveTwoWeekRange
+        forwardDividendRate
+        forwardDividendYield
+        forwardEPS
+        forwardPE
+        fullTimeEmployees
+        industry
+        lastSplitDate
+        lastSplitFactor
+        logo_url
+        longBusinessSummary
+        longName
+        marketCap
+        marketPrice
+        oneyTargetEst
+        open
+        pERatioTTM
+        previousClose
+        recommendationKey
+        recommendationMean
+        sandPFiveTwoWeekChange
+        sector
+        sharesOutstanding
+        shortName
+        shortRatio
+        symbol
+        targetEstOneyPercent
+        volume
+        website
+        weekRangeFiveTwoMax
+        weekRangeFiveTwoMin
+        yearToDatePrice
+        yearToDatePriceReturn
+    }
+${SummaryResidanceFragmentFragmentDoc}`;
+export const StHoldingFragmentFragmentDoc = gql`
+    fragment STHoldingFragment on STHolding {
+        symbol
+        breakEvenPrice
+        units
+        summary {
+            ...StockSummaryFragment
+        }
+    }
+${StockSummaryFragmentFragmentDoc}`;
 export const StTransactionFragmentFragmentDoc = gql`
     fragment STTransactionFragment on STTransaction {
         transactionId
@@ -3097,7 +3196,10 @@ export const StGroupAllDataFragmentFragmentDoc = gql`
         numberOfExecutedBuyTransactions
         numberOfExecutedSellTransactions
         holdings {
-            ...STTransactionFragment
+            holding {
+                ...STHoldingFragment
+            }
+            numberOfUsers
         }
         lastTransactionSnapshot {
             ...STTransactionSnapshotFragment
@@ -3142,10 +3244,11 @@ export const StGroupAllDataFragmentFragmentDoc = gql`
         }
     }
     ${StGroupUserFragmentFragmentDoc}
-    ${StTransactionFragmentFragmentDoc}
+    ${StHoldingFragmentFragmentDoc}
     ${StTransactionSnapshotFragmentFragmentDoc}
     ${StPortfolioSnapshotFragmentFragmentDoc}
     ${StRankFragmentFragmentDoc}
+    ${StTransactionFragmentFragmentDoc}
 ${StLogsFragmentFragmentDoc}`;
 export const StMarketChartDataResultCombinedFragmentFragmentDoc = gql`
     fragment STMarketChartDataResultCombinedFragment on STMarketChartDataResultCombined {
@@ -3896,64 +3999,6 @@ export const StUserIndentificationDataFragmentDoc = gql`
         }
     }
 `;
-export const SummaryResidanceFragmentFragmentDoc = gql`
-    fragment SummaryResidanceFragment on SummaryResidance {
-        city
-        state
-        country
-        addressOne
-        zip
-    }
-`;
-export const StockSummaryFragmentFragmentDoc = gql`
-    fragment StockSummaryFragment on Summary {
-        residance {
-            ...SummaryResidanceFragment
-        }
-        id
-        avgVolume
-        currency
-        currencySymbol
-        dividendDate
-        ePSTTM
-        earningsDate
-        exDividendDate
-        exchangeName
-        fiveTwoWeekRange
-        forwardDividendRate
-        forwardDividendYield
-        forwardEPS
-        forwardPE
-        fullTimeEmployees
-        industry
-        lastSplitDate
-        lastSplitFactor
-        logo_url
-        longBusinessSummary
-        longName
-        marketCap
-        marketPrice
-        oneyTargetEst
-        open
-        pERatioTTM
-        previousClose
-        recommendationKey
-        recommendationMean
-        sandPFiveTwoWeekChange
-        sector
-        sharesOutstanding
-        shortName
-        shortRatio
-        symbol
-        targetEstOneyPercent
-        volume
-        website
-        weekRangeFiveTwoMax
-        weekRangeFiveTwoMin
-        yearToDatePrice
-        yearToDatePriceReturn
-    }
-${SummaryResidanceFragmentFragmentDoc}`;
 export const StStockWatchlistFragmentFragmentDoc = gql`
     fragment STStockWatchlistFragment on STStockWatchlist {
         id
@@ -4713,14 +4758,16 @@ export class QueryStTradingStrategyDataGQL extends Apollo.Query<QueryStTradingSt
 export const PerformTransactionDocument = gql`
     mutation PerformTransaction($transactionInput: STTransactionInput!) {
         performTransaction(transactionInput: $transactionInput) {
-            ...STTransactionFragment
-            summary {
-                ...StockSummaryFragment
+            holding {
+                ...STHoldingFragment
+            }
+            transaction {
+                ...STTransactionFragment
             }
         }
     }
-    ${StTransactionFragmentFragmentDoc}
-${StockSummaryFragmentFragmentDoc}`;
+    ${StHoldingFragmentFragmentDoc}
+${StTransactionFragmentFragmentDoc}`;
 
 @Injectable({
     providedIn: 'root'
@@ -4755,10 +4802,7 @@ export const AuthenticateUserDocument = gql`
                 ...STTransactionFragment
             }
             holdings {
-                ...STTransactionFragment
-                summary {
-                    ...StockSummaryFragment
-                }
+                ...STHoldingFragment
             }
             groups {
                 groupInvitationSent {
@@ -4816,7 +4860,7 @@ export const AuthenticateUserDocument = gql`
     }
     ${StRankFragmentFragmentDoc}
     ${StTransactionFragmentFragmentDoc}
-    ${StockSummaryFragmentFragmentDoc}
+    ${StHoldingFragmentFragmentDoc}
     ${StGroupIdentificationDataFragmentDoc}
     ${StPortfolioSnapshotFragmentFragmentDoc}
     ${StTransactionSnapshotFragmentFragmentDoc}

@@ -37,6 +37,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
     @Input() showLegend = false;
     @Input() enableLegendTogging = false;
     @Input() showLegendLatestValue = false;
+    @Input() legendAlign: 'left' | 'center' | 'right' = 'left';
 
     @Input() showExpandableButton = false;
     @Input() addFancyColoring = false;
@@ -237,8 +238,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
                     color: this.enableLegendTogging ? '#494949' : '#acacac'
                 },
                 verticalAlign: 'top',
-                align: 'left',
-                x: -20
+                align: this.legendAlign
             },
             accessibility: {
                 point: {
@@ -314,7 +314,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
                     showInLegend: this.showLegend,
                     allowPointSelect: false,
                     depth: 35,
-                    size: this.heightPx - 100,
+                    size: this.heightPx - 90,
                     tooltip: {
                         headerFormat: null,
                         style: {

@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Directive, OnDestroy, OnInit, ViewRef} from '@angular/core';
-import {componentDestroyed, StTransaction, StUserPublicData, SubscriptionWebsocketService, Summary, UserStorageService} from '@core';
+import {componentDestroyed, StHolding, StUserPublicData, SubscriptionWebsocketService, Summary, UserStorageService} from '@core';
 import {filter, takeUntil} from 'rxjs/operators';
 import {cloneDeep} from 'lodash';
 
@@ -8,7 +8,7 @@ export abstract class TradingScreenUpdateBaseDirective implements OnInit, OnDest
     user: StUserPublicData;
     selectedSummary: Summary;
 
-    clonedHoldings: StTransaction[] = [];
+    clonedHoldings: StHolding[] = [];
     portfolioInvested: number;
 
     private interval: any;
