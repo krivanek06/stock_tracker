@@ -6,7 +6,7 @@
                                   [enable3D]="true"
                                   [showLegend]="false"
                                   [showDataLabel]="true"
-                                  [stTransactions]="stTransactions">
+                                  [holdings]="holdings">
         </app-details-sector-chart>
     </ion-col>
 
@@ -14,7 +14,7 @@
         <app-holdings-allocation-chart [enable3D]="true"
                                        [showDataLabel]="true"
                                        [showLegend]="false"
-                                       [holdings]="stTransactions"
+                                       [holdings]="holdings"
                                        [heightPx]="300"
                                        [portfolioInvested]="portfolioInvested"
                                        [portfolioCash]="portfolioCash">
@@ -28,14 +28,14 @@
         <app-details-sector-chart [chartTitle]="'Holdings sectors'"
                                   [heightPx]="300"
                                   [enable3D]="true"
-                                  [stTransactions]="stTransactions">
+                                  [holdings]="holdings">
         </app-details-sector-chart>
     </ion-col>
 
     <ion-col size="12">
         <app-holdings-allocation-chart [enable3D]="true"
                                        [heightPx]="300"
-                                       [holdings]="stTransactions"
+                                       [holdings]="holdings"
                                        [portfolioInvested]="portfolioInvested"
                                        [portfolioCash]="portfolioCash">
         </app-holdings-allocation-chart>

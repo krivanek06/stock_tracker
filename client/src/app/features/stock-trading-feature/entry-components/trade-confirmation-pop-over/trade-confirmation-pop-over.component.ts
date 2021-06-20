@@ -17,8 +17,7 @@ export class TradeConfirmationPopOverComponent implements OnInit {
     symbolLogoUrl: string;
     price: number;
 
-    constructor(private userStorageService: UserStorageService,
-                private popoverController: PopoverController,
+    constructor(private popoverController: PopoverController,
                 private navParams: NavParams,
                 private fb: FormBuilder) {
     }
@@ -45,7 +44,6 @@ export class TradeConfirmationPopOverComponent implements OnInit {
             const data: StTransactionInput = {
                 symbol: this.symbol,
                 symbol_logo_url: this.symbolLogoUrl,
-                userId: this.userStorageService.user.id,
                 units: this.units.value,
                 operation
             };

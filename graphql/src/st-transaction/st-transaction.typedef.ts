@@ -3,6 +3,18 @@ import {gql} from 'apollo-server';
 
 export const STTransactionTypeDefs = gql`
     # TYPES
+    type PerformedTransaction {
+        holding: STHolding
+        transaction: STTransaction!
+    }
+
+    type STHolding {
+        symbol: String!
+        breakEvenPrice: Float!
+        units: Float!
+        summary: Summary
+    }
+
     type STTransaction {
         transactionId: String
         user: STUserIndetification
@@ -14,7 +26,6 @@ export const STTransactionTypeDefs = gql`
         units: Float!
         date: String!
         operation: STTransactionOperationEnum!
-        summary: Summary
     }
 
     type STTransactionSnapshot {
@@ -27,7 +38,6 @@ export const STTransactionTypeDefs = gql`
     input STTransactionInput {
         symbol: String!
         symbol_logo_url: String!
-        userId: String!
         units: Float!
         operation: STTransactionOperationEnum!
     }

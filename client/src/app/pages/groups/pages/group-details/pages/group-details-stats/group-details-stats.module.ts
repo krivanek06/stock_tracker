@@ -3,6 +3,8 @@ import {RouterModule, Routes} from '@angular/router';
 import {SharedModule} from '@shared';
 import {GroupFeatureModule} from '@group-feature';
 import {GroupDetailsStatsComponent} from './group-details-stats.component';
+import {StockTradingFeatureModule} from '@stock-trading-feature';
+import {GroupDetailsStatsPortfolioContainerComponent} from './containers';
 
 
 const routes: Routes = [
@@ -14,12 +16,14 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [
-        GroupDetailsStatsComponent
+        GroupDetailsStatsComponent,
+        GroupDetailsStatsPortfolioContainerComponent
     ],
     imports: [
         SharedModule,
         GroupFeatureModule,
-        RouterModule.forChild(routes)
+        RouterModule.forChild(routes),
+        StockTradingFeatureModule
     ]
 })
 export class GroupDetailsStatsModule {

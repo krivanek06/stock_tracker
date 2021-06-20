@@ -43,10 +43,7 @@ query AuthenticateUser($id: String!) {
             ...STTransactionFragment
         }
         holdings {
-            ...STTransactionFragment
-            summary {
-                ...StockSummaryFragment
-            }
+            ...STHoldingFragment
         }
         groups {
             groupInvitationSent {

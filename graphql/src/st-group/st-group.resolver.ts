@@ -30,7 +30,7 @@ const resolveGroupHistoricalData = async({groupId}: api.STGroupAllData): Promise
 
 export const stGroupResolvers = {
     STGroupAllData: {
-        topMembers: async (stGroupAllData: api.STGroupAllData, context: Context) => await resolveTopMembers(stGroupAllData, context),
+        topMembers: async (stGroupAllData: api.STGroupAllData, _, context: Context) => await resolveTopMembers(stGroupAllData, context),
         groupHistoricalData: async (stGroupAllData: api.STGroupAllData) => await resolveGroupHistoricalData(stGroupAllData)
     }
 };

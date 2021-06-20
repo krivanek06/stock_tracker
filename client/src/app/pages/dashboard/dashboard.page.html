@@ -30,7 +30,7 @@
         <!-- holdings table -->
         <app-dashboard-holdings-table
                 [totalPortfolio]="portfolioInvested + user.portfolioCash"
-                [stTransactions]="clonedHoldings">
+                [holdings]="clonedHoldings">
         </app-dashboard-holdings-table>
 
         <!-- holdings sector + allocation -->
@@ -38,7 +38,7 @@
                 *ngIf="clonedHoldings.length > 0"
                 [portfolioInvested]="portfolioInvested"
                 [portfolioCash]="user.portfolioCash"
-                [stTransactions]="user.holdings">
+                [holdings]="user.holdings">
         </app-dashboard-holdings-allocation>
 
         <!-- transactions -->

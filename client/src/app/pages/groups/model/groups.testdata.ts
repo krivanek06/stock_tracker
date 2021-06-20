@@ -1,4 +1,4 @@
-import {StGroupAllData, StGroupUser, StTransaction, StTransactionOperationEnum} from '@core';
+import {StGroupAllData, StGroupUser, StHolding, StTransaction, StTransactionOperationEnum} from '@core';
 
 const user: StGroupUser = {
     id: '1245690',
@@ -47,7 +47,13 @@ const transaction: StTransaction = {
         locale: null,
         id: 'wqe7890',
         nickName: 'Terminator 456'
-    },
+    }
+};
+
+export const holding: StHolding = {
+    symbol: 'JD',
+    breakEvenPrice: 12.45,
+    units: 45,
     summary: {
         avgVolume: 8977100,
         currency: 'USD',
@@ -99,7 +105,7 @@ const transaction: StTransaction = {
         yearToDatePrice: 59.56,
         yearToDatePriceReturn: 0.19626951
     }
-};
+}
 
 const position1 = {...user, currentPosition: 1, previousPosition: 5} as StGroupUser;
 const position2 = {...user, currentPosition: 2, previousPosition: 4} as StGroupUser;
@@ -152,7 +158,13 @@ export const groupTestData: StGroupAllData = {
     currentAchievedRanks: null,
     imageUrl: 'https://firebasestorage.googleapis.com/v0/b/stocktrackertest-e51fc.appspot.com/o/groups%2Fthis.fileName?alt=media&token=c365ad0e-3268-4667-9f8c-6195bcbaef42',
     imagePath: 'groups/this.fileName',
-    holdings: [],
+    holdings: [
+        {numberOfUsers: 3, holding: holding},
+        {numberOfUsers: 5, holding: {...holding, symbol: 'AAPL'}},
+        {numberOfUsers: 2, holding: {...holding, symbol: 'CCL'}},
+        {numberOfUsers: 8, holding: {...holding, symbol: 'MSFT'}},
+        {numberOfUsers: 4, holding: {...holding, symbol: 'MMM'}},
+    ],
     createdDate: '2021-06-10T22:00:00.000Z',
     numberOfMembers: 4,
     topMembers: [position1, position2, position3, position10],

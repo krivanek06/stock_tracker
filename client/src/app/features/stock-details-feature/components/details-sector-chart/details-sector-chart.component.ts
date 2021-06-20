@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {ChartType, GenericChartSeries} from '@shared';
-import {StTransaction, Summary} from '@core';
+import {StHolding, StTransaction, Summary} from '@core';
 
 @Component({
     selector: 'app-details-sector-chart',
@@ -10,7 +10,7 @@ import {StTransaction, Summary} from '@core';
 })
 export class DetailsSectorChartComponent implements OnInit {
     @Input() summaries: Summary[];
-    @Input() stTransactions: StTransaction[] = [];
+    @Input() holdings: StHolding[] = [];
     @Input() showDataLabel = false;
     @Input() heightPx = 350;
     @Input() chartTitle: string;
@@ -28,8 +28,8 @@ export class DetailsSectorChartComponent implements OnInit {
     }
 
     private renderChart() {
-        if (!this.summaries && !!this.stTransactions) {
-            this.summaries = this.stTransactions.map(s => s.summary);
+        if (!this.summaries && !!this.holdings) {
+            this.summaries = this.holdings.map(s => s.summary);
         }
 
         // from stock details creates -> [{name: 'Technology', y: 5}, {name: 'Cruise', y: 2} ... ]

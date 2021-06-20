@@ -1,6 +1,6 @@
 import { STPortfolioSnapshot } from './st-portfolio.model';
-import { STGroupPartialData, STGroupAllData } from './st-group.model';
-import { STTransaction, STTransactionSnapshot } from './st-transaction.model';
+import { STGroupAllData } from './st-group.model';
+import { STHolding, STTransaction, STTransactionSnapshot } from './st-transaction.model';
 import { STRank } from './st-rank.model';
 import { STLog, STGeographic } from './st-share.model';
 
@@ -40,7 +40,7 @@ export interface STUserPublicData extends STUserIndentificationWithPortfolio {
     transactionsSnippets: STTransaction[]; // last N
     topTransactions: STTransaction[]; 
     lastSignInDate: string;
-    holdings: STTransaction[]; // only open transactions
+    holdings: STHolding[]; // only open transactions
     groups: STUserGroupsIdentification;
     activity: USER_ACTIVITY;
 }

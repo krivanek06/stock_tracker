@@ -9,13 +9,16 @@
                     {{ groupIdentification.name }}
                 </ion-text>
                 <div class="st-display-flex-center st-data-label c-user">
-                    <ion-text class="st-font-1 st-small-right-space">Owner:</ion-text>
+                    <ion-text class="st-font-1 st-small-right-space st-font-size-18">Owner:</ion-text>
                     <ion-avatar class="c-owner-image">
                         <img appDefaultImg [src]="groupIdentification.owner.photoURL" alt="owner's image">
                     </ion-avatar>
                     <ion-text>{{ groupIdentification.owner.nickName}}</ion-text>
                 </div>
-                <div class="st-font-1">
+                <div class="st-font-size-18" [ngClass]="{
+                            'st-price-down': groupIdentification.isPrivate,
+                            'st-price-up': !groupIdentification.isPrivate
+                   }">
                     {{ groupIdentification.isPrivate ? 'Private' : 'Public' }}
                 </div>
             </div>

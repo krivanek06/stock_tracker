@@ -1,9 +1,14 @@
-import { Summary } from './stockDetails.model';
 import { STUserIndentification } from './user.model';
 
 export interface STSymbolPrice {
     price: number;
     symbol: string;
+}
+
+export interface STHolding {
+    symbol: string;
+    breakEvenPrice: number;
+    units: number;
 }
 
 export interface STTransaction {
@@ -17,15 +22,12 @@ export interface STTransaction {
     units: number;
     operation: STTransactionOperationEnum;
     date: string;
-    summary?: Summary;
-
 }
 
 export interface STTransactionInput {
     symbol: string;
     symbol_logo_url: string;
     price: number;
-    userId: string;
     units: number;
     operation: STTransactionOperationEnum;
 }

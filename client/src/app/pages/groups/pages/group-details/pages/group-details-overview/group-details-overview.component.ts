@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {groupTestData} from '../../../../model/groups.testdata';
-import {PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingFeatureFacadeService} from '@stock-trading-feature';
 import {GroupStorageService, StUserPublicData, UserStorageService} from '@core';
 import {Observable} from 'rxjs';
 
@@ -16,7 +15,6 @@ export class GroupDetailsOverviewComponent implements OnInit {
     groupTestData = groupTestData;
 
     constructor(private groupStorageService: GroupStorageService,
-
                 private userStorageService: UserStorageService) {
     }
 

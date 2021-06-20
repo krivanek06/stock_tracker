@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {StTransaction} from '@core';
+import {StHolding, StTransaction} from '@core';
 import {ChartType, GenericChartSeries} from '@shared';
 
 @Component({
@@ -9,7 +9,7 @@ import {ChartType, GenericChartSeries} from '@shared';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HoldingsAllocationChartComponent implements OnInit {
-    @Input() holdings: StTransaction[];
+    @Input() holdings: StHolding[];
     @Input() portfolioCash: number;
     @Input() portfolioInvested: number;
 

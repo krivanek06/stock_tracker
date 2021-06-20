@@ -1,3 +1,4 @@
+import { Context } from './st-shared/st-shared.interface';
 import { stGroupResolvers } from './st-group/st-group.resolver';
 import { STFreeCashFlowFormulaTypeDefs } from './st-stock-calculations/st-free-cash-flow-formula.typedef';
 import { STDividendDiscountedFormulaTypeDefs } from './st-stock-calculations/st-dividend-discounted-formula.typedef';
@@ -120,7 +121,7 @@ const mainTypeDefs = gql`
         removeStockFromStockWatchlist(identifier: STStockWatchInputlistIdentifier!): Boolean
 
         # trading
-        performTransaction(transactionInput: STTransactionInput!): STTransaction
+        performTransaction(transactionInput: STTransactionInput!): PerformedTransaction
     }
 `;
 
@@ -180,7 +181,7 @@ const mainResolver = {
         removeStockFromStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await removeStockFromStockWatchlist(args.identifier),
 
         // trading
-        performTransaction: async (_, args: { transactionInput: api.STTransactionInput }) => await performTransaction(args.transactionInput),
+        performTransaction: async (_, args: { transactionInput: api.STTransactionInput }, {requesterUserId}: Context) => await performTransaction(args.transactionInput, requesterUserId),
     }
 
 };

@@ -1,0 +1,34 @@
+<ion-grid>
+    <ion-row>
+        <!-- portfolio growth chart -->
+        <ion-col size="12" size-md="7.5">
+            <app-portfolio-growth-chart
+                    [heightPx]="260"
+                    [stPortfolioSnapshots]="groupAllData.groupHistoricalData.portfolioSnapshots">
+            </app-portfolio-growth-chart>
+        </ion-col>
+
+        <!-- portfolio change chart -->
+        <ion-col size="12" size-md="4.5" class="ion-hide-md-down">
+            <div class="c-chart-container">
+                <app-generic-chart
+                        [heightPx]="260"
+                        [chartType]="ChartType.pie"
+                        [enable3D]="true"
+                        [isPercentage]="true"
+                        legendAlign="center"
+                        [showLegend]="true"
+                        [showLegendLatestValue]="true"
+                        [series]="[{
+                      data: [
+                          {name: 'Invested', color: '#5e00df', y: 100 / (groupAllData.lastPortfolioSnapshot.portfolioInvested + groupAllData.lastPortfolioSnapshot.portfolioCash) * groupAllData.lastPortfolioSnapshot.portfolioInvested, sliced: true},
+                          {name: 'Cash', color: '#c7481a', y: 100 / (groupAllData.lastPortfolioSnapshot.portfolioInvested + groupAllData.lastPortfolioSnapshot.portfolioCash) * groupAllData.lastPortfolioSnapshot.portfolioCash}
+                      ],
+                  innerSize: '20%',
+                  minPointSize: 10}
+              ]">
+                </app-generic-chart>
+            </div>
+        </ion-col>
+    </ion-row>
+</ion-grid>

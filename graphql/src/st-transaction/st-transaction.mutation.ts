@@ -13,79 +13,62 @@ import {queryUserPublicData} from "../user/user.query";
 import { PerformedTransaction } from './st-transaction.model.local';
 
 
-export const performTransaction = async (transactionInput: api.STTransactionInput): Promise<api.STTransaction> => {
+export const performTransaction = async (transactionInput: api.STTransactionInput, userId: string): Promise<PerformedTransaction> => {
     try {
-        const user = await queryUserPublicData(transactionInput.userId) as api.STUserPublicData;
+        const user = await queryUserPublicData(userId) as api.STUserPublicData;
 
-        const isBuy = transactionInput.operation === api.STTransactionOperationEnum.BUY;
+        // get current stock price
         const livePrice = await queryStockLivePrice(transactionInput.symbol);
+        transactionInput.price = livePrice.price;
+        
+        // perform buy or sell transaction
+        const {transaction, newUserHoldings} = await performTransactionAction(user, transactionInput);
+        
+        // update user's data
+        await updateTransactionSnapshots(user, transaction, newUserHoldings);
+        
+        // retrieve modified holding
+        const holding = newUserHoldings.find(h => h.symbol === transactionInput.symbol);
 
-        transactionInput.price = livePrice.price; // get stock live price from api
-
-        const {holdings, lastTransaction } = isBuy ? await performBuyTransaction(user, transactionInput) : 
-                                                     await performSellTransaction(user, transactionInput);
-
-        await updateTransactionSnapshots(user, lastTransaction, holdings);
-
-        return lastTransaction;
+        return {holding, transaction};
     } catch (error) {
         throw new ApolloError(error);
     }
 };
 
 
-// PRIVATE HELPING FUNCTIONS
+const performTransactionAction = async (user: api.STUserPublicData, transactionInput: api.STTransactionInput): Promise<{transaction: api.STTransaction, newUserHoldings: api.STHolding[]}> => {
+    let transaction: api.STTransaction;
+    let newUserHoldings: api.STHolding[] = [];
 
-const performBuyTransaction = async (user: api.STUserPublicData, transactionInput: api.STTransactionInput): Promise<PerformedTransaction> => {
-    try {
-        // check if user has enough cash
-        const totalPrice = transactionInput.price * transactionInput.units;
-        if (user.portfolioCash < totalPrice) {
+    if(transactionInput.operation === api.STTransactionOperationEnum.BUY){
+        if (user.portfolioCash < transactionInput.price * transactionInput.units) {
             throw new ApolloError("Not enough cash on the account. Operation was not realized");
         }
 
-        const transaction = createTransactionBuy(user, transactionInput);
-
-        const ref = await admin.firestore().collection(api.ST_TRANSACTION_COLLECTION).add(transaction);
-        transaction.transactionId = ref.id;
-
-        const holdings = addTransactionToUserHolding(user, transaction);
-
-        return {holdings, lastTransaction: transaction };
-    } catch (error) {
-        throw new ApolloError(error);
-    }
-};
-
-const performSellTransaction = async (user: api.STUserPublicData, transactionInput: api.STTransactionInput): Promise<PerformedTransaction> => {
-    try {
+        transaction = createTransactionBuy(user, transactionInput);
+        newUserHoldings = addTransactionToUserHolding(user, transaction);
+    }else{
         // find existing holding in user's portfolio
-        const holdingTransaction = user.holdings.find(s => s.symbol === transactionInput.symbol);
-        //const totalPrice = transactionInput.price * transactionInput.units;
+        const holding = user.holdings.find(s => s.symbol === transactionInput.symbol);
 
         // check if holdings exists
-        if (!holdingTransaction) {
+        if (!holding) {
             throw new ApolloError("Symbols was not found is user's holdings. Operation was not realized");
         }
 
         // check if user has enough stock to sell
-        if (holdingTransaction.units < transactionInput.units) {
+        if (holding.units < transactionInput.units) {
             throw new ApolloError("Do not have enough units of stock in portfolio. Operation was not realized");
         }
 
-        const transaction = createTransactionSell(user, holdingTransaction, transactionInput);
-        const ref = await admin.firestore().collection(api.ST_TRANSACTION_COLLECTION).add(transaction);
-        transaction.transactionId = ref.id;
-
-        const holdings = substractTransactionFromUserHolding(user, transaction);
-
-        return {holdings, lastTransaction: transaction };
-    } catch (error) {
-        throw new ApolloError(error);
+        transaction = createTransactionSell(user, holding, transactionInput);
+        newUserHoldings = substractTransactionFromUserHolding(user, transaction);
     }
-};
+    return {transaction, newUserHoldings}
+}
 
-const updateTransactionSnapshots = async (user: api.STUserPublicData, transaction: api.STTransaction, userHoldings: api.STTransaction[]) => {
+const updateTransactionSnapshots = async (user: api.STUserPublicData, transaction: api.STTransaction, userHoldings: api.STHolding[]) => {
      const userHistoricaldataRef = admin.firestore().collection(api.ST_USER_COLLECTION_USER)
                                                     .doc(user.id)
                                                     .collection(api.ST_USER_COLLECTION_MORE_INFORMATION)
@@ -111,6 +94,10 @@ const updateTransactionSnapshots = async (user: api.STUserPublicData, transactio
         date: getCurrentIOSDate()
     }
 
+    // save transaction
+    const documentRef = await admin.firestore().collection(api.ST_TRANSACTION_COLLECTION).add(transaction);
+    transaction.transactionId = documentRef.id;
+
     // save portfolio change array
     userHistoricaldataRef.set({
         transactionSnapshots: [...transactionSnapshots, newTransactionSnapshots]
@@ -121,7 +108,7 @@ const updateTransactionSnapshots = async (user: api.STUserPublicData, transactio
         lastTransactionSnapshot: newTransactionSnapshots,
         holdings: userHoldings,
         transactionsSnippets: [transaction, ...user.transactionsSnippets].slice(0, 10),
-        portfolioCash: isBuy ? user.portfolioCash  + totalPrice : user.portfolioCash - totalPrice,
+        portfolioCash: isBuy ? user.portfolioCash - totalPrice : user.portfolioCash  + totalPrice,
         numberOfExecutedTransactions: admin.firestore.FieldValue.increment(1),
         numberOfExecutedSellTransactions: isBuy ? user.numberOfExecutedSellTransactions : admin.firestore.FieldValue.increment(1),
         numberOfExecutedBuyTransactions: isBuy ? admin.firestore.FieldValue.increment(1) : user.numberOfExecutedBuyTransactions

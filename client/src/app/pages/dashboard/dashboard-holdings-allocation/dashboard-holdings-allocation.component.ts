@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {StTransaction} from '@core';
+import {StHolding, StTransaction} from '@core';
 
 @Component({
     selector: 'app-dashboard-holdings-allocation',
@@ -8,7 +8,7 @@ import {StTransaction} from '@core';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardHoldingsAllocationComponent implements OnInit {
-    @Input() stTransactions: StTransaction[] = [];
+    @Input() holdings: StHolding[] = [];
     @Input() portfolioCash: number;
     @Input() portfolioInvested: number;
 

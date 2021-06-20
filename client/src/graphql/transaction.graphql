@@ -1,3 +1,12 @@
+fragment STHoldingFragment on STHolding {
+    symbol
+    breakEvenPrice
+    units
+    summary {
+        ...StockSummaryFragment
+    }
+}
+
 fragment STTransactionFragment on STTransaction {
     transactionId
     symbol
@@ -22,9 +31,11 @@ fragment STTransactionSnapshotFragment on STTransactionSnapshot {
 
 mutation PerformTransaction($transactionInput: STTransactionInput!) {
     performTransaction(transactionInput: $transactionInput) {
-        ...STTransactionFragment
-        summary {
-            ...StockSummaryFragment
+        holding {
+            ...STHoldingFragment
+        }
+        transaction {
+            ...STTransactionFragment
         }
     }
 }

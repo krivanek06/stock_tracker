@@ -61,7 +61,7 @@
                 <app-generic-card>
                     <app-holdings-table
                             [totalPortfolio]="user?.portfolioCash + portfolioInvested"
-                            [stTransactions]="clonedHoldings"
+                            [holdings]="clonedHoldings"
                             (itemClickedEmitter)="changeSymbol($event)">
                     </app-holdings-table>
                 </app-generic-card>
