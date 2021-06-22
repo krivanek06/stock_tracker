@@ -18,7 +18,6 @@
     margin-top: -12px;
     display: block;
     text-align: end;
-    max-width: 325px;
     @media (max-width: #{$st-var-md-split}) {
       margin-top: 8px;
     }
@@ -27,9 +26,6 @@
       min-width: 150px;
       margin: 5px;
       @media (max-width: #{$st-var-md-split}) {
-        width: 47%;
-      }
-      @media (max-width: #{$st-var-sm-split}) {
         width: 100%;
       }
     }

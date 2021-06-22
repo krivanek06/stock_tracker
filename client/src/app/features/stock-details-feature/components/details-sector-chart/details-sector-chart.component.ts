@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {ChartType, GenericChartSeries} from '@shared';
-import {StHolding, StTransaction, Summary} from '@core';
+import {StHolding, Summary} from '@core';
 
 @Component({
     selector: 'app-details-sector-chart',
@@ -8,14 +8,14 @@ import {StHolding, StTransaction, Summary} from '@core';
     styleUrls: ['./details-sector-chart.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DetailsSectorChartComponent implements OnInit {
+export class DetailsSectorChartComponent implements OnInit, OnChanges {
     @Input() summaries: Summary[];
     @Input() holdings: StHolding[] = [];
     @Input() showDataLabel = false;
     @Input() heightPx = 350;
-    @Input() chartTitle: string;
-    @Input() enable3D = false;
     @Input() showLegend = true;
+    @Input() showTitle = true;
+    @Input() addMinWidthStyle = false;
 
     sectorPairs: GenericChartSeries[] = [];
     ChartType = ChartType;
@@ -23,8 +23,12 @@ export class DetailsSectorChartComponent implements OnInit {
     constructor() {
     }
 
-    ngOnInit() {
+    ngOnChanges(changes: SimpleChanges): void {
         this.renderChart();
+    }
+
+    ngOnInit() {
+
     }
 
     private renderChart() {

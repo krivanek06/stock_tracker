@@ -1,5 +1,9 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {StHolding, StTransaction} from '@core';
+import {BreakpointObserver} from '@angular/cdk/layout';
+import {Observable} from 'rxjs';
+import {BreakpointState} from '@angular/cdk/layout/breakpoints-observer';
+import {BREAK_POINTS} from '@shared';
 
 @Component({
     selector: 'app-dashboard-holdings-allocation',
@@ -12,10 +16,13 @@ export class DashboardHoldingsAllocationComponent implements OnInit {
     @Input() portfolioCash: number;
     @Input() portfolioInvested: number;
 
-    constructor() {
+    breakpointSmDown$: Observable<BreakpointState>;
+
+    constructor(private breakpointObserver: BreakpointObserver) {
     }
 
     ngOnInit() {
+        this.breakpointSmDown$ = this.breakpointObserver.observe([BREAK_POINTS.SM_DOWN]);
     }
 
 }

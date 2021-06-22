@@ -702,6 +702,11 @@ ion-skeleton-text {
   }
 }
 
+.st-flex-wrap-normal {
+  display: flex;
+  flex-flow: wrap;
+}
+
 .st-flex-space-evenly {
   display: flex;
   justify-content: space-evenly;

@@ -101,13 +101,17 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
                 y: -8,
                 itemStyle: {
                     color: '#acacac',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    fontSize: '12px'
                 },
                 itemHoverStyle: {
                     color: '#241eaa'
                 },
                 itemHiddenStyle: {
                     color: '#494949'
+                },
+                labelFormatter: function() {
+                    return `<span style="color: ${this.color};">${this.name}</span>`
                 }
             },
             tooltip: {

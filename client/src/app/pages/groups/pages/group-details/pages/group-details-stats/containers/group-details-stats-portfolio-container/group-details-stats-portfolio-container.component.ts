@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {ChartType} from '@shared';
-import {StGroupAllData} from '@core';
+import {StGroupAllData, StHolding} from '@core';
 
 @Component({
     selector: 'app-group-details-stats-portfolio-container',
@@ -17,6 +17,7 @@ export class GroupDetailsStatsPortfolioContainerComponent implements OnInit {
     }
 
     ngOnInit() {
+
     }
 
 }
