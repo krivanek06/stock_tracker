@@ -11,6 +11,10 @@ export enum ChartType {
     histogram = 'histogram'
 }
 
+export enum BREAK_POINTS {
+    SM_DOWN = '(max-width: 400px)'
+}
+
 export interface SymbolIdentification {
     symbol: string;
     name: string;

@@ -3,8 +3,11 @@
         [heightPx]="heightPx"
         [chartTitlePosition]="'center'"
         [chartType]="ChartType.pie"
-        [enable3D]="enable3D"
+        [additionalStyle]="addMinWidthStyle ? 'min-width: 420px' : ''"
+        legendAlign="center"
+        [enable3D]="true"
         [isPercentage]="true"
+        [floatingLegend]="floatingLegend"
         [showLegend]="showLegend"
         [showDataLabel]="showDataLabel"
         [series]="[{data: sectorPairs, innerSize: '20%', minPointSize: 10}]">

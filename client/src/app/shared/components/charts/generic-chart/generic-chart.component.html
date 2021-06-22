@@ -6,6 +6,6 @@
                   [callbackFunction]="chartCallback"
                   [(update)]="updateFromInput"
                   [oneToOne]="true"
-                  style="width: 100%; display: block;"
+                  [style]="'width: 100%; display: block;' + additionalStyle"
                   [style.height.px]="heightPx">
 </highcharts-chart>

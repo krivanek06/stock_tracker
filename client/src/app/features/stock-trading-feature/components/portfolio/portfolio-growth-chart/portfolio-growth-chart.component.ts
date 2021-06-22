@@ -105,6 +105,9 @@ export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
                 },
                 itemHiddenStyle: {
                     color: '#282828'
+                },
+                labelFormatter: function() {
+                    return `<span style="color: ${this.color};">${this.name}</span>`
                 }
             },
             tooltip: {

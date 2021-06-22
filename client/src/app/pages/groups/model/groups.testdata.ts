@@ -105,7 +105,7 @@ export const holding: StHolding = {
         yearToDatePrice: 59.56,
         yearToDatePriceReturn: 0.19626951
     }
-}
+};
 
 const position1 = {...user, currentPosition: 1, previousPosition: 5} as StGroupUser;
 const position2 = {...user, currentPosition: 2, previousPosition: 4} as StGroupUser;
@@ -113,7 +113,7 @@ const position3 = {...user, currentPosition: 3, previousPosition: 1} as StGroupU
 const position10 = {...user, currentPosition: 10, previousPosition: 5} as StGroupUser;
 
 let members = [position1];
-for(let i = 0; i < 25; i++){
+for (let i = 0; i < 25; i++) {
     const previous = members[i];
     members.push({
         ...previous,
@@ -122,19 +122,19 @@ for(let i = 0; i < 25; i++){
             ...previous.lastPortfolioSnapshot,
             portfolioInvested: previous.lastPortfolioSnapshot.portfolioInvested * 1.1
         },
-        lastPortfolioIncreasePrct: Math.floor(Math.random() * 1) -1
-    } as StGroupUser)
+        lastPortfolioIncreasePrct: Math.floor(Math.random() * 1) - 1
+    } as StGroupUser);
 }
 members.splice(0, 1);
 
 let lastTransactions: StTransaction[] = [transaction];
-for(let i = 0; i < 15; i++){
+for (let i = 0; i < 15; i++) {
     lastTransactions.push({
         ...transaction,
         operation: i % 2 == 0 ? StTransactionOperationEnum.Buy : StTransactionOperationEnum.Sell,
         return: i % 2 == 0 ? null : i + Math.random() * 123,
         returnChange: i % 2 == 0 ? null : i + Math.random()
-    })
+    });
 }
 
 let topTransactions = lastTransactions.filter(t => t.operation === StTransactionOperationEnum.Sell);
@@ -151,7 +151,9 @@ export const groupTestData: StGroupAllData = {
         ...position1,
         id: 'Rd6txjVNB7UkiVTop1YZVrweUtE2'
     },
-    invitationSent: [position1, position1, position1, position1].map(user => { return {...user, currentPosition: null, previousPosition: null}}),
+    invitationSent: [position1, position1, position1, position1].map(user => {
+        return {...user, currentPosition: null, previousPosition: null};
+    }),
     members: members,
     managers: [],
     description: 'This is a group description, remember it',
@@ -160,17 +162,43 @@ export const groupTestData: StGroupAllData = {
     imagePath: 'groups/this.fileName',
     holdings: [
         {numberOfUsers: 3, holding: holding},
-        {numberOfUsers: 5, holding: {...holding, symbol: 'AAPL'}},
-        {numberOfUsers: 2, holding: {...holding, symbol: 'CCL'}},
-        {numberOfUsers: 8, holding: {...holding, symbol: 'MSFT'}},
-        {numberOfUsers: 4, holding: {...holding, symbol: 'MMM'}},
+        {numberOfUsers: 5, holding: {...holding, symbol: 'AAPL', units: 8, breakEvenPrice: 22.56}},
+        {numberOfUsers: 2, holding: {...holding, symbol: 'CCL', units: 45, breakEvenPrice: 78.45}},
+        {numberOfUsers: 8, holding: {...holding, symbol: 'MSFT', units: 5, breakEvenPrice: 45.12}},
+        {numberOfUsers: 4, holding: {...holding, symbol: 'MMM', units: 45, breakEvenPrice: 12.45}},
+        {numberOfUsers: 5, holding: {...holding, symbol: 'ABC', units: 8, breakEvenPrice: 21.56}},
+        {numberOfUsers: 2, holding: {...holding, symbol: 'ADD', units: 12, breakEvenPrice: 78.45}},
+        {numberOfUsers: 8, holding: {...holding, symbol: 'EEE', units: 6, breakEvenPrice: 45.12}},
+        {numberOfUsers: 4, holding: {...holding, symbol: 'VVV', units: 45, breakEvenPrice: 12.45}},
+        {numberOfUsers: 5, holding: {...holding, symbol: 'AAPL1', units: 8, breakEvenPrice: 22.56}},
+        {numberOfUsers: 2, holding: {...holding, symbol: 'CCL1', units: 45, breakEvenPrice: 78.45}},
+        {numberOfUsers: 8, holding: {...holding, symbol: 'MSFT1', units: 5, breakEvenPrice: 45.12}},
+        {numberOfUsers: 4, holding: {...holding, symbol: 'MM1M', units: 45, breakEvenPrice: 12.45}},
+        {numberOfUsers: 5, holding: {...holding, symbol: 'AB1C', units: 8, breakEvenPrice: 21.56}},
+        {numberOfUsers: 2, holding: {...holding, symbol: 'AD11D', units: 12, breakEvenPrice: 78.45}},
+        {numberOfUsers: 8, holding: {...holding, symbol: 'EE1E', units: 6, breakEvenPrice: 45.12}},
+        {numberOfUsers: 4, holding: {...holding, symbol: 'V1VV', units: 45, breakEvenPrice: 12.45}},
+        {numberOfUsers: 4, holding: {...holding, symbol: '22MM1M', units: 45, breakEvenPrice: 12.45}},
+        {numberOfUsers: 5, holding: {...holding, symbol: '22AB1C', units: 8, breakEvenPrice: 21.56}},
+        {numberOfUsers: 2, holding: {...holding, symbol: '22AD11D', units: 12, breakEvenPrice: 78.45}},
+        {numberOfUsers: 8, holding: {...holding, symbol: '22EE1E', units: 6, breakEvenPrice: 45.12}},
+        {numberOfUsers: 4, holding: {...holding, symbol: '22V1VV', units: 45, breakEvenPrice: 12.45}},
+        {numberOfUsers: 5, holding: {...holding, symbol: 'AAPL78', units: 8, breakEvenPrice: 22.56}},
+        {numberOfUsers: 2, holding: {...holding, symbol: 'CCL87', units: 45, breakEvenPrice: 78.45}},
+        {numberOfUsers: 8, holding: {...holding, symbol: 'MS78FT', units: 5, breakEvenPrice: 45.12}},
+        {numberOfUsers: 4, holding: {...holding, symbol: 'MM54M', units: 45, breakEvenPrice: 12.45}},
+        {numberOfUsers: 5, holding: {...holding, symbol: '2354ABC', units: 8, breakEvenPrice: 21.56}},
+        {numberOfUsers: 2, holding: {...holding, symbol: 'A65DD', units: 12, breakEvenPrice: 78.45}},
+        {numberOfUsers: 8, holding: {...holding, symbol: '456EEE', units: 6, breakEvenPrice: 45.12}}
     ],
     createdDate: '2021-06-10T22:00:00.000Z',
     numberOfMembers: 4,
     topMembers: [position1, position2, position3, position10],
     lastUpdateDate: '2021-06-10T22:00:00.000Z',
     lastEditedDate: '2021-06-10T22:00:00.000Z',
-    invitationReceived: [position1, position1, position1, position1, position1, position1].map(user => { return {...user, currentPosition: null, previousPosition: null}}),
+    invitationReceived: [position1, position1, position1, position1, position1, position1].map(user => {
+        return {...user, currentPosition: null, previousPosition: null};
+    }),
     startedBalance: 25600,
     lastTransactionSnapshot: {
         transactionsBuy: 4512,
@@ -179,7 +207,7 @@ export const groupTestData: StGroupAllData = {
     },
     lastPortfolioSnapshot: {
         portfolioInvested: 25160,
-        portfolioCash: 68510,
+        portfolioCash: 16000,
         date: '2021-06-15T22:00:00.000Z'
     },
     lastTransactions: lastTransactions,
@@ -214,3 +242,8 @@ export const groupTestData: StGroupAllData = {
         ],
     }
 };
+
+groupTestData.lastPortfolioSnapshot.portfolioInvested = groupTestData.holdings.map(h => h.holding.units * h.holding.breakEvenPrice)
+                                                                               .reduce((a, b) => a + b, 0)
+
+console.log(groupTestData.lastPortfolioSnapshot.portfolioInvested, groupTestData.lastPortfolioSnapshot.portfolioCash)

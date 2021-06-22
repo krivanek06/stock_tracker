@@ -4,7 +4,12 @@ import {SharedModule} from '@shared';
 import {GroupFeatureModule} from '@group-feature';
 import {GroupDetailsStatsComponent} from './group-details-stats.component';
 import {StockTradingFeatureModule} from '@stock-trading-feature';
-import {GroupDetailsStatsPortfolioContainerComponent} from './containers';
+import {
+    GroupDetailsStatsHoldingsChartsContainerComponent,
+    GroupDetailsStatsHoldingsTableContainerComponent,
+    GroupDetailsStatsPortfolioContainerComponent
+} from './containers';
+import {StockDetailsFeatureModule} from '@stock-details-feature';
 
 
 const routes: Routes = [
@@ -17,13 +22,16 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         GroupDetailsStatsComponent,
-        GroupDetailsStatsPortfolioContainerComponent
+        GroupDetailsStatsPortfolioContainerComponent,
+        GroupDetailsStatsHoldingsChartsContainerComponent,
+        GroupDetailsStatsHoldingsTableContainerComponent
     ],
     imports: [
         SharedModule,
         GroupFeatureModule,
         RouterModule.forChild(routes),
-        StockTradingFeatureModule
+        StockTradingFeatureModule,
+        StockDetailsFeatureModule
     ]
 })
 export class GroupDetailsStatsModule {

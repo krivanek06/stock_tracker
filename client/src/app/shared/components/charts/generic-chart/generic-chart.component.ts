@@ -32,12 +32,14 @@ export class GenericChartComponent implements OnInit, OnChanges {
     @Input() showYAxis = true;
     @Input() showXAxis = true;
     @Input() sharedTooltip = true;
+    @Input() additionalStyle: string = '';
 
     // legend
     @Input() showLegend = false;
     @Input() enableLegendTogging = false;
     @Input() showLegendLatestValue = false;
     @Input() legendAlign: 'left' | 'center' | 'right' = 'left';
+    @Input() floatingLegend = false;
 
     @Input() showExpandableButton = false;
     @Input() addFancyColoring = false;
@@ -82,6 +84,15 @@ export class GenericChartComponent implements OnInit, OnChanges {
                     return '<span style="color:' + this.color + '">' + this.name + ': </span><b>' + value;
                 }
             };
+        }
+
+        if (this.floatingLegend) {
+            this.chartOptions.legend.floating = true;
+            this.chartOptions.legend.layout = 'vertical';
+            this.chartOptions.legend.x = -150;
+            this.chartOptions.legend.y = 10;
+            this.chartOptions.legend.align = 'center';
+            this.chartOptions.legend.verticalAlign = 'middle';
         }
 
         if (this.chartType === ChartType.column) {
@@ -314,7 +325,6 @@ export class GenericChartComponent implements OnInit, OnChanges {
                     showInLegend: this.showLegend,
                     allowPointSelect: false,
                     depth: 35,
-                    size: this.heightPx - 90,
                     tooltip: {
                         headerFormat: null,
                         style: {

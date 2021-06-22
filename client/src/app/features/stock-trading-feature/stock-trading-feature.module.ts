@@ -7,7 +7,7 @@ import {
     PortfolioIncreaseChartComponent,
     PortfolioStateComponent
 } from './components/portfolio';
-import {HoldingsAllocationChartComponent, HoldingsTableComponent} from './components/holdings';
+import {HoldingsAllocationChartComponent, HoldingsAllocationGroupChartComponent, HoldingsTableComponent} from './components/holdings';
 import {SharedModule} from '@shared';
 import {TradeConfirmationPopOverComponent} from './entry-components';
 
@@ -23,7 +23,8 @@ import {TradeConfirmationPopOverComponent} from './entry-components';
         PortfolioGrowthChartComponent,
         PortfolioStateComponent,
         HoldingsAllocationChartComponent,
-        PortfolioIncreaseChartComponent
+        PortfolioIncreaseChartComponent,
+        HoldingsAllocationGroupChartComponent
     ],
     imports: [
         SharedModule
@@ -38,7 +39,8 @@ import {TradeConfirmationPopOverComponent} from './entry-components';
         PortfolioGrowthChartComponent,
         PortfolioStateComponent,
         HoldingsAllocationChartComponent,
-        PortfolioIncreaseChartComponent
+        PortfolioIncreaseChartComponent,
+        HoldingsAllocationGroupChartComponent
     ]
 })
 export class StockTradingFeatureModule {

@@ -1,0 +1,7 @@
+<app-generic-card>
+    <app-holdings-table
+            [totalPortfolio]="groupAllData.lastPortfolioSnapshot.portfolioInvested + groupAllData.lastPortfolioSnapshot.portfolioCash"
+            [holdings]="holdings"
+            (itemClickedEmitter)="showSummary($event)">
+    </app-holdings-table>
+</app-generic-card>

@@ -1,5 +1,10 @@
+@import "variables";
+
 :host {
   .c-chart-container {
     margin-top: -12px;
+    @media (max-width: #{$st-var-md-split}) {
+      margin-top: 0;
+    }
   }
 }

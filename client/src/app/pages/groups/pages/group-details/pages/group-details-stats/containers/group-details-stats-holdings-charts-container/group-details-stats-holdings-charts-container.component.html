@@ -1,0 +1,34 @@
+<app-generic-list [title]="'Holdings'" [iconTitle]="'pricetags'"></app-generic-list>
+
+<!-- holdings -->
+<div class="st-width-100">
+    <app-holdings-allocation-group-chart
+            [heightPx]="300"
+            [showTitle]="true"
+            [holdings]="groupAllData.holdings">
+    </app-holdings-allocation-group-chart>
+</div>
+
+
+<div class="st-flex-wrap ion-margin-vertical">
+    <!-- holding chart -->
+    <app-holdings-allocation-chart
+            class="ion-hide-sm-down"
+            [portfolioInvested]="groupAllData.lastPortfolioSnapshot.portfolioInvested"
+            [portfolioCash]="groupAllData.lastPortfolioSnapshot.portfolioCash"
+            [heightPx]="260"
+            [holdings]="holdings"
+            [floatingLegend]="true"
+            [showLegend]="true">
+    </app-holdings-allocation-chart>
+
+    <!-- sector chart -->
+    <app-details-sector-chart
+            *ngIf="breakpointSmDown$ | async as breakpoint400px"
+            [showTitle]="true"
+            [showLegend]="breakpoint400px.matches"
+            [showDataLabel]="!breakpoint400px.matches"
+            [heightPx]="260"
+            [holdings]="holdings">
+    </app-details-sector-chart>
+</div>
