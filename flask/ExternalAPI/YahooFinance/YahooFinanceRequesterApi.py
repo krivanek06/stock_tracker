@@ -46,25 +46,32 @@ class YahooFinanceRequesterApi:
             return {'companyData': None}
 
     def get_financial_sheets(self, ticker):
-        balance_sheet_site = "https://finance.yahoo.com/quote/" + ticker + "/balance-sheet?p=" + ticker
+        balance_sheet_site = "https://finance.yahoo.com/quote/" + ticker + "/financials?p=" + ticker
         json_info = self.helperClass.parse_json(balance_sheet_site, 'QuoteSummaryStore')
 
-        if not json_info:
-            return None
+        try:
+            balanceSheet = {
+                'yearly': json_info.get('balanceSheetHistory', {}).get('balanceSheetStatements', []),
+                'quarterly': json_info.get('balanceSheetHistoryQuarterly', {}).get('balanceSheetStatements', [])
+            }
+        except:
+            balanceSheet = {'yearly': [], 'quarterly': []}
 
-        balanceSheet = {
-            'yearly': json_info.get('balanceSheetHistory', {}).get('balanceSheetStatements', []),
-            'quarterly': json_info.get('balanceSheetHistoryQuarterly', {}).get('balanceSheetStatements', [])
-        }
-        cashFlow = {
-            'yearly': json_info.get('cashflowStatementHistory', {}).get('cashflowStatements', []),
-            'quarterly': json_info.get('cashflowStatementHistoryQuarterly', {}).get('cashflowStatements', [])
-        }
+        try:
+            cashFlow = {
+                'yearly': json_info.get('cashflowStatementHistory', {}).get('cashflowStatements', []),
+                'quarterly': json_info.get('cashflowStatementHistoryQuarterly', {}).get('cashflowStatements', [])
+            }
+        except:
+            cashFlow = {'yearly': [], 'quarterly': []}
 
-        incomeStatement = {
-            'yearly': json_info.get('incomeStatementHistory', {}).get('incomeStatementHistory', []),
-            'quarterly': json_info.get('incomeStatementHistoryQuarterly', {}).get('incomeStatementHistory', [])
-        }
+        try:
+            incomeStatement = {
+                'yearly': json_info.get('incomeStatementHistory', {}).get('incomeStatementHistory', []),
+                'quarterly': json_info.get('incomeStatementHistoryQuarterly', {}).get('incomeStatementHistory', [])
+            }
+        except:
+            incomeStatement = {'yearly': [], 'quarterly': []}
 
         return {'balanceSheet': balanceSheet, 'incomeStatement': incomeStatement, 'cashFlow': cashFlow}
 

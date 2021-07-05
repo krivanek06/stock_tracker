@@ -1,5 +1,5 @@
 import * as api from "stock-tracker-common-interfaces";
-import {queryStockSummary} from "../st-stocks/st-stock.query";
+import {queryStockSummary} from "../st-stocks/st-stocks-query";
 
 
 

@@ -57,6 +57,7 @@ class FundamentalServiceDataFetcher:
         t12.join()
 
         # get result from threads into one dict
-        merge = {**que.get(), **que.get(), **que.get(), **que.get(), **que.get(), **que.get(), **que.get(), **que.get()}
-
+        merge = {}
+        while not que.empty():
+            merge = {**merge, **que.get()}
         return merge

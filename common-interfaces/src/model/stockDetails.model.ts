@@ -22,14 +22,20 @@ export interface SearchStockSymbol {
   data: string[];
 }
 
+
+export interface StockDetailsFinancialReports {
+  allFinancialReportsQuarterly: FinancialReport[];
+  allFinancialReportsYearly: FinancialReport[];
+}
+
 export interface StockDetails {
   id: string;
   analysis: Analysis;
   balanceSheet: BalanceSheet;
   cashFlow: CashFlow;
   incomeStatement: IncomeStatement;
-  financialReports: any[];
-  financialReportSnippets: string[];
+  allFinancialReportsQuarterly: FinancialReport[];
+  allFinancialReportsYearly: FinancialReport[];
   recommendation: Recommendations[];
   stockNews: NewsArticle[];
   companyData: CompanyData;
@@ -41,6 +47,35 @@ export interface StockDetails {
   insiderTransactions: InsiderTransaction[];
   calculations: STStockDetailsCalculations;
   calculatedPredictions: STStockDetailsCalculatedPredictions;
+}
+
+
+export interface FinancialReport  {
+  acceptedDate: string;
+  accessNumber: string;
+  cik: string;
+  endDate: string;
+  filedDate: string;
+  form: string;
+  quarter: number;
+  startDate: string;
+  symbol: string;
+  year: number;
+  report: FinancialReportStatement;
+}
+
+
+export interface FinancialReportStatement {
+  bs: FinancialReportStatementeportStatementData[];
+  cf: FinancialReportStatementeportStatementData[];
+  ic: FinancialReportStatementeportStatementData[];
+}
+
+export interface FinancialReportStatementeportStatementData {
+  concept: string;
+  label: string;
+  unit: string;
+  value: number;
 }
 
 export interface STStockDetailsCalculatedPredictions {
@@ -131,8 +166,8 @@ export interface Recommendations {
 }
 
 export interface IncomeStatement {
-  incomeStatementHistoryQuarterly: IncomeStatementData;
-  incomeStatementHistoryYearly: IncomeStatementData;
+  quarterly: IncomeStatementData;
+  yearly: IncomeStatementData;
 }
 
 export interface IncomeStatementData {
@@ -161,12 +196,19 @@ export interface IncomeStatementData {
   basicEarnings?: SheetData;
   dividendsInCash?: SheetData;
   administrativeExpense?: SheetData;
-  costOfSales?: SheetData;
+  revenue: SheetData;
+  researchAndDevelopment: SheetData;
+  operatingExpenses: SheetData;
+  operatingIncomeLoss: SheetData;
+  changeInMarketableDebtSecurities: SheetData;
+  adjustedNetGainsIncludedInNetIncome: SheetData;
+  otherComprehensiveIncome: SheetData;
+  salesAndMarketing: SheetData;
 }
 
 export interface CashFlow {
-  cashflowStatementHistoryQuarterly: CashFlowData;
-  cashflowStatementHistoryYearly: CashFlowData;
+  quarterly: CashFlowData;
+  yearly: CashFlowData;
 }
 
 export interface CashFlowData {
@@ -194,7 +236,7 @@ export interface CashFlowData {
   accountsReceivable?: SheetData;
   accruedExpenses?: SheetData;
   purchasesOfSecuritie?: SheetData;
-  marketSecurities?: SheetData;
+  marketableSecurities?: SheetData;
   acquisitionsOfBusinesses?: SheetData;
   issuanceOfStock?: SheetData;
   salesOfSecurities?: SheetData;
@@ -205,11 +247,32 @@ export interface CashFlowData {
   commercialPaperRepayments?: SheetData;
   shortTermDebtRepayments?: SheetData;
   longTermDebtInsurance?: SheetData;
+  paymentsOfDividends?: SheetData;
+  paymentsOfEquipment?: SheetData;
+  deferredTaxes?: SheetData;
+  DepreciationDepletionAndAmortization?: SheetData;
+  increaseDecreaseInInventories?: SheetData;
+  increaseDecreaseInOtherReceivables?: SheetData;
+  otherOperatingAssets?: SheetData;
+  accountsPayable?: SheetData;
+  otherOperatingLiabilities?: SheetData;
+  operatingActivities?: SheetData;
+  paymentsToAcquireSaleSecurities?: SheetData;
+  paymentsToAcquireOtherInvestments?: SheetData;
+  maturityOfOtherInvestments?: SheetData;
+  investingActivities?: SheetData;
+  shareBasedCompensationTax?: SheetData;
+  paymentsForRepurchaseOfCommonStock?: SheetData;
+  proceedsFromIssuanceOfLongTermDebt?: SheetData;
+  financingActivities?: SheetData;
+  interestPaidNet?: SheetData;
+  paymentsToAcquireInvestments?: SheetData;
+  repaymentsOfDebt?: SheetData;
 }
 
 export interface BalanceSheet {
-  balanceSheetHistoryQuarterly: BalanceSheetData;
-  balanceSheetHistoryYearly: BalanceSheetData;
+  quarterly: BalanceSheetData;
+  yearly: BalanceSheetData;
 }
 
 export interface BalanceSheetData {
@@ -247,6 +310,29 @@ export interface BalanceSheetData {
   prepaidExpense?: SheetData;
   netEquity?: SheetData;
   prepaidAssets?: SheetData;
+  paidInCapital?: SheetData;
+  intangibleAssets?: SheetData;
+  cashAndCashEquivalents?: SheetData;
+  marketableSecuritiesCurrent?: SheetData;
+  accountsReceivableNetCurrent?: SheetData;
+  inventoryNet?: SheetData;
+  nontradeReceivablesCurrent?: SheetData;
+  assetsCurrent?: SheetData;
+  marketableSecurities?: SheetData;
+  otherAssetsNoncurrent?: SheetData;
+  assetsNoncurrent?: SheetData;
+  assets?: SheetData;
+  otherLiabilitiesCurrent?: SheetData;
+  commercialPaper?: SheetData;
+  currentDebt?: SheetData;
+  liabilitiesCurrent?: SheetData;
+  otherLongTermLiabilities?: SheetData;
+  currentLiabilities?: SheetData;
+  commitmentsAndContingencies?: SheetData;
+  retainedEarningsAccumulatedDeficit?: SheetData;
+  stockholdersEquity?: SheetData;
+  incomeTaxesLongTerm?: SheetData;
+  incomeTaxesShortTerm?: SheetData;
 }
 
 export interface SheetData {

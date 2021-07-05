@@ -7,6 +7,11 @@ export const stockDetailsTypeDefs = gql`
         summaries: [Summary]!
     }
 
+    type StockDetailsFinancialReports {
+        allFinancialReportsQuarterly: [FinancialReport]
+        allFinancialReportsYearly: [FinancialReport]
+    }
+
     type StockDetails {
         id: String!
         analysis: Analysis
@@ -24,6 +29,35 @@ export const stockDetailsTypeDefs = gql`
         insiderTransactions: [InsiderTransaction]
         calculations: STStockDetailsCalculations
         calculatedPredictions: STStockDetailsCalculatedPredictions
+        allFinancialReportsQuarterly: [FinancialReport]
+        allFinancialReportsYearly: [FinancialReport]
+    }
+
+    type FinancialReport  {
+        acceptedDate: String
+        accessNumber: String
+        cik: String
+        endDate: String
+        filedDate: String
+        form: String
+        quarter: Float
+        startDate: String
+        symbol: String
+        year: Float
+        report: FinancialReportStatement
+    }
+
+    type FinancialReportStatement {
+        bs: [FinancialReportStatementeportStatementData]
+        cf: [FinancialReportStatementeportStatementData]
+        ic: [FinancialReportStatementeportStatementData]
+    }
+
+    type FinancialReportStatementeportStatementData {
+        concept: String
+        label: String
+        unit: String
+        value: Float
     }
 
     type STStockDetailsCalculatedPredictions {
@@ -139,6 +173,14 @@ export const stockDetailsTypeDefs = gql`
         incomeTaxProvision: SheetData
         marketingExpense: SheetData
         netIncomeMargin: SheetData
+        revenue: SheetData
+        researchAndDevelopment: SheetData
+        operatingExpenses: SheetData
+        operatingIncomeLoss: SheetData
+        changeInMarketableDebtSecurities: SheetData
+        adjustedNetGainsIncludedInNetIncome: SheetData
+        otherComprehensiveIncome: SheetData
+        salesAndMarketing: SheetData
     }
 
     type CashFlow {
@@ -172,7 +214,7 @@ export const stockDetailsTypeDefs = gql`
         accountsReceivable: SheetData
         accruedExpenses: SheetData
         purchasesOfSecuritie: SheetData
-        marketSecurities: SheetData
+        marketableSecurities: SheetData
         acquisitionsOfBusinesses: SheetData
         issuanceOfStock: SheetData
         salesOfSecurities: SheetData
@@ -185,6 +227,26 @@ export const stockDetailsTypeDefs = gql`
         longTermDebtInsurance: SheetData
         customerDeposits: SheetData
         freeCashFlow: SheetData
+        paymentsOfDividends: SheetData
+        paymentsOfEquipment: SheetData
+        DepreciationDepletionAndAmortization: SheetData
+        increaseDecreaseInInventories: SheetData
+        increaseDecreaseInOtherReceivables: SheetData
+        otherOperatingAssets: SheetData
+        accountsPayable: SheetData
+        otherOperatingLiabilities: SheetData
+        operatingActivities: SheetData
+        paymentsToAcquireSaleSecurities: SheetData
+        paymentsToAcquireOtherInvestments: SheetData
+        maturityOfOtherInvestments: SheetData
+        investingActivities: SheetData
+        shareBasedCompensationTax: SheetData
+        paymentsForRepurchaseOfCommonStock: SheetData
+        proceedsFromIssuanceOfLongTermDebt: SheetData
+        financingActivities: SheetData
+        interestPaidNet: SheetData
+        paymentsToAcquireInvestments: SheetData
+        repaymentsOfDebt: SheetData
     }
 
     type BalanceSheet {
@@ -227,6 +289,29 @@ export const stockDetailsTypeDefs = gql`
         prepaidExpense: SheetData
         netEquity: SheetData
         prepaidAssets: SheetData
+        paidInCapital: SheetData
+        intangibleAssets: SheetData
+        cashAndCashEquivalents: SheetData
+        marketableSecuritiesCurrent: SheetData
+        accountsReceivableNetCurrent: SheetData
+        inventoryNet: SheetData
+        nontradeReceivablesCurrent: SheetData
+        assetsCurrent: SheetData
+        marketableSecurities: SheetData
+        otherAssetsNoncurrent: SheetData
+        assetsNoncurrent: SheetData
+        assets: SheetData
+        otherLiabilitiesCurrent: SheetData
+        commercialPaper: SheetData
+        currentDebt: SheetData
+        liabilitiesCurrent: SheetData
+        otherLongTermLiabilities: SheetData
+        currentLiabilities: SheetData
+        commitmentsAndContingencies: SheetData
+        retainedEarningsAccumulatedDeficit: SheetData
+        stockholdersEquity: SheetData
+        incomeTaxesLongTerm: SheetData
+        incomeTaxesShortTerm: SheetData
     }
 
     type SheetData {

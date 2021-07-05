@@ -1,7 +1,7 @@
 import { ApolloError } from 'apollo-server';
 import * as api from "stock-tracker-common-interfaces";
 import * as admin from "firebase-admin";
-import { queryStockSummary } from "../st-stocks/st-stock.query";
+import { queryStockSummary } from "../st-stocks/st-stocks-query";
 
 
 const resolveStockSummariesForSymbols = async (symbols: string[]): Promise<api.Summary[]> => {
