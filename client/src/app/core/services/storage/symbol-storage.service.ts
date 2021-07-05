@@ -1,7 +1,14 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {QueryStockDetailsGQL, QueryStockSummaryGQL, StockDetails, Summary} from '../../graphql-schema';
+import {
+    QueryStockDetailsGQL,
+    QueryStockFinancialReportsGQL,
+    QueryStockSummaryGQL,
+    StockDetails,
+    StockDetailsFinancialReports,
+    Summary
+} from '../../graphql-schema';
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +17,8 @@ export class SymbolStorageService {
     private activeSymbol$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
     constructor(private queryStockDetailsGQL: QueryStockDetailsGQL,
-                private queryStockSummaryGQL: QueryStockSummaryGQL) {
+                private queryStockSummaryGQL: QueryStockSummaryGQL,
+                private queryStockFinancialReportsGQL: QueryStockFinancialReportsGQL) {
     }
 
     get activeSymbol(): string {
@@ -44,6 +52,12 @@ export class SymbolStorageService {
         return this.queryStockSummaryGQL.fetch({
             symbol
         }).pipe(map(res => res.data.queryStockSummary));
+    }
+
+    getStockFinancialReports(symbol: string = this.activeSymbol): Observable<StockDetailsFinancialReports> {
+        return this.queryStockFinancialReportsGQL.fetch({
+            symbol
+        }).pipe(map(res => res.data.queryStockFinancialReports));
     }
 
 }

@@ -47,6 +47,7 @@ import {
     OptionPickerPopOverComponent
 } from './entry-components';
 import {SharedProvidersModule} from './shared-providers.module';
+import {ListSkeletonComponent} from './components/lists';
 
 
 @NgModule({
@@ -92,7 +93,8 @@ import {SharedProvidersModule} from './shared-providers.module';
         DisableControlDirective,
         PositionChangeItemComponent,
         OptionPickerPopOverComponent,
-        ConfirmationPopOverComponent
+        ConfirmationPopOverComponent,
+        ListSkeletonComponent
     ],
     imports: [
         SharedProvidersModule
@@ -137,7 +139,8 @@ import {SharedProvidersModule} from './shared-providers.module';
         DisableControlDirective,
         PositionChangeItemComponent,
         OptionPickerPopOverComponent,
-        ConfirmationPopOverComponent
+        ConfirmationPopOverComponent,
+        ListSkeletonComponent
     ],
     entryComponents: [
         InlineInputPopUpComponent,

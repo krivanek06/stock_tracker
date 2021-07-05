@@ -2,17 +2,24 @@
     <form [formGroup]="form">
         <ion-item class="st-form-input-background">
             <ion-label position="floating">Search symbol</ion-label>
-            <ion-input [clearInput]="true" placeholder="Enter symbol" type="text" formControlName="symbol"></ion-input>
+            <ion-input [clearInput]="true" formControlName="symbol" placeholder="Enter symbol" type="text"></ion-input>
         </ion-item>
     </form>
 </ion-list>
 
 <!-- listed symbols -->
-<ion-list class="flex-flow-wrap">
-    <app-stock-info-identification-item
-            *ngFor="let summary of searchedSummaries$ | async"
-            (click)="clickedSummary(summary)"
-            [summary]="summary"
-            [clickable]="true">
-    </app-stock-info-identification-item>
+<ion-list class="list-container">
+    <ng-container *ngIf="searchedSummaries$ | async as searchedSummaries; else showSkeletons">
+        <app-stock-info-identification-item
+                (click)="clickedSummary(summary)"
+                *ngFor="let summary of searchedSummaries"
+                [clickable]="true"
+                [summary]="summary">
+        </app-stock-info-identification-item>
+    </ng-container>
+
+    <!-- skeleton -->
+    <ng-template #showSkeletons>
+        <app-list-skeleton *ngIf="loading" [itemLength]="5" [skeletonHeight]="42"></app-list-skeleton>
+    </ng-template>
 </ion-list>

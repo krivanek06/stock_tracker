@@ -24,6 +24,7 @@ export interface SearchStockSymbol {
 
 
 export interface StockDetailsFinancialReports {
+  id?: string;
   allFinancialReportsQuarterly: FinancialReport[];
   allFinancialReportsYearly: FinancialReport[];
 }

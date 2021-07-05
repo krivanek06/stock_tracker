@@ -11,7 +11,7 @@ export const queryStockFinancialReports = async(symbol: string): Promise<api.Sto
                     .get();
         const data = doc.data() as api.StockDetailsFinancialReports;
 
-        return data;
+        return {...data, id: symbol};
 
     } catch (error) {
         throw new ApolloError(error);

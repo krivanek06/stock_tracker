@@ -1,4 +1,4 @@
-<ion-list *ngIf="topTableSymbolData.length > 0; else showSkelleton">
+<ion-list *ngIf="topTableSymbolData.length > 0; else showSkeleton">
 
     <!-- table header -->
     <ion-item class="ion-no-padding ion-hide-sm-down st-font-1-bold">
@@ -15,31 +15,31 @@
 
     <!-- table body -->
     <ng-container *ngFor="let data of topTableSymbolData | slice: 0: 15">
-        <ion-item button (click)="itemClicked(data.symbol, data.shortName)"
+        <ion-item (click)="itemClicked(data.symbol, data.shortName)" button
                   class="st-data-item-wrapper ion-hide-sm-down">
             <!-- logo + symbol name -->
             <ion-label class="st-display-flex-center st-data-label">
-                <ion-img appDefaultImg [src]="data.logo_url" class="st-symbol-image"></ion-img>
+                <ion-img [src]="data.logo_url" appDefaultImg class="st-symbol-image"></ion-img>
                 <ion-text class="st-font-4">{{ data.symbol }}</ion-text>
             </ion-label>
 
             <!-- current price -->
-            <ion-label class="st-data-label" [@marketValueChange]="data.regularMarketPrice">
+            <ion-label [@marketValueChange]="data.regularMarketPrice" class="st-data-label">
                 {{ data.regularMarketPrice | currency }}
             </ion-label>
 
             <!-- daily change -->
             <ion-label>
-                <app-price-compare-item [currentPrice]="data.regularMarketPrice"
-                                        [compareToPrice]="data.regularMarketPreviousClose">
+                <app-price-compare-item [compareToPrice]="data.regularMarketPreviousClose"
+                                        [currentPrice]="data.regularMarketPrice">
                 </app-price-compare-item>
             </ion-label>
 
             <!-- volume change -->
             <ion-label>
                 <app-price-change-item
-                        [showIcon]="false"
-                        [priceChange]="(data.regularMarketVolume - data.averageDailyVolume3Month) / data.averageDailyVolume3Month * 100">
+                        [priceChange]="(data.regularMarketVolume - data.averageDailyVolume3Month) / data.averageDailyVolume3Month * 100"
+                        [showIcon]="false">
                 </app-price-change-item>
             </ion-label>
 
@@ -55,9 +55,9 @@
 
             <!-- recommendation date -->
             <ion-label class="st-data-label">
-                <ion-text appRecommendation
-                          [recommendationKey]="data.recommendationKey"
-                          [recommendationMean]="data.recommendationMean">
+                <ion-text [recommendationKey]="data.recommendationKey"
+                          [recommendationMean]="data.recommendationMean"
+                          appRecommendation>
                 </ion-text>
             </ion-label>
 
@@ -65,9 +65,9 @@
             <ion-label class="st-data-label ion-hide-lg-down">
                 <div style="width: 90%">
                     <app-table-high-low-range
-                            [value]="data.regularMarketPrice"
+                            [max]="data.fiftyTwoWeekHigh"
                             [min]="data.fiftyTwoWeekLow"
-                            [max]="data.fiftyTwoWeekHigh">
+                            [value]="data.regularMarketPrice">
                     </app-table-high-low-range>
                 </div>
             </ion-label>
@@ -75,11 +75,11 @@
 
 
         <!-- SMALL SCREEN -->
-        <ion-item button class="st-data-item-wrapper ion-hide-sm-up st-sm-table-item"
-                  (click)="itemClicked(data.symbol,data.shortName)">
+        <ion-item (click)="itemClicked(data.symbol,data.shortName)" button
+                  class="st-data-item-wrapper ion-hide-sm-up st-sm-table-item">
             <!-- LOGO + SYMBOL -->
             <ion-label class="st-display-flex-center">
-                <ion-img appDefaultImg [src]="data.logo_url" class="st-symbol-image"></ion-img>
+                <ion-img [src]="data.logo_url" appDefaultImg class="st-symbol-image"></ion-img>
                 <div class="st-flex-col">
                     <ion-text>{{ data.symbol }}</ion-text>
                     <ion-text class="st-hide-xs-down st-font-size-12 st-font-5">{{ data.longName }}</ion-text>
@@ -88,13 +88,13 @@
 
             <!-- daily change + price -->
             <ion-label class="st-flex-end st-flex-col">
-                <ion-text class="st-font-1-normal st-font-size-16" [@marketValueChange]="data.regularMarketPrice">
+                <ion-text [@marketValueChange]="data.regularMarketPrice" class="st-font-1-normal st-font-size-16">
                     {{ data.regularMarketPrice | currency }}
                 </ion-text>
                 <app-price-compare-item
+                        [compareToPrice]="data.regularMarketPreviousClose"
                         [currentPrice]="data.regularMarketPrice"
-                        [inlineDisplay]="true"
-                        [compareToPrice]="data.regularMarketPreviousClose">
+                        [inlineDisplay]="true">
                 </app-price-compare-item>
             </ion-label>
         </ion-item>
@@ -102,12 +102,6 @@
 </ion-list>
 
 <!-- loading screen -->
-<ng-template #showSkelleton>
-    <ion-list>
-        <ion-item *ngFor="let _ of [].constructor(10)" style="height: 24px">
-            <ion-label>
-                <ion-skeleton-text animated></ion-skeleton-text>
-            </ion-label>
-        </ion-item>
-    </ion-list>
+<ng-template #showSkeleton>
+    <app-list-skeleton [itemLength]="10"></app-list-skeleton>
 </ng-template>

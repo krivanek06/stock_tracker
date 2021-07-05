@@ -1,0 +1,7 @@
+<ion-list>
+    <ion-item *ngFor="let _ of [].constructor(itemLength)" [style.height.px]="skeletonHeight">
+        <ion-label>
+            <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-label>
+    </ion-item>
+</ion-list>

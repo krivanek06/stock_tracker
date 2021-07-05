@@ -1,7 +1,7 @@
 <ion-list>
     <ion-item class="ion-margin-bottom">
         <!-- previous date -->
-        <ion-button fill="clear" (click)="previousWeek()">
+        <ion-button (click)="previousWeek()" fill="clear">
             <ion-icon name="chevron-back-outline"></ion-icon>
         </ion-button>
 
@@ -14,20 +14,24 @@
         </ion-label>
 
         <!-- next date -->
-        <ion-button fill="clear" (click)="nextWeek()">
+        <ion-button (click)="nextWeek()" fill="clear">
             <ion-icon name="chevron-forward-outline"></ion-icon>
         </ion-button>
     </ion-item>
 
     <!-- data -->
-    <ion-item button *ngFor="let event of events"
-              class="st-data-item-wrapper"
-              (click)="selectDate(event.startdatetime)">
-        <ion-label class="st-data-label ion-text-center">
-            Earnings: {{ event.earningscount }}
-        </ion-label>
-        <ion-label class="st-font-5 ion-text-center">
-            {{ event.startdatetime | date: 'EEEE, dd.MM.YYYY' }}
-        </ion-label>
-    </ion-item>
+    <ng-container *ngIf="events?.length > 0; else showSkeleton">
+        <ion-item (click)="selectDate(event.startdatetime)" *ngFor="let event of events" button
+                  class="st-data-item-wrapper">
+            <ion-label class="st-data-label ion-text-center">Earnings: {{ event.earningscount }} </ion-label>
+            <ion-label class="st-font-5 ion-text-center">
+                {{ event.startdatetime | date: 'EEEE, dd.MM.YYYY' }}
+            </ion-label>
+        </ion-item>
+    </ng-container>
+
+    <!-- skeleton -->
+    <ng-template #showSkeleton>
+        <app-list-skeleton [itemLength]="7"></app-list-skeleton>
+    </ng-template>
 </ion-list>

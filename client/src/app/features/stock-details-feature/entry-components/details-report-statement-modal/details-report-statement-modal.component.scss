@@ -1,0 +1,16 @@
+@import "variables";
+
+:host {
+  .label-parent {
+    min-width: 75%;
+    max-width: 75%;
+  }
+
+  .compact-list {
+    width: 70%;
+    margin: auto;
+    @media (max-width: #{$st-var-md-split}) {
+      width: 100%;
+    }
+  }
+}

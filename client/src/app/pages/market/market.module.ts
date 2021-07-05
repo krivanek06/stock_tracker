@@ -3,7 +3,7 @@ import {MarketPage} from './market.page';
 import {SharedModule} from '@shared';
 import {RouterModule, Routes} from '@angular/router';
 import {MarketOverviewComponent} from './pages/market-overview/market-overview.component';
-import {MarketFeatureModule} from '@market-feature';
+import {MarketFeatureModule, MarketOverviewPreloadGuard} from '@market-feature';
 import {MarketDailyChangeComponent} from './pages/market-daily-change/market-daily-change.component';
 import {MarketCryptoComponent} from './pages/market-crypto/market-crypto.component';
 import {PagesSharedModule} from '@pages-shared';
@@ -13,7 +13,8 @@ const routes: Routes = [
     {
         path: '',
         component: MarketPage,
-        pathMatch: 'full'
+        pathMatch: 'full',
+        resolve: [MarketOverviewPreloadGuard]
     }
 ];
 

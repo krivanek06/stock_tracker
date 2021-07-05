@@ -1,0 +1,58 @@
+<ion-content class="ion-padding">
+    <ion-item>
+        <ion-label>
+            <ion-text class="st-font-size-20" color="primary">
+                {{ passedReport.form }} [{{ passedReport.form === '10-Q' ?
+               (passedReport.endDate | date: 'dd.MM.YYYY') : passedReport.endDate | date: 'YYYY' }}]
+            </ion-text>
+        </ion-label>
+        <ion-label class="st-flex-end st-fit-content">
+            <ion-button (click)="dismissModal()" color="danger" fill="clear">
+                <ion-icon name="close-outline"></ion-icon>
+                Close
+            </ion-button>
+        </ion-label>
+    </ion-item>
+
+    <ng-container *ngIf="selectedReport$ | async as selectedReport; else showLoader">
+        <!-- balance sheet -->
+        <ion-list class="compact-list">
+            <ion-list-header>
+                <ion-label class="st-title ion-text-center">Balance sheet</ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let data of selectedReport.report.bs" class="st-data-item-wrapper">
+                <ion-label class="st-font-1-normal label-parent">{{ data.label }}</ion-label>
+                <ion-label class="st-data-label st-flex-end">{{ data.value | numberFormatter }}</ion-label>
+            </ion-item>
+        </ion-list>
+
+        <!-- cash flow -->
+        <ion-list class="compact-list" style="margin-top: 20px">
+            <ion-list-header>
+                <ion-label class="st-title ion-text-center">Cash flow</ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let data of selectedReport.report.cf" class="st-data-item-wrapper">
+                <ion-label class="st-font-1-normal label-parent">{{ data.label }}</ion-label>
+                <ion-label class="st-data-label st-flex-end">{{ data.value | numberFormatter }}</ion-label>
+            </ion-item>
+        </ion-list>
+
+        <!-- income statement -->
+        <ion-list class="compact-list" style="margin-top: 20px">
+            <ion-list-header>
+                <ion-label class="st-title ion-text-center">Income statement</ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let data of selectedReport.report.ic" class="st-data-item-wrapper">
+                <ion-label class="st-font-1-normal label-parent">{{ data.label }}</ion-label>
+                <ion-label class="st-data-label st-flex-end">{{ data.value | numberFormatter }}</ion-label>
+            </ion-item>
+        </ion-list>
+    </ng-container>
+
+    <!-- loader -->
+    <ng-template #showLoader>
+        <div class="spinner-container">
+            <ion-spinner color="primary"></ion-spinner>
+        </div>
+    </ng-template>
+</ion-content>
