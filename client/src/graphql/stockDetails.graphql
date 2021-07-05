@@ -165,6 +165,75 @@ fragment balanceSheetDataFragment on BalanceSheetData {
     endDate {
         ...SheetDataFragment
     }
+    paidInCapital {
+        ...SheetDataFragment
+    }
+    intangibleAssets {
+        ...SheetDataFragment
+    }
+    cashAndCashEquivalents {
+        ...SheetDataFragment
+    }
+    marketableSecuritiesCurrent {
+        ...SheetDataFragment
+    }
+    accountsReceivableNetCurrent {
+        ...SheetDataFragment
+    }
+    inventoryNet {
+        ...SheetDataFragment
+    }
+    nontradeReceivablesCurrent {
+        ...SheetDataFragment
+    }
+    assetsCurrent {
+        ...SheetDataFragment
+    }
+    marketableSecurities {
+        ...SheetDataFragment
+    }
+    otherAssetsNoncurrent {
+        ...SheetDataFragment
+    }
+    assetsNoncurrent {
+        ...SheetDataFragment
+    }
+    assets {
+        ...SheetDataFragment
+    }
+    otherLiabilitiesCurrent {
+        ...SheetDataFragment
+    }
+    commercialPaper {
+        ...SheetDataFragment
+    }
+    currentDebt {
+        ...SheetDataFragment
+    }
+    liabilitiesCurrent {
+        ...SheetDataFragment
+    }
+    otherLongTermLiabilities {
+        ...SheetDataFragment
+    }
+    currentLiabilities {
+        ...SheetDataFragment
+    }
+    commitmentsAndContingencies {
+        ...SheetDataFragment
+    }
+    retainedEarningsAccumulatedDeficit {
+        ...SheetDataFragment
+    }
+    stockholdersEquity {
+        ...SheetDataFragment
+    }
+    incomeTaxesLongTerm {
+        ...SheetDataFragment
+    }
+    incomeTaxesShortTerm {
+        ...SheetDataFragment
+    }
 }
 
 fragment cashFlowDataFragment on CashFlowData {
@@ -201,7 +270,7 @@ fragment cashFlowDataFragment on CashFlowData {
     purchasesOfSecuritie {
         ...SheetDataFragment
     }
-    marketSecurities {
+    marketableSecurities {
         ...SheetDataFragment
     }
     acquisitionsOfBusinesses {
@@ -259,6 +328,66 @@ fragment cashFlowDataFragment on CashFlowData {
         ...SheetDataFragment
     }
     freeCashFlow {
+        ...SheetDataFragment
+    }
+    paymentsOfDividends {
+        ...SheetDataFragment
+    }
+    paymentsOfEquipment {
+        ...SheetDataFragment
+    }
+    DepreciationDepletionAndAmortization {
+        ...SheetDataFragment
+    }
+    increaseDecreaseInInventories {
+        ...SheetDataFragment
+    }
+    increaseDecreaseInOtherReceivables {
+        ...SheetDataFragment
+    }
+    otherOperatingAssets {
+        ...SheetDataFragment
+    }
+    accountsPayable {
+        ...SheetDataFragment
+    }
+    otherOperatingLiabilities {
+        ...SheetDataFragment
+    }
+    operatingActivities {
+        ...SheetDataFragment
+    }
+    paymentsToAcquireSaleSecurities {
+        ...SheetDataFragment
+    }
+    paymentsToAcquireOtherInvestments {
+        ...SheetDataFragment
+    }
+    maturityOfOtherInvestments {
+        ...SheetDataFragment
+    }
+    investingActivities {
+        ...SheetDataFragment
+    }
+    shareBasedCompensationTax {
+        ...SheetDataFragment
+    }
+    paymentsForRepurchaseOfCommonStock {
+        ...SheetDataFragment
+    }
+    proceedsFromIssuanceOfLongTermDebt {
+        ...SheetDataFragment
+    }
+    financingActivities {
+        ...SheetDataFragment
+    }
+    interestPaidNet {
+        ...SheetDataFragment
+    }
+    paymentsToAcquireInvestments {
+        ...SheetDataFragment
+    }
+    repaymentsOfDebt {
         ...SheetDataFragment
     }
 }
@@ -337,6 +466,30 @@ fragment incomeStatementFragment on IncomeStatementData {
         ...SheetDataFragment
     }
     dividendsInCash {
+        ...SheetDataFragment
+    }
+    revenue {
+        ...SheetDataFragment
+    }
+    researchAndDevelopment {
+        ...SheetDataFragment
+    }
+    operatingExpenses {
+        ...SheetDataFragment
+    }
+    operatingIncomeLoss {
+        ...SheetDataFragment
+    }
+    changeInMarketableDebtSecurities {
+        ...SheetDataFragment
+    }
+    adjustedNetGainsIncludedInNetIncome {
+        ...SheetDataFragment
+    }
+    otherComprehensiveIncome {
+        ...SheetDataFragment
+    }
+    salesAndMarketing {
         ...SheetDataFragment
     }
 }
@@ -673,6 +826,37 @@ fragment WACCFragment on WACC {
     taxRate
 }
 
+fragment FinancialReportStatementeportStatementDataFragment on FinancialReportStatementeportStatementData {
+    concept
+    label
+    unit
+    value
+}
+
+fragment FinancialReportData on FinancialReport {
+    acceptedDate
+    accessNumber
+    cik
+    endDate
+    filedDate
+    form
+    quarter
+    startDate
+    symbol
+    year
+    report {
+        bs {
+            ...FinancialReportStatementeportStatementDataFragment
+        }
+        cf {
+            ...FinancialReportStatementeportStatementDataFragment
+        }
+        ic {
+            ...FinancialReportStatementeportStatementDataFragment
+        }
+    }
+}
+
 # -----------------------------------------
 # QUERY
 
@@ -899,9 +1083,26 @@ query QueryStockDetails($symbol: String!, $reload: Boolean) {
                 }
             }
         }
+        allFinancialReportsYearly {
+            ...FinancialReportData
+        }
+        allFinancialReportsQuarterly {
+            ...FinancialReportData
+        }
     }
 }
 
+query QueryStockFinancialReports($symbol: String!) {
+    queryStockFinancialReports(symbol: $symbol) {
+        id
+        allFinancialReportsQuarterly {
+            ...FinancialReportData
+        }
+        allFinancialReportsYearly {
+            ...FinancialReportData
+        }
+    }
+}
 
 query QueryStockSummary($symbol: String!) {
     queryStockSummary(symbol: $symbol) {

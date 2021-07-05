@@ -1,11 +1,12 @@
+<!--
 <ng-container *ngIf="group">
     <ion-row>
-        <!-- form -->
+        &lt;!&ndash; form &ndash;&gt;
         <ion-col size="12" class="content-padding">
             <app-generic-list [title]="'Edit ' + group?.name"></app-generic-list>
             <app-generic-card>
                 <form [formGroup]="form" (ngSubmit)="submit()">
-                    <!-- group image -->
+                    &lt;!&ndash; group image &ndash;&gt;
                     <ion-item-group class="group-image-container">
                         <ion-item>
                             <app-uploader
@@ -18,7 +19,7 @@
                         </ion-item>
                     </ion-item-group>
 
-                    <!-- owner, allow delete -->
+                    &lt;!&ndash; owner, allow delete &ndash;&gt;
                     <ion-buttons *ngIf="isUserOwner" class="st-buttons-container">
                         <ion-button class="st-button st-remove-background st-width-full-md-screen ion-margin-top"
                                     type="button"
@@ -27,20 +28,20 @@
                         </ion-button>
                     </ion-buttons>
 
-                    <!-- Group name -->
+                    &lt;!&ndash; Group name &ndash;&gt;
                     <ion-item class="st-form-input-background" style="margin-top: 16px">
                         <ion-label position="floating">Group name</ion-label>
                         <ion-input placeholder="Enter group name" type="text" formControlName="name"></ion-input>
                     </ion-item>
 
-                    <!-- Group description -->
+                    &lt;!&ndash; Group description &ndash;&gt;
                     <ion-item class="st-form-input-background" style="margin-top: 16px">
                         <ion-label position="floating">Group description</ion-label>
                         <ion-textarea placeholder="Enter group description" formControlName="description"
                                       [autoGrow]="true"></ion-textarea>
                     </ion-item>
 
-                    <!-- submit button -->
+                    &lt;!&ndash; submit button &ndash;&gt;
                     <ion-buttons class="st-buttons-container">
                         <ion-button class="st-button st-create-background st-width-full-md-screen" type="submit">
                             Save
@@ -52,13 +53,13 @@
                     </ion-buttons>
                 </form>
 
-                <!-- search user  -->
+                &lt;!&ndash; search user  &ndash;&gt;
                 <app-user-account-search (clickedUserEmitter)="sendInvitation($event)"></app-user-account-search>
             </app-generic-card>
         </ion-col>
     </ion-row>
 
-    <!-- owner -->
+    &lt;!&ndash; owner &ndash;&gt;
     <app-group-list-members-in-row
             [showDeleteButton]="false"
             [clickable]="false"
@@ -66,7 +67,7 @@
             [title]="'Owner'">
     </app-group-list-members-in-row>
 
-    <!-- Managers -->
+    &lt;!&ndash; Managers &ndash;&gt;
     <app-group-list-members-in-row
             (clickedEmitter)="changeGroupMemberSection($event, User_Status_In_Group.Manager)"
             (deleteEmitter)="removeUserFromSection($event, User_Status_In_Group.Manager)"
@@ -76,7 +77,7 @@
             [title]="'Managers'">
     </app-group-list-members-in-row>
 
-    <!-- Members -->
+    &lt;!&ndash; Members &ndash;&gt;
     <app-group-list-members-in-row
             (clickedEmitter)="changeGroupMemberSection($event, User_Status_In_Group.Member)"
             (deleteEmitter)="removeUserFromSection($event, User_Status_In_Group.Member)"
@@ -86,7 +87,7 @@
             [title]="'Members'">
     </app-group-list-members-in-row>
 
-    <!-- Invited -->
+    &lt;!&ndash; Invited &ndash;&gt;
     <app-group-list-members-in-row
             (clickedEmitter)="changeGroupMemberSection($event, User_Status_In_Group.InvitationSent)"
             (deleteEmitter)="removeUserFromSection($event, User_Status_In_Group.InvitationSent)"
@@ -96,7 +97,7 @@
             [title]="'Invited'">
     </app-group-list-members-in-row>
 
-    <!-- invitation received -->
+    &lt;!&ndash; invitation received &ndash;&gt;
     <app-group-list-members-in-row
             (clickedEmitter)="changeGroupMemberSection($event, User_Status_In_Group.InvitationReceived)"
             (deleteEmitter)="removeUserFromSection($event, User_Status_In_Group.InvitationReceived)"
@@ -106,3 +107,4 @@
             [title]="'Pending'">
     </app-group-list-members-in-row>
 </ng-container>
+-->

@@ -10,9 +10,14 @@
     }
   }
 
-  .flex-flow-wrap {
-    display: flex;
-    flex-flow: wrap;
+  .list-container {
+    position: absolute;
+    z-index: 100;
+    background-color: #06123a;
+    width: 75%;
+    @media (max-width: #{$st-var-sm-split}) {
+      width: 100%;
+    }
   }
 
 }

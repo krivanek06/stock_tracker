@@ -12,6 +12,7 @@ import {SharedModule} from '@shared';
 import {StockDetailsFeatureModule} from '@stock-details-feature';
 import {StockTradingStrategyFeatureModule} from '@stock-trading-strategy-feature';
 import {StockValuationFeatureModule} from '@stock-valuation-feature';
+import {StockDetailsFinancialModule} from './pages/stock-details-financial/stock-details-financial.module';
 
 const routes: Routes = [
     {
@@ -46,7 +47,6 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         SearchStockDetailsPage,
-        StockDetailsFinancialComponent,
         StockDetailsStatisticComponent,
         StockDetailsStrategiesComponent,
         StockDetailsValuationComponent
@@ -56,7 +56,8 @@ const routes: Routes = [
         SharedModule,
         StockDetailsFeatureModule,
         StockTradingStrategyFeatureModule,
-        StockValuationFeatureModule
+        StockValuationFeatureModule,
+        StockDetailsFinancialModule
     ]
 })
 export class SearchStockDetailsModule {

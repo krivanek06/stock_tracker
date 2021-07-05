@@ -14,7 +14,6 @@ export class StockDetailsFinancialComponent implements OnInit {
     stockDetails$: Observable<StockDetails>;
 
     activeStatement = STATEMENT_TYPE.BALANCE_SHEET;
-    STATEMENT_TYPE = STATEMENT_TYPE;
     STOCK_SEARCH_DETAILS_FINANCIAL_PAGES = STOCK_SEARCH_DETAILS_FINANCIAL_PAGES;
 
     constructor(private symbolStorageService: SymbolStorageService) {
@@ -23,7 +22,6 @@ export class StockDetailsFinancialComponent implements OnInit {
 
     ngOnInit() {
         this.stockDetails$ = this.symbolStorageService.getStockDetails();
-        this.stockDetails$.subscribe(console.log);
     }
 
 

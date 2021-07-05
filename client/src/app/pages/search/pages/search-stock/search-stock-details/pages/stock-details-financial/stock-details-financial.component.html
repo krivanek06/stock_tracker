@@ -24,54 +24,15 @@
 </ion-item>
 
 
-<!-- data -->
 <ng-container *ngIf="stockDetails$ | async as details">
+    <!-- financial tables -->
+    <app-financial-statements-container
+            [activeStatement]="activeStatement"
+            [stockDetails]="details">
+    </app-financial-statements-container>
 
-    <!-- balance sheet -->
-    <ng-container *ngIf="activeStatement === STATEMENT_TYPE.BALANCE_SHEET">
-        <div class="table-space">
-            <app-details-statement-table
-                    [title]="'Balance sheet quarterly'"
-                    [statement]="details.balanceSheet.quarterly">
-            </app-details-statement-table>
-        </div>
-
-        <app-details-statement-table
-                [isQuarterlyData]="false"
-                [title]="'Balance sheet yearly'"
-                [statement]="details.balanceSheet.yearly">
-        </app-details-statement-table>
-    </ng-container>
-
-    <!-- income statement -->
-    <ng-container *ngIf="activeStatement === STATEMENT_TYPE.INCOME_STATEMENT">
-        <div class="table-space">
-            <app-details-statement-table
-                    [title]="'Income statement quarterly'"
-                    [statement]="details.incomeStatement.quarterly">
-            </app-details-statement-table>
-        </div>
-
-        <app-details-statement-table
-                [isQuarterlyData]="false"
-                [title]="'Income statement yearly'"
-                [statement]="details.incomeStatement.yearly">
-        </app-details-statement-table>
-    </ng-container>
-
-    <!-- cash flow -->
-    <ng-container *ngIf="activeStatement === STATEMENT_TYPE.CASH_FLOW">
-        <div class="table-space">
-            <app-details-statement-table
-                    [title]="'Cash flow quarterly'"
-                    [statement]="details.cashFlow.quarterly">
-            </app-details-statement-table>
-        </div>
-
-        <app-details-statement-table
-                [isQuarterlyData]="false"
-                [title]="'Cash flow yearly'"
-                [statement]="details.cashFlow.yearly">
-        </app-details-statement-table>
-    </ng-container>
+    <!-- other reports preview -->
+    <app-financial-reports-container
+            [stockDetails]="details">
+    </app-financial-reports-container>
 </ng-container>

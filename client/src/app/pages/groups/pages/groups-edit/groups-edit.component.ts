@@ -1,15 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {filter, switchMap, takeUntil} from 'rxjs/operators';
-import {
-    componentDestroyed,
-    GroupStorageService,
-    StGroupAllData,
-    StGroupUser,
-    StUserPublicData,
-    User_Status_In_Group,
-    UserStorageService
-} from '@core';
+import {GroupStorageService, StGroupAllData, StGroupUser, StUserPublicData, User_Status_In_Group, UserStorageService} from '@core';
 import {
     GroupFeatureFacadeService,
     GroupMemberPosition,
@@ -18,9 +9,7 @@ import {
 } from '@group-feature';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UploadedFile, UploaderComponent} from '@shared';
-import {cloneDeep} from 'lodash';
 import {PopoverController} from '@ionic/angular';
-import {GROUPS_PAGES} from '../../model/groups.model';
 
 @Component({
     selector: 'app-groups-edit',
@@ -56,12 +45,12 @@ export class GroupsEditComponent implements OnInit, OnDestroy {
     }
 
     cancelEdit() {
-       // this.route.navigate([`menu/groups/${GROUPS_PAGES.READ}/${this.group.groupId}`]);
+        // this.route.navigate([`menu/groups/${GROUPS_PAGES.READ}/${this.group.groupId}`]);
     }
 
     deleteGroup() {
-       // const groupPartialData = convertStGroupAllDataToStGroupPartialData(this.group);
-       // this.groupService.deleteGroup(groupPartialData);
+        // const groupPartialData = convertStGroupAllDataToStGroupPartialData(this.group);
+        // this.groupService.deleteGroup(groupPartialData);
     }
 
     uploadedGroupImage(files: UploadedFile[]) {

@@ -5,21 +5,22 @@ import {
     DetailsEsgScoreComponent,
     DetailsFinancialStrengthComponent,
     DetailsFinancialStrengthRatioComponent,
+    DetailsGradingHistoryComponent,
     DetailsOwnershipComponent,
     DetailsPerShareComponent,
     DetailsRecommendationChartComponent,
     DetailsRevenueEstimateComponent,
+    DetailsSectorChartComponent,
     DetailsStatementTableComponent,
-    DetailsTransactionsComponent,
-    DetailsValuationComponent,
-    DetailsGradingHistoryComponent,
     DetailsStockSuggestionChangeComponent,
     DetailsStockTrendComponent,
-    DetailsSectorChartComponent,
+    DetailsTransactionsComponent,
+    DetailsValuationComponent,
     TrendItemComponent
 } from './components';
 import {StockSearchComponent} from './containers';
 import {SharedModule} from '@shared';
+import {DetailsReportStatementModalComponent} from './entry-components';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import {SharedModule} from '@shared';
         TrendItemComponent,
         DetailsOwnershipComponent,
         DetailsTransactionsComponent,
-        DetailsEsgScoreComponent
+        DetailsEsgScoreComponent,
+        DetailsReportStatementModalComponent
     ],
     imports: [
         SharedModule

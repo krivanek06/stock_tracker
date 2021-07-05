@@ -43,7 +43,7 @@ export class FinnhubWebsocketService {
     }
 
     createSubscribeForSymbol(componentName: string, symbol: string, isCrypto: boolean = false) {
-        if (!this.isConnectionInitialized$.value || !this.myWebSocket) {
+        /*if (!this.isConnectionInitialized$.value || !this.myWebSocket) {
             console.log('Websocket createSubscribeForSymbol return, no connection initialized');
             return;
         }
@@ -60,7 +60,7 @@ export class FinnhubWebsocketService {
         }
 
         console.log(`Sending subscription for: ${symbol}`);
-        this.myWebSocket.next({type: 'subscribe', symbol});
+        this.myWebSocket.next({type: 'subscribe', symbol});*/
     }
 
     closeConnection(componentName: string) {

@@ -11,73 +11,80 @@
     </ion-item>
 
     <!-- data -->
-    <ng-container *ngFor="let data of topTableCryptoData | slice: 0: 15">
+    <ng-container *ngIf="topTableCryptoData?.length > 0; else showSkeleton">
+        <ng-container *ngFor="let data of topTableCryptoData | slice: 0: 15">
 
-        <!-- BIG SCREEN -->
-        <ion-item button class="st-data-item-wrapper ion-hide-sm-down" (click)="itemClicked(data)">
-            <!-- logo + symbol name -->
-            <ion-label class="st-display-flex-center st-data-label symbol-md-space">
-                <ion-img appDefaultImg [src]="data.coinImageUrl" class="st-symbol-image"></ion-img>
-                <ion-text class="st-font-4">{{ data.symbol | split: '-':0}}</ion-text>
-            </ion-label>
+            <!-- BIG SCREEN -->
+            <ion-item (click)="itemClicked(data)" button class="st-data-item-wrapper ion-hide-sm-down">
+                <!-- logo + symbol name -->
+                <ion-label class="st-display-flex-center st-data-label symbol-md-space">
+                    <ion-img [src]="data.coinImageUrl" appDefaultImg class="st-symbol-image"></ion-img>
+                    <ion-text class="st-font-4">{{ data.symbol | split: '-':0}}</ion-text>
+                </ion-label>
 
-            <!-- current price -->
-            <ion-label class="st-data-label" [@marketValueChange]="data.regularMarketPrice">
-                {{ data.regularMarketPrice | currency }}
-            </ion-label>
-
-            <!-- daily change -->
-            <ion-label>
-                <app-price-compare-item [currentPrice]="data.regularMarketPrice"
-                                        [compareToPrice]="data.regularMarketClosed">
-                </app-price-compare-item>
-            </ion-label>
-
-            <!-- Supply -->
-            <ion-label class="st-data-label ion-hide-lg-down">
-                {{ data.circulatingSupply | numberFormatter }}
-            </ion-label>
-
-            <!-- Market cap -->
-            <ion-label class="st-data-label">
-                {{ data.marketCap | numberFormatter }}
-            </ion-label>
-
-            <!-- 52 week range -->
-            <ion-label class="st-data-label ion-hide-md-down">
-                <div style="width: 90%">
-                    <app-table-high-low-range
-                            [value]="data.regularMarketPrice"
-                            [min]="data.fiftyTwoWeekLow"
-                            [max]="data.fiftyTwoWeekHigh">
-                    </app-table-high-low-range>
-                </div>
-            </ion-label>
-        </ion-item>
-
-
-        <!-- SMALL SCREEN -->
-        <ion-item button class="st-data-item-wrapper ion-hide-sm-up st-sm-table-item" (click)="itemClicked(data)">
-            <!-- LOGO + SYMBOL -->
-            <ion-label class="st-display-flex-center">
-                <ion-img appDefaultImg [src]="data.coinImageUrl" class="st-symbol-image"></ion-img>
-                <div class="st-flex-col">
-                    <ion-text>{{ data.symbol }}</ion-text>
-                    <ion-text class="st-hide-xs-down st-font-size-12 st-font-5">{{ data.shortName }}</ion-text>
-                </div>
-            </ion-label>
-
-            <!-- daily change + price -->
-            <ion-label class="st-flex-end st-flex-col">
-                <ion-text class="st-font-1-normal st-font-size-16" [@marketValueChange]="data.regularMarketPrice">
+                <!-- current price -->
+                <ion-label [@marketValueChange]="data.regularMarketPrice" class="st-data-label">
                     {{ data.regularMarketPrice | currency }}
-                </ion-text>
-                <app-price-compare-item
-                        [currentPrice]="data.regularMarketPrice"
-                        [inlineDisplay]="true"
-                        [compareToPrice]="data.regularMarketClosed">
-                </app-price-compare-item>
-            </ion-label>
-        </ion-item>
+                </ion-label>
+
+                <!-- daily change -->
+                <ion-label>
+                    <app-price-compare-item [compareToPrice]="data.regularMarketClosed"
+                                            [currentPrice]="data.regularMarketPrice">
+                    </app-price-compare-item>
+                </ion-label>
+
+                <!-- Supply -->
+                <ion-label class="st-data-label ion-hide-lg-down">
+                    {{ data.circulatingSupply | numberFormatter }}
+                </ion-label>
+
+                <!-- Market cap -->
+                <ion-label class="st-data-label">
+                    {{ data.marketCap | numberFormatter }}
+                </ion-label>
+
+                <!-- 52 week range -->
+                <ion-label class="st-data-label ion-hide-md-down">
+                    <div style="width: 90%">
+                        <app-table-high-low-range
+                                [max]="data.fiftyTwoWeekHigh"
+                                [min]="data.fiftyTwoWeekLow"
+                                [value]="data.regularMarketPrice">
+                        </app-table-high-low-range>
+                    </div>
+                </ion-label>
+            </ion-item>
+
+
+            <!-- SMALL SCREEN -->
+            <ion-item (click)="itemClicked(data)" button class="st-data-item-wrapper ion-hide-sm-up st-sm-table-item">
+                <!-- LOGO + SYMBOL -->
+                <ion-label class="st-display-flex-center">
+                    <ion-img [src]="data.coinImageUrl" appDefaultImg class="st-symbol-image"></ion-img>
+                    <div class="st-flex-col">
+                        <ion-text>{{ data.symbol }}</ion-text>
+                        <ion-text class="st-hide-xs-down st-font-size-12 st-font-5">{{ data.shortName }}</ion-text>
+                    </div>
+                </ion-label>
+
+                <!-- daily change + price -->
+                <ion-label class="st-flex-end st-flex-col">
+                    <ion-text [@marketValueChange]="data.regularMarketPrice" class="st-font-1-normal st-font-size-16">
+                        {{ data.regularMarketPrice | currency }}
+                    </ion-text>
+                    <app-price-compare-item
+                            [compareToPrice]="data.regularMarketClosed"
+                            [currentPrice]="data.regularMarketPrice"
+                            [inlineDisplay]="true">
+                    </app-price-compare-item>
+                </ion-label>
+            </ion-item>
+        </ng-container>
     </ng-container>
+
+    <!-- skeleton -->
+    <ng-template #showSkeleton>
+        <app-list-skeleton [itemLength]="15"></app-list-skeleton>
+    </ng-template>
 </ion-list>

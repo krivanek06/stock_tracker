@@ -1,0 +1,47 @@
+<!-- balance sheet -->
+<ng-container *ngIf="activeStatement === STATEMENT_TYPE.BALANCE_SHEET">
+    <div class="table-space">
+        <app-details-statement-table
+                [statement]="stockDetails.balanceSheet.quarterly"
+                [title]="'Balance sheet quarterly'">
+        </app-details-statement-table>
+    </div>
+
+    <app-details-statement-table
+            [isQuarterlyData]="false"
+            [statement]="stockDetails.balanceSheet.yearly"
+            [title]="'Balance sheet yearly'">
+    </app-details-statement-table>
+</ng-container>
+
+<!-- income statement -->
+<ng-container *ngIf="activeStatement === STATEMENT_TYPE.INCOME_STATEMENT">
+    <div class="table-space">
+        <app-details-statement-table
+                [statement]="stockDetails.incomeStatement.quarterly"
+                [title]="'Income statement quarterly'">
+        </app-details-statement-table>
+    </div>
+
+    <app-details-statement-table
+            [isQuarterlyData]="false"
+            [statement]="stockDetails.incomeStatement.yearly"
+            [title]="'Income statement yearly'">
+    </app-details-statement-table>
+</ng-container>
+
+<!-- cash flow -->
+<ng-container *ngIf="activeStatement === STATEMENT_TYPE.CASH_FLOW">
+    <div class="table-space">
+        <app-details-statement-table
+                [statement]="stockDetails.cashFlow.quarterly"
+                [title]="'Cash flow quarterly'">
+        </app-details-statement-table>
+    </div>
+
+    <app-details-statement-table
+            [isQuarterlyData]="false"
+            [statement]="stockDetails.cashFlow.yearly"
+            [title]="'Cash flow yearly'">
+    </app-details-statement-table>
+</ng-container>

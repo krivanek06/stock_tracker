@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output}
 import {GraphqlQueryService, Summary} from '@core';
 import {Observable, of} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {debounceTime, switchMap} from 'rxjs/operators';
+import {debounceTime, switchMap, tap} from 'rxjs/operators';
 
 @Component({
     selector: 'app-stock-search',
@@ -16,6 +16,7 @@ export class StockSearchComponent implements OnInit {
     @Input() clearOnClick = false;
     searchedSummaries$: Observable<Summary[]>;
     form: FormGroup;
+    loading: boolean;
 
     constructor(private fb: FormBuilder,
                 private firebaseSearchService: GraphqlQueryService) {
@@ -41,9 +42,10 @@ export class StockSearchComponent implements OnInit {
 
     private watchForm() {
         this.searchedSummaries$ = this.form.get('symbol').valueChanges.pipe(
-            debounceTime(300),
-            switchMap(res => {
-                if (!res || res.length <= 1) {
+            tap((res: string) => this.loading = res?.length > 0),
+            debounceTime(600),
+            switchMap((res: string) => {
+                if (!res || res.length < 1) {
                     return of(null);
                 }
                 return this.firebaseSearchService.queryStockSummaries(res);

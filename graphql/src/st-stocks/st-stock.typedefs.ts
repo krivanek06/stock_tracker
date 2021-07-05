@@ -8,6 +8,7 @@ export const stockDetailsTypeDefs = gql`
     }
 
     type StockDetailsFinancialReports {
+        id: String!
         allFinancialReportsQuarterly: [FinancialReport]
         allFinancialReportsYearly: [FinancialReport]
     }
