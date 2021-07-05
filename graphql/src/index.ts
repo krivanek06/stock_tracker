@@ -1,3 +1,4 @@
+import { queryStockFinancialReports } from './st-stocks/st-stocks-query/queryStockFinancialReports';
 import { Context } from './st-shared/st-shared.interface';
 import { stGroupResolvers } from './st-group/st-group.resolver';
 import { STFreeCashFlowFormulaTypeDefs } from './st-stock-calculations/st-free-cash-flow-formula.typedef';
@@ -30,7 +31,7 @@ import {
     queryStockDetails,
     queryStockSummaries,
     queryStockSummary
-} from './st-stocks/st-stock.query';
+} from './st-stocks/st-stocks-query';
 import {stockDetailsTypeDefs} from './st-stocks/st-stock.typedefs';
 import {STTransactionTypeDefs} from './st-transaction/st-transaction.typedef';
 import {STRankTypeDefs} from './st-rank/st-rank.typedef';
@@ -80,6 +81,7 @@ const mainTypeDefs = gql`
         queryStockDetails(symbol: String!, reload: Boolean): StockDetails
         queryStockSummary(symbol: String!): Summary
         queryStockSummaries(symbolPrefix: String!): SearchSymbol
+        queryStockFinancialReports(symbol: String!): StockDetailsFinancialReports
 
         # market data
         querySTMarketSymbolHistoricalChartData(symbol: String!, period: String!): STMarketSymbolHistoricalChartData
@@ -141,6 +143,7 @@ const mainResolver = {
         queryStockDetails: async (_: null, args: { symbol: string, reload: boolean }) => await queryStockDetails(args.symbol, args.reload),
         queryStockSummary: async (_: null, args: { symbol: string }) => await queryStockSummary(args.symbol),
         queryStockSummaries: async (_: null, args: { symbolPrefix: string }) => await queryStockSummaries(args.symbolPrefix),
+        queryStockFinancialReports: async (_: null, args: { symbol: string }) => await queryStockFinancialReports(args.symbol),
 
         // market data
         querySTMarketHistoryOverview: async (_: null, args: null) => await querySTMarketHistoryOverview(),

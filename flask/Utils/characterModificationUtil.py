@@ -42,15 +42,19 @@ def change_key(d, required_key, new_value):
 
 # change nan or "infinity" values for null
 def check_value_correction(data):
-    res = {}
-    for k, v in data.items():
-        if isinstance(v, dict):
-            v = check_value_correction(v)
-        if v == 'Infinity' or ((isinstance(v, int) or isinstance(v, float)) and isnan(v)):
-            v = None
-        res[k] = v
-
-    return res
+    try:
+        res = {}
+        for k, v in data.items():
+            if isinstance(v, dict):
+                v = check_value_correction(v)
+            elif isinstance(v, list):
+                v = [check_value_correction(d) for d in v]
+            elif v == 'Infinity' or ((isinstance(v, int) or isinstance(v, float)) and isnan(v)):
+                v = None
+            res[k] = v
+        return res
+    except:
+        return data
 
 
 def changeUnsupportedCharactersExceptNumber(value):

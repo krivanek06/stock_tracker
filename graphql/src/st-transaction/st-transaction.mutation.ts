@@ -1,5 +1,5 @@
 
-import { queryStockLivePrice } from './../st-stocks/st-stock.query';
+import { queryStockLivePrice } from '../st-stocks/st-stocks-query';
 import { getCurrentIOSDate, datesAreOnSameDay } from './../st-shared/st-shared.functions';
 import {ApolloError} from 'apollo-server';
 import * as api from 'stock-tracker-common-interfaces';

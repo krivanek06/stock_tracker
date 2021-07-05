@@ -1,7 +1,6 @@
 from datetime import datetime
 from Utils import characterModificationUtil
-
-
+from time import mktime
 
 class FundamentalServiceFormatter:
     def __init__(self, data):
@@ -187,35 +186,51 @@ class FundamentalServiceFormatter:
             'bs': {
                 'AccumulatedOtherComprehensiveIncomeLossNetOfTax': 'accumulatedComprehensiveIncome',
                 'AvailableForSaleSecuritiesNoncurrent': 'totalSecuritiesForSale',
-                # 'AdditionalPaidInCapital': 'PaidInCapital',
+                'AdditionalPaidInCapital': 'paidInCapital',
                 'CommonStockValue': 'commonStockValue',
                 'ContractWithCustomerLiabilityCurrent': 'deferredRevenue',
-                # 'LiabilitiesCurrent': '',
                 'OperatingLeaseLiabilityCurrent': 'operatingLeaseLiability',
                 'Goodwill': 'goodwill',
                 'AccountsPayableCurrent': 'accountsPayable',
                 'OtherAssetsCurrent': 'prepaidAssets',
-                # 'IntangibleAssetsNetExcludingGoodwill': 'IntangibleAssets',
-                # 'RetainedEarningsAccumulatedDeficit': 'RetainedEarnings',
+                'IntangibleAssetsNetExcludingGoodwill': 'intangibleAssets',
                 'PrepaidExpenseAndOtherAssetsCurrent': 'prepaidExpense',
                 'PropertyPlantAndEquipmentNet': 'netEquity',
-                # 'LongTermDebtCurrent': 'CurrentDebt',
-                # 'LongTermDebtNoncurrent': 'LongTermDebt',
-                # 'AccountsPayableCurrent': 'AccountsPayable',
-                # 'CashAndCashEquivalentsAtCarryingValue': 'CashEquivalents'
+                'CashAndCashEquivalentsAtCarryingValue': 'cashAndCashEquivalents',
+                'MarketableSecuritiesCurrent': 'marketableSecuritiesCurrent',
+                'AccountsReceivableNetCurrent': 'accountsReceivableNetCurrent',
+                'InventoryNet': 'inventoryNet',
+                'NontradeReceivablesCurrent': 'nontradeReceivablesCurrent',
+                'AssetsCurrent': 'assetsCurrent',
+                'MarketableSecuritiesNoncurrent': 'marketableSecurities',
+                'OtherAssetsNoncurrent': 'otherAssetsNoncurrent',
+                'AssetsNoncurrent': 'assetsNoncurrent',
+                'Assets': 'assets',
+                'OtherLiabilitiesCurrent': 'otherLiabilitiesCurrent',
+                'CommercialPaper': 'commercialPaper',
+                'LongTermDebtCurrent': 'currentDebt',
+                'LiabilitiesCurrent': 'liabilitiesCurrent',
+                'LongTermDebtNoncurrent': 'longTermDebt',
+                'OtherLiabilitiesNoncurrent': 'otherLongTermLiabilities',
+                'LiabilitiesNoncurrent': 'currentLiabilities',
+                'CommitmentsAndContingencies': 'commitmentsAndContingencies',
+                'RetainedEarningsAccumulatedDeficit': 'retainedEarningsAccumulatedDeficit',
+                'StockholdersEquity': 'stockholdersEquity',
+                'AccruedIncomeTaxesNoncurrent': 'incomeTaxesLongTerm',
+                'AccruedIncomeTaxesCurrent': 'incomeTaxesShortTerm'
             },
             "cf": {
                 'ShareBasedCompensation': 'shareBasedCompensation',
                 'IncreaseDecreaseInAccountsReceivable': 'accountsReceivable',
                 # 'IncreaseDecreaseInAccountsPayableTrade': 'AccountsPayable',
                 'IncreaseDecreaseInAccruedLiabilities': 'accruedExpenses',
-                # 'PaymentsToAcquirePropertyPlantAndEquipment': 'PurchasesOfEquipment',
+                'PaymentsToAcquirePropertyPlantAndEquipment': 'paymentsOfEquipment',
                 'PaymentsToAcquireMarketableSecurities': 'purchasesOfSecuritie',
-                'MarketableSecuritiesCurrent': 'marketSecurities',
+                'MarketableSecuritiesCurrent': 'marketableSecurities',
                 'PaymentsToAcquireBusinessesNetOfCashAcquired': 'acquisitionsOfBusinesses',
                 'ProceedsFromIssuanceOfCommonStock': 'issuanceOfStock',
                 'IncreaseDecreaseInContractWithCustomerLiability': 'customerDeposits',
-                # 'PaymentsOfDividends': 'PaymentsOfDividends',
+                'PaymentsOfDividends': 'paymentsOfDividends',
                 'ProceedsFromSaleOfAvailableForSaleSecuritiesDebt': 'salesOfSecurities',
                 'ProceedsFromMaturitiesPrepaymentsAndCallsOfAvailableForSaleSecurities': 'maturitiesOfSecurities',
                 'IncomeTaxesPaidNet': 'incomeTax',
@@ -225,7 +240,26 @@ class FundamentalServiceFormatter:
                 # 'RepaymentsOfOtherLongTermDebt': 'LongTermDebtRepayments',
                 'ProceedsFromRepaymentsOfShortTermDebt': 'shortTermDebtRepayments',
                 'ProceedsFromIssuanceOfOtherLongTermDebt': 'longTermDebtInsurance',
-                'DeferredIncomeTaxExpenseBenefit': 'deferredTaxes'
+                'DeferredIncomeTaxExpenseBenefit': 'deferredTaxes',
+                'DepreciationDepletionAndAmortization': 'DepreciationDepletionAndAmortization',
+                'IncreaseDecreaseInInventories': 'increaseDecreaseInInventories',
+                'IncreaseDecreaseInOtherReceivables': 'increaseDecreaseInOtherReceivables',
+                'IncreaseDecreaseInOtherOperatingAssets': 'otherOperatingAssets',
+                'IncreaseDecreaseInAccountsPayable': 'accountsPayable',
+                'IncreaseDecreaseInOtherOperatingLiabilities': 'otherOperatingLiabilities',
+                'NetCashProvidedByUsedInOperatingActivities': 'operatingActivities',
+                'PaymentsToAcquireAvailableForSaleSecuritiesDebt': 'paymentsToAcquireSaleSecurities',
+                'PaymentsToAcquireOtherInvestments': 'paymentsToAcquireOtherInvestments',
+                'ProceedsFromSaleAndMaturityOfOtherInvestments': 'maturityOfOtherInvestments',
+                'NetCashProvidedByUsedInInvestingActivities': 'investingActivities',
+                'PaymentsRelatedToTaxWithholdingForShareBasedCompensation': 'shareBasedCompensationTax',
+                'PaymentsForRepurchaseOfCommonStock': 'paymentsForRepurchaseOfCommonStock',
+                'ProceedsFromIssuanceOfLongTermDebt': 'proceedsFromIssuanceOfLongTermDebt',
+                'NetCashProvidedByUsedInFinancingActivities': 'financingActivities',
+                'InterestPaidNet': 'interestPaidNet',
+                'PaymentsToAcquireInvestments': 'paymentsToAcquireInvestments',
+                'PaymentsOfDividendsCommonStock': 'paymentsOfDividends',
+                'RepaymentsOfDebtMaturingInMoreThanThreeMonths': 'repaymentsOfDebt'
             },
             "ic": {
                 'EarningsPerShareDiluted': 'dilutedEarnings',
@@ -234,38 +268,53 @@ class FundamentalServiceFormatter:
                 # 'AllocatedShareBasedCompensationExpense': 'shareBasedCompensation',
                 'CommonStockDividendsPerShareDeclared': 'dividendsInCash',
                 'SellingGeneralAndAdministrativeExpense': 'administrativeExpense',
-                'CostOfGoodsAndServicesSold': 'costOfSales',
+                'CostOfGoodsAndServicesSold': 'costOfRevenue',
                 'IncomeTaxExpenseBenefit': 'incomeTaxProvision',
                 'MarketingExpense': 'marketingExpense',
-                'InterestExpense': 'interestExpense'
+                'InterestExpense': 'interestExpense',
+                'RevenueFromContractWithCustomerExcludingAssessedTax': 'revenue',
+                'GrossProfit': 'grossProfit',
+                'ResearchAndDevelopmentExpense': 'researchAndDevelopment',
+                'OperatingExpenses': 'operatingExpenses',
+                'OperatingIncomeLoss': 'operatingIncomeLoss',
+                'IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest': 'incomeBeforeTax',
+                'OtherComprehensiveIncomeUnrealizedHoldingGainLossOnSecuritiesArisingDuringPeriodNetOfTax': 'changeInMarketableDebtSecurities',
+                'OtherComprehensiveIncomeLossReclassificationAdjustmentFromAOCIForSaleOfSecuritiesNetOfTax': 'adjustedNetGainsIncludedInNetIncome',
+                'ComprehensiveIncomeNetOfTax': 'otherComprehensiveIncome',
+                'SellingAndMarketingExpense': 'salesAndMarketing',
+
             }
         }
         for i in range(len(quarterly)):
             for statement in ['bs', 'cf', 'ic']:
                 statementNew = 'balanceSheet' if statement == 'bs' else 'cashFlow' if statement == 'cf' else 'incomeStatement'
+                '''
+                  "concept": "CashAndCashEquivalentsAtCarryingValue",
+                  "label": "Cash and cash equivalents",
+                  "unit": "usd",
+                  "value": 19079000000
+                '''
 
-                # QUARTERS
+                # QUARTERS - may be empty - add dict
+                if len(self.data[statementNew]['quarterly']) < i + 1:
+                    self.data[statementNew]['quarterly'].append({})
                 for data in quarterly[i]['report'][statement]:
-                    '''
-                      "concept": "CashAndCashEquivalentsAtCarryingValue",
-                      "label": "Cash and cash equivalents",
-                      "unit": "usd",
-                      "value": 19079000000
-                    '''
                     if data['concept'] in neededData[statement]:
                         newKey = neededData[statement][data['concept']]
-                        if len(self.data[statementNew]['quarterly']) <= i:
-                            self.data[statementNew]['quarterly'].append({})
-                        self.data[statementNew]['quarterly'][i][newKey] = data['value']
+                        if len(self.data[statementNew]['quarterly']) > i:
+                            self.data[statementNew]['quarterly'][i][newKey] = data['value']
+                self.data[statementNew]['quarterly'][i]['endDate'] = mktime(datetime.strptime(quarterly[i]['endDate'], "%Y-%m-%d %H:%M:%S").timetuple())
 
                 # YEARS - may be less than quarterly data
                 if i < len(yearly):
+                    if len(self.data[statementNew]['yearly']) < i + 1:
+                        self.data[statementNew]['yearly'].append({})
                     for data in yearly[i]['report'][statement]:
                         if data['concept'] in neededData[statement]:
                             newKey = neededData[statement][data['concept']]
-                            if len(self.data[statementNew]['yearly']) <= i:
-                                self.data[statementNew]['yearly'].append({})
-                            self.data[statementNew]['yearly'][i][newKey] = data['value']
+                            if len(self.data[statementNew]['yearly']) > i:
+                                self.data[statementNew]['yearly'][i][newKey] = data['value']
+                    self.data[statementNew]['yearly'][i]['endDate'] = mktime(datetime.strptime(yearly[i]['endDate'], "%Y-%m-%d %H:%M:%S").timetuple())
 
     def _formatSummary(self):
         try:
