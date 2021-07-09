@@ -2,6 +2,7 @@ from datetime import datetime
 from Utils import characterModificationUtil
 from time import mktime
 
+
 class FundamentalServiceFormatter:
     def __init__(self, data):
         self.data = data
@@ -12,12 +13,12 @@ class FundamentalServiceFormatter:
         self.data = characterModificationUtil.changeUnsupportedCharactersForDictKey(self.data)
 
         # format data
-        self._formatAnalysis()
+        # self._formatAnalysis()
         self._formatFinancialReports()
         self._formatSummary()
         self._formatDividends()
         self._formatEarningsFinancialChart()
-        self._formatStatementData()
+        # self._formatStatementData()
         self._formatHistoricalMetrics()
         self.data['recommendation'].reverse()
 
@@ -25,9 +26,53 @@ class FundamentalServiceFormatter:
         self.data = characterModificationUtil.check_value_correction(self.data)
 
         # remove data
-        self._removeUnnecessaryData()
+        # self._removeUnnecessaryData()
         return self.data
 
+    def _formatFinancialReports(self):
+        def _formatReport(reports, isAggregation):
+            # change value into -> {increase, increasePrct, value} -> compare with previous report (higher index)
+            for idx, _report in enumerate(reports):
+                for _period in ['bs', 'cf', 'ic']:
+                    previousReportPeriod = reports[idx + 1]['report'][_period] if len(reports) - 1 > idx else None
+                    for _statementData in _report['report'][_period]:
+                        try:
+                            # find from previous report period the same statement and make difference
+                            previousStatement = next(x for x in previousReportPeriod if x['concept'] == _statementData['concept'])
+                            _statementData['value'] = {
+                                'value': _statementData['value'] - previousStatement['value'] if isAggregation else _statementData['value'],
+                                'increase': _statementData['value'] - previousStatement['value'],
+                                'increasePrct': (_statementData['value'] - previousStatement['value']) / previousStatement['value']
+                            }
+                        except:
+                            _statementData['value'] = {'value': _statementData['value'], 'increase': None, 'increasePrct': None}
+
+        quarterlyReports = self.data['allFinancialReportsQuarterly']
+        yearlyReports = self.data['allFinancialReportsYearly']
+
+        # change 'N/A' to null
+        for report in quarterlyReports + yearlyReports:
+            for period in ['bs', 'cf', 'ic']:
+                for statementData in report['report'][period]:
+                    if statementData['value'] == 'N/A':
+                        statementData['value'] = None
+
+        # financial reports may be only 3 months period, but sometimes all quarters starts from same startDate
+        # so Q3 is the aggregation of all previous quarters, plus the current one. If this is the case
+        # then subtract previous quarter Q3 = Q3 - Q2
+        try:
+            q0Start = quarterlyReports[0]['startDate']
+            q1Start = quarterlyReports[1]['startDate']
+            q2Start = quarterlyReports[2]['startDate']
+            isQuarterlyAggregation = q0Start == q1Start or q1Start == q2Start
+        except:
+            isQuarterlyAggregation = False
+
+        _formatReport(quarterlyReports, isQuarterlyAggregation)
+        _formatReport(yearlyReports, False)
+
+
+    '''
     def _formatAnalysis(self):
         try:
             analysis_all = self.data.get('analysis_all')
@@ -74,6 +119,7 @@ class FundamentalServiceFormatter:
         except Exception as e:
             print('formatAnalysis exception: ' + str(e))
             self.data['analysis'] = None
+    '''
 
     def _formatHistoricalMetrics(self):
         if self.data['historicalMetrics'] is None:
@@ -87,6 +133,7 @@ class FundamentalServiceFormatter:
                 result[k]['dates'].insert(0, data.get('period').split('-')[0])  # 2020-X-X
         self.data['historicalMetrics'] = result
 
+    '''
     def _formatStatementData(self):
         res = {'balanceSheet': {},  # 'quaretly': {}, 'yearly': {}
                'cashFlow': {},  # 'quaretly': {}, 'yearly': {}
@@ -156,6 +203,7 @@ class FundamentalServiceFormatter:
         self.data['balanceSheet'] = res['balanceSheet']
         self.data['cashFlow'] = res['cashFlow']
         self.data['incomeStatement'] = res['incomeStatement']
+    '''
 
     def _formatEarningsFinancialChart(self):
         try:
@@ -178,6 +226,7 @@ class FundamentalServiceFormatter:
             pass
 
     # TODO refactor
+    '''
     def _formatFinancialReports(self):
         quarterly = self.data.get('financialReportsQuarterly')
         yearly = self.data.get('financialReportsYearly')
@@ -196,26 +245,26 @@ class FundamentalServiceFormatter:
                 'IntangibleAssetsNetExcludingGoodwill': 'intangibleAssets',
                 'PrepaidExpenseAndOtherAssetsCurrent': 'prepaidExpense',
                 'PropertyPlantAndEquipmentNet': 'netEquity',
-                'CashAndCashEquivalentsAtCarryingValue': 'cashAndCashEquivalents',
-                'MarketableSecuritiesCurrent': 'marketableSecuritiesCurrent',
+                'CashAndCashEquivalentsAtCarryingValue': 'cash',
+                'MarketableSecuritiesCurrent': 'shortTermInvestments',
                 'AccountsReceivableNetCurrent': 'accountsReceivableNetCurrent',
                 'InventoryNet': 'inventoryNet',
                 'NontradeReceivablesCurrent': 'nontradeReceivablesCurrent',
-                'AssetsCurrent': 'assetsCurrent',
-                'MarketableSecuritiesNoncurrent': 'marketableSecurities',
+                'AssetsCurrent': 'totalCurrentAssets',
+                'MarketableSecuritiesNoncurrent': 'longTermInvestments',
                 'OtherAssetsNoncurrent': 'otherAssetsNoncurrent',
                 'AssetsNoncurrent': 'assetsNoncurrent',
-                'Assets': 'assets',
+                'Assets': 'totalAssets',
                 'OtherLiabilitiesCurrent': 'otherLiabilitiesCurrent',
                 'CommercialPaper': 'commercialPaper',
                 'LongTermDebtCurrent': 'currentDebt',
-                'LiabilitiesCurrent': 'liabilitiesCurrent',
+                'LiabilitiesCurrent': 'totalCurrentLiabilities',
                 'LongTermDebtNoncurrent': 'longTermDebt',
                 'OtherLiabilitiesNoncurrent': 'otherLongTermLiabilities',
                 'LiabilitiesNoncurrent': 'currentLiabilities',
                 'CommitmentsAndContingencies': 'commitmentsAndContingencies',
                 'RetainedEarningsAccumulatedDeficit': 'retainedEarningsAccumulatedDeficit',
-                'StockholdersEquity': 'stockholdersEquity',
+                'StockholdersEquity': 'TotalStockholdersEquity',
                 'AccruedIncomeTaxesNoncurrent': 'incomeTaxesLongTerm',
                 'AccruedIncomeTaxesCurrent': 'incomeTaxesShortTerm'
             },
@@ -288,12 +337,6 @@ class FundamentalServiceFormatter:
         for i in range(len(quarterly)):
             for statement in ['bs', 'cf', 'ic']:
                 statementNew = 'balanceSheet' if statement == 'bs' else 'cashFlow' if statement == 'cf' else 'incomeStatement'
-                '''
-                  "concept": "CashAndCashEquivalentsAtCarryingValue",
-                  "label": "Cash and cash equivalents",
-                  "unit": "usd",
-                  "value": 19079000000
-                '''
 
                 # QUARTERS - may be empty - add dict
                 if len(self.data[statementNew]['quarterly']) < i + 1:
@@ -315,6 +358,7 @@ class FundamentalServiceFormatter:
                             if len(self.data[statementNew]['yearly']) > i:
                                 self.data[statementNew]['yearly'][i][newKey] = data['value']
                     self.data[statementNew]['yearly'][i]['endDate'] = mktime(datetime.strptime(yearly[i]['endDate'], "%Y-%m-%d %H:%M:%S").timetuple())
+    '''
 
     def _formatSummary(self):
         try:
