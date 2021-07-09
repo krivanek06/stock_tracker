@@ -9,9 +9,7 @@ class EconomicNewsApi:
 
     # fetch news if older than 6 hours else return from file
     def getNews(self):
-        business_news = \
-        get('http://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=' + self.API_KEY).json()[
-            'articles']
+        business_news = get('http://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=' + self.API_KEY).json()['articles']
         # filter only those which has image and description
         business_news_valid = [article for article in business_news if article['description'] and article['urlToImage']]
 

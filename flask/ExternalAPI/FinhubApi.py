@@ -33,25 +33,15 @@ class FinhubApi:
 
         # add yearly reports into quarters - missing
         yearlyReportIndex = 0
-        for quarterReportIndex, quarterReport in enumerate(quarter[:]): # create copy
+        for quarterReportIndex, quarterReport in enumerate(quarter[:]):  # create copy
             try:
                 if quarterReport['quarter'] == 1:
                     quarter.insert(quarterReportIndex + 1 + yearlyReportIndex, year[yearlyReportIndex])
-                yearlyReportIndex += 1
+                    yearlyReportIndex += 1
             except:
                 break
 
-        # change 'N/A' to null
-        for report in year + quarter:
-            for period in ['bs', 'cf', 'ic']:
-                for statementData in report['report'][period]:
-                    if statementData['value'] == 'N/A':
-                        statementData['value'] = None
-
-        return {'financialReportsQuarterly': quarter[0:4],
-                'financialReportsYearly': year[0:4],
-                'allFinancialReportsQuarterly': quarter[0:50],
-                'allFinancialReportsYearly': year}
+        return {'allFinancialReportsQuarterly': quarter[0:50], 'allFinancialReportsYearly': year}
 
     def getStockMetrics(self, symbol):
         params = {'token': self.FINHUB_SECRET_KEY, 'symbol': symbol}
