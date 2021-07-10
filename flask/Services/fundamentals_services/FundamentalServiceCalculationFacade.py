@@ -9,33 +9,22 @@ class FundamentalServiceCalculationFacade:
         self.YEARLY = 'yearly'
 
         self.data = data
-        self.dcfEstimation = FundamentalServiceEstimationDCF(self.data)
-        self.estimation = FundamentalServiceEstimation(self.data)
-        self.calculator = FundamentalServiceCalculator(self.data)
 
     def calculateAdditionalData(self):
-        # free cash flow
-        if self.data['cashFlow'][self.YEARLY]:
-            self.data['cashFlow'][self.YEARLY]['freeCashFlow'] = self.calculator.calculateFreeCashFlow(self.YEARLY)
-        if self.data['cashFlow'][self.QUARTERLY]:
-            self.data['cashFlow'][self.QUARTERLY]['freeCashFlow'] = self.calculator.calculateFreeCashFlow(self.QUARTERLY)
-
-        # net income margin
-        if self.data['incomeStatement'][self.YEARLY]:
-            self.data['incomeStatement'][self.YEARLY]['netIncomeMargin'] = self.calculator.calculateNetIncomeMargin(self.YEARLY)
-        if self.data['incomeStatement'][self.QUARTERLY]:
-            self.data['incomeStatement'][self.QUARTERLY]['netIncomeMargin'] = self.calculator.calculateNetIncomeMargin(self.QUARTERLY)
+        calculator = FundamentalServiceCalculator(self.data)
 
         self.data['calculations'] = {
-            'CAPM': self.calculator.calculateCAPM(),
-            'WACC': self.calculator.calculateWACC()
+            'CAPM': calculator.calculateCAPM(),
+            'WACC': calculator.calculateWACC()
         }
 
     def calculatePredictions(self):
-        self.data['calculatedPredictions'] = {
-            'DCF_V1': self.dcfEstimation.estimateDFC(),
-            'DDF_V1': self.estimation.estimateDividendDiscountedFormula(),
-            'FCF_V1': self.estimation.estimateFCFValuation(),
-            'INTRINSIC_V1': self.estimation.estimateIntrinsicFromEarnings(),
-        }
+        dcfEstimation = FundamentalServiceEstimationDCF(self.data)
+        estimation = FundamentalServiceEstimation(self.data)
 
+        self.data['calculatedPredictions'] = {
+            'DCF_V1': dcfEstimation.estimateDFC(),
+            'DDF_V1': estimation.estimateDividendDiscountedFormula(),
+            'FCF_V1': estimation.estimateFCFValuation(),
+            'INTRINSIC_V1': estimation.estimateIntrinsicFromEarnings(),
+        }

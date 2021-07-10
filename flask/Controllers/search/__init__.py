@@ -3,6 +3,7 @@ from flask_json import FlaskJSON, JsonError, json_response
 # from flask_cors import CORS
 from ExternalAPI.EconomicNewsApi import EconomicNewsApi
 from ExternalAPI.FinhubApi import FinhubApi
+from ExternalAPI.FinancialModelingApi import FinancialModelingApi
 from ExternalAPI.QuandlApi import QuandlApi
 from ExternalAPI.YahooFinance.YahooFinanceTopSymbolsApi import YahooFinanceTopSymbolsApi
 from Services.TechnicalIndicatorsService import TechnicalIndicatorsService
@@ -57,7 +58,7 @@ def get_economic_news():
     try:
         return json_response(news=EconomicNewsApi().getNews())
     except Exception as e:
-        raise JsonError(status=500, error='Failed to get economic news')
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'get_economic_news(), message: ' + str(e))
 
 
 @app.route('/calendar_events')
@@ -78,12 +79,16 @@ def get_calendar_events_earnings():
         raise JsonError(status=500, error=ERROR_MESSAGE + 'get_calendar_events_earnings(), message: ' + str(e))
 
 
-@app.route('/search_all_symbols')
-def search_all_symbols():
+@app.route('/search_symbols')
+def search_symbols():
     try:
-        return json_response(data=FinhubApi().searchAllSymbols())
+        symbolsPrefix = request.args.get('symbolsPrefix')
+        financialModeling = FinancialModelingApi()
+        searchedResult = financialModeling.searchSymbolsByPrefix(symbolsPrefix)
+        batchResult = financialModeling.getCompanyQuoteBatch([s['symbol'] for s in searchedResult])
+        return json_response(data=batchResult)
     except Exception as e:
-        raise JsonError(status=500, error='Could not search any stock for symbol')
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'search_symbols(), message: ' + str(e))
 
 
 @app.route('/top_crypto')

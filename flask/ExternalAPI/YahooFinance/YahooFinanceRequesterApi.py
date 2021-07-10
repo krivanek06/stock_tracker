@@ -45,48 +45,6 @@ class YahooFinanceRequesterApi:
         except:
             return {'companyData': None}
 
-    def get_financial_sheets(self, ticker):
-        balance_sheet_site = "https://finance.yahoo.com/quote/" + ticker + "/financials?p=" + ticker
-        json_info = self.helperClass.parse_json(balance_sheet_site, 'QuoteSummaryStore')
-
-        try:
-            balanceSheet = {
-                'yearly': json_info.get('balanceSheetHistory', {}).get('balanceSheetStatements', []),
-                'quarterly': json_info.get('balanceSheetHistoryQuarterly', {}).get('balanceSheetStatements', [])
-            }
-        except:
-            balanceSheet = {'yearly': [], 'quarterly': []}
-
-        try:
-            cashFlow = {
-                'yearly': json_info.get('cashflowStatementHistory', {}).get('cashflowStatements', []),
-                'quarterly': json_info.get('cashflowStatementHistoryQuarterly', {}).get('cashflowStatements', [])
-            }
-        except:
-            cashFlow = {'yearly': [], 'quarterly': []}
-
-        try:
-            incomeStatement = {
-                'yearly': json_info.get('incomeStatementHistory', {}).get('incomeStatementHistory', []),
-                'quarterly': json_info.get('incomeStatementHistoryQuarterly', {}).get('incomeStatementHistory', [])
-            }
-        except:
-            incomeStatement = {'yearly': [], 'quarterly': []}
-
-        return {'balanceSheet': balanceSheet, 'incomeStatement': incomeStatement, 'cashFlow': cashFlow}
-
-    def get_holders(self, ticker):
-        url = "https://finance.yahoo.com/quote/" + ticker + "/holders?p=" + ticker
-        ownerShip = self.helperClass.parse_json(url, 'QuoteSummaryStore', 'institutionOwnership', 'ownershipList')
-        transactions = self.helperClass.parse_json(url, 'QuoteSummaryStore', 'insiderTransactions', 'transactions')
-
-        return {'institutionOwnerships': ownerShip[0:8], 'insiderTransactions': transactions[0:8]}
-
-    def get_analysts_info(self, ticker):
-        url = "https://finance.yahoo.com/quote/" + ticker + "/analysts?p=" + ticker
-        analysis_all = self.helperClass.parse_json(url, 'QuoteSummaryStore', 'earningsTrend', 'trend')
-        return {'analysis_all': analysis_all}
-
     def get_live_price(self, ticker: str):
         try:
             data = get(f'https://query1.finance.yahoo.com/v8/finance/chart/{ticker}').json()

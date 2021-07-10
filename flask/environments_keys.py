@@ -1,11 +1,9 @@
-
 '''
 used to get news about economics
 -   https://newsapi.org/pricing
 -   500 requests per day
 '''
 NEWS_API_KEY = 'c52ae2c816d4428b8187c4e5aa70a7a0'
-
 
 # -------------------------------------------------
 
@@ -50,7 +48,11 @@ FINHUB_SECRET_KEY = 'brsrc5vrh5r9dg9d77pg'
 '''
 QUANDL_SECRET_KEY = 'EngrQ3ssvi8xdyRgrU5z'
 
-
-
+'''
+Docs - https://financialmodelingprep.com/developer/docs
+Calls - 300 / min
+Paid subscription
+'''
+FINANCIAL_MODELING_API_KEY = '795742ba1ec2f519ffa9ea50967d2240'
 
 ALPHA_VANTAGE = 'TC32TR44B7M4RJMG'
