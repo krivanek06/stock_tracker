@@ -13,15 +13,13 @@ class FundamentalServiceEstimation:
     # https://www.youtube.com/watch?v=OyloOasPAFw
     def estimateFCFValuation(self):
         try:
-            if self.data['cashFlow']['yearly']['freeCashFlow'] is None or self.data['summary']['sharesOutstanding'] == 0:
-                return None
-
-            # inputs
+            cashFlowAnnual = self.data['companyOutlook']['financialsAnnual']['cash']
             sharesOutstanding = self.data['summary']['sharesOutstanding']
-            capitalExpenditures = self.data['cashFlow']['yearly']['capitalExpenditures']['data'][::-1]
-            operatingActivities = self.data['cashFlow']['yearly']['totalCashFromOperatingActivities']['data'][::-1]
-            netBorrowings = self.data['cashFlow']['yearly']['netBorrowings']['data'][::-1]
-            freeCashFlows = self.data['cashFlow']['yearly']['freeCashFlow']['data'][::-1]
+            capitalExpenditures = [cash['capitalExpenditure'] for cash in cashFlowAnnual][::-1]
+            operatingActivities = [cash['operatingCashFlow'] for cash in cashFlowAnnual][::-1]
+
+            # netBorrowings = self.data['cashFlow']['yearly']['netBorrowings']['data'][::-1] TODO could not find
+            freeCashFlows = [cash['freeCashFlow'] for cash in cashFlowAnnual][::-1]
 
             avgFcf = mean(freeCashFlows)
 
@@ -42,7 +40,6 @@ class FundamentalServiceEstimation:
                 'avgFcf': avgFcf,
                 'minimumRateReturn': minimumRateReturn,
                 'freeCashFlows': freeCashFlows,
-                'netBorrowings': netBorrowings,
                 'capitalExpenditures': capitalExpenditures,
                 'operatingActivities': operatingActivities,
                 'historicalYears': historicalYears,
@@ -57,12 +54,10 @@ class FundamentalServiceEstimation:
     def estimateIntrinsicFromEarnings(self):
         try:
             eps = self.data['summary']['ePSTTM']
-            if eps <= 0:
+            if eps is None or eps <= 0:
                 return None
             minimumRateReturn = self.data['calculations']['WACC'].get('result', 0.1)
-            growthRateNext5y = self.data['analysis']['growthEstimates'][-2]['y']
-            earningsNextY = self.data['analysis']['earningsEstimate'][-1]['growth']
-            growthRate = mean([earningsNextY, growthRateNext5y])
+            growthRate = 0.10
             terminalMultiple = growthRate * 100
 
             estimatedEarnings = [eps]

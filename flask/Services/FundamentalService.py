@@ -18,8 +18,8 @@ class FundamentalService:
         data = FundamentalServiceFormatter(data).formatFetchedStockDetails(symbol)
 
         # calculate additional data & estimations
-        #calculatorFacade = FundamentalServiceCalculationFacade(data)
-        #calculatorFacade.calculateAdditionalData()
-        #calculatorFacade.calculatePredictions()
+        calculatorFacade = FundamentalServiceCalculationFacade(data)
+        calculatorFacade.calculateAdditionalData()
+        calculatorFacade.calculatePredictions()
 
         return data
