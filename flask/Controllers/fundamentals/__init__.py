@@ -24,7 +24,7 @@ def getStockFundamentals():
 def getStockNews():
     try:
         symbol = request.args.get('symbol')
-        return json_response(data=FundamentalService().getStockNews(symbol)['stockNews'])
+        return json_response(data=FundamentalService().getStockNews(symbol)[:15])
     except Exception as e:
         print(f'{ERROR_MESSAGE} getStockNews(), message: {e}')
         return json_response(data=None)

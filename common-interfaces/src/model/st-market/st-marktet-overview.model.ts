@@ -1,5 +1,5 @@
 import { STStockHistoricalClosedDataWithPeriod } from "../st-chart.model";
-import { NewsArticle, Summary } from "../stockDetails.model";
+import { NewsArticle, STSummary } from "../st-stockDetails.model";
 
 export interface STMarketDailyOverview {
     stocks_day_gainers: STMarketTopTableSymbolData[];
@@ -29,7 +29,7 @@ export interface STMarketDailyOverview {
   
 export interface STStockSuggestion {
     historicalData: STStockHistoricalClosedDataWithPeriod;
-    summary: Summary;
+    summary: STSummary;
   }
   
   export interface STEventCalendarData {

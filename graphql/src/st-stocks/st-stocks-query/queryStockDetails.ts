@@ -15,12 +15,17 @@ export const queryStockDetails = async (symbol: string, reload = false): Promise
         // remove stock details collection
         // await removeAllStockFromFirestore();
         // console.log('delete')
-        // await admin.firestore().collection(api.ST_STOCK_DATA_COLLECTION).doc(symbol).delete();
+
+        // delete previous data
+        if(reload || data?.forceReload){
+            console.log(`Deleting data for symbol ${symbol}`)
+            await admin.firestore().collection(api.ST_STOCK_DATA_COLLECTION).doc(symbol).delete();
+        }
         
-        // first fetch or older than 7 days
-        if(!data || reload || (Math.abs(moment(data.detailsLastUpdate).diff(new Date(), 'days')) > 7)){
+        // first fetch or older than 10 days
+        if(!data || reload || data?.forceReload || (Math.abs(moment(data.detailsLastUpdate).diff(new Date(), 'days')) > 10)){
             console.log(`Query all stock details for symbol: ${upperSymbol}`)
-            const details = await getStockDetailsFromApi(upperSymbol, data?.details);
+            const details = await getStockDetailsFromApi(upperSymbol);
             await saveFinancialReports(symbol, details);
 
             // remove FinancialReportStatement 
@@ -35,7 +40,7 @@ export const queryStockDetails = async (symbol: string, reload = false): Promise
         // fetch fresh news
         if(!!data.details && Math.abs(moment(data.newsLastUpdate).diff(new Date(), "days")) > 1){
             console.log(`Query stock news for symbol: ${upperSymbol}`)
-            data.details.stockNews = await getAndSaveStockNewsFromApi(upperSymbol, data);
+            data.details.companyOutlook.stockNews = await getAndSaveStockNewsFromApi(upperSymbol, data);
         }
         
         return data.details;
@@ -68,48 +73,17 @@ const saveFinancialReports = async (symbol: string, details: api.StockDetails) =
 }
 
 
-const modifyFinancialReports = (financialReports: api.FinancialReport[]): api.FinancialReport[] => {
+const modifyFinancialReports = (financialReports: api.STFinancialReport[]): api.STFinancialReport[] => {
     return financialReports.map(financialReport => {
         return {...financialReport, report: null}
     });
 }
 
 
-const getStockDetailsFromApi = async (symbol: string, previousDetails: api.StockDetails): Promise<api.StockDetails> => {
+const getStockDetailsFromApi = async (symbol: string): Promise<api.StockDetails> => {
     const resolverPromise = await global.fetch(`${stockDataAPI}/fundamentals/all?symbol=${symbol}`);
     const response = await resolverPromise.json() as api.StockDetails;
-
-    // no data has been found
-    if(!response || !response.summary){
-        return null;
-    }
-
-    if(!previousDetails){
-        console.log(`First update for symbol ${symbol} in firestore`)
-        return response;
-    }
-
-    // RESIST OLD DATA IF SOME ARE MISSING FROM CURRENT FETCH
-
-    // check balance sheet / income statement and cashflow
-    for(let statment of ['balanceSheet', 'cashFlow', 'incomeStatement']){
-        for(let period of ['quarterly', 'yearly']){
-            for(let statementKey of Object.keys(previousDetails[statment][period])){
-                // check if for current response exists data for statmentKey - if not, persist old data
-                if(!response[statment][period].hasOwnProperty(statementKey)){
-                    response[statment][period][statementKey] = previousDetails[statment][period][statementKey]
-                }
-            }
-        }
-    }
-
-    // check other data
-    response.analysis = response.analysis ?? previousDetails.analysis;
-    response.institutionOwnerships = response.institutionOwnerships.length > 0 ? response.institutionOwnerships : previousDetails.institutionOwnerships;
-    response.insiderTransactions = response.insiderTransactions.length > 0 ? response.insiderTransactions : previousDetails.insiderTransactions;
-
-
-    return response;
+    return !!response.summary ? response : null;
 };
 
 
@@ -122,16 +96,13 @@ const saveDataIntoFirestore = async (symbol: string, detials: api.StockDetails |
     }, {merge: true});
 }
 
-const getAndSaveStockNewsFromApi = async (symbol: string, data: api.StockDetailsWrapper): Promise<api.NewsArticle[]> => {
+const getAndSaveStockNewsFromApi = async (symbol: string, data: api.StockDetailsWrapper): Promise<api.STFMStockNew[]> => {
     const resolverPromise = await global.fetch(`${stockDataAPI}/fundamentals/stock_news?symbol=${symbol}`);
-    const response = (await resolverPromise.json())['data'] as api.NewsArticle[];
+    const response = (await resolverPromise.json())['data'] as api.STFMStockNew[];
 
     // save details
     admin.firestore().collection(`${api.ST_STOCK_DATA_COLLECTION}`).doc(symbol).set({
-        details: {
-            ...data.details,
-            stockNews: response
-        },
+        ['details.companyOutlook.stockNews']: response,
         newsLastUpdate: getCurrentIOSDate(),
     }, {merge: true});
 

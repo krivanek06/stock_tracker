@@ -1,5 +1,6 @@
-from flask import Flask, request
+from flask import Flask, request, Response
 from flask_json import FlaskJSON, JsonError, json_response
+from json import dumps
 # from flask_cors import CORS
 from ExternalAPI.EconomicNewsApi import EconomicNewsApi
 from ExternalAPI.FinhubApi import FinhubApi
@@ -86,7 +87,7 @@ def search_symbols():
         financialModeling = FinancialModelingApi()
         searchedResult = financialModeling.searchSymbolsByPrefix(symbolsPrefix)
         batchResult = financialModeling.getCompanyQuoteBatch([s['symbol'] for s in searchedResult])
-        return json_response(data=batchResult)
+        return Response(dumps(batchResult), mimetype='application/json')
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'search_symbols(), message: ' + str(e))
 

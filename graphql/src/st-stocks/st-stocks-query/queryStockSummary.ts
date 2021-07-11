@@ -4,7 +4,7 @@ import {ApolloError} from 'apollo-server';
 import * as api from 'stock-tracker-common-interfaces';
 import * as admin from "firebase-admin";
 
-export const queryStockSummary = async (symbol: string): Promise<api.Summary> => {
+export const queryStockSummary = async (symbol: string): Promise<api.STSummary> => {
     try {
         const upperSymbol = symbol.toUpperCase();
         

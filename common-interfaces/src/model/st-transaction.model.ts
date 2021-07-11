@@ -1,4 +1,4 @@
-import { STUserIndentification } from './user.model';
+import { STUserIndentification } from './st-user.model';
 
 export interface STSymbolPrice {
     price: number;

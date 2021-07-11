@@ -18,80 +18,6 @@ export type Scalars = {
 };
 
 
-export type Analysis = {
-    __typename?: 'Analysis';
-    earningsEstimate?: Maybe<Array<Maybe<Estimates>>>;
-    revenueEstimate?: Maybe<Array<Maybe<Estimates>>>;
-    growthEstimates?: Maybe<Array<Maybe<DataSet>>>;
-};
-
-export type BalanceSheet = {
-    __typename?: 'BalanceSheet';
-    quarterly?: Maybe<BalanceSheetData>;
-    yearly?: Maybe<BalanceSheetData>;
-};
-
-export type BalanceSheetData = {
-    __typename?: 'BalanceSheetData';
-    accountsPayable?: Maybe<SheetData>;
-    cash?: Maybe<SheetData>;
-    commonStock?: Maybe<SheetData>;
-    endDate?: Maybe<SheetData>;
-    inventory?: Maybe<SheetData>;
-    longTermDebt?: Maybe<SheetData>;
-    longTermInvestments?: Maybe<SheetData>;
-    maxAge?: Maybe<SheetData>;
-    netReceivables?: Maybe<SheetData>;
-    netTangibleAssets?: Maybe<SheetData>;
-    otherAssets?: Maybe<SheetData>;
-    otherCurrentAssets?: Maybe<SheetData>;
-    otherCurrentLiab?: Maybe<SheetData>;
-    otherLiab?: Maybe<SheetData>;
-    otherStockholderEquity?: Maybe<SheetData>;
-    propertyPlantEquipment?: Maybe<SheetData>;
-    retainedEarnings?: Maybe<SheetData>;
-    shortLongTermDebt?: Maybe<SheetData>;
-    shortTermInvestments?: Maybe<SheetData>;
-    totalAssets?: Maybe<SheetData>;
-    totalCurrentAssets?: Maybe<SheetData>;
-    totalCurrentLiabilities?: Maybe<SheetData>;
-    totalLiab?: Maybe<SheetData>;
-    totalStockholderEquity?: Maybe<SheetData>;
-    treasuryStock?: Maybe<SheetData>;
-    accumulatedComprehensiveIncome?: Maybe<SheetData>;
-    totalSecuritiesForSale?: Maybe<SheetData>;
-    commonStockValue?: Maybe<SheetData>;
-    deferredRevenue?: Maybe<SheetData>;
-    operatingLeaseLiability?: Maybe<SheetData>;
-    goodwill?: Maybe<SheetData>;
-    prepaidExpense?: Maybe<SheetData>;
-    netEquity?: Maybe<SheetData>;
-    prepaidAssets?: Maybe<SheetData>;
-    paidInCapital?: Maybe<SheetData>;
-    intangibleAssets?: Maybe<SheetData>;
-    cashAndCashEquivalents?: Maybe<SheetData>;
-    marketableSecuritiesCurrent?: Maybe<SheetData>;
-    accountsReceivableNetCurrent?: Maybe<SheetData>;
-    inventoryNet?: Maybe<SheetData>;
-    nontradeReceivablesCurrent?: Maybe<SheetData>;
-    assetsCurrent?: Maybe<SheetData>;
-    marketableSecurities?: Maybe<SheetData>;
-    otherAssetsNoncurrent?: Maybe<SheetData>;
-    assetsNoncurrent?: Maybe<SheetData>;
-    assets?: Maybe<SheetData>;
-    otherLiabilitiesCurrent?: Maybe<SheetData>;
-    commercialPaper?: Maybe<SheetData>;
-    currentDebt?: Maybe<SheetData>;
-    liabilitiesCurrent?: Maybe<SheetData>;
-    otherLongTermLiabilities?: Maybe<SheetData>;
-    currentLiabilities?: Maybe<SheetData>;
-    commitmentsAndContingencies?: Maybe<SheetData>;
-    retainedEarningsAccumulatedDeficit?: Maybe<SheetData>;
-    stockholdersEquity?: Maybe<SheetData>;
-    incomeTaxesLongTerm?: Maybe<SheetData>;
-    incomeTaxesShortTerm?: Maybe<SheetData>;
-};
-
 export enum CacheControlScope {
     Public = 'PUBLIC',
     Private = 'PRIVATE'
@@ -112,74 +38,6 @@ export type Capm = {
     result: Scalars['Float'];
 };
 
-export type CashFlow = {
-    __typename?: 'CashFlow';
-    quarterly?: Maybe<CashFlowData>;
-    yearly?: Maybe<CashFlowData>;
-};
-
-export type CashFlowData = {
-    __typename?: 'CashFlowData';
-    capitalExpenditures?: Maybe<SheetData>;
-    changeInCash?: Maybe<SheetData>;
-    changeToAccountReceivables?: Maybe<SheetData>;
-    changeToInventory?: Maybe<SheetData>;
-    deferredTaxes?: Maybe<SheetData>;
-    changeToLiabilities?: Maybe<SheetData>;
-    changeToNetincome?: Maybe<SheetData>;
-    changeToOperatingActivities?: Maybe<SheetData>;
-    depreciation?: Maybe<SheetData>;
-    dividendsPaid?: Maybe<SheetData>;
-    endDate?: Maybe<SheetData>;
-    investments?: Maybe<SheetData>;
-    maxAge?: Maybe<SheetData>;
-    netBorrowings?: Maybe<SheetData>;
-    netIncome?: Maybe<SheetData>;
-    otherCashflowsFromFinancingActivities?: Maybe<SheetData>;
-    otherCashflowsFromInvestingActivities?: Maybe<SheetData>;
-    repurchaseOfStock?: Maybe<SheetData>;
-    totalCashFromFinancingActivities?: Maybe<SheetData>;
-    totalCashFromOperatingActivities?: Maybe<SheetData>;
-    totalCashflowsFromInvestingActivities?: Maybe<SheetData>;
-    shareBasedCompensation?: Maybe<SheetData>;
-    accountsReceivable?: Maybe<SheetData>;
-    accruedExpenses?: Maybe<SheetData>;
-    purchasesOfSecuritie?: Maybe<SheetData>;
-    marketableSecurities?: Maybe<SheetData>;
-    acquisitionsOfBusinesses?: Maybe<SheetData>;
-    issuanceOfStock?: Maybe<SheetData>;
-    salesOfSecurities?: Maybe<SheetData>;
-    maturitiesOfSecurities?: Maybe<SheetData>;
-    incomeTax?: Maybe<SheetData>;
-    accruedEquipment?: Maybe<SheetData>;
-    longTermDebtRepayments?: Maybe<SheetData>;
-    commercialPaperRepayments?: Maybe<SheetData>;
-    shortTermDebtRepayments?: Maybe<SheetData>;
-    longTermDebtInsurance?: Maybe<SheetData>;
-    customerDeposits?: Maybe<SheetData>;
-    freeCashFlow?: Maybe<SheetData>;
-    paymentsOfDividends?: Maybe<SheetData>;
-    paymentsOfEquipment?: Maybe<SheetData>;
-    DepreciationDepletionAndAmortization?: Maybe<SheetData>;
-    increaseDecreaseInInventories?: Maybe<SheetData>;
-    increaseDecreaseInOtherReceivables?: Maybe<SheetData>;
-    otherOperatingAssets?: Maybe<SheetData>;
-    accountsPayable?: Maybe<SheetData>;
-    otherOperatingLiabilities?: Maybe<SheetData>;
-    operatingActivities?: Maybe<SheetData>;
-    paymentsToAcquireSaleSecurities?: Maybe<SheetData>;
-    paymentsToAcquireOtherInvestments?: Maybe<SheetData>;
-    maturityOfOtherInvestments?: Maybe<SheetData>;
-    investingActivities?: Maybe<SheetData>;
-    shareBasedCompensationTax?: Maybe<SheetData>;
-    paymentsForRepurchaseOfCommonStock?: Maybe<SheetData>;
-    proceedsFromIssuanceOfLongTermDebt?: Maybe<SheetData>;
-    financingActivities?: Maybe<SheetData>;
-    interestPaidNet?: Maybe<SheetData>;
-    paymentsToAcquireInvestments?: Maybe<SheetData>;
-    repaymentsOfDebt?: Maybe<SheetData>;
-};
-
 export type CompanyData = {
     __typename?: 'CompanyData';
     defaultKeyStatistics?: Maybe<DefaultKeyStatistics>;
@@ -188,12 +46,6 @@ export type CompanyData = {
     financialData?: Maybe<FinancialData>;
     pageViews?: Maybe<PageViews>;
     upgradeDowngradeHistory?: Maybe<Array<Maybe<UpgradeDowngradeHistory>>>;
-};
-
-export type DataSet = {
-    __typename?: 'DataSet';
-    y?: Maybe<Scalars['Float']>;
-    name?: Maybe<Scalars['String']>;
 };
 
 export type DefaultKeyStatistics = {
@@ -305,17 +157,6 @@ export type EsgScores = {
     totalEsg?: Maybe<Scalars['Float']>;
 };
 
-export type Estimates = {
-    __typename?: 'Estimates';
-    avg?: Maybe<Scalars['Float']>;
-    growth?: Maybe<Scalars['Float']>;
-    high?: Maybe<Scalars['Float']>;
-    low?: Maybe<Scalars['Float']>;
-    name?: Maybe<Scalars['String']>;
-    noofAnalysts?: Maybe<Scalars['Float']>;
-    yearAgo?: Maybe<Scalars['Float']>;
-};
-
 export type FinancialData = {
     __typename?: 'FinancialData';
     currentPrice?: Maybe<Scalars['Float']>;
@@ -366,16 +207,23 @@ export type FinancialReport = {
 
 export type FinancialReportStatement = {
     __typename?: 'FinancialReportStatement';
-    bs?: Maybe<Array<Maybe<FinancialReportStatementeportStatementData>>>;
-    cf?: Maybe<Array<Maybe<FinancialReportStatementeportStatementData>>>;
-    ic?: Maybe<Array<Maybe<FinancialReportStatementeportStatementData>>>;
+    bs?: Maybe<Array<Maybe<FinancialReportStatementData>>>;
+    cf?: Maybe<Array<Maybe<FinancialReportStatementData>>>;
+    ic?: Maybe<Array<Maybe<FinancialReportStatementData>>>;
 };
 
-export type FinancialReportStatementeportStatementData = {
-    __typename?: 'FinancialReportStatementeportStatementData';
+export type FinancialReportStatementData = {
+    __typename?: 'FinancialReportStatementData';
     concept?: Maybe<Scalars['String']>;
     label?: Maybe<Scalars['String']>;
     unit?: Maybe<Scalars['String']>;
+    value?: Maybe<FinancialReportStatementDataValue>;
+};
+
+export type FinancialReportStatementDataValue = {
+    __typename?: 'FinancialReportStatementDataValue';
+    increase?: Maybe<Scalars['Float']>;
+    increasePrct?: Maybe<Scalars['Float']>;
     value?: Maybe<Scalars['Float']>;
 };
 
@@ -419,72 +267,6 @@ export type HistoricalMetricsData = {
     name?: Maybe<Scalars['String']>;
     dates?: Maybe<Array<Maybe<Scalars['String']>>>;
     data?: Maybe<Array<Maybe<Scalars['Float']>>>;
-};
-
-export type IncomeStatement = {
-    __typename?: 'IncomeStatement';
-    quarterly?: Maybe<IncomeStatementData>;
-    yearly?: Maybe<IncomeStatementData>;
-};
-
-export type IncomeStatementData = {
-    __typename?: 'IncomeStatementData';
-    costOfRevenue?: Maybe<SheetData>;
-    discontinuedOperations?: Maybe<SheetData>;
-    ebit?: Maybe<SheetData>;
-    effectOfAccountingCharges?: Maybe<SheetData>;
-    endDate?: Maybe<SheetData>;
-    extraordinaryItems?: Maybe<SheetData>;
-    grossProfit?: Maybe<SheetData>;
-    incomeBeforeTax?: Maybe<SheetData>;
-    incomeTaxExpense?: Maybe<SheetData>;
-    interestExpense?: Maybe<SheetData>;
-    netIncome?: Maybe<SheetData>;
-    netIncomeApplicableToCommonShares?: Maybe<SheetData>;
-    netIncomeFromContinuingOps?: Maybe<SheetData>;
-    operatingIncome?: Maybe<SheetData>;
-    otherOperatingExpenses?: Maybe<SheetData>;
-    researchDevelopment?: Maybe<SheetData>;
-    sellingGeneralAdministrative?: Maybe<SheetData>;
-    totalOperatingExpenses?: Maybe<SheetData>;
-    totalOtherIncomeExpenseNet?: Maybe<SheetData>;
-    totalRevenue?: Maybe<SheetData>;
-    dilutedEarnings?: Maybe<SheetData>;
-    basicEarnings?: Maybe<SheetData>;
-    dividendsInCash?: Maybe<SheetData>;
-    administrativeExpense?: Maybe<SheetData>;
-    costOfSales?: Maybe<SheetData>;
-    incomeTaxProvision?: Maybe<SheetData>;
-    marketingExpense?: Maybe<SheetData>;
-    netIncomeMargin?: Maybe<SheetData>;
-    revenue?: Maybe<SheetData>;
-    researchAndDevelopment?: Maybe<SheetData>;
-    operatingExpenses?: Maybe<SheetData>;
-    operatingIncomeLoss?: Maybe<SheetData>;
-    changeInMarketableDebtSecurities?: Maybe<SheetData>;
-    adjustedNetGainsIncludedInNetIncome?: Maybe<SheetData>;
-    otherComprehensiveIncome?: Maybe<SheetData>;
-    salesAndMarketing?: Maybe<SheetData>;
-};
-
-export type InsiderTransaction = {
-    __typename?: 'InsiderTransaction';
-    filerName?: Maybe<Scalars['String']>;
-    filerRelation?: Maybe<Scalars['String']>;
-    shares?: Maybe<Scalars['Float']>;
-    startDate?: Maybe<Scalars['Float']>;
-    transactionText?: Maybe<Scalars['String']>;
-    value?: Maybe<Scalars['Float']>;
-};
-
-export type InstitutionOwnership = {
-    __typename?: 'InstitutionOwnership';
-    maxAge?: Maybe<Scalars['Float']>;
-    organization?: Maybe<Scalars['String']>;
-    pctHeld?: Maybe<Scalars['Float']>;
-    position?: Maybe<Scalars['Float']>;
-    reportDate?: Maybe<Scalars['Float']>;
-    value?: Maybe<Scalars['Float']>;
 };
 
 export type Metric = {
@@ -630,6 +412,7 @@ export type Mutation = {
     addStockIntoStockWatchlist?: Maybe<Summary>;
     removeStockFromStockWatchlist?: Maybe<Scalars['Boolean']>;
     performTransaction?: Maybe<PerformedTransaction>;
+    setForceReloadStockDetails?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -744,7 +527,7 @@ export type Query = {
     querySTGroupPartialDataByGroupName?: Maybe<StSearchGroups>;
     queryStockDetails?: Maybe<StockDetails>;
     queryStockSummary?: Maybe<Summary>;
-    queryStockSummaries?: Maybe<SearchSymbol>;
+    queryStockQuotesByPrefix: Array<Maybe<StfmCompanyQuote>>;
     queryStockFinancialReports?: Maybe<StockDetailsFinancialReports>;
     querySTMarketSymbolHistoricalChartData?: Maybe<StMarketSymbolHistoricalChartData>;
     querySTMarketHistoryOverview?: Maybe<StMarketOverviewPartialData>;
@@ -755,7 +538,7 @@ export type Query = {
     queryStMarketCalendarEventsEarnings?: Maybe<StMarketCalendarEventsEarnings>;
     querySTTradingStrategies?: Maybe<StTradingStrategySearch>;
     querySTTradingStrategyData?: Maybe<StTradingStrategyData>;
-    queryUsersRegistration?: Maybe<StUserRegistrationDoc>;
+    queryAdminMainInformations?: Maybe<StAdminMainInformations>;
 };
 
 
@@ -795,7 +578,7 @@ export type QueryQueryStockSummaryArgs = {
 };
 
 
-export type QueryQueryStockSummariesArgs = {
+export type QueryQueryStockQuotesByPrefixArgs = {
     symbolPrefix: Scalars['String'];
 };
 
@@ -853,12 +636,13 @@ export type Series = {
     name?: Maybe<Scalars['String']>;
 };
 
-export type SheetData = {
-    __typename?: 'SheetData';
-    change?: Maybe<Array<Maybe<Scalars['Float']>>>;
-    data?: Maybe<Array<Maybe<Scalars['Float']>>>;
-    name?: Maybe<Scalars['String']>;
-    isPercent?: Maybe<Scalars['Boolean']>;
+export type StAdminMainInformations = {
+    __typename?: 'STAdminMainInformations';
+    lastStockDetailsReload?: Maybe<Scalars['String']>;
+    usersRegistrated: Scalars['Float'];
+    usersActive: Scalars['Float'];
+    usersRegistrationSnippets: Array<Maybe<StUserIndetification>>;
+    usersWeeklyRegistrated: Array<Maybe<StSeriesNumber>>;
 };
 
 export type StDiscountedCashFlowFormula = {
@@ -951,6 +735,389 @@ export type StEventCalendarEarningsData = {
     timeZoneShortName?: Maybe<Scalars['String']>;
 };
 
+export type StfmBalanceSheet = {
+    __typename?: 'STFMBalanceSheet';
+    acceptedDate?: Maybe<Scalars['String']>;
+    accountPayables?: Maybe<Scalars['Float']>;
+    accumulatedOtherComprehensiveIncomeLoss?: Maybe<Scalars['Float']>;
+    cashAndCashEquivalents?: Maybe<Scalars['Float']>;
+    cashAndShortTermInvestments?: Maybe<Scalars['Float']>;
+    commonStock?: Maybe<Scalars['Float']>;
+    date?: Maybe<Scalars['String']>;
+    deferredRevenue?: Maybe<Scalars['Float']>;
+    deferredRevenueNonCurrent?: Maybe<Scalars['Float']>;
+    deferredTaxLiabilitiesNonCurrent?: Maybe<Scalars['Float']>;
+    fillingDate?: Maybe<Scalars['String']>;
+    finalLink?: Maybe<Scalars['String']>;
+    goodwill?: Maybe<Scalars['Float']>;
+    goodwillAndIntangibleAssets?: Maybe<Scalars['Float']>;
+    intangibleAssets?: Maybe<Scalars['Float']>;
+    inventory?: Maybe<Scalars['Float']>;
+    link?: Maybe<Scalars['String']>;
+    longTermDebt?: Maybe<Scalars['Float']>;
+    longTermInvestments?: Maybe<Scalars['Float']>;
+    netDebt?: Maybe<Scalars['Float']>;
+    netReceivables?: Maybe<Scalars['Float']>;
+    otherAssets?: Maybe<Scalars['Float']>;
+    otherCurrentAssets?: Maybe<Scalars['Float']>;
+    otherCurrentLiabilities?: Maybe<Scalars['Float']>;
+    otherLiabilities?: Maybe<Scalars['Float']>;
+    otherNonCurrentAssets?: Maybe<Scalars['Float']>;
+    otherNonCurrentLiabilities?: Maybe<Scalars['Float']>;
+    othertotalStockholdersEquity?: Maybe<Scalars['Float']>;
+    period?: Maybe<Scalars['String']>;
+    propertyPlantEquipmentNet?: Maybe<Scalars['Float']>;
+    reportedCurrency?: Maybe<Scalars['String']>;
+    retainedEarnings?: Maybe<Scalars['Float']>;
+    shortTermDebt?: Maybe<Scalars['Float']>;
+    shortTermInvestments?: Maybe<Scalars['Float']>;
+    symbol?: Maybe<Scalars['String']>;
+    taxAssets?: Maybe<Scalars['Float']>;
+    taxPayables?: Maybe<Scalars['Float']>;
+    totalAssets?: Maybe<Scalars['Float']>;
+    totalCurrentAssets?: Maybe<Scalars['Float']>;
+    totalCurrentLiabilities?: Maybe<Scalars['Float']>;
+    totalDebt?: Maybe<Scalars['Float']>;
+    totalInvestments?: Maybe<Scalars['Float']>;
+    totalLiabilities?: Maybe<Scalars['Float']>;
+    totalLiabilitiesAndStockholdersEquity?: Maybe<Scalars['Float']>;
+    totalNonCurrentAssets?: Maybe<Scalars['Float']>;
+    totalNonCurrentLiabilities?: Maybe<Scalars['Float']>;
+    totalStockholdersEquity?: Maybe<Scalars['Float']>;
+};
+
+export type StfmCashFlow = {
+    __typename?: 'STFMCashFlow';
+    acceptedDate?: Maybe<Scalars['String']>;
+    accountsPayables?: Maybe<Scalars['Float']>;
+    accountsReceivables?: Maybe<Scalars['Float']>;
+    acquisitionsNet?: Maybe<Scalars['Float']>;
+    capitalExpenditure?: Maybe<Scalars['Float']>;
+    cashAtBeginningOfPeriod?: Maybe<Scalars['Float']>;
+    cashAtEndOfPeriod?: Maybe<Scalars['Float']>;
+    changeInWorkingCapital?: Maybe<Scalars['Float']>;
+    commonStockIssued?: Maybe<Scalars['Float']>;
+    commonStockRepurchased?: Maybe<Scalars['Float']>;
+    date?: Maybe<Scalars['String']>;
+    debtRepayment?: Maybe<Scalars['Float']>;
+    deferredIncomeTax?: Maybe<Scalars['Float']>;
+    depreciationAndAmortization?: Maybe<Scalars['Float']>;
+    dividendsPaid?: Maybe<Scalars['Float']>;
+    effectOfForexChangesOnCash?: Maybe<Scalars['Float']>;
+    fillingDate?: Maybe<Scalars['String']>;
+    finalLink?: Maybe<Scalars['String']>;
+    freeCashFlow?: Maybe<Scalars['Float']>;
+    inventory?: Maybe<Scalars['Float']>;
+    investmentsInPropertyPlantAndEquipment?: Maybe<Scalars['Float']>;
+    link?: Maybe<Scalars['String']>;
+    netCashProvidedByOperatingActivities?: Maybe<Scalars['Float']>;
+    netCashUsedForInvestingActivites?: Maybe<Scalars['Float']>;
+    netCashUsedProvidedByFinancingActivities?: Maybe<Scalars['Float']>;
+    netChangeInCash?: Maybe<Scalars['Float']>;
+    netIncome?: Maybe<Scalars['Float']>;
+    operatingCashFlow?: Maybe<Scalars['Float']>;
+    otherFinancingActivites?: Maybe<Scalars['Float']>;
+    otherInvestingActivites?: Maybe<Scalars['Float']>;
+    otherNonCashItems?: Maybe<Scalars['Float']>;
+    otherWorkingCapital?: Maybe<Scalars['Float']>;
+    period?: Maybe<Scalars['String']>;
+    purchasesOfInvestments?: Maybe<Scalars['Float']>;
+    reportedCurrency?: Maybe<Scalars['String']>;
+    salesMaturitiesOfInvestments?: Maybe<Scalars['Float']>;
+    stockBasedCompensation?: Maybe<Scalars['Float']>;
+    symbol?: Maybe<Scalars['String']>;
+};
+
+export type StfmCompanyOutlook = {
+    __typename?: 'STFMCompanyOutlook';
+    financialsAnnual?: Maybe<StfmFinancials>;
+    financialsQuarter?: Maybe<StfmFinancials>;
+    insideTrades?: Maybe<Array<Maybe<StfmInsideTrade>>>;
+    keyExecutives?: Maybe<Array<Maybe<StfmKeyExecutive>>>;
+    metrics?: Maybe<StfmMetrics>;
+    profile?: Maybe<StfmProfile>;
+    rating?: Maybe<StfmRating>;
+    ratios?: Maybe<StfmRatios>;
+    splitHistory?: Maybe<Array<Maybe<StfmSplitHistory>>>;
+    stockDividend?: Maybe<Array<Maybe<StfmStockDividend>>>;
+    stockNews?: Maybe<Array<Maybe<StfmStockNew>>>;
+};
+
+export type StfmCompanyQuote = {
+    __typename?: 'STFMCompanyQuote';
+    avgVolume?: Maybe<Scalars['Float']>;
+    change?: Maybe<Scalars['Float']>;
+    changesPercentage?: Maybe<Scalars['Float']>;
+    dayHigh?: Maybe<Scalars['Float']>;
+    dayLow?: Maybe<Scalars['Float']>;
+    earningsAnnouncement?: Maybe<Scalars['String']>;
+    eps?: Maybe<Scalars['Float']>;
+    exchange?: Maybe<Scalars['String']>;
+    marketCap?: Maybe<Scalars['Float']>;
+    name?: Maybe<Scalars['String']>;
+    open?: Maybe<Scalars['Float']>;
+    pe?: Maybe<Scalars['Float']>;
+    previousClose?: Maybe<Scalars['Float']>;
+    price?: Maybe<Scalars['Float']>;
+    priceAvg200?: Maybe<Scalars['Float']>;
+    priceAvg50?: Maybe<Scalars['Float']>;
+    sharesOutstanding?: Maybe<Scalars['Float']>;
+    symbol?: Maybe<Scalars['String']>;
+    timestamp?: Maybe<Scalars['Float']>;
+    volume?: Maybe<Scalars['Float']>;
+    yearHigh?: Maybe<Scalars['Float']>;
+    yearLow?: Maybe<Scalars['Float']>;
+};
+
+export type StfmFinancials = {
+    __typename?: 'STFMFinancials';
+    balance?: Maybe<Array<Maybe<StfmBalanceSheet>>>;
+    cash?: Maybe<Array<Maybe<StfmCashFlow>>>;
+    income?: Maybe<Array<Maybe<StfmIncomeStatement>>>;
+};
+
+export type StfmHolder = {
+    __typename?: 'STFMHolder';
+    change?: Maybe<Scalars['Float']>;
+    dateReported?: Maybe<Scalars['String']>;
+    holder?: Maybe<Scalars['String']>;
+    shares?: Maybe<Scalars['Float']>;
+};
+
+export type StfmHolderWithWeight = {
+    __typename?: 'STFMHolderWithWeight';
+    change?: Maybe<Scalars['Float']>;
+    dateReported?: Maybe<Scalars['String']>;
+    holder?: Maybe<Scalars['String']>;
+    shares?: Maybe<Scalars['Float']>;
+    weightPercent?: Maybe<Scalars['Float']>;
+};
+
+export type StfmIncomeStatement = {
+    __typename?: 'STFMIncomeStatement';
+    acceptedDate?: Maybe<Scalars['String']>;
+    costAndExpenses?: Maybe<Scalars['Float']>;
+    costOfRevenue?: Maybe<Scalars['Float']>;
+    date?: Maybe<Scalars['String']>;
+    depreciationAndAmortization?: Maybe<Scalars['Float']>;
+    ebitda?: Maybe<Scalars['Float']>;
+    ebitdaratio?: Maybe<Scalars['Float']>;
+    eps?: Maybe<Scalars['Float']>;
+    epsdiluted?: Maybe<Scalars['Float']>;
+    fillingDate?: Maybe<Scalars['String']>;
+    finalLink?: Maybe<Scalars['String']>;
+    generalAndAdministrativeExpenses?: Maybe<Scalars['Float']>;
+    grossProfit?: Maybe<Scalars['Float']>;
+    grossProfitRatio?: Maybe<Scalars['Float']>;
+    incomeBeforeTax?: Maybe<Scalars['Float']>;
+    incomeBeforeTaxRatio?: Maybe<Scalars['Float']>;
+    incomeTaxExpense?: Maybe<Scalars['Float']>;
+    interestExpense?: Maybe<Scalars['Float']>;
+    link?: Maybe<Scalars['String']>;
+    netIncome?: Maybe<Scalars['Float']>;
+    netIncomeRatio?: Maybe<Scalars['Float']>;
+    operatingExpenses?: Maybe<Scalars['Float']>;
+    operatingIncome?: Maybe<Scalars['Float']>;
+    operatingIncomeRatio?: Maybe<Scalars['Float']>;
+    otherExpenses?: Maybe<Scalars['Float']>;
+    period?: Maybe<Scalars['String']>;
+    reportedCurrency?: Maybe<Scalars['String']>;
+    researchAndDevelopmentExpenses?: Maybe<Scalars['Float']>;
+    revenue?: Maybe<Scalars['Float']>;
+    sellingAndMarketingExpenses?: Maybe<Scalars['Float']>;
+    sellingGeneralAndAdministrativeExpenses?: Maybe<Scalars['Float']>;
+    symbol?: Maybe<Scalars['String']>;
+    totalOtherIncomeExpensesNet?: Maybe<Scalars['Float']>;
+    weightedAverageShsOut?: Maybe<Scalars['Float']>;
+    weightedAverageShsOutDil?: Maybe<Scalars['Float']>;
+};
+
+export type StfmInsideTrade = {
+    __typename?: 'STFMInsideTrade';
+    acquistionOrDisposition?: Maybe<Scalars['String']>;
+    companyCik?: Maybe<Scalars['String']>;
+    formType?: Maybe<Scalars['String']>;
+    link?: Maybe<Scalars['String']>;
+    price?: Maybe<Scalars['Float']>;
+    reportingCik?: Maybe<Scalars['String']>;
+    reportingName?: Maybe<Scalars['String']>;
+    securitiesOwned?: Maybe<Scalars['Float']>;
+    securitiesTransacted?: Maybe<Scalars['Float']>;
+    securityName?: Maybe<Scalars['String']>;
+    symbol?: Maybe<Scalars['String']>;
+    transactionDate?: Maybe<Scalars['String']>;
+    transactionType?: Maybe<Scalars['String']>;
+    typeOfOwner?: Maybe<Scalars['String']>;
+};
+
+export type StfmKeyExecutive = {
+    __typename?: 'STFMKeyExecutive';
+    currencyPay?: Maybe<Scalars['String']>;
+    gender?: Maybe<Scalars['String']>;
+    name?: Maybe<Scalars['String']>;
+    pay?: Maybe<Scalars['Float']>;
+    title?: Maybe<Scalars['String']>;
+};
+
+export type StfmMetrics = {
+    __typename?: 'STFMMetrics';
+    dividendYielTTM?: Maybe<Scalars['Float']>;
+    volume?: Maybe<Scalars['Float']>;
+    yearHigh?: Maybe<Scalars['Float']>;
+    yearLow?: Maybe<Scalars['Float']>;
+};
+
+export type StfmProfile = {
+    __typename?: 'STFMProfile';
+    address?: Maybe<Scalars['String']>;
+    beta?: Maybe<Scalars['Float']>;
+    ceo?: Maybe<Scalars['String']>;
+    changes?: Maybe<Scalars['Float']>;
+    cik?: Maybe<Scalars['String']>;
+    city?: Maybe<Scalars['String']>;
+    companyName?: Maybe<Scalars['String']>;
+    country?: Maybe<Scalars['String']>;
+    currency?: Maybe<Scalars['String']>;
+    cusip?: Maybe<Scalars['String']>;
+    dcf?: Maybe<Scalars['Float']>;
+    dcfDiff?: Maybe<Scalars['Float']>;
+    defaultImage?: Maybe<Scalars['Boolean']>;
+    description?: Maybe<Scalars['String']>;
+    exchange?: Maybe<Scalars['String']>;
+    exchangeShortName?: Maybe<Scalars['String']>;
+    fullTimeEmployees?: Maybe<Scalars['String']>;
+    image?: Maybe<Scalars['String']>;
+    industry?: Maybe<Scalars['String']>;
+    ipoDate?: Maybe<Scalars['String']>;
+    isActivelyTrading?: Maybe<Scalars['Boolean']>;
+    isEtf?: Maybe<Scalars['Boolean']>;
+    isin?: Maybe<Scalars['String']>;
+    lastDiv?: Maybe<Scalars['Float']>;
+    mktCap?: Maybe<Scalars['Float']>;
+    phone?: Maybe<Scalars['String']>;
+    price?: Maybe<Scalars['Float']>;
+    range?: Maybe<Scalars['String']>;
+    sector?: Maybe<Scalars['String']>;
+    state?: Maybe<Scalars['String']>;
+    symbol?: Maybe<Scalars['String']>;
+    volAvg?: Maybe<Scalars['Float']>;
+    website?: Maybe<Scalars['String']>;
+    zip?: Maybe<Scalars['String']>;
+};
+
+export type StfmRating = {
+    __typename?: 'STFMRating';
+    date?: Maybe<Scalars['String']>;
+    rating?: Maybe<Scalars['String']>;
+    ratingDetailsDCFRecommendation?: Maybe<Scalars['String']>;
+    ratingDetailsDCFScore?: Maybe<Scalars['Float']>;
+    ratingDetailsDERecommendation?: Maybe<Scalars['String']>;
+    ratingDetailsDEScore?: Maybe<Scalars['Float']>;
+    ratingDetailsPBRecommendation?: Maybe<Scalars['String']>;
+    ratingDetailsPBScore?: Maybe<Scalars['Float']>;
+    ratingDetailsPERecommendation?: Maybe<Scalars['String']>;
+    ratingDetailsPEScore?: Maybe<Scalars['Float']>;
+    ratingDetailsROARecommendation?: Maybe<Scalars['String']>;
+    ratingDetailsROAScore?: Maybe<Scalars['Float']>;
+    ratingDetailsROERecommendation?: Maybe<Scalars['String']>;
+    ratingDetailsROEScore?: Maybe<Scalars['Float']>;
+    ratingRecommendation?: Maybe<Scalars['String']>;
+    ratingScore?: Maybe<Scalars['Float']>;
+    symbol?: Maybe<Scalars['String']>;
+};
+
+export type StfmRatios = {
+    __typename?: 'STFMRatios';
+    assetTurnoverTTM?: Maybe<Scalars['Float']>;
+    capitalExpenditureCoverageRatioTTM?: Maybe<Scalars['Float']>;
+    cashConversionCycleTTM?: Maybe<Scalars['Float']>;
+    cashFlowCoverageRatiosTTM?: Maybe<Scalars['Float']>;
+    cashFlowToDebtRatioTTM?: Maybe<Scalars['Float']>;
+    cashPerShareTTM?: Maybe<Scalars['Float']>;
+    cashRatioTTM?: Maybe<Scalars['Float']>;
+    companyEquityMultiplierTTM?: Maybe<Scalars['Float']>;
+    currentRatioTTM?: Maybe<Scalars['Float']>;
+    daysOfInventoryOutstandingTTM?: Maybe<Scalars['Float']>;
+    daysOfPayablesOutstandingTTM?: Maybe<Scalars['Float']>;
+    daysOfSalesOutstandingTTM?: Maybe<Scalars['Float']>;
+    debtEquityRatioTTM?: Maybe<Scalars['Float']>;
+    debtRatioTTM?: Maybe<Scalars['Float']>;
+    dividendPaidAndCapexCoverageRatioTTM?: Maybe<Scalars['Float']>;
+    dividendPerShareTTM?: Maybe<Scalars['Float']>;
+    dividendYielPercentageTTM?: Maybe<Scalars['Float']>;
+    dividendYielTTM?: Maybe<Scalars['Float']>;
+    dividendYieldTTM?: Maybe<Scalars['Float']>;
+    ebitPerRevenueTTM?: Maybe<Scalars['Float']>;
+    ebtPerEbitTTM?: Maybe<Scalars['Float']>;
+    effectiveTaxRateTTM?: Maybe<Scalars['Float']>;
+    enterpriseValueMultipleTTM?: Maybe<Scalars['Float']>;
+    fixedAssetTurnoverTTM?: Maybe<Scalars['Float']>;
+    freeCashFlowOperatingCashFlowRatioTTM?: Maybe<Scalars['Float']>;
+    freeCashFlowPerShareTTM?: Maybe<Scalars['Float']>;
+    grossProfitMarginTTM?: Maybe<Scalars['Float']>;
+    interestCoverageTTM?: Maybe<Scalars['Float']>;
+    inventoryTurnoverTTM?: Maybe<Scalars['Float']>;
+    longTermDebtToCapitalizationTTM?: Maybe<Scalars['Float']>;
+    netIncomePerEBTTTM?: Maybe<Scalars['Float']>;
+    netProfitMarginTTM?: Maybe<Scalars['Float']>;
+    operatingCashFlowPerShareTTM?: Maybe<Scalars['Float']>;
+    operatingCashFlowSalesRatioTTM?: Maybe<Scalars['Float']>;
+    operatingCycleTTM?: Maybe<Scalars['Float']>;
+    operatingProfitMarginTTM?: Maybe<Scalars['Float']>;
+    payablesTurnoverTTM?: Maybe<Scalars['Float']>;
+    payoutRatioTTM?: Maybe<Scalars['Float']>;
+    peRatioTTM?: Maybe<Scalars['Float']>;
+    pegRatioTTM?: Maybe<Scalars['Float']>;
+    pretaxProfitMarginTTM?: Maybe<Scalars['Float']>;
+    priceBookValueRatioTTM?: Maybe<Scalars['Float']>;
+    priceCashFlowRatioTTM?: Maybe<Scalars['Float']>;
+    priceEarningsRatioTTM?: Maybe<Scalars['Float']>;
+    priceEarningsToGrowthRatioTTM?: Maybe<Scalars['Float']>;
+    priceFairValueTTM?: Maybe<Scalars['Float']>;
+    priceSalesRatioTTM?: Maybe<Scalars['Float']>;
+    priceToBookRatioTTM?: Maybe<Scalars['Float']>;
+    priceToFreeCashFlowsRatioTTM?: Maybe<Scalars['Float']>;
+    priceToOperatingCashFlowsRatioTTM?: Maybe<Scalars['Float']>;
+    priceToSalesRatioTTM?: Maybe<Scalars['Float']>;
+    quickRatioTTM?: Maybe<Scalars['Float']>;
+    receivablesTurnoverTTM?: Maybe<Scalars['Float']>;
+    returnOnAssetsTTM?: Maybe<Scalars['Float']>;
+    returnOnCapitalEmployedTTM?: Maybe<Scalars['Float']>;
+    returnOnEquityTTM?: Maybe<Scalars['Float']>;
+    shortTermCoverageRatiosTTM?: Maybe<Scalars['Float']>;
+    totalDebtToCapitalizationTTM?: Maybe<Scalars['Float']>;
+};
+
+export type StfmSplitHistory = {
+    __typename?: 'STFMSplitHistory';
+    date?: Maybe<Scalars['String']>;
+    denominator?: Maybe<Scalars['Float']>;
+    label?: Maybe<Scalars['String']>;
+    numerator?: Maybe<Scalars['Float']>;
+};
+
+export type StfmStockDividend = {
+    __typename?: 'STFMStockDividend';
+    adjDividend?: Maybe<Scalars['Float']>;
+    date?: Maybe<Scalars['String']>;
+    declarationDate?: Maybe<Scalars['String']>;
+    dividend?: Maybe<Scalars['Float']>;
+    label?: Maybe<Scalars['String']>;
+    paymentDate?: Maybe<Scalars['String']>;
+    recordDate?: Maybe<Scalars['String']>;
+};
+
+export type StfmStockNew = {
+    __typename?: 'STFMStockNew';
+    image?: Maybe<Scalars['String']>;
+    publishedDate?: Maybe<Scalars['String']>;
+    site?: Maybe<Scalars['String']>;
+    symbol?: Maybe<Scalars['String']>;
+    text?: Maybe<Scalars['String']>;
+    title?: Maybe<Scalars['String']>;
+    url?: Maybe<Scalars['String']>;
+};
+
 export type StFreeCashFlowFormula = {
     __typename?: 'STFreeCashFlowFormula';
     avgFcf: Scalars['Float'];
@@ -958,7 +1125,6 @@ export type StFreeCashFlowFormula = {
     estimatedIntrinsicValue: Scalars['Float'];
     historicalYears?: Maybe<Array<Maybe<Scalars['String']>>>;
     minimumRateReturn: Scalars['Float'];
-    netBorrowings: Array<Maybe<Scalars['Float']>>;
     capitalExpenditures: Array<Maybe<Scalars['Float']>>;
     operatingActivities: Array<Maybe<Scalars['Float']>>;
     freeCashFlows: Array<Maybe<Scalars['Float']>>;
@@ -1212,23 +1378,19 @@ export type StMarketTopTableSymbolData = {
 export type StockDetails = {
     __typename?: 'StockDetails';
     id: Scalars['String'];
-    analysis?: Maybe<Analysis>;
-    balanceSheet?: Maybe<BalanceSheet>;
-    cashFlow?: Maybe<CashFlow>;
-    incomeStatement?: Maybe<IncomeStatement>;
     recommendation?: Maybe<Array<Maybe<Recommendations>>>;
-    stockNews?: Maybe<Array<Maybe<NewsArticle>>>;
     companyData?: Maybe<CompanyData>;
     summary: Summary;
     metric?: Maybe<Metric>;
     dividends?: Maybe<Dividens>;
     historicalMetrics?: Maybe<HistoricalMetrics>;
-    institutionOwnerships?: Maybe<Array<Maybe<InstitutionOwnership>>>;
-    insiderTransactions?: Maybe<Array<Maybe<InsiderTransaction>>>;
     calculations?: Maybe<StStockDetailsCalculations>;
     calculatedPredictions?: Maybe<StStockDetailsCalculatedPredictions>;
     allFinancialReportsQuarterly?: Maybe<Array<Maybe<FinancialReport>>>;
     allFinancialReportsYearly?: Maybe<Array<Maybe<FinancialReport>>>;
+    institutionalHolders?: Maybe<Array<Maybe<StfmHolder>>>;
+    mutualFundHolders?: Maybe<Array<Maybe<StfmHolderWithWeight>>>;
+    companyOutlook?: Maybe<StfmCompanyOutlook>;
 };
 
 export type StockDetailsFinancialReports = {
@@ -1480,14 +1642,6 @@ export type StUserPublicData = {
     stockWatchlist: Array<Maybe<StStockWatchlist>>;
 };
 
-export type StUserRegistrationDoc = {
-    __typename?: 'STUserRegistrationDoc';
-    totalRegistratedUsers: Scalars['Float'];
-    totalActiveUsers: Scalars['Float'];
-    userRegistrationSnippets?: Maybe<Array<Maybe<StUserIndetification>>>;
-    weeklyRegistratedUsers?: Maybe<Array<Maybe<StSeriesNumber>>>;
-};
-
 export type StUserResetedAccount = {
     __typename?: 'STUserResetedAccount';
     date: Scalars['String'];
@@ -1496,11 +1650,10 @@ export type StUserResetedAccount = {
 
 export type Summary = {
     __typename?: 'Summary';
-    residance?: Maybe<SummaryResidance>;
-    id?: Maybe<Scalars['String']>;
     avgVolume?: Maybe<Scalars['Float']>;
+    ceo?: Maybe<Scalars['String']>;
+    companyName?: Maybe<Scalars['String']>;
     currency?: Maybe<Scalars['String']>;
-    currencySymbol?: Maybe<Scalars['String']>;
     dividendDate?: Maybe<Scalars['Float']>;
     ePSTTM?: Maybe<Scalars['Float']>;
     earningsDate?: Maybe<Scalars['Float']>;
@@ -1511,25 +1664,25 @@ export type Summary = {
     forwardDividendYield?: Maybe<Scalars['Float']>;
     forwardEPS?: Maybe<Scalars['Float']>;
     forwardPE?: Maybe<Scalars['Float']>;
-    fullTimeEmployees?: Maybe<Scalars['Float']>;
+    fullTimeEmployees?: Maybe<Scalars['String']>;
+    id?: Maybe<Scalars['String']>;
     industry?: Maybe<Scalars['String']>;
+    ipoDate?: Maybe<Scalars['String']>;
     lastSplitDate?: Maybe<Scalars['Float']>;
     lastSplitFactor?: Maybe<Scalars['String']>;
     logo_url?: Maybe<Scalars['String']>;
     longBusinessSummary?: Maybe<Scalars['String']>;
-    longName?: Maybe<Scalars['String']>;
     marketCap?: Maybe<Scalars['Float']>;
     marketPrice?: Maybe<Scalars['Float']>;
     oneyTargetEst?: Maybe<Scalars['Float']>;
-    open?: Maybe<Scalars['Float']>;
     pERatioTTM?: Maybe<Scalars['Float']>;
     previousClose?: Maybe<Scalars['Float']>;
     recommendationKey?: Maybe<Scalars['String']>;
     recommendationMean?: Maybe<Scalars['Float']>;
+    residance?: Maybe<SummaryResidance>;
     sandPFiveTwoWeekChange?: Maybe<Scalars['Float']>;
     sector?: Maybe<Scalars['String']>;
     sharesOutstanding?: Maybe<Scalars['Float']>;
-    shortName?: Maybe<Scalars['String']>;
     shortRatio?: Maybe<Scalars['Float']>;
     symbol?: Maybe<Scalars['String']>;
     targetEstOneyPercent?: Maybe<Scalars['Float']>;
@@ -1612,26 +1765,91 @@ export type Wacc = {
     taxRate: Scalars['Float'];
 };
 
-export type QueryUsersRegistrationQueryVariables = Exact<{ [key: string]: never; }>;
+export type QueryAdminMainInformationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type QueryUsersRegistrationQuery = (
+export type QueryAdminMainInformationsQuery = (
     { __typename?: 'Query' }
     & {
-    queryUsersRegistration?: Maybe<(
-        { __typename?: 'STUserRegistrationDoc' }
-        & Pick<StUserRegistrationDoc, 'totalRegistratedUsers' | 'totalActiveUsers'>
+    queryAdminMainInformations?: Maybe<(
+        { __typename?: 'STAdminMainInformations' }
+        & Pick<StAdminMainInformations, 'lastStockDetailsReload' | 'usersRegistrated' | 'usersActive'>
         & {
-        userRegistrationSnippets?: Maybe<Array<Maybe<(
+        usersRegistrationSnippets: Array<Maybe<(
             { __typename?: 'STUserIndetification' }
             & Pick<StUserIndetification, 'id' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate'>
-            )>>>, weeklyRegistratedUsers?: Maybe<Array<Maybe<(
+            )>>, usersWeeklyRegistrated: Array<Maybe<(
             { __typename?: 'STSeriesNumber' }
             & Pick<StSeriesNumber, 'data' | 'timestamp'>
-            )>>>
+            )>>
     }
         )>
 }
+    );
+
+export type StfmHolderFragmentFragment = (
+    { __typename?: 'STFMHolder' }
+    & Pick<StfmHolder, 'change' | 'dateReported' | 'holder' | 'shares'>
+    );
+
+export type StfmHolderWithWeightFragmentFragment = (
+    { __typename?: 'STFMHolderWithWeight' }
+    & Pick<StfmHolderWithWeight, 'change' | 'dateReported' | 'holder' | 'shares' | 'weightPercent'>
+    );
+
+export type StfmBalanceSheetFragmentFragment = (
+    { __typename?: 'STFMBalanceSheet' }
+    & Pick<StfmBalanceSheet, 'acceptedDate' | 'accountPayables' | 'accumulatedOtherComprehensiveIncomeLoss' | 'cashAndCashEquivalents' | 'cashAndShortTermInvestments' | 'commonStock' | 'date' | 'deferredRevenue' | 'deferredRevenueNonCurrent' | 'deferredTaxLiabilitiesNonCurrent' | 'fillingDate' | 'finalLink' | 'goodwill' | 'goodwillAndIntangibleAssets' | 'intangibleAssets' | 'inventory' | 'link' | 'longTermDebt' | 'longTermInvestments' | 'netDebt' | 'netReceivables' | 'otherAssets' | 'otherCurrentAssets' | 'otherCurrentLiabilities' | 'otherLiabilities' | 'otherNonCurrentAssets' | 'otherNonCurrentLiabilities' | 'othertotalStockholdersEquity' | 'period' | 'propertyPlantEquipmentNet' | 'reportedCurrency' | 'retainedEarnings' | 'shortTermDebt' | 'shortTermInvestments' | 'symbol' | 'taxAssets' | 'taxPayables' | 'totalAssets' | 'totalCurrentAssets' | 'totalCurrentLiabilities' | 'totalDebt' | 'totalInvestments' | 'totalLiabilities' | 'totalLiabilitiesAndStockholdersEquity' | 'totalNonCurrentAssets' | 'totalNonCurrentLiabilities' | 'totalStockholdersEquity'>
+    );
+
+export type StfmCashFlowFragmentFragment = (
+    { __typename?: 'STFMCashFlow' }
+    & Pick<StfmCashFlow, 'acceptedDate' | 'accountsPayables' | 'accountsReceivables' | 'acquisitionsNet' | 'capitalExpenditure' | 'cashAtBeginningOfPeriod' | 'cashAtEndOfPeriod' | 'changeInWorkingCapital' | 'commonStockIssued' | 'commonStockRepurchased' | 'date' | 'debtRepayment' | 'deferredIncomeTax' | 'depreciationAndAmortization' | 'dividendsPaid' | 'effectOfForexChangesOnCash' | 'fillingDate' | 'finalLink' | 'freeCashFlow' | 'inventory' | 'investmentsInPropertyPlantAndEquipment' | 'link' | 'netCashProvidedByOperatingActivities' | 'netCashUsedForInvestingActivites' | 'netCashUsedProvidedByFinancingActivities' | 'netChangeInCash' | 'netIncome' | 'operatingCashFlow' | 'otherFinancingActivites' | 'otherInvestingActivites' | 'otherNonCashItems' | 'otherWorkingCapital' | 'period' | 'purchasesOfInvestments' | 'reportedCurrency' | 'salesMaturitiesOfInvestments' | 'stockBasedCompensation' | 'symbol'>
+    );
+
+export type StfmIncomeStatementFragmentFragment = (
+    { __typename?: 'STFMIncomeStatement' }
+    & Pick<StfmIncomeStatement, 'acceptedDate' | 'costAndExpenses' | 'costOfRevenue' | 'date' | 'depreciationAndAmortization' | 'ebitda' | 'ebitdaratio' | 'eps' | 'epsdiluted' | 'fillingDate' | 'finalLink' | 'generalAndAdministrativeExpenses' | 'grossProfit' | 'grossProfitRatio' | 'incomeBeforeTax' | 'incomeBeforeTaxRatio' | 'incomeTaxExpense' | 'interestExpense' | 'link' | 'netIncome' | 'netIncomeRatio' | 'operatingExpenses' | 'operatingIncome' | 'operatingIncomeRatio' | 'otherExpenses' | 'period' | 'reportedCurrency' | 'researchAndDevelopmentExpenses' | 'revenue' | 'sellingAndMarketingExpenses' | 'sellingGeneralAndAdministrativeExpenses' | 'symbol' | 'totalOtherIncomeExpensesNet' | 'weightedAverageShsOut' | 'weightedAverageShsOutDil'>
+    );
+
+export type StfmInsideTradeFragmentFragment = (
+    { __typename?: 'STFMInsideTrade' }
+    & Pick<StfmInsideTrade, 'acquistionOrDisposition' | 'companyCik' | 'formType' | 'link' | 'price' | 'reportingCik' | 'reportingName' | 'securitiesOwned' | 'securitiesTransacted' | 'securityName' | 'symbol' | 'transactionDate' | 'transactionType' | 'typeOfOwner'>
+    );
+
+export type StfmKeyExecutiveFragmentFragment = (
+    { __typename?: 'STFMKeyExecutive' }
+    & Pick<StfmKeyExecutive, 'currencyPay' | 'gender' | 'name' | 'pay' | 'title'>
+    );
+
+export type StfmStockNewFragmentFragment = (
+    { __typename?: 'STFMStockNew' }
+    & Pick<StfmStockNew, 'image' | 'publishedDate' | 'site' | 'symbol' | 'text' | 'title' | 'url'>
+    );
+
+export type StfmStockDividendFragmentFragment = (
+    { __typename?: 'STFMStockDividend' }
+    & Pick<StfmStockDividend, 'adjDividend' | 'date' | 'declarationDate' | 'dividend' | 'label' | 'paymentDate' | 'recordDate'>
+    );
+
+export type StfmSplitHistoryFragmentFragment = (
+    { __typename?: 'STFMSplitHistory' }
+    & Pick<StfmSplitHistory, 'date' | 'denominator' | 'label' | 'numerator'>
+    );
+
+export type StfmRatingFragmentFragment = (
+    { __typename?: 'STFMRating' }
+    & Pick<StfmRating, 'date' | 'rating' | 'ratingDetailsDCFRecommendation' | 'ratingDetailsDCFScore' | 'ratingDetailsDERecommendation' | 'ratingDetailsDEScore' | 'ratingDetailsPBRecommendation' | 'ratingDetailsPBScore' | 'ratingDetailsPERecommendation' | 'ratingDetailsPEScore' | 'ratingDetailsROARecommendation' | 'ratingDetailsROAScore' | 'ratingDetailsROERecommendation' | 'ratingDetailsROEScore' | 'ratingRecommendation' | 'ratingScore' | 'symbol'>
+    );
+
+export type StfmRatiosFragmentFragment = (
+    { __typename?: 'STFMRatios' }
+    & Pick<StfmRatios, 'assetTurnoverTTM' | 'capitalExpenditureCoverageRatioTTM' | 'cashConversionCycleTTM' | 'cashFlowCoverageRatiosTTM' | 'cashFlowToDebtRatioTTM' | 'cashPerShareTTM' | 'cashRatioTTM' | 'companyEquityMultiplierTTM' | 'currentRatioTTM' | 'daysOfInventoryOutstandingTTM' | 'daysOfPayablesOutstandingTTM' | 'daysOfSalesOutstandingTTM' | 'debtEquityRatioTTM' | 'debtRatioTTM' | 'dividendPaidAndCapexCoverageRatioTTM' | 'dividendPerShareTTM' | 'dividendYielPercentageTTM' | 'dividendYielTTM' | 'dividendYieldTTM' | 'ebitPerRevenueTTM' | 'ebtPerEbitTTM' | 'effectiveTaxRateTTM' | 'enterpriseValueMultipleTTM' | 'fixedAssetTurnoverTTM' | 'freeCashFlowOperatingCashFlowRatioTTM' | 'freeCashFlowPerShareTTM' | 'grossProfitMarginTTM' | 'interestCoverageTTM' | 'inventoryTurnoverTTM' | 'longTermDebtToCapitalizationTTM' | 'netIncomePerEBTTTM' | 'netProfitMarginTTM' | 'operatingCashFlowPerShareTTM' | 'operatingCashFlowSalesRatioTTM' | 'operatingCycleTTM' | 'operatingProfitMarginTTM' | 'payablesTurnoverTTM' | 'payoutRatioTTM' | 'peRatioTTM' | 'pegRatioTTM' | 'pretaxProfitMarginTTM' | 'priceBookValueRatioTTM' | 'priceCashFlowRatioTTM' | 'priceEarningsRatioTTM' | 'priceEarningsToGrowthRatioTTM' | 'priceFairValueTTM' | 'priceSalesRatioTTM' | 'priceToBookRatioTTM' | 'priceToFreeCashFlowsRatioTTM' | 'priceToOperatingCashFlowsRatioTTM' | 'priceToSalesRatioTTM' | 'quickRatioTTM' | 'receivablesTurnoverTTM' | 'returnOnAssetsTTM' | 'returnOnCapitalEmployedTTM' | 'returnOnEquityTTM' | 'shortTermCoverageRatiosTTM' | 'totalDebtToCapitalizationTTM'>
+    );
+
+export type StfmCompanyQuoteFragmentFragment = (
+    { __typename?: 'STFMCompanyQuote' }
+    & Pick<StfmCompanyQuote, 'avgVolume' | 'change' | 'changesPercentage' | 'dayHigh' | 'dayLow' | 'earningsAnnouncement' | 'eps' | 'exchange' | 'marketCap' | 'name' | 'open' | 'pe' | 'previousClose' | 'price' | 'priceAvg200' | 'priceAvg50' | 'sharesOutstanding' | 'symbol' | 'timestamp' | 'volume' | 'yearHigh' | 'yearLow'>
     );
 
 export type StGroupUserFragmentFragment = (
@@ -2105,7 +2323,7 @@ export type SummaryResidanceFragmentFragment = (
 
 export type StockSummaryFragmentFragment = (
     { __typename?: 'Summary' }
-    & Pick<Summary, 'id' | 'avgVolume' | 'currency' | 'currencySymbol' | 'dividendDate' | 'ePSTTM' | 'earningsDate' | 'exDividendDate' | 'exchangeName' | 'fiveTwoWeekRange' | 'forwardDividendRate' | 'forwardDividendYield' | 'forwardEPS' | 'forwardPE' | 'fullTimeEmployees' | 'industry' | 'lastSplitDate' | 'lastSplitFactor' | 'logo_url' | 'longBusinessSummary' | 'longName' | 'marketCap' | 'marketPrice' | 'oneyTargetEst' | 'open' | 'pERatioTTM' | 'previousClose' | 'recommendationKey' | 'recommendationMean' | 'sandPFiveTwoWeekChange' | 'sector' | 'sharesOutstanding' | 'shortName' | 'shortRatio' | 'symbol' | 'targetEstOneyPercent' | 'volume' | 'website' | 'weekRangeFiveTwoMax' | 'weekRangeFiveTwoMin' | 'yearToDatePrice' | 'yearToDatePriceReturn'>
+    & Pick<Summary, 'avgVolume' | 'ceo' | 'companyName' | 'currency' | 'dividendDate' | 'ePSTTM' | 'earningsDate' | 'exDividendDate' | 'exchangeName' | 'fiveTwoWeekRange' | 'forwardDividendRate' | 'forwardDividendYield' | 'forwardEPS' | 'forwardPE' | 'fullTimeEmployees' | 'id' | 'industry' | 'ipoDate' | 'lastSplitDate' | 'lastSplitFactor' | 'logo_url' | 'longBusinessSummary' | 'marketCap' | 'marketPrice' | 'oneyTargetEst' | 'pERatioTTM' | 'previousClose' | 'recommendationKey' | 'recommendationMean' | 'sandPFiveTwoWeekChange' | 'sector' | 'sharesOutstanding' | 'shortRatio' | 'symbol' | 'targetEstOneyPercent' | 'volume' | 'website' | 'weekRangeFiveTwoMax' | 'weekRangeFiveTwoMin' | 'yearToDatePrice' | 'yearToDatePriceReturn'>
     & {
     residance?: Maybe<(
         { __typename?: 'SummaryResidance' }
@@ -2114,460 +2332,37 @@ export type StockSummaryFragmentFragment = (
 }
     );
 
-export type SheetDataFragmentFragment = (
-    { __typename?: 'SheetData' }
-    & Pick<SheetData, 'change' | 'data' | 'name' | 'isPercent'>
-    );
-
-export type BalanceSheetDataFragmentFragment = (
-    { __typename?: 'BalanceSheetData' }
+export type FinancialReportStatementDataFragmentFragment = (
+    { __typename?: 'FinancialReportStatementData' }
+    & Pick<FinancialReportStatementData, 'concept' | 'label' | 'unit'>
     & {
-    totalAssets?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, totalCurrentAssets?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, cash?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, otherCurrentAssets?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, netReceivables?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, inventory?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, prepaidAssets?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, accumulatedComprehensiveIncome?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, netTangibleAssets?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, otherAssets?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, goodwill?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, totalSecuritiesForSale?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, totalLiab?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, totalCurrentLiabilities?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, operatingLeaseLiability?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, prepaidExpense?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, accountsPayable?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, otherCurrentLiab?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, otherLiab?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, shortTermInvestments?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, longTermInvestments?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, shortLongTermDebt?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, longTermDebt?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, netEquity?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, totalStockholderEquity?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, otherStockholderEquity?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, propertyPlantEquipment?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, retainedEarnings?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, deferredRevenue?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, treasuryStock?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, commonStock?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, commonStockValue?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, endDate?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, paidInCapital?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, intangibleAssets?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, cashAndCashEquivalents?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, marketableSecuritiesCurrent?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, accountsReceivableNetCurrent?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, inventoryNet?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, nontradeReceivablesCurrent?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, assetsCurrent?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, marketableSecurities?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, otherAssetsNoncurrent?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, assetsNoncurrent?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, assets?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, otherLiabilitiesCurrent?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, commercialPaper?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, currentDebt?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, liabilitiesCurrent?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, otherLongTermLiabilities?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, currentLiabilities?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, commitmentsAndContingencies?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, retainedEarningsAccumulatedDeficit?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, stockholdersEquity?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, incomeTaxesLongTerm?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, incomeTaxesShortTerm?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
+    value?: Maybe<(
+        { __typename?: 'FinancialReportStatementDataValue' }
+        & Pick<FinancialReportStatementDataValue, 'increase' | 'increasePrct' | 'value'>
         )>
 }
     );
 
-export type CashFlowDataFragmentFragment = (
-    { __typename?: 'CashFlowData' }
+export type FinancialReportFragmentFragment = (
+    { __typename?: 'FinancialReport' }
+    & Pick<FinancialReport, 'acceptedDate' | 'accessNumber' | 'cik' | 'endDate' | 'filedDate' | 'form' | 'quarter' | 'startDate' | 'symbol' | 'year'>
     & {
-    totalCashFromOperatingActivities?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, netIncome?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, incomeTax?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, deferredTaxes?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, accountsReceivable?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, accruedExpenses?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, customerDeposits?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, shareBasedCompensation?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, totalCashflowsFromInvestingActivities?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, investments?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, purchasesOfSecuritie?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, marketableSecurities?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, acquisitionsOfBusinesses?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, accruedEquipment?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, otherCashflowsFromInvestingActivities?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, totalCashFromFinancingActivities?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, netBorrowings?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, longTermDebtInsurance?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, issuanceOfStock?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, salesOfSecurities?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, maturitiesOfSecurities?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, dividendsPaid?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, otherCashflowsFromFinancingActivities?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, endDate?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, depreciation?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, commercialPaperRepayments?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, shortTermDebtRepayments?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, longTermDebtRepayments?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, capitalExpenditures?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, repurchaseOfStock?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, freeCashFlow?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, paymentsOfDividends?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, paymentsOfEquipment?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, DepreciationDepletionAndAmortization?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, increaseDecreaseInInventories?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, increaseDecreaseInOtherReceivables?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, otherOperatingAssets?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, accountsPayable?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, otherOperatingLiabilities?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, operatingActivities?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, paymentsToAcquireSaleSecurities?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, paymentsToAcquireOtherInvestments?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, maturityOfOtherInvestments?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, investingActivities?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, shareBasedCompensationTax?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, paymentsForRepurchaseOfCommonStock?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, proceedsFromIssuanceOfLongTermDebt?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, financingActivities?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, interestPaidNet?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, paymentsToAcquireInvestments?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, repaymentsOfDebt?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
+    report?: Maybe<(
+        { __typename?: 'FinancialReportStatement' }
+        & {
+        bs?: Maybe<Array<Maybe<(
+            { __typename?: 'FinancialReportStatementData' }
+            & FinancialReportStatementDataFragmentFragment
+            )>>>, cf?: Maybe<Array<Maybe<(
+            { __typename?: 'FinancialReportStatementData' }
+            & FinancialReportStatementDataFragmentFragment
+            )>>>, ic?: Maybe<Array<Maybe<(
+            { __typename?: 'FinancialReportStatementData' }
+            & FinancialReportStatementDataFragmentFragment
+            )>>>
+    }
         )>
 }
-    );
-
-export type IncomeStatementFragmentFragment = (
-    { __typename?: 'IncomeStatementData' }
-    & {
-    totalRevenue?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, costOfRevenue?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, grossProfit?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, operatingIncome?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, incomeBeforeTax?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, incomeTaxProvision?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, incomeTaxExpense?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, netIncome?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, netIncomeMargin?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, netIncomeFromContinuingOps?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, netIncomeApplicableToCommonShares?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, totalOperatingExpenses?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, administrativeExpense?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, marketingExpense?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, interestExpense?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, researchDevelopment?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, costOfSales?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, totalOtherIncomeExpenseNet?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, otherOperatingExpenses?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, ebit?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, endDate?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, sellingGeneralAdministrative?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, dilutedEarnings?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, basicEarnings?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, dividendsInCash?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, revenue?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, researchAndDevelopment?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, operatingExpenses?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, operatingIncomeLoss?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, changeInMarketableDebtSecurities?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, adjustedNetGainsIncludedInNetIncome?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, otherComprehensiveIncome?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>, salesAndMarketing?: Maybe<(
-        { __typename?: 'SheetData' }
-        & SheetDataFragmentFragment
-        )>
-}
-    );
-
-export type EstimatesFragmentFragment = (
-    { __typename?: 'Estimates' }
-    & Pick<Estimates, 'avg' | 'growth' | 'high' | 'low' | 'name' | 'noofAnalysts' | 'yearAgo'>
-    );
-
-export type DataSetFragmentFragment = (
-    { __typename?: 'DataSet' }
-    & Pick<DataSet, 'y' | 'name'>
     );
 
 export type RecommendationFragmentFragment = (
@@ -2693,33 +2488,6 @@ export type WaccFragmentFragment = (
 }
     );
 
-export type FinancialReportStatementeportStatementDataFragmentFragment = (
-    { __typename?: 'FinancialReportStatementeportStatementData' }
-    & Pick<FinancialReportStatementeportStatementData, 'concept' | 'label' | 'unit' | 'value'>
-    );
-
-export type FinancialReportDataFragment = (
-    { __typename?: 'FinancialReport' }
-    & Pick<FinancialReport, 'acceptedDate' | 'accessNumber' | 'cik' | 'endDate' | 'filedDate' | 'form' | 'quarter' | 'startDate' | 'symbol' | 'year'>
-    & {
-    report?: Maybe<(
-        { __typename?: 'FinancialReportStatement' }
-        & {
-        bs?: Maybe<Array<Maybe<(
-            { __typename?: 'FinancialReportStatementeportStatementData' }
-            & FinancialReportStatementeportStatementDataFragmentFragment
-            )>>>, cf?: Maybe<Array<Maybe<(
-            { __typename?: 'FinancialReportStatementeportStatementData' }
-            & FinancialReportStatementeportStatementDataFragmentFragment
-            )>>>, ic?: Maybe<Array<Maybe<(
-            { __typename?: 'FinancialReportStatementeportStatementData' }
-            & FinancialReportStatementeportStatementDataFragmentFragment
-            )>>>
-    }
-        )>
-}
-    );
-
 export type QueryStockDetailsQueryVariables = Exact<{
     symbol: Scalars['String'];
     reload?: Maybe<Scalars['Boolean']>;
@@ -2733,59 +2501,9 @@ export type QueryStockDetailsQuery = (
         { __typename?: 'StockDetails' }
         & Pick<StockDetails, 'id'>
         & {
-        analysis?: Maybe<(
-            { __typename?: 'Analysis' }
-            & {
-            growthEstimates?: Maybe<Array<Maybe<(
-                { __typename?: 'DataSet' }
-                & DataSetFragmentFragment
-                )>>>, revenueEstimate?: Maybe<Array<Maybe<(
-                { __typename?: 'Estimates' }
-                & EstimatesFragmentFragment
-                )>>>, earningsEstimate?: Maybe<Array<Maybe<(
-                { __typename?: 'Estimates' }
-                & EstimatesFragmentFragment
-                )>>>
-        }
-            )>, balanceSheet?: Maybe<(
-            { __typename?: 'BalanceSheet' }
-            & {
-            quarterly?: Maybe<(
-                { __typename?: 'BalanceSheetData' }
-                & BalanceSheetDataFragmentFragment
-                )>, yearly?: Maybe<(
-                { __typename?: 'BalanceSheetData' }
-                & BalanceSheetDataFragmentFragment
-                )>
-        }
-            )>, cashFlow?: Maybe<(
-            { __typename?: 'CashFlow' }
-            & {
-            quarterly?: Maybe<(
-                { __typename?: 'CashFlowData' }
-                & CashFlowDataFragmentFragment
-                )>, yearly?: Maybe<(
-                { __typename?: 'CashFlowData' }
-                & CashFlowDataFragmentFragment
-                )>
-        }
-            )>, incomeStatement?: Maybe<(
-            { __typename?: 'IncomeStatement' }
-            & {
-            quarterly?: Maybe<(
-                { __typename?: 'IncomeStatementData' }
-                & IncomeStatementFragmentFragment
-                )>, yearly?: Maybe<(
-                { __typename?: 'IncomeStatementData' }
-                & IncomeStatementFragmentFragment
-                )>
-        }
-            )>, recommendation?: Maybe<Array<Maybe<(
+        recommendation?: Maybe<Array<Maybe<(
             { __typename?: 'Recommendations' }
             & RecommendationFragmentFragment
-            )>>>, stockNews?: Maybe<Array<Maybe<(
-            { __typename?: 'NewsArticle' }
-            & NewsArticleFragmentFragment
             )>>>, companyData?: Maybe<(
             { __typename?: 'CompanyData' }
             & {
@@ -2880,13 +2598,7 @@ export type QueryStockDetailsQuery = (
                 & HistoricalMetricsDataFragmentFragment
                 )>
         }
-            )>, institutionOwnerships?: Maybe<Array<Maybe<(
-            { __typename?: 'InstitutionOwnership' }
-            & Pick<InstitutionOwnership, 'organization' | 'pctHeld' | 'position' | 'reportDate' | 'value'>
-            )>>>, insiderTransactions?: Maybe<Array<Maybe<(
-            { __typename?: 'InsiderTransaction' }
-            & Pick<InsiderTransaction, 'filerName' | 'filerRelation' | 'shares' | 'startDate' | 'transactionText' | 'value'>
-            )>>>, calculations?: Maybe<(
+            )>, calculations?: Maybe<(
             { __typename?: 'STStockDetailsCalculations' }
             & {
             CAPM?: Maybe<(
@@ -2917,7 +2629,7 @@ export type QueryStockDetailsQuery = (
                 & Pick<StDividendDiscountedFormula, 'dividendGrowthRate' | 'dividendsPerShareTTM' | 'minimumRateReturn' | 'estimatedIntrinsicValue'>
                 )>, FCF_V1?: Maybe<(
                 { __typename?: 'STFreeCashFlowFormula' }
-                & Pick<StFreeCashFlowFormula, 'avgFcf' | 'estimatedIntrinsicMarketCap' | 'estimatedIntrinsicValue' | 'historicalYears' | 'minimumRateReturn' | 'netBorrowings' | 'operatingActivities' | 'capitalExpenditures' | 'freeCashFlows' | 'sharesOutstanding'>
+                & Pick<StFreeCashFlowFormula, 'avgFcf' | 'estimatedIntrinsicMarketCap' | 'estimatedIntrinsicValue' | 'historicalYears' | 'minimumRateReturn' | 'operatingActivities' | 'capitalExpenditures' | 'freeCashFlows' | 'sharesOutstanding'>
                 )>, INTRINSIC_V1?: Maybe<(
                 { __typename?: 'STEarningsValuationFormula' }
                 & Pick<StEarningsValuationFormula, 'dates' | 'eps' | 'estimatedDiscountedPV' | 'estimatedEarnings' | 'estimatedIntrinsicValue'>
@@ -2931,11 +2643,71 @@ export type QueryStockDetailsQuery = (
         }
             )>, allFinancialReportsYearly?: Maybe<Array<Maybe<(
             { __typename?: 'FinancialReport' }
-            & FinancialReportDataFragment
+            & FinancialReportFragmentFragment
             )>>>, allFinancialReportsQuarterly?: Maybe<Array<Maybe<(
             { __typename?: 'FinancialReport' }
-            & FinancialReportDataFragment
-            )>>>
+            & FinancialReportFragmentFragment
+            )>>>, institutionalHolders?: Maybe<Array<Maybe<(
+            { __typename?: 'STFMHolder' }
+            & StfmHolderFragmentFragment
+            )>>>, mutualFundHolders?: Maybe<Array<Maybe<(
+            { __typename?: 'STFMHolderWithWeight' }
+            & StfmHolderWithWeightFragmentFragment
+            )>>>, companyOutlook?: Maybe<(
+            { __typename?: 'STFMCompanyOutlook' }
+            & {
+            financialsAnnual?: Maybe<(
+                { __typename?: 'STFMFinancials' }
+                & {
+                balance?: Maybe<Array<Maybe<(
+                    { __typename?: 'STFMBalanceSheet' }
+                    & StfmBalanceSheetFragmentFragment
+                    )>>>, cash?: Maybe<Array<Maybe<(
+                    { __typename?: 'STFMCashFlow' }
+                    & StfmCashFlowFragmentFragment
+                    )>>>, income?: Maybe<Array<Maybe<(
+                    { __typename?: 'STFMIncomeStatement' }
+                    & StfmIncomeStatementFragmentFragment
+                    )>>>
+            }
+                )>, financialsQuarter?: Maybe<(
+                { __typename?: 'STFMFinancials' }
+                & {
+                balance?: Maybe<Array<Maybe<(
+                    { __typename?: 'STFMBalanceSheet' }
+                    & StfmBalanceSheetFragmentFragment
+                    )>>>, cash?: Maybe<Array<Maybe<(
+                    { __typename?: 'STFMCashFlow' }
+                    & StfmCashFlowFragmentFragment
+                    )>>>, income?: Maybe<Array<Maybe<(
+                    { __typename?: 'STFMIncomeStatement' }
+                    & StfmIncomeStatementFragmentFragment
+                    )>>>
+            }
+                )>, insideTrades?: Maybe<Array<Maybe<(
+                { __typename?: 'STFMInsideTrade' }
+                & StfmInsideTradeFragmentFragment
+                )>>>, keyExecutives?: Maybe<Array<Maybe<(
+                { __typename?: 'STFMKeyExecutive' }
+                & StfmKeyExecutiveFragmentFragment
+                )>>>, rating?: Maybe<(
+                { __typename?: 'STFMRating' }
+                & StfmRatingFragmentFragment
+                )>, ratios?: Maybe<(
+                { __typename?: 'STFMRatios' }
+                & StfmRatiosFragmentFragment
+                )>, splitHistory?: Maybe<Array<Maybe<(
+                { __typename?: 'STFMSplitHistory' }
+                & StfmSplitHistoryFragmentFragment
+                )>>>, stockDividend?: Maybe<Array<Maybe<(
+                { __typename?: 'STFMStockDividend' }
+                & StfmStockDividendFragmentFragment
+                )>>>, stockNews?: Maybe<Array<Maybe<(
+                { __typename?: 'STFMStockNew' }
+                & StfmStockNewFragmentFragment
+                )>>>
+        }
+            )>
     }
         )>
 }
@@ -2955,10 +2727,10 @@ export type QueryStockFinancialReportsQuery = (
         & {
         allFinancialReportsQuarterly?: Maybe<Array<Maybe<(
             { __typename?: 'FinancialReport' }
-            & FinancialReportDataFragment
+            & FinancialReportFragmentFragment
             )>>>, allFinancialReportsYearly?: Maybe<Array<Maybe<(
             { __typename?: 'FinancialReport' }
-            & FinancialReportDataFragment
+            & FinancialReportFragmentFragment
             )>>>
     }
         )>
@@ -2980,24 +2752,27 @@ export type QueryStockSummaryQuery = (
 }
     );
 
-export type QueryStockSummariesQueryVariables = Exact<{
+export type QueryStockQuotesByPrefixQueryVariables = Exact<{
     symbolPrefix: Scalars['String'];
 }>;
 
 
-export type QueryStockSummariesQuery = (
+export type QueryStockQuotesByPrefixQuery = (
     { __typename?: 'Query' }
     & {
-    queryStockSummaries?: Maybe<(
-        { __typename?: 'SearchSymbol' }
-        & {
-        summaries: Array<Maybe<(
-            { __typename?: 'Summary' }
-            & StockSummaryFragmentFragment
-            )>>
-    }
-        )>
+    queryStockQuotesByPrefix: Array<Maybe<(
+        { __typename?: 'STFMCompanyQuote' }
+        & StfmCompanyQuoteFragmentFragment
+        )>>
 }
+    );
+
+export type SetForceReloadStockDetailsMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SetForceReloadStockDetailsMutation = (
+    { __typename?: 'Mutation' }
+    & Pick<Mutation, 'setForceReloadStockDetails'>
     );
 
 export type QueryStTradingStrategiesQueryVariables = Exact<{ [key: string]: never; }>;
@@ -3295,6 +3070,321 @@ export type RenameStockWatchlistMutation = (
     & Pick<Mutation, 'renameStockWatchlist'>
     );
 
+export const StfmHolderFragmentFragmentDoc = gql`
+    fragment STFMHolderFragment on STFMHolder {
+        change
+        dateReported
+        holder
+        shares
+    }
+`;
+export const StfmHolderWithWeightFragmentFragmentDoc = gql`
+    fragment STFMHolderWithWeightFragment on STFMHolderWithWeight {
+        change
+        dateReported
+        holder
+        shares
+        weightPercent
+    }
+`;
+export const StfmBalanceSheetFragmentFragmentDoc = gql`
+    fragment STFMBalanceSheetFragment on STFMBalanceSheet {
+        acceptedDate
+        accountPayables
+        accumulatedOtherComprehensiveIncomeLoss
+        cashAndCashEquivalents
+        cashAndShortTermInvestments
+        commonStock
+        date
+        deferredRevenue
+        deferredRevenueNonCurrent
+        deferredTaxLiabilitiesNonCurrent
+        fillingDate
+        finalLink
+        goodwill
+        goodwillAndIntangibleAssets
+        intangibleAssets
+        inventory
+        link
+        longTermDebt
+        longTermInvestments
+        netDebt
+        netReceivables
+        otherAssets
+        otherCurrentAssets
+        otherCurrentLiabilities
+        otherLiabilities
+        otherNonCurrentAssets
+        otherNonCurrentLiabilities
+        othertotalStockholdersEquity
+        period
+        propertyPlantEquipmentNet
+        reportedCurrency
+        retainedEarnings
+        shortTermDebt
+        shortTermInvestments
+        symbol
+        taxAssets
+        taxPayables
+        totalAssets
+        totalCurrentAssets
+        totalCurrentLiabilities
+        totalDebt
+        totalInvestments
+        totalLiabilities
+        totalLiabilitiesAndStockholdersEquity
+        totalNonCurrentAssets
+        totalNonCurrentLiabilities
+        totalStockholdersEquity
+    }
+`;
+export const StfmCashFlowFragmentFragmentDoc = gql`
+    fragment STFMCashFlowFragment on STFMCashFlow {
+        acceptedDate
+        accountsPayables
+        accountsReceivables
+        acquisitionsNet
+        capitalExpenditure
+        cashAtBeginningOfPeriod
+        cashAtEndOfPeriod
+        changeInWorkingCapital
+        commonStockIssued
+        commonStockRepurchased
+        date
+        debtRepayment
+        deferredIncomeTax
+        depreciationAndAmortization
+        dividendsPaid
+        effectOfForexChangesOnCash
+        fillingDate
+        finalLink
+        freeCashFlow
+        inventory
+        investmentsInPropertyPlantAndEquipment
+        link
+        netCashProvidedByOperatingActivities
+        netCashUsedForInvestingActivites
+        netCashUsedProvidedByFinancingActivities
+        netChangeInCash
+        netIncome
+        operatingCashFlow
+        otherFinancingActivites
+        otherInvestingActivites
+        otherNonCashItems
+        otherWorkingCapital
+        period
+        purchasesOfInvestments
+        reportedCurrency
+        salesMaturitiesOfInvestments
+        stockBasedCompensation
+        symbol
+    }
+`;
+export const StfmIncomeStatementFragmentFragmentDoc = gql`
+    fragment STFMIncomeStatementFragment on STFMIncomeStatement {
+        acceptedDate
+        costAndExpenses
+        costOfRevenue
+        date
+        depreciationAndAmortization
+        ebitda
+        ebitdaratio
+        eps
+        epsdiluted
+        fillingDate
+        finalLink
+        generalAndAdministrativeExpenses
+        grossProfit
+        grossProfitRatio
+        incomeBeforeTax
+        incomeBeforeTaxRatio
+        incomeTaxExpense
+        interestExpense
+        link
+        netIncome
+        netIncomeRatio
+        operatingExpenses
+        operatingIncome
+        operatingIncomeRatio
+        otherExpenses
+        period
+        reportedCurrency
+        researchAndDevelopmentExpenses
+        revenue
+        sellingAndMarketingExpenses
+        sellingGeneralAndAdministrativeExpenses
+        symbol
+        totalOtherIncomeExpensesNet
+        weightedAverageShsOut
+        weightedAverageShsOutDil
+    }
+`;
+export const StfmInsideTradeFragmentFragmentDoc = gql`
+    fragment STFMInsideTradeFragment on STFMInsideTrade {
+        acquistionOrDisposition
+        companyCik
+        formType
+        link
+        price
+        reportingCik
+        reportingName
+        securitiesOwned
+        securitiesTransacted
+        securityName
+        symbol
+        transactionDate
+        transactionType
+        typeOfOwner
+    }
+`;
+export const StfmKeyExecutiveFragmentFragmentDoc = gql`
+    fragment STFMKeyExecutiveFragment on STFMKeyExecutive {
+        currencyPay
+        gender
+        name
+        pay
+        title
+    }
+`;
+export const StfmStockNewFragmentFragmentDoc = gql`
+    fragment STFMStockNewFragment on STFMStockNew {
+        image
+        publishedDate
+        site
+        symbol
+        text
+        title
+        url
+    }
+`;
+export const StfmStockDividendFragmentFragmentDoc = gql`
+    fragment STFMStockDividendFragment on STFMStockDividend {
+        adjDividend
+        date
+        declarationDate
+        dividend
+        label
+        paymentDate
+        recordDate
+    }
+`;
+export const StfmSplitHistoryFragmentFragmentDoc = gql`
+    fragment STFMSplitHistoryFragment on STFMSplitHistory {
+        date
+        denominator
+        label
+        numerator
+    }
+`;
+export const StfmRatingFragmentFragmentDoc = gql`
+    fragment STFMRatingFragment on STFMRating {
+        date
+        rating
+        ratingDetailsDCFRecommendation
+        ratingDetailsDCFScore
+        ratingDetailsDERecommendation
+        ratingDetailsDEScore
+        ratingDetailsPBRecommendation
+        ratingDetailsPBScore
+        ratingDetailsPERecommendation
+        ratingDetailsPEScore
+        ratingDetailsROARecommendation
+        ratingDetailsROAScore
+        ratingDetailsROERecommendation
+        ratingDetailsROEScore
+        ratingRecommendation
+        ratingScore
+        symbol
+    }
+`;
+export const StfmRatiosFragmentFragmentDoc = gql`
+    fragment STFMRatiosFragment on STFMRatios {
+        assetTurnoverTTM
+        capitalExpenditureCoverageRatioTTM
+        cashConversionCycleTTM
+        cashFlowCoverageRatiosTTM
+        cashFlowToDebtRatioTTM
+        cashPerShareTTM
+        cashRatioTTM
+        companyEquityMultiplierTTM
+        currentRatioTTM
+        daysOfInventoryOutstandingTTM
+        daysOfPayablesOutstandingTTM
+        daysOfSalesOutstandingTTM
+        debtEquityRatioTTM
+        debtRatioTTM
+        dividendPaidAndCapexCoverageRatioTTM
+        dividendPerShareTTM
+        dividendYielPercentageTTM
+        dividendYielTTM
+        dividendYieldTTM
+        ebitPerRevenueTTM
+        ebtPerEbitTTM
+        effectiveTaxRateTTM
+        enterpriseValueMultipleTTM
+        fixedAssetTurnoverTTM
+        freeCashFlowOperatingCashFlowRatioTTM
+        freeCashFlowPerShareTTM
+        grossProfitMarginTTM
+        interestCoverageTTM
+        inventoryTurnoverTTM
+        longTermDebtToCapitalizationTTM
+        netIncomePerEBTTTM
+        netProfitMarginTTM
+        operatingCashFlowPerShareTTM
+        operatingCashFlowSalesRatioTTM
+        operatingCycleTTM
+        operatingProfitMarginTTM
+        payablesTurnoverTTM
+        payoutRatioTTM
+        peRatioTTM
+        pegRatioTTM
+        pretaxProfitMarginTTM
+        priceBookValueRatioTTM
+        priceCashFlowRatioTTM
+        priceEarningsRatioTTM
+        priceEarningsToGrowthRatioTTM
+        priceFairValueTTM
+        priceSalesRatioTTM
+        priceToBookRatioTTM
+        priceToFreeCashFlowsRatioTTM
+        priceToOperatingCashFlowsRatioTTM
+        priceToSalesRatioTTM
+        quickRatioTTM
+        receivablesTurnoverTTM
+        returnOnAssetsTTM
+        returnOnCapitalEmployedTTM
+        returnOnEquityTTM
+        shortTermCoverageRatiosTTM
+        totalDebtToCapitalizationTTM
+    }
+`;
+export const StfmCompanyQuoteFragmentFragmentDoc = gql`
+    fragment STFMCompanyQuoteFragment on STFMCompanyQuote {
+        avgVolume
+        change
+        changesPercentage
+        dayHigh
+        dayLow
+        earningsAnnouncement
+        eps
+        exchange
+        marketCap
+        name
+        open
+        pe
+        previousClose
+        price
+        priceAvg200
+        priceAvg50
+        sharesOutstanding
+        symbol
+        timestamp
+        volume
+        yearHigh
+        yearLow
+    }
+`;
 export const StPortfolioSnapshotFragmentFragmentDoc = gql`
     fragment STPortfolioSnapshotFragment on STPortfolioSnapshot {
         portfolioInvested
@@ -3402,10 +3492,10 @@ export const StockSummaryFragmentFragmentDoc = gql`
         residance {
             ...SummaryResidanceFragment
         }
-        id
         avgVolume
+        ceo
+        companyName
         currency
-        currencySymbol
         dividendDate
         ePSTTM
         earningsDate
@@ -3417,16 +3507,16 @@ export const StockSummaryFragmentFragmentDoc = gql`
         forwardEPS
         forwardPE
         fullTimeEmployees
+        id
         industry
+        ipoDate
         lastSplitDate
         lastSplitFactor
         logo_url
         longBusinessSummary
-        longName
         marketCap
         marketPrice
         oneyTargetEst
-        open
         pERatioTTM
         previousClose
         recommendationKey
@@ -3434,7 +3524,6 @@ export const StockSummaryFragmentFragmentDoc = gql`
         sandPFiveTwoWeekChange
         sector
         sharesOutstanding
-        shortName
         shortRatio
         symbol
         targetEstOneyPercent
@@ -3644,463 +3733,43 @@ export const StPortfolioFragmentFragmentDoc = gql`
         portfolioCash
     }
 `;
-export const SheetDataFragmentFragmentDoc = gql`
-    fragment SheetDataFragment on SheetData {
-        change
-        data
-        name
-        isPercent
+export const FinancialReportStatementDataFragmentFragmentDoc = gql`
+    fragment FinancialReportStatementDataFragment on FinancialReportStatementData {
+        concept
+        label
+        unit
+        value {
+            increase
+            increasePrct
+            value
+        }
     }
 `;
-export const BalanceSheetDataFragmentFragmentDoc = gql`
-    fragment balanceSheetDataFragment on BalanceSheetData {
-        totalAssets {
-            ...SheetDataFragment
-        }
-        totalCurrentAssets {
-            ...SheetDataFragment
-        }
-        cash {
-            ...SheetDataFragment
-        }
-        otherCurrentAssets {
-            ...SheetDataFragment
-        }
-        netReceivables {
-            ...SheetDataFragment
-        }
-        inventory {
-            ...SheetDataFragment
-        }
-        prepaidAssets {
-            ...SheetDataFragment
-        }
-        accumulatedComprehensiveIncome {
-            ...SheetDataFragment
-        }
-        netTangibleAssets {
-            ...SheetDataFragment
-        }
-        otherAssets {
-            ...SheetDataFragment
-        }
-        goodwill {
-            ...SheetDataFragment
-        }
-        totalSecuritiesForSale {
-            ...SheetDataFragment
-        }
-        totalLiab {
-            ...SheetDataFragment
-        }
-        totalCurrentLiabilities {
-            ...SheetDataFragment
-        }
-        operatingLeaseLiability {
-            ...SheetDataFragment
-        }
-        prepaidExpense {
-            ...SheetDataFragment
-        }
-        accountsPayable {
-            ...SheetDataFragment
-        }
-        otherCurrentLiab {
-            ...SheetDataFragment
-        }
-        otherLiab {
-            ...SheetDataFragment
-        }
-        shortTermInvestments {
-            ...SheetDataFragment
-        }
-        longTermInvestments {
-            ...SheetDataFragment
-        }
-        shortLongTermDebt {
-            ...SheetDataFragment
-        }
-        longTermDebt {
-            ...SheetDataFragment
-        }
-        netEquity {
-            ...SheetDataFragment
-        }
-        totalStockholderEquity {
-            ...SheetDataFragment
-        }
-        otherStockholderEquity {
-            ...SheetDataFragment
-        }
-        propertyPlantEquipment {
-            ...SheetDataFragment
-        }
-        retainedEarnings {
-            ...SheetDataFragment
-        }
-        deferredRevenue {
-            ...SheetDataFragment
-        }
-        treasuryStock {
-            ...SheetDataFragment
-        }
-        commonStock {
-            ...SheetDataFragment
-        }
-        commonStockValue {
-            ...SheetDataFragment
-        }
-        endDate {
-            ...SheetDataFragment
-        }
-        paidInCapital {
-            ...SheetDataFragment
-        }
-        intangibleAssets {
-            ...SheetDataFragment
-        }
-        cashAndCashEquivalents {
-            ...SheetDataFragment
-        }
-        marketableSecuritiesCurrent {
-            ...SheetDataFragment
-        }
-        accountsReceivableNetCurrent {
-            ...SheetDataFragment
-        }
-        inventoryNet {
-            ...SheetDataFragment
-        }
-        nontradeReceivablesCurrent {
-            ...SheetDataFragment
-        }
-        assetsCurrent {
-            ...SheetDataFragment
-        }
-        marketableSecurities {
-            ...SheetDataFragment
-        }
-        otherAssetsNoncurrent {
-            ...SheetDataFragment
-        }
-        assetsNoncurrent {
-            ...SheetDataFragment
-        }
-        assets {
-            ...SheetDataFragment
-        }
-        otherLiabilitiesCurrent {
-            ...SheetDataFragment
-        }
-        commercialPaper {
-            ...SheetDataFragment
-        }
-        currentDebt {
-            ...SheetDataFragment
-        }
-        liabilitiesCurrent {
-            ...SheetDataFragment
-        }
-        otherLongTermLiabilities {
-            ...SheetDataFragment
-        }
-        currentLiabilities {
-            ...SheetDataFragment
-        }
-        commitmentsAndContingencies {
-            ...SheetDataFragment
-        }
-        retainedEarningsAccumulatedDeficit {
-            ...SheetDataFragment
-        }
-        stockholdersEquity {
-            ...SheetDataFragment
-        }
-        incomeTaxesLongTerm {
-            ...SheetDataFragment
-        }
-        incomeTaxesShortTerm {
-            ...SheetDataFragment
+export const FinancialReportFragmentFragmentDoc = gql`
+    fragment FinancialReportFragment on FinancialReport {
+        acceptedDate
+        accessNumber
+        cik
+        endDate
+        filedDate
+        form
+        quarter
+        startDate
+        symbol
+        year
+        report {
+            bs {
+                ...FinancialReportStatementDataFragment
+            }
+            cf {
+                ...FinancialReportStatementDataFragment
+            }
+            ic {
+                ...FinancialReportStatementDataFragment
+            }
         }
     }
-${SheetDataFragmentFragmentDoc}`;
-export const CashFlowDataFragmentFragmentDoc = gql`
-    fragment cashFlowDataFragment on CashFlowData {
-        totalCashFromOperatingActivities {
-            ...SheetDataFragment
-        }
-        netIncome {
-            ...SheetDataFragment
-        }
-        incomeTax {
-            ...SheetDataFragment
-        }
-        deferredTaxes {
-            ...SheetDataFragment
-        }
-        accountsReceivable {
-            ...SheetDataFragment
-        }
-        accruedExpenses {
-            ...SheetDataFragment
-        }
-        customerDeposits {
-            ...SheetDataFragment
-        }
-        shareBasedCompensation {
-            ...SheetDataFragment
-        }
-        totalCashflowsFromInvestingActivities {
-            ...SheetDataFragment
-        }
-        investments {
-            ...SheetDataFragment
-        }
-        purchasesOfSecuritie {
-            ...SheetDataFragment
-        }
-        marketableSecurities {
-            ...SheetDataFragment
-        }
-        acquisitionsOfBusinesses {
-            ...SheetDataFragment
-        }
-        accruedEquipment {
-            ...SheetDataFragment
-        }
-        otherCashflowsFromInvestingActivities {
-            ...SheetDataFragment
-        }
-        totalCashFromFinancingActivities {
-            ...SheetDataFragment
-        }
-        netBorrowings {
-            ...SheetDataFragment
-        }
-        longTermDebtInsurance {
-            ...SheetDataFragment
-        }
-        issuanceOfStock {
-            ...SheetDataFragment
-        }
-        salesOfSecurities {
-            ...SheetDataFragment
-        }
-        maturitiesOfSecurities {
-            ...SheetDataFragment
-        }
-        dividendsPaid {
-            ...SheetDataFragment
-        }
-        otherCashflowsFromFinancingActivities {
-            ...SheetDataFragment
-        }
-        endDate {
-            ...SheetDataFragment
-        }
-        depreciation {
-            ...SheetDataFragment
-        }
-        commercialPaperRepayments {
-            ...SheetDataFragment
-        }
-        shortTermDebtRepayments {
-            ...SheetDataFragment
-        }
-        longTermDebtRepayments {
-            ...SheetDataFragment
-        }
-        capitalExpenditures {
-            ...SheetDataFragment
-        }
-        repurchaseOfStock {
-            ...SheetDataFragment
-        }
-        freeCashFlow {
-            ...SheetDataFragment
-        }
-        paymentsOfDividends {
-            ...SheetDataFragment
-        }
-        paymentsOfEquipment {
-            ...SheetDataFragment
-        }
-        DepreciationDepletionAndAmortization {
-            ...SheetDataFragment
-        }
-        increaseDecreaseInInventories {
-            ...SheetDataFragment
-        }
-        increaseDecreaseInOtherReceivables {
-            ...SheetDataFragment
-        }
-        otherOperatingAssets {
-            ...SheetDataFragment
-        }
-        accountsPayable {
-            ...SheetDataFragment
-        }
-        otherOperatingLiabilities {
-            ...SheetDataFragment
-        }
-        operatingActivities {
-            ...SheetDataFragment
-        }
-        paymentsToAcquireSaleSecurities {
-            ...SheetDataFragment
-        }
-        paymentsToAcquireOtherInvestments {
-            ...SheetDataFragment
-        }
-        maturityOfOtherInvestments {
-            ...SheetDataFragment
-        }
-        investingActivities {
-            ...SheetDataFragment
-        }
-        shareBasedCompensationTax {
-            ...SheetDataFragment
-        }
-        paymentsForRepurchaseOfCommonStock {
-            ...SheetDataFragment
-        }
-        proceedsFromIssuanceOfLongTermDebt {
-            ...SheetDataFragment
-        }
-        financingActivities {
-            ...SheetDataFragment
-        }
-        interestPaidNet {
-            ...SheetDataFragment
-        }
-        paymentsToAcquireInvestments {
-            ...SheetDataFragment
-        }
-        repaymentsOfDebt {
-            ...SheetDataFragment
-        }
-    }
-${SheetDataFragmentFragmentDoc}`;
-export const IncomeStatementFragmentFragmentDoc = gql`
-    fragment incomeStatementFragment on IncomeStatementData {
-        totalRevenue {
-            ...SheetDataFragment
-        }
-        costOfRevenue {
-            ...SheetDataFragment
-        }
-        grossProfit {
-            ...SheetDataFragment
-        }
-        operatingIncome {
-            ...SheetDataFragment
-        }
-        incomeBeforeTax {
-            ...SheetDataFragment
-        }
-        incomeTaxProvision {
-            ...SheetDataFragment
-        }
-        incomeTaxExpense {
-            ...SheetDataFragment
-        }
-        netIncome {
-            ...SheetDataFragment
-        }
-        netIncomeMargin {
-            ...SheetDataFragment
-        }
-        netIncomeFromContinuingOps {
-            ...SheetDataFragment
-        }
-        netIncomeApplicableToCommonShares {
-            ...SheetDataFragment
-        }
-        totalOperatingExpenses {
-            ...SheetDataFragment
-        }
-        administrativeExpense {
-            ...SheetDataFragment
-        }
-        marketingExpense {
-            ...SheetDataFragment
-        }
-        interestExpense {
-            ...SheetDataFragment
-        }
-        researchDevelopment {
-            ...SheetDataFragment
-        }
-        costOfSales {
-            ...SheetDataFragment
-        }
-        totalOtherIncomeExpenseNet {
-            ...SheetDataFragment
-        }
-        otherOperatingExpenses {
-            ...SheetDataFragment
-        }
-        ebit {
-            ...SheetDataFragment
-        }
-        endDate {
-            ...SheetDataFragment
-        }
-        sellingGeneralAdministrative {
-            ...SheetDataFragment
-        }
-        dilutedEarnings {
-            ...SheetDataFragment
-        }
-        basicEarnings {
-            ...SheetDataFragment
-        }
-        dividendsInCash {
-            ...SheetDataFragment
-        }
-        revenue {
-            ...SheetDataFragment
-        }
-        researchAndDevelopment {
-            ...SheetDataFragment
-        }
-        operatingExpenses {
-            ...SheetDataFragment
-        }
-        operatingIncomeLoss {
-            ...SheetDataFragment
-        }
-        changeInMarketableDebtSecurities {
-            ...SheetDataFragment
-        }
-        adjustedNetGainsIncludedInNetIncome {
-            ...SheetDataFragment
-        }
-        otherComprehensiveIncome {
-            ...SheetDataFragment
-        }
-        salesAndMarketing {
-            ...SheetDataFragment
-        }
-    }
-${SheetDataFragmentFragmentDoc}`;
-export const EstimatesFragmentFragmentDoc = gql`
-    fragment estimatesFragment on Estimates {
-        avg
-        growth
-        high
-        low
-        name
-        noofAnalysts
-        yearAgo
-    }
-`;
-export const DataSetFragmentFragmentDoc = gql`
-    fragment dataSetFragment on DataSet {
-        y
-        name
-    }
-`;
+${FinancialReportStatementDataFragmentFragmentDoc}`;
 export const RecommendationFragmentFragmentDoc = gql`
     fragment recommendationFragment on Recommendations {
         buy
@@ -4433,39 +4102,6 @@ export const WaccFragmentFragmentDoc = gql`
         taxRate
     }
 ${CapmFragmentFragmentDoc}`;
-export const FinancialReportStatementeportStatementDataFragmentFragmentDoc = gql`
-    fragment FinancialReportStatementeportStatementDataFragment on FinancialReportStatementeportStatementData {
-        concept
-        label
-        unit
-        value
-    }
-`;
-export const FinancialReportDataFragmentDoc = gql`
-    fragment FinancialReportData on FinancialReport {
-        acceptedDate
-        accessNumber
-        cik
-        endDate
-        filedDate
-        form
-        quarter
-        startDate
-        symbol
-        year
-        report {
-            bs {
-                ...FinancialReportStatementeportStatementDataFragment
-            }
-            cf {
-                ...FinancialReportStatementeportStatementDataFragment
-            }
-            ic {
-                ...FinancialReportStatementeportStatementDataFragment
-            }
-        }
-    }
-${FinancialReportStatementeportStatementDataFragmentFragmentDoc}`;
 export const StUserIndentificationDataFragmentDoc = gql`
     fragment STUserIndentificationData on STUserPublicData {
         id
@@ -4502,19 +4138,20 @@ export const StStockWatchlistFragmentFragmentDoc = gql`
         }
     }
 ${StockSummaryFragmentFragmentDoc}`;
-export const QueryUsersRegistrationDocument = gql`
-    query QueryUsersRegistration {
-        queryUsersRegistration {
-            totalRegistratedUsers
-            totalActiveUsers
-            userRegistrationSnippets {
+export const QueryAdminMainInformationsDocument = gql`
+    query QueryAdminMainInformations {
+        queryAdminMainInformations {
+            lastStockDetailsReload
+            usersRegistrated
+            usersActive
+            usersRegistrationSnippets {
                 id
                 nickName
                 locale
                 photoURL
                 accountCreatedDate
             }
-            weeklyRegistratedUsers {
+            usersWeeklyRegistrated {
                 data
                 timestamp
             }
@@ -4525,8 +4162,8 @@ export const QueryUsersRegistrationDocument = gql`
 @Injectable({
     providedIn: 'root'
 })
-export class QueryUsersRegistrationGQL extends Apollo.Query<QueryUsersRegistrationQuery, QueryUsersRegistrationQueryVariables> {
-    document = QueryUsersRegistrationDocument;
+export class QueryAdminMainInformationsGQL extends Apollo.Query<QueryAdminMainInformationsQuery, QueryAdminMainInformationsQueryVariables> {
+    document = QueryAdminMainInformationsDocument;
 
     constructor(apollo: Apollo.Apollo) {
         super(apollo);
@@ -4907,46 +4544,8 @@ export const QueryStockDetailsDocument = gql`
     query QueryStockDetails($symbol: String!, $reload: Boolean) {
         queryStockDetails(symbol: $symbol, reload: $reload) {
             id
-            analysis {
-                growthEstimates {
-                    ...dataSetFragment
-                }
-                revenueEstimate {
-                    ...estimatesFragment
-                }
-                earningsEstimate {
-                    ...estimatesFragment
-                }
-            }
-            balanceSheet {
-                quarterly {
-                    ...balanceSheetDataFragment
-                }
-                yearly {
-                    ...balanceSheetDataFragment
-                }
-            }
-            cashFlow {
-                quarterly {
-                    ...cashFlowDataFragment
-                }
-                yearly {
-                    ...cashFlowDataFragment
-                }
-            }
-            incomeStatement {
-                quarterly {
-                    ...incomeStatementFragment
-                }
-                yearly {
-                    ...incomeStatementFragment
-                }
-            }
             recommendation {
                 ...recommendationFragment
-            }
-            stockNews {
-                ...newsArticleFragment
             }
             companyData {
                 defaultKeyStatistics {
@@ -5042,21 +4641,6 @@ export const QueryStockDetailsDocument = gql`
                     ...historicalMetricsDataFragment
                 }
             }
-            institutionOwnerships {
-                organization
-                pctHeld
-                position
-                reportDate
-                value
-            }
-            insiderTransactions {
-                filerName
-                filerRelation
-                shares
-                startDate
-                transactionText
-                value
-            }
             calculations {
                 CAPM {
                     ...CAPMFragment
@@ -5107,7 +4691,6 @@ export const QueryStockDetailsDocument = gql`
                     estimatedIntrinsicValue
                     historicalYears
                     minimumRateReturn
-                    netBorrowings
                     operatingActivities
                     capitalExpenditures
                     freeCashFlows
@@ -5128,20 +4711,65 @@ export const QueryStockDetailsDocument = gql`
                 }
             }
             allFinancialReportsYearly {
-                ...FinancialReportData
+                ...FinancialReportFragment
             }
             allFinancialReportsQuarterly {
-                ...FinancialReportData
+                ...FinancialReportFragment
+            }
+            institutionalHolders {
+                ...STFMHolderFragment
+            }
+            mutualFundHolders {
+                ...STFMHolderWithWeightFragment
+            }
+            companyOutlook {
+                financialsAnnual {
+                    balance {
+                        ...STFMBalanceSheetFragment
+                    }
+                    cash {
+                        ...STFMCashFlowFragment
+                    }
+                    income {
+                        ...STFMIncomeStatementFragment
+                    }
+                }
+                financialsQuarter {
+                    balance {
+                        ...STFMBalanceSheetFragment
+                    }
+                    cash {
+                        ...STFMCashFlowFragment
+                    }
+                    income {
+                        ...STFMIncomeStatementFragment
+                    }
+                }
+                insideTrades {
+                    ...STFMInsideTradeFragment
+                }
+                keyExecutives {
+                    ...STFMKeyExecutiveFragment
+                }
+                rating {
+                    ...STFMRatingFragment
+                }
+                ratios {
+                    ...STFMRatiosFragment
+                }
+                splitHistory {
+                    ...STFMSplitHistoryFragment
+                }
+                stockDividend {
+                    ...STFMStockDividendFragment
+                }
+                stockNews {
+                    ...STFMStockNewFragment
+                }
             }
         }
     }
-    ${DataSetFragmentFragmentDoc}
-    ${EstimatesFragmentFragmentDoc}
-    ${BalanceSheetDataFragmentFragmentDoc}
-    ${CashFlowDataFragmentFragmentDoc}
-    ${IncomeStatementFragmentFragmentDoc}
     ${RecommendationFragmentFragmentDoc}
-    ${NewsArticleFragmentFragmentDoc}
     ${DefaultKeyStatisticsFragmentFragmentDoc}
     ${EarningsFragmentFragmentDoc}
     ${FinancialDataFragmentFragmentDoc}
@@ -5152,7 +4780,19 @@ export const QueryStockDetailsDocument = gql`
     ${HistoricalMetricsDataFragmentFragmentDoc}
     ${CapmFragmentFragmentDoc}
     ${WaccFragmentFragmentDoc}
-${FinancialReportDataFragmentDoc}`;
+    ${FinancialReportFragmentFragmentDoc}
+    ${StfmHolderFragmentFragmentDoc}
+    ${StfmHolderWithWeightFragmentFragmentDoc}
+    ${StfmBalanceSheetFragmentFragmentDoc}
+    ${StfmCashFlowFragmentFragmentDoc}
+    ${StfmIncomeStatementFragmentFragmentDoc}
+    ${StfmInsideTradeFragmentFragmentDoc}
+    ${StfmKeyExecutiveFragmentFragmentDoc}
+    ${StfmRatingFragmentFragmentDoc}
+    ${StfmRatiosFragmentFragmentDoc}
+    ${StfmSplitHistoryFragmentFragmentDoc}
+    ${StfmStockDividendFragmentFragmentDoc}
+${StfmStockNewFragmentFragmentDoc}`;
 
 @Injectable({
     providedIn: 'root'
@@ -5170,14 +4810,14 @@ export const QueryStockFinancialReportsDocument = gql`
         queryStockFinancialReports(symbol: $symbol) {
             id
             allFinancialReportsQuarterly {
-                ...FinancialReportData
+                ...FinancialReportFragment
             }
             allFinancialReportsYearly {
-                ...FinancialReportData
+                ...FinancialReportFragment
             }
         }
     }
-${FinancialReportDataFragmentDoc}`;
+${FinancialReportFragmentFragmentDoc}`;
 
 @Injectable({
     providedIn: 'root'
@@ -5209,21 +4849,36 @@ export class QueryStockSummaryGQL extends Apollo.Query<QueryStockSummaryQuery, Q
     }
 }
 
-export const QueryStockSummariesDocument = gql`
-    query QueryStockSummaries($symbolPrefix: String!) {
-        queryStockSummaries(symbolPrefix: $symbolPrefix) {
-            summaries {
-                ...StockSummaryFragment
-            }
+export const QueryStockQuotesByPrefixDocument = gql`
+    query QueryStockQuotesByPrefix($symbolPrefix: String!) {
+        queryStockQuotesByPrefix(symbolPrefix: $symbolPrefix) {
+            ...STFMCompanyQuoteFragment
         }
     }
-${StockSummaryFragmentFragmentDoc}`;
+${StfmCompanyQuoteFragmentFragmentDoc}`;
 
 @Injectable({
     providedIn: 'root'
 })
-export class QueryStockSummariesGQL extends Apollo.Query<QueryStockSummariesQuery, QueryStockSummariesQueryVariables> {
-    document = QueryStockSummariesDocument;
+export class QueryStockQuotesByPrefixGQL extends Apollo.Query<QueryStockQuotesByPrefixQuery, QueryStockQuotesByPrefixQueryVariables> {
+    document = QueryStockQuotesByPrefixDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+        super(apollo);
+    }
+}
+
+export const SetForceReloadStockDetailsDocument = gql`
+    mutation SetForceReloadStockDetails {
+        setForceReloadStockDetails
+    }
+`;
+
+@Injectable({
+    providedIn: 'root'
+})
+export class SetForceReloadStockDetailsGQL extends Apollo.Mutation<SetForceReloadStockDetailsMutation, SetForceReloadStockDetailsMutationVariables> {
+    document = SetForceReloadStockDetailsDocument;
 
     constructor(apollo: Apollo.Apollo) {
         super(apollo);

@@ -4,7 +4,7 @@ import * as admin from "firebase-admin";
 import { queryStockSummary } from "../st-stocks/st-stocks-query";
 
 
-const resolveStockSummariesForSymbols = async (symbols: string[]): Promise<api.Summary[]> => {
+const resolveStockSummariesForSymbols = async (symbols: string[]): Promise<api.STSummary[]> => {
     try {
         //return await Promise.all(symbols.map(symbol => queryStockSummary(symbol)));
         const result = [];

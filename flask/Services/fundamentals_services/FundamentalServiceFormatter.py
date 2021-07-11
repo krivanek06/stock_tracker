@@ -20,6 +20,9 @@ class FundamentalServiceFormatter:
         self._formatInstitutionalHolder()
         self.data['recommendation'].reverse()
 
+        self.data['companyOutlook']['rating'] = self.data['companyOutlook']['rating'][0]
+        self.data['companyOutlook']['ratios'] = self.data['companyOutlook']['ratios'][0]
+
         # change: nan, infinity -> null
         self.data = characterModificationUtil.check_value_correction(self.data)
 
@@ -41,17 +44,22 @@ class FundamentalServiceFormatter:
             for idx, _report in enumerate(reports):
                 for _period in ['bs', 'cf', 'ic']:
                     previousReportPeriod = reports[idx + 1]['report'][_period] if len(reports) - 1 > idx else None
-                    for _statementData in _report['report'][_period]:
+                    for _statementData in list(_report['report'][_period]):
                         try:
                             # find from previous report period the same statement and make difference
                             previousStatement = next(x for x in previousReportPeriod if x['concept'] == _statementData['concept'])
+                            # TODO idk why, but sometimes _statementData['value'] is type dictionary
+                            statementDataValue = _statementData['value'] if not isinstance(_statementData['value'], dict) else _statementData['value']['value']
+                            previousStatementValue = previousStatement['value'] if not isinstance(previousStatement['value'], dict) else previousStatement['value']['value']
+
                             _statementData['value'] = {
-                                'value': _statementData['value'] - previousStatement['value'] if isAggregation else _statementData['value'],
-                                'increase': _statementData['value'] - previousStatement['value'],
-                                'increasePrct': (_statementData['value'] - previousStatement['value']) / previousStatement['value']
+                                'value': statementDataValue - previousStatementValue if isAggregation else statementDataValue,
+                                'increase': statementDataValue - previousStatementValue,
+                                'increasePrct': (statementDataValue - previousStatementValue) / previousStatementValue
                             }
-                        except:
-                            _statementData['value'] = {'value': _statementData['value'], 'increase': None, 'increasePrct': None}
+                        except Exception as e:
+                            statementDataValue = _statementData['value'] if not isinstance(_statementData['value'], dict) else _statementData['value']['value']
+                            _statementData['value'] = {'value': statementDataValue, 'increase': None, 'increasePrct': None}
 
         quarterlyReports = self.data['allFinancialReportsQuarterly']
         yearlyReports = self.data['allFinancialReportsYearly']
