@@ -15,23 +15,19 @@ export const stockDetailsTypeDefs = gql`
 
     type StockDetails {
         id: String!
-        analysis: Analysis
-        balanceSheet: BalanceSheet
-        cashFlow: CashFlow
-        incomeStatement: IncomeStatement
         recommendation: [Recommendations]
-        stockNews: [NewsArticle]
         companyData: CompanyData
         summary: Summary!
         metric: Metric
         dividends: Dividens
         historicalMetrics: HistoricalMetrics
-        institutionOwnerships: [InstitutionOwnership]
-        insiderTransactions: [InsiderTransaction]
         calculations: STStockDetailsCalculations
         calculatedPredictions: STStockDetailsCalculatedPredictions
         allFinancialReportsQuarterly: [FinancialReport]
         allFinancialReportsYearly: [FinancialReport]
+        institutionalHolders: [STFMHolder]
+        mutualFundHolders: [STFMHolderWithWeight]
+        companyOutlook: STFMCompanyOutlook
     }
 
     type FinancialReport  {
@@ -49,15 +45,21 @@ export const stockDetailsTypeDefs = gql`
     }
 
     type FinancialReportStatement {
-        bs: [FinancialReportStatementeportStatementData]
-        cf: [FinancialReportStatementeportStatementData]
-        ic: [FinancialReportStatementeportStatementData]
+        bs: [FinancialReportStatementData]
+        cf: [FinancialReportStatementData]
+        ic: [FinancialReportStatementData]
     }
 
-    type FinancialReportStatementeportStatementData {
+    type FinancialReportStatementData {
         concept: String
         label: String
         unit: String
+        value: FinancialReportStatementDataValue
+    }
+
+    type FinancialReportStatementDataValue {
+        increase: Float
+        increasePrct: Float
         value: Float
     }
 
@@ -71,24 +73,6 @@ export const stockDetailsTypeDefs = gql`
     type STStockDetailsCalculations {
         CAPM: CAPM
         WACC: WACC
-    }
-
-    type InsiderTransaction {
-        filerName: String
-        filerRelation: String
-        shares: Float
-        startDate: Float
-        transactionText: String
-        value: Float
-    }
-
-    type InstitutionOwnership {
-        maxAge: Float
-        organization: String
-        pctHeld: Float
-        position: Float
-        reportDate: Float
-        value: Float
     }
 
     type HistoricalMetrics {
@@ -137,210 +121,6 @@ export const stockDetailsTypeDefs = gql`
         strongBuy: Float
         strongSell: Float
         symbol: String
-    }
-
-    type IncomeStatement {
-        quarterly: IncomeStatementData
-        yearly: IncomeStatementData
-    }
-
-
-    type IncomeStatementData {
-        costOfRevenue: SheetData
-        discontinuedOperations: SheetData
-        ebit: SheetData
-        effectOfAccountingCharges: SheetData
-        endDate: SheetData
-        extraordinaryItems: SheetData
-        grossProfit: SheetData
-        incomeBeforeTax: SheetData
-        incomeTaxExpense: SheetData
-        interestExpense: SheetData
-        netIncome: SheetData
-        netIncomeApplicableToCommonShares: SheetData
-        netIncomeFromContinuingOps: SheetData
-        operatingIncome: SheetData
-        otherOperatingExpenses: SheetData
-        researchDevelopment: SheetData
-        sellingGeneralAdministrative: SheetData
-        totalOperatingExpenses: SheetData
-        totalOtherIncomeExpenseNet: SheetData
-        totalRevenue: SheetData
-        dilutedEarnings: SheetData
-        basicEarnings: SheetData
-        dividendsInCash: SheetData
-        administrativeExpense: SheetData
-        costOfSales: SheetData
-        incomeTaxProvision: SheetData
-        marketingExpense: SheetData
-        netIncomeMargin: SheetData
-        revenue: SheetData
-        researchAndDevelopment: SheetData
-        operatingExpenses: SheetData
-        operatingIncomeLoss: SheetData
-        changeInMarketableDebtSecurities: SheetData
-        adjustedNetGainsIncludedInNetIncome: SheetData
-        otherComprehensiveIncome: SheetData
-        salesAndMarketing: SheetData
-    }
-
-    type CashFlow {
-        quarterly: CashFlowData
-        yearly: CashFlowData
-    }
-
-    type CashFlowData {
-        capitalExpenditures: SheetData
-        changeInCash: SheetData
-        changeToAccountReceivables: SheetData
-        changeToInventory: SheetData
-        deferredTaxes: SheetData
-        changeToLiabilities: SheetData
-        changeToNetincome: SheetData
-        changeToOperatingActivities: SheetData
-        depreciation: SheetData
-        dividendsPaid: SheetData
-        endDate: SheetData
-        investments: SheetData
-        maxAge: SheetData
-        netBorrowings: SheetData
-        netIncome: SheetData
-        otherCashflowsFromFinancingActivities: SheetData
-        otherCashflowsFromInvestingActivities: SheetData
-        repurchaseOfStock: SheetData
-        totalCashFromFinancingActivities: SheetData
-        totalCashFromOperatingActivities: SheetData
-        totalCashflowsFromInvestingActivities: SheetData
-        shareBasedCompensation: SheetData
-        accountsReceivable: SheetData
-        accruedExpenses: SheetData
-        purchasesOfSecuritie: SheetData
-        marketableSecurities: SheetData
-        acquisitionsOfBusinesses: SheetData
-        issuanceOfStock: SheetData
-        salesOfSecurities: SheetData
-        maturitiesOfSecurities: SheetData
-        incomeTax: SheetData
-        accruedEquipment: SheetData
-        longTermDebtRepayments: SheetData
-        commercialPaperRepayments: SheetData
-        shortTermDebtRepayments: SheetData
-        longTermDebtInsurance: SheetData
-        customerDeposits: SheetData
-        freeCashFlow: SheetData
-        paymentsOfDividends: SheetData
-        paymentsOfEquipment: SheetData
-        DepreciationDepletionAndAmortization: SheetData
-        increaseDecreaseInInventories: SheetData
-        increaseDecreaseInOtherReceivables: SheetData
-        otherOperatingAssets: SheetData
-        accountsPayable: SheetData
-        otherOperatingLiabilities: SheetData
-        operatingActivities: SheetData
-        paymentsToAcquireSaleSecurities: SheetData
-        paymentsToAcquireOtherInvestments: SheetData
-        maturityOfOtherInvestments: SheetData
-        investingActivities: SheetData
-        shareBasedCompensationTax: SheetData
-        paymentsForRepurchaseOfCommonStock: SheetData
-        proceedsFromIssuanceOfLongTermDebt: SheetData
-        financingActivities: SheetData
-        interestPaidNet: SheetData
-        paymentsToAcquireInvestments: SheetData
-        repaymentsOfDebt: SheetData
-    }
-
-    type BalanceSheet {
-        quarterly: BalanceSheetData
-        yearly: BalanceSheetData
-    }
-
-    type BalanceSheetData {
-        accountsPayable: SheetData
-        cash: SheetData
-        commonStock: SheetData
-        endDate: SheetData
-        inventory: SheetData
-        longTermDebt: SheetData
-        longTermInvestments: SheetData
-        maxAge: SheetData
-        netReceivables: SheetData
-        netTangibleAssets: SheetData
-        otherAssets: SheetData
-        otherCurrentAssets: SheetData
-        otherCurrentLiab: SheetData
-        otherLiab: SheetData
-        otherStockholderEquity: SheetData
-        propertyPlantEquipment: SheetData
-        retainedEarnings: SheetData
-        shortLongTermDebt: SheetData
-        shortTermInvestments: SheetData
-        totalAssets: SheetData
-        totalCurrentAssets: SheetData
-        totalCurrentLiabilities: SheetData
-        totalLiab: SheetData
-        totalStockholderEquity: SheetData
-        treasuryStock: SheetData
-        accumulatedComprehensiveIncome: SheetData
-        totalSecuritiesForSale: SheetData
-        commonStockValue: SheetData
-        deferredRevenue: SheetData
-        operatingLeaseLiability: SheetData
-        goodwill: SheetData
-        prepaidExpense: SheetData
-        netEquity: SheetData
-        prepaidAssets: SheetData
-        paidInCapital: SheetData
-        intangibleAssets: SheetData
-        cashAndCashEquivalents: SheetData
-        marketableSecuritiesCurrent: SheetData
-        accountsReceivableNetCurrent: SheetData
-        inventoryNet: SheetData
-        nontradeReceivablesCurrent: SheetData
-        assetsCurrent: SheetData
-        marketableSecurities: SheetData
-        otherAssetsNoncurrent: SheetData
-        assetsNoncurrent: SheetData
-        assets: SheetData
-        otherLiabilitiesCurrent: SheetData
-        commercialPaper: SheetData
-        currentDebt: SheetData
-        liabilitiesCurrent: SheetData
-        otherLongTermLiabilities: SheetData
-        currentLiabilities: SheetData
-        commitmentsAndContingencies: SheetData
-        retainedEarningsAccumulatedDeficit: SheetData
-        stockholdersEquity: SheetData
-        incomeTaxesLongTerm: SheetData
-        incomeTaxesShortTerm: SheetData
-    }
-
-    type SheetData {
-        change: [Float]
-        data: [Float]
-        name: String
-        isPercent: Boolean
-    }
-
-    type Estimates {
-        avg: Float
-        growth: Float
-        high: Float
-        low: Float
-        name: String
-        noofAnalysts: Float
-        yearAgo: Float
-    }
-
-    type DataSet {
-        y: Float
-        name: String
-    }
-
-    type Analysis {
-        earningsEstimate: [Estimates]
-        revenueEstimate: [Estimates]
-        growthEstimates: [DataSet]
     }
 
     type DefaultKeyStatistics {
@@ -550,11 +330,10 @@ export const stockDetailsTypeDefs = gql`
     }
 
     type Summary {
-        residance: SummaryResidance
-        id: String
         avgVolume: Float
+        ceo: String
+        companyName: String
         currency: String
-        currencySymbol: String
         dividendDate: Float
         ePSTTM: Float
         earningsDate: Float
@@ -565,25 +344,25 @@ export const stockDetailsTypeDefs = gql`
         forwardDividendYield: Float
         forwardEPS: Float
         forwardPE: Float
-        fullTimeEmployees: Float
+        fullTimeEmployees: String
+        id: String
         industry: String
+        ipoDate: String
         lastSplitDate: Float
         lastSplitFactor: String
         logo_url: String
         longBusinessSummary: String
-        longName: String
         marketCap: Float
         marketPrice: Float
         oneyTargetEst: Float
-        open: Float
         pERatioTTM: Float
         previousClose: Float
         recommendationKey: String
         recommendationMean: Float
+        residance: SummaryResidance
         sandPFiveTwoWeekChange: Float
         sector: String
         sharesOutstanding: Float
-        shortName: String
         shortRatio: Float
         symbol: String
         targetEstOneyPercent: Float

@@ -1,3 +1,4 @@
+import { STFMCompanyOutlook, STFMHolder, STFMHolderWithWeight } from "./st-financal-modeling-api.model";
 import {
   CAPM,
   WACC,
@@ -9,55 +10,42 @@ import {
 
 export interface StockDetailsWrapper {
   details: StockDetails;
+  forceReload?: boolean;
   detailsLastUpdate: string;
   summaryLastUpdate: string;
   newsLastUpdate: string;
 }
 
-export interface SearchStockSummaries {
-  summaries: Summary[];
-}
-
-export interface SearchStockSymbol {
-  data: string[];
-}
-
-
 export interface StockDetailsFinancialReports {
   id?: string;
-  allFinancialReportsQuarterly: FinancialReport[];
-  allFinancialReportsYearly: FinancialReport[];
+  allFinancialReportsQuarterly: STFinancialReport[];
+  allFinancialReportsYearly: STFinancialReport[];
 }
 
 export interface StockDetails {
   id: string;
-  analysis: Analysis;
-  balanceSheet: BalanceSheet;
-  cashFlow: CashFlow;
-  incomeStatement: IncomeStatement;
-  allFinancialReportsQuarterly: FinancialReport[];
-  allFinancialReportsYearly: FinancialReport[];
-  recommendation: Recommendations[];
-  stockNews: NewsArticle[];
-  companyData: CompanyData;
-  summary: Summary;
-  metric: Metric;
-  dividends: Dividens;
-  historicalMetrics: HistoricalMetrics;
-  institutionOwnerships: InstitutionOwnership[];
-  insiderTransactions: InsiderTransaction[];
+  allFinancialReportsQuarterly: STFinancialReport[];
+  allFinancialReportsYearly: STFinancialReport[];
+  recommendation: STRecommendations[];
+  companyData: STCompanyData;
+  summary: STSummary;
+  metric: STMetric;
+  dividends: STDividens;
+  historicalMetrics: STHistoricalMetrics;
   calculations: STStockDetailsCalculations;
   calculatedPredictions: STStockDetailsCalculatedPredictions;
+  institutionalHolders: STFMHolder[];
+  mutualFundHolders: STFMHolderWithWeight[];
+  companyOutlook: STFMCompanyOutlook;
 }
 
-
-export interface FinancialReport  {
+export interface STFinancialReport {
   acceptedDate: string;
   accessNumber: string;
   cik: string;
   endDate: string;
   filedDate: string;
-  form: string;
+  form: FinancialReportForm;
   quarter: number;
   startDate: string;
   symbol: string;
@@ -65,18 +53,28 @@ export interface FinancialReport  {
   report: FinancialReportStatement;
 }
 
-
-export interface FinancialReportStatement {
-  bs: FinancialReportStatementeportStatementData[];
-  cf: FinancialReportStatementeportStatementData[];
-  ic: FinancialReportStatementeportStatementData[];
+export enum FinancialReportForm {
+  The10K = "10-K",
+  The10Q = "10-Q",
 }
 
-export interface FinancialReportStatementeportStatementData {
+export interface FinancialReportStatement {
+  bs: FinancialReportStatementData[];
+  cf: FinancialReportStatementData[];
+  ic: FinancialReportStatementData[];
+}
+
+export interface FinancialReportStatementData {
   concept: string;
   label: string;
   unit: string;
-  value: number;
+  value: FinancialReportStatementDataValue;
+}
+
+export interface FinancialReportStatementDataValue {
+  increase?: number;
+  increasePrct?: number;
+  value?: number;
 }
 
 export interface STStockDetailsCalculatedPredictions {
@@ -91,25 +89,7 @@ export interface STStockDetailsCalculations {
   WACC: WACC;
 }
 
-export interface InsiderTransaction {
-  filerName: string;
-  filerRelation: string;
-  shares: number;
-  startDate: number;
-  transactionText: string;
-  value?: number;
-}
-
-export interface InstitutionOwnership {
-  maxAge: number;
-  organization: string;
-  pctHeld: number;
-  position: number;
-  reportDate: number;
-  value: number;
-}
-
-export interface HistoricalMetrics {
+export interface STHistoricalMetrics {
   cashRatio: HistoricalMetricsData;
   currentRatio: HistoricalMetricsData;
   ebitPerShare: HistoricalMetricsData;
@@ -146,7 +126,7 @@ export interface NewsArticle {
   url: string;
 }
 
-export interface CompanyData {
+export interface STCompanyData {
   defaultKeyStatistics: DefaultKeyStatistics;
   earnings: Earnings;
   esgScores: EsgScores;
@@ -156,7 +136,7 @@ export interface CompanyData {
   upgradeDowngradeHistory: UpgradeDowngradeHistory[];
 }
 
-export interface Recommendations {
+export interface STRecommendations {
   buy: number;
   hold: number;
   period: string;
@@ -164,204 +144,6 @@ export interface Recommendations {
   strongBuy: number;
   strongSell: number;
   symbol: string;
-}
-
-export interface IncomeStatement {
-  quarterly: IncomeStatementData;
-  yearly: IncomeStatementData;
-}
-
-export interface IncomeStatementData {
-  marketingExpense?: SheetData;
-  interestExpense?: SheetData;
-  costOfRevenue?: SheetData;
-  discontinuedOperations?: SheetData;
-  ebit?: SheetData;
-  effectOfAccountingCharges?: SheetData;
-  endDate?: SheetData;
-  extraordinaryItems?: SheetData;
-  grossProfit?: SheetData;
-  incomeBeforeTax?: SheetData;
-  incomeTaxExpense?: SheetData;
-  netIncome?: SheetData;
-  netIncomeApplicableToCommonShares?: SheetData;
-  netIncomeFromContinuingOps?: SheetData;
-  operatingIncome?: SheetData;
-  otherOperatingExpenses?: SheetData;
-  researchDevelopment?: SheetData;
-  sellingGeneralAdministrative?: SheetData;
-  totalOperatingExpenses?: SheetData;
-  totalOtherIncomeExpenseNet?: SheetData;
-  totalRevenue?: SheetData;
-  dilutedEarnings?: SheetData;
-  basicEarnings?: SheetData;
-  dividendsInCash?: SheetData;
-  administrativeExpense?: SheetData;
-  revenue: SheetData;
-  researchAndDevelopment: SheetData;
-  operatingExpenses: SheetData;
-  operatingIncomeLoss: SheetData;
-  changeInMarketableDebtSecurities: SheetData;
-  adjustedNetGainsIncludedInNetIncome: SheetData;
-  otherComprehensiveIncome: SheetData;
-  salesAndMarketing: SheetData;
-}
-
-export interface CashFlow {
-  quarterly: CashFlowData;
-  yearly: CashFlowData;
-}
-
-export interface CashFlowData {
-  capitalExpenditures?: SheetData;
-  changeInCash?: SheetData;
-  changeToAccountReceivables?: SheetData;
-  changeToInventory?: SheetData;
-  changeToLiabilities?: SheetData;
-  changeToNetincome?: SheetData;
-  changeToOperatingActivities?: SheetData;
-  depreciation?: SheetData;
-  dividendsPaid?: SheetData;
-  endDate?: SheetData;
-  investments?: SheetData;
-  maxAge?: SheetData;
-  netBorrowings?: SheetData;
-  netIncome?: SheetData;
-  otherCashflowsFromFinancingActivities?: SheetData;
-  otherCashflowsFromInvestingActivities?: SheetData;
-  repurchaseOfStock?: SheetData;
-  totalCashFromFinancingActivities?: SheetData;
-  totalCashFromOperatingActivities?: SheetData;
-  totalCashflowsFromInvestingActivities?: SheetData;
-  shareBasedCompensation?: SheetData;
-  accountsReceivable?: SheetData;
-  accruedExpenses?: SheetData;
-  purchasesOfSecuritie?: SheetData;
-  marketableSecurities?: SheetData;
-  acquisitionsOfBusinesses?: SheetData;
-  issuanceOfStock?: SheetData;
-  salesOfSecurities?: SheetData;
-  maturitiesOfSecurities?: SheetData;
-  incomeTax?: SheetData;
-  accruedEquipment?: SheetData;
-  longTermDebtRepayments?: SheetData;
-  commercialPaperRepayments?: SheetData;
-  shortTermDebtRepayments?: SheetData;
-  longTermDebtInsurance?: SheetData;
-  paymentsOfDividends?: SheetData;
-  paymentsOfEquipment?: SheetData;
-  deferredTaxes?: SheetData;
-  DepreciationDepletionAndAmortization?: SheetData;
-  increaseDecreaseInInventories?: SheetData;
-  increaseDecreaseInOtherReceivables?: SheetData;
-  otherOperatingAssets?: SheetData;
-  accountsPayable?: SheetData;
-  otherOperatingLiabilities?: SheetData;
-  operatingActivities?: SheetData;
-  paymentsToAcquireSaleSecurities?: SheetData;
-  paymentsToAcquireOtherInvestments?: SheetData;
-  maturityOfOtherInvestments?: SheetData;
-  investingActivities?: SheetData;
-  shareBasedCompensationTax?: SheetData;
-  paymentsForRepurchaseOfCommonStock?: SheetData;
-  proceedsFromIssuanceOfLongTermDebt?: SheetData;
-  financingActivities?: SheetData;
-  interestPaidNet?: SheetData;
-  paymentsToAcquireInvestments?: SheetData;
-  repaymentsOfDebt?: SheetData;
-}
-
-export interface BalanceSheet {
-  quarterly: BalanceSheetData;
-  yearly: BalanceSheetData;
-}
-
-export interface BalanceSheetData {
-  accountsPayable?: SheetData;
-  cash?: SheetData;
-  commonStock?: SheetData;
-  endDate?: SheetData;
-  inventory?: SheetData;
-  longTermDebt?: SheetData;
-  longTermInvestments?: SheetData;
-  maxAge?: SheetData;
-  netReceivables?: SheetData;
-  netTangibleAssets?: SheetData;
-  otherAssets?: SheetData;
-  otherCurrentAssets?: SheetData;
-  otherCurrentLiab?: SheetData;
-  otherLiab?: SheetData;
-  otherStockholderEquity?: SheetData;
-  propertyPlantEquipment?: SheetData;
-  retainedEarnings?: SheetData;
-  shortLongTermDebt?: SheetData;
-  shortTermInvestments?: SheetData;
-  totalAssets?: SheetData;
-  totalCurrentAssets?: SheetData;
-  totalCurrentLiabilities?: SheetData;
-  totalLiab?: SheetData;
-  totalStockholderEquity?: SheetData;
-  treasuryStock?: SheetData;
-  accumulatedComprehensiveIncome?: SheetData;
-  totalSecuritiesForSale?: SheetData;
-  commonStockValue?: SheetData;
-  deferredRevenue?: SheetData;
-  operatingLeaseLiability?: SheetData;
-  goodwill?: SheetData;
-  prepaidExpense?: SheetData;
-  netEquity?: SheetData;
-  prepaidAssets?: SheetData;
-  paidInCapital?: SheetData;
-  intangibleAssets?: SheetData;
-  cashAndCashEquivalents?: SheetData;
-  marketableSecuritiesCurrent?: SheetData;
-  accountsReceivableNetCurrent?: SheetData;
-  inventoryNet?: SheetData;
-  nontradeReceivablesCurrent?: SheetData;
-  assetsCurrent?: SheetData;
-  marketableSecurities?: SheetData;
-  otherAssetsNoncurrent?: SheetData;
-  assetsNoncurrent?: SheetData;
-  assets?: SheetData;
-  otherLiabilitiesCurrent?: SheetData;
-  commercialPaper?: SheetData;
-  currentDebt?: SheetData;
-  liabilitiesCurrent?: SheetData;
-  otherLongTermLiabilities?: SheetData;
-  currentLiabilities?: SheetData;
-  commitmentsAndContingencies?: SheetData;
-  retainedEarningsAccumulatedDeficit?: SheetData;
-  stockholdersEquity?: SheetData;
-  incomeTaxesLongTerm?: SheetData;
-  incomeTaxesShortTerm?: SheetData;
-}
-
-export interface SheetData {
-  change: number[];
-  data: number[];
-  name: string;
-  isPercent?: boolean;
-}
-
-export interface DataSet {
-  y: number;
-  name: string;
-}
-
-export interface Estimates {
-  avg: number;
-  growth: number;
-  high: number;
-  low: number;
-  name: string;
-  noofAnalysts: number;
-  yearAgo: number;
-}
-
-export interface Analysis {
-  earningsEstimate: Estimates[];
-  revenueEstimate: Estimates[];
-  growthEstimates: DataSet[];
 }
 
 export interface DefaultKeyStatistics {
@@ -559,11 +341,11 @@ export interface UpgradeDowngradeHistory {
   toGrade: string;
 }
 
-export interface Summary {
-  id: string;
+export interface STSummary {
   avgVolume: number;
+  ceo: string;
+  companyName: string;
   currency: string;
-  currencySymbol: string;
   dividendDate: number;
   ePSTTM: number;
   earningsDate: number;
@@ -574,32 +356,25 @@ export interface Summary {
   forwardDividendYield: number;
   forwardEPS: number;
   forwardPE: number;
-  fullTimeEmployees: number;
+  fullTimeEmployees: string;
+  id: string;
   industry: string;
+  ipoDate: Date;
   lastSplitDate: number;
   lastSplitFactor: string;
   logo_url: string;
   longBusinessSummary: string;
-  longName: string;
   marketCap: number;
   marketPrice: number;
   oneyTargetEst: number;
-  open: number;
   pERatioTTM: number;
   previousClose: number;
   recommendationKey: string;
   recommendationMean: number;
-  residance: {
-    addressOne: string;
-    city: string;
-    country: string;
-    state: string;
-    zip: string;
-  };
-  sandPFiveTwoWeekChange: null;
+  residance: Residance;
+  sandPFiveTwoWeekChange: number;
   sector: string;
   sharesOutstanding: number;
-  shortName: string;
   shortRatio: number;
   symbol: string;
   targetEstOneyPercent: number;
@@ -611,7 +386,15 @@ export interface Summary {
   yearToDatePriceReturn: number;
 }
 
-export interface Dividens {
+export interface Residance {
+  addressOne: string;
+  city: string;
+  country: string;
+  state: string;
+  zip: string;
+}
+
+export interface STDividens {
   currentDividendYieldTTM: number;
   dividendGrowthRateFiveY: number;
   dividendPerShareAnnual: number;
@@ -625,7 +408,7 @@ export interface Dividens {
   ForwardDividendYield: string;
 }
 
-export interface Metric {
+export interface STMetric {
   FiveDayPriceReturnDaily: number;
   FiveTwoWeekHigh: number;
   FiveTwoWeekHighDate: string;

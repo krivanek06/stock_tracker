@@ -86,7 +86,7 @@ class FinancialModelingApi:
 
     # https://financialmodelingprep.com/developer/docs#Company-Quote
     def getCompanyQuoteBatch(self, symbols: [str] = []):
-        return self._makeRequest('quote', ','.join(symbols))
+        return self._makeRequest('quote', ','.join(symbols)) if len(symbols) > 0 else []
 
     # https://financialmodelingprep.com/developer/docs#Key-Executives
     def getKeyExecutives(self, symbol):

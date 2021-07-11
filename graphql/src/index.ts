@@ -1,11 +1,10 @@
-import { queryStockFinancialReports } from './st-stocks/st-stocks-query/queryStockFinancialReports';
 import { Context } from './st-shared/st-shared.interface';
 import { stGroupResolvers } from './st-group/st-group.resolver';
 import { STFreeCashFlowFormulaTypeDefs } from './st-stock-calculations/st-free-cash-flow-formula.typedef';
 import { STDividendDiscountedFormulaTypeDefs } from './st-stock-calculations/st-dividend-discounted-formula.typedef';
 import { STEarningsValuationFormulaTypeDefs } from './st-stock-calculations/st-earnings-valuation-formula.typedef';
 import { STDiscountedCashFlowFormulaTypeDefs } from './st-stock-calculations/st-discounted-cash-flow-formula.typedef';
-import { queryUsersRegistration } from './st-admin/st-admin.query';
+import { queryAdminMainInformations } from './st-admin/st-admin.query';
 import { STAdminTypeDefs } from './st-admin/st-admin.typeDefs';
 import { queryTradingStrategies, queryTradingStrategyData } from './st-trading-strategy/st-trading-strategy.query';
 import { STTraingStrategyTypeDefs } from './st-trading-strategy/st-trading-strategy.typedef';
@@ -29,10 +28,13 @@ import {editUser, registerUser, resetUserAccount} from './user/user.mutation';
 import {
     queryMarketDailyOverview,
     queryStockDetails,
-    queryStockSummaries,
-    queryStockSummary
-} from './st-stocks/st-stocks-query';
-import {stockDetailsTypeDefs} from './st-stocks/st-stock.typedefs';
+    queryStockQuotesByPrefix,
+    queryStockSummary,
+    stockDetailsTypeDefs,
+    STFinancialModelingAPITypeDefs,
+    setForceReloadStockDetails,
+    queryStockFinancialReports
+} from './st-stocks';
 import {STTransactionTypeDefs} from './st-transaction/st-transaction.typedef';
 import {STRankTypeDefs} from './st-rank/st-rank.typedef';
 import {STPortfolioTypeDefs} from './st-portfolio/st-portfolio.typedef';
@@ -80,7 +82,7 @@ const mainTypeDefs = gql`
         # details
         queryStockDetails(symbol: String!, reload: Boolean): StockDetails
         queryStockSummary(symbol: String!): Summary
-        queryStockSummaries(symbolPrefix: String!): SearchSymbol
+        queryStockQuotesByPrefix(symbolPrefix: String!): [STFMCompanyQuote]!
         queryStockFinancialReports(symbol: String!): StockDetailsFinancialReports
 
         # market data
@@ -97,7 +99,7 @@ const mainTypeDefs = gql`
         querySTTradingStrategyData(symbol: String!, strategy: String!): STTradingStrategyData
 
         # admin
-        queryUsersRegistration: STUserRegistrationDoc
+        queryAdminMainInformations: STAdminMainInformations
     }
 
     #### MUTATION
@@ -124,6 +126,9 @@ const mainTypeDefs = gql`
 
         # trading
         performTransaction(transactionInput: STTransactionInput!): PerformedTransaction
+
+        # stock details
+        setForceReloadStockDetails: Boolean
     }
 `;
 
@@ -142,7 +147,7 @@ const mainResolver = {
         // stock details
         queryStockDetails: async (_: null, args: { symbol: string, reload: boolean }) => await queryStockDetails(args.symbol, args.reload),
         queryStockSummary: async (_: null, args: { symbol: string }) => await queryStockSummary(args.symbol),
-        queryStockSummaries: async (_: null, args: { symbolPrefix: string }) => await queryStockSummaries(args.symbolPrefix),
+        queryStockQuotesByPrefix: async (_: null, args: { symbolPrefix: string }) => await queryStockQuotesByPrefix(args.symbolPrefix),
         queryStockFinancialReports: async (_: null, args: { symbol: string }) => await queryStockFinancialReports(args.symbol),
 
         // market data
@@ -159,7 +164,7 @@ const mainResolver = {
         querySTTradingStrategyData: async (_: null, args: { symbol: string, strategy: string }) => await queryTradingStrategyData(args.symbol, args.strategy),
 
         // admin
-        queryUsersRegistration: async (_: null, args: null) => await queryUsersRegistration(),
+        queryAdminMainInformations: async (_: null, args: null) => await queryAdminMainInformations(),
     },
 
     Mutation: {
@@ -185,6 +190,9 @@ const mainResolver = {
 
         // trading
         performTransaction: async (_, args: { transactionInput: api.STTransactionInput }, {requesterUserId}: Context) => await performTransaction(args.transactionInput, requesterUserId),
+
+        // stock detils
+        setForceReloadStockDetails: async () => await setForceReloadStockDetails()
     }
 
 };
@@ -217,7 +225,8 @@ const server = new ApolloServer({
         STDiscountedCashFlowFormulaTypeDefs,
         STDividendDiscountedFormulaTypeDefs,
         STEarningsValuationFormulaTypeDefs,
-        STFreeCashFlowFormulaTypeDefs
+        STFreeCashFlowFormulaTypeDefs,
+        STFinancialModelingAPITypeDefs
     ],
     resolvers,
     introspection: true,
