@@ -2,9 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {
     GraphqlQueryService,
     GraphqlTradingStrategyService,
-    StMarketSymbolHistoricalChartData,
     StockDetails,
     StTradingStrategyData,
+    SymbolHistoricalPrices,
     SymbolStorageService
 } from '@core';
 import {Observable} from 'rxjs';
@@ -20,7 +20,7 @@ export class StockDetailsStrategiesComponent implements OnInit {
     // strategies
     resistancePivotPoints$: Observable<StTradingStrategyData>;
     greenLineBreakout$: Observable<StTradingStrategyData>;
-    historical5yData$: Observable<StMarketSymbolHistoricalChartData>;
+    historical5yData$: Observable<SymbolHistoricalPrices>;
     riskManagementCalculator$: Observable<StTradingStrategyData>;
     extendedMarketVerification$: Observable<StTradingStrategyData>;
     redWhiteBlue$: Observable<StTradingStrategyData>;
@@ -38,7 +38,7 @@ export class StockDetailsStrategiesComponent implements OnInit {
 
         this.resistancePivotPoints$ = this.graphqlTradingStrategyService.queryStTradingStrategyDataRPP(activeSymbol);
         this.greenLineBreakout$ = this.graphqlTradingStrategyService.queryStTradingStrategyDataGLB(activeSymbol);
-        this.historical5yData$ = this.graphqlQueryService.queryStMarketSymbolHistoricalChartData(activeSymbol, '5y');
+        this.historical5yData$ = this.graphqlQueryService.querySymbolHistoricalPrices(activeSymbol, '5y');
         this.riskManagementCalculator$ = this.graphqlTradingStrategyService.queryStTradingStrategyDataRMC(activeSymbol);
         this.extendedMarketVerification$ = this.graphqlTradingStrategyService.queryStTradingStrategyDataEMV(activeSymbol);
         this.redWhiteBlue$ = this.graphqlTradingStrategyService.queryStTradingStrategyDataRWB(activeSymbol);

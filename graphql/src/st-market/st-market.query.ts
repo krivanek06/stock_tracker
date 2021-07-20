@@ -91,13 +91,3 @@ export const queryStMarketCalendarEventsEarnings = async (date: string): Promise
         throw new ApolloError(error);
     }
 };
-
-
-export const querySTMarketSymbolHistoricalChartData = async (symbol: string, period: string): Promise<api.STMarketSymbolHistoricalChartData> => {
-    try {
-        const data = await global.fetch(`${stockDataAPI}/chart_data/historical_data?symbol=${symbol}&period=${period}`);
-        return data.json();
-    } catch (error) {
-        throw new ApolloError(error);
-    }
-}

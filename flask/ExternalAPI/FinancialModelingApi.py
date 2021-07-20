@@ -1,10 +1,11 @@
 import environments_keys
 from requests import get
 from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 
 
 class FinancialModelingApi:
-    def __init__(self, symbol=None):
+    def __init__(self):
         self.API_KEY = environments_keys.FINANCIAL_MODELING_API_KEY
         self.url = 'https://financialmodelingprep.com/api'
 
@@ -14,6 +15,31 @@ class FinancialModelingApi:
 
     def searchSymbolsByPrefix(self, prefix: str):
         return self._makeRequest('search', '', {'limit': 10, 'query': prefix})
+
+    '''
+           API calls for chart data
+    '''
+
+    def getHistoricalPrices(self, symbol: str, timeInterval: str):
+        if timeInterval not in ['1min', '5min', '15min', '30min', '1h', '4h']:
+            return []
+        return self._makeRequest(f'historical-chart/{timeInterval}', symbol)
+
+    def getHistoricalDailyPrices(self, symbol: str, timeInterval: str):
+        if timeInterval not in ['1y', '5y', 'all']:
+            return []
+        timeInterval = '100y' if timeInterval == 'all' else timeInterval
+        timeInterval = timeInterval[:-1]  # remove 'y'
+        end = datetime.today().strftime('%Y-%m-%d')
+        start = (datetime.now() - relativedelta(years=int(timeInterval))).strftime('%Y-%m-%d')
+        return self._makeRequest('historical-price-full', symbol, {'from': start, 'to': end})
+
+    def getHistoricalAllDailyPricesOnlyLines(self, symbol: str):
+        return self._makeRequest('historical-price-full', symbol, {'serietype': 'line'})
+
+    '''
+           API calls for market
+    '''
 
     # https://financialmodelingprep.com/developer/docs#Sectors-PE-Ratio
     def getSectorPE(self):
@@ -65,6 +91,7 @@ class FinancialModelingApi:
     '''
         API calls for stock info
     '''
+
     def getMutualFundHolders(self, symbol):
         return self._makeRequest('mutual-fund-holder', symbol)
 

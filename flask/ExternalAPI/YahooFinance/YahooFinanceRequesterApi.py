@@ -1,6 +1,3 @@
-from requests import get
-
-from Utils.characterModificationUtil import getIntervalFromPeriod
 from ExternalAPI.YahooFinance import CustomYahooParser
 
 
@@ -8,6 +5,7 @@ class YahooFinanceRequesterApi:
     def __init__(self):
         self.helperClass = CustomYahooParser.CustomYahooParser()
 
+    '''
     def get_closed_price(self, symbol):
         data = get(f'https://query1.finance.yahoo.com/v8/finance/chart/{symbol}').json()
         if (data['chart'] is None or
@@ -16,6 +14,7 @@ class YahooFinanceRequesterApi:
                 data['chart']['result'][0]['meta'] is None):
             return None
         return data['chart']['result'][0]['meta'].get('previousClose', None)
+    '''
 
     def get_company_data(self, ticker):
         try:
@@ -45,6 +44,7 @@ class YahooFinanceRequesterApi:
         except:
             return {'companyData': None}
 
+    '''
     def get_live_price(self, ticker: str):
         try:
             data = get(f'https://query1.finance.yahoo.com/v8/finance/chart/{ticker}').json()
@@ -66,10 +66,12 @@ class YahooFinanceRequesterApi:
             except:
                 pass
         return result
-
+    '''
+    '''
     def get_chart_data(self, symbol, period, onlyClosed=False):
         params = {'range': period, 'interval': getIntervalFromPeriod(period)[0]}
-        data = get('https://query1.finance.yahoo.com/v8/finance/chart/' + symbol, params=params).json()
+        data = get('https://query1.finance.yahoo.com/v8/finance/chart/' + symbol, params=params)
+        data = data.json()
 
         dataGranularity = data['chart']['result'][0]['meta']['dataGranularity']
         result = {'price': [], 'volume': [], 'livePrice': 0, 'symbol': symbol, 'period': period, 'dataGranularity': dataGranularity}
@@ -105,3 +107,4 @@ class YahooFinanceRequesterApi:
         result['livePrice'] = round(result['price'][-1], 2) if onlyClosed else round(result['price'][-1][4], 2)
 
         return result
+    '''

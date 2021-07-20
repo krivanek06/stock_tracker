@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Summary} from '@core';
+import {StfmCompanyQuote} from '@core';
 
 @Component({
     selector: 'app-stock-info-identification-item',
@@ -10,8 +10,7 @@ import {Summary} from '@core';
 export class StockInfoIdentificationItemComponent implements OnInit {
     @Output() clickedEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-    @Input() summary: Summary;
-    @Input() clickable = true;
+    @Input() companyQuote: StfmCompanyQuote;
 
     constructor() {
     }

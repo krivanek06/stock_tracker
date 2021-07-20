@@ -1,11 +1,11 @@
-from flask import Flask, request
+from flask import Flask, request, Response
 from flask_json import FlaskJSON, JsonError, json_response
 import json
 # from flask_cors import CORS
 
 from ExternalAPI.YahooFinance.YahooFinanceRequesterApi import YahooFinanceRequesterApi
 from ExternalAPI.QuandlApi import QuandlApi
-
+from ExternalAPI.FinancialModelingApi import FinancialModelingApi
 from Services.TechnicalIndicatorsService import TechnicalIndicatorsService
 from Services.TradingStrategiesService import TradingStrategiesService
 
@@ -15,17 +15,22 @@ FlaskJSON(app)
 
 ERROR_MESSAGE = 'Error in Chart_data controller, method: '
 
-
+'''
 @app.route('/historical_data')
 def getStockHistoricalDataWithPeriod():
     try:
         symbol = request.args.get('symbol')
         period = request.args.get('period')
         onlyClosed = request.args.get('onlyClosed') in ['True', 'true']
+        if period in ['1y', '5y', 'all']:
+            return Response(json.dumps(FinancialModelingApi().getHistoricalDailyPrices(symbol, period)), mimetype='application/json')
+        if period in ['1min', '5min', '15min', '30min', '1h', '4h']:
+            return Response(json.dumps(FinancialModelingApi().getHistoricalPrices(symbol, period)), mimetype='application/json')
         #  Return [open, high, low, closed, volume]
-        return json_response(**YahooFinanceRequesterApi().get_chart_data(symbol, period, onlyClosed))
+        return Response(json.dumps([]), mimetype='application/json')
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'getStockHistoricalDataWithPeriod(), message: ' + str(e))
+
 
 @app.route('/live_price')
 def getStockLivePrice():
@@ -43,7 +48,7 @@ def getStocksLivePrice():
         return json_response(data=YahooFinanceRequesterApi().get_live_prices(data['symbols']))
     except Exception as e:
         return JsonError(status=500, error=ERROR_MESSAGE + 'getStocksLivePrice(), message: ' + str(e))
-
+'''
 
 @app.route('/quandl')
 def getAllDataForkey():

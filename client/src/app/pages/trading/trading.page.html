@@ -33,7 +33,7 @@
                         [currentPrice]="selectedSummary.marketPrice"
                         [height]="460"
                         [logoUrl]="selectedSummary.logo_url"
-                        [name]="selectedSummary.longName"
+                        [name]="selectedSummary.companyName"
                         [symbol]="selectedSummary.symbol">
                 </app-financial-chart-container>
             </ion-col>
@@ -46,7 +46,7 @@
 
                     <!-- buttons -->
                     <ion-buttons class="st-buttons-container st-justify-center">
-                        <ion-button (click)="tradeSymbol()" class="st-button st-create-background">
+                        <ion-button (click)="tradeSymbol()" class="st-button" color="primary" fill="solid">
                             Trade
                         </ion-button>
                     </ion-buttons>

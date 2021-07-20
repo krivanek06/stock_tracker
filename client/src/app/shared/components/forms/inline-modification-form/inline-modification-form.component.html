@@ -4,25 +4,25 @@
             <ion-label position="floating">
                 {{ label }}
             </ion-label>
-            <ion-input type="text" [value]="name" formControlName="name"></ion-input>
+            <ion-input [value]="name" formControlName="name" type="text"></ion-input>
         </ion-item>
     </form>
 
 
     <ion-buttons>
         <!-- accept -->
-        <ion-button *ngIf="editing" class="st-transparent-background st-positive-button st-clickable"
-                    (click)="accept()">
-            <ion-icon name="checkmark-circle" class="st-clickable" slot="icon-only"></ion-icon>
+        <ion-button (click)="accept()" *ngIf="editing" class="st-transparent-background st-clickable"
+                    color="success">
+            <ion-icon class="st-clickable" name="checkmark-circle" slot="icon-only"></ion-icon>
         </ion-button>
         <!-- modify -->
-        <ion-button class="st-transparent-background st-clickable st-edit-button" (click)="modify()">
-            <ion-icon name="pencil" class="st-clickable" slot="icon-only"></ion-icon>
+        <ion-button (click)="modify()" class="st-transparent-background st-clickable" color="warning">
+            <ion-icon class="st-clickable" name="pencil" slot="icon-only"></ion-icon>
         </ion-button>
         <!-- delete -->
-        <ion-button *ngIf="editing" class="st-transparent-background st-negative-button st-clickable"
-                    (click)="remove()">
-            <ion-icon name="trash-bin" class="st-clickable" slot="icon-only"></ion-icon>
+        <ion-button (click)="remove()" *ngIf="editing" class="st-transparent-background st-clickable"
+                    color="danger">
+            <ion-icon class="st-clickable" name="trash-bin" slot="icon-only"></ion-icon>
         </ion-button>
     </ion-buttons>
 </ion-item-group>

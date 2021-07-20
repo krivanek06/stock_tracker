@@ -25,8 +25,8 @@
                               [ngClass]="{ 'st-price-up': change > 0, 'st-price-down': change < 0}"
                               class="st-font-size-13 st-display-flex-center">
                         {{ change | percent: '1.2-2'}}
-                        <ion-icon *ngIf="change > 0" class="st-price-icon" name="trending-up-outline"></ion-icon>
-                        <ion-icon *ngIf="change < 0" class="st-price-icon" name="trending-down-outline"></ion-icon>
+                        <ion-icon *ngIf="change > 0" name="trending-up-outline"></ion-icon>
+                        <ion-icon *ngIf="change < 0" name="trending-down-outline"></ion-icon>
                     </ion-text>
 
                 </ion-label>
@@ -39,8 +39,9 @@
 <!-- small screen, SLIDING CARDS -->
 <ion-slides [options]="sliderConfig" class="ion-hide-md-up">
     <ion-slide *ngFor="let item of statement?.endDate?.data; let i = index">
-        <app-generic-card [subtitle]=" title + '   ' +  (isQuarterlyData ? (item * 1000 | date:'dd.MM.YYYY') :  (item * 1000 | date:'YYYY')) "
-                          style="width: 100%">
+        <app-generic-card
+                [subtitle]=" title + '   ' +  (isQuarterlyData ? (item * 1000 | date:'dd.MM.YYYY') :  (item * 1000 | date:'YYYY')) "
+                style="width: 100%">
             <ion-list>
                 <ng-container *ngFor="let key of statement | objNgFor">
                     <ion-item *ngIf="key !== 'endDate' && !!statement[key]?.data" class="st-data-item-wrapper">
@@ -54,9 +55,9 @@
                                       class="st-font-size-13 ion-hide-sm-down ion-margin-end"
                                       style="display: flex; align-items: center;">
                                 {{ change | percent: '1.2-2'}}
-                                <ion-icon *ngIf="change > 0" class="st-price-icon"
+                                <ion-icon *ngIf="change > 0" class="st-small-right-space"
                                           name="trending-up-outline"></ion-icon>
-                                <ion-icon *ngIf="change < 0" class="st-price-icon"
+                                <ion-icon *ngIf="change < 0" class="st-small-right-space"
                                           name="trending-down-outline"></ion-icon>
                             </ion-text>
 

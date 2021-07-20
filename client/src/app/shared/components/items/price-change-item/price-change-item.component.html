@@ -1,13 +1,15 @@
-<ion-label>
+<div class="st-display-flex-center">
+    <!-- price -->
+    <ion-text *ngIf="price && pricePosition === 'left'" class="st-small-right-space">
+        <ion-text *ngIf="priceText" class="st-small-right-space">{{ priceText }}</ion-text>
+        <ion-text>{{ price | numberFormatter}}</ion-text>
+    </ion-text>
+
     <!-- percentage -->
-    <ion-text class="st-flex-row" [ngClass]="{
-                    'st-font-size-14': !lighterBiggerVersion,
-                    'st-font-size-16': lighterBiggerVersion,
-                    'st-price-up': (price > 0 || priceChange > 0)  && !lighterBiggerVersion,
-                    'st-price-up-light': (price > 0 || priceChange > 0)  && lighterBiggerVersion,
-                    'st-price-down': (price < 0 || priceChange < 0)  && !lighterBiggerVersion,
-                    'st-price-down-light': (price < 0 || priceChange < 0) && lighterBiggerVersion
-                     }">
+    <ion-text [ngClass]="{
+                    'st-price-up': price > 0 || priceChange > 0,
+                    'st-price-down': price < 0 || priceChange < 0
+                     }" class="st-flex-row">
         <!-- percentage -->
         <span *ngIf="priceChange > 0">+</span>
         <ng-container *ngIf="priceChange !== undefined && priceChange !== null && !isPercent">
@@ -16,17 +18,15 @@
         <ng-container *ngIf="priceChange && isPercent">{{ priceChange | percent: '1.2-2' }}</ng-container>
 
         <!-- positive / negative icon -->
-        <ion-icon name="trending-up-outline" class="st-price-icon ion-hide-sm-down"
-                  *ngIf="showIcon && (price > 0 || priceChange > 0)"></ion-icon>
-        <ion-icon name="trending-down-outline" class="st-price-icon ion-hide-sm-down"
-                  *ngIf="showIcon && (price < 0 || priceChange < 0)"></ion-icon>
+        <ion-icon *ngIf="showIcon && (price > 0 || priceChange > 0)" class="ion-hide-sm-down"
+                  name="trending-up-outline"></ion-icon>
+        <ion-icon *ngIf="showIcon && (price < 0 || priceChange < 0)" class="ion-hide-sm-down"
+                  name="trending-down-outline"></ion-icon>
     </ion-text>
 
     <!-- price -->
-    <ion-text *ngIf="price"
-              [ngClass]="{
-                'st-font-5': !lighterBiggerVersion,
-                'st-font-size-12': !lighterBiggerVersion,
-                'st-font-size-14': lighterBiggerVersion
-              }">{{ price | numberFormatter}}</ion-text>
-</ion-label>
+    <ion-text *ngIf="price && pricePosition === 'right'" class="st-small-left-space">
+        <ion-text *ngIf="priceText" class="st-small-right-space">{{ priceText }}</ion-text>
+        <ion-text>{{ price | numberFormatter}}</ion-text>
+    </ion-text>
+</div>

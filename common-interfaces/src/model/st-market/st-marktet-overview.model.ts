@@ -1,4 +1,3 @@
-import { STStockHistoricalClosedDataWithPeriod } from "../st-chart.model";
 import { NewsArticle, STSummary } from "../st-stockDetails.model";
 
 export interface STMarketDailyOverview {
@@ -28,7 +27,7 @@ export interface STMarketDailyOverview {
   
   
 export interface STStockSuggestion {
-    historicalData: STStockHistoricalClosedDataWithPeriod;
+    historicalData: number[];
     summary: STSummary;
   }
   

@@ -1,11 +1,5 @@
 @import "custom-variables";
 
-
-.content-fit {
-  min-width: fit-content !important;
-  max-width: fit-content !important;
-}
-
 .spinner-container {
   display: flex;
   flex-direction: column;
@@ -334,34 +328,12 @@ ion-spinner {
   font-size: 24px !important;
 }
 
-
-// COLOR CLASSES - BUTTONS
-
-.st-create-background {
-  --background: #{ $st-var-create-1} ! important;
-}
-
-.st-remove-background {
-  --background: #{ $st-var-remove-1} ! important;
-}
-
-.st-accept-background {
-  --background: #{ $st-var-accept-1} ! important;
-}
-
 .st-transparent-background {
   --background: transparent;
   --box-shadow: none;
   --background-hover: none;
 }
 
-.st-accept {
-  color: #{ $st-var-accept-1} ! important;
-}
-
-.st-edit-background {
-  --background: #{ $st-var-edit-1} ! important;
-}
 
 // COLOR CLASSES - BLUE
 .st-icon {
@@ -399,14 +371,6 @@ ion-spinner {
 
 .st-form-input-background {
   background-color: #{ $st-var-blue-3} !important;
-}
-
-.st-modal-background {
-  --background: linear-gradient(126deg, rgba(22, 39, 77, 1) 0%,
-          rgba(10, 25, 71, 1) 29%,
-          rgba(9, 24, 72, 1) 44%,
-          rgba(10, 24, 70, 1) 73%,
-          rgba(7, 22, 62, 1) 100%) !important;
 }
 
 // ----------------------------------------------------
@@ -455,26 +419,13 @@ ion-spinner {
 
 // PRICE CHANGE
 .st-price-up {
-  color: #{$st-var-accept-1} !important;
-}
-
-.st-price-up-light {
-  color: #{$st-var-price-up-light} !important;
+  color: #{$st-var-price-up} !important;
 }
 
 .st-price-down {
   color: #{$st-red} !important;
 }
 
-.st-price-down-light {
-  color: #{$st-red-lighter} !important;
-}
-
-.st-price-icon {
-  //position: absolute;
-  //top: 2px;
-  margin-left: 5px;
-}
 
 // BUTTONS
 
@@ -484,31 +435,6 @@ ion-spinner {
   margin: 8px !important;
   @media (max-width: #{$st-var-md-split}) {
     width: 100% !important;
-  }
-}
-
-
-.st-edit-button {
-  color: #{$st-var-edit-1};
-
-  &:hover {
-    color: #{$orange-title-light};
-  }
-}
-
-.st-positive-button {
-  color: #{$st-var-accept-1};
-
-  &:hover {
-    color: #{$price-up-lighter};
-  }
-}
-
-.st-negative-button {
-  color: #{$st-red-faded};
-
-  &:hover {
-    color: #{$st-red};
   }
 }
 
@@ -550,20 +476,6 @@ ion-spinner {
 ion-skeleton-text {
   line-height: 16px;
   --background-rgb: 200, 200, 255;
-}
-
-
-.st-news-container {
-  column-count: 4;
-  @media (max-width: #{$st-var-xxl-split}) {
-    column-count: 3;
-  }
-  @media (max-width: #{$st-var-lg-split}) {
-    column-count: 2;
-  }
-  @media (max-width: #{$st-var-sm-split}) {
-    column-count: 1;
-  }
 }
 
 
@@ -617,10 +529,6 @@ ion-skeleton-text {
     min-width: 30px;
     margin-right: 10px !important;
   }
-}
-
-.st-skeleton-item {
-  height: 24px;
 }
 
 // -------------------------------------
@@ -688,7 +596,7 @@ ion-skeleton-text {
 }
 
 .st-flex-space-between {
-  display: flex;
+  display: flex !important;
   justify-content: space-between;
   flex-flow: row;
   @media (max-width: #{$st-var-md-split}) {

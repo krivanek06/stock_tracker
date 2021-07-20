@@ -1,7 +1,7 @@
 <ion-content class="ion-padding">
     <ion-toolbar class="ion-hide-sm-up">
         <ion-buttons slot="end">
-            <ion-button color="danger" (click)="dismiss()">
+            <ion-button (click)="dismiss()" color="danger">
                 <ion-icon name="close-outline"></ion-icon>
                 Close
             </ion-button>
@@ -31,7 +31,7 @@
             <!-- amount -->
             <ion-item class="ion-margin-bottom">
                 <ion-label position="floating">Number of units</ion-label>
-                <ion-input placeholder="Enter amount" type="number" min="1" formControlName="units"></ion-input>
+                <ion-input formControlName="units" min="1" placeholder="Enter amount" type="number"></ion-input>
             </ion-item>
 
 
@@ -46,20 +46,24 @@
                 <!-- confirm -->
                 <ion-item>
                     <ion-label>Confirm</ion-label>
-                    <ion-checkbox slot="start" formControlName="confirmation" class="ion-margin-end"></ion-checkbox>
+                    <ion-checkbox class="ion-margin-end" formControlName="confirmation" slot="start"></ion-checkbox>
                 </ion-item>
             </div>
 
             <!-- buttons -->
             <ion-buttons>
-                <ion-button class="st-button st-create-background"
+                <ion-button (click)="submit(STTransactionOperationEnum.Buy)"
                             [disabled]="form.invalid"
-                            (click)="submit(STTransactionOperationEnum.Buy)">
+                            class="st-button"
+                            color="primary"
+                            fill="solid">
                     Buy
                 </ion-button>
-                <ion-button class="st-button st-remove-background"
+                <ion-button (click)="submit(STTransactionOperationEnum.Sell)"
                             [disabled]="form.invalid"
-                            (click)="submit(STTransactionOperationEnum.Sell)">
+                            class="st-button"
+                            color="danger"
+                            fill="solid">
                     Sell
                 </ion-button>
             </ion-buttons>

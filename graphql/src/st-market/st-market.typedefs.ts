@@ -144,13 +144,4 @@ export const STMarketSharedTypeDefs = gql`
         period: String
     }
 
-    type STMarketSymbolHistoricalChartData {
-        livePrice: Float
-        symbol: String
-        period: String
-        price: [[Float]]
-        volume: [[Float]]
-    }
-
-
 `;

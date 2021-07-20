@@ -526,8 +526,13 @@ export const stockDetailsTypeDefs = gql`
 
 
 
-    ##----------------------
-    ##### INTPUS
+    type SymbolHistoricalPrices {
+        livePrice: Float
+        symbol: String
+        period: String
+        price: [[Float]]
+        volume: [[Float]]
+    }
 
 
 `;

@@ -1,8 +1,8 @@
 <!-- search container -->
 <ion-list class="ion-margin-vertical">
     <app-stock-search
-            [clearOnClick]="true"
-            (clickedSymbolEmitter)="showSymbolInformation($event)">
+            (clickedSymbolEmitter)="showSymbolInformation($event)"
+            [clearOnClick]="true">
     </app-stock-search>
 </ion-list>
 
@@ -12,11 +12,11 @@
         <ion-col size="12" size-lg="6" size-xl="7.5">
             <!-- financial chart -->
             <app-financial-chart-container
-                    [currentPrice]="selectedSummary.marketPrice"
                     [closedPrice]="selectedSummary.previousClose"
+                    [currentPrice]="selectedSummary.marketPrice"
+                    [height]="545"
                     [logoUrl]="selectedSummary.logo_url"
-                    [name]="selectedSummary.longName"
-                    [height]="520"
+                    [name]="selectedSummary.companyName"
                     [symbol]="selectedSummary.symbol">
             </app-financial-chart-container>
         </ion-col>
@@ -30,10 +30,10 @@
 
                 <!-- buttons -->
                 <ion-buttons class="st-buttons-container">
-                    <ion-button class="st-button st-edit-background" (click)="addSymbolToWatchlist()">
+                    <ion-button (click)="addSymbolToWatchlist()" class="st-button" color="warning" fill="solid">
                         Add to watchlist
                     </ion-button>
-                    <ion-button class="st-button st-create-background" (click)="redirectToDetails()">
+                    <ion-button (click)="redirectToDetails()" class="st-button" color="primary" fill="solid">
                         Show details
                     </ion-button>
                 </ion-buttons>

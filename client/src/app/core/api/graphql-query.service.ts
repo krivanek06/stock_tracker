@@ -7,18 +7,19 @@ import {
     QueryStMarketCalendarEventsGQL,
     QueryStMarketDataGQL,
     QueryStMarketHistoryOverviewGQL,
-    QueryStMarketSymbolHistoricalChartDataGQL,
-    QueryStockSummariesGQL,
+    QueryStockQuotesByPrefixGQL,
+    QuerySymbolHistoricalPricesGQL,
     QueryUserPublicDataByUsernameGQL,
     StEventCalendarData,
-    StEventCalendarEarningsData, StGroupIdentificationDataFragment,
+    StEventCalendarEarningsData,
+    StfmCompanyQuote,
+    StGroupIdentificationDataFragment,
     StMarketChartDataResultCombined,
     StMarketDailyOverview,
     StMarketDatasetKeyCategory,
     StMarketOverviewPartialData,
-    StMarketSymbolHistoricalChartData,
     StUserIndentificationDataFragment,
-    Summary,
+    SymbolHistoricalPrices,
 } from '../graphql-schema';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
@@ -30,21 +31,21 @@ export class GraphqlQueryService {
 
     constructor(private queryUserPublicDataByUsernameGQL: QueryUserPublicDataByUsernameGQL,
                 private groupPartialDataByGroupNameGQL: QueryStGroupPartialDataByGroupNameGQL,
-                private queryStockSummariesGQL: QueryStockSummariesGQL,
+                private queryStockQuotesByPrefixGQL: QueryStockQuotesByPrefixGQL,
                 private queryMarketDailyOverviewGQL: QueryMarketDailyOverviewGQL,
                 private queryStMarketHistoryOverviewGQL: QueryStMarketHistoryOverviewGQL,
                 private queryStMarketCalendarEventsGQL: QueryStMarketCalendarEventsGQL,
                 private queryStMarketCalendarEventsEarningsGQL: QueryStMarketCalendarEventsEarningsGQL,
                 private queryStMarketDataGQL: QueryStMarketDataGQL,
                 private queryStMarketAllCategoriesGQL: QueryStMarketAllCategoriesGQL,
-                private queryStMarketSymbolHistoricalChartDataGQL: QueryStMarketSymbolHistoricalChartDataGQL) {
+                private querySymbolHistoricalPricesGQL: QuerySymbolHistoricalPricesGQL) {
     }
 
 
-    queryStMarketSymbolHistoricalChartData(symbol: string, period: string = '1d'): Observable<StMarketSymbolHistoricalChartData> {
-        return this.queryStMarketSymbolHistoricalChartDataGQL.fetch({symbol, period}, {
+    querySymbolHistoricalPrices(symbol: string, period: string = '1d'): Observable<SymbolHistoricalPrices> {
+        return this.querySymbolHistoricalPricesGQL.fetch({symbol, period}, {
             fetchPolicy: 'network-only'
-        }).pipe(map(x => x.data.querySTMarketSymbolHistoricalChartData));
+        }).pipe(map(x => x.data.querySymbolHistoricalPrices));
     }
 
     queryUserPublicDataByUsername(usernamePrefix: string): Observable<StUserIndentificationDataFragment[]> {
@@ -53,10 +54,10 @@ export class GraphqlQueryService {
         }).pipe(map(x => x.data.queryUserPublicDataByUsername));
     }
 
-    queryStockSummaries(symbolPrefix: string): Observable<Summary[]> {
-        return this.queryStockSummariesGQL.fetch({
+    queryStockQuotesByPrefix(symbolPrefix: string): Observable<StfmCompanyQuote[]> {
+        return this.queryStockQuotesByPrefixGQL.fetch({
             symbolPrefix
-        }).pipe(map(x => x.data.queryStockSummaries.summaries));
+        }).pipe(map(x => x.data.queryStockQuotesByPrefix));
     }
 
     querySTGroupPartialDataByGroupName(groupName: string): Observable<StGroupIdentificationDataFragment[]> {

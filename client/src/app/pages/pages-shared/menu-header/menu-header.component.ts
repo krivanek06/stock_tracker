@@ -1,9 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
-import {GraphqlQueryService, StUserPublicData, Summary, UserStorageService} from '@core';
+import {GraphqlQueryService, StfmCompanyQuote, StUserPublicData, UserStorageService} from '@core';
 import {IonSearchbar} from '@ionic/angular';
 import {Observable} from 'rxjs';
 import {WatchlistFeatureFacadeService} from '@stock-watchlist-feature';
-import {SymbolIdentification} from '@shared';
 
 @Component({
     selector: 'app-menu-header',
@@ -14,7 +13,7 @@ import {SymbolIdentification} from '@shared';
 export class MenuHeaderComponent implements OnInit {
     @ViewChild('mySearchbar') searchBar: IonSearchbar;
 
-    searchedSummaries$: Observable<Summary[]>;
+    searchCompanyQuotes$: Observable<StfmCompanyQuote[]>;
 
     loading = false;
     showNotifications = false;
@@ -34,10 +33,10 @@ export class MenuHeaderComponent implements OnInit {
 
     searchSymbol(event: CustomEvent) {
         if (!event.detail.value) {
-            this.searchedSummaries$ = undefined;
+            this.searchCompanyQuotes$ = undefined;
             this.loading = false;
         } else {
-            this.searchedSummaries$ = this.firebaseSearchService.queryStockSummaries(event.detail.value);
+            this.searchCompanyQuotes$ = this.firebaseSearchService.queryStockQuotesByPrefix(event.detail.value);
             this.loading = true;
         }
     }
@@ -46,12 +45,11 @@ export class MenuHeaderComponent implements OnInit {
         this.showNotifications = !this.showNotifications;
     }
 
-    async clickedSummary(summary: Summary) {
-        this.searchedSummaries$ = undefined;
+    async clickedSummary(symbol: string, name: string) {
+        this.searchCompanyQuotes$ = undefined;
         this.searchBar.value = null;
 
-        const identification: SymbolIdentification = {symbol: summary.symbol, name: summary.shortName};
-        this.watchlistFeatureFacadeService.presentSymbolLookupModal(identification, true);
+        this.watchlistFeatureFacadeService.presentSymbolLookupModal({symbol, name}, true);
     }
 
 }

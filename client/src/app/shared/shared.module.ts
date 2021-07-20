@@ -18,7 +18,8 @@ import {
     GenericFadingCardContentComponent,
     GenericFancyCardComponent,
     GenericListComponent,
-    InlineModificationFormComponent, PositionChangeItemComponent,
+    InlineModificationFormComponent,
+    PositionChangeItemComponent,
     PriceChangeItemComponent,
     PriceCompareItemComponent,
     RangeRatingSliderComponent,
@@ -35,6 +36,7 @@ import {
     NumberFormatterPipe,
     ObjNgForPipe,
     RelativeTimePipe,
+    ReverseArrayPipe,
     SplitKeyToTitlecasePipe,
     SplitPipe,
     SumUpPipe
@@ -94,7 +96,8 @@ import {ListSkeletonComponent} from './components/lists';
         PositionChangeItemComponent,
         OptionPickerPopOverComponent,
         ConfirmationPopOverComponent,
-        ListSkeletonComponent
+        ListSkeletonComponent,
+        ReverseArrayPipe
     ],
     imports: [
         SharedProvidersModule
@@ -140,7 +143,8 @@ import {ListSkeletonComponent} from './components/lists';
         PositionChangeItemComponent,
         OptionPickerPopOverComponent,
         ConfirmationPopOverComponent,
-        ListSkeletonComponent
+        ListSkeletonComponent,
+        ReverseArrayPipe
     ],
     entryComponents: [
         InlineInputPopUpComponent,

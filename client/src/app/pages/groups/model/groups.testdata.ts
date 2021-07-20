@@ -57,7 +57,6 @@ export const holding: StHolding = {
     summary: {
         avgVolume: 8977100,
         currency: 'USD',
-        currencySymbol: '$',
         dividendDate: null,
         ePSTTM: 5.124,
         earningsDate: 1597104000,
@@ -68,18 +67,17 @@ export const holding: StHolding = {
         forwardDividendYield: null,
         forwardEPS: 2.56,
         forwardPE: 27.832031,
-        fullTimeEmployees: 310000,
+        fullTimeEmployees: '310000',
         id: 'JD',
         industry: 'Internet Retail',
         lastSplitDate: null,
         lastSplitFactor: null,
         logo_url: 'https://logo.clearbit.com/jd.com',
         longBusinessSummary: 'JD.com, Inc. operates as an e-commerce company and retail infrastructure service provider in the People\'s Republic of China. It operates in two segments, JD Retail and New Businesses. The company offers home appliances; mobile handsets and other digital products; desktop, laptop, and other computers, as well as printers and other office equipment; furniture and household goods; apparel; cosmetics, personal care items, and pet products; women\'s shoes, bags, jewelry, and luxury goods; men\'s shoes, sports gears, and fitness equipment; automobiles and accessories; maternal and childcare products, toys, and musical instruments; and food, beverage, and fresh produce. It also provides gifts, flowers, and plants; pharmaceutical and healthcare products, including OCT pharmaceutical products, nutritional supplements, healthcare services, and other healthcare equipment; books, e-books, music, movie, and other media products; and virtual goods, such as online travel agency, attraction tickets, and prepaid phone and game cards, as well as industrial products and installation and maintenance services. In addition, the company offers an online marketplace for third-party merchants to sell products to customers; and transaction processing and billing, and other services. Further, it provides online marketing services for suppliers, third-party merchants, and other business partners; supply chain and logistics services for various industries; and consumer financing services to individual customers, as well as online-to-offline solutions. JD.com, Inc. offers its products through its website jd.com and mobile apps, as well as directly to customers. As of December 31, 2020, JD.com, Inc. operated fulfillment centers with a network of approximately 900 warehouses in various counties and districts in China. The company has strategic cooperation agreement with Tencent Holdings Limited. JD.com, Inc. was incorporated in 2006 and is headquartered in Beijing, China.',
-        longName: 'JD.com, Inc.',
+        companyName: 'JD.com, Inc.',
         marketCap: 112262922240,
         marketPrice: 71.25,
         oneyTargetEst: 103.5,
-        open: 71.2,
         pERatioTTM: 13.905152,
         previousClose: 71.19,
         recommendationKey: 'buy',
@@ -94,7 +92,6 @@ export const holding: StHolding = {
         sandPFiveTwoWeekChange: 0.38506937,
         sector: 'Consumer Cyclical',
         sharesOutstanding: 1558989952,
-        shortName: 'JD.com, Inc.',
         shortRatio: 2.51,
         symbol: 'JD',
         targetEstOneyPercent: 0.69,
@@ -244,6 +241,6 @@ export const groupTestData: StGroupAllData = {
 };
 
 groupTestData.lastPortfolioSnapshot.portfolioInvested = groupTestData.holdings.map(h => h.holding.units * h.holding.breakEvenPrice)
-                                                                               .reduce((a, b) => a + b, 0)
+    .reduce((a, b) => a + b, 0);
 
-console.log(groupTestData.lastPortfolioSnapshot.portfolioInvested, groupTestData.lastPortfolioSnapshot.portfolioCash)
+console.log(groupTestData.lastPortfolioSnapshot.portfolioInvested, groupTestData.lastPortfolioSnapshot.portfolioCash);
