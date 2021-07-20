@@ -20,6 +20,11 @@
     }
   }
 
+  ion-skeleton-text {
+    line-height: 30px;
+  }
+
+
   ion-searchbar {
     --background: transparent;
     --color: #{$st-var-font-4};
@@ -37,17 +42,13 @@
     }
   }
 
-  ion-icon {
-    color: #{$st-var-blue-1};
-  }
-
   .search-results {
     background-color: #{$background-blue};
     position: absolute;
     right: 10px;
     top: 32px;
-    width: 90%;
     border-radius: 8px;
+    min-width: 325px;
   }
 
   .notification-result {
@@ -67,13 +68,12 @@
     color: #25aedd;
 
 
-
     &:after {
       overflow: hidden;
       display: inline-block;
       vertical-align: bottom;
-      -webkit-animation: ellipsis steps(8,end) 1500ms infinite;
-      animation: ellipsis steps(8,end) 1500ms infinite;
+      -webkit-animation: ellipsis steps(8, end) 1500ms infinite;
+      animation: ellipsis steps(8, end) 1500ms infinite;
       content: "\2026"; /* ascii code for the ellipsis character */
       width: 0;
       position: absolute;

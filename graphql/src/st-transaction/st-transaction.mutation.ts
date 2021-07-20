@@ -1,5 +1,4 @@
-
-import { queryStockLivePrice } from '../st-stocks/st-stocks-query';
+import { getLivePriceAPI } from '../st-api/st-financial-modeling.api';
 import { getCurrentIOSDate, datesAreOnSameDay } from './../st-shared/st-shared.functions';
 import {ApolloError} from 'apollo-server';
 import * as api from 'stock-tracker-common-interfaces';
@@ -18,8 +17,8 @@ export const performTransaction = async (transactionInput: api.STTransactionInpu
         const user = await queryUserPublicData(userId) as api.STUserPublicData;
 
         // get current stock price
-        const livePrice = await queryStockLivePrice(transactionInput.symbol);
-        transactionInput.price = livePrice.price;
+        const livePrice = await getLivePriceAPI(transactionInput.symbol);
+        transactionInput.price = livePrice?.price;
         
         // perform buy or sell transaction
         const {transaction, newUserHoldings} = await performTransactionAction(user, transactionInput);

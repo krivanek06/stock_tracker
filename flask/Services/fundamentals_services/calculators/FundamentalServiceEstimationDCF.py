@@ -15,6 +15,7 @@
 from statistics import mean
 from datetime import datetime
 
+
 class FundamentalServiceEstimationDCF:
     def __init__(self, data):
         self.data = data
@@ -43,12 +44,14 @@ class FundamentalServiceEstimationDCF:
         sharesOutstanding = self.data['summary']['sharesOutstanding']
         perpetualGrowthRate = 0.025  # constant growth rate - 2.5% -  rate of which free cash flow gonna grow forever
 
-        estimatedTerminalValue = round((estimatedFreeCashFlows[-1] * (1 + perpetualGrowthRate)) / (requiredRateOfReturn - perpetualGrowthRate), 0)
+        estimatedTerminalValue = round((estimatedFreeCashFlows[-1] * (1 + perpetualGrowthRate)) / (requiredRateOfReturn - perpetualGrowthRate),
+                                       0)
 
         estimatedDiscountedFactors = [round((1 + requiredRateOfReturn) ** i, 2) for i in range(1, self.ESTIMATED_TIME_PERIOD + 2 + 1)]
         estimatedDiscountedTerminalValue = round(estimatedTerminalValue / estimatedDiscountedFactors[-1], 0)
 
-        estimatedPresentValueOfFutureCashFlows = [round(estimatedFreeCashFlows[i] / estimatedDiscountedFactors[i], 0) for i in range(len(estimatedFreeCashFlows))]
+        estimatedPresentValueOfFutureCashFlows = [round(estimatedFreeCashFlows[i] / estimatedDiscountedFactors[i], 0) for i in
+                                                  range(len(estimatedFreeCashFlows))]
 
         estimatedCompanyTodayValue = sum(estimatedPresentValueOfFutureCashFlows) + estimatedDiscountedTerminalValue
         estimatedIntrinsicValue = round(estimatedCompanyTodayValue / sharesOutstanding, 2)
@@ -91,7 +94,7 @@ class FundamentalServiceEstimationDCF:
 
     # traditional loop because freeCashFlowRate or estimatedNetIncome can be negative and two negative number result positive
     def __estimateFreeCashFlows(self, estimatedNetIncome, freeCashFlowRate):
-        freeCashFlows = [cash['freeCashFlow'] for cash in self.cashFlow][::-1] # historical cash flow, past 4 data_aggregation
+        freeCashFlows = [cash['freeCashFlow'] for cash in self.cashFlow][::-1]  # historical cash flow, past 4 data_aggregation
         estimateFreeCashFlows = []
 
         for income in estimatedNetIncome:
@@ -115,11 +118,11 @@ class FundamentalServiceEstimationDCF:
         # last 4 year of revenue
         revenues = [income['revenue'] for income in self.incomeStatement][::-1]
         # revenue for current year + next year -> [Current Qrt., Next Qrt., Current Year, Next Year (Sep.)]
-        #estimatedRevenue = list(map(lambda data: data['avg'], self.data['analysis']['revenueEstimate'][2:]))
+        # estimatedRevenue = list(map(lambda data: data['avg'], self.data['analysis']['revenueEstimate'][2:]))
         estimatedRevenue = []
 
         # calculate for following 2 years
-        mergedRevenues = revenues # + estimatedRevenue
+        mergedRevenues = revenues  # + estimatedRevenue
         revenueGrowthRates = [round((mergedRevenues[i] - mergedRevenues[i - 1]) / abs(mergedRevenues[i - 1]), 4) for i in
                               range(1, len(mergedRevenues))]
         estimatedRevenueGrowthRate = self.__getNumberFromList(revenueGrowthRates)

@@ -30,12 +30,13 @@ export class FreeCashflowFormulaService {
         for (let i = 0; i < formula.freeCashFlows.length; i++) {
             const operatingActivity = formula.operatingActivities[i] ?? 0;
             const capitalExpenditure = formula.capitalExpenditures[i] ?? 0;
-            const netBorrowing = formula.netBorrowings[i] ?? 0;
+            /*const netBorrowing = formula.netBorrowings[i] ?? 0;
             if (applyNetBorrowings) {
                 freeCashFlows.push(operatingActivity + capitalExpenditure + netBorrowing);
             } else {
                 freeCashFlows.push(operatingActivity + capitalExpenditure);
-            }
+            }*/
+            freeCashFlows.push(operatingActivity + capitalExpenditure);
         }
 
         // calculate estimations

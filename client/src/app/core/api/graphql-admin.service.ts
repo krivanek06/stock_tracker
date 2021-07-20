@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {QueryUsersRegistrationGQL, StUserRegistrationDoc} from '../graphql-schema';
+import {QueryAdminMainInformationsGQL, StAdminMainInformations} from '../graphql-schema';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
@@ -8,10 +8,10 @@ import {map} from 'rxjs/operators';
 })
 export class GraphqlAdminService {
 
-    constructor(private queryUsersRegistrationGQL: QueryUsersRegistrationGQL) {
+    constructor(private queryAdminMainInformationsGQL: QueryAdminMainInformationsGQL) {
     }
 
-    queryUsersRegistration(): Observable<StUserRegistrationDoc> {
-        return this.queryUsersRegistrationGQL.fetch().pipe(map(x => x.data.queryUsersRegistration));
+    queryAdminMainInformations(): Observable<StAdminMainInformations> {
+        return this.queryAdminMainInformationsGQL.fetch().pipe(map(x => x.data.queryAdminMainInformations));
     }
 }

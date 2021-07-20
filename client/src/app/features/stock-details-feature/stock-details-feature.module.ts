@@ -6,10 +6,10 @@ import {
     DetailsFinancialStrengthComponent,
     DetailsFinancialStrengthRatioComponent,
     DetailsGradingHistoryComponent,
-    DetailsOwnershipComponent,
+    DetailsHoldersComponent,
+    DetailsNewsComponent,
     DetailsPerShareComponent,
     DetailsRecommendationChartComponent,
-    DetailsRevenueEstimateComponent,
     DetailsSectorChartComponent,
     DetailsStatementTableComponent,
     DetailsStockSuggestionChangeComponent,
@@ -35,15 +35,15 @@ import {DetailsReportStatementModalComponent} from './entry-components';
         DetailsEarningsChartComponent,
         DetailsGradingHistoryComponent,
         DetailsStockTrendComponent,
-        DetailsRevenueEstimateComponent,
         StockSearchComponent,
         DetailsSectorChartComponent,
         DetailsStockSuggestionChangeComponent,
         TrendItemComponent,
-        DetailsOwnershipComponent,
+        DetailsHoldersComponent,
         DetailsTransactionsComponent,
         DetailsEsgScoreComponent,
-        DetailsReportStatementModalComponent
+        DetailsReportStatementModalComponent,
+        DetailsNewsComponent
     ],
     imports: [
         SharedModule
@@ -59,13 +59,13 @@ import {DetailsReportStatementModalComponent} from './entry-components';
         DetailsEarningsChartComponent,
         DetailsGradingHistoryComponent,
         DetailsStockTrendComponent,
-        DetailsRevenueEstimateComponent,
         StockSearchComponent,
         DetailsSectorChartComponent,
         DetailsStockSuggestionChangeComponent,
-        DetailsOwnershipComponent,
+        DetailsHoldersComponent,
         DetailsTransactionsComponent,
-        DetailsEsgScoreComponent
+        DetailsEsgScoreComponent,
+        DetailsNewsComponent
     ]
 })
 export class StockDetailsFeatureModule {

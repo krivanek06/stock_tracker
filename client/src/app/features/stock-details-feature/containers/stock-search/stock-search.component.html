@@ -12,9 +12,7 @@
     <ng-container *ngIf="searchedSummaries$ | async as searchedSummaries; else showSkeletons">
         <app-stock-info-identification-item
                 (click)="clickedSummary(summary)"
-                *ngFor="let summary of searchedSummaries"
-                [clickable]="true"
-                [summary]="summary">
+                *ngFor="let summary of searchedSummaries">
         </app-stock-info-identification-item>
     </ng-container>
 

@@ -1,7 +1,7 @@
-<ion-item button class="ion-margin-bottom" (click)="toggleFinancialChartView()">
+<ion-item (click)="toggleFinancialChartView()" button class="ion-margin-bottom">
     <!-- title & image -->
     <ion-label class="st-display-flex-center st-fit-content">
-        <ion-img appDefaultImg [src]="logoUrl" class="st-symbol-image" alt="symbol image"></ion-img>
+        <ion-img [src]="logoUrl" alt="symbol image" appDefaultImg class="st-symbol-image"></ion-img>
         <div class="st-flex-col">
             <ion-text class="st-title ion-hide-sm-down">{{ name }}</ion-text>
             <ion-text class="st-title ion-hide-sm-up">{{ symbol }}</ion-text>
@@ -13,70 +13,54 @@
 
     <!-- current price & price range by selector -->
     <ion-label class="ion-text-end ion-margin-end st-flex-col">
-        <div class="st-flex-col" [@marketValueChange]="currentPrice">
+        <div [@marketValueChange]="currentPrice" class="st-flex-col">
             <!-- current price & daily change -->
             <div class="st-flex-row" style="align-self: flex-end">
-                <ion-text style="margin-right: 10px" class="st-font-size-18" [@marketValueChange]="currentPrice">
+                <ion-text [@marketValueChange]="currentPrice" class="st-font-size-18" style="margin-right: 10px">
                     {{ currentPrice | currency }}
                 </ion-text>
                 <ion-text class="st-font-size-13 st-font-5">{{ currentPrice - closedPrice | currency }}</ion-text>
             </div>
             <!-- daily % change -->
-            <app-price-change-item style="place-self: flex-end"
+            <app-price-change-item [isPercent]="true"
                                    [priceChange]="(currentPrice - closedPrice) / closedPrice"
-                                   [isPercent]="true">
+                                   style="place-self: flex-end">
             </app-price-change-item>
         </div>
     </ion-label>
 </ion-item>
 
 <!-- range buttons -->
-<ion-segment (ionChange)="segmentChanged($event)" [value]="selectedRange" scrollable>
-    <ion-segment-button value="1d">
-        <ion-label>1d</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="5d">
-        <ion-label>5d</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="1mo">
-        <ion-label>1mo</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="6mo">
-        <ion-label>6mo</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="1y">
-        <ion-label>1y</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="5y">
-        <ion-label>5y</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="max">
-        <ion-label>Max</ion-label>
-    </ion-segment-button>
-</ion-segment>
+<div class="st-flex-wrap">
+    <ion-button (click)="segmentChanged(period)" *ngFor="let period of HistoricalPricePeriods"
+                [color]="selectedRange === period ? 'primary' : 'medium'"
+                fill="clear">
+        <ion-label>{{ period }}</ion-label>
+    </ion-button>
+</div>
 
 <!-- chart -->
 <div [style.height.px]="height">
     <!-- financial chart -->
     <app-financial-chart
-            *ngIf="financialChart"
             (priceRangeEmitter)="savePriceRange($event)"
+            *ngIf="financialChart"
             [financialChart]="true"
-            [showYAxis]="showYAxis"
-            [volume]="volume"
             [height]="height"
-            [price]="price">
+            [price]="price"
+            [showYAxis]="showYAxis"
+            [volume]="volume">
     </app-financial-chart>
 
     <!-- normal chart -->
     <app-financial-chart
-            *ngIf="!financialChart"
             (priceRangeEmitter)="savePriceRange($event)"
+            *ngIf="!financialChart"
             [financialChart]="false"
-            [showYAxis]="showYAxis"
-            [volume]="volume"
             [height]="height"
-            [price]="price">
+            [price]="price"
+            [showYAxis]="showYAxis"
+            [volume]="volume">
     </app-financial-chart>
 
     <!-- loader -->

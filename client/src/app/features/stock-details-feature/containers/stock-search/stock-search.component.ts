@@ -48,7 +48,7 @@ export class StockSearchComponent implements OnInit {
                 if (!res || res.length < 1) {
                     return of(null);
                 }
-                return this.firebaseSearchService.queryStockSummaries(res);
+                return this.firebaseSearchService.queryStockQuotesByPrefix(res);
             })
         );
     }

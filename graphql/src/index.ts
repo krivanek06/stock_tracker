@@ -1,3 +1,5 @@
+import { STFinancialModelingAPITypeDefs } from './st-api/st-financal-modeling-api.typedefs';
+import { querySymbolHistoricalPrices } from './st-stocks/st-stocks-query/queryStockHistoricalPrice';
 import { Context } from './st-shared/st-shared.interface';
 import { stGroupResolvers } from './st-group/st-group.resolver';
 import { STFreeCashFlowFormulaTypeDefs } from './st-stock-calculations/st-free-cash-flow-formula.typedef';
@@ -31,7 +33,6 @@ import {
     queryStockQuotesByPrefix,
     queryStockSummary,
     stockDetailsTypeDefs,
-    STFinancialModelingAPITypeDefs,
     setForceReloadStockDetails,
     queryStockFinancialReports
 } from './st-stocks';
@@ -51,8 +52,7 @@ import {performTransaction} from "./st-transaction/st-transaction.mutation";
 import {STMarketSharedTypeDefs} from "./st-market/st-market.typedefs";
 import {
     queryStMarketAllCategories, queryStMarketCalendarEvents, queryStMarketCalendarEventsEarnings, queryStMarketData,
-    querySTMarketHistoryOverview,
-    querySTMarketSymbolHistoricalChartData
+    querySTMarketHistoryOverview
 } from "./st-market/st-market.query";
 import { STStockDetailsCalculationsTypeDefs } from './st-stock-calculations';
 
@@ -84,9 +84,9 @@ const mainTypeDefs = gql`
         queryStockSummary(symbol: String!): Summary
         queryStockQuotesByPrefix(symbolPrefix: String!): [STFMCompanyQuote]!
         queryStockFinancialReports(symbol: String!): StockDetailsFinancialReports
+        querySymbolHistoricalPrices(symbol: String!, period: String!): SymbolHistoricalPrices
 
         # market data
-        querySTMarketSymbolHistoricalChartData(symbol: String!, period: String!): STMarketSymbolHistoricalChartData
         querySTMarketHistoryOverview: STMarketOverviewPartialData
         queryStMarketAllCategories: STMarketDatasetKeyCategories
         queryMarketDailyOverview: STMarketDailyOverview
@@ -149,6 +149,7 @@ const mainResolver = {
         queryStockSummary: async (_: null, args: { symbol: string }) => await queryStockSummary(args.symbol),
         queryStockQuotesByPrefix: async (_: null, args: { symbolPrefix: string }) => await queryStockQuotesByPrefix(args.symbolPrefix),
         queryStockFinancialReports: async (_: null, args: { symbol: string }) => await queryStockFinancialReports(args.symbol),
+        querySymbolHistoricalPrices: async (_: null, args: { symbol: string, period: string }) => await querySymbolHistoricalPrices(args.symbol, args.period),
 
         // market data
         querySTMarketHistoryOverview: async (_: null, args: null) => await querySTMarketHistoryOverview(),
@@ -157,7 +158,6 @@ const mainResolver = {
         queryStMarketData: async (_: null, args: { key: string }) => await queryStMarketData(args.key),
         queryStMarketCalendarEvents: async (_: null, args: { date: string }) => await queryStMarketCalendarEvents(args.date),
         queryStMarketCalendarEventsEarnings: async (_: null, args: { date: string }) => await queryStMarketCalendarEventsEarnings(args.date),
-        querySTMarketSymbolHistoricalChartData: async (_: null, args: { symbol: string, period: string }) => await querySTMarketSymbolHistoricalChartData(args.symbol, args.period),
 
         // trading strategy
         querySTTradingStrategies: async (_: null, args: null) => await queryTradingStrategies(),

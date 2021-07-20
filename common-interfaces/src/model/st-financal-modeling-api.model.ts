@@ -366,3 +366,32 @@ export interface STFMCompanyQuote {
   yearHigh: number;
   yearLow: number;
 }
+
+export interface STFMHistoricalPricesLine {
+  date: string;
+  close: number;
+}
+
+export interface STFMHistoricalPrices extends STFMHistoricalPricesLine {
+  open: number;
+  low: number;
+  high: number;
+  volume: number;
+}
+
+export interface STFMHistoricalDailyPrices extends STFMHistoricalPrices {
+  adjClose: number;
+  unadjustedVolume: number;
+  change: number;
+  changePercent: number;
+  vwap: number;
+  label: string;
+  changeOverTime: number;
+}
+
+
+export interface STFMLivePrice {
+  symbol: string;
+  price: number;
+  volume: number;
+}

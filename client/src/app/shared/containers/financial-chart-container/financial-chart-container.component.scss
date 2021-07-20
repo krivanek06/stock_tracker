@@ -1,10 +1,11 @@
 @import "variables";
 
 :host {
-  ion-segment {
-    overflow: visible;
-    @media (max-width: #{$st-var-xl-split}) {
-      overflow: auto;
+  ion-button {
+    min-width: 120px;
+
+    @media (max-width: #{$st-var-sm-split}) {
+      min-width: 49%;
     }
   }
 }

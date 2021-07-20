@@ -86,6 +86,7 @@ def search_symbols():
         symbolsPrefix = request.args.get('symbolsPrefix')
         financialModeling = FinancialModelingApi()
         searchedResult = financialModeling.searchSymbolsByPrefix(symbolsPrefix)
+        searchedResult = [result for result in searchedResult if result.get('exchangeShortName') not in ['ETF']]
         batchResult = financialModeling.getCompanyQuoteBatch([s['symbol'] for s in searchedResult])
         return Response(dumps(batchResult), mimetype='application/json')
     except Exception as e:

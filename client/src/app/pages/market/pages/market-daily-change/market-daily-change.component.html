@@ -5,8 +5,8 @@
             <app-generic-list [title]="'Daily top gainers'"></app-generic-list>
             <app-generic-card>
                 <app-market-top-table-stocks
-                        [topTableSymbolData]="topGainers"
-                        (itemClickedEmitter)="showSummary($event)">
+                        (itemClickedEmitter)="showSummary($event)"
+                        [topTableSymbolData]="topGainers">
                 </app-market-top-table-stocks>
             </app-generic-card>
         </ion-col>
@@ -22,8 +22,8 @@
                 <ion-item>
                     <ion-label>Change table</ion-label>
                     <ion-select (ionChange)="changeSelectedTopTable($event)"
-                                interface="action-sheet"
-                                [value]="selectedTableName">
+                                [value]="selectedTableName"
+                                interface="action-sheet">
                         <ion-select-option *ngFor="let data of MARKET_DAILY_CHANGE_SELECT" [value]="data">
                             {{ data.name }}
                         </ion-select-option>
@@ -32,8 +32,8 @@
             </ion-list-header>
             <app-generic-card>
                 <app-market-top-table-stocks
-                        [topTableSymbolData]="selectedTable"
-                        (itemClickedEmitter)="showSummary($event)">
+                        (itemClickedEmitter)="showSummary($event)"
+                        [topTableSymbolData]="selectedTable">
                 </app-market-top-table-stocks>
             </app-generic-card>
         </ion-col>
@@ -45,9 +45,9 @@
         <ion-col size="12" size-md="6">
             <app-generic-card [additionalClasses]="'st-height-100'">
                 <app-market-events-selector
-                        [events]="calendarEvents$ | async"
+                        (changeDatesEmitter)="changeDisplayedEarningsDate($event)"
                         (selectedDateEmitter)="showStockEarningsOnDate($event)"
-                        (changeDatesEmitter)="changeDisplayedEarningsDate($event)">
+                        [events]="calendarEvents$ | async">
                 </app-market-events-selector>
             </app-generic-card>
         </ion-col>
@@ -64,7 +64,7 @@
     <ion-row>
         <ion-col size="12">
             <app-generic-list [title]="'Market news'"></app-generic-list>
-            <div class="st-news-container">
+            <div class="news-container">
                 <app-article-cards *ngFor="let article of dailyNews" [article]="article"></app-article-cards>
             </div>
         </ion-col>

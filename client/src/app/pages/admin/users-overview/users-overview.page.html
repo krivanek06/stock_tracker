@@ -1,11 +1,11 @@
-<ion-grid *ngIf="userRegistrationDoc">
+<ion-grid *ngIf="adminMainInformations">
     <ion-list>
         <ion-item>
             <ion-label class="st-font-size-18 st-font-1">
-                Total users {{ userRegistrationDoc.totalRegistratedUsers }}
+                Total users {{ adminMainInformations.usersRegistrated }}
             </ion-label>
             <ion-label class="st-font-size-18 st-font-1">
-                Active users {{ userRegistrationDoc.totalActiveUsers }}
+                Active users {{ adminMainInformations.usersActive }}
             </ion-label>
         </ion-item>
     </ion-list>
@@ -24,7 +24,7 @@
         <ion-col size="12" size-md="5">
             <app-generic-card [subtitle]="'Latest registered users'">
                 <app-user-identification-info
-                        *ngFor="let stUserIndetification of userRegistrationDoc.userRegistrationSnippets"
+                        *ngFor="let stUserIndetification of adminMainInformations.usersRegistrationSnippets"
                         [stUserIndetification]="stUserIndetification">
                 </app-user-identification-info>
             </app-generic-card>

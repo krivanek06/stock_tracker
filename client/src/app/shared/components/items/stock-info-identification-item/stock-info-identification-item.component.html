@@ -1,17 +1,28 @@
-<ion-item *ngIf="summary" class="info-item st-width-100">
-    <ion-label (click)="clickedSymbol()"
-               class="st-info-item-result" [ngClass]="{
-                'ion-activatable': clickable,
-                'width-100': clickable
-            }">
-        <ion-img appDefaultImg [src]="summary.logo_url"></ion-img>
-        <ion-label class="ion-margin-start" style="display: grid">
-            <ion-text>{{ summary.symbol }}</ion-text>
-            <ion-text class="st-font-size-12 st-font-5 ion-text-wrap">{{ summary.longName }}</ion-text>
-            <span>
-                 <ion-text class="st-font-size-12 st-font-5" style="margin-right: 5px;">Price:</ion-text>
-                <ion-text class="st-font-size-14">{{ summary.marketPrice | currency }}</ion-text>
-            </span>
-        </ion-label>
+<div (click)="clickedSymbol()" class="info-item st-flex-col st-clickable ion-activatable st-border-bottom">
+    <ion-label class="st-flex-space-between">
+        <ion-text class="st-icon">{{ companyQuote.name }} <span class="st-font-2">[{{ companyQuote.symbol }}]</span>
+        </ion-text>
+        <ion-text class="st-small-right-space"> {{ companyQuote.exchange }}</ion-text>
     </ion-label>
-</ion-item>
+    <ion-label class="st-display-flex-center st-font-0">
+        <ion-text class="st-small-right-space">Price: {{ companyQuote.price | currency }}</ion-text>
+        <app-price-change-item
+                [priceChange]="companyQuote.changesPercentage">
+        </app-price-change-item>
+    </ion-label>
+    <ion-label>
+        <app-price-change-item
+                [priceChange]="1 / companyQuote.avgVolume * companyQuote.volume"
+                [price]="companyQuote.volume"
+                pricePosition="left"
+                priceText="Volume">
+        </app-price-change-item>
+    </ion-label>
+    <ion-label class="st-flex-space-between st-font-5">
+        <div>Market cap.: {{ companyQuote.marketCap | numberFormatter }}</div>
+        <div>PE: {{ companyQuote.pe | numberFormatter }}</div>
+        <div>EPS: {{ companyQuote.eps | numberFormatter }}</div>
+    </ion-label>
+
+    <ion-ripple-effect></ion-ripple-effect>
+</div>

@@ -1,7 +1,12 @@
 <ion-list>
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Name</ion-label>
-        <ion-label class="st-data-label st-flex-end"> {{ summary.longName }}</ion-label>
+        <ion-label class="st-data-label st-flex-end"> {{ summary.companyName }}</ion-label>
+    </ion-item>
+
+    <ion-item class="st-data-item-wrapper">
+        <ion-label class="st-data-label-parent">Ceo</ion-label>
+        <ion-label class="st-data-label st-flex-end"> {{ summary.ceo }}</ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
@@ -33,11 +38,11 @@
         <ion-label class="st-data-label-parent">Price</ion-label>
         <ion-label class="st-flex-row st-flex-end">
             <app-price-compare-item
-                    [showPrice]="false"
                     [compareToPrice]="summary.previousClose"
-                    [currentPrice]="currentPrice">
+                    [currentPrice]="currentPrice"
+                    [showPrice]="false">
             </app-price-compare-item>
-            <ion-text style="margin-left: 10px" class="st-data-label" [@marketValueChange]="currentPrice">
+            <ion-text [@marketValueChange]="currentPrice" class="st-data-label" style="margin-left: 10px">
                 {{ currentPrice | currency }}
             </ion-text>
         </ion-label>
@@ -47,9 +52,9 @@
         <ion-label class="st-data-label-parent">1y target</ion-label>
         <ion-label class="st-flex-end st-display-flex-center">
             <app-price-compare-item
-                    [showPrice]="false"
                     [compareToPrice]="summary.oneyTargetEst"
-                    [currentPrice]="currentPrice">
+                    [currentPrice]="currentPrice"
+                    [showPrice]="false">
             </app-price-compare-item>
             <ion-text class="st-data-label st-small-left-space">{{ summary.oneyTargetEst | currency }}</ion-text>
         </ion-label>
@@ -59,9 +64,9 @@
         <ion-label class="st-data-label-parent">1y change</ion-label>
         <ion-label class="st-flex-end">
             <app-price-compare-item
-                    [showPrice]="false"
+                    [compareToPrice]="summary.yearToDatePrice"
                     [currentPrice]="currentPrice"
-                    [compareToPrice]="summary.yearToDatePrice">
+                    [showPrice]="false">
             </app-price-compare-item>
         </ion-label>
     </ion-item>
@@ -69,7 +74,7 @@
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">S&P500 1y change</ion-label>
         <ion-label class="st-flex-end">
-            <app-price-change-item [priceChange]="summary.sandPFiveTwoWeekChange" [isPercent]="true">
+            <app-price-change-item [isPercent]="true" [priceChange]="summary.sandPFiveTwoWeekChange">
             </app-price-change-item>
         </ion-label>
     </ion-item>
@@ -91,9 +96,9 @@
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Recommend</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            <ion-text appRecommendation
-                      [recommendationKey]="summary.recommendationKey"
-                      [recommendationMean]="summary.recommendationMean">
+            <ion-text [recommendationKey]="summary.recommendationKey"
+                      [recommendationMean]="summary.recommendationMean"
+                      appRecommendation>
             </ion-text>
         </ion-label>
     </ion-item>
