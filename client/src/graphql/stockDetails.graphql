@@ -640,6 +640,9 @@ query QueryStockDetails($symbol: String!, $reload: Boolean) {
                 ...STFMStockNewFragment
             }
         }
+        sectorPeers {
+            ...STFMCompanyQuoteFragment
+        }
     }
 }
 

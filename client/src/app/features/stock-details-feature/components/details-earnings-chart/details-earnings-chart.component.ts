@@ -19,11 +19,7 @@ interface DetailsEarnings {
 })
 export class DetailsEarningsChartComponent implements OnInit, OnChanges {
     @Input() earnings: EarningsChart;
-
-
-    private earnignsDates: string[] = [];
-    private actualEarnings: DetailsEarnings[] = [];
-    private estimatedEarnings: number[] = [];
+    @Input() height: number;
 
     // chart options
     Highcharts: typeof Highcharts = Highcharts;
@@ -31,6 +27,10 @@ export class DetailsEarningsChartComponent implements OnInit, OnChanges {
     updateFromInput = false;
     chartCallback;
     chartOptions = {}; //  : Highcharts.Options
+    private earnignsDates: string[] = [];
+    private actualEarnings: DetailsEarnings[] = [];
+    private estimatedEarnings: number[] = [];
+
     constructor() {
         const self = this;
 

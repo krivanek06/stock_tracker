@@ -6,7 +6,6 @@ export * from './details-financial-strength-ratio/details-financial-strength-rat
 export * from './details-holders/details-holders.component';
 export * from './details-per-share/details-per-share.component';
 export * from './details-recommendation-chart/details-recommendation-chart.component';
-export * from './details-statement-table/details-statement-table.component';
 export * from './details-transactions/details-transactions.component';
 export * from './details-valuation/details-valuation.component';
 export * from './details-grading-history/details-grading-history.component';
@@ -15,3 +14,9 @@ export * from './details-stock-trend/details-stock-trend.component';
 export * from './details-sector-chart/details-sector-chart.component';
 export * from './details-stock-trend/trend-item/trend-item.component';
 export * from './details-news/details-news.component';
+export * from './details-statement-sheet/details-statement-sheet.component';
+export * from './details-rating/details-rating.component';
+export * from './details-dividend-payout/details-dividend-payout.component';
+export * from './details-key-executives/details-key-executives.component';
+export * from './details-split-history/details-split-history.component';
+export * from './details-stock-peers/details-stock-peers.component';

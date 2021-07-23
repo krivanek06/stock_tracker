@@ -1,4 +1,4 @@
-import { STFMCompanyOutlook, STFMHolder, STFMHolderWithWeight } from "./st-financal-modeling-api.model";
+import { STFMCompanyOutlook, STFMCompanyQuote, STFMHolder, STFMHolderWithWeight } from "./st-financal-modeling-api.model";
 import {
   CAPM,
   WACC,
@@ -37,6 +37,7 @@ export interface StockDetails {
   institutionalHolders: STFMHolder[];
   mutualFundHolders: STFMHolderWithWeight[];
   companyOutlook: STFMCompanyOutlook;
+  sectorPeers: STFMCompanyQuote[];
 }
 
 export interface STFinancialReport {

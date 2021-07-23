@@ -298,4 +298,5 @@ fragment STFMCompanyQuoteFragment on STFMCompanyQuote {
     volume
     yearHigh
     yearLow
+    image
 }

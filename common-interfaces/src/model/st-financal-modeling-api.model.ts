@@ -365,6 +365,7 @@ export interface STFMCompanyQuote {
   volume: number;
   yearHigh: number;
   yearLow: number;
+  image: string;
 }
 
 export interface STFMHistoricalPricesLine {

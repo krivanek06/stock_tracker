@@ -1,0 +1,6 @@
+<ion-list>
+    <ion-item *ngFor="let splitHistory of splitHistories" class="st-table-item-font-1">
+        <ion-label>{{ splitHistory.date | date: 'MMMM d, y' }}</ion-label>
+        <ion-label class="st-flex-end">{{ splitHistory.numerator }} / {{ splitHistory.denominator }}</ion-label>
+    </ion-item>
+</ion-list>

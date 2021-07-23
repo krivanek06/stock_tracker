@@ -1,17 +1,22 @@
 import {NgModule} from '@angular/core';
 import {
     DetailsDividendComponent,
+    DetailsDividendPayoutComponent,
     DetailsEarningsChartComponent,
     DetailsEsgScoreComponent,
     DetailsFinancialStrengthComponent,
     DetailsFinancialStrengthRatioComponent,
     DetailsGradingHistoryComponent,
     DetailsHoldersComponent,
+    DetailsKeyExecutivesComponent,
     DetailsNewsComponent,
     DetailsPerShareComponent,
+    DetailsRatingComponent,
     DetailsRecommendationChartComponent,
     DetailsSectorChartComponent,
-    DetailsStatementTableComponent,
+    DetailsSplitHistoryComponent,
+    DetailsStatementSheetComponent,
+    DetailsStockPeersComponent,
     DetailsStockSuggestionChangeComponent,
     DetailsStockTrendComponent,
     DetailsTransactionsComponent,
@@ -29,7 +34,7 @@ import {DetailsReportStatementModalComponent} from './entry-components';
         DetailsValuationComponent,
         DetailsFinancialStrengthComponent,
         DetailsPerShareComponent,
-        DetailsStatementTableComponent,
+        DetailsStatementSheetComponent,
         DetailsRecommendationChartComponent,
         DetailsFinancialStrengthRatioComponent,
         DetailsEarningsChartComponent,
@@ -43,7 +48,12 @@ import {DetailsReportStatementModalComponent} from './entry-components';
         DetailsTransactionsComponent,
         DetailsEsgScoreComponent,
         DetailsReportStatementModalComponent,
-        DetailsNewsComponent
+        DetailsNewsComponent,
+        DetailsRatingComponent,
+        DetailsDividendPayoutComponent,
+        DetailsKeyExecutivesComponent,
+        DetailsSplitHistoryComponent,
+        DetailsStockPeersComponent
     ],
     imports: [
         SharedModule
@@ -53,7 +63,7 @@ import {DetailsReportStatementModalComponent} from './entry-components';
         DetailsValuationComponent,
         DetailsFinancialStrengthComponent,
         DetailsPerShareComponent,
-        DetailsStatementTableComponent,
+        DetailsStatementSheetComponent,
         DetailsRecommendationChartComponent,
         DetailsFinancialStrengthRatioComponent,
         DetailsEarningsChartComponent,
@@ -65,7 +75,12 @@ import {DetailsReportStatementModalComponent} from './entry-components';
         DetailsHoldersComponent,
         DetailsTransactionsComponent,
         DetailsEsgScoreComponent,
-        DetailsNewsComponent
+        DetailsNewsComponent,
+        DetailsRatingComponent,
+        DetailsDividendPayoutComponent,
+        DetailsKeyExecutivesComponent,
+        DetailsSplitHistoryComponent,
+        DetailsStockPeersComponent
     ]
 })
 export class StockDetailsFeatureModule {

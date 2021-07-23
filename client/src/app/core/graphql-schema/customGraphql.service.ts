@@ -867,6 +867,7 @@ export type StfmCompanyQuote = {
   volume?: Maybe<Scalars['Float']>;
   yearHigh?: Maybe<Scalars['Float']>;
   yearLow?: Maybe<Scalars['Float']>;
+  image?: Maybe<Scalars['String']>;
 };
 
 export type StfmFinancials = {
@@ -1382,6 +1383,7 @@ export type StockDetails = {
   institutionalHolders?: Maybe<Array<Maybe<StfmHolder>>>;
   mutualFundHolders?: Maybe<Array<Maybe<StfmHolderWithWeight>>>;
   companyOutlook?: Maybe<StfmCompanyOutlook>;
+  sectorPeers?: Maybe<Array<Maybe<StfmCompanyQuote>>>;
 };
 
 export type StockDetailsFinancialReports = {
@@ -1845,7 +1847,7 @@ export type StfmRatiosFragmentFragment = (
 
 export type StfmCompanyQuoteFragmentFragment = (
   { __typename?: 'STFMCompanyQuote' }
-  & Pick<StfmCompanyQuote, 'avgVolume' | 'change' | 'changesPercentage' | 'dayHigh' | 'dayLow' | 'earningsAnnouncement' | 'eps' | 'exchange' | 'marketCap' | 'name' | 'open' | 'pe' | 'previousClose' | 'price' | 'priceAvg200' | 'priceAvg50' | 'sharesOutstanding' | 'symbol' | 'timestamp' | 'volume' | 'yearHigh' | 'yearLow'>
+  & Pick<StfmCompanyQuote, 'avgVolume' | 'change' | 'changesPercentage' | 'dayHigh' | 'dayLow' | 'earningsAnnouncement' | 'eps' | 'exchange' | 'marketCap' | 'name' | 'open' | 'pe' | 'previousClose' | 'price' | 'priceAvg200' | 'priceAvg50' | 'sharesOutstanding' | 'symbol' | 'timestamp' | 'volume' | 'yearHigh' | 'yearLow' | 'image'>
 );
 
 export type StGroupUserFragmentFragment = (
@@ -2611,7 +2613,10 @@ export type QueryStockDetailsQuery = (
         { __typename?: 'STFMStockNew' }
         & StfmStockNewFragmentFragment
       )>>> }
-    )> }
+    )>, sectorPeers?: Maybe<Array<Maybe<(
+      { __typename?: 'STFMCompanyQuote' }
+      & StfmCompanyQuoteFragmentFragment
+    )>>> }
   )> }
 );
 
@@ -3243,6 +3248,7 @@ export const StfmCompanyQuoteFragmentFragmentDoc = gql`
   volume
   yearHigh
   yearLow
+  image
 }
     `;
 export const StPortfolioSnapshotFragmentFragmentDoc = gql`
@@ -4611,6 +4617,9 @@ export const QueryStockDetailsDocument = gql`
         ...STFMStockNewFragment
       }
     }
+    sectorPeers {
+      ...STFMCompanyQuoteFragment
+    }
   }
 }
     ${RecommendationFragmentFragmentDoc}
@@ -4636,7 +4645,8 @@ ${StfmRatingFragmentFragmentDoc}
 ${StfmRatiosFragmentFragmentDoc}
 ${StfmSplitHistoryFragmentFragmentDoc}
 ${StfmStockDividendFragmentFragmentDoc}
-${StfmStockNewFragmentFragmentDoc}`;
+${StfmStockNewFragmentFragmentDoc}
+${StfmCompanyQuoteFragmentFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'

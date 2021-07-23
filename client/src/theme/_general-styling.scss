@@ -426,6 +426,33 @@ ion-spinner {
   color: #{$st-red} !important;
 }
 
+.st-table-item {
+  border-bottom: 1px solid #66666633 !important;
+
+  ion-label:first-child {
+    margin-right: 16px !important;
+    color: #{$st-var-font-4} !important;
+  }
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+}
+
+.st-table-item-font-1 {
+  border-bottom: 1px solid #66666633 !important;
+
+  ion-label:first-child {
+    margin-right: 6px !important;
+    color: #{$st-var-font-1} !important;
+  }
+
+  &:last-child {
+    border-bottom: 0 !important;
+  }
+
+}
 
 // BUTTONS
 

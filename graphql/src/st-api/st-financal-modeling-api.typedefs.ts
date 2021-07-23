@@ -365,6 +365,7 @@ type STFMCompanyQuote {
   volume: Float
   yearHigh: Float
   yearLow: Float
+  image: String
 }
 
 

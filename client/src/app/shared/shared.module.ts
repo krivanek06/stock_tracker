@@ -33,13 +33,15 @@ import {
 } from './components';
 import {
     HoldingsTotalInvestedPipe,
+    IncreasePrctPipe,
     NumberFormatterPipe,
     ObjNgForPipe,
     RelativeTimePipe,
     ReverseArrayPipe,
     SplitKeyToTitlecasePipe,
     SplitPipe,
-    SumUpPipe
+    SumUpPipe,
+    TypeofPipe
 } from './pipes';
 import {FinancialChartContainerComponent, HeaderComponent, StockSummaryContainerComponent} from './containers';
 import {
@@ -97,7 +99,9 @@ import {ListSkeletonComponent} from './components/lists';
         OptionPickerPopOverComponent,
         ConfirmationPopOverComponent,
         ListSkeletonComponent,
-        ReverseArrayPipe
+        ReverseArrayPipe,
+        TypeofPipe,
+        IncreasePrctPipe
     ],
     imports: [
         SharedProvidersModule
@@ -144,7 +148,9 @@ import {ListSkeletonComponent} from './components/lists';
         OptionPickerPopOverComponent,
         ConfirmationPopOverComponent,
         ListSkeletonComponent,
-        ReverseArrayPipe
+        ReverseArrayPipe,
+        TypeofPipe,
+        IncreasePrctPipe
     ],
     entryComponents: [
         InlineInputPopUpComponent,

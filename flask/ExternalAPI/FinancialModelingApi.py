@@ -92,6 +92,9 @@ class FinancialModelingApi:
         API calls for stock info
     '''
 
+    def getSectorPeers(self, symbol):
+        return self._makeRequest('stock_peers', '', {'symbol': symbol}, 'v4')
+
     def getMutualFundHolders(self, symbol):
         return self._makeRequest('mutual-fund-holder', symbol)
 
@@ -113,7 +116,12 @@ class FinancialModelingApi:
 
     # https://financialmodelingprep.com/developer/docs#Company-Quote
     def getCompanyQuoteBatch(self, symbols: [str] = []):
-        return self._makeRequest('quote', ','.join(symbols)) if len(symbols) > 0 else []
+        if not symbols:
+            return []
+        quotes = self._makeRequest('quote', ','.join(symbols))
+        for quote in quotes:
+            quote['image'] = f'https://financialmodelingprep.com/image-stock/{quote["symbol"]}.png'
+        return quotes
 
     # https://financialmodelingprep.com/developer/docs#Key-Executives
     def getKeyExecutives(self, symbol):

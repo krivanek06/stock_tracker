@@ -13,11 +13,14 @@ export class PriceChangeItemComponent implements OnInit {
     @Input() priceText: string;
     @Input() showIcon = true;
     @Input() isPercent = false;
+    @Input() showNAIfPriceZero: boolean;
 
     constructor() {
     }
 
     ngOnInit() {
+        // can be infinity
+        this.priceChange = Number.isFinite(this.priceChange) ? this.priceChange : null;
     }
 
 }
