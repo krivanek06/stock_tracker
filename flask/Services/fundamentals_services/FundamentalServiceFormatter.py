@@ -55,7 +55,7 @@ class FundamentalServiceFormatter:
                             _statementData['value'] = {
                                 'value': statementDataValue - previousStatementValue if isAggregation else statementDataValue,
                                 'increase': statementDataValue - previousStatementValue,
-                                'increasePrct': (statementDataValue - previousStatementValue) / previousStatementValue
+                                'increasePrct': (statementDataValue - previousStatementValue) / abs(previousStatementValue)
                             }
                         except Exception as e:
                             statementDataValue = _statementData['value'] if not isinstance(_statementData['value'], dict) else _statementData['value']['value']

@@ -1,6 +1,6 @@
 <ion-grid *ngIf="stockDetails$ | async as stockDetails">
     <ion-row class="ion-justify-content-center">
-        <ion-col size="12" size-md="7">
+        <ion-col size="12" size-lg="6">
             <!-- stock chart -->
             <app-financial-chart-container
                     [closedPrice]="stockDetails.summary.previousClose"
@@ -12,7 +12,7 @@
             </app-financial-chart-container>
         </ion-col>
 
-        <ion-col size="12" size-md="5">
+        <ion-col size="12" size-lg="6">
             <!-- summary -->
             <ion-list-header>
                 <ion-label class="st-display-flex-center">
@@ -92,7 +92,7 @@
             <app-generic-card additionalClasses="st-height-100" subtitle="Margin">
                 <app-generic-chart
                         [chartType]="ChartType.bar"
-                        [heightPx]="285"
+                        [heightPx]="310"
                         [isPercentage]="true"
                         [series]="[{
                                 colorByPoint: true,
@@ -114,12 +114,24 @@
 
     <ion-row>
         <ion-col size="12" size-lg="4" size-sm="6">
+            <!-- dividends -->
             <app-generic-card additionalClasses="st-height-100" subtitle="Dividend">
                 <app-details-dividend [stockDetails]="stockDetails">
                 </app-details-dividend>
             </app-generic-card>
         </ion-col>
-        <ion-col size="12" size-lg="3" size-sm="6">
+        <ion-col size="12" size-lg="4" size-sm="6">
+            <!-- dividend payouts -->
+            <app-generic-card additionalClasses="st-height-100" subtitle="Dividend payouts">
+                <app-details-dividend-payout
+                        *ngIf="stockDetails.companyOutlook.stockDividend"
+                        [dividendPayouts]="stockDetails.companyOutlook.stockDividend">
+                </app-details-dividend-payout>
+            </app-generic-card>
+        </ion-col>
+
+        <ion-col size="12" size-lg="4">
+            <!-- Effectiveness -->
             <app-generic-card additionalClasses="st-height-100" subtitle="Effectiveness">
                 <app-generic-chart
                         *ngIf="stockDetails.companyData.financialData.returnOnAssets ||
@@ -140,28 +152,16 @@
                 </app-generic-chart>
             </app-generic-card>
         </ion-col>
-
-        <ion-col size="12" size-lg="5">
-            <!-- company growth
-            <app-generic-card additionalClasses="st-height-100" subtitle="Company growth">
-                <app-generic-chart
-                        *ngIf="stockDetails.analysis?.growthEstimates"
-                        [chartType]="ChartType.column"
-                        [heightPx]="220"
-                        [isPercentage]="true"
-                        [series]="[{
-                                colorByPoint: true,
-                                data: stockDetails.analysis?.growthEstimates
-                          }]"
-                        [showDataLabel]="true">
-                </app-generic-chart>
-            </app-generic-card>-->
-        </ion-col>
     </ion-row>
 
 
     <ion-row>
-        <ion-col size="12" size-md="7.5" size-xl="6.5">
+        <ion-col size="12" size-lg="4.5" size-md="6">
+            <!-- rating -->
+            <app-generic-card additionalClasses="st-height-100" subtitle="Rating">
+                <app-details-rating [rating]="stockDetails.companyOutlook.rating">
+                </app-details-rating>
+            </app-generic-card>
             <!-- revenue growth chart
             <app-generic-card additionalClasses="st-height-100" subtitle="Revenue growth estimation">
                 <app-details-revenue-estimate
@@ -170,7 +170,16 @@
                 </app-details-revenue-estimate>
             </app-generic-card>  -->
         </ion-col>
-        <ion-col size="12" size-md="4.5" size-xl="5.5">
+        <ion-col size="12" size-lg="3" size-md="6">
+            <!-- split history -->
+            <app-generic-card additionalClasses="st-height-100" subtitle="Split history">
+                <app-details-split-history
+                        *ngIf="stockDetails.companyOutlook.splitHistory"
+                        [splitHistories]="stockDetails.companyOutlook.splitHistory">
+                </app-details-split-history>
+            </app-generic-card>
+        </ion-col>
+        <ion-col size="12" size-lg="4.5">
             <!-- recommendation chart -->
             <app-generic-card additionalClasses="st-height-100" subtitle="Recommendation">
                 <app-details-recommendation-chart
@@ -191,7 +200,7 @@
                             *ngIf="fc?.yearly?.categories?.length > 0"
                             [categories]="fc.yearly.categories"
                             [chartType]="ChartType.column"
-                            [heightPx]="185"
+                            [heightPx]="225"
                             [series]="fc.yearly.series">
                     </app-generic-chart>
                 </ng-container>
@@ -206,7 +215,7 @@
                             *ngIf="fc?.quarterly?.categories?.length > 0"
                             [categories]="fc.quarterly.categories"
                             [chartType]="ChartType.column"
-                            [heightPx]="185"
+                            [heightPx]="225"
                             [series]="fc.quarterly.series">
                     </app-generic-chart>
                 </ng-container>
@@ -217,7 +226,8 @@
             <app-generic-card additionalClasses="st-height-100" subtitle="Earnings">
                 <app-details-earnings-chart
                         *ngIf="stockDetails.companyData.earnings?.earningsChart?.quarterly?.length > 0"
-                        [earnings]="stockDetails.companyData.earnings?.earningsChart">
+                        [earnings]="stockDetails.companyData.earnings?.earningsChart"
+                        [height]="225">
                 </app-details-earnings-chart>
             </app-generic-card>
         </ion-col>
@@ -326,6 +336,28 @@
         </ion-col>
     </ion-row>
 
+    <ion-row>
+        <!-- key executives -->
+        <ion-col *ngIf="stockDetails.companyOutlook.keyExecutives" size="12" size-lg="4">
+            <app-generic-card additionalClasses="st-height-100" subtitle="Key executives">
+                <app-details-key-executives
+                        *ngIf="stockDetails.companyOutlook.keyExecutives.length > 0"
+                        [keyExecutives]="stockDetails.companyOutlook.keyExecutives | slice: 0 : 8">
+                </app-details-key-executives>
+            </app-generic-card>
+        </ion-col>
+
+        <!-- peers -->
+        <ion-col size="12" size-lg="8">
+            <app-generic-card additionalClasses="st-height-100" subtitle="Sector peers">
+                <app-details-stock-peers
+                        (clickedPeerEmitter)="showPeerSummary($event)"
+                        [sectorPeers]="stockDetails.sectorPeers">
+                </app-details-stock-peers>
+            </app-generic-card>
+        </ion-col>
+    </ion-row>
+
     <!-- historical metrics -->
     <ng-container *ngIf="stockDetails.historicalMetrics">
         <app-generic-list [applyMarginTop]="true" title="Yearly metrics"></app-generic-list>
@@ -357,7 +389,7 @@
     <ion-row *ngIf="stockDetails.companyOutlook.stockNews?.length > 0">
         <app-generic-list [applyMarginTop]="true" title="News"></app-generic-list>
         <ion-col size="12">
-            <div class="st-news-container">
+            <div class="news-container">
                 <app-details-news *ngFor="let article of stockDetails.companyOutlook.stockNews"
                                   [stockArticle]="article">
                 </app-details-news>

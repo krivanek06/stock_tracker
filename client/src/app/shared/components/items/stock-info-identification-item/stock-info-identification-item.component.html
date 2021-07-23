@@ -1,7 +1,13 @@
 <div (click)="clickedSymbol()" class="info-item st-flex-col st-clickable ion-activatable st-border-bottom">
     <ion-label class="st-flex-space-between">
-        <ion-text class="st-icon">{{ companyQuote.name }} <span class="st-font-2">[{{ companyQuote.symbol }}]</span>
-        </ion-text>
+        <!-- logo + symbol name -->
+        <div class="st-display-flex-center">
+            <ion-img [src]="companyQuote.image" appDefaultImg class="st-symbol-image"></ion-img>
+            <div style="display: grid">
+                <ion-text class="st-icon">{{ companyQuote.symbol }}</ion-text>
+                <ion-text class="st-font-4">{{ companyQuote.name }}</ion-text>
+            </div>
+        </div>
         <ion-text class="st-small-right-space"> {{ companyQuote.exchange }}</ion-text>
     </ion-label>
     <ion-label class="st-display-flex-center st-font-0">
@@ -18,11 +24,11 @@
                 priceText="Volume">
         </app-price-change-item>
     </ion-label>
-    <ion-label class="st-flex-space-between st-font-5">
+    <!--<ion-label class="st-flex-space-between st-font-5">
         <div>Market cap.: {{ companyQuote.marketCap | numberFormatter }}</div>
         <div>PE: {{ companyQuote.pe | numberFormatter }}</div>
         <div>EPS: {{ companyQuote.eps | numberFormatter }}</div>
     </ion-label>
-
+-->
     <ion-ripple-effect></ion-ripple-effect>
 </div>

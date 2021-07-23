@@ -1,12 +1,21 @@
-<ion-label [ngClass]="{
-                    'st-flex-row-important': inlineDisplay,
-                    'st-price-up': currentPrice - compareToPrice >= 0,
-                    'st-price-down': currentPrice - compareToPrice < 0
-                     }" style="display: flex; flex-flow: column">
+<ion-label [ngClass]="{ 'st-flex-row-important': inlineDisplay}" style="display: flex; flex-flow: column">
+
+    <!-- left price -->
+    <ion-text *ngIf="showPrice && pricePosition == 'left' " [@marketValueChange]="currentPrice" [ngClass]="{
+                      'st-font-size-13': inlineDisplay,
+                      'st-font-size-12': !inlineDisplay
+                  }"
+              class="st-font-5 st-small-right-space">
+        {{ currentPrice - compareToPrice | numberFormatter }}
+    </ion-text>
 
     <!-- percentage -->
     <ng-container *ngIf="currentPrice && compareToPrice; else showNA">
-        <ion-text [ngClass]="{'st-font-size-13': inlineDisplay}"
+        <ion-text [ngClass]="{
+                'st-font-size-13': inlineDisplay,
+                'st-price-up': currentPrice - compareToPrice >= 0,
+                 'st-price-down': currentPrice - compareToPrice < 0
+                }"
                   [style.marginRight.px]="showIcons ? 10 : 0"
                   class="st-flex-row">
             <span *ngIf="currentPrice > compareToPrice">+</span>
@@ -24,15 +33,15 @@
 
     <!-- N/A -->
     <ng-template #showNA>
-        <ion-text class="st-small-right-space st-font-2">N/A</ion-text>
+        <ion-text class="st-font-2">N/A</ion-text>
     </ng-template>
 
-    <!-- price -->
-    <ion-text *ngIf="showPrice" [@marketValueChange]="currentPrice" [ngClass]="{
+    <!-- right price -->
+    <ion-text *ngIf="showPrice && pricePosition == 'right' " [@marketValueChange]="currentPrice" [ngClass]="{
                       'st-font-size-13': inlineDisplay,
                       'st-font-size-12': !inlineDisplay
                   }"
-              class="st-font-5">
+              class="st-font-5 st-small-left-space">
         {{ currentPrice - compareToPrice | numberFormatter }}
     </ion-text>
 </ion-label>

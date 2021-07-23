@@ -4,7 +4,9 @@
         <ion-label class="ion-margin-end">Name</ion-label>
         <ion-label>Value</ion-label>
         <ion-label>Held shares</ion-label>
-        <ion-label *ngIf="holders.length > 0 && $any(holders[0])?.weightPercent">Weight</ion-label>
+        <ion-label *ngIf="holders.length > 0 && $any(holders[0])?.weightPercent" class="ion-hide-sm-down">
+            Weight
+        </ion-label>
         <ion-label class="ion-hide-sm-down">Change</ion-label>
     </ion-item>
 

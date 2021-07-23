@@ -47,7 +47,7 @@ class FundamentalServiceEstimationDCF:
         estimatedTerminalValue = round((estimatedFreeCashFlows[-1] * (1 + perpetualGrowthRate)) / (requiredRateOfReturn - perpetualGrowthRate),
                                        0)
 
-        estimatedDiscountedFactors = [round((1 + requiredRateOfReturn) ** i, 2) for i in range(1, self.ESTIMATED_TIME_PERIOD + 2 + 1)]
+        estimatedDiscountedFactors = [round((1 + requiredRateOfReturn) ** i, 2) for i in range(1, self.ESTIMATED_TIME_PERIOD + 2)]
         estimatedDiscountedTerminalValue = round(estimatedTerminalValue / estimatedDiscountedFactors[-1], 0)
 
         estimatedPresentValueOfFutureCashFlows = [round(estimatedFreeCashFlows[i] / estimatedDiscountedFactors[i], 0) for i in

@@ -1,32 +1,42 @@
-<div class="st-display-flex-center">
-    <!-- price -->
-    <ion-text *ngIf="price && pricePosition === 'left'" class="st-small-right-space">
-        <ion-text *ngIf="priceText" class="st-small-right-space">{{ priceText }}</ion-text>
-        <ion-text>{{ price | numberFormatter}}</ion-text>
-    </ion-text>
+<ion-text *ngIf="!price && showNAIfPriceZero; else showItem">N/A</ion-text>
 
-    <!-- percentage -->
-    <ion-text [ngClass]="{
-                    'st-price-up': price > 0 || priceChange > 0,
-                    'st-price-down': price < 0 || priceChange < 0
-                     }" class="st-flex-row">
+<ng-template #showItem>
+    <div class="st-display-flex-center">
+        <!-- price - position left -->
+        <ion-text *ngIf="price && pricePosition === 'left'" class="st-small-right-space">
+            <ion-text *ngIf="priceText" class="st-small-right-space">{{ priceText }}</ion-text>
+            <ion-text>{{ price | numberFormatter}}</ion-text>
+        </ion-text>
+
         <!-- percentage -->
-        <span *ngIf="priceChange > 0">+</span>
-        <ng-container *ngIf="priceChange !== undefined && priceChange !== null && !isPercent">
-            {{ priceChange | number: '1.2-2'}}%
-        </ng-container>
-        <ng-container *ngIf="priceChange && isPercent">{{ priceChange | percent: '1.2-2' }}</ng-container>
+        <ion-text *ngIf="price || priceChange; else showNA" [ngClass]="{
+                    'st-price-up': priceChange > 0,
+                    'st-price-down': priceChange < 0
+                     }" class="st-flex-row">
+            <!-- percentage -->
+            <ng-container *ngIf="priceChange !== undefined && priceChange !== null">
+                <span *ngIf="priceChange > 0">+</span>
+                <ng-container *ngIf="!isPercent">{{ priceChange | number: '1.2-2'}}%</ng-container>
+                <ng-container *ngIf="isPercent">{{ priceChange | percent: '1.2-2' }}</ng-container>
 
-        <!-- positive / negative icon -->
-        <ion-icon *ngIf="showIcon && (price > 0 || priceChange > 0)" class="ion-hide-sm-down"
-                  name="trending-up-outline"></ion-icon>
-        <ion-icon *ngIf="showIcon && (price < 0 || priceChange < 0)" class="ion-hide-sm-down"
-                  name="trending-down-outline"></ion-icon>
-    </ion-text>
+                <!-- positive / negative icon -->
+                <ion-icon *ngIf="showIcon && priceChange > 0" class="ion-hide-sm-down"
+                          name="trending-up-outline"></ion-icon>
+                <ion-icon *ngIf="showIcon && priceChange < 0" class="ion-hide-sm-down"
+                          name="trending-down-outline"></ion-icon>
+            </ng-container>
+        </ion-text>
 
-    <!-- price -->
-    <ion-text *ngIf="price && pricePosition === 'right'" class="st-small-left-space">
-        <ion-text *ngIf="priceText" class="st-small-right-space">{{ priceText }}</ion-text>
-        <ion-text>{{ price | numberFormatter}}</ion-text>
-    </ion-text>
-</div>
+        <!-- N/A -->
+        <ng-template #showNA>
+            <ion-text>N/A</ion-text>
+        </ng-template>
+
+
+        <!-- price - position right -->
+        <ion-text *ngIf="price && pricePosition === 'right'" class="st-small-left-space">
+            <ion-text *ngIf="priceText" class="st-small-right-space">{{ priceText }}</ion-text>
+            <ion-text>{{ price | numberFormatter}}</ion-text>
+        </ion-text>
+    </div>
+</ng-template>

@@ -28,6 +28,7 @@ export const stockDetailsTypeDefs = gql`
         institutionalHolders: [STFMHolder]
         mutualFundHolders: [STFMHolderWithWeight]
         companyOutlook: STFMCompanyOutlook
+        sectorPeers: [STFMCompanyQuote]
     }
 
     type FinancialReport  {
