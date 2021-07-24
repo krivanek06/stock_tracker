@@ -1,42 +1,39 @@
-<ion-content class="ion-padding">
-    <!-- menu page header -->
-    <app-menu-header></app-menu-header>
-
-    <!-- header -->
-    <app-header [pageIcon]="'person'" [pageName]="'Account management'"></app-header>
-
-    <!-- body -->
-    <ion-grid *ngIf="user$ | async as user">
+<app-page-grid-layout pageIcon="person" pageName="Account management">
+    <ng-container *ngIf="user$ | async as user">
         <ion-row class="ion-justify-content-center">
             <!-- account form -->
-            <ion-col size="12" size-md="7" size-lg="7" size-xl="6">
-                <app-generic-card [subtitle]="'Account Information'" [additionalClasses]="'st-height-100'">
+            <ion-col size="12" size-lg="8" size-md="7">
+                <app-generic-card [additionalClasses]="'st-height-100'" [subtitle]="'Account Information'">
                     <app-user-account-form
-                            (submitClickedEmitter)="editUser($event)"
                             (editClickedEmitter)="toggleEdit()"
+                            (submitClickedEmitter)="editUser($event)"
                             [user]="user">
                     </app-user-account-form>
                 </app-generic-card>
             </ion-col>
-            <ion-col size="12" size-md="5" size-lg="4">
-                <!-- assigned roles -->
-                <app-generic-card *ngIf="user.userPrivateData.roles.length > 0"
-                                  class="ion-margin-bottom"
-                                  [subtitle]="'Assigned roles'">
-                    <app-clickable-name-item
-                            [itemNames]="user.userPrivateData.roles">
-                    </app-clickable-name-item>
-                </app-generic-card>
-
-                <!-- reseted account -->
-                <app-generic-card [subtitle]="'Account resets'">
-                    <app-user-account-reseted-info
-                            (resetAccountEmitter)="resetAccount()"
-                            [resetedAccountInfo]="user.userHistoricalData.resetedAccount"
-                            [showResetButton]="editing && !!user.userPrivateData.finnhubKey">
-                    </app-user-account-reseted-info>
-                </app-generic-card>
-
+            <ion-col size="12" size-lg="4" size-md="5">
+                <ion-row>
+                    <ion-col size="12">
+                        <!-- assigned roles -->
+                        <app-generic-card *ngIf="user.userPrivateData.roles.length > 0"
+                                          [subtitle]="'Assigned roles'"
+                                          class="ion-margin-bottom">
+                            <app-clickable-name-item
+                                    [itemNames]="user.userPrivateData.roles">
+                            </app-clickable-name-item>
+                        </app-generic-card>
+                    </ion-col>
+                    <ion-col size="12">
+                        <!-- reseted account -->
+                        <app-generic-card [subtitle]="'Account resets'">
+                            <app-user-account-reseted-info
+                                    (resetAccountEmitter)="resetAccount()"
+                                    [resetedAccountInfo]="user.userHistoricalData.resetedAccount"
+                                    [showResetButton]="editing && !!user.userPrivateData.finnhubKey">
+                            </app-user-account-reseted-info>
+                        </app-generic-card>
+                    </ion-col>
+                </ion-row>
             </ion-col>
         </ion-row>
 
@@ -47,16 +44,15 @@
 
         <!-- wachlists -->
         <ion-row class="ion-justify-content-center">
-            <ion-col size="12" size-md="7" size-lg="7" size-xl="6">
+            <ion-col size="12" size-lg="8" size-md="7">
                 <app-generic-card [subtitle]="'Watchlist modification'">
                     <app-watchlist-modification-container [watchlists]="user.stockWatchlist">
                     </app-watchlist-modification-container>
                 </app-generic-card>
             </ion-col>
-            <ion-col size="12" size-md="5" size-lg="4">
+            <ion-col size="12" size-lg="4" size-md="5">
                 <!-- empty for UI purpose -->
             </ion-col>
         </ion-row>
-    </ion-grid>
-
-</ion-content>
+    </ng-container>
+</app-page-grid-layout>

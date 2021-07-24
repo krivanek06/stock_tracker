@@ -5,17 +5,6 @@ class YahooFinanceRequesterApi:
     def __init__(self):
         self.helperClass = CustomYahooParser.CustomYahooParser()
 
-    '''
-    def get_closed_price(self, symbol):
-        data = get(f'https://query1.finance.yahoo.com/v8/finance/chart/{symbol}').json()
-        if (data['chart'] is None or
-                data['chart']['result'] is None or
-                data['chart']['result'][0] is None or
-                data['chart']['result'][0]['meta'] is None):
-            return None
-        return data['chart']['result'][0]['meta'].get('previousClose', None)
-    '''
-
     def get_company_data(self, ticker):
         try:
             site = "https://finance.yahoo.com/quote/" + ticker + "?p=" + ticker
@@ -43,68 +32,3 @@ class YahooFinanceRequesterApi:
             return {'companyData': data}
         except:
             return {'companyData': None}
-
-    '''
-    def get_live_price(self, ticker: str):
-        try:
-            data = get(f'https://query1.finance.yahoo.com/v8/finance/chart/{ticker}').json()
-            return data['chart']['result'][0]['meta']['regularMarketPrice']
-        except:
-            return None
-
-    def get_live_prices(self, symbols: []):
-        result = []
-        for symbol in symbols:
-            try:
-                data = get(f'https://query1.finance.yahoo.com/v8/finance/chart/{symbol}').json()
-                meta = data['chart']['result'][0]['meta']
-                result.append({
-                    'symbol': symbol,
-                    'price': meta['regularMarketPrice'],
-                    'previousClose': meta['previousClose']
-                })
-            except:
-                pass
-        return result
-    '''
-    '''
-    def get_chart_data(self, symbol, period, onlyClosed=False):
-        params = {'range': period, 'interval': getIntervalFromPeriod(period)[0]}
-        data = get('https://query1.finance.yahoo.com/v8/finance/chart/' + symbol, params=params)
-        data = data.json()
-
-        dataGranularity = data['chart']['result'][0]['meta']['dataGranularity']
-        result = {'price': [], 'volume': [], 'livePrice': 0, 'symbol': symbol, 'period': period, 'dataGranularity': dataGranularity}
-
-        # may request fail
-        if 'timestamp' not in data['chart']['result'][0]:
-            return result
-
-        timestamp = data['chart']['result'][0]['timestamp']
-        open = data['chart']['result'][0]['indicators']['quote'][0]['open']
-        high = data['chart']['result'][0]['indicators']['quote'][0]['high']
-        low = data['chart']['result'][0]['indicators']['quote'][0]['low']
-        close = data['chart']['result'][0]['indicators']['quote'][0]['close']
-        volume = data['chart']['result'][0]['indicators']['quote'][0]['volume']
-
-        # format data
-
-        for i in range(len(timestamp)):
-            if open[i] is None or high[i] is None or low[i] is None or close[i] is None:
-                continue
-
-            if onlyClosed:
-                result['price'].append(round(close[i], 2))
-            else:
-                milliseconds = timestamp[i] * 1000
-                result['price'].append([milliseconds,  # time
-                                        round(open[i], 2),  # open
-                                        round(high[i], 2),  # high
-                                        round(low[i], 2),  # low
-                                        round(close[i], 2)])  # closed
-                result['volume'].append([milliseconds, volume[i]])
-
-        result['livePrice'] = round(result['price'][-1], 2) if onlyClosed else round(result['price'][-1][4], 2)
-
-        return result
-    '''

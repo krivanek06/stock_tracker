@@ -1,11 +1,14 @@
 <ion-text *ngIf="!price && showNAIfPriceZero; else showItem">N/A</ion-text>
 
 <ng-template #showItem>
-    <div class="st-display-flex-center">
+    <div [ngClass]="{
+        'st-flex-col': pricePosition === 'bottom',
+        'st-display-flex-center': pricePosition !== 'bottom'
+       }">
         <!-- price - position left -->
         <ion-text *ngIf="price && pricePosition === 'left'" class="st-small-right-space">
             <ion-text *ngIf="priceText" class="st-small-right-space">{{ priceText }}</ion-text>
-            <ion-text>{{ price | numberFormatter}}</ion-text>
+            <ion-text>{{ price | numberFormatter: false : showDollarSignOnPrice}}</ion-text>
         </ion-text>
 
         <!-- percentage -->
@@ -34,9 +37,15 @@
 
 
         <!-- price - position right -->
-        <ion-text *ngIf="price && pricePosition === 'right'" class="st-small-left-space">
+        <ion-text *ngIf="price && (pricePosition === 'right' || pricePosition === 'bottom')"
+                  class="st-small-left-space">
             <ion-text *ngIf="priceText" class="st-small-right-space">{{ priceText }}</ion-text>
-            <ion-text>{{ price | numberFormatter}}</ion-text>
+            <ion-text [ngClass]="{
+                      'st-font-4':  pricePosition === 'bottom',
+                      'st-font-size-12':  pricePosition === 'bottom'
+                     }">
+                {{ price | numberFormatter: false : showDollarSignOnPrice }}
+            </ion-text>
         </ion-text>
     </div>
 </ng-template>

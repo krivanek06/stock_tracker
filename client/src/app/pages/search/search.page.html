@@ -1,37 +1,21 @@
-<ion-content class="ion-padding">
-    <!-- menu page header -->
-    <app-menu-header></app-menu-header>
+<app-page-grid-layout pageIcon="search" pageName="Search">
+    <!-- initial search picker -->
+    <ion-segment (ionChange)="segmentChanged($event)" *ngIf="showSearchBar$ | async"
+                 [value]="segmentValue"
+                 class="ion-justify-content-end ion-margin-bottom"
+                 color="primary">
+        <ion-segment-button [value]="SEARCH_PAGE.STOCK" layout="icon-start">
+            <ion-label>Stock</ion-label>
+        </ion-segment-button>
+        <ion-segment-button [value]="SEARCH_PAGE.USER" layout="icon-start">
+            <ion-label>User</ion-label>
+        </ion-segment-button>
+        <ion-segment-button [value]="SEARCH_PAGE.GROUP" layout="icon-start">
+            <ion-label>Group</ion-label>
+        </ion-segment-button>
+    </ion-segment>
 
-    <!-- header -->
-    <app-header [pageIcon]="'search'" [pageName]="'Search'"></app-header>
-
-    <!-- body -->
-    <ion-grid>
-        <!-- initial search picker -->
-        <ion-row *ngIf="showSearchBar$ | async" class="ion-justify-content-center">
-            <ion-col size="12" size-lg="11" size-xl="10">
-                <ion-segment color="primary"
-                             class="ion-justify-content-end ion-margin-bottom"
-                             [value]="segmentValue"
-                             (ionChange)="segmentChanged($event)">
-                    <ion-segment-button [value]="SEARCH_PAGE.STOCK" layout="icon-start">
-                        <ion-label>Stock</ion-label>
-                    </ion-segment-button>
-                    <ion-segment-button [value]="SEARCH_PAGE.USER" layout="icon-start">
-                        <ion-label>User</ion-label>
-                    </ion-segment-button>
-                    <ion-segment-button [value]="SEARCH_PAGE.GROUP" layout="icon-start">
-                        <ion-label>Group</ion-label>
-                    </ion-segment-button>
-                </ion-segment>
-            </ion-col>
-        </ion-row>
-        <!-- sub pages -->
-        <ion-row class="ion-justify-content-center">
-            <ion-col size="12" size-lg="11" size-xl="10">
-                <router-outlet></router-outlet>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
-</ion-content>
+    <!-- sub pages -->
+    <router-outlet></router-outlet>
+</app-page-grid-layout>
 

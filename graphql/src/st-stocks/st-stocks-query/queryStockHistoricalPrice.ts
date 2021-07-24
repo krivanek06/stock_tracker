@@ -1,4 +1,4 @@
-import { getHistoricalPricesAPI, getHistoricalDailyPricesAPI, getLivePriceAPI } from '../../st-api/st-financial-modeling.api';
+import { getHistoricalPricesAPI, getHistoricalDailyPricesAPI, getLivePriceAPI } from '../../api';
 import * as api from 'stock-tracker-common-interfaces';
 
 export const querySymbolHistoricalPrices = async(symbol: string, period: string): Promise<api.STSymbolHistoricalChartData> => {

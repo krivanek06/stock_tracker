@@ -1,4 +1,4 @@
-import { getLivePriceAPI } from '../st-api/st-financial-modeling.api';
+import { getLivePriceAPI } from '../api';
 import { getCurrentIOSDate, datesAreOnSameDay } from './../st-shared/st-shared.functions';
 import {ApolloError} from 'apollo-server';
 import * as api from 'stock-tracker-common-interfaces';

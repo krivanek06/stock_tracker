@@ -11,7 +11,7 @@ export const zipArrays = <T extends unknown>(a: T[], b: T[]): T[][] => a.map((k,
 
 export const roundNumber = (num: number) => Math.round(num * 100) / 100;
 
-export const stFormatLargeNumber = (value: number, isPercent: boolean = false) => {
+export const stFormatLargeNumber = (value: number, isPercent: boolean = false, showDollarSign: boolean = false) => {
     if (!stIsNumber(value)) {
         return 'N/A';
     }
@@ -41,8 +41,12 @@ export const stFormatLargeNumber = (value: number, isPercent: boolean = false) =
         value = value / 1000;
         symbol = 'T';
     }
-    const result = value.toFixed(2);
-    return result + symbol;
+    let result = value.toFixed(2) + symbol;
+
+    if (showDollarSign) {
+        result = `$${result}`;
+    }
+    return result;
 };
 
 export const stIsNumber = (value: string | number): boolean => {

@@ -1,4 +1,4 @@
-import { STFinancialModelingAPITypeDefs } from './st-api/st-financal-modeling-api.typedefs';
+import { STFinancialModelingAPITypeDefs } from './api/financial-modeling/st-financal-modeling-api.typedefs';
 import { querySymbolHistoricalPrices } from './st-stocks/st-stocks-query/queryStockHistoricalPrice';
 import { Context } from './st-shared/st-shared.interface';
 import { stGroupResolvers } from './st-group/st-group.resolver';
