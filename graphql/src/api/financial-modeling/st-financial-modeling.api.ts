@@ -1,7 +1,8 @@
 
-import { financialModelingAPI, financialModelingAPIKey } from "../environment";
+import { financialModelingAPI, financialModelingAPIKey } from "../../environment";
 import * as api from 'stock-tracker-common-interfaces';
 import * as moment from 'moment';
+
 
 
 // example: https://financialmodelingprep.com/api/v3/historical-chart/5min/AAPL?apikey=795742ba1ec2f519ffa9ea50967d2240

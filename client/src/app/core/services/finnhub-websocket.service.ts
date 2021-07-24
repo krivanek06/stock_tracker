@@ -84,7 +84,10 @@ export class FinnhubWebsocketService {
             console.log('Websocket closeConnectionForSymbol return, no connection initialized');
             return;
         }
-        this.subscribedSymbols.set(componentName, this.subscribedSymbols.get(componentName).filter(s => s !== symbol));
+
+        if (this.subscribedSymbols.get(componentName)) {
+            this.subscribedSymbols.set(componentName, this.subscribedSymbols.get(componentName).filter(s => s !== symbol));
+        }
 
         let subscriptionExists = false;
         this.subscribedSymbols.forEach(symbols => {

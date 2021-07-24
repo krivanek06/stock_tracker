@@ -1,98 +1,91 @@
-<ion-content class="ion-padding">
-    <!-- menu page header -->
-    <app-menu-header></app-menu-header>
+<app-page-grid-layout pageIcon="analytics" pageName="Trading">
+    <ion-row class="ion-margin-bottom">
+        <ion-col size="12" size-lg="7" size-md="6" size-xl="8" style="overflow:visible;">
+            <!-- search symbol -->
+            <app-stock-search
+                    (clickedSymbolEmitter)="changeSummary($event)"
+                    [clearOnClick]="true">
+            </app-stock-search>
+        </ion-col>
+        <ion-col class="portfolio-container-col ion-hide-md-down" size-lg="5" size-md="6" size-xl="4">
+            <!-- portfolio state -->
+            <app-portfolio-state
+                    [portfolioCash]="user?.portfolioCash"
+                    [portfolioInvested]="portfolioInvested"
+                    portfolioState="PARTIAL"
+                    style="margin-top: -35px">
+            </app-portfolio-state>
+        </ion-col>
+    </ion-row>
 
-    <!-- header -->
-    <app-header [pageIcon]="'analytics'" [pageName]="'Trading'"></app-header>
+    <ion-row *ngIf="selectedSummary" class="ion-justify-content-center">
+        <!-- financial chart -->
+        <ion-col size="12" size-lg="7.5" size-xl="8">
+            <app-financial-chart-container
+                    [closedPrice]="selectedSummary.previousClose"
+                    [currentPrice]="selectedSummary.marketPrice"
+                    [height]="460"
+                    [logoUrl]="selectedSummary.logo_url"
+                    [name]="selectedSummary.companyName"
+                    [symbol]="selectedSummary.symbol">
+            </app-financial-chart-container>
+        </ion-col>
+        <!-- summary -->
+        <ion-col size="12" size-lg="4.5" size-xl="4">
+            <app-generic-list [iconTitle]="'barcode-outline'" [title]="'Summary'"></app-generic-list>
+            <app-generic-card>
+                <!-- symbol summary -->
+                <app-stock-summary-container [summary]="selectedSummary"></app-stock-summary-container>
 
-    <!-- body -->
-    <ion-grid class="ion-margin-top">
-        <ion-row class="ion-justify-content-center ion-margin-bottom">
-            <ion-col size="12" size-lg="6.5" size-md="6" size-xl="6" style="overflow:visible;">
-                <!-- search symbol -->
-                <app-stock-search
-                        (clickedSymbolEmitter)="changeSummary($event)"
-                        [clearOnClick]="true">
-                </app-stock-search>
-            </ion-col>
-            <ion-col class="portfolio-container-col ion-hide-md-down" size-lg="4.5" size-md="6" size-xl="4">
-                <!-- portfolio state -->
-                <app-portfolio-state
-                        [portfolioCash]="user?.portfolioCash"
-                        [portfolioInvested]="portfolioInvested"
-                        portfolioState="PARTIAL"
-                        style="margin-top: -35px">
-                </app-portfolio-state>
-            </ion-col>
-        </ion-row>
-        <ion-row *ngIf="selectedSummary" class="ion-justify-content-center">
-            <!-- financial chart -->
-            <ion-col size="12" size-lg="7" size-xl="6">
-                <app-financial-chart-container
-                        [closedPrice]="selectedSummary.previousClose"
-                        [currentPrice]="selectedSummary.marketPrice"
-                        [height]="460"
-                        [logoUrl]="selectedSummary.logo_url"
-                        [name]="selectedSummary.companyName"
-                        [symbol]="selectedSummary.symbol">
-                </app-financial-chart-container>
-            </ion-col>
-            <!-- summary -->
-            <ion-col size="12" size-lg="4" size-xl="4">
-                <app-generic-list [iconTitle]="'barcode-outline'" [title]="'Summary'"></app-generic-list>
-                <app-generic-card>
-                    <!-- symbol summary -->
-                    <app-stock-summary-container [summary]="selectedSummary"></app-stock-summary-container>
+                <!-- buttons -->
+                <ion-buttons class="st-buttons-container st-justify-center">
+                    <ion-button (click)="tradeSymbol()" class="st-button" color="primary" fill="solid">
+                        Trade
+                    </ion-button>
+                </ion-buttons>
+            </app-generic-card>
+        </ion-col>
+    </ion-row>
 
-                    <!-- buttons -->
-                    <ion-buttons class="st-buttons-container st-justify-center">
-                        <ion-button (click)="tradeSymbol()" class="st-button" color="primary" fill="solid">
-                            Trade
-                        </ion-button>
-                    </ion-buttons>
-                </app-generic-card>
-            </ion-col>
-        </ion-row>
+    <!-- holdings -->
+    <ion-row>
+        <ion-col size="12">
+            <app-generic-list [iconTitle]="'pricetags'" [title]="'Holdings'"></app-generic-list>
+            <app-generic-card>
+                <app-holdings-table
+                        (itemClickedEmitter)="changeSymbol($event)"
+                        [holdings]="clonedHoldings"
+                        [totalPortfolio]="user?.portfolioCash + portfolioInvested">
+                </app-holdings-table>
+            </app-generic-card>
+        </ion-col>
+    </ion-row>
 
-        <ion-row class="ion-justify-content-center">
-            <!-- holdings -->
-            <ion-col size="12" size-lg="11" size-xl="10">
-                <app-generic-list [iconTitle]="'pricetags'" [title]="'Holdings'"></app-generic-list>
-                <app-generic-card>
-                    <app-holdings-table
-                            (itemClickedEmitter)="changeSymbol($event)"
-                            [holdings]="clonedHoldings"
-                            [totalPortfolio]="user?.portfolioCash + portfolioInvested">
-                    </app-holdings-table>
-                </app-generic-card>
-            </ion-col>
-        </ion-row>
 
-        <!-- suggestion -->
-        <ion-row class="ion-justify-content-center">
-            <ion-col size="12" size-lg="11" size-xl="10">
-                <ion-list-header>
-                    <ion-label style="margin-left: 8px">
-                        <ion-text class="st-title">Suggestions</ion-text>
-                    </ion-label>
-                </ion-list-header>
-                <ion-row>
-                    <ion-col *ngFor="let suggestion of suggestions" size="12" size-lg="4" size-sm="6" size-xl="3">
-                        <!-- suggestion in card with ripple effect -->
-                        <app-generic-card (click)="changeSummary(suggestion.summary)"
-                                          [additionalClasses]="'st-height-100 ion-activatable'">
-                            <app-details-stock-suggestion-change
-                                    [suggestionMarketPrice]="suggestion.summary.marketPrice"
-                                    [suggestion]="suggestion">
-                            </app-details-stock-suggestion-change>
+    <!-- suggestion -->
+    <ion-row>
+        <ion-col size="12">
+            <ion-list-header>
+                <ion-label style="margin-left: 8px">
+                    <ion-text class="st-title">Suggestions</ion-text>
+                </ion-label>
+            </ion-list-header>
+            <ion-row>
+                <ion-col *ngFor="let suggestion of suggestions" size="12" size-lg="4" size-sm="6" size-xl="3">
+                    <!-- suggestion in card with ripple effect -->
+                    <app-generic-card (click)="changeSummary(suggestion.summary)"
+                                      [additionalClasses]="'st-height-100 ion-activatable'">
+                        <app-details-stock-suggestion-change
+                                [suggestionMarketPrice]="suggestion.summary.marketPrice"
+                                [suggestion]="suggestion">
+                        </app-details-stock-suggestion-change>
 
-                            <!-- ripple effect on click -->
-                            <ion-ripple-effect></ion-ripple-effect>
-                        </app-generic-card>
-                    </ion-col>
-                </ion-row>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
-</ion-content>
+                        <!-- ripple effect on click -->
+                        <ion-ripple-effect></ion-ripple-effect>
+                    </app-generic-card>
+                </ion-col>
+            </ion-row>
+        </ion-col>
+    </ion-row>
+</app-page-grid-layout>
 

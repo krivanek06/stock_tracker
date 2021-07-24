@@ -1,13 +1,13 @@
 <ion-row class="ion-justify-content-center">
-    <ion-col size="12" size-md="6" size-lg="5.5" size-xl="5">
-        <app-generic-list [title]="'Transactions'" [iconTitle]="'reader'"></app-generic-list>
+    <ion-col size="12" size-md="6">
+        <app-generic-list [iconTitle]="'reader'" [title]="'Transactions'"></app-generic-list>
         <app-generic-card>
             <app-transactions-table
                     [transactions]="transactions">
             </app-transactions-table>
         </app-generic-card>
     </ion-col>
-    <ion-col size="12" size-md="6" size-lg="5.5" size-xl="5" class="ion-padding">
+    <ion-col class="ion-padding" size="12" size-md="6">
         <app-transactions-chart
                 [heightPx]="360"
                 [stTransactionSnapshots]="stTransactionSnapshots">
