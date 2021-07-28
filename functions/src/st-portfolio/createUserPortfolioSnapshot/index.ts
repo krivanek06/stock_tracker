@@ -1,9 +1,8 @@
+import { getLivePriceAPI } from '../../api';
 import * as admin from "firebase-admin";
 import * as functions from 'firebase-functions';
 import * as api from 'stock-tracker-common-interfaces';
-import { stockDataAPI } from './../../environment';
 
-const fetch = require('node-fetch');
 const symbolPriceMap: Map<string, number> = new Map<string, number>();
 
 export const createUserPortfolioSnapshot = functions.pubsub.topic('createUserPortfolioSnapshot').onPublish(async () => {
@@ -15,10 +14,11 @@ export const createUserPortfolioSnapshot = functions.pubsub.topic('createUserPor
     for await(const user of  usersWithHoldings){
         // not cached holdings
         const unsavedSymbols = user.holdings.map(h => h.symbol).filter(symbol => !symbolPriceMap.has(symbol));
-        const unsavedSymbolsCurrentPrices = await getSymbolsCurrentPrice(unsavedSymbols);
+        for await(const unsavedSymbol of unsavedSymbols){
+            const unsavedSymbolsPrice = await getLivePriceAPI(unsavedSymbol);
+            symbolPriceMap.set(unsavedSymbolsPrice.symbol, unsavedSymbolsPrice.price); // cache them into map
 
-        // cache them into map
-        unsavedSymbolsCurrentPrices.forEach(wrapper => symbolPriceMap.set(wrapper.symbol, wrapper.price));
+        }
         
         // construct portfolio snapshot and save it into DB
         await savePortfolioSnapShot(user, constructPortfolioSnapshot(user));
@@ -61,15 +61,4 @@ const getAllUserWithExistingHoldings = async(): Promise<api.STUserPublicData[]> 
     // then he would not be filtered out
     const usersWithHoldings = await admin.firestore().collection('users').where("numberOfExecutedTransactions", ">", 0).get();
     return usersWithHoldings.docs.map(d => d.data() as api.STUserPublicData);
-}
-
-const getSymbolsCurrentPrice = async(symbols: string[]): Promise<api.STCurrentPrice[]> => {
-    const body = {'symbols': symbols};
-    const symbolsCurrentPriceResponse = await fetch(`${stockDataAPI}/chart_data/live_prices`,  { 
-                                                        method: 'POST', 
-                                                        body: JSON.stringify(body),
-                                                        headers: { 'Content-Type': 'application/json' }
-                                                    });
-    const response =  await symbolsCurrentPriceResponse.json();
-    return response['data'] as api.STCurrentPrice[];                                   
 }

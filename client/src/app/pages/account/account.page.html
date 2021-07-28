@@ -3,7 +3,7 @@
         <ion-row class="ion-justify-content-center">
             <!-- account form -->
             <ion-col size="12" size-lg="8" size-md="7">
-                <app-generic-card [additionalClasses]="'st-height-100'" [subtitle]="'Account Information'">
+                <app-generic-card [additionalClasses]="'st-height-100'" [title]="'Account Information'">
                     <app-user-account-form
                             (editClickedEmitter)="toggleEdit()"
                             (submitClickedEmitter)="editUser($event)"
@@ -16,7 +16,7 @@
                     <ion-col size="12">
                         <!-- assigned roles -->
                         <app-generic-card *ngIf="user.userPrivateData.roles.length > 0"
-                                          [subtitle]="'Assigned roles'"
+                                          [title]="'Assigned roles'"
                                           class="ion-margin-bottom">
                             <app-clickable-name-item
                                     [itemNames]="user.userPrivateData.roles">
@@ -25,7 +25,7 @@
                     </ion-col>
                     <ion-col size="12">
                         <!-- reseted account -->
-                        <app-generic-card [subtitle]="'Account resets'">
+                        <app-generic-card [title]="'Account resets'">
                             <app-user-account-reseted-info
                                     (resetAccountEmitter)="resetAccount()"
                                     [resetedAccountInfo]="user.userHistoricalData.resetedAccount"
@@ -45,7 +45,7 @@
         <!-- wachlists -->
         <ion-row class="ion-justify-content-center">
             <ion-col size="12" size-lg="8" size-md="7">
-                <app-generic-card [subtitle]="'Watchlist modification'">
+                <app-generic-card [title]="'Watchlist modification'">
                     <app-watchlist-modification-container [watchlists]="user.stockWatchlist">
                     </app-watchlist-modification-container>
                 </app-generic-card>

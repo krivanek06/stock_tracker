@@ -7,9 +7,11 @@ import {
     PortfolioIncreaseChartComponent,
     PortfolioStateComponent
 } from './components/portfolio';
-import {HoldingsAllocationChartComponent, HoldingsAllocationGroupChartComponent, HoldingsTableComponent} from './components/holdings';
+import {HoldingsAllocationGroupChartComponent, HoldingsTableComponent} from './components/holdings';
 import {SharedModule} from '@shared';
 import {TradeConfirmationPopOverComponent} from './entry-components';
+import {HoldingsToSectorChartSeriesPipe} from './pipes/holdings-to-sector-chart-series.pipe';
+import {HoldingsToPortfolioChartSeriesPipe} from './pipes/holdings-to-portfolio-chart-series.pipe';
 
 
 @NgModule({
@@ -22,9 +24,10 @@ import {TradeConfirmationPopOverComponent} from './entry-components';
         PortfolioChangeChartComponent,
         PortfolioGrowthChartComponent,
         PortfolioStateComponent,
-        HoldingsAllocationChartComponent,
         PortfolioIncreaseChartComponent,
-        HoldingsAllocationGroupChartComponent
+        HoldingsAllocationGroupChartComponent,
+        HoldingsToSectorChartSeriesPipe,
+        HoldingsToPortfolioChartSeriesPipe
     ],
     imports: [
         SharedModule
@@ -38,9 +41,10 @@ import {TradeConfirmationPopOverComponent} from './entry-components';
         PortfolioChangeChartComponent,
         PortfolioGrowthChartComponent,
         PortfolioStateComponent,
-        HoldingsAllocationChartComponent,
         PortfolioIncreaseChartComponent,
-        HoldingsAllocationGroupChartComponent
+        HoldingsAllocationGroupChartComponent,
+        HoldingsToSectorChartSeriesPipe,
+        HoldingsToPortfolioChartSeriesPipe
     ]
 })
 export class StockTradingFeatureModule {

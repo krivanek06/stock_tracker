@@ -57,21 +57,6 @@ class YahooFinanceTopSymbolsApi:
             i += 1
         return result
 
-    def get_top_index_states(self):
-        url = 'https://finance.yahoo.com/bonds'
-        bonds = self.yahooFinanceParser.parse_json(url, 'StreamDataStore', 'quoteData')
-        bonds = [{key: {
-            'quoteType': bonds[key].get('quoteType', None),
-            'symbol': bonds[key].get('symbol', None),
-            'shortName': bonds[key].get('shortName', None),
-            'exchange': bonds[key].get('exchange', None),
-            'exchangeTimezoneName': bonds[key].get('exchangeTimezoneName', None),
-            'previousClose': bonds[key].get('regularMarketPreviousClose', None),
-            'marketPrice': bonds[key].get('regularMarketPrice', None),
-            'marketChange': bonds[key].get('regularMarketChangePercent', None)
-        }} for key in bonds]
-        return dict(ChainMap(*bonds))
-
     # PRIVATE -----------------------------
 
     def __get_symbol_table(self, url):

@@ -3,7 +3,7 @@
         <ion-col size="12" size-lg="7" size-md="6" size-xl="8" style="overflow:visible;">
             <!-- search symbol -->
             <app-stock-search
-                    (clickedSymbolEmitter)="changeSummary($event)"
+                    (clickedSymbolEmitter)="loadSummary($event)"
                     [clearOnClick]="true">
             </app-stock-search>
         </ion-col>

@@ -5,19 +5,19 @@
             <ion-text class="st-font-5 st-font-size-16">{{ selectedDate | date: 'dd.MM.YYYY' }}</ion-text>
         </ion-label>
         <ion-label class="st-flex-end st-fit-content">
-            <ion-button color="danger" (click)="dismissModal()" fill="clear">
+            <ion-button (click)="dismissModal()" color="danger" fill="clear">
                 <ion-icon name="close-outline"></ion-icon>
                 Close
             </ion-button>
         </ion-label>
     </ion-item>
 
-    <!-- data -->
+    <!-- data
     <ion-item-group class="grouped-earnings-data">
         <app-market-earnings-table
                 (clickedItemEmitter)="clickedSymbol($event)"
                 [earnings]="earnings$ | async"
                 [clickable]="true">
         </app-market-earnings-table>
-    </ion-item-group>
+    </ion-item-group>  -->
 </ion-content>

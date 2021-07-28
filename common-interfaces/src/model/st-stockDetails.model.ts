@@ -69,13 +69,7 @@ export interface FinancialReportStatementData {
   concept: string;
   label: string;
   unit: string;
-  value: FinancialReportStatementDataValue;
-}
-
-export interface FinancialReportStatementDataValue {
-  increase?: number;
-  increasePrct?: number;
-  value?: number;
+  value: number;
 }
 
 export interface STStockDetailsCalculatedPredictions {

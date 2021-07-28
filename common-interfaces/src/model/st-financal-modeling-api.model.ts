@@ -115,6 +115,7 @@ export interface STFMStockDividend {
   label: string;
   paymentDate: string;
   recordDate: string;
+  symbol: string;
 }
 
 export interface STFMSplitHistory {
@@ -122,6 +123,7 @@ export interface STFMSplitHistory {
   denominator: number;
   label: string;
   numerator: number;
+  symbol: string;
 }
 
 export interface STFMRating {
@@ -395,4 +397,79 @@ export interface STFMLivePrice {
   symbol: string;
   price: number;
   volume: number;
+}
+
+export interface STFMTopStocks {
+  ticker: string;
+  changes: number;
+  price: string;
+  changesPercentage: string;
+  companyName: string;
+}
+
+export interface STFMExchangeSectorPE {
+  date: string;
+  sector: string;
+  exchange: string;
+  pe: number;
+}
+
+export interface STFMExchangeIndustryPE {
+  date: string;
+  industry: string;
+  exchange: string;
+  pe: number;
+}
+
+export interface STFMCalendarEarnings {
+  date:             Date;
+  symbol:           string;
+  eps:              number;
+  epsEstimated:     number;
+  time:             string;
+  revenue:          number;
+  revenueEstimated: number;
+}
+
+export interface STFMCalendarIpo {
+  date:       Date;
+  company:    string;
+  symbol:     string;
+  exchange:   string;
+  actions:    string;
+  shares:     number;
+  priceRange: string;
+  marketCap:  number;
+}
+
+export interface STFMCalendarEconomic {
+  event:            string;
+  date:             Date;
+  country:          string;
+  actual:           number;
+  previous:         number;
+  change:           number;
+  changePercentage: number;
+  estimate:         number;
+}
+
+export interface STFMEtfHolder {
+  asset:            string;
+  sharesNumber:     number;
+  weightPercentage: number;
+}
+
+export interface STFMEtfSectorWeight {
+  sector:           string;
+  weightPercentage: string;
+}
+
+export interface STFMEtfCountryWeight {
+  country: string;
+  weightPercentage: string;
+}
+
+export interface STFMSectorPerformance {
+  sector:            string;
+  changesPercentage: string;
 }

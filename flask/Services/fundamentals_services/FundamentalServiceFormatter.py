@@ -11,7 +11,6 @@ class FundamentalServiceFormatter:
         self.data = characterModificationUtil.changeUnsupportedCharactersForDictKey(self.data)
 
         # format data
-        self._formatFinancialReports()
         self._formatSummary()
         self._formatDividends()
         self._formatEarningsFinancialChart()
@@ -20,8 +19,9 @@ class FundamentalServiceFormatter:
         self._formatInstitutionalHolder()
         self.data['recommendation'].reverse()
 
-        self.data['companyOutlook']['rating'] = self.data['companyOutlook']['rating'][0]
-        self.data['companyOutlook']['ratios'] = self.data['companyOutlook']['ratios'][0]
+
+        self.data['companyOutlook']['rating'] = self.data['companyOutlook']['rating'][0] if len(self.data['companyOutlook']['rating']) > 0 else None
+        self.data['companyOutlook']['ratios'] = self.data['companyOutlook']['ratios'][0] if len(self.data['companyOutlook']['ratios'][0]) > 0 else None
 
         # change: nan, infinity -> null
         self.data = characterModificationUtil.check_value_correction(self.data)
@@ -37,53 +37,6 @@ class FundamentalServiceFormatter:
         self.data['mutualFundHolders'] = sorted([holder for holder in self.data['mutualFundHolders'] if holder['weightPercent'] is not None],
                                                 key=lambda k: k['shares'],
                                                 reverse=True)[0:15]
-
-    def _formatFinancialReports(self):
-        def _formatReport(reports, isAggregation):
-            # change value into -> {increase, increasePrct, value} -> compare with previous report (higher index)
-            for idx, _report in enumerate(reports):
-                for _period in ['bs', 'cf', 'ic']:
-                    previousReportPeriod = reports[idx + 1]['report'][_period] if len(reports) - 1 > idx else None
-                    for _statementData in list(_report['report'][_period]):
-                        try:
-                            # find from previous report period the same statement and make difference
-                            previousStatement = next(x for x in previousReportPeriod if x['concept'] == _statementData['concept'])
-                            # TODO idk why, but sometimes _statementData['value'] is type dictionary
-                            statementDataValue = _statementData['value'] if not isinstance(_statementData['value'], dict) else _statementData['value']['value']
-                            previousStatementValue = previousStatement['value'] if not isinstance(previousStatement['value'], dict) else previousStatement['value']['value']
-
-                            _statementData['value'] = {
-                                'value': statementDataValue - previousStatementValue if isAggregation else statementDataValue,
-                                'increase': statementDataValue - previousStatementValue,
-                                'increasePrct': (statementDataValue - previousStatementValue) / abs(previousStatementValue)
-                            }
-                        except Exception as e:
-                            statementDataValue = _statementData['value'] if not isinstance(_statementData['value'], dict) else _statementData['value']['value']
-                            _statementData['value'] = {'value': statementDataValue, 'increase': None, 'increasePrct': None}
-
-        quarterlyReports = self.data['allFinancialReportsQuarterly']
-        yearlyReports = self.data['allFinancialReportsYearly']
-
-        # change 'N/A' to null
-        for report in quarterlyReports + yearlyReports:
-            for period in ['bs', 'cf', 'ic']:
-                for statementData in report['report'][period]:
-                    if statementData['value'] == 'N/A':
-                        statementData['value'] = None
-
-        # financial reports may be only 3 months period, but sometimes all quarters starts from same startDate
-        # so Q3 is the aggregation of all previous quarters, plus the current one. If this is the case
-        # then subtract previous quarter Q3 = Q3 - Q2
-        try:
-            q0Start = quarterlyReports[0]['startDate']
-            q1Start = quarterlyReports[1]['startDate']
-            q2Start = quarterlyReports[2]['startDate']
-            isQuarterlyAggregation = q0Start == q1Start or q1Start == q2Start
-        except:
-            isQuarterlyAggregation = False
-
-        _formatReport(quarterlyReports, isQuarterlyAggregation)
-        _formatReport(yearlyReports, False)
 
     def _formatHistoricalMetrics(self):
         if self.data['historicalMetrics'] is None:

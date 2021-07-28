@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ModalController, NavParams} from '@ionic/angular';
 import {Router} from '@angular/router';
-import {Observable} from 'rxjs';
-import {GraphqlQueryService, StEventCalendarEarningsData} from '@core';
+import {GraphqlQueryService} from '@core';
 import {SymbolIdentification} from '@shared';
 
 @Component({
@@ -12,7 +11,7 @@ import {SymbolIdentification} from '@shared';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MarketEarningsModalComponent implements OnInit {
-    earnings$: Observable<StEventCalendarEarningsData[]>;
+    //earnings$: Observable<StEventCalendarEarningsData[]>;
     selectedDate: string;
 
     constructor(private navParams: NavParams,
@@ -23,7 +22,7 @@ export class MarketEarningsModalComponent implements OnInit {
 
     ngOnInit() {
         this.selectedDate = this.navParams.get('selectedDate');
-        this.earnings$ = this.graphqlQueryService.queryStMarketCalendarEventsEarnings(this.selectedDate);
+        //this.earnings$ = this.graphqlQueryService.queryStMarketCalendarEventsEarnings(this.selectedDate);
     }
 
     dismissModal() {

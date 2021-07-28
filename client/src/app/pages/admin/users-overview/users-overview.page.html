@@ -13,7 +13,7 @@
     <ion-row>
         <!-- user registration chart -->
         <ion-col size="12" size-md="7">
-            <app-generic-card [subtitle]="'User registration'">
+            <app-generic-card [title]="'User registration'">
                 <app-generic-chart
                         [heightPx]="350"
                         [series]="[{name: 'Registered users', data: data }]">
@@ -22,7 +22,7 @@
         </ion-col>
         <!-- latest registered users -->
         <ion-col size="12" size-md="5">
-            <app-generic-card [subtitle]="'Latest registered users'">
+            <app-generic-card [title]="'Latest registered users'">
                 <app-user-identification-info
                         *ngFor="let stUserIndetification of adminMainInformations.usersRegistrationSnippets"
                         [stUserIndetification]="stUserIndetification">

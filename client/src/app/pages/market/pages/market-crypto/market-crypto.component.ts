@@ -53,7 +53,7 @@ export class MarketCryptoComponent extends ComponentScreenUpdateBaseDirective im
 
     private createCopyOfTopCrypto() {
         this.graphqlQueryService.queryMarketDailyOverview().pipe(takeUntil(componentDestroyed(this))).subscribe(res => {
-            this.topCrypto = cloneDeep(res.top_crypto);
+            this.topCrypto = cloneDeep(res.topCrypto);
             this.initSubscriptionForTopCrypto();
         });
     }

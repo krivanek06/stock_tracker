@@ -1,5 +1,7 @@
+import { getEtfHolders, getEtfSectorWeight, getEtfCountryWeight } from './../api';
 import { ApolloError } from "apollo-server";
 import * as admin from "firebase-admin";
+import * as moment from 'moment';
 import * as api from 'stock-tracker-common-interfaces';
 import { stockDataAPI } from "../environment";
 import { convertToSTMarketChartDataResultCombined } from "./st-market.functions";
@@ -32,6 +34,22 @@ export const querySTMarketHistoryOverview = async (): Promise<api.STMarketHistor
             }
         }
         return result;
+    } catch (error) {
+        throw new ApolloError(error);
+    }
+};
+
+
+export const queryMarketDailyOverview = async (): Promise<api.STMarketDailyOverview> => {
+    try {
+        const dailyInfoDoc = await admin.firestore()
+            .collection(api.ST_SHARED_ENUM.ST_COLLECTION)
+            .doc(api.ST_SHARED_ENUM.MARKET_DAILY_OVERVIEW)
+            .get();
+
+        const dailyInfoData = dailyInfoDoc.data() as api.STMarketDailyOverview;
+
+        return dailyInfoData;
     } catch (error) {
         throw new ApolloError(error);
     }
@@ -74,6 +92,42 @@ export const queryStMarketData = async (key: string): Promise<api.STMarketChartD
     }
 };
 
+
+export const queryEtfDocument = async(etfName: string): Promise<api.STMarketEtfDocument> => {
+    try {
+        const etfDoc = await admin.firestore().collection('etfs').doc(etfName).get();
+        const etfData = etfDoc.data() as api.STMarketEtfDocument;
+
+        if(!!etfData && moment(etfData.lastUpdate).isSame(new Date(), 'days')){
+            return etfData;
+        }
+
+        console.log(`Reloading data for etf: ${etfName}`);
+
+        // reload
+        const etfHolders = await getEtfHolders(etfName);
+        const etfSectorWeight = await getEtfSectorWeight(etfName);
+        const etfCountryWeight = await getEtfCountryWeight(etfName);
+        
+        const newEtfDate: api.STMarketEtfDocument = {
+            id: etfName,
+            etfCountryWeight,
+            etfHolders,
+            etfSectorWeight,
+            lastUpdate: admin.firestore.Timestamp.now().toDate().toISOString()
+        }
+        
+        // save
+        await admin.firestore().collection('etfs').doc(etfName).set(newEtfDate);
+
+        return newEtfDate;
+
+    } catch (error) {
+        throw new ApolloError(error);
+    }
+}
+
+/*
 export const queryStMarketCalendarEvents = async (date: string): Promise<api.StMarketCalendarEvents> => {
     try {
         const data = await global.fetch(`${stockDataAPI}/search/calendar_events?date=${date}`);
@@ -90,4 +144,4 @@ export const queryStMarketCalendarEventsEarnings = async (date: string): Promise
     } catch (error) {
         throw new ApolloError(error);
     }
-};
+};*/

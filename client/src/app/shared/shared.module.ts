@@ -15,10 +15,12 @@ import {
     GaugeChartComponent,
     GenericCardComponent,
     GenericChartComponent,
+    GenericExtensionPanelComponent,
     GenericFadingCardContentComponent,
     GenericFancyCardComponent,
     GenericListComponent,
     InlineModificationFormComponent,
+    PieChartWrapperComponent,
     PositionChangeItemComponent,
     PriceChangeItemComponent,
     PriceCompareItemComponent,
@@ -32,6 +34,7 @@ import {
     UploadTaskComponent
 } from './components';
 import {
+    ChartKeyValueFormatterPipe,
     HoldingsTotalInvestedPipe,
     IncreasePrctPipe,
     NumberFormatterPipe,
@@ -52,6 +55,7 @@ import {
 } from './entry-components';
 import {SharedProvidersModule} from './shared-providers.module';
 import {ListSkeletonComponent} from './components/lists';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 @NgModule({
@@ -101,10 +105,14 @@ import {ListSkeletonComponent} from './components/lists';
         ListSkeletonComponent,
         ReverseArrayPipe,
         TypeofPipe,
-        IncreasePrctPipe
+        IncreasePrctPipe,
+        GenericExtensionPanelComponent,
+        ChartKeyValueFormatterPipe,
+        PieChartWrapperComponent
     ],
     imports: [
-        SharedProvidersModule
+        SharedProvidersModule,
+        MatExpansionModule
     ],
     exports: [
         SharedProvidersModule,
@@ -150,7 +158,10 @@ import {ListSkeletonComponent} from './components/lists';
         ListSkeletonComponent,
         ReverseArrayPipe,
         TypeofPipe,
-        IncreasePrctPipe
+        IncreasePrctPipe,
+        GenericExtensionPanelComponent,
+        ChartKeyValueFormatterPipe,
+        PieChartWrapperComponent
     ],
     entryComponents: [
         InlineInputPopUpComponent,

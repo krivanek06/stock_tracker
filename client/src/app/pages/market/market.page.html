@@ -9,6 +9,8 @@
     <!-- sub pages -->
     <ng-container [ngSwitch]="segmentValue">
         <app-market-overview *ngSwitchCase="MARKET_PAGE_ENUM.overview"></app-market-overview>
+        <app-market-top-stocks *ngSwitchCase="MARKET_PAGE_ENUM.topStocks"></app-market-top-stocks>
+        <app-market-etf *ngSwitchCase="MARKET_PAGE_ENUM.etf"></app-market-etf>
         <app-market-daily-change *ngSwitchCase="MARKET_PAGE_ENUM.dailyChange"></app-market-daily-change>
         <app-market-crypto *ngSwitchCase="MARKET_PAGE_ENUM.crypto"></app-market-crypto>
     </ng-container>

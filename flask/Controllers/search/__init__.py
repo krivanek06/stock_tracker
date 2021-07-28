@@ -54,6 +54,7 @@ def getAllCategories():
         raise JsonError(status=500, error=ERROR_MESSAGE + 'getAllCategories(), message: ' + str(e))
 
 
+'''
 @app.route('/news')
 def get_economic_news():
     try:
@@ -79,6 +80,8 @@ def get_calendar_events_earnings():
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'get_calendar_events_earnings(), message: ' + str(e))
 
+'''
+
 
 @app.route('/search_symbols')
 def search_symbols():
@@ -100,6 +103,8 @@ def get_top_crypto():
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'get_top_crypto(), message: ' + str(e))
 
+
+'''
 
 @app.route('/stocks_day_gainers')
 def get_day_gainers():
@@ -172,3 +177,4 @@ def get_top_index_states():
         return json_response(data=YahooFinanceTopSymbolsApi().get_top_index_states())
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'get_top_index_states(), message: ' + str(e))
+'''

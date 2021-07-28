@@ -15,8 +15,8 @@
         <ion-label class="ion-margin-end st-font-5">{{ holder.holder }}</ion-label>
         <ion-label>{{ holder.shares * currentSharePrice | numberFormatter}}</ion-label>
         <ion-label>{{ holder.shares |  numberFormatter }}</ion-label>
-        <ion-label *ngIf="$any(holder)?.weightPercent as weightPercent" class="ion-hide-sm-down">
-            {{ weightPercent }}%
+        <ion-label *ngIf="showWeight" class="ion-hide-sm-down">
+            {{ $any(holder)?.weightPercent }}%
         </ion-label>
         <ion-label class="ion-hide-sm-down">
             <app-position-change-item

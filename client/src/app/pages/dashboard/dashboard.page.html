@@ -25,13 +25,22 @@
             [totalPortfolio]="portfolioInvested + user.portfolioCash">
     </app-dashboard-holdings-table>
 
-    <!-- holdings sector + allocation -->
-    <app-dashboard-holdings-allocation
-            *ngIf="clonedHoldings.length > 0"
-            [holdings]="user.holdings"
-            [portfolioCash]="user.portfolioCash"
-            [portfolioInvested]="portfolioInvested">
-    </app-dashboard-holdings-allocation>
+    <!-- holdings charts -->
+    <div class="st-flex-wrap ion-margin-vertical">
+        <!-- holdings sector -->
+        <app-pie-chart-wrapper
+                [data]="user.holdings | holdingsToSectorChartSeries"
+                [heightPx]="300"
+                chartTitle="holdings">
+        </app-pie-chart-wrapper>
+
+        <!-- holdings allocation -->
+        <app-pie-chart-wrapper
+                [data]="user.holdings | holdingsToPortfolioChartSeries:  user.portfolioCash"
+                [heightPx]="300"
+                chartTitle="Holdings allocation">
+        </app-pie-chart-wrapper>
+    </div>
 
     <!-- transactions -->
     <app-dashboard-transactions

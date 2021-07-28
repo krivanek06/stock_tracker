@@ -55,15 +55,9 @@ export const stockDetailsTypeDefs = gql`
         concept: String
         label: String
         unit: String
-        value: FinancialReportStatementDataValue
-    }
-
-    type FinancialReportStatementDataValue {
-        increase: Float
-        increasePrct: Float
         value: Float
     }
-
+    
     type STStockDetailsCalculatedPredictions {
         DCF_V1: STDiscountedCashFlowFormula
         DDF_V1: STDividendDiscountedFormula
