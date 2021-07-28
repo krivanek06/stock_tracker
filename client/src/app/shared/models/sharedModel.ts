@@ -27,7 +27,7 @@ export interface UploadedFile {
 
 export interface NameValueContainer {
     name: string;
-    value: string;
+    value: string | number;
 }
 
 export interface IdNameContainer {
@@ -41,5 +41,10 @@ export interface GenericChartSeries {
     y: number;
 }
 
+export interface TreeMapData {
+    name: string;
+    value: number;
+    colorValue: number;
+}
 
 export const HistoricalPricePeriods = ['1min', '5min', '15min', '30min', '1hour', '4hour', '1y', '5y', 'all'];

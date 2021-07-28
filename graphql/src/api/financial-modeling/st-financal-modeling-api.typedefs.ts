@@ -123,6 +123,7 @@ type STFMStockDividend {
   label: String
   paymentDate: String
   recordDate: String
+  symbol: String
 }
 
 type STFMSplitHistory {
@@ -130,6 +131,7 @@ type STFMSplitHistory {
   denominator: Float
   label: String
   numerator: Float
+  symbol: String
 }
 
 type STFMRating {
@@ -366,6 +368,82 @@ type STFMCompanyQuote {
   yearHigh: Float
   yearLow: Float
   image: String
+}
+
+
+type STFMTopStocks {
+  ticker: String
+  changes: Float
+  price: String
+  changesPercentage: String
+  companyName: String
+}
+
+type STFMExchangeSectorPE {
+  date: String
+  sector: String
+  exchange: String
+  pe: Float
+}
+
+type STFMExchangeIndustryPE {
+  date: String
+  industry: String
+  exchange: String
+  pe: Float
+}
+
+type STFMCalendarEarnings {
+  date:             String
+  symbol:           String
+  eps:              Float
+  epsEstimated:     Float
+  time:             String
+  revenue:          Float
+  revenueEstimated: Float
+}
+
+type STFMCalendarIpo {
+  date:       String
+  company:    String
+  symbol:     String
+  exchange:   String
+  actions:    String
+  shares:     Float
+  priceRange: String
+  marketCap:  Float
+}
+
+type STFMCalendarEconomic {
+  event:            String
+  date:             String
+  country:          String
+  actual:           Float
+  previous:         Float
+  change:           Float
+  changePercentage: Float
+  estimate:         Float
+}
+
+type STFMEtfHolder {
+  asset:            String
+  sharesNumber:     Float
+  weightPercentage: Float
+}
+
+type STFMEtfSectorWeight {
+  sector:           String
+  weightPercentage: String
+}
+
+type STFMEtfCountryWeight {
+  country: String
+  weightPercentage: String
+}
+
+type STFMSectorPerformance {
+  sector:            String
+  changesPercentage: String
 }
 
 

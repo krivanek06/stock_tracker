@@ -65,5 +65,8 @@ class FundamentalServiceDataFetcher:
         # get result from threads into one dict
         merge = {}
         while not que.empty():
-            merge = {**merge, **que.get()}
+            try:
+                merge = {**merge, **que.get()}
+            except:
+                pass
         return merge

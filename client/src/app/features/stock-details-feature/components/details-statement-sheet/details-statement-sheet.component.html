@@ -1,4 +1,4 @@
-<app-generic-card [subtitle]="sheetTitle" class="ion-hide-lg-down">
+<app-generic-card [title]="sheetTitle" class="ion-hide-lg-down">
     <ion-list>
         <!-- dates -->
         <ion-item>
@@ -32,7 +32,7 @@
 <!-- small screen, SLIDING CARDS -->
 <ion-slides [options]="sliderConfig" class="ion-hide-lg-up">
     <ion-slide *ngFor="let item of sheets; let i = index; let last=last">
-        <app-generic-card [subtitle]="sheetTitle + ' ' + item.period + ' ' + (item.acceptedDate | date: 'YYYY')"
+        <app-generic-card [title]="sheetTitle + ' ' + item.period + ' ' + (item.acceptedDate | date: 'YYYY')"
                           style="width: 100%">
             <ion-list>
                 <ng-container *ngFor="let key of sheets[i] | objNgFor">

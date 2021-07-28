@@ -24,11 +24,10 @@
                 priceText="Volume">
         </app-price-change-item>
     </ion-label>
-    <!--<ion-label class="st-flex-space-between st-font-5">
+    <ion-label *ngIf="showAdditionalData" class="st-flex-space-between st-font-5">
         <div>Market cap.: {{ companyQuote.marketCap | numberFormatter }}</div>
         <div>PE: {{ companyQuote.pe | numberFormatter }}</div>
         <div>EPS: {{ companyQuote.eps | numberFormatter }}</div>
     </ion-label>
--->
     <ion-ripple-effect></ion-ripple-effect>
 </div>

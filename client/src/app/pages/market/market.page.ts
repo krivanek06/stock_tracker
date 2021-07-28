@@ -8,7 +8,7 @@ import {MARKET_PAGE_ENUM, MARKET_PAGE_PATH} from './model/market.model';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MarketPage implements OnInit {
-    segmentValue = MARKET_PAGE_ENUM.dailyChange;
+    segmentValue = MARKET_PAGE_ENUM.topStocks;
 
     MARKET_PAGE_PATH = MARKET_PAGE_PATH;
     MARKET_PAGE_ENUM = MARKET_PAGE_ENUM;

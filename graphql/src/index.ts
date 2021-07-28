@@ -28,7 +28,6 @@ import {
 } from './watchlist/watchlist.mutation';
 import {editUser, registerUser, resetUserAccount} from './user/user.mutation';
 import {
-    queryMarketDailyOverview,
     queryStockDetails,
     queryStockQuotesByPrefix,
     queryStockSummary,
@@ -51,8 +50,8 @@ import {stStockWatchlistResolvers} from "./watchlist/watchlist.resolver";
 import {performTransaction} from "./st-transaction/st-transaction.mutation";
 import {STMarketSharedTypeDefs} from "./st-market/st-market.typedefs";
 import {
-    queryStMarketAllCategories, queryStMarketCalendarEvents, queryStMarketCalendarEventsEarnings, queryStMarketData,
-    querySTMarketHistoryOverview
+    queryStMarketAllCategories, queryStMarketData,
+    querySTMarketHistoryOverview, queryMarketDailyOverview, queryEtfDocument
 } from "./st-market/st-market.query";
 import { STStockDetailsCalculationsTypeDefs } from './st-stock-calculations';
 
@@ -91,8 +90,7 @@ const mainTypeDefs = gql`
         queryStMarketAllCategories: STMarketDatasetKeyCategories
         queryMarketDailyOverview: STMarketDailyOverview
         queryStMarketData(key: String!): STMarketChartDataResultCombined
-        queryStMarketCalendarEvents(date: String!): StMarketCalendarEvents
-        queryStMarketCalendarEventsEarnings(date: String!): StMarketCalendarEventsEarnings
+        queryEtfDocument(etfName: String!): STMarketEtfDocument
 
         # trading strategy
         querySTTradingStrategies: STTradingStrategySearch
@@ -156,8 +154,7 @@ const mainResolver = {
         queryMarketDailyOverview: async (_: null, args: null) => await queryMarketDailyOverview(),
         queryStMarketAllCategories: async (_: null, args: null) => await queryStMarketAllCategories(),
         queryStMarketData: async (_: null, args: { key: string }) => await queryStMarketData(args.key),
-        queryStMarketCalendarEvents: async (_: null, args: { date: string }) => await queryStMarketCalendarEvents(args.date),
-        queryStMarketCalendarEventsEarnings: async (_: null, args: { date: string }) => await queryStMarketCalendarEventsEarnings(args.date),
+        queryEtfDocument: async (_: null, args: { etfName: string }) => await queryEtfDocument(args.etfName),
 
         // trading strategy
         querySTTradingStrategies: async (_: null, args: null) => await queryTradingStrategies(),

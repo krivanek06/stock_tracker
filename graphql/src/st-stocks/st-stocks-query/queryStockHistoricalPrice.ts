@@ -13,10 +13,10 @@ export const querySymbolHistoricalPrices = async(symbol: string, period: string)
     }
 
     // [[timestamp, open, high, low, close], [timestamp, open, high, low, close], ... ]
-    const price: number[][] = historicalPrices.map(prices => [Date.parse(prices.date), prices.open, prices.high, prices.low, prices.close]).reverse();
+    const price: number[][] = historicalPrices.map(prices => [Date.parse(prices.date), prices.open, prices.high, prices.low, prices.close]);
 
     // [[timestamp, volume], [timestamp, volume], ... ] 
-    const volume: number[][] = historicalPrices.map(prices => [Date.parse(prices.date), prices.volume]).reverse();
+    const volume: number[][] = historicalPrices.map(prices => [Date.parse(prices.date), prices.volume]);
 
     const livePrice = (await getLivePriceAPI(symbol))?.price;
 

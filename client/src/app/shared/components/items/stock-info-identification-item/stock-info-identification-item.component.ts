@@ -11,6 +11,7 @@ export class StockInfoIdentificationItemComponent implements OnInit {
     @Output() clickedEmitter: EventEmitter<any> = new EventEmitter<any>();
 
     @Input() companyQuote: StfmCompanyQuote;
+    @Input() showAdditionalData: boolean;
 
     constructor() {
     }

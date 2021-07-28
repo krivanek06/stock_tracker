@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StEventCalendarEarningsData} from '@core';
 import {SymbolIdentification} from '@shared';
 
 @Component({
@@ -11,7 +10,7 @@ import {SymbolIdentification} from '@shared';
 export class MarketEarningsTableComponent implements OnInit {
     @Output() clickedItemEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
 
-    @Input() earnings: StEventCalendarEarningsData[] = [];
+    // @Input() earnings: StEventCalendarEarningsData[] = [];
     @Input() clickable = false;
 
     constructor() {

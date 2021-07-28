@@ -1,99 +1,79 @@
-import { NewsArticle, STSummary } from "../st-stockDetails.model";
+import { STSummary } from "../st-stockDetails.model";
+import {
+  STFMStockNew,
+  STFMEtfHolder, STFMEtfSectorWeight, STFMEtfCountryWeight,
+  STFMCalendarEconomic,
+  STFMStockDividend,
+  STFMCalendarIpo,
+  STFMCalendarEarnings,
+  STFMCompanyQuote,
+  STFMExchangeIndustryPE,
+  STFMExchangeSectorPE,
+  STFMSplitHistory,
+  STFMSectorPerformance
+} from "../st-financal-modeling-api.model";
 
 export interface STMarketDailyOverview {
-    stocks_day_gainers: STMarketTopTableSymbolData[];
-    stocks_day_losers: STMarketTopTableSymbolData[];
-    stocks_day_active: STMarketTopTableSymbolData[];
-    stocks_undervalued_growth_stocks: STMarketTopTableSymbolData[];
-    stocks_growth_technology_stocks: STMarketTopTableSymbolData[];
-    stocks_undervalued_large_caps: STMarketTopTableSymbolData[];
-    stocks_aggressive_small_caps: STMarketTopTableSymbolData[];
-    stocks_small_cap_gainers: STMarketTopTableSymbolData[];
-    stock_suggestions?: STStockSuggestion[];
-    top_crypto: STMarketTopTableCryptoData[];
-    news: NewsArticle[];
-    events: STEventCalendarData[];
-    earnings: STEventCalendarEarningsData[];
-    lastUpdate?: string;
-  }
-  
-  export interface StMarketCalendarEvents {
-    events: STEventCalendarData[];
-  }
+  id: string;
+  dailyGainers: STFMCompanyQuote[];
+  dailyLosers: STFMCompanyQuote[];
+  mostActive: STFMCompanyQuote[];
+  stockSuggestions: STStockSuggestion[];
+  topCrypto: STMarketTopTableCryptoData[];
+  news: STFMStockNew[];
+  calendar: STMarketCalendar;
+  mutulaFunds: STFMCompanyQuote[];
+  etfs: STFMCompanyQuote[];
+  commodities: STFMCompanyQuote[];
+  exchange: STMarketExchange;
+  sectorPerformance: STFMSectorPerformance[];
+  lastUpdate?: string;
+}
 
-  export interface StMarketCalendarEventsEarnings {
-    earnings: STEventCalendarEarningsData[];
-  }
-  
-  
+export interface STMarketExchange {
+  id: string;
+  exchangeIndustryPE: STFMExchangeIndustryPE[];
+  exchangeSectorPE: STFMExchangeSectorPE[];
+}
+
+export interface STMarketCalendar {
+  calendarEconomic: STFMCalendarEconomic[];
+  calendarDividend: STFMStockDividend[];
+  calendarSplit: STFMSplitHistory[];
+  calendarIpo: STFMCalendarIpo[];
+  calendarEarnings: STFMCalendarEarnings[];
+}
+
 export interface STStockSuggestion {
-    historicalData: number[];
-    summary: STSummary;
-  }
-  
-  export interface STEventCalendarData {
-    date: number;
-    day: number;
-    month: number;
-    startdatetime: string;
-    year: number;
-    earningscount: number;
-    economiceventcount: number;
-    ipoinfocount: number;
-    splitscount: number;
-  }
-  
-  export interface STEventCalendarEarningsData {
-    companyshortname: string;
-    epsactual: number;
-    epsestimate: number;
-    epssurprisepct: number;
-    gmtOffsetMilliSeconds: number;
-    quoteType: string;
-    startdatetime: string;
-    startdatetimetype: string;
-    ticker: string;
-    timeZoneShortName: string;
-  }
+  historicalData: number[];
+  summary: STSummary;
+}
 
-  export interface STMarketTopTableSymbolData {
-    averageDailyVolume3Month: number;
-    currency: string;
-    fiftyTwoWeekHigh: number;
-    fiftyTwoWeekLow: number;
-    logo_url: string;
-    longName: string;
-    marketCap: number;
-    quoteType: string;
-    recommendationKey: string;
-    recommendationMean: number;
-    regularMarketChange: number;
-    regularMarketChangePercent: number;
-    regularMarketOpen: number;
-    regularMarketPreviousClose: number;
-    regularMarketPrice: number;
-    regularMarketVolume: number;
-    shortName: string;
-    symbol: string;
-    trailingPE: string;
-  }
+export interface STMarketTopTableCryptoData {
+  circulatingSupply: number;
+  coinImageUrl: string;
+  currency: string;
+  fiftyTwoWeekHigh: number;
+  fiftyTwoWeekLow: number;
+  marketCap: number;
+  quoteType: string;
+  regularMarketChange: number;
+  regularMarketChangePercent: number;
+  regularMarketClosed: number;
+  regularMarketOpen: number;
+  regularMarketPrice: number;
+  regularMarketVolume: number;
+  shortName: string;
+  symbol: string;
+  volume24Hr: number;
+  volumeAllCurrencies: number;
+}
 
-  export interface STMarketTopTableCryptoData {
-    circulatingSupply: number;
-    coinImageUrl: string;
-    currency: string;
-    fiftyTwoWeekHigh: number;
-    fiftyTwoWeekLow: number;
-    marketCap: number;
-    quoteType: string;
-    regularMarketChange: number;
-    regularMarketChangePercent: number;
-    regularMarketClosed: number;
-    regularMarketOpen: number;
-    regularMarketPrice: number;
-    regularMarketVolume: number;
-    shortName: string;
-    symbol: string;
-    volume24Hr: number;
-    volumeAllCurrencies: number;
-  }
+
+export interface STMarketEtfDocument {
+  id: string;
+  etfHolders: STFMEtfHolder[];
+  etfSectorWeight: STFMEtfSectorWeight[];
+  etfCountryWeight: STFMEtfCountryWeight[];
+  lastUpdate: string;
+}

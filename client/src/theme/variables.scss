@@ -327,6 +327,23 @@
 
 
   .dark-theme {
+    // ANGLAR material
+    mat-expansion-panel {
+      background: linear-gradient(126deg, rgb(5 13 42 / 39%) 0%, rgb(6 15 47 / 60%) 35%, rgb(6 17 52 / 0.7) 100%);
+
+      .mat-expansion-indicator::after {
+        color: white;
+      }
+
+      mat-expansion-panel-header {
+        mat-panel-title {
+          font-size: 18px;
+          color: white;
+        }
+      }
+    }
+
+
     // select pop-over styling
     .action-sheet-container.sc-ion-action-sheet-md {
       justify-content: center;

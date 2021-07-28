@@ -23,14 +23,7 @@
             </ion-list-header>
             <ion-item *ngFor="let data of selectedReport.report[sheet[1]]" class="st-data-item-wrapper">
                 <ion-label>{{ data.label | titlecase }}</ion-label>
-                <ion-label class="st-flex-end">
-                    <app-price-change-item
-                            [isPercent]="true"
-                            [priceChange]="data.value.increasePrct"
-                            [price]="data.value.increase"
-                            pricePosition="left">
-                    </app-price-change-item>
-                </ion-label>
+                <ion-label class="st-flex-end">{{ data.value | numberFormatter }}</ion-label>
             </ion-item>
         </ion-list>
     </ng-container>

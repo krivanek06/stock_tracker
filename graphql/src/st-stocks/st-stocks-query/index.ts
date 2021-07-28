@@ -1,4 +1,3 @@
-export * from './queryMarketDailyOverview';
 export * from './queryStockDetails';
 export * from './queryStockHistoricalPrice';
 export * from './queryStockQuotesByPrefix';

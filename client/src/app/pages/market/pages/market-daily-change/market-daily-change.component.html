@@ -1,72 +1,15 @@
-<ion-grid>
-    <!-- daily top gainers -->
-    <ion-row>
-        <ion-col size="12">
-            <app-generic-list [title]="'Daily top gainers'"></app-generic-list>
-            <app-generic-card>
-                <app-market-top-table-stocks
-                        (itemClickedEmitter)="showSummary($event)"
-                        [topTableSymbolData]="topGainers">
-                </app-market-top-table-stocks>
-            </app-generic-card>
-        </ion-col>
-    </ion-row>
+<mat-accordion *ngIf="dailyOverview$ | async as dailyOverview" [multi]="true">
+    <app-generic-extension-panel title="Sector performance">
+        <app-market-sector-heat-map
+                [heightPx]="500"
+                [sectorPerformance]="dailyOverview.sectorPerformance">
+        </app-market-sector-heat-map>
+    </app-generic-extension-panel>
 
-    <!-- selected table -->
-    <ion-row>
-        <ion-col size="12">
-            <ion-list-header>
-                <ion-label class="st-font-size-18 st-font-0">
-                    {{ selectedTableName.name }}
-                </ion-label>
-                <ion-item>
-                    <ion-label>Change table</ion-label>
-                    <ion-select (ionChange)="changeSelectedTopTable($event)"
-                                [value]="selectedTableName"
-                                interface="action-sheet">
-                        <ion-select-option *ngFor="let data of MARKET_DAILY_CHANGE_SELECT" [value]="data">
-                            {{ data.name }}
-                        </ion-select-option>
-                    </ion-select>
-                </ion-item>
-            </ion-list-header>
-            <app-generic-card>
-                <app-market-top-table-stocks
-                        (itemClickedEmitter)="showSummary($event)"
-                        [topTableSymbolData]="selectedTable">
-                </app-market-top-table-stocks>
-            </app-generic-card>
-        </ion-col>
-    </ion-row>
-
-    <!-- weekly earnings -->
-    <app-generic-list [title]="'Earnings'"></app-generic-list>
-    <ion-row>
-        <ion-col size="12" size-md="6">
-            <app-generic-card [additionalClasses]="'st-height-100'">
-                <app-market-events-selector
-                        (changeDatesEmitter)="changeDisplayedEarningsDate($event)"
-                        (selectedDateEmitter)="showStockEarningsOnDate($event)"
-                        [events]="calendarEvents$ | async">
-                </app-market-events-selector>
-            </app-generic-card>
-        </ion-col>
-        <ion-col size="12" size-md="6">
-            <app-generic-card [additionalClasses]="'st-height-100'"
-                              [subtitle]="earnings.length === 0 ?
-                        'No earnings found' : earnings[0].startdatetime | date: 'EEEE, dd.MM.YYYY'">
-                <app-market-earnings-table [earnings]="earnings | slice: 0: 7"></app-market-earnings-table>
-            </app-generic-card>
-        </ion-col>
-    </ion-row>
-
-    <!-- news -->
-    <ion-row>
-        <ion-col size="12">
-            <app-generic-list [title]="'Market news'"></app-generic-list>
-            <div class="news-container">
-                <app-article-cards *ngFor="let article of dailyNews" [article]="article"></app-article-cards>
-            </div>
-        </ion-col>
-    </ion-row>
-</ion-grid>
+    <!-- Calendars -->
+    <app-generic-extension-panel title="Calendar Economic">
+        <app-market-calendar-economic
+                [calendarEconomic]="dailyOverview.calendar.calendarEconomic">
+        </app-market-calendar-economic>
+    </app-generic-extension-panel>
+</mat-accordion>

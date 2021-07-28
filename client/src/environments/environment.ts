@@ -12,7 +12,7 @@ export const environment = {
     graphql: 'http://localhost:4000/graphql',
 
     // GCP
-    //graphql: 'https://servergraphql-eqvqg22pdq-lz.a.run.app/graphql',
+    // graphql: 'https://servergraphql-eqvqg22pdq-lz.a.run.app/graphql',
 
     // finnhubKEY: 'brsrc5vrh5r9dg9d77pg',
     firebase: {
@@ -26,7 +26,7 @@ export const environment = {
         measurementId: 'G-73NKLPNQ5G'
     },
 
-    version: '0.3.4'
+    version: '0.4.1'
 };
 
 /*

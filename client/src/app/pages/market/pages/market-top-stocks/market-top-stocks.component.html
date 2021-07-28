@@ -1,0 +1,61 @@
+<!-- daily most active -->
+<app-generic-list [title]="'Most active'"></app-generic-list>
+<app-generic-card>
+    <app-market-company-quotes-table
+            (itemClickedEmitter)="showSummary($event)"
+            [skeletonLength]="15"
+            [stfmCompanyQuotes]="mostActive">
+    </app-market-company-quotes-table>
+</app-generic-card>
+
+<!-- daily top gainers -->
+<app-generic-list [title]="'Daily top gainers'"></app-generic-list>
+<app-generic-card>
+    <app-market-company-quotes-table
+            (itemClickedEmitter)="showSummary($event)"
+            [skeletonLength]="15"
+            [stfmCompanyQuotes]="topGainers">
+    </app-market-company-quotes-table>
+</app-generic-card>
+
+<!-- daily top losers -->
+<app-generic-list [title]="'Daily top losers'"></app-generic-list>
+<app-generic-card>
+    <app-market-company-quotes-table
+            (itemClickedEmitter)="showSummary($event)"
+            [skeletonLength]="15"
+            [stfmCompanyQuotes]="topLosers">
+    </app-market-company-quotes-table>
+</app-generic-card>
+
+
+<!-- weekly earnings
+<app-generic-list [title]="'Earnings'"></app-generic-list>
+<ion-row>
+    <ion-col size="12" size-md="6">
+        <app-generic-card [additionalClasses]="'st-height-100'">
+            <app-market-events-selector
+                    (changeDatesEmitter)="changeDisplayedEarningsDate($event)"
+                    (selectedDateEmitter)="showStockEarningsOnDate($event)"
+                    [events]="calendarEvents$ | async">
+            </app-market-events-selector>
+        </app-generic-card>
+    </ion-col>
+    <ion-col size="12" size-md="6">
+        <app-generic-card [additionalClasses]="'st-height-100'"
+                          [subtitle]="earnings.length === 0 ?
+                    'No earnings found' : earnings[0].startdatetime | date: 'EEEE, dd.MM.YYYY'">
+            <app-market-earnings-table [earnings]="earnings | slice: 0: 7"></app-market-earnings-table>
+        </app-generic-card>
+    </ion-col>
+</ion-row> -->
+
+<!-- news
+<ion-row>
+    <ion-col size="12">
+        <app-generic-list [title]="'Market news'"></app-generic-list>
+        <div class="news-container">
+            <app-article-cards *ngFor="let article of dailyNews" [article]="article"></app-article-cards>
+        </div>
+    </ion-col>
+</ion-row>-->

@@ -1,20 +1,21 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {marketValueChange, SymbolIdentification} from '@shared';
-import {StMarketTopTableSymbolData} from '@core';
+import {StfmCompanyQuote} from '@core';
 
 @Component({
-    selector: 'app-market-top-table-stocks',
-    templateUrl: './market-top-table-stocks.component.html',
-    styleUrls: ['./market-top-table-stocks.component.scss'],
+    selector: 'app-market-company-quotes-table',
+    templateUrl: './market-company-quotes-table.component.html',
+    styleUrls: ['./market-company-quotes-table.component.scss'],
     // changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [
         marketValueChange
     ]
 })
-export class MarketTopTableStocksComponent implements OnInit {
+export class MarketCompanyQuotesTableComponent implements OnInit {
     @Output() itemClickedEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
 
-    @Input() topTableSymbolData: StMarketTopTableSymbolData[] = [];
+    @Input() stfmCompanyQuotes: StfmCompanyQuote[] = [];
+    @Input() skeletonLength = 10;
 
     constructor() {
     }

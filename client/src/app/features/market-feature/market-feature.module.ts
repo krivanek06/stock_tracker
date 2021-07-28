@@ -1,33 +1,36 @@
 import {NgModule} from '@angular/core';
 import {SharedModule} from '@shared';
 import {
+    MarketCalendarEconomicComponent,
+    MarketCompanyQuotesTableComponent,
     MarketEarningsTableComponent,
-    MarketEventsSelectorComponent,
-    MarketTopTableCryptoComponent,
-    MarketTopTableStocksComponent
+    MarketSectorHeatMapComponent,
+    MarketTopTableCryptoComponent
 } from './components';
 import {MarketChartBuilderComponent, MarketEarningsModalComponent} from './entry-components';
 
 
 @NgModule({
     declarations: [
-        MarketTopTableStocksComponent,
+        MarketCompanyQuotesTableComponent,
         MarketEarningsTableComponent,
-        MarketEventsSelectorComponent,
+        MarketCalendarEconomicComponent,
         MarketEarningsModalComponent,
         MarketTopTableCryptoComponent,
-        MarketChartBuilderComponent
+        MarketChartBuilderComponent,
+        MarketSectorHeatMapComponent
     ],
     imports: [
         SharedModule
     ],
     exports: [
-        MarketTopTableStocksComponent,
+        MarketCompanyQuotesTableComponent,
         MarketEarningsTableComponent,
-        MarketEventsSelectorComponent,
+        MarketCalendarEconomicComponent,
         MarketEarningsModalComponent,
         MarketTopTableCryptoComponent,
-        MarketChartBuilderComponent
+        MarketChartBuilderComponent,
+        MarketSectorHeatMapComponent
     ]
 })
 export class MarketFeatureModule {

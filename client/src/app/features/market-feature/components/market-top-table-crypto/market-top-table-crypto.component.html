@@ -12,7 +12,7 @@
 
     <!-- data -->
     <ng-container *ngIf="topTableCryptoData?.length > 0; else showSkeleton">
-        <ng-container *ngFor="let data of topTableCryptoData | slice: 0: 15">
+        <ng-container *ngFor="let data of topTableCryptoData | slice: 0: 25">
 
             <!-- BIG SCREEN -->
             <ion-item (click)="itemClicked(data)" button class="st-data-item-wrapper ion-hide-sm-down">
@@ -85,6 +85,6 @@
 
     <!-- skeleton -->
     <ng-template #showSkeleton>
-        <app-list-skeleton [itemLength]="15"></app-list-skeleton>
+        <app-list-skeleton [itemLength]="25"></app-list-skeleton>
     </ng-template>
 </ion-list>

@@ -11,6 +11,7 @@ export class DetailsHoldersComponent implements OnInit {
     @Input() holders: StfmHolder[] | StfmHolderWithWeight[] = [];
     @Input() currentSharePrice: number;
     @Input() outstandingShares: number;
+    @Input() showWeight: boolean;
 
     constructor() {
     }

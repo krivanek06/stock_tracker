@@ -185,6 +185,7 @@ fragment STFMStockDividendFragment on STFMStockDividend {
     label
     paymentDate
     recordDate
+    symbol
 }
 
 fragment STFMSplitHistoryFragment on STFMSplitHistory {
@@ -192,6 +193,7 @@ fragment STFMSplitHistoryFragment on STFMSplitHistory {
     denominator
     label
     numerator
+    symbol
 }
 
 fragment STFMRatingFragment on STFMRating {
@@ -299,4 +301,80 @@ fragment STFMCompanyQuoteFragment on STFMCompanyQuote {
     yearHigh
     yearLow
     image
+}
+
+fragment STFMTopStocksFragment on STFMTopStocks {
+    ticker
+    changes
+    price
+    changesPercentage
+    companyName
+}
+
+fragment STFMExchangeSectorPEFragment on STFMExchangeSectorPE {
+    date
+    sector
+    exchange
+    pe
+}
+
+
+fragment STFMExchangeIndustryPEFragment on STFMExchangeIndustryPE {
+    date
+    industry
+    exchange
+    pe
+}
+
+fragment STFMCalendarEarningsFragment on STFMCalendarEarnings {
+    date
+    symbol
+    eps
+    epsEstimated
+    time
+    revenue
+    revenueEstimated
+}
+
+fragment STFMCalendarIpoFragment on STFMCalendarIpo {
+    date
+    company
+    symbol
+    exchange
+    actions
+    shares
+    priceRange
+    marketCap
+}
+
+fragment STFMCalendarEconomicFragment on STFMCalendarEconomic {
+    event
+    date
+    country
+    actual
+    previous
+    change
+    changePercentage
+    estimate
+}
+
+fragment STFMEtfHolderFragment on STFMEtfHolder {
+    asset
+    sharesNumber
+    weightPercentage
+}
+
+fragment STFMEtfSectorWeightFragment on STFMEtfSectorWeight {
+    sector
+    weightPercentage
+}
+
+fragment STFMEtfCountryWeightFragment on STFMEtfCountryWeight {
+    country
+    weightPercentage
+}
+
+fragment STFMSectorPerformanceFragment on STFMSectorPerformance {
+    sector
+    changesPercentage
 }

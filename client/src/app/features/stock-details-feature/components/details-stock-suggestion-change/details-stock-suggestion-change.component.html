@@ -2,12 +2,12 @@
     <ion-item style="margin-top: 3px; margin-bottom: 3px">
         <!-- image -->
         <ion-label>
-            <ion-img appDefaultImg [src]="suggestion.summary.logo_url" class="st-symbol-image"></ion-img>
+            <ion-img [src]="suggestion.summary.logo_url" appDefaultImg class="st-symbol-image"></ion-img>
         </ion-label>
         <!-- daily change -->
         <ion-label class="st-flex-end">
-            <app-price-compare-item [currentPrice]="suggestionMarketPrice"
-                                    [compareToPrice]="suggestion.summary.previousClose"
+            <app-price-compare-item [compareToPrice]="suggestion.summary.previousClose"
+                                    [currentPrice]="suggestionMarketPrice"
                                     [showIcons]="false">
             </app-price-compare-item>
         </ion-label>
@@ -17,7 +17,7 @@
     <!-- symbol + market price -->
     <ion-item>
         <ion-label>{{ suggestion.summary.symbol }}</ion-label>
-        <ion-label class="st-flex-end" [@marketValueChange]="suggestionMarketPrice">
+        <ion-label [@marketValueChange]="suggestionMarketPrice" class="st-flex-end">
             {{ suggestionMarketPrice | currency }}
         </ion-label>
     </ion-item>
@@ -26,12 +26,12 @@
     <ion-item>
         <ion-label>
             <app-generic-chart
+                    [chartType]="ChartType.areaChange"
                     [heightPx]="65"
+                    [series]="[{name: suggestion.summary.symbol,  data: suggestion.historicalData}]"
                     [showTooltip]="false"
                     [showXAxis]="false"
-                    [showYAxis]="false"
-                    [series]="[{name: suggestion.summary.symbol,  data: suggestion.historicalData.price}]"
-                    [chartType]="ChartType.areaChange">
+                    [showYAxis]="false">
             </app-generic-chart>
         </ion-label>
     </ion-item>

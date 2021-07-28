@@ -9,10 +9,12 @@
 
 <!-- listed symbols -->
 <ion-list class="list-container">
-    <ng-container *ngIf="searchedSummaries$ | async as searchedSummaries; else showSkeletons">
+    <ng-container *ngIf="searchedCompanyQuotes | async as searchedCompanyQuote; else showSkeletons">
         <app-stock-info-identification-item
-                (click)="clickedSummary(summary)"
-                *ngFor="let summary of searchedSummaries">
+                (click)="clickedSummary(companyQuote)"
+                *ngFor="let companyQuote of searchedCompanyQuote | slice: 0 : 6"
+                [companyQuote]="companyQuote"
+                [showAdditionalData]="true">
         </app-stock-info-identification-item>
     </ng-container>
 

@@ -11,7 +11,6 @@ export * from './details-valuation/details-valuation.component';
 export * from './details-grading-history/details-grading-history.component';
 export * from './details-stock-suggestion-change/details-stock-suggestion-change.component';
 export * from './details-stock-trend/details-stock-trend.component';
-export * from './details-sector-chart/details-sector-chart.component';
 export * from './details-stock-trend/trend-item/trend-item.component';
 export * from './details-news/details-news.component';
 export * from './details-statement-sheet/details-statement-sheet.component';
