@@ -7,11 +7,11 @@ import {GenericChartSeries} from '../models';
 export class ChartKeyValueFormatterPipe implements PipeTransform {
 
     transform(data: any[], keyName: string, valueName: string): GenericChartSeries[] {
-        console.log(data.map(d => {
-            return {name: d[keyName], y: parseFloat(d[valueName])};
-        }));
+        /* console.log(data.map(d => {
+             return {name: d[keyName], y: parseFloat(d[valueName])};
+         }));*/
         return data.map(d => {
-            return {name: d[keyName], y: parseFloat(d[valueName])};
+            return {name: d[keyName], y: Math.round((parseFloat(d[valueName]) + Number.EPSILON) * 100) / 100};
         });
     }
 

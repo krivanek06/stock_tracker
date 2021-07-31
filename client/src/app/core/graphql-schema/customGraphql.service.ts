@@ -90,6 +90,7 @@ export type Dividens = {
   dividendPerShareFiveY?: Maybe<Scalars['Float']>;
   dividendYieldFiveY?: Maybe<Scalars['Float']>;
   dividendYieldIndicatedAnnual?: Maybe<Scalars['Float']>;
+  dividendPayoutRatioTTM?: Maybe<Scalars['Float']>;
   dividendsPerShareTTM?: Maybe<Scalars['Float']>;
   exDividendDate?: Maybe<Scalars['String']>;
   trailingAnnualDividendRate?: Maybe<Scalars['String']>;
@@ -2426,7 +2427,7 @@ export type MetricFragmentFragment = (
 
 export type DividensFragmentFragment = (
   { __typename?: 'Dividens' }
-  & Pick<Dividens, 'currentDividendYieldTTM' | 'dividendGrowthRateFiveY' | 'dividendPerShareAnnual' | 'dividendPerShareFiveY' | 'dividendYieldFiveY' | 'dividendYieldIndicatedAnnual' | 'dividendsPerShareTTM' | 'exDividendDate' | 'trailingAnnualDividendRate' | 'trailingAnnualDividendYield' | 'forwardDividendYield'>
+  & Pick<Dividens, 'currentDividendYieldTTM' | 'dividendGrowthRateFiveY' | 'dividendPerShareAnnual' | 'dividendPerShareFiveY' | 'dividendYieldFiveY' | 'dividendYieldIndicatedAnnual' | 'dividendPayoutRatioTTM' | 'dividendsPerShareTTM' | 'exDividendDate' | 'trailingAnnualDividendRate' | 'trailingAnnualDividendYield' | 'forwardDividendYield'>
 );
 
 export type EarningsChartFragmentFragment = (
@@ -3997,6 +3998,7 @@ export const DividensFragmentFragmentDoc = gql`
   dividendPerShareFiveY
   dividendYieldFiveY
   dividendYieldIndicatedAnnual
+  dividendPayoutRatioTTM
   dividendsPerShareTTM
   exDividendDate
   trailingAnnualDividendRate

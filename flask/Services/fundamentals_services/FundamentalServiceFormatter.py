@@ -145,6 +145,7 @@ class FundamentalServiceFormatter:
                 'dividendPerShareAnnual': self.data['metric'].get('dividendPerShareAnnual'),
                 'dividendPerShareFiveY': self.data['metric'].get('dividendPerShareFiveY'),
                 'dividendYieldFiveY': self.data['metric'].get('dividendYieldFiveY'),
+                'dividendPayoutRatioTTM': self.data['metric'].get('payoutRatioTTM'),
                 'dividendYieldIndicatedAnnual': self.data['metric'].get('dividendYieldIndicatedAnnual'),
                 'dividendsPerShareTTM': self.data['metric'].get('dividendsPerShareTTM'),
                 'exDividendDate': self.data['summary'].get('exDividendDate'),

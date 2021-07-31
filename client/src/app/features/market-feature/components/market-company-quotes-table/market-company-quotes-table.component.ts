@@ -16,6 +16,7 @@ export class MarketCompanyQuotesTableComponent implements OnInit {
 
     @Input() stfmCompanyQuotes: StfmCompanyQuote[] = [];
     @Input() skeletonLength = 10;
+    @Input() showImage: boolean = true;
 
     constructor() {
     }

@@ -1,0 +1,24 @@
+<!-- small screen -->
+<ion-card [href]="stockArticle.url" [matTooltip]="stockArticle.text" matTooltipClass="custom-mat-tooltip"
+          rel="noopener noreferrer" target="_blank">
+    <ion-card-content>
+        <!-- source info -->
+        <div class="overlay upper-overlay">
+            <div class="st-flex ion-justify-content-between">
+                <ion-text class="st-display-flex-center">
+                    <ion-icon class="ion-margin-end st-icon" name="globe-outline"></ion-icon>
+                    {{ stockArticle.site }} {{ stockArticle.publishedDate | relativeTime }}
+                </ion-text>
+                <ion-text class="st-icon st-small-right-space st-font-size-16">{{ stockArticle.symbol }}</ion-text>
+            </div>
+        </div>
+        <!-- image -->
+        <ion-img [src]="stockArticle.image" appDefaultImg></ion-img>
+
+        <!-- news title -->
+        <div class="overlay bottom-overlay">
+            {{ stockArticle.title }}
+        </div>
+
+    </ion-card-content>
+</ion-card>

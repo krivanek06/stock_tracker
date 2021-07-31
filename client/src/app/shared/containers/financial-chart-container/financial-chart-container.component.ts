@@ -22,6 +22,8 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseD
     @Input() height = 300;
     @Input() showYAxis = true;
     @Input() isCrypto = false;
+    @Input() initWebsockets: boolean = true;
+    @Input() financialChart = true;
 
     HistoricalPricePeriods = HistoricalPricePeriods;
 
@@ -30,7 +32,6 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseD
     selectedRange = '4hour';
     priceRangeFrom: number;
     priceRangeTo: number;
-    financialChart = true;
     noDataFound = false;
 
     constructor(private graphqlQueryService: GraphqlQueryService,
@@ -42,7 +43,9 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseD
     ngOnInit() {
         super.ngOnInit();
         this.loadChartData();
-        this.initWebsocketConnection();
+        if (this.initWebsockets) {
+            this.initWebsocketConnection();
+        }
     }
 
     ngOnChanges(changes: SimpleChanges): void {

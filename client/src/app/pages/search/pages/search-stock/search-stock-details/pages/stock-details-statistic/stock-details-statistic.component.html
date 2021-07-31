@@ -116,17 +116,19 @@
         <ion-col size="12" size-lg="4" size-sm="6">
             <!-- dividends -->
             <app-generic-card additionalClasses="st-height-100" title="Dividend">
-                <app-details-dividend [stockDetails]="stockDetails">
+                <app-details-dividend
+                        *ngIf="stockDetails.dividends.dividendPerShareAnnual  || stockDetails.dividends.dividendsPerShareTTM "
+                        [dividends]="stockDetails.dividends">
                 </app-details-dividend>
             </app-generic-card>
         </ion-col>
         <ion-col size="12" size-lg="4" size-sm="6">
             <!-- dividend payouts -->
             <app-generic-card additionalClasses="st-height-100" title="Dividend payouts">
-                <app-details-dividend-payout
+                <app-market-calendar-dividend-payout
                         *ngIf="stockDetails.companyOutlook.stockDividend"
                         [dividendPayouts]="stockDetails.companyOutlook.stockDividend">
-                </app-details-dividend-payout>
+                </app-market-calendar-dividend-payout>
             </app-generic-card>
         </ion-col>
 
@@ -175,10 +177,10 @@
         <ion-col size="12" size-lg="3" size-md="6">
             <!-- split history -->
             <app-generic-card additionalClasses="st-height-100" title="Split history">
-                <app-details-split-history
+                <app-market-calendar-split-history
                         *ngIf="stockDetails.companyOutlook.splitHistory"
                         [splitHistories]="stockDetails.companyOutlook.splitHistory">
-                </app-details-split-history>
+                </app-market-calendar-split-history>
             </app-generic-card>
         </ion-col>
         <ion-col size="12" size-lg="4.5">
@@ -393,9 +395,9 @@
         <app-generic-list [applyMarginTop]="true" title="News"></app-generic-list>
         <ion-col size="12">
             <div class="news-container">
-                <app-details-news *ngFor="let article of stockDetails.companyOutlook.stockNews"
-                                  [stockArticle]="article">
-                </app-details-news>
+                <app-market-stock-news *ngFor="let article of stockDetails.companyOutlook.stockNews"
+                                       [stockArticle]="article">
+                </app-market-stock-news>
             </div>
         </ion-col>
     </ion-row>

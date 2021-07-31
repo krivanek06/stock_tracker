@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {
     DetailsDividendComponent,
-    DetailsDividendPayoutComponent,
     DetailsEarningsChartComponent,
     DetailsEsgScoreComponent,
     DetailsFinancialStrengthComponent,
@@ -9,11 +8,9 @@ import {
     DetailsGradingHistoryComponent,
     DetailsHoldersComponent,
     DetailsKeyExecutivesComponent,
-    DetailsNewsComponent,
     DetailsPerShareComponent,
     DetailsRatingComponent,
     DetailsRecommendationChartComponent,
-    DetailsSplitHistoryComponent,
     DetailsStatementSheetComponent,
     DetailsStockPeersComponent,
     DetailsStockSuggestionChangeComponent,
@@ -46,11 +43,8 @@ import {DetailsReportStatementModalComponent} from './entry-components';
         DetailsTransactionsComponent,
         DetailsEsgScoreComponent,
         DetailsReportStatementModalComponent,
-        DetailsNewsComponent,
         DetailsRatingComponent,
-        DetailsDividendPayoutComponent,
         DetailsKeyExecutivesComponent,
-        DetailsSplitHistoryComponent,
         DetailsStockPeersComponent
     ],
     imports: [
@@ -72,11 +66,8 @@ import {DetailsReportStatementModalComponent} from './entry-components';
         DetailsHoldersComponent,
         DetailsTransactionsComponent,
         DetailsEsgScoreComponent,
-        DetailsNewsComponent,
         DetailsRatingComponent,
-        DetailsDividendPayoutComponent,
         DetailsKeyExecutivesComponent,
-        DetailsSplitHistoryComponent,
         DetailsStockPeersComponent
     ]
 })

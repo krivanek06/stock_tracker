@@ -377,6 +377,7 @@ export const stockDetailsTypeDefs = gql`
         dividendPerShareFiveY: Float
         dividendYieldFiveY: Float
         dividendYieldIndicatedAnnual: Float
+        dividendPayoutRatioTTM: Float
         dividendsPerShareTTM: Float
         exDividendDate: String
         trailingAnnualDividendRate: String

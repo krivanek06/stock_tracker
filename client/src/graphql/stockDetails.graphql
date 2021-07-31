@@ -338,6 +338,7 @@ fragment dividensFragment on Dividens {
     dividendPerShareFiveY
     dividendYieldFiveY
     dividendYieldIndicatedAnnual
+    dividendPayoutRatioTTM
     dividendsPerShareTTM
     exDividendDate
     trailingAnnualDividendRate
