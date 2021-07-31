@@ -3,12 +3,12 @@ import {Observable} from 'rxjs';
 import {GraphqlQueryService, StMarketDailyOverview} from '@core';
 
 @Component({
-    selector: 'app-market-daily-change',
-    templateUrl: './market-daily-change.component.html',
-    styleUrls: ['./market-daily-change.component.scss'],
+    selector: 'app-market-calendar',
+    templateUrl: './market-calendar.component.html',
+    styleUrls: ['./market-calendar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MarketDailyChangeComponent implements OnInit {
+export class MarketCalendarComponent implements OnInit {
     dailyOverview$: Observable<StMarketDailyOverview>;
 
     constructor(private graphqlQueryService: GraphqlQueryService) {

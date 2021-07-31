@@ -18,7 +18,7 @@
                   class="st-data-item-wrapper ion-hide-sm-down">
             <!-- logo + symbol name -->
             <ion-label class="st-display-flex-center">
-                <ion-img [src]="data.image" appDefaultImg class="st-symbol-image"></ion-img>
+                <ion-img *ngIf="showImage" [src]="data.image" appDefaultImg class="st-symbol-image"></ion-img>
                 <ion-text class="st-font-4">{{ data.symbol }}</ion-text>
             </ion-label>
 

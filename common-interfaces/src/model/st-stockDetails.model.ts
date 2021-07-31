@@ -396,6 +396,7 @@ export interface STDividens {
   dividendPerShareFiveY: number;
   dividendYieldFiveY: number;
   dividendYieldIndicatedAnnual: number;
+  dividendPayoutRatioTTM: number;
   dividendsPerShareTTM: number;
   exDividendDate: string;
   trailingAnnualDividendRate: string;

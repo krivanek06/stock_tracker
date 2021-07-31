@@ -55,7 +55,7 @@ import {
 } from './entry-components';
 import {SharedProvidersModule} from './shared-providers.module';
 import {ListSkeletonComponent} from './components/lists';
-import {MatExpansionModule} from '@angular/material/expansion';
+import {SharedMaterialModule} from './shared-material.module';
 
 
 @NgModule({
@@ -112,7 +112,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     ],
     imports: [
         SharedProvidersModule,
-        MatExpansionModule
+        SharedMaterialModule,
+
     ],
     exports: [
         SharedProvidersModule,
@@ -161,7 +162,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
         IncreasePrctPipe,
         GenericExtensionPanelComponent,
         ChartKeyValueFormatterPipe,
-        PieChartWrapperComponent
+        PieChartWrapperComponent,
+        SharedMaterialModule
     ],
     entryComponents: [
         InlineInputPopUpComponent,

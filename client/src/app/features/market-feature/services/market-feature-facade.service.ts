@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {FinancialChartModalComponent, SymbolIdentification} from '@shared';
 import {ModalController} from '@ionic/angular';
-import {MarketChartBuilderComponent, MarketEarningsModalComponent} from '../entry-components';
+import {MarketChartBuilderComponent} from '../entry-components';
 
 @Injectable({
     providedIn: 'root'
@@ -31,16 +31,5 @@ export class MarketFeatureFacadeService {
             cssClass: 'custom-modal'
         });
         return await modal.present();
-    }
-
-    async showStockEarningsOnDate(selectedDate: string): Promise<SymbolIdentification> {
-        const modal = await this.modalController.create({
-            component: MarketEarningsModalComponent,
-            componentProps: {selectedDate},
-            cssClass: 'custom-modal'
-        });
-        await modal.present();
-        const closed = await modal.onDidDismiss();
-        return closed?.data?.symbolIdentification;
     }
 }
