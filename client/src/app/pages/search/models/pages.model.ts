@@ -7,7 +7,7 @@ export enum SEARCH_PAGE_ENUM {
 }
 
 export enum SEARCH_PAGE_STOCK_ENUM {
-    SUMMARY = 'summary',
+    SCREENER = 'screener',
     DETAILS = 'details'
 }
 

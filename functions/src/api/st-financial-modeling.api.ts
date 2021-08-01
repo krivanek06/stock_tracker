@@ -256,3 +256,14 @@ export const getSectorPerformance = async(): Promise<api.STFMSectorPerformance[]
         return [];
     }
 }
+
+export const stockScreener = async (stockScreener: api.STFMStockScreener): Promise<api.STFMStockScreenerResult[]> => {
+    try{
+        const urlParams = new URLSearchParams(Object.entries(stockScreener));
+        const promise = await fetch(`${financialModelingAPI}/api/v3/stock-screener?${urlParams}&apikey=${financialModelingAPIKey}`);
+        const respose = await promise.json() as api.STFMStockScreenerResult[];
+        return respose;
+    } catch {
+        return [];
+    }
+}

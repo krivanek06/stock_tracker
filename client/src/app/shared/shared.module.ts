@@ -33,19 +33,6 @@ import {
     UploaderComponent,
     UploadTaskComponent
 } from './components';
-import {
-    ChartKeyValueFormatterPipe,
-    HoldingsTotalInvestedPipe,
-    IncreasePrctPipe,
-    NumberFormatterPipe,
-    ObjNgForPipe,
-    RelativeTimePipe,
-    ReverseArrayPipe,
-    SplitKeyToTitlecasePipe,
-    SplitPipe,
-    SumUpPipe,
-    TypeofPipe
-} from './pipes';
 import {FinancialChartContainerComponent, HeaderComponent, StockSummaryContainerComponent} from './containers';
 import {
     ConfirmationPopOverComponent,
@@ -56,6 +43,7 @@ import {
 import {SharedProvidersModule} from './shared-providers.module';
 import {ListSkeletonComponent} from './components/lists';
 import {SharedMaterialModule} from './shared-material.module';
+import {SharedPipesModule} from './pipes';
 
 
 @NgModule({
@@ -64,9 +52,6 @@ import {SharedMaterialModule} from './shared-material.module';
         DefaultImgDirective,
         FinancialChartComponent,
         GaugeChartComponent,
-        NumberFormatterPipe,
-        RelativeTimePipe,
-        SumUpPipe,
         HeaderComponent,
         InlineModificationFormComponent,
         GenericChartComponent,
@@ -85,7 +70,6 @@ import {SharedMaterialModule} from './shared-material.module';
         SearchWrapperComponent,
         ScrollOffsetDirective,
         GenericFancyCardComponent,
-        ObjNgForPipe,
         GenericFadingCardContentComponent,
         TableHighLowRangeComponent,
         RecommendationDirective,
@@ -93,36 +77,27 @@ import {SharedMaterialModule} from './shared-material.module';
         StockInfoIdentificationItemComponent,
         FinancialChartModalComponent,
         StockSummaryContainerComponent,
-        HoldingsTotalInvestedPipe,
         RangeRatingSliderComponent,
         TableIncreasingItemComponent,
-        SplitKeyToTitlecasePipe,
-        SplitPipe,
         DisableControlDirective,
         PositionChangeItemComponent,
         OptionPickerPopOverComponent,
         ConfirmationPopOverComponent,
         ListSkeletonComponent,
-        ReverseArrayPipe,
-        TypeofPipe,
-        IncreasePrctPipe,
         GenericExtensionPanelComponent,
-        ChartKeyValueFormatterPipe,
         PieChartWrapperComponent
     ],
     imports: [
         SharedProvidersModule,
         SharedMaterialModule,
-
+        SharedPipesModule
     ],
     exports: [
         SharedProvidersModule,
         FixedRangeSliderComponent,
         DefaultImgDirective,
         GaugeChartComponent,
-        NumberFormatterPipe,
-        RelativeTimePipe,
-        SumUpPipe,
+        SharedPipesModule,
         HeaderComponent,
         InlineModificationFormComponent,
         GenericChartComponent,
@@ -139,7 +114,6 @@ import {SharedMaterialModule} from './shared-material.module';
         TooltipDirective,
         SearchWrapperComponent,
         GenericFancyCardComponent,
-        ObjNgForPipe,
         GenericFadingCardContentComponent,
         TableHighLowRangeComponent,
         RecommendationDirective,
@@ -147,21 +121,14 @@ import {SharedMaterialModule} from './shared-material.module';
         StockInfoIdentificationItemComponent,
         FinancialChartModalComponent,
         StockSummaryContainerComponent,
-        HoldingsTotalInvestedPipe,
         RangeRatingSliderComponent,
         TableIncreasingItemComponent,
-        SplitKeyToTitlecasePipe,
-        SplitPipe,
         DisableControlDirective,
         PositionChangeItemComponent,
         OptionPickerPopOverComponent,
         ConfirmationPopOverComponent,
         ListSkeletonComponent,
-        ReverseArrayPipe,
-        TypeofPipe,
-        IncreasePrctPipe,
         GenericExtensionPanelComponent,
-        ChartKeyValueFormatterPipe,
         PieChartWrapperComponent,
         SharedMaterialModule
     ],

@@ -64,5 +64,3 @@ export const stFormatDateWithHours = (date: Date) => {
     const hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
     return `${hours}:${minutes}, ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
 };
-
-

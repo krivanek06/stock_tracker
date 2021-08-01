@@ -6,8 +6,8 @@ import {stFormatLargeNumber} from '../utils';
 })
 export class NumberFormatterPipe implements PipeTransform {
 
-    transform(value: number, isPercent: boolean = false, showDollarSign: boolean = false): unknown {
-        return stFormatLargeNumber(value, isPercent);
+    transform(value: number, isPercent: boolean = false, showDollarSign: boolean = false): string {
+        return stFormatLargeNumber(value, isPercent, showDollarSign);
     }
 }
 

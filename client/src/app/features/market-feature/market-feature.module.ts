@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {SharedModule} from '@shared';
+import {FormLockInputModule, FormMatInputLockWrapperModule, FormMatInputWrapperModule, SharedModule} from '@shared';
 import {
     MarketCalendarDividendPayoutComponent,
     MarketCalendarEarningsComponent,
@@ -7,6 +7,9 @@ import {
     MarketCalendarIpoComponent,
     MarketCalendarSplitHistoryComponent,
     MarketCompanyQuotesTableComponent,
+    MarketSearchFormComponent,
+    MarketSearchFormResultComponent,
+    MarketSearchTableComponent,
     MarketSectorHeatMapComponent,
     MarketStockNewsComponent,
     MarketTopTableCryptoComponent
@@ -25,10 +28,16 @@ import {MarketChartBuilderComponent} from './entry-components';
         MarketCalendarIpoComponent,
         MarketCalendarEarningsComponent,
         MarketCalendarSplitHistoryComponent,
-        MarketCalendarDividendPayoutComponent
+        MarketCalendarDividendPayoutComponent,
+        MarketSearchFormComponent,
+        MarketSearchFormResultComponent,
+        MarketSearchTableComponent
     ],
     imports: [
-        SharedModule
+        SharedModule,
+        FormMatInputWrapperModule,
+        FormLockInputModule,
+        FormMatInputLockWrapperModule
     ],
     exports: [
         MarketCompanyQuotesTableComponent,
@@ -40,7 +49,10 @@ import {MarketChartBuilderComponent} from './entry-components';
         MarketCalendarIpoComponent,
         MarketCalendarEarningsComponent,
         MarketCalendarSplitHistoryComponent,
-        MarketCalendarDividendPayoutComponent
+        MarketCalendarDividendPayoutComponent,
+        MarketSearchTableComponent,
+        MarketSearchFormResultComponent,
+        MarketSearchFormComponent
     ]
 })
 export class MarketFeatureModule {

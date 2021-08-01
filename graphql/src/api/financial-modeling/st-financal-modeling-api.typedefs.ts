@@ -446,7 +446,44 @@ type STFMSectorPerformance {
   changesPercentage: String
 }
 
+type STFMStockScreenerResult {
+  symbol: String
+  companyName: String
+  marketCap: Float
+  sector: String
+  industry: String
+  beta: Float
+  price: Float
+  lastAnnualDividend: Float
+  volume: Float
+  exchange: String
+  exchangeShortName: String
+  country: String
+  isEtf: Boolean
+  isActivelyTrading: Boolean
+  companyQuote: STFMCompanyQuote
+}
 
 
+# input 
+
+input STFMStockScreenerInput {
+  marketCapMoreThan: Float
+  marketCapLowerThan: Float
+  priceMoreThan: Float
+  priceLowerThan: Float
+  betaMoreThan: Float
+  betaLowerThan: Float
+  volumeMoreThan: Float
+  volumeLowerThan: Float
+  dividendMoreThan: Float
+  dividendLowerThan: Float
+  isEtf: Boolean
+  isActivelyTrading: Boolean
+  sector: String
+  industry: String
+  country: String
+  exchange: String
+}
 
 `;

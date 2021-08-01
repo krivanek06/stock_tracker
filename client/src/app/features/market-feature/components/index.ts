@@ -7,3 +7,4 @@ export * from './market-calendar-ipo/market-calendar-ipo.component';
 export * from './market-calendar-earnings/market-calendar-earnings.component';
 export * from './market-calendar-split-history/market-calendar-split-history.component';
 export * from './market-calendar-dividend-payout/market-calendar-dividend-payout.component';
+export * from './market-search';

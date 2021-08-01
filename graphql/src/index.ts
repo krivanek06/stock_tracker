@@ -51,7 +51,7 @@ import {performTransaction} from "./st-transaction/st-transaction.mutation";
 import {STMarketSharedTypeDefs} from "./st-market/st-market.typedefs";
 import {
     queryStMarketAllCategories, queryStMarketData,
-    querySTMarketHistoryOverview, queryMarketDailyOverview, queryEtfDocument
+    querySTMarketHistoryOverview, queryMarketDailyOverview, queryEtfDocument, queryStockScreener
 } from "./st-market/st-market.query";
 import { STStockDetailsCalculationsTypeDefs } from './st-stock-calculations';
 
@@ -91,6 +91,7 @@ const mainTypeDefs = gql`
         queryMarketDailyOverview: STMarketDailyOverview
         queryStMarketData(key: String!): STMarketChartDataResultCombined
         queryEtfDocument(etfName: String!): STMarketEtfDocument
+        queryStockScreener(stockScreenerInput: STFMStockScreenerInput!): [STFMStockScreenerResult]
 
         # trading strategy
         querySTTradingStrategies: STTradingStrategySearch
@@ -155,6 +156,7 @@ const mainResolver = {
         queryStMarketAllCategories: async (_: null, args: null) => await queryStMarketAllCategories(),
         queryStMarketData: async (_: null, args: { key: string }) => await queryStMarketData(args.key),
         queryEtfDocument: async (_: null, args: { etfName: string }) => await queryEtfDocument(args.etfName),
+        queryStockScreener: async (_: null, args: { stockScreenerInput: api.STFMStockScreener }) => await queryStockScreener(args.stockScreenerInput), 
 
         // trading strategy
         querySTTradingStrategies: async (_: null, args: null) => await queryTradingStrategies(),

@@ -33,6 +33,8 @@
 @import '~@swimlane/ngx-datatable/themes/bootstrap.scss';
 @import '~@swimlane/ngx-datatable/assets/icons.css';*/
 
+// angular material
+// @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 // custom
 @import "theme/custom-variables.scss";
@@ -41,6 +43,7 @@
 
 * {
   font-size: 14px;
+
   ion-icon {
     font-size: 23px;
   }
