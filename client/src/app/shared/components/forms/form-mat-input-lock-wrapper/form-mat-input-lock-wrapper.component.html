@@ -1,0 +1,24 @@
+<div [ngClass]="{
+    'c-form-lock-wrapper-slider': inputType === 'SLIDER',
+    'c-form-lock-wrapper-select': inputType !== 'SLIDER'
+}">
+    <app-form-mat-input-wrapper
+            [chipMaxAllowed]="chipMaxAllowed"
+            [chipSelectedValues]="chipSelectedValues"
+            [controlName]="controlName"
+            [disabled]="disabled.value"
+            [hintText]="hintText"
+            [inputCaption]="inputCaption"
+            [inputSource]="inputSource"
+            [inputType]="inputType"
+            [sliderLabelShowDollarSign]="sliderLabelShowDollarSign"
+            [sliderMaxValue]="sliderMaxValue"
+            [sliderMinValue]="sliderMinValue"
+            [sliderStepValue]="sliderStepValue"
+    ></app-form-mat-input-wrapper>
+    <ng-container [formGroup]="form">
+        <app-form-lock-input
+                formControlName="disabled"
+        ></app-form-lock-input>
+    </ng-container>
+</div>

@@ -1,0 +1,79 @@
+@import "src/theme/custom-variables";
+
+:host {
+
+
+  .c-range-wrapper {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-evenly;
+
+    & > * {
+      width: 45%;
+
+      @media (max-width: #{$st-var-sm-split}) {
+        width: 100%;
+      }
+    }
+  }
+
+  .c-select-wrapper {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-evenly;
+
+    & > * {
+      width: 30%;
+
+      @media (max-width: #{$st-var-md-split}) {
+        width: 50%;
+      }
+
+      @media (max-width: #{$st-var-sm-split}) {
+        width: 100%;
+      }
+    }
+  }
+
+
+  .c-first-row {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-evenly;
+
+    & > * {
+      width: 24%;
+
+      @media (max-width: #{$st-var-md-split}) {
+        width: 50%;
+      }
+
+      @media (max-width: #{$st-var-sm-split}) {
+        width: 100%;
+      }
+    }
+  }
+
+  .c-rest-wrapper {
+    display: flex;
+    flex-flow: wrap;
+
+    .c-rest {
+      display: flex;
+      flex-flow: wrap;
+      justify-content: space-evenly;
+
+      & > * {
+        width: 30%;
+      }
+    }
+
+    &:first-child {
+      flex: 1;
+    }
+
+    &:last-child {
+      flex: 3;
+    }
+  }
+}

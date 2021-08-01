@@ -175,3 +175,25 @@ query QueryStMarketData($key: String!) {
         ...STMarketChartDataResultCombinedFragment
     }
 }
+
+query QueryStockScreener($stockScreenerInput: STFMStockScreenerInput!){
+    queryStockScreener(stockScreenerInput: $stockScreenerInput){
+        symbol
+        companyName
+        marketCap
+        sector
+        industry
+        beta
+        price
+        lastAnnualDividend
+        volume
+        exchange
+        exchangeShortName
+        country
+        isEtf
+        isActivelyTrading
+        companyQuote {
+            ...STFMCompanyQuoteFragment
+        }
+    }
+}

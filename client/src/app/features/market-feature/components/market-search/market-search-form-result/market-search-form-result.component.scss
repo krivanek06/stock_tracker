@@ -1,0 +1,25 @@
+@import "variables";
+
+:host {
+  div {
+    padding: 4px;
+    justify-content: space-between;
+    display: flex;
+    margin-bottom: 6px;
+
+    ion-label {
+      &:first-child {
+        color: #{$st-var-font-0};
+        min-width: fit-content;
+        max-width: fit-content;
+      }
+
+      &:last-child {
+        text-align: end;
+        min-width: fit-content;
+        max-width: fit-content;
+      }
+    }
+
+  }
+}

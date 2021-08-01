@@ -529,6 +529,7 @@ export type Query = {
   queryMarketDailyOverview?: Maybe<StMarketDailyOverview>;
   queryStMarketData?: Maybe<StMarketChartDataResultCombined>;
   queryEtfDocument?: Maybe<StMarketEtfDocument>;
+  queryStockScreener?: Maybe<Array<Maybe<StfmStockScreenerResult>>>;
   querySTTradingStrategies?: Maybe<StTradingStrategySearch>;
   querySTTradingStrategyData?: Maybe<StTradingStrategyData>;
   queryAdminMainInformations?: Maybe<StAdminMainInformations>;
@@ -594,6 +595,11 @@ export type QueryQueryStMarketDataArgs = {
 
 export type QueryQueryEtfDocumentArgs = {
   etfName: Scalars['String'];
+};
+
+
+export type QueryQueryStockScreenerArgs = {
+  stockScreenerInput: StfmStockScreenerInput;
 };
 
 
@@ -1156,6 +1162,44 @@ export type StfmStockNew = {
   text?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
+};
+
+export type StfmStockScreenerInput = {
+  marketCapMoreThan?: Maybe<Scalars['Float']>;
+  marketCapLowerThan?: Maybe<Scalars['Float']>;
+  priceMoreThan?: Maybe<Scalars['Float']>;
+  priceLowerThan?: Maybe<Scalars['Float']>;
+  betaMoreThan?: Maybe<Scalars['Float']>;
+  betaLowerThan?: Maybe<Scalars['Float']>;
+  volumeMoreThan?: Maybe<Scalars['Float']>;
+  volumeLowerThan?: Maybe<Scalars['Float']>;
+  dividendMoreThan?: Maybe<Scalars['Float']>;
+  dividendLowerThan?: Maybe<Scalars['Float']>;
+  isEtf?: Maybe<Scalars['Boolean']>;
+  isActivelyTrading?: Maybe<Scalars['Boolean']>;
+  sector?: Maybe<Scalars['String']>;
+  industry?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  exchange?: Maybe<Scalars['String']>;
+};
+
+export type StfmStockScreenerResult = {
+  __typename?: 'STFMStockScreenerResult';
+  symbol?: Maybe<Scalars['String']>;
+  companyName?: Maybe<Scalars['String']>;
+  marketCap?: Maybe<Scalars['Float']>;
+  sector?: Maybe<Scalars['String']>;
+  industry?: Maybe<Scalars['String']>;
+  beta?: Maybe<Scalars['Float']>;
+  price?: Maybe<Scalars['Float']>;
+  lastAnnualDividend?: Maybe<Scalars['Float']>;
+  volume?: Maybe<Scalars['Float']>;
+  exchange?: Maybe<Scalars['String']>;
+  exchangeShortName?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  isEtf?: Maybe<Scalars['Boolean']>;
+  isActivelyTrading?: Maybe<Scalars['Boolean']>;
+  companyQuote?: Maybe<StfmCompanyQuote>;
 };
 
 export type StfmTopStocks = {
@@ -2315,6 +2359,23 @@ export type QueryStMarketDataQuery = (
     { __typename?: 'STMarketChartDataResultCombined' }
     & StMarketChartDataResultCombinedFragmentFragment
   )> }
+);
+
+export type QueryStockScreenerQueryVariables = Exact<{
+  stockScreenerInput: StfmStockScreenerInput;
+}>;
+
+
+export type QueryStockScreenerQuery = (
+  { __typename?: 'Query' }
+  & { queryStockScreener?: Maybe<Array<Maybe<(
+    { __typename?: 'STFMStockScreenerResult' }
+    & Pick<StfmStockScreenerResult, 'symbol' | 'companyName' | 'marketCap' | 'sector' | 'industry' | 'beta' | 'price' | 'lastAnnualDividend' | 'volume' | 'exchange' | 'exchangeShortName' | 'country' | 'isEtf' | 'isActivelyTrading'>
+    & { companyQuote?: Maybe<(
+      { __typename?: 'STFMCompanyQuote' }
+      & StfmCompanyQuoteFragmentFragment
+    )> }
+  )>>> }
 );
 
 export type StPortfolioFragmentFragment = (
@@ -4499,6 +4560,40 @@ export const QueryStMarketDataDocument = gql`
   })
   export class QueryStMarketDataGQL extends Apollo.Query<QueryStMarketDataQuery, QueryStMarketDataQueryVariables> {
     document = QueryStMarketDataDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const QueryStockScreenerDocument = gql`
+    query QueryStockScreener($stockScreenerInput: STFMStockScreenerInput!) {
+  queryStockScreener(stockScreenerInput: $stockScreenerInput) {
+    symbol
+    companyName
+    marketCap
+    sector
+    industry
+    beta
+    price
+    lastAnnualDividend
+    volume
+    exchange
+    exchangeShortName
+    country
+    isEtf
+    isActivelyTrading
+    companyQuote {
+      ...STFMCompanyQuoteFragment
+    }
+  }
+}
+    ${StfmCompanyQuoteFragmentFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class QueryStockScreenerGQL extends Apollo.Query<QueryStockScreenerQuery, QueryStockScreenerQueryVariables> {
+    document = QueryStockScreenerDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

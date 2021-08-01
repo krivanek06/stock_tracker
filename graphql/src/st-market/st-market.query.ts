@@ -1,10 +1,11 @@
-import { getEtfHolders, getEtfSectorWeight, getEtfCountryWeight } from './../api';
+import { getEtfHolders, getEtfSectorWeight, getEtfCountryWeight, getCompanyQuoteBatch, stockScreener } from './../api';
 import { ApolloError } from "apollo-server";
 import * as admin from "firebase-admin";
 import * as moment from 'moment';
 import * as api from 'stock-tracker-common-interfaces';
 import { stockDataAPI } from "../environment";
 import { convertToSTMarketChartDataResultCombined } from "./st-market.functions";
+import {chunk as _chunk, flatten as _flatten} from 'lodash';
 
 export const querySTMarketHistoryOverview = async (): Promise<api.STMarketHistoryOverview> => {
     try {
@@ -127,21 +128,19 @@ export const queryEtfDocument = async(etfName: string): Promise<api.STMarketEtfD
     }
 }
 
-/*
-export const queryStMarketCalendarEvents = async (date: string): Promise<api.StMarketCalendarEvents> => {
+export const queryStockScreener = async (stockScreenerInput: api.STFMStockScreener): Promise<api.STFMStockScreenerResult[]> => {
     try {
-        const data = await global.fetch(`${stockDataAPI}/search/calendar_events?date=${date}`);
-        return data.json();
-    } catch (error) {
-        throw new ApolloError(error);
-    }
-};
+        const stockScreeners =  await stockScreener(stockScreenerInput);
 
-export const queryStMarketCalendarEventsEarnings = async (date: string): Promise<api.StMarketCalendarEventsEarnings> => {
-    try {
-        const data = await global.fetch(`${stockDataAPI}/search/calendar_events_earnings?date=${date}`);
-        return data.json();
+        // load additional data
+        const symbols = _chunk(stockScreeners.map(data => data.symbol), 20) as string[][];
+        const companyQuotesPromises = _flatten(await Promise.all([...symbols.map(d => getCompanyQuoteBatch(d))])) as api.STFMCompanyQuote[];
+        const stockScreenersWithCompanYQuotes = stockScreeners.map(screener => {
+            return {...screener, companyQuote: companyQuotesPromises.find(d => d.symbol === screener.symbol)} as api.STFMStockScreenerResult
+        })
+
+        return stockScreenersWithCompanYQuotes;
     } catch (error) {
         throw new ApolloError(error);
     }
-};*/
+}

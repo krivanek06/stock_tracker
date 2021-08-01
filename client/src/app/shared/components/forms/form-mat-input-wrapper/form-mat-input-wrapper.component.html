@@ -1,0 +1,143 @@
+<fieldset [disabled]="disabled" [ngClass]="{ 'errors-showed': usedFormControl.invalid }">
+    <ng-container [ngSwitch]="inputType">
+        <mat-form-field *ngIf="!['CHECKBOX', 'RADIO'].includes(inputType)"
+                        [ngClass]="{
+                            'ion-text-center': inputType === 'SLIDER',
+                            'disabled-mat-form-field': disabled
+                          }"
+                        appearance="outline">
+            <!-- label -->
+            <mat-label class="st-font-1">
+                {{ inputCaption }}
+                <span *ngIf="inputType === 'SLIDER'" class="st-font-4">
+                    : {{ usedFormControl.value | numberFormatter: false: sliderLabelShowDollarSign }}
+                </span>
+            </mat-label>
+
+            <!-- textarea -->
+            <textarea
+                    *ngSwitchCase="'TEXTAREA'"
+                    [formControl]="formInputControl"
+                    cdkAutosizeMaxRows="5"
+                    cdkAutosizeMinRows="1"
+                    cdkTextareaAutosize
+                    matInput
+            >
+			</textarea>
+
+            <!-- slide toggle -->
+            <mat-slide-toggle *ngSwitchCase="'SLIDE_TOGGLE'" [formControl]="formInputControl"
+                              [ngClass]="{'disabled-element': disabled}"></mat-slide-toggle>
+
+            <!-- select -->
+            <mat-select *ngSwitchCase="'SELECT'" [disableRipple]="disabled" [formControl]="formInputControl"
+                        [ngClass]="{'disabled-element': disabled}">
+                <mat-option *ngFor="let optionData of inputSource"
+                            [value]="optionData.value"> {{ optionData.caption | translate }} </mat-option>
+            </mat-select>
+
+            <!-- multi select -->
+            <mat-select
+                    *ngSwitchCase="'MULTISELECT'"
+                    [disableRipple]="disabled"
+                    [formControl]="formInputControl"
+                    [multiple]="true"
+                    [ngClass]="{'disabled-element': disabled}"
+            >
+                <input (keyup)="multiSelectKeyPress($event.target.value)" class="select-input" placeholder="Search"/>
+                <mat-option *ngFor="let optionData of inputSource"
+                            [value]="optionData.value"> {{ optionData.caption | translate }} </mat-option>
+            </mat-select>
+
+            <!-- slider -->
+            <div *ngSwitchCase="'SLIDER'" class="slider-container">
+                <mat-icon class="st-price-down">keyboard_arrow_down</mat-icon>
+                <mat-slider
+                        [displayWith]="sliderFormatLabel"
+                        [formControl]="formInputControl"
+                        [ngClass]="{'disabled-element': disabled}"
+                        aria-label="units"
+                        max="100000"
+                        min="0"
+                        step="1000"
+                        thumbLabel
+                        tickInterval="1000">
+                </mat-slider>
+                <mat-icon class="st-price-up">keyboard_arrow_up</mat-icon>
+                <!-- this is here to not get an error -->
+                <textarea hidden matInput></textarea>
+            </div>
+
+            <!-- chip select -->
+            <ng-container *ngSwitchCase="'CHIPSELECT'">
+                <mat-chip-list #chipList [formControl]="chipInputControl">
+                    <!-- picked results -->
+                    <ng-container *ngFor="let selectedValue of chipSelectedValues; let i = index">
+                        <mat-chip (removed)="chipRemoved(i)" *ngIf="selectedValue" [removable]="true"
+                                  [selectable]="false">
+                            <img *ngIf="selectedValue?.image" [src]="selectedValue.image" alt="" class="g-m-right"/>
+                            {{ selectedValue.caption }}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                    </ng-container>
+                    <input
+                       #chipSearchInput
+                       [disabled]="chipSelectedValues.length === chipMaxAllowed"
+                       [formControl]="chipSearchInputControl"
+                       [matAutocomplete]="auto"
+                       [matChipInputFor]="chipList"
+                       autocomplete="off"
+                    />
+                </mat-chip-list>
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="chipSuggestionSelected($event)"
+                                  class="filterer-chips-autocomplete-panel">
+                    <!-- search options -->
+                    <mat-option *ngFor="let suggestion of inputSource" [value]="suggestion.value">
+                        <img *ngIf="suggestion?.image" [src]="suggestion.image" alt=""
+                             class="g-m-right"/>{{ suggestion.caption }}
+                    </mat-option>
+                </mat-autocomplete>
+            </ng-container>
+
+            <!-- text, number, time, email -->
+            <input *ngSwitchDefault [formControl]="formInputControl" [readOnly]="disabled" [type]="inputType" matInput/>
+
+            <!-- errors -->
+            <mat-error *ngFor="let inputError of usedFormControl.errors | keyvalue"
+                       [id]="null"> {{ inputError.value.errorText }} </mat-error>
+
+            <!-- hint -->
+            <mat-icon *ngIf="hintText" [matTooltip]="hintText" class="helper-text-tooltip-icon"
+                      matSuffix matTooltipClass="form-input-tooltip">
+                help_outline
+            </mat-icon>
+        </mat-form-field>
+
+        <!-- mat-form-field can not contain the following elements -->
+        <div class="not-form-field-inputs">
+            <!-- checkbox -->
+            <mat-checkbox
+                    *ngSwitchCase="'CHECKBOX'"
+                    [disableRipple]="disabled"
+                    [formControl]="formInputControl"
+                    [matTooltip]="hintText ? (hintText | translate) : null"
+                    [ngClass]="{'disabled-element': disabled}"
+                    matTooltipClass="form-input-tooltip"
+            >
+                {{ inputCaption | translate }}
+            </mat-checkbox>
+
+            <!-- radio button -->
+            <mat-radio-group
+                    *ngSwitchCase="'RADIO'"
+                    [formControl]="formInputControl"
+                    [matTooltip]="hintText ? (hintText | translate) : null"
+                    [ngClass]="{'disabled-element': disabled}"
+                    matTooltipClass="form-input-tooltip"
+            >
+                <mat-radio-button *ngFor="let optionData of inputSource"
+                                  [value]="optionData.value"> {{ optionData.caption | translate }} </mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </ng-container>
+</fieldset>

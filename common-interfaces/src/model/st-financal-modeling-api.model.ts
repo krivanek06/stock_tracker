@@ -473,3 +473,41 @@ export interface STFMSectorPerformance {
   sector:            string;
   changesPercentage: string;
 }
+
+export interface STFMStockScreener {
+  marketCapMoreThan?: number;
+  marketCapLowerThan?: number;
+  priceMoreThan?: number;
+  priceLowerThan?: number;
+  betaMoreThan?: number;
+  betaLowerThan?: number;
+  volumeMoreThan?: number;
+  volumeLowerThan?: number;
+  dividendMoreThan?: number;
+  dividendLowerThan?: number;
+  isEtf?: boolean;
+  isActivelyTrading?: boolean;
+  sector?: string;
+  industry?: string;
+  country?: string;
+  exchange?: string;
+}
+
+
+export interface STFMStockScreenerResult {
+  symbol?: string;
+  companyName?: string;
+  marketCap?: number;
+  sector?: string;
+  industry?: string;
+  beta?: number;
+  price?: number;
+  lastAnnualDividend?: number;
+  volume?: number;
+  exchange?: string;
+  exchangeShortName?: string;
+  country?: string;
+  isEtf?: boolean;
+  isActivelyTrading?: boolean;
+  companyQuote?: STFMCompanyQuote;
+}

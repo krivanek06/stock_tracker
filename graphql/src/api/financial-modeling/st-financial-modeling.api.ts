@@ -53,7 +53,7 @@ export const getLivePriceAPI = async(symbol: string): Promise<api.STFMLivePrice>
 
 export const getCompanyQuoteBatch = async(symbols: string[] = []): Promise<api.STFMCompanyQuote[]> => {
     try{
-        if(symbols.length === 0 || symbols.length > 5){
+        if(symbols.length === 0 || symbols.length > 25){
             return [];
         }
         
@@ -252,6 +252,17 @@ export const getSectorPerformance = async(): Promise<api.STFMSectorPerformance[]
     try{
         const promise = await fetch(`${financialModelingAPI}/api/v3/sectors-performance?apikey=${financialModelingAPIKey}`);
         const respose = await promise.json() as api.STFMSectorPerformance[];
+        return respose;
+    } catch {
+        return [];
+    }
+}
+
+export const stockScreener = async (stockScreener: api.STFMStockScreener): Promise<api.STFMStockScreenerResult[]> => {
+    try{
+        const urlParams = new URLSearchParams(Object.entries(stockScreener));
+        const promise = await fetch(`${financialModelingAPI}/api/v3/stock-screener?${urlParams}&limit=100&apikey=${financialModelingAPIKey}`);
+        const respose = await promise.json() as api.STFMStockScreenerResult[];
         return respose;
     } catch {
         return [];

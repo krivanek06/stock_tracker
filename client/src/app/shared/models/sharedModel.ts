@@ -47,4 +47,24 @@ export interface TreeMapData {
     colorValue: number;
 }
 
+export interface InputSource {
+    image?: string;
+    value: string | number | boolean;
+    caption: string;
+}
+
+export type InputType =
+    'CHECKBOX'
+    | 'RADIO'
+    | 'TEXTAREA'
+    | 'SLIDE_TOGGLE'
+    | 'SELECT'
+    | 'MULTISELECT'
+    | 'CHIPSELECT'
+    | 'SLIDER'
+    | 'TEXT'
+    | 'NUMBER'
+    | 'EMAIL'
+    | 'PASSWORD';
+
 export const HistoricalPricePeriods = ['1min', '5min', '15min', '30min', '1hour', '4hour', '1y', '5y', 'all'];

@@ -7,9 +7,12 @@ import {
     QueryStMarketDataGQL,
     QueryStMarketHistoryOverviewGQL,
     QueryStockQuotesByPrefixGQL,
+    QueryStockScreenerGQL,
     QuerySymbolHistoricalPricesGQL,
     QueryUserPublicDataByUsernameGQL,
     StfmCompanyQuote,
+    StfmStockScreenerInput,
+    StfmStockScreenerResult,
     StGroupIdentificationDataFragment,
     StMarketChartDataResultCombined,
     StMarketDailyOverview,
@@ -35,7 +38,8 @@ export class GraphqlQueryService {
                 private queryStMarketDataGQL: QueryStMarketDataGQL,
                 private queryStMarketAllCategoriesGQL: QueryStMarketAllCategoriesGQL,
                 private querySymbolHistoricalPricesGQL: QuerySymbolHistoricalPricesGQL,
-                private queryEtfDocumentGQL: QueryEtfDocumentGQL) {
+                private queryEtfDocumentGQL: QueryEtfDocumentGQL,
+                private queryStockScreenerGQL: QueryStockScreenerGQL) {
     }
 
 
@@ -71,17 +75,13 @@ export class GraphqlQueryService {
         return this.queryStMarketHistoryOverviewGQL.fetch().pipe(map(x => x.data.querySTMarketHistoryOverview));
     }
 
-    /*queryStMarketCalendarEvents(date: string): Observable<StEventCalendarData[]> {
-        return this.queryStMarketCalendarEventsGQL.fetch({
-            date
-        }).pipe(map(x => x.data.queryStMarketCalendarEvents.events));
+    queryStockScreener(stockScreenerInput: StfmStockScreenerInput): Observable<StfmStockScreenerResult[]> {
+        return this.queryStockScreenerGQL.fetch({
+            stockScreenerInput
+        }, {
+            fetchPolicy: 'network-only'
+        }).pipe(map(res => res.data.queryStockScreener));
     }
-
-    queryStMarketCalendarEventsEarnings(date: string): Observable<StEventCalendarEarningsData[]> {
-        return this.queryStMarketCalendarEventsEarningsGQL.fetch({
-            date
-        }).pipe(map(x => x.data.queryStMarketCalendarEventsEarnings.earnings));
-    }*/
 
     queryEtfDocument(etfName: string): Observable<StMarketEtfDocument> {
         return this.queryEtfDocumentGQL.fetch({
