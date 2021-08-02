@@ -5,3 +5,8 @@ export * from './sumUp.pipe';
 export * from './holdings-total-invested.pipe';
 export * from './split-key-to-titlecase.pipe';
 export * from './split.pipe';
+export * from './reverse-array.pipe';
+export * from './typeof.pipe';
+export * from './increase-prct.pipe';
+export * from './chart-key-value-formatter.pipe';
+export * from './shared-pipes.module';

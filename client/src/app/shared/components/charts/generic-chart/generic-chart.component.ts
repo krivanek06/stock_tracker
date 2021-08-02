@@ -125,6 +125,9 @@ export class GenericChartComponent implements OnInit, OnChanges {
                 this.chartOptions.plotOptions.series.dataLabels.format = '{point.y:.1f}%';
             }
         } else {
+            if (this.chartType === ChartType.bar) {
+                return;
+            }
             this.chartOptions.tooltip = {
                 ...this.chartOptions.tooltip,
                 pointFormatter: function() {
@@ -320,6 +323,15 @@ export class GenericChartComponent implements OnInit, OnChanges {
                         }
                     },
                     threshold: null
+                },
+                bar: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    tooltip: {
+                        headerFormat: '',
+                        pointFormat: this.isPercentage ? `<span style="color:{point.color};">{point.name}</span>: <b>{point.y:.2f}%</b><br/>` : '<span style="color:{point.color};">{point.name}</span>: <b>{point.y}</b><br/>'
+                    }
                 },
                 pie: {
                     showInLegend: this.showLegend,

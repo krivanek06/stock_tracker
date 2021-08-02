@@ -1,0 +1,18 @@
+@import "custom-variables";
+
+:host {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.disabled-control {
+  opacity: 0.5;
+  color: #{$st-red};
+}
+
+.enabled-control {
+  opacity: 0.5;
+  color: #{$price-up-lighter};
+}

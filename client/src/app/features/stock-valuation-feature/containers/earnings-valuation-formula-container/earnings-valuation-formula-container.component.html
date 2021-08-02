@@ -1,20 +1,20 @@
-<app-generic-card subtitle="Earnings valuation">
+<app-generic-card title="Earnings valuation">
     <ion-grid *ngIf="earningsFormula$ | async as formula">
         <ion-row>
             <!-- variables -->
-            <ion-col size="12" size-md="4" offset-md="0.5">
+            <ion-col offset-md="0.5" size="12" size-md="4">
                 <app-earnings-valuation-formula-variables
-                        (resetVariablesEmitter)="resetVariables()"
-                        (growthRate5yEmitter)="growthRate5yChange($event)"
                         (growthRate10yEmitter)="growthRate10yChange($event)"
+                        (growthRate5yEmitter)="growthRate5yChange($event)"
                         (minimumReturnEmitter)="minimumReturnChange($event)"
+                        (resetVariablesEmitter)="resetVariables()"
                         (terminalMultipleEmitter)="terminalMultipleChange($event)"
                         [variables]="formula.variable">
                 </app-earnings-valuation-formula-variables>
             </ion-col>
 
             <!-- formula -->
-            <ion-col size="12" size-md="6.5" offset-md="1">
+            <ion-col offset-md="1" size="12" size-md="6.5">
                 <app-earnings-valuation-formula
                         [formula]="formula">
                 </app-earnings-valuation-formula>

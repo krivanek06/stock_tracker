@@ -3,12 +3,12 @@
     <ion-row class="ion-justify-content-center">
 
         <!-- balance -->
-        <ion-col size="12" size-sm="12" size-md="5" size-lg="4">
+        <ion-col size="12" size-lg="4" size-sm="12">
             <app-generic-fancy-card
-                    [title]="'Balance'"
+                    [cardClasses]="'st-width-100 st-main-color-turquoise-background-linear'"
                     [titleColor]="'st-main-color-turquois'"
                     [titleDotColor]="'st-main-color-turquoise-background'"
-                    [cardClasses]="'st-width-100 st-main-color-turquoise-background-linear'">
+                    [title]="'Balance'">
 
                 <ion-item class="st-flex-row">
                     <ion-label class="st-font-size-24 st-font-white">
@@ -16,9 +16,8 @@
                     </ion-label>
                     <ion-label style="position:absolute; right: 0">
                         <app-price-change-item
-                                [price]="(portfolioCash + portfolioInvested) - startingPortfolio"
                                 [priceChange]="((portfolioCash + portfolioInvested) - startingPortfolio) / startingPortfolio * 100"
-                                [lighterBiggerVersion]="true">
+                                [price]="(portfolioCash + portfolioInvested) - startingPortfolio">
                         </app-price-change-item>
                     </ion-label>
                 </ion-item>
@@ -26,12 +25,12 @@
         </ion-col>
 
         <!-- invested -->
-        <ion-col size="12" size-sm="6" size-md="3.5" size-lg="3">
+        <ion-col size="12" size-lg="4" size-sm="6">
             <app-generic-fancy-card
-                    [title]="'Invested'"
+                    [cardClasses]="'st-width-100 st-main-color-purple-background-linear'"
                     [titleColor]="'st-font-main-color-purple'"
                     [titleDotColor]="'st-main-color-purple-background'"
-                    [cardClasses]="'st-width-100 st-main-color-purple-background-linear'">
+                    [title]="'Invested'">
 
                 <ion-item>
                     <ion-label class="st-font-size-24 st-font-white portfolio-sum">
@@ -42,12 +41,12 @@
         </ion-col>
 
         <!-- cash -->
-        <ion-col size="12" size-sm="6" size-md="3.5" size-lg="3">
+        <ion-col size="12" size-lg="4" size-sm="6">
             <app-generic-fancy-card
-                    [title]="'Cash'"
+                    [cardClasses]="'st-width-100 st-main-color-orange-background-linear'"
                     [titleColor]="'st-font-main-color-orange'"
                     [titleDotColor]="'st-main-color-orange-background'"
-                    [cardClasses]="'st-width-100 st-main-color-orange-background-linear'">
+                    [title]="'Cash'">
                 <ion-item>
                     <ion-label class="st-font-size-24 st-font-white portfolio-sum">
                         {{ portfolioCash | currency }}
@@ -72,9 +71,9 @@
                 {{ (portfolioCash + portfolioInvested) | numberFormatter}}
             </ion-text>
             <app-price-compare-item
-                    [showPrice]="false"
+                    [compareToPrice]="startingPortfolio"
                     [currentPrice]="portfolioInvested + portfolioCash"
-                    [compareToPrice]="startingPortfolio">
+                    [showPrice]="false">
             </app-price-compare-item>
         </ion-label>
     </div>

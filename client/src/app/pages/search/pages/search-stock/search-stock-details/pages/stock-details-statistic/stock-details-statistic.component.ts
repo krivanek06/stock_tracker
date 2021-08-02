@@ -1,8 +1,9 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {StockDetails, SymbolStorageService, UserStorageService} from '@core';
+import {StfmCompanyQuote, StockDetails, SymbolStorageService, UserStorageService} from '@core';
 import {ChartType, DialogService} from '@shared';
 import {Observable} from 'rxjs';
 import {first} from 'rxjs/operators';
+import {WatchlistFeatureFacadeService} from '@stock-watchlist-feature';
 
 @Component({
     selector: 'app-stock-details-statistic',
@@ -17,7 +18,8 @@ export class StockDetailsStatisticComponent implements OnInit {
     ChartType = ChartType;
 
     constructor(private symbolStorageService: SymbolStorageService,
-                private userStorageService: UserStorageService) {
+                private userStorageService: UserStorageService,
+                private watchlistFeatureFacadeService: WatchlistFeatureFacadeService) {
     }
 
 
@@ -30,5 +32,9 @@ export class StockDetailsStatisticComponent implements OnInit {
         this.stockDetails$ = this.symbolStorageService.reloadStockDetails();
         this.stockDetails$.pipe(first()).subscribe(res =>
             DialogService.presentToast(`Data for symbol ${res.id} has been reloaded`));
+    }
+
+    showPeerSummary(stockPeer: StfmCompanyQuote) {
+        this.watchlistFeatureFacadeService.presentSymbolLookupModal({symbol: stockPeer.symbol, name: stockPeer.name}, true);
     }
 }

@@ -1,8 +1,10 @@
-from flask import Flask, request
+from flask import Flask, request, Response
 from flask_json import FlaskJSON, JsonError, json_response
+from json import dumps
 # from flask_cors import CORS
 from ExternalAPI.EconomicNewsApi import EconomicNewsApi
 from ExternalAPI.FinhubApi import FinhubApi
+from ExternalAPI.FinancialModelingApi import FinancialModelingApi
 from ExternalAPI.QuandlApi import QuandlApi
 from ExternalAPI.YahooFinance.YahooFinanceTopSymbolsApi import YahooFinanceTopSymbolsApi
 from Services.TechnicalIndicatorsService import TechnicalIndicatorsService
@@ -52,12 +54,13 @@ def getAllCategories():
         raise JsonError(status=500, error=ERROR_MESSAGE + 'getAllCategories(), message: ' + str(e))
 
 
+'''
 @app.route('/news')
 def get_economic_news():
     try:
         return json_response(news=EconomicNewsApi().getNews())
     except Exception as e:
-        raise JsonError(status=500, error='Failed to get economic news')
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'get_economic_news(), message: ' + str(e))
 
 
 @app.route('/calendar_events')
@@ -77,13 +80,20 @@ def get_calendar_events_earnings():
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'get_calendar_events_earnings(), message: ' + str(e))
 
+'''
 
-@app.route('/search_all_symbols')
-def search_all_symbols():
+
+@app.route('/search_symbols')
+def search_symbols():
     try:
-        return json_response(data=FinhubApi().searchAllSymbols())
+        symbolsPrefix = request.args.get('symbolsPrefix')
+        financialModeling = FinancialModelingApi()
+        searchedResult = financialModeling.searchSymbolsByPrefix(symbolsPrefix)
+        searchedResult = [result for result in searchedResult if result.get('exchangeShortName') not in ['ETF', 'MUTUAL_FUND']]
+        batchResult = financialModeling.getCompanyQuoteBatch([s['symbol'] for s in searchedResult])
+        return Response(dumps(batchResult), mimetype='application/json')
     except Exception as e:
-        raise JsonError(status=500, error='Could not search any stock for symbol')
+        raise JsonError(status=500, error=ERROR_MESSAGE + 'search_symbols(), message: ' + str(e))
 
 
 @app.route('/top_crypto')
@@ -93,6 +103,8 @@ def get_top_crypto():
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'get_top_crypto(), message: ' + str(e))
 
+
+'''
 
 @app.route('/stocks_day_gainers')
 def get_day_gainers():
@@ -165,3 +177,4 @@ def get_top_index_states():
         return json_response(data=YahooFinanceTopSymbolsApi().get_top_index_states())
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'get_top_index_states(), message: ' + str(e))
+'''

@@ -1,0 +1,14 @@
+<app-generic-chart
+        *ngIf="breakpointSmDown$ | async as breakpointSmDown"
+        [additionalStyle]="!breakpointSmDown.matches  ? 'min-width: 400px' : ''"
+        [chartTitlePosition]="'center'"
+        [chartTitle]="chartTitle"
+        [chartType]="ChartType.pie"
+        [enable3D]="true"
+        [heightPx]="heightPx"
+        [isPercentage]="true"
+        [series]="[{data: data, innerSize: '20%', minPointSize: 10}]"
+        [showDataLabel]="!breakpointSmDown.matches"
+        [showLegend]="breakpointSmDown.matches"
+        legendAlign="center">
+</app-generic-chart>

@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {InsiderTransaction} from '@core';
+import {StfmInsideTrade} from '@core';
 
 @Component({
     selector: 'app-details-transactions',
@@ -8,7 +8,7 @@ import {InsiderTransaction} from '@core';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailsTransactionsComponent implements OnInit {
-    @Input() transactions: InsiderTransaction[] = [];
+    @Input() insiderTrades: StfmInsideTrade[] = [];
 
     constructor() {
     }

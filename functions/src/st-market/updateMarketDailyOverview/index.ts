@@ -1,3 +1,5 @@
+import { LodashFuntions } from './../../util/lodash.functions';
+import { getCommodity, getEtf, getMutualFund, getCalendarEarnings, getCalendarDividend, getCalendarEconomic, getTopGainersStocks, getHistoricalPricesAPI, getTopLosersStocks, getMostActiveStocks, getCompanyQuoteBatch, getNews, getExchangeSectorPE, getExchangeIndustryPE, getSectorPerformance, getCalendarIpo, getCalendarSplit, queryStockScreener } from '../../api';
 import * as admin from "firebase-admin";
 import * as functions from 'firebase-functions';
 import * as api from 'stock-tracker-common-interfaces';
@@ -7,61 +9,81 @@ const fetch = require('node-fetch');
 const SEARCH_ENDPOINT = `${stockDataAPI}/search`;
 
 // functions.https.onRequest( 
+    // functions.pubsub.topic('updateMarketDailyOverview').onPublish(async () => {
 export const updateMarketDailyOverview = functions.pubsub.topic('updateMarketDailyOverview').onPublish(async () => {
     console.log(`Started updating at ${admin.firestore.Timestamp.now().toDate()}`)
-    const oldOverview = await getCurrentDataFromFirestore();
-    console.log('Fetched old overview')
-
+    console.log('Fetched overview')
     const newOverview = await fetchDailyOverviewFromApi();
-    console.log('Fetched new overview')
-    const suggestions = await fetchSuggestions();
-    console.log('Fetched suggestions')
 
-    await updateMarketOverviewCollection(oldOverview, newOverview, suggestions);
+    console.log('Fetched suggestions')
+    newOverview.stockSuggestions = await fetchSuggestions();
+
+    console.log('Save into firestore')
+    await updateMarketOverviewCollection(newOverview);
     console.log(`Completed updating at ${admin.firestore.Timestamp.now().toDate()}`)
 });
 
+const fetchDailyOverviewFromApi = async(): Promise<api.STMarketDailyOverview> => {
+    const topDailyGainers = await getTopGainersStocks();
+    const topDailyLosers = await getTopLosersStocks();
+    const topMostActive = await getMostActiveStocks();
 
-const getCurrentDataFromFirestore = async (): Promise<api.STMarketDailyOverview> => {
-    const dailyInfoDoc = await admin.firestore()
-    .collection(api.ST_SHARED_ENUM.ST_COLLECTION)
-    .doc(api.ST_SHARED_ENUM.MARKET_DAILY_OVERVIEW)
-    .get();
+    const dailyGainers =  (await Promise.all(LodashFuntions.createChunks(topDailyGainers.slice(0, 15).map(top => top.ticker), 5).map(chunk => getCompanyQuoteBatch(chunk)))).reduce((a, b) =>  a.concat( b), []);
+    const dailyLosers = (await Promise.all(LodashFuntions.createChunks(topDailyLosers.slice(0, 15).map(top => top.ticker), 5).map(chunk => getCompanyQuoteBatch(chunk)))).reduce((a, b) =>  a.concat( b), []);
+    const mostActive = (await Promise.all(LodashFuntions.createChunks(topMostActive.slice(0, 15).map(top => top.ticker), 5).map(chunk => getCompanyQuoteBatch(chunk)))).reduce((a, b) =>  a.concat( b), []);
 
-    return dailyInfoDoc.data() as api.STMarketDailyOverview;
-}
+    const news = await getNews();
+    const exchangeSectorPE = await getExchangeSectorPE();
+    const exchangeIndustryPE = await getExchangeIndustryPE();
+    const commodities = await getCommodity();
+    const etfs = (await getEtf()).sort((a, b) => b.changesPercentage - a.changesPercentage).slice(0, 15);
+    const mutulaFunds = (await getMutualFund()).sort((a, b) => b.changesPercentage - a.changesPercentage).slice(0, 15);
+    const sectorPerformance = await getSectorPerformance();
+    const topCrypto  = (await (await fetch(`${SEARCH_ENDPOINT}/top_crypto`)).json())['top_crypto'] as api.STMarketTopTableCryptoData[];
 
-const fetchDailyOverviewFromApi = async() :Promise<api.STMarketDailyOverview> => {
-    const promises = await Promise.all([
-        fetch(`${SEARCH_ENDPOINT}/news`),
-        fetch(`${SEARCH_ENDPOINT}/calendar_events`),
-        fetch(`${SEARCH_ENDPOINT}/top_crypto`),
-        fetch(`${SEARCH_ENDPOINT}/stocks_day_gainers`),
-        fetch(`${SEARCH_ENDPOINT}/stocks_day_losers`),
-        fetch(`${SEARCH_ENDPOINT}/stocks_day_active`),
-        fetch(`${SEARCH_ENDPOINT}/stocks_undervalued_growth_stocks`),
-        fetch(`${SEARCH_ENDPOINT}/stocks_growth_technology_stocks`),
-        fetch(`${SEARCH_ENDPOINT}/stocks_undervalued_large_caps`),
-        fetch(`${SEARCH_ENDPOINT}/stocks_aggressive_small_caps`),
-        fetch(`${SEARCH_ENDPOINT}/stocks_small_cap_gainers`),
-        fetch(`${SEARCH_ENDPOINT}/calendar_events_earnings`)
-    ]);
+    const calendarEarnings = (await getCalendarEarnings()).slice(0, 20);
+    const calendarIpo = (await getCalendarIpo()).slice(0, 20);
+    const calendarSplit = (await getCalendarSplit()).slice(0, 20);
+    const calendarDividend = (await getCalendarDividend()).slice(0, 20);
+    const calendarEconomic = (await getCalendarEconomic()).slice(0, 20);
 
-    // execute promises 
-    const dataPromises = promises.map(async (p) => (await p.json()));
+    const stockScreener = await queryStockScreener({
+        marketCapMoreThan: 166840000000,
+        priceMoreThan: 15,
+        betaMoreThan: 0.5,
+        volumeMoreThan: 10000000
+    });
 
-    // black magic - format array into object
-    const result: any = {};
-    for await (const data of dataPromises) {
-        // example, keys is : 'stocks_aggressive_small_caps'
-        for (const [key, value] of Object.entries(data)) {
-            if (key !== "status") {
-                result[key] = value;
-            }
-        }
-    }
+    const result: api.STMarketDailyOverview = {
+        id: 'STMarketDailyOverview',
+        commodities,
+        dailyGainers,
+        dailyLosers,
+        mostActive,
+        etfs,
+        exchange: {
+            id: 'NYSE',
+            exchangeIndustryPE,
+            exchangeSectorPE
+        },
+        mutulaFunds,
+        topCrypto,
+        news,
+        stockSuggestions: [],
+        calendar: {
+            calendarDividend,
+            calendarEarnings,
+            calendarEconomic,
+            calendarIpo,
+            calendarSplit
+        },
+        sectorPerformance,
+        stockScreener,
+        lastUpdate: admin.firestore.Timestamp.now().toDate().toISOString()
 
-    return result as api.STMarketDailyOverview;
+    };
+
+    return result;
 }
 
 const fetchSuggestions = async(): Promise<api.STStockSuggestion[]> => {
@@ -78,7 +100,8 @@ const fetchSuggestions = async(): Promise<api.STStockSuggestion[]> => {
 
     const suggestions: api.STStockSuggestion[] = [];
     for await(const summary of randomSummaries){
-        const historicalData = await getStockHistoricalClosedData(summary.symbol, '1y');
+        const historicalPrices = await getHistoricalPricesAPI(summary.symbol, '4hour');
+        const historicalData = LodashFuntions.takeRight(historicalPrices.map(price => price.close), 50);
         suggestions.push({ summary, historicalData })
     }
 
@@ -86,37 +109,9 @@ const fetchSuggestions = async(): Promise<api.STStockSuggestion[]> => {
 }
 
 
-const updateMarketOverviewCollection = async(oldOverview: api.STMarketDailyOverview, 
-                                            newOverview: api.STMarketDailyOverview,
-                                            suggestions:  api.STStockSuggestion[]): Promise<void> => {
-    // may return empty array because cannot make too much request on yahoo finance
-    const updatedDailyInfoData: api.STMarketDailyOverview = {
-        news: newOverview.news.length > 0 ? newOverview.news : oldOverview.news,
-        events: newOverview.events.length > 0 ? newOverview.events : oldOverview.events,
-        earnings: newOverview.earnings.length > 0 ? newOverview.earnings : oldOverview.earnings,
-        top_crypto: newOverview.top_crypto.length > 0 ? newOverview.top_crypto : oldOverview.top_crypto,
-        stocks_undervalued_large_caps: newOverview.stocks_undervalued_large_caps.length > 0 ? newOverview.stocks_undervalued_large_caps : oldOverview.stocks_undervalued_large_caps,
-        stocks_undervalued_growth_stocks: newOverview.stocks_undervalued_growth_stocks.length > 0 ? newOverview.stocks_undervalued_growth_stocks : oldOverview.stocks_undervalued_growth_stocks,
-        stocks_growth_technology_stocks: newOverview.stocks_growth_technology_stocks.length > 0 ? newOverview.stocks_growth_technology_stocks : oldOverview.stocks_growth_technology_stocks,
-        stocks_day_losers: newOverview.stocks_day_losers.length > 0 ? newOverview.stocks_day_losers : oldOverview.stocks_day_losers,
-        stocks_day_gainers: newOverview.stocks_day_gainers.length > 0 ? newOverview.stocks_day_gainers : oldOverview.stocks_day_gainers,
-        stocks_day_active: newOverview.stocks_day_active.length > 0 ? newOverview.stocks_day_active : oldOverview.stocks_day_active,
-        stocks_aggressive_small_caps: newOverview.stocks_aggressive_small_caps.length > 0 ? newOverview.stocks_aggressive_small_caps : oldOverview.stocks_aggressive_small_caps,
-        stocks_small_cap_gainers: newOverview.stocks_small_cap_gainers.length > 0 ? newOverview.stocks_small_cap_gainers : oldOverview.stocks_small_cap_gainers,
-        stock_suggestions: suggestions,
-        lastUpdate: admin.firestore.Timestamp.now().toDate().toISOString()
-    };
-
-    // save updated data
+const updateMarketOverviewCollection = async(newOverview: api.STMarketDailyOverview): Promise<void> => {
     await admin.firestore()
         .collection(api.ST_SHARED_ENUM.ST_COLLECTION)
         .doc(api.ST_SHARED_ENUM.MARKET_DAILY_OVERVIEW)
-        .set(updatedDailyInfoData, {merge: true});
-};
-
-
-const getStockHistoricalClosedData = async (symbol: string, period: string): Promise<api.STStockHistoricalClosedDataWithPeriod> => {
-    const dataPromise = await fetch(`${stockDataAPI}/chart_data/historical_data?symbol=${symbol}&period=${period}&onlyClosed=True`);
-    const result =  await dataPromise.json();
-    return result || {livePrice: 0, price: [], period, symbol};
+        .set(newOverview, {merge: true});
 };

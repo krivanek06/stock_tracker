@@ -6,9 +6,3 @@ export interface STPortfolio {
 export interface STPortfolioSnapshot extends STPortfolio {
     date: string; 
 }
-
-export interface STCurrentPrice {
-    price: number;
-    previousClose: number; 
-    symbol: string;
-}

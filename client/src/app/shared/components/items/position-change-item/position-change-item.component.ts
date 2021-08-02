@@ -8,6 +8,7 @@ import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 })
 export class PositionChangeItemComponent implements OnInit {
     @Input() increaseBy: number;
+    @Input() applyNumberFormatter: boolean;
 
     constructor() {
     }

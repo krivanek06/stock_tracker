@@ -11,6 +11,7 @@ export abstract class TradingScreenUpdateBaseDirective implements OnInit, OnDest
     clonedHoldings: StHolding[] = [];
     portfolioInvested: number;
 
+
     private interval: any;
 
     protected constructor(public userStorageService: UserStorageService,

@@ -1,26 +1,13 @@
-<ion-content class="ion-padding">
-    <!-- menu page header -->
-    <app-menu-header></app-menu-header>
-
-    <!-- header -->
-    <app-header [pageIcon]="'stats-chart'" [pageName]="'Watchlist'"></app-header>
-
-    <!-- body -->
-    <ion-grid style="margin-top: 10px;">
-        <ion-row *ngFor="let watchlist of stockWatchlists" class="ion-justify-content-center" style="margin-bottom: 16px">
-            <!-- watchlist -->
-            <ion-col size="12" size-lg="11" size-xl="10">
-                <app-generic-list [title]="watchlist.name"
-                                  [iconTitle]="'pie-chart'"
-                                  [additionalInfo]="'Created at ' + (watchlist.date |  date: 'dd/MM/yyyy') ">
-                </app-generic-list>
-                <app-generic-card>
-                    <app-watchlist-table [watchlist]="watchlist"
-                                         (itemClickedEmitter)="showChartForSymbol($event, watchlist.id)">
-                    </app-watchlist-table>
-                </app-generic-card>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
-</ion-content>
-
+<app-page-grid-layout pageIcon="stats-chart" pageName="Watchlist">
+    <div *ngFor="let watchlist of stockWatchlists" style="margin-bottom: 22px">
+        <app-generic-list [additionalInfo]="'Created at ' + (watchlist.date |  date: 'dd/MM/yyyy') "
+                          [iconTitle]="'pie-chart'"
+                          [title]="watchlist.name">
+        </app-generic-list>
+        <app-generic-card>
+            <app-watchlist-table (itemClickedEmitter)="showChartForSymbol($event, watchlist.id)"
+                                 [watchlist]="watchlist">
+            </app-watchlist-table>
+        </app-generic-card>
+    </div>
+</app-page-grid-layout>

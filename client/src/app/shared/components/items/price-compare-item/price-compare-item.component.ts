@@ -17,6 +17,8 @@ export class PriceCompareItemComponent implements OnInit {
     @Input() showIcons = true;
     @Input() showPrice = true;
 
+    @Input() pricePosition: 'left' | 'right' = 'right';
+
     constructor() {
     }
 

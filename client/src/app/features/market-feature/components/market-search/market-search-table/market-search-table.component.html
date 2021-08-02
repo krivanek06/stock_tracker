@@ -1,0 +1,68 @@
+<ion-list>
+    <ion-item class="st-font-1-bold">
+        <ion-label>Symbol</ion-label>
+        <ion-label>Price</ion-label>
+        <ion-label>Price +/-</ion-label>
+        <ion-label>Volume +/-</ion-label>
+        <ion-label>Market cap.</ion-label>
+        <ion-label>Shares</ion-label>
+        <ion-label>PE</ion-label>
+        <ion-label>EPS</ion-label>
+        <ion-label>Beta</ion-label>
+        <ion-label>Tags</ion-label>
+        <ion-label>52 week range</ion-label>
+    </ion-item>
+
+    <ng-container *ngIf="stockScreenerResults; else showSkeleton">
+        <ion-item (click)="itemClicked(result)"
+                  *ngFor="let result of stockScreenerResults"
+                  button
+                  class="st-data-item-wrapper">
+
+            <!-- logo + symbol name -->
+            <ion-label class="st-display-flex-center">
+                <ion-img [src]="result.companyQuote?.image" appDefaultImg class="st-symbol-image"></ion-img>
+                <ion-text class="st-font-4">{{ result.symbol }}</ion-text>
+            </ion-label>
+
+            <!-- current price -->
+            <ion-label>{{ result.price | currency }}</ion-label>
+
+            <!-- price change -->
+            <ion-label>
+                <app-price-compare-item [compareToPrice]="result.companyQuote?.previousClose"
+                                        [currentPrice]="result.price">
+                </app-price-compare-item>
+            </ion-label>
+
+            <!-- volume change -->
+            <ion-label>
+                <app-price-compare-item [compareToPrice]="result.companyQuote?.avgVolume"
+                                        [currentPrice]="result.volume">
+                </app-price-compare-item>
+            </ion-label>
+
+            <!-- other -->
+            <ion-label>{{ result.marketCap ? (result.marketCap | numberFormatter) : 'N/A' }}</ion-label>
+            <ion-label>{{ result.companyQuote?.sharesOutstanding ? (result.companyQuote.sharesOutstanding | numberFormatter) : 'N/A' }}</ion-label>
+            <ion-label>{{ result.companyQuote?.pe ? (result.companyQuote?.pe | number:'1.2-2') : 'N/A'}}</ion-label>
+            <ion-label>{{ result.companyQuote?.eps ? (result.companyQuote?.eps | number:'1.2-2') : 'N/A' }}</ion-label>
+            <ion-label>{{ result.beta ? (result.beta | number:'1.2-2') : 'N/A' }}</ion-label>
+            <ion-label class="ion-wrap">TODO tags for company</ion-label>
+            <!-- 52 week range -->
+            <ion-label class="st-data-label ion-hide-lg-down">
+                <div style="width: 90%">
+                    <app-table-high-low-range
+                            [max]="result.companyQuote?.yearHigh"
+                            [min]="result.companyQuote?.yearLow"
+                            [value]="result.price">
+                    </app-table-high-low-range>
+                </div>
+            </ion-label>
+        </ion-item>
+    </ng-container>
+
+    <ng-template #showSkeleton>
+        <app-list-skeleton [itemLength]="15"></app-list-skeleton>
+    </ng-template>
+</ion-list>

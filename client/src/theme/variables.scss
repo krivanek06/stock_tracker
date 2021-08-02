@@ -43,12 +43,12 @@
   --ion-color-success-tint: #42d77d;
 
   /** warning **/
-  --ion-color-warning: #ffc409;
+  --ion-color-warning: #B27D3E;
   --ion-color-warning-rgb: 255, 196, 9;
-  --ion-color-warning-contrast: #000000;
+  --ion-color-warning-contrast: #ffffff;
   --ion-color-warning-contrast-rgb: 0, 0, 0;
-  --ion-color-warning-shade: #e0ac08;
-  --ion-color-warning-tint: #ffca22;
+  --ion-color-warning-shade: #916435;
+  --ion-color-warning-tint: #805b2d;
 
   /** danger **/
   --ion-color-danger: #eb445a;
@@ -291,7 +291,7 @@
   ion-row {
     ion-col {
       //padding: 0 4px 6px 0;
-      padding: 0;
+      padding: 4px;
       overflow: hidden;
     }
   }
@@ -327,6 +327,23 @@
 
 
   .dark-theme {
+    // ANGLAR material
+    mat-expansion-panel {
+      background: linear-gradient(126deg, rgb(5 13 42 / 39%) 0%, rgb(6 15 47 / 60%) 35%, rgb(6 17 52 / 0.7) 100%);
+
+      .mat-expansion-indicator::after {
+        color: white;
+      }
+
+      mat-expansion-panel-header {
+        mat-panel-title {
+          font-size: 18px;
+          color: white;
+        }
+      }
+    }
+
+
     // select pop-over styling
     .action-sheet-container.sc-ion-action-sheet-md {
       justify-content: center;

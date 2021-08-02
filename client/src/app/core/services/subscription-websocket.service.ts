@@ -46,7 +46,7 @@ export class SubscriptionWebsocketService {
 
     initSubscriptionStockSuggestions(): Observable<MarketSymbolResult> {
         return this.queryMarketDailyOverviewGQL.fetch().pipe(map(x => x.data.queryMarketDailyOverview)).pipe(
-            map(x => x.stock_suggestions),
+            map(x => x.stockSuggestions),
             tap(suggestions => suggestions.forEach(s =>
                 this.finnhubWebsocket.createSubscribeForSymbol(this.MARKER_SUGGESTIONS, s.summary.symbol))),
             switchMap(() => this.finnhubWebsocket.getSubscribedSymbolsResult())

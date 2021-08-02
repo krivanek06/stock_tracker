@@ -4,24 +4,24 @@
         <ion-label *ngFor="let year of formula.historicalYears" class="st-font-0">{{ year }}</ion-label>
     </ion-item>
 
-    <app-table-increasing-item
-            name="Operating activities"
-            [data]="formula.operatingActivities">
+    <!--<app-table-increasing-item
+            [data]="formula.operatingActivities"
+            name="Operating activities">
     </app-table-increasing-item>
 
     <app-table-increasing-item
-            name="Capital expenditures"
-            [data]="formula.capitalExpenditures">
-    </app-table-increasing-item>
+            [data]="formula.capitalExpenditures"
+            name="Capital expenditures">
+    </app-table-increasing-item>-->
+
+    <!-- <app-table-increasing-item
+             name="Net borrowings"
+             [data]="formula.netBorrowings">
+     </app-table-increasing-item>-->
 
     <app-table-increasing-item
-            name="Net borrowings"
-            [data]="formula.netBorrowings">
-    </app-table-increasing-item>
-
-    <app-table-increasing-item
-            name="Free cash flow"
-            [data]="formula.freeCashFlows">
+            [data]="formula.freeCashFlows"
+            name="Free cash flow">
     </app-table-increasing-item>
 
 </ion-list>
@@ -31,6 +31,10 @@
         <ion-item>
             <ion-label>Avg. free cash flow:</ion-label>
             <ion-label class="st-data-label-end">{{ formula.avgFcf | numberFormatter  }}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>Minimum return:</ion-label>
+            <ion-label class="st-data-label-end">{{ formula.minimumRateReturn | percent: '1.2-2'  }}</ion-label>
         </ion-item>
         <ion-item>
             <ion-label>Market Cap.:</ion-label>

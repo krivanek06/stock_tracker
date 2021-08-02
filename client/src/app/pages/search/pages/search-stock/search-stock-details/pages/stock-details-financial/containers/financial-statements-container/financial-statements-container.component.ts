@@ -10,7 +10,7 @@ import {StockDetails} from '@core';
 })
 export class FinancialStatementsContainerComponent implements OnInit {
     @Input() stockDetails: StockDetails;
-    @Input() activeStatement;
+    @Input() activeStatement: STATEMENT_TYPE;
 
     STATEMENT_TYPE = STATEMENT_TYPE;
 

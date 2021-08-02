@@ -8,19 +8,18 @@
         <ion-item-group class="st-flex-end" style="position: relative">
             <ion-chip class="ion-search-chip">
                 <ion-searchbar #mySearchbar
+                               (ionChange)="searchSymbol($event)"
                                debounce="500"
-                               placeholder="Search symbol"
-                               (ionChange)="searchSymbol($event)">
+                               placeholder="Search symbol">
                 </ion-searchbar>
             </ion-chip>
             <ion-item-group class="search-results">
                 <!-- searched symbol results -->
-                <ng-container *ngIf="searchedSummaries$ | async as summaries; else skeletons">
+                <ng-container *ngIf="searchCompanyQuotes$ | async as searchCompanyQuotes; else skeletons">
                     <app-stock-info-identification-item
-                            *ngFor="let summary of summaries"
-                            (click)="clickedSummary(summary)"
-                            [summary]="summary"
-                            [clickable]="true">
+                            (click)="clickedSummary(companyQuote.symbol, companyQuote.name)"
+                            *ngFor="let companyQuote of (searchCompanyQuotes | slice: 0: 5)"
+                            [companyQuote]="companyQuote">
                     </app-stock-info-identification-item>
                 </ng-container>
 
@@ -38,8 +37,8 @@
         </ion-item-group>
 
         <!-- notifications -->
-        <ion-item-group class="st-flex-end" style="position: relative" *ngIf="user$ | async as user; else showLogin">
-            <ion-button slot="end" fill="clear" (click)="toggleNotifications()">
+        <ion-item-group *ngIf="user$ | async as user; else showLogin" class="st-flex-end" style="position: relative">
+            <ion-button (click)="toggleNotifications()" fill="clear" slot="end">
                 <ion-icon name="notifications"></ion-icon>
                 <!--<ion-label>3</ion-label>-->
             </ion-button>

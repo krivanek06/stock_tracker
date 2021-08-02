@@ -15,10 +15,13 @@ import {
     GaugeChartComponent,
     GenericCardComponent,
     GenericChartComponent,
+    GenericExtensionPanelComponent,
     GenericFadingCardContentComponent,
     GenericFancyCardComponent,
     GenericListComponent,
-    InlineModificationFormComponent, PositionChangeItemComponent,
+    InlineModificationFormComponent,
+    PieChartWrapperComponent,
+    PositionChangeItemComponent,
     PriceChangeItemComponent,
     PriceCompareItemComponent,
     RangeRatingSliderComponent,
@@ -30,15 +33,6 @@ import {
     UploaderComponent,
     UploadTaskComponent
 } from './components';
-import {
-    HoldingsTotalInvestedPipe,
-    NumberFormatterPipe,
-    ObjNgForPipe,
-    RelativeTimePipe,
-    SplitKeyToTitlecasePipe,
-    SplitPipe,
-    SumUpPipe
-} from './pipes';
 import {FinancialChartContainerComponent, HeaderComponent, StockSummaryContainerComponent} from './containers';
 import {
     ConfirmationPopOverComponent,
@@ -48,6 +42,8 @@ import {
 } from './entry-components';
 import {SharedProvidersModule} from './shared-providers.module';
 import {ListSkeletonComponent} from './components/lists';
+import {SharedMaterialModule} from './shared-material.module';
+import {SharedPipesModule} from './pipes';
 
 
 @NgModule({
@@ -56,9 +52,6 @@ import {ListSkeletonComponent} from './components/lists';
         DefaultImgDirective,
         FinancialChartComponent,
         GaugeChartComponent,
-        NumberFormatterPipe,
-        RelativeTimePipe,
-        SumUpPipe,
         HeaderComponent,
         InlineModificationFormComponent,
         GenericChartComponent,
@@ -77,7 +70,6 @@ import {ListSkeletonComponent} from './components/lists';
         SearchWrapperComponent,
         ScrollOffsetDirective,
         GenericFancyCardComponent,
-        ObjNgForPipe,
         GenericFadingCardContentComponent,
         TableHighLowRangeComponent,
         RecommendationDirective,
@@ -85,28 +77,27 @@ import {ListSkeletonComponent} from './components/lists';
         StockInfoIdentificationItemComponent,
         FinancialChartModalComponent,
         StockSummaryContainerComponent,
-        HoldingsTotalInvestedPipe,
         RangeRatingSliderComponent,
         TableIncreasingItemComponent,
-        SplitKeyToTitlecasePipe,
-        SplitPipe,
         DisableControlDirective,
         PositionChangeItemComponent,
         OptionPickerPopOverComponent,
         ConfirmationPopOverComponent,
-        ListSkeletonComponent
+        ListSkeletonComponent,
+        GenericExtensionPanelComponent,
+        PieChartWrapperComponent
     ],
     imports: [
-        SharedProvidersModule
+        SharedProvidersModule,
+        SharedMaterialModule,
+        SharedPipesModule
     ],
     exports: [
         SharedProvidersModule,
         FixedRangeSliderComponent,
         DefaultImgDirective,
         GaugeChartComponent,
-        NumberFormatterPipe,
-        RelativeTimePipe,
-        SumUpPipe,
+        SharedPipesModule,
         HeaderComponent,
         InlineModificationFormComponent,
         GenericChartComponent,
@@ -123,7 +114,6 @@ import {ListSkeletonComponent} from './components/lists';
         TooltipDirective,
         SearchWrapperComponent,
         GenericFancyCardComponent,
-        ObjNgForPipe,
         GenericFadingCardContentComponent,
         TableHighLowRangeComponent,
         RecommendationDirective,
@@ -131,16 +121,16 @@ import {ListSkeletonComponent} from './components/lists';
         StockInfoIdentificationItemComponent,
         FinancialChartModalComponent,
         StockSummaryContainerComponent,
-        HoldingsTotalInvestedPipe,
         RangeRatingSliderComponent,
         TableIncreasingItemComponent,
-        SplitKeyToTitlecasePipe,
-        SplitPipe,
         DisableControlDirective,
         PositionChangeItemComponent,
         OptionPickerPopOverComponent,
         ConfirmationPopOverComponent,
-        ListSkeletonComponent
+        ListSkeletonComponent,
+        GenericExtensionPanelComponent,
+        PieChartWrapperComponent,
+        SharedMaterialModule
     ],
     entryComponents: [
         InlineInputPopUpComponent,

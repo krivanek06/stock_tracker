@@ -5,11 +5,11 @@
             <ion-item>
                 <app-uploader
                    #uploader
-                   [showInput]="editing"
-                   [filePath]="'users'"
-                   [fileName]="user.id"
+                   (uploadedFilesEmitter)="uploadedImage($event)"
                    [defaultUrl]="photoURL.value"
-                   (uploadedFilesEmitter)="uploadedImage($event)">
+                   [fileName]="user.id"
+                   [filePath]="'users'"
+                   [showInput]="editing">
                 </app-uploader>
             </ion-item>
         </div>
@@ -18,13 +18,13 @@
             <!-- display name -->
             <ion-item class="st-form-input-background ion-margin-top">
                 <ion-label position="floating">Display name</ion-label>
-                <ion-input [value]="displayName.value" type="text" formControlName="displayName"></ion-input>
+                <ion-input [value]="displayName.value" formControlName="displayName" type="text"></ion-input>
             </ion-item>
 
             <!-- email -->
             <ion-item class="st-form-input-background ion-margin-top">
                 <ion-label position="floating">Email</ion-label>
-                <ion-input [value]="email.value" type="text" formControlName="email"></ion-input>
+                <ion-input [value]="email.value" formControlName="email" type="text"></ion-input>
             </ion-item>
         </div>
     </ion-item-group>
@@ -32,31 +32,43 @@
     <!-- finnhubKey -->
     <ion-item class="st-form-input-background ion-margin-top">
         <ion-label position="floating">Finnhub key</ion-label>
-        <ion-input [value]="finnhubKey.value" type="text" formControlName="finnhubKey"></ion-input>
+        <ion-input [value]="finnhubKey.value" formControlName="finnhubKey" type="text"></ion-input>
     </ion-item>
 
     <!-- nickName -->
     <ion-item class="st-form-input-background ion-margin-top">
         <ion-label position="floating">NickName</ion-label>
-        <ion-input [value]="nickName.value" type="text" formControlName="nickName"></ion-input>
+        <ion-input [value]="nickName.value" formControlName="nickName" type="text"></ion-input>
     </ion-item>
 
     <!-- locale -->
     <ion-item class="st-form-input-background ion-margin-top">
         <ion-label position="floating">Locale</ion-label>
-        <ion-input [value]="locale.value" type="text" formControlName="locale"></ion-input>
+        <ion-input [value]="locale.value" formControlName="locale" type="text"></ion-input>
     </ion-item>
 
 
     <!-- submit button -->
     <ion-buttons class="st-buttons-container">
-        <ion-button *ngIf="!editing" class="st-button st-edit-background st-width-full-md-screen" (click)="edit()">
+        <ion-button (click)="edit()"
+                    *ngIf="!editing"
+                    class="st-button st-width-full-md-screen"
+                    color="warning"
+                    fill="solid">
             Edit
         </ion-button>
-        <ion-button *ngIf="editing" class="st-button st-create-background st-width-full-md-screen" (click)="submit()">
+        <ion-button (click)="submit()"
+                    *ngIf="editing"
+                    class="st-button st-width-full-md-screen"
+                    color="primary"
+                    fill="solid">
             Save
         </ion-button>
-        <ion-button *ngIf="editing" class="st-button st-remove-background st-width-full-md-screen" (click)="cancel()">
+        <ion-button (click)="cancel()"
+                    *ngIf="editing"
+                    class="st-button st-width-full-md-screen"
+                    color="danger"
+                    fill="solid">
             Cancel
         </ion-button>
     </ion-buttons>

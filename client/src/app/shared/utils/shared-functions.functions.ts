@@ -11,10 +11,12 @@ export const zipArrays = <T extends unknown>(a: T[], b: T[]): T[][] => a.map((k,
 
 export const roundNumber = (num: number) => Math.round(num * 100) / 100;
 
-export const stFormatLargeNumber = (value: number, isPercent: boolean = false) => {
+export const stFormatLargeNumber = (value: number, isPercent: boolean = false, showDollarSign: boolean = false) => {
     if (!stIsNumber(value)) {
         return 'N/A';
     }
+
+    value = Number(value);
 
     if (isPercent) {
         const rounded = Math.round((value * 100) * 100) / 100;
@@ -22,27 +24,31 @@ export const stFormatLargeNumber = (value: number, isPercent: boolean = false) =
     }
 
     let symbol = '';
-    if (value > 1000 || value < -1000) {
+    if (Math.abs(value) >= 1000) {
         value = value / 1000;
         symbol = 'K';
     }
 
-    if (value > 1000 || value < -1000) {
+    if (Math.abs(value) >= 1000) {
         value = value / 1000;
         symbol = 'M';
     }
 
-    if (value > 1000 || value < -1000) {
+    if (Math.abs(value) >= 1000) {
         value = value / 1000;
         symbol = 'B';
     }
 
-    if (value > 1000 || value < -1000) {
+    if (Math.abs(value) >= 1000) {
         value = value / 1000;
         symbol = 'T';
     }
-    const result = value.toFixed(2);
-    return result + symbol;
+    let result = value.toFixed(2) + symbol;
+
+    if (showDollarSign) {
+        result = `$${result}`;
+    }
+    return result;
 };
 
 export const stIsNumber = (value: string | number): boolean => {
@@ -60,5 +66,3 @@ export const stFormatDateWithHours = (date: Date) => {
     const hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
     return `${hours}:${minutes}, ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
 };
-
-

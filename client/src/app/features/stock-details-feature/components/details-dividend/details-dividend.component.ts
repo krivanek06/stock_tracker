@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {StockDetails} from '@core';
+import {Dividens} from '@core';
 
 @Component({
     selector: 'app-details-dividend',
@@ -8,7 +8,7 @@ import {StockDetails} from '@core';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailsDividendComponent implements OnInit {
-    @Input() stockDetails: StockDetails;
+    @Input() dividends: Dividens;
 
     constructor() {
     }

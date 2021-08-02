@@ -1,46 +1,46 @@
-<ion-list *ngIf="stockDetails as details">
+<ion-list>
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Yield</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.dividends.dividendsPerShareTTM  | numberFormatter }}
-            ({{ details.dividends.currentDividendYieldTTM | number: '1.2-2' }}%)
+            {{ dividends.dividendsPerShareTTM  | numberFormatter }}
+            ({{ dividends.currentDividendYieldTTM | number: '1.2-2' }}%)
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Yield ttm.</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.dividends.trailingAnnualDividendRate | number: '1.2-2'}}
-            ( {{ details.dividends.trailingAnnualDividendYield | percent: '1.2-2'}} )
+            {{ dividends.trailingAnnualDividendRate | number: '1.2-2'}}
+            ( {{ dividends.trailingAnnualDividendYield | percent: '1.2-2'}} )
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Forward yield</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.dividends.forwardDividendYield | percent: '1.2-2' }}
+            {{ dividends.forwardDividendYield | percent: '1.2-2' }}
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">5y yield & growth</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.dividends.dividendPerShareFiveY | numberFormatter }}
-            ({{ details.dividends.dividendYieldFiveY | number: '1.2-2' }}%)
+            {{ dividends.dividendPerShareFiveY | numberFormatter }}
+            ({{ dividends.dividendYieldFiveY | number: '1.2-2' }}%)
         </ion-label>
     </ion-item>
 
     <ion-item class="st-data-item-wrapper">
         <ion-label class="st-data-label-parent">Payout ratio</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.metric.payoutRatioTTM  | number: '1.2-2' }}%
+            {{ dividends.dividendPayoutRatioTTM  | number: '1.2-2' }}%
         </ion-label>
     </ion-item>
 
     <ion-item>
         <ion-label class="st-data-label-parent">Ex dividend date</ion-label>
         <ion-label class="st-data-label st-flex-end">
-            {{ details.dividends.exDividendDate * 1000 | date: 'dd.MM.YYYY'  }}
+            {{ dividends.exDividendDate * 1000 | date: 'dd.MM.YYYY'  }}
         </ion-label>
     </ion-item>
 </ion-list>

@@ -1,10 +1,10 @@
 import * as api from 'stock-tracker-common-interfaces';
-export const createNewUserRegistrationDoc = (): api.STUserRegistrationDoc => {
-    const doc: api.STUserRegistrationDoc = {
-        totalRegistratedUsers: 0,
-        totalActiveUsers: 0,
-        userRegistrationSnippets: [],
-        weeklyRegistratedUsers: [{
+export const createNewUserRegistrationDoc = (): api.STAdminMainInformations => {
+    const doc: api.STAdminMainInformations = {
+        usersRegistrated: 0,
+        usersActive: 0,
+        usersRegistrationSnippets: [],
+        usersWeeklyRegistrated: [{
             data: 0,
             timestamp: new Date().getTime()
         }]

@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges,
 import {filter, takeUntil} from 'rxjs/operators';
 import {componentDestroyed, ComponentScreenUpdateBaseDirective, FinnhubWebsocketService, GraphqlQueryService} from '@core';
 import {marketValueChange} from '../../animations';
+import {HistoricalPricePeriods} from '../../models';
 
 @Component({
     selector: 'app-financial-chart-container',
@@ -13,14 +14,6 @@ import {marketValueChange} from '../../animations';
     ]
 })
 export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseDirective implements OnInit, OnDestroy, OnChanges {
-    volume: number[][] = [];
-    price: number[][] = []; // [open, high, low, close]
-    selectedRange = '1d';
-    priceRangeFrom: number;
-    priceRangeTo: number;
-    financialChart = true;
-    noDataFound = false;
-
     @Input() currentPrice: number;
     @Input() closedPrice: number;
     @Input() symbol: string;
@@ -29,6 +22,17 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseD
     @Input() height = 300;
     @Input() showYAxis = true;
     @Input() isCrypto = false;
+    @Input() initWebsockets: boolean = true;
+    @Input() financialChart = true;
+
+    HistoricalPricePeriods = HistoricalPricePeriods;
+
+    volume: number[][] = [];
+    price: number[][] = []; // [open, high, low, close]
+    selectedRange = '4hour';
+    priceRangeFrom: number;
+    priceRangeTo: number;
+    noDataFound = false;
 
     constructor(private graphqlQueryService: GraphqlQueryService,
                 private finnhubWebsocketService: FinnhubWebsocketService,
@@ -39,7 +43,9 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseD
     ngOnInit() {
         super.ngOnInit();
         this.loadChartData();
-        this.initWebsocketConnection();
+        if (this.initWebsockets) {
+            this.initWebsocketConnection();
+        }
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -53,8 +59,8 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseD
         this.finnhubWebsocketService.closeConnection(this.componentName);
     }
 
-    segmentChanged(event: CustomEvent) {
-        this.selectedRange = event.detail.value;
+    segmentChanged(period: string) {
+        this.selectedRange = period;
         this.loadChartData();
     }
 
@@ -88,7 +94,7 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseD
     private loadChartData() {
         this.noDataFound = false;
         this.price = [];
-        this.graphqlQueryService.queryStMarketSymbolHistoricalChartData(this.symbol, this.selectedRange).pipe(
+        this.graphqlQueryService.querySymbolHistoricalPrices(this.symbol, this.selectedRange).pipe(
             takeUntil(componentDestroyed(this))
         ).subscribe(res => {
             if (res.price.length === 0) {

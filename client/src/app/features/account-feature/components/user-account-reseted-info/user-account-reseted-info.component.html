@@ -17,7 +17,7 @@
     </ion-item>
 
     <ion-buttons *ngIf="showResetButton" class="st-buttons-container">
-        <ion-button class="st-button st-remove-background" (click)="resetAccount()">
+        <ion-button (click)="resetAccount()" class="st-button" color="danger" fill="solid">
             Reset account
         </ion-button>
     </ion-buttons>

@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {GraphqlQueryService, Summary} from '@core';
+import {GraphqlQueryService, StfmCompanyQuote} from '@core';
 import {Observable, of} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {debounceTime, switchMap, tap} from 'rxjs/operators';
@@ -11,10 +11,10 @@ import {debounceTime, switchMap, tap} from 'rxjs/operators';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StockSearchComponent implements OnInit {
-    @Output() clickedSymbolEmitter: EventEmitter<Summary> = new EventEmitter<Summary>();
+    @Output() clickedSymbolEmitter: EventEmitter<StfmCompanyQuote> = new EventEmitter<StfmCompanyQuote>();
 
     @Input() clearOnClick = false;
-    searchedSummaries$: Observable<Summary[]>;
+    searchedCompanyQuotes: Observable<StfmCompanyQuote[]>;
     form: FormGroup;
     loading: boolean;
 
@@ -27,8 +27,8 @@ export class StockSearchComponent implements OnInit {
         this.watchForm();
     }
 
-    clickedSummary(summary: Summary) {
-        this.clickedSymbolEmitter.emit(summary);
+    clickedSummary(companyQuote: StfmCompanyQuote) {
+        this.clickedSymbolEmitter.emit(companyQuote);
         if (this.clearOnClick) {
             this.form.get('symbol').patchValue(null);
         }
@@ -41,14 +41,14 @@ export class StockSearchComponent implements OnInit {
     }
 
     private watchForm() {
-        this.searchedSummaries$ = this.form.get('symbol').valueChanges.pipe(
+        this.searchedCompanyQuotes = this.form.get('symbol').valueChanges.pipe(
             tap((res: string) => this.loading = res?.length > 0),
             debounceTime(600),
             switchMap((res: string) => {
                 if (!res || res.length < 1) {
                     return of(null);
                 }
-                return this.firebaseSearchService.queryStockSummaries(res);
+                return this.firebaseSearchService.queryStockQuotesByPrefix(res);
             })
         );
     }
