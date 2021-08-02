@@ -42,12 +42,14 @@ export class FinnhubWebsocketService {
         );
     }
 
-    createSubscribeForSymbol(componentName: string, symbol: string, isCrypto: boolean = false) {
+    async createSubscribeForSymbol(componentName: string, symbol: string, isCrypto: boolean = false) {
         if (!this.isConnectionInitialized$.value || !this.myWebSocket) {
             console.log('Websocket createSubscribeForSymbol return, no connection initialized');
             return;
         }
-
+        console.log('sleep');
+        // sleep before creating subscription - wait till unsubscribed from previous page
+        await this.sleep(5000);
         const neededSubscription = this.checkIfSubscriptionIsNeeded(symbol);
         this.saveSymbol(componentName, symbol);
 
@@ -136,6 +138,10 @@ export class FinnhubWebsocketService {
     private printSubscriptions(): void {
         this.subscribedSymbols.forEach((v, k) => console.log(k, v));
         console.log('----------------------');
+    }
+
+    private sleep(ms: number) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
 }

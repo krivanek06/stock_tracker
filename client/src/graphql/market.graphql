@@ -137,6 +137,25 @@ query QueryMarketDailyOverview {
             ...STFMSectorPerformanceFragment
         }
         lastUpdate
+        stockScreener {
+            symbol
+            companyName
+            marketCap
+            sector
+            industry
+            beta
+            price
+            lastAnnualDividend
+            volume
+            exchange
+            exchangeShortName
+            country
+            isEtf
+            isActivelyTrading
+            companyQuote {
+                ...STFMCompanyQuoteFragment
+            }
+        }
     }
 }
 

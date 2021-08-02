@@ -5,7 +5,6 @@ import * as moment from 'moment';
 import * as api from 'stock-tracker-common-interfaces';
 import { stockDataAPI } from "../environment";
 import { convertToSTMarketChartDataResultCombined } from "./st-market.functions";
-import {chunk as _chunk, flatten as _flatten} from 'lodash';
 
 export const querySTMarketHistoryOverview = async (): Promise<api.STMarketHistoryOverview> => {
     try {
@@ -123,23 +122,6 @@ export const queryEtfDocument = async(etfName: string): Promise<api.STMarketEtfD
 
         return newEtfDate;
 
-    } catch (error) {
-        throw new ApolloError(error);
-    }
-}
-
-export const queryStockScreener = async (stockScreenerInput: api.STFMStockScreener): Promise<api.STFMStockScreenerResult[]> => {
-    try {
-        const stockScreeners =  await stockScreener(stockScreenerInput);
-
-        // load additional data
-        const symbols = _chunk(stockScreeners.map(data => data.symbol), 20) as string[][];
-        const companyQuotesPromises = _flatten(await Promise.all([...symbols.map(d => getCompanyQuoteBatch(d))])) as api.STFMCompanyQuote[];
-        const stockScreenersWithCompanYQuotes = stockScreeners.map(screener => {
-            return {...screener, companyQuote: companyQuotesPromises.find(d => d.symbol === screener.symbol)} as api.STFMStockScreenerResult
-        })
-
-        return stockScreenersWithCompanYQuotes;
     } catch (error) {
         throw new ApolloError(error);
     }

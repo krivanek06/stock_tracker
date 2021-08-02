@@ -1,170 +1,14 @@
-<!--
-<form [formGroup]="form">
-    &lt;!&ndash; price &ndash;&gt;
-    <div class="c-range-wrapper">
-        &lt;!&ndash; form control &ndash;&gt;
-        <app-form-mat-input-lock-wrapper
-                [sliderLabelShowDollarSign]="true"
-                [sliderMaxValue]="2000"
-                [sliderMinValue]="1"
-                controlName="priceMoreThan"
-                inputCaption="Price more than"
-                inputType="SLIDER"
-        ></app-form-mat-input-lock-wrapper>
-
-        &lt;!&ndash; form control &ndash;&gt;
-        <app-form-mat-input-lock-wrapper
-                [sliderLabelShowDollarSign]="true"
-                [sliderMaxValue]="2000"
-                [sliderMinValue]="1"
-                controlName="priceLowerThan"
-                inputCaption="Price more than"
-                inputType="SLIDER"
-        ></app-form-mat-input-lock-wrapper>
-    </div>
-
-    &lt;!&ndash; market cap &ndash;&gt;
-    <div class="c-range-wrapper">
-        &lt;!&ndash; form control &ndash;&gt;
-        <app-form-mat-input-lock-wrapper
-                controlName="marketCapMoreThan"
-                inputCaption="Market cap. more than"
-                inputType="SLIDER"
-        ></app-form-mat-input-lock-wrapper>
-
-        &lt;!&ndash; form control &ndash;&gt;
-        <app-form-mat-input-lock-wrapper
-                [sliderLabelShowDollarSign]="true"
-                controlName="marketCapLowerThan"
-                inputCaption="Market cap. lower than"
-                inputType="SLIDER"
-        ></app-form-mat-input-lock-wrapper>
-    </div>
-
-    &lt;!&ndash; volume &ndash;&gt;
-    <div class="c-range-wrapper">
-        &lt;!&ndash; form control &ndash;&gt;
-        <app-form-mat-input-lock-wrapper
-                controlName="volumeMoreThan"
-                inputCaption="Volume more than"
-                inputType="SLIDER"
-        ></app-form-mat-input-lock-wrapper>
-
-        &lt;!&ndash; form control &ndash;&gt;
-        <app-form-mat-input-lock-wrapper
-                [sliderLabelShowDollarSign]="true"
-                controlName="volumeLowerThan"
-                inputCaption="Volume lower than"
-                inputType="SLIDER"
-        ></app-form-mat-input-lock-wrapper>
-    </div>
-
-    &lt;!&ndash; beta &ndash;&gt;
-    <div class="c-range-wrapper">
-        &lt;!&ndash; form control &ndash;&gt;
-        <app-form-mat-input-lock-wrapper
-                controlName="betaMoreThan"
-                inputCaption="Beta more than"
-                inputType="SLIDER"
-        ></app-form-mat-input-lock-wrapper>
-
-        &lt;!&ndash; form control &ndash;&gt;
-        <app-form-mat-input-lock-wrapper
-                [sliderLabelShowDollarSign]="true"
-                controlName="betaLowerThan"
-                inputCaption="Beta lower than"
-                inputType="SLIDER"
-        ></app-form-mat-input-lock-wrapper>
-    </div>
-
-    &lt;!&ndash; dividend &ndash;&gt;
-    <div class="c-range-wrapper">
-        &lt;!&ndash; form control &ndash;&gt;
-        <app-form-mat-input-lock-wrapper
-                controlName="dividendMoreThan"
-                inputCaption="Dividend more than"
-                inputType="SLIDER"
-        ></app-form-mat-input-lock-wrapper>
-
-        &lt;!&ndash; form control &ndash;&gt;
-        <app-form-mat-input-lock-wrapper
-                [sliderLabelShowDollarSign]="true"
-                controlName="dividendLowerThan"
-                inputCaption="Dividend lower than"
-                inputType="SLIDER"
-        ></app-form-mat-input-lock-wrapper>
-    </div>
-
-
-    &lt;!&ndash; &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; &ndash;&gt;
-    &lt;!&ndash; SELECT &ndash;&gt;
-    <div class="c-select-wrapper">
-        &lt;!&ndash; form control &ndash;&gt;
-        <app-form-mat-input-lock-wrapper
-                [inputSource]="marketSearchSectorsInputSource"
-                controlName="sector"
-                inputCaption="Sector filter"
-                inputType="SELECT"
-        ></app-form-mat-input-lock-wrapper>
-
-        &lt;!&ndash; form control &ndash;&gt;
-        <app-form-mat-input-lock-wrapper
-                [inputSource]="marketSearchIndustriesInputSource"
-                [sliderLabelShowDollarSign]="true"
-                controlName="industry"
-                inputCaption="Industry filter"
-                inputType="SELECT"
-        ></app-form-mat-input-lock-wrapper>
-
-        &lt;!&ndash; form control &ndash;&gt;
-        <app-form-mat-input-lock-wrapper
-                [inputSource]="marketSearchExchangesInputSource"
-                [sliderLabelShowDollarSign]="true"
-                controlName="exchange"
-                inputCaption="Exchange filter"
-                inputType="SELECT"
-        ></app-form-mat-input-lock-wrapper>
-    </div>
-
-    <div class="c-select-wrapper">
-        &lt;!&ndash; form control &ndash;&gt;
-        <app-form-mat-input-lock-wrapper
-                [inputSource]="marketSearchEtfInputSource"
-                controlName="isEtf"
-                inputCaption="Apply etf filter"
-                inputType="SELECT"
-        ></app-form-mat-input-lock-wrapper>
-
-        &lt;!&ndash; form control &ndash;&gt;
-        <app-form-mat-input-lock-wrapper
-                [inputSource]="marketSearchActivelyTradedInputSource"
-                [sliderLabelShowDollarSign]="true"
-                controlName="isActivelyTrading"
-                inputCaption="Apply actively filter"
-                inputType="SELECT"
-        ></app-form-mat-input-lock-wrapper>
-
-        &lt;!&ndash; form control &ndash;&gt;
-        <app-form-mat-input-lock-wrapper
-                [inputSource]="marketSearchCountriesInputSource"
-                [sliderLabelShowDollarSign]="true"
-                controlName="country"
-                inputCaption="Country filter"
-                inputType="SELECT"
-        ></app-form-mat-input-lock-wrapper>
-    </div>
-</form>
--->
-
-
 <form [formGroup]="form">
     <!-- price -->
     <div class="c-first-row">
         <!-- form control -->
         <app-form-mat-input-lock-wrapper
+                [showChangeInput]="true"
                 [sliderLabelShowDollarSign]="true"
                 [sliderMaxValue]="2000"
                 [sliderMinValue]="1"
+                [sliderStepValue]="1"
+                changeInputTo="number"
                 controlName="priceMoreThan"
                 inputCaption="Price more than"
                 inputType="SLIDER"
@@ -172,16 +16,24 @@
 
         <!-- form control -->
         <app-form-mat-input-lock-wrapper
+                [showChangeInput]="true"
                 [sliderLabelShowDollarSign]="true"
                 [sliderMaxValue]="2000"
                 [sliderMinValue]="1"
+                [sliderStepValue]="1"
+                changeInputTo="number"
                 controlName="priceLowerThan"
-                inputCaption="Price more than"
+                inputCaption="Price lower than"
                 inputType="SLIDER"
         ></app-form-mat-input-lock-wrapper>
 
         <!-- form control -->
         <app-form-mat-input-lock-wrapper
+                [showChangeInput]="true"
+                [sliderMaxValue]="3000000000000"
+                [sliderMinValue]="1000000"
+                [sliderStepValue]="1000000"
+                changeInputTo="number"
                 controlName="marketCapMoreThan"
                 inputCaption="Market cap. more than"
                 inputType="SLIDER"
@@ -189,7 +41,11 @@
 
         <!-- form control -->
         <app-form-mat-input-lock-wrapper
-                [sliderLabelShowDollarSign]="true"
+                [showChangeInput]="true"
+                [sliderMaxValue]="3000000000000"
+                [sliderMinValue]="1000000"
+                [sliderStepValue]="1000000"
+                changeInputTo="number"
                 controlName="marketCapLowerThan"
                 inputCaption="Market cap. lower than"
                 inputType="SLIDER"
@@ -197,6 +53,11 @@
 
         <!-- form control -->
         <app-form-mat-input-lock-wrapper
+                [showChangeInput]="true"
+                [sliderMaxValue]="1000000000"
+                [sliderMinValue]="100000"
+                [sliderStepValue]="100000"
+                changeInputTo="number"
                 controlName="volumeMoreThan"
                 inputCaption="Volume more than"
                 inputType="SLIDER"
@@ -204,7 +65,11 @@
 
         <!-- form control -->
         <app-form-mat-input-lock-wrapper
-                [sliderLabelShowDollarSign]="true"
+                [showChangeInput]="true"
+                [sliderMaxValue]="1000000000"
+                [sliderMinValue]="100000"
+                [sliderStepValue]="100000"
+                changeInputTo="number"
                 controlName="volumeLowerThan"
                 inputCaption="Volume lower than"
                 inputType="SLIDER"
@@ -212,6 +77,11 @@
 
         <!-- form control -->
         <app-form-mat-input-lock-wrapper
+                [showChangeInput]="true"
+                [sliderMaxValue]="2"
+                [sliderMinValue]="0.1"
+                [sliderStepValue]="0.1"
+                changeInputTo="number"
                 controlName="betaMoreThan"
                 inputCaption="Beta more than"
                 inputType="SLIDER"
@@ -219,7 +89,11 @@
 
         <!-- form control -->
         <app-form-mat-input-lock-wrapper
-                [sliderLabelShowDollarSign]="true"
+                [showChangeInput]="true"
+                [sliderMaxValue]="3"
+                [sliderMinValue]="0.5"
+                [sliderStepValue]="0.1"
+                changeInputTo="number"
                 controlName="betaLowerThan"
                 inputCaption="Beta lower than"
                 inputType="SLIDER"
@@ -227,7 +101,12 @@
 
         <!-- form control -->
         <app-form-mat-input-lock-wrapper
+                [showChangeInput]="true"
                 [sliderLabelShowDollarSign]="true"
+                [sliderMaxValue]="2"
+                [sliderMinValue]="0.01"
+                [sliderStepValue]="0.01"
+                changeInputTo="number"
                 controlName="dividendMoreThan"
                 inputCaption="Dividend more than"
                 inputType="SLIDER"
@@ -235,7 +114,12 @@
 
         <!-- form control -->
         <app-form-mat-input-lock-wrapper
+                [showChangeInput]="true"
                 [sliderLabelShowDollarSign]="true"
+                [sliderMaxValue]="4"
+                [sliderMinValue]="0.01"
+                [sliderStepValue]="0.01"
+                changeInputTo="number"
                 controlName="dividendLowerThan"
                 inputCaption="Dividend lower than"
                 inputType="SLIDER"
@@ -276,13 +160,13 @@
         ></app-form-mat-input-lock-wrapper>
 
         <!-- form control -->
-        <app-form-mat-input-lock-wrapper
+        <!--<app-form-mat-input-lock-wrapper
                 [inputSource]="marketSearchActivelyTradedInputSource"
                 [sliderLabelShowDollarSign]="true"
                 controlName="isActivelyTrading"
                 inputCaption="Apply actively filter"
                 inputType="SELECT"
-        ></app-form-mat-input-lock-wrapper>
+        ></app-form-mat-input-lock-wrapper>-->
 
         <!-- form control -->
         <app-form-mat-input-lock-wrapper

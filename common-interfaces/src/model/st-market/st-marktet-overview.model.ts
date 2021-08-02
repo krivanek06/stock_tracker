@@ -10,7 +10,8 @@ import {
   STFMExchangeIndustryPE,
   STFMExchangeSectorPE,
   STFMSplitHistory,
-  STFMSectorPerformance
+  STFMSectorPerformance,
+  STFMStockScreenerResult
 } from "../st-financal-modeling-api.model";
 
 export interface STMarketDailyOverview {
@@ -27,6 +28,7 @@ export interface STMarketDailyOverview {
   commodities: STFMCompanyQuote[];
   exchange: STMarketExchange;
   sectorPerformance: STFMSectorPerformance[];
+  stockScreener: STFMStockScreenerResult[];
   lastUpdate?: string;
 }
 

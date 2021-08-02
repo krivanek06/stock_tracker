@@ -13,7 +13,7 @@
         <ion-label>52 week range</ion-label>
     </ion-item>
 
-    <ng-container *ngIf="stockScreenerResults">
+    <ng-container *ngIf="stockScreenerResults; else showSkeleton">
         <ion-item (click)="itemClicked(result)"
                   *ngFor="let result of stockScreenerResults"
                   button
@@ -61,4 +61,8 @@
             </ion-label>
         </ion-item>
     </ng-container>
+
+    <ng-template #showSkeleton>
+        <app-list-skeleton [itemLength]="15"></app-list-skeleton>
+    </ng-template>
 </ion-list>

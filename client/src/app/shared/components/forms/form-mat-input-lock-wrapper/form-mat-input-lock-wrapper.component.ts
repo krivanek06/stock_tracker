@@ -23,6 +23,11 @@ export class FormMatInputLockWrapperComponent implements OnInit {
     @Input() sliderStepValue: number;
     @Input() sliderLabelShowDollarSign: boolean = false;
 
+    @Input() showChangeInput: boolean;
+    @Input() changeInputTo: InputType;
+
+    allowChangeInput: boolean;
+
     form: FormGroup;
 
     constructor(private controlContainer: ControlContainer,
@@ -49,4 +54,7 @@ export class FormMatInputLockWrapperComponent implements OnInit {
         });
     }
 
+    changeInput() {
+        this.allowChangeInput = !this.allowChangeInput;
+    }
 }

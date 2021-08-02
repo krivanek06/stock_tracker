@@ -38,7 +38,7 @@ export class MarketSectorHeatMapComponent implements OnInit {
 
     ngOnInit() {
         this.treeMapData = this.sectorPerformance.map(sector => {
-            console.log(parseFloat(sector.changesPercentage));
+            // console.log(parseFloat(sector.changesPercentage));
             const valueData = parseFloat(sector.changesPercentage);
             return {name: `${sector.sector} ${valueData}%`, value: valueData, colorValue: valueData} as TreeMapData;
         }).sort((a, b) => a.value - b.value);
@@ -82,7 +82,7 @@ export class MarketSectorHeatMapComponent implements OnInit {
                 useHTML: true,
                 valueDecimals: 2,
                 pointFormatter: function() {
-                    console.log(this);
+                    // console.log(this);
                     const name = this.name.split(' ')[0];
                     return `${name}: <span style="color: ${this.color}">${this.value}</span>%`;
                 }

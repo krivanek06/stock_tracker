@@ -55,11 +55,11 @@
                 <mat-slider
                         [displayWith]="sliderFormatLabel"
                         [formControl]="formInputControl"
+                        [max]="sliderMaxValue"
+                        [min]="sliderMinValue"
                         [ngClass]="{'disabled-element': disabled}"
+                        [step]="sliderStepValue"
                         aria-label="units"
-                        max="100000"
-                        min="0"
-                        step="1000"
                         thumbLabel
                         tickInterval="1000">
                 </mat-slider>
