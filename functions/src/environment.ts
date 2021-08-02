@@ -1,6 +1,6 @@
-// export const stockDataAPI = 'https://serverflask-eqvqg22pdq-lz.a.run.app'; // GCP
+export const stockDataAPI = 'https://serverflask-eqvqg22pdq-lz.a.run.app'; // GCP
 
-export const stockDataAPI = 'http://127.0.0.1:5000';
+// export const stockDataAPI = 'http://127.0.0.1:5000';
 
 // "stock-tracker-common-interfaces": "file:../common-interfaces" / "1.0.7"
 export const financialModelingAPI = 'https://financialmodelingprep.com';

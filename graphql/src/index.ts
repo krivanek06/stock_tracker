@@ -1,3 +1,4 @@
+import { queryStockScreener } from './api/financial-modeling/st-financial-modeling.api';
 import { STFinancialModelingAPITypeDefs } from './api/financial-modeling/st-financal-modeling-api.typedefs';
 import { querySymbolHistoricalPrices } from './st-stocks/st-stocks-query/queryStockHistoricalPrice';
 import { Context } from './st-shared/st-shared.interface';
@@ -51,7 +52,7 @@ import {performTransaction} from "./st-transaction/st-transaction.mutation";
 import {STMarketSharedTypeDefs} from "./st-market/st-market.typedefs";
 import {
     queryStMarketAllCategories, queryStMarketData,
-    querySTMarketHistoryOverview, queryMarketDailyOverview, queryEtfDocument, queryStockScreener
+    querySTMarketHistoryOverview, queryMarketDailyOverview, queryEtfDocument
 } from "./st-market/st-market.query";
 import { STStockDetailsCalculationsTypeDefs } from './st-stock-calculations';
 

@@ -92,7 +92,7 @@ export type Dividens = {
   dividendYieldIndicatedAnnual?: Maybe<Scalars['Float']>;
   dividendPayoutRatioTTM?: Maybe<Scalars['Float']>;
   dividendsPerShareTTM?: Maybe<Scalars['Float']>;
-  exDividendDate?: Maybe<Scalars['String']>;
+  exDividendDate?: Maybe<Scalars['Float']>;
   trailingAnnualDividendRate?: Maybe<Scalars['String']>;
   trailingAnnualDividendYield?: Maybe<Scalars['String']>;
   forwardDividendYield?: Maybe<Scalars['String']>;
@@ -1372,6 +1372,7 @@ export type StMarketDailyOverview = {
   exchange?: Maybe<StMarketExchange>;
   sectorPerformance?: Maybe<Array<Maybe<StfmSectorPerformance>>>;
   lastUpdate?: Maybe<Scalars['String']>;
+  stockScreener?: Maybe<Array<Maybe<StfmStockScreenerResult>>>;
 };
 
 export type StMarketDatasetKey = {
@@ -2303,6 +2304,13 @@ export type QueryMarketDailyOverviewQuery = (
     )>, sectorPerformance?: Maybe<Array<Maybe<(
       { __typename?: 'STFMSectorPerformance' }
       & StfmSectorPerformanceFragmentFragment
+    )>>>, stockScreener?: Maybe<Array<Maybe<(
+      { __typename?: 'STFMStockScreenerResult' }
+      & Pick<StfmStockScreenerResult, 'symbol' | 'companyName' | 'marketCap' | 'sector' | 'industry' | 'beta' | 'price' | 'lastAnnualDividend' | 'volume' | 'exchange' | 'exchangeShortName' | 'country' | 'isEtf' | 'isActivelyTrading'>
+      & { companyQuote?: Maybe<(
+        { __typename?: 'STFMCompanyQuote' }
+        & StfmCompanyQuoteFragmentFragment
+      )> }
     )>>> }
   )> }
 );
@@ -4468,6 +4476,25 @@ export const QueryMarketDailyOverviewDocument = gql`
       ...STFMSectorPerformanceFragment
     }
     lastUpdate
+    stockScreener {
+      symbol
+      companyName
+      marketCap
+      sector
+      industry
+      beta
+      price
+      lastAnnualDividend
+      volume
+      exchange
+      exchangeShortName
+      country
+      isEtf
+      isActivelyTrading
+      companyQuote {
+        ...STFMCompanyQuoteFragment
+      }
+    }
   }
 }
     ${StfmCompanyQuoteFragmentFragmentDoc}

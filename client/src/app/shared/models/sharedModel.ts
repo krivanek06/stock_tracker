@@ -54,7 +54,7 @@ export interface InputSource {
 }
 
 export type InputType =
-    'CHECKBOX'
+    'checkbox'
     | 'RADIO'
     | 'TEXTAREA'
     | 'SLIDE_TOGGLE'
@@ -62,9 +62,9 @@ export type InputType =
     | 'MULTISELECT'
     | 'CHIPSELECT'
     | 'SLIDER'
-    | 'TEXT'
-    | 'NUMBER'
-    | 'EMAIL'
-    | 'PASSWORD';
+    | 'text'
+    | 'number'
+    | 'email'
+    | 'password';
 
 export const HistoricalPricePeriods = ['1min', '5min', '15min', '30min', '1hour', '4hour', '1y', '5y', 'all'];

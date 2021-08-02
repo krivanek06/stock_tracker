@@ -3,6 +3,7 @@ import {GraphqlQueryService, StfmStockScreenerInput, StfmStockScreenerResult} fr
 import {Observable} from 'rxjs';
 import {SymbolIdentification} from '@shared';
 import {WatchlistFeatureFacadeService} from '@stock-watchlist-feature';
+import {map} from 'rxjs/operators';
 
 @Component({
     selector: 'app-search-stock-screener',
@@ -19,6 +20,7 @@ export class SearchStockScreenerComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.stockScreenerResult$ = this.graphqlQueryService.queryMarketDailyOverview().pipe(map(res => res.stockScreener));
     }
 
     changedFormResult(stockScreener: StfmStockScreenerInput) {
@@ -27,8 +29,6 @@ export class SearchStockScreenerComponent implements OnInit {
 
     filterSymbols() {
         this.stockScreenerResult$ = this.graphqlQueryService.queryStockScreener(this.stockScreener);
-
-        this.stockScreenerResult$.subscribe(console.log);
     }
 
     showSummarySymbol(symbolIdentification: SymbolIdentification) {

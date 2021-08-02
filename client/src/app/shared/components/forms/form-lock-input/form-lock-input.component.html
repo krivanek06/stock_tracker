@@ -1,4 +1,6 @@
-<small class="st-small-right-space">Disable value:</small>
-<mat-icon (click)="setValue()" [ngClass]="{ 'disabled-control': value, 'enabled-control': !value  }">
-    {{value ? "do_not_disturb_on" : "check_circle"  }}
-</mat-icon>
+<div (click)="setValue()" class="st-display-flex-center">
+    <small class="st-small-right-space">Disable value:</small>
+    <mat-icon [ngClass]="{ 'disabled-control': value, 'enabled-control': !value  }">
+        {{value ? "do_not_disturb_on" : "check_circle"  }}
+    </mat-icon>
+</div>

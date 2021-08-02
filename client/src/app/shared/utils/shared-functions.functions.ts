@@ -16,28 +16,30 @@ export const stFormatLargeNumber = (value: number, isPercent: boolean = false, s
         return 'N/A';
     }
 
+    value = Number(value);
+
     if (isPercent) {
         const rounded = Math.round((value * 100) * 100) / 100;
         return `${rounded}%`;
     }
 
     let symbol = '';
-    if (value > 1000 || value < -1000) {
+    if (Math.abs(value) >= 1000) {
         value = value / 1000;
         symbol = 'K';
     }
 
-    if (value > 1000 || value < -1000) {
+    if (Math.abs(value) >= 1000) {
         value = value / 1000;
         symbol = 'M';
     }
 
-    if (value > 1000 || value < -1000) {
+    if (Math.abs(value) >= 1000) {
         value = value / 1000;
         symbol = 'B';
     }
 
-    if (value > 1000 || value < -1000) {
+    if (Math.abs(value) >= 1000) {
         value = value / 1000;
         symbol = 'T';
     }

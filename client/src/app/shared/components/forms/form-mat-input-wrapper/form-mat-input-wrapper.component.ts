@@ -88,7 +88,7 @@ export class FormMatInputWrapperComponent implements OnInit {
     }
 
     sliderFormatLabel(value: number) {
-        return stFormatLargeNumber(value);
+        return stFormatLargeNumber(value, null, this.sliderLabelShowDollarSign);
     }
 
     private controlChipSelect(): void {

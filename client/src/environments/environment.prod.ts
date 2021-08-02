@@ -34,5 +34,5 @@ export const environment = {
         measurementId: 'G-73NKLPNQ5G'
     },
 
-    version: '0.4.1'
+    version: '0.5.0'
 };

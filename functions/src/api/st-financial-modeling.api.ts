@@ -1,4 +1,6 @@
+import { LodashFuntions } from './../util/lodash.functions';
 import { financialModelingAPI, financialModelingAPIKey } from "../environment";
+import { URLSearchParams } from "url";
 import * as api from 'stock-tracker-common-interfaces';
 import * as moment from 'moment';
 
@@ -51,7 +53,7 @@ export const getLivePriceAPI = async(symbol: string): Promise<api.STFMLivePrice>
 
 export const getCompanyQuoteBatch = async(symbols: string[] = []): Promise<api.STFMCompanyQuote[]> => {
     try{
-        if(symbols.length === 0 || symbols.length > 5){
+        if(symbols.length === 0 || symbols.length > 25){
             return [];
         }
         
@@ -257,13 +259,31 @@ export const getSectorPerformance = async(): Promise<api.STFMSectorPerformance[]
     }
 }
 
-export const stockScreener = async (stockScreener: api.STFMStockScreener): Promise<api.STFMStockScreenerResult[]> => {
+export const stockScreenerAPI = async (stockScreener: api.STFMStockScreener): Promise<api.STFMStockScreenerResult[]> => {
     try{
         const urlParams = new URLSearchParams(Object.entries(stockScreener));
         const promise = await fetch(`${financialModelingAPI}/api/v3/stock-screener?${urlParams}&apikey=${financialModelingAPIKey}`);
         const respose = await promise.json() as api.STFMStockScreenerResult[];
         return respose;
     } catch {
+        return [];
+    }
+}
+
+
+export const queryStockScreener = async (stockScreenerInput: api.STFMStockScreener): Promise<api.STFMStockScreenerResult[]> => {
+    try {
+        const stockScreeners =  await stockScreenerAPI(stockScreenerInput);
+
+        // load additional data
+        const symbols = LodashFuntions.createChunks(stockScreeners.map(data => data.symbol), 20) as string[][];
+        const companyQuotesPromises = LodashFuntions.flattenArray(await Promise.all([...symbols.map(d => getCompanyQuoteBatch(d))]));
+        const stockScreenersWithCompanYQuotes = stockScreeners.map(screener => {
+            return {...screener, companyQuote: companyQuotesPromises.find(d => d.symbol === screener.symbol) || null} as api.STFMStockScreenerResult
+        });
+
+        return stockScreenersWithCompanYQuotes;
+    } catch (error) {
         return [];
     }
 }

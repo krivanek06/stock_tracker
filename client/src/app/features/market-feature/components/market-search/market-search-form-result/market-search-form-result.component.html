@@ -28,7 +28,7 @@
     <!-- volume -->
     <div *ngIf="stockScreener.volumeMoreThan">
         <ion-label>Volume more than:</ion-label>
-        <ion-label>{{ stockScreener.marketCapMoreThan | numberFormatter }}</ion-label>
+        <ion-label>{{ stockScreener.volumeMoreThan | numberFormatter }}</ion-label>
     </div>
 
     <div *ngIf="stockScreener.volumeLowerThan">

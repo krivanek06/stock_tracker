@@ -1,5 +1,5 @@
 import { LodashFuntions } from './../../util/lodash.functions';
-import { getCommodity, getEtf, getMutualFund, getCalendarEarnings, getCalendarDividend, getCalendarEconomic, getTopGainersStocks, getHistoricalPricesAPI, getTopLosersStocks, getMostActiveStocks, getCompanyQuoteBatch, getNews, getExchangeSectorPE, getExchangeIndustryPE, getSectorPerformance, getCalendarIpo, getCalendarSplit } from '../../api';
+import { getCommodity, getEtf, getMutualFund, getCalendarEarnings, getCalendarDividend, getCalendarEconomic, getTopGainersStocks, getHistoricalPricesAPI, getTopLosersStocks, getMostActiveStocks, getCompanyQuoteBatch, getNews, getExchangeSectorPE, getExchangeIndustryPE, getSectorPerformance, getCalendarIpo, getCalendarSplit, queryStockScreener } from '../../api';
 import * as admin from "firebase-admin";
 import * as functions from 'firebase-functions';
 import * as api from 'stock-tracker-common-interfaces';
@@ -9,6 +9,7 @@ const fetch = require('node-fetch');
 const SEARCH_ENDPOINT = `${stockDataAPI}/search`;
 
 // functions.https.onRequest( 
+    // functions.pubsub.topic('updateMarketDailyOverview').onPublish(async () => {
 export const updateMarketDailyOverview = functions.pubsub.topic('updateMarketDailyOverview').onPublish(async () => {
     console.log(`Started updating at ${admin.firestore.Timestamp.now().toDate()}`)
     console.log('Fetched overview')
@@ -46,6 +47,13 @@ const fetchDailyOverviewFromApi = async(): Promise<api.STMarketDailyOverview> =>
     const calendarDividend = (await getCalendarDividend()).slice(0, 20);
     const calendarEconomic = (await getCalendarEconomic()).slice(0, 20);
 
+    const stockScreener = await queryStockScreener({
+        marketCapMoreThan: 166840000000,
+        priceMoreThan: 15,
+        betaMoreThan: 0.5,
+        volumeMoreThan: 10000000
+    });
+
     const result: api.STMarketDailyOverview = {
         id: 'STMarketDailyOverview',
         commodities,
@@ -70,6 +78,7 @@ const fetchDailyOverviewFromApi = async(): Promise<api.STMarketDailyOverview> =>
             calendarSplit
         },
         sectorPerformance,
+        stockScreener,
         lastUpdate: admin.firestore.Timestamp.now().toDate().toISOString()
 
     };

@@ -42,14 +42,20 @@
     justify-content: space-evenly;
 
     & > * {
-      width: 24%;
+      width: 32%;
 
       @media (max-width: #{$st-var-md-split}) {
-        width: 50%;
+        width: 47%;
       }
 
       @media (max-width: #{$st-var-sm-split}) {
-        width: 100%;
+        width: 97%;
+      }
+    }
+
+    :last-child {
+      @media (max-width: #{$st-var-md-split}) {
+        width: 97%;
       }
     }
   }

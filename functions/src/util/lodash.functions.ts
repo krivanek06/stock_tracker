@@ -1,4 +1,4 @@
-import {chunk as _chunk, List, Many, flatten as _flatten, takeRight as _takeRight } from 'lodash';
+import {chunk as _chunk, List, Many, flatten as _flatten, takeRight as _takeRight} from 'lodash';
 
 export class LodashFuntions {
     static createChunks<T>(array: List<T> | null | undefined, size?: number): T[][] {
