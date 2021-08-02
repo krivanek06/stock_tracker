@@ -3,11 +3,12 @@ import {gql} from 'apollo-server';
 
 export const STAdminTypeDefs = gql`
     # type 
-    type STUserRegistrationDoc {
-        totalRegistratedUsers: Float!
-        totalActiveUsers: Float!
-        userRegistrationSnippets: [STUserIndetification]
-        weeklyRegistratedUsers: [STSeriesNumber]
+    type STAdminMainInformations {
+        lastStockDetailsReload: String
+        usersRegistrated: Float!
+        usersActive: Float!
+        usersRegistrationSnippets: [STUserIndetification]!
+        usersWeeklyRegistrated: [STSeriesNumber]!
     }
 
 `;

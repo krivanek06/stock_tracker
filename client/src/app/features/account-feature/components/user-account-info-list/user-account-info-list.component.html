@@ -1,8 +1,8 @@
 <div *ngIf="stUserPublicData" class="user-info-item">
-    <div (click)="clickedPerson()" class="st-flex-wrap" style="padding: 6px" [ngClass]="{
+    <div (click)="clickedPerson()" [ngClass]="{
                 'ion-activatable': clickable,
                 'width-100': clickable
-            }">
+            }" class="st-flex-wrap" style="padding: 6px">
         <ion-img [src]="stUserPublicData.photoURL"></ion-img>
         <div class="ion-margin-start" style="display: grid">
             <ion-text class="st-font-0 st-font-size-16">{{ stUserPublicData.nickName }}</ion-text>
@@ -27,8 +27,8 @@
 
     <!-- delete button  -->
     <div *ngIf="showDeleteButton">
-        <ion-button class="st-transparent-background st-negative-button st-clickable"
-                    (click)="deletePerson()">
+        <ion-button (click)="deletePerson()" class="st-transparent-background st-clickable"
+                    color="danger">
             <ion-icon name="trash-bin" style="font-size: 28px;"></ion-icon>
         </ion-button>
     </div>

@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {StMarketSymbolHistoricalChartData, StTradingStrategyData} from '@core';
+import {StTradingStrategyData, SymbolHistoricalPrices} from '@core';
 import {ChartType} from '@shared';
 import * as Highcharts from 'highcharts/highstock';
 
@@ -14,7 +14,7 @@ export class TradingStrategyRppGlbComponent implements OnInit {
     @Input() heightPx = 400;
     @Input() dataRPP: StTradingStrategyData;
     @Input() dataGLB: StTradingStrategyData;
-    @Input() historicalChartData: StMarketSymbolHistoricalChartData;
+    @Input() historicalChartData: SymbolHistoricalPrices;
 
     Highcharts: typeof Highcharts = Highcharts;
     chart;

@@ -28,27 +28,7 @@ fragment STMarketTopTableCryptoDataFragment on STMarketTopTableCryptoData {
     volumeAllCurrencies
 }
 
-fragment STMarketTopTableSymbolDataFragment on STMarketTopTableSymbolData {
-    averageDailyVolume3Month
-    currency
-    fiftyTwoWeekHigh
-    fiftyTwoWeekLow
-    logo_url
-    longName
-    marketCap
-    quoteType
-    recommendationKey
-    recommendationMean
-    regularMarketChange
-    regularMarketChangePercent
-    regularMarketOpen
-    regularMarketPreviousClose
-    regularMarketPrice
-    regularMarketVolume
-    shortName
-    symbol
-    trailingPE
-}
+
 
 # -----------------------------------------
 # QUERY
@@ -80,36 +60,11 @@ query QuerySTMarketHistoryOverview {
 }
 
 
-fragment STEventCalendarDataFragment on STEventCalendarData {
-    date
-    day
-    month
-    startdatetime
-    year
-    earningscount
-    economiceventcount
-    ipoinfocount
-    splitscount
-}
-
-fragment STEventCalendarEarningsDataFragment on STEventCalendarEarningsData {
-    companyshortname
-    epsactual
-    epsestimate
-    epssurprisepct
-    gmtOffsetMilliSeconds
-    quoteType
-    startdatetime
-    startdatetimetype
-    ticker
-    timeZoneShortName
-}
-
 # QUERY --------------------
 
 
-query QuerySTMarketSymbolHistoricalChartData($symbol: String!, $period: String!) {
-    querySTMarketSymbolHistoricalChartData(symbol: $symbol, period: $period) {
+query QuerySymbolHistoricalPrices($symbol: String!, $period: String!) {
+    querySymbolHistoricalPrices(symbol: $symbol, period: $period) {
         livePrice
         symbol
         period
@@ -118,72 +73,105 @@ query QuerySTMarketSymbolHistoricalChartData($symbol: String!, $period: String!)
     }
 }
 
+
 query QueryMarketDailyOverview {
     queryMarketDailyOverview {
-        stocks_day_gainers {
-            ...STMarketTopTableSymbolDataFragment
+        id
+        dailyGainers {
+            ...STFMCompanyQuoteFragment
         }
-        stocks_day_losers {
-            ...STMarketTopTableSymbolDataFragment
+        dailyLosers {
+            ...STFMCompanyQuoteFragment
         }
-        stocks_day_active {
-            ...STMarketTopTableSymbolDataFragment
+        mostActive {
+            ...STFMCompanyQuoteFragment
         }
-        stocks_undervalued_growth_stocks {
-            ...STMarketTopTableSymbolDataFragment
-        }
-        stocks_growth_technology_stocks {
-            ...STMarketTopTableSymbolDataFragment
-        }
-        stocks_undervalued_large_caps {
-            ...STMarketTopTableSymbolDataFragment
-        }
-        stocks_aggressive_small_caps {
-            ...STMarketTopTableSymbolDataFragment
-        }
-        stocks_small_cap_gainers {
-            ...STMarketTopTableSymbolDataFragment
-        }
-        stock_suggestions {
+        stockSuggestions {
+            historicalData
             summary {
                 ...StockSummaryFragment
             }
-            historicalData {
-                livePrice
-                price
-                symbol
-                period
-            }
         }
-        top_crypto {
+        topCrypto {
             ...STMarketTopTableCryptoDataFragment
         }
         news {
-            ...newsArticleFragment
+            ...STFMStockNewFragment
         }
-        events {
-            ...STEventCalendarDataFragment
+        calendar {
+            calendarEconomic {
+                ...STFMCalendarEconomicFragment
+            }
+            calendarDividend {
+                ...STFMStockDividendFragment
+            }
+            calendarSplit {
+                ...STFMSplitHistoryFragment
+            }
+            calendarIpo {
+                ...STFMCalendarIpoFragment
+            }
+            calendarEarnings {
+                ...STFMCalendarEarningsFragment
+            }
         }
-        earnings {
-            ...STEventCalendarEarningsDataFragment
+        mutulaFunds {
+            ...STFMCompanyQuoteFragment
+        }
+        etfs {
+            ...STFMCompanyQuoteFragment
+        }
+        commodities {
+            ...STFMCompanyQuoteFragment
+        }
+        exchange {
+            id
+            exchangeIndustryPE {
+                ...STFMExchangeIndustryPEFragment
+            }
+            exchangeSectorPE {
+                ...STFMExchangeSectorPEFragment
+            }
+        }
+        sectorPerformance {
+            ...STFMSectorPerformanceFragment
         }
         lastUpdate
-    }
-}
-
-query QueryStMarketCalendarEvents($date: String!) {
-    queryStMarketCalendarEvents(date: $date) {
-        events {
-            ...STEventCalendarDataFragment
+        stockScreener {
+            symbol
+            companyName
+            marketCap
+            sector
+            industry
+            beta
+            price
+            lastAnnualDividend
+            volume
+            exchange
+            exchangeShortName
+            country
+            isEtf
+            isActivelyTrading
+            companyQuote {
+                ...STFMCompanyQuoteFragment
+            }
         }
     }
 }
 
-query QueryStMarketCalendarEventsEarnings($date: String!) {
-    queryStMarketCalendarEventsEarnings(date: $date) {
-        earnings {
-            ...STEventCalendarEarningsDataFragment
+query QueryEtfDocument($etfName: String!) {
+    queryEtfDocument(etfName: $etfName) {
+        id
+        etfHolders {
+            ...STFMEtfHolderFragment
         }
+        etfSectorWeight {
+            ...STFMEtfSectorWeightFragment
+        }
+        etfCountryWeight {
+            ...STFMEtfCountryWeightFragment
+        }
+        lastUpdate
     }
 }
 
@@ -204,5 +192,27 @@ query QueryStMarketAllCategories {
 query QueryStMarketData($key: String!) {
     queryStMarketData(key: $key) {
         ...STMarketChartDataResultCombinedFragment
+    }
+}
+
+query QueryStockScreener($stockScreenerInput: STFMStockScreenerInput!){
+    queryStockScreener(stockScreenerInput: $stockScreenerInput){
+        symbol
+        companyName
+        marketCap
+        sector
+        industry
+        beta
+        price
+        lastAnnualDividend
+        volume
+        exchange
+        exchangeShortName
+        country
+        isEtf
+        isActivelyTrading
+        companyQuote {
+            ...STFMCompanyQuoteFragment
+        }
     }
 }

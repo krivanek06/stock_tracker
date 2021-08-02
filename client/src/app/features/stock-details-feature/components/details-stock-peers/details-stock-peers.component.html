@@ -1,0 +1,44 @@
+<ion-list>
+    <!-- table header -->
+    <ion-item class="st-font-1-bold">
+        <ion-label>Symbol</ion-label>
+        <ion-label>Price</ion-label>
+        <ion-label>Market cap.</ion-label>
+        <ion-label class="ion-hide-sm-down">PE ratio</ion-label>
+        <ion-label class="ion-hide-md-down">52 week range</ion-label>
+    </ion-item>
+
+    <!-- table body-->
+    <ion-item (click)="itemClicked(peer)" *ngFor="let peer of sectorPeers" button class="st-data-item-wrapper">
+        <!-- logo + symbol name -->
+        <ion-label class="st-display-flex-center st-font-4">
+            <ion-img [src]="peer.image" appDefaultImg class="st-symbol-image"></ion-img>
+            <ion-text>{{ peer.symbol }}</ion-text>
+        </ion-label>
+
+        <!-- price -->
+        <ion-label>
+            <app-price-change-item
+                    [isPercent]="false"
+                    [priceChange]="peer.changesPercentage"
+                    [price]="peer.price"
+                    pricePosition="left">
+            </app-price-change-item>
+        </ion-label>
+
+        <!-- market cap -->
+        <ion-label>{{ peer.marketCap | numberFormatter }}</ion-label>
+        <!-- PE  -->
+        <ion-label class="ion-hide-sm-down">{{ peer.pe ? (peer.pe | number: '1.2-2') : 'N/A' }}</ion-label>
+        <!-- 52 week change -->
+        <ion-label class="ion-hide-md-down">
+            <div style="width: 90%">
+                <app-table-high-low-range
+                        [max]="peer.yearHigh"
+                        [min]="peer.yearLow"
+                        [value]="peer.price">
+                </app-table-high-low-range>
+            </div>
+        </ion-label>
+    </ion-item>
+</ion-list>

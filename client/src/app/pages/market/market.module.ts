@@ -4,10 +4,15 @@ import {SharedModule} from '@shared';
 import {RouterModule, Routes} from '@angular/router';
 import {MarketOverviewComponent} from './pages/market-overview/market-overview.component';
 import {MarketFeatureModule, MarketOverviewPreloadGuard} from '@market-feature';
-import {MarketDailyChangeComponent} from './pages/market-daily-change/market-daily-change.component';
+import {MarketTopStocksComponent} from './pages/market-top-stocks/market-top-stocks.component';
 import {MarketCryptoComponent} from './pages/market-crypto/market-crypto.component';
 import {PagesSharedModule} from '@pages-shared';
 import {StockWatchlistModule} from '@stock-watchlist-feature';
+import {MarketCalendarComponent} from './pages/market-calendar/market-calendar.component';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MarketEtfComponent} from './pages/market-etf/market-etf.component';
+import {MarketNewsComponent} from './pages/market-news/market-news.component';
+import {MarketOtherComponent} from './pages/market-other/market-other.component';
 
 const routes: Routes = [
     {
@@ -24,13 +29,18 @@ const routes: Routes = [
         RouterModule.forChild(routes),
         MarketFeatureModule,
         PagesSharedModule,
-        StockWatchlistModule
+        StockWatchlistModule,
+        MatExpansionModule
     ],
     declarations: [
         MarketPage,
         MarketOverviewComponent,
-        MarketDailyChangeComponent,
-        MarketCryptoComponent
+        MarketTopStocksComponent,
+        MarketCryptoComponent,
+        MarketCalendarComponent,
+        MarketEtfComponent,
+        MarketNewsComponent,
+        MarketOtherComponent
     ]
 })
 export class MarketPageModule {

@@ -9,7 +9,7 @@
   .compact-list {
     width: 70%;
     margin: auto;
-    @media (max-width: #{$st-var-md-split}) {
+    @media (max-width: #{$st-var-lg-split}) {
       width: 100%;
     }
   }

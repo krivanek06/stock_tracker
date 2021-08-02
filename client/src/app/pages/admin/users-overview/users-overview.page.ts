@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {componentDestroyed, GraphqlAdminService, StUserRegistrationDoc} from '@core';
+import {componentDestroyed, GraphqlAdminService, StAdminMainInformations} from '@core';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
@@ -10,7 +10,7 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class UsersOverviewPage implements OnInit, OnDestroy {
 
-    userRegistrationDoc: StUserRegistrationDoc;
+    adminMainInformations: StAdminMainInformations;
 
     data: number[][] = [];
 
@@ -23,15 +23,15 @@ export class UsersOverviewPage implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.initUserRegistrationSubscription();
+        this.initAdminMainInformations();
     }
 
-    private initUserRegistrationSubscription() {
-        this.graphqlAdminService.queryUsersRegistration().pipe(
+    private initAdminMainInformations() {
+        this.graphqlAdminService.queryAdminMainInformations().pipe(
             takeUntil(componentDestroyed(this))
         ).subscribe(res => {
-            this.data = res.weeklyRegistratedUsers.map(series => [series.timestamp, series.data]);
-            this.userRegistrationDoc = res;
+            this.data = res.usersWeeklyRegistrated.map(series => [series.timestamp, series.data]);
+            this.adminMainInformations = res;
             this.cd.detectChanges();
         });
     }

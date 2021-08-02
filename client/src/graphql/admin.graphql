@@ -1,15 +1,16 @@
-query QueryUsersRegistration {
-    queryUsersRegistration {
-        totalRegistratedUsers
-        totalActiveUsers
-        userRegistrationSnippets {
+query QueryAdminMainInformations {
+    queryAdminMainInformations {
+        lastStockDetailsReload
+        usersRegistrated
+        usersActive
+        usersRegistrationSnippets {
             id
             nickName
             locale
             photoURL
             accountCreatedDate
         }
-        weeklyRegistratedUsers {
+        usersWeeklyRegistrated {
             data
             timestamp
         }

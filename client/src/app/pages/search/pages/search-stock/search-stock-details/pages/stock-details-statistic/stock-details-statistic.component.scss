@@ -1,7 +1,17 @@
+@import "variables";
+
 :host {
-  ion-row {
-    ion-col {
-      padding: 2px;
+  .news-container {
+    column-count: 4;
+    @media (max-width: #{$st-var-xxl-split}) {
+      column-count: 3;
+    }
+    @media (max-width: #{$st-var-lg-split}) {
+      column-count: 32
+    }
+    @media (max-width: #{$st-var-sm-split}) {
+      column-count: 1;
     }
   }
+
 }

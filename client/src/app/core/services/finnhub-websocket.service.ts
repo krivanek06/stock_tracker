@@ -42,12 +42,14 @@ export class FinnhubWebsocketService {
         );
     }
 
-    createSubscribeForSymbol(componentName: string, symbol: string, isCrypto: boolean = false) {
-        /*if (!this.isConnectionInitialized$.value || !this.myWebSocket) {
+    async createSubscribeForSymbol(componentName: string, symbol: string, isCrypto: boolean = false) {
+        if (!this.isConnectionInitialized$.value || !this.myWebSocket) {
             console.log('Websocket createSubscribeForSymbol return, no connection initialized');
             return;
         }
-
+        console.log('sleep');
+        // sleep before creating subscription - wait till unsubscribed from previous page
+        await this.sleep(5000);
         const neededSubscription = this.checkIfSubscriptionIsNeeded(symbol);
         this.saveSymbol(componentName, symbol);
 
@@ -60,7 +62,7 @@ export class FinnhubWebsocketService {
         }
 
         console.log(`Sending subscription for: ${symbol}`);
-        this.myWebSocket.next({type: 'subscribe', symbol});*/
+        this.myWebSocket.next({type: 'subscribe', symbol});
     }
 
     closeConnection(componentName: string) {
@@ -84,7 +86,10 @@ export class FinnhubWebsocketService {
             console.log('Websocket closeConnectionForSymbol return, no connection initialized');
             return;
         }
-        this.subscribedSymbols.set(componentName, this.subscribedSymbols.get(componentName).filter(s => s !== symbol));
+
+        if (this.subscribedSymbols.get(componentName)) {
+            this.subscribedSymbols.set(componentName, this.subscribedSymbols.get(componentName).filter(s => s !== symbol));
+        }
 
         let subscriptionExists = false;
         this.subscribedSymbols.forEach(symbols => {
@@ -133,6 +138,10 @@ export class FinnhubWebsocketService {
     private printSubscriptions(): void {
         this.subscribedSymbols.forEach((v, k) => console.log(k, v));
         console.log('----------------------');
+    }
+
+    private sleep(ms: number) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
 }

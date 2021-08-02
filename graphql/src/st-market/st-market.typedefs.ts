@@ -5,28 +5,49 @@ export const STMarketSharedTypeDefs = gql`
 
     # Market daily overview
     type STMarketDailyOverview {
-        stocks_day_gainers: [STMarketTopTableSymbolData]
-        stocks_day_losers: [STMarketTopTableSymbolData]
-        stocks_day_active: [STMarketTopTableSymbolData]
-        stocks_undervalued_growth_stocks: [STMarketTopTableSymbolData]
-        stocks_growth_technology_stocks: [STMarketTopTableSymbolData]
-        stocks_undervalued_large_caps: [STMarketTopTableSymbolData]
-        stocks_aggressive_small_caps: [STMarketTopTableSymbolData]
-        stocks_small_cap_gainers: [STMarketTopTableSymbolData]
-        stock_suggestions: [STStockSuggestion]
-        top_crypto: [STMarketTopTableCryptoData]
-        news: [NewsArticle]
-        events: [STEventCalendarData]
-        earnings: [STEventCalendarEarningsData]
+        id: String
+        dailyGainers: [STFMCompanyQuote]
+        dailyLosers: [STFMCompanyQuote]
+        mostActive: [STFMCompanyQuote]
+        stockSuggestions: [STStockSuggestion]
+        topCrypto: [STMarketTopTableCryptoData]
+        news: [STFMStockNew]
+        calendar: STMarketCalendar
+        mutulaFunds: [STFMCompanyQuote]
+        etfs: [STFMCompanyQuote]
+        commodities: [STFMCompanyQuote]
+        exchange: STMarketExchange
+        sectorPerformance: [STFMSectorPerformance]
         lastUpdate: String
-    }
-    
-    type StMarketCalendarEvents {
-        events: [STEventCalendarData]
+        stockScreener: [STFMStockScreenerResult]
     }
 
-    type StMarketCalendarEventsEarnings {
-        earnings: [STEventCalendarEarningsData]
+    type STMarketExchange {
+        id: String
+        exchangeIndustryPE: [STFMExchangeIndustryPE]
+        exchangeSectorPE: [STFMExchangeSectorPE]
+    }
+
+    type STMarketCalendar {
+        calendarEconomic: [STFMCalendarEconomic]
+        calendarDividend: [STFMStockDividend]
+        calendarSplit: [STFMSplitHistory]
+        calendarIpo: [STFMCalendarIpo]
+        calendarEarnings: [STFMCalendarEarnings]
+    }
+
+    type STStockSuggestion {
+        historicalData: [Float]
+        summary: Summary
+    }
+
+
+    type STMarketEtfDocument {
+        id: String
+        etfHolders: [STFMEtfHolder]
+        etfSectorWeight: [STFMEtfSectorWeight]
+        etfCountryWeight: [STFMEtfCountryWeight]
+        lastUpdate: String
     }
 
     # Market history overview
@@ -39,58 +60,6 @@ export const STMarketSharedTypeDefs = gql`
         investor_sentiment: [STMarketChartDataResultCombined]
         bitcoin: [STMarketChartDataResultCombined]
         lastUpdate: String
-    }
-    
-    type STStockSuggestion {
-        summary: Summary
-        historicalData: STStockHistoricalClosedDataWithPeriod
-    }
-
-    type STEventCalendarData  {
-        date: Float
-        day: Float
-        month: Float
-        startdatetime: String
-        year: Float
-        earningscount: Float
-        economiceventcount: Float
-        ipoinfocount: Float
-        splitscount: Float
-    }
-
-    type STEventCalendarEarningsData {
-        companyshortname: String
-        epsactual: Float
-        epsestimate: Float
-        epssurprisepct: Float
-        gmtOffsetMilliSeconds: Float
-        quoteType: String
-        startdatetime: String
-        startdatetimetype: String
-        ticker: String
-        timeZoneShortName: String
-    }
-
-    type STMarketTopTableSymbolData {
-        averageDailyVolume3Month: Float
-        currency: String
-        fiftyTwoWeekHigh: Float
-        fiftyTwoWeekLow: Float
-        logo_url: String
-        longName: String
-        marketCap: Float
-        quoteType: String
-        recommendationKey: String
-        recommendationMean: Float
-        regularMarketChange: Float
-        regularMarketChangePercent: Float
-        regularMarketOpen: Float
-        regularMarketPreviousClose: Float
-        regularMarketPrice: Float
-        regularMarketVolume: Float
-        shortName: String
-        symbol: String
-        trailingPE: String
     }
 
     type STMarketTopTableCryptoData {
@@ -136,21 +105,5 @@ export const STMarketSharedTypeDefs = gql`
         documentKey: String!
         name: String!
     }
-
-    type STStockHistoricalClosedDataWithPeriod {
-        livePrice: Float
-        price: [Float]
-        symbol: String
-        period: String
-    }
-
-    type STMarketSymbolHistoricalChartData {
-        livePrice: Float
-        symbol: String
-        period: String
-        price: [[Float]]
-        volume: [[Float]]
-    }
-
 
 `;

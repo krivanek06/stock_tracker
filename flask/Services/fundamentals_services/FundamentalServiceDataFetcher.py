@@ -2,8 +2,9 @@ from threading import Thread
 from queue import Queue
 from pytz import UTC
 
-from ExternalAPI import FinhubApi
+from ExternalAPI.FinhubApi import FinhubApi
 from ExternalAPI.YahooFinance import YahooFinanceRequesterApi
+from ExternalAPI.FinancialModelingApi import FinancialModelingApi
 
 utc = UTC
 
@@ -11,53 +12,61 @@ utc = UTC
 class FundamentalServiceDataFetcher:
     def __init__(self):
         self.yRequester = YahooFinanceRequesterApi.YahooFinanceRequesterApi()
-        self.finhub = FinhubApi.FinhubApi()
+        self.finhub = FinhubApi()
+        self.financialModeling = FinancialModelingApi()
 
-    def fetchStockNews(self, symbol):
-        return self.finhub.getNewsForSymbol(symbol)
-
-    def fetchStockClosedPrice(self, symbol):
-        return self.yRequester.get_closed_price(symbol)
+    def fetchStockNews(self, symbol: str):
+        return self.financialModeling.getStockNews([symbol])
 
     def fetchStockDetails(self, symbol):
         return self.__fetchStockDetails(symbol)
 
+    def __getSectorPeers(self, symbol):
+        searchedResult = self.financialModeling.getSectorPeers(symbol)  # 10 peers
+        return [] if not searchedResult else self.financialModeling.getCompanyQuoteBatch(searchedResult[0]['peersList'])
+
     def __fetchStockDetails(self, symbol):
         que = Queue()
-        # declare threads
-        t2 = Thread(target=lambda q, arg1: q.put(self.yRequester.get_analysts_info(arg1)), args=(que, symbol))
-        t4 = Thread(target=lambda q, arg1: q.put(self.yRequester.get_company_data(arg1)), args=(que, symbol))
-        t8 = Thread(target=lambda q, arg1: q.put(self.yRequester.get_financial_sheets(arg1)), args=(que, symbol))
-        t10 = Thread(target=lambda q, arg1: q.put(self.finhub.getNewsForSymbol(arg1)), args=(que, symbol))
-        t12 = Thread(target=lambda q, arg1: q.put(self.yRequester.get_holders(arg1)), args=(que, symbol))
 
-        # FINHUB
+        # Yahoo finance
+        t4 = Thread(target=lambda q, arg1: q.put(self.yRequester.get_company_data(arg1)), args=(que, symbol))
+
+        # Financial modeling getMutualFundHolders
+        t1 = Thread(target=lambda q, arg1: q.put({'companyOutlook': self.financialModeling.getCompanyOutlook(arg1)}), args=(que, symbol))
+        t2 = Thread(target=lambda q, arg1: q.put({'mutualFundHolders': self.financialModeling.getMutualFundHolders(arg1)}), args=(que, symbol))
+        t3 = Thread(target=lambda q, arg1: q.put({'institutionalHolders': self.financialModeling.getInstitutionalHolders(arg1)}), args=(que, symbol))
+        tSector = Thread(target=lambda q, arg1: q.put({'sectorPeers': self.__getSectorPeers(arg1)}), args=(que, symbol))
+
+        # Finhub
         t6 = Thread(target=lambda q, arg1: q.put(self.finhub.getRecomendationForSymbol(arg1)), args=(que, symbol))
         t7 = Thread(target=lambda q, arg1: q.put(self.finhub.getStockYearlyFinancialReport(arg1)), args=(que, symbol))
         t11 = Thread(target=lambda q, arg1: q.put(self.finhub.getStockMetrics(arg1)), args=(que, symbol))
 
         # start threads
+        t1.start()
         t2.start()
+        t3.start()
+        tSector.start()
         t4.start()
         t6.start()
         t7.start()
-        t8.start()
-        t10.start()
         t11.start()
-        t12.start()
 
         # wait threads to finish
+        t1.join()
         t2.join()
+        t3.join()
+        tSector.join()
         t4.join()
         t6.join()
         t7.join()
-        t8.join()
-        t10.join()
         t11.join()
-        t12.join()
 
         # get result from threads into one dict
         merge = {}
         while not que.empty():
-            merge = {**merge, **que.get()}
+            try:
+                merge = {**merge, **que.get()}
+            except:
+                pass
         return merge

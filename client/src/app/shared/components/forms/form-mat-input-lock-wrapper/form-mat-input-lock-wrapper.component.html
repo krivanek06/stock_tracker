@@ -1,0 +1,34 @@
+<div [ngClass]="{
+    'c-form-lock-wrapper-slider': inputType === 'SLIDER' && !allowChangeInput,
+    'c-form-lock-wrapper-select': inputType !== 'SLIDER' || allowChangeInput
+}">
+    <app-form-mat-input-wrapper
+            [chipMaxAllowed]="chipMaxAllowed"
+            [chipSelectedValues]="chipSelectedValues"
+            [controlName]="controlName"
+            [disabled]="disabled.value"
+            [hintText]="hintText"
+            [inputCaption]="inputCaption"
+            [inputSource]="inputSource"
+            [inputType]="allowChangeInput ? changeInputTo : inputType"
+            [sliderLabelShowDollarSign]="sliderLabelShowDollarSign"
+            [sliderMaxValue]="sliderMaxValue"
+            [sliderMinValue]="sliderMinValue"
+            [sliderStepValue]="sliderStepValue"
+    ></app-form-mat-input-wrapper>
+    <!-- lock -->
+    <ng-container [formGroup]="form">
+        <app-form-lock-input
+                formControlName="disabled"
+        ></app-form-lock-input>
+    </ng-container>
+
+    <!-- keyboard -->
+    <button (click)="changeInput()"
+            *ngIf="showChangeInput"
+            [disabled]="disabled.value"
+            [matTooltip]="'Change input type to: ' + changeInputTo"
+            mat-icon-button>
+        <mat-icon [ngClass]="{'st-icon': !disabled.value}">keyboard</mat-icon>
+    </button>
+</div>

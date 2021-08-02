@@ -30,7 +30,7 @@ export class HoldingsTableComponent implements OnInit {
         if (!this.clickable) {
             return;
         }
-        this.itemClickedEmitter.emit({symbol: holding.symbol, name: holding.summary.longName});
+        this.itemClickedEmitter.emit({symbol: holding.symbol, name: holding.summary.companyName});
     }
 
     toggleDailyChange() {

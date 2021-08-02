@@ -9,7 +9,6 @@ import {StockTradingFeatureModule} from '@stock-trading-feature';
 import {StockDetailsFeatureModule} from '@stock-details-feature';
 import {PagesSharedModule} from '@pages-shared';
 import {DashboardTransactionsComponent} from './dashboard-transactions/dashboard-transactions.component';
-import {DashboardHoldingsAllocationComponent} from './dashboard-holdings-allocation/dashboard-holdings-allocation.component';
 import {DashboardHoldingsTableComponent} from './dashboard-holdings-table/dashboard-holdings-table.component';
 import {DashboardPortfolioChangeChartsComponent} from './dashboard-portfolio-change-charts/dashboard-portfolio-change-charts.component';
 import {DashboardPortfolioChangeComponent} from './dashboard-portfolio-change/dashboard-portfolio-change.component';
@@ -36,7 +35,6 @@ const routes: Routes = [
     declarations: [
         DashboardPage,
         DashboardTransactionsComponent,
-        DashboardHoldingsAllocationComponent,
         DashboardHoldingsTableComponent,
         DashboardPortfolioChangeChartsComponent,
         DashboardPortfolioChangeComponent,

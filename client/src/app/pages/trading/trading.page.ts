@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit
 import {
     componentDestroyed,
     GraphqlQueryService,
+    StfmCompanyQuote,
     StStockSuggestion,
     SubscriptionWebsocketService,
     Summary,
@@ -51,7 +52,13 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
 
     changeSummary(summary: Summary) {
         this.selectedSummary = summary;
-        // TODO smooth scroll to top
+    }
+
+    loadSummary(companyQuote: StfmCompanyQuote) {
+        this.symbolStorageService.getStockSummary(companyQuote.symbol).pipe(first()).subscribe(summary => {
+            console.log('summary', summary);
+            this.selectedSummary = summary;
+        });
     }
 
     async tradeSymbol() {
@@ -60,7 +67,7 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
 
     private initSuggestions() {
         this.graphqlQueryService.queryMarketDailyOverview().pipe(first()).subscribe(overview => {
-            this.suggestions = cloneDeep(overview.stock_suggestions);
+            this.suggestions = cloneDeep(overview.stockSuggestions);
 
             if (!this.selectedSummary) {
                 this.selectedSummary = this.suggestions[0].summary;

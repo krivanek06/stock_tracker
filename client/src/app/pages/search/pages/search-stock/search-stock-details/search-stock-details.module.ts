@@ -13,6 +13,8 @@ import {StockDetailsFeatureModule} from '@stock-details-feature';
 import {StockTradingStrategyFeatureModule} from '@stock-trading-strategy-feature';
 import {StockValuationFeatureModule} from '@stock-valuation-feature';
 import {StockDetailsFinancialModule} from './pages/stock-details-financial/stock-details-financial.module';
+import {MarketFeatureModule} from '@market-feature';
+import {PagesSharedModule} from '@pages-shared';
 
 const routes: Routes = [
     {
@@ -57,7 +59,9 @@ const routes: Routes = [
         StockDetailsFeatureModule,
         StockTradingStrategyFeatureModule,
         StockValuationFeatureModule,
-        StockDetailsFinancialModule
+        StockDetailsFinancialModule,
+        MarketFeatureModule,
+        PagesSharedModule
     ]
 })
 export class SearchStockDetailsModule {

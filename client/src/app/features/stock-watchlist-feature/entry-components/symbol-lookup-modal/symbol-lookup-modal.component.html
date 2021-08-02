@@ -4,21 +4,21 @@
             <ion-col size="6">
                 <ng-container *ngIf="showAddToWatchlistOption && (user$ | async)">
                     <!-- add to watchlist button -->
-                    <ion-button *ngIf="!isSymbolInWatchlist"
-                                (click)="addSymbolToWatchlist()"
+                    <ion-button (click)="addSymbolToWatchlist()"
+                                *ngIf="!isSymbolInWatchlist"
                                 class="ion-float-start"
                                 fill="clear">
-                        <ion-icon name="star-outline" class="st-font-main-color-orange"
+                        <ion-icon class="st-font-main-color-orange" name="star-outline"
                                   style="margin-right: 5px"></ion-icon>
                         <ion-text class="st-font-1">Save symbol</ion-text>
                     </ion-button>
 
                     <!-- remove from  watchlist button -->
-                    <ion-button *ngIf="isSymbolInWatchlist"
-                                (click)="removeSymbolFromWatchlist()"
+                    <ion-button (click)="removeSymbolFromWatchlist()"
+                                *ngIf="isSymbolInWatchlist"
                                 class="ion-float-start"
                                 fill="clear">
-                        <ion-icon name="star" class="st-font-main-color-orange watchlist-not-added"
+                        <ion-icon class="st-font-main-color-orange watchlist-not-added" name="star"
                                   style="margin-right: 5px"></ion-icon>
                         <ion-text class="st-font-1 watchlist-not-added">Remove symbol</ion-text>
                     </ion-button>
@@ -27,7 +27,7 @@
 
             <ion-col size="6">
                 <!-- close modal button -->
-                <ion-button class="ion-float-right" color="danger" (click)="dismissModal()" fill="clear">
+                <ion-button (click)="dismissModal()" class="ion-float-right" color="danger" fill="clear">
                     <ion-icon name="close-outline"></ion-icon>
                     Close
                 </ion-button>
@@ -37,19 +37,19 @@
         <ng-container *ngIf="stockDetails$ | async as details; else showOnlyChart">
             <ion-row class="ion-justify-content-center">
                 <!-- financial chart -->
-                <ion-col size="12" size-md="6.5" size-xl="7.5" class="st-md-border-bottom">
+                <ion-col class="st-md-border-bottom" size="12" size-md="6.5" size-xl="7.5">
                     <app-financial-chart-container
-                            [currentPrice]="details.summary.marketPrice"
                             [closedPrice]="details.summary.previousClose"
+                            [currentPrice]="details.summary.marketPrice"
+                            [height]="400"
                             [logoUrl]="details.summary.logo_url"
                             [name]="symbolIdentification.name"
-                            [height]="375"
                             [symbol]="symbolIdentification.symbol">
                     </app-financial-chart-container>
                 </ion-col>
 
 
-                <ion-col size="12" size-md="5.5" size-xl="4.5" class="st-md-border-bottom ion-padding">
+                <ion-col class="st-md-border-bottom ion-padding" size="12" size-md="5.5" size-xl="4.5">
                     <!-- summary -->
                     <app-generic-list [iconTitle]="'barcode-outline'"
                                       [title]="'Summary: ' + symbolIdentification.symbol">
@@ -59,7 +59,7 @@
 
                     <!-- button-->
                     <ion-buttons class="st-buttons-container st-justify-center">
-                        <ion-button class="st-button st-create-background" (click)="redirectToDetails()">
+                        <ion-button (click)="redirectToDetails()" class="st-button" color="primary" fill="solid">
                             Show details
                         </ion-button>
                     </ion-buttons>
@@ -68,7 +68,7 @@
 
             <!-- long business summary -->
             <ion-row>
-                <ion-col size="12" class="st-flex-col">
+                <ion-col class="st-flex-col" size="12">
                     <app-generic-list title="About company"></app-generic-list>
                     <ion-text class="st-font-3">
                         {{ details.summary.longBusinessSummary }}
@@ -79,16 +79,16 @@
 
         <!-- loader while no data -->
         <ng-template #showOnlyChart>
-            <div class="spinner-container" *ngIf="showSpinner">
+            <div *ngIf="showSpinner" class="spinner-container">
                 <ion-spinner color="primary"></ion-spinner>
             </div>
 
             <!-- financial chart -->
-            <ion-row class="ion-justify-content-center" *ngIf="!showSpinner">
+            <ion-row *ngIf="!showSpinner" class="ion-justify-content-center">
                 <ion-col size="12">
                     <app-financial-chart-container
-                            [name]="symbolIdentification.name"
                             [height]="450"
+                            [name]="symbolIdentification.name"
                             [symbol]="symbolIdentification.symbol">
                     </app-financial-chart-container>
                 </ion-col>

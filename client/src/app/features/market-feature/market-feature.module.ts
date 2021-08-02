@@ -1,33 +1,58 @@
 import {NgModule} from '@angular/core';
-import {SharedModule} from '@shared';
+import {FormLockInputModule, FormMatInputLockWrapperModule, FormMatInputWrapperModule, SharedModule} from '@shared';
 import {
-    MarketEarningsTableComponent,
-    MarketEventsSelectorComponent,
-    MarketTopTableCryptoComponent,
-    MarketTopTableStocksComponent
+    MarketCalendarDividendPayoutComponent,
+    MarketCalendarEarningsComponent,
+    MarketCalendarEconomicComponent,
+    MarketCalendarIpoComponent,
+    MarketCalendarSplitHistoryComponent,
+    MarketCompanyQuotesTableComponent,
+    MarketSearchFormComponent,
+    MarketSearchFormResultComponent,
+    MarketSearchTableComponent,
+    MarketSectorHeatMapComponent,
+    MarketStockNewsComponent,
+    MarketTopTableCryptoComponent
 } from './components';
-import {MarketChartBuilderComponent, MarketEarningsModalComponent} from './entry-components';
+import {MarketChartBuilderComponent} from './entry-components';
 
 
 @NgModule({
     declarations: [
-        MarketTopTableStocksComponent,
-        MarketEarningsTableComponent,
-        MarketEventsSelectorComponent,
-        MarketEarningsModalComponent,
+        MarketCompanyQuotesTableComponent,
+        MarketCalendarEconomicComponent,
         MarketTopTableCryptoComponent,
-        MarketChartBuilderComponent
+        MarketChartBuilderComponent,
+        MarketSectorHeatMapComponent,
+        MarketStockNewsComponent,
+        MarketCalendarIpoComponent,
+        MarketCalendarEarningsComponent,
+        MarketCalendarSplitHistoryComponent,
+        MarketCalendarDividendPayoutComponent,
+        MarketSearchFormComponent,
+        MarketSearchFormResultComponent,
+        MarketSearchTableComponent
     ],
     imports: [
-        SharedModule
+        SharedModule,
+        FormMatInputWrapperModule,
+        FormLockInputModule,
+        FormMatInputLockWrapperModule
     ],
     exports: [
-        MarketTopTableStocksComponent,
-        MarketEarningsTableComponent,
-        MarketEventsSelectorComponent,
-        MarketEarningsModalComponent,
+        MarketCompanyQuotesTableComponent,
+        MarketCalendarEconomicComponent,
         MarketTopTableCryptoComponent,
-        MarketChartBuilderComponent
+        MarketChartBuilderComponent,
+        MarketSectorHeatMapComponent,
+        MarketStockNewsComponent,
+        MarketCalendarIpoComponent,
+        MarketCalendarEarningsComponent,
+        MarketCalendarSplitHistoryComponent,
+        MarketCalendarDividendPayoutComponent,
+        MarketSearchTableComponent,
+        MarketSearchFormResultComponent,
+        MarketSearchFormComponent
     ]
 })
 export class MarketFeatureModule {

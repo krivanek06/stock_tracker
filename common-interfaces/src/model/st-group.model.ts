@@ -1,4 +1,4 @@
-import { STUserIndentificationWithPortfolio } from './user.model';
+import { STUserIndentificationWithPortfolio } from './st-user.model';
 import { STLog } from './st-share.model';
 import { STRank } from './st-rank.model';
 import { STHolding, STTransaction, STTransactionSnapshot } from './st-transaction.model';

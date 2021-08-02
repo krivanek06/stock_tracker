@@ -1,11 +1,13 @@
-import { queryStockFinancialReports } from './st-stocks/st-stocks-query/queryStockFinancialReports';
+import { queryStockScreener } from './api/financial-modeling/st-financial-modeling.api';
+import { STFinancialModelingAPITypeDefs } from './api/financial-modeling/st-financal-modeling-api.typedefs';
+import { querySymbolHistoricalPrices } from './st-stocks/st-stocks-query/queryStockHistoricalPrice';
 import { Context } from './st-shared/st-shared.interface';
 import { stGroupResolvers } from './st-group/st-group.resolver';
 import { STFreeCashFlowFormulaTypeDefs } from './st-stock-calculations/st-free-cash-flow-formula.typedef';
 import { STDividendDiscountedFormulaTypeDefs } from './st-stock-calculations/st-dividend-discounted-formula.typedef';
 import { STEarningsValuationFormulaTypeDefs } from './st-stock-calculations/st-earnings-valuation-formula.typedef';
 import { STDiscountedCashFlowFormulaTypeDefs } from './st-stock-calculations/st-discounted-cash-flow-formula.typedef';
-import { queryUsersRegistration } from './st-admin/st-admin.query';
+import { queryAdminMainInformations } from './st-admin/st-admin.query';
 import { STAdminTypeDefs } from './st-admin/st-admin.typeDefs';
 import { queryTradingStrategies, queryTradingStrategyData } from './st-trading-strategy/st-trading-strategy.query';
 import { STTraingStrategyTypeDefs } from './st-trading-strategy/st-trading-strategy.typedef';
@@ -27,12 +29,13 @@ import {
 } from './watchlist/watchlist.mutation';
 import {editUser, registerUser, resetUserAccount} from './user/user.mutation';
 import {
-    queryMarketDailyOverview,
     queryStockDetails,
-    queryStockSummaries,
-    queryStockSummary
-} from './st-stocks/st-stocks-query';
-import {stockDetailsTypeDefs} from './st-stocks/st-stock.typedefs';
+    queryStockQuotesByPrefix,
+    queryStockSummary,
+    stockDetailsTypeDefs,
+    setForceReloadStockDetails,
+    queryStockFinancialReports
+} from './st-stocks';
 import {STTransactionTypeDefs} from './st-transaction/st-transaction.typedef';
 import {STRankTypeDefs} from './st-rank/st-rank.typedef';
 import {STPortfolioTypeDefs} from './st-portfolio/st-portfolio.typedef';
@@ -48,9 +51,8 @@ import {stStockWatchlistResolvers} from "./watchlist/watchlist.resolver";
 import {performTransaction} from "./st-transaction/st-transaction.mutation";
 import {STMarketSharedTypeDefs} from "./st-market/st-market.typedefs";
 import {
-    queryStMarketAllCategories, queryStMarketCalendarEvents, queryStMarketCalendarEventsEarnings, queryStMarketData,
-    querySTMarketHistoryOverview,
-    querySTMarketSymbolHistoricalChartData
+    queryStMarketAllCategories, queryStMarketData,
+    querySTMarketHistoryOverview, queryMarketDailyOverview, queryEtfDocument
 } from "./st-market/st-market.query";
 import { STStockDetailsCalculationsTypeDefs } from './st-stock-calculations';
 
@@ -80,24 +82,24 @@ const mainTypeDefs = gql`
         # details
         queryStockDetails(symbol: String!, reload: Boolean): StockDetails
         queryStockSummary(symbol: String!): Summary
-        queryStockSummaries(symbolPrefix: String!): SearchSymbol
+        queryStockQuotesByPrefix(symbolPrefix: String!): [STFMCompanyQuote]!
         queryStockFinancialReports(symbol: String!): StockDetailsFinancialReports
+        querySymbolHistoricalPrices(symbol: String!, period: String!): SymbolHistoricalPrices
 
         # market data
-        querySTMarketSymbolHistoricalChartData(symbol: String!, period: String!): STMarketSymbolHistoricalChartData
         querySTMarketHistoryOverview: STMarketOverviewPartialData
         queryStMarketAllCategories: STMarketDatasetKeyCategories
         queryMarketDailyOverview: STMarketDailyOverview
         queryStMarketData(key: String!): STMarketChartDataResultCombined
-        queryStMarketCalendarEvents(date: String!): StMarketCalendarEvents
-        queryStMarketCalendarEventsEarnings(date: String!): StMarketCalendarEventsEarnings
+        queryEtfDocument(etfName: String!): STMarketEtfDocument
+        queryStockScreener(stockScreenerInput: STFMStockScreenerInput!): [STFMStockScreenerResult]
 
         # trading strategy
         querySTTradingStrategies: STTradingStrategySearch
         querySTTradingStrategyData(symbol: String!, strategy: String!): STTradingStrategyData
 
         # admin
-        queryUsersRegistration: STUserRegistrationDoc
+        queryAdminMainInformations: STAdminMainInformations
     }
 
     #### MUTATION
@@ -124,6 +126,9 @@ const mainTypeDefs = gql`
 
         # trading
         performTransaction(transactionInput: STTransactionInput!): PerformedTransaction
+
+        # stock details
+        setForceReloadStockDetails: Boolean
     }
 `;
 
@@ -142,24 +147,24 @@ const mainResolver = {
         // stock details
         queryStockDetails: async (_: null, args: { symbol: string, reload: boolean }) => await queryStockDetails(args.symbol, args.reload),
         queryStockSummary: async (_: null, args: { symbol: string }) => await queryStockSummary(args.symbol),
-        queryStockSummaries: async (_: null, args: { symbolPrefix: string }) => await queryStockSummaries(args.symbolPrefix),
+        queryStockQuotesByPrefix: async (_: null, args: { symbolPrefix: string }) => await queryStockQuotesByPrefix(args.symbolPrefix),
         queryStockFinancialReports: async (_: null, args: { symbol: string }) => await queryStockFinancialReports(args.symbol),
+        querySymbolHistoricalPrices: async (_: null, args: { symbol: string, period: string }) => await querySymbolHistoricalPrices(args.symbol, args.period),
 
         // market data
         querySTMarketHistoryOverview: async (_: null, args: null) => await querySTMarketHistoryOverview(),
         queryMarketDailyOverview: async (_: null, args: null) => await queryMarketDailyOverview(),
         queryStMarketAllCategories: async (_: null, args: null) => await queryStMarketAllCategories(),
         queryStMarketData: async (_: null, args: { key: string }) => await queryStMarketData(args.key),
-        queryStMarketCalendarEvents: async (_: null, args: { date: string }) => await queryStMarketCalendarEvents(args.date),
-        queryStMarketCalendarEventsEarnings: async (_: null, args: { date: string }) => await queryStMarketCalendarEventsEarnings(args.date),
-        querySTMarketSymbolHistoricalChartData: async (_: null, args: { symbol: string, period: string }) => await querySTMarketSymbolHistoricalChartData(args.symbol, args.period),
+        queryEtfDocument: async (_: null, args: { etfName: string }) => await queryEtfDocument(args.etfName),
+        queryStockScreener: async (_: null, args: { stockScreenerInput: api.STFMStockScreener }) => await queryStockScreener(args.stockScreenerInput), 
 
         // trading strategy
         querySTTradingStrategies: async (_: null, args: null) => await queryTradingStrategies(),
         querySTTradingStrategyData: async (_: null, args: { symbol: string, strategy: string }) => await queryTradingStrategyData(args.symbol, args.strategy),
 
         // admin
-        queryUsersRegistration: async (_: null, args: null) => await queryUsersRegistration(),
+        queryAdminMainInformations: async (_: null, args: null) => await queryAdminMainInformations(),
     },
 
     Mutation: {
@@ -185,6 +190,9 @@ const mainResolver = {
 
         // trading
         performTransaction: async (_, args: { transactionInput: api.STTransactionInput }, {requesterUserId}: Context) => await performTransaction(args.transactionInput, requesterUserId),
+
+        // stock detils
+        setForceReloadStockDetails: async () => await setForceReloadStockDetails()
     }
 
 };
@@ -217,7 +225,8 @@ const server = new ApolloServer({
         STDiscountedCashFlowFormulaTypeDefs,
         STDividendDiscountedFormulaTypeDefs,
         STEarningsValuationFormulaTypeDefs,
-        STFreeCashFlowFormulaTypeDefs
+        STFreeCashFlowFormulaTypeDefs,
+        STFinancialModelingAPITypeDefs
     ],
     resolvers,
     introspection: true,

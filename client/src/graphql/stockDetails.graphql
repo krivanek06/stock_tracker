@@ -14,10 +14,10 @@ fragment StockSummaryFragment on Summary {
     residance {
         ...SummaryResidanceFragment
     }
-    id
     avgVolume
+    ceo
+    companyName
     currency
-    currencySymbol
     dividendDate
     ePSTTM
     earningsDate
@@ -29,16 +29,16 @@ fragment StockSummaryFragment on Summary {
     forwardEPS
     forwardPE
     fullTimeEmployees
+    id
     industry
+    ipoDate
     lastSplitDate
     lastSplitFactor
     logo_url
     longBusinessSummary
-    longName
     marketCap
     marketPrice
     oneyTargetEst
-    open
     pERatioTTM
     previousClose
     recommendationKey
@@ -46,7 +46,6 @@ fragment StockSummaryFragment on Summary {
     sandPFiveTwoWeekChange
     sector
     sharesOutstanding
-    shortName
     shortRatio
     symbol
     targetEstOneyPercent
@@ -57,457 +56,37 @@ fragment StockSummaryFragment on Summary {
     yearToDatePrice
     yearToDatePriceReturn
 }
-
-fragment SheetDataFragment on SheetData {
-    change
-    data
-    name
-    isPercent
+fragment FinancialReportStatementDataFragment on FinancialReportStatementData {
+    concept
+    label
+    unit
+    value
 }
 
-fragment balanceSheetDataFragment on BalanceSheetData {
-    totalAssets {
-        ...SheetDataFragment
-    }
-    totalCurrentAssets {
-        ...SheetDataFragment
-    }
-    cash {
-        ...SheetDataFragment
-    }
-    otherCurrentAssets {
-        ...SheetDataFragment
-    }
-    netReceivables {
-        ...SheetDataFragment
-    }
-    inventory {
-        ...SheetDataFragment
-    }
-    prepaidAssets {
-        ...SheetDataFragment
-    }
-    accumulatedComprehensiveIncome {
-        ...SheetDataFragment
-    }
-    netTangibleAssets {
-        ...SheetDataFragment
-    }
-    otherAssets {
-        ...SheetDataFragment
-    }
-    goodwill {
-        ...SheetDataFragment
-    }
-    totalSecuritiesForSale {
-        ...SheetDataFragment
-    }
-    totalLiab {
-        ...SheetDataFragment
-    }
-    totalCurrentLiabilities {
-        ...SheetDataFragment
-    }
-    operatingLeaseLiability {
-        ...SheetDataFragment
-    }
-    prepaidExpense {
-        ...SheetDataFragment
-    }
-    accountsPayable {
-        ...SheetDataFragment
-    }
-    otherCurrentLiab {
-        ...SheetDataFragment
-    }
-    otherLiab {
-        ...SheetDataFragment
-    }
-    shortTermInvestments {
-        ...SheetDataFragment
-    }
-    longTermInvestments {
-        ...SheetDataFragment
-    }
-    shortLongTermDebt {
-        ...SheetDataFragment
-    }
-    longTermDebt {
-        ...SheetDataFragment
-    }
-    netEquity {
-        ...SheetDataFragment
-    }
-    totalStockholderEquity {
-        ...SheetDataFragment
-    }
-    otherStockholderEquity {
-        ...SheetDataFragment
-    }
-    propertyPlantEquipment {
-        ...SheetDataFragment
-    }
-    retainedEarnings {
-        ...SheetDataFragment
-    }
-    deferredRevenue {
-        ...SheetDataFragment
-    }
-    treasuryStock {
-        ...SheetDataFragment
-    }
-    commonStock {
-        ...SheetDataFragment
-    }
-    commonStockValue {
-        ...SheetDataFragment
-    }
-    endDate {
-        ...SheetDataFragment
-    }
-    paidInCapital {
-        ...SheetDataFragment
-    }
-    intangibleAssets {
-        ...SheetDataFragment
-    }
-    cashAndCashEquivalents {
-        ...SheetDataFragment
-    }
-    marketableSecuritiesCurrent {
-        ...SheetDataFragment
-    }
-    accountsReceivableNetCurrent {
-        ...SheetDataFragment
-    }
-    inventoryNet {
-        ...SheetDataFragment
-    }
-    nontradeReceivablesCurrent {
-        ...SheetDataFragment
-    }
-    assetsCurrent {
-        ...SheetDataFragment
-    }
-    marketableSecurities {
-        ...SheetDataFragment
-    }
-    otherAssetsNoncurrent {
-        ...SheetDataFragment
-    }
-    assetsNoncurrent {
-        ...SheetDataFragment
-    }
-    assets {
-        ...SheetDataFragment
-    }
-    otherLiabilitiesCurrent {
-        ...SheetDataFragment
-    }
-    commercialPaper {
-        ...SheetDataFragment
-    }
-    currentDebt {
-        ...SheetDataFragment
-    }
-    liabilitiesCurrent {
-        ...SheetDataFragment
-    }
-    otherLongTermLiabilities {
-        ...SheetDataFragment
-    }
-    currentLiabilities {
-        ...SheetDataFragment
-    }
-    commitmentsAndContingencies {
-        ...SheetDataFragment
-    }
-    retainedEarningsAccumulatedDeficit {
-        ...SheetDataFragment
-    }
-    stockholdersEquity {
-        ...SheetDataFragment
-    }
-    incomeTaxesLongTerm {
-        ...SheetDataFragment
-    }
-    incomeTaxesShortTerm {
-        ...SheetDataFragment
+fragment FinancialReportFragment on FinancialReport {
+    acceptedDate
+    accessNumber
+    cik
+    endDate
+    filedDate
+    form
+    quarter
+    startDate
+    symbol
+    year
+    report {
+        bs {
+            ...FinancialReportStatementDataFragment
+        }
+        cf {
+            ...FinancialReportStatementDataFragment
+        }
+        ic {
+            ...FinancialReportStatementDataFragment
+        }
     }
 }
 
-fragment cashFlowDataFragment on CashFlowData {
-    totalCashFromOperatingActivities {
-        ...SheetDataFragment
-    }
-    netIncome {
-        ...SheetDataFragment
-    }
-    incomeTax {
-        ...SheetDataFragment
-    }
-    deferredTaxes {
-        ...SheetDataFragment
-    }
-    accountsReceivable {
-        ...SheetDataFragment
-    }
-    accruedExpenses {
-        ...SheetDataFragment
-    }
-    customerDeposits {
-        ...SheetDataFragment
-    }
-    shareBasedCompensation {
-        ...SheetDataFragment
-    }
-    totalCashflowsFromInvestingActivities {
-        ...SheetDataFragment
-    }
-    investments {
-        ...SheetDataFragment
-    }
-    purchasesOfSecuritie {
-        ...SheetDataFragment
-    }
-    marketableSecurities {
-        ...SheetDataFragment
-    }
-    acquisitionsOfBusinesses {
-        ...SheetDataFragment
-    }
-    accruedEquipment {
-        ...SheetDataFragment
-    }
-    otherCashflowsFromInvestingActivities {
-        ...SheetDataFragment
-    }
-    totalCashFromFinancingActivities {
-        ...SheetDataFragment
-    }
-    netBorrowings {
-        ...SheetDataFragment
-    }
-    longTermDebtInsurance {
-        ...SheetDataFragment
-    }
-    issuanceOfStock {
-        ...SheetDataFragment
-    }
-    salesOfSecurities {
-        ...SheetDataFragment
-    }
-    maturitiesOfSecurities {
-        ...SheetDataFragment
-    }
-    dividendsPaid {
-        ...SheetDataFragment
-    }
-    otherCashflowsFromFinancingActivities {
-        ...SheetDataFragment
-    }
-    endDate {
-        ...SheetDataFragment
-    }
-    depreciation {
-        ...SheetDataFragment
-    }
-    commercialPaperRepayments {
-        ...SheetDataFragment
-    }
-    shortTermDebtRepayments {
-        ...SheetDataFragment
-    }
-    longTermDebtRepayments {
-        ...SheetDataFragment
-    }
-    capitalExpenditures {
-        ...SheetDataFragment
-    }
-    repurchaseOfStock {
-        ...SheetDataFragment
-    }
-    freeCashFlow {
-        ...SheetDataFragment
-    }
-    paymentsOfDividends {
-        ...SheetDataFragment
-    }
-    paymentsOfEquipment {
-        ...SheetDataFragment
-    }
-    DepreciationDepletionAndAmortization {
-        ...SheetDataFragment
-    }
-    increaseDecreaseInInventories {
-        ...SheetDataFragment
-    }
-    increaseDecreaseInOtherReceivables {
-        ...SheetDataFragment
-    }
-    otherOperatingAssets {
-        ...SheetDataFragment
-    }
-    accountsPayable {
-        ...SheetDataFragment
-    }
-    otherOperatingLiabilities {
-        ...SheetDataFragment
-    }
-    operatingActivities {
-        ...SheetDataFragment
-    }
-    paymentsToAcquireSaleSecurities {
-        ...SheetDataFragment
-    }
-    paymentsToAcquireOtherInvestments {
-        ...SheetDataFragment
-    }
-    maturityOfOtherInvestments {
-        ...SheetDataFragment
-    }
-    investingActivities {
-        ...SheetDataFragment
-    }
-    shareBasedCompensationTax {
-        ...SheetDataFragment
-    }
-    paymentsForRepurchaseOfCommonStock {
-        ...SheetDataFragment
-    }
-    proceedsFromIssuanceOfLongTermDebt {
-        ...SheetDataFragment
-    }
-    financingActivities {
-        ...SheetDataFragment
-    }
-    interestPaidNet {
-        ...SheetDataFragment
-    }
-    paymentsToAcquireInvestments {
-        ...SheetDataFragment
-    }
-    repaymentsOfDebt {
-        ...SheetDataFragment
-    }
-}
-
-fragment incomeStatementFragment on IncomeStatementData {
-    totalRevenue {
-        ...SheetDataFragment
-    }
-    costOfRevenue {
-        ...SheetDataFragment
-    }
-    grossProfit {
-        ...SheetDataFragment
-    }
-    operatingIncome {
-        ...SheetDataFragment
-    }
-    incomeBeforeTax {
-        ...SheetDataFragment
-    }
-    incomeTaxProvision {
-        ...SheetDataFragment
-    }
-    incomeTaxExpense {
-        ...SheetDataFragment
-    }
-    netIncome {
-        ...SheetDataFragment
-    }
-    netIncomeMargin {
-        ...SheetDataFragment
-    }
-    netIncomeFromContinuingOps {
-        ...SheetDataFragment
-    }
-    netIncomeApplicableToCommonShares {
-        ...SheetDataFragment
-    }
-    totalOperatingExpenses {
-        ...SheetDataFragment
-    }
-    administrativeExpense {
-        ...SheetDataFragment
-    }
-    marketingExpense {
-        ...SheetDataFragment
-    }
-    interestExpense {
-        ...SheetDataFragment
-    }
-    researchDevelopment {
-        ...SheetDataFragment
-    }
-    costOfSales {
-        ...SheetDataFragment
-    }
-    totalOtherIncomeExpenseNet {
-        ...SheetDataFragment
-    }
-    otherOperatingExpenses {
-        ...SheetDataFragment
-    }
-    ebit {
-        ...SheetDataFragment
-    }
-    endDate {
-        ...SheetDataFragment
-    }
-    sellingGeneralAdministrative {
-        ...SheetDataFragment
-    }
-    dilutedEarnings {
-        ...SheetDataFragment
-    }
-    basicEarnings {
-        ...SheetDataFragment
-    }
-    dividendsInCash {
-        ...SheetDataFragment
-    }
-    revenue {
-        ...SheetDataFragment
-    }
-    researchAndDevelopment {
-        ...SheetDataFragment
-    }
-    operatingExpenses {
-        ...SheetDataFragment
-    }
-    operatingIncomeLoss {
-        ...SheetDataFragment
-    }
-    changeInMarketableDebtSecurities {
-        ...SheetDataFragment
-    }
-    adjustedNetGainsIncludedInNetIncome {
-        ...SheetDataFragment
-    }
-    otherComprehensiveIncome {
-        ...SheetDataFragment
-    }
-    salesAndMarketing {
-        ...SheetDataFragment
-    }
-}
-
-fragment estimatesFragment on Estimates {
-    avg
-    growth
-    high
-    low
-    name
-    noofAnalysts
-    yearAgo
-}
-
-fragment dataSetFragment on DataSet {
-    y
-    name
-}
 
 fragment recommendationFragment on Recommendations {
     buy
@@ -759,6 +338,7 @@ fragment dividensFragment on Dividens {
     dividendPerShareFiveY
     dividendYieldFiveY
     dividendYieldIndicatedAnnual
+    dividendPayoutRatioTTM
     dividendsPerShareTTM
     exDividendDate
     trailingAnnualDividendRate
@@ -826,83 +406,16 @@ fragment WACCFragment on WACC {
     taxRate
 }
 
-fragment FinancialReportStatementeportStatementDataFragment on FinancialReportStatementeportStatementData {
-    concept
-    label
-    unit
-    value
-}
-
-fragment FinancialReportData on FinancialReport {
-    acceptedDate
-    accessNumber
-    cik
-    endDate
-    filedDate
-    form
-    quarter
-    startDate
-    symbol
-    year
-    report {
-        bs {
-            ...FinancialReportStatementeportStatementDataFragment
-        }
-        cf {
-            ...FinancialReportStatementeportStatementDataFragment
-        }
-        ic {
-            ...FinancialReportStatementeportStatementDataFragment
-        }
-    }
-}
 
 # -----------------------------------------
 # QUERY
 
+
 query QueryStockDetails($symbol: String!, $reload: Boolean) {
     queryStockDetails(symbol: $symbol, reload: $reload) {
         id
-        analysis {
-            growthEstimates {
-                ...dataSetFragment
-            }
-            revenueEstimate {
-                ...estimatesFragment
-            }
-            earningsEstimate {
-                ...estimatesFragment
-            }
-        }
-        balanceSheet {
-            quarterly {
-                ...balanceSheetDataFragment
-            }
-            yearly {
-                ...balanceSheetDataFragment
-            }
-        }
-        cashFlow {
-            quarterly {
-                ...cashFlowDataFragment
-            }
-            yearly {
-                ...cashFlowDataFragment
-            }
-        }
-        incomeStatement {
-            quarterly {
-                ...incomeStatementFragment
-            }
-            yearly {
-                ...incomeStatementFragment
-            }
-        }
         recommendation {
             ...recommendationFragment
-        }
-        stockNews {
-            ...newsArticleFragment
         }
         companyData {
             defaultKeyStatistics {
@@ -998,21 +511,6 @@ query QueryStockDetails($symbol: String!, $reload: Boolean) {
                 ...historicalMetricsDataFragment
             }
         }
-        institutionOwnerships {
-            organization
-            pctHeld
-            position
-            reportDate
-            value
-        }
-        insiderTransactions {
-            filerName
-            filerRelation
-            shares
-            startDate
-            transactionText
-            value
-        }
         calculations {
             CAPM {
                 ...CAPMFragment
@@ -1063,7 +561,6 @@ query QueryStockDetails($symbol: String!, $reload: Boolean) {
                 estimatedIntrinsicValue
                 historicalYears
                 minimumRateReturn
-                netBorrowings
                 operatingActivities
                 capitalExpenditures
                 freeCashFlows
@@ -1084,22 +581,77 @@ query QueryStockDetails($symbol: String!, $reload: Boolean) {
             }
         }
         allFinancialReportsYearly {
-            ...FinancialReportData
+            ...FinancialReportFragment
         }
         allFinancialReportsQuarterly {
-            ...FinancialReportData
+            ...FinancialReportFragment
+        }
+        institutionalHolders {
+            ...STFMHolderFragment
+        }
+        mutualFundHolders {
+            ...STFMHolderWithWeightFragment
+        }
+        companyOutlook {
+            financialsAnnual {
+                balance {
+                    ...STFMBalanceSheetFragment
+                }
+                cash {
+                    ...STFMCashFlowFragment
+                }
+                income {
+                    ...STFMIncomeStatementFragment
+                }
+            }
+            financialsQuarter {
+                balance {
+                    ...STFMBalanceSheetFragment
+                }
+                cash {
+                    ...STFMCashFlowFragment
+                }
+                income {
+                    ...STFMIncomeStatementFragment
+                }
+            }
+            insideTrades {
+                ...STFMInsideTradeFragment
+            }
+            keyExecutives {
+                ...STFMKeyExecutiveFragment
+            }
+            rating {
+                ...STFMRatingFragment
+            }
+            ratios {
+                ...STFMRatiosFragment
+            }
+            splitHistory {
+                ...STFMSplitHistoryFragment
+            }
+            stockDividend {
+                ...STFMStockDividendFragment
+            }
+            stockNews {
+                ...STFMStockNewFragment
+            }
+        }
+        sectorPeers {
+            ...STFMCompanyQuoteFragment
         }
     }
 }
+
 
 query QueryStockFinancialReports($symbol: String!) {
     queryStockFinancialReports(symbol: $symbol) {
         id
         allFinancialReportsQuarterly {
-            ...FinancialReportData
+            ...FinancialReportFragment
         }
         allFinancialReportsYearly {
-            ...FinancialReportData
+            ...FinancialReportFragment
         }
     }
 }
@@ -1110,10 +662,15 @@ query QueryStockSummary($symbol: String!) {
     }
 }
 
-query QueryStockSummaries($symbolPrefix: String!) {
-    queryStockSummaries(symbolPrefix: $symbolPrefix) {
-        summaries {
-            ...StockSummaryFragment
-        }
+
+query QueryStockQuotesByPrefix($symbolPrefix: String!) {
+    queryStockQuotesByPrefix(symbolPrefix: $symbolPrefix) {
+        ...STFMCompanyQuoteFragment
     }
 }
+
+
+mutation SetForceReloadStockDetails {
+    setForceReloadStockDetails
+}
+

@@ -7,7 +7,7 @@ export enum SEARCH_PAGE_ENUM {
 }
 
 export enum SEARCH_PAGE_STOCK_ENUM {
-    SUMMARY = 'summary',
+    SCREENER = 'screener',
     DETAILS = 'details'
 }
 
@@ -28,12 +28,11 @@ export enum STATEMENT_TYPE {
 export const STOCK_SEARCH_DETAILS_PAGES: NameValueContainer[] = [
     {name: 'Statistics', value: SEARCH_PAGE_STOCK_DETAILS_ENUM.STATISTICS},
     {name: 'Financials', value: SEARCH_PAGE_STOCK_DETAILS_ENUM.FINANCIALS},
-    {name: 'Strategies', value: SEARCH_PAGE_STOCK_DETAILS_ENUM.STRATEGIES},
     {name: 'Valuation', value: SEARCH_PAGE_STOCK_DETAILS_ENUM.VALUATION}
-]
+];
 
 export const STOCK_SEARCH_DETAILS_FINANCIAL_PAGES: NameValueContainer[] = [
     {name: 'Balance sheet', value: STATEMENT_TYPE.BALANCE_SHEET},
     {name: 'Cash flow', value: STATEMENT_TYPE.CASH_FLOW},
     {name: 'Income statement', value: STATEMENT_TYPE.INCOME_STATEMENT}
-]
+];

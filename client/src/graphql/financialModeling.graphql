@@ -1,0 +1,380 @@
+fragment STFMHolderFragment on STFMHolder {
+    change
+    dateReported
+    holder
+    shares
+}
+
+fragment STFMHolderWithWeightFragment on STFMHolderWithWeight {
+    change
+    dateReported
+    holder
+    shares
+    weightPercent
+}
+
+fragment STFMBalanceSheetFragment on STFMBalanceSheet {
+    acceptedDate
+    accountPayables
+    accumulatedOtherComprehensiveIncomeLoss
+    cashAndCashEquivalents
+    cashAndShortTermInvestments
+    commonStock
+    date
+    deferredRevenue
+    deferredRevenueNonCurrent
+    deferredTaxLiabilitiesNonCurrent
+    fillingDate
+    finalLink
+    goodwill
+    goodwillAndIntangibleAssets
+    intangibleAssets
+    inventory
+    link
+    longTermDebt
+    longTermInvestments
+    netDebt
+    netReceivables
+    otherAssets
+    otherCurrentAssets
+    otherCurrentLiabilities
+    otherLiabilities
+    otherNonCurrentAssets
+    otherNonCurrentLiabilities
+    othertotalStockholdersEquity
+    period
+    propertyPlantEquipmentNet
+    reportedCurrency
+    retainedEarnings
+    shortTermDebt
+    shortTermInvestments
+    symbol
+    taxAssets
+    taxPayables
+    totalAssets
+    totalCurrentAssets
+    totalCurrentLiabilities
+    totalDebt
+    totalInvestments
+    totalLiabilities
+    totalLiabilitiesAndStockholdersEquity
+    totalNonCurrentAssets
+    totalNonCurrentLiabilities
+    totalStockholdersEquity
+}
+
+fragment STFMCashFlowFragment on STFMCashFlow {
+    acceptedDate
+    accountsPayables
+    accountsReceivables
+    acquisitionsNet
+    capitalExpenditure
+    cashAtBeginningOfPeriod
+    cashAtEndOfPeriod
+    changeInWorkingCapital
+    commonStockIssued
+    commonStockRepurchased
+    date
+    debtRepayment
+    deferredIncomeTax
+    depreciationAndAmortization
+    dividendsPaid
+    effectOfForexChangesOnCash
+    fillingDate
+    finalLink
+    freeCashFlow
+    inventory
+    investmentsInPropertyPlantAndEquipment
+    link
+    netCashProvidedByOperatingActivities
+    netCashUsedForInvestingActivites
+    netCashUsedProvidedByFinancingActivities
+    netChangeInCash
+    netIncome
+    operatingCashFlow
+    otherFinancingActivites
+    otherInvestingActivites
+    otherNonCashItems
+    otherWorkingCapital
+    period
+    purchasesOfInvestments
+    reportedCurrency
+    salesMaturitiesOfInvestments
+    stockBasedCompensation
+    symbol
+}
+
+fragment STFMIncomeStatementFragment on STFMIncomeStatement {
+    acceptedDate
+    costAndExpenses
+    costOfRevenue
+    date
+    depreciationAndAmortization
+    ebitda
+    ebitdaratio
+    eps
+    epsdiluted
+    fillingDate
+    finalLink
+    generalAndAdministrativeExpenses
+    grossProfit
+    grossProfitRatio
+    incomeBeforeTax
+    incomeBeforeTaxRatio
+    incomeTaxExpense
+    interestExpense
+    link
+    netIncome
+    netIncomeRatio
+    operatingExpenses
+    operatingIncome
+    operatingIncomeRatio
+    otherExpenses
+    period
+    reportedCurrency
+    researchAndDevelopmentExpenses
+    revenue
+    sellingAndMarketingExpenses
+    sellingGeneralAndAdministrativeExpenses
+    symbol
+    totalOtherIncomeExpensesNet
+    weightedAverageShsOut
+    weightedAverageShsOutDil
+}
+
+fragment STFMInsideTradeFragment on STFMInsideTrade {
+    acquistionOrDisposition
+    companyCik
+    formType
+    link
+    price
+    reportingCik
+    reportingName
+    securitiesOwned
+    securitiesTransacted
+    securityName
+    symbol
+    transactionDate
+    transactionType
+    typeOfOwner
+}
+
+fragment STFMKeyExecutiveFragment on STFMKeyExecutive {
+    currencyPay
+    gender
+    name
+    pay
+    title
+}
+
+fragment STFMStockNewFragment on STFMStockNew {
+    image
+    publishedDate
+    site
+    symbol
+    text
+    title
+    url
+}
+
+fragment STFMStockDividendFragment on STFMStockDividend {
+    adjDividend
+    date
+    declarationDate
+    dividend
+    label
+    paymentDate
+    recordDate
+    symbol
+}
+
+fragment STFMSplitHistoryFragment on STFMSplitHistory {
+    date
+    denominator
+    label
+    numerator
+    symbol
+}
+
+fragment STFMRatingFragment on STFMRating {
+    date
+    rating
+    ratingDetailsDCFRecommendation
+    ratingDetailsDCFScore
+    ratingDetailsDERecommendation
+    ratingDetailsDEScore
+    ratingDetailsPBRecommendation
+    ratingDetailsPBScore
+    ratingDetailsPERecommendation
+    ratingDetailsPEScore
+    ratingDetailsROARecommendation
+    ratingDetailsROAScore
+    ratingDetailsROERecommendation
+    ratingDetailsROEScore
+    ratingRecommendation
+    ratingScore
+    symbol
+}
+
+fragment STFMRatiosFragment on STFMRatios {
+    assetTurnoverTTM
+    capitalExpenditureCoverageRatioTTM
+    cashConversionCycleTTM
+    cashFlowCoverageRatiosTTM
+    cashFlowToDebtRatioTTM
+    cashPerShareTTM
+    cashRatioTTM
+    companyEquityMultiplierTTM
+    currentRatioTTM
+    daysOfInventoryOutstandingTTM
+    daysOfPayablesOutstandingTTM
+    daysOfSalesOutstandingTTM
+    debtEquityRatioTTM
+    debtRatioTTM
+    dividendPaidAndCapexCoverageRatioTTM
+    dividendPerShareTTM
+    dividendYielPercentageTTM
+    dividendYielTTM
+    dividendYieldTTM
+    ebitPerRevenueTTM
+    ebtPerEbitTTM
+    effectiveTaxRateTTM
+    enterpriseValueMultipleTTM
+    fixedAssetTurnoverTTM
+    freeCashFlowOperatingCashFlowRatioTTM
+    freeCashFlowPerShareTTM
+    grossProfitMarginTTM
+    interestCoverageTTM
+    inventoryTurnoverTTM
+    longTermDebtToCapitalizationTTM
+    netIncomePerEBTTTM
+    netProfitMarginTTM
+    operatingCashFlowPerShareTTM
+    operatingCashFlowSalesRatioTTM
+    operatingCycleTTM
+    operatingProfitMarginTTM
+    payablesTurnoverTTM
+    payoutRatioTTM
+    peRatioTTM
+    pegRatioTTM
+    pretaxProfitMarginTTM
+    priceBookValueRatioTTM
+    priceCashFlowRatioTTM
+    priceEarningsRatioTTM
+    priceEarningsToGrowthRatioTTM
+    priceFairValueTTM
+    priceSalesRatioTTM
+    priceToBookRatioTTM
+    priceToFreeCashFlowsRatioTTM
+    priceToOperatingCashFlowsRatioTTM
+    priceToSalesRatioTTM
+    quickRatioTTM
+    receivablesTurnoverTTM
+    returnOnAssetsTTM
+    returnOnCapitalEmployedTTM
+    returnOnEquityTTM
+    shortTermCoverageRatiosTTM
+    totalDebtToCapitalizationTTM
+}
+
+fragment STFMCompanyQuoteFragment on STFMCompanyQuote {
+    avgVolume
+    change
+    changesPercentage
+    dayHigh
+    dayLow
+    earningsAnnouncement
+    eps
+    exchange
+    marketCap
+    name
+    open
+    pe
+    previousClose
+    price
+    priceAvg200
+    priceAvg50
+    sharesOutstanding
+    symbol
+    timestamp
+    volume
+    yearHigh
+    yearLow
+    image
+}
+
+fragment STFMTopStocksFragment on STFMTopStocks {
+    ticker
+    changes
+    price
+    changesPercentage
+    companyName
+}
+
+fragment STFMExchangeSectorPEFragment on STFMExchangeSectorPE {
+    date
+    sector
+    exchange
+    pe
+}
+
+
+fragment STFMExchangeIndustryPEFragment on STFMExchangeIndustryPE {
+    date
+    industry
+    exchange
+    pe
+}
+
+fragment STFMCalendarEarningsFragment on STFMCalendarEarnings {
+    date
+    symbol
+    eps
+    epsEstimated
+    time
+    revenue
+    revenueEstimated
+}
+
+fragment STFMCalendarIpoFragment on STFMCalendarIpo {
+    date
+    company
+    symbol
+    exchange
+    actions
+    shares
+    priceRange
+    marketCap
+}
+
+fragment STFMCalendarEconomicFragment on STFMCalendarEconomic {
+    event
+    date
+    country
+    actual
+    previous
+    change
+    changePercentage
+    estimate
+}
+
+fragment STFMEtfHolderFragment on STFMEtfHolder {
+    asset
+    sharesNumber
+    weightPercentage
+}
+
+fragment STFMEtfSectorWeightFragment on STFMEtfSectorWeight {
+    sector
+    weightPercentage
+}
+
+fragment STFMEtfCountryWeightFragment on STFMEtfCountryWeight {
+    country
+    weightPercentage
+}
+
+fragment STFMSectorPerformanceFragment on STFMSectorPerformance {
+    sector
+    changesPercentage
+}

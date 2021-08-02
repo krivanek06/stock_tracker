@@ -1,0 +1,29 @@
+<ion-list>
+    <ion-item class="st-font-1-bold">
+        <ion-label class="ion-margin-end">Event</ion-label>
+        <ion-label>Country</ion-label>
+        <ion-label>Actual</ion-label>
+        <ion-label>Previous</ion-label>
+        <ion-label>Change</ion-label>
+        <ion-label>Estimated</ion-label>
+        <ion-label>Date</ion-label>
+    </ion-item>
+
+    <ion-item *ngFor="let calendar of calendarEconomic" class="st-data-item-wrapper">
+        <ion-label class="st-font-4 ion-margin-end">{{ calendar.event }}</ion-label>
+        <ion-label>{{ calendar.country }}</ion-label>
+        <ion-label>{{ calendar.actual | currency }}</ion-label>
+        <ion-label>{{ calendar.previous | currency }}</ion-label>
+        <ion-label>
+            <app-price-change-item
+                    [priceChange]="calendar.changePercentage"
+                    [price]="calendar.change"
+                    [showDollarSignOnPrice]="true"
+                    [showNAIfPriceZero]="true"
+                    pricePosition="bottom">
+            </app-price-change-item>
+        </ion-label>
+        <ion-label>{{  calendar.estimate ? (calendar.estimate | currency) : 'N/A' }}</ion-label>
+        <ion-label>{{ calendar.date | date : 'dd.MM.YYYY' }}</ion-label>
+    </ion-item>
+</ion-list>
