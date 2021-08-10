@@ -1,189 +1,174 @@
 fragment STGroupUserFragment on STGroupUser {
-    id
-    nickName
-    locale
-    photoURL
-    accountCreatedDate
-    lastPortfolioSnapshot {
-        ...STPortfolioSnapshotFragment
-    }
-    lastPortfolioIncreaseNumber
-    lastPortfolioIncreasePrct
-    numberOfExecutedTransactions
-    numberOfExecutedBuyTransactions
-    numberOfExecutedSellTransactions
-    lastTransactionSnapshot {
-        ...STTransactionSnapshotFragment
-    }
-    previousPosition
-    currentPosition
-    startingPortfolioSnapshot {
-        ...STPortfolioSnapshotFragment
-    }
-    sinceDate
+	id
+	nickName
+	locale
+	photoURL
+	accountCreatedDate
+	portfolio {
+		...STPortfolioWrapperFragment
+	}
+	previousPosition
+	currentPosition
+	startingPortfolioSnapshot {
+		...STPortfolioSnapshotFragment
+	}
+	sinceDate
 }
 
 fragment STGroupIdentificationData on STGroupAllData {
-    groupId
-    name
-    description
-    imagePath
-    imageUrl
-    owner {
-        ...STGroupUserFragment
-    }
-    lastPortfolioSnapshot {
-        ...STPortfolioSnapshotFragment
-    }
-    lastTransactionSnapshot {
-        ...STTransactionSnapshotFragment
-    }
-    startDate
-    endDate
-    isInfinite
-    isPrivate
-    lastPortfolioIncreaseNumber
-    lastPortfolioIncreasePrct
-    lastPortfolioBalance
-    numberOfExecutedTransactions
-    numberOfExecutedBuyTransactions
-    numberOfExecutedSellTransactions
-    numberOfMembers
-    startedBalance
-    topMembers {
-        ...STGroupUserFragment
-    }
-    lastUpdateDate
-    lastEditedDate
-    createdDate
-    currentAchievedRanks {
-        ...STRankFragment
-    }
+	id
+	name
+	description
+	imagePath
+	imageUrl
+	owner {
+		...STGroupUserFragment
+	}
+	startDate
+	endDate
+	isInfinite
+	isPrivate
+	numberOfMembers
+	numberOfInvitationSent
+	numberOfInvitationReceived
+	portfolio {
+		...STPortfolioWrapperFragment
+	}
+	topMembers {
+		...STGroupUserFragment
+	}
+	lastUpdateDate
+	lastEditedDate
+	createdDate
+	currentAchievedRanks {
+		...STRankFragment
+	}
 }
-
 fragment STGroupAllDataFragment on STGroupAllData {
-    groupId
-    name
-    description
-    imageUrl
-    imagePath
-    owner {
-        ...STGroupUserFragment
-    }
-    lastUpdateDate
-    lastEditedDate
-    createdDate
-    startDate
-    endDate
-    isPrivate
-    isInfinite
-    numberOfMembers
-    startedBalance
-    lastPortfolioIncreaseNumber
-    lastPortfolioIncreasePrct
-    lastPortfolioBalance
-    numberOfExecutedTransactions
-    numberOfExecutedBuyTransactions
-    numberOfExecutedSellTransactions
-    holdings {
-        holding {
-            ...STHoldingFragment
-        }
-        numberOfUsers
-    }
-    lastTransactionSnapshot {
-        ...STTransactionSnapshotFragment
-    }
-    lastPortfolioSnapshot {
-        ...STPortfolioSnapshotFragment
-    }
-    currentAchievedRanks {
-        ...STRankFragment
-    }
-    topTransactions {
-        ...STTransactionFragment
-    }
-    groupHistoricalData {
-        portfolioSnapshots {
-            ...STPortfolioSnapshotFragment
-        }
-        transactionSnapshots {
-            ...STTransactionSnapshotFragment
-        }
-        bestAchievedRanks {
-            ...STRankFragment
-        }
-        groupLogs {
-            ...STLogsFragment
-        }
-    }
-    lastTransactions {
-        ...STTransactionFragment
-    }
-    managers {
-        ...STGroupUserFragment
-    }
-    members {
-        ...STGroupUserFragment
-    }
-    invitationSent {
-        ...STGroupUserFragment
-    }
-    invitationReceived {
-        ...STGroupUserFragment
-    }
+	id
+	name
+	description
+	imageUrl
+	imagePath
+	owner {
+		...STGroupUserFragment
+	}
+	lastUpdateDate
+	lastEditedDate
+	createdDate
+	startDate
+	endDate
+	isPrivate
+	isInfinite
+	numberOfMembers
+	numberOfInvitationSent
+	numberOfInvitationReceived
+	portfolio {
+		...STPortfolioWrapperFragment
+	}
+	groupMemberData {
+		id
+		members {
+			...STGroupUserFragment
+		}
+		holdings {
+			holding {
+				...STHoldingFragment
+			}
+			numberOfUsers
+		}
+		invitationSent {
+			...STGroupUserFragment
+		}
+		invitationReceived {
+			...STGroupUserFragment
+		}
+	}
+	currentAchievedRanks {
+		...STRankFragment
+	}
+	topTransactions {
+		...STTransactionFragment
+	}
+	groupHistoricalData {
+		portfolioSnapshots {
+			...STPortfolioSnapshotFragment
+		}
+		transactionSnapshots {
+			...STTransactionSnapshotFragment
+		}
+		bestAchievedRanks {
+			...STRankFragment
+		}
+		groupLogs {
+			...STLogsFragment
+		}
+	}
+	managers {
+		...STGroupUserFragment
+	}
 }
-
 
 # --------------------------------------
 # QUERY
 
-query QuerySTGroupAllDataByGroupId($groupId: String!) {
-    querySTGroupAllDataByGroupId(groupId: $groupId) {
-        ...STGroupAllDataFragment
-    }
+query QuerySTGroupByGroupId($id: String!) {
+	querySTGroupByGroupId(id: $id) {
+		...STGroupAllDataFragment
+	}
 }
 
-query QuerySTGroupPartialDataByGroupName($groupName: String!) {
-    querySTGroupPartialDataByGroupName(groupName: $groupName) {
-        groups {
-            ...STGroupIdentificationData
-        }
-    }
+query QuerySTGroupByGroupName($groupName: String!) {
+	querySTGroupByGroupName(groupName: $groupName) {
+		groups {
+			...STGroupIdentificationData
+		}
+	}
 }
-
 
 # --------------------------------------
 # MUTATION
 
-mutation CreateGroup($groupInput: STGroupAllDataInput!){
-    createGroup(groupInput: $groupInput){
-        ...STGroupIdentificationData
-    }
+mutation CreateGroup($groupInput: STGroupAllDataInput!) {
+	createGroup(groupInput: $groupInput) {
+		...STGroupIdentificationData
+	}
 }
 
-mutation EditGroup($groupInput: STGroupAllDataInput!){
-    editGroup(groupInput: $groupInput){
-        ...STGroupIdentificationData
-    }
+mutation EditGroup($groupInput: STGroupAllDataInput!) {
+	editGroup(groupInput: $groupInput) {
+		...STGroupIdentificationData
+	}
 }
 
-mutation DeleteGroup($uid: String!, $groupId: String!){
-    deleteGroup(uid:$uid, groupId: $groupId)
+mutation DeleteGroup($id: String!) {
+	deleteGroup(id: $id)
 }
 
-mutation ToggleInvitationRequestToGroup($uid: String!, $groupId: String!){
-    toggleInvitationRequestToGroup(uid:$uid, groupId: $groupId){
-        ...STGroupIdentificationData
-    }
+mutation ToggleInvitationRequestToGroup($id: String!) {
+	toggleInvitationRequestToGroup(id: $id) {
+		...STGroupIdentificationData
+	}
 }
 
-mutation AnswerReceivedGroupInvitation($uid: String!, $groupId: String!, $accept: Boolean!){
-    answerReceivedGroupInvitation(uid:$uid, groupId: $groupId, accept: $accept){
-        ...STGroupIdentificationData
-    }
+mutation AnswerReceivedGroupInvitation($id: String!, $accept: Boolean!) {
+	answerReceivedGroupInvitation(id: $id, accept: $accept) {
+		...STGroupIdentificationData
+	}
 }
 
-mutation LeaveGroup($uid: String!, $groupId: String!){
-    leaveGroup(uid:$uid, groupId: $groupId)
+mutation LeaveGroup($id: String!) {
+	leaveGroup(id: $id)
+}
+
+mutation ToggleInviteUserIntoGroup($inviteUser: Boolean!, $userId: String!, $groupId: String!) {
+	toggleInviteUserIntoGroup(inviteUser: $inviteUser, userId: $userId, groupId: $groupId) {
+		...STGroupUserFragment
+	}
+}
+
+mutation ToggleUsersInvitationRequestToGroup($acceptUser: Boolean!, $userId: String!, $groupId: String!) {
+	toggleUsersInvitationRequestToGroup(acceptUser: $acceptUser, userId: $userId, groupId: $groupId) {
+		...STGroupUserFragment
+	}
 }

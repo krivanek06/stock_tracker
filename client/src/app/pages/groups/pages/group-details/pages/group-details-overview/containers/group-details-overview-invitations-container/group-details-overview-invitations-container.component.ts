@@ -1,35 +1,39 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {StGroupAllData, StGroupUser, StUserIndentificationDataFragment} from '@core';
-import {ConfirmableWithCheckbox, DialogService} from '@shared';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { StGroupAllData, StGroupUser, StUserIndentificationDataFragment } from '@core';
+import { ConfirmableWithCheckbox, DialogService } from '@shared';
 
 @Component({
-    selector: 'app-group-details-overview-invitations-container',
-    templateUrl: './group-details-overview-invitations-container.component.html',
-    styleUrls: ['./group-details-overview-invitations-container.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-group-details-overview-invitations-container',
+	templateUrl: './group-details-overview-invitations-container.component.html',
+	styleUrls: ['./group-details-overview-invitations-container.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupDetailsOverviewInvitationsContainerComponent implements OnInit {
-    @Input() groupAllData: StGroupAllData;
+	@Input() groupAllData: StGroupAllData;
 
-    constructor() {
-    }
+	displayUsers: StUserIndentificationDataFragment[] = [];
 
-    ngOnInit() {
-    }
+	constructor() {}
 
-    @ConfirmableWithCheckbox('Please confirm sending invitation for the selected user', 'Confirm')
-    inviteUser(userIdentification: StUserIndentificationDataFragment) {
-        console.log(userIdentification);
-    }
+	ngOnInit() {}
 
-    @ConfirmableWithCheckbox('Please confirm removing invitation for the selected user', 'Confirm')
-    removeInvitation(groupUser: StGroupUser) {
-        console.log(groupUser);
-    }
+	@ConfirmableWithCheckbox('Please confirm sending invitation for the selected user', 'Confirm')
+	inviteUser(userIdentification: StUserIndentificationDataFragment) {
+		console.log(userIdentification);
+	}
 
-    async receivedInvitation(groupUser: StGroupUser) {
-        const message = `Do you want to accept or decline ${groupUser.nickName}'s invitation to your group ?`;
-        const result = await DialogService.presentConfirmationPopOver(message, 'Accept', 'Decline');
-        console.log(result)
-    }
+	@ConfirmableWithCheckbox('Please confirm removing invitation for the selected user', 'Confirm')
+	removeInvitation(groupUser: StGroupUser) {
+		console.log(groupUser);
+	}
+
+	async receivedInvitation(groupUser: StGroupUser) {
+		const message = `Do you want to accept or decline ${groupUser.nickName}'s invitation to your group ?`;
+		const result = await DialogService.presentConfirmationPopOver(message, 'Accept', 'Decline');
+		console.log(result);
+	}
+
+	displaySearchedUsers(users: StUserIndentificationDataFragment[]) {
+		this.displayUsers = users;
+	}
 }

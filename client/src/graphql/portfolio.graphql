@@ -1,11 +1,28 @@
 fragment STPortfolioFragment on STPortfolio {
-    portfolioInvested
-    portfolioCash
+	portfolioInvested
+	portfolioCash
 }
 
-
 fragment STPortfolioSnapshotFragment on STPortfolioSnapshot {
-    portfolioInvested
-    portfolioCash
-    date
+	portfolioInvested
+	portfolioCash
+	date
+}
+
+fragment STPortfolioWrapperFragment on STPortfolioWrapper {
+	startingPortfolioSnapshot {
+		...STPortfolioSnapshotFragment
+	}
+	portfolioCash
+	numberOfExecutedTransactions
+	numberOfExecutedBuyTransactions
+	numberOfExecutedSellTransactions
+	lastPortfolioIncreaseNumber
+	lastPortfolioIncreasePrct
+	lastPortfolioSnapshot {
+		...STPortfolioSnapshotFragment
+	}
+	lastTransactionSnapshot {
+		...STTransactionSnapshotFragment
+	}
 }

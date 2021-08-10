@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {SubscriptionWebsocketService, UserStorageService} from '@core';
-import {TradingScreenUpdateBaseDirective} from '@stock-trading-feature';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { SubscriptionWebsocketService, UserStorageService } from '@core';
+import { TradingScreenUpdateBaseDirective } from '@stock-trading-feature';
 
 @Component({
     selector: 'app-dashboard',
@@ -16,7 +16,7 @@ export class DashboardPage extends TradingScreenUpdateBaseDirective implements O
         super(userStorageService, subscriptionWebsocketService, cdr);
     }
 
-    ngOnInit(): void {
+    ngOnInit(): void { 
         super.ngOnInit();
     }
 

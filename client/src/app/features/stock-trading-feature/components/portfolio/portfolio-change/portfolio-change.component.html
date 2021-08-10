@@ -1,21 +1,21 @@
 <ion-list class="st-flex-space-between-sm-down">
-    <ion-item class="change-title-item">
-        <ion-label class="st-font-size-16">
-            {{ tradingChangeWrapper.timeIntervalName }}
-        </ion-label>
-    </ion-item>
-    <ion-item>
-        <label [ngClass]="{
+	<ion-item class="change-title-item">
+		<ion-label class="st-font-size-16"> {{ tradingChangeWrapper.timeIntervalName }} </ion-label>
+	</ion-item>
+	<ion-item>
+		<label
+			[ngClass]="{
                 'st-flex-row-sm-col': inlinePriceWithIncrease,
-                'st-flex-col': !inlinePriceWithIncrease}">
-            <ion-text class="st-font-size-18 weekly-change" [@marketValueChange]="balance">
-                {{ balance - tradingChangeWrapper.historicalBalance | currency }}
-            </ion-text>
-            <app-price-change-item
-                    [isPercent]="true"
-                    [priceChange]="(balance - tradingChangeWrapper.historicalBalance) / tradingChangeWrapper.historicalBalance">
-            </app-price-change-item>
-        </label>
-    </ion-item>
+                'st-flex-col': !inlinePriceWithIncrease}"
+		>
+			<ion-text class="st-font-size-18 weekly-change" [@marketValueChange]="balance">
+				{{ balance - tradingChangeWrapper.historicalBalance | currency }}
+			</ion-text>
+			<app-price-change-item
+				[isPercent]="true"
+				[priceChange]="(balance - tradingChangeWrapper.historicalBalance) / tradingChangeWrapper.historicalBalance"
+			>
+			</app-price-change-item>
+		</label>
+	</ion-item>
 </ion-list>
-

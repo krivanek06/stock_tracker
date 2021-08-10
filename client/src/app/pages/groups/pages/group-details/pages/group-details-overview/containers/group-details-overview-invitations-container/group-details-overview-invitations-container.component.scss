@@ -1,0 +1,18 @@
+:host {
+	.c-search-header {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 0;
+
+		> * {
+			flex: 1;
+		}
+	}
+	ion-card {
+		padding: 10px;
+
+		ion-card-header {
+			padding-top: 0 !important;
+		}
+	}
+}

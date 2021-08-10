@@ -1,97 +1,84 @@
-import {gql} from 'apollo-server';
-
+import { gql } from 'apollo-server';
 
 export const STGroupTypeDefs = gql`
-    
-    #type
-    type STSearchGroups{
-        groups: [STGroupAllData]!
-    }
-    
-    type STGroupUser {
-        id: String!
-        nickName: String!
-        locale: String
-        photoURL: String!
-        accountCreatedDate: String!
-        lastPortfolioSnapshot: STPortfolioSnapshot
-        lastPortfolioIncreaseNumber: Float
-        lastPortfolioIncreasePrct: Float
-        numberOfExecutedTransactions: Float!
-        numberOfExecutedBuyTransactions: Float!
-        numberOfExecutedSellTransactions: Float!
-        lastTransactionSnapshot: STTransactionSnapshot
-        previousPosition: Float
-        currentPosition: Float
-        startingPortfolioSnapshot: STPortfolioSnapshot
-        sinceDate: String!
-    }
-    
-    type STGroupAllData {
-        groupId: String!
-        name: String!
-        description: String
-        imagePath: String
-        imageUrl: String
-        lastPortfolioSnapshot: STPortfolioSnapshot
-        lastTransactionSnapshot: STTransactionSnapshot
-        owner: STGroupUser!
-        lastUpdateDate: String!
-        lastEditedDate: String!
-        createdDate: String!
-        currentAchievedRanks: STRank
-        lastPortfolioIncreaseNumber: Float
-        lastPortfolioIncreasePrct: Float
-        lastPortfolioBalance: Float
-        startDate: String!
-        endDate: String
-        isInfinite: Boolean!
-        isPrivate: Boolean!
-        numberOfExecutedTransactions: Float!
-        numberOfExecutedBuyTransactions: Float!
-        numberOfExecutedSellTransactions: Float!
-        numberOfMembers: Float!
-        startedBalance: Float!
-        topTransactions: [STTransaction]!
-        lastTransactions: [STTransaction]!
-        managers:[STGroupUser]!
-        members: [STGroupUser]!
-        invitationSent: [STGroupUser]!
-        invitationReceived: [STGroupUser]
-        holdings: [STGroupHoldings]!
-        groupHistoricalData: STGroupHistoricalData!
-        topMembers: [STGroupUser]!
-    }
+	#type
+	type STSearchGroups {
+		groups: [STGroupAllData]!
+	}
 
-    type STGroupHoldings {
-        holding: STHolding!
-        numberOfUsers: Float!
-    }
+	type STGroupUser {
+		id: String!
+		nickName: String!
+		locale: String
+		photoURL: String!
+		accountCreatedDate: String!
+		portfolio: STPortfolioWrapper!
+		lastTransactionSnapshot: STTransactionSnapshot
+		previousPosition: Float
+		currentPosition: Float
+		startingPortfolioSnapshot: STPortfolioSnapshot
+		sinceDate: String!
+	}
 
-    type STGroupHistoricalData {
-        portfolioSnapshots: [STPortfolioSnapshot]!
-        transactionSnapshots: [STTransactionSnapshot]!
-        bestAchievedRanks: [STRank]!
-        groupLogs: [STLog]!
-    }
-    
-    input STGroupAllDataInput {
-        groupId: String
-        name: String!
-        description: String
-        imagePath: String
-        imageUrl: String
-        startDate: String!
-        endDate: String
-        isInfinite: Boolean!
-        isPrivate: Boolean!
-        isOwnerAlsoMember: Boolean!
-        managers:[String]!
-        members: [String]!
-        invitationSent: [String]!
-        invitationReceived: [String]!
-    }
-    
-    
+	type STGroupAllData {
+		id: String!
+		name: String!
+		description: String
+		imagePath: String
+		imageUrl: String
+		owner: STGroupUser!
+		lastUpdateDate: String!
+		lastEditedDate: String!
+		createdDate: String!
+		currentAchievedRanks: STRank
+		startDate: String!
+		endDate: String
+		isInfinite: Boolean!
+		isPrivate: Boolean!
+		portfolio: STPortfolioWrapper!
+		numberOfMembers: Float!
+		numberOfInvitationReceived: Float!
+		numberOfInvitationSent: Float!
+		topTransactions: [STTransaction]!
+		lastTransactions: [STTransaction]!
+		managers: [STGroupUser]!
+		groupHistoricalData: STGroupHistoricalData!
+		groupMemberData: STGroupMemberData!
+		topMembers: [STGroupUser]!
+	}
 
+	type STGroupMemberData {
+		id: String!
+		members: [STGroupUser]!
+		holdings: [STGroupHoldings]!
+		invitationSent: [STGroupUser]!
+		invitationReceived: [STGroupUser]
+	}
+
+	type STGroupHoldings {
+		holding: STHolding!
+		numberOfUsers: Float!
+	}
+
+	type STGroupHistoricalData {
+		portfolioSnapshots: [STPortfolioSnapshot]!
+		transactionSnapshots: [STTransactionSnapshot]!
+		bestAchievedRanks: [STRank]!
+		groupLogs: [STLog]!
+	}
+
+	input STGroupAllDataInput {
+		groupId: String
+		name: String!
+		description: String
+		imagePath: String
+		imageUrl: String
+		startDate: String!
+		endDate: String
+		isInfinite: Boolean!
+		isPrivate: Boolean!
+		isOwnerAlsoMember: Boolean!
+		invitationSent: [String]!
+		invitationReceived: [String]!
+	}
 `;

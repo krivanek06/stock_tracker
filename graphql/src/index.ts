@@ -1,245 +1,249 @@
-import { queryStockScreener } from './api/financial-modeling/st-financial-modeling.api';
-import { STFinancialModelingAPITypeDefs } from './api/financial-modeling/st-financal-modeling-api.typedefs';
-import { querySymbolHistoricalPrices } from './st-stocks/st-stocks-query/queryStockHistoricalPrice';
-import { Context } from './st-shared/st-shared.interface';
-import { stGroupResolvers } from './st-group/st-group.resolver';
-import { STFreeCashFlowFormulaTypeDefs } from './st-stock-calculations/st-free-cash-flow-formula.typedef';
-import { STDividendDiscountedFormulaTypeDefs } from './st-stock-calculations/st-dividend-discounted-formula.typedef';
-import { STEarningsValuationFormulaTypeDefs } from './st-stock-calculations/st-earnings-valuation-formula.typedef';
-import { STDiscountedCashFlowFormulaTypeDefs } from './st-stock-calculations/st-discounted-cash-flow-formula.typedef';
-import { queryAdminMainInformations } from './st-admin/st-admin.query';
-import { STAdminTypeDefs } from './st-admin/st-admin.typeDefs';
-import { queryTradingStrategies, queryTradingStrategyData } from './st-trading-strategy/st-trading-strategy.query';
-import { STTraingStrategyTypeDefs } from './st-trading-strategy/st-trading-strategy.typedef';
-import {STGroupTypeDefs} from './st-group/st-group.typedefs';
-import {STSharedTypeDefs} from './st-shared/st-shared.typedef';
-import {watchlistTypeDefs} from './watchlist/watchlist.typedefs';
-import {gql, ApolloServer} from 'apollo-server';
-import {userTypeDefs} from './user/user.typeDefs';
-import {userResolvers} from './user/user.resolver';
+import { ApolloServer, gql } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
-import { authenticateUser, queryUserPublicData, queryUserPublicDataByUsername } from './user/user.query';
+import { STFinancialModelingAPITypeDefs } from './api/financial-modeling/st-financal-modeling-api.typedefs';
+import { queryStockScreener } from './api/financial-modeling/st-financial-modeling.api';
+import { queryAdminMainInformations } from './st-admin/st-admin.query';
+import { STAdminTypeDefs } from './st-admin/st-admin.typeDefs';
+import { answerReceivedGroupInvitation, createGroup, deleteGroup, editGroup, leaveGroup, toggleInvitationRequestToGroup } from './st-group';
+import { toggleInviteUserIntoGroup } from './st-group/mutations/toggleInviteUserIntoGroup.mutation';
+import { toggleUsersInvitationRequestToGroup } from './st-group/mutations/toggleUsersInvitationRequestToGroup.mutation';
+import { querySTGroupByGroupId, querySTGroupByGroupName } from './st-group/st-group.query';
+import { stGroupResolvers } from './st-group/st-group.resolver';
+import { STGroupTypeDefs } from './st-group/st-group.typedefs';
 import {
-    createStockWatchlist,
-    addStockIntoStockWatchlist,
-    removeStockFromStockWatchlist,
-    deleteWatchlist,
-    renameStockWatchlist
-} from './watchlist/watchlist.mutation';
-import {editUser, registerUser, resetUserAccount} from './user/user.mutation';
-import {
-    queryStockDetails,
-    queryStockQuotesByPrefix,
-    queryStockSummary,
-    stockDetailsTypeDefs,
-    setForceReloadStockDetails,
-    queryStockFinancialReports
-} from './st-stocks';
-import {STTransactionTypeDefs} from './st-transaction/st-transaction.typedef';
-import {STRankTypeDefs} from './st-rank/st-rank.typedef';
-import {STPortfolioTypeDefs} from './st-portfolio/st-portfolio.typedef';
-import {
-    editGroup,
-    deleteGroup,
-    createGroup,
-    answerReceivedGroupInvitation, toggleInvitationRequestToGroup, leaveGroup
-} from "./st-group/st.group.mutation";
-import {querySTGroupAllDataByGroupId, querySTGroupPartialDataByGroupName} from "./st-group/st-group.query";
-import {stTransactionResolvers} from "./st-transaction/st-transaction.resolver";
-import {stStockWatchlistResolvers} from "./watchlist/watchlist.resolver";
-import {performTransaction} from "./st-transaction/st-transaction.mutation";
-import {STMarketSharedTypeDefs} from "./st-market/st-market.typedefs";
-import {
-    queryStMarketAllCategories, queryStMarketData,
-    querySTMarketHistoryOverview, queryMarketDailyOverview, queryEtfDocument
-} from "./st-market/st-market.query";
+	queryEtfDocument,
+	queryMarketDailyOverview,
+	queryStMarketAllCategories,
+	queryStMarketData,
+	querySTMarketHistoryOverview,
+} from './st-market/st-market.query';
+import { STMarketSharedTypeDefs } from './st-market/st-market.typedefs';
+import { STPortfolioTypeDefs } from './st-portfolio/st-portfolio.typedef';
+import { STRankTypeDefs } from './st-rank/st-rank.typedef';
+import { Context } from './st-shared/st-shared.interface';
+import { STSharedTypeDefs } from './st-shared/st-shared.typedef';
 import { STStockDetailsCalculationsTypeDefs } from './st-stock-calculations';
+import { STDiscountedCashFlowFormulaTypeDefs } from './st-stock-calculations/st-discounted-cash-flow-formula.typedef';
+import { STDividendDiscountedFormulaTypeDefs } from './st-stock-calculations/st-dividend-discounted-formula.typedef';
+import { STEarningsValuationFormulaTypeDefs } from './st-stock-calculations/st-earnings-valuation-formula.typedef';
+import { STFreeCashFlowFormulaTypeDefs } from './st-stock-calculations/st-free-cash-flow-formula.typedef';
+import {
+	queryStockDetails,
+	queryStockFinancialReports,
+	queryStockQuotesByPrefix,
+	queryStockSummary,
+	setForceReloadStockDetails,
+	stockDetailsTypeDefs,
+} from './st-stocks';
+import { querySymbolHistoricalPrices } from './st-stocks/st-stocks-query/queryStockHistoricalPrice';
+import { queryTradingStrategies, queryTradingStrategyData } from './st-trading-strategy/st-trading-strategy.query';
+import { STTraingStrategyTypeDefs } from './st-trading-strategy/st-trading-strategy.typedef';
+import { performTransaction } from './st-transaction/st-transaction.mutation';
+import { stTransactionResolvers } from './st-transaction/st-transaction.resolver';
+import { STTransactionTypeDefs } from './st-transaction/st-transaction.typedef';
+import { editUser, registerUser, resetUserAccount } from './user/user.mutation';
+import { authenticateUser, queryUserPublicData, queryUserPublicDataByUsername } from './user/user.query';
+import { userResolvers } from './user/user.resolver';
+import { userTypeDefs } from './user/user.typeDefs';
+import {
+	addStockIntoStockWatchlist,
+	createStockWatchlist,
+	deleteWatchlist,
+	removeStockFromStockWatchlist,
+	renameStockWatchlist,
+} from './watchlist/watchlist.mutation';
+import { stStockWatchlistResolvers } from './watchlist/watchlist.resolver';
+import { watchlistTypeDefs } from './watchlist/watchlist.typedefs';
 
-global.fetch = require("node-fetch");
+global.fetch = require('node-fetch');
 
 const serviceAccount = require('../firebase_key.json');
 
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://stocktrackertest-e51fc.firebaseio.com"
+	credential: admin.credential.cert(serviceAccount),
+	databaseURL: 'https://stocktrackertest-e51fc.firebaseio.com',
 });
-
 
 const mainTypeDefs = gql`
+	###### QUERY
+	type Query {
+		# user
+		queryUserData(id: String!): STUserPublicData
+		queryUserPublicDataByUsername(usernamePrefix: String!): [STUserPublicData]!
+		authenticateUser(id: String!): STUserPublicData
 
-    ###### QUERY
-    type Query {
-        # user
-        queryUserData(id: String!): STUserPublicData
-        queryUserPublicDataByUsername(usernamePrefix: String!): [STUserPublicData]!
-        authenticateUser(id: String!): STUserPublicData
+		# groups
+		querySTGroupByGroupId(id: String!): STGroupAllData
+		querySTGroupByGroupName(groupName: String!): STSearchGroups
 
-        # groups
-        querySTGroupAllDataByGroupId(groupId: String!): STGroupAllData
-        querySTGroupPartialDataByGroupName(groupName: String!): STSearchGroups
+		# details
+		queryStockDetails(symbol: String!, reload: Boolean): StockDetails
+		queryStockSummary(symbol: String!): Summary
+		queryStockQuotesByPrefix(symbolPrefix: String!): [STFMCompanyQuote]!
+		queryStockFinancialReports(symbol: String!): StockDetailsFinancialReports
+		querySymbolHistoricalPrices(symbol: String!, period: String!): SymbolHistoricalPrices
 
-        # details
-        queryStockDetails(symbol: String!, reload: Boolean): StockDetails
-        queryStockSummary(symbol: String!): Summary
-        queryStockQuotesByPrefix(symbolPrefix: String!): [STFMCompanyQuote]!
-        queryStockFinancialReports(symbol: String!): StockDetailsFinancialReports
-        querySymbolHistoricalPrices(symbol: String!, period: String!): SymbolHistoricalPrices
+		# market data
+		querySTMarketHistoryOverview: STMarketOverviewPartialData
+		queryStMarketAllCategories: STMarketDatasetKeyCategories
+		queryMarketDailyOverview: STMarketDailyOverview
+		queryStMarketData(key: String!): STMarketChartDataResultCombined
+		queryEtfDocument(etfName: String!): STMarketEtfDocument
+		queryStockScreener(stockScreenerInput: STFMStockScreenerInput!): [STFMStockScreenerResult]
 
-        # market data
-        querySTMarketHistoryOverview: STMarketOverviewPartialData
-        queryStMarketAllCategories: STMarketDatasetKeyCategories
-        queryMarketDailyOverview: STMarketDailyOverview
-        queryStMarketData(key: String!): STMarketChartDataResultCombined
-        queryEtfDocument(etfName: String!): STMarketEtfDocument
-        queryStockScreener(stockScreenerInput: STFMStockScreenerInput!): [STFMStockScreenerResult]
+		# trading strategy
+		querySTTradingStrategies: STTradingStrategySearch
+		querySTTradingStrategyData(symbol: String!, strategy: String!): STTradingStrategyData
 
-        # trading strategy
-        querySTTradingStrategies: STTradingStrategySearch
-        querySTTradingStrategyData(symbol: String!, strategy: String!): STTradingStrategyData
+		# admin
+		queryAdminMainInformations: STAdminMainInformations
+	}
 
-        # admin
-        queryAdminMainInformations: STAdminMainInformations
-    }
+	#### MUTATION
+	type Mutation {
+		# user
+		registerUser(user: STUserAuthenticationInput): Boolean
+		editUser(editInput: STUserEditDataInput): Boolean
+		resetUserAccount(userId: String!): STUserResetedAccount
 
-    #### MUTATION
-    type Mutation {
-        # user
-        registerUser(user: STUserAuthenticationInput): Boolean
-        editUser(editInput: STUserEditDataInput): Boolean
-        resetUserAccount(userId: String!): STUserResetedAccount
+		# groups
+		createGroup(groupInput: STGroupAllDataInput!): STGroupAllData
+		editGroup(groupInput: STGroupAllDataInput!): STGroupAllData
+		deleteGroup(id: String!): Boolean
+		toggleInvitationRequestToGroup(id: String!): STGroupAllData
+		answerReceivedGroupInvitation(id: String!, accept: Boolean!): STGroupAllData
+		toggleInviteUserIntoGroup(inviteUser: Boolean!, userId: String!, groupId: String!): STGroupUser
+		toggleUsersInvitationRequestToGroup(acceptUser: Boolean!, userId: String!, groupId: String!): STGroupUser
+		leaveGroup(id: String!): Boolean
 
-        # groups
-        createGroup(groupInput: STGroupAllDataInput!): STGroupAllData
-        editGroup(groupInput: STGroupAllDataInput!): STGroupAllData
-        deleteGroup(uid: String!, groupId: String!): Boolean
-        toggleInvitationRequestToGroup(uid: String!, groupId: String!): STGroupAllData
-        answerReceivedGroupInvitation(uid: String!, groupId: String!, accept: Boolean!): STGroupAllData
-        leaveGroup(uid: String!, groupId: String!): Boolean
+		## watchlist
+		createStockWatchlist(identifier: STStockWatchInputlistIdentifier!): STStockWatchlist
+		renameStockWatchlist(identifier: STStockWatchInputlistIdentifier!): Boolean
+		deleteWatchlist(identifier: STStockWatchInputlistIdentifier!): Boolean
+		addStockIntoStockWatchlist(identifier: STStockWatchInputlistIdentifier!): Summary
+		removeStockFromStockWatchlist(identifier: STStockWatchInputlistIdentifier!): Boolean
 
-        ## watchlist
-        createStockWatchlist( identifier: STStockWatchInputlistIdentifier!): STStockWatchlist
-        renameStockWatchlist(identifier: STStockWatchInputlistIdentifier!): Boolean
-        deleteWatchlist(identifier: STStockWatchInputlistIdentifier!): Boolean
-        addStockIntoStockWatchlist(identifier: STStockWatchInputlistIdentifier!): Summary
-        removeStockFromStockWatchlist(identifier: STStockWatchInputlistIdentifier!): Boolean
+		# trading
+		performTransaction(transactionInput: STTransactionInput!): PerformedTransaction
 
-        # trading
-        performTransaction(transactionInput: STTransactionInput!): PerformedTransaction
-
-        # stock details
-        setForceReloadStockDetails: Boolean
-    }
+		# stock details
+		setForceReloadStockDetails: Boolean
+	}
 `;
 
-
 const mainResolver = {
-    Query: {
-        // USER
-        authenticateUser: async (_: null, args: { id: string }) => await authenticateUser(args.id),
-        queryUserData: async (_: null, args: { id: string }) => await queryUserPublicData(args.id),
-        queryUserPublicDataByUsername: async (_: null, args: { usernamePrefix: string }) => await queryUserPublicDataByUsername(args.usernamePrefix),
+	Query: {
+		// USER
+		authenticateUser: async (_: null, args: { id: string }) => await authenticateUser(args.id),
+		queryUserData: async (_: null, args: { id: string }) => await queryUserPublicData(args.id),
+		queryUserPublicDataByUsername: async (_: null, args: { usernamePrefix: string }) => await queryUserPublicDataByUsername(args.usernamePrefix),
 
-        // GROUP
-        querySTGroupAllDataByGroupId: async (_: null, args: { groupId: string }) => await querySTGroupAllDataByGroupId(args.groupId),
-        querySTGroupPartialDataByGroupName: async (_: null, args: { groupName: string }) => await querySTGroupPartialDataByGroupName(args.groupName),
+		// GROUP
+		querySTGroupByGroupId: async (_: null, args: { id: string }) => await querySTGroupByGroupId(args.id),
+		querySTGroupByGroupName: async (_: null, args: { groupName: string }) => await querySTGroupByGroupName(args.groupName),
 
-        // stock details
-        queryStockDetails: async (_: null, args: { symbol: string, reload: boolean }) => await queryStockDetails(args.symbol, args.reload),
-        queryStockSummary: async (_: null, args: { symbol: string }) => await queryStockSummary(args.symbol),
-        queryStockQuotesByPrefix: async (_: null, args: { symbolPrefix: string }) => await queryStockQuotesByPrefix(args.symbolPrefix),
-        queryStockFinancialReports: async (_: null, args: { symbol: string }) => await queryStockFinancialReports(args.symbol),
-        querySymbolHistoricalPrices: async (_: null, args: { symbol: string, period: string }) => await querySymbolHistoricalPrices(args.symbol, args.period),
+		// stock details
+		queryStockDetails: async (_: null, args: { symbol: string; reload: boolean }) => await queryStockDetails(args.symbol, args.reload),
+		queryStockSummary: async (_: null, args: { symbol: string }) => await queryStockSummary(args.symbol),
+		queryStockQuotesByPrefix: async (_: null, args: { symbolPrefix: string }) => await queryStockQuotesByPrefix(args.symbolPrefix),
+		queryStockFinancialReports: async (_: null, args: { symbol: string }) => await queryStockFinancialReports(args.symbol),
+		querySymbolHistoricalPrices: async (_: null, args: { symbol: string; period: string }) =>
+			await querySymbolHistoricalPrices(args.symbol, args.period),
 
-        // market data
-        querySTMarketHistoryOverview: async (_: null, args: null) => await querySTMarketHistoryOverview(),
-        queryMarketDailyOverview: async (_: null, args: null) => await queryMarketDailyOverview(),
-        queryStMarketAllCategories: async (_: null, args: null) => await queryStMarketAllCategories(),
-        queryStMarketData: async (_: null, args: { key: string }) => await queryStMarketData(args.key),
-        queryEtfDocument: async (_: null, args: { etfName: string }) => await queryEtfDocument(args.etfName),
-        queryStockScreener: async (_: null, args: { stockScreenerInput: api.STFMStockScreener }) => await queryStockScreener(args.stockScreenerInput), 
+		// market data
+		querySTMarketHistoryOverview: async (_: null, args: null) => await querySTMarketHistoryOverview(),
+		queryMarketDailyOverview: async (_: null, args: null) => await queryMarketDailyOverview(),
+		queryStMarketAllCategories: async (_: null, args: null) => await queryStMarketAllCategories(),
+		queryStMarketData: async (_: null, args: { key: string }) => await queryStMarketData(args.key),
+		queryEtfDocument: async (_: null, args: { etfName: string }) => await queryEtfDocument(args.etfName),
+		queryStockScreener: async (_: null, args: { stockScreenerInput: api.STFMStockScreener }) => await queryStockScreener(args.stockScreenerInput),
 
-        // trading strategy
-        querySTTradingStrategies: async (_: null, args: null) => await queryTradingStrategies(),
-        querySTTradingStrategyData: async (_: null, args: { symbol: string, strategy: string }) => await queryTradingStrategyData(args.symbol, args.strategy),
+		// trading strategy
+		querySTTradingStrategies: async (_: null, args: null) => await queryTradingStrategies(),
+		querySTTradingStrategyData: async (_: null, args: { symbol: string; strategy: string }) =>
+			await queryTradingStrategyData(args.symbol, args.strategy),
 
-        // admin
-        queryAdminMainInformations: async (_: null, args: null) => await queryAdminMainInformations(),
-    },
+		// admin
+		queryAdminMainInformations: async (_: null, args: null) => await queryAdminMainInformations(),
+	},
 
-    Mutation: {
-        // USER
-        registerUser: async (_, args: { user: api.STUserAuthenticationInput }) => await registerUser(args.user),
-        editUser: async (_, args: { editInput: api.STUserEditDataInput }) => await editUser(args.editInput),
-        resetUserAccount: async (_, args: { userId: string }) => await resetUserAccount(args.userId),
+	Mutation: {
+		// USER
+		registerUser: async (_, args: { user: api.STUserAuthenticationInput }) => await registerUser(args.user),
+		editUser: async (_, args: { editInput: api.STUserEditDataInput }) => await editUser(args.editInput),
+		resetUserAccount: async (_, args: { userId: string }) => await resetUserAccount(args.userId),
 
-        // GROUPS
-        createGroup: async (_, args: { groupInput: api.STGroupAllDataInput }, context) => await createGroup(args.groupInput, context),
-        editGroup: async (_, args: { groupInput: api.STGroupAllDataInput }) => await editGroup(args.groupInput),
-        deleteGroup: async (_, args: { uid: string, groupId: string }) => await deleteGroup(args.uid, args.groupId),
-        answerReceivedGroupInvitation: async (_, args: { uid: string, groupId: string, accept: Boolean }) => await answerReceivedGroupInvitation(args.uid, args.groupId, args.accept),
-        toggleInvitationRequestToGroup: async (_, args: { uid: string, groupId: string }) => await toggleInvitationRequestToGroup(args.uid, args.groupId),
-        leaveGroup: async (_, args: { uid: string, groupId: string }) => await leaveGroup(args.uid, args.groupId),
+		// GROUPS
+		createGroup: async (_, args: { groupInput: api.STGroupAllDataInput }, context) => await createGroup(args.groupInput, context),
+		editGroup: async (_, args: { groupInput: api.STGroupAllDataInput }) => await editGroup(args.groupInput),
+		deleteGroup: async (_, args: { id: string }, context: Context) => await deleteGroup(args.id, context),
+		answerReceivedGroupInvitation: async (_, args: { id: string; accept: boolean }, context: Context) =>
+			await answerReceivedGroupInvitation(args.id, args.accept, context),
+		toggleInvitationRequestToGroup: async (_, args: { id: string }, context: Context) => await toggleInvitationRequestToGroup(args.id, context),
+		toggleInviteUserIntoGroup: async (_, args: { inviteUser: boolean; userId: string; groupId: string }) =>
+			await toggleInviteUserIntoGroup(args.inviteUser, args.userId, args.groupId),
+		toggleUsersInvitationRequestToGroup: async (_, args: { acceptUser: boolean; userId: string; groupId: string }) =>
+			await toggleUsersInvitationRequestToGroup(args.acceptUser, args.userId, args.groupId),
+		leaveGroup: async (_, args: { id: string }, context: Context) => await leaveGroup(args.id, context),
 
-        // WATCHLIST
-        createStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await createStockWatchlist(args.identifier),
-        renameStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await renameStockWatchlist(args.identifier),
-        deleteWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await deleteWatchlist(args.identifier),
-        addStockIntoStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await addStockIntoStockWatchlist(args.identifier),
-        removeStockFromStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await removeStockFromStockWatchlist(args.identifier),
+		// WATCHLIST
+		createStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await createStockWatchlist(args.identifier),
+		renameStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await renameStockWatchlist(args.identifier),
+		deleteWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await deleteWatchlist(args.identifier),
+		addStockIntoStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await addStockIntoStockWatchlist(args.identifier),
+		removeStockFromStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) =>
+			await removeStockFromStockWatchlist(args.identifier),
 
-        // trading
-        performTransaction: async (_, args: { transactionInput: api.STTransactionInput }, {requesterUserId}: Context) => await performTransaction(args.transactionInput, requesterUserId),
+		// trading
+		performTransaction: async (_, args: { transactionInput: api.STTransactionInput }, { requesterUserId }: Context) =>
+			await performTransaction(args.transactionInput, requesterUserId),
 
-        // stock detils
-        setForceReloadStockDetails: async () => await setForceReloadStockDetails()
-    }
-
+		// stock detils
+		setForceReloadStockDetails: async () => await setForceReloadStockDetails(),
+	},
 };
-
 
 const resolvers = {
-    ...userResolvers,
-    ...stTransactionResolvers,
-    ...stStockWatchlistResolvers,
-    ...stGroupResolvers,
-    ...mainResolver,
+	...userResolvers,
+	...stTransactionResolvers,
+	...stStockWatchlistResolvers,
+	...stGroupResolvers,
+	...mainResolver,
 };
 
-
 const server = new ApolloServer({
-    typeDefs: [
-        mainTypeDefs,
-        userTypeDefs,
-        watchlistTypeDefs,
-        stockDetailsTypeDefs,
-        STMarketSharedTypeDefs,
-        STTransactionTypeDefs,
-        STSharedTypeDefs,
-        STRankTypeDefs,
-        STPortfolioTypeDefs,
-        STGroupTypeDefs,
-        STTraingStrategyTypeDefs,
-        STAdminTypeDefs,
-        STStockDetailsCalculationsTypeDefs,
-        STDiscountedCashFlowFormulaTypeDefs,
-        STDividendDiscountedFormulaTypeDefs,
-        STEarningsValuationFormulaTypeDefs,
-        STFreeCashFlowFormulaTypeDefs,
-        STFinancialModelingAPITypeDefs
-    ],
-    resolvers,
-    introspection: true,
-    context: ({ req }) => ({
-        // To find out the correct arguments for a specific integration,
-        // see https://www.apollographql.com/docs/apollo-server/api/apollo-server/#middleware-specific-context-fields
-     
-        // Get the user token from the headers.
-        requesterUserId: req.headers.requesteruserid || ''
-      }),
+	typeDefs: [
+		mainTypeDefs,
+		userTypeDefs,
+		watchlistTypeDefs,
+		stockDetailsTypeDefs,
+		STMarketSharedTypeDefs,
+		STTransactionTypeDefs,
+		STSharedTypeDefs,
+		STRankTypeDefs,
+		STPortfolioTypeDefs,
+		STGroupTypeDefs,
+		STTraingStrategyTypeDefs,
+		STAdminTypeDefs,
+		STStockDetailsCalculationsTypeDefs,
+		STDiscountedCashFlowFormulaTypeDefs,
+		STDividendDiscountedFormulaTypeDefs,
+		STEarningsValuationFormulaTypeDefs,
+		STFreeCashFlowFormulaTypeDefs,
+		STFinancialModelingAPITypeDefs,
+	],
+	resolvers,
+	introspection: true,
+	context: ({ req }) => ({
+		// To find out the correct arguments for a specific integration,
+		// see https://www.apollographql.com/docs/apollo-server/api/apollo-server/#middleware-specific-context-fields
+
+		// Get the user token from the headers.
+		requesterUserId: req.headers.requesteruserid || '',
+	}),
 });
 
-
-server.listen(process.env.PORT || 4000).then(({url}) => {
-    console.log(`🚀  Server ready at ${url}`);
+server.listen(process.env.PORT || 4000).then(({ url }) => {
+	console.log(`🚀  Server ready at ${url}`);
 });

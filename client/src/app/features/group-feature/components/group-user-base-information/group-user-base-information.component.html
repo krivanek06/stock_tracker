@@ -1,48 +1,40 @@
 <ion-item class="st-flex c-main-container" [ngClass]="{'max-w': !showIncreasePosition}" [button]="clickable">
-    <!-- Image -->
-    <div class="ion-align-self-baseline st-small-right-space">
-        <ion-img [src]="groupUser.photoURL" appDefaultImg></ion-img>
-    </div>
-    <div class="c-info-with-position-container">
-        <!-- Name -->
-        <div class="st-display-flex-center">
-            <ion-text class="st-font-1-normal st-small-right-space" [ngClass]="{'st-font-white': !!useClassStyling}">
-                Name:
-            </ion-text>
-            <ion-text [ngClass]="[useClassStyling]">{{ groupUser.nickName }}</ion-text>
-        </div>
-        <!-- Portfolio -->
-        <div class="st-display-flex-center">
-            <ion-text class="st-font-1-normal st-small-right-space" [ngClass]="{'st-font-white': !!useClassStyling}">
-                Portfolio:
-            </ion-text>
-            <div class="st-display-flex-center">
-                <ion-text class="st-small-right-space" [ngClass]="[useClassStyling]">
-                    {{ (groupUser.lastPortfolioSnapshot.portfolioCash + groupUser.lastPortfolioSnapshot.portfolioInvested) | numberFormatter}}
-                </ion-text>
-                <app-price-change-item
-                        [isPercent]="true"
-                        [priceChange]="groupUser.lastPortfolioIncreasePrct">
-                </app-price-change-item>
-            </div>
-        </div>
-        <!-- Since date -->
-        <div class="st-display-flex-center">
-            <ion-text class="st-font-1-normal st-small-right-space" [ngClass]="{'st-font-white': !!useClassStyling}">
-                Since:
-            </ion-text>
-            <ion-text [ngClass]="[useClassStyling]">{{ groupUser.sinceDate | date: 'dd.MM.YYYY' }}</ion-text>
-        </div>
-    </div>
+	<!-- Image -->
+	<div class="ion-align-self-baseline st-small-right-space">
+		<ion-img [src]="groupUser.photoURL" appDefaultImg></ion-img>
+	</div>
+	<div class="c-info-with-position-container">
+		<!-- Name -->
+		<div class="st-display-flex-center">
+			<ion-text class="st-font-1-normal st-small-right-space" [ngClass]="{'st-font-white': !!useClassStyling}"> Name: </ion-text>
+			<ion-text [ngClass]="[useClassStyling]">{{ groupUser.nickName }}</ion-text>
+		</div>
 
-    <!-- Position -->
-    <div class="st-display-flex-center current-position-number-container" *ngIf="groupUser.currentPosition">
-        <div class="current-position-number" [ngClass]="[!useClassStyling ? 'st-font-purple': '', useClassStyling]">
-            #{{ groupUser.currentPosition }}
-        </div>
-        <app-position-change-item
-                *ngIf="groupUser.previousPosition - groupUser.currentPosition !== 0 && showIncreasePosition"
-                [increaseBy]="groupUser.previousPosition - groupUser.currentPosition">
-        </app-position-change-item>
-    </div>
+		<!-- Portfolio -->
+		<div class="st-display-flex-center">
+			<ion-text class="st-font-1-normal st-small-right-space" [ngClass]="{'st-font-white': !!useClassStyling}"> Portfolio: </ion-text>
+			<div class="st-display-flex-center">
+				<ion-text class="st-small-right-space" [ngClass]="[useClassStyling]">
+					{{ (groupUser.lastPortfolioSnapshot.portfolioCash + groupUser.lastPortfolioSnapshot.portfolioInvested) | numberFormatter}}
+				</ion-text>
+				<app-price-change-item [isPercent]="true" [priceChange]="groupUser.lastPortfolioIncreasePrct"> </app-price-change-item>
+			</div>
+		</div>
+
+		<!-- Since date -->
+		<div class="st-display-flex-center">
+			<ion-text class="st-font-1-normal st-small-right-space" [ngClass]="{'st-font-white': !!useClassStyling}"> Since: </ion-text>
+			<ion-text [ngClass]="[useClassStyling]">{{ groupUser.sinceDate | date: 'dd.MM.YYYY' }}</ion-text>
+		</div>
+	</div>
+
+	<!-- Position -->
+	<div class="st-display-flex-center current-position-number-container" *ngIf="groupUser.currentPosition">
+		<div class="current-position-number" [ngClass]="[!useClassStyling ? 'st-font-purple': '', useClassStyling]">#{{ groupUser.currentPosition }}</div>
+		<app-position-change-item
+			*ngIf="groupUser.previousPosition - groupUser.currentPosition !== 0 && showIncreasePosition"
+			[increaseBy]="groupUser.previousPosition - groupUser.currentPosition"
+		>
+		</app-position-change-item>
+	</div>
 </ion-item>

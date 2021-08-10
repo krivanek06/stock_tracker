@@ -18,6 +18,8 @@ export type Scalars = {
 
 
 
+
+
 export enum CacheControlScope {
   Public = 'PUBLIC',
   Private = 'PRIVATE'
@@ -399,6 +401,8 @@ export type Mutation = {
   deleteGroup?: Maybe<Scalars['Boolean']>;
   toggleInvitationRequestToGroup?: Maybe<StGroupAllData>;
   answerReceivedGroupInvitation?: Maybe<StGroupAllData>;
+  toggleInviteUserIntoGroup?: Maybe<StGroupUser>;
+  toggleUsersInvitationRequestToGroup?: Maybe<StGroupUser>;
   leaveGroup?: Maybe<Scalars['Boolean']>;
   createStockWatchlist?: Maybe<StStockWatchlist>;
   renameStockWatchlist?: Maybe<Scalars['Boolean']>;
@@ -436,27 +440,37 @@ export type MutationEditGroupArgs = {
 
 
 export type MutationDeleteGroupArgs = {
-  uid: Scalars['String'];
-  groupId: Scalars['String'];
+  id: Scalars['String'];
 };
 
 
 export type MutationToggleInvitationRequestToGroupArgs = {
-  uid: Scalars['String'];
-  groupId: Scalars['String'];
+  id: Scalars['String'];
 };
 
 
 export type MutationAnswerReceivedGroupInvitationArgs = {
-  uid: Scalars['String'];
-  groupId: Scalars['String'];
+  id: Scalars['String'];
   accept: Scalars['Boolean'];
 };
 
 
-export type MutationLeaveGroupArgs = {
-  uid: Scalars['String'];
+export type MutationToggleInviteUserIntoGroupArgs = {
+  inviteUser: Scalars['Boolean'];
+  userId: Scalars['String'];
   groupId: Scalars['String'];
+};
+
+
+export type MutationToggleUsersInvitationRequestToGroupArgs = {
+  acceptUser: Scalars['Boolean'];
+  userId: Scalars['String'];
+  groupId: Scalars['String'];
+};
+
+
+export type MutationLeaveGroupArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -517,8 +531,8 @@ export type Query = {
   queryUserData?: Maybe<StUserPublicData>;
   queryUserPublicDataByUsername: Array<Maybe<StUserPublicData>>;
   authenticateUser?: Maybe<StUserPublicData>;
-  querySTGroupAllDataByGroupId?: Maybe<StGroupAllData>;
-  querySTGroupPartialDataByGroupName?: Maybe<StSearchGroups>;
+  querySTGroupByGroupId?: Maybe<StGroupAllData>;
+  querySTGroupByGroupName?: Maybe<StSearchGroups>;
   queryStockDetails?: Maybe<StockDetails>;
   queryStockSummary?: Maybe<Summary>;
   queryStockQuotesByPrefix: Array<Maybe<StfmCompanyQuote>>;
@@ -551,12 +565,12 @@ export type QueryAuthenticateUserArgs = {
 };
 
 
-export type QueryQueryStGroupAllDataByGroupIdArgs = {
-  groupId: Scalars['String'];
+export type QueryQueryStGroupByGroupIdArgs = {
+  id: Scalars['String'];
 };
 
 
-export type QueryQueryStGroupPartialDataByGroupNameArgs = {
+export type QueryQueryStGroupByGroupNameArgs = {
   groupName: Scalars['String'];
 };
 
@@ -1232,38 +1246,29 @@ export type StGeographic = {
 
 export type StGroupAllData = {
   __typename?: 'STGroupAllData';
-  groupId: Scalars['String'];
+  id: Scalars['String'];
   name: Scalars['String'];
   description?: Maybe<Scalars['String']>;
   imagePath?: Maybe<Scalars['String']>;
   imageUrl?: Maybe<Scalars['String']>;
-  lastPortfolioSnapshot?: Maybe<StPortfolioSnapshot>;
-  lastTransactionSnapshot?: Maybe<StTransactionSnapshot>;
   owner: StGroupUser;
   lastUpdateDate: Scalars['String'];
   lastEditedDate: Scalars['String'];
   createdDate: Scalars['String'];
   currentAchievedRanks?: Maybe<StRank>;
-  lastPortfolioIncreaseNumber?: Maybe<Scalars['Float']>;
-  lastPortfolioIncreasePrct?: Maybe<Scalars['Float']>;
-  lastPortfolioBalance?: Maybe<Scalars['Float']>;
   startDate: Scalars['String'];
   endDate?: Maybe<Scalars['String']>;
   isInfinite: Scalars['Boolean'];
   isPrivate: Scalars['Boolean'];
-  numberOfExecutedTransactions: Scalars['Float'];
-  numberOfExecutedBuyTransactions: Scalars['Float'];
-  numberOfExecutedSellTransactions: Scalars['Float'];
+  portfolio: StPortfolioWrapper;
   numberOfMembers: Scalars['Float'];
-  startedBalance: Scalars['Float'];
+  numberOfInvitationReceived: Scalars['Float'];
+  numberOfInvitationSent: Scalars['Float'];
   topTransactions: Array<Maybe<StTransaction>>;
   lastTransactions: Array<Maybe<StTransaction>>;
   managers: Array<Maybe<StGroupUser>>;
-  members: Array<Maybe<StGroupUser>>;
-  invitationSent: Array<Maybe<StGroupUser>>;
-  invitationReceived?: Maybe<Array<Maybe<StGroupUser>>>;
-  holdings: Array<Maybe<StGroupHoldings>>;
   groupHistoricalData: StGroupHistoricalData;
+  groupMemberData: StGroupMemberData;
   topMembers: Array<Maybe<StGroupUser>>;
 };
 
@@ -1278,8 +1283,6 @@ export type StGroupAllDataInput = {
   isInfinite: Scalars['Boolean'];
   isPrivate: Scalars['Boolean'];
   isOwnerAlsoMember: Scalars['Boolean'];
-  managers: Array<Maybe<Scalars['String']>>;
-  members: Array<Maybe<Scalars['String']>>;
   invitationSent: Array<Maybe<Scalars['String']>>;
   invitationReceived: Array<Maybe<Scalars['String']>>;
 };
@@ -1298,6 +1301,15 @@ export type StGroupHoldings = {
   numberOfUsers: Scalars['Float'];
 };
 
+export type StGroupMemberData = {
+  __typename?: 'STGroupMemberData';
+  id: Scalars['String'];
+  members: Array<Maybe<StGroupUser>>;
+  holdings: Array<Maybe<StGroupHoldings>>;
+  invitationSent: Array<Maybe<StGroupUser>>;
+  invitationReceived?: Maybe<Array<Maybe<StGroupUser>>>;
+};
+
 export type StGroupUser = {
   __typename?: 'STGroupUser';
   id: Scalars['String'];
@@ -1305,12 +1317,7 @@ export type StGroupUser = {
   locale?: Maybe<Scalars['String']>;
   photoURL: Scalars['String'];
   accountCreatedDate: Scalars['String'];
-  lastPortfolioSnapshot?: Maybe<StPortfolioSnapshot>;
-  lastPortfolioIncreaseNumber?: Maybe<Scalars['Float']>;
-  lastPortfolioIncreasePrct?: Maybe<Scalars['Float']>;
-  numberOfExecutedTransactions: Scalars['Float'];
-  numberOfExecutedBuyTransactions: Scalars['Float'];
-  numberOfExecutedSellTransactions: Scalars['Float'];
+  portfolio: StPortfolioWrapper;
   lastTransactionSnapshot?: Maybe<StTransactionSnapshot>;
   previousPosition?: Maybe<Scalars['Float']>;
   currentPosition?: Maybe<Scalars['Float']>;
@@ -1354,6 +1361,17 @@ export type StMarketCalendar = {
   calendarSplit?: Maybe<Array<Maybe<StfmSplitHistory>>>;
   calendarIpo?: Maybe<Array<Maybe<StfmCalendarIpo>>>;
   calendarEarnings?: Maybe<Array<Maybe<StfmCalendarEarnings>>>;
+};
+
+export type StMarketChartDataResultCombined = {
+  __typename?: 'STMarketChartDataResultCombined';
+  currentDate?: Maybe<Scalars['String']>;
+  currentValue?: Maybe<Scalars['Float']>;
+  documentKey?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  parentName?: Maybe<Scalars['String']>;
+  lastUpdate?: Maybe<Scalars['String']>;
+  data?: Maybe<Array<Maybe<Array<Maybe<Scalars['Float']>>>>>;
 };
 
 export type StMarketDailyOverview = {
@@ -1406,17 +1424,6 @@ export type StMarketExchange = {
   id?: Maybe<Scalars['String']>;
   exchangeIndustryPE?: Maybe<Array<Maybe<StfmExchangeIndustryPe>>>;
   exchangeSectorPE?: Maybe<Array<Maybe<StfmExchangeSectorPe>>>;
-};
-
-export type StMarketChartDataResultCombined = {
-  __typename?: 'STMarketChartDataResultCombined';
-  currentDate?: Maybe<Scalars['String']>;
-  currentValue?: Maybe<Scalars['Float']>;
-  documentKey?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  parentName?: Maybe<Scalars['String']>;
-  lastUpdate?: Maybe<Scalars['String']>;
-  data?: Maybe<Array<Maybe<Array<Maybe<Scalars['Float']>>>>>;
 };
 
 export type StMarketOverviewPartialData = {
@@ -1489,6 +1496,19 @@ export type StPortfolioSnapshot = {
   portfolioInvested: Scalars['Float'];
   portfolioCash: Scalars['Float'];
   date: Scalars['String'];
+};
+
+export type StPortfolioWrapper = {
+  __typename?: 'STPortfolioWrapper';
+  startingPortfolioSnapshot: StPortfolioSnapshot;
+  portfolioCash: Scalars['Float'];
+  numberOfExecutedTransactions: Scalars['Float'];
+  numberOfExecutedBuyTransactions: Scalars['Float'];
+  numberOfExecutedSellTransactions: Scalars['Float'];
+  lastPortfolioIncreaseNumber?: Maybe<Scalars['Float']>;
+  lastPortfolioIncreasePrct?: Maybe<Scalars['Float']>;
+  lastPortfolioSnapshot?: Maybe<StPortfolioSnapshot>;
+  lastTransactionSnapshot?: Maybe<StTransactionSnapshot>;
 };
 
 export type StRank = {
@@ -1694,19 +1714,12 @@ export type StUserPublicData = {
   photoURL?: Maybe<Scalars['String']>;
   accountCreatedDate: Scalars['String'];
   lastSignInDate: Scalars['String'];
-  portfolioCash: Scalars['Float'];
   rank?: Maybe<StRank>;
   holdings: Array<Maybe<StHolding>>;
   transactionsSnippets: Array<Maybe<StTransaction>>;
   activity?: Maybe<User_Activity>;
   groups: StUserGroups;
-  numberOfExecutedTransactions: Scalars['Float'];
-  numberOfExecutedBuyTransactions: Scalars['Float'];
-  numberOfExecutedSellTransactions: Scalars['Float'];
-  lastPortfolioIncreaseNumber?: Maybe<Scalars['Float']>;
-  lastPortfolioIncreasePrct?: Maybe<Scalars['Float']>;
-  lastPortfolioSnapshot?: Maybe<StPortfolioSnapshot>;
-  lastTransactionSnapshot?: Maybe<StTransactionSnapshot>;
+  portfolio: StPortfolioWrapper;
   userPrivateData: StUserPrivateData;
   userHistoricalData: StUserHistoricalData;
   stockWatchlist: Array<Maybe<StStockWatchlist>>;
@@ -1847,378 +1860,143 @@ export type Wacc = {
 export type QueryAdminMainInformationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type QueryAdminMainInformationsQuery = (
-  { __typename?: 'Query' }
-  & { queryAdminMainInformations?: Maybe<(
-    { __typename?: 'STAdminMainInformations' }
-    & Pick<StAdminMainInformations, 'lastStockDetailsReload' | 'usersRegistrated' | 'usersActive'>
-    & { usersRegistrationSnippets: Array<Maybe<(
-      { __typename?: 'STUserIndetification' }
-      & Pick<StUserIndetification, 'id' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate'>
-    )>>, usersWeeklyRegistrated: Array<Maybe<(
-      { __typename?: 'STSeriesNumber' }
-      & Pick<StSeriesNumber, 'data' | 'timestamp'>
-    )>> }
-  )> }
-);
+export type QueryAdminMainInformationsQuery = { __typename?: 'Query', queryAdminMainInformations?: Maybe<{ __typename?: 'STAdminMainInformations', lastStockDetailsReload?: Maybe<string>, usersRegistrated: number, usersActive: number, usersRegistrationSnippets: Array<Maybe<{ __typename?: 'STUserIndetification', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string }>>, usersWeeklyRegistrated: Array<Maybe<{ __typename?: 'STSeriesNumber', data: number, timestamp: number }>> }> };
 
-export type StfmHolderFragmentFragment = (
-  { __typename?: 'STFMHolder' }
-  & Pick<StfmHolder, 'change' | 'dateReported' | 'holder' | 'shares'>
-);
+export type StfmHolderFragmentFragment = { __typename?: 'STFMHolder', change?: Maybe<number>, dateReported?: Maybe<string>, holder?: Maybe<string>, shares?: Maybe<number> };
 
-export type StfmHolderWithWeightFragmentFragment = (
-  { __typename?: 'STFMHolderWithWeight' }
-  & Pick<StfmHolderWithWeight, 'change' | 'dateReported' | 'holder' | 'shares' | 'weightPercent'>
-);
+export type StfmHolderWithWeightFragmentFragment = { __typename?: 'STFMHolderWithWeight', change?: Maybe<number>, dateReported?: Maybe<string>, holder?: Maybe<string>, shares?: Maybe<number>, weightPercent?: Maybe<number> };
 
-export type StfmBalanceSheetFragmentFragment = (
-  { __typename?: 'STFMBalanceSheet' }
-  & Pick<StfmBalanceSheet, 'acceptedDate' | 'accountPayables' | 'accumulatedOtherComprehensiveIncomeLoss' | 'cashAndCashEquivalents' | 'cashAndShortTermInvestments' | 'commonStock' | 'date' | 'deferredRevenue' | 'deferredRevenueNonCurrent' | 'deferredTaxLiabilitiesNonCurrent' | 'fillingDate' | 'finalLink' | 'goodwill' | 'goodwillAndIntangibleAssets' | 'intangibleAssets' | 'inventory' | 'link' | 'longTermDebt' | 'longTermInvestments' | 'netDebt' | 'netReceivables' | 'otherAssets' | 'otherCurrentAssets' | 'otherCurrentLiabilities' | 'otherLiabilities' | 'otherNonCurrentAssets' | 'otherNonCurrentLiabilities' | 'othertotalStockholdersEquity' | 'period' | 'propertyPlantEquipmentNet' | 'reportedCurrency' | 'retainedEarnings' | 'shortTermDebt' | 'shortTermInvestments' | 'symbol' | 'taxAssets' | 'taxPayables' | 'totalAssets' | 'totalCurrentAssets' | 'totalCurrentLiabilities' | 'totalDebt' | 'totalInvestments' | 'totalLiabilities' | 'totalLiabilitiesAndStockholdersEquity' | 'totalNonCurrentAssets' | 'totalNonCurrentLiabilities' | 'totalStockholdersEquity'>
-);
+export type StfmBalanceSheetFragmentFragment = { __typename?: 'STFMBalanceSheet', acceptedDate?: Maybe<string>, accountPayables?: Maybe<number>, accumulatedOtherComprehensiveIncomeLoss?: Maybe<number>, cashAndCashEquivalents?: Maybe<number>, cashAndShortTermInvestments?: Maybe<number>, commonStock?: Maybe<number>, date?: Maybe<string>, deferredRevenue?: Maybe<number>, deferredRevenueNonCurrent?: Maybe<number>, deferredTaxLiabilitiesNonCurrent?: Maybe<number>, fillingDate?: Maybe<string>, finalLink?: Maybe<string>, goodwill?: Maybe<number>, goodwillAndIntangibleAssets?: Maybe<number>, intangibleAssets?: Maybe<number>, inventory?: Maybe<number>, link?: Maybe<string>, longTermDebt?: Maybe<number>, longTermInvestments?: Maybe<number>, netDebt?: Maybe<number>, netReceivables?: Maybe<number>, otherAssets?: Maybe<number>, otherCurrentAssets?: Maybe<number>, otherCurrentLiabilities?: Maybe<number>, otherLiabilities?: Maybe<number>, otherNonCurrentAssets?: Maybe<number>, otherNonCurrentLiabilities?: Maybe<number>, othertotalStockholdersEquity?: Maybe<number>, period?: Maybe<string>, propertyPlantEquipmentNet?: Maybe<number>, reportedCurrency?: Maybe<string>, retainedEarnings?: Maybe<number>, shortTermDebt?: Maybe<number>, shortTermInvestments?: Maybe<number>, symbol?: Maybe<string>, taxAssets?: Maybe<number>, taxPayables?: Maybe<number>, totalAssets?: Maybe<number>, totalCurrentAssets?: Maybe<number>, totalCurrentLiabilities?: Maybe<number>, totalDebt?: Maybe<number>, totalInvestments?: Maybe<number>, totalLiabilities?: Maybe<number>, totalLiabilitiesAndStockholdersEquity?: Maybe<number>, totalNonCurrentAssets?: Maybe<number>, totalNonCurrentLiabilities?: Maybe<number>, totalStockholdersEquity?: Maybe<number> };
 
-export type StfmCashFlowFragmentFragment = (
-  { __typename?: 'STFMCashFlow' }
-  & Pick<StfmCashFlow, 'acceptedDate' | 'accountsPayables' | 'accountsReceivables' | 'acquisitionsNet' | 'capitalExpenditure' | 'cashAtBeginningOfPeriod' | 'cashAtEndOfPeriod' | 'changeInWorkingCapital' | 'commonStockIssued' | 'commonStockRepurchased' | 'date' | 'debtRepayment' | 'deferredIncomeTax' | 'depreciationAndAmortization' | 'dividendsPaid' | 'effectOfForexChangesOnCash' | 'fillingDate' | 'finalLink' | 'freeCashFlow' | 'inventory' | 'investmentsInPropertyPlantAndEquipment' | 'link' | 'netCashProvidedByOperatingActivities' | 'netCashUsedForInvestingActivites' | 'netCashUsedProvidedByFinancingActivities' | 'netChangeInCash' | 'netIncome' | 'operatingCashFlow' | 'otherFinancingActivites' | 'otherInvestingActivites' | 'otherNonCashItems' | 'otherWorkingCapital' | 'period' | 'purchasesOfInvestments' | 'reportedCurrency' | 'salesMaturitiesOfInvestments' | 'stockBasedCompensation' | 'symbol'>
-);
+export type StfmCashFlowFragmentFragment = { __typename?: 'STFMCashFlow', acceptedDate?: Maybe<string>, accountsPayables?: Maybe<number>, accountsReceivables?: Maybe<number>, acquisitionsNet?: Maybe<number>, capitalExpenditure?: Maybe<number>, cashAtBeginningOfPeriod?: Maybe<number>, cashAtEndOfPeriod?: Maybe<number>, changeInWorkingCapital?: Maybe<number>, commonStockIssued?: Maybe<number>, commonStockRepurchased?: Maybe<number>, date?: Maybe<string>, debtRepayment?: Maybe<number>, deferredIncomeTax?: Maybe<number>, depreciationAndAmortization?: Maybe<number>, dividendsPaid?: Maybe<number>, effectOfForexChangesOnCash?: Maybe<number>, fillingDate?: Maybe<string>, finalLink?: Maybe<string>, freeCashFlow?: Maybe<number>, inventory?: Maybe<number>, investmentsInPropertyPlantAndEquipment?: Maybe<number>, link?: Maybe<string>, netCashProvidedByOperatingActivities?: Maybe<number>, netCashUsedForInvestingActivites?: Maybe<number>, netCashUsedProvidedByFinancingActivities?: Maybe<number>, netChangeInCash?: Maybe<number>, netIncome?: Maybe<number>, operatingCashFlow?: Maybe<number>, otherFinancingActivites?: Maybe<number>, otherInvestingActivites?: Maybe<number>, otherNonCashItems?: Maybe<number>, otherWorkingCapital?: Maybe<number>, period?: Maybe<string>, purchasesOfInvestments?: Maybe<number>, reportedCurrency?: Maybe<string>, salesMaturitiesOfInvestments?: Maybe<number>, stockBasedCompensation?: Maybe<number>, symbol?: Maybe<string> };
 
-export type StfmIncomeStatementFragmentFragment = (
-  { __typename?: 'STFMIncomeStatement' }
-  & Pick<StfmIncomeStatement, 'acceptedDate' | 'costAndExpenses' | 'costOfRevenue' | 'date' | 'depreciationAndAmortization' | 'ebitda' | 'ebitdaratio' | 'eps' | 'epsdiluted' | 'fillingDate' | 'finalLink' | 'generalAndAdministrativeExpenses' | 'grossProfit' | 'grossProfitRatio' | 'incomeBeforeTax' | 'incomeBeforeTaxRatio' | 'incomeTaxExpense' | 'interestExpense' | 'link' | 'netIncome' | 'netIncomeRatio' | 'operatingExpenses' | 'operatingIncome' | 'operatingIncomeRatio' | 'otherExpenses' | 'period' | 'reportedCurrency' | 'researchAndDevelopmentExpenses' | 'revenue' | 'sellingAndMarketingExpenses' | 'sellingGeneralAndAdministrativeExpenses' | 'symbol' | 'totalOtherIncomeExpensesNet' | 'weightedAverageShsOut' | 'weightedAverageShsOutDil'>
-);
+export type StfmIncomeStatementFragmentFragment = { __typename?: 'STFMIncomeStatement', acceptedDate?: Maybe<string>, costAndExpenses?: Maybe<number>, costOfRevenue?: Maybe<number>, date?: Maybe<string>, depreciationAndAmortization?: Maybe<number>, ebitda?: Maybe<number>, ebitdaratio?: Maybe<number>, eps?: Maybe<number>, epsdiluted?: Maybe<number>, fillingDate?: Maybe<string>, finalLink?: Maybe<string>, generalAndAdministrativeExpenses?: Maybe<number>, grossProfit?: Maybe<number>, grossProfitRatio?: Maybe<number>, incomeBeforeTax?: Maybe<number>, incomeBeforeTaxRatio?: Maybe<number>, incomeTaxExpense?: Maybe<number>, interestExpense?: Maybe<number>, link?: Maybe<string>, netIncome?: Maybe<number>, netIncomeRatio?: Maybe<number>, operatingExpenses?: Maybe<number>, operatingIncome?: Maybe<number>, operatingIncomeRatio?: Maybe<number>, otherExpenses?: Maybe<number>, period?: Maybe<string>, reportedCurrency?: Maybe<string>, researchAndDevelopmentExpenses?: Maybe<number>, revenue?: Maybe<number>, sellingAndMarketingExpenses?: Maybe<number>, sellingGeneralAndAdministrativeExpenses?: Maybe<number>, symbol?: Maybe<string>, totalOtherIncomeExpensesNet?: Maybe<number>, weightedAverageShsOut?: Maybe<number>, weightedAverageShsOutDil?: Maybe<number> };
 
-export type StfmInsideTradeFragmentFragment = (
-  { __typename?: 'STFMInsideTrade' }
-  & Pick<StfmInsideTrade, 'acquistionOrDisposition' | 'companyCik' | 'formType' | 'link' | 'price' | 'reportingCik' | 'reportingName' | 'securitiesOwned' | 'securitiesTransacted' | 'securityName' | 'symbol' | 'transactionDate' | 'transactionType' | 'typeOfOwner'>
-);
+export type StfmInsideTradeFragmentFragment = { __typename?: 'STFMInsideTrade', acquistionOrDisposition?: Maybe<string>, companyCik?: Maybe<string>, formType?: Maybe<string>, link?: Maybe<string>, price?: Maybe<number>, reportingCik?: Maybe<string>, reportingName?: Maybe<string>, securitiesOwned?: Maybe<number>, securitiesTransacted?: Maybe<number>, securityName?: Maybe<string>, symbol?: Maybe<string>, transactionDate?: Maybe<string>, transactionType?: Maybe<string>, typeOfOwner?: Maybe<string> };
 
-export type StfmKeyExecutiveFragmentFragment = (
-  { __typename?: 'STFMKeyExecutive' }
-  & Pick<StfmKeyExecutive, 'currencyPay' | 'gender' | 'name' | 'pay' | 'title'>
-);
+export type StfmKeyExecutiveFragmentFragment = { __typename?: 'STFMKeyExecutive', currencyPay?: Maybe<string>, gender?: Maybe<string>, name?: Maybe<string>, pay?: Maybe<number>, title?: Maybe<string> };
 
-export type StfmStockNewFragmentFragment = (
-  { __typename?: 'STFMStockNew' }
-  & Pick<StfmStockNew, 'image' | 'publishedDate' | 'site' | 'symbol' | 'text' | 'title' | 'url'>
-);
+export type StfmStockNewFragmentFragment = { __typename?: 'STFMStockNew', image?: Maybe<string>, publishedDate?: Maybe<string>, site?: Maybe<string>, symbol?: Maybe<string>, text?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> };
 
-export type StfmStockDividendFragmentFragment = (
-  { __typename?: 'STFMStockDividend' }
-  & Pick<StfmStockDividend, 'adjDividend' | 'date' | 'declarationDate' | 'dividend' | 'label' | 'paymentDate' | 'recordDate' | 'symbol'>
-);
+export type StfmStockDividendFragmentFragment = { __typename?: 'STFMStockDividend', adjDividend?: Maybe<number>, date?: Maybe<string>, declarationDate?: Maybe<string>, dividend?: Maybe<number>, label?: Maybe<string>, paymentDate?: Maybe<string>, recordDate?: Maybe<string>, symbol?: Maybe<string> };
 
-export type StfmSplitHistoryFragmentFragment = (
-  { __typename?: 'STFMSplitHistory' }
-  & Pick<StfmSplitHistory, 'date' | 'denominator' | 'label' | 'numerator' | 'symbol'>
-);
+export type StfmSplitHistoryFragmentFragment = { __typename?: 'STFMSplitHistory', date?: Maybe<string>, denominator?: Maybe<number>, label?: Maybe<string>, numerator?: Maybe<number>, symbol?: Maybe<string> };
 
-export type StfmRatingFragmentFragment = (
-  { __typename?: 'STFMRating' }
-  & Pick<StfmRating, 'date' | 'rating' | 'ratingDetailsDCFRecommendation' | 'ratingDetailsDCFScore' | 'ratingDetailsDERecommendation' | 'ratingDetailsDEScore' | 'ratingDetailsPBRecommendation' | 'ratingDetailsPBScore' | 'ratingDetailsPERecommendation' | 'ratingDetailsPEScore' | 'ratingDetailsROARecommendation' | 'ratingDetailsROAScore' | 'ratingDetailsROERecommendation' | 'ratingDetailsROEScore' | 'ratingRecommendation' | 'ratingScore' | 'symbol'>
-);
+export type StfmRatingFragmentFragment = { __typename?: 'STFMRating', date?: Maybe<string>, rating?: Maybe<string>, ratingDetailsDCFRecommendation?: Maybe<string>, ratingDetailsDCFScore?: Maybe<number>, ratingDetailsDERecommendation?: Maybe<string>, ratingDetailsDEScore?: Maybe<number>, ratingDetailsPBRecommendation?: Maybe<string>, ratingDetailsPBScore?: Maybe<number>, ratingDetailsPERecommendation?: Maybe<string>, ratingDetailsPEScore?: Maybe<number>, ratingDetailsROARecommendation?: Maybe<string>, ratingDetailsROAScore?: Maybe<number>, ratingDetailsROERecommendation?: Maybe<string>, ratingDetailsROEScore?: Maybe<number>, ratingRecommendation?: Maybe<string>, ratingScore?: Maybe<number>, symbol?: Maybe<string> };
 
-export type StfmRatiosFragmentFragment = (
-  { __typename?: 'STFMRatios' }
-  & Pick<StfmRatios, 'assetTurnoverTTM' | 'capitalExpenditureCoverageRatioTTM' | 'cashConversionCycleTTM' | 'cashFlowCoverageRatiosTTM' | 'cashFlowToDebtRatioTTM' | 'cashPerShareTTM' | 'cashRatioTTM' | 'companyEquityMultiplierTTM' | 'currentRatioTTM' | 'daysOfInventoryOutstandingTTM' | 'daysOfPayablesOutstandingTTM' | 'daysOfSalesOutstandingTTM' | 'debtEquityRatioTTM' | 'debtRatioTTM' | 'dividendPaidAndCapexCoverageRatioTTM' | 'dividendPerShareTTM' | 'dividendYielPercentageTTM' | 'dividendYielTTM' | 'dividendYieldTTM' | 'ebitPerRevenueTTM' | 'ebtPerEbitTTM' | 'effectiveTaxRateTTM' | 'enterpriseValueMultipleTTM' | 'fixedAssetTurnoverTTM' | 'freeCashFlowOperatingCashFlowRatioTTM' | 'freeCashFlowPerShareTTM' | 'grossProfitMarginTTM' | 'interestCoverageTTM' | 'inventoryTurnoverTTM' | 'longTermDebtToCapitalizationTTM' | 'netIncomePerEBTTTM' | 'netProfitMarginTTM' | 'operatingCashFlowPerShareTTM' | 'operatingCashFlowSalesRatioTTM' | 'operatingCycleTTM' | 'operatingProfitMarginTTM' | 'payablesTurnoverTTM' | 'payoutRatioTTM' | 'peRatioTTM' | 'pegRatioTTM' | 'pretaxProfitMarginTTM' | 'priceBookValueRatioTTM' | 'priceCashFlowRatioTTM' | 'priceEarningsRatioTTM' | 'priceEarningsToGrowthRatioTTM' | 'priceFairValueTTM' | 'priceSalesRatioTTM' | 'priceToBookRatioTTM' | 'priceToFreeCashFlowsRatioTTM' | 'priceToOperatingCashFlowsRatioTTM' | 'priceToSalesRatioTTM' | 'quickRatioTTM' | 'receivablesTurnoverTTM' | 'returnOnAssetsTTM' | 'returnOnCapitalEmployedTTM' | 'returnOnEquityTTM' | 'shortTermCoverageRatiosTTM' | 'totalDebtToCapitalizationTTM'>
-);
+export type StfmRatiosFragmentFragment = { __typename?: 'STFMRatios', assetTurnoverTTM?: Maybe<number>, capitalExpenditureCoverageRatioTTM?: Maybe<number>, cashConversionCycleTTM?: Maybe<number>, cashFlowCoverageRatiosTTM?: Maybe<number>, cashFlowToDebtRatioTTM?: Maybe<number>, cashPerShareTTM?: Maybe<number>, cashRatioTTM?: Maybe<number>, companyEquityMultiplierTTM?: Maybe<number>, currentRatioTTM?: Maybe<number>, daysOfInventoryOutstandingTTM?: Maybe<number>, daysOfPayablesOutstandingTTM?: Maybe<number>, daysOfSalesOutstandingTTM?: Maybe<number>, debtEquityRatioTTM?: Maybe<number>, debtRatioTTM?: Maybe<number>, dividendPaidAndCapexCoverageRatioTTM?: Maybe<number>, dividendPerShareTTM?: Maybe<number>, dividendYielPercentageTTM?: Maybe<number>, dividendYielTTM?: Maybe<number>, dividendYieldTTM?: Maybe<number>, ebitPerRevenueTTM?: Maybe<number>, ebtPerEbitTTM?: Maybe<number>, effectiveTaxRateTTM?: Maybe<number>, enterpriseValueMultipleTTM?: Maybe<number>, fixedAssetTurnoverTTM?: Maybe<number>, freeCashFlowOperatingCashFlowRatioTTM?: Maybe<number>, freeCashFlowPerShareTTM?: Maybe<number>, grossProfitMarginTTM?: Maybe<number>, interestCoverageTTM?: Maybe<number>, inventoryTurnoverTTM?: Maybe<number>, longTermDebtToCapitalizationTTM?: Maybe<number>, netIncomePerEBTTTM?: Maybe<number>, netProfitMarginTTM?: Maybe<number>, operatingCashFlowPerShareTTM?: Maybe<number>, operatingCashFlowSalesRatioTTM?: Maybe<number>, operatingCycleTTM?: Maybe<number>, operatingProfitMarginTTM?: Maybe<number>, payablesTurnoverTTM?: Maybe<number>, payoutRatioTTM?: Maybe<number>, peRatioTTM?: Maybe<number>, pegRatioTTM?: Maybe<number>, pretaxProfitMarginTTM?: Maybe<number>, priceBookValueRatioTTM?: Maybe<number>, priceCashFlowRatioTTM?: Maybe<number>, priceEarningsRatioTTM?: Maybe<number>, priceEarningsToGrowthRatioTTM?: Maybe<number>, priceFairValueTTM?: Maybe<number>, priceSalesRatioTTM?: Maybe<number>, priceToBookRatioTTM?: Maybe<number>, priceToFreeCashFlowsRatioTTM?: Maybe<number>, priceToOperatingCashFlowsRatioTTM?: Maybe<number>, priceToSalesRatioTTM?: Maybe<number>, quickRatioTTM?: Maybe<number>, receivablesTurnoverTTM?: Maybe<number>, returnOnAssetsTTM?: Maybe<number>, returnOnCapitalEmployedTTM?: Maybe<number>, returnOnEquityTTM?: Maybe<number>, shortTermCoverageRatiosTTM?: Maybe<number>, totalDebtToCapitalizationTTM?: Maybe<number> };
 
-export type StfmCompanyQuoteFragmentFragment = (
-  { __typename?: 'STFMCompanyQuote' }
-  & Pick<StfmCompanyQuote, 'avgVolume' | 'change' | 'changesPercentage' | 'dayHigh' | 'dayLow' | 'earningsAnnouncement' | 'eps' | 'exchange' | 'marketCap' | 'name' | 'open' | 'pe' | 'previousClose' | 'price' | 'priceAvg200' | 'priceAvg50' | 'sharesOutstanding' | 'symbol' | 'timestamp' | 'volume' | 'yearHigh' | 'yearLow' | 'image'>
-);
+export type StfmCompanyQuoteFragmentFragment = { __typename?: 'STFMCompanyQuote', avgVolume?: Maybe<number>, change?: Maybe<number>, changesPercentage?: Maybe<number>, dayHigh?: Maybe<number>, dayLow?: Maybe<number>, earningsAnnouncement?: Maybe<string>, eps?: Maybe<number>, exchange?: Maybe<string>, marketCap?: Maybe<number>, name?: Maybe<string>, open?: Maybe<number>, pe?: Maybe<number>, previousClose?: Maybe<number>, price?: Maybe<number>, priceAvg200?: Maybe<number>, priceAvg50?: Maybe<number>, sharesOutstanding?: Maybe<number>, symbol?: Maybe<string>, timestamp?: Maybe<number>, volume?: Maybe<number>, yearHigh?: Maybe<number>, yearLow?: Maybe<number>, image?: Maybe<string> };
 
-export type StfmTopStocksFragmentFragment = (
-  { __typename?: 'STFMTopStocks' }
-  & Pick<StfmTopStocks, 'ticker' | 'changes' | 'price' | 'changesPercentage' | 'companyName'>
-);
+export type StfmTopStocksFragmentFragment = { __typename?: 'STFMTopStocks', ticker?: Maybe<string>, changes?: Maybe<number>, price?: Maybe<string>, changesPercentage?: Maybe<string>, companyName?: Maybe<string> };
 
-export type StfmExchangeSectorPeFragmentFragment = (
-  { __typename?: 'STFMExchangeSectorPE' }
-  & Pick<StfmExchangeSectorPe, 'date' | 'sector' | 'exchange' | 'pe'>
-);
+export type StfmExchangeSectorPeFragmentFragment = { __typename?: 'STFMExchangeSectorPE', date?: Maybe<string>, sector?: Maybe<string>, exchange?: Maybe<string>, pe?: Maybe<number> };
 
-export type StfmExchangeIndustryPeFragmentFragment = (
-  { __typename?: 'STFMExchangeIndustryPE' }
-  & Pick<StfmExchangeIndustryPe, 'date' | 'industry' | 'exchange' | 'pe'>
-);
+export type StfmExchangeIndustryPeFragmentFragment = { __typename?: 'STFMExchangeIndustryPE', date?: Maybe<string>, industry?: Maybe<string>, exchange?: Maybe<string>, pe?: Maybe<number> };
 
-export type StfmCalendarEarningsFragmentFragment = (
-  { __typename?: 'STFMCalendarEarnings' }
-  & Pick<StfmCalendarEarnings, 'date' | 'symbol' | 'eps' | 'epsEstimated' | 'time' | 'revenue' | 'revenueEstimated'>
-);
+export type StfmCalendarEarningsFragmentFragment = { __typename?: 'STFMCalendarEarnings', date?: Maybe<string>, symbol?: Maybe<string>, eps?: Maybe<number>, epsEstimated?: Maybe<number>, time?: Maybe<string>, revenue?: Maybe<number>, revenueEstimated?: Maybe<number> };
 
-export type StfmCalendarIpoFragmentFragment = (
-  { __typename?: 'STFMCalendarIpo' }
-  & Pick<StfmCalendarIpo, 'date' | 'company' | 'symbol' | 'exchange' | 'actions' | 'shares' | 'priceRange' | 'marketCap'>
-);
+export type StfmCalendarIpoFragmentFragment = { __typename?: 'STFMCalendarIpo', date?: Maybe<string>, company?: Maybe<string>, symbol?: Maybe<string>, exchange?: Maybe<string>, actions?: Maybe<string>, shares?: Maybe<number>, priceRange?: Maybe<string>, marketCap?: Maybe<number> };
 
-export type StfmCalendarEconomicFragmentFragment = (
-  { __typename?: 'STFMCalendarEconomic' }
-  & Pick<StfmCalendarEconomic, 'event' | 'date' | 'country' | 'actual' | 'previous' | 'change' | 'changePercentage' | 'estimate'>
-);
+export type StfmCalendarEconomicFragmentFragment = { __typename?: 'STFMCalendarEconomic', event?: Maybe<string>, date?: Maybe<string>, country?: Maybe<string>, actual?: Maybe<number>, previous?: Maybe<number>, change?: Maybe<number>, changePercentage?: Maybe<number>, estimate?: Maybe<number> };
 
-export type StfmEtfHolderFragmentFragment = (
-  { __typename?: 'STFMEtfHolder' }
-  & Pick<StfmEtfHolder, 'asset' | 'sharesNumber' | 'weightPercentage'>
-);
+export type StfmEtfHolderFragmentFragment = { __typename?: 'STFMEtfHolder', asset?: Maybe<string>, sharesNumber?: Maybe<number>, weightPercentage?: Maybe<number> };
 
-export type StfmEtfSectorWeightFragmentFragment = (
-  { __typename?: 'STFMEtfSectorWeight' }
-  & Pick<StfmEtfSectorWeight, 'sector' | 'weightPercentage'>
-);
+export type StfmEtfSectorWeightFragmentFragment = { __typename?: 'STFMEtfSectorWeight', sector?: Maybe<string>, weightPercentage?: Maybe<string> };
 
-export type StfmEtfCountryWeightFragmentFragment = (
-  { __typename?: 'STFMEtfCountryWeight' }
-  & Pick<StfmEtfCountryWeight, 'country' | 'weightPercentage'>
-);
+export type StfmEtfCountryWeightFragmentFragment = { __typename?: 'STFMEtfCountryWeight', country?: Maybe<string>, weightPercentage?: Maybe<string> };
 
-export type StfmSectorPerformanceFragmentFragment = (
-  { __typename?: 'STFMSectorPerformance' }
-  & Pick<StfmSectorPerformance, 'sector' | 'changesPercentage'>
-);
+export type StfmSectorPerformanceFragmentFragment = { __typename?: 'STFMSectorPerformance', sector?: Maybe<string>, changesPercentage?: Maybe<string> };
 
-export type StGroupUserFragmentFragment = (
-  { __typename?: 'STGroupUser' }
-  & Pick<StGroupUser, 'id' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate' | 'lastPortfolioIncreaseNumber' | 'lastPortfolioIncreasePrct' | 'numberOfExecutedTransactions' | 'numberOfExecutedBuyTransactions' | 'numberOfExecutedSellTransactions' | 'previousPosition' | 'currentPosition' | 'sinceDate'>
-  & { lastPortfolioSnapshot?: Maybe<(
-    { __typename?: 'STPortfolioSnapshot' }
-    & StPortfolioSnapshotFragmentFragment
-  )>, lastTransactionSnapshot?: Maybe<(
-    { __typename?: 'STTransactionSnapshot' }
-    & StTransactionSnapshotFragmentFragment
-  )>, startingPortfolioSnapshot?: Maybe<(
-    { __typename?: 'STPortfolioSnapshot' }
-    & StPortfolioSnapshotFragmentFragment
-  )> }
-);
+export type StGroupUserFragmentFragment = { __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> };
 
-export type StGroupIdentificationDataFragment = (
-  { __typename?: 'STGroupAllData' }
-  & Pick<StGroupAllData, 'groupId' | 'name' | 'description' | 'imagePath' | 'imageUrl' | 'startDate' | 'endDate' | 'isInfinite' | 'isPrivate' | 'lastPortfolioIncreaseNumber' | 'lastPortfolioIncreasePrct' | 'lastPortfolioBalance' | 'numberOfExecutedTransactions' | 'numberOfExecutedBuyTransactions' | 'numberOfExecutedSellTransactions' | 'numberOfMembers' | 'startedBalance' | 'lastUpdateDate' | 'lastEditedDate' | 'createdDate'>
-  & { owner: (
-    { __typename?: 'STGroupUser' }
-    & StGroupUserFragmentFragment
-  ), lastPortfolioSnapshot?: Maybe<(
-    { __typename?: 'STPortfolioSnapshot' }
-    & StPortfolioSnapshotFragmentFragment
-  )>, lastTransactionSnapshot?: Maybe<(
-    { __typename?: 'STTransactionSnapshot' }
-    & StTransactionSnapshotFragmentFragment
-  )>, topMembers: Array<Maybe<(
-    { __typename?: 'STGroupUser' }
-    & StGroupUserFragmentFragment
-  )>>, currentAchievedRanks?: Maybe<(
-    { __typename?: 'STRank' }
-    & StRankFragmentFragment
-  )> }
-);
+export type StGroupIdentificationDataFragment = { __typename?: 'STGroupAllData', id: string, name: string, description?: Maybe<string>, imagePath?: Maybe<string>, imageUrl?: Maybe<string>, startDate: string, endDate?: Maybe<string>, isInfinite: boolean, isPrivate: boolean, numberOfMembers: number, numberOfInvitationSent: number, numberOfInvitationReceived: number, lastUpdateDate: string, lastEditedDate: string, createdDate: string, owner: { __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, topMembers: Array<Maybe<{ __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }>>, currentAchievedRanks?: Maybe<{ __typename?: 'STRank', rankGainers: number, rankLosers: number, rankPortfolio: number, rankProfit: number, rankNumberOfTrades: number, date: string }> };
 
-export type StGroupAllDataFragmentFragment = (
-  { __typename?: 'STGroupAllData' }
-  & Pick<StGroupAllData, 'groupId' | 'name' | 'description' | 'imageUrl' | 'imagePath' | 'lastUpdateDate' | 'lastEditedDate' | 'createdDate' | 'startDate' | 'endDate' | 'isPrivate' | 'isInfinite' | 'numberOfMembers' | 'startedBalance' | 'lastPortfolioIncreaseNumber' | 'lastPortfolioIncreasePrct' | 'lastPortfolioBalance' | 'numberOfExecutedTransactions' | 'numberOfExecutedBuyTransactions' | 'numberOfExecutedSellTransactions'>
-  & { owner: (
-    { __typename?: 'STGroupUser' }
-    & StGroupUserFragmentFragment
-  ), holdings: Array<Maybe<(
-    { __typename?: 'STGroupHoldings' }
-    & Pick<StGroupHoldings, 'numberOfUsers'>
-    & { holding: (
-      { __typename?: 'STHolding' }
-      & StHoldingFragmentFragment
-    ) }
-  )>>, lastTransactionSnapshot?: Maybe<(
-    { __typename?: 'STTransactionSnapshot' }
-    & StTransactionSnapshotFragmentFragment
-  )>, lastPortfolioSnapshot?: Maybe<(
-    { __typename?: 'STPortfolioSnapshot' }
-    & StPortfolioSnapshotFragmentFragment
-  )>, currentAchievedRanks?: Maybe<(
-    { __typename?: 'STRank' }
-    & StRankFragmentFragment
-  )>, topTransactions: Array<Maybe<(
-    { __typename?: 'STTransaction' }
-    & StTransactionFragmentFragment
-  )>>, groupHistoricalData: (
-    { __typename?: 'STGroupHistoricalData' }
-    & { portfolioSnapshots: Array<Maybe<(
-      { __typename?: 'STPortfolioSnapshot' }
-      & StPortfolioSnapshotFragmentFragment
-    )>>, transactionSnapshots: Array<Maybe<(
-      { __typename?: 'STTransactionSnapshot' }
-      & StTransactionSnapshotFragmentFragment
-    )>>, bestAchievedRanks: Array<Maybe<(
-      { __typename?: 'STRank' }
-      & StRankFragmentFragment
-    )>>, groupLogs: Array<Maybe<(
-      { __typename?: 'STLog' }
-      & StLogsFragmentFragment
-    )>> }
-  ), lastTransactions: Array<Maybe<(
-    { __typename?: 'STTransaction' }
-    & StTransactionFragmentFragment
-  )>>, managers: Array<Maybe<(
-    { __typename?: 'STGroupUser' }
-    & StGroupUserFragmentFragment
-  )>>, members: Array<Maybe<(
-    { __typename?: 'STGroupUser' }
-    & StGroupUserFragmentFragment
-  )>>, invitationSent: Array<Maybe<(
-    { __typename?: 'STGroupUser' }
-    & StGroupUserFragmentFragment
-  )>>, invitationReceived?: Maybe<Array<Maybe<(
-    { __typename?: 'STGroupUser' }
-    & StGroupUserFragmentFragment
-  )>>> }
-);
+export type StGroupAllDataFragmentFragment = { __typename?: 'STGroupAllData', id: string, name: string, description?: Maybe<string>, imageUrl?: Maybe<string>, imagePath?: Maybe<string>, lastUpdateDate: string, lastEditedDate: string, createdDate: string, startDate: string, endDate?: Maybe<string>, isPrivate: boolean, isInfinite: boolean, numberOfMembers: number, numberOfInvitationSent: number, numberOfInvitationReceived: number, owner: { __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, groupMemberData: { __typename?: 'STGroupMemberData', id: string, members: Array<Maybe<{ __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }>>, holdings: Array<Maybe<{ __typename?: 'STGroupHoldings', numberOfUsers: number, holding: { __typename?: 'STHolding', symbol: string, breakEvenPrice: number, units: number, summary?: Maybe<{ __typename?: 'Summary', avgVolume?: Maybe<number>, ceo?: Maybe<string>, companyName?: Maybe<string>, currency?: Maybe<string>, dividendDate?: Maybe<number>, ePSTTM?: Maybe<number>, earningsDate?: Maybe<number>, exDividendDate?: Maybe<number>, exchangeName?: Maybe<string>, fiveTwoWeekRange?: Maybe<string>, forwardDividendRate?: Maybe<number>, forwardDividendYield?: Maybe<number>, forwardEPS?: Maybe<number>, forwardPE?: Maybe<number>, fullTimeEmployees?: Maybe<string>, id?: Maybe<string>, industry?: Maybe<string>, ipoDate?: Maybe<string>, lastSplitDate?: Maybe<number>, lastSplitFactor?: Maybe<string>, logo_url?: Maybe<string>, longBusinessSummary?: Maybe<string>, marketCap?: Maybe<number>, marketPrice?: Maybe<number>, oneyTargetEst?: Maybe<number>, pERatioTTM?: Maybe<number>, previousClose?: Maybe<number>, recommendationKey?: Maybe<string>, recommendationMean?: Maybe<number>, sandPFiveTwoWeekChange?: Maybe<number>, sector?: Maybe<string>, sharesOutstanding?: Maybe<number>, shortRatio?: Maybe<number>, symbol?: Maybe<string>, targetEstOneyPercent?: Maybe<number>, volume?: Maybe<number>, website?: Maybe<string>, weekRangeFiveTwoMax?: Maybe<number>, weekRangeFiveTwoMin?: Maybe<number>, yearToDatePrice?: Maybe<number>, yearToDatePriceReturn?: Maybe<number>, residance?: Maybe<{ __typename?: 'SummaryResidance', city?: Maybe<string>, state?: Maybe<string>, country?: Maybe<string>, addressOne?: Maybe<string>, zip?: Maybe<string> }> }> } }>>, invitationSent: Array<Maybe<{ __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }>>, invitationReceived?: Maybe<Array<Maybe<{ __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }>>> }, currentAchievedRanks?: Maybe<{ __typename?: 'STRank', rankGainers: number, rankLosers: number, rankPortfolio: number, rankProfit: number, rankNumberOfTrades: number, date: string }>, topTransactions: Array<Maybe<{ __typename?: 'STTransaction', transactionId?: Maybe<string>, symbol: string, price: number, return?: Maybe<number>, returnChange?: Maybe<number>, units: number, date: string, operation: StTransactionOperationEnum, symbol_logo_url: string }>>, groupHistoricalData: { __typename?: 'STGroupHistoricalData', portfolioSnapshots: Array<Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>>, transactionSnapshots: Array<Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }>>, bestAchievedRanks: Array<Maybe<{ __typename?: 'STRank', rankGainers: number, rankLosers: number, rankPortfolio: number, rankProfit: number, rankNumberOfTrades: number, date: string }>>, groupLogs: Array<Maybe<{ __typename?: 'STLog', date: string, logText: string }>> }, managers: Array<Maybe<{ __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }>> };
 
-export type QueryStGroupAllDataByGroupIdQueryVariables = Exact<{
-  groupId: Scalars['String'];
+export type QueryStGroupByGroupIdQueryVariables = Exact<{
+  id: Scalars['String'];
 }>;
 
 
-export type QueryStGroupAllDataByGroupIdQuery = (
-  { __typename?: 'Query' }
-  & { querySTGroupAllDataByGroupId?: Maybe<(
-    { __typename?: 'STGroupAllData' }
-    & StGroupAllDataFragmentFragment
-  )> }
-);
+export type QueryStGroupByGroupIdQuery = { __typename?: 'Query', querySTGroupByGroupId?: Maybe<{ __typename?: 'STGroupAllData', id: string, name: string, description?: Maybe<string>, imageUrl?: Maybe<string>, imagePath?: Maybe<string>, lastUpdateDate: string, lastEditedDate: string, createdDate: string, startDate: string, endDate?: Maybe<string>, isPrivate: boolean, isInfinite: boolean, numberOfMembers: number, numberOfInvitationSent: number, numberOfInvitationReceived: number, owner: { __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, groupMemberData: { __typename?: 'STGroupMemberData', id: string, members: Array<Maybe<{ __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }>>, holdings: Array<Maybe<{ __typename?: 'STGroupHoldings', numberOfUsers: number, holding: { __typename?: 'STHolding', symbol: string, breakEvenPrice: number, units: number, summary?: Maybe<{ __typename?: 'Summary', avgVolume?: Maybe<number>, ceo?: Maybe<string>, companyName?: Maybe<string>, currency?: Maybe<string>, dividendDate?: Maybe<number>, ePSTTM?: Maybe<number>, earningsDate?: Maybe<number>, exDividendDate?: Maybe<number>, exchangeName?: Maybe<string>, fiveTwoWeekRange?: Maybe<string>, forwardDividendRate?: Maybe<number>, forwardDividendYield?: Maybe<number>, forwardEPS?: Maybe<number>, forwardPE?: Maybe<number>, fullTimeEmployees?: Maybe<string>, id?: Maybe<string>, industry?: Maybe<string>, ipoDate?: Maybe<string>, lastSplitDate?: Maybe<number>, lastSplitFactor?: Maybe<string>, logo_url?: Maybe<string>, longBusinessSummary?: Maybe<string>, marketCap?: Maybe<number>, marketPrice?: Maybe<number>, oneyTargetEst?: Maybe<number>, pERatioTTM?: Maybe<number>, previousClose?: Maybe<number>, recommendationKey?: Maybe<string>, recommendationMean?: Maybe<number>, sandPFiveTwoWeekChange?: Maybe<number>, sector?: Maybe<string>, sharesOutstanding?: Maybe<number>, shortRatio?: Maybe<number>, symbol?: Maybe<string>, targetEstOneyPercent?: Maybe<number>, volume?: Maybe<number>, website?: Maybe<string>, weekRangeFiveTwoMax?: Maybe<number>, weekRangeFiveTwoMin?: Maybe<number>, yearToDatePrice?: Maybe<number>, yearToDatePriceReturn?: Maybe<number>, residance?: Maybe<{ __typename?: 'SummaryResidance', city?: Maybe<string>, state?: Maybe<string>, country?: Maybe<string>, addressOne?: Maybe<string>, zip?: Maybe<string> }> }> } }>>, invitationSent: Array<Maybe<{ __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }>>, invitationReceived?: Maybe<Array<Maybe<{ __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }>>> }, currentAchievedRanks?: Maybe<{ __typename?: 'STRank', rankGainers: number, rankLosers: number, rankPortfolio: number, rankProfit: number, rankNumberOfTrades: number, date: string }>, topTransactions: Array<Maybe<{ __typename?: 'STTransaction', transactionId?: Maybe<string>, symbol: string, price: number, return?: Maybe<number>, returnChange?: Maybe<number>, units: number, date: string, operation: StTransactionOperationEnum, symbol_logo_url: string }>>, groupHistoricalData: { __typename?: 'STGroupHistoricalData', portfolioSnapshots: Array<Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>>, transactionSnapshots: Array<Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }>>, bestAchievedRanks: Array<Maybe<{ __typename?: 'STRank', rankGainers: number, rankLosers: number, rankPortfolio: number, rankProfit: number, rankNumberOfTrades: number, date: string }>>, groupLogs: Array<Maybe<{ __typename?: 'STLog', date: string, logText: string }>> }, managers: Array<Maybe<{ __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }>> }> };
 
-export type QueryStGroupPartialDataByGroupNameQueryVariables = Exact<{
+export type QueryStGroupByGroupNameQueryVariables = Exact<{
   groupName: Scalars['String'];
 }>;
 
 
-export type QueryStGroupPartialDataByGroupNameQuery = (
-  { __typename?: 'Query' }
-  & { querySTGroupPartialDataByGroupName?: Maybe<(
-    { __typename?: 'STSearchGroups' }
-    & { groups: Array<Maybe<(
-      { __typename?: 'STGroupAllData' }
-      & StGroupIdentificationDataFragment
-    )>> }
-  )> }
-);
+export type QueryStGroupByGroupNameQuery = { __typename?: 'Query', querySTGroupByGroupName?: Maybe<{ __typename?: 'STSearchGroups', groups: Array<Maybe<{ __typename?: 'STGroupAllData', id: string, name: string, description?: Maybe<string>, imagePath?: Maybe<string>, imageUrl?: Maybe<string>, startDate: string, endDate?: Maybe<string>, isInfinite: boolean, isPrivate: boolean, numberOfMembers: number, numberOfInvitationSent: number, numberOfInvitationReceived: number, lastUpdateDate: string, lastEditedDate: string, createdDate: string, owner: { __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, topMembers: Array<Maybe<{ __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }>>, currentAchievedRanks?: Maybe<{ __typename?: 'STRank', rankGainers: number, rankLosers: number, rankPortfolio: number, rankProfit: number, rankNumberOfTrades: number, date: string }> }>> }> };
 
 export type CreateGroupMutationVariables = Exact<{
   groupInput: StGroupAllDataInput;
 }>;
 
 
-export type CreateGroupMutation = (
-  { __typename?: 'Mutation' }
-  & { createGroup?: Maybe<(
-    { __typename?: 'STGroupAllData' }
-    & StGroupIdentificationDataFragment
-  )> }
-);
+export type CreateGroupMutation = { __typename?: 'Mutation', createGroup?: Maybe<{ __typename?: 'STGroupAllData', id: string, name: string, description?: Maybe<string>, imagePath?: Maybe<string>, imageUrl?: Maybe<string>, startDate: string, endDate?: Maybe<string>, isInfinite: boolean, isPrivate: boolean, numberOfMembers: number, numberOfInvitationSent: number, numberOfInvitationReceived: number, lastUpdateDate: string, lastEditedDate: string, createdDate: string, owner: { __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, topMembers: Array<Maybe<{ __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }>>, currentAchievedRanks?: Maybe<{ __typename?: 'STRank', rankGainers: number, rankLosers: number, rankPortfolio: number, rankProfit: number, rankNumberOfTrades: number, date: string }> }> };
 
 export type EditGroupMutationVariables = Exact<{
   groupInput: StGroupAllDataInput;
 }>;
 
 
-export type EditGroupMutation = (
-  { __typename?: 'Mutation' }
-  & { editGroup?: Maybe<(
-    { __typename?: 'STGroupAllData' }
-    & StGroupIdentificationDataFragment
-  )> }
-);
+export type EditGroupMutation = { __typename?: 'Mutation', editGroup?: Maybe<{ __typename?: 'STGroupAllData', id: string, name: string, description?: Maybe<string>, imagePath?: Maybe<string>, imageUrl?: Maybe<string>, startDate: string, endDate?: Maybe<string>, isInfinite: boolean, isPrivate: boolean, numberOfMembers: number, numberOfInvitationSent: number, numberOfInvitationReceived: number, lastUpdateDate: string, lastEditedDate: string, createdDate: string, owner: { __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, topMembers: Array<Maybe<{ __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }>>, currentAchievedRanks?: Maybe<{ __typename?: 'STRank', rankGainers: number, rankLosers: number, rankPortfolio: number, rankProfit: number, rankNumberOfTrades: number, date: string }> }> };
 
 export type DeleteGroupMutationVariables = Exact<{
-  uid: Scalars['String'];
-  groupId: Scalars['String'];
+  id: Scalars['String'];
 }>;
 
 
-export type DeleteGroupMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'deleteGroup'>
-);
+export type DeleteGroupMutation = { __typename?: 'Mutation', deleteGroup?: Maybe<boolean> };
 
 export type ToggleInvitationRequestToGroupMutationVariables = Exact<{
-  uid: Scalars['String'];
-  groupId: Scalars['String'];
+  id: Scalars['String'];
 }>;
 
 
-export type ToggleInvitationRequestToGroupMutation = (
-  { __typename?: 'Mutation' }
-  & { toggleInvitationRequestToGroup?: Maybe<(
-    { __typename?: 'STGroupAllData' }
-    & StGroupIdentificationDataFragment
-  )> }
-);
+export type ToggleInvitationRequestToGroupMutation = { __typename?: 'Mutation', toggleInvitationRequestToGroup?: Maybe<{ __typename?: 'STGroupAllData', id: string, name: string, description?: Maybe<string>, imagePath?: Maybe<string>, imageUrl?: Maybe<string>, startDate: string, endDate?: Maybe<string>, isInfinite: boolean, isPrivate: boolean, numberOfMembers: number, numberOfInvitationSent: number, numberOfInvitationReceived: number, lastUpdateDate: string, lastEditedDate: string, createdDate: string, owner: { __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, topMembers: Array<Maybe<{ __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }>>, currentAchievedRanks?: Maybe<{ __typename?: 'STRank', rankGainers: number, rankLosers: number, rankPortfolio: number, rankProfit: number, rankNumberOfTrades: number, date: string }> }> };
 
 export type AnswerReceivedGroupInvitationMutationVariables = Exact<{
-  uid: Scalars['String'];
-  groupId: Scalars['String'];
+  id: Scalars['String'];
   accept: Scalars['Boolean'];
 }>;
 
 
-export type AnswerReceivedGroupInvitationMutation = (
-  { __typename?: 'Mutation' }
-  & { answerReceivedGroupInvitation?: Maybe<(
-    { __typename?: 'STGroupAllData' }
-    & StGroupIdentificationDataFragment
-  )> }
-);
+export type AnswerReceivedGroupInvitationMutation = { __typename?: 'Mutation', answerReceivedGroupInvitation?: Maybe<{ __typename?: 'STGroupAllData', id: string, name: string, description?: Maybe<string>, imagePath?: Maybe<string>, imageUrl?: Maybe<string>, startDate: string, endDate?: Maybe<string>, isInfinite: boolean, isPrivate: boolean, numberOfMembers: number, numberOfInvitationSent: number, numberOfInvitationReceived: number, lastUpdateDate: string, lastEditedDate: string, createdDate: string, owner: { __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, topMembers: Array<Maybe<{ __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }>>, currentAchievedRanks?: Maybe<{ __typename?: 'STRank', rankGainers: number, rankLosers: number, rankPortfolio: number, rankProfit: number, rankNumberOfTrades: number, date: string }> }> };
 
 export type LeaveGroupMutationVariables = Exact<{
-  uid: Scalars['String'];
+  id: Scalars['String'];
+}>;
+
+
+export type LeaveGroupMutation = { __typename?: 'Mutation', leaveGroup?: Maybe<boolean> };
+
+export type ToggleInviteUserIntoGroupMutationVariables = Exact<{
+  inviteUser: Scalars['Boolean'];
+  userId: Scalars['String'];
   groupId: Scalars['String'];
 }>;
 
 
-export type LeaveGroupMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'leaveGroup'>
-);
+export type ToggleInviteUserIntoGroupMutation = { __typename?: 'Mutation', toggleInviteUserIntoGroup?: Maybe<{ __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }> };
 
-export type StMarketChartDataResultCombinedFragmentFragment = (
-  { __typename?: 'STMarketChartDataResultCombined' }
-  & Pick<StMarketChartDataResultCombined, 'currentDate' | 'currentValue' | 'data' | 'documentKey' | 'name' | 'parentName' | 'lastUpdate'>
-);
+export type ToggleUsersInvitationRequestToGroupMutationVariables = Exact<{
+  acceptUser: Scalars['Boolean'];
+  userId: Scalars['String'];
+  groupId: Scalars['String'];
+}>;
 
-export type StMarketTopTableCryptoDataFragmentFragment = (
-  { __typename?: 'STMarketTopTableCryptoData' }
-  & Pick<StMarketTopTableCryptoData, 'circulatingSupply' | 'coinImageUrl' | 'currency' | 'fiftyTwoWeekHigh' | 'fiftyTwoWeekLow' | 'marketCap' | 'quoteType' | 'regularMarketChange' | 'regularMarketChangePercent' | 'regularMarketClosed' | 'regularMarketOpen' | 'regularMarketPrice' | 'regularMarketVolume' | 'shortName' | 'symbol' | 'volume24Hr' | 'volumeAllCurrencies'>
-);
+
+export type ToggleUsersInvitationRequestToGroupMutation = { __typename?: 'Mutation', toggleUsersInvitationRequestToGroup?: Maybe<{ __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }> };
+
+export type StMarketChartDataResultCombinedFragmentFragment = { __typename?: 'STMarketChartDataResultCombined', currentDate?: Maybe<string>, currentValue?: Maybe<number>, data?: Maybe<Array<Maybe<Array<Maybe<number>>>>>, documentKey?: Maybe<string>, name?: Maybe<string>, parentName?: Maybe<string>, lastUpdate?: Maybe<string> };
+
+export type StMarketTopTableCryptoDataFragmentFragment = { __typename?: 'STMarketTopTableCryptoData', circulatingSupply?: Maybe<number>, coinImageUrl?: Maybe<string>, currency?: Maybe<string>, fiftyTwoWeekHigh?: Maybe<number>, fiftyTwoWeekLow?: Maybe<number>, marketCap?: Maybe<number>, quoteType?: Maybe<string>, regularMarketChange?: Maybe<number>, regularMarketChangePercent?: Maybe<number>, regularMarketClosed?: Maybe<number>, regularMarketOpen?: Maybe<number>, regularMarketPrice?: Maybe<number>, regularMarketVolume?: Maybe<number>, shortName?: Maybe<string>, symbol?: Maybe<string>, volume24Hr?: Maybe<number>, volumeAllCurrencies?: Maybe<number> };
 
 export type QueryStMarketHistoryOverviewQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type QueryStMarketHistoryOverviewQuery = (
-  { __typename?: 'Query' }
-  & { querySTMarketHistoryOverview?: Maybe<(
-    { __typename?: 'STMarketOverviewPartialData' }
-    & Pick<StMarketOverviewPartialData, 'lastUpdate'>
-    & { sp500?: Maybe<Array<Maybe<(
-      { __typename?: 'STMarketChartDataResultCombined' }
-      & StMarketChartDataResultCombinedFragmentFragment
-    )>>>, bonds?: Maybe<Array<Maybe<(
-      { __typename?: 'STMarketChartDataResultCombined' }
-      & StMarketChartDataResultCombinedFragmentFragment
-    )>>>, inflation_rate?: Maybe<Array<Maybe<(
-      { __typename?: 'STMarketChartDataResultCombined' }
-      & StMarketChartDataResultCombinedFragmentFragment
-    )>>>, misery_index?: Maybe<Array<Maybe<(
-      { __typename?: 'STMarketChartDataResultCombined' }
-      & StMarketChartDataResultCombinedFragmentFragment
-    )>>>, treasury_yield?: Maybe<Array<Maybe<(
-      { __typename?: 'STMarketChartDataResultCombined' }
-      & StMarketChartDataResultCombinedFragmentFragment
-    )>>>, investor_sentiment?: Maybe<Array<Maybe<(
-      { __typename?: 'STMarketChartDataResultCombined' }
-      & StMarketChartDataResultCombinedFragmentFragment
-    )>>>, bitcoin?: Maybe<Array<Maybe<(
-      { __typename?: 'STMarketChartDataResultCombined' }
-      & StMarketChartDataResultCombinedFragmentFragment
-    )>>> }
-  )> }
-);
+export type QueryStMarketHistoryOverviewQuery = { __typename?: 'Query', querySTMarketHistoryOverview?: Maybe<{ __typename?: 'STMarketOverviewPartialData', lastUpdate?: Maybe<string>, sp500?: Maybe<Array<Maybe<{ __typename?: 'STMarketChartDataResultCombined', currentDate?: Maybe<string>, currentValue?: Maybe<number>, data?: Maybe<Array<Maybe<Array<Maybe<number>>>>>, documentKey?: Maybe<string>, name?: Maybe<string>, parentName?: Maybe<string>, lastUpdate?: Maybe<string> }>>>, bonds?: Maybe<Array<Maybe<{ __typename?: 'STMarketChartDataResultCombined', currentDate?: Maybe<string>, currentValue?: Maybe<number>, data?: Maybe<Array<Maybe<Array<Maybe<number>>>>>, documentKey?: Maybe<string>, name?: Maybe<string>, parentName?: Maybe<string>, lastUpdate?: Maybe<string> }>>>, inflation_rate?: Maybe<Array<Maybe<{ __typename?: 'STMarketChartDataResultCombined', currentDate?: Maybe<string>, currentValue?: Maybe<number>, data?: Maybe<Array<Maybe<Array<Maybe<number>>>>>, documentKey?: Maybe<string>, name?: Maybe<string>, parentName?: Maybe<string>, lastUpdate?: Maybe<string> }>>>, misery_index?: Maybe<Array<Maybe<{ __typename?: 'STMarketChartDataResultCombined', currentDate?: Maybe<string>, currentValue?: Maybe<number>, data?: Maybe<Array<Maybe<Array<Maybe<number>>>>>, documentKey?: Maybe<string>, name?: Maybe<string>, parentName?: Maybe<string>, lastUpdate?: Maybe<string> }>>>, treasury_yield?: Maybe<Array<Maybe<{ __typename?: 'STMarketChartDataResultCombined', currentDate?: Maybe<string>, currentValue?: Maybe<number>, data?: Maybe<Array<Maybe<Array<Maybe<number>>>>>, documentKey?: Maybe<string>, name?: Maybe<string>, parentName?: Maybe<string>, lastUpdate?: Maybe<string> }>>>, investor_sentiment?: Maybe<Array<Maybe<{ __typename?: 'STMarketChartDataResultCombined', currentDate?: Maybe<string>, currentValue?: Maybe<number>, data?: Maybe<Array<Maybe<Array<Maybe<number>>>>>, documentKey?: Maybe<string>, name?: Maybe<string>, parentName?: Maybe<string>, lastUpdate?: Maybe<string> }>>>, bitcoin?: Maybe<Array<Maybe<{ __typename?: 'STMarketChartDataResultCombined', currentDate?: Maybe<string>, currentValue?: Maybe<number>, data?: Maybe<Array<Maybe<Array<Maybe<number>>>>>, documentKey?: Maybe<string>, name?: Maybe<string>, parentName?: Maybe<string>, lastUpdate?: Maybe<string> }>>> }> };
 
 export type QuerySymbolHistoricalPricesQueryVariables = Exact<{
   symbol: Scalars['String'];
@@ -2226,333 +2004,84 @@ export type QuerySymbolHistoricalPricesQueryVariables = Exact<{
 }>;
 
 
-export type QuerySymbolHistoricalPricesQuery = (
-  { __typename?: 'Query' }
-  & { querySymbolHistoricalPrices?: Maybe<(
-    { __typename?: 'SymbolHistoricalPrices' }
-    & Pick<SymbolHistoricalPrices, 'livePrice' | 'symbol' | 'period' | 'price' | 'volume'>
-  )> }
-);
+export type QuerySymbolHistoricalPricesQuery = { __typename?: 'Query', querySymbolHistoricalPrices?: Maybe<{ __typename?: 'SymbolHistoricalPrices', livePrice?: Maybe<number>, symbol?: Maybe<string>, period?: Maybe<string>, price?: Maybe<Array<Maybe<Array<Maybe<number>>>>>, volume?: Maybe<Array<Maybe<Array<Maybe<number>>>>> }> };
 
 export type QueryMarketDailyOverviewQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type QueryMarketDailyOverviewQuery = (
-  { __typename?: 'Query' }
-  & { queryMarketDailyOverview?: Maybe<(
-    { __typename?: 'STMarketDailyOverview' }
-    & Pick<StMarketDailyOverview, 'id' | 'lastUpdate'>
-    & { dailyGainers?: Maybe<Array<Maybe<(
-      { __typename?: 'STFMCompanyQuote' }
-      & StfmCompanyQuoteFragmentFragment
-    )>>>, dailyLosers?: Maybe<Array<Maybe<(
-      { __typename?: 'STFMCompanyQuote' }
-      & StfmCompanyQuoteFragmentFragment
-    )>>>, mostActive?: Maybe<Array<Maybe<(
-      { __typename?: 'STFMCompanyQuote' }
-      & StfmCompanyQuoteFragmentFragment
-    )>>>, stockSuggestions?: Maybe<Array<Maybe<(
-      { __typename?: 'STStockSuggestion' }
-      & Pick<StStockSuggestion, 'historicalData'>
-      & { summary?: Maybe<(
-        { __typename?: 'Summary' }
-        & StockSummaryFragmentFragment
-      )> }
-    )>>>, topCrypto?: Maybe<Array<Maybe<(
-      { __typename?: 'STMarketTopTableCryptoData' }
-      & StMarketTopTableCryptoDataFragmentFragment
-    )>>>, news?: Maybe<Array<Maybe<(
-      { __typename?: 'STFMStockNew' }
-      & StfmStockNewFragmentFragment
-    )>>>, calendar?: Maybe<(
-      { __typename?: 'STMarketCalendar' }
-      & { calendarEconomic?: Maybe<Array<Maybe<(
-        { __typename?: 'STFMCalendarEconomic' }
-        & StfmCalendarEconomicFragmentFragment
-      )>>>, calendarDividend?: Maybe<Array<Maybe<(
-        { __typename?: 'STFMStockDividend' }
-        & StfmStockDividendFragmentFragment
-      )>>>, calendarSplit?: Maybe<Array<Maybe<(
-        { __typename?: 'STFMSplitHistory' }
-        & StfmSplitHistoryFragmentFragment
-      )>>>, calendarIpo?: Maybe<Array<Maybe<(
-        { __typename?: 'STFMCalendarIpo' }
-        & StfmCalendarIpoFragmentFragment
-      )>>>, calendarEarnings?: Maybe<Array<Maybe<(
-        { __typename?: 'STFMCalendarEarnings' }
-        & StfmCalendarEarningsFragmentFragment
-      )>>> }
-    )>, mutulaFunds?: Maybe<Array<Maybe<(
-      { __typename?: 'STFMCompanyQuote' }
-      & StfmCompanyQuoteFragmentFragment
-    )>>>, etfs?: Maybe<Array<Maybe<(
-      { __typename?: 'STFMCompanyQuote' }
-      & StfmCompanyQuoteFragmentFragment
-    )>>>, commodities?: Maybe<Array<Maybe<(
-      { __typename?: 'STFMCompanyQuote' }
-      & StfmCompanyQuoteFragmentFragment
-    )>>>, exchange?: Maybe<(
-      { __typename?: 'STMarketExchange' }
-      & Pick<StMarketExchange, 'id'>
-      & { exchangeIndustryPE?: Maybe<Array<Maybe<(
-        { __typename?: 'STFMExchangeIndustryPE' }
-        & StfmExchangeIndustryPeFragmentFragment
-      )>>>, exchangeSectorPE?: Maybe<Array<Maybe<(
-        { __typename?: 'STFMExchangeSectorPE' }
-        & StfmExchangeSectorPeFragmentFragment
-      )>>> }
-    )>, sectorPerformance?: Maybe<Array<Maybe<(
-      { __typename?: 'STFMSectorPerformance' }
-      & StfmSectorPerformanceFragmentFragment
-    )>>>, stockScreener?: Maybe<Array<Maybe<(
-      { __typename?: 'STFMStockScreenerResult' }
-      & Pick<StfmStockScreenerResult, 'symbol' | 'companyName' | 'marketCap' | 'sector' | 'industry' | 'beta' | 'price' | 'lastAnnualDividend' | 'volume' | 'exchange' | 'exchangeShortName' | 'country' | 'isEtf' | 'isActivelyTrading'>
-      & { companyQuote?: Maybe<(
-        { __typename?: 'STFMCompanyQuote' }
-        & StfmCompanyQuoteFragmentFragment
-      )> }
-    )>>> }
-  )> }
-);
+export type QueryMarketDailyOverviewQuery = { __typename?: 'Query', queryMarketDailyOverview?: Maybe<{ __typename?: 'STMarketDailyOverview', id?: Maybe<string>, lastUpdate?: Maybe<string>, dailyGainers?: Maybe<Array<Maybe<{ __typename?: 'STFMCompanyQuote', avgVolume?: Maybe<number>, change?: Maybe<number>, changesPercentage?: Maybe<number>, dayHigh?: Maybe<number>, dayLow?: Maybe<number>, earningsAnnouncement?: Maybe<string>, eps?: Maybe<number>, exchange?: Maybe<string>, marketCap?: Maybe<number>, name?: Maybe<string>, open?: Maybe<number>, pe?: Maybe<number>, previousClose?: Maybe<number>, price?: Maybe<number>, priceAvg200?: Maybe<number>, priceAvg50?: Maybe<number>, sharesOutstanding?: Maybe<number>, symbol?: Maybe<string>, timestamp?: Maybe<number>, volume?: Maybe<number>, yearHigh?: Maybe<number>, yearLow?: Maybe<number>, image?: Maybe<string> }>>>, dailyLosers?: Maybe<Array<Maybe<{ __typename?: 'STFMCompanyQuote', avgVolume?: Maybe<number>, change?: Maybe<number>, changesPercentage?: Maybe<number>, dayHigh?: Maybe<number>, dayLow?: Maybe<number>, earningsAnnouncement?: Maybe<string>, eps?: Maybe<number>, exchange?: Maybe<string>, marketCap?: Maybe<number>, name?: Maybe<string>, open?: Maybe<number>, pe?: Maybe<number>, previousClose?: Maybe<number>, price?: Maybe<number>, priceAvg200?: Maybe<number>, priceAvg50?: Maybe<number>, sharesOutstanding?: Maybe<number>, symbol?: Maybe<string>, timestamp?: Maybe<number>, volume?: Maybe<number>, yearHigh?: Maybe<number>, yearLow?: Maybe<number>, image?: Maybe<string> }>>>, mostActive?: Maybe<Array<Maybe<{ __typename?: 'STFMCompanyQuote', avgVolume?: Maybe<number>, change?: Maybe<number>, changesPercentage?: Maybe<number>, dayHigh?: Maybe<number>, dayLow?: Maybe<number>, earningsAnnouncement?: Maybe<string>, eps?: Maybe<number>, exchange?: Maybe<string>, marketCap?: Maybe<number>, name?: Maybe<string>, open?: Maybe<number>, pe?: Maybe<number>, previousClose?: Maybe<number>, price?: Maybe<number>, priceAvg200?: Maybe<number>, priceAvg50?: Maybe<number>, sharesOutstanding?: Maybe<number>, symbol?: Maybe<string>, timestamp?: Maybe<number>, volume?: Maybe<number>, yearHigh?: Maybe<number>, yearLow?: Maybe<number>, image?: Maybe<string> }>>>, stockSuggestions?: Maybe<Array<Maybe<{ __typename?: 'STStockSuggestion', historicalData?: Maybe<Array<Maybe<number>>>, summary?: Maybe<{ __typename?: 'Summary', avgVolume?: Maybe<number>, ceo?: Maybe<string>, companyName?: Maybe<string>, currency?: Maybe<string>, dividendDate?: Maybe<number>, ePSTTM?: Maybe<number>, earningsDate?: Maybe<number>, exDividendDate?: Maybe<number>, exchangeName?: Maybe<string>, fiveTwoWeekRange?: Maybe<string>, forwardDividendRate?: Maybe<number>, forwardDividendYield?: Maybe<number>, forwardEPS?: Maybe<number>, forwardPE?: Maybe<number>, fullTimeEmployees?: Maybe<string>, id?: Maybe<string>, industry?: Maybe<string>, ipoDate?: Maybe<string>, lastSplitDate?: Maybe<number>, lastSplitFactor?: Maybe<string>, logo_url?: Maybe<string>, longBusinessSummary?: Maybe<string>, marketCap?: Maybe<number>, marketPrice?: Maybe<number>, oneyTargetEst?: Maybe<number>, pERatioTTM?: Maybe<number>, previousClose?: Maybe<number>, recommendationKey?: Maybe<string>, recommendationMean?: Maybe<number>, sandPFiveTwoWeekChange?: Maybe<number>, sector?: Maybe<string>, sharesOutstanding?: Maybe<number>, shortRatio?: Maybe<number>, symbol?: Maybe<string>, targetEstOneyPercent?: Maybe<number>, volume?: Maybe<number>, website?: Maybe<string>, weekRangeFiveTwoMax?: Maybe<number>, weekRangeFiveTwoMin?: Maybe<number>, yearToDatePrice?: Maybe<number>, yearToDatePriceReturn?: Maybe<number>, residance?: Maybe<{ __typename?: 'SummaryResidance', city?: Maybe<string>, state?: Maybe<string>, country?: Maybe<string>, addressOne?: Maybe<string>, zip?: Maybe<string> }> }> }>>>, topCrypto?: Maybe<Array<Maybe<{ __typename?: 'STMarketTopTableCryptoData', circulatingSupply?: Maybe<number>, coinImageUrl?: Maybe<string>, currency?: Maybe<string>, fiftyTwoWeekHigh?: Maybe<number>, fiftyTwoWeekLow?: Maybe<number>, marketCap?: Maybe<number>, quoteType?: Maybe<string>, regularMarketChange?: Maybe<number>, regularMarketChangePercent?: Maybe<number>, regularMarketClosed?: Maybe<number>, regularMarketOpen?: Maybe<number>, regularMarketPrice?: Maybe<number>, regularMarketVolume?: Maybe<number>, shortName?: Maybe<string>, symbol?: Maybe<string>, volume24Hr?: Maybe<number>, volumeAllCurrencies?: Maybe<number> }>>>, news?: Maybe<Array<Maybe<{ __typename?: 'STFMStockNew', image?: Maybe<string>, publishedDate?: Maybe<string>, site?: Maybe<string>, symbol?: Maybe<string>, text?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>>, calendar?: Maybe<{ __typename?: 'STMarketCalendar', calendarEconomic?: Maybe<Array<Maybe<{ __typename?: 'STFMCalendarEconomic', event?: Maybe<string>, date?: Maybe<string>, country?: Maybe<string>, actual?: Maybe<number>, previous?: Maybe<number>, change?: Maybe<number>, changePercentage?: Maybe<number>, estimate?: Maybe<number> }>>>, calendarDividend?: Maybe<Array<Maybe<{ __typename?: 'STFMStockDividend', adjDividend?: Maybe<number>, date?: Maybe<string>, declarationDate?: Maybe<string>, dividend?: Maybe<number>, label?: Maybe<string>, paymentDate?: Maybe<string>, recordDate?: Maybe<string>, symbol?: Maybe<string> }>>>, calendarSplit?: Maybe<Array<Maybe<{ __typename?: 'STFMSplitHistory', date?: Maybe<string>, denominator?: Maybe<number>, label?: Maybe<string>, numerator?: Maybe<number>, symbol?: Maybe<string> }>>>, calendarIpo?: Maybe<Array<Maybe<{ __typename?: 'STFMCalendarIpo', date?: Maybe<string>, company?: Maybe<string>, symbol?: Maybe<string>, exchange?: Maybe<string>, actions?: Maybe<string>, shares?: Maybe<number>, priceRange?: Maybe<string>, marketCap?: Maybe<number> }>>>, calendarEarnings?: Maybe<Array<Maybe<{ __typename?: 'STFMCalendarEarnings', date?: Maybe<string>, symbol?: Maybe<string>, eps?: Maybe<number>, epsEstimated?: Maybe<number>, time?: Maybe<string>, revenue?: Maybe<number>, revenueEstimated?: Maybe<number> }>>> }>, mutulaFunds?: Maybe<Array<Maybe<{ __typename?: 'STFMCompanyQuote', avgVolume?: Maybe<number>, change?: Maybe<number>, changesPercentage?: Maybe<number>, dayHigh?: Maybe<number>, dayLow?: Maybe<number>, earningsAnnouncement?: Maybe<string>, eps?: Maybe<number>, exchange?: Maybe<string>, marketCap?: Maybe<number>, name?: Maybe<string>, open?: Maybe<number>, pe?: Maybe<number>, previousClose?: Maybe<number>, price?: Maybe<number>, priceAvg200?: Maybe<number>, priceAvg50?: Maybe<number>, sharesOutstanding?: Maybe<number>, symbol?: Maybe<string>, timestamp?: Maybe<number>, volume?: Maybe<number>, yearHigh?: Maybe<number>, yearLow?: Maybe<number>, image?: Maybe<string> }>>>, etfs?: Maybe<Array<Maybe<{ __typename?: 'STFMCompanyQuote', avgVolume?: Maybe<number>, change?: Maybe<number>, changesPercentage?: Maybe<number>, dayHigh?: Maybe<number>, dayLow?: Maybe<number>, earningsAnnouncement?: Maybe<string>, eps?: Maybe<number>, exchange?: Maybe<string>, marketCap?: Maybe<number>, name?: Maybe<string>, open?: Maybe<number>, pe?: Maybe<number>, previousClose?: Maybe<number>, price?: Maybe<number>, priceAvg200?: Maybe<number>, priceAvg50?: Maybe<number>, sharesOutstanding?: Maybe<number>, symbol?: Maybe<string>, timestamp?: Maybe<number>, volume?: Maybe<number>, yearHigh?: Maybe<number>, yearLow?: Maybe<number>, image?: Maybe<string> }>>>, commodities?: Maybe<Array<Maybe<{ __typename?: 'STFMCompanyQuote', avgVolume?: Maybe<number>, change?: Maybe<number>, changesPercentage?: Maybe<number>, dayHigh?: Maybe<number>, dayLow?: Maybe<number>, earningsAnnouncement?: Maybe<string>, eps?: Maybe<number>, exchange?: Maybe<string>, marketCap?: Maybe<number>, name?: Maybe<string>, open?: Maybe<number>, pe?: Maybe<number>, previousClose?: Maybe<number>, price?: Maybe<number>, priceAvg200?: Maybe<number>, priceAvg50?: Maybe<number>, sharesOutstanding?: Maybe<number>, symbol?: Maybe<string>, timestamp?: Maybe<number>, volume?: Maybe<number>, yearHigh?: Maybe<number>, yearLow?: Maybe<number>, image?: Maybe<string> }>>>, exchange?: Maybe<{ __typename?: 'STMarketExchange', id?: Maybe<string>, exchangeIndustryPE?: Maybe<Array<Maybe<{ __typename?: 'STFMExchangeIndustryPE', date?: Maybe<string>, industry?: Maybe<string>, exchange?: Maybe<string>, pe?: Maybe<number> }>>>, exchangeSectorPE?: Maybe<Array<Maybe<{ __typename?: 'STFMExchangeSectorPE', date?: Maybe<string>, sector?: Maybe<string>, exchange?: Maybe<string>, pe?: Maybe<number> }>>> }>, sectorPerformance?: Maybe<Array<Maybe<{ __typename?: 'STFMSectorPerformance', sector?: Maybe<string>, changesPercentage?: Maybe<string> }>>>, stockScreener?: Maybe<Array<Maybe<{ __typename?: 'STFMStockScreenerResult', symbol?: Maybe<string>, companyName?: Maybe<string>, marketCap?: Maybe<number>, sector?: Maybe<string>, industry?: Maybe<string>, beta?: Maybe<number>, price?: Maybe<number>, lastAnnualDividend?: Maybe<number>, volume?: Maybe<number>, exchange?: Maybe<string>, exchangeShortName?: Maybe<string>, country?: Maybe<string>, isEtf?: Maybe<boolean>, isActivelyTrading?: Maybe<boolean>, companyQuote?: Maybe<{ __typename?: 'STFMCompanyQuote', avgVolume?: Maybe<number>, change?: Maybe<number>, changesPercentage?: Maybe<number>, dayHigh?: Maybe<number>, dayLow?: Maybe<number>, earningsAnnouncement?: Maybe<string>, eps?: Maybe<number>, exchange?: Maybe<string>, marketCap?: Maybe<number>, name?: Maybe<string>, open?: Maybe<number>, pe?: Maybe<number>, previousClose?: Maybe<number>, price?: Maybe<number>, priceAvg200?: Maybe<number>, priceAvg50?: Maybe<number>, sharesOutstanding?: Maybe<number>, symbol?: Maybe<string>, timestamp?: Maybe<number>, volume?: Maybe<number>, yearHigh?: Maybe<number>, yearLow?: Maybe<number>, image?: Maybe<string> }> }>>> }> };
 
 export type QueryEtfDocumentQueryVariables = Exact<{
   etfName: Scalars['String'];
 }>;
 
 
-export type QueryEtfDocumentQuery = (
-  { __typename?: 'Query' }
-  & { queryEtfDocument?: Maybe<(
-    { __typename?: 'STMarketEtfDocument' }
-    & Pick<StMarketEtfDocument, 'id' | 'lastUpdate'>
-    & { etfHolders?: Maybe<Array<Maybe<(
-      { __typename?: 'STFMEtfHolder' }
-      & StfmEtfHolderFragmentFragment
-    )>>>, etfSectorWeight?: Maybe<Array<Maybe<(
-      { __typename?: 'STFMEtfSectorWeight' }
-      & StfmEtfSectorWeightFragmentFragment
-    )>>>, etfCountryWeight?: Maybe<Array<Maybe<(
-      { __typename?: 'STFMEtfCountryWeight' }
-      & StfmEtfCountryWeightFragmentFragment
-    )>>> }
-  )> }
-);
+export type QueryEtfDocumentQuery = { __typename?: 'Query', queryEtfDocument?: Maybe<{ __typename?: 'STMarketEtfDocument', id?: Maybe<string>, lastUpdate?: Maybe<string>, etfHolders?: Maybe<Array<Maybe<{ __typename?: 'STFMEtfHolder', asset?: Maybe<string>, sharesNumber?: Maybe<number>, weightPercentage?: Maybe<number> }>>>, etfSectorWeight?: Maybe<Array<Maybe<{ __typename?: 'STFMEtfSectorWeight', sector?: Maybe<string>, weightPercentage?: Maybe<string> }>>>, etfCountryWeight?: Maybe<Array<Maybe<{ __typename?: 'STFMEtfCountryWeight', country?: Maybe<string>, weightPercentage?: Maybe<string> }>>> }> };
 
 export type QueryStMarketAllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type QueryStMarketAllCategoriesQuery = (
-  { __typename?: 'Query' }
-  & { queryStMarketAllCategories?: Maybe<(
-    { __typename?: 'STMarketDatasetKeyCategories' }
-    & { categories: Array<Maybe<(
-      { __typename?: 'STMarketDatasetKeyCategory' }
-      & Pick<StMarketDatasetKeyCategory, 'name'>
-      & { data: Array<Maybe<(
-        { __typename?: 'STMarketDatasetKey' }
-        & Pick<StMarketDatasetKey, 'documentKey' | 'name'>
-      )>> }
-    )>> }
-  )> }
-);
+export type QueryStMarketAllCategoriesQuery = { __typename?: 'Query', queryStMarketAllCategories?: Maybe<{ __typename?: 'STMarketDatasetKeyCategories', categories: Array<Maybe<{ __typename?: 'STMarketDatasetKeyCategory', name: string, data: Array<Maybe<{ __typename?: 'STMarketDatasetKey', documentKey: string, name: string }>> }>> }> };
 
 export type QueryStMarketDataQueryVariables = Exact<{
   key: Scalars['String'];
 }>;
 
 
-export type QueryStMarketDataQuery = (
-  { __typename?: 'Query' }
-  & { queryStMarketData?: Maybe<(
-    { __typename?: 'STMarketChartDataResultCombined' }
-    & StMarketChartDataResultCombinedFragmentFragment
-  )> }
-);
+export type QueryStMarketDataQuery = { __typename?: 'Query', queryStMarketData?: Maybe<{ __typename?: 'STMarketChartDataResultCombined', currentDate?: Maybe<string>, currentValue?: Maybe<number>, data?: Maybe<Array<Maybe<Array<Maybe<number>>>>>, documentKey?: Maybe<string>, name?: Maybe<string>, parentName?: Maybe<string>, lastUpdate?: Maybe<string> }> };
 
 export type QueryStockScreenerQueryVariables = Exact<{
   stockScreenerInput: StfmStockScreenerInput;
 }>;
 
 
-export type QueryStockScreenerQuery = (
-  { __typename?: 'Query' }
-  & { queryStockScreener?: Maybe<Array<Maybe<(
-    { __typename?: 'STFMStockScreenerResult' }
-    & Pick<StfmStockScreenerResult, 'symbol' | 'companyName' | 'marketCap' | 'sector' | 'industry' | 'beta' | 'price' | 'lastAnnualDividend' | 'volume' | 'exchange' | 'exchangeShortName' | 'country' | 'isEtf' | 'isActivelyTrading'>
-    & { companyQuote?: Maybe<(
-      { __typename?: 'STFMCompanyQuote' }
-      & StfmCompanyQuoteFragmentFragment
-    )> }
-  )>>> }
-);
+export type QueryStockScreenerQuery = { __typename?: 'Query', queryStockScreener?: Maybe<Array<Maybe<{ __typename?: 'STFMStockScreenerResult', symbol?: Maybe<string>, companyName?: Maybe<string>, marketCap?: Maybe<number>, sector?: Maybe<string>, industry?: Maybe<string>, beta?: Maybe<number>, price?: Maybe<number>, lastAnnualDividend?: Maybe<number>, volume?: Maybe<number>, exchange?: Maybe<string>, exchangeShortName?: Maybe<string>, country?: Maybe<string>, isEtf?: Maybe<boolean>, isActivelyTrading?: Maybe<boolean>, companyQuote?: Maybe<{ __typename?: 'STFMCompanyQuote', avgVolume?: Maybe<number>, change?: Maybe<number>, changesPercentage?: Maybe<number>, dayHigh?: Maybe<number>, dayLow?: Maybe<number>, earningsAnnouncement?: Maybe<string>, eps?: Maybe<number>, exchange?: Maybe<string>, marketCap?: Maybe<number>, name?: Maybe<string>, open?: Maybe<number>, pe?: Maybe<number>, previousClose?: Maybe<number>, price?: Maybe<number>, priceAvg200?: Maybe<number>, priceAvg50?: Maybe<number>, sharesOutstanding?: Maybe<number>, symbol?: Maybe<string>, timestamp?: Maybe<number>, volume?: Maybe<number>, yearHigh?: Maybe<number>, yearLow?: Maybe<number>, image?: Maybe<string> }> }>>> };
 
-export type StPortfolioFragmentFragment = (
-  { __typename?: 'STPortfolio' }
-  & Pick<StPortfolio, 'portfolioInvested' | 'portfolioCash'>
-);
+export type StPortfolioFragmentFragment = { __typename?: 'STPortfolio', portfolioInvested: number, portfolioCash: number };
 
-export type StPortfolioSnapshotFragmentFragment = (
-  { __typename?: 'STPortfolioSnapshot' }
-  & Pick<StPortfolioSnapshot, 'portfolioInvested' | 'portfolioCash' | 'date'>
-);
+export type StPortfolioSnapshotFragmentFragment = { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string };
 
-export type StRankFragmentFragment = (
-  { __typename?: 'STRank' }
-  & Pick<StRank, 'rankGainers' | 'rankLosers' | 'rankPortfolio' | 'rankProfit' | 'rankNumberOfTrades' | 'date'>
-);
+export type StPortfolioWrapperFragmentFragment = { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> };
 
-export type StLogsFragmentFragment = (
-  { __typename?: 'STLog' }
-  & Pick<StLog, 'date' | 'logText'>
-);
+export type StRankFragmentFragment = { __typename?: 'STRank', rankGainers: number, rankLosers: number, rankPortfolio: number, rankProfit: number, rankNumberOfTrades: number, date: string };
 
-export type SummaryResidanceFragmentFragment = (
-  { __typename?: 'SummaryResidance' }
-  & Pick<SummaryResidance, 'city' | 'state' | 'country' | 'addressOne' | 'zip'>
-);
+export type StLogsFragmentFragment = { __typename?: 'STLog', date: string, logText: string };
 
-export type StockSummaryFragmentFragment = (
-  { __typename?: 'Summary' }
-  & Pick<Summary, 'avgVolume' | 'ceo' | 'companyName' | 'currency' | 'dividendDate' | 'ePSTTM' | 'earningsDate' | 'exDividendDate' | 'exchangeName' | 'fiveTwoWeekRange' | 'forwardDividendRate' | 'forwardDividendYield' | 'forwardEPS' | 'forwardPE' | 'fullTimeEmployees' | 'id' | 'industry' | 'ipoDate' | 'lastSplitDate' | 'lastSplitFactor' | 'logo_url' | 'longBusinessSummary' | 'marketCap' | 'marketPrice' | 'oneyTargetEst' | 'pERatioTTM' | 'previousClose' | 'recommendationKey' | 'recommendationMean' | 'sandPFiveTwoWeekChange' | 'sector' | 'sharesOutstanding' | 'shortRatio' | 'symbol' | 'targetEstOneyPercent' | 'volume' | 'website' | 'weekRangeFiveTwoMax' | 'weekRangeFiveTwoMin' | 'yearToDatePrice' | 'yearToDatePriceReturn'>
-  & { residance?: Maybe<(
-    { __typename?: 'SummaryResidance' }
-    & SummaryResidanceFragmentFragment
-  )> }
-);
+export type SummaryResidanceFragmentFragment = { __typename?: 'SummaryResidance', city?: Maybe<string>, state?: Maybe<string>, country?: Maybe<string>, addressOne?: Maybe<string>, zip?: Maybe<string> };
 
-export type FinancialReportStatementDataFragmentFragment = (
-  { __typename?: 'FinancialReportStatementData' }
-  & Pick<FinancialReportStatementData, 'concept' | 'label' | 'unit' | 'value'>
-);
+export type StockSummaryFragmentFragment = { __typename?: 'Summary', avgVolume?: Maybe<number>, ceo?: Maybe<string>, companyName?: Maybe<string>, currency?: Maybe<string>, dividendDate?: Maybe<number>, ePSTTM?: Maybe<number>, earningsDate?: Maybe<number>, exDividendDate?: Maybe<number>, exchangeName?: Maybe<string>, fiveTwoWeekRange?: Maybe<string>, forwardDividendRate?: Maybe<number>, forwardDividendYield?: Maybe<number>, forwardEPS?: Maybe<number>, forwardPE?: Maybe<number>, fullTimeEmployees?: Maybe<string>, id?: Maybe<string>, industry?: Maybe<string>, ipoDate?: Maybe<string>, lastSplitDate?: Maybe<number>, lastSplitFactor?: Maybe<string>, logo_url?: Maybe<string>, longBusinessSummary?: Maybe<string>, marketCap?: Maybe<number>, marketPrice?: Maybe<number>, oneyTargetEst?: Maybe<number>, pERatioTTM?: Maybe<number>, previousClose?: Maybe<number>, recommendationKey?: Maybe<string>, recommendationMean?: Maybe<number>, sandPFiveTwoWeekChange?: Maybe<number>, sector?: Maybe<string>, sharesOutstanding?: Maybe<number>, shortRatio?: Maybe<number>, symbol?: Maybe<string>, targetEstOneyPercent?: Maybe<number>, volume?: Maybe<number>, website?: Maybe<string>, weekRangeFiveTwoMax?: Maybe<number>, weekRangeFiveTwoMin?: Maybe<number>, yearToDatePrice?: Maybe<number>, yearToDatePriceReturn?: Maybe<number>, residance?: Maybe<{ __typename?: 'SummaryResidance', city?: Maybe<string>, state?: Maybe<string>, country?: Maybe<string>, addressOne?: Maybe<string>, zip?: Maybe<string> }> };
 
-export type FinancialReportFragmentFragment = (
-  { __typename?: 'FinancialReport' }
-  & Pick<FinancialReport, 'acceptedDate' | 'accessNumber' | 'cik' | 'endDate' | 'filedDate' | 'form' | 'quarter' | 'startDate' | 'symbol' | 'year'>
-  & { report?: Maybe<(
-    { __typename?: 'FinancialReportStatement' }
-    & { bs?: Maybe<Array<Maybe<(
-      { __typename?: 'FinancialReportStatementData' }
-      & FinancialReportStatementDataFragmentFragment
-    )>>>, cf?: Maybe<Array<Maybe<(
-      { __typename?: 'FinancialReportStatementData' }
-      & FinancialReportStatementDataFragmentFragment
-    )>>>, ic?: Maybe<Array<Maybe<(
-      { __typename?: 'FinancialReportStatementData' }
-      & FinancialReportStatementDataFragmentFragment
-    )>>> }
-  )> }
-);
+export type FinancialReportStatementDataFragmentFragment = { __typename?: 'FinancialReportStatementData', concept?: Maybe<string>, label?: Maybe<string>, unit?: Maybe<string>, value?: Maybe<number> };
 
-export type RecommendationFragmentFragment = (
-  { __typename?: 'Recommendations' }
-  & Pick<Recommendations, 'buy' | 'hold' | 'period' | 'sell' | 'strongBuy' | 'strongSell' | 'symbol'>
-);
+export type FinancialReportFragmentFragment = { __typename?: 'FinancialReport', acceptedDate?: Maybe<string>, accessNumber?: Maybe<string>, cik?: Maybe<string>, endDate?: Maybe<string>, filedDate?: Maybe<string>, form?: Maybe<string>, quarter?: Maybe<number>, startDate?: Maybe<string>, symbol?: Maybe<string>, year?: Maybe<number>, report?: Maybe<{ __typename?: 'FinancialReportStatement', bs?: Maybe<Array<Maybe<{ __typename?: 'FinancialReportStatementData', concept?: Maybe<string>, label?: Maybe<string>, unit?: Maybe<string>, value?: Maybe<number> }>>>, cf?: Maybe<Array<Maybe<{ __typename?: 'FinancialReportStatementData', concept?: Maybe<string>, label?: Maybe<string>, unit?: Maybe<string>, value?: Maybe<number> }>>>, ic?: Maybe<Array<Maybe<{ __typename?: 'FinancialReportStatementData', concept?: Maybe<string>, label?: Maybe<string>, unit?: Maybe<string>, value?: Maybe<number> }>>> }> };
 
-export type NewsArticleFragmentFragment = (
-  { __typename?: 'NewsArticle' }
-  & Pick<NewsArticle, 'datetime' | 'headline' | 'image' | 'sourceName' | 'summary' | 'url'>
-);
+export type RecommendationFragmentFragment = { __typename?: 'Recommendations', buy?: Maybe<number>, hold?: Maybe<number>, period?: Maybe<string>, sell?: Maybe<number>, strongBuy?: Maybe<number>, strongSell?: Maybe<number>, symbol?: Maybe<string> };
 
-export type CalculationFragmentFragment = (
-  { __typename?: 'Calculation' }
-  & Pick<Calculation, 'avg' | 'max' | 'min'>
-);
+export type NewsArticleFragmentFragment = { __typename?: 'NewsArticle', datetime?: Maybe<number>, headline?: Maybe<string>, image?: Maybe<string>, sourceName?: Maybe<string>, summary?: Maybe<string>, url?: Maybe<string> };
 
-export type EsgScoreFragmentFragment = (
-  { __typename?: 'EsgScores' }
-  & Pick<EsgScores, 'totalEsg' | 'environmentScore' | 'governanceScore' | 'highestControversy' | 'esgPerformance' | 'socialScore' | 'peerCount' | 'percentile' | 'peerGroup' | 'relatedControversy'>
-  & { peerEnvironmentPerformance?: Maybe<(
-    { __typename?: 'Calculation' }
-    & CalculationFragmentFragment
-  )>, peerEsgScorePerformance?: Maybe<(
-    { __typename?: 'Calculation' }
-    & CalculationFragmentFragment
-  )>, peerGovernancePerformance?: Maybe<(
-    { __typename?: 'Calculation' }
-    & CalculationFragmentFragment
-  )>, peerHighestControversyPerformance?: Maybe<(
-    { __typename?: 'Calculation' }
-    & CalculationFragmentFragment
-  )>, peerSocialPerformance?: Maybe<(
-    { __typename?: 'Calculation' }
-    & CalculationFragmentFragment
-  )> }
-);
+export type CalculationFragmentFragment = { __typename?: 'Calculation', avg?: Maybe<number>, max?: Maybe<number>, min?: Maybe<number> };
 
-export type DefaultKeyStatisticsFragmentFragment = (
-  { __typename?: 'DefaultKeyStatistics' }
-  & Pick<DefaultKeyStatistics, 'bookValue' | 'dateShortInterest' | 'earningsQuarterlyGrowth' | 'enterpriseToEbitda' | 'enterpriseToRevenue' | 'enterpriseValue' | 'fiveYearAverageReturn' | 'floatShares' | 'forwardEps' | 'forwardPE' | 'heldPercentInsiders' | 'heldPercentInstitutions' | 'lastFiscalYearEnd' | 'lastSplitDate' | 'lastSplitFactor' | 'mostRecentQuarter' | 'netIncomeToCommon' | 'nextFiscalYearEnd' | 'pegRatio' | 'priceHint' | 'priceToBook' | 'profitMargins' | 'sharesOutstanding' | 'sharesPercentSharesOut' | 'sharesShort' | 'sharesShortPreviousMonthDate' | 'sharesShortPriorMonth' | 'shortPercentOfFloat' | 'shortRatio' | 'trailingEps'>
-);
+export type EsgScoreFragmentFragment = { __typename?: 'EsgScores', totalEsg?: Maybe<number>, environmentScore?: Maybe<number>, governanceScore?: Maybe<number>, highestControversy?: Maybe<number>, esgPerformance?: Maybe<string>, socialScore?: Maybe<number>, peerCount?: Maybe<number>, percentile?: Maybe<number>, peerGroup?: Maybe<string>, relatedControversy?: Maybe<Array<Maybe<string>>>, peerEnvironmentPerformance?: Maybe<{ __typename?: 'Calculation', avg?: Maybe<number>, max?: Maybe<number>, min?: Maybe<number> }>, peerEsgScorePerformance?: Maybe<{ __typename?: 'Calculation', avg?: Maybe<number>, max?: Maybe<number>, min?: Maybe<number> }>, peerGovernancePerformance?: Maybe<{ __typename?: 'Calculation', avg?: Maybe<number>, max?: Maybe<number>, min?: Maybe<number> }>, peerHighestControversyPerformance?: Maybe<{ __typename?: 'Calculation', avg?: Maybe<number>, max?: Maybe<number>, min?: Maybe<number> }>, peerSocialPerformance?: Maybe<{ __typename?: 'Calculation', avg?: Maybe<number>, max?: Maybe<number>, min?: Maybe<number> }> };
 
-export type FinancialDataFragmentFragment = (
-  { __typename?: 'FinancialData' }
-  & Pick<FinancialData, 'currentPrice' | 'currentRatio' | 'debtToEquity' | 'earningsGrowth' | 'ebitda' | 'ebitdaMargins' | 'financialCurrency' | 'freeCashflow' | 'grossMargins' | 'grossProfits' | 'numberOfAnalystOpinions' | 'operatingCashflow' | 'operatingMargins' | 'profitMargins' | 'quickRatio' | 'recommendationKey' | 'recommendationMean' | 'returnOnAssets' | 'returnOnEquity' | 'revenueGrowth' | 'revenuePerShare' | 'targetHighPrice' | 'targetLowPrice' | 'targetMeanPrice' | 'targetMedianPrice' | 'totalCash' | 'totalCashPerShare' | 'totalDebt' | 'totalRevenue'>
-);
+export type DefaultKeyStatisticsFragmentFragment = { __typename?: 'DefaultKeyStatistics', bookValue?: Maybe<number>, dateShortInterest?: Maybe<number>, earningsQuarterlyGrowth?: Maybe<number>, enterpriseToEbitda?: Maybe<number>, enterpriseToRevenue?: Maybe<number>, enterpriseValue?: Maybe<number>, fiveYearAverageReturn?: Maybe<number>, floatShares?: Maybe<number>, forwardEps?: Maybe<number>, forwardPE?: Maybe<number>, heldPercentInsiders?: Maybe<number>, heldPercentInstitutions?: Maybe<number>, lastFiscalYearEnd?: Maybe<number>, lastSplitDate?: Maybe<number>, lastSplitFactor?: Maybe<string>, mostRecentQuarter?: Maybe<number>, netIncomeToCommon?: Maybe<number>, nextFiscalYearEnd?: Maybe<number>, pegRatio?: Maybe<number>, priceHint?: Maybe<number>, priceToBook?: Maybe<number>, profitMargins?: Maybe<number>, sharesOutstanding?: Maybe<number>, sharesPercentSharesOut?: Maybe<number>, sharesShort?: Maybe<number>, sharesShortPreviousMonthDate?: Maybe<number>, sharesShortPriorMonth?: Maybe<number>, shortPercentOfFloat?: Maybe<number>, shortRatio?: Maybe<number>, trailingEps?: Maybe<number> };
 
-export type MetricFragmentFragment = (
-  { __typename?: 'Metric' }
-  & Pick<Metric, 'fiveDayPriceReturnDaily' | 'fiveTwoWeekHigh' | 'fiveTwoWeekHighDate' | 'fiveTwoWeekLow' | 'fiveTwoWeekLowDate' | 'fiveTwoWeekPriceReturnDaily' | 'oneDayAverageTradingVolume' | 'oneThreeWeekPriceReturnDaily' | 'threeMonthAverageTradingVolume' | 'twoSixWeekPriceReturnDaily' | 'assetTurnoverAnnual' | 'assetTurnoverTTM' | 'beta' | 'bookValuePerShareAnnual' | 'bookValuePerShareQuarterly' | 'bookValueShareGrowthFiveY' | 'capitalSpendingGrowthFiveY' | 'cashFlowPerShareAnnual' | 'cashFlowPerShareTTM' | 'cashPerSharePerShareAnnual' | 'cashPerSharePerShareQuarterly' | 'currentEvfreeCashFlowAnnual' | 'currentEvfreeCashFlowTTM' | 'currentRatioAnnual' | 'currentRatioQuarterly' | 'ebitdPerShareTTM' | 'ebitdaCagrFiveY' | 'ebitdaInterimCagrFiveY' | 'epsBasicExclExtraItemsAnnual' | 'epsBasicExclExtraItemsTTM' | 'epsExclExtraItemsAnnual' | 'epsExclExtraItemsTTM' | 'epsGrowthFiveY' | 'epsGrowthQuarterlyYoy' | 'epsGrowthTTMYoy' | 'epsGrowthThreeY' | 'epsInclExtraItemsAnnual' | 'epsInclExtraItemsTTM' | 'epsNormalizedAnnual' | 'focfCagrFiveY' | 'freeCashFlowAnnual' | 'freeCashFlowPerShareTTM' | 'freeCashFlowTTM' | 'freeOperatingCashFlowrevenueFiveY' | 'freeOperatingCashFlowrevenueTTM' | 'grossMarginAnnual' | 'grossMarginFiveY' | 'grossMarginTTM' | 'inventoryTurnoverAnnual' | 'inventoryTurnoverTTM' | 'longTermDebtequityAnnual' | 'longTermDebtequityQuarterly' | 'marketCapitalization' | 'monthToDatePriceReturnDaily' | 'netDebtAnnual' | 'netDebtInterim' | 'netIncomeEmployeeAnnual' | 'netIncomeEmployeeTTM' | 'netInterestCoverageAnnual' | 'netInterestCoverageTTM' | 'netMarginGrowthFiveY' | 'netProfitMarginAnnual' | 'netProfitMarginFiveY' | 'netProfitMarginTTM' | 'operatingMarginAnnual' | 'operatingMarginFiveY' | 'operatingMarginTTM' | 'payoutRatioAnnual' | 'payoutRatioTTM' | 'pbAnnual' | 'pbQuarterly' | 'pcfShareTTM' | 'peBasicExclExtraTTM' | 'peExclExtraAnnual' | 'peExclExtraHighTTM' | 'peExclExtraTTM' | 'peExclLowTTM' | 'peInclExtraTTM' | 'peNormalizedAnnual' | 'pfcfShareAnnual' | 'pfcfShareTTM' | 'pretaxMarginAnnual' | 'pretaxMarginFiveY' | 'pretaxMarginTTM' | 'priceRelativeToSPFiveFiveTwoWeek' | 'priceRelativeToSPFiveFourWeek' | 'priceRelativeToSPFiveOneThreeWeek' | 'priceRelativeToSPFiveTwoSixWeek' | 'priceRelativeToSPFiveYtd' | 'psAnnual' | 'psTTM' | 'ptbvAnnual' | 'ptbvQuarterly' | 'quickRatioAnnual' | 'quickRatioQuarterly' | 'receivablesTurnoverAnnual' | 'receivablesTurnoverTTM' | 'revenueEmployeeAnnual' | 'revenueEmployeeTTM' | 'revenueGrowthFiveY' | 'revenueGrowthQuarterlyYoy' | 'revenueGrowthTTMYoy' | 'revenueGrowthThreeY' | 'revenuePerShareAnnual' | 'revenuePerShareTTM' | 'revenueShareGrowthFiveY' | 'roaRfy' | 'roaaFiveY' | 'roaeFiveY' | 'roaeTTM' | 'roeRfy' | 'roeTTM' | 'roiAnnual' | 'roiFiveY' | 'roiTTM' | 'tangibleBookValuePerShareAnnual' | 'tangibleBookValuePerShareQuarterly' | 'tbvCagrFiveY' | 'totalDebtCagrFiveY' | 'totalDebttotalEquityAnnual' | 'totalDebttotalEquityQuarterly' | 'yearToDatePriceReturnDaily'>
-);
+export type FinancialDataFragmentFragment = { __typename?: 'FinancialData', currentPrice?: Maybe<number>, currentRatio?: Maybe<number>, debtToEquity?: Maybe<number>, earningsGrowth?: Maybe<number>, ebitda?: Maybe<number>, ebitdaMargins?: Maybe<number>, financialCurrency?: Maybe<string>, freeCashflow?: Maybe<number>, grossMargins?: Maybe<number>, grossProfits?: Maybe<number>, numberOfAnalystOpinions?: Maybe<number>, operatingCashflow?: Maybe<number>, operatingMargins?: Maybe<number>, profitMargins?: Maybe<number>, quickRatio?: Maybe<number>, recommendationKey?: Maybe<string>, recommendationMean?: Maybe<number>, returnOnAssets?: Maybe<number>, returnOnEquity?: Maybe<number>, revenueGrowth?: Maybe<number>, revenuePerShare?: Maybe<number>, targetHighPrice?: Maybe<number>, targetLowPrice?: Maybe<number>, targetMeanPrice?: Maybe<number>, targetMedianPrice?: Maybe<number>, totalCash?: Maybe<number>, totalCashPerShare?: Maybe<number>, totalDebt?: Maybe<number>, totalRevenue?: Maybe<number> };
 
-export type DividensFragmentFragment = (
-  { __typename?: 'Dividens' }
-  & Pick<Dividens, 'currentDividendYieldTTM' | 'dividendGrowthRateFiveY' | 'dividendPerShareAnnual' | 'dividendPerShareFiveY' | 'dividendYieldFiveY' | 'dividendYieldIndicatedAnnual' | 'dividendPayoutRatioTTM' | 'dividendsPerShareTTM' | 'exDividendDate' | 'trailingAnnualDividendRate' | 'trailingAnnualDividendYield' | 'forwardDividendYield'>
-);
+export type MetricFragmentFragment = { __typename?: 'Metric', fiveDayPriceReturnDaily?: Maybe<number>, fiveTwoWeekHigh?: Maybe<number>, fiveTwoWeekHighDate?: Maybe<string>, fiveTwoWeekLow?: Maybe<number>, fiveTwoWeekLowDate?: Maybe<string>, fiveTwoWeekPriceReturnDaily?: Maybe<number>, oneDayAverageTradingVolume?: Maybe<number>, oneThreeWeekPriceReturnDaily?: Maybe<number>, threeMonthAverageTradingVolume?: Maybe<number>, twoSixWeekPriceReturnDaily?: Maybe<number>, assetTurnoverAnnual?: Maybe<number>, assetTurnoverTTM?: Maybe<number>, beta?: Maybe<number>, bookValuePerShareAnnual?: Maybe<number>, bookValuePerShareQuarterly?: Maybe<number>, bookValueShareGrowthFiveY?: Maybe<number>, capitalSpendingGrowthFiveY?: Maybe<number>, cashFlowPerShareAnnual?: Maybe<number>, cashFlowPerShareTTM?: Maybe<number>, cashPerSharePerShareAnnual?: Maybe<number>, cashPerSharePerShareQuarterly?: Maybe<number>, currentEvfreeCashFlowAnnual?: Maybe<number>, currentEvfreeCashFlowTTM?: Maybe<number>, currentRatioAnnual?: Maybe<number>, currentRatioQuarterly?: Maybe<number>, ebitdPerShareTTM?: Maybe<number>, ebitdaCagrFiveY?: Maybe<number>, ebitdaInterimCagrFiveY?: Maybe<number>, epsBasicExclExtraItemsAnnual?: Maybe<number>, epsBasicExclExtraItemsTTM?: Maybe<number>, epsExclExtraItemsAnnual?: Maybe<number>, epsExclExtraItemsTTM?: Maybe<number>, epsGrowthFiveY?: Maybe<number>, epsGrowthQuarterlyYoy?: Maybe<number>, epsGrowthTTMYoy?: Maybe<number>, epsGrowthThreeY?: Maybe<number>, epsInclExtraItemsAnnual?: Maybe<number>, epsInclExtraItemsTTM?: Maybe<number>, epsNormalizedAnnual?: Maybe<number>, focfCagrFiveY?: Maybe<number>, freeCashFlowAnnual?: Maybe<number>, freeCashFlowPerShareTTM?: Maybe<number>, freeCashFlowTTM?: Maybe<number>, freeOperatingCashFlowrevenueFiveY?: Maybe<number>, freeOperatingCashFlowrevenueTTM?: Maybe<number>, grossMarginAnnual?: Maybe<number>, grossMarginFiveY?: Maybe<number>, grossMarginTTM?: Maybe<number>, inventoryTurnoverAnnual?: Maybe<number>, inventoryTurnoverTTM?: Maybe<number>, longTermDebtequityAnnual?: Maybe<number>, longTermDebtequityQuarterly?: Maybe<number>, marketCapitalization?: Maybe<number>, monthToDatePriceReturnDaily?: Maybe<number>, netDebtAnnual?: Maybe<number>, netDebtInterim?: Maybe<number>, netIncomeEmployeeAnnual?: Maybe<number>, netIncomeEmployeeTTM?: Maybe<number>, netInterestCoverageAnnual?: Maybe<number>, netInterestCoverageTTM?: Maybe<number>, netMarginGrowthFiveY?: Maybe<number>, netProfitMarginAnnual?: Maybe<number>, netProfitMarginFiveY?: Maybe<number>, netProfitMarginTTM?: Maybe<number>, operatingMarginAnnual?: Maybe<number>, operatingMarginFiveY?: Maybe<number>, operatingMarginTTM?: Maybe<number>, payoutRatioAnnual?: Maybe<number>, payoutRatioTTM?: Maybe<number>, pbAnnual?: Maybe<number>, pbQuarterly?: Maybe<number>, pcfShareTTM?: Maybe<number>, peBasicExclExtraTTM?: Maybe<number>, peExclExtraAnnual?: Maybe<number>, peExclExtraHighTTM?: Maybe<number>, peExclExtraTTM?: Maybe<number>, peExclLowTTM?: Maybe<number>, peInclExtraTTM?: Maybe<number>, peNormalizedAnnual?: Maybe<number>, pfcfShareAnnual?: Maybe<number>, pfcfShareTTM?: Maybe<number>, pretaxMarginAnnual?: Maybe<number>, pretaxMarginFiveY?: Maybe<number>, pretaxMarginTTM?: Maybe<number>, priceRelativeToSPFiveFiveTwoWeek?: Maybe<number>, priceRelativeToSPFiveFourWeek?: Maybe<number>, priceRelativeToSPFiveOneThreeWeek?: Maybe<number>, priceRelativeToSPFiveTwoSixWeek?: Maybe<number>, priceRelativeToSPFiveYtd?: Maybe<number>, psAnnual?: Maybe<number>, psTTM?: Maybe<number>, ptbvAnnual?: Maybe<number>, ptbvQuarterly?: Maybe<number>, quickRatioAnnual?: Maybe<number>, quickRatioQuarterly?: Maybe<number>, receivablesTurnoverAnnual?: Maybe<number>, receivablesTurnoverTTM?: Maybe<number>, revenueEmployeeAnnual?: Maybe<number>, revenueEmployeeTTM?: Maybe<number>, revenueGrowthFiveY?: Maybe<number>, revenueGrowthQuarterlyYoy?: Maybe<number>, revenueGrowthTTMYoy?: Maybe<number>, revenueGrowthThreeY?: Maybe<number>, revenuePerShareAnnual?: Maybe<number>, revenuePerShareTTM?: Maybe<number>, revenueShareGrowthFiveY?: Maybe<number>, roaRfy?: Maybe<number>, roaaFiveY?: Maybe<number>, roaeFiveY?: Maybe<number>, roaeTTM?: Maybe<number>, roeRfy?: Maybe<number>, roeTTM?: Maybe<number>, roiAnnual?: Maybe<number>, roiFiveY?: Maybe<number>, roiTTM?: Maybe<number>, tangibleBookValuePerShareAnnual?: Maybe<number>, tangibleBookValuePerShareQuarterly?: Maybe<number>, tbvCagrFiveY?: Maybe<number>, totalDebtCagrFiveY?: Maybe<number>, totalDebttotalEquityAnnual?: Maybe<number>, totalDebttotalEquityQuarterly?: Maybe<number>, yearToDatePriceReturnDaily?: Maybe<number> };
 
-export type EarningsChartFragmentFragment = (
-  { __typename?: 'EarningsChart' }
-  & Pick<EarningsChart, 'currentQuarterEstimate' | 'currentQuarterEstimateDate' | 'currentQuarterEstimateYear' | 'earningsDate'>
-  & { quarterly?: Maybe<Array<Maybe<(
-    { __typename?: 'EarningsChartData' }
-    & Pick<EarningsChartData, 'actual' | 'date' | 'estimate'>
-  )>>> }
-);
+export type DividensFragmentFragment = { __typename?: 'Dividens', currentDividendYieldTTM?: Maybe<number>, dividendGrowthRateFiveY?: Maybe<number>, dividendPerShareAnnual?: Maybe<number>, dividendPerShareFiveY?: Maybe<number>, dividendYieldFiveY?: Maybe<number>, dividendYieldIndicatedAnnual?: Maybe<number>, dividendPayoutRatioTTM?: Maybe<number>, dividendsPerShareTTM?: Maybe<number>, exDividendDate?: Maybe<number>, trailingAnnualDividendRate?: Maybe<string>, trailingAnnualDividendYield?: Maybe<string>, forwardDividendYield?: Maybe<string> };
 
-export type FinancialChartDataFragmentFragment = (
-  { __typename?: 'FinancialsChartData' }
-  & Pick<FinancialsChartData, 'categories'>
-  & { series?: Maybe<Array<Maybe<(
-    { __typename?: 'Series' }
-    & Pick<Series, 'data' | 'name'>
-  )>>> }
-);
+export type EarningsChartFragmentFragment = { __typename?: 'EarningsChart', currentQuarterEstimate?: Maybe<number>, currentQuarterEstimateDate?: Maybe<string>, currentQuarterEstimateYear?: Maybe<number>, earningsDate?: Maybe<Array<Maybe<number>>>, quarterly?: Maybe<Array<Maybe<{ __typename?: 'EarningsChartData', actual?: Maybe<number>, date?: Maybe<string>, estimate?: Maybe<number> }>>> };
 
-export type EarningsFragmentFragment = (
-  { __typename?: 'Earnings' }
-  & Pick<Earnings, 'financialCurrency'>
-  & { earningsChart?: Maybe<(
-    { __typename?: 'EarningsChart' }
-    & EarningsChartFragmentFragment
-  )>, financialsChart?: Maybe<(
-    { __typename?: 'FinancialsChart' }
-    & { quarterly?: Maybe<(
-      { __typename?: 'FinancialsChartData' }
-      & FinancialChartDataFragmentFragment
-    )>, yearly?: Maybe<(
-      { __typename?: 'FinancialsChartData' }
-      & FinancialChartDataFragmentFragment
-    )> }
-  )> }
-);
+export type FinancialChartDataFragmentFragment = { __typename?: 'FinancialsChartData', categories?: Maybe<Array<Maybe<string>>>, series?: Maybe<Array<Maybe<{ __typename?: 'Series', data?: Maybe<Array<Maybe<number>>>, name?: Maybe<string> }>>> };
 
-export type HistoricalMetricsDataFragmentFragment = (
-  { __typename?: 'HistoricalMetricsData' }
-  & Pick<HistoricalMetricsData, 'name' | 'dates' | 'data'>
-);
+export type EarningsFragmentFragment = { __typename?: 'Earnings', financialCurrency?: Maybe<string>, earningsChart?: Maybe<{ __typename?: 'EarningsChart', currentQuarterEstimate?: Maybe<number>, currentQuarterEstimateDate?: Maybe<string>, currentQuarterEstimateYear?: Maybe<number>, earningsDate?: Maybe<Array<Maybe<number>>>, quarterly?: Maybe<Array<Maybe<{ __typename?: 'EarningsChartData', actual?: Maybe<number>, date?: Maybe<string>, estimate?: Maybe<number> }>>> }>, financialsChart?: Maybe<{ __typename?: 'FinancialsChart', quarterly?: Maybe<{ __typename?: 'FinancialsChartData', categories?: Maybe<Array<Maybe<string>>>, series?: Maybe<Array<Maybe<{ __typename?: 'Series', data?: Maybe<Array<Maybe<number>>>, name?: Maybe<string> }>>> }>, yearly?: Maybe<{ __typename?: 'FinancialsChartData', categories?: Maybe<Array<Maybe<string>>>, series?: Maybe<Array<Maybe<{ __typename?: 'Series', data?: Maybe<Array<Maybe<number>>>, name?: Maybe<string> }>>> }> }> };
 
-export type CapmFragmentFragment = (
-  { __typename?: 'CAPM' }
-  & Pick<Capm, 'Beta' | 'Rf' | 'Rm' | 'result'>
-);
+export type HistoricalMetricsDataFragmentFragment = { __typename?: 'HistoricalMetricsData', name?: Maybe<string>, dates?: Maybe<Array<Maybe<string>>>, data?: Maybe<Array<Maybe<number>>> };
 
-export type WaccFragmentFragment = (
-  { __typename?: 'WACC' }
-  & Pick<Wacc, 'Rd' | 'Re' | 'Wd' | 'We' | 'result' | 'taxRate'>
-  & { CAPM?: Maybe<(
-    { __typename?: 'CAPM' }
-    & CapmFragmentFragment
-  )> }
-);
+export type CapmFragmentFragment = { __typename?: 'CAPM', Beta: number, Rf: number, Rm: number, result: number };
+
+export type WaccFragmentFragment = { __typename?: 'WACC', Rd: number, Re: number, Wd: number, We: number, result: number, taxRate: number, CAPM?: Maybe<{ __typename?: 'CAPM', Beta: number, Rf: number, Rm: number, result: number }> };
 
 export type QueryStockDetailsQueryVariables = Exact<{
   symbol: Scalars['String'];
@@ -2560,273 +2089,38 @@ export type QueryStockDetailsQueryVariables = Exact<{
 }>;
 
 
-export type QueryStockDetailsQuery = (
-  { __typename?: 'Query' }
-  & { queryStockDetails?: Maybe<(
-    { __typename?: 'StockDetails' }
-    & Pick<StockDetails, 'id'>
-    & { recommendation?: Maybe<Array<Maybe<(
-      { __typename?: 'Recommendations' }
-      & RecommendationFragmentFragment
-    )>>>, companyData?: Maybe<(
-      { __typename?: 'CompanyData' }
-      & { defaultKeyStatistics?: Maybe<(
-        { __typename?: 'DefaultKeyStatistics' }
-        & DefaultKeyStatisticsFragmentFragment
-      )>, earnings?: Maybe<(
-        { __typename?: 'Earnings' }
-        & EarningsFragmentFragment
-      )>, financialData?: Maybe<(
-        { __typename?: 'FinancialData' }
-        & FinancialDataFragmentFragment
-      )>, pageViews?: Maybe<(
-        { __typename?: 'PageViews' }
-        & Pick<PageViews, 'longTermTrend' | 'midTermTrend' | 'shortTermTrend'>
-      )>, upgradeDowngradeHistory?: Maybe<Array<Maybe<(
-        { __typename?: 'UpgradeDowngradeHistory' }
-        & Pick<UpgradeDowngradeHistory, 'action' | 'epochGradeDate' | 'firm' | 'fromGrade' | 'toGrade'>
-      )>>>, esgScores?: Maybe<(
-        { __typename?: 'EsgScores' }
-        & EsgScoreFragmentFragment
-      )> }
-    )>, summary: (
-      { __typename?: 'Summary' }
-      & StockSummaryFragmentFragment
-    ), metric?: Maybe<(
-      { __typename?: 'Metric' }
-      & MetricFragmentFragment
-    )>, dividends?: Maybe<(
-      { __typename?: 'Dividens' }
-      & DividensFragmentFragment
-    )>, historicalMetrics?: Maybe<(
-      { __typename?: 'HistoricalMetrics' }
-      & { cashRatio?: Maybe<(
-        { __typename?: 'HistoricalMetricsData' }
-        & HistoricalMetricsDataFragmentFragment
-      )>, currentRatio?: Maybe<(
-        { __typename?: 'HistoricalMetricsData' }
-        & HistoricalMetricsDataFragmentFragment
-      )>, ebitPerShare?: Maybe<(
-        { __typename?: 'HistoricalMetricsData' }
-        & HistoricalMetricsDataFragmentFragment
-      )>, eps?: Maybe<(
-        { __typename?: 'HistoricalMetricsData' }
-        & HistoricalMetricsDataFragmentFragment
-      )>, grossMargin?: Maybe<(
-        { __typename?: 'HistoricalMetricsData' }
-        & HistoricalMetricsDataFragmentFragment
-      )>, longtermDebtTotalAsset?: Maybe<(
-        { __typename?: 'HistoricalMetricsData' }
-        & HistoricalMetricsDataFragmentFragment
-      )>, longtermDebtTotalCapital?: Maybe<(
-        { __typename?: 'HistoricalMetricsData' }
-        & HistoricalMetricsDataFragmentFragment
-      )>, longtermDebtTotalEquity?: Maybe<(
-        { __typename?: 'HistoricalMetricsData' }
-        & HistoricalMetricsDataFragmentFragment
-      )>, netDebtToTotalCapital?: Maybe<(
-        { __typename?: 'HistoricalMetricsData' }
-        & HistoricalMetricsDataFragmentFragment
-      )>, netDebtToTotalEquity?: Maybe<(
-        { __typename?: 'HistoricalMetricsData' }
-        & HistoricalMetricsDataFragmentFragment
-      )>, netMargin?: Maybe<(
-        { __typename?: 'HistoricalMetricsData' }
-        & HistoricalMetricsDataFragmentFragment
-      )>, operatingMargin?: Maybe<(
-        { __typename?: 'HistoricalMetricsData' }
-        & HistoricalMetricsDataFragmentFragment
-      )>, pretaxMargin?: Maybe<(
-        { __typename?: 'HistoricalMetricsData' }
-        & HistoricalMetricsDataFragmentFragment
-      )>, salesPerShare?: Maybe<(
-        { __typename?: 'HistoricalMetricsData' }
-        & HistoricalMetricsDataFragmentFragment
-      )>, sgaToSale?: Maybe<(
-        { __typename?: 'HistoricalMetricsData' }
-        & HistoricalMetricsDataFragmentFragment
-      )>, totalDebtToEquity?: Maybe<(
-        { __typename?: 'HistoricalMetricsData' }
-        & HistoricalMetricsDataFragmentFragment
-      )>, totalDebtToTotalAsset?: Maybe<(
-        { __typename?: 'HistoricalMetricsData' }
-        & HistoricalMetricsDataFragmentFragment
-      )>, totalDebtToTotalCapital?: Maybe<(
-        { __typename?: 'HistoricalMetricsData' }
-        & HistoricalMetricsDataFragmentFragment
-      )>, totalRatio?: Maybe<(
-        { __typename?: 'HistoricalMetricsData' }
-        & HistoricalMetricsDataFragmentFragment
-      )> }
-    )>, calculations?: Maybe<(
-      { __typename?: 'STStockDetailsCalculations' }
-      & { CAPM?: Maybe<(
-        { __typename?: 'CAPM' }
-        & CapmFragmentFragment
-      )>, WACC?: Maybe<(
-        { __typename?: 'WACC' }
-        & WaccFragmentFragment
-      )> }
-    )>, calculatedPredictions?: Maybe<(
-      { __typename?: 'STStockDetailsCalculatedPredictions' }
-      & { DCF_V1?: Maybe<(
-        { __typename?: 'STDiscountedCashFlowFormula' }
-        & Pick<StDiscountedCashFlowFormula, 'estimatedCompanyTodayValue' | 'estimatedDiscountedFactors' | 'estimatedDiscountedTerminalValue' | 'estimatedFreeCashFlowRate' | 'estimatedFreeCashFlowRates' | 'estimatedFreeCashFlows' | 'estimatedIntrinsicValue' | 'estimatedNetIncomeMargin' | 'estimatedNetIncomes' | 'estimatedPresentValueOfFutureCashFlows' | 'estimatedRevenueGrowthRate' | 'estimatedRevenues' | 'estimatedTerminalValue' | 'years'>
-        & { historical: (
-          { __typename?: 'STDiscountedCashFlowFormulaHistorical' }
-          & Pick<StDiscountedCashFlowFormulaHistorical, 'freeCashFlows' | 'sharesOutstanding' | 'netIncomeMargins' | 'netIncome' | 'revenue' | 'revenueGrowthRates' | 'historicalYears'>
-        ), variable: (
-          { __typename?: 'STDiscountedCashFlowFormulaVariable' }
-          & Pick<StDiscountedCashFlowFormulaVariable, 'perpetualGrowthRate' | 'requiredRateOfReturn'>
-        ) }
-      )>, DDF_V1?: Maybe<(
-        { __typename?: 'STDividendDiscountedFormula' }
-        & Pick<StDividendDiscountedFormula, 'dividendGrowthRate' | 'dividendsPerShareTTM' | 'minimumRateReturn' | 'estimatedIntrinsicValue'>
-      )>, FCF_V1?: Maybe<(
-        { __typename?: 'STFreeCashFlowFormula' }
-        & Pick<StFreeCashFlowFormula, 'avgFcf' | 'estimatedIntrinsicMarketCap' | 'estimatedIntrinsicValue' | 'historicalYears' | 'minimumRateReturn' | 'operatingActivities' | 'capitalExpenditures' | 'freeCashFlows' | 'sharesOutstanding'>
-      )>, INTRINSIC_V1?: Maybe<(
-        { __typename?: 'STEarningsValuationFormula' }
-        & Pick<StEarningsValuationFormula, 'dates' | 'eps' | 'estimatedDiscountedPV' | 'estimatedEarnings' | 'estimatedIntrinsicValue'>
-        & { variable: (
-          { __typename?: 'STEarningsValuationFormulaVariable' }
-          & Pick<StEarningsValuationFormulaVariable, 'growthRateFrom5yTo10y' | 'growthRateNext5y' | 'minimumRateReturn' | 'terminalMultiple'>
-        ) }
-      )> }
-    )>, allFinancialReportsYearly?: Maybe<Array<Maybe<(
-      { __typename?: 'FinancialReport' }
-      & FinancialReportFragmentFragment
-    )>>>, allFinancialReportsQuarterly?: Maybe<Array<Maybe<(
-      { __typename?: 'FinancialReport' }
-      & FinancialReportFragmentFragment
-    )>>>, institutionalHolders?: Maybe<Array<Maybe<(
-      { __typename?: 'STFMHolder' }
-      & StfmHolderFragmentFragment
-    )>>>, mutualFundHolders?: Maybe<Array<Maybe<(
-      { __typename?: 'STFMHolderWithWeight' }
-      & StfmHolderWithWeightFragmentFragment
-    )>>>, companyOutlook?: Maybe<(
-      { __typename?: 'STFMCompanyOutlook' }
-      & { financialsAnnual?: Maybe<(
-        { __typename?: 'STFMFinancials' }
-        & { balance?: Maybe<Array<Maybe<(
-          { __typename?: 'STFMBalanceSheet' }
-          & StfmBalanceSheetFragmentFragment
-        )>>>, cash?: Maybe<Array<Maybe<(
-          { __typename?: 'STFMCashFlow' }
-          & StfmCashFlowFragmentFragment
-        )>>>, income?: Maybe<Array<Maybe<(
-          { __typename?: 'STFMIncomeStatement' }
-          & StfmIncomeStatementFragmentFragment
-        )>>> }
-      )>, financialsQuarter?: Maybe<(
-        { __typename?: 'STFMFinancials' }
-        & { balance?: Maybe<Array<Maybe<(
-          { __typename?: 'STFMBalanceSheet' }
-          & StfmBalanceSheetFragmentFragment
-        )>>>, cash?: Maybe<Array<Maybe<(
-          { __typename?: 'STFMCashFlow' }
-          & StfmCashFlowFragmentFragment
-        )>>>, income?: Maybe<Array<Maybe<(
-          { __typename?: 'STFMIncomeStatement' }
-          & StfmIncomeStatementFragmentFragment
-        )>>> }
-      )>, insideTrades?: Maybe<Array<Maybe<(
-        { __typename?: 'STFMInsideTrade' }
-        & StfmInsideTradeFragmentFragment
-      )>>>, keyExecutives?: Maybe<Array<Maybe<(
-        { __typename?: 'STFMKeyExecutive' }
-        & StfmKeyExecutiveFragmentFragment
-      )>>>, rating?: Maybe<(
-        { __typename?: 'STFMRating' }
-        & StfmRatingFragmentFragment
-      )>, ratios?: Maybe<(
-        { __typename?: 'STFMRatios' }
-        & StfmRatiosFragmentFragment
-      )>, splitHistory?: Maybe<Array<Maybe<(
-        { __typename?: 'STFMSplitHistory' }
-        & StfmSplitHistoryFragmentFragment
-      )>>>, stockDividend?: Maybe<Array<Maybe<(
-        { __typename?: 'STFMStockDividend' }
-        & StfmStockDividendFragmentFragment
-      )>>>, stockNews?: Maybe<Array<Maybe<(
-        { __typename?: 'STFMStockNew' }
-        & StfmStockNewFragmentFragment
-      )>>> }
-    )>, sectorPeers?: Maybe<Array<Maybe<(
-      { __typename?: 'STFMCompanyQuote' }
-      & StfmCompanyQuoteFragmentFragment
-    )>>> }
-  )> }
-);
+export type QueryStockDetailsQuery = { __typename?: 'Query', queryStockDetails?: Maybe<{ __typename?: 'StockDetails', id: string, recommendation?: Maybe<Array<Maybe<{ __typename?: 'Recommendations', buy?: Maybe<number>, hold?: Maybe<number>, period?: Maybe<string>, sell?: Maybe<number>, strongBuy?: Maybe<number>, strongSell?: Maybe<number>, symbol?: Maybe<string> }>>>, companyData?: Maybe<{ __typename?: 'CompanyData', defaultKeyStatistics?: Maybe<{ __typename?: 'DefaultKeyStatistics', bookValue?: Maybe<number>, dateShortInterest?: Maybe<number>, earningsQuarterlyGrowth?: Maybe<number>, enterpriseToEbitda?: Maybe<number>, enterpriseToRevenue?: Maybe<number>, enterpriseValue?: Maybe<number>, fiveYearAverageReturn?: Maybe<number>, floatShares?: Maybe<number>, forwardEps?: Maybe<number>, forwardPE?: Maybe<number>, heldPercentInsiders?: Maybe<number>, heldPercentInstitutions?: Maybe<number>, lastFiscalYearEnd?: Maybe<number>, lastSplitDate?: Maybe<number>, lastSplitFactor?: Maybe<string>, mostRecentQuarter?: Maybe<number>, netIncomeToCommon?: Maybe<number>, nextFiscalYearEnd?: Maybe<number>, pegRatio?: Maybe<number>, priceHint?: Maybe<number>, priceToBook?: Maybe<number>, profitMargins?: Maybe<number>, sharesOutstanding?: Maybe<number>, sharesPercentSharesOut?: Maybe<number>, sharesShort?: Maybe<number>, sharesShortPreviousMonthDate?: Maybe<number>, sharesShortPriorMonth?: Maybe<number>, shortPercentOfFloat?: Maybe<number>, shortRatio?: Maybe<number>, trailingEps?: Maybe<number> }>, earnings?: Maybe<{ __typename?: 'Earnings', financialCurrency?: Maybe<string>, earningsChart?: Maybe<{ __typename?: 'EarningsChart', currentQuarterEstimate?: Maybe<number>, currentQuarterEstimateDate?: Maybe<string>, currentQuarterEstimateYear?: Maybe<number>, earningsDate?: Maybe<Array<Maybe<number>>>, quarterly?: Maybe<Array<Maybe<{ __typename?: 'EarningsChartData', actual?: Maybe<number>, date?: Maybe<string>, estimate?: Maybe<number> }>>> }>, financialsChart?: Maybe<{ __typename?: 'FinancialsChart', quarterly?: Maybe<{ __typename?: 'FinancialsChartData', categories?: Maybe<Array<Maybe<string>>>, series?: Maybe<Array<Maybe<{ __typename?: 'Series', data?: Maybe<Array<Maybe<number>>>, name?: Maybe<string> }>>> }>, yearly?: Maybe<{ __typename?: 'FinancialsChartData', categories?: Maybe<Array<Maybe<string>>>, series?: Maybe<Array<Maybe<{ __typename?: 'Series', data?: Maybe<Array<Maybe<number>>>, name?: Maybe<string> }>>> }> }> }>, financialData?: Maybe<{ __typename?: 'FinancialData', currentPrice?: Maybe<number>, currentRatio?: Maybe<number>, debtToEquity?: Maybe<number>, earningsGrowth?: Maybe<number>, ebitda?: Maybe<number>, ebitdaMargins?: Maybe<number>, financialCurrency?: Maybe<string>, freeCashflow?: Maybe<number>, grossMargins?: Maybe<number>, grossProfits?: Maybe<number>, numberOfAnalystOpinions?: Maybe<number>, operatingCashflow?: Maybe<number>, operatingMargins?: Maybe<number>, profitMargins?: Maybe<number>, quickRatio?: Maybe<number>, recommendationKey?: Maybe<string>, recommendationMean?: Maybe<number>, returnOnAssets?: Maybe<number>, returnOnEquity?: Maybe<number>, revenueGrowth?: Maybe<number>, revenuePerShare?: Maybe<number>, targetHighPrice?: Maybe<number>, targetLowPrice?: Maybe<number>, targetMeanPrice?: Maybe<number>, targetMedianPrice?: Maybe<number>, totalCash?: Maybe<number>, totalCashPerShare?: Maybe<number>, totalDebt?: Maybe<number>, totalRevenue?: Maybe<number> }>, pageViews?: Maybe<{ __typename?: 'PageViews', longTermTrend?: Maybe<string>, midTermTrend?: Maybe<string>, shortTermTrend?: Maybe<string> }>, upgradeDowngradeHistory?: Maybe<Array<Maybe<{ __typename?: 'UpgradeDowngradeHistory', action?: Maybe<string>, epochGradeDate?: Maybe<number>, firm?: Maybe<string>, fromGrade?: Maybe<string>, toGrade?: Maybe<string> }>>>, esgScores?: Maybe<{ __typename?: 'EsgScores', totalEsg?: Maybe<number>, environmentScore?: Maybe<number>, governanceScore?: Maybe<number>, highestControversy?: Maybe<number>, esgPerformance?: Maybe<string>, socialScore?: Maybe<number>, peerCount?: Maybe<number>, percentile?: Maybe<number>, peerGroup?: Maybe<string>, relatedControversy?: Maybe<Array<Maybe<string>>>, peerEnvironmentPerformance?: Maybe<{ __typename?: 'Calculation', avg?: Maybe<number>, max?: Maybe<number>, min?: Maybe<number> }>, peerEsgScorePerformance?: Maybe<{ __typename?: 'Calculation', avg?: Maybe<number>, max?: Maybe<number>, min?: Maybe<number> }>, peerGovernancePerformance?: Maybe<{ __typename?: 'Calculation', avg?: Maybe<number>, max?: Maybe<number>, min?: Maybe<number> }>, peerHighestControversyPerformance?: Maybe<{ __typename?: 'Calculation', avg?: Maybe<number>, max?: Maybe<number>, min?: Maybe<number> }>, peerSocialPerformance?: Maybe<{ __typename?: 'Calculation', avg?: Maybe<number>, max?: Maybe<number>, min?: Maybe<number> }> }> }>, summary: { __typename?: 'Summary', avgVolume?: Maybe<number>, ceo?: Maybe<string>, companyName?: Maybe<string>, currency?: Maybe<string>, dividendDate?: Maybe<number>, ePSTTM?: Maybe<number>, earningsDate?: Maybe<number>, exDividendDate?: Maybe<number>, exchangeName?: Maybe<string>, fiveTwoWeekRange?: Maybe<string>, forwardDividendRate?: Maybe<number>, forwardDividendYield?: Maybe<number>, forwardEPS?: Maybe<number>, forwardPE?: Maybe<number>, fullTimeEmployees?: Maybe<string>, id?: Maybe<string>, industry?: Maybe<string>, ipoDate?: Maybe<string>, lastSplitDate?: Maybe<number>, lastSplitFactor?: Maybe<string>, logo_url?: Maybe<string>, longBusinessSummary?: Maybe<string>, marketCap?: Maybe<number>, marketPrice?: Maybe<number>, oneyTargetEst?: Maybe<number>, pERatioTTM?: Maybe<number>, previousClose?: Maybe<number>, recommendationKey?: Maybe<string>, recommendationMean?: Maybe<number>, sandPFiveTwoWeekChange?: Maybe<number>, sector?: Maybe<string>, sharesOutstanding?: Maybe<number>, shortRatio?: Maybe<number>, symbol?: Maybe<string>, targetEstOneyPercent?: Maybe<number>, volume?: Maybe<number>, website?: Maybe<string>, weekRangeFiveTwoMax?: Maybe<number>, weekRangeFiveTwoMin?: Maybe<number>, yearToDatePrice?: Maybe<number>, yearToDatePriceReturn?: Maybe<number>, residance?: Maybe<{ __typename?: 'SummaryResidance', city?: Maybe<string>, state?: Maybe<string>, country?: Maybe<string>, addressOne?: Maybe<string>, zip?: Maybe<string> }> }, metric?: Maybe<{ __typename?: 'Metric', fiveDayPriceReturnDaily?: Maybe<number>, fiveTwoWeekHigh?: Maybe<number>, fiveTwoWeekHighDate?: Maybe<string>, fiveTwoWeekLow?: Maybe<number>, fiveTwoWeekLowDate?: Maybe<string>, fiveTwoWeekPriceReturnDaily?: Maybe<number>, oneDayAverageTradingVolume?: Maybe<number>, oneThreeWeekPriceReturnDaily?: Maybe<number>, threeMonthAverageTradingVolume?: Maybe<number>, twoSixWeekPriceReturnDaily?: Maybe<number>, assetTurnoverAnnual?: Maybe<number>, assetTurnoverTTM?: Maybe<number>, beta?: Maybe<number>, bookValuePerShareAnnual?: Maybe<number>, bookValuePerShareQuarterly?: Maybe<number>, bookValueShareGrowthFiveY?: Maybe<number>, capitalSpendingGrowthFiveY?: Maybe<number>, cashFlowPerShareAnnual?: Maybe<number>, cashFlowPerShareTTM?: Maybe<number>, cashPerSharePerShareAnnual?: Maybe<number>, cashPerSharePerShareQuarterly?: Maybe<number>, currentEvfreeCashFlowAnnual?: Maybe<number>, currentEvfreeCashFlowTTM?: Maybe<number>, currentRatioAnnual?: Maybe<number>, currentRatioQuarterly?: Maybe<number>, ebitdPerShareTTM?: Maybe<number>, ebitdaCagrFiveY?: Maybe<number>, ebitdaInterimCagrFiveY?: Maybe<number>, epsBasicExclExtraItemsAnnual?: Maybe<number>, epsBasicExclExtraItemsTTM?: Maybe<number>, epsExclExtraItemsAnnual?: Maybe<number>, epsExclExtraItemsTTM?: Maybe<number>, epsGrowthFiveY?: Maybe<number>, epsGrowthQuarterlyYoy?: Maybe<number>, epsGrowthTTMYoy?: Maybe<number>, epsGrowthThreeY?: Maybe<number>, epsInclExtraItemsAnnual?: Maybe<number>, epsInclExtraItemsTTM?: Maybe<number>, epsNormalizedAnnual?: Maybe<number>, focfCagrFiveY?: Maybe<number>, freeCashFlowAnnual?: Maybe<number>, freeCashFlowPerShareTTM?: Maybe<number>, freeCashFlowTTM?: Maybe<number>, freeOperatingCashFlowrevenueFiveY?: Maybe<number>, freeOperatingCashFlowrevenueTTM?: Maybe<number>, grossMarginAnnual?: Maybe<number>, grossMarginFiveY?: Maybe<number>, grossMarginTTM?: Maybe<number>, inventoryTurnoverAnnual?: Maybe<number>, inventoryTurnoverTTM?: Maybe<number>, longTermDebtequityAnnual?: Maybe<number>, longTermDebtequityQuarterly?: Maybe<number>, marketCapitalization?: Maybe<number>, monthToDatePriceReturnDaily?: Maybe<number>, netDebtAnnual?: Maybe<number>, netDebtInterim?: Maybe<number>, netIncomeEmployeeAnnual?: Maybe<number>, netIncomeEmployeeTTM?: Maybe<number>, netInterestCoverageAnnual?: Maybe<number>, netInterestCoverageTTM?: Maybe<number>, netMarginGrowthFiveY?: Maybe<number>, netProfitMarginAnnual?: Maybe<number>, netProfitMarginFiveY?: Maybe<number>, netProfitMarginTTM?: Maybe<number>, operatingMarginAnnual?: Maybe<number>, operatingMarginFiveY?: Maybe<number>, operatingMarginTTM?: Maybe<number>, payoutRatioAnnual?: Maybe<number>, payoutRatioTTM?: Maybe<number>, pbAnnual?: Maybe<number>, pbQuarterly?: Maybe<number>, pcfShareTTM?: Maybe<number>, peBasicExclExtraTTM?: Maybe<number>, peExclExtraAnnual?: Maybe<number>, peExclExtraHighTTM?: Maybe<number>, peExclExtraTTM?: Maybe<number>, peExclLowTTM?: Maybe<number>, peInclExtraTTM?: Maybe<number>, peNormalizedAnnual?: Maybe<number>, pfcfShareAnnual?: Maybe<number>, pfcfShareTTM?: Maybe<number>, pretaxMarginAnnual?: Maybe<number>, pretaxMarginFiveY?: Maybe<number>, pretaxMarginTTM?: Maybe<number>, priceRelativeToSPFiveFiveTwoWeek?: Maybe<number>, priceRelativeToSPFiveFourWeek?: Maybe<number>, priceRelativeToSPFiveOneThreeWeek?: Maybe<number>, priceRelativeToSPFiveTwoSixWeek?: Maybe<number>, priceRelativeToSPFiveYtd?: Maybe<number>, psAnnual?: Maybe<number>, psTTM?: Maybe<number>, ptbvAnnual?: Maybe<number>, ptbvQuarterly?: Maybe<number>, quickRatioAnnual?: Maybe<number>, quickRatioQuarterly?: Maybe<number>, receivablesTurnoverAnnual?: Maybe<number>, receivablesTurnoverTTM?: Maybe<number>, revenueEmployeeAnnual?: Maybe<number>, revenueEmployeeTTM?: Maybe<number>, revenueGrowthFiveY?: Maybe<number>, revenueGrowthQuarterlyYoy?: Maybe<number>, revenueGrowthTTMYoy?: Maybe<number>, revenueGrowthThreeY?: Maybe<number>, revenuePerShareAnnual?: Maybe<number>, revenuePerShareTTM?: Maybe<number>, revenueShareGrowthFiveY?: Maybe<number>, roaRfy?: Maybe<number>, roaaFiveY?: Maybe<number>, roaeFiveY?: Maybe<number>, roaeTTM?: Maybe<number>, roeRfy?: Maybe<number>, roeTTM?: Maybe<number>, roiAnnual?: Maybe<number>, roiFiveY?: Maybe<number>, roiTTM?: Maybe<number>, tangibleBookValuePerShareAnnual?: Maybe<number>, tangibleBookValuePerShareQuarterly?: Maybe<number>, tbvCagrFiveY?: Maybe<number>, totalDebtCagrFiveY?: Maybe<number>, totalDebttotalEquityAnnual?: Maybe<number>, totalDebttotalEquityQuarterly?: Maybe<number>, yearToDatePriceReturnDaily?: Maybe<number> }>, dividends?: Maybe<{ __typename?: 'Dividens', currentDividendYieldTTM?: Maybe<number>, dividendGrowthRateFiveY?: Maybe<number>, dividendPerShareAnnual?: Maybe<number>, dividendPerShareFiveY?: Maybe<number>, dividendYieldFiveY?: Maybe<number>, dividendYieldIndicatedAnnual?: Maybe<number>, dividendPayoutRatioTTM?: Maybe<number>, dividendsPerShareTTM?: Maybe<number>, exDividendDate?: Maybe<number>, trailingAnnualDividendRate?: Maybe<string>, trailingAnnualDividendYield?: Maybe<string>, forwardDividendYield?: Maybe<string> }>, historicalMetrics?: Maybe<{ __typename?: 'HistoricalMetrics', cashRatio?: Maybe<{ __typename?: 'HistoricalMetricsData', name?: Maybe<string>, dates?: Maybe<Array<Maybe<string>>>, data?: Maybe<Array<Maybe<number>>> }>, currentRatio?: Maybe<{ __typename?: 'HistoricalMetricsData', name?: Maybe<string>, dates?: Maybe<Array<Maybe<string>>>, data?: Maybe<Array<Maybe<number>>> }>, ebitPerShare?: Maybe<{ __typename?: 'HistoricalMetricsData', name?: Maybe<string>, dates?: Maybe<Array<Maybe<string>>>, data?: Maybe<Array<Maybe<number>>> }>, eps?: Maybe<{ __typename?: 'HistoricalMetricsData', name?: Maybe<string>, dates?: Maybe<Array<Maybe<string>>>, data?: Maybe<Array<Maybe<number>>> }>, grossMargin?: Maybe<{ __typename?: 'HistoricalMetricsData', name?: Maybe<string>, dates?: Maybe<Array<Maybe<string>>>, data?: Maybe<Array<Maybe<number>>> }>, longtermDebtTotalAsset?: Maybe<{ __typename?: 'HistoricalMetricsData', name?: Maybe<string>, dates?: Maybe<Array<Maybe<string>>>, data?: Maybe<Array<Maybe<number>>> }>, longtermDebtTotalCapital?: Maybe<{ __typename?: 'HistoricalMetricsData', name?: Maybe<string>, dates?: Maybe<Array<Maybe<string>>>, data?: Maybe<Array<Maybe<number>>> }>, longtermDebtTotalEquity?: Maybe<{ __typename?: 'HistoricalMetricsData', name?: Maybe<string>, dates?: Maybe<Array<Maybe<string>>>, data?: Maybe<Array<Maybe<number>>> }>, netDebtToTotalCapital?: Maybe<{ __typename?: 'HistoricalMetricsData', name?: Maybe<string>, dates?: Maybe<Array<Maybe<string>>>, data?: Maybe<Array<Maybe<number>>> }>, netDebtToTotalEquity?: Maybe<{ __typename?: 'HistoricalMetricsData', name?: Maybe<string>, dates?: Maybe<Array<Maybe<string>>>, data?: Maybe<Array<Maybe<number>>> }>, netMargin?: Maybe<{ __typename?: 'HistoricalMetricsData', name?: Maybe<string>, dates?: Maybe<Array<Maybe<string>>>, data?: Maybe<Array<Maybe<number>>> }>, operatingMargin?: Maybe<{ __typename?: 'HistoricalMetricsData', name?: Maybe<string>, dates?: Maybe<Array<Maybe<string>>>, data?: Maybe<Array<Maybe<number>>> }>, pretaxMargin?: Maybe<{ __typename?: 'HistoricalMetricsData', name?: Maybe<string>, dates?: Maybe<Array<Maybe<string>>>, data?: Maybe<Array<Maybe<number>>> }>, salesPerShare?: Maybe<{ __typename?: 'HistoricalMetricsData', name?: Maybe<string>, dates?: Maybe<Array<Maybe<string>>>, data?: Maybe<Array<Maybe<number>>> }>, sgaToSale?: Maybe<{ __typename?: 'HistoricalMetricsData', name?: Maybe<string>, dates?: Maybe<Array<Maybe<string>>>, data?: Maybe<Array<Maybe<number>>> }>, totalDebtToEquity?: Maybe<{ __typename?: 'HistoricalMetricsData', name?: Maybe<string>, dates?: Maybe<Array<Maybe<string>>>, data?: Maybe<Array<Maybe<number>>> }>, totalDebtToTotalAsset?: Maybe<{ __typename?: 'HistoricalMetricsData', name?: Maybe<string>, dates?: Maybe<Array<Maybe<string>>>, data?: Maybe<Array<Maybe<number>>> }>, totalDebtToTotalCapital?: Maybe<{ __typename?: 'HistoricalMetricsData', name?: Maybe<string>, dates?: Maybe<Array<Maybe<string>>>, data?: Maybe<Array<Maybe<number>>> }>, totalRatio?: Maybe<{ __typename?: 'HistoricalMetricsData', name?: Maybe<string>, dates?: Maybe<Array<Maybe<string>>>, data?: Maybe<Array<Maybe<number>>> }> }>, calculations?: Maybe<{ __typename?: 'STStockDetailsCalculations', CAPM?: Maybe<{ __typename?: 'CAPM', Beta: number, Rf: number, Rm: number, result: number }>, WACC?: Maybe<{ __typename?: 'WACC', Rd: number, Re: number, Wd: number, We: number, result: number, taxRate: number, CAPM?: Maybe<{ __typename?: 'CAPM', Beta: number, Rf: number, Rm: number, result: number }> }> }>, calculatedPredictions?: Maybe<{ __typename?: 'STStockDetailsCalculatedPredictions', DCF_V1?: Maybe<{ __typename?: 'STDiscountedCashFlowFormula', estimatedCompanyTodayValue: number, estimatedDiscountedFactors: Array<Maybe<number>>, estimatedDiscountedTerminalValue: number, estimatedFreeCashFlowRate: number, estimatedFreeCashFlowRates: Array<Maybe<number>>, estimatedFreeCashFlows: Array<Maybe<number>>, estimatedIntrinsicValue: number, estimatedNetIncomeMargin: number, estimatedNetIncomes: Array<Maybe<number>>, estimatedPresentValueOfFutureCashFlows: Array<Maybe<number>>, estimatedRevenueGrowthRate: number, estimatedRevenues: Array<Maybe<number>>, estimatedTerminalValue: number, years: Array<Maybe<string>>, historical: { __typename?: 'STDiscountedCashFlowFormulaHistorical', freeCashFlows: Array<Maybe<number>>, sharesOutstanding: number, netIncomeMargins: Array<Maybe<number>>, netIncome: Array<Maybe<number>>, revenue: Array<Maybe<number>>, revenueGrowthRates: Array<Maybe<number>>, historicalYears: Array<Maybe<string>> }, variable: { __typename?: 'STDiscountedCashFlowFormulaVariable', perpetualGrowthRate: number, requiredRateOfReturn: number } }>, DDF_V1?: Maybe<{ __typename?: 'STDividendDiscountedFormula', dividendGrowthRate: number, dividendsPerShareTTM: number, minimumRateReturn: number, estimatedIntrinsicValue: number }>, FCF_V1?: Maybe<{ __typename?: 'STFreeCashFlowFormula', avgFcf: number, estimatedIntrinsicMarketCap: number, estimatedIntrinsicValue: number, historicalYears?: Maybe<Array<Maybe<string>>>, minimumRateReturn: number, operatingActivities: Array<Maybe<number>>, capitalExpenditures: Array<Maybe<number>>, freeCashFlows: Array<Maybe<number>>, sharesOutstanding: number }>, INTRINSIC_V1?: Maybe<{ __typename?: 'STEarningsValuationFormula', dates: Array<Maybe<string>>, eps: number, estimatedDiscountedPV: Array<Maybe<number>>, estimatedEarnings: Array<Maybe<number>>, estimatedIntrinsicValue: number, variable: { __typename?: 'STEarningsValuationFormulaVariable', growthRateFrom5yTo10y: number, growthRateNext5y: number, minimumRateReturn: number, terminalMultiple: number } }> }>, allFinancialReportsYearly?: Maybe<Array<Maybe<{ __typename?: 'FinancialReport', acceptedDate?: Maybe<string>, accessNumber?: Maybe<string>, cik?: Maybe<string>, endDate?: Maybe<string>, filedDate?: Maybe<string>, form?: Maybe<string>, quarter?: Maybe<number>, startDate?: Maybe<string>, symbol?: Maybe<string>, year?: Maybe<number>, report?: Maybe<{ __typename?: 'FinancialReportStatement', bs?: Maybe<Array<Maybe<{ __typename?: 'FinancialReportStatementData', concept?: Maybe<string>, label?: Maybe<string>, unit?: Maybe<string>, value?: Maybe<number> }>>>, cf?: Maybe<Array<Maybe<{ __typename?: 'FinancialReportStatementData', concept?: Maybe<string>, label?: Maybe<string>, unit?: Maybe<string>, value?: Maybe<number> }>>>, ic?: Maybe<Array<Maybe<{ __typename?: 'FinancialReportStatementData', concept?: Maybe<string>, label?: Maybe<string>, unit?: Maybe<string>, value?: Maybe<number> }>>> }> }>>>, allFinancialReportsQuarterly?: Maybe<Array<Maybe<{ __typename?: 'FinancialReport', acceptedDate?: Maybe<string>, accessNumber?: Maybe<string>, cik?: Maybe<string>, endDate?: Maybe<string>, filedDate?: Maybe<string>, form?: Maybe<string>, quarter?: Maybe<number>, startDate?: Maybe<string>, symbol?: Maybe<string>, year?: Maybe<number>, report?: Maybe<{ __typename?: 'FinancialReportStatement', bs?: Maybe<Array<Maybe<{ __typename?: 'FinancialReportStatementData', concept?: Maybe<string>, label?: Maybe<string>, unit?: Maybe<string>, value?: Maybe<number> }>>>, cf?: Maybe<Array<Maybe<{ __typename?: 'FinancialReportStatementData', concept?: Maybe<string>, label?: Maybe<string>, unit?: Maybe<string>, value?: Maybe<number> }>>>, ic?: Maybe<Array<Maybe<{ __typename?: 'FinancialReportStatementData', concept?: Maybe<string>, label?: Maybe<string>, unit?: Maybe<string>, value?: Maybe<number> }>>> }> }>>>, institutionalHolders?: Maybe<Array<Maybe<{ __typename?: 'STFMHolder', change?: Maybe<number>, dateReported?: Maybe<string>, holder?: Maybe<string>, shares?: Maybe<number> }>>>, mutualFundHolders?: Maybe<Array<Maybe<{ __typename?: 'STFMHolderWithWeight', change?: Maybe<number>, dateReported?: Maybe<string>, holder?: Maybe<string>, shares?: Maybe<number>, weightPercent?: Maybe<number> }>>>, companyOutlook?: Maybe<{ __typename?: 'STFMCompanyOutlook', financialsAnnual?: Maybe<{ __typename?: 'STFMFinancials', balance?: Maybe<Array<Maybe<{ __typename?: 'STFMBalanceSheet', acceptedDate?: Maybe<string>, accountPayables?: Maybe<number>, accumulatedOtherComprehensiveIncomeLoss?: Maybe<number>, cashAndCashEquivalents?: Maybe<number>, cashAndShortTermInvestments?: Maybe<number>, commonStock?: Maybe<number>, date?: Maybe<string>, deferredRevenue?: Maybe<number>, deferredRevenueNonCurrent?: Maybe<number>, deferredTaxLiabilitiesNonCurrent?: Maybe<number>, fillingDate?: Maybe<string>, finalLink?: Maybe<string>, goodwill?: Maybe<number>, goodwillAndIntangibleAssets?: Maybe<number>, intangibleAssets?: Maybe<number>, inventory?: Maybe<number>, link?: Maybe<string>, longTermDebt?: Maybe<number>, longTermInvestments?: Maybe<number>, netDebt?: Maybe<number>, netReceivables?: Maybe<number>, otherAssets?: Maybe<number>, otherCurrentAssets?: Maybe<number>, otherCurrentLiabilities?: Maybe<number>, otherLiabilities?: Maybe<number>, otherNonCurrentAssets?: Maybe<number>, otherNonCurrentLiabilities?: Maybe<number>, othertotalStockholdersEquity?: Maybe<number>, period?: Maybe<string>, propertyPlantEquipmentNet?: Maybe<number>, reportedCurrency?: Maybe<string>, retainedEarnings?: Maybe<number>, shortTermDebt?: Maybe<number>, shortTermInvestments?: Maybe<number>, symbol?: Maybe<string>, taxAssets?: Maybe<number>, taxPayables?: Maybe<number>, totalAssets?: Maybe<number>, totalCurrentAssets?: Maybe<number>, totalCurrentLiabilities?: Maybe<number>, totalDebt?: Maybe<number>, totalInvestments?: Maybe<number>, totalLiabilities?: Maybe<number>, totalLiabilitiesAndStockholdersEquity?: Maybe<number>, totalNonCurrentAssets?: Maybe<number>, totalNonCurrentLiabilities?: Maybe<number>, totalStockholdersEquity?: Maybe<number> }>>>, cash?: Maybe<Array<Maybe<{ __typename?: 'STFMCashFlow', acceptedDate?: Maybe<string>, accountsPayables?: Maybe<number>, accountsReceivables?: Maybe<number>, acquisitionsNet?: Maybe<number>, capitalExpenditure?: Maybe<number>, cashAtBeginningOfPeriod?: Maybe<number>, cashAtEndOfPeriod?: Maybe<number>, changeInWorkingCapital?: Maybe<number>, commonStockIssued?: Maybe<number>, commonStockRepurchased?: Maybe<number>, date?: Maybe<string>, debtRepayment?: Maybe<number>, deferredIncomeTax?: Maybe<number>, depreciationAndAmortization?: Maybe<number>, dividendsPaid?: Maybe<number>, effectOfForexChangesOnCash?: Maybe<number>, fillingDate?: Maybe<string>, finalLink?: Maybe<string>, freeCashFlow?: Maybe<number>, inventory?: Maybe<number>, investmentsInPropertyPlantAndEquipment?: Maybe<number>, link?: Maybe<string>, netCashProvidedByOperatingActivities?: Maybe<number>, netCashUsedForInvestingActivites?: Maybe<number>, netCashUsedProvidedByFinancingActivities?: Maybe<number>, netChangeInCash?: Maybe<number>, netIncome?: Maybe<number>, operatingCashFlow?: Maybe<number>, otherFinancingActivites?: Maybe<number>, otherInvestingActivites?: Maybe<number>, otherNonCashItems?: Maybe<number>, otherWorkingCapital?: Maybe<number>, period?: Maybe<string>, purchasesOfInvestments?: Maybe<number>, reportedCurrency?: Maybe<string>, salesMaturitiesOfInvestments?: Maybe<number>, stockBasedCompensation?: Maybe<number>, symbol?: Maybe<string> }>>>, income?: Maybe<Array<Maybe<{ __typename?: 'STFMIncomeStatement', acceptedDate?: Maybe<string>, costAndExpenses?: Maybe<number>, costOfRevenue?: Maybe<number>, date?: Maybe<string>, depreciationAndAmortization?: Maybe<number>, ebitda?: Maybe<number>, ebitdaratio?: Maybe<number>, eps?: Maybe<number>, epsdiluted?: Maybe<number>, fillingDate?: Maybe<string>, finalLink?: Maybe<string>, generalAndAdministrativeExpenses?: Maybe<number>, grossProfit?: Maybe<number>, grossProfitRatio?: Maybe<number>, incomeBeforeTax?: Maybe<number>, incomeBeforeTaxRatio?: Maybe<number>, incomeTaxExpense?: Maybe<number>, interestExpense?: Maybe<number>, link?: Maybe<string>, netIncome?: Maybe<number>, netIncomeRatio?: Maybe<number>, operatingExpenses?: Maybe<number>, operatingIncome?: Maybe<number>, operatingIncomeRatio?: Maybe<number>, otherExpenses?: Maybe<number>, period?: Maybe<string>, reportedCurrency?: Maybe<string>, researchAndDevelopmentExpenses?: Maybe<number>, revenue?: Maybe<number>, sellingAndMarketingExpenses?: Maybe<number>, sellingGeneralAndAdministrativeExpenses?: Maybe<number>, symbol?: Maybe<string>, totalOtherIncomeExpensesNet?: Maybe<number>, weightedAverageShsOut?: Maybe<number>, weightedAverageShsOutDil?: Maybe<number> }>>> }>, financialsQuarter?: Maybe<{ __typename?: 'STFMFinancials', balance?: Maybe<Array<Maybe<{ __typename?: 'STFMBalanceSheet', acceptedDate?: Maybe<string>, accountPayables?: Maybe<number>, accumulatedOtherComprehensiveIncomeLoss?: Maybe<number>, cashAndCashEquivalents?: Maybe<number>, cashAndShortTermInvestments?: Maybe<number>, commonStock?: Maybe<number>, date?: Maybe<string>, deferredRevenue?: Maybe<number>, deferredRevenueNonCurrent?: Maybe<number>, deferredTaxLiabilitiesNonCurrent?: Maybe<number>, fillingDate?: Maybe<string>, finalLink?: Maybe<string>, goodwill?: Maybe<number>, goodwillAndIntangibleAssets?: Maybe<number>, intangibleAssets?: Maybe<number>, inventory?: Maybe<number>, link?: Maybe<string>, longTermDebt?: Maybe<number>, longTermInvestments?: Maybe<number>, netDebt?: Maybe<number>, netReceivables?: Maybe<number>, otherAssets?: Maybe<number>, otherCurrentAssets?: Maybe<number>, otherCurrentLiabilities?: Maybe<number>, otherLiabilities?: Maybe<number>, otherNonCurrentAssets?: Maybe<number>, otherNonCurrentLiabilities?: Maybe<number>, othertotalStockholdersEquity?: Maybe<number>, period?: Maybe<string>, propertyPlantEquipmentNet?: Maybe<number>, reportedCurrency?: Maybe<string>, retainedEarnings?: Maybe<number>, shortTermDebt?: Maybe<number>, shortTermInvestments?: Maybe<number>, symbol?: Maybe<string>, taxAssets?: Maybe<number>, taxPayables?: Maybe<number>, totalAssets?: Maybe<number>, totalCurrentAssets?: Maybe<number>, totalCurrentLiabilities?: Maybe<number>, totalDebt?: Maybe<number>, totalInvestments?: Maybe<number>, totalLiabilities?: Maybe<number>, totalLiabilitiesAndStockholdersEquity?: Maybe<number>, totalNonCurrentAssets?: Maybe<number>, totalNonCurrentLiabilities?: Maybe<number>, totalStockholdersEquity?: Maybe<number> }>>>, cash?: Maybe<Array<Maybe<{ __typename?: 'STFMCashFlow', acceptedDate?: Maybe<string>, accountsPayables?: Maybe<number>, accountsReceivables?: Maybe<number>, acquisitionsNet?: Maybe<number>, capitalExpenditure?: Maybe<number>, cashAtBeginningOfPeriod?: Maybe<number>, cashAtEndOfPeriod?: Maybe<number>, changeInWorkingCapital?: Maybe<number>, commonStockIssued?: Maybe<number>, commonStockRepurchased?: Maybe<number>, date?: Maybe<string>, debtRepayment?: Maybe<number>, deferredIncomeTax?: Maybe<number>, depreciationAndAmortization?: Maybe<number>, dividendsPaid?: Maybe<number>, effectOfForexChangesOnCash?: Maybe<number>, fillingDate?: Maybe<string>, finalLink?: Maybe<string>, freeCashFlow?: Maybe<number>, inventory?: Maybe<number>, investmentsInPropertyPlantAndEquipment?: Maybe<number>, link?: Maybe<string>, netCashProvidedByOperatingActivities?: Maybe<number>, netCashUsedForInvestingActivites?: Maybe<number>, netCashUsedProvidedByFinancingActivities?: Maybe<number>, netChangeInCash?: Maybe<number>, netIncome?: Maybe<number>, operatingCashFlow?: Maybe<number>, otherFinancingActivites?: Maybe<number>, otherInvestingActivites?: Maybe<number>, otherNonCashItems?: Maybe<number>, otherWorkingCapital?: Maybe<number>, period?: Maybe<string>, purchasesOfInvestments?: Maybe<number>, reportedCurrency?: Maybe<string>, salesMaturitiesOfInvestments?: Maybe<number>, stockBasedCompensation?: Maybe<number>, symbol?: Maybe<string> }>>>, income?: Maybe<Array<Maybe<{ __typename?: 'STFMIncomeStatement', acceptedDate?: Maybe<string>, costAndExpenses?: Maybe<number>, costOfRevenue?: Maybe<number>, date?: Maybe<string>, depreciationAndAmortization?: Maybe<number>, ebitda?: Maybe<number>, ebitdaratio?: Maybe<number>, eps?: Maybe<number>, epsdiluted?: Maybe<number>, fillingDate?: Maybe<string>, finalLink?: Maybe<string>, generalAndAdministrativeExpenses?: Maybe<number>, grossProfit?: Maybe<number>, grossProfitRatio?: Maybe<number>, incomeBeforeTax?: Maybe<number>, incomeBeforeTaxRatio?: Maybe<number>, incomeTaxExpense?: Maybe<number>, interestExpense?: Maybe<number>, link?: Maybe<string>, netIncome?: Maybe<number>, netIncomeRatio?: Maybe<number>, operatingExpenses?: Maybe<number>, operatingIncome?: Maybe<number>, operatingIncomeRatio?: Maybe<number>, otherExpenses?: Maybe<number>, period?: Maybe<string>, reportedCurrency?: Maybe<string>, researchAndDevelopmentExpenses?: Maybe<number>, revenue?: Maybe<number>, sellingAndMarketingExpenses?: Maybe<number>, sellingGeneralAndAdministrativeExpenses?: Maybe<number>, symbol?: Maybe<string>, totalOtherIncomeExpensesNet?: Maybe<number>, weightedAverageShsOut?: Maybe<number>, weightedAverageShsOutDil?: Maybe<number> }>>> }>, insideTrades?: Maybe<Array<Maybe<{ __typename?: 'STFMInsideTrade', acquistionOrDisposition?: Maybe<string>, companyCik?: Maybe<string>, formType?: Maybe<string>, link?: Maybe<string>, price?: Maybe<number>, reportingCik?: Maybe<string>, reportingName?: Maybe<string>, securitiesOwned?: Maybe<number>, securitiesTransacted?: Maybe<number>, securityName?: Maybe<string>, symbol?: Maybe<string>, transactionDate?: Maybe<string>, transactionType?: Maybe<string>, typeOfOwner?: Maybe<string> }>>>, keyExecutives?: Maybe<Array<Maybe<{ __typename?: 'STFMKeyExecutive', currencyPay?: Maybe<string>, gender?: Maybe<string>, name?: Maybe<string>, pay?: Maybe<number>, title?: Maybe<string> }>>>, rating?: Maybe<{ __typename?: 'STFMRating', date?: Maybe<string>, rating?: Maybe<string>, ratingDetailsDCFRecommendation?: Maybe<string>, ratingDetailsDCFScore?: Maybe<number>, ratingDetailsDERecommendation?: Maybe<string>, ratingDetailsDEScore?: Maybe<number>, ratingDetailsPBRecommendation?: Maybe<string>, ratingDetailsPBScore?: Maybe<number>, ratingDetailsPERecommendation?: Maybe<string>, ratingDetailsPEScore?: Maybe<number>, ratingDetailsROARecommendation?: Maybe<string>, ratingDetailsROAScore?: Maybe<number>, ratingDetailsROERecommendation?: Maybe<string>, ratingDetailsROEScore?: Maybe<number>, ratingRecommendation?: Maybe<string>, ratingScore?: Maybe<number>, symbol?: Maybe<string> }>, ratios?: Maybe<{ __typename?: 'STFMRatios', assetTurnoverTTM?: Maybe<number>, capitalExpenditureCoverageRatioTTM?: Maybe<number>, cashConversionCycleTTM?: Maybe<number>, cashFlowCoverageRatiosTTM?: Maybe<number>, cashFlowToDebtRatioTTM?: Maybe<number>, cashPerShareTTM?: Maybe<number>, cashRatioTTM?: Maybe<number>, companyEquityMultiplierTTM?: Maybe<number>, currentRatioTTM?: Maybe<number>, daysOfInventoryOutstandingTTM?: Maybe<number>, daysOfPayablesOutstandingTTM?: Maybe<number>, daysOfSalesOutstandingTTM?: Maybe<number>, debtEquityRatioTTM?: Maybe<number>, debtRatioTTM?: Maybe<number>, dividendPaidAndCapexCoverageRatioTTM?: Maybe<number>, dividendPerShareTTM?: Maybe<number>, dividendYielPercentageTTM?: Maybe<number>, dividendYielTTM?: Maybe<number>, dividendYieldTTM?: Maybe<number>, ebitPerRevenueTTM?: Maybe<number>, ebtPerEbitTTM?: Maybe<number>, effectiveTaxRateTTM?: Maybe<number>, enterpriseValueMultipleTTM?: Maybe<number>, fixedAssetTurnoverTTM?: Maybe<number>, freeCashFlowOperatingCashFlowRatioTTM?: Maybe<number>, freeCashFlowPerShareTTM?: Maybe<number>, grossProfitMarginTTM?: Maybe<number>, interestCoverageTTM?: Maybe<number>, inventoryTurnoverTTM?: Maybe<number>, longTermDebtToCapitalizationTTM?: Maybe<number>, netIncomePerEBTTTM?: Maybe<number>, netProfitMarginTTM?: Maybe<number>, operatingCashFlowPerShareTTM?: Maybe<number>, operatingCashFlowSalesRatioTTM?: Maybe<number>, operatingCycleTTM?: Maybe<number>, operatingProfitMarginTTM?: Maybe<number>, payablesTurnoverTTM?: Maybe<number>, payoutRatioTTM?: Maybe<number>, peRatioTTM?: Maybe<number>, pegRatioTTM?: Maybe<number>, pretaxProfitMarginTTM?: Maybe<number>, priceBookValueRatioTTM?: Maybe<number>, priceCashFlowRatioTTM?: Maybe<number>, priceEarningsRatioTTM?: Maybe<number>, priceEarningsToGrowthRatioTTM?: Maybe<number>, priceFairValueTTM?: Maybe<number>, priceSalesRatioTTM?: Maybe<number>, priceToBookRatioTTM?: Maybe<number>, priceToFreeCashFlowsRatioTTM?: Maybe<number>, priceToOperatingCashFlowsRatioTTM?: Maybe<number>, priceToSalesRatioTTM?: Maybe<number>, quickRatioTTM?: Maybe<number>, receivablesTurnoverTTM?: Maybe<number>, returnOnAssetsTTM?: Maybe<number>, returnOnCapitalEmployedTTM?: Maybe<number>, returnOnEquityTTM?: Maybe<number>, shortTermCoverageRatiosTTM?: Maybe<number>, totalDebtToCapitalizationTTM?: Maybe<number> }>, splitHistory?: Maybe<Array<Maybe<{ __typename?: 'STFMSplitHistory', date?: Maybe<string>, denominator?: Maybe<number>, label?: Maybe<string>, numerator?: Maybe<number>, symbol?: Maybe<string> }>>>, stockDividend?: Maybe<Array<Maybe<{ __typename?: 'STFMStockDividend', adjDividend?: Maybe<number>, date?: Maybe<string>, declarationDate?: Maybe<string>, dividend?: Maybe<number>, label?: Maybe<string>, paymentDate?: Maybe<string>, recordDate?: Maybe<string>, symbol?: Maybe<string> }>>>, stockNews?: Maybe<Array<Maybe<{ __typename?: 'STFMStockNew', image?: Maybe<string>, publishedDate?: Maybe<string>, site?: Maybe<string>, symbol?: Maybe<string>, text?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> }>, sectorPeers?: Maybe<Array<Maybe<{ __typename?: 'STFMCompanyQuote', avgVolume?: Maybe<number>, change?: Maybe<number>, changesPercentage?: Maybe<number>, dayHigh?: Maybe<number>, dayLow?: Maybe<number>, earningsAnnouncement?: Maybe<string>, eps?: Maybe<number>, exchange?: Maybe<string>, marketCap?: Maybe<number>, name?: Maybe<string>, open?: Maybe<number>, pe?: Maybe<number>, previousClose?: Maybe<number>, price?: Maybe<number>, priceAvg200?: Maybe<number>, priceAvg50?: Maybe<number>, sharesOutstanding?: Maybe<number>, symbol?: Maybe<string>, timestamp?: Maybe<number>, volume?: Maybe<number>, yearHigh?: Maybe<number>, yearLow?: Maybe<number>, image?: Maybe<string> }>>> }> };
 
 export type QueryStockFinancialReportsQueryVariables = Exact<{
   symbol: Scalars['String'];
 }>;
 
 
-export type QueryStockFinancialReportsQuery = (
-  { __typename?: 'Query' }
-  & { queryStockFinancialReports?: Maybe<(
-    { __typename?: 'StockDetailsFinancialReports' }
-    & Pick<StockDetailsFinancialReports, 'id'>
-    & { allFinancialReportsQuarterly?: Maybe<Array<Maybe<(
-      { __typename?: 'FinancialReport' }
-      & FinancialReportFragmentFragment
-    )>>>, allFinancialReportsYearly?: Maybe<Array<Maybe<(
-      { __typename?: 'FinancialReport' }
-      & FinancialReportFragmentFragment
-    )>>> }
-  )> }
-);
+export type QueryStockFinancialReportsQuery = { __typename?: 'Query', queryStockFinancialReports?: Maybe<{ __typename?: 'StockDetailsFinancialReports', id: string, allFinancialReportsQuarterly?: Maybe<Array<Maybe<{ __typename?: 'FinancialReport', acceptedDate?: Maybe<string>, accessNumber?: Maybe<string>, cik?: Maybe<string>, endDate?: Maybe<string>, filedDate?: Maybe<string>, form?: Maybe<string>, quarter?: Maybe<number>, startDate?: Maybe<string>, symbol?: Maybe<string>, year?: Maybe<number>, report?: Maybe<{ __typename?: 'FinancialReportStatement', bs?: Maybe<Array<Maybe<{ __typename?: 'FinancialReportStatementData', concept?: Maybe<string>, label?: Maybe<string>, unit?: Maybe<string>, value?: Maybe<number> }>>>, cf?: Maybe<Array<Maybe<{ __typename?: 'FinancialReportStatementData', concept?: Maybe<string>, label?: Maybe<string>, unit?: Maybe<string>, value?: Maybe<number> }>>>, ic?: Maybe<Array<Maybe<{ __typename?: 'FinancialReportStatementData', concept?: Maybe<string>, label?: Maybe<string>, unit?: Maybe<string>, value?: Maybe<number> }>>> }> }>>>, allFinancialReportsYearly?: Maybe<Array<Maybe<{ __typename?: 'FinancialReport', acceptedDate?: Maybe<string>, accessNumber?: Maybe<string>, cik?: Maybe<string>, endDate?: Maybe<string>, filedDate?: Maybe<string>, form?: Maybe<string>, quarter?: Maybe<number>, startDate?: Maybe<string>, symbol?: Maybe<string>, year?: Maybe<number>, report?: Maybe<{ __typename?: 'FinancialReportStatement', bs?: Maybe<Array<Maybe<{ __typename?: 'FinancialReportStatementData', concept?: Maybe<string>, label?: Maybe<string>, unit?: Maybe<string>, value?: Maybe<number> }>>>, cf?: Maybe<Array<Maybe<{ __typename?: 'FinancialReportStatementData', concept?: Maybe<string>, label?: Maybe<string>, unit?: Maybe<string>, value?: Maybe<number> }>>>, ic?: Maybe<Array<Maybe<{ __typename?: 'FinancialReportStatementData', concept?: Maybe<string>, label?: Maybe<string>, unit?: Maybe<string>, value?: Maybe<number> }>>> }> }>>> }> };
 
 export type QueryStockSummaryQueryVariables = Exact<{
   symbol: Scalars['String'];
 }>;
 
 
-export type QueryStockSummaryQuery = (
-  { __typename?: 'Query' }
-  & { queryStockSummary?: Maybe<(
-    { __typename?: 'Summary' }
-    & StockSummaryFragmentFragment
-  )> }
-);
+export type QueryStockSummaryQuery = { __typename?: 'Query', queryStockSummary?: Maybe<{ __typename?: 'Summary', avgVolume?: Maybe<number>, ceo?: Maybe<string>, companyName?: Maybe<string>, currency?: Maybe<string>, dividendDate?: Maybe<number>, ePSTTM?: Maybe<number>, earningsDate?: Maybe<number>, exDividendDate?: Maybe<number>, exchangeName?: Maybe<string>, fiveTwoWeekRange?: Maybe<string>, forwardDividendRate?: Maybe<number>, forwardDividendYield?: Maybe<number>, forwardEPS?: Maybe<number>, forwardPE?: Maybe<number>, fullTimeEmployees?: Maybe<string>, id?: Maybe<string>, industry?: Maybe<string>, ipoDate?: Maybe<string>, lastSplitDate?: Maybe<number>, lastSplitFactor?: Maybe<string>, logo_url?: Maybe<string>, longBusinessSummary?: Maybe<string>, marketCap?: Maybe<number>, marketPrice?: Maybe<number>, oneyTargetEst?: Maybe<number>, pERatioTTM?: Maybe<number>, previousClose?: Maybe<number>, recommendationKey?: Maybe<string>, recommendationMean?: Maybe<number>, sandPFiveTwoWeekChange?: Maybe<number>, sector?: Maybe<string>, sharesOutstanding?: Maybe<number>, shortRatio?: Maybe<number>, symbol?: Maybe<string>, targetEstOneyPercent?: Maybe<number>, volume?: Maybe<number>, website?: Maybe<string>, weekRangeFiveTwoMax?: Maybe<number>, weekRangeFiveTwoMin?: Maybe<number>, yearToDatePrice?: Maybe<number>, yearToDatePriceReturn?: Maybe<number>, residance?: Maybe<{ __typename?: 'SummaryResidance', city?: Maybe<string>, state?: Maybe<string>, country?: Maybe<string>, addressOne?: Maybe<string>, zip?: Maybe<string> }> }> };
 
 export type QueryStockQuotesByPrefixQueryVariables = Exact<{
   symbolPrefix: Scalars['String'];
 }>;
 
 
-export type QueryStockQuotesByPrefixQuery = (
-  { __typename?: 'Query' }
-  & { queryStockQuotesByPrefix: Array<Maybe<(
-    { __typename?: 'STFMCompanyQuote' }
-    & StfmCompanyQuoteFragmentFragment
-  )>> }
-);
+export type QueryStockQuotesByPrefixQuery = { __typename?: 'Query', queryStockQuotesByPrefix: Array<Maybe<{ __typename?: 'STFMCompanyQuote', avgVolume?: Maybe<number>, change?: Maybe<number>, changesPercentage?: Maybe<number>, dayHigh?: Maybe<number>, dayLow?: Maybe<number>, earningsAnnouncement?: Maybe<string>, eps?: Maybe<number>, exchange?: Maybe<string>, marketCap?: Maybe<number>, name?: Maybe<string>, open?: Maybe<number>, pe?: Maybe<number>, previousClose?: Maybe<number>, price?: Maybe<number>, priceAvg200?: Maybe<number>, priceAvg50?: Maybe<number>, sharesOutstanding?: Maybe<number>, symbol?: Maybe<string>, timestamp?: Maybe<number>, volume?: Maybe<number>, yearHigh?: Maybe<number>, yearLow?: Maybe<number>, image?: Maybe<string> }>> };
 
 export type SetForceReloadStockDetailsMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SetForceReloadStockDetailsMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setForceReloadStockDetails'>
-);
+export type SetForceReloadStockDetailsMutation = { __typename?: 'Mutation', setForceReloadStockDetails?: Maybe<boolean> };
 
 export type QueryStTradingStrategiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type QueryStTradingStrategiesQuery = (
-  { __typename?: 'Query' }
-  & { querySTTradingStrategies?: Maybe<(
-    { __typename?: 'STTradingStrategySearch' }
-    & { data: Array<Maybe<(
-      { __typename?: 'STTradingStrategySearchData' }
-      & Pick<StTradingStrategySearchData, 'description' | 'name' | 'symbol' | 'url'>
-    )>> }
-  )> }
-);
+export type QueryStTradingStrategiesQuery = { __typename?: 'Query', querySTTradingStrategies?: Maybe<{ __typename?: 'STTradingStrategySearch', data: Array<Maybe<{ __typename?: 'STTradingStrategySearchData', description?: Maybe<string>, name: string, symbol: string, url?: Maybe<string> }>> }> };
 
 export type QueryStTradingStrategyDataQueryVariables = Exact<{
   symbol: Scalars['String'];
@@ -2834,246 +2128,94 @@ export type QueryStTradingStrategyDataQueryVariables = Exact<{
 }>;
 
 
-export type QueryStTradingStrategyDataQuery = (
-  { __typename?: 'Query' }
-  & { querySTTradingStrategyData?: Maybe<(
-    { __typename?: 'STTradingStrategyData' }
-    & Pick<StTradingStrategyData, 'interval' | 'period' | 'timestamp'>
-    & { series: Array<Maybe<(
-      { __typename?: 'STSeries' }
-      & Pick<StSeries, 'data' | 'name'>
-    )>> }
-  )> }
-);
+export type QueryStTradingStrategyDataQuery = { __typename?: 'Query', querySTTradingStrategyData?: Maybe<{ __typename?: 'STTradingStrategyData', interval: string, period: string, timestamp: Array<Maybe<number>>, series: Array<Maybe<{ __typename?: 'STSeries', data: Array<Maybe<number>>, name: string }>> }> };
 
-export type StHoldingFragmentFragment = (
-  { __typename?: 'STHolding' }
-  & Pick<StHolding, 'symbol' | 'breakEvenPrice' | 'units'>
-  & { summary?: Maybe<(
-    { __typename?: 'Summary' }
-    & StockSummaryFragmentFragment
-  )> }
-);
+export type StHoldingFragmentFragment = { __typename?: 'STHolding', symbol: string, breakEvenPrice: number, units: number, summary?: Maybe<{ __typename?: 'Summary', avgVolume?: Maybe<number>, ceo?: Maybe<string>, companyName?: Maybe<string>, currency?: Maybe<string>, dividendDate?: Maybe<number>, ePSTTM?: Maybe<number>, earningsDate?: Maybe<number>, exDividendDate?: Maybe<number>, exchangeName?: Maybe<string>, fiveTwoWeekRange?: Maybe<string>, forwardDividendRate?: Maybe<number>, forwardDividendYield?: Maybe<number>, forwardEPS?: Maybe<number>, forwardPE?: Maybe<number>, fullTimeEmployees?: Maybe<string>, id?: Maybe<string>, industry?: Maybe<string>, ipoDate?: Maybe<string>, lastSplitDate?: Maybe<number>, lastSplitFactor?: Maybe<string>, logo_url?: Maybe<string>, longBusinessSummary?: Maybe<string>, marketCap?: Maybe<number>, marketPrice?: Maybe<number>, oneyTargetEst?: Maybe<number>, pERatioTTM?: Maybe<number>, previousClose?: Maybe<number>, recommendationKey?: Maybe<string>, recommendationMean?: Maybe<number>, sandPFiveTwoWeekChange?: Maybe<number>, sector?: Maybe<string>, sharesOutstanding?: Maybe<number>, shortRatio?: Maybe<number>, symbol?: Maybe<string>, targetEstOneyPercent?: Maybe<number>, volume?: Maybe<number>, website?: Maybe<string>, weekRangeFiveTwoMax?: Maybe<number>, weekRangeFiveTwoMin?: Maybe<number>, yearToDatePrice?: Maybe<number>, yearToDatePriceReturn?: Maybe<number>, residance?: Maybe<{ __typename?: 'SummaryResidance', city?: Maybe<string>, state?: Maybe<string>, country?: Maybe<string>, addressOne?: Maybe<string>, zip?: Maybe<string> }> }> };
 
-export type StTransactionFragmentFragment = (
-  { __typename?: 'STTransaction' }
-  & Pick<StTransaction, 'transactionId' | 'symbol' | 'price' | 'return' | 'returnChange' | 'units' | 'date' | 'operation' | 'symbol_logo_url'>
-);
+export type StTransactionFragmentFragment = { __typename?: 'STTransaction', transactionId?: Maybe<string>, symbol: string, price: number, return?: Maybe<number>, returnChange?: Maybe<number>, units: number, date: string, operation: StTransactionOperationEnum, symbol_logo_url: string };
 
-export type StTransactionSnapshotFragmentFragment = (
-  { __typename?: 'STTransactionSnapshot' }
-  & Pick<StTransactionSnapshot, 'transactionsBuy' | 'transactionsSell' | 'date'>
-);
+export type StTransactionSnapshotFragmentFragment = { __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string };
 
 export type PerformTransactionMutationVariables = Exact<{
   transactionInput: StTransactionInput;
 }>;
 
 
-export type PerformTransactionMutation = (
-  { __typename?: 'Mutation' }
-  & { performTransaction?: Maybe<(
-    { __typename?: 'PerformedTransaction' }
-    & { holding?: Maybe<(
-      { __typename?: 'STHolding' }
-      & StHoldingFragmentFragment
-    )>, transaction: (
-      { __typename?: 'STTransaction' }
-      & StTransactionFragmentFragment
-    ) }
-  )> }
-);
+export type PerformTransactionMutation = { __typename?: 'Mutation', performTransaction?: Maybe<{ __typename?: 'PerformedTransaction', holding?: Maybe<{ __typename?: 'STHolding', symbol: string, breakEvenPrice: number, units: number, summary?: Maybe<{ __typename?: 'Summary', avgVolume?: Maybe<number>, ceo?: Maybe<string>, companyName?: Maybe<string>, currency?: Maybe<string>, dividendDate?: Maybe<number>, ePSTTM?: Maybe<number>, earningsDate?: Maybe<number>, exDividendDate?: Maybe<number>, exchangeName?: Maybe<string>, fiveTwoWeekRange?: Maybe<string>, forwardDividendRate?: Maybe<number>, forwardDividendYield?: Maybe<number>, forwardEPS?: Maybe<number>, forwardPE?: Maybe<number>, fullTimeEmployees?: Maybe<string>, id?: Maybe<string>, industry?: Maybe<string>, ipoDate?: Maybe<string>, lastSplitDate?: Maybe<number>, lastSplitFactor?: Maybe<string>, logo_url?: Maybe<string>, longBusinessSummary?: Maybe<string>, marketCap?: Maybe<number>, marketPrice?: Maybe<number>, oneyTargetEst?: Maybe<number>, pERatioTTM?: Maybe<number>, previousClose?: Maybe<number>, recommendationKey?: Maybe<string>, recommendationMean?: Maybe<number>, sandPFiveTwoWeekChange?: Maybe<number>, sector?: Maybe<string>, sharesOutstanding?: Maybe<number>, shortRatio?: Maybe<number>, symbol?: Maybe<string>, targetEstOneyPercent?: Maybe<number>, volume?: Maybe<number>, website?: Maybe<string>, weekRangeFiveTwoMax?: Maybe<number>, weekRangeFiveTwoMin?: Maybe<number>, yearToDatePrice?: Maybe<number>, yearToDatePriceReturn?: Maybe<number>, residance?: Maybe<{ __typename?: 'SummaryResidance', city?: Maybe<string>, state?: Maybe<string>, country?: Maybe<string>, addressOne?: Maybe<string>, zip?: Maybe<string> }> }> }>, transaction: { __typename?: 'STTransaction', transactionId?: Maybe<string>, symbol: string, price: number, return?: Maybe<number>, returnChange?: Maybe<number>, units: number, date: string, operation: StTransactionOperationEnum, symbol_logo_url: string } }> };
 
-export type StUserIndentificationDataFragment = (
-  { __typename?: 'STUserPublicData' }
-  & Pick<StUserPublicData, 'id' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate' | 'lastSignInDate' | 'numberOfExecutedTransactions' | 'numberOfExecutedBuyTransactions' | 'numberOfExecutedSellTransactions' | 'lastPortfolioIncreaseNumber' | 'lastPortfolioIncreasePrct'>
-  & { lastPortfolioSnapshot?: Maybe<(
-    { __typename?: 'STPortfolioSnapshot' }
-    & Pick<StPortfolioSnapshot, 'portfolioInvested' | 'portfolioCash' | 'date'>
-  )>, lastTransactionSnapshot?: Maybe<(
-    { __typename?: 'STTransactionSnapshot' }
-    & Pick<StTransactionSnapshot, 'transactionsBuy' | 'transactionsSell' | 'date'>
-  )> }
-);
+export type StUserIndentificationDataFragment = { __typename?: 'STUserPublicData', id: string, nickName: string, locale?: Maybe<string>, photoURL?: Maybe<string>, accountCreatedDate: string, lastSignInDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> } };
 
 export type AuthenticateUserQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type AuthenticateUserQuery = (
-  { __typename?: 'Query' }
-  & { authenticateUser?: Maybe<(
-    { __typename?: 'STUserPublicData' }
-    & Pick<StUserPublicData, 'id' | 'nickName' | 'locale' | 'photoURL' | 'accountCreatedDate' | 'lastSignInDate' | 'portfolioCash' | 'numberOfExecutedTransactions' | 'numberOfExecutedBuyTransactions' | 'numberOfExecutedSellTransactions' | 'lastPortfolioIncreaseNumber' | 'lastPortfolioIncreasePrct' | 'activity'>
-    & { rank?: Maybe<(
-      { __typename?: 'STRank' }
-      & StRankFragmentFragment
-    )>, transactionsSnippets: Array<Maybe<(
-      { __typename?: 'STTransaction' }
-      & StTransactionFragmentFragment
-    )>>, holdings: Array<Maybe<(
-      { __typename?: 'STHolding' }
-      & StHoldingFragmentFragment
-    )>>, groups: (
-      { __typename?: 'STUserGroups' }
-      & { groupInvitationSent?: Maybe<Array<Maybe<(
-        { __typename?: 'STGroupAllData' }
-        & StGroupIdentificationDataFragment
-      )>>>, groupInvitationReceived?: Maybe<Array<Maybe<(
-        { __typename?: 'STGroupAllData' }
-        & StGroupIdentificationDataFragment
-      )>>>, groupOwner?: Maybe<Array<Maybe<(
-        { __typename?: 'STGroupAllData' }
-        & StGroupIdentificationDataFragment
-      )>>>, groupMember?: Maybe<Array<Maybe<(
-        { __typename?: 'STGroupAllData' }
-        & StGroupIdentificationDataFragment
-      )>>> }
-    ), lastPortfolioSnapshot?: Maybe<(
-      { __typename?: 'STPortfolioSnapshot' }
-      & StPortfolioSnapshotFragmentFragment
-    )>, lastTransactionSnapshot?: Maybe<(
-      { __typename?: 'STTransactionSnapshot' }
-      & StTransactionSnapshotFragmentFragment
-    )>, userHistoricalData: (
-      { __typename?: 'STUserHistoricalData' }
-      & { userLogs: Array<Maybe<(
-        { __typename?: 'STLog' }
-        & StLogsFragmentFragment
-      )>>, resetedAccount: Array<Maybe<(
-        { __typename?: 'STUserResetedAccount' }
-        & Pick<StUserResetedAccount, 'date' | 'portfolioTotal'>
-      )>>, bestAchievedRanks: Array<Maybe<(
-        { __typename?: 'STRank' }
-        & StRankFragmentFragment
-      )>>, portfolioSnapshots: Array<Maybe<(
-        { __typename?: 'STPortfolioSnapshot' }
-        & StPortfolioSnapshotFragmentFragment
-      )>>, transactionSnapshots: Array<Maybe<(
-        { __typename?: 'STTransactionSnapshot' }
-        & StTransactionSnapshotFragmentFragment
-      )>> }
-    ), userPrivateData: (
-      { __typename?: 'STUserPrivateData' }
-      & Pick<StUserPrivateData, 'tradingEnabledDate' | 'finnhubKey' | 'roles' | 'email' | 'displayName' | 'providerId' | 'status' | 'nicknameLastChange'>
-    ), stockWatchlist: Array<Maybe<(
-      { __typename?: 'STStockWatchlist' }
-      & StStockWatchlistFragmentFragment
-    )>> }
-  )> }
-);
+export type AuthenticateUserQuery = { __typename?: 'Query', authenticateUser?: Maybe<{ __typename?: 'STUserPublicData', id: string, nickName: string, locale?: Maybe<string>, photoURL?: Maybe<string>, accountCreatedDate: string, lastSignInDate: string, activity?: Maybe<User_Activity>, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, rank?: Maybe<{ __typename?: 'STRank', rankGainers: number, rankLosers: number, rankPortfolio: number, rankProfit: number, rankNumberOfTrades: number, date: string }>, transactionsSnippets: Array<Maybe<{ __typename?: 'STTransaction', transactionId?: Maybe<string>, symbol: string, price: number, return?: Maybe<number>, returnChange?: Maybe<number>, units: number, date: string, operation: StTransactionOperationEnum, symbol_logo_url: string }>>, holdings: Array<Maybe<{ __typename?: 'STHolding', symbol: string, breakEvenPrice: number, units: number, summary?: Maybe<{ __typename?: 'Summary', avgVolume?: Maybe<number>, ceo?: Maybe<string>, companyName?: Maybe<string>, currency?: Maybe<string>, dividendDate?: Maybe<number>, ePSTTM?: Maybe<number>, earningsDate?: Maybe<number>, exDividendDate?: Maybe<number>, exchangeName?: Maybe<string>, fiveTwoWeekRange?: Maybe<string>, forwardDividendRate?: Maybe<number>, forwardDividendYield?: Maybe<number>, forwardEPS?: Maybe<number>, forwardPE?: Maybe<number>, fullTimeEmployees?: Maybe<string>, id?: Maybe<string>, industry?: Maybe<string>, ipoDate?: Maybe<string>, lastSplitDate?: Maybe<number>, lastSplitFactor?: Maybe<string>, logo_url?: Maybe<string>, longBusinessSummary?: Maybe<string>, marketCap?: Maybe<number>, marketPrice?: Maybe<number>, oneyTargetEst?: Maybe<number>, pERatioTTM?: Maybe<number>, previousClose?: Maybe<number>, recommendationKey?: Maybe<string>, recommendationMean?: Maybe<number>, sandPFiveTwoWeekChange?: Maybe<number>, sector?: Maybe<string>, sharesOutstanding?: Maybe<number>, shortRatio?: Maybe<number>, symbol?: Maybe<string>, targetEstOneyPercent?: Maybe<number>, volume?: Maybe<number>, website?: Maybe<string>, weekRangeFiveTwoMax?: Maybe<number>, weekRangeFiveTwoMin?: Maybe<number>, yearToDatePrice?: Maybe<number>, yearToDatePriceReturn?: Maybe<number>, residance?: Maybe<{ __typename?: 'SummaryResidance', city?: Maybe<string>, state?: Maybe<string>, country?: Maybe<string>, addressOne?: Maybe<string>, zip?: Maybe<string> }> }> }>>, groups: { __typename?: 'STUserGroups', groupInvitationSent?: Maybe<Array<Maybe<{ __typename?: 'STGroupAllData', id: string, name: string, description?: Maybe<string>, imagePath?: Maybe<string>, imageUrl?: Maybe<string>, startDate: string, endDate?: Maybe<string>, isInfinite: boolean, isPrivate: boolean, numberOfMembers: number, numberOfInvitationSent: number, numberOfInvitationReceived: number, lastUpdateDate: string, lastEditedDate: string, createdDate: string, owner: { __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, topMembers: Array<Maybe<{ __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }>>, currentAchievedRanks?: Maybe<{ __typename?: 'STRank', rankGainers: number, rankLosers: number, rankPortfolio: number, rankProfit: number, rankNumberOfTrades: number, date: string }> }>>>, groupInvitationReceived?: Maybe<Array<Maybe<{ __typename?: 'STGroupAllData', id: string, name: string, description?: Maybe<string>, imagePath?: Maybe<string>, imageUrl?: Maybe<string>, startDate: string, endDate?: Maybe<string>, isInfinite: boolean, isPrivate: boolean, numberOfMembers: number, numberOfInvitationSent: number, numberOfInvitationReceived: number, lastUpdateDate: string, lastEditedDate: string, createdDate: string, owner: { __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, topMembers: Array<Maybe<{ __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }>>, currentAchievedRanks?: Maybe<{ __typename?: 'STRank', rankGainers: number, rankLosers: number, rankPortfolio: number, rankProfit: number, rankNumberOfTrades: number, date: string }> }>>>, groupOwner?: Maybe<Array<Maybe<{ __typename?: 'STGroupAllData', id: string, name: string, description?: Maybe<string>, imagePath?: Maybe<string>, imageUrl?: Maybe<string>, startDate: string, endDate?: Maybe<string>, isInfinite: boolean, isPrivate: boolean, numberOfMembers: number, numberOfInvitationSent: number, numberOfInvitationReceived: number, lastUpdateDate: string, lastEditedDate: string, createdDate: string, owner: { __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, topMembers: Array<Maybe<{ __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }>>, currentAchievedRanks?: Maybe<{ __typename?: 'STRank', rankGainers: number, rankLosers: number, rankPortfolio: number, rankProfit: number, rankNumberOfTrades: number, date: string }> }>>>, groupMember?: Maybe<Array<Maybe<{ __typename?: 'STGroupAllData', id: string, name: string, description?: Maybe<string>, imagePath?: Maybe<string>, imageUrl?: Maybe<string>, startDate: string, endDate?: Maybe<string>, isInfinite: boolean, isPrivate: boolean, numberOfMembers: number, numberOfInvitationSent: number, numberOfInvitationReceived: number, lastUpdateDate: string, lastEditedDate: string, createdDate: string, owner: { __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, topMembers: Array<Maybe<{ __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startingPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }> }>>, currentAchievedRanks?: Maybe<{ __typename?: 'STRank', rankGainers: number, rankLosers: number, rankPortfolio: number, rankProfit: number, rankNumberOfTrades: number, date: string }> }>>> }, userHistoricalData: { __typename?: 'STUserHistoricalData', userLogs: Array<Maybe<{ __typename?: 'STLog', date: string, logText: string }>>, resetedAccount: Array<Maybe<{ __typename?: 'STUserResetedAccount', date: string, portfolioTotal: number }>>, bestAchievedRanks: Array<Maybe<{ __typename?: 'STRank', rankGainers: number, rankLosers: number, rankPortfolio: number, rankProfit: number, rankNumberOfTrades: number, date: string }>>, portfolioSnapshots: Array<Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>>, transactionSnapshots: Array<Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }>> }, userPrivateData: { __typename?: 'STUserPrivateData', tradingEnabledDate?: Maybe<string>, finnhubKey?: Maybe<string>, roles?: Maybe<Array<Maybe<string>>>, email: string, displayName: string, providerId?: Maybe<string>, status: User_Status, nicknameLastChange?: Maybe<string> }, stockWatchlist: Array<Maybe<{ __typename?: 'STStockWatchlist', id: string, name: string, date?: Maybe<string>, userId: string, summaries?: Maybe<Array<Maybe<{ __typename?: 'Summary', avgVolume?: Maybe<number>, ceo?: Maybe<string>, companyName?: Maybe<string>, currency?: Maybe<string>, dividendDate?: Maybe<number>, ePSTTM?: Maybe<number>, earningsDate?: Maybe<number>, exDividendDate?: Maybe<number>, exchangeName?: Maybe<string>, fiveTwoWeekRange?: Maybe<string>, forwardDividendRate?: Maybe<number>, forwardDividendYield?: Maybe<number>, forwardEPS?: Maybe<number>, forwardPE?: Maybe<number>, fullTimeEmployees?: Maybe<string>, id?: Maybe<string>, industry?: Maybe<string>, ipoDate?: Maybe<string>, lastSplitDate?: Maybe<number>, lastSplitFactor?: Maybe<string>, logo_url?: Maybe<string>, longBusinessSummary?: Maybe<string>, marketCap?: Maybe<number>, marketPrice?: Maybe<number>, oneyTargetEst?: Maybe<number>, pERatioTTM?: Maybe<number>, previousClose?: Maybe<number>, recommendationKey?: Maybe<string>, recommendationMean?: Maybe<number>, sandPFiveTwoWeekChange?: Maybe<number>, sector?: Maybe<string>, sharesOutstanding?: Maybe<number>, shortRatio?: Maybe<number>, symbol?: Maybe<string>, targetEstOneyPercent?: Maybe<number>, volume?: Maybe<number>, website?: Maybe<string>, weekRangeFiveTwoMax?: Maybe<number>, weekRangeFiveTwoMin?: Maybe<number>, yearToDatePrice?: Maybe<number>, yearToDatePriceReturn?: Maybe<number>, residance?: Maybe<{ __typename?: 'SummaryResidance', city?: Maybe<string>, state?: Maybe<string>, country?: Maybe<string>, addressOne?: Maybe<string>, zip?: Maybe<string> }> }>>> }>> }> };
 
 export type QueryUserPublicDataByUsernameQueryVariables = Exact<{
   usernamePrefix: Scalars['String'];
 }>;
 
 
-export type QueryUserPublicDataByUsernameQuery = (
-  { __typename?: 'Query' }
-  & { queryUserPublicDataByUsername: Array<Maybe<(
-    { __typename?: 'STUserPublicData' }
-    & StUserIndentificationDataFragment
-  )>> }
-);
+export type QueryUserPublicDataByUsernameQuery = { __typename?: 'Query', queryUserPublicDataByUsername: Array<Maybe<{ __typename?: 'STUserPublicData', id: string, nickName: string, locale?: Maybe<string>, photoURL?: Maybe<string>, accountCreatedDate: string, lastSignInDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, startingPortfolioSnapshot: { __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> } }>> };
 
 export type RegisterUserMutationVariables = Exact<{
   stUserAuthenticationInput: StUserAuthenticationInput;
 }>;
 
 
-export type RegisterUserMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'registerUser'>
-);
+export type RegisterUserMutation = { __typename?: 'Mutation', registerUser?: Maybe<boolean> };
 
 export type EditUserMutationVariables = Exact<{
   editInput: StUserEditDataInput;
 }>;
 
 
-export type EditUserMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'editUser'>
-);
+export type EditUserMutation = { __typename?: 'Mutation', editUser?: Maybe<boolean> };
 
 export type ResetUserAccountMutationVariables = Exact<{
   userId: Scalars['String'];
 }>;
 
 
-export type ResetUserAccountMutation = (
-  { __typename?: 'Mutation' }
-  & { resetUserAccount?: Maybe<(
-    { __typename?: 'STUserResetedAccount' }
-    & Pick<StUserResetedAccount, 'date' | 'portfolioTotal'>
-  )> }
-);
+export type ResetUserAccountMutation = { __typename?: 'Mutation', resetUserAccount?: Maybe<{ __typename?: 'STUserResetedAccount', date: string, portfolioTotal: number }> };
 
-export type StStockWatchlistFragmentFragment = (
-  { __typename?: 'STStockWatchlist' }
-  & Pick<StStockWatchlist, 'id' | 'name' | 'date' | 'userId'>
-  & { summaries?: Maybe<Array<Maybe<(
-    { __typename?: 'Summary' }
-    & StockSummaryFragmentFragment
-  )>>> }
-);
+export type StStockWatchlistFragmentFragment = { __typename?: 'STStockWatchlist', id: string, name: string, date?: Maybe<string>, userId: string, summaries?: Maybe<Array<Maybe<{ __typename?: 'Summary', avgVolume?: Maybe<number>, ceo?: Maybe<string>, companyName?: Maybe<string>, currency?: Maybe<string>, dividendDate?: Maybe<number>, ePSTTM?: Maybe<number>, earningsDate?: Maybe<number>, exDividendDate?: Maybe<number>, exchangeName?: Maybe<string>, fiveTwoWeekRange?: Maybe<string>, forwardDividendRate?: Maybe<number>, forwardDividendYield?: Maybe<number>, forwardEPS?: Maybe<number>, forwardPE?: Maybe<number>, fullTimeEmployees?: Maybe<string>, id?: Maybe<string>, industry?: Maybe<string>, ipoDate?: Maybe<string>, lastSplitDate?: Maybe<number>, lastSplitFactor?: Maybe<string>, logo_url?: Maybe<string>, longBusinessSummary?: Maybe<string>, marketCap?: Maybe<number>, marketPrice?: Maybe<number>, oneyTargetEst?: Maybe<number>, pERatioTTM?: Maybe<number>, previousClose?: Maybe<number>, recommendationKey?: Maybe<string>, recommendationMean?: Maybe<number>, sandPFiveTwoWeekChange?: Maybe<number>, sector?: Maybe<string>, sharesOutstanding?: Maybe<number>, shortRatio?: Maybe<number>, symbol?: Maybe<string>, targetEstOneyPercent?: Maybe<number>, volume?: Maybe<number>, website?: Maybe<string>, weekRangeFiveTwoMax?: Maybe<number>, weekRangeFiveTwoMin?: Maybe<number>, yearToDatePrice?: Maybe<number>, yearToDatePriceReturn?: Maybe<number>, residance?: Maybe<{ __typename?: 'SummaryResidance', city?: Maybe<string>, state?: Maybe<string>, country?: Maybe<string>, addressOne?: Maybe<string>, zip?: Maybe<string> }> }>>> };
 
 export type CreateStockWatchlistMutationVariables = Exact<{
   identifier: StStockWatchInputlistIdentifier;
 }>;
 
 
-export type CreateStockWatchlistMutation = (
-  { __typename?: 'Mutation' }
-  & { createStockWatchlist?: Maybe<(
-    { __typename?: 'STStockWatchlist' }
-    & StStockWatchlistFragmentFragment
-  )> }
-);
+export type CreateStockWatchlistMutation = { __typename?: 'Mutation', createStockWatchlist?: Maybe<{ __typename?: 'STStockWatchlist', id: string, name: string, date?: Maybe<string>, userId: string, summaries?: Maybe<Array<Maybe<{ __typename?: 'Summary', avgVolume?: Maybe<number>, ceo?: Maybe<string>, companyName?: Maybe<string>, currency?: Maybe<string>, dividendDate?: Maybe<number>, ePSTTM?: Maybe<number>, earningsDate?: Maybe<number>, exDividendDate?: Maybe<number>, exchangeName?: Maybe<string>, fiveTwoWeekRange?: Maybe<string>, forwardDividendRate?: Maybe<number>, forwardDividendYield?: Maybe<number>, forwardEPS?: Maybe<number>, forwardPE?: Maybe<number>, fullTimeEmployees?: Maybe<string>, id?: Maybe<string>, industry?: Maybe<string>, ipoDate?: Maybe<string>, lastSplitDate?: Maybe<number>, lastSplitFactor?: Maybe<string>, logo_url?: Maybe<string>, longBusinessSummary?: Maybe<string>, marketCap?: Maybe<number>, marketPrice?: Maybe<number>, oneyTargetEst?: Maybe<number>, pERatioTTM?: Maybe<number>, previousClose?: Maybe<number>, recommendationKey?: Maybe<string>, recommendationMean?: Maybe<number>, sandPFiveTwoWeekChange?: Maybe<number>, sector?: Maybe<string>, sharesOutstanding?: Maybe<number>, shortRatio?: Maybe<number>, symbol?: Maybe<string>, targetEstOneyPercent?: Maybe<number>, volume?: Maybe<number>, website?: Maybe<string>, weekRangeFiveTwoMax?: Maybe<number>, weekRangeFiveTwoMin?: Maybe<number>, yearToDatePrice?: Maybe<number>, yearToDatePriceReturn?: Maybe<number>, residance?: Maybe<{ __typename?: 'SummaryResidance', city?: Maybe<string>, state?: Maybe<string>, country?: Maybe<string>, addressOne?: Maybe<string>, zip?: Maybe<string> }> }>>> }> };
 
 export type AddStockIntoWatchlistMutationVariables = Exact<{
   identifier: StStockWatchInputlistIdentifier;
 }>;
 
 
-export type AddStockIntoWatchlistMutation = (
-  { __typename?: 'Mutation' }
-  & { addStockIntoStockWatchlist?: Maybe<(
-    { __typename?: 'Summary' }
-    & StockSummaryFragmentFragment
-  )> }
-);
+export type AddStockIntoWatchlistMutation = { __typename?: 'Mutation', addStockIntoStockWatchlist?: Maybe<{ __typename?: 'Summary', avgVolume?: Maybe<number>, ceo?: Maybe<string>, companyName?: Maybe<string>, currency?: Maybe<string>, dividendDate?: Maybe<number>, ePSTTM?: Maybe<number>, earningsDate?: Maybe<number>, exDividendDate?: Maybe<number>, exchangeName?: Maybe<string>, fiveTwoWeekRange?: Maybe<string>, forwardDividendRate?: Maybe<number>, forwardDividendYield?: Maybe<number>, forwardEPS?: Maybe<number>, forwardPE?: Maybe<number>, fullTimeEmployees?: Maybe<string>, id?: Maybe<string>, industry?: Maybe<string>, ipoDate?: Maybe<string>, lastSplitDate?: Maybe<number>, lastSplitFactor?: Maybe<string>, logo_url?: Maybe<string>, longBusinessSummary?: Maybe<string>, marketCap?: Maybe<number>, marketPrice?: Maybe<number>, oneyTargetEst?: Maybe<number>, pERatioTTM?: Maybe<number>, previousClose?: Maybe<number>, recommendationKey?: Maybe<string>, recommendationMean?: Maybe<number>, sandPFiveTwoWeekChange?: Maybe<number>, sector?: Maybe<string>, sharesOutstanding?: Maybe<number>, shortRatio?: Maybe<number>, symbol?: Maybe<string>, targetEstOneyPercent?: Maybe<number>, volume?: Maybe<number>, website?: Maybe<string>, weekRangeFiveTwoMax?: Maybe<number>, weekRangeFiveTwoMin?: Maybe<number>, yearToDatePrice?: Maybe<number>, yearToDatePriceReturn?: Maybe<number>, residance?: Maybe<{ __typename?: 'SummaryResidance', city?: Maybe<string>, state?: Maybe<string>, country?: Maybe<string>, addressOne?: Maybe<string>, zip?: Maybe<string> }> }> };
 
 export type RemoveStockFromWatchlistMutationVariables = Exact<{
   identifier: StStockWatchInputlistIdentifier;
 }>;
 
 
-export type RemoveStockFromWatchlistMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'removeStockFromStockWatchlist'>
-);
+export type RemoveStockFromWatchlistMutation = { __typename?: 'Mutation', removeStockFromStockWatchlist?: Maybe<boolean> };
 
 export type DeleteUserWatchlistMutationVariables = Exact<{
   identifier: StStockWatchInputlistIdentifier;
 }>;
 
 
-export type DeleteUserWatchlistMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'deleteWatchlist'>
-);
+export type DeleteUserWatchlistMutation = { __typename?: 'Mutation', deleteWatchlist?: Maybe<boolean> };
 
 export type RenameStockWatchlistMutationVariables = Exact<{
   identifier: StStockWatchInputlistIdentifier;
 }>;
 
 
-export type RenameStockWatchlistMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'renameStockWatchlist'>
-);
+export type RenameStockWatchlistMutation = { __typename?: 'Mutation', renameStockWatchlist?: Maybe<boolean> };
 
 export const StfmHolderFragmentFragmentDoc = gql`
     fragment STFMHolderFragment on STFMHolder {
@@ -3492,6 +2634,26 @@ export const StTransactionSnapshotFragmentFragmentDoc = gql`
   date
 }
     `;
+export const StPortfolioWrapperFragmentFragmentDoc = gql`
+    fragment STPortfolioWrapperFragment on STPortfolioWrapper {
+  startingPortfolioSnapshot {
+    ...STPortfolioSnapshotFragment
+  }
+  portfolioCash
+  numberOfExecutedTransactions
+  numberOfExecutedBuyTransactions
+  numberOfExecutedSellTransactions
+  lastPortfolioIncreaseNumber
+  lastPortfolioIncreasePrct
+  lastPortfolioSnapshot {
+    ...STPortfolioSnapshotFragment
+  }
+  lastTransactionSnapshot {
+    ...STTransactionSnapshotFragment
+  }
+}
+    ${StPortfolioSnapshotFragmentFragmentDoc}
+${StTransactionSnapshotFragmentFragmentDoc}`;
 export const StGroupUserFragmentFragmentDoc = gql`
     fragment STGroupUserFragment on STGroupUser {
   id
@@ -3499,16 +2661,8 @@ export const StGroupUserFragmentFragmentDoc = gql`
   locale
   photoURL
   accountCreatedDate
-  lastPortfolioSnapshot {
-    ...STPortfolioSnapshotFragment
-  }
-  lastPortfolioIncreaseNumber
-  lastPortfolioIncreasePrct
-  numberOfExecutedTransactions
-  numberOfExecutedBuyTransactions
-  numberOfExecutedSellTransactions
-  lastTransactionSnapshot {
-    ...STTransactionSnapshotFragment
+  portfolio {
+    ...STPortfolioWrapperFragment
   }
   previousPosition
   currentPosition
@@ -3517,8 +2671,8 @@ export const StGroupUserFragmentFragmentDoc = gql`
   }
   sinceDate
 }
-    ${StPortfolioSnapshotFragmentFragmentDoc}
-${StTransactionSnapshotFragmentFragmentDoc}`;
+    ${StPortfolioWrapperFragmentFragmentDoc}
+${StPortfolioSnapshotFragmentFragmentDoc}`;
 export const StRankFragmentFragmentDoc = gql`
     fragment STRankFragment on STRank {
   rankGainers
@@ -3531,7 +2685,7 @@ export const StRankFragmentFragmentDoc = gql`
     `;
 export const StGroupIdentificationDataFragmentDoc = gql`
     fragment STGroupIdentificationData on STGroupAllData {
-  groupId
+  id
   name
   description
   imagePath
@@ -3539,24 +2693,16 @@ export const StGroupIdentificationDataFragmentDoc = gql`
   owner {
     ...STGroupUserFragment
   }
-  lastPortfolioSnapshot {
-    ...STPortfolioSnapshotFragment
-  }
-  lastTransactionSnapshot {
-    ...STTransactionSnapshotFragment
-  }
   startDate
   endDate
   isInfinite
   isPrivate
-  lastPortfolioIncreaseNumber
-  lastPortfolioIncreasePrct
-  lastPortfolioBalance
-  numberOfExecutedTransactions
-  numberOfExecutedBuyTransactions
-  numberOfExecutedSellTransactions
   numberOfMembers
-  startedBalance
+  numberOfInvitationSent
+  numberOfInvitationReceived
+  portfolio {
+    ...STPortfolioWrapperFragment
+  }
   topMembers {
     ...STGroupUserFragment
   }
@@ -3568,8 +2714,7 @@ export const StGroupIdentificationDataFragmentDoc = gql`
   }
 }
     ${StGroupUserFragmentFragmentDoc}
-${StPortfolioSnapshotFragmentFragmentDoc}
-${StTransactionSnapshotFragmentFragmentDoc}
+${StPortfolioWrapperFragmentFragmentDoc}
 ${StRankFragmentFragmentDoc}`;
 export const SummaryResidanceFragmentFragmentDoc = gql`
     fragment SummaryResidanceFragment on SummaryResidance {
@@ -3660,7 +2805,7 @@ export const StLogsFragmentFragmentDoc = gql`
     `;
 export const StGroupAllDataFragmentFragmentDoc = gql`
     fragment STGroupAllDataFragment on STGroupAllData {
-  groupId
+  id
   name
   description
   imageUrl
@@ -3676,24 +2821,28 @@ export const StGroupAllDataFragmentFragmentDoc = gql`
   isPrivate
   isInfinite
   numberOfMembers
-  startedBalance
-  lastPortfolioIncreaseNumber
-  lastPortfolioIncreasePrct
-  lastPortfolioBalance
-  numberOfExecutedTransactions
-  numberOfExecutedBuyTransactions
-  numberOfExecutedSellTransactions
-  holdings {
-    holding {
-      ...STHoldingFragment
+  numberOfInvitationSent
+  numberOfInvitationReceived
+  portfolio {
+    ...STPortfolioWrapperFragment
+  }
+  groupMemberData {
+    id
+    members {
+      ...STGroupUserFragment
     }
-    numberOfUsers
-  }
-  lastTransactionSnapshot {
-    ...STTransactionSnapshotFragment
-  }
-  lastPortfolioSnapshot {
-    ...STPortfolioSnapshotFragment
+    holdings {
+      holding {
+        ...STHoldingFragment
+      }
+      numberOfUsers
+    }
+    invitationSent {
+      ...STGroupUserFragment
+    }
+    invitationReceived {
+      ...STGroupUserFragment
+    }
   }
   currentAchievedRanks {
     ...STRankFragment
@@ -3715,28 +2864,17 @@ export const StGroupAllDataFragmentFragmentDoc = gql`
       ...STLogsFragment
     }
   }
-  lastTransactions {
-    ...STTransactionFragment
-  }
   managers {
-    ...STGroupUserFragment
-  }
-  members {
-    ...STGroupUserFragment
-  }
-  invitationSent {
-    ...STGroupUserFragment
-  }
-  invitationReceived {
     ...STGroupUserFragment
   }
 }
     ${StGroupUserFragmentFragmentDoc}
+${StPortfolioWrapperFragmentFragmentDoc}
 ${StHoldingFragmentFragmentDoc}
-${StTransactionSnapshotFragmentFragmentDoc}
-${StPortfolioSnapshotFragmentFragmentDoc}
 ${StRankFragmentFragmentDoc}
 ${StTransactionFragmentFragmentDoc}
+${StPortfolioSnapshotFragmentFragmentDoc}
+${StTransactionSnapshotFragmentFragmentDoc}
 ${StLogsFragmentFragmentDoc}`;
 export const StMarketChartDataResultCombinedFragmentFragmentDoc = gql`
     fragment STMarketChartDataResultCombinedFragment on STMarketChartDataResultCombined {
@@ -4150,23 +3288,11 @@ export const StUserIndentificationDataFragmentDoc = gql`
   photoURL
   accountCreatedDate
   lastSignInDate
-  numberOfExecutedTransactions
-  numberOfExecutedBuyTransactions
-  numberOfExecutedSellTransactions
-  lastPortfolioIncreaseNumber
-  lastPortfolioIncreasePrct
-  lastPortfolioSnapshot {
-    portfolioInvested
-    portfolioCash
-    date
-  }
-  lastTransactionSnapshot {
-    transactionsBuy
-    transactionsSell
-    date
+  portfolio {
+    ...STPortfolioWrapperFragment
   }
 }
-    `;
+    ${StPortfolioWrapperFragmentFragmentDoc}`;
 export const StStockWatchlistFragmentFragmentDoc = gql`
     fragment STStockWatchlistFragment on STStockWatchlist {
   id
@@ -4209,9 +3335,9 @@ export const QueryAdminMainInformationsDocument = gql`
       super(apollo);
     }
   }
-export const QueryStGroupAllDataByGroupIdDocument = gql`
-    query QuerySTGroupAllDataByGroupId($groupId: String!) {
-  querySTGroupAllDataByGroupId(groupId: $groupId) {
+export const QueryStGroupByGroupIdDocument = gql`
+    query QuerySTGroupByGroupId($id: String!) {
+  querySTGroupByGroupId(id: $id) {
     ...STGroupAllDataFragment
   }
 }
@@ -4220,16 +3346,16 @@ export const QueryStGroupAllDataByGroupIdDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class QueryStGroupAllDataByGroupIdGQL extends Apollo.Query<QueryStGroupAllDataByGroupIdQuery, QueryStGroupAllDataByGroupIdQueryVariables> {
-    document = QueryStGroupAllDataByGroupIdDocument;
+  export class QueryStGroupByGroupIdGQL extends Apollo.Query<QueryStGroupByGroupIdQuery, QueryStGroupByGroupIdQueryVariables> {
+    document = QueryStGroupByGroupIdDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
   }
-export const QueryStGroupPartialDataByGroupNameDocument = gql`
-    query QuerySTGroupPartialDataByGroupName($groupName: String!) {
-  querySTGroupPartialDataByGroupName(groupName: $groupName) {
+export const QueryStGroupByGroupNameDocument = gql`
+    query QuerySTGroupByGroupName($groupName: String!) {
+  querySTGroupByGroupName(groupName: $groupName) {
     groups {
       ...STGroupIdentificationData
     }
@@ -4240,8 +3366,8 @@ export const QueryStGroupPartialDataByGroupNameDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class QueryStGroupPartialDataByGroupNameGQL extends Apollo.Query<QueryStGroupPartialDataByGroupNameQuery, QueryStGroupPartialDataByGroupNameQueryVariables> {
-    document = QueryStGroupPartialDataByGroupNameDocument;
+  export class QueryStGroupByGroupNameGQL extends Apollo.Query<QueryStGroupByGroupNameQuery, QueryStGroupByGroupNameQueryVariables> {
+    document = QueryStGroupByGroupNameDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -4284,8 +3410,8 @@ export const EditGroupDocument = gql`
     }
   }
 export const DeleteGroupDocument = gql`
-    mutation DeleteGroup($uid: String!, $groupId: String!) {
-  deleteGroup(uid: $uid, groupId: $groupId)
+    mutation DeleteGroup($id: String!) {
+  deleteGroup(id: $id)
 }
     `;
 
@@ -4300,8 +3426,8 @@ export const DeleteGroupDocument = gql`
     }
   }
 export const ToggleInvitationRequestToGroupDocument = gql`
-    mutation ToggleInvitationRequestToGroup($uid: String!, $groupId: String!) {
-  toggleInvitationRequestToGroup(uid: $uid, groupId: $groupId) {
+    mutation ToggleInvitationRequestToGroup($id: String!) {
+  toggleInvitationRequestToGroup(id: $id) {
     ...STGroupIdentificationData
   }
 }
@@ -4318,8 +3444,8 @@ export const ToggleInvitationRequestToGroupDocument = gql`
     }
   }
 export const AnswerReceivedGroupInvitationDocument = gql`
-    mutation AnswerReceivedGroupInvitation($uid: String!, $groupId: String!, $accept: Boolean!) {
-  answerReceivedGroupInvitation(uid: $uid, groupId: $groupId, accept: $accept) {
+    mutation AnswerReceivedGroupInvitation($id: String!, $accept: Boolean!) {
+  answerReceivedGroupInvitation(id: $id, accept: $accept) {
     ...STGroupIdentificationData
   }
 }
@@ -4336,8 +3462,8 @@ export const AnswerReceivedGroupInvitationDocument = gql`
     }
   }
 export const LeaveGroupDocument = gql`
-    mutation LeaveGroup($uid: String!, $groupId: String!) {
-  leaveGroup(uid: $uid, groupId: $groupId)
+    mutation LeaveGroup($id: String!) {
+  leaveGroup(id: $id)
 }
     `;
 
@@ -4346,6 +3472,42 @@ export const LeaveGroupDocument = gql`
   })
   export class LeaveGroupGQL extends Apollo.Mutation<LeaveGroupMutation, LeaveGroupMutationVariables> {
     document = LeaveGroupDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ToggleInviteUserIntoGroupDocument = gql`
+    mutation ToggleInviteUserIntoGroup($inviteUser: Boolean!, $userId: String!, $groupId: String!) {
+  toggleInviteUserIntoGroup(inviteUser: $inviteUser, userId: $userId, groupId: $groupId) {
+    ...STGroupUserFragment
+  }
+}
+    ${StGroupUserFragmentFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ToggleInviteUserIntoGroupGQL extends Apollo.Mutation<ToggleInviteUserIntoGroupMutation, ToggleInviteUserIntoGroupMutationVariables> {
+    document = ToggleInviteUserIntoGroupDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ToggleUsersInvitationRequestToGroupDocument = gql`
+    mutation ToggleUsersInvitationRequestToGroup($acceptUser: Boolean!, $userId: String!, $groupId: String!) {
+  toggleUsersInvitationRequestToGroup(acceptUser: $acceptUser, userId: $userId, groupId: $groupId) {
+    ...STGroupUserFragment
+  }
+}
+    ${StGroupUserFragmentFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ToggleUsersInvitationRequestToGroupGQL extends Apollo.Mutation<ToggleUsersInvitationRequestToGroupMutation, ToggleUsersInvitationRequestToGroupMutationVariables> {
+    document = ToggleUsersInvitationRequestToGroupDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -5050,12 +4212,9 @@ export const AuthenticateUserDocument = gql`
     photoURL
     accountCreatedDate
     lastSignInDate
-    portfolioCash
-    numberOfExecutedTransactions
-    numberOfExecutedBuyTransactions
-    numberOfExecutedSellTransactions
-    lastPortfolioIncreaseNumber
-    lastPortfolioIncreasePrct
+    portfolio {
+      ...STPortfolioWrapperFragment
+    }
     rank {
       ...STRankFragment
     }
@@ -5078,12 +4237,6 @@ export const AuthenticateUserDocument = gql`
       groupMember {
         ...STGroupIdentificationData
       }
-    }
-    lastPortfolioSnapshot {
-      ...STPortfolioSnapshotFragment
-    }
-    lastTransactionSnapshot {
-      ...STTransactionSnapshotFragment
     }
     activity
     userHistoricalData {
@@ -5119,13 +4272,14 @@ export const AuthenticateUserDocument = gql`
     }
   }
 }
-    ${StRankFragmentFragmentDoc}
+    ${StPortfolioWrapperFragmentFragmentDoc}
+${StRankFragmentFragmentDoc}
 ${StTransactionFragmentFragmentDoc}
 ${StHoldingFragmentFragmentDoc}
 ${StGroupIdentificationDataFragmentDoc}
+${StLogsFragmentFragmentDoc}
 ${StPortfolioSnapshotFragmentFragmentDoc}
 ${StTransactionSnapshotFragmentFragmentDoc}
-${StLogsFragmentFragmentDoc}
 ${StStockWatchlistFragmentFragmentDoc}`;
 
   @Injectable({

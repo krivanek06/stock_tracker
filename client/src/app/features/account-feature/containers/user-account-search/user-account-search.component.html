@@ -1,19 +1,17 @@
 <ion-list class="form-position">
-    <form [formGroup]="form">
-        <ion-item class="st-form-input-background">
-            <ion-label position="floating">Search username</ion-label>
-            <ion-input placeholder="Enter username" type="text" formControlName="username" clearInput></ion-input>
-        </ion-item>
-    </form>
+	<form [formGroup]="form">
+		<app-form-mat-input-wrapper inputCaption="Enter username" controlName="username"></app-form-mat-input-wrapper>
+	</form>
 </ion-list>
 
 <!-- listed users -->
 <ion-list class="flex-flow-wrap">
-    <app-user-account-info-list
-            *ngFor="let user of searchedUsers$ | async"
-            (click)="clickedUser(user)"
-            [fullWith]="fullWith"
-            [clickable]="true"
-            [stUserPublicData]="user">
-    </app-user-account-info-list>
+	<app-user-account-info-list
+		*ngFor="let user of searchedUsers$ | async"
+		(click)="clickedUser(user)"
+		[fullWith]="fullWith"
+		[clickable]="true"
+		[stUserPublicData]="user"
+	>
+	</app-user-account-info-list>
 </ion-list>

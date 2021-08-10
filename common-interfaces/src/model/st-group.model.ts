@@ -1,22 +1,15 @@
-import { STUserIndentificationWithPortfolio } from './st-user.model';
-import { STLog } from './st-share.model';
+import { STPortfolioSnapshot, STPortfolioWrapper } from './st-portfolio.model';
 import { STRank } from './st-rank.model';
+import { STLog } from './st-share.model';
 import { STHolding, STTransaction, STTransactionSnapshot } from './st-transaction.model';
-import { STPortfolioSnapshot } from './st-portfolio.model';
-
-
-export interface STSearchGroups {
-    groups: STGroupAllData[];
-}
+import { STUserIndentificationWithPortfolio } from './st-user.model';
 
 export interface STGroupAllData {
-    groupId?: string;
+    id?: string;
     name: string;
     description: string;
     imagePath?: string
     imageUrl?: string
-    lastPortfolioSnapshot: STPortfolioSnapshot;
-    lastTransactionSnapshot: STTransactionSnapshot;
     owner: STGroupUser;
     lastUpdateDate: string;
     lastEditedDate: string;
@@ -26,21 +19,22 @@ export interface STGroupAllData {
     endDate: string;
     isInfinite: boolean;
     isPrivate: boolean; // if true then group is invite only
-    numberOfExecutedTransactions: number;
-    numberOfExecutedBuyTransactions: number;
-    numberOfExecutedSellTransactions: number;
     numberOfMembers: number;
-    startedBalance: number;
-    lastPortfolioIncreaseNumber: number;
-    lastPortfolioIncreasePrct: number;
-    lastPortfolioBalance: number;
+    numberOfInvitationReceived: number;
+    numberOfInvitationSent: number;
+    portfolio: STPortfolioWrapper;
     topTransactions: STTransaction[]; // only sold stock, top profit desc
     lastTransactions: STTransaction[]; // last 20 transactions
     managers: STGroupUser[];
+}
+
+
+export interface STGroupMembersDocument {
+    id: string;
+    holdings: STGroupHoldings[];
     members: STGroupUser[];
     invitationSent: STGroupUser[];
     invitationReceived: STGroupUser[];
-    holdings: STGroupHoldings[];
 }
 
 export interface STGroupHoldings {
@@ -59,7 +53,6 @@ export interface STGroupHistoricalData {
 export interface STGroupUser extends STUserIndentificationWithPortfolio {
     currentPosition: number;  // position in highest balance
     previousPosition: number; // position in highest balance
-    startingPortfolioSnapshot: STPortfolioSnapshot;
     sinceDate: string;
 }
 
@@ -75,8 +68,6 @@ export interface STGroupAllDataInput {
     isInfinite: boolean;
     isPrivate: boolean;
     isOwnerAlsoMember: boolean;
-    managers?: string[]
-    members?: string[]
     invitationSent: string[]
     invitationReceived?: string[]
 }
@@ -85,3 +76,4 @@ export interface STGroupAllDataInput {
 export const ST_GROUP_COLLECTION_GROUPS = 'groups';
 export const ST_GROUP_COLLECTION_MORE_INFORMATION = "more_information";
 export const  ST_GROUP_COLLECTION_HISTORICAL_DATA = "historical_data";
+export const  ST_GROUP_COLLECTION_MEMBERS = "members";

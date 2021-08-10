@@ -1,27 +1,40 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {StPortfolioSnapshot} from '@core';
-import {PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingFeatureFacadeService} from '@stock-trading-feature';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { StPortfolioSnapshot } from '@core';
+import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingFeatureFacadeService } from '@stock-trading-feature';
 
 @Component({
-    selector: 'app-dashboard-portfolio-change',
-    templateUrl: './dashboard-portfolio-change.component.html',
-    styleUrls: ['./dashboard-portfolio-change.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-dashboard-portfolio-change',
+	templateUrl: './dashboard-portfolio-change.component.html',
+	styleUrls: ['./dashboard-portfolio-change.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardPortfolioChangeComponent implements OnInit {
-    @Input() stPortfolioSnapshots: StPortfolioSnapshot[];
-    @Input() portfolioCash: number;
-    @Input() portfolioInvested: number;
+	@Input() stPortfolioSnapshots: StPortfolioSnapshot[];
+	@Input() portfolioCash: number;
+	@Input() portfolioInvested: number;
 
-    tradingChangeWrapper: PortfolioHistoricalWrapper[] = [];
+	// this is used only if (this.tradingChangeWrapper[0].historicalBalance === this.portfolioCash + this.portfolioInvested), which means it
+	// is weekend or closed trading day
+	@Input() lastPortfolioIncreaseNumber: number;
 
-    constructor(private tradingFeatureFacadeService: TradingFeatureFacadeService) {
-    }
+	tradingChangeWrapper: PortfolioHistoricalWrapper[] = [];
 
-    ngOnInit() {
-        this.tradingChangeWrapper = this.tradingFeatureFacadeService.createPortfolioHistoricalWrappers(
-            this.stPortfolioSnapshots, [TIME_INTERVAL_ENUM.DAILY, TIME_INTERVAL_ENUM.WEEKLY, TIME_INTERVAL_ENUM.MONTHLY, TIME_INTERVAL_ENUM.FROM_BEGINNING]
-        );
-    }
+	constructor(private tradingFeatureFacadeService: TradingFeatureFacadeService) {}
 
+	ngOnInit() {
+		if (this.tradingChangeWrapper.length === 0) {
+			return;
+		}
+		this.tradingChangeWrapper = this.tradingFeatureFacadeService.createPortfolioHistoricalWrappers(this.stPortfolioSnapshots, [
+			TIME_INTERVAL_ENUM.DAILY,
+			TIME_INTERVAL_ENUM.WEEKLY,
+			TIME_INTERVAL_ENUM.MONTHLY,
+			TIME_INTERVAL_ENUM.FROM_BEGINNING,
+		]);
+
+		// weekend or closed market => show gains from previous day
+		if ((this.tradingChangeWrapper[0].historicalBalance, this.portfolioCash + this.portfolioInvested)) {
+			this.tradingChangeWrapper[0].historicalBalance = this.tradingChangeWrapper[0].historicalBalance - this.lastPortfolioIncreaseNumber;
+		}
+	}
 }

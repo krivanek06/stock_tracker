@@ -1,37 +1,29 @@
-import {NgModule} from '@angular/core';
-import {SharedMaterialModule, SharedModule} from '@shared';
-import {
-    GroupBaseInformationComponent,
-    GroupCreateFormComponent, GroupUserBaseInformationComponent
-} from './components';
-import {GroupCreateModalComponent, GroupMemberPositionChangePopOverComponent} from './entry-components';
-import {GroupSearchComponent} from './containers';
-import {AccountFeatureModule} from '@account-feature';
-
+import { AccountFeatureModule } from '@account-feature';
+import { NgModule } from '@angular/core';
+import { SharedMaterialModule, SharedModule } from '@shared';
+import { GroupBaseInformationComponent, GroupCreateFormComponent, GroupMembersTableComponent, GroupUserBaseInformationComponent } from './components';
+import { GroupSearchComponent } from './containers';
+import { GroupCreateModalComponent, GroupMemberPositionChangePopOverComponent } from './entry-components';
 
 @NgModule({
-    declarations: [
-        GroupMemberPositionChangePopOverComponent,
-        GroupSearchComponent,
-        GroupCreateFormComponent,
-        GroupCreateModalComponent,
-        GroupBaseInformationComponent,
-        GroupUserBaseInformationComponent
-    ],
-    imports: [
-        SharedModule,
-        AccountFeatureModule,
-        SharedMaterialModule
-    ],
-    exports: [
-        GroupMemberPositionChangePopOverComponent,
-        GroupSearchComponent,
-        GroupCreateFormComponent,
-        GroupCreateModalComponent,
-        GroupBaseInformationComponent,
-        GroupUserBaseInformationComponent
-    ]
+	declarations: [
+		GroupMemberPositionChangePopOverComponent,
+		GroupSearchComponent,
+		GroupCreateFormComponent,
+		GroupCreateModalComponent,
+		GroupBaseInformationComponent,
+		GroupUserBaseInformationComponent,
+		GroupMembersTableComponent,
+	],
+	imports: [SharedModule, AccountFeatureModule, SharedMaterialModule],
+	exports: [
+		GroupMemberPositionChangePopOverComponent,
+		GroupSearchComponent,
+		GroupCreateFormComponent,
+		GroupCreateModalComponent,
+		GroupBaseInformationComponent,
+		GroupUserBaseInformationComponent,
+		GroupMembersTableComponent,
+	],
 })
-export class GroupFeatureModule {
-}
-
+export class GroupFeatureModule {}

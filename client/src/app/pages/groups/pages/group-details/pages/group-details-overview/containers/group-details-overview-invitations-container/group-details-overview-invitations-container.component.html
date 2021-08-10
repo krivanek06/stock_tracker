@@ -1,51 +1,49 @@
 <ion-toolbar>
-    <ion-title class="st-font-size-18 st-font-0">
-        Invitations
-    </ion-title>
+	<ion-title class="st-font-size-18 st-font-0"> Invitations </ion-title>
 </ion-toolbar>
 
 <ion-card>
-    <!-- invite members -->
-    <ion-card-header>
-        <ion-card-subtitle>
-            Invite members
-        </ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content class="st-border-bottom st-flex-wrap">
-        <app-user-account-search
-                (clickedUserEmitter)="inviteUser($event)">
-        </app-user-account-search>
-    </ion-card-content>
+	<!-- invite members -->
+	<ion-card-header class="ion-margin-bottom c-search-header">
+		<ion-card-subtitle> Invite members </ion-card-subtitle>
 
-    <!-- sent invitations -->
-    <ion-card-header>
-        <ion-card-subtitle>
-            Sent invitations
-        </ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content class="st-border-bottom st-flex-wrap">
-        <app-group-user-base-information
-                *ngFor="let groupUser of groupAllData.invitationSent"
-                (click)="removeInvitation(groupUser)"
-                [clickable]="true"
-                [groupUser]="groupUser">
-        </app-group-user-base-information>
-    </ion-card-content>
+		<app-user-account-search-form (searchedUsersEmitter)="displaySearchedUsers($event)"></app-user-account-search-form>
+	</ion-card-header>
+	<ion-card-content class="st-flex-wrap" *ngIf="displayUsers.length > 0">
+		<!-- listed users -->
+		<app-user-account-info-list *ngFor="let user of displayUsers" (clickedEmitter)="inviteUser($event)" [clickable]="true" [stUserPublicData]="user">
+		</app-user-account-info-list>
+	</ion-card-content>
 
+	<!-- sent invitations -->
+	<ng-container *ngIf="groupAllData.invitationSent.length > 0">
+		<ion-card-header>
+			<ion-card-subtitle> Sent invitations </ion-card-subtitle>
+		</ion-card-header>
+		<ion-card-content class="st-flex-wrap">
+			<app-group-user-base-information
+				*ngFor="let groupUser of groupAllData.invitationSent"
+				(click)="removeInvitation(groupUser)"
+				[clickable]="true"
+				[groupUser]="groupUser"
+			>
+			</app-group-user-base-information>
+		</ion-card-content>
+	</ng-container>
 
-    <ion-card-header>
-        <ion-card-subtitle>
-            Received members
-        </ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content class="st-flex-wrap">
-        <app-group-user-base-information
-                *ngFor="let groupUser of groupAllData.invitationReceived"
-                (click)="receivedInvitation(groupUser)"
-                [clickable]="true"
-                [groupUser]="groupUser">
-        </app-group-user-base-information>
-    </ion-card-content>
+	<!-- received invitations -->
+	<ng-container *ngIf="groupAllData.invitationReceived.length > 0">
+		<ion-card-header class="st-border-top">
+			<ion-card-subtitle> Received members </ion-card-subtitle>
+		</ion-card-header>
+		<ion-card-content class="st-flex-wrap">
+			<app-group-user-base-information
+				*ngFor="let groupUser of groupAllData.invitationReceived"
+				(click)="receivedInvitation(groupUser)"
+				[clickable]="true"
+				[groupUser]="groupUser"
+			>
+			</app-group-user-base-information>
+		</ion-card-content>
+	</ng-container>
 </ion-card>
-
-

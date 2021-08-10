@@ -1,38 +1,40 @@
 <ion-toolbar>
-    <ion-title class="st-font-size-18 st-font-0">
-        Transactions
-    </ion-title>
+	<ion-title class="st-font-size-18 st-font-0"> Transactions </ion-title>
 </ion-toolbar>
 
 <ion-grid>
-    <ion-row>
-        <ion-col size="12" size-lg="6">
-            <app-generic-card title="Recent transactions">
-                <app-transactions-table
-                        [applyLastChildStyle]="true"
-                        [showDate]="false"
-                        [showReturn]="false"
-                        [showUser]="true"
-                        [transactions]="groupAllData.lastTransactions">
-                </app-transactions-table>
-            </app-generic-card>
-        </ion-col>
-        <ion-col size="12" size-lg="6">
-            <app-generic-card title="Top transactions">
-                <app-transactions-table
-                        [applyLastChildStyle]="true"
-                        [showDate]="false"
-                        [showUser]="true"
-                        [transactions]="groupAllData.topTransactions">
-                </app-transactions-table>
-            </app-generic-card>
-        </ion-col>
-    </ion-row>
+	<ion-row>
+		<ion-col size="12" size-lg="6">
+			<!-- recent transactions -->
+			<app-generic-card title="Recent transactions">
+				<app-transactions-table
+					*ngIf="groupAllData.lastTransactions.length > 0"
+					[applyLastChildStyle]="true"
+					[showDate]="false"
+					[showReturn]="false"
+					[showUser]="true"
+					[transactions]="groupAllData.lastTransactions"
+				>
+				</app-transactions-table>
+			</app-generic-card>
+		</ion-col>
+		<ion-col size="12" size-lg="6">
+			<!-- top transactions -->
+			<app-generic-card title="Top transactions">
+				<app-transactions-table
+					*ngIf="groupAllData.topTransactions.length > 0"
+					[applyLastChildStyle]="true"
+					[showDate]="false"
+					[showUser]="true"
+					[transactions]="groupAllData.topTransactions"
+				>
+				</app-transactions-table>
+			</app-generic-card>
+		</ion-col>
+	</ion-row>
 </ion-grid>
 
-<app-generic-card>
-    <app-transactions-chart
-            [heightPx]="275"
-            [stTransactionSnapshots]="groupAllData.groupHistoricalData.transactionSnapshots">
-    </app-transactions-chart>
+<!-- transaction records -->
+<app-generic-card class="ion-margin-top" *ngIf="groupAllData.groupHistoricalData.transactionSnapshots.length > 0">
+	<app-transactions-chart [heightPx]="275" [stTransactionSnapshots]="groupAllData.groupHistoricalData.transactionSnapshots"> </app-transactions-chart>
 </app-generic-card>

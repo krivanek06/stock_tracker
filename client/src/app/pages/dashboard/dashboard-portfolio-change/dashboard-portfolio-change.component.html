@@ -1,7 +1,8 @@
 <div class="st-flex-wrap-normal ion-justify-content-evenly ion-margin-vertical">
-    <app-portfolio-change
-            *ngFor="let tradingChange of tradingChangeWrapper"
-            [tradingChangeWrapper]="tradingChange"
-            [balance]="portfolioCash + portfolioInvested">
-    </app-portfolio-change>
+	<app-portfolio-change
+		*ngFor="let tradingChange of tradingChangeWrapper"
+		[tradingChangeWrapper]="tradingChange"
+		[balance]="portfolioCash + portfolioInvested"
+	>
+	</app-portfolio-change>
 </div>

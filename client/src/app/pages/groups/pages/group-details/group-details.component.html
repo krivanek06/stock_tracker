@@ -1,20 +1,21 @@
 <!-- navigation -->
 <ion-toolbar>
-    <ion-segment color="primary" slot="end" scrollable [value]="GROUPS_PAGES_DETAILS_PATH[0].value"
-                 (ionChange)="changeDetailsPage($event.detail.value)">
-        <ion-segment-button *ngFor="let path of GROUPS_PAGES_DETAILS_PATH" [value]="path.value">
-            <ion-label>{{ path.name }}</ion-label>
-        </ion-segment-button>
-    </ion-segment>
+	<ion-segment
+		color="primary"
+		slot="end"
+		scrollable
+		[value]="GROUPS_PAGES_DETAILS_PATH[0].value"
+		(ionChange)="changeDetailsPage($event.detail.value)"
+	>
+		<ion-segment-button *ngFor="let path of GROUPS_PAGES_DETAILS_PATH" [value]="path.value">
+			<ion-label>{{ path.name }}</ion-label>
+		</ion-segment-button>
+	</ion-segment>
 </ion-toolbar>
 
-
 <div class="c-group-base-information-container">
-    <app-group-base-information
-            [groupIdentification]="groupTestData">
-    </app-group-base-information>
+	<app-group-base-information *ngIf="groupData$ | async as groupData" [groupIdentification]="groupData"> </app-group-base-information>
 </div>
-
 
 <!-- routing -->
 <router-outlet></router-outlet>
