@@ -1,129 +1,103 @@
 fragment STUserIndentificationData on STUserPublicData {
-    id
-    nickName
-    locale
-    photoURL
-    accountCreatedDate
-    lastSignInDate
-    numberOfExecutedTransactions
-    numberOfExecutedBuyTransactions
-    numberOfExecutedSellTransactions
-    lastPortfolioIncreaseNumber
-    lastPortfolioIncreasePrct
-    lastPortfolioSnapshot {
-        portfolioInvested
-        portfolioCash
-        date
-    }
-    lastTransactionSnapshot {
-        transactionsBuy
-        transactionsSell
-        date
-    }
+	id
+	nickName
+	locale
+	photoURL
+	accountCreatedDate
+	lastSignInDate
+	portfolio {
+		...STPortfolioWrapperFragment
+	}
 }
 
 query AuthenticateUser($id: String!) {
-    authenticateUser(id: $id) {
-        id
-        nickName
-        locale
-        photoURL
-        accountCreatedDate
-        lastSignInDate
-        portfolioCash
-        numberOfExecutedTransactions
-        numberOfExecutedBuyTransactions
-        numberOfExecutedSellTransactions
-        lastPortfolioIncreaseNumber
-        lastPortfolioIncreasePrct
-        rank {
-            ...STRankFragment
-        }
-        transactionsSnippets {
-            ...STTransactionFragment
-        }
-        holdings {
-            ...STHoldingFragment
-        }
-        groups {
-            groupInvitationSent {
-                ...STGroupIdentificationData
-            }
-            groupInvitationReceived {
-                ...STGroupIdentificationData
-            }
-            groupOwner {
-                ...STGroupIdentificationData
-            }
-            groupMember {
-                ...STGroupIdentificationData
-            }
-        }
-        lastPortfolioSnapshot {
-            ...STPortfolioSnapshotFragment
-        }
-        lastTransactionSnapshot {
-            ...STTransactionSnapshotFragment
-        }
-        activity
-        userHistoricalData {
-            userLogs {
-                ...STLogsFragment
-            }
-            resetedAccount {
-                date
-                portfolioTotal
-            }
-            bestAchievedRanks {
-                ...STRankFragment
-            }
-            portfolioSnapshots {
-                ...STPortfolioSnapshotFragment
-            }
-            transactionSnapshots {
-                ...STTransactionSnapshotFragment
-            }
-        }
-        userPrivateData {
-            tradingEnabledDate
-            finnhubKey
-            roles
-            email
-            displayName
-            providerId
-            status
-            nicknameLastChange
-        }
-        stockWatchlist {
-            ...STStockWatchlistFragment
-        }
-    }
+	authenticateUser(id: $id) {
+		id
+		nickName
+		locale
+		photoURL
+		accountCreatedDate
+		lastSignInDate
+		portfolio {
+			...STPortfolioWrapperFragment
+		}
+		rank {
+			...STRankFragment
+		}
+		transactionsSnippets {
+			...STTransactionFragment
+		}
+		holdings {
+			...STHoldingFragment
+		}
+		groups {
+			groupInvitationSent {
+				...STGroupIdentificationData
+			}
+			groupInvitationReceived {
+				...STGroupIdentificationData
+			}
+			groupOwner {
+				...STGroupIdentificationData
+			}
+			groupMember {
+				...STGroupIdentificationData
+			}
+		}
+		activity
+		userHistoricalData {
+			userLogs {
+				...STLogsFragment
+			}
+			resetedAccount {
+				date
+				portfolioTotal
+			}
+			bestAchievedRanks {
+				...STRankFragment
+			}
+			portfolioSnapshots {
+				...STPortfolioSnapshotFragment
+			}
+			transactionSnapshots {
+				...STTransactionSnapshotFragment
+			}
+		}
+		userPrivateData {
+			tradingEnabledDate
+			finnhubKey
+			roles
+			email
+			displayName
+			providerId
+			status
+			nicknameLastChange
+		}
+		stockWatchlist {
+			...STStockWatchlistFragment
+		}
+	}
 }
-
-
 
 query QueryUserPublicDataByUsername($usernamePrefix: String!) {
-    queryUserPublicDataByUsername(usernamePrefix: $usernamePrefix) {
-        ...STUserIndentificationData
-    }
+	queryUserPublicDataByUsername(usernamePrefix: $usernamePrefix) {
+		...STUserIndentificationData
+	}
 }
-
-
 
 # -------------------------------------------------------
 # MUTATIONS
 mutation RegisterUser($stUserAuthenticationInput: STUserAuthenticationInput!) {
-    registerUser(user: $stUserAuthenticationInput)
+	registerUser(user: $stUserAuthenticationInput)
 }
 
 mutation EditUser($editInput: STUserEditDataInput!) {
-    editUser(editInput: $editInput)
+	editUser(editInput: $editInput)
 }
 
 mutation ResetUserAccount($userId: String!) {
-    resetUserAccount(userId: $userId) {
-        date
-        portfolioTotal
-    }
+	resetUserAccount(userId: $userId) {
+		date
+		portfolioTotal
+	}
 }
-

@@ -1,50 +1,41 @@
 <app-page-grid-layout pageIcon="grid" pageName="Dashboard">
-    <!-- portfolio state -->
-    <app-dashboard-portfolio-state
-            [portfolioCash]="user.portfolioCash"
-            [portfolioInvested]="portfolioInvested">
-    </app-dashboard-portfolio-state>
+	<!-- portfolio state -->
+	<app-dashboard-portfolio-state [portfolioCash]="user.portfolioCash" [portfolioInvested]="portfolioInvested"></app-dashboard-portfolio-state>
 
-    <!-- portfolio change  weekly / monthly etc. -->
-    <app-dashboard-portfolio-change
-            [portfolioCash]="user.portfolioCash"
-            [portfolioInvested]="portfolioInvested"
-            [stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots">
-    </app-dashboard-portfolio-change>
+	<!-- portfolio change  weekly / monthly etc. -->
+	<app-dashboard-portfolio-change
+		[lastPortfolioIncreaseNumber]="user.lastPortfolioIncreaseNumber"
+		[portfolioCash]="user.portfolioCash"
+		[portfolioInvested]="portfolioInvested"
+		[stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots"
+	></app-dashboard-portfolio-change>
 
-    <!-- portfolio change charts -->
-    <app-dashboard-portfolio-change-charts
-            [portfolioCash]="user.portfolioCash"
-            [portfolioInvested]="portfolioInvested"
-            [stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots">
-    </app-dashboard-portfolio-change-charts>
+	<!-- portfolio change charts -->
+	<app-dashboard-portfolio-change-charts
+		[portfolioCash]="user.portfolioCash"
+		[portfolioInvested]="portfolioInvested"
+		[stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots"
+	></app-dashboard-portfolio-change-charts>
 
-    <!-- holdings table -->
-    <app-dashboard-holdings-table
-            [holdings]="clonedHoldings"
-            [totalPortfolio]="portfolioInvested + user.portfolioCash">
-    </app-dashboard-holdings-table>
+	<!-- holdings table -->
+	<app-dashboard-holdings-table [holdings]="clonedHoldings" [totalPortfolio]="portfolioInvested + user.portfolioCash"></app-dashboard-holdings-table>
 
-    <!-- holdings charts -->
-    <div class="st-flex-wrap ion-margin-vertical">
-        <!-- holdings sector -->
-        <app-pie-chart-wrapper
-                [data]="user.holdings | holdingsToSectorChartSeries"
-                [heightPx]="300"
-                chartTitle="holdings">
-        </app-pie-chart-wrapper>
+	<!-- holdings charts -->
+	<div class="st-flex-wrap ion-margin-vertical">
+		<!-- holdings sector -->
+		<app-pie-chart-wrapper [data]="user.holdings | holdingsToSectorChartSeries" [heightPx]="300" chartTitle="holdings"></app-pie-chart-wrapper>
 
-        <!-- holdings allocation -->
-        <app-pie-chart-wrapper
-                [data]="user.holdings | holdingsToPortfolioChartSeries:  user.portfolioCash"
-                [heightPx]="300"
-                chartTitle="Holdings allocation">
-        </app-pie-chart-wrapper>
-    </div>
+		<!-- holdings allocation -->
+		<app-pie-chart-wrapper
+			[data]="user.holdings | holdingsToPortfolioChartSeries:  user.portfolioCash"
+			[heightPx]="300"
+			chartTitle="Holdings allocation"
+		></app-pie-chart-wrapper>
+	</div>
 
-    <!-- transactions -->
-    <app-dashboard-transactions
-            [stTransactionSnapshots]="user.userHistoricalData.transactionSnapshots"
-            [transactions]="user.transactionsSnippets | slice:0:5">
-    </app-dashboard-transactions>
+	<!-- transactions -->
+	<app-dashboard-transactions
+		[stTransactionSnapshots]="user.userHistoricalData.transactionSnapshots"
+		[transactions]="user.transactionsSnippets | slice:0:5"
+	></app-dashboard-transactions>
 </app-page-grid-layout>

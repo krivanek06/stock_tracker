@@ -1,44 +1,43 @@
 :host {
-  .c-main-container {
-    position: relative;
-    padding: 10px;
-  }
+	.c-main-container {
+		position: relative;
+		padding: 10px;
+	}
 
-  ion-img {
-    max-width: 65px;
-    max-height: 65px;
-    min-width: 65px;
-    min-height: 65px;
-  }
+	ion-img {
+		max-width: 65px;
+		max-height: 65px;
+		min-width: 65px;
+		min-height: 65px;
+	}
 
-  .max-w {
-    max-width: 350px;
-  }
+	.max-w {
+		max-width: 350px;
+	}
 
-  .current-position-number-container {
-    position: absolute;
-    right: 0;
-    top: 0;
+	.current-position-number-container {
+		position: absolute;
+		right: 0;
+		top: 0;
 
-    .current-position-number {
-      margin-right: 8px;
-      font-size: 20px;
-    }
-  }
+		.current-position-number {
+			margin-right: 8px;
+			font-size: 20px;
+		}
+	}
 
-  .first-position {
-    color: #d8bc17;
-  }
-  .second-position {
-    color: #b9b9b9;
-  }
+	.first-position {
+		color: #d8bc17;
+	}
+	.second-position {
+		color: #b9b9b9;
+	}
 
-  .third-position {
-    color: #ea7a2b ;
-  }
+	.third-position {
+		color: #ea7a2b;
+	}
 
-  .my-position {
-    background-color: #c36778;
-  }
-
+	.my-position {
+		color: #c36778;
+	}
 }

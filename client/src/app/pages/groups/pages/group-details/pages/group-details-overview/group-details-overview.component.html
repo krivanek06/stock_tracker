@@ -1,20 +1,13 @@
-<!-- portfolio -->
-<app-group-details-overview-portfolio-container
-        [groupAllData]="groupTestData">
-</app-group-details-overview-portfolio-container>
+<ng-container *ngIf="groupAllData$ | async as groupData">
+	<!-- portfolio -->
+	<app-group-details-overview-portfolio-container [groupAllData]="groupData"> </app-group-details-overview-portfolio-container>
 
-<!-- invitations -->
-<app-group-details-overview-invitations-container
-        [groupAllData]="groupTestData">
-</app-group-details-overview-invitations-container>
+	<!-- invitations -->
+	<app-group-details-overview-invitations-container [groupAllData]="groupData"> </app-group-details-overview-invitations-container>
 
-<!-- members -->
-<app-group-details-overview-members-container
-        [user]="user$ | async"
-        [groupAllData]="groupTestData">
-</app-group-details-overview-members-container>
+	<!-- members -->
+	<app-group-details-overview-members-container [user]="user$ | async" [groupAllData]="groupData"> </app-group-details-overview-members-container>
 
-<!-- transactions -->
-<app-group-details-overview-transactions-container
-        [groupAllData]="groupTestData">
-</app-group-details-overview-transactions-container>
+	<!-- transactions -->
+	<app-group-details-overview-transactions-container [groupAllData]="groupData"> </app-group-details-overview-transactions-container>
+</ng-container>

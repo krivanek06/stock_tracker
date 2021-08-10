@@ -1,29 +1,25 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {groupTestData} from '../../../../model/groups.testdata';
-import {GroupStorageService, StUserPublicData, UserStorageService} from '@core';
-import {Observable} from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { GroupStorageService, StGroupAllData, StUserPublicData, UserStorageService } from '@core';
+import { Observable } from 'rxjs';
 
 @Component({
-    selector: 'app-group-details-overview',
-    templateUrl: './group-details-overview.component.html',
-    styleUrls: ['./group-details-overview.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-group-details-overview',
+	templateUrl: './group-details-overview.component.html',
+	styleUrls: ['./group-details-overview.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupDetailsOverviewComponent implements OnInit {
-    user$: Observable<StUserPublicData>;
+	user$: Observable<StUserPublicData>;
 
-    groupTestData = groupTestData;
+	groupAllData$: Observable<StGroupAllData>;
 
-    constructor(private groupStorageService: GroupStorageService,
-                private userStorageService: UserStorageService) {
-    }
+	constructor(private groupStorageService: GroupStorageService, private userStorageService: UserStorageService) {}
 
-    ngOnInit() {
-        this.user$ = this.userStorageService.getUser();
-        this.groupStorageService.getActiveGroup().subscribe(res => {
-            console.log('active group is', res);
-        });
-
-    }
-
+	ngOnInit() {
+		this.user$ = this.userStorageService.getUser();
+		this.groupAllData$ = this.groupStorageService.getActiveGroup();
+		this.groupAllData$.subscribe((res) => {
+			console.log('active group is', res);
+		});
+	}
 }

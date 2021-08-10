@@ -1,8 +1,8 @@
-import { STPortfolioSnapshot } from './st-portfolio.model';
 import { STGroupAllData } from './st-group.model';
-import { STHolding, STTransaction, STTransactionSnapshot } from './st-transaction.model';
+import { STPortfolioSnapshot, STPortfolioWrapper } from './st-portfolio.model';
 import { STRank } from './st-rank.model';
-import { STLog, STGeographic } from './st-share.model';
+import { STGeographic, STLog } from './st-share.model';
+import { STHolding, STTransaction, STTransactionSnapshot } from './st-transaction.model';
 
 
 export enum USER_ACTIVITY {
@@ -25,17 +25,10 @@ export interface STUserIndentification {
 }
 
 export interface STUserIndentificationWithPortfolio extends STUserIndentification {
-    lastPortfolioSnapshot: STPortfolioSnapshot;
-    lastPortfolioIncreaseNumber: number;
-    lastPortfolioIncreasePrct: number;
-    numberOfExecutedTransactions: number;
-    numberOfExecutedBuyTransactions: number;
-    numberOfExecutedSellTransactions: number;
-    lastTransactionSnapshot: STTransactionSnapshot;
+   portfolio: STPortfolioWrapper;
 }
 
 export interface STUserPublicData extends STUserIndentificationWithPortfolio {
-    portfolioCash: number;
     rank?: STRank; // weekly update
     transactionsSnippets: STTransaction[]; // last N
     topTransactions: STTransaction[]; 

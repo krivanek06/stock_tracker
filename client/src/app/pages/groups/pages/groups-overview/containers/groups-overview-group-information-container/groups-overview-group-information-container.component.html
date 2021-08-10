@@ -1,30 +1,29 @@
 <!-- base information -->
 <div class="c-base-information-container" [ngClass]="{'st-border-bottom': groupAllData.topMembers.length > 0}">
-    <app-group-base-information
-            (visitEmitter)="visitGroup(groupAllData)"
-            (acceptEmitter)="answerReceivedGroupInvitation(groupAllData, true)"
-            (declineEmitter)="answerReceivedGroupInvitation(groupAllData, false)"
-            [showVisitButton]="true"
-            [showAcceptButton]="showAcceptButton"
-            [showDeclineButton]="showDeclineButton"
-            [groupIdentification]="groupAllData">
-    </app-group-base-information>
+	<app-group-base-information
+		(visitEmitter)="visitGroup(groupAllData)"
+		(acceptEmitter)="answerReceivedGroupInvitation(groupAllData, true)"
+		(declineEmitter)="answerReceivedGroupInvitation(groupAllData, false)"
+		[showVisitButton]="true"
+		[showAcceptButton]="showAcceptButton"
+		[showDeclineButton]="showDeclineButton"
+		[groupIdentification]="groupAllData"
+	>
+	</app-group-base-information>
 </div>
 
 <div class="st-flex" *ngIf="groupAllData.topMembers.length > 0">
-    <div class="st-flex-wrap">
-        <!-- list users -->
-        <app-group-user-base-information
-                *ngFor="let groupUser of groupAllData.topMembers"
-                [groupUser]="groupUser">
-        </app-group-user-base-information>
-    </div>
-    <div class="c-portfolio-chart">
-        <!-- portfolio -->
-        <app-portfolio-increase-chart
-                [heightPx]="200"
-                [startingBalance]="groupAllData.startedBalance"
-                [stPortfolioSnapshots]="groupAllData.lastPortfolioSnapshot">
-        </app-portfolio-increase-chart>
-    </div>
+	<div class="st-flex-wrap">
+		<!-- list users -->
+		<app-group-user-base-information *ngFor="let groupUser of groupAllData.topMembers" [groupUser]="groupUser"> </app-group-user-base-information>
+	</div>
+	<div class="c-portfolio-chart">
+		<!-- portfolio -->
+		<app-portfolio-increase-chart
+			[heightPx]="200"
+			[startingBalance]="groupAllData.startedBalance"
+			[stPortfolioSnapshots]="groupAllData.lastPortfolioSnapshot"
+		>
+		</app-portfolio-increase-chart>
+	</div>
 </div>

@@ -1,31 +1,24 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {GroupFeatureFacadeService} from '@group-feature';
-import {StUserPublicData, UserStorageService} from '@core';
-import {Observable} from 'rxjs';
-import {groupTestData} from '../../model/groups.testdata';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { StUserPublicData, UserStorageService } from '@core';
+import { GroupFeatureFacadeService } from '@group-feature';
+import { Observable } from 'rxjs';
 
 @Component({
-    selector: 'app-groups-overview',
-    templateUrl: './groups-overview.component.html',
-    styleUrls: ['./groups-overview.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-groups-overview',
+	templateUrl: './groups-overview.component.html',
+	styleUrls: ['./groups-overview.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupsOverviewComponent implements OnInit {
-    user$: Observable<StUserPublicData>;
+	user$: Observable<StUserPublicData>;
 
-    groupTestData = groupTestData;
+	constructor(private groupFeatureFacadeService: GroupFeatureFacadeService, private userStorageService: UserStorageService) {}
 
-    constructor(private groupFeatureFacadeService: GroupFeatureFacadeService,
-                private userStorageService: UserStorageService) {
-    }
+	ngOnInit() {
+		this.user$ = this.userStorageService.getUser();
+	}
 
-    ngOnInit() {
-        this.user$ = this.userStorageService.getUser();
-    }
-
-    createGroup() {
-        this.groupFeatureFacadeService.createGroup();
-    }
-
-
+	createGroup() {
+		this.groupFeatureFacadeService.createGroup();
+	}
 }

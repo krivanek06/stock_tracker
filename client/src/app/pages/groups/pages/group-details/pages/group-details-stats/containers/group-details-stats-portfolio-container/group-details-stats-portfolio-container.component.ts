@@ -1,23 +1,19 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {ChartType} from '@shared';
-import {StGroupAllData, StHolding} from '@core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { StGroupAllData } from '@core';
+import { ChartType } from '@shared';
 
 @Component({
-    selector: 'app-group-details-stats-portfolio-container',
-    templateUrl: './group-details-stats-portfolio-container.component.html',
-    styleUrls: ['./group-details-stats-portfolio-container.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-group-details-stats-portfolio-container',
+	templateUrl: './group-details-stats-portfolio-container.component.html',
+	styleUrls: ['./group-details-stats-portfolio-container.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupDetailsStatsPortfolioContainerComponent implements OnInit {
-    @Input() groupAllData: StGroupAllData;
+	@Input() groupAllData: StGroupAllData;
 
-    ChartType = ChartType;
+	ChartType = ChartType;
 
-    constructor() {
-    }
+	constructor() {}
 
-    ngOnInit() {
-
-    }
-
+	ngOnInit() {}
 }

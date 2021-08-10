@@ -1,39 +1,39 @@
-@import "variables";
+@import 'variables';
 
 :host {
-  .c-group-image {
-    max-width: 100px;
-    max-height: 100px;
-    min-width: 100px;
-    min-height: 100px;
-  }
+	.c-group-image {
+		max-width: 100px;
+		max-height: 100px;
+		min-width: 100px;
+		min-height: 100px;
+	}
 
-  .c-content-container {
-    @media (max-width: #{$st-var-md-split}) {
-      margin: auto;
-    }
-  }
+	.c-content-container {
+		@media (max-width: #{$st-var-md-split}) {
+			margin: auto;
+		}
+	}
 
-  ion-buttons {
-    margin-top: -12px;
-    display: block;
-    text-align: end;
-    @media (max-width: #{$st-var-md-split}) {
-      margin-top: 8px;
-    }
+	ion-buttons {
+		margin-top: -12px;
+		display: block;
+		text-align: end;
+		@media (max-width: #{$st-var-md-split}) {
+			margin-top: 8px;
+		}
 
-    ion-button {
-      min-width: 150px;
-      margin: 5px;
-      @media (max-width: #{$st-var-md-split}) {
-        width: 100%;
-      }
-    }
-  }
+		ion-button {
+			min-width: 150px;
+			margin: 5px;
+			@media (max-width: #{$st-var-md-split}) {
+				width: 100%;
+			}
+		}
+	}
 
-  .c-owner-image {
-    width: 30px;
-    height: 30px;
-    margin-right: 8px;
-  }
+	.c-owner-image {
+		width: 30px;
+		height: 30px;
+		margin-right: 8px;
+	}
 }

@@ -2,27 +2,19 @@
 
 <!-- holdings -->
 <div class="st-width-100">
-    <app-holdings-allocation-group-chart
-            [heightPx]="300"
-            [holdings]="groupAllData.holdings"
-            [showTitle]="true">
-    </app-holdings-allocation-group-chart>
+	<app-holdings-allocation-group-chart [heightPx]="300" [holdings]="groupAllData.holdings" [showTitle]="true"> </app-holdings-allocation-group-chart>
 </div>
 
-
 <div class="st-flex-wrap ion-margin-vertical">
-    <!-- holding chart -->
-    <app-pie-chart-wrapper
-            [data]="holdings | holdingsToPortfolioChartSeries:  groupAllData.lastPortfolioSnapshot.portfolioCash"
-            [heightPx]="300"
-            chartTitle="Holdings allocation"
-            class="ion-hide-sm-down">
-    </app-pie-chart-wrapper>
+	<!-- holding chart -->
+	<app-pie-chart-wrapper
+		[data]="holdings | holdingsToPortfolioChartSeries:  groupAllData.lastPortfolioSnapshot.portfolioCash"
+		[heightPx]="300"
+		chartTitle="Holdings allocation"
+		class="ion-hide-sm-down"
+	>
+	</app-pie-chart-wrapper>
 
-    <!-- sector chart -->
-    <app-pie-chart-wrapper
-            [data]="holdings | holdingsToSectorChartSeries"
-            [heightPx]="300"
-            chartTitle="holdings">
-    </app-pie-chart-wrapper>
+	<!-- sector chart -->
+	<app-pie-chart-wrapper [data]="holdings | holdingsToSectorChartSeries" [heightPx]="300" chartTitle="holdings"> </app-pie-chart-wrapper>
 </div>
