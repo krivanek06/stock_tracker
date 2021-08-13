@@ -207,6 +207,15 @@ ion-spinner {
 	text-align: center;
 }
 
+.st-normal-message {
+	padding: 4px;
+	color: #ffffff;
+	background-color: #{$st-var-blue-1};
+	border-radius: 6px;
+	font-size: 16px;
+	text-align: center;
+}
+
 .st-data-label-first-main {
 	min-width: 40%;
 	max-width: 40%;

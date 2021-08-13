@@ -36,8 +36,22 @@
 		[highlightField]="!finnhubKey.value"
 	></app-form-mat-input-lock-wrapper>
 
+	<ng-container *ngIf="finhubValidity$ | async as finhubValidity">
+		<div class="st-normal-message" *ngIf="finhubValidity === 'PENDING' ">Checking your API key validity</div>
+		<div class="st-error-message" *ngIf="finhubValidity === 'INVALID' ">Your API key is invalid</div>
+	</ng-container>
+
 	<!-- submit button -->
 	<ion-buttons class="st-buttons-container">
-		<ion-button (click)="submit()" *ngIf="formWasEdited" class="st-button st-width-full-md-screen" color="primary" fill="solid"> Save </ion-button>
+		<ion-button
+			[disabled]="(!nickName.disabled && nickName.invalid) || (!finnhubKey.disabled && (finhubValidity$ | async) !== 'VALID') "
+			(click)="submit()"
+			*ngIf="formWasEdited"
+			class="st-button st-width-full-md-screen"
+			color="primary"
+			fill="solid"
+		>
+			Save
+		</ion-button>
 	</ion-buttons>
 </form>

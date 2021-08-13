@@ -1,20 +1,29 @@
 import {
 	ChangeDetectionStrategy,
+	ChangeDetectorRef,
 	Component,
 	EventEmitter,
 	Input,
-	OnChanges,
 	OnInit,
 	Output,
 	QueryList,
-	SimpleChanges,
 	ViewChild,
 	ViewChildren,
 } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StUserEditDataInput, StUserPublicData } from '@core';
-import { Confirmable, FormMatInputLockWrapperComponent, UploadedFile, UploaderComponent } from '@shared';
+import {
+	AsyncValidatorStats,
+	FormMatInputLockWrapperComponent,
+	maxLengthValidator,
+	requiredValidator,
+	UploadedFile,
+	UploaderComponent,
+} from '@shared';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { convertUserAccountFormToStUserEditDataInput } from '../../models';
+import { AsyncValidatorFinhubKeyValidity } from './../../validators';
 
 @Component({
 	selector: 'app-user-account-form',
@@ -22,7 +31,7 @@ import { convertUserAccountFormToStUserEditDataInput } from '../../models';
 	styleUrls: ['./user-account-form.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserAccountFormComponent implements OnChanges, OnInit {
+export class UserAccountFormComponent implements OnInit {
 	@Output() submitClickedEmitter: EventEmitter<StUserEditDataInput> = new EventEmitter<StUserEditDataInput>();
 
 	@Input() user: StUserPublicData;
@@ -32,7 +41,9 @@ export class UserAccountFormComponent implements OnChanges, OnInit {
 
 	form: FormGroup;
 
-	constructor(private fb: FormBuilder) {}
+	finhubValidity$: Observable<AsyncValidatorStats>;
+
+	constructor(private fb: FormBuilder, private asyncValidatorFinhubKeyValidity: AsyncValidatorFinhubKeyValidity, private cd: ChangeDetectorRef) {}
 
 	get finnhubKey(): AbstractControl {
 		return this.form.get('finnhubKey');
@@ -50,22 +61,21 @@ export class UserAccountFormComponent implements OnChanges, OnInit {
 		return this.user.userPrivateData.finnhubKey !== this.finnhubKey.value || this.user.nickName !== this.nickName.value;
 	}
 
-	// needed to show user new data in form
-	ngOnChanges(changes: SimpleChanges): void {
-		/* console.log('user account form', changes);
-		if (changes.user && changes.user.currentValue) {
-			this.initForm();
-		} */
-	}
-
 	ngOnInit() {
 		this.initForm();
+		this.finhubValidity$ = this.finnhubKey.statusChanges.pipe(map((status) => (this.finnhubKey.disabled ? 'VALID' : status)));
+
+		this.finhubValidity$.subscribe(console.log);
 	}
 
-	@Confirmable('Please confirm editing account information')
 	async submit() {
-		this.submitClickedEmitter.emit(convertUserAccountFormToStUserEditDataInput(this.user.id, this.form.getRawValue()));
-		this.cancel();
+		this.form.markAsDirty();
+		this.form.markAllAsTouched();
+
+		if (!this.form.invalid) {
+			this.submitClickedEmitter.emit(convertUserAccountFormToStUserEditDataInput(this.user.id, this.form.getRawValue()));
+			this.cancel();
+		}
 	}
 
 	uploadedImage(files: UploadedFile[]) {
@@ -80,11 +90,18 @@ export class UserAccountFormComponent implements OnChanges, OnInit {
 
 	private initForm() {
 		this.form = this.fb.group({
-			displayName: [{ value: this.user.userPrivateData.displayName, disabled: true }, [Validators.required]],
-			email: [{ value: this.user.userPrivateData.email, disabled: true }, [Validators.required]],
-			finnhubKey: [{ value: this.user.userPrivateData.finnhubKey, disabled: true }, [Validators.required, Validators.maxLength(150)]],
-			nickName: [{ value: this.user.nickName, disabled: true }, [Validators.required, Validators.maxLength(50)]],
-			photoURL: [{ value: this.user.photoURL, disabled: true }, [Validators.required]],
+			displayName: [{ value: this.user.userPrivateData.displayName, disabled: true }, [requiredValidator]],
+			email: [{ value: this.user.userPrivateData.email, disabled: true }, [requiredValidator]],
+			finnhubKey: [
+				{ value: this.user.userPrivateData.finnhubKey, disabled: true },
+				{
+					validators: [requiredValidator, maxLengthValidator(100)],
+					asyncValidators: [this.asyncValidatorFinhubKeyValidity.createValidator()],
+					updateOn: 'blur',
+				},
+			],
+			nickName: [{ value: this.user.nickName, disabled: true }, [requiredValidator, maxLengthValidator(30)]],
+			photoURL: [{ value: this.user.photoURL, disabled: true }, [requiredValidator]],
 			locale: [{ value: this.user.locale, disabled: true }, [Validators.required]],
 		});
 	}

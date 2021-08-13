@@ -547,6 +547,7 @@ export type Query = {
   querySTTradingStrategies?: Maybe<StTradingStrategySearch>;
   querySTTradingStrategyData?: Maybe<StTradingStrategyData>;
   queryAdminMainInformations?: Maybe<StAdminMainInformations>;
+  validatorFinhubKeyValidity?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -620,6 +621,11 @@ export type QueryQueryStockScreenerArgs = {
 export type QueryQueryStTradingStrategyDataArgs = {
   symbol: Scalars['String'];
   strategy: Scalars['String'];
+};
+
+
+export type QueryValidatorFinhubKeyValidityArgs = {
+  finuhbKey: Scalars['String'];
 };
 
 export type Recommendations = {
@@ -1861,6 +1867,13 @@ export type QueryAdminMainInformationsQueryVariables = Exact<{ [key: string]: ne
 
 
 export type QueryAdminMainInformationsQuery = { __typename?: 'Query', queryAdminMainInformations?: Maybe<{ __typename?: 'STAdminMainInformations', lastStockDetailsReload?: Maybe<string>, usersRegistrated: number, usersActive: number, usersRegistrationSnippets: Array<Maybe<{ __typename?: 'STUserIndetification', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string }>>, usersWeeklyRegistrated: Array<Maybe<{ __typename?: 'STSeriesNumber', data: number, timestamp: number }>> }> };
+
+export type ValidatorFinhubKeyValidityQueryVariables = Exact<{
+  finuhbKey: Scalars['String'];
+}>;
+
+
+export type ValidatorFinhubKeyValidityQuery = { __typename?: 'Query', validatorFinhubKeyValidity?: Maybe<boolean> };
 
 export type StfmHolderFragmentFragment = { __typename?: 'STFMHolder', change?: Maybe<number>, dateReported?: Maybe<string>, holder?: Maybe<string>, shares?: Maybe<number> };
 
@@ -3330,6 +3343,22 @@ export const QueryAdminMainInformationsDocument = gql`
   })
   export class QueryAdminMainInformationsGQL extends Apollo.Query<QueryAdminMainInformationsQuery, QueryAdminMainInformationsQueryVariables> {
     document = QueryAdminMainInformationsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ValidatorFinhubKeyValidityDocument = gql`
+    query ValidatorFinhubKeyValidity($finuhbKey: String!) {
+  validatorFinhubKeyValidity(finuhbKey: $finuhbKey)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ValidatorFinhubKeyValidityGQL extends Apollo.Query<ValidatorFinhubKeyValidityQuery, ValidatorFinhubKeyValidityQueryVariables> {
+    document = ValidatorFinhubKeyValidityDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
