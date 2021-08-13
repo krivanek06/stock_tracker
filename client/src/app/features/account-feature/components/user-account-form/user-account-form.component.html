@@ -1,75 +1,43 @@
 <form [formGroup]="form">
-    <!-- group image -->
-    <ion-item-group class="st-flex-row-small-col">
-        <div>
-            <ion-item>
-                <app-uploader
-                   #uploader
-                   (uploadedFilesEmitter)="uploadedImage($event)"
-                   [defaultUrl]="photoURL.value"
-                   [fileName]="user.id"
-                   [filePath]="'users'"
-                   [showInput]="editing">
-                </app-uploader>
-            </ion-item>
-        </div>
+	<!-- group image -->
+	<ion-item-group class="c-uploader-wrapper">
+		<div>
+			<ion-item>
+				<app-uploader
+					#uploader
+					(uploadedFilesEmitter)="uploadedImage($event)"
+					[defaultUrl]="photoURL.value"
+					[fileName]="user.id"
+					[filePath]="'users'"
+					[showInput]="true"
+				>
+				</app-uploader>
+			</ion-item>
+		</div>
 
-        <div style="width: 100%">
-            <!-- display name -->
-            <ion-item class="st-form-input-background ion-margin-top">
-                <ion-label position="floating">Display name</ion-label>
-                <ion-input [value]="displayName.value" formControlName="displayName" type="text"></ion-input>
-            </ion-item>
+		<div>
+			<!-- display name -->
+			<app-form-mat-input-wrapper inputCaption="Display name" controlName="displayName" [disabled]="true"> </app-form-mat-input-wrapper>
 
-            <!-- email -->
-            <ion-item class="st-form-input-background ion-margin-top">
-                <ion-label position="floating">Email</ion-label>
-                <ion-input [value]="email.value" formControlName="email" type="text"></ion-input>
-            </ion-item>
-        </div>
-    </ion-item-group>
+			<!-- email -->
+			<app-form-mat-input-wrapper inputCaption="Email" inputType="EMAIL" controlName="email" [disabled]="true"> </app-form-mat-input-wrapper>
+		</div>
+	</ion-item-group>
+	<!-- locale -->
+	<app-form-mat-input-wrapper inputCaption="Locale" controlName="locale" [disabled]="true"> </app-form-mat-input-wrapper>
 
-    <!-- finnhubKey -->
-    <ion-item class="st-form-input-background ion-margin-top">
-        <ion-label position="floating">Finnhub key</ion-label>
-        <ion-input [value]="finnhubKey.value" formControlName="finnhubKey" type="text"></ion-input>
-    </ion-item>
+	<!-- nickName -->
+	<app-form-mat-input-lock-wrapper inputCaption="NickName" controlName="nickName"> </app-form-mat-input-lock-wrapper>
 
-    <!-- nickName -->
-    <ion-item class="st-form-input-background ion-margin-top">
-        <ion-label position="floating">NickName</ion-label>
-        <ion-input [value]="nickName.value" formControlName="nickName" type="text"></ion-input>
-    </ion-item>
+	<!-- finnhubKey -->
+	<app-form-mat-input-lock-wrapper
+		inputCaption="Finnhub key"
+		controlName="finnhubKey"
+		[highlightField]="!finnhubKey.value"
+	></app-form-mat-input-lock-wrapper>
 
-    <!-- locale -->
-    <ion-item class="st-form-input-background ion-margin-top">
-        <ion-label position="floating">Locale</ion-label>
-        <ion-input [value]="locale.value" formControlName="locale" type="text"></ion-input>
-    </ion-item>
-
-
-    <!-- submit button -->
-    <ion-buttons class="st-buttons-container">
-        <ion-button (click)="edit()"
-                    *ngIf="!editing"
-                    class="st-button st-width-full-md-screen"
-                    color="warning"
-                    fill="solid">
-            Edit
-        </ion-button>
-        <ion-button (click)="submit()"
-                    *ngIf="editing"
-                    class="st-button st-width-full-md-screen"
-                    color="primary"
-                    fill="solid">
-            Save
-        </ion-button>
-        <ion-button (click)="cancel()"
-                    *ngIf="editing"
-                    class="st-button st-width-full-md-screen"
-                    color="danger"
-                    fill="solid">
-            Cancel
-        </ion-button>
-    </ion-buttons>
+	<!-- submit button -->
+	<ion-buttons class="st-buttons-container">
+		<ion-button (click)="submit()" *ngIf="formWasEdited" class="st-button st-width-full-md-screen" color="primary" fill="solid"> Save </ion-button>
+	</ion-buttons>
 </form>

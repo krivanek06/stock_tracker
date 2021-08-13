@@ -1,104 +1,118 @@
-@import "custom-variables";
+@import 'custom-variables';
 
 :host {
-  ion-content {
-    --padding-bottom: 0 !important;
-  }
+	ion-content {
+		--padding-bottom: 0 !important;
+	}
 
-  ion-item ion-label {
-    font-size: 14px;
-  }
+	ion-item ion-label {
+		font-size: 14px;
+	}
 
-  .navigation-avatar {
-    text-align: -webkit-center;
-    margin-bottom: 12px;
-    margin-top: 8px;
-  }
+	.navigation-avatar {
+		text-align: -webkit-center;
+		margin-bottom: 12px;
+		margin-top: 8px;
+	}
 
-  .navigation-avatar-name {
-    display: block;
-  }
+	.navigation-avatar-name {
+		display: block;
+	}
 
-  ion-avatar, ion-thumbnail {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 8px;
-  }
+	ion-avatar,
+	ion-thumbnail {
+		width: 80px;
+		height: 80px;
+		margin-bottom: 8px;
+	}
 
-  ion-menu, ion-content {
-    min-width: 230px !important;
-    max-width: 230px !important;
-    @media (max-width: #{$st-var-xl-split}) {
-      min-width: 250px !important;
-      max-width: 250px !important;
-    }
-  }
+	ion-menu,
+	ion-content {
+		min-width: 230px !important;
+		max-width: 230px !important;
+		@media (max-width: #{$st-var-xl-split}) {
+			min-width: 250px !important;
+			max-width: 250px !important;
+		}
+	}
 
-  .c-version {
-    position: fixed;
-    bottom: 0;
-    margin-left: 16px;
-    margin-bottom: 10px;
-    color: #{$st-var-font-4};
-    font-size: 13px;
-  }
+	.c-version {
+		position: fixed;
+		bottom: 0;
+		margin-left: 16px;
+		margin-bottom: 10px;
+		color: #{$st-var-font-4};
+		font-size: 13px;
+	}
 
-  .navigation {
-    width: 96%;
-    border-radius: 0 25px 25px 0;
-  }
+	.navigation {
+		width: 96%;
+		border-radius: 0 25px 25px 0;
+	}
 
-  .navigation-rectangle-selected {
-    width: 7px;
-    height: 48px;
-    position: absolute;
-    left: 0;
-    z-index: 1;
-    opacity: 0.7;
-    background: #{$st-var-blue-1};
-  }
+	.navigation-rectangle-selected {
+		width: 7px;
+		height: 48px;
+		position: absolute;
+		left: 0;
+		z-index: 1;
+		opacity: 0.7;
+		background: #{$st-var-blue-1};
+	}
 
-  ion-menu.md ion-item.selected ion-icon,
-  ion-menu.md ion-item.selected,
-  ion-menu.ios ion-item.selected ion-icon,
-  ion-item.selected,
-  ion-item.selected ion-label {
-    background-color: #{$st-var-blue-4};
-    color: #{$st-var-blue-1};
-  }
+	ion-menu.md ion-item.selected ion-icon,
+	ion-menu.md ion-item.selected,
+	ion-menu.ios ion-item.selected ion-icon,
+	ion-item.selected,
+	ion-item.selected ion-label {
+		background-color: #{$st-var-blue-4};
+		color: #{$st-var-blue-1};
+	}
 
-  .page-section {
-    margin-left: 16px;
-    font-size: 12px;
-    color: #{$st-var-font-4};
-  }
+	.page-section {
+		margin-left: 16px;
+		font-size: 12px;
+		color: #{$st-var-font-4};
+	}
 
-  .remove-color {
-    color: red;
-    --color: red;
-  }
+	.remove-color {
+		color: red;
+		--color: red;
+	}
 
-  .custom-overlay {
-    //background: #000000;
-    opacity: 0.4;
-  }
+	.custom-overlay {
+		//background: #000000;
+		opacity: 0.4;
+	}
 
-  .custom-overflow-div {
-    background: #000000;
-    width: 100vw;
-    height: 100vh;
-  }
+	.active-finhub-api-item-highlight {
+		--color: #d8b406;
+		background-color: #231f0a;
 
-  .ion-page {
-    /*background: linear-gradient(126deg, rgba(28, 52, 113, 1) 0%,
+		ion-icon {
+			color: #d8b406;
+		}
+		ion-label {
+			color: #d8b406;
+		}
+	}
+
+	.custom-overflow-div {
+		background: #000000;
+		width: 100vw;
+		height: 100vh;
+	}
+
+	.ion-page {
+		/*background: linear-gradient(126deg, rgba(28, 52, 113, 1) 0%,
             rgba(18, 44, 107, 1) 29%,
             rgba(24, 42, 99, 1) 44%,
             rgba(14, 30, 82, 1) 73%,
             rgba(11, 20, 49, 1) 100%);*/
 
-    background: linear-gradient(126deg, #10255a 0%, #0c1d44 29%, #0c183e 44%, #061238 73%, #060e28 100%);
-    /*background-image: url("../../../assets/test.jpg");
+		background: linear-gradient(126deg, #10255a 0%, #0c1d44 29%, #0c183e 44%, #061238 73%, #060e28 100%);
+		/*background-image: url("../../../assets/test.jpg");
     background-color: #10255a;
     background-blend-mode: screen;*/
-  }
+	}
 }

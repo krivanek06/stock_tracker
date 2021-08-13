@@ -4,11 +4,11 @@ import {
 	ClickableNameItemComponent,
 	FinancialChartComponent,
 	FixedRangeSliderComponent,
+	FormMatInputLockWrapperModule,
 	GaugeChartComponent,
 	GenericCardComponent,
 	GenericChartComponent,
 	GenericExtensionPanelComponent,
-	GenericFadingCardContentComponent,
 	GenericFancyCardComponent,
 	GenericListComponent,
 	InlineModificationFormComponent,
@@ -25,6 +25,7 @@ import {
 	UploaderComponent,
 	UploadTaskComponent,
 } from './components';
+import { InformationCardComponent } from './components/cards/information-card/information-card.component';
 import { FormMatInputWrapperModule } from './components/forms/form-mat-input-wrapper/form-mat-input-wrapper.module';
 import { ListSkeletonComponent } from './components/lists';
 import { FinancialChartContainerComponent, HeaderComponent, StockSummaryContainerComponent } from './containers';
@@ -70,7 +71,6 @@ import { SharedProvidersModule } from './shared-providers.module';
 		SearchWrapperComponent,
 		ScrollOffsetDirective,
 		GenericFancyCardComponent,
-		GenericFadingCardContentComponent,
 		TableHighLowRangeComponent,
 		RecommendationDirective,
 		ArticleCardsComponent,
@@ -86,8 +86,9 @@ import { SharedProvidersModule } from './shared-providers.module';
 		ListSkeletonComponent,
 		GenericExtensionPanelComponent,
 		PieChartWrapperComponent,
+		InformationCardComponent,
 	],
-	imports: [SharedProvidersModule, SharedMaterialModule, SharedPipesModule, FormMatInputWrapperModule],
+	imports: [SharedProvidersModule, SharedMaterialModule, SharedPipesModule, FormMatInputWrapperModule, FormMatInputLockWrapperModule],
 	exports: [
 		SharedProvidersModule,
 		FixedRangeSliderComponent,
@@ -110,7 +111,6 @@ import { SharedProvidersModule } from './shared-providers.module';
 		TooltipDirective,
 		SearchWrapperComponent,
 		GenericFancyCardComponent,
-		GenericFadingCardContentComponent,
 		TableHighLowRangeComponent,
 		RecommendationDirective,
 		ArticleCardsComponent,
@@ -128,6 +128,8 @@ import { SharedProvidersModule } from './shared-providers.module';
 		PieChartWrapperComponent,
 		SharedMaterialModule,
 		FormMatInputWrapperModule,
+		FormMatInputLockWrapperModule,
+		InformationCardComponent,
 	],
 	entryComponents: [InlineInputPopUpComponent, OptionPickerPopOverComponent],
 })

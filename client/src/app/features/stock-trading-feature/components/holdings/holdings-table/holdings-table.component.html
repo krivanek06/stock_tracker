@@ -1,145 +1,144 @@
 <!-- big screen -->
 <ion-list class="ion-hide-sm-down">
-    <ion-item class="st-font-1-bold">
-        <!-- table header -->
-        <ion-label>Symbol</ion-label>
-        <ion-label>Price</ion-label>
-        <ion-label>Bep.</ion-label>
-        <ion-label>Daily +/-</ion-label>
-        <ion-label>Total +/-</ion-label>
-        <ion-label>Value</ion-label>
-        <ion-label class="ion-hide-md-down">Portfolio %</ion-label>
-        <ion-label class="ion-hide-lg-down">Recommend</ion-label>
-    </ion-item>
+	<ion-item class="st-font-1-bold">
+		<!-- table header -->
+		<ion-label>Symbol</ion-label>
+		<ion-label>Price</ion-label>
+		<ion-label>Bep.</ion-label>
+		<ion-label>Daily +/-</ion-label>
+		<ion-label>Total +/-</ion-label>
+		<ion-label>Value</ion-label>
+		<ion-label class="ion-hide-md-down">Portfolio %</ion-label>
+		<ion-label class="ion-hide-lg-down">Recommend</ion-label>
+	</ion-item>
 
-    <!-- table body -->
-    <ion-item *ngFor="let holding of holdings; trackBy:identify"
-              (click)="itemClicked(holding)"
-              class="st-data-item-wrapper ion-hide-sm-down"
-              [ngClass]="{'ion-activatable': clickable}">
+	<!-- table body -->
+	<ng-container *ngIf="holdings.length > 0; else showNoHoldingsText">
+		<ion-item
+			*ngFor="let holding of holdings; trackBy:identify"
+			(click)="itemClicked(holding)"
+			class="st-data-item-wrapper ion-hide-sm-down"
+			[ngClass]="{'ion-activatable': clickable}"
+		>
+			<!-- stock name -->
+			<ion-label class="st-display-flex-center">
+				<ion-img appDefaultImg [src]="holding.summary.logo_url" class="st-symbol-image"></ion-img>
+				<ion-text class="ion-hide-md-down st-font-4">{{ holding.summary.symbol }}</ion-text>
+			</ion-label>
 
-        <!-- stock name -->
-        <ion-label class="st-display-flex-center">
-            <ion-img appDefaultImg [src]="holding.summary.logo_url" class="st-symbol-image"></ion-img>
-            <ion-text class="ion-hide-md-down st-font-4">{{ holding.summary.symbol }}</ion-text>
-        </ion-label>
+			<!-- current price -->
+			<ion-label class="st-data-label" [@marketValueChange]="holding.summary.marketPrice"> {{ holding.summary.marketPrice | currency }} </ion-label>
 
-        <!-- current price -->
-        <ion-label class="st-data-label" [@marketValueChange]="holding.summary.marketPrice">
-            {{ holding.summary.marketPrice | currency }}
-        </ion-label>
+			<!-- BEP -->
+			<ion-label class="st-data-label"> {{ holding.breakEvenPrice | currency }} </ion-label>
 
-        <!-- BEP -->
-        <ion-label class="st-data-label">
-            {{ holding.breakEvenPrice | currency }}
-        </ion-label>
+			<!-- daily change -->
+			<ion-label>
+				<app-price-compare-item
+					[currentPrice]="holding.summary.marketPrice * holding.units"
+					[compareToPrice]="holding.summary.previousClose * holding.units"
+				>
+				</app-price-compare-item>
+			</ion-label>
 
-        <!-- daily change -->
-        <ion-label>
-            <app-price-compare-item [currentPrice]="holding.summary.marketPrice * holding.units"
-                                    [compareToPrice]="holding.summary.previousClose * holding.units">
-            </app-price-compare-item>
-        </ion-label>
+			<!-- total change -->
+			<ion-label>
+				<app-price-compare-item
+					[currentPrice]="holding.summary.marketPrice * holding.units"
+					[compareToPrice]="holding.breakEvenPrice * holding.units"
+				>
+				</app-price-compare-item>
+			</ion-label>
 
-        <!-- total change -->
-        <ion-label>
-            <app-price-compare-item [currentPrice]="holding.summary.marketPrice * holding.units"
-                                    [compareToPrice]="holding.breakEvenPrice * holding.units">
-            </app-price-compare-item>
-        </ion-label>
+			<!-- Value -->
+			<ion-label class="st-data-label st-flex-col">
+				<ion-text [@marketValueChange]="holding.summary.marketPrice"> {{ (holding.summary.marketPrice * holding.units) | currency }} </ion-text>
+				<ion-text class="st-font-size-12 st-font-5"> {{ holding.summary.marketPrice | currency }} * {{ holding.units }} </ion-text>
+			</ion-label>
 
-        <!-- Value -->
-        <ion-label class="st-data-label st-flex-col">
-            <ion-text [@marketValueChange]="holding.summary.marketPrice">
-                {{ (holding.summary.marketPrice * holding.units) | currency }}
-            </ion-text>
-            <ion-text class="st-font-size-12 st-font-5">
-                {{ holding.summary.marketPrice | currency }} * {{ holding.units }}
-            </ion-text>
-        </ion-label>
+			<!-- portfolio % -->
+			<ion-label class="ion-hide-md-down st-data-label">
+				{{ (holding.summary.marketPrice * holding.units / totalPortfolio | percent: '1.2-2') }}
+			</ion-label>
 
-        <!-- portfolio % -->
-        <ion-label class="ion-hide-md-down st-data-label">
-            {{ (holding.summary.marketPrice * holding.units / totalPortfolio  | percent: '1.2-2') }}
-        </ion-label>
+			<!-- recommendation date -->
+			<ion-label class="ion-hide-lg-down st-data-label">
+				<ion-text appRecommendation [recommendationKey]="holding.summary.recommendationKey" [recommendationMean]="holding.summary.recommendationMean">
+				</ion-text>
+			</ion-label>
 
-        <!-- recommendation date -->
-        <ion-label class="ion-hide-lg-down st-data-label">
-            <ion-text appRecommendation
-                      [recommendationKey]="holding.summary.recommendationKey"
-                      [recommendationMean]="holding.summary.recommendationMean">
-            </ion-text>
-        </ion-label>
-
-
-        <!-- ripple effect on click -->
-        <ion-ripple-effect></ion-ripple-effect>
-    </ion-item>
+			<!-- ripple effect on click -->
+			<ion-ripple-effect></ion-ripple-effect>
+		</ion-item>
+	</ng-container>
 </ion-list>
 
 <!-- Small screen -->
 <ion-list class="ion-hide-sm-up">
-    <ion-item>
-        <ion-label class="st-flex-end">
-            <ion-button fill="clear" class="st-icon" *ngIf="showDailyChange" (click)="toggleDailyChange()">
-                Daily +/-
-            </ion-button>
-            <ion-button fill="clear" class="st-icon" *ngIf="!showDailyChange" (click)="toggleDailyChange()">
-                Unrealised +/-
-            </ion-button>
-        </ion-label>
-    </ion-item>
+	<ion-item>
+		<ion-label class="st-flex-end">
+			<ion-button fill="clear" class="st-icon" *ngIf="showDailyChange" (click)="toggleDailyChange()"> Daily +/- </ion-button>
+			<ion-button fill="clear" class="st-icon" *ngIf="!showDailyChange" (click)="toggleDailyChange()"> Unrealised +/- </ion-button>
+		</ion-label>
+	</ion-item>
 
-    <ion-item-group *ngFor="let holding of holdings; trackBy:identify"
-                    class="st-data-item-wrapper"
-                    (click)="itemClicked(holding)"
-                    [ngClass]="{'ion-activatable': clickable}">
+	<ng-container *ngIf="holdings.length > 0; else showNoHoldingsText">
+		<ion-item-group
+			*ngFor="let holding of holdings; trackBy:identify"
+			class="st-data-item-wrapper"
+			(click)="itemClicked(holding)"
+			[ngClass]="{'ion-activatable': clickable}"
+		>
+			<ion-item>
+				<!-- LOGO + SYMBOL -->
+				<ion-label class="st-display-flex-center st-fit-content">
+					<ion-img appDefaultImg [src]="holding.summary.logo_url" class="st-symbol-image"></ion-img>
+					<div class="st-flex-col">
+						<ion-text>{{ holding.summary.symbol }}</ion-text>
+						<ion-text class="st-hide-xs-down st-font-size-12">{{ holding.summary.longName }}</ion-text>
+					</div>
+				</ion-label>
 
-        <ion-item>
-            <!-- LOGO + SYMBOL -->
-            <ion-label class="st-display-flex-center st-fit-content">
-                <ion-img appDefaultImg [src]="holding.summary.logo_url" class="st-symbol-image"></ion-img>
-                <div class="st-flex-col">
-                    <ion-text>{{ holding.summary.symbol }}</ion-text>
-                    <ion-text class="st-hide-xs-down st-font-size-12">{{ holding.summary.longName }}</ion-text>
-                </div>
-            </ion-label>
+				<!-- Value -->
+				<ion-label class="st-font-1-normal st-font-size-16 st-flex-end" [@marketValueChange]="holding.summary.marketPrice">
+					{{ (holding.summary.marketPrice * holding.units) | currency }}
+				</ion-label>
+			</ion-item>
 
-            <!-- Value -->
-            <ion-label class="st-font-1-normal st-font-size-16 st-flex-end"
-                       [@marketValueChange]="holding.summary.marketPrice">
-                {{ (holding.summary.marketPrice * holding.units) | currency }}
-            </ion-label>
-        </ion-item>
+			<ion-item>
+				<!-- units -->
+				<ion-label class="st-font-5 st-font-size-14 st-fit-content">
+					<span [@marketValueChange]="holding.summary.marketPrice">{{ holding.summary.marketPrice | currency }}</span> * {{ holding.units }} | {{
+					holding.breakEvenPrice | currency }}
+				</ion-label>
 
-        <ion-item>
-            <!-- units -->
-            <ion-label class="st-font-5 st-font-size-14 st-fit-content">
-                <span [@marketValueChange]="holding.summary.marketPrice">{{ holding.summary.marketPrice | currency }}</span> * {{ holding.units }}
-                | {{ holding.breakEvenPrice | currency }}
-            </ion-label>
+				<ion-label class="st-flex-end">
+					<!-- daily change -->
+					<app-price-compare-item
+						*ngIf="showDailyChange"
+						[currentPrice]="holding.summary.marketPrice * holding.units"
+						[inlineDisplay]="true"
+						[compareToPrice]="holding.summary.previousClose * holding.units"
+					>
+					</app-price-compare-item>
 
-            <ion-label class="st-flex-end">
-                <!-- daily change -->
-                <app-price-compare-item
-                        *ngIf="showDailyChange"
-                        [currentPrice]="holding.summary.marketPrice * holding.units"
-                        [inlineDisplay]="true"
-                        [compareToPrice]="holding.summary.previousClose * holding.units">
-                </app-price-compare-item>
+					<!-- total change -->
+					<app-price-compare-item
+						*ngIf="!showDailyChange"
+						[inlineDisplay]="true"
+						[currentPrice]="holding.summary.marketPrice * holding.units"
+						[compareToPrice]="holding.breakEvenPrice * holding.units"
+					>
+					</app-price-compare-item>
+				</ion-label>
+			</ion-item>
 
-                <!-- total change -->
-                <app-price-compare-item
-                        *ngIf="!showDailyChange"
-                        [inlineDisplay]="true"
-                        [currentPrice]="holding.summary.marketPrice * holding.units"
-                        [compareToPrice]="holding.breakEvenPrice * holding.units">
-                </app-price-compare-item>
-            </ion-label>
-        </ion-item>
-
-        <!-- ripple effect on click -->
-        <ion-ripple-effect></ion-ripple-effect>
-    </ion-item-group>
-
+			<!-- ripple effect on click -->
+			<ion-ripple-effect></ion-ripple-effect>
+		</ion-item-group>
+	</ng-container>
 </ion-list>
+
+<ng-template #showNoHoldingsText>
+	<div class="st-empty-table">Your currently do not hold any symbols</div>
+</ng-template>

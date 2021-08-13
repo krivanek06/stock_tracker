@@ -6,6 +6,12 @@
 		cursor: default;
 	}
 
+	.highlight-mat-form-field {
+		.mat-form-field-flex {
+			background-color: #444212 !important;
+		}
+	}
+
 	// disabled state
 	.disabled-mat-form-field {
 		.mat-form-field-flex {
@@ -47,13 +53,13 @@
 		/*.mat-form-field-wrapper {
       padding-bottom: 0;
     }*/
-		.mat-form-field-wrapper {
+		/* .mat-form-field-wrapper {
 			padding-bottom: 0;
 
 			.mat-form-field-subscript-wrapper {
 				position: relative;
 			}
-		}
+		} */
 
 		.mat-form-field-flex {
 			.mat-form-field-suffix {

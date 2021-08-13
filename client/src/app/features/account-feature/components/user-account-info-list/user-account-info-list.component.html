@@ -1,35 +1,35 @@
 <div *ngIf="stUserPublicData" class="user-info-item">
-    <div (click)="clickedPerson()" [ngClass]="{
+	<div
+		(click)="clickedPerson()"
+		[ngClass]="{
                 'ion-activatable': clickable,
                 'width-100': clickable
-            }" class="st-flex-wrap" style="padding: 6px">
-        <ion-img [src]="stUserPublicData.photoURL"></ion-img>
-        <div class="ion-margin-start" style="display: grid">
-            <ion-text class="st-font-0 st-font-size-16">{{ stUserPublicData.nickName }}</ion-text>
+            }"
+		class="st-flex-wrap"
+		style="padding: 6px"
+	>
+		<ion-img [src]="stUserPublicData.photoURL"></ion-img>
+		<div class="ion-margin-start" style="display: grid">
+			<ion-text class="st-font-0 st-font-size-16">{{ stUserPublicData.nickName }}</ion-text>
 
-            <!-- portfolio state -->
-            <div class="st-flex-wrap ion-align-items-center">
-                <ion-text class="st-font-5 st-small-right-space">Portfolio:</ion-text>
-                <ion-text class="st-font-2 st-small-right-space">
-                    {{ stUserPublicData.lastPortfolioSnapshot.portfolioInvested + stUserPublicData.lastPortfolioSnapshot.portfolioCash | currency }}
-                </ion-text>
-                <app-price-change-item
-                        [isPercent]="true"
-                        [priceChange]="stUserPublicData.lastPortfolioIncreasePrct">
-                </app-price-change-item>
-            </div>
+			<!-- portfolio state -->
+			<div class="st-flex-wrap ion-align-items-center">
+				<ion-text class="st-font-5 st-small-right-space">Portfolio:</ion-text>
+				<ion-text class="st-font-2 st-small-right-space">
+					{{ stUserPublicData.portfolio.lastPortfolioSnapshot.portfolioInvested + stUserPublicData.portfolio.lastPortfolioSnapshot.portfolioCash |
+					currency }}
+				</ion-text>
+				<app-price-change-item [isPercent]="true" [priceChange]="stUserPublicData.portfolio.lastPortfolioIncreasePrct"> </app-price-change-item>
+			</div>
 
-            <ion-text class="st-font-size-12 st-font-5">
-                Since: {{ stUserPublicData.accountCreatedDate | date: 'dd.MM.yyyy' }}
-            </ion-text>
-        </div>
-    </div>
+			<ion-text class="st-font-size-12 st-font-5"> Since: {{ stUserPublicData.accountCreatedDate | date: 'dd.MM.yyyy' }} </ion-text>
+		</div>
+	</div>
 
-    <!-- delete button  -->
-    <div *ngIf="showDeleteButton">
-        <ion-button (click)="deletePerson()" class="st-transparent-background st-clickable"
-                    color="danger">
-            <ion-icon name="trash-bin" style="font-size: 28px;"></ion-icon>
-        </ion-button>
-    </div>
+	<!-- delete button  -->
+	<div *ngIf="showDeleteButton">
+		<ion-button (click)="deletePerson()" class="st-transparent-background st-clickable" color="danger">
+			<ion-icon name="trash-bin" style="font-size: 28px"></ion-icon>
+		</ion-button>
+	</div>
 </div>

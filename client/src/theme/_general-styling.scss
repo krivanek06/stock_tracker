@@ -278,6 +278,13 @@ ion-spinner {
 	}
 }
 
+.st-empty-table {
+	text-align: center;
+	padding: 16px;
+	font-size: 18px;
+	margin: 26px;
+}
+
 .st-data-item-wrapper {
 	border-bottom: 1px solid #66666633 !important;
 }
@@ -638,6 +645,10 @@ ion-skeleton-text {
 	}
 }
 
+.st-gap {
+	gap: 10px;
+}
+
 .st-flex-wrap {
 	display: flex;
 	flex-flow: wrap;
@@ -681,5 +692,18 @@ ion-skeleton-text {
 .st-hide-xs-down {
 	@media (max-width: #{$st-var-xs-split}) {
 		display: none;
+	}
+}
+
+.cdk-overlay-pane {
+	&.mat-tooltip-panel {
+		.mat-tooltip {
+			color: #cccccc;
+			background-color: #3a3a3a;
+			border: 1px solid #242424;
+			border-radius: 3px;
+			font-size: 14px;
+			padding: 16px;
+		}
 	}
 }

@@ -4,6 +4,7 @@ import {
 	UserAccountFormComponent,
 	UserAccountInfoComponent,
 	UserAccountInfoListComponent,
+	UserAccountNotActivatedMessageComponent,
 	UserAccountResetedInfoComponent,
 	UserIdentificationInfoComponent,
 } from './components';
@@ -19,6 +20,7 @@ import { AccountFeatureFacadeService } from './services';
 		UserAccountResetedInfoComponent,
 		UserIdentificationInfoComponent,
 		UserAccountSearchFormComponent,
+		UserAccountNotActivatedMessageComponent,
 	],
 	imports: [SharedModule],
 	exports: [
@@ -29,6 +31,7 @@ import { AccountFeatureFacadeService } from './services';
 		UserAccountResetedInfoComponent,
 		UserIdentificationInfoComponent,
 		UserAccountSearchFormComponent,
+		UserAccountNotActivatedMessageComponent,
 	],
 	providers: [AccountFeatureFacadeService],
 })

@@ -4,27 +4,31 @@
 			<!-- account form -->
 			<ion-col size="12" size-lg="8" size-md="7">
 				<app-generic-card [additionalClasses]="'st-height-100'" [title]="'Account Information'">
-					<app-user-account-form (editClickedEmitter)="toggleEdit()" (submitClickedEmitter)="editUser($event)" [user]="user"> </app-user-account-form>
+					<app-user-account-form (submitClickedEmitter)="editUser($event)" [user]="user"> </app-user-account-form>
 				</app-generic-card>
 			</ion-col>
 			<ion-col size="12" size-lg="4" size-md="5">
 				<ion-row>
-					<ion-col size="12">
+					<ion-col size="12" *ngIf="user.userPrivateData.roles.length > 0">
 						<!-- assigned roles -->
-						<app-generic-card *ngIf="user.userPrivateData.roles.length > 0" [title]="'Assigned roles'" class="ion-margin-bottom">
+						<app-generic-card [title]="'Assigned roles'" class="ion-margin-bottom">
 							<app-clickable-name-item [itemNames]="user.userPrivateData.roles"> </app-clickable-name-item>
 						</app-generic-card>
 					</ion-col>
-					<ion-col size="12">
+					<ion-col size="12" *ngIf="user.userPrivateData.finnhubKey">
 						<!-- reseted account -->
 						<app-generic-card [title]="'Account resets'">
 							<app-user-account-reseted-info
 								(resetAccountEmitter)="resetAccount()"
 								[resetedAccountInfo]="user.userHistoricalData.resetedAccount"
-								[showResetButton]="editing && !!user.userPrivateData.finnhubKey"
+								[showResetButton]="!!user.userPrivateData.finnhubKey"
 							>
 							</app-user-account-reseted-info>
 						</app-generic-card>
+					</ion-col>
+
+					<ion-col size="12" *ngIf="!user.userPrivateData.finnhubKey">
+						<app-user-account-not-activated-message></app-user-account-not-activated-message>
 					</ion-col>
 				</ion-row>
 			</ion-col>
