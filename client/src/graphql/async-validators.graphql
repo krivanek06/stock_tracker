@@ -1,0 +1,3 @@
+query ValidatorFinhubKeyValidity($finuhbKey: String!) {
+	validatorFinhubKeyValidity(finuhbKey: $finuhbKey)
+}

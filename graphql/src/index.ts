@@ -46,6 +46,7 @@ import { editUser, registerUser, resetUserAccount } from './user/user.mutation';
 import { authenticateUser, queryUserPublicData, queryUserPublicDataByUsername } from './user/user.query';
 import { userResolvers } from './user/user.resolver';
 import { userTypeDefs } from './user/user.typeDefs';
+import { validatorFinhubKeyValidity } from './validators';
 import {
 	addStockIntoStockWatchlist,
 	createStockWatchlist,
@@ -98,6 +99,9 @@ const mainTypeDefs = gql`
 
 		# admin
 		queryAdminMainInformations: STAdminMainInformations
+
+		# async validators
+		validatorFinhubKeyValidity(finuhbKey: String!): Boolean
 	}
 
 	#### MUTATION
@@ -166,6 +170,9 @@ const mainResolver = {
 
 		// admin
 		queryAdminMainInformations: async (_: null, args: null) => await queryAdminMainInformations(),
+
+		// async validators
+		validatorFinhubKeyValidity: async (_: null, args: { finuhbKey: string }) => await validatorFinhubKeyValidity(args.finuhbKey),
 	},
 
 	Mutation: {

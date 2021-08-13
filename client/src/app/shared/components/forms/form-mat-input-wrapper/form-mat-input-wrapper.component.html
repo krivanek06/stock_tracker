@@ -4,6 +4,7 @@
 			*ngIf="!['CHECKBOX', 'RADIO'].includes(inputType)"
 			[ngClass]="{
                             'disabled-mat-form-field': disabled,
+							'ion-text-center': inputType === 'SLIDER',
 							'highlight-mat-form-field': highlightField
                           }"
 			appearance="outline"
@@ -99,8 +100,8 @@
 			<input *ngSwitchDefault [formControl]="formInputControl" [readOnly]="disabled" [type]="inputType" matInput />
 
 			<!-- errors -->
-			<!-- <mat-error *ngFor="let inputError of usedFormControl.errors | keyvalue" [id]="null"> {{ inputError.value.errorText }} </mat-error> -->
-			<mat-error *ngIf="usedFormControl.errors?.required">This field is required</mat-error>
+			<mat-error *ngFor="let inputError of usedFormControl.errors | keyvalue" [id]="null"> {{ inputError.value.errorText }} </mat-error>
+			<!-- <mat-error *ngIf="usedFormControl.errors?.required">This field is required</mat-error> -->
 
 			<!-- hint -->
 			<mat-icon *ngIf="hintText" [matTooltip]="hintText" class="helper-text-tooltip-icon" matSuffix matTooltipClass="form-input-tooltip">
