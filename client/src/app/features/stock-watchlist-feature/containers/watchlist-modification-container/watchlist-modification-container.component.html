@@ -1,15 +1,13 @@
 <app-inline-modification-form
-        (acceptEmitter)="changeName($event, watchlist)"
-        (removeEmitter)="deleteWatchlist(watchlist)"
-        *ngFor="let watchlist of watchlists"
-        [data]="watchlist.name"
-        [label]="'Watchlist'">
+	(acceptEmitter)="changeName($event, watchlist)"
+	(removeEmitter)="deleteWatchlist(watchlist)"
+	*ngFor="let watchlist of watchlists"
+	[data]="watchlist.name"
+	[label]="'Watchlist'"
+>
 </app-inline-modification-form>
-
 
 <!-- create button -->
 <ion-buttons class="st-buttons-container">
-    <ion-button (click)="createWatchlist()" class="st-button" color="primary" fill="solid">
-        Create watchlist
-    </ion-button>
+	<ion-button (click)="createWatchlist()" class="st-button" color="primary" fill="solid"> Create watchlist </ion-button>
 </ion-buttons>

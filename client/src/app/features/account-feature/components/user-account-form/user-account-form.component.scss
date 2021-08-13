@@ -1,0 +1,10 @@
+:host {
+	.c-uploader-wrapper {
+		display: flex;
+		flex-flow: wrap;
+
+		:last-child {
+			flex: 1;
+		}
+	}
+}

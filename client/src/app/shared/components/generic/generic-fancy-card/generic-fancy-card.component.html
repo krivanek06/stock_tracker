@@ -1,19 +1,19 @@
 <ion-card [class]="cardClasses" [style.min-width.px]="minWidth">
-    <!-- header -->
-    <ion-card-header>
-        <ion-card-title>
-            <div [class]="'title-dot ' + titleDotColor"></div>
-            <ion-text [class]="'st-font-size-18 ' + titleColor">{{ title }}</ion-text>
-        </ion-card-title>
-    </ion-card-header>
+	<!-- header -->
+	<ion-card-header>
+		<ion-card-title>
+			<div [class]="'title-dot ' + titleDotColor"></div>
+			<ion-text [class]="'st-font-size-18 ' + titleColor">{{ title }}</ion-text>
+		</ion-card-title>
+	</ion-card-header>
 
-    <!-- body -->
-    <ion-card-content>
-        <ng-content></ng-content>
-    </ion-card-content>
+	<!-- body -->
+	<ion-card-content>
+		<ng-content></ng-content>
+	</ion-card-content>
 
-    <!-- circle for fancy styling -->
-    <div class="fancy-circle left-circle"></div>
-    <div class="fancy-circle upper-circle"></div>
-    <div class="fancy-circle lower-circle"></div>
+	<!-- circle for fancy styling -->
+	<div class="fancy-circle left-circle"></div>
+	<div class="fancy-circle upper-circle"></div>
+	<div class="fancy-circle lower-circle"></div>
 </ion-card>

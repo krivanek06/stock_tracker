@@ -1,15 +1,10 @@
-import {NgModule} from '@angular/core';
-import {MenuPageRoutingModule} from './menu-routing.module';
-import {MenuPage} from './menu.page';
-import {SharedModule} from '@shared';
-import {LoginFeatureModule} from '@login-feature';
+import { NgModule } from '@angular/core';
+import { SharedModule } from '@shared';
+import { MenuPageRoutingModule } from './menu-routing.module';
+import { MenuPage } from './menu.page';
 
 @NgModule({
-    imports: [
-        MenuPageRoutingModule,
-        SharedModule
-    ],
-    declarations: [MenuPage]
+	imports: [MenuPageRoutingModule, SharedModule],
+	declarations: [MenuPage],
 })
-export class MenuPageModule {
-}
+export class MenuPageModule {}

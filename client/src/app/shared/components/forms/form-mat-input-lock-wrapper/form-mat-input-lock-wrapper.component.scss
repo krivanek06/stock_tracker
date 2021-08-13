@@ -1,35 +1,43 @@
 :host {
-  .c-form-lock-wrapper-slider {
-    position: relative;
-    margin-bottom: 10px;
+	.c-form-lock-wrapper-slider {
+		position: relative;
+		margin-bottom: 16px;
 
-    app-form-lock-input {
-      position: absolute;
-      top: 55px;
-    }
+		app-form-lock-input {
+			position: absolute;
+			top: 55px;
+		}
 
-    button {
-      position: absolute;
-      top: 65px;
-      right: 0;
-    }
-  }
+		button {
+			position: absolute;
+			top: 65px;
+			right: 0;
+		}
+	}
 
-  .c-form-lock-wrapper-select {
-    position: relative;
-    margin-bottom: 10px;
+	.c-form-lock-wrapper-select {
+		position: relative;
+		margin-bottom: 16px;
 
-    app-form-lock-input {
-      position: absolute;
-      top: 45px;
-    }
+		app-form-lock-input {
+			position: absolute;
+			top: 55px;
+		}
 
-    button {
-      position: absolute;
-      top: 50px;
-      right: 0;
-    }
-  }
+		button {
+			position: absolute;
+			top: 50px;
+			right: 0;
+		}
 
+		.has-erros {
+			app-form-lock-input {
+				top: 75px;
+			}
 
+			button {
+				top: 80px;
+			}
+		}
+	}
 }

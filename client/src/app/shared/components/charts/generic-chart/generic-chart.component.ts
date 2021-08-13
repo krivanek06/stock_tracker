@@ -2,9 +2,11 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnI
 import { ChartSeriesData } from '@core';
 import highcharts3D from 'highcharts/highcharts-3d';
 import * as Highcharts from 'highcharts/highstock';
+import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
 import { ChartType } from '../../../models';
 import { stFormatLargeNumber } from '../../../utils';
 
+NoDataToDisplay(Highcharts);
 highcharts3D(Highcharts);
 
 @Component({
