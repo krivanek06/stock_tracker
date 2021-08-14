@@ -26,6 +26,12 @@ export const queryStockDetails = async (symbol: string, reload = false): Promise
 		if (!data || reload || data?.forceReload || Math.abs(moment(data.detailsLastUpdate).diff(new Date(), 'days')) > 10) {
 			console.log(`Query all stock details for symbol: ${upperSymbol}`);
 			const details = await getStockDetailsFromApi(upperSymbol);
+
+			// no summary was found - insufficient data
+			if (!details) {
+				return null;
+			}
+
 			await saveFinancialReports(symbol, details);
 
 			// remove FinancialReportStatement

@@ -28,17 +28,21 @@
 	></app-dashboard-holdings-table>
 
 	<!-- holdings pie charts -->
-	<div *ngIf="user.holdings.length > 0" class="st-flex-wrap ion-margin-vertical">
+	<ion-row *ngIf="user.holdings.length > 0" class="ion-margin-vertical ion-justify-content-around">
 		<!-- holdings sector -->
-		<app-pie-chart-wrapper [data]="user.holdings | holdingsToSectorChartSeries" [heightPx]="300" chartTitle="holdings"></app-pie-chart-wrapper>
+		<ion-col size="12" size-md="6">
+			<app-pie-chart-wrapper [data]="user.holdings | holdingsToSectorChartSeries" [heightPx]="300" chartTitle="holdings"></app-pie-chart-wrapper>
+		</ion-col>
 
 		<!-- holdings allocation -->
-		<app-pie-chart-wrapper
-			[data]="user.holdings | holdingsToPortfolioChartSeries:  user.portfolio.portfolioCash"
-			[heightPx]="300"
-			chartTitle="Holdings allocation"
-		></app-pie-chart-wrapper>
-	</div>
+		<ion-col size="12" size-md="6">
+			<app-pie-chart-wrapper
+				[data]="user.holdings | holdingsToPortfolioChartSeries:  user.portfolio.portfolioCash"
+				[heightPx]="300"
+				chartTitle="Holdings allocation"
+			></app-pie-chart-wrapper>
+		</ion-col>
+	</ion-row>
 
 	<!-- transactions -->
 	<app-dashboard-transactions

@@ -511,3 +511,12 @@ export interface STFMStockScreenerResult {
   isActivelyTrading?: boolean;
   companyQuote?: STFMCompanyQuote;
 }
+
+
+export interface STFMSymbolearch {
+  symbol: string;
+  name: string;
+  currency: string;
+  stockExchange: string;
+  exchangeShortName: string;
+}
