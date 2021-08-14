@@ -1,6 +1,7 @@
 <ng-container *ngIf="groupAllData$ | async as groupData">
 	<!-- portfolio -->
-	<app-group-details-overview-portfolio-container [groupAllData]="groupData"> </app-group-details-overview-portfolio-container>
+	<app-group-details-overview-portfolio-container *ngIf="groupData.portfolio.lastPortfolioSnapshot.portfolioInvested" [groupAllData]="groupData">
+	</app-group-details-overview-portfolio-container>
 
 	<!-- invitations -->
 	<app-group-details-overview-invitations-container [groupAllData]="groupData"> </app-group-details-overview-invitations-container>

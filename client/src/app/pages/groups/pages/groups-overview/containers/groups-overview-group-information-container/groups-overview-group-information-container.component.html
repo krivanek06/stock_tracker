@@ -21,8 +21,9 @@
 		<!-- portfolio -->
 		<app-portfolio-increase-chart
 			[heightPx]="200"
-			[startingBalance]="groupAllData.startedBalance"
-			[stPortfolioSnapshots]="groupAllData.lastPortfolioSnapshot"
+			[stStartedPortfolioSnapshots]="groupAllData.portfolio.startingPortfolioSnapshot"
+			[portfolioInvested]="groupAllData.portfolio.lastPortfolioSnapshot.portfolioInvested"
+			[portfolioCash]="groupAllData.portfolio.lastPortfolioSnapshot.portfolioCash"
 		>
 		</app-portfolio-increase-chart>
 	</div>

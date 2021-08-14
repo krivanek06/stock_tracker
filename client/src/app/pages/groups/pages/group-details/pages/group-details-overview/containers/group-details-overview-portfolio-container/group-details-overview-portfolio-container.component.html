@@ -2,8 +2,8 @@
 	<!-- portfolio current state -->
 	<app-portfolio-state
 		portfolioState="PARTIAL"
-		[portfolioCash]="groupAllData.lastPortfolioSnapshot.portfolioCash"
-		[portfolioInvested]="groupAllData.lastPortfolioSnapshot.portfolioInvested"
+		[portfolio]="groupAllData.portfolio"
+		[portfolioInvested]="groupAllData.portfolio.lastPortfolioSnapshot.portfolioInvested"
 	></app-portfolio-state>
 
 	<!-- portfolio change -->
@@ -12,7 +12,7 @@
 			*ngFor="let tradingChange of tradingChangeWrapper"
 			[inlinePriceWithIncrease]="false"
 			[tradingChangeWrapper]="tradingChange"
-			[balance]="groupAllData.lastPortfolioSnapshot.portfolioInvested + groupAllData.lastPortfolioSnapshot.portfolioCash"
+			[balance]="groupAllData.portfolio.lastPortfolioSnapshot.portfolioInvested + groupAllData.portfolio.lastPortfolioSnapshot.portfolioCash"
 		></app-portfolio-change>
 	</div>
 
@@ -20,8 +20,9 @@
 	<div class="c-portfolio-chart">
 		<app-portfolio-increase-chart
 			[heightPx]="200"
-			[startingBalance]="groupAllData.startedBalance"
-			[stPortfolioSnapshots]="groupAllData.lastPortfolioSnapshot"
+			[stStartedPortfolioSnapshots]="groupAllData.portfolio.startingPortfolioSnapshot"
+			[portfolioInvested]="groupAllData.portfolio.lastPortfolioSnapshot.portfolioInvested"
+			[portfolioCash]="groupAllData.portfolio.lastPortfolioSnapshot.portfolioCash"
 		></app-portfolio-increase-chart>
 	</div>
 </div>

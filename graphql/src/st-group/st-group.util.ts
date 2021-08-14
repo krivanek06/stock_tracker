@@ -80,21 +80,9 @@ export const createSTGroupUser = (userPublic: api.STUserPublicData): api.STGroup
 	const groupUser: api.STGroupUser = {
 		...convertSTUserPublicDataToSTUserIndentification(userPublic),
 		portfolio: {
-			startingPortfolioSnapshot: {
-				portfolioCash: userPublic.portfolio.lastPortfolioSnapshot.portfolioCash,
-				portfolioInvested: userPublic.portfolio.lastPortfolioSnapshot.portfolioInvested,
-				date: getCurrentIOSDate(),
-			},
-			lastPortfolioSnapshot: {
-				portfolioCash: userPublic.portfolio.lastPortfolioSnapshot.portfolioCash,
-				portfolioInvested: userPublic.portfolio.lastPortfolioSnapshot.portfolioInvested,
-				date: getCurrentIOSDate(),
-			},
-			lastTransactionSnapshot: {
-				transactionsBuy: userPublic.portfolio.lastTransactionSnapshot.transactionsBuy,
-				transactionsSell: userPublic.portfolio.lastTransactionSnapshot.transactionsSell,
-				date: getCurrentIOSDate(),
-			},
+			startingPortfolioSnapshot: userPublic.portfolio.startingPortfolioSnapshot,
+			lastPortfolioSnapshot: userPublic.portfolio.lastPortfolioSnapshot,
+			lastTransactionSnapshot: userPublic.portfolio.lastTransactionSnapshot,
 			numberOfExecutedTransactions: userPublic.portfolio.numberOfExecutedTransactions,
 			numberOfExecutedBuyTransactions: userPublic.portfolio.numberOfExecutedBuyTransactions,
 			numberOfExecutedSellTransactions: userPublic.portfolio.numberOfExecutedSellTransactions,

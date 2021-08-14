@@ -16,13 +16,13 @@
 	</ion-card-content>
 
 	<!-- sent invitations -->
-	<ng-container *ngIf="groupAllData.invitationSent.length > 0">
+	<ng-container *ngIf="groupAllData.groupMemberData.invitationSent.length > 0">
 		<ion-card-header>
 			<ion-card-subtitle> Sent invitations </ion-card-subtitle>
 		</ion-card-header>
 		<ion-card-content class="st-flex-wrap">
 			<app-group-user-base-information
-				*ngFor="let groupUser of groupAllData.invitationSent"
+				*ngFor="let groupUser of groupAllData.groupMemberData.invitationSent"
 				(click)="removeInvitation(groupUser)"
 				[clickable]="true"
 				[groupUser]="groupUser"
@@ -32,13 +32,13 @@
 	</ng-container>
 
 	<!-- received invitations -->
-	<ng-container *ngIf="groupAllData.invitationReceived.length > 0">
+	<ng-container *ngIf="groupAllData.groupMemberData.invitationReceived.length > 0">
 		<ion-card-header class="st-border-top">
 			<ion-card-subtitle> Received members </ion-card-subtitle>
 		</ion-card-header>
 		<ion-card-content class="st-flex-wrap">
 			<app-group-user-base-information
-				*ngFor="let groupUser of groupAllData.invitationReceived"
+				*ngFor="let groupUser of groupAllData.groupMemberData.invitationReceived"
 				(click)="receivedInvitation(groupUser)"
 				[clickable]="true"
 				[groupUser]="groupUser"

@@ -16,8 +16,8 @@
 			<div class="st-flex-wrap ion-align-items-center">
 				<ion-text class="st-font-5 st-small-right-space">Portfolio:</ion-text>
 				<ion-text class="st-font-2 st-small-right-space">
-					{{ stUserPublicData.portfolio.lastPortfolioSnapshot.portfolioInvested + stUserPublicData.portfolio.lastPortfolioSnapshot.portfolioCash |
-					currency }}
+					{{ stUserPublicData.portfolio.lastPortfolioSnapshot ? (stUserPublicData.portfolio.lastPortfolioSnapshot.portfolioInvested +
+					stUserPublicData.portfolio.lastPortfolioSnapshot.portfolioCash | currency) : 'N/A' }}
 				</ion-text>
 				<app-price-change-item [isPercent]="true" [priceChange]="stUserPublicData.portfolio.lastPortfolioIncreasePrct"> </app-price-change-item>
 			</div>
@@ -28,8 +28,8 @@
 
 	<!-- delete button  -->
 	<div *ngIf="showDeleteButton">
-		<ion-button (click)="deletePerson()" class="st-transparent-background st-clickable" color="danger">
-			<ion-icon name="trash-bin" style="font-size: 28px"></ion-icon>
+		<ion-button (click)="deletePerson()" class="st-clickable" color="danger" fill="clear">
+			<ion-icon name="trash-bin" slot="icon-only" style="font-size: 28px"></ion-icon>
 		</ion-button>
 	</div>
 </div>

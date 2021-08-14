@@ -36,8 +36,8 @@ const createGroupObject = async (groupInput: api.STGroupAllDataInput, requesterU
 
 	// if owner wants to be a member
 	if (groupInput.isOwnerAlsoMember) {
-		group.portfolio.startingPortfolioSnapshot.portfolioCash = group.owner.portfolio.lastPortfolioSnapshot.portfolioCash;
-		group.portfolio.startingPortfolioSnapshot.portfolioInvested = group.owner.portfolio.lastPortfolioSnapshot.portfolioInvested;
+		group.portfolio.startingPortfolioSnapshot.portfolioCash = group.owner.portfolio.lastPortfolioSnapshot?.portfolioCash ?? 0;
+		group.portfolio.startingPortfolioSnapshot.portfolioInvested = group.owner.portfolio.lastPortfolioSnapshot?.portfolioInvested ?? 0;
 		group.numberOfMembers = 1;
 	}
 

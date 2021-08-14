@@ -2,13 +2,14 @@
 
 <!-- holdings -->
 <div class="st-width-100">
-	<app-holdings-allocation-group-chart [heightPx]="300" [holdings]="groupAllData.holdings" [showTitle]="true"> </app-holdings-allocation-group-chart>
+	<app-holdings-allocation-group-chart [heightPx]="300" [holdings]="groupAllData.groupMemberData.holdings" [showTitle]="true">
+	</app-holdings-allocation-group-chart>
 </div>
 
-<div class="st-flex-wrap ion-margin-vertical">
+<div *ngIf="holdings.length > 0" class="st-flex-wrap ion-margin-vertical">
 	<!-- holding chart -->
 	<app-pie-chart-wrapper
-		[data]="holdings | holdingsToPortfolioChartSeries:  groupAllData.lastPortfolioSnapshot.portfolioCash"
+		[data]="holdings | holdingsToPortfolioChartSeries:  groupAllData.portfolio.lastPortfolioSnapshot.portfolioCash"
 		[heightPx]="300"
 		chartTitle="Holdings allocation"
 		class="ion-hide-sm-down"

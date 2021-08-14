@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { StGroupAllDataInput } from '@core';
+import { StGroupAllDataInput, StUserIndetification, UserStorageService } from '@core';
 import { ModalController } from '@ionic/angular';
 import { Confirmable } from '@shared';
+import { Observable } from 'rxjs';
 
 @Component({
 	selector: 'app-group-create-modal',
@@ -10,9 +11,12 @@ import { Confirmable } from '@shared';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupCreateModalComponent implements OnInit {
-	constructor(private modalController: ModalController) {}
+	user$: Observable<StUserIndetification>;
+	constructor(private modalController: ModalController, private userStorageService: UserStorageService) {}
 
-	ngOnInit() {}
+	ngOnInit() {
+		this.user$ = this.userStorageService.getUserIdentification();
+	}
 
 	dismissModal() {
 		this.modalController.dismiss();
