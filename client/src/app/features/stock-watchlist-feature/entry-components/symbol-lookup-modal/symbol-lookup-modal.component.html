@@ -1,99 +1,92 @@
 <ion-content class="ion-padding">
-    <ion-grid>
-        <ion-row>
-            <ion-col size="6">
-                <ng-container *ngIf="showAddToWatchlistOption && (user$ | async)">
-                    <!-- add to watchlist button -->
-                    <ion-button (click)="addSymbolToWatchlist()"
-                                *ngIf="!isSymbolInWatchlist"
-                                class="ion-float-start"
-                                fill="clear">
-                        <ion-icon class="st-font-main-color-orange" name="star-outline"
-                                  style="margin-right: 5px"></ion-icon>
-                        <ion-text class="st-font-1">Save symbol</ion-text>
-                    </ion-button>
+	<ion-grid>
+		<ion-row>
+			<ion-col size="6">
+				<ng-container *ngIf="showAddToWatchlistOption && (user$ | async)">
+					<!-- add to watchlist button -->
+					<ion-button
+						(click)="addSymbolToWatchlist()"
+						*ngIf="!isSymbolInWatchlist"
+						class="ion-float-start"
+						fill="clear"
+						matTooltip="Save symbol into your watchlist"
+					>
+						<ion-icon class="st-font-main-color-orange" name="star-outline" style="margin-right: 5px"></ion-icon>
+						<ion-text class="st-font-1">Save symbol</ion-text>
+					</ion-button>
 
-                    <!-- remove from  watchlist button -->
-                    <ion-button (click)="removeSymbolFromWatchlist()"
-                                *ngIf="isSymbolInWatchlist"
-                                class="ion-float-start"
-                                fill="clear">
-                        <ion-icon class="st-font-main-color-orange watchlist-not-added" name="star"
-                                  style="margin-right: 5px"></ion-icon>
-                        <ion-text class="st-font-1 watchlist-not-added">Remove symbol</ion-text>
-                    </ion-button>
-                </ng-container>
-            </ion-col>
+					<!-- remove from  watchlist button -->
+					<ion-button
+						(click)="removeSymbolFromWatchlist()"
+						*ngIf="isSymbolInWatchlist"
+						class="ion-float-start"
+						fill="clear"
+						matTooltip="Remove symbol into your watchlist"
+					>
+						<ion-icon class="st-font-main-color-orange watchlist-not-added" name="star" style="margin-right: 5px"></ion-icon>
+						<ion-text class="st-font-1 watchlist-not-added">Remove symbol</ion-text>
+					</ion-button>
+				</ng-container>
+			</ion-col>
 
-            <ion-col size="6">
-                <!-- close modal button -->
-                <ion-button (click)="dismissModal()" class="ion-float-right" color="danger" fill="clear">
-                    <ion-icon name="close-outline"></ion-icon>
-                    Close
-                </ion-button>
-            </ion-col>
-        </ion-row>
+			<ion-col size="6">
+				<!-- close modal button -->
+				<ion-button (click)="dismissModal()" class="ion-float-right" color="danger" fill="clear">
+					<ion-icon name="close-outline"></ion-icon>
+					Close
+				</ion-button>
+			</ion-col>
+		</ion-row>
 
-        <ng-container *ngIf="stockDetails$ | async as details; else showOnlyChart">
-            <ion-row class="ion-justify-content-center">
-                <!-- financial chart -->
-                <ion-col class="st-md-border-bottom" size="12" size-md="6.5" size-xl="7.5">
-                    <app-financial-chart-container
-                            [closedPrice]="details.summary.previousClose"
-                            [currentPrice]="details.summary.marketPrice"
-                            [height]="400"
-                            [logoUrl]="details.summary.logo_url"
-                            [name]="symbolIdentification.name"
-                            [symbol]="symbolIdentification.symbol">
-                    </app-financial-chart-container>
-                </ion-col>
+		<ng-container *ngIf="stockDetails$ | async as details; else showOnlyChart">
+			<ion-row class="ion-justify-content-center">
+				<!-- financial chart -->
+				<ion-col class="st-md-border-bottom" size="12" size-md="6.5" size-xl="7.5">
+					<app-financial-chart-container
+						[closedPrice]="details.summary.previousClose"
+						[currentPrice]="details.summary.marketPrice"
+						[height]="400"
+						[logoUrl]="details.summary.logo_url"
+						[name]="symbolIdentification.name"
+						[symbol]="symbolIdentification.symbol"
+					>
+					</app-financial-chart-container>
+				</ion-col>
 
+				<ion-col class="st-md-border-bottom ion-padding" size="12" size-md="5.5" size-xl="4.5">
+					<!-- summary -->
+					<app-generic-list [iconTitle]="'barcode-outline'" [title]="'Summary: ' + symbolIdentification.symbol"> </app-generic-list>
+					<app-stock-summary-container [summary]="details.summary"> </app-stock-summary-container>
 
-                <ion-col class="st-md-border-bottom ion-padding" size="12" size-md="5.5" size-xl="4.5">
-                    <!-- summary -->
-                    <app-generic-list [iconTitle]="'barcode-outline'"
-                                      [title]="'Summary: ' + symbolIdentification.symbol">
-                    </app-generic-list>
-                    <app-stock-summary-container [summary]="details.summary">
-                    </app-stock-summary-container>
+					<!-- button-->
+					<ion-buttons class="st-buttons-container st-justify-center">
+						<ion-button (click)="redirectToDetails()" class="st-button" color="primary" fill="solid"> Show details </ion-button>
+					</ion-buttons>
+				</ion-col>
+			</ion-row>
 
-                    <!-- button-->
-                    <ion-buttons class="st-buttons-container st-justify-center">
-                        <ion-button (click)="redirectToDetails()" class="st-button" color="primary" fill="solid">
-                            Show details
-                        </ion-button>
-                    </ion-buttons>
-                </ion-col>
-            </ion-row>
+			<!-- long business summary -->
+			<ion-row>
+				<ion-col class="st-flex-col" size="12">
+					<app-generic-list title="About company"></app-generic-list>
+					<ion-text class="st-font-3"> {{ details.summary.longBusinessSummary }} </ion-text>
+				</ion-col>
+			</ion-row>
+		</ng-container>
 
-            <!-- long business summary -->
-            <ion-row>
-                <ion-col class="st-flex-col" size="12">
-                    <app-generic-list title="About company"></app-generic-list>
-                    <ion-text class="st-font-3">
-                        {{ details.summary.longBusinessSummary }}
-                    </ion-text>
-                </ion-col>
-            </ion-row>
-        </ng-container>
+		<!-- loader while no data -->
+		<ng-template #showOnlyChart>
+			<div *ngIf="showSpinner" class="spinner-container">
+				<ion-spinner color="primary"></ion-spinner>
+			</div>
 
-        <!-- loader while no data -->
-        <ng-template #showOnlyChart>
-            <div *ngIf="showSpinner" class="spinner-container">
-                <ion-spinner color="primary"></ion-spinner>
-            </div>
-
-            <!-- financial chart -->
-            <ion-row *ngIf="!showSpinner" class="ion-justify-content-center">
-                <ion-col size="12">
-                    <app-financial-chart-container
-                            [height]="450"
-                            [name]="symbolIdentification.name"
-                            [symbol]="symbolIdentification.symbol">
-                    </app-financial-chart-container>
-                </ion-col>
-            </ion-row>
-        </ng-template>
-
-    </ion-grid>
+			<!-- financial chart -->
+			<ion-row *ngIf="!showSpinner" class="ion-justify-content-center">
+				<ion-col size="12">
+					<app-financial-chart-container [height]="450" [name]="symbolIdentification.name" [symbol]="symbolIdentification.symbol">
+					</app-financial-chart-container>
+				</ion-col>
+			</ion-row>
+		</ng-template>
+	</ion-grid>
 </ion-content>

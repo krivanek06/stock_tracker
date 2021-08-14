@@ -1,15 +1,17 @@
-from flask import Flask, request, Response
-from flask_json import FlaskJSON, JsonError, json_response
 from json import dumps
+
 # from flask_cors import CORS
 from ExternalAPI.EconomicNewsApi import EconomicNewsApi
-from ExternalAPI.FinhubApi import FinhubApi
 from ExternalAPI.FinancialModelingApi import FinancialModelingApi
+from ExternalAPI.FinhubApi import FinhubApi
 from ExternalAPI.QuandlApi import QuandlApi
-from ExternalAPI.YahooFinance.YahooFinanceTopSymbolsApi import YahooFinanceTopSymbolsApi
+from ExternalAPI.YahooFinance.YahooFinanceTopSymbolsApi import \
+    YahooFinanceTopSymbolsApi
+from flask import Flask, Response, request
+from flask_json import FlaskJSON, JsonError, json_response
+from Services.QuandlService import QuandlService
 from Services.TechnicalIndicatorsService import TechnicalIndicatorsService
 from Services.TradingStrategiesService import TradingStrategiesService
-from Services.QuandlService import QuandlService
 
 app = Flask(__name__)
 FlaskJSON(app)
@@ -82,7 +84,7 @@ def get_calendar_events_earnings():
 
 '''
 
-
+'''
 @app.route('/search_symbols')
 def search_symbols():
     try:
@@ -94,6 +96,7 @@ def search_symbols():
         return Response(dumps(batchResult), mimetype='application/json')
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'search_symbols(), message: ' + str(e))
+'''
 
 
 @app.route('/top_crypto')

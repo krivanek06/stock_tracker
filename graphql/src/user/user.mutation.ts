@@ -71,7 +71,9 @@ export const editUser = async (editInput: api.STUserEditDataInput): Promise<bool
 						...userPublicData,
 						nickName: editInput.nickName,
 						photoURL: editInput.photoURL,
-						['portfolio.portfolioCash']: initPortfolio ? 15000 : userPublicData.portfolio.portfolioCash,
+						portfolio: {
+							portfolioCash: initPortfolio ? 15000 : userPublicData.portfolio.portfolioCash,
+						},
 					} as api.STUserPublicData,
 					{ merge: true }
 				);
