@@ -15,9 +15,9 @@
 			<ion-text class="st-font-1-normal st-small-right-space" [ngClass]="{'st-font-white': !!useClassStyling}"> Portfolio: </ion-text>
 			<div class="st-display-flex-center">
 				<ion-text class="st-small-right-space" [ngClass]="[useClassStyling]">
-					{{ (groupUser.lastPortfolioSnapshot.portfolioCash + groupUser.lastPortfolioSnapshot.portfolioInvested) | numberFormatter}}
+					{{ (groupUser.portfolio.portfolioCash + ( groupUser.portfolio.lastPortfolioSnapshot?.portfolioInvested || 0) ) | numberFormatter}}
 				</ion-text>
-				<app-price-change-item [isPercent]="true" [priceChange]="groupUser.lastPortfolioIncreasePrct"> </app-price-change-item>
+				<app-price-change-item [isPercent]="true" [priceChange]="groupUser.portfolio.lastPortfolioIncreasePrct"> </app-price-change-item>
 			</div>
 		</div>
 

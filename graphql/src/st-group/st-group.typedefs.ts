@@ -13,10 +13,8 @@ export const STGroupTypeDefs = gql`
 		photoURL: String!
 		accountCreatedDate: String!
 		portfolio: STPortfolioWrapper!
-		lastTransactionSnapshot: STTransactionSnapshot
 		previousPosition: Float
 		currentPosition: Float
-		startingPortfolioSnapshot: STPortfolioSnapshot
 		sinceDate: String!
 	}
 

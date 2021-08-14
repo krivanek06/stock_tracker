@@ -1,6 +1,6 @@
 <!-- Group create button -->
 <ion-toolbar slot="end">
-	<ion-button (click)="createGroup()" class="ion-float-right" fill="clear">Create group</ion-button>
+	<ion-button (click)="createGroup()" class="ion-float-right" fill="outline" color="primary" shape="round">Create group</ion-button>
 </ion-toolbar>
 
 <ng-container *ngIf="user$ | async as user">
@@ -8,29 +8,39 @@
 	<ion-list-header>
 		<ion-label class="st-font-size-18 st-font-0"> My groups </ion-label>
 	</ion-list-header>
-	<!-- owner of groups -->
-	<app-generic-card *ngFor="let group of user.groups.groupOwner">
-		<app-groups-overview-group-information-container [groupAllData]="group"> </app-groups-overview-group-information-container>
-	</app-generic-card>
-	<!-- member fo groups -->
-	<app-generic-card *ngFor="let group of user.groups.groupMember">
-		<app-groups-overview-group-information-container [groupAllData]="group"> </app-groups-overview-group-information-container>
-	</app-generic-card>
+
+	<ng-container *ngIf="user.groups.groupOwner.length > 0 || user.groups.groupMember.length > 0; else showNoGroupsMessage">
+		<!-- owner of groups -->
+		<app-generic-card *ngFor="let group of user.groups.groupOwner">
+			<app-groups-overview-group-information-container [groupAllData]="group"> </app-groups-overview-group-information-container>
+		</app-generic-card>
+		<!-- member fo groups -->
+		<app-generic-card *ngFor="let group of user.groups.groupMember">
+			<app-groups-overview-group-information-container [groupAllData]="group"> </app-groups-overview-group-information-container>
+		</app-generic-card>
+	</ng-container>
+
+	<ng-template #showNoGroupsMessage>
+		<div class="st-empty-table">You are not part of ony group or have not created your own</div>
+	</ng-template>
 
 	<!-- Invitations -->
-	<ion-list-header>
-		<ion-label class="st-font-size-18 st-font-0"> Invitations </ion-label>
-	</ion-list-header>
 
-	<!-- Received invitations -->
-	<app-generic-card *ngFor="let group of user.groups.groupInvitationReceived">
-		<app-groups-overview-group-information-container [showAcceptButton]="true" [showDeclineButton]="true" [groupAllData]="group">
-		</app-groups-overview-group-information-container>
-	</app-generic-card>
+	<ng-container *ngIf="user.groups.groupInvitationReceived.length > 0 || user.groups.groupInvitationSent.length > 0">
+		<ion-list-header>
+			<ion-label class="st-font-size-18 st-font-0"> Invitations </ion-label>
+		</ion-list-header>
 
-	<!-- Sent invitations -->
-	<app-generic-card *ngFor="let group of user.groups.groupInvitationSent">
-		<app-groups-overview-group-information-container [showDeclineButton]="true" [groupAllData]="group">
-		</app-groups-overview-group-information-container>
-	</app-generic-card>
+		<!-- Received invitations -->
+		<app-generic-card *ngFor="let group of user.groups.groupInvitationReceived">
+			<app-groups-overview-group-information-container [showAcceptButton]="true" [showDeclineButton]="true" [groupAllData]="group">
+			</app-groups-overview-group-information-container>
+		</app-generic-card>
+
+		<!-- Sent invitations -->
+		<app-generic-card *ngFor="let group of user.groups.groupInvitationSent">
+			<app-groups-overview-group-information-container [showDeclineButton]="true" [groupAllData]="group">
+			</app-groups-overview-group-information-container>
+		</app-generic-card>
+	</ng-container>
 </ng-container>

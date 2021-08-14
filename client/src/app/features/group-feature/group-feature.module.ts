@@ -3,11 +3,10 @@ import { NgModule } from '@angular/core';
 import { SharedMaterialModule, SharedModule } from '@shared';
 import { GroupBaseInformationComponent, GroupCreateFormComponent, GroupMembersTableComponent, GroupUserBaseInformationComponent } from './components';
 import { GroupSearchComponent } from './containers';
-import { GroupCreateModalComponent, GroupMemberPositionChangePopOverComponent } from './entry-components';
+import { GroupCreateModalComponent } from './entry-components';
 
 @NgModule({
 	declarations: [
-		GroupMemberPositionChangePopOverComponent,
 		GroupSearchComponent,
 		GroupCreateFormComponent,
 		GroupCreateModalComponent,
@@ -17,7 +16,6 @@ import { GroupCreateModalComponent, GroupMemberPositionChangePopOverComponent } 
 	],
 	imports: [SharedModule, AccountFeatureModule, SharedMaterialModule],
 	exports: [
-		GroupMemberPositionChangePopOverComponent,
 		GroupSearchComponent,
 		GroupCreateFormComponent,
 		GroupCreateModalComponent,

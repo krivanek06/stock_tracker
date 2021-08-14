@@ -1,5 +1,5 @@
 <ion-toolbar>
-	<ion-title class="st-font-size-18 st-font-0"> Members: {{ groupAllData.members.length }} </ion-title>
+	<ion-title class="st-font-size-18 st-font-0"> Members: {{ groupAllData.numberOfMembers}} </ion-title>
 
 	<!-- select sorting group members -->
 	<!-- TODO add pipe -->
@@ -20,7 +20,7 @@
 <div class="st-flex-wrap" style="gap: 10px">
 	<ion-card
 		class="c-member-card"
-		*ngFor="let groupUser of groupAllData.members; let i = index"
+		*ngFor="let groupUser of groupAllData.groupMemberData.members; let i = index"
 		button
 		(click)="clickedMember(groupUser)"
 		[ngClass]="{

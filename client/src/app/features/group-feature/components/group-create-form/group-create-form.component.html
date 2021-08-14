@@ -1,105 +1,116 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
-	<ion-grid>
-		<ion-row>
-			<ion-col size="12" size-md="6">
+	<ion-item-group class="c-uploader-wrapper">
+		<div>
+			<ion-item>
 				<!-- upload image -->
 				<app-uploader #uploader [maxHeight]="250" [maxWidth]="315" [filePath]="'groups'" (uploadedFilesEmitter)="uploadedGroupImage($event)">
 				</app-uploader>
-			</ion-col>
-			<ion-col size="12" size-md="6">
-				<!-- Group name -->
-				<ion-item class="st-form-input-background">
-					<ion-label position="floating">Group name</ion-label>
-					<ion-input placeholder="Enter group name" type="text" formControlName="name"></ion-input>
-				</ion-item>
+			</ion-item>
+		</div>
 
-				<!-- Group description -->
-				<ion-item class="st-form-input-background ion-margin-top" style="min-height: 60%">
-					<ion-label position="floating">Group description</ion-label>
-					<ion-textarea placeholder="Enter group description" formControlName="description" [autoGrow]="true"></ion-textarea>
-				</ion-item>
-			</ion-col>
-		</ion-row>
+		<div>
+			<!-- Group name -->
+			<app-form-mat-input-wrapper inputCaption="Group name" controlName="name"> </app-form-mat-input-wrapper>
 
-		<ion-row>
-			<ion-col size="12" size-md="4">
-				<!-- Private -->
-				<ion-item>
-					<ion-label class="st-font-0" style="padding: 16px">Private</ion-label>
-					<ion-checkbox slot="end" style="margin-right: 16px" formControlName="isPrivate"></ion-checkbox>
-				</ion-item>
-			</ion-col>
-			<ion-col size="12" size-md="4">
-				<!-- Infinite -->
-				<ion-item>
-					<ion-label class="st-font-0" style="padding: 16px">Infinite</ion-label>
-					<ion-checkbox slot="end" style="margin-right: 16px" formControlName="isInfinite"></ion-checkbox>
-				</ion-item>
-			</ion-col>
-			<ion-col size="12" size-md="4">
-				<!-- Infinite -->
-				<ion-item>
-					<ion-label class="st-font-0" style="padding: 16px">Add me as member</ion-label>
-					<ion-checkbox slot="end" style="margin-right: 16px" formControlName="isOwnerAlsoMember"></ion-checkbox>
-				</ion-item>
-			</ion-col>
-		</ion-row>
-
-		<ion-row>
-			<ion-col size="12" size-md="6">
-				<!-- Start date -->
-				<mat-form-field appearance="fill" (click)="startDatePicker.open()">
-					<mat-label>Start date</mat-label>
-					<input matInput [matDatepicker]="startDatePicker" formControlName="startDate" autocomplete="off" />
-					<mat-datepicker-toggle matSuffix [for]="startDatePicker">
-						<mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
-					</mat-datepicker-toggle>
-					<mat-datepicker #startDatePicker></mat-datepicker>
-				</mat-form-field>
-			</ion-col>
-			<ion-col size="12" size-md="6">
-				<!-- End date -->
-				<mat-form-field appearance="fill" (click)="endDateOpen()" [disableControl]="isInfinite.value">
-					<mat-label>End date</mat-label>
-					<input matInput [matDatepicker]="endDatePicker" formControlName="endDate" autocomplete="off" />
-					<mat-datepicker-toggle matSuffix>
-						<mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
-					</mat-datepicker-toggle>
-					<mat-datepicker #endDatePicker></mat-datepicker>
-				</mat-form-field>
-			</ion-col>
-		</ion-row>
-
-		<!-- Errors -->
-		<ion-toolbar *ngIf="showError || dateStartError || dateEndError" class="st-error-message">
-			<ng-container *ngIf="showError">Please fill all required information about creating a group</ng-container>
-			<ng-container *ngIf="dateStartError">Starting date cannot be before today</ng-container>
-			<ng-container *ngIf="dateEndError">Ending date cannot be before starting date</ng-container>
-		</ion-toolbar>
-
-		<!-- submit button -->
-		<ion-toolbar>
-			<ion-buttons slot="end">
-				<ion-button fill="solid" color="primary" type="submit" [disabled]="showError || dateStartError || dateEndError"> Create group </ion-button>
-			</ion-buttons>
-		</ion-toolbar>
-
-		<!-- invite members input -->
-		<ion-toolbar>
-			<app-user-account-search (clickedUserEmitter)="sendInvitation($event)"> </app-user-account-search>
-		</ion-toolbar>
-
-		<!-- listed users -->
-		<ion-toolbar class="ion-margin-top st-title"> Send invitation </ion-toolbar>
-		<ion-item-group class="st-flex-wrap">
-			<app-user-account-info-list
-				*ngFor="let user of invitationSent"
-				(deleteEmitter)="invitationRemove(user)"
-				[showDeleteButton]="true"
-				[clickable]="false"
-				[stUserPublicData]="user"
+			<!-- Description -->
+			<app-form-mat-input-wrapper
+				inputCaption="Group description"
+				inputType="TEXTAREA"
+				controlName="description"
+				hintText="Add description for your group, this step is optional"
 			>
-			</app-user-account-info-list>
-		</ion-item-group>
-	</ion-grid>
+			</app-form-mat-input-wrapper>
+		</div>
+	</ion-item-group>
+
+	<div class="st-flex-wrap-normal ion-justify-content-around ion-margin-bottom ion-margin-top">
+		<!-- Private -->
+		<app-form-mat-input-wrapper
+			inputCaption="Private"
+			inputType="CHECKBOX"
+			controlName="isPrivate"
+			hintText="Check if you want to make your group private, which means users can join only if they receive an invitation, otherwise group is open for everybody to send an invitations"
+		>
+		</app-form-mat-input-wrapper>
+
+		<!-- Infinite -->
+		<app-form-mat-input-wrapper
+			inputCaption="Infinite"
+			inputType="CHECKBOX"
+			controlName="isInfinite"
+			hintText="If checkeck the group will never be closed automatily. If uncheck, then please select a specific date as a group expiration date"
+		>
+		</app-form-mat-input-wrapper>
+
+		<!-- Infinite -->
+		<app-form-mat-input-wrapper
+			inputCaption="Add me as member"
+			inputType="CHECKBOX"
+			controlName="isOwnerAlsoMember"
+			hintText="Check if you, as a group owner, want to be also as a member. If checked, the group statistics will be affected by your progress"
+		>
+		</app-form-mat-input-wrapper>
+	</div>
+
+	<div class="st-flex st-gap">
+		<!-- Start date -->
+		<mat-form-field
+			appearance="fill"
+			(click)="startDatePicker.open()"
+			matTooltip="Select a date when the group will officialy start, since which date the progress of the group will be monitored"
+		>
+			<mat-label>Start date</mat-label>
+			<input matInput [matDatepicker]="startDatePicker" formControlName="startDate" autocomplete="off" />
+			<mat-datepicker-toggle matSuffix [for]="startDatePicker">
+				<mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+			</mat-datepicker-toggle>
+			<mat-datepicker #startDatePicker></mat-datepicker>
+		</mat-form-field>
+
+		<!-- End date -->
+		<mat-form-field
+			appearance="fill"
+			(click)="endDateOpen()"
+			[disableControl]="isInfinite.value"
+			[matTooltip]="isInfinite.value ? null : 'Select a date when the group performamnce monitoring should end. After this date a group report will be generated how well the group performed' "
+		>
+			<mat-label>End date</mat-label>
+			<input matInput [matDatepicker]="endDatePicker" formControlName="endDate" autocomplete="off" />
+			<mat-datepicker-toggle matSuffix>
+				<mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+			</mat-datepicker-toggle>
+			<mat-datepicker #endDatePicker></mat-datepicker>
+		</mat-form-field>
+	</div>
+
+	<!-- Errors -->
+	<ion-toolbar *ngIf="showError || dateStartError || dateEndError" class="st-error-message">
+		<ng-container *ngIf="showError">Please fill all required information about creating a group</ng-container>
+		<ng-container *ngIf="dateStartError">Starting date cannot be before today</ng-container>
+		<ng-container *ngIf="dateEndError">Ending date cannot be before starting date</ng-container>
+	</ion-toolbar>
+
+	<!-- submit button -->
+	<ion-toolbar>
+		<ion-buttons slot="end">
+			<ion-button fill="solid" color="primary" type="submit" [disabled]="showError || dateStartError || dateEndError"> Create group </ion-button>
+		</ion-buttons>
+	</ion-toolbar>
+
+	<!-- invite members input -->
+	<ion-toolbar class="st-title"> Search users which you want to invite </ion-toolbar>
+	<app-user-account-search (clickedUserEmitter)="sendInvitation($event)"> </app-user-account-search>
+
+	<!-- listed users -->
+	<ion-toolbar class="ion-margin-top st-title"> Send invitation </ion-toolbar>
+	<ion-item-group class="st-flex-wrap-normal">
+		<app-user-account-info-list
+			*ngFor="let user of invitationSent"
+			(deleteEmitter)="invitationRemove(user)"
+			[showDeleteButton]="true"
+			[clickable]="false"
+			[stUserPublicData]="user"
+		>
+		</app-user-account-info-list>
+	</ion-item-group>
 </form>

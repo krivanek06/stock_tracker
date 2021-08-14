@@ -13,7 +13,6 @@ export class GroupBaseInformationComponent implements OnInit {
 	@Output() visitEmitter: EventEmitter<any> = new EventEmitter<any>();
 	@Output() deleteEmitter: EventEmitter<any> = new EventEmitter<any>();
 	@Output() leaveEmitter: EventEmitter<any> = new EventEmitter<any>();
-	@Output() sendInvitationEmitter: EventEmitter<any> = new EventEmitter<any>();
 
 	@Input() groupIdentification: StGroupIdentificationDataFragment | StGroupAllData;
 	@Input() showVisitButton: boolean;
@@ -21,7 +20,6 @@ export class GroupBaseInformationComponent implements OnInit {
 	@Input() showDeclineButton: boolean;
 	@Input() showDeleteButton: boolean;
 	@Input() showLeaveButton: boolean;
-	@Input() showSendInvitation: boolean;
 
 	constructor() {}
 
@@ -45,9 +43,5 @@ export class GroupBaseInformationComponent implements OnInit {
 
 	leave() {
 		this.leaveEmitter.emit();
-	}
-
-	sendInvitation() {
-		this.sendInvitationEmitter.emit();
 	}
 }

@@ -9,19 +9,10 @@
 	</ion-toolbar>
 
 	<!-- body -->
-	<ion-grid>
-		<ion-row>
-			<!-- Create form -->
-			<ion-col size="12" size-md="9">
-				<ion-text class="st-title">Create group</ion-text>
-				<div class="ion-margin-top">
-					<app-group-create-form (createGroupEmitter)="createGroup($event)"> </app-group-create-form>
-				</div>
-			</ion-col>
-			<!-- Description -->
-			<ion-col size="12" size-md="3">
-				<ion-text class="st-title">Field descriptions</ion-text>
-			</ion-col>
-		</ion-row>
-	</ion-grid>
+	<div class="ion-padding">
+		<ion-text class="st-title">Create group</ion-text>
+		<div class="ion-margin-top">
+			<app-group-create-form [user]="user$ | async" (createGroupEmitter)="createGroup($event)"> </app-group-create-form>
+		</div>
+	</div>
 </ion-content>
