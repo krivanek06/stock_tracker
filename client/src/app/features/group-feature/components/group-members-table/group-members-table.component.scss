@@ -1,3 +1,5 @@
+@import 'variables';
+
 :host {
 	.first-position {
 		background-color: #ffd700;
@@ -15,6 +17,9 @@
 	}
 
 	.c-member-card {
-		max-width: 35%;
+		max-width: fit-content;
+		@media (max-width: #{$st-var-lg-split}) {
+			max-width: none;
+		}
 	}
 }

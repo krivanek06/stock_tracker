@@ -5,6 +5,8 @@ import {
 	StGroupAllData,
 	StGroupAllDataInput,
 	StGroupIdentificationDataFragment,
+	StGroupUser,
+	StUserIndentificationDataFragment,
 	UserStorageService,
 } from '@core';
 import { ModalController } from '@ionic/angular';
@@ -39,6 +41,10 @@ export class GroupFeatureFacadeService {
 		}
 	}
 
+	/***
+	 * User can send or cancel his sent invitation request to group
+	 * @param groupId
+	 */
 	async answerReceivedGroupInvitation(stGroupPartialData: StGroupIdentificationDataFragment, accept: boolean): Promise<void> {
 		await this.graphqlGroupService.answerReceivedGroupInvitation(stGroupPartialData, accept).toPromise();
 		const result = accept ? 'accepted' : 'declined';
@@ -57,31 +63,89 @@ export class GroupFeatureFacadeService {
         });*/
 	}
 
-	@Confirmable('Please confirm deleting group')
-	async deleteGroup(stGroupPartialData: StGroupIdentificationDataFragment): Promise<void> {
-		this.graphqlGroupService.deleteGroup(stGroupPartialData).subscribe(() => {
-			DialogService.presentToast(`Group ${stGroupPartialData.name} has been deleted`);
-		});
+	async deleteGroup(): Promise<boolean> {
+		if (this.userStorageService.user.id === this.groupStorageService.activeGroup.owner.id) {
+			await DialogService.presentErrorToast('Action terminated! Only the group owner can delete this group');
+			return false;
+		}
 
-		//this.route.navigate([`menu/groups/create`]);
+		await this.graphqlGroupService.deleteGroup(this.groupStorageService.activeGroup).toPromise();
+		await DialogService.presentToast(`Group ${this.groupStorageService.activeGroup.name} has been deleted`);
+
+		return true;
 	}
 
-	/**
-	 * Send or cancel already existing invitation request to group
+	/***
+	 * User can send or cancel his sent invitation request to group
+	 * @param groupId
 	 */
-	@Confirmable('Please confirm your decision')
-	async toggleInvitationRequestToGroup(stGroupPartialData: StGroupIdentificationDataFragment): Promise<boolean> {
-		await this.graphqlGroupService.toggleInvitationRequestToGroup(stGroupPartialData).toPromise();
-		await DialogService.presentToast(`Operation has been saved`);
+	async toggleInvitationRequestToGroup(stGroupPartialData: StGroupIdentificationDataFragment, sendInvitation: boolean): Promise<void> {
+		await this.graphqlGroupService.toggleInvitationRequestToGroup(stGroupPartialData, sendInvitation).toPromise();
 
-		return true;
+		if (sendInvitation) {
+			await DialogService.presentToast(`You have send your request to join group ${stGroupPartialData.name}`);
+		} else {
+			await DialogService.presentToast(`You have declined your request to joining group ${stGroupPartialData.name}`);
+		}
 	}
 
-	@Confirmable('Please confirm your decision')
-	async leaveGroup(stGroupPartialData: StGroupIdentificationDataFragment): Promise<boolean> {
-		await this.graphqlGroupService.leaveGroup(stGroupPartialData.id).toPromise();
-		await DialogService.presentToast(`You left group ${stGroupPartialData.name}`);
+	/***
+		Group manager / owner can invite / remove invitation for user
+		@param  userId - id of user who is invited
+		@param  groupId - id of group where user is invited
+		@param  inviteUser - invite or remove invitation if false
+	*/
+	async toggleInviteUserIntoGroup(groupUser: StGroupUser | StUserIndentificationDataFragment, groupId: string, inviteUser: boolean): Promise<void> {
+		// remove invitation for user
+		if (!inviteUser) {
+			await this.graphqlGroupService.toggleInviteUserIntoGroup(groupUser.id, groupId, inviteUser).toPromise();
+			await DialogService.presentToast(`Group invitation for user: ${groupUser.nickName} has been removed`);
+			return;
+		}
+		// check if user already a member or received invitation
+		if (this.groupStorageService.membersIds.includes(groupUser.id)) {
+			await DialogService.presentErrorToast(`User: ${groupUser.nickName} is already a member of this group`);
+			return;
+		}
+		// do not allow double invitaiton
+		if (this.groupStorageService.sentInvitationIds.includes(groupUser.id)) {
+			await DialogService.presentErrorToast(`You have already sent an invitation for user: ${groupUser.nickName}`);
+			return;
+		}
+		// user sent invitaiton to group
+		if (this.groupStorageService.invitationReceivedIds.includes(groupUser.id)) {
+			await DialogService.presentErrorToast(`User: ${groupUser.nickName} already sent an invitation for this group, please accept his`);
+			return;
+		}
+		// cannot invite yourself into group
+		if (this.groupStorageService.activeGroup.owner.id === groupUser.id) {
+			await DialogService.presentErrorToast(`Sorry man, you cannot invite yourself. Check the 'join group' button`);
+			return;
+		}
 
-		return true;
+		// send invitation for user
+		await this.graphqlGroupService.toggleInviteUserIntoGroup(groupUser.id, groupId, inviteUser).toPromise();
+		await DialogService.presentToast(`Group invitation to user: ${groupUser.nickName} has been send`);
+	}
+
+	/***
+		Group owner / manager can accept / deny users request into group
+		@param  userId - id of user who is invited
+		@param  groupId - id of group where user is invited
+		@param  acceptUser - acceptUser or remove invitationReceived if false
+	*/
+	async toggleUsersInvitationRequestToGroup(groupUser: StGroupUser | StUserIndentificationDataFragment, groupId: string, acceptUser: boolean) {
+		await this.graphqlGroupService.toggleUsersInvitationRequestToGroup(groupUser.id, groupId, acceptUser).toPromise();
+
+		if (acceptUser) {
+			await DialogService.presentToast(`You have successfully accpted user: ${groupUser.nickName} into group`);
+		} else {
+			await DialogService.presentToast(`You have declined user: ${groupUser.nickName} request for joining into group`);
+		}
+	}
+
+	async leaveGroup(): Promise<void> {
+		await this.graphqlGroupService.leaveGroup(this.groupStorageService.activeGroup.id).toPromise();
+		await DialogService.presentToast(`You left group ${this.groupStorageService.activeGroup.name}`);
 	}
 }

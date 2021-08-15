@@ -1,15 +1,10 @@
 <!-- search container -->
 <ion-list class="ion-margin-vertical">
-    <app-user-account-search
-            [fullWith]="true"
-            (clickedUserEmitter)="showUserInformation($event)">
-    </app-user-account-search>
+	<app-user-account-search [fullWith]="true" (clickedUserEmitter)="showUserInformation($event)"> </app-user-account-search>
 </ion-list>
 
 <ion-grid>
-    <ion-row>
-        <ion-col size="12">
-            users
-        </ion-col>
-    </ion-row>
+	<ion-row>
+		<ion-col size="12"> users </ion-col>
+	</ion-row>
 </ion-grid>

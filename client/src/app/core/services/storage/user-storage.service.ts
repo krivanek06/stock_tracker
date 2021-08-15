@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { Maybe, StStockWatchlistFragmentFragment, StUserIndetification, StUserPublicData, User_Roles_Enum } from '../../graphql-schema';
 
 @Injectable({
@@ -56,6 +56,10 @@ export class UserStorageService {
 
 	getUser(): Observable<StUserPublicData> {
 		return this.user$.asObservable();
+	}
+
+	getUserNotNull(): Observable<StUserPublicData> {
+		return this.getUser().pipe(filter((user) => !!user));
 	}
 
 	setUser(user: StUserPublicData) {

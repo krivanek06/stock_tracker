@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { StGroupIdentificationDataFragment } from '@core';
-import { SEARCH_PAGE_ENUM } from '../../models/pages.model';
+import { GraphqlGroupService, StGroupIdentificationDataFragment } from '@core';
+import { Observable, of } from 'rxjs';
+import { debounceTime, switchMap } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-search-group',
@@ -10,12 +12,35 @@ import { SEARCH_PAGE_ENUM } from '../../models/pages.model';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchGroupComponent implements OnInit {
-	constructor(private router: Router) {}
+	searchedGroups$: Observable<StGroupIdentificationDataFragment[]>;
+	form: FormGroup;
 
-	ngOnInit() {}
+	constructor(private fb: FormBuilder, private graphqlGroupService: GraphqlGroupService, private router: Router) {}
 
-	showGroupInformation(groupPartialData: StGroupIdentificationDataFragment) {
-		console.log('groupPartialData', groupPartialData);
-		this.router.navigate([`menu/search/${SEARCH_PAGE_ENUM.GROUP}/${groupPartialData.id}`]);
+	ngOnInit() {
+		this.initForm();
+		this.watchForm();
+	}
+
+	visit(group: StGroupIdentificationDataFragment) {
+		this.router.navigate([`menu/groups/details/${group.id}`]);
+	}
+
+	private initForm() {
+		this.form = this.fb.group({
+			groupName: [null],
+		});
+	}
+
+	private watchForm() {
+		this.searchedGroups$ = this.form.get('groupName').valueChanges.pipe(
+			debounceTime(300),
+			switchMap((res) => {
+				if (!res || res.length <= 1) {
+					return of(null);
+				}
+				return this.graphqlGroupService.queryGroupIdentificationDataByGroupName(res);
+			})
+		);
 	}
 }

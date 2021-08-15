@@ -23,11 +23,13 @@ import {
 	ToggleInvitationRequestToGroupMutation,
 } from '../graphql-schema';
 import { UserStorageService } from '../services';
+import { createSTGroupUser } from '../utils';
 import {
-	QueryStGroupByGroupIdDocument,
 	QueryStGroupByGroupIdGQL,
-	QueryStGroupByGroupIdQuery,
 	QueryStGroupByGroupNameGQL,
+	StGroupAllDataFragmentFragment,
+	StGroupAllDataFragmentFragmentDoc,
+	StUserPublicData,
 	ToggleInviteUserIntoGroupGQL,
 	ToggleInviteUserIntoGroupMutation,
 	ToggleUsersInvitationRequestToGroupGQL,
@@ -59,12 +61,12 @@ export class GraphqlGroupService {
 			.pipe(map((res) => res.data.querySTGroupByGroupId as StGroupAllData));
 	}
 
-	queryGroupPartialDataByGroupName(groupName: string): Observable<StGroupIdentificationDataFragment[]> {
+	queryGroupIdentificationDataByGroupName(groupName: string): Observable<StGroupIdentificationDataFragment[]> {
 		return this.queryStGroupByGroupNameGQL
 			.fetch({
 				groupName,
 			})
-			.pipe(map((x) => x.data.querySTGroupByGroupName.groups));
+			.pipe(map((x) => x.data.querySTGroupByGroupName));
 	}
 
 	createGroup(groupInput: StGroupAllDataInput): Observable<FetchResult<CreateGroupMutation>> {
@@ -212,33 +214,27 @@ export class GraphqlGroupService {
 			{
 				update: (store: DataProxy, { data: { toggleUsersInvitationRequestToGroup } }) => {
 					// load group from storage
-					const group = store.readQuery<QueryStGroupByGroupIdQuery>({
-						query: QueryStGroupByGroupIdDocument,
-						variables: {
-							id: groupId,
-						},
+					const group = store.readFragment<StGroupAllDataFragmentFragment>({
+						id: `STGroupAllData:${groupId}`,
+						fragment: StGroupAllDataFragmentFragmentDoc,
+						fragmentName: 'STGroupAllDataFragment',
 					});
 
 					// update cache
-					store.writeQuery({
-						query: QueryStGroupByGroupIdDocument,
-						variables: {
-							id: groupId,
-						},
+					store.writeFragment({
+						id: `STGroupAllData:${groupId}`,
+						fragment: StGroupAllDataFragmentFragmentDoc,
+						fragmentName: 'STGroupAllDataFragment',
 						data: {
 							...group,
-							querySTGroupByGroupId: {
-								...group.querySTGroupByGroupId,
-								numberOfInvitationReceived: group.querySTGroupByGroupId.numberOfInvitationReceived - 1,
-								groupMemberData: {
-									...group.querySTGroupByGroupId.groupMemberData,
-									invitationReceived: group.querySTGroupByGroupId.groupMemberData.invitationReceived.filter(
-										(received) => received.id !== toggleUsersInvitationRequestToGroup.id
-									),
-									members: acceptUser
-										? [...group.querySTGroupByGroupId.groupMemberData.members, toggleUsersInvitationRequestToGroup]
-										: [...group.querySTGroupByGroupId.groupMemberData.members],
-								},
+							numberOfInvitationReceived: group.numberOfInvitationReceived - 1,
+							numberOfMembers: acceptUser ? group.numberOfMembers + 1 : group.numberOfMembers,
+							groupMemberData: {
+								...group.groupMemberData,
+								invitationReceived: group.groupMemberData.invitationReceived.filter(
+									(received) => received.id !== toggleUsersInvitationRequestToGroup.id
+								),
+								members: acceptUser ? [...group.groupMemberData.members, toggleUsersInvitationRequestToGroup] : [...group.groupMemberData.members],
 							},
 						},
 					});
@@ -263,35 +259,28 @@ export class GraphqlGroupService {
 			{
 				update: (store: DataProxy, { data: { toggleInviteUserIntoGroup } }) => {
 					// load group from storage
-					const group = store.readQuery<QueryStGroupByGroupIdQuery>({
-						query: QueryStGroupByGroupIdDocument,
-						variables: {
-							id: groupId,
-						},
+					const group = store.readFragment<StGroupAllDataFragmentFragment>({
+						id: `STGroupAllData:${groupId}`,
+						fragment: StGroupAllDataFragmentFragmentDoc,
+						fragmentName: 'STGroupAllDataFragment',
 					});
 
 					// add or remove user from inviteUser array
 					const newInvitationSent = inviteUser
-						? [...group.querySTGroupByGroupId.groupMemberData.invitationSent, toggleInviteUserIntoGroup]
-						: group.querySTGroupByGroupId.groupMemberData.invitationSent.filter((invited) => invited.id !== toggleInviteUserIntoGroup.id);
+						? [...group.groupMemberData.invitationSent, toggleInviteUserIntoGroup]
+						: group.groupMemberData.invitationSent.filter((invited) => invited.id !== userId);
 
 					// update cache
-					store.writeQuery({
-						query: QueryStGroupByGroupIdDocument,
-						variables: {
-							id: groupId,
-						},
+					store.writeFragment({
+						id: `STGroupAllData:${groupId}`,
+						fragment: StGroupAllDataFragmentFragmentDoc,
+						fragmentName: 'STGroupAllDataFragment',
 						data: {
 							...group,
-							querySTGroupByGroupId: {
-								...group.querySTGroupByGroupId,
-								numberOfInvitationSent: inviteUser
-									? group.querySTGroupByGroupId.numberOfInvitationSent + 1
-									: group.querySTGroupByGroupId.numberOfInvitationSent - 1,
-								groupMemberData: {
-									...group.querySTGroupByGroupId.groupMemberData,
-									invitationSent: newInvitationSent,
-								},
+							numberOfInvitationSent: inviteUser ? group.numberOfInvitationSent + 1 : group.numberOfInvitationSent - 1,
+							groupMemberData: {
+								...group.groupMemberData,
+								invitationSent: newInvitationSent,
 							},
 						},
 					});
@@ -305,19 +294,15 @@ export class GraphqlGroupService {
 	 * @param groupId
 	 */
 	toggleInvitationRequestToGroup(
-		stGroupPartialData: StGroupIdentificationDataFragment
+		stGroupPartialData: StGroupIdentificationDataFragment,
+		sendInvitation: boolean
 	): Observable<FetchResult<ToggleInvitationRequestToGroupMutation>> {
 		return this.toggleInvitationRequestToGroupGQL.mutate(
 			{
 				id: stGroupPartialData.id,
+				sendInvitation: sendInvitation,
 			},
 			{
-				optimisticResponse: {
-					__typename: 'Mutation',
-					toggleInvitationRequestToGroup: {
-						...stGroupPartialData,
-					},
-				},
 				update: (store: DataProxy, { data: { toggleInvitationRequestToGroup } }) => {
 					const user = store.readQuery<AuthenticateUserQuery>({
 						query: AuthenticateUserDocument,
@@ -327,13 +312,15 @@ export class GraphqlGroupService {
 					});
 
 					let groupInvitationSent;
-					if (user.authenticateUser.groups.groupInvitationSent.map((x) => x.id).includes(stGroupPartialData.id)) {
-						// already sent invitation -> cancel it
-						groupInvitationSent = user.authenticateUser.groups.groupInvitationSent.filter((x) => x.id !== stGroupPartialData.id);
-					} else {
+					if (sendInvitation) {
 						// sent invitation request to group
 						groupInvitationSent = [...user.authenticateUser.groups.groupInvitationSent, toggleInvitationRequestToGroup];
+					} else {
+						// already sent invitation -> cancel it
+						groupInvitationSent = user.authenticateUser.groups.groupInvitationSent.filter((x) => x.id !== stGroupPartialData.id);
 					}
+
+					console.log('groupInvitationSent', groupInvitationSent);
 
 					// update cache
 					store.writeQuery({
@@ -370,12 +357,6 @@ export class GraphqlGroupService {
 				accept,
 			},
 			{
-				optimisticResponse: {
-					__typename: 'Mutation',
-					answerReceivedGroupInvitation: {
-						...stGroupPartialData,
-					},
-				},
 				update: (store: DataProxy, { data: { answerReceivedGroupInvitation } }) => {
 					const user = store.readQuery<AuthenticateUserQuery>({
 						query: AuthenticateUserDocument,
@@ -386,8 +367,11 @@ export class GraphqlGroupService {
 
 					// remove invitation
 					const groups = user.authenticateUser.groups;
-					const groupInvitationReceived = groups.groupInvitationReceived.filter((x) => x.id !== stGroupPartialData.id);
+					const groupInvitationReceived = groups.groupInvitationReceived.filter((x) => x.id !== answerReceivedGroupInvitation.id);
 					const groupMember = accept ? [...groups.groupMember, answerReceivedGroupInvitation] : [...groups.groupMember];
+
+					console.log('groupInvitationReceived', groupInvitationReceived);
+					console.log('groupMember', groupMember);
 
 					// update cache
 					store.writeQuery({
@@ -407,9 +391,47 @@ export class GraphqlGroupService {
 							},
 						},
 					});
+
+					// if accepted -> update users if group
+					if (accept) {
+						this.updateMembersInGroup(store, stGroupPartialData.id, this.userStorageService.user, true);
+					}
 				},
 			}
 		);
+	}
+
+	private updateMembersInGroup(store: DataProxy, groupId: string, user: StUserPublicData, addUser: boolean) {
+		const groupUser = createSTGroupUser(user);
+		console.log('groupUser', groupUser);
+		const group = store.readFragment<StGroupAllDataFragmentFragment>({
+			id: `STGroupAllData:${groupId}`,
+			fragment: StGroupAllDataFragmentFragmentDoc,
+			fragmentName: 'STGroupAllDataFragment',
+		});
+
+		/* 
+			may happen that user will accept invitation in menu/groups/overview, in that case we have no even loaded group data from serverm
+			so no need to update anything
+		*/
+		if (!group) {
+			return;
+		}
+
+		// update cache
+		store.writeFragment({
+			id: `STGroupAllData:${groupId}`,
+			fragment: StGroupAllDataFragmentFragmentDoc,
+			fragmentName: 'STGroupAllDataFragment',
+			data: {
+				...group,
+				numberOfMembers: addUser ? group.numberOfMembers + 1 : group.numberOfMembers - 1,
+				groupMemberData: {
+					...group.groupMemberData,
+					members: addUser ? [...group.groupMemberData.members, groupUser] : group.groupMemberData.members.filter((m) => m.id !== groupUser.id),
+				},
+			},
+		});
 	}
 
 	leaveGroup(id: string): Observable<FetchResult<LeaveGroupMutation>> {
@@ -418,10 +440,6 @@ export class GraphqlGroupService {
 				id,
 			},
 			{
-				optimisticResponse: {
-					__typename: 'Mutation',
-					leaveGroup: true,
-				},
 				update: (store: DataProxy, { data: { leaveGroup } }) => {
 					const user = store.readQuery<AuthenticateUserQuery>({
 						query: AuthenticateUserDocument,
@@ -429,6 +447,9 @@ export class GraphqlGroupService {
 							id: this.userStorageService.user.id,
 						},
 					});
+
+					// remove user as group member
+					this.updateMembersInGroup(store, id, this.userStorageService.user, false);
 
 					// update cache
 					store.writeQuery({

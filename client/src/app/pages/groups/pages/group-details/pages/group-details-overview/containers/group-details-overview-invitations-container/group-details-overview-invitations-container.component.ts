@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { StGroupAllData, StGroupUser, StUserIndentificationDataFragment } from '@core';
+import { GroupFeatureFacadeService } from '@group-feature';
 import { ConfirmableWithCheckbox, DialogService } from '@shared';
 
 @Component({
@@ -13,24 +14,24 @@ export class GroupDetailsOverviewInvitationsContainerComponent implements OnInit
 
 	displayUsers: StUserIndentificationDataFragment[] = [];
 
-	constructor() {}
+	constructor(private groupFeatureFacadeService: GroupFeatureFacadeService) {}
 
 	ngOnInit() {}
 
 	@ConfirmableWithCheckbox('Please confirm sending invitation for the selected user', 'Confirm')
 	inviteUser(userIdentification: StUserIndentificationDataFragment) {
-		console.log(userIdentification);
+		this.groupFeatureFacadeService.toggleInviteUserIntoGroup(userIdentification, this.groupAllData.id, true);
 	}
 
 	@ConfirmableWithCheckbox('Please confirm removing invitation for the selected user', 'Confirm')
 	removeInvitation(groupUser: StGroupUser) {
-		console.log(groupUser);
+		this.groupFeatureFacadeService.toggleInviteUserIntoGroup(groupUser, this.groupAllData.id, false);
 	}
 
 	async receivedInvitation(groupUser: StGroupUser) {
 		const message = `Do you want to accept or decline ${groupUser.nickName}'s invitation to your group ?`;
-		const result = await DialogService.presentConfirmationPopOver(message, 'Accept', 'Decline');
-		console.log(result);
+		const isUserAccepted = await DialogService.presentConfirmationPopOver(message, 'Accept', 'Decline');
+		this.groupFeatureFacadeService.toggleUsersInvitationRequestToGroup(groupUser, this.groupAllData.id, isUserAccepted);
 	}
 
 	displaySearchedUsers(users: StUserIndentificationDataFragment[]) {

@@ -11,20 +11,28 @@ import { querySTGroupByGroupId, querySTGroupMemberDataByGroupId } from './../st-
  * @param uid
  * @param groupId
  */
-export const toggleInvitationRequestToGroup = async (groupId: string, { requesterUserId }: Context): Promise<api.STGroupAllData> => {
+export const toggleInvitationRequestToGroup = async (
+	groupId: string,
+	sendInvitation: boolean,
+	{ requesterUserId }: Context
+): Promise<api.STGroupAllData> => {
 	try {
 		const groupMembersDoc = await querySTGroupMemberDataByGroupId(groupId);
+		const user = await queryUserPublicData(requesterUserId);
 
 		if (groupMembersDoc.members.map((x) => x.id).includes(requesterUserId)) {
-			throw new ApolloError(`Cannot send / cancel invitation, you are already a member in group ${groupMembersDoc.id}`);
+			throw new ApolloError(`Cannot send / cancel invitation, you are already a member in this group`);
 		}
 
-		if (groupMembersDoc.invitationSent.map((x) => x.id).includes(requesterUserId)) {
-			throw new ApolloError(`You are already invited from group ${groupMembersDoc.id}`);
+		if (sendInvitation && groupMembersDoc.invitationSent.map((x) => x.id).includes(requesterUserId)) {
+			throw new ApolloError(`You are already invited from this group, please refresh your site`);
 		}
 
-		const user = await queryUserPublicData(requesterUserId);
-		if (groupMembersDoc.invitationReceived.map((x) => x.id).includes(requesterUserId)) {
+		if (sendInvitation && user.groups.groupInvitationSent.includes(groupId)) {
+			throw new ApolloError(`You have already sent your invitation into this group`);
+		}
+
+		if (!sendInvitation) {
 			// already sent invitation -> cancel it
 			groupMembersDoc.invitationReceived = groupMembersDoc.invitationReceived.filter((x) => x.id !== requesterUserId);
 
@@ -77,7 +85,9 @@ const updateGroupInvitationSentForUser = async (user: api.STUserPublicData, grou
 		.doc(user.id)
 		.set(
 			{
-				['groups.groupInvitationSent']: groupInvitationSent,
+				groups: {
+					groupInvitationSent: groupInvitationSent,
+				},
 			},
 			{ merge: true }
 		);

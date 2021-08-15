@@ -117,7 +117,11 @@ export const resetUserAccount = async (userId: string): Promise<api.STUserResete
 			.set(
 				{
 					portfolio: {
-						lastPortfolioSnapshot: null,
+						lastPortfolioSnapshot: {
+							portfolioCash: 15000,
+							portfolioInvested: 0,
+							date: getCurrentIOSDate(),
+						},
 						lastTransactionSnapshot: null,
 						lastPortfolioIncreaseNumber: null,
 						lastPortfolioIncreasePrct: null,

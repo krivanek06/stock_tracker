@@ -2,9 +2,6 @@ import { gql } from 'apollo-server';
 
 export const STGroupTypeDefs = gql`
 	#type
-	type STSearchGroups {
-		groups: [STGroupAllData]!
-	}
 
 	type STGroupUser {
 		id: String!

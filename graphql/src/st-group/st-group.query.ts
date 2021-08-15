@@ -34,6 +34,10 @@ export const querySTGroupByGroupName = async (groupNamePrefix: string): Promise<
 	try {
 		const groupDocs = await admin.firestore().collection(api.ST_GROUP_COLLECTION_GROUPS).where('name', '>=', groupNamePrefix).limit(5).get();
 
+		if (groupDocs.docs.length === 0) {
+			return [];
+		}
+
 		const data = groupDocs.docs.map((x) => {
 			return { ...x.data(), id: x.id } as api.STGroupAllData;
 		}) as api.STGroupAllData[];

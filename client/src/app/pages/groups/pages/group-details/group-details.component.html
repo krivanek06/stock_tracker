@@ -14,7 +14,23 @@
 </ion-toolbar>
 
 <div class="c-group-base-information-container">
-	<app-group-base-information *ngIf="groupData$ | async as groupData" [groupIdentification]="groupData"> </app-group-base-information>
+	<app-group-base-information
+		*ngIf="groupData$ | async as groupData"
+		[groupIdentification]="groupData"
+		(leaveEmitter)="leaveGroup()"
+		(deleteEmitter)="deleteGroup()"
+		(acceptEmitter)="acceptInvitation()"
+		(declineEmitter)="declineInvitation()"
+		(sendInvitationEmitter)="sendInvitation()"
+		(removeInvitationEmitter)="removeInvitation()"
+		[showSendInvitationButton]="canUserSendInvitation$ | async"
+		[showRemoveInvitationButton]="hasUserAlreadySentInvitaitonIntoGroup$ | async"
+		[showLeaveButton]="isMember$ | async"
+		[showDeleteButton]="isOwner$ | async"
+		[showAcceptButton]="isUserInvited$ | async"
+		[showDeclineButton]="isUserInvited$ | async"
+	>
+	</app-group-base-information>
 </div>
 
 <!-- routing -->

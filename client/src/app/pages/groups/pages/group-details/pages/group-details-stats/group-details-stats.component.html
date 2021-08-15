@@ -1,10 +1,80 @@
-<ng-container *ngIf="groupAllData$ | async as groupData">
+<ion-grid *ngIf="groupAllData$ | async as groupData">
 	<!-- portfolio growth + cash and invested percentage -->
-	<app-group-details-stats-portfolio-container [groupAllData]="groupData"> </app-group-details-stats-portfolio-container>
+	<ion-toolbar class="ion-hide-lg-down">
+		<ion-title class="st-title"> Portfolio </ion-title>
+	</ion-toolbar>
+
+	<ion-row>
+		<!-- portfolio growth chart -->
+		<ion-col size="12" [sizeMd]="groupData.portfolio.lastPortfolioSnapshot.portfolioInvested > 0 ? '7.5' : '12' ">
+			<app-portfolio-growth-chart [heightPx]="260" [stPortfolioSnapshots]="groupData.groupHistoricalData.portfolioSnapshots">
+			</app-portfolio-growth-chart>
+		</ion-col>
+
+		<!-- portfolio change chart -->
+		<ion-col size="12" size-md="4.5" *ngIf="groupData.portfolio.lastPortfolioSnapshot.portfolioInvested > 0">
+			<div class="c-chart-container">
+				<app-generic-chart
+					[heightPx]="260"
+					[chartType]="ChartType.pie"
+					[enable3D]="true"
+					[isPercentage]="true"
+					chartTitle="Portfolio allocation"
+					chartTitlePosition="center"
+					legendAlign="center"
+					[showLegend]="true"
+					[showLegendLatestValue]="true"
+					[series]="[{
+								data: [
+								  {name: 'Invested', color: '#5e00df', y: 100 / (groupData.portfolio.lastPortfolioSnapshot.portfolioInvested + groupData.portfolio.lastPortfolioSnapshot.portfolioCash) * groupData.portfolio.lastPortfolioSnapshot.portfolioInvested, sliced: true},
+								  {name: 'Cash', color: '#c7481a', y: 100 / (groupData.portfolio.lastPortfolioSnapshot.portfolioInvested + groupData.portfolio.lastPortfolioSnapshot.portfolioCash) * groupData.portfolio.lastPortfolioSnapshot.portfolioCash}
+							  ], innerSize: '20%', minPointSize: 10}]"
+				>
+				</app-generic-chart>
+			</div>
+		</ion-col>
+	</ion-row>
 
 	<!-- holdings allocation charts -->
-	<app-group-details-stats-holdings-charts-container [groupAllData]="groupData"> </app-group-details-stats-holdings-charts-container>
+	<ion-row>
+		<ion-col size="12">
+			<app-generic-list [iconTitle]="'pricetags'" [title]="'Holdings'"></app-generic-list>
+			<app-holdings-allocation-group-chart [heightPx]="300" [holdings]="groupData.groupMemberData.holdings" [showTitle]="true">
+			</app-holdings-allocation-group-chart>
+		</ion-col>
+	</ion-row>
 
-	<!-- holdings tabls -->
-	<app-group-details-stats-holdings-table-container [groupAllData]="groupData"> </app-group-details-stats-holdings-table-container>
-</ng-container>
+	<ng-container *ngIf="holdings$ | async as holdings">
+		<ion-row *ngIf="holdings.length > 0" class="ion-margin-vertical ion-justify-content-around">
+			<!-- holding pie chart -->
+			<ion-col size="12" size-md="6">
+				<app-pie-chart-wrapper
+					[data]="holdings | holdingsToPortfolioChartSeries:  groupData.portfolio.lastPortfolioSnapshot.portfolioCash"
+					[heightPx]="300"
+					chartTitle="Holdings allocation"
+					class="ion-hide-sm-down"
+				>
+				</app-pie-chart-wrapper>
+			</ion-col>
+
+			<!-- sector pie chart -->
+			<ion-col size="12" size-md="6">
+				<app-pie-chart-wrapper [data]="holdings | holdingsToSectorChartSeries" [heightPx]="300" chartTitle="holdings"> </app-pie-chart-wrapper>
+			</ion-col>
+		</ion-row>
+
+		<!-- holdings tabls -->
+		<ion-row>
+			<ion-col size="12">
+				<app-generic-card title="Group symbol holdings">
+					<app-holdings-table
+						[totalPortfolio]="groupData.portfolio.lastPortfolioSnapshot.portfolioInvested + groupData.portfolio.lastPortfolioSnapshot.portfolioCash"
+						[holdings]="holdings"
+						(itemClickedEmitter)="showSummary($event)"
+					>
+					</app-holdings-table>
+				</app-generic-card>
+			</ion-col>
+		</ion-row>
+	</ng-container>
+</ion-grid>

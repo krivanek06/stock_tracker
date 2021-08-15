@@ -25,7 +25,6 @@ const routes: Routes = [
 			{
 				path: '',
 				redirectTo: GROUPS_PAGES.OVERVIEW,
-				pathMatch: 'full',
 			},
 		],
 	},

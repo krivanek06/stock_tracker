@@ -2,12 +2,12 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output
 import { StGroupAllData, StGroupIdentificationDataFragment } from '@core';
 
 @Component({
-	selector: 'app-group-base-information',
-	templateUrl: './group-base-information.component.html',
-	styleUrls: ['./group-base-information.component.scss'],
+	selector: 'app-group-top-users-information',
+	templateUrl: './group-top-users-information.component.html',
+	styleUrls: ['./group-top-users-information.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GroupBaseInformationComponent implements OnInit {
+export class GroupTopUsersInformationComponent implements OnInit {
 	@Output() acceptEmitter: EventEmitter<any> = new EventEmitter<any>();
 	@Output() declineEmitter: EventEmitter<any> = new EventEmitter<any>();
 	@Output() visitEmitter: EventEmitter<any> = new EventEmitter<any>();
@@ -16,7 +16,7 @@ export class GroupBaseInformationComponent implements OnInit {
 	@Output() sendInvitationEmitter: EventEmitter<any> = new EventEmitter<any>();
 	@Output() removeInvitationEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-	@Input() groupIdentification: StGroupIdentificationDataFragment | StGroupAllData;
+	@Input() groupAllData: StGroupIdentificationDataFragment | StGroupAllData;
 	@Input() showVisitButton: boolean;
 	@Input() showAcceptButton: boolean;
 	@Input() showDeclineButton: boolean;
@@ -48,7 +48,6 @@ export class GroupBaseInformationComponent implements OnInit {
 	leave() {
 		this.leaveEmitter.emit();
 	}
-
 	sendInvitation() {
 		this.sendInvitationEmitter.emit();
 	}
