@@ -76,7 +76,7 @@ const mainTypeDefs = gql`
 
 		# groups
 		querySTGroupByGroupId(id: String!): STGroupAllData
-		querySTGroupByGroupName(groupName: String!): STSearchGroups
+		querySTGroupByGroupName(groupName: String!): [STGroupAllData]!
 
 		# details
 		queryStockDetails(symbol: String!, reload: Boolean): StockDetails
@@ -115,7 +115,7 @@ const mainTypeDefs = gql`
 		createGroup(groupInput: STGroupAllDataInput!): STGroupAllData
 		editGroup(groupInput: STGroupAllDataInput!): STGroupAllData
 		deleteGroup(id: String!): Boolean
-		toggleInvitationRequestToGroup(id: String!): STGroupAllData
+		toggleInvitationRequestToGroup(id: String!, sendInvitation: Boolean!): STGroupAllData
 		answerReceivedGroupInvitation(id: String!, accept: Boolean!): STGroupAllData
 		toggleInviteUserIntoGroup(inviteUser: Boolean!, userId: String!, groupId: String!): STGroupUser
 		toggleUsersInvitationRequestToGroup(acceptUser: Boolean!, userId: String!, groupId: String!): STGroupUser
@@ -187,7 +187,8 @@ const mainResolver = {
 		deleteGroup: async (_, args: { id: string }, context: Context) => await deleteGroup(args.id, context),
 		answerReceivedGroupInvitation: async (_, args: { id: string; accept: boolean }, context: Context) =>
 			await answerReceivedGroupInvitation(args.id, args.accept, context),
-		toggleInvitationRequestToGroup: async (_, args: { id: string }, context: Context) => await toggleInvitationRequestToGroup(args.id, context),
+		toggleInvitationRequestToGroup: async (_, args: { id: string; sendInvitation: boolean }, context: Context) =>
+			await toggleInvitationRequestToGroup(args.id, args.sendInvitation, context),
 		toggleInviteUserIntoGroup: async (_, args: { inviteUser: boolean; userId: string; groupId: string }) =>
 			await toggleInviteUserIntoGroup(args.inviteUser, args.userId, args.groupId),
 		toggleUsersInvitationRequestToGroup: async (_, args: { acceptUser: boolean; userId: string; groupId: string }) =>

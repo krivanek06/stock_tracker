@@ -1,37 +1,32 @@
 <ion-grid>
-    <ion-row class="ion-justify-content-center">
-        <ion-col size="12" size-lg="11" style="overflow: visible">
-            <!-- filter -->
-            <app-generic-extension-panel title="Filter symbols">
-                <ion-row>
-                    <ion-col size="12" size-lg="9">
-                        <app-market-search-form
-                                (searchFormChangeEmitter)="changedFormResult($event)"
-                        ></app-market-search-form>
-                    </ion-col>
-                    <ion-col size="12" size-lg="3">
-                        <app-market-search-form-result
-                                [stockScreener]="stockScreener"
-                        ></app-market-search-form-result>
-                        <div class="ion-margin-top">
-                            <ion-button (click)="filterSymbols()" color="primary" fill="solid">Filter</ion-button>
-                        </div>
-                    </ion-col>
-                </ion-row>
-            </app-generic-extension-panel>
+	<ion-row class="ion-justify-content-center">
+		<ion-col size="12" size-lg="11" style="overflow: visible">
+			<!-- filter -->
+			<app-generic-extension-panel title="Filter symbols">
+				<ion-row>
+					<ion-col size="12" size-lg="9">
+						<app-market-search-form (searchFormChangeEmitter)="changedFormResult($event)"></app-market-search-form>
+					</ion-col>
+					<ion-col size="12" size-lg="3">
+						<app-market-search-form-result [stockScreener]="stockScreener"></app-market-search-form-result>
+						<div class="ion-margin-top">
+							<ion-button (click)="filterSymbols()" color="primary" fill="solid">Filter</ion-button>
+						</div>
+					</ion-col>
+				</ion-row>
+			</app-generic-extension-panel>
 
-            <!-- table results -->
-            <ion-row>
-                <ion-col size="12">
-                    <app-generic-card title="Stock screener results">
-                        <app-market-search-table
-                                (itemClickedEmitter)="showSummarySymbol($event)"
-                                [stockScreenerResults]="stockScreenerResult$ | async"
-                        ></app-market-search-table>
-                    </app-generic-card>
-                </ion-col>
-            </ion-row>
-        </ion-col>
-    </ion-row>
+			<!-- table results -->
+			<ion-row>
+				<ion-col size="12">
+					<app-generic-card title="Stock screener results">
+						<app-market-search-table
+							(itemClickedEmitter)="showSummarySymbol($event)"
+							[stockScreenerResults]="stockScreenerResult$ | async"
+						></app-market-search-table>
+					</app-generic-card>
+				</ion-col>
+			</ion-row>
+		</ion-col>
+	</ion-row>
 </ion-grid>
-

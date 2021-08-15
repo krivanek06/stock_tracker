@@ -29,7 +29,7 @@ export const answerReceivedGroupInvitation = async (groupId: string, accept: boo
 		await updateGroupMemberData(accept, groupMembers, newGroupUser);
 
 		// remove invitation from user
-		await updateUserReceivedInvitation(user, groupId);
+		await updateUserReceivedInvitation(user, groupId, accept);
 
 		return group;
 	} catch (error) {
@@ -37,14 +37,17 @@ export const answerReceivedGroupInvitation = async (groupId: string, accept: boo
 	}
 };
 
-const updateUserReceivedInvitation = async (user: api.STUserPublicData, groupId: string): Promise<void> => {
+const updateUserReceivedInvitation = async (user: api.STUserPublicData, groupId: string, accept: boolean): Promise<void> => {
 	await admin
 		.firestore()
 		.collection(api.ST_USER_COLLECTION_USER)
 		.doc(user.id)
 		.set(
 			{
-				['groups.groupInvitationReceived']: user.groups.groupInvitationReceived.filter((invitation) => invitation !== groupId),
+				groups: {
+					groupInvitationReceived: user.groups.groupInvitationReceived.filter((invitation) => invitation !== groupId),
+					groupMember: accept ? [...user.groups.groupMember, groupId] : [...user.groups.groupMember],
+				},
 			},
 			{ merge: true }
 		);

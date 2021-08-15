@@ -80,7 +80,7 @@ export const createSTGroupUser = (userPublic: api.STUserPublicData): api.STGroup
 	const groupUser: api.STGroupUser = {
 		...convertSTUserPublicDataToSTUserIndentification(userPublic),
 		portfolio: {
-			startingPortfolioSnapshot: userPublic.portfolio.startingPortfolioSnapshot,
+			startingPortfolioSnapshot: userPublic.portfolio.lastPortfolioSnapshot, // starting in group is last in user
 			lastPortfolioSnapshot: userPublic.portfolio.lastPortfolioSnapshot,
 			lastTransactionSnapshot: userPublic.portfolio.lastTransactionSnapshot,
 			numberOfExecutedTransactions: userPublic.portfolio.numberOfExecutedTransactions,

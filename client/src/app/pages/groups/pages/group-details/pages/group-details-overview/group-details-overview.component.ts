@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class GroupDetailsOverviewComponent implements OnInit {
 	user$: Observable<StUserPublicData>;
+	isUserOwner$: Observable<boolean>;
 
 	groupAllData$: Observable<StGroupAllData>;
 
@@ -18,6 +19,8 @@ export class GroupDetailsOverviewComponent implements OnInit {
 	ngOnInit() {
 		this.user$ = this.userStorageService.getUser();
 		this.groupAllData$ = this.groupStorageService.getActiveGroup();
+		this.isUserOwner$ = this.groupStorageService.isUserOwnerObs();
+
 		this.groupAllData$.subscribe((res) => {
 			console.log('active group is', res);
 		});

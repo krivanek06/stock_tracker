@@ -36,9 +36,11 @@ const toggleGroupInvitationSentForUser = async (inviteUser: boolean, userPublicD
 		.doc(userPublicData.id)
 		.set(
 			{
-				['groups.groupInvitationReceived']: inviteUser
-					? [...userPublicData.groups.groupInvitationReceived, groupId]
-					: userPublicData.groups.groupInvitationReceived.filter((id) => id !== groupId),
+				groups: {
+					groupInvitationReceived: inviteUser
+						? [...userPublicData.groups.groupInvitationReceived, groupId]
+						: userPublicData.groups.groupInvitationReceived.filter((id) => id !== groupId),
+				},
 			},
 			{ merge: true }
 		);

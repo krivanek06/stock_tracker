@@ -1,0 +1,20 @@
+@import 'variables';
+
+:host {
+	.form-position {
+		margin-bottom: 8px;
+		margin-left: 8px;
+		width: 45%;
+		@media (max-width: #{$st-var-md-split}) {
+			width: 65%;
+		}
+		@media (max-width: #{$st-var-sm-split}) {
+			width: 100%;
+		}
+	}
+
+	.flex-flow-wrap {
+		display: flex;
+		flex-flow: wrap;
+	}
+}

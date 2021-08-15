@@ -1,5 +1,5 @@
-<div class="st-flex-space-between">
-	<div class="st-flex-wrap c-data-section-wrapper">
+<div class="c-section-wrapper">
+	<div class="c-data-section-wrapper">
 		<div class="st-flex ion-margin-end">
 			<div class="st-small-right-space">
 				<ion-img class="c-group-image" [src]="groupIdentification.imageUrl" appDefaultImg></ion-img>
@@ -16,9 +16,9 @@
 				<div
 					class="st-font-size-18"
 					[ngClass]="{
-                    	'st-price-down': groupIdentification.isPrivate,
-                        'st-price-up': !groupIdentification.isPrivate
-                    }"
+						'st-price-down': groupIdentification.isPrivate,
+						  'st-price-up': !groupIdentification.isPrivate
+					  }"
 				>
 					{{ groupIdentification.isPrivate ? 'Private' : 'Public' }}
 				</div>
@@ -66,9 +66,15 @@
 		</div>
 	</div>
 	<!-- buttons -->
-	<ion-buttons *ngIf="showAcceptButton || showDeclineButton || showDeleteButton || showLeaveButton || showVisitButton">
+	<ion-buttons
+		*ngIf="showAcceptButton || showDeclineButton || showDeleteButton || showLeaveButton || showVisitButton || sendInvitation || removeInvitation"
+	>
 		<ion-button *ngIf="showAcceptButton" fill="outline" color="success" shape="round" (click)="accept()">Accept</ion-button>
 		<ion-button *ngIf="showDeclineButton" fill="outline" color="danger" shape="round" (click)="decline()">Decline</ion-button>
+		<ion-button *ngIf="showSendInvitationButton" fill="outline" color="primary" shape="round" (click)="sendInvitation()">Send invitation</ion-button>
+		<ion-button *ngIf="showRemoveInvitationButton" fill="outline" color="danger" shape="round" (click)="removeInvitation()"
+			>Remove invitation</ion-button
+		>
 		<ion-button *ngIf="showLeaveButton" fill="outline" color="danger" shape="round" (click)="leave()">Leave</ion-button>
 		<ion-button *ngIf="showDeleteButton" fill="outline" color="danger" shape="round" (click)="delete()">Delete</ion-button>
 		<ion-button *ngIf="showVisitButton" fill="outline" color="warning" shape="round" (click)="visit()">

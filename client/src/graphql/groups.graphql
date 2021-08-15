@@ -120,9 +120,7 @@ query QuerySTGroupByGroupId($id: String!) {
 
 query QuerySTGroupByGroupName($groupName: String!) {
 	querySTGroupByGroupName(groupName: $groupName) {
-		groups {
-			...STGroupIdentificationData
-		}
+		...STGroupIdentificationData
 	}
 }
 
@@ -145,8 +143,8 @@ mutation DeleteGroup($id: String!) {
 	deleteGroup(id: $id)
 }
 
-mutation ToggleInvitationRequestToGroup($id: String!) {
-	toggleInvitationRequestToGroup(id: $id) {
+mutation ToggleInvitationRequestToGroup($id: String!, $sendInvitation: Boolean!) {
+	toggleInvitationRequestToGroup(id: $id, sendInvitation: $sendInvitation) {
 		...STGroupIdentificationData
 	}
 }

@@ -9,9 +9,9 @@
 
 		<app-user-account-search-form (searchedUsersEmitter)="displaySearchedUsers($event)"></app-user-account-search-form>
 	</ion-card-header>
-	<ion-card-content class="st-flex-wrap" *ngIf="displayUsers.length > 0">
+	<ion-card-content class="st-flex-wrap" *ngIf="displayUsers?.length > 0">
 		<!-- listed users -->
-		<app-user-account-info-list *ngFor="let user of displayUsers" (clickedEmitter)="inviteUser($event)" [clickable]="true" [stUserPublicData]="user">
+		<app-user-account-info-list *ngFor="let user of displayUsers" (clickedEmitter)="inviteUser(user)" [clickable]="true" [stUserPublicData]="user">
 		</app-user-account-info-list>
 	</ion-card-content>
 

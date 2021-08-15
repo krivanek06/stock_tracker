@@ -1,89 +1,76 @@
 <ion-grid>
-    <ion-row>
-        <ion-col size="12" size-lg="8">
-            <app-generic-card>
-                <app-financial-chart-container
-                        *ngIf="stockDetails$ | async as stockDetails"
-                        [closedPrice]="stockDetails.summary.previousClose"
-                        [currentPrice]="stockDetails.summary.marketPrice"
-                        [height]="285"
-                        [logoUrl]="stockDetails.summary.logo_url"
-                        [name]="stockDetails.summary.companyName"
-                        [symbol]="stockDetails.summary.symbol">
-                </app-financial-chart-container>
-            </app-generic-card>
-        </ion-col>
+	<ion-row>
+		<ion-col size="12" size-lg="8">
+			<app-generic-card>
+				<app-financial-chart-container
+					*ngIf="stockDetails$ | async as stockDetails"
+					[closedPrice]="stockDetails.summary.previousClose"
+					[currentPrice]="stockDetails.summary.marketPrice"
+					[height]="285"
+					[logoUrl]="stockDetails.summary.logo_url"
+					[name]="stockDetails.summary.companyName"
+					[symbol]="stockDetails.summary.symbol"
+				>
+				</app-financial-chart-container>
+			</app-generic-card>
+		</ion-col>
 
-        <!-- risk management calculator -->
-        <ion-col size="12" size-lg="4">
-            <app-generic-card [showSkeleton]="true"
-                              additionalClasses="st-height-100"
-                              title="Risk management calculator">
-                <ng-container *ngIf="riskManagementCalculator$ | async as riskManagementCalculator">
-                    <app-trading-strategy-rmc
-                            [data]="riskManagementCalculator">
-                    </app-trading-strategy-rmc>
-                </ng-container>
-            </app-generic-card>
-        </ion-col>
-    </ion-row>
+		<!-- risk management calculator -->
+		<ion-col size="12" size-lg="4">
+			<app-generic-card [showSkeleton]="true" additionalClasses="st-height-100" title="Risk management calculator">
+				<ng-container *ngIf="riskManagementCalculator$ | async as riskManagementCalculator">
+					<app-trading-strategy-rmc [data]="riskManagementCalculator"> </app-trading-strategy-rmc>
+				</ng-container>
+			</app-generic-card>
+		</ion-col>
+	</ion-row>
 
-    <!-- red white blue -->
-    <ion-row>
-        <ion-col size="12">
-            <app-generic-card [showSkeleton]="true" title="Red white blue">
-                <app-trading-strategy-rwb
-                        *ngIf="redWhiteBlue$ | async as data"
-                        [data]="data"
-                        [heightPx]="370">
-                </app-trading-strategy-rwb>
-            </app-generic-card>
-        </ion-col>
-    </ion-row>
+	<!-- red white blue -->
+	<ion-row>
+		<ion-col size="12">
+			<app-generic-card [showSkeleton]="true" title="Red white blue">
+				<app-trading-strategy-rwb *ngIf="redWhiteBlue$ | async as data" [data]="data" [heightPx]="370"> </app-trading-strategy-rwb>
+			</app-generic-card>
+		</ion-col>
+	</ion-row>
 
-    <!-- extended market verification -->
-    <ion-row>
-        <ion-col size="12" size-lg="6">
-            <app-generic-card [showSkeleton]="true" title="Extended market verification histogram">
-                <ng-container *ngIf="extendedMarketVerification$ | async as data">
-                    <app-trading-strategy-emv-histogram
-                            *ngIf="data.series[0].data.length > 0"
-                            [data]="data"
-                            [heightPx]="250">
-                    </app-trading-strategy-emv-histogram>
-                </ng-container>
-            </app-generic-card>
-        </ion-col>
-        <ion-col size="12" size-lg="6">
-            <app-generic-card [showSkeleton]="true" title="Extended market verification">
-                <ng-container *ngIf="extendedMarketVerification$ | async as data">
-                    <app-trading-strategy-emv
-                            *ngIf="data.series[0].data.length > 0"
-                            [data]="data"
-                            [heightPx]="250">
-                    </app-trading-strategy-emv>
-                </ng-container>
-            </app-generic-card>
-        </ion-col>
-    </ion-row>
+	<!-- extended market verification -->
+	<ion-row>
+		<ion-col size="12" size-lg="6">
+			<app-generic-card [showSkeleton]="true" title="Extended market verification histogram">
+				<ng-container *ngIf="extendedMarketVerification$ | async as data">
+					<app-trading-strategy-emv-histogram *ngIf="data.series[0].data.length > 0" [data]="data" [heightPx]="250">
+					</app-trading-strategy-emv-histogram>
+				</ng-container>
+			</app-generic-card>
+		</ion-col>
+		<ion-col size="12" size-lg="6">
+			<app-generic-card [showSkeleton]="true" title="Extended market verification">
+				<ng-container *ngIf="extendedMarketVerification$ | async as data">
+					<app-trading-strategy-emv *ngIf="data.series[0].data.length > 0" [data]="data" [heightPx]="250"> </app-trading-strategy-emv>
+				</ng-container>
+			</app-generic-card>
+		</ion-col>
+	</ion-row>
 
-    <!-- green line breakout and resistance pivot points -->
-    <ion-row>
-        <ion-col size="12">
-            <app-generic-card [showSkeleton]="true" title="Green line breakouts with resistance pivot points">
-                <ng-container *ngIf="historical5yData$ | async as historical5yData">
-                    <ng-container *ngIf="resistancePivotPoints$ | async as resistancePivotPoints">
-                        <ng-container *ngIf="greenLineBreakout$ | async as greenLineBreakout">
-                            <app-trading-strategy-rpp-glb
-                                    [dataGLB]="greenLineBreakout"
-                                    [dataRPP]="resistancePivotPoints"
-                                    [heightPx]="310"
-                                    [historicalChartData]="historical5yData">
-                            </app-trading-strategy-rpp-glb>
-                        </ng-container>
-                    </ng-container>
-                </ng-container>
-            </app-generic-card>
-        </ion-col>
-    </ion-row>
+	<!-- green line breakout and resistance pivot points -->
+	<ion-row>
+		<ion-col size="12">
+			<app-generic-card [showSkeleton]="true" title="Green line breakouts with resistance pivot points">
+				<ng-container *ngIf="historical5yData$ | async as historical5yData">
+					<ng-container *ngIf="resistancePivotPoints$ | async as resistancePivotPoints">
+						<ng-container *ngIf="greenLineBreakout$ | async as greenLineBreakout">
+							<app-trading-strategy-rpp-glb
+								[dataGLB]="greenLineBreakout"
+								[dataRPP]="resistancePivotPoints"
+								[heightPx]="310"
+								[historicalChartData]="historical5yData"
+							>
+							</app-trading-strategy-rpp-glb>
+						</ng-container>
+					</ng-container>
+				</ng-container>
+			</app-generic-card>
+		</ion-col>
+	</ion-row>
 </ion-grid>

@@ -4,7 +4,8 @@
 	</app-group-details-overview-portfolio-container>
 
 	<!-- invitations -->
-	<app-group-details-overview-invitations-container [groupAllData]="groupData"> </app-group-details-overview-invitations-container>
+	<app-group-details-overview-invitations-container *ngIf="isUserOwner$ | async" [groupAllData]="groupData">
+	</app-group-details-overview-invitations-container>
 
 	<!-- members -->
 	<app-group-details-overview-members-container [user]="user$ | async" [groupAllData]="groupData"> </app-group-details-overview-members-container>

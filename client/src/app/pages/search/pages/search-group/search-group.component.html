@@ -1,11 +1,10 @@
-<!-- search container -->
-<ion-list class="ion-margin-vertical">
-    <app-group-search
-            [clearOnClick]="true"
-            (clickedGroupEmitter)="showGroupInformation($event)">
-    </app-group-search>
+<ion-list class="form-position">
+	<form [formGroup]="form">
+		<app-form-mat-input-wrapper inputCaption="Search group" controlName="groupName"> </app-form-mat-input-wrapper>
+	</form>
 </ion-list>
 
-<!-- group info -->
-<router-outlet></router-outlet>
-
+<!-- listed symbols -->
+<app-generic-card *ngFor="let group of searchedGroups$ | async">
+	<app-group-top-users-information [showVisitButton]="true" (visitEmitter)="visit(group)" [groupAllData]="group"> </app-group-top-users-information>
+</app-generic-card>

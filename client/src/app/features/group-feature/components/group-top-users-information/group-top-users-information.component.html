@@ -1,12 +1,20 @@
 <!-- base information -->
 <div class="c-base-information-container" [ngClass]="{'st-border-bottom': groupAllData.topMembers.length > 0}">
 	<app-group-base-information
-		(visitEmitter)="visitGroup(groupAllData)"
-		(acceptEmitter)="answerReceivedGroupInvitation(groupAllData, true)"
-		(declineEmitter)="answerReceivedGroupInvitation(groupAllData, false)"
-		[showVisitButton]="true"
+		(visitEmitter)="visit()"
+		(acceptEmitter)="accept()"
+		(deleteEmitter)="delete()"
+		(declineEmitter)="decline()"
+		(leaveEmitter)="leave()"
+		(sendInvitationEmitter)="sendInvitation()"
+		(removeInvitationEmitter)="removeInvitation()"
+		[showLeaveButton]="showLeaveButton"
+		[showDeleteButton]="showDeleteButton"
+		[showVisitButton]="showVisitButton"
 		[showAcceptButton]="showAcceptButton"
 		[showDeclineButton]="showDeclineButton"
+		[showSendInvitationButton]="showSendInvitationButton"
+		[showRemoveInvitationButton]="showRemoveInvitationButton"
 		[groupIdentification]="groupAllData"
 	>
 	</app-group-base-information>
