@@ -14,7 +14,6 @@ export const STPortfolioTypeDefs = gql`
 	}
 
 	type STPortfolioWrapper {
-		startingPortfolioSnapshot: STPortfolioSnapshot!
 		portfolioCash: Float!
 		numberOfExecutedTransactions: Float!
 		numberOfExecutedBuyTransactions: Float!
@@ -23,5 +22,14 @@ export const STPortfolioTypeDefs = gql`
 		lastPortfolioIncreasePrct: Float
 		lastPortfolioSnapshot: STPortfolioSnapshot
 		lastTransactionSnapshot: STTransactionSnapshot
+	}
+
+	type STPortfolioSnapshotStarted {
+		portfolioInvested: Float!
+		portfolioCash: Float!
+		date: String!
+		numberOfExecutedTransactions: Float!
+		numberOfExecutedBuyTransactions: Float!
+		numberOfExecutedSellTransactions: Float!
 	}
 `;

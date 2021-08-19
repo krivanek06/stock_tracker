@@ -1,0 +1,19 @@
+"stock-tracker-common-interfaces": "file:../common-interfaces"
+
+######### build client
+- increaase version
+
+########## building and deploying flask on gcloud
+# before
+- in Dockerfile change last config
+- remove uWSGI from requirements.txt
+# deployment
+- run :  gcloud builds submit --tag gcr.io/stocktrackertest-e51fc/server_flask
+- run :  gcloud run deploy --image gcr.io/stocktrackertest-e51fc/server_flask --platform managed --max-instances=1
+
+########## building and deploying graphql on gcloud
+# before
+- environments -> production == true, stockDataAPI
+# deployment
+- run :  gcloud builds submit --tag gcr.io/stocktrackertest-e51fc/server_graphql
+- run :  gcloud run deploy --image gcr.io/stocktrackertest-e51fc/server_graphql --platform managed --max-instances=1

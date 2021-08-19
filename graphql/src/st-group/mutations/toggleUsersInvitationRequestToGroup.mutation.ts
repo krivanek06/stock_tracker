@@ -8,21 +8,30 @@ import { createSTGroupUser } from './../st-group.util';
 /* 
     Group owner / manager can accept / deny users request into group
 */
-export const toggleUsersInvitationRequestToGroup = async (acceptUser: boolean, userId: string, groupId: string): Promise<api.STGroupUser> => {
+export const toggleUsersInvitationRequestToGroup = async (accept: boolean, userId: string, groupId: string): Promise<api.STGroupUser> => {
 	try {
 		const userPublicData = await queryUserPublicData(userId);
 		const groupMembers = await querySTGroupMemberDataByGroupId(groupId);
+		const groupData = await querySTGroupByGroupId(groupId);
 
 		const newGroupUser = createSTGroupUser(userPublicData);
 
+		if (!groupMembers.invitationReceived.map((x) => x.id).includes(userId)) {
+			throw new ApolloError(`No longer exists a request from user ${userPublicData.nickName} to join this group`);
+		}
+
 		// decrese users who sent invitation into groups
-		await updateGroupData(acceptUser, groupId, newGroupUser);
+		if (accept) {
+			await acceptUser(groupId, groupData, newGroupUser);
+		} else {
+			await denyUser(groupId);
+		}
 
 		// add or not user as member
-		await addUserAsMember(acceptUser, newGroupUser, groupMembers);
+		await addUserAsMember(accept, newGroupUser, groupMembers);
 
 		// remove group invitation from user.groups.groupInvitationSent
-		await removeGroupInvitationSentForUser(acceptUser, userPublicData, groupId);
+		await removeGroupInvitationSentForUser(accept, userPublicData, groupId);
 
 		return newGroupUser;
 	} catch (error) {
@@ -62,15 +71,34 @@ const addUserAsMember = async (acceptUser: boolean, newGroupUser: api.STGroupUse
 		);
 };
 
-const updateGroupData = async (acceptUser: boolean, groupId: string, newGroupUser: api.STGroupUser): Promise<void> => {
-	const groupData = await querySTGroupByGroupId(groupId);
-	const gStartedPortfolio = groupData.portfolio.startingPortfolioSnapshot;
-	const uStartedPortfolio = newGroupUser.portfolio.startingPortfolioSnapshot;
+const denyUser = async (groupId: string): Promise<void> => {
+	await admin
+		.firestore()
+		.collection(api.ST_GROUP_COLLECTION_GROUPS)
+		.doc(groupId)
+		.set(
+			{
+				numberOfInvitationReceived: admin.firestore.FieldValue.increment(-1),
+			},
+			{ merge: true }
+		);
+};
 
-	const portfolioInvested = acceptUser
-		? gStartedPortfolio.portfolioInvested + uStartedPortfolio.portfolioInvested
-		: gStartedPortfolio.portfolioInvested;
-	const portfolioCash = acceptUser ? gStartedPortfolio.portfolioCash + uStartedPortfolio.portfolioCash : gStartedPortfolio.portfolioCash;
+const acceptUser = async (groupId: string, groupData: api.STGroupAllData, newGroupUser: api.STGroupUser): Promise<void> => {
+	// update group starting portfolio
+	groupData.startedPortfolio.portfolioCash += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioCash;
+	groupData.startedPortfolio.portfolioInvested += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioInvested;
+	groupData.startedPortfolio.numberOfExecutedTransactions += newGroupUser.portfolio.numberOfExecutedTransactions;
+	groupData.startedPortfolio.numberOfExecutedSellTransactions += newGroupUser.portfolio.numberOfExecutedSellTransactions;
+	groupData.startedPortfolio.numberOfExecutedBuyTransactions += newGroupUser.portfolio.numberOfExecutedBuyTransactions;
+
+	// update group portfolio
+	groupData.portfolio.portfolioCash += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioCash;
+	groupData.portfolio.lastPortfolioSnapshot.portfolioInvested += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioInvested;
+	groupData.portfolio.lastPortfolioSnapshot.portfolioCash += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioCash;
+	groupData.portfolio.numberOfExecutedTransactions += newGroupUser.portfolio.numberOfExecutedTransactions;
+	groupData.portfolio.numberOfExecutedSellTransactions += newGroupUser.portfolio.numberOfExecutedSellTransactions;
+	groupData.portfolio.numberOfExecutedBuyTransactions += newGroupUser.portfolio.numberOfExecutedBuyTransactions;
 
 	await admin
 		.firestore()
@@ -79,12 +107,12 @@ const updateGroupData = async (acceptUser: boolean, groupId: string, newGroupUse
 		.set(
 			{
 				numberOfInvitationReceived: admin.firestore.FieldValue.increment(-1),
-				numberOfMembers: acceptUser ? admin.firestore.FieldValue.increment(1) : groupData.numberOfMembers,
+				numberOfMembers: admin.firestore.FieldValue.increment(1),
 				portfolio: {
-					startingPortfolioSnapshot: {
-						portfolioInvested: portfolioInvested,
-						portfolioCash: portfolioCash,
-					},
+					...groupData.portfolio,
+				},
+				startedPortfolio: {
+					...groupData.startedPortfolio,
 				},
 			},
 			{ merge: true }

@@ -71,7 +71,18 @@
 	>
 		<ion-button *ngIf="showAcceptButton" fill="outline" color="success" shape="round" (click)="accept()">Accept</ion-button>
 		<ion-button *ngIf="showDeclineButton" fill="outline" color="danger" shape="round" (click)="decline()">Decline</ion-button>
-		<ion-button *ngIf="showSendInvitationButton" fill="outline" color="primary" shape="round" (click)="sendInvitation()">Send invitation</ion-button>
+		<span *ngIf="showSendInvitationButton" [matTooltip]="isGroupPrivate ? 'Group is private, you can be only invated' : null ">
+			<ion-button
+				*ngIf="showSendInvitationButton"
+				fill="outline"
+				color="primary"
+				shape="round"
+				(click)="sendInvitation()"
+				[disabled]="isGroupPrivate"
+			>
+				Send invitation
+			</ion-button>
+		</span>
 		<ion-button *ngIf="showRemoveInvitationButton" fill="outline" color="danger" shape="round" (click)="removeInvitation()"
 			>Remove invitation</ion-button
 		>

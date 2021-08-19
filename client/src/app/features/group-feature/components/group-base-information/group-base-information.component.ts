@@ -24,6 +24,7 @@ export class GroupBaseInformationComponent implements OnInit {
 	@Input() showLeaveButton: boolean;
 	@Input() showSendInvitationButton: boolean;
 	@Input() showRemoveInvitationButton: boolean;
+	@Input() isGroupPrivate: boolean = false;
 
 	constructor() {}
 
@@ -50,6 +51,9 @@ export class GroupBaseInformationComponent implements OnInit {
 	}
 
 	sendInvitation() {
+		if (this.isGroupPrivate) {
+			return;
+		}
 		this.sendInvitationEmitter.emit();
 	}
 

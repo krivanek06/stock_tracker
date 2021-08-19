@@ -1,5 +1,6 @@
 {
   "projects": {
-    "stocktrackertest": "stocktrackertest-e51fc"
+    "stocktrackertest": "stocktrackertest-e51fc",
+    "default": "stocktrackertest-e51fc"
   }
 }

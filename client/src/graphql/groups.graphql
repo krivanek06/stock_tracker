@@ -7,6 +7,9 @@ fragment STGroupUserFragment on STGroupUser {
 	portfolio {
 		...STPortfolioWrapperFragment
 	}
+	startedPortfolio {
+		...STPortfolioSnapshotStartedFragment
+	}
 	previousPosition
 	currentPosition
 	sinceDate
@@ -30,6 +33,9 @@ fragment STGroupIdentificationData on STGroupAllData {
 	numberOfInvitationReceived
 	portfolio {
 		...STPortfolioWrapperFragment
+	}
+	startedPortfolio {
+		...STPortfolioSnapshotStartedFragment
 	}
 	topMembers {
 		...STGroupUserFragment
@@ -62,6 +68,9 @@ fragment STGroupAllDataFragment on STGroupAllData {
 	numberOfInvitationReceived
 	portfolio {
 		...STPortfolioWrapperFragment
+	}
+	startedPortfolio {
+		...STPortfolioSnapshotStartedFragment
 	}
 	lastTransactions {
 		...STTransactionFragment

@@ -10,9 +10,6 @@ fragment STPortfolioSnapshotFragment on STPortfolioSnapshot {
 }
 
 fragment STPortfolioWrapperFragment on STPortfolioWrapper {
-	startingPortfolioSnapshot {
-		...STPortfolioSnapshotFragment
-	}
 	portfolioCash
 	numberOfExecutedTransactions
 	numberOfExecutedBuyTransactions
@@ -25,4 +22,13 @@ fragment STPortfolioWrapperFragment on STPortfolioWrapper {
 	lastTransactionSnapshot {
 		...STTransactionSnapshotFragment
 	}
+}
+
+fragment STPortfolioSnapshotStartedFragment on STPortfolioSnapshotStarted {
+	portfolioInvested
+	portfolioCash
+	date
+	numberOfExecutedTransactions
+	numberOfExecutedBuyTransactions
+	numberOfExecutedSellTransactions
 }

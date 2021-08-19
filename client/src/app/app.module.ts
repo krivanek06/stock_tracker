@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -59,6 +60,7 @@ const MY_DATE_FORMATS = {
 		MatDatepickerModule,
 		MatNativeDateModule,
 		MatTooltipModule,
+		MatProgressBarModule,
 
 		BrowserModule,
 		IonicModule.forRoot(),

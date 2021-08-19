@@ -77,6 +77,6 @@ const constructPortfolioSnapshot = (user: api.STUserPublicData): api.STPortfolio
 const getAllUserWithExistingHoldings = async (): Promise<api.STUserPublicData[]> => {
 	// cannot use holdings for filtering because when somebody had increase 90% and sold everythin,
 	// then he would not be filtered out
-	const usersWithHoldings = await admin.firestore().collection('users').where('numberOfExecutedTransactions', '>', 0).get();
+	const usersWithHoldings = await admin.firestore().collection('users').where('portfolio.numberOfExecutedTransactions', '>', 0).get();
 	return usersWithHoldings.docs.map((d) => d.data() as api.STUserPublicData);
 };

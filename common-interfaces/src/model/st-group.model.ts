@@ -1,4 +1,4 @@
-import { STPortfolioSnapshot, STPortfolioWrapper } from './st-portfolio.model';
+import { STPortfolioSnapshot, STPortfolioSnapshotStarted, STPortfolioWrapper } from './st-portfolio.model';
 import { STRank } from './st-rank.model';
 import { STLog } from './st-share.model';
 import { STHolding, STTransaction, STTransactionSnapshot } from './st-transaction.model';
@@ -22,7 +22,8 @@ export interface STGroupAllData {
     numberOfMembers: number;
     numberOfInvitationReceived: number;
     numberOfInvitationSent: number;
-    portfolio: STPortfolioWrapper;
+    portfolio: STPortfolioWrapper; // total group portfolio
+    startedPortfolio: STPortfolioSnapshotStarted; // accumulation of user's portfolio when they joined group
     topTransactions: STTransaction[]; // only sold stock, top profit desc
     lastTransactions: STTransaction[]; // last 20 transactions
     managers: STGroupUser[];
@@ -51,6 +52,7 @@ export interface STGroupHistoricalData {
 
 
 export interface STGroupUser extends STUserIndentificationWithPortfolio {
+    startedPortfolio: STPortfolioSnapshotStarted;
     currentPosition: number;  // position in highest balance
     previousPosition: number; // position in highest balance
     sinceDate: string;

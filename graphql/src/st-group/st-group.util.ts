@@ -22,11 +22,6 @@ export const createEmptySTGroupAllData = (): api.STGroupAllData => {
 	const now = getCurrentIOSDate();
 	const group: api.STGroupAllData = {
 		portfolio: {
-			startingPortfolioSnapshot: {
-				portfolioCash: 0,
-				portfolioInvested: 0,
-				date: getCurrentIOSDate(),
-			},
 			lastPortfolioSnapshot: {
 				portfolioCash: 0,
 				portfolioInvested: 0,
@@ -43,6 +38,14 @@ export const createEmptySTGroupAllData = (): api.STGroupAllData => {
 			lastPortfolioIncreaseNumber: null,
 			lastPortfolioIncreasePrct: null,
 			portfolioCash: 0,
+		},
+		startedPortfolio: {
+			portfolioCash: 0,
+			portfolioInvested: 0,
+			numberOfExecutedTransactions: 0,
+			numberOfExecutedBuyTransactions: 0,
+			numberOfExecutedSellTransactions: 0,
+			date: getCurrentIOSDate(),
 		},
 		createdDate: now,
 		lastUpdateDate: now,
@@ -80,7 +83,6 @@ export const createSTGroupUser = (userPublic: api.STUserPublicData): api.STGroup
 	const groupUser: api.STGroupUser = {
 		...convertSTUserPublicDataToSTUserIndentification(userPublic),
 		portfolio: {
-			startingPortfolioSnapshot: userPublic.portfolio.lastPortfolioSnapshot, // starting in group is last in user
 			lastPortfolioSnapshot: userPublic.portfolio.lastPortfolioSnapshot,
 			lastTransactionSnapshot: userPublic.portfolio.lastTransactionSnapshot,
 			numberOfExecutedTransactions: userPublic.portfolio.numberOfExecutedTransactions,
@@ -89,6 +91,14 @@ export const createSTGroupUser = (userPublic: api.STUserPublicData): api.STGroup
 			lastPortfolioIncreaseNumber: userPublic.portfolio.lastPortfolioIncreaseNumber,
 			lastPortfolioIncreasePrct: userPublic.portfolio.lastPortfolioIncreasePrct,
 			portfolioCash: userPublic.portfolio.portfolioCash,
+		},
+		startedPortfolio: {
+			numberOfExecutedSellTransactions: userPublic.portfolio.numberOfExecutedSellTransactions,
+			numberOfExecutedBuyTransactions: userPublic.portfolio.numberOfExecutedBuyTransactions,
+			numberOfExecutedTransactions: userPublic.portfolio.numberOfExecutedTransactions,
+			portfolioCash: userPublic.portfolio.lastPortfolioSnapshot.portfolioCash,
+			portfolioInvested: userPublic.portfolio.lastPortfolioSnapshot.portfolioInvested,
+			date: getCurrentIOSDate(),
 		},
 
 		previousPosition: null,

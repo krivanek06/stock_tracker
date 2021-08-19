@@ -13,8 +13,8 @@
 					<ion-label class="st-font-size-24 st-font-white"> {{ (portfolio.portfolioCash + portfolioInvested) | currency }} </ion-label>
 					<ion-label style="position: absolute; right: 0">
 						<app-price-change-item
-							[priceChange]="((portfolio.portfolioCash + portfolioInvested) - portfolio.startingPortfolioSnapshot.portfolioCash) / portfolio.startingPortfolioSnapshot.portfolioCash * 100"
-							[price]="(portfolio.portfolioCash + portfolioInvested) - portfolio.startingPortfolioSnapshot.portfolioCash"
+							[priceChange]="((portfolio.portfolioCash + portfolioInvested) - STARTING_PORTFOLIO) / STARTING_PORTFOLIO * 100"
+							[price]="(portfolio.portfolioCash + portfolioInvested) - STARTING_PORTFOLIO"
 						>
 						</app-price-change-item>
 					</ion-label>
@@ -64,11 +64,7 @@
 			<ion-text class="st-small-right-space st-font-0 st-font-size-18">
 				{{ (portfolio.portfolioCash + portfolioInvested) | numberFormatter}}
 			</ion-text>
-			<app-price-compare-item
-				[compareToPrice]="portfolio.startingPortfolioSnapshot.portfolioCash"
-				[currentPrice]="portfolioInvested + portfolio.portfolioCash"
-				[showPrice]="false"
-			>
+			<app-price-compare-item [compareToPrice]="STARTING_PORTFOLIO" [currentPrice]="portfolioInvested + portfolio.portfolioCash" [showPrice]="false">
 			</app-price-compare-item>
 		</ion-label>
 	</div>

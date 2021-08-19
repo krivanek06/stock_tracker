@@ -5,5 +5,14 @@
       "npm --prefix \"$RESOURCE_DIR\" run build"
     ],
     "source": "."
+  },
+  "emulators": {
+    "firestore": {
+      "port": "5002"
+    }
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
   }
 }

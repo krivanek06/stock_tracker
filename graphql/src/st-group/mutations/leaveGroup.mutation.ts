@@ -18,8 +18,11 @@ export const leaveGroup = async (groupId: string, { requesterUserId }: Context):
 
 		// remove starting balance when leaving group
 		if (!!person) {
-			group.portfolio.startingPortfolioSnapshot.portfolioCash -= person.portfolio.startingPortfolioSnapshot.portfolioCash;
-			group.portfolio.startingPortfolioSnapshot.portfolioInvested -= person.portfolio.startingPortfolioSnapshot.portfolioInvested;
+			group.startedPortfolio.portfolioCash -= person.startedPortfolio.portfolioCash;
+			group.startedPortfolio.portfolioInvested -= person.startedPortfolio.portfolioInvested;
+			group.startedPortfolio.numberOfExecutedTransactions -= group.owner.portfolio.numberOfExecutedTransactions;
+			group.startedPortfolio.numberOfExecutedSellTransactions -= group.owner.portfolio.numberOfExecutedSellTransactions;
+			group.startedPortfolio.numberOfExecutedBuyTransactions -= group.owner.portfolio.numberOfExecutedBuyTransactions;
 			group.numberOfMembers -= 1;
 		}
 
@@ -48,6 +51,10 @@ const updateGroupDatae = async (requesterUserId: string, group: api.STGroupAllDa
 		.set(
 			{
 				managers: filteredManagers,
+				numberOfMembers: group.numberOfMembers,
+				startedPortfolio: {
+					...group.startedPortfolio,
+				},
 				portfolio: {
 					...group.portfolio,
 				},
