@@ -20,7 +20,9 @@ const routes: Routes = [
 			{
 				path: `${GROUPS_PAGES.DETAILS}/:groupId`,
 				loadChildren: () => import('./pages/group-details/group-details.module').then((m) => m.GroupDetailsModule),
-				resolve: [ResolveGroupDetailsGuard],
+				resolve: {
+					groupDetails: ResolveGroupDetailsGuard,
+				},
 			},
 			{
 				path: '',

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { StPortfolioSnapshot } from '@core';
+import { StPortfolioSnapshotStarted } from '@core';
 import { roundNumber, stFormatLargeNumber } from '@shared';
 import * as Highcharts from 'highcharts';
 import highcharts3D from 'highcharts/highcharts-3d';
@@ -13,7 +13,7 @@ highcharts3D(Highcharts);
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioIncreaseChartComponent implements OnInit, OnChanges {
-	@Input() stStartedPortfolioSnapshots: StPortfolioSnapshot;
+	@Input() stStartedPortfolioSnapshots: StPortfolioSnapshotStarted;
 	@Input() portfolioInvested: number;
 	@Input() portfolioCash: number;
 	@Input() heightPx = 350;

@@ -108,9 +108,6 @@ export class GroupStorageService {
 	canUserSendInvitationObs(): Observable<boolean> {
 		return combineLatest([this.getActiveGroupNotNull(), this.userStorageService.getUserNotNull()]).pipe(
 			map(([group, user]) => {
-				if (group.isPrivate) {
-					return false;
-				}
 				if (user.groups.groupOwner.map((g) => g.id).includes(group.id)) {
 					return false;
 				}

@@ -4,7 +4,6 @@ import * as api from 'stock-tracker-common-interfaces';
 import { getCurrentIOSDate } from '../../st-shared/st-shared.functions';
 import { querySTGroupByGroupId } from '../st-group.query';
 
-// TODO delete
 export const editGroup = async (groupInput: api.STGroupAllDataInput): Promise<api.STGroupAllData> => {
 	try {
 		// load group or create new

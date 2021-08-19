@@ -15,7 +15,7 @@
 
 <div class="c-group-base-information-container">
 	<app-group-base-information
-		*ngIf="groupData$ | async as groupData"
+		*ngIf="groupData$ | async as groupData; else showLoader"
 		[groupIdentification]="groupData"
 		(leaveEmitter)="leaveGroup()"
 		(deleteEmitter)="deleteGroup()"
@@ -24,6 +24,7 @@
 		(sendInvitationEmitter)="sendInvitation()"
 		(removeInvitationEmitter)="removeInvitation()"
 		[showSendInvitationButton]="canUserSendInvitation$ | async"
+		[isGroupPrivate]="groupData.isPrivate"
 		[showRemoveInvitationButton]="hasUserAlreadySentInvitaitonIntoGroup$ | async"
 		[showLeaveButton]="isMember$ | async"
 		[showDeleteButton]="isOwner$ | async"
@@ -35,3 +36,10 @@
 
 <!-- routing -->
 <router-outlet></router-outlet>
+
+<!-- loader -->
+<ng-template #showLoader>
+	<div class="spinner-container" style="min-height: 50vh">
+		<ion-spinner color="primary"></ion-spinner>
+	</div>
+</ng-template>

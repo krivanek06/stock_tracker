@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StGroupAllData, StUserPublicData, UserStorageService } from '@core';
 import { GroupFeatureFacadeService } from '@group-feature';
-import { Confirmable } from '@shared';
+import { ConfirmableWithCheckbox } from '@shared';
 import { Observable } from 'rxjs';
 import { GROUPS_PAGES } from './../../model';
 
@@ -25,9 +25,14 @@ export class GroupsOverviewComponent implements OnInit {
 		this.groupFeatureFacadeService.createGroup();
 	}
 
-	@Confirmable('Please confirm your decision', 'Cancel', 'Confirm')
-	answerReceivedGroupInvitation(group: StGroupAllData, answer: boolean) {
-		this.groupFeatureFacadeService.answerReceivedGroupInvitation(group, answer);
+	@ConfirmableWithCheckbox('Please confirm your decision about joining a group', 'Confirm')
+	acceptInvitation(group: StGroupAllData) {
+		this.groupFeatureFacadeService.answerReceivedGroupInvitation(group, true);
+	}
+
+	@ConfirmableWithCheckbox('Please confirm your decision about declining group invitation', 'Confirm')
+	declineInvitation(group: StGroupAllData) {
+		this.groupFeatureFacadeService.answerReceivedGroupInvitation(group, false);
 	}
 
 	visitGroup({ id }: StGroupAllData) {

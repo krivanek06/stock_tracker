@@ -1,6 +1,7 @@
 import { AccountFeatureModule } from '@account-feature';
 import { NgModule } from '@angular/core';
 import { SharedMaterialModule, SharedModule } from '@shared';
+import { StockTradingFeatureModule } from '@stock-trading-feature';
 import {
 	GroupBaseInformationComponent,
 	GroupCreateFormComponent,
@@ -19,7 +20,7 @@ import { GroupCreateModalComponent } from './entry-components';
 		GroupMembersTableComponent,
 		GroupTopUsersInformationComponent,
 	],
-	imports: [SharedModule, AccountFeatureModule, SharedMaterialModule],
+	imports: [SharedModule, AccountFeatureModule, SharedMaterialModule, StockTradingFeatureModule],
 	exports: [
 		GroupCreateFormComponent,
 		GroupCreateModalComponent,

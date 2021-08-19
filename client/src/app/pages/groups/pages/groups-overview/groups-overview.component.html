@@ -48,8 +48,8 @@
 				[showAcceptButton]="true"
 				[showDeclineButton]="true"
 				(visitEmitter)="visitGroup(group)"
-				(acceptEmitter)="answerReceivedGroupInvitation(group, true)"
-				(declineEmitter)="answerReceivedGroupInvitation(group, false)"
+				(acceptEmitter)="acceptInvitation(group)"
+				(declineEmitter)="declineInvitation(group)"
 			>
 			</app-group-top-users-information>
 		</app-generic-card>
@@ -61,7 +61,7 @@
 				[showVisitButton]="true"
 				[showDeclineButton]="true"
 				(visitEmitter)="visitGroup(group)"
-				(declineEmitter)="answerReceivedGroupInvitation(group, false)"
+				(declineEmitter)="declineInvitation(group)"
 			>
 			</app-group-top-users-information>
 		</app-generic-card>

@@ -47,11 +47,6 @@ export const createSTUserPublicData = (user: api.STUserAuthenticationInput): api
 			numberOfExecutedBuyTransactions: 0,
 			numberOfExecutedSellTransactions: 0,
 			portfolioCash: 0,
-			startingPortfolioSnapshot: {
-				portfolioCash: 0,
-				portfolioInvested: 0,
-				date: getCurrentIOSDate(),
-			},
 		},
 		groups: {
 			groupInvitationReceived: [],

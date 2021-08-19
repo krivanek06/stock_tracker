@@ -1,26 +1,26 @@
 {
-    "name": "functions",
-    "scripts": {
-        "build": "tsc",
-        "serve": "npm run build && node lib/index.js",
-        "start": "node lib/index.js",
-        "deploy": "npm run build && gcloud app deploy"
-    },
-    "main": "lib/index.js",
-    "dependencies": {
-        "apollo-server": "^2.19.1",
-        "firebase-admin": "^9.4.2",
-        "graphql": "^15.4.0",
-        "lodash": "^4.17.20",
-        "moment": "^2.29.1",
-        "node-fetch": "^2.6.1",
-        "reflect-metadata": "^0.1.13",
-        "stock-tracker-common-interfaces": "file:../common-interfaces",
-        "type-graphql": "^1.1.1"
-    },
-    "devDependencies": {
-        "@types/graphql": "^14.5.0",
-        "tslint": "^6.1.3",
-        "typescript": "^4.0.5"
-    }
+	"name": "functions",
+	"scripts": {
+		"build": "tsc",
+		"serve": "npm run build && node lib/index.js",
+		"start": "node lib/index.js",
+		"deploy": "npm run build && gcloud app deploy"
+	},
+	"main": "lib/index.js",
+	"dependencies": {
+		"apollo-server": "^2.19.1",
+		"firebase-admin": "^9.4.2",
+		"graphql": "^15.4.0",
+		"lodash": "^4.17.20",
+		"moment": "^2.29.1",
+		"node-fetch": "^2.6.1",
+		"reflect-metadata": "^0.1.13",
+		"stock-tracker-common-interfaces": "1.0.31",
+		"type-graphql": "^1.1.1"
+	},
+	"devDependencies": {
+		"@types/graphql": "^14.5.0",
+		"tslint": "^6.1.3",
+		"typescript": "^4.0.5"
+	}
 }

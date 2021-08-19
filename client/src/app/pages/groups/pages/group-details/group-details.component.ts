@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GroupStorageService, StGroupAllData } from '@core';
 import { GroupFeatureFacadeService } from '@group-feature';
 import { ConfirmableWithCheckbox } from '@shared';
@@ -24,6 +24,7 @@ export class GroupDetailsComponent implements OnInit {
 	constructor(
 		private groupStorageService: GroupStorageService,
 		private router: Router,
+		private route: ActivatedRoute,
 		private groupFeatureFacadeService: GroupFeatureFacadeService
 	) {}
 
@@ -37,7 +38,8 @@ export class GroupDetailsComponent implements OnInit {
 	}
 
 	changeDetailsPage(segment: string) {
-		this.router.navigate([`/menu/groups/${GROUPS_PAGES.DETAILS}/${this.groupStorageService.activeGroupId}/${segment}`]);
+		const groupId = this.route.snapshot.paramMap.get('groupId');
+		this.router.navigate([`/menu/groups/${GROUPS_PAGES.DETAILS}/${groupId}/${segment}`]);
 	}
 
 	@ConfirmableWithCheckbox('Please confirm leaving group. You will be removed from group statistics', 'Confirm')

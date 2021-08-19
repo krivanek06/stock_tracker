@@ -71,8 +71,11 @@ const updateGroupMemberData = async (accept: boolean, groupMembers: api.STGroupM
 
 const updateGroupData = async (accept: boolean, group: api.STGroupAllData, newGroupUser: api.STGroupUser): Promise<void> => {
 	if (accept) {
-		group.portfolio.startingPortfolioSnapshot.portfolioCash += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioCash;
-		group.portfolio.startingPortfolioSnapshot.portfolioInvested += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioInvested;
+		group.startedPortfolio.portfolioCash += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioCash;
+		group.startedPortfolio.portfolioInvested += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioInvested;
+		group.startedPortfolio.numberOfExecutedTransactions += newGroupUser.portfolio.numberOfExecutedTransactions;
+		group.startedPortfolio.numberOfExecutedSellTransactions += newGroupUser.portfolio.numberOfExecutedSellTransactions;
+		group.startedPortfolio.numberOfExecutedBuyTransactions += newGroupUser.portfolio.numberOfExecutedBuyTransactions;
 		group.numberOfMembers += 1;
 	}
 
@@ -84,6 +87,9 @@ const updateGroupData = async (accept: boolean, group: api.STGroupAllData, newGr
 			{
 				portfolio: {
 					...group.portfolio,
+				},
+				startedPortfolio: {
+					...group.startedPortfolio,
 				},
 				numberOfMembers: group.numberOfMembers,
 				numberOfInvitationSent: group.numberOfInvitationSent - 1,

@@ -9,9 +9,14 @@ export interface STPortfolioSnapshot extends STPortfolio {
     date: string; 
 }
 
+export interface STPortfolioSnapshotStarted extends STPortfolioSnapshot {
+    numberOfExecutedTransactions: number;
+    numberOfExecutedBuyTransactions: number;
+    numberOfExecutedSellTransactions: number;
+}
+
 
 export interface STPortfolioWrapper {
-    startingPortfolioSnapshot: STPortfolioSnapshot;
     portfolioCash: number;
     lastPortfolioSnapshot: STPortfolioSnapshot;
     lastPortfolioIncreaseNumber: number;

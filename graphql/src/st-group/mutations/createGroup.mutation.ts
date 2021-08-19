@@ -10,7 +10,7 @@ export const createGroup = async (groupInput: api.STGroupAllDataInput, { request
 		const group = await createGroupObject(groupInput, requesterUserId);
 
 		// persist public & private data
-		const result = await admin.firestore().collection(`${api.ST_GROUP_COLLECTION_GROUPS}`).add(group);
+		const result = await admin.firestore().collection(api.ST_GROUP_COLLECTION_GROUPS).add(group);
 		group.id = result.id;
 
 		// create collections
@@ -36,8 +36,11 @@ const createGroupObject = async (groupInput: api.STGroupAllDataInput, requesterU
 
 	// if owner wants to be a member
 	if (groupInput.isOwnerAlsoMember) {
-		group.portfolio.startingPortfolioSnapshot.portfolioCash = group.owner.portfolio.lastPortfolioSnapshot?.portfolioCash ?? 0;
-		group.portfolio.startingPortfolioSnapshot.portfolioInvested = group.owner.portfolio.lastPortfolioSnapshot?.portfolioInvested ?? 0;
+		group.startedPortfolio.portfolioCash = group.owner.portfolio.lastPortfolioSnapshot?.portfolioCash ?? 0;
+		group.startedPortfolio.portfolioInvested = group.owner.portfolio.lastPortfolioSnapshot?.portfolioInvested ?? 0;
+		group.startedPortfolio.numberOfExecutedTransactions = group.owner.portfolio.numberOfExecutedTransactions;
+		group.startedPortfolio.numberOfExecutedSellTransactions = group.owner.portfolio.numberOfExecutedSellTransactions;
+		group.startedPortfolio.numberOfExecutedBuyTransactions = group.owner.portfolio.numberOfExecutedBuyTransactions;
 		group.numberOfMembers = 1;
 	}
 

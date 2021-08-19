@@ -10,6 +10,7 @@ export const STGroupTypeDefs = gql`
 		photoURL: String!
 		accountCreatedDate: String!
 		portfolio: STPortfolioWrapper!
+		startedPortfolio: STPortfolioSnapshotStarted!
 		previousPosition: Float
 		currentPosition: Float
 		sinceDate: String!
@@ -31,6 +32,7 @@ export const STGroupTypeDefs = gql`
 		isInfinite: Boolean!
 		isPrivate: Boolean!
 		portfolio: STPortfolioWrapper!
+		startedPortfolio: STPortfolioSnapshotStarted!
 		numberOfMembers: Float!
 		numberOfInvitationReceived: Float!
 		numberOfInvitationSent: Float!
