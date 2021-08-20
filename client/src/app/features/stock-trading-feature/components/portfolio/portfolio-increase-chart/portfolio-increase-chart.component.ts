@@ -51,13 +51,14 @@ export class PortfolioIncreaseChartComponent implements OnInit, OnChanges {
 		this.data =
 			increase > 0
 				? [
-						['Balance', currentBalance],
+						['Started balance', startedBalance],
 						['Profit', increase],
 				  ]
 				: [['Balance', currentBalance]];
 
 		const percentageIncrease = roundNumber((100 * (currentBalance - startedBalance)) / startedBalance);
-		const color = percentageIncrease ? '#199419' : '#711205';
+		console.log('percentageIncrease', percentageIncrease);
+		const color = percentageIncrease > 0 ? '#199419' : '#d21414';
 		this.displayTitle = `
             <span style="font-size: 16px; color: #f0f0f0;">$${stFormatLargeNumber(currentBalance)}</span><br/>
             <span style="color: ${color}">${stFormatLargeNumber(percentageIncrease)}%</span>
@@ -78,7 +79,7 @@ export class PortfolioIncreaseChartComponent implements OnInit, OnChanges {
 			plotOptions: {
 				pie: {
 					innerSize: '70%',
-					colors: ['#1c7da2', '#6bed31'],
+					colors: ['#2cabd6', '#6bed31'],
 					depth: 35,
 					size: this.heightPx - 50,
 				},
@@ -105,6 +106,12 @@ export class PortfolioIncreaseChartComponent implements OnInit, OnChanges {
 					color: '#D9D8D8',
 				},
 				valueDecimals: 2,
+				headerFormat: null,
+				pointFormatter: function () {
+					const name = this.name;
+					const value = stFormatLargeNumber(this.y);
+					return `<span style="font-weight: bold; color: ${this.color}">● ${name}: </span><span>$${value} </span><br/>`;
+				},
 			},
 			title: {
 				text: this.displayTitle,

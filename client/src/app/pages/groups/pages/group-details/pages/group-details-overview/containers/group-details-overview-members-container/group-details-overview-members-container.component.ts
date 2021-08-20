@@ -18,7 +18,8 @@ export class GroupDetailsOverviewMembersContainerComponent implements OnInit {
 	ngOnInit() {}
 
 	clickedMember(groupUser: StGroupUser) {
-		if (this.groupAllData.owner.id === this.user.id) {
+		if (this.groupAllData.owner.id === this.user.id && groupUser.id !== this.groupAllData.owner.id) {
+			// if I am the owner and I did not clicked on myself
 			this.showOptionsForOwner(groupUser);
 		} else {
 			this.showGroupUserDetails(groupUser);

@@ -1,96 +1,96 @@
 <ion-list *ngIf="stockScreener">
-    <ion-list-header>
-        <mat-icon class="st-icon st-small-right-space">filter_alt</mat-icon>
-        <ion-label class="st-title st-icon">Search filter config</ion-label>
-    </ion-list-header>
-    <!-- price -->
-    <div *ngIf="stockScreener.priceMoreThan">
-        <ion-label>Price more than:</ion-label>
-        <ion-label>{{ stockScreener.priceMoreThan | numberFormatter: false: true }}</ion-label>
-    </div>
+	<ion-list-header>
+		<mat-icon class="st-icon st-small-right-space">filter_alt</mat-icon>
+		<ion-label class="st-title st-icon">Search filter config</ion-label>
+	</ion-list-header>
+	<!-- price -->
+	<div *ngIf="stockScreener.priceMoreThan">
+		<ion-label>Price more than:</ion-label>
+		<ion-label>{{ stockScreener.priceMoreThan | numberFormatter: false: true }}</ion-label>
+	</div>
 
-    <div *ngIf="stockScreener.priceLowerThan">
-        <ion-label>Price lower than:</ion-label>
-        <ion-label>{{ stockScreener.priceLowerThan  | numberFormatter: false: true}}</ion-label>
-    </div>
+	<div *ngIf="stockScreener.priceLowerThan">
+		<ion-label>Price lower than:</ion-label>
+		<ion-label>{{ stockScreener.priceLowerThan | numberFormatter: false: true}}</ion-label>
+	</div>
 
-    <!-- market cap. -->
-    <div *ngIf="stockScreener.marketCapMoreThan">
-        <ion-label>Market cap. more than:</ion-label>
-        <ion-label>{{ stockScreener.marketCapMoreThan | numberFormatter }}</ion-label>
-    </div>
+	<!-- market cap. -->
+	<div *ngIf="stockScreener.marketCapMoreThan">
+		<ion-label>Market cap. more than:</ion-label>
+		<ion-label>{{ stockScreener.marketCapMoreThan | numberFormatter }}</ion-label>
+	</div>
 
-    <div *ngIf="stockScreener.marketCapLowerThan">
-        <ion-label>Market cap. lower than:</ion-label>
-        <ion-label>{{ stockScreener.marketCapLowerThan | numberFormatter }}</ion-label>
-    </div>
+	<div *ngIf="stockScreener.marketCapLowerThan">
+		<ion-label>Market cap. lower than:</ion-label>
+		<ion-label>{{ stockScreener.marketCapLowerThan | numberFormatter }}</ion-label>
+	</div>
 
-    <!-- volume -->
-    <div *ngIf="stockScreener.volumeMoreThan">
-        <ion-label>Volume more than:</ion-label>
-        <ion-label>{{ stockScreener.volumeMoreThan | numberFormatter }}</ion-label>
-    </div>
+	<!-- volume -->
+	<div *ngIf="stockScreener.volumeMoreThan">
+		<ion-label>Volume more than:</ion-label>
+		<ion-label>{{ stockScreener.volumeMoreThan | numberFormatter }}</ion-label>
+	</div>
 
-    <div *ngIf="stockScreener.volumeLowerThan">
-        <ion-label>Volume lower than:</ion-label>
-        <ion-label>{{ stockScreener.volumeLowerThan | numberFormatter }}</ion-label>
-    </div>
+	<div *ngIf="stockScreener.volumeLowerThan">
+		<ion-label>Volume lower than:</ion-label>
+		<ion-label>{{ stockScreener.volumeLowerThan | numberFormatter }}</ion-label>
+	</div>
 
-    <!-- beta -->
-    <div *ngIf="stockScreener.betaMoreThan">
-        <ion-label>Beta more than:</ion-label>
-        <ion-label>{{ stockScreener.betaMoreThan | numberFormatter }}</ion-label>
-    </div>
+	<!-- beta -->
+	<div *ngIf="stockScreener.betaMoreThan">
+		<ion-label>Beta more than:</ion-label>
+		<ion-label>{{ stockScreener.betaMoreThan | numberFormatter }}</ion-label>
+	</div>
 
-    <div *ngIf="stockScreener.betaLowerThan">
-        <ion-label>Beta lower than:</ion-label>
-        <ion-label>{{ stockScreener.betaLowerThan }}</ion-label>
-    </div>
+	<div *ngIf="stockScreener.betaLowerThan">
+		<ion-label>Beta lower than:</ion-label>
+		<ion-label>{{ stockScreener.betaLowerThan }}</ion-label>
+	</div>
 
-    <!-- dividend -->
-    <div *ngIf="stockScreener.dividendMoreThan">
-        <ion-label>Dividend more than:</ion-label>
-        <ion-label>{{ stockScreener.dividendMoreThan }}</ion-label>
-    </div>
+	<!-- dividend -->
+	<div *ngIf="stockScreener.dividendMoreThan">
+		<ion-label>Dividend more than:</ion-label>
+		<ion-label>{{ stockScreener.dividendMoreThan }}</ion-label>
+	</div>
 
-    <div *ngIf="stockScreener.dividendLowerThan">
-        <ion-label>Dividend lower than:</ion-label>
-        <ion-label>{{ stockScreener.dividendLowerThan }}</ion-label>
-    </div>
+	<div *ngIf="stockScreener.dividendLowerThan">
+		<ion-label>Dividend lower than:</ion-label>
+		<ion-label>{{ stockScreener.dividendLowerThan }}</ion-label>
+	</div>
 
-    <!-- sector -->
-    <div *ngIf="stockScreener.sector">
-        <ion-label>Sector:</ion-label>
-        <ion-label>{{ stockScreener.sector }}</ion-label>
-    </div>
+	<!-- sector -->
+	<div *ngIf="stockScreener.sector">
+		<ion-label>Sector:</ion-label>
+		<ion-label>{{ stockScreener.sector }}</ion-label>
+	</div>
 
-    <!-- industry -->
-    <div *ngIf="stockScreener.industry">
-        <ion-label>Industry:</ion-label>
-        <ion-label>{{ stockScreener.industry }}</ion-label>
-    </div>
+	<!-- industry -->
+	<div *ngIf="stockScreener.industry">
+		<ion-label>Industry:</ion-label>
+		<ion-label>{{ stockScreener.industry }}</ion-label>
+	</div>
 
-    <!-- exchange -->
-    <div *ngIf="stockScreener.exchange">
-        <ion-label>Exchange:</ion-label>
-        <ion-label>{{ stockScreener.exchange }}</ion-label>
-    </div>
+	<!-- exchange -->
+	<div *ngIf="stockScreener.exchange">
+		<ion-label>Exchange:</ion-label>
+		<ion-label>{{ stockScreener.exchange }}</ion-label>
+	</div>
 
-    <!-- exchange -->
-    <div *ngIf="stockScreener.isEtf == false || stockScreener.isEtf == true">
-        <ion-label>Only ETF:</ion-label>
-        <ion-label>{{ stockScreener.isEtf }}</ion-label>
-    </div>
+	<!-- exchange -->
+	<div *ngIf="stockScreener.isEtf == false || stockScreener.isEtf == true">
+		<ion-label>Only ETF:</ion-label>
+		<ion-label>{{ stockScreener.isEtf }}</ion-label>
+	</div>
 
-    <!-- actively trading -->
-    <div *ngIf="stockScreener.isActivelyTrading == false || stockScreener.isActivelyTrading == true">
-        <ion-label>Only actively trading:</ion-label>
-        <ion-label>{{ stockScreener.isActivelyTrading }}</ion-label>
-    </div>
+	<!-- actively trading -->
+	<div *ngIf="stockScreener.isActivelyTrading == false || stockScreener.isActivelyTrading == true">
+		<ion-label>Only actively trading:</ion-label>
+		<ion-label>{{ stockScreener.isActivelyTrading }}</ion-label>
+	</div>
 
-    <!-- country -->
-    <div *ngIf="stockScreener.country">
-        <ion-label>Country:</ion-label>
-        <ion-label>{{ stockScreener.country }}</ion-label>
-    </div>
+	<!-- country -->
+	<div *ngIf="stockScreener.country">
+		<ion-label>Country:</ion-label>
+		<ion-label>{{ stockScreener.country }}</ion-label>
+	</div>
 </ion-list>
