@@ -1,33 +1,23 @@
 <!-- daily most active -->
 <app-generic-list [title]="'Most active'"></app-generic-list>
 <app-generic-card>
-    <app-market-company-quotes-table
-            (itemClickedEmitter)="showSummary($event)"
-            [skeletonLength]="15"
-            [stfmCompanyQuotes]="mostActive">
-    </app-market-company-quotes-table>
+	<app-market-company-quotes-table (itemClickedEmitter)="showSummary($event)" [skeletonLength]="15" [stfmCompanyQuotes]="mostActive">
+	</app-market-company-quotes-table>
 </app-generic-card>
 
 <!-- daily top gainers -->
 <app-generic-list [title]="'Daily top gainers'"></app-generic-list>
 <app-generic-card>
-    <app-market-company-quotes-table
-            (itemClickedEmitter)="showSummary($event)"
-            [skeletonLength]="15"
-            [stfmCompanyQuotes]="topGainers">
-    </app-market-company-quotes-table>
+	<app-market-company-quotes-table (itemClickedEmitter)="showSummary($event)" [skeletonLength]="15" [stfmCompanyQuotes]="topGainers">
+	</app-market-company-quotes-table>
 </app-generic-card>
 
 <!-- daily top losers -->
 <app-generic-list [title]="'Daily top losers'"></app-generic-list>
 <app-generic-card>
-    <app-market-company-quotes-table
-            (itemClickedEmitter)="showSummary($event)"
-            [skeletonLength]="15"
-            [stfmCompanyQuotes]="topLosers">
-    </app-market-company-quotes-table>
+	<app-market-company-quotes-table (itemClickedEmitter)="showSummary($event)" [skeletonLength]="15" [stfmCompanyQuotes]="topLosers">
+	</app-market-company-quotes-table>
 </app-generic-card>
-
 
 <!-- weekly earnings
 <app-generic-list [title]="'Earnings'"></app-generic-list>

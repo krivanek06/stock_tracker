@@ -6,16 +6,16 @@
 
 	<ion-row>
 		<!-- portfolio growth chart -->
-		<ion-col size="12" [sizeMd]="groupData.portfolio.lastPortfolioSnapshot.portfolioInvested > 0 ? '7.5' : '12' ">
+		<ion-col size="12" [sizeMd]="groupData.portfolio.lastPortfolioSnapshot.portfolioInvested > 0 ? '7' : '12' ">
 			<app-portfolio-growth-chart [heightPx]="260" [stPortfolioSnapshots]="groupData.groupHistoricalData.portfolioSnapshots">
 			</app-portfolio-growth-chart>
 		</ion-col>
 
 		<!-- portfolio change chart -->
-		<ion-col size="12" size-md="4.5" *ngIf="groupData.portfolio.lastPortfolioSnapshot.portfolioInvested > 0">
+		<ion-col size="12" size-md="5" *ngIf="groupData.portfolio.lastPortfolioSnapshot.portfolioInvested > 0" style="overflow: visible">
 			<div class="c-chart-container">
 				<app-generic-chart
-					[heightPx]="260"
+					[heightPx]="280"
 					[chartType]="ChartType.pie"
 					[enable3D]="true"
 					[isPercentage]="true"
@@ -45,7 +45,7 @@
 	</ion-row>
 
 	<ng-container *ngIf="holdings$ | async as holdings">
-		<ion-row *ngIf="holdings.length > 0" class="ion-margin-vertical ion-justify-content-around">
+		<ion-row *ngIf="holdings.length > 0" class="ion-justify-content-around" style="margin-top: 24px; margin-bottom: 24px">
 			<!-- holding pie chart -->
 			<ion-col size="12" size-md="6">
 				<app-pie-chart-wrapper
