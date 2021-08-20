@@ -23,7 +23,7 @@ export const authenticateUser = async (uid: string) => {
 	}
 };
 
-export const queryUserPublicData = async (uid: string): Promise<api.STUserPublicData> => {
+export const queryUserPublicDataById = async (uid: string): Promise<api.STUserPublicData> => {
 	try {
 		const userDoc = await admin.firestore().doc(`${api.ST_USER_COLLECTION_USER}/${uid}`).get();
 		const user = userDoc.data() as api.STUserPublicData;

@@ -13,6 +13,7 @@ import { ModalController } from '@ionic/angular';
 import { Confirmable, DialogService } from '@shared';
 import { GroupCreateModalComponent } from '../entry-components';
 import { GroupForm } from '../model';
+import { GroupMemberOverviewModalComponent } from './../entry-components';
 
 @Injectable({
 	providedIn: 'root',
@@ -39,6 +40,15 @@ export class GroupFeatureFacadeService {
 			await this.graphqlGroupService.createGroup(groupAllDataInput).toPromise();
 			await DialogService.presentToast(`Group ${groupAllDataInput.name} has been created`);
 		}
+	}
+
+	async showGroupMemberOverviewModal(groupUser: StGroupUser): Promise<void> {
+		const modal = await this.modalController.create({
+			component: GroupMemberOverviewModalComponent,
+			componentProps: { groupUser },
+			cssClass: 'custom-modal',
+		});
+		await modal.present();
 	}
 
 	/***
@@ -147,5 +157,10 @@ export class GroupFeatureFacadeService {
 	async leaveGroup(): Promise<void> {
 		await this.graphqlGroupService.leaveGroup(this.groupStorageService.activeGroup.id).toPromise();
 		await DialogService.presentToast(`You left group ${this.groupStorageService.activeGroup.name}`);
+	}
+
+	async removeMemberFromGroup({ id, name }: StGroupAllData, groupUser: StGroupUser): Promise<void> {
+		await this.graphqlGroupService.removeMemberFromGroup(id, groupUser).toPromise();
+		await DialogService.presentToast(`You have successfully removed user ${groupUser.nickName} from group ${name}`);
 	}
 }

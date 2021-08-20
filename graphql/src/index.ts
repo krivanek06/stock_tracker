@@ -5,7 +5,15 @@ import { STFinancialModelingAPITypeDefs } from './api/financial-modeling/st-fina
 import { queryStockScreener } from './api/financial-modeling/st-financial-modeling.api';
 import { queryAdminMainInformations } from './st-admin/st-admin.query';
 import { STAdminTypeDefs } from './st-admin/st-admin.typeDefs';
-import { answerReceivedGroupInvitation, createGroup, deleteGroup, editGroup, leaveGroup, toggleInvitationRequestToGroup } from './st-group';
+import {
+	answerReceivedGroupInvitation,
+	createGroup,
+	deleteGroup,
+	editGroup,
+	leaveGroup,
+	removeMemberFromGroup,
+	toggleInvitationRequestToGroup,
+} from './st-group';
 import { toggleInviteUserIntoGroup } from './st-group/mutations/toggleInviteUserIntoGroup.mutation';
 import { toggleUsersInvitationRequestToGroup } from './st-group/mutations/toggleUsersInvitationRequestToGroup.mutation';
 import { querySTGroupByGroupId, querySTGroupByGroupName } from './st-group/st-group.query';
@@ -43,7 +51,7 @@ import { performTransaction } from './st-transaction/st-transaction.mutation';
 import { stTransactionResolvers } from './st-transaction/st-transaction.resolver';
 import { STTransactionTypeDefs } from './st-transaction/st-transaction.typedef';
 import { editUser, registerUser, resetUserAccount } from './user/user.mutation';
-import { authenticateUser, queryUserPublicData, queryUserPublicDataByUsername } from './user/user.query';
+import { authenticateUser, queryUserPublicDataById, queryUserPublicDataByUsername } from './user/user.query';
 import { userResolvers } from './user/user.resolver';
 import { userTypeDefs } from './user/user.typeDefs';
 import { validatorFinhubKeyValidity } from './validators';
@@ -70,7 +78,7 @@ const mainTypeDefs = gql`
 	###### QUERY
 	type Query {
 		# user
-		queryUserData(id: String!): STUserPublicData
+		queryUserPublicDataById(id: String!): STUserPublicData
 		queryUserPublicDataByUsername(usernamePrefix: String!): [STUserPublicData]!
 		authenticateUser(id: String!): STUserPublicData
 
@@ -120,6 +128,7 @@ const mainTypeDefs = gql`
 		toggleInviteUserIntoGroup(inviteUser: Boolean!, userId: String!, groupId: String!): STGroupUser
 		toggleUsersInvitationRequestToGroup(acceptUser: Boolean!, userId: String!, groupId: String!): STGroupUser
 		leaveGroup(id: String!): Boolean
+		removeMemberFromGroup(groupId: String!, removingUserId: String!): Boolean
 
 		## watchlist
 		createStockWatchlist(identifier: STStockWatchInputlistIdentifier!): STStockWatchlist
@@ -140,7 +149,7 @@ const mainResolver = {
 	Query: {
 		// USER
 		authenticateUser: async (_: null, args: { id: string }) => await authenticateUser(args.id),
-		queryUserData: async (_: null, args: { id: string }) => await queryUserPublicData(args.id),
+		queryUserPublicDataById: async (_: null, args: { id: string }) => await queryUserPublicDataById(args.id),
 		queryUserPublicDataByUsername: async (_: null, args: { usernamePrefix: string }) => await queryUserPublicDataByUsername(args.usernamePrefix),
 
 		// GROUP
@@ -194,6 +203,8 @@ const mainResolver = {
 		toggleUsersInvitationRequestToGroup: async (_, args: { acceptUser: boolean; userId: string; groupId: string }) =>
 			await toggleUsersInvitationRequestToGroup(args.acceptUser, args.userId, args.groupId),
 		leaveGroup: async (_, args: { id: string }, context: Context) => await leaveGroup(args.id, context),
+		removeMemberFromGroup: async (_, args: { groupId: string; removingUserId: string }, context: Context) =>
+			await removeMemberFromGroup(args.groupId, args.removingUserId, context),
 
 		// WATCHLIST
 		createStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await createStockWatchlist(args.identifier),

@@ -16,6 +16,7 @@ import {
 	EditGroupMutation,
 	LeaveGroupGQL,
 	LeaveGroupMutation,
+	RemoveMemberFromGroupGQL,
 	StGroupAllData,
 	StGroupAllDataInput,
 	StGroupIdentificationDataFragment,
@@ -27,8 +28,12 @@ import { createSTGroupUser } from '../utils';
 import {
 	QueryStGroupByGroupIdGQL,
 	QueryStGroupByGroupNameGQL,
+	QueryStGroupMemberOverviewByIdGQL,
+	RemoveMemberFromGroupMutation,
 	StGroupAllDataFragmentFragment,
 	StGroupAllDataFragmentFragmentDoc,
+	StGroupMemberOverviewFragment,
+	StGroupUser,
 	StUserPublicData,
 	ToggleInviteUserIntoGroupGQL,
 	ToggleInviteUserIntoGroupMutation,
@@ -50,8 +55,18 @@ export class GraphqlGroupService {
 		private toggleInviteUserIntoGroupGQL: ToggleInviteUserIntoGroupGQL,
 		private toggleUsersInvitationRequestToGroupGQL: ToggleUsersInvitationRequestToGroupGQL,
 		private answerReceivedGroupInvitationGQL: AnswerReceivedGroupInvitationGQL,
-		private leaveGroupGQL: LeaveGroupGQL
+		private leaveGroupGQL: LeaveGroupGQL,
+		private queryStGroupMemberOverviewByIdGQL: QueryStGroupMemberOverviewByIdGQL,
+		private removeMemberFromGroupGQL: RemoveMemberFromGroupGQL
 	) {}
+
+	queryStGroupMemberOverviewById(userId: string): Observable<StGroupMemberOverviewFragment> {
+		return this.queryStGroupMemberOverviewByIdGQL
+			.fetch({
+				id: userId,
+			})
+			.pipe(map((res) => res.data.queryUserPublicDataById));
+	}
 
 	queryGroupAllDataByGroupId(id: string): Observable<StGroupAllData> {
 		return this.queryStGroupByGroupIdGQL
@@ -432,6 +447,66 @@ export class GraphqlGroupService {
 				},
 			},
 		});
+	}
+
+	removeMemberFromGroup(groupId: string, groupUser: StGroupUser): Observable<FetchResult<RemoveMemberFromGroupMutation>> {
+		return this.removeMemberFromGroupGQL.mutate(
+			{
+				groupId: groupId,
+				removingUserId: groupUser.id,
+			},
+			{
+				update: (store: DataProxy, { data: { removeMemberFromGroup } }) => {
+					const group = store.readFragment<StGroupAllDataFragmentFragment>({
+						id: `STGroupAllData:${groupId}`,
+						fragment: StGroupAllDataFragmentFragmentDoc,
+						fragmentName: 'STGroupAllDataFragment',
+					});
+
+					const updatedMembers = group.groupMemberData.members.filter((m) => m.id !== groupUser.id);
+
+					// update cache
+					store.writeFragment({
+						id: `STGroupAllData:${groupId}`,
+						fragment: StGroupAllDataFragmentFragmentDoc,
+						fragmentName: 'STGroupAllDataFragment',
+						data: {
+							...group,
+							numberOfMembers: group.numberOfMembers - 1,
+							portfolio: {
+								...group.portfolio,
+								lastPortfolioSnapshot: {
+									...group.portfolio.lastPortfolioSnapshot,
+									portfolioCash: group.portfolio.lastPortfolioSnapshot.portfolioCash - groupUser.portfolio.lastPortfolioSnapshot.portfolioCash,
+									portfolioInvested:
+										group.portfolio.lastPortfolioSnapshot.portfolioInvested - groupUser.portfolio.lastPortfolioSnapshot.portfolioInvested,
+								},
+								numberOfExecutedBuyTransactions:
+									group.portfolio.numberOfExecutedBuyTransactions - groupUser.portfolio.numberOfExecutedBuyTransactions,
+								numberOfExecutedSellTransactions:
+									group.portfolio.numberOfExecutedSellTransactions - groupUser.portfolio.numberOfExecutedSellTransactions,
+								numberOfExecutedTransactions: group.portfolio.numberOfExecutedTransactions - groupUser.portfolio.numberOfExecutedTransactions,
+							},
+							startedPortfolio: {
+								...group.startedPortfolio,
+								numberOfExecutedBuyTransactions:
+									group.startedPortfolio.numberOfExecutedBuyTransactions - groupUser.startedPortfolio.numberOfExecutedBuyTransactions,
+								numberOfExecutedSellTransactions:
+									group.startedPortfolio.numberOfExecutedSellTransactions - groupUser.startedPortfolio.numberOfExecutedSellTransactions,
+								numberOfExecutedTransactions:
+									group.startedPortfolio.numberOfExecutedTransactions - groupUser.startedPortfolio.numberOfExecutedTransactions,
+								portfolioCash: group.startedPortfolio.portfolioCash - groupUser.startedPortfolio.portfolioCash,
+								portfolioInvested: group.startedPortfolio.portfolioInvested - groupUser.startedPortfolio.portfolioInvested,
+							},
+							groupMemberData: {
+								...group.groupMemberData,
+								members: [...updatedMembers],
+							},
+						},
+					});
+				},
+			}
+		);
 	}
 
 	leaveGroup(id: string): Observable<FetchResult<LeaveGroupMutation>> {

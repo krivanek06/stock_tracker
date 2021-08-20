@@ -1,7 +1,7 @@
 import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
-import { queryUserPublicData } from '../../user/user.query';
+import { queryUserPublicDataById } from '../../user/user.query';
 import { createSTGroupUser } from '../st-group.util';
 import { Context } from './../../st-shared/st-shared.interface';
 import { querySTGroupByGroupId, querySTGroupMemberDataByGroupId } from './../st-group.query';
@@ -18,7 +18,7 @@ export const toggleInvitationRequestToGroup = async (
 ): Promise<api.STGroupAllData> => {
 	try {
 		const groupMembersDoc = await querySTGroupMemberDataByGroupId(groupId);
-		const user = await queryUserPublicData(requesterUserId);
+		const user = await queryUserPublicDataById(requesterUserId);
 
 		if (groupMembersDoc.members.map((x) => x.id).includes(requesterUserId)) {
 			throw new ApolloError(`Cannot send / cancel invitation, you are already a member in this group`);

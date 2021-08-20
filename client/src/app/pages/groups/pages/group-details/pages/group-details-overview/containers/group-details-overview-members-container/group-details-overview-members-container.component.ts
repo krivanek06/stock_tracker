@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { StGroupAllData, StGroupUser, StUserPublicData } from '@core';
+import { GroupFeatureFacadeService } from '@group-feature';
 import { DialogService, IdNameContainer } from '@shared';
 import { USER_MEMBER_ACTIONS_ENUM } from '../../model/group-details-overview.model';
 
@@ -13,11 +14,12 @@ export class GroupDetailsOverviewMembersContainerComponent implements OnInit {
 	@Input() groupAllData: StGroupAllData;
 	@Input() user: StUserPublicData;
 
-	constructor() {}
+	constructor(private groupFeatureFacadeService: GroupFeatureFacadeService) {}
 
 	ngOnInit() {}
 
 	clickedMember(groupUser: StGroupUser) {
+		console.log('clicked', groupUser);
 		if (this.groupAllData.owner.id === this.user.id && groupUser.id !== this.groupAllData.owner.id) {
 			// if I am the owner and I did not clicked on myself
 			this.showOptionsForOwner(groupUser);
@@ -47,6 +49,7 @@ export class GroupDetailsOverviewMembersContainerComponent implements OnInit {
 		const message = `Please confirm removing member ${groupUser.nickName} from group ${this.groupAllData.name}`;
 		if (await DialogService.presentConfirmationPopOver(message, 'confirm')) {
 			console.log('remove user from group');
+			this.groupFeatureFacadeService.removeMemberFromGroup(this.groupAllData, groupUser);
 		}
 	}
 
@@ -59,6 +62,7 @@ export class GroupDetailsOverviewMembersContainerComponent implements OnInit {
 	}
 
 	private showGroupUserDetails(groupUser: StGroupUser) {
-		console.log('show details');
+		console.log('show details', groupUser);
+		this.groupFeatureFacadeService.showGroupMemberOverviewModal(groupUser);
 	}
 }

@@ -10,11 +10,11 @@
 				[title]="'Balance'"
 			>
 				<ion-item class="st-flex-row">
-					<ion-label class="st-font-size-24 st-font-white"> {{ (portfolio.portfolioCash + portfolioInvested) | currency }} </ion-label>
+					<ion-label class="st-font-size-24 st-font-white"> {{ (portfolioCash + portfolioInvested) | currency }} </ion-label>
 					<ion-label style="position: absolute; right: 0">
 						<app-price-change-item
-							[priceChange]="((portfolio.portfolioCash + portfolioInvested) - STARTING_PORTFOLIO) / STARTING_PORTFOLIO * 100"
-							[price]="(portfolio.portfolioCash + portfolioInvested) - STARTING_PORTFOLIO"
+							[priceChange]="((portfolioCash + portfolioInvested) - startedBalance) / startedBalance * 100"
+							[price]="(portfolioCash + portfolioInvested) - startedBalance"
 						>
 						</app-price-change-item>
 					</ion-label>
@@ -45,7 +45,7 @@
 				[title]="'Cash'"
 			>
 				<ion-item>
-					<ion-label class="st-font-size-24 st-font-white portfolio-sum"> {{ portfolio.portfolioCash | currency }} </ion-label>
+					<ion-label class="st-font-size-24 st-font-white portfolio-sum"> {{ portfolioCash | currency }} </ion-label>
 				</ion-item>
 			</app-generic-fancy-card>
 		</ion-col>
@@ -61,10 +61,8 @@
 			<ion-text class="st-font-size-18 st-main-color-turquois">Balance</ion-text>
 		</ion-label>
 		<ion-label class="st-flex-row-sm-col ion-align-items-center">
-			<ion-text class="st-small-right-space st-font-0 st-font-size-18">
-				{{ (portfolio.portfolioCash + portfolioInvested) | numberFormatter}}
-			</ion-text>
-			<app-price-compare-item [compareToPrice]="STARTING_PORTFOLIO" [currentPrice]="portfolioInvested + portfolio.portfolioCash" [showPrice]="false">
+			<ion-text class="st-small-right-space st-font-0 st-font-size-18"> {{ (portfolioCash + portfolioInvested) | numberFormatter}} </ion-text>
+			<app-price-compare-item [compareToPrice]="startedBalance" [currentPrice]="portfolioInvested + portfolioCash" [showPrice]="false">
 			</app-price-compare-item>
 		</ion-label>
 	</div>
@@ -84,6 +82,6 @@
 			<div class="portfolioStateParentDot st-main-color-orange-background"></div>
 			<ion-text class="st-font-size-18 st-font-main-color-orange">Cash</ion-text>
 		</ion-label>
-		<ion-label class="st-font-1 st-font-size-16">{{ portfolio.portfolioCash | currency }}</ion-label>
+		<ion-label class="st-font-1 st-font-size-16">{{ portfolioCash | currency }}</ion-label>
 	</div>
 </ion-list>

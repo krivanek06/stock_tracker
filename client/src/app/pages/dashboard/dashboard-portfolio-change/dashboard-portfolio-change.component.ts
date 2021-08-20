@@ -22,7 +22,7 @@ export class DashboardPortfolioChangeComponent implements OnInit {
 	constructor(private tradingFeatureFacadeService: TradingFeatureFacadeService) {}
 
 	ngOnInit() {
-		if (this.tradingChangeWrapper.length === 0) {
+		if (this.stPortfolioSnapshots.length === 0) {
 			return;
 		}
 		this.tradingChangeWrapper = this.tradingFeatureFacadeService.createPortfolioHistoricalWrappers(this.stPortfolioSnapshots, [

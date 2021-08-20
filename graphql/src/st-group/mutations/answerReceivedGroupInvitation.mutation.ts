@@ -2,7 +2,7 @@ import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
 import { Context } from './../../st-shared/st-shared.interface';
-import { queryUserPublicData } from './../../user/user.query';
+import { queryUserPublicDataById } from './../../user/user.query';
 import { querySTGroupByGroupId, querySTGroupMemberDataByGroupId } from './../st-group.query';
 import { createSTGroupUser } from './../st-group.util';
 
@@ -21,7 +21,7 @@ export const answerReceivedGroupInvitation = async (groupId: string, accept: boo
 			throw new ApolloError(`You have no invitation from group ${group.name}`);
 		}
 
-		const user = await queryUserPublicData(requesterUserId);
+		const user = await queryUserPublicDataById(requesterUserId);
 		const newGroupUser = createSTGroupUser(user);
 
 		// update group
@@ -71,11 +71,19 @@ const updateGroupMemberData = async (accept: boolean, groupMembers: api.STGroupM
 
 const updateGroupData = async (accept: boolean, group: api.STGroupAllData, newGroupUser: api.STGroupUser): Promise<void> => {
 	if (accept) {
+		// update started portfolio
 		group.startedPortfolio.portfolioCash += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioCash;
 		group.startedPortfolio.portfolioInvested += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioInvested;
 		group.startedPortfolio.numberOfExecutedTransactions += newGroupUser.portfolio.numberOfExecutedTransactions;
 		group.startedPortfolio.numberOfExecutedSellTransactions += newGroupUser.portfolio.numberOfExecutedSellTransactions;
 		group.startedPortfolio.numberOfExecutedBuyTransactions += newGroupUser.portfolio.numberOfExecutedBuyTransactions;
+		// update portfolio
+		group.portfolio.lastPortfolioSnapshot.portfolioCash += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioCash;
+		group.portfolio.lastPortfolioSnapshot.portfolioInvested += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioInvested;
+		group.portfolio.numberOfExecutedTransactions += newGroupUser.portfolio.numberOfExecutedTransactions;
+		group.portfolio.numberOfExecutedSellTransactions += newGroupUser.portfolio.numberOfExecutedSellTransactions;
+		group.portfolio.numberOfExecutedBuyTransactions += newGroupUser.portfolio.numberOfExecutedBuyTransactions;
+		// update memvers
 		group.numberOfMembers += 1;
 	}
 

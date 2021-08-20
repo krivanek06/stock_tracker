@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { StPortfolioWrapper } from '@core';
 import { STARTING_PORTFOLIO } from './../../../models';
 
 @Component({
@@ -9,11 +8,10 @@ import { STARTING_PORTFOLIO } from './../../../models';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioStateComponent implements OnInit {
-	@Input() portfolio: StPortfolioWrapper;
+	@Input() portfolioCash: number;
 	@Input() portfolioInvested: number;
+	@Input() startedBalance = STARTING_PORTFOLIO;
 	@Input() portfolioState: 'CARD' | 'PARTIAL' = 'CARD';
-
-	STARTING_PORTFOLIO = STARTING_PORTFOLIO;
 
 	constructor() {}
 

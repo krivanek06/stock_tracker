@@ -6,7 +6,12 @@
 		</ion-col>
 		<ion-col class="portfolio-container-col ion-hide-md-down" size-lg="5" size-md="6" size-xl="4">
 			<!-- portfolio state -->
-			<app-portfolio-state [portfolio]="user?.portfolio" [portfolioInvested]="portfolioInvested" portfolioState="PARTIAL" style="margin-top: -35px">
+			<app-portfolio-state
+				[portfolioCash]="user?.portfolio?.portfolioCash"
+				[portfolioInvested]="portfolioInvested"
+				portfolioState="PARTIAL"
+				style="margin-top: -35px"
+			>
 			</app-portfolio-state>
 		</ion-col>
 	</ion-row>

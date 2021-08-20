@@ -2,14 +2,14 @@ import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
 import { getLivePriceAPI } from '../api';
-import { queryUserPublicData } from '../user/user.query';
+import { queryUserPublicDataById } from '../user/user.query';
 import { datesAreOnSameDay, getCurrentIOSDate } from './../st-shared/st-shared.functions';
 import { addTransactionToUserHolding, createTransactionBuy, createTransactionSell, substractTransactionFromUserHolding } from './st-transaction-util';
 import { PerformedTransaction } from './st-transaction.model.local';
 
 export const performTransaction = async (transactionInput: api.STTransactionInput, userId: string): Promise<PerformedTransaction> => {
 	try {
-		const user = (await queryUserPublicData(userId)) as api.STUserPublicData;
+		const user = (await queryUserPublicDataById(userId)) as api.STUserPublicData;
 
 		// get current stock price
 		const livePrice = await getLivePriceAPI(transactionInput.symbol);

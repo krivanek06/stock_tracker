@@ -75,39 +75,42 @@ export class GroupStorageService {
 	}
 
 	isUserOwnerObs(): Observable<boolean> {
-		return combineLatest([this.getActiveGroupNotNull(), this.userStorageService.getUserNotNull()]).pipe(
-			map(([group, user]) => group.owner.id === user?.id)
+		return combineLatest([this.getActiveGroup(), this.userStorageService.getUser()]).pipe(
+			map(([group, user]) => !!group && !!user && group.owner.id === user?.id)
 		);
 	}
 
 	isUserManagerObs(): Observable<boolean> {
-		return combineLatest([this.getActiveGroupNotNull(), this.userStorageService.getUserNotNull()]).pipe(
-			map(([group, user]) => user.groups.groupMember.map((g) => g.id).includes(group.id))
+		return combineLatest([this.getActiveGroup(), this.userStorageService.getUser()]).pipe(
+			map(([group, user]) => !!group && !!user && user.groups.groupMember.map((g) => g.id).includes(group.id))
 		);
 	}
 
 	isUserMemberObs(): Observable<boolean> {
-		return combineLatest([this.getActiveGroupNotNull(), this.userStorageService.getUserNotNull()]).pipe(
-			map(([group, user]) => group.groupMemberData.members.map((m) => m.id).includes(user?.id))
+		return combineLatest([this.getActiveGroup(), this.userStorageService.getUser()]).pipe(
+			map(([group, user]) => !!group && !!user && group.groupMemberData.members.map((m) => m.id).includes(user?.id))
 		);
 	}
 
 	isUserInvitedObs(): Observable<boolean> {
-		return combineLatest([this.getActiveGroupNotNull(), this.userStorageService.getUserNotNull()]).pipe(
-			map(([group, user]) => user.groups.groupInvitationReceived.map((g) => g.id).includes(group.id))
+		return combineLatest([this.getActiveGroup(), this.userStorageService.getUser()]).pipe(
+			map(([group, user]) => !!group && !!user && user.groups.groupInvitationReceived.map((g) => g.id).includes(group.id))
 		);
 	}
 
 	hasUserAlreadySentInvitaitonIntoGroup(): Observable<boolean> {
-		return combineLatest([this.getActiveGroupNotNull(), this.userStorageService.getUserNotNull()]).pipe(
-			map(([group, user]) => user.groups.groupInvitationSent.map((g) => g.id).includes(group.id))
+		return combineLatest([this.getActiveGroup(), this.userStorageService.getUser()]).pipe(
+			map(([group, user]) => !!group && !!user && user.groups.groupInvitationSent.map((g) => g.id).includes(group.id))
 		);
 	}
 
 	// return true if user is not owner / member / manager / sent invitation / received invitation - then user can request invitation into group
 	canUserSendInvitationObs(): Observable<boolean> {
-		return combineLatest([this.getActiveGroupNotNull(), this.userStorageService.getUserNotNull()]).pipe(
+		return combineLatest([this.getActiveGroup(), this.userStorageService.getUser()]).pipe(
 			map(([group, user]) => {
+				if (!group || !user) {
+					return false;
+				}
 				if (user.groups.groupOwner.map((g) => g.id).includes(group.id)) {
 					return false;
 				}

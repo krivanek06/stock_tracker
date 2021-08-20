@@ -73,7 +73,7 @@ fragment STGroupAllDataFragment on STGroupAllData {
 		...STPortfolioSnapshotStartedFragment
 	}
 	lastTransactions {
-		...STTransactionFragment
+		...STTransactionFragmentWithUser
 	}
 	groupMemberData {
 		id
@@ -97,7 +97,7 @@ fragment STGroupAllDataFragment on STGroupAllData {
 		...STRankFragment
 	}
 	topTransactions {
-		...STTransactionFragment
+		...STTransactionFragmentWithUser
 	}
 	groupHistoricalData {
 		portfolioSnapshots {
@@ -166,6 +166,10 @@ mutation AnswerReceivedGroupInvitation($id: String!, $accept: Boolean!) {
 
 mutation LeaveGroup($id: String!) {
 	leaveGroup(id: $id)
+}
+
+mutation RemoveMemberFromGroup($groupId: String!, $removingUserId: String!) {
+	removeMemberFromGroup(groupId: $groupId, removingUserId: $removingUserId)
 }
 
 mutation ToggleInviteUserIntoGroup($inviteUser: Boolean!, $userId: String!, $groupId: String!) {

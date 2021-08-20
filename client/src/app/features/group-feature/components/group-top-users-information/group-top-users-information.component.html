@@ -29,7 +29,7 @@
 		<!-- portfolio -->
 		<app-portfolio-increase-chart
 			[heightPx]="200"
-			[stStartedPortfolioSnapshots]="groupAllData.startedPortfolio"
+			[stStartedPortfoliobalance]="groupAllData.startedPortfolio.portfolioInvested + groupAllData.startedPortfolio.portfolioCash"
 			[portfolioInvested]="groupAllData.portfolio.lastPortfolioSnapshot.portfolioInvested"
 			[portfolioCash]="groupAllData.portfolio.lastPortfolioSnapshot.portfolioCash"
 		>

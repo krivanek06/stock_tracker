@@ -10,6 +10,7 @@ import {
 	GroupUserBaseInformationComponent,
 } from './components';
 import { GroupCreateModalComponent } from './entry-components';
+import { GroupMemberOverviewModalComponent } from './entry-components/group-member-overview-modal/group-member-overview-modal.component';
 
 @NgModule({
 	declarations: [
@@ -19,6 +20,7 @@ import { GroupCreateModalComponent } from './entry-components';
 		GroupUserBaseInformationComponent,
 		GroupMembersTableComponent,
 		GroupTopUsersInformationComponent,
+		GroupMemberOverviewModalComponent,
 	],
 	imports: [SharedModule, AccountFeatureModule, SharedMaterialModule, StockTradingFeatureModule],
 	exports: [
@@ -28,6 +30,7 @@ import { GroupCreateModalComponent } from './entry-components';
 		GroupUserBaseInformationComponent,
 		GroupMembersTableComponent,
 		GroupTopUsersInformationComponent,
+		GroupMemberOverviewModalComponent,
 	],
 })
 export class GroupFeatureModule {}
