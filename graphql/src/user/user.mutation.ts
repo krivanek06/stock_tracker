@@ -6,7 +6,7 @@ import { addNewUserIntoUserRegistration } from './../st-admin/st-admin.mutation'
 import { sumOfHoldings } from './../st-transaction/st-transaction-util';
 import { convertSTUserPublicDataToSTUserIndentification } from './user.convertor';
 import { createSTUserHistoricalData, createSTUserPrivateData, createSTUserPublicData } from './user.creator';
-import { queryUserPublicData } from './user.query';
+import { queryUserPublicDataById } from './user.query';
 import { resolveUserPrivateData } from './user.resolver';
 
 export const registerUser = async (user: api.STUserAuthenticationInput): Promise<boolean> => {
@@ -57,7 +57,7 @@ export const editUser = async (editInput: api.STUserEditDataInput): Promise<bool
 				);
 		}
 
-		const userPublicData = (await queryUserPublicData(editInput.userId)) as api.STUserPublicData;
+		const userPublicData = (await queryUserPublicDataById(editInput.userId)) as api.STUserPublicData;
 		const initPortfolio = !userPrivateData.tradingEnabledDate && !!editInput.finnhubKey && !userPublicData.portfolio.portfolioCash;
 
 		// update public data - TODO cloud function propagate through groups
@@ -88,7 +88,7 @@ export const editUser = async (editInput: api.STUserEditDataInput): Promise<bool
 // TODO prevent not reseting someone else account
 export const resetUserAccount = async (userId: string): Promise<api.STUserResetedAccount> => {
 	try {
-		const user = (await queryUserPublicData(userId)) as api.STUserPublicData;
+		const user = (await queryUserPublicDataById(userId)) as api.STUserPublicData;
 
 		const reset: api.STUserResetedAccount = {
 			date: getCurrentIOSDate(),

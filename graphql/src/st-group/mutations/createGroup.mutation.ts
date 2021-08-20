@@ -2,7 +2,7 @@ import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
 import { Context } from '../../st-shared/st-shared.interface';
-import { queryUserPublicData } from '../../user/user.query';
+import { queryUserPublicDataById } from '../../user/user.query';
 import { createEmptySTGroupHistoricalData, createSTGroupUser, initGroupFromInput } from '../st-group.util';
 
 export const createGroup = async (groupInput: api.STGroupAllDataInput, { requesterUserId }: Context): Promise<api.STGroupAllData> => {
@@ -32,7 +32,7 @@ export const createGroup = async (groupInput: api.STGroupAllDataInput, { request
 const createGroupObject = async (groupInput: api.STGroupAllDataInput, requesterUserId: string): Promise<api.STGroupAllData> => {
 	const group = initGroupFromInput(groupInput);
 
-	group.owner = createSTGroupUser(await queryUserPublicData(requesterUserId));
+	group.owner = createSTGroupUser(await queryUserPublicDataById(requesterUserId));
 
 	// if owner wants to be a member
 	if (groupInput.isOwnerAlsoMember) {
@@ -59,7 +59,7 @@ const createHistoricalDataCollection = async (groupId: string): Promise<void> =>
 
 const createMemberDataCollection = async (groupInput: api.STGroupAllDataInput, group: api.STGroupAllData): Promise<void> => {
 	// load distinct users who were invited
-	const invitationSent = await Promise.all([...new Set(groupInput.invitationSent)].map((m) => queryUserPublicData(m)));
+	const invitationSent = await Promise.all([...new Set(groupInput.invitationSent)].map((m) => queryUserPublicDataById(m)));
 	const invitedGroupUsers = invitationSent.map((m) => createSTGroupUser(m));
 
 	await admin

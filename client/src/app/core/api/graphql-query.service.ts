@@ -10,7 +10,7 @@ import {
 	QueryStockQuotesByPrefixGQL,
 	QueryStockScreenerGQL,
 	QuerySymbolHistoricalPricesGQL,
-	QueryUserPublicDataByUsernameGQL,
+	QueryUserIdentificationByUsernameGQL,
 	StfmCompanyQuote,
 	StfmStockScreenerInput,
 	StfmStockScreenerResult,
@@ -28,7 +28,7 @@ import {
 })
 export class GraphqlQueryService {
 	constructor(
-		private queryUserPublicDataByUsernameGQL: QueryUserPublicDataByUsernameGQL,
+		private queryUserIndentificationByUsernameGQL: QueryUserIdentificationByUsernameGQL,
 		private queryStockQuotesByPrefixGQL: QueryStockQuotesByPrefixGQL,
 		private queryMarketDailyOverviewGQL: QueryMarketDailyOverviewGQL,
 		private queryStMarketHistoryOverviewGQL: QueryStMarketHistoryOverviewGQL,
@@ -50,8 +50,8 @@ export class GraphqlQueryService {
 			.pipe(map((x) => x.data.querySymbolHistoricalPrices));
 	}
 
-	queryUserPublicDataByUsername(usernamePrefix: string): Observable<StUserIndentificationDataFragment[]> {
-		return this.queryUserPublicDataByUsernameGQL
+	queryUserIdentificationByUsername(usernamePrefix: string): Observable<StUserIndentificationDataFragment[]> {
+		return this.queryUserIndentificationByUsernameGQL
 			.fetch({
 				usernamePrefix,
 			})

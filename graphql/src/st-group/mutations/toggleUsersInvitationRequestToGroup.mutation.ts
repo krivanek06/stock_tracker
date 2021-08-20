@@ -1,7 +1,7 @@
 import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
-import { queryUserPublicData } from './../../user/user.query';
+import { queryUserPublicDataById } from './../../user/user.query';
 import { querySTGroupByGroupId, querySTGroupMemberDataByGroupId } from './../st-group.query';
 import { createSTGroupUser } from './../st-group.util';
 
@@ -10,7 +10,7 @@ import { createSTGroupUser } from './../st-group.util';
 */
 export const toggleUsersInvitationRequestToGroup = async (accept: boolean, userId: string, groupId: string): Promise<api.STGroupUser> => {
 	try {
-		const userPublicData = await queryUserPublicData(userId);
+		const userPublicData = await queryUserPublicDataById(userId);
 		const groupMembers = await querySTGroupMemberDataByGroupId(groupId);
 		const groupData = await querySTGroupByGroupId(groupId);
 

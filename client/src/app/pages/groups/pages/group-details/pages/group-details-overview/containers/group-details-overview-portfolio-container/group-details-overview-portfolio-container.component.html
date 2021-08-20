@@ -2,7 +2,8 @@
 	<!-- portfolio current state -->
 	<app-portfolio-state
 		portfolioState="PARTIAL"
-		[portfolio]="groupAllData.portfolio"
+		[startedBalance]="groupAllData.startedPortfolio.portfolioCash + groupAllData.startedPortfolio.portfolioInvested"
+		[portfolioCash]="groupAllData.portfolio.portfolioCash"
 		[portfolioInvested]="groupAllData.portfolio.lastPortfolioSnapshot.portfolioInvested"
 	></app-portfolio-state>
 
@@ -20,7 +21,7 @@
 	<div class="c-portfolio-chart">
 		<app-portfolio-increase-chart
 			[heightPx]="200"
-			[stStartedPortfolioSnapshots]="groupAllData.startedPortfolio"
+			[stStartedPortfoliobalance]="groupAllData.startedPortfolio.portfolioInvested + groupAllData.startedPortfolio.portfolioCash"
 			[portfolioInvested]="groupAllData.portfolio.lastPortfolioSnapshot.portfolioInvested"
 			[portfolioCash]="groupAllData.portfolio.lastPortfolioSnapshot.portfolioCash"
 		></app-portfolio-increase-chart>

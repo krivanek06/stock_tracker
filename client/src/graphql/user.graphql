@@ -10,6 +10,100 @@ fragment STUserIndentificationData on STUserPublicData {
 	}
 }
 
+fragment StGroupMemberOverview on STUserPublicData {
+	id
+	nickName
+	locale
+	photoURL
+	accountCreatedDate
+	lastSignInDate
+	portfolio {
+		...STPortfolioWrapperFragment
+	}
+	rank {
+		...STRankFragment
+	}
+	transactionsSnippets {
+		...STTransactionFragment
+	}
+	holdings {
+		...STHoldingFragment
+	}
+	activity
+	userHistoricalData {
+		userLogs {
+			...STLogsFragment
+		}
+		resetedAccount {
+			date
+			portfolioTotal
+		}
+		bestAchievedRanks {
+			...STRankFragment
+		}
+		portfolioSnapshots {
+			...STPortfolioSnapshotFragment
+		}
+		transactionSnapshots {
+			...STTransactionSnapshotFragment
+		}
+	}
+}
+
+fragment StUserPublicDataSearch on STUserPublicData {
+	id
+	nickName
+	locale
+	photoURL
+	accountCreatedDate
+	lastSignInDate
+	portfolio {
+		...STPortfolioWrapperFragment
+	}
+	rank {
+		...STRankFragment
+	}
+	transactionsSnippets {
+		...STTransactionFragment
+	}
+	holdings {
+		...STHoldingFragment
+	}
+	activity
+	userHistoricalData {
+		userLogs {
+			...STLogsFragment
+		}
+		resetedAccount {
+			date
+			portfolioTotal
+		}
+		bestAchievedRanks {
+			...STRankFragment
+		}
+		portfolioSnapshots {
+			...STPortfolioSnapshotFragment
+		}
+		transactionSnapshots {
+			...STTransactionSnapshotFragment
+		}
+	}
+	groups {
+		groupInvitationSent {
+			...STGroupIdentificationData
+		}
+		groupInvitationReceived {
+			...STGroupIdentificationData
+		}
+		groupOwner {
+			...STGroupIdentificationData
+		}
+		groupMember {
+			...STGroupIdentificationData
+		}
+	}
+}
+
 query AuthenticateUser($id: String!) {
 	authenticateUser(id: $id) {
 		id
@@ -79,9 +173,21 @@ query AuthenticateUser($id: String!) {
 	}
 }
 
-query QueryUserPublicDataByUsername($usernamePrefix: String!) {
+query QueryUserIdentificationByUsername($usernamePrefix: String!) {
 	queryUserPublicDataByUsername(usernamePrefix: $usernamePrefix) {
 		...STUserIndentificationData
+	}
+}
+
+query QueryStGroupMemberOverviewById($id: String!) {
+	queryUserPublicDataById(id: $id) {
+		...StGroupMemberOverview
+	}
+}
+
+query QueryStUserPublicDataSearchById($id: String!) {
+	queryUserPublicDataById(id: $id) {
+		...StUserPublicDataSearch
 	}
 }
 

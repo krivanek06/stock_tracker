@@ -1,7 +1,7 @@
 import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
-import { queryUserPublicData } from '../../user/user.query';
+import { queryUserPublicDataById } from '../../user/user.query';
 import { querySTGroupMemberDataByGroupId } from '../st-group.query';
 import { createSTGroupUser } from '../st-group.util';
 
@@ -10,9 +10,19 @@ import { createSTGroupUser } from '../st-group.util';
 */
 export const toggleInviteUserIntoGroup = async (inviteUser: boolean, userId: string, groupId: string): Promise<api.STGroupUser> => {
 	try {
-		const userPublicData = await queryUserPublicData(userId);
+		const userPublicData = await queryUserPublicDataById(userId);
 		const groupMembers = await querySTGroupMemberDataByGroupId(groupId);
 		const newGroupUser = createSTGroupUser(userPublicData);
+
+		if (inviteUser) {
+			if (!!groupMembers.members.find((m) => m.id === userId)) {
+				throw new ApolloError(`User ${newGroupUser.nickName} is already invited into this group`);
+			}
+		} else {
+			if (!groupMembers.invitationSent.find((m) => m.id === userId)) {
+				throw new ApolloError(`Group invitaiton for user ${newGroupUser.nickName} has been already removed. Refresh your site`);
+			}
+		}
 
 		// decrese / increase number of users who received invitation
 		await incrementNmberOfInvitationReceivedForGroup(inviteUser, groupId);

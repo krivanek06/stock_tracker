@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { StPortfolioSnapshotStarted } from '@core';
 import { roundNumber, stFormatLargeNumber } from '@shared';
 import * as Highcharts from 'highcharts';
 import highcharts3D from 'highcharts/highcharts-3d';
@@ -13,7 +12,7 @@ highcharts3D(Highcharts);
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioIncreaseChartComponent implements OnInit, OnChanges {
-	@Input() stStartedPortfolioSnapshots: StPortfolioSnapshotStarted;
+	@Input() stStartedPortfoliobalance: number;
 	@Input() portfolioInvested: number;
 	@Input() portfolioCash: number;
 	@Input() heightPx = 350;
@@ -43,21 +42,20 @@ export class PortfolioIncreaseChartComponent implements OnInit, OnChanges {
 	}
 
 	private calculateIncrease() {
-		const startedBalance = this.stStartedPortfolioSnapshots.portfolioCash + this.stStartedPortfolioSnapshots.portfolioInvested;
 		const currentBalance = this.portfolioCash + this.portfolioInvested;
 		//this.increase = roundNumber(100 * (this.balance - STARTING_PORTFOLIO) / STARTING_PORTFOLIO);
-		const increase = currentBalance - startedBalance;
+		const increase = currentBalance - this.stStartedPortfoliobalance;
 
 		this.data =
 			increase > 0
 				? [
-						['Started balance', startedBalance],
+						['Started balance', this.stStartedPortfoliobalance],
 						['Profit', increase],
 				  ]
 				: [['Balance', currentBalance]];
 
-		const percentageIncrease = roundNumber((100 * (currentBalance - startedBalance)) / startedBalance);
-		console.log('percentageIncrease', percentageIncrease);
+		const percentageIncrease = roundNumber((100 * (currentBalance - this.stStartedPortfoliobalance)) / this.stStartedPortfoliobalance);
+
 		const color = percentageIncrease > 0 ? '#199419' : '#d21414';
 		this.displayTitle = `
             <span style="font-size: 16px; color: #f0f0f0;">$${stFormatLargeNumber(currentBalance)}</span><br/>

@@ -1,25 +1,20 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {StTransaction, StTransactionOperationEnum} from '@core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { StTransaction, StTransactionOperationEnum } from '@core';
 
 @Component({
-    selector: 'app-transactions-table',
-    templateUrl: './transactions-table.component.html',
-    styleUrls: ['./transactions-table.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-transactions-table',
+	templateUrl: './transactions-table.component.html',
+	styleUrls: ['./transactions-table.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransactionsTableComponent implements OnInit {
-    @Input() transactions: StTransaction[] = [];
-    @Input() showUser = false;
-    @Input() showDate = true;
-    @Input() showReturn = true;
-    @Input() applyLastChildStyle = false;
+	@Input() transactions: StTransaction[] = [];
+	@Input() showUser = false;
+	@Input() applyLastChildStyle = false;
 
-    StTransactionOperationEnum = StTransactionOperationEnum;
+	StTransactionOperationEnum = StTransactionOperationEnum;
 
-    constructor() {
-    }
+	constructor() {}
 
-    ngOnInit() {
-    }
-
+	ngOnInit() {}
 }

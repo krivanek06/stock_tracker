@@ -3,9 +3,9 @@
 	<ion-item class="st-font-1-bold">
 		<ion-label>Symbol</ion-label>
 		<ion-label *ngIf="showUser">User</ion-label>
-		<ion-label *ngIf="showReturn">Return</ion-label>
+		<ion-label>Return</ion-label>
 		<ion-label>Value</ion-label>
-		<ion-label *ngIf="showDate">Date</ion-label>
+		<ion-label>Date</ion-label>
 	</ion-item>
 
 	<!-- table body -->
@@ -35,7 +35,7 @@
 			</ion-label>
 
 			<!-- Return -->
-			<ion-label *ngIf="showReturn">
+			<ion-label>
 				<app-price-change-item
 					*ngIf="transaction.operation === StTransactionOperationEnum.Sell"
 					[priceChange]="transaction.returnChange"
@@ -53,7 +53,7 @@
 			</ion-label>
 
 			<!-- Date -->
-			<ion-label *ngIf="showDate">
+			<ion-label>
 				<ion-text>{{ transaction.date | date: 'dd.MM.yyyy HH:mm' }}</ion-text>
 			</ion-label>
 		</ion-item>

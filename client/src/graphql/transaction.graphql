@@ -1,42 +1,61 @@
 fragment STHoldingFragment on STHolding {
-    symbol
-    breakEvenPrice
-    units
-    summary {
-        ...StockSummaryFragment
-    }
+	symbol
+	breakEvenPrice
+	units
+	summary {
+		...StockSummaryFragment
+	}
 }
 
 fragment STTransactionFragment on STTransaction {
-    transactionId
-    symbol
-    price
-    return
-    returnChange
-    units
-    date
-    operation
-    symbol
-    symbol_logo_url
+	transactionId
+	symbol
+	price
+	return
+	returnChange
+	units
+	date
+	operation
+	symbol
+	symbol_logo_url
+}
+
+fragment STTransactionFragmentWithUser on STTransaction {
+	transactionId
+	symbol
+	price
+	return
+	returnChange
+	units
+	date
+	operation
+	symbol
+	symbol_logo_url
+	user {
+		id
+		nickName
+		locale
+		photoURL
+		accountCreatedDate
+	}
 }
 
 fragment STTransactionSnapshotFragment on STTransactionSnapshot {
-    transactionsBuy
-    transactionsSell
-    date
+	transactionsBuy
+	transactionsSell
+	date
 }
 
 # -------------------------------------------------------
 # MUTATIONS
 
 mutation PerformTransaction($transactionInput: STTransactionInput!) {
-    performTransaction(transactionInput: $transactionInput) {
-        holding {
-            ...STHoldingFragment
-        }
-        transaction {
-            ...STTransactionFragment
-        }
-    }
+	performTransaction(transactionInput: $transactionInput) {
+		holding {
+			...STHoldingFragment
+		}
+		transaction {
+			...STTransactionFragment
+		}
+	}
 }
-

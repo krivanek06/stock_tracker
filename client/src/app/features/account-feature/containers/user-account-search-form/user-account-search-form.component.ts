@@ -32,7 +32,7 @@ export class UserAccountSearchFormComponent implements OnInit {
 					if (res.length <= 2) {
 						return of(null);
 					}
-					return this.graphqlQueryService.queryUserPublicDataByUsername(res);
+					return this.graphqlQueryService.queryUserIdentificationByUsername(res);
 				})
 			)
 			.subscribe((users) => this.searchedUsersEmitter.emit(users));

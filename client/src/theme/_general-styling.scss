@@ -22,6 +22,12 @@ ion-spinner {
 	}
 }
 
+.st-sm-border-bottom {
+	@media (max-width: #{$st-var-sm-split}) {
+		border-bottom: 1px solid #{$st-light-blue-border};
+	}
+}
+
 .st-border-bottom {
 	border-bottom: 1px solid #{$st-light-blue-border};
 }
@@ -541,6 +547,7 @@ ion-skeleton-text {
 	@media (max-width: #{$st-var-md-split}) {
 		width: 100% !important;
 		height: 100% !important;
+		max-height: 100% !important;
 	}
 }
 
@@ -715,4 +722,19 @@ ion-skeleton-text {
 			padding: 16px;
 		}
 	}
+}
+
+.st-first-position-color {
+	color: #d8bc17;
+}
+.st-second-position-color {
+	color: #b9b9b9;
+}
+
+.st-third-position -color {
+	color: #ea7a2b;
+}
+
+.st-my-position-color {
+	color: #c36778;
 }

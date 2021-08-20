@@ -1,37 +1,36 @@
 <ion-content class="ion-padding">
-    <ion-item>
-        <ion-label>
-            <ion-text class="st-font-size-20" color="primary">
-                {{ passedReport.form }} [{{ passedReport.form === '10-Q' ?
-               (passedReport.endDate | date: 'dd.MM.YYYY') : passedReport.endDate | date: 'YYYY' }}]
-            </ion-text>
-        </ion-label>
-        <ion-label class="st-flex-end st-fit-content">
-            <ion-button (click)="dismissModal()" color="danger" fill="clear">
-                <ion-icon name="close-outline"></ion-icon>
-                Close
-            </ion-button>
-        </ion-label>
-    </ion-item>
+	<ion-item>
+		<ion-label>
+			<ion-text class="st-font-size-20" color="primary">
+				{{ passedReport.form }} [{{ passedReport.form === '10-Q' ? (passedReport.endDate | date: 'dd.MM.YYYY') : passedReport.endDate | date: 'YYYY'
+				}}]
+			</ion-text>
+		</ion-label>
+		<ion-label class="st-flex-end st-fit-content">
+			<ion-button (click)="dismissModal()" color="danger" fill="clear">
+				<ion-icon name="close-outline"></ion-icon>
+				Close
+			</ion-button>
+		</ion-label>
+	</ion-item>
 
-    <ng-container *ngIf="selectedReport$ | async as selectedReport; else showLoader">
-        <!-- balance sheet & cash flow & income statement -->
-        <ion-list *ngFor="let sheet of [['Balance sheet', 'bs'], ['Cash flow', 'cf'], ['Income statement', 'ic']]"
-                  class="compact-list">
-            <ion-list-header>
-                <ion-label class="st-title ion-text-center">{{ sheet[0] }}</ion-label>
-            </ion-list-header>
-            <ion-item *ngFor="let data of selectedReport.report[sheet[1]]" class="st-data-item-wrapper">
-                <ion-label>{{ data.label | titlecase }}</ion-label>
-                <ion-label class="st-flex-end">{{ data.value | numberFormatter }}</ion-label>
-            </ion-item>
-        </ion-list>
-    </ng-container>
+	<ng-container *ngIf="selectedReport$ | async as selectedReport; else showLoader">
+		<!-- balance sheet & cash flow & income statement -->
+		<ion-list *ngFor="let sheet of [['Balance sheet', 'bs'], ['Cash flow', 'cf'], ['Income statement', 'ic']]" class="compact-list">
+			<ion-list-header>
+				<ion-label class="st-title ion-text-center">{{ sheet[0] }}</ion-label>
+			</ion-list-header>
+			<ion-item *ngFor="let data of selectedReport.report[sheet[1]]" class="st-data-item-wrapper">
+				<ion-label>{{ data.label | titlecase }}</ion-label>
+				<ion-label class="st-flex-end">{{ data.value | numberFormatter }}</ion-label>
+			</ion-item>
+		</ion-list>
+	</ng-container>
 
-    <!-- loader -->
-    <ng-template #showLoader>
-        <div class="spinner-container">
-            <ion-spinner color="primary"></ion-spinner>
-        </div>
-    </ng-template>
+	<!-- loader -->
+	<ng-template #showLoader>
+		<div class="spinner-container">
+			<ion-spinner color="primary"></ion-spinner>
+		</div>
+	</ng-template>
 </ion-content>

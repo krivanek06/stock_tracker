@@ -1,7 +1,7 @@
 import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
-import { queryUserPublicData } from '../../user/user.query';
+import { queryUserPublicDataById } from '../../user/user.query';
 import { Context } from './../../st-shared/st-shared.interface';
 import { querySTGroupByGroupId, querySTGroupMemberDataByGroupId } from './../st-group.query';
 
@@ -18,11 +18,19 @@ export const leaveGroup = async (groupId: string, { requesterUserId }: Context):
 
 		// remove starting balance when leaving group
 		if (!!person) {
+			// adjest starting portfolios
 			group.startedPortfolio.portfolioCash -= person.startedPortfolio.portfolioCash;
 			group.startedPortfolio.portfolioInvested -= person.startedPortfolio.portfolioInvested;
-			group.startedPortfolio.numberOfExecutedTransactions -= group.owner.portfolio.numberOfExecutedTransactions;
-			group.startedPortfolio.numberOfExecutedSellTransactions -= group.owner.portfolio.numberOfExecutedSellTransactions;
-			group.startedPortfolio.numberOfExecutedBuyTransactions -= group.owner.portfolio.numberOfExecutedBuyTransactions;
+			group.startedPortfolio.numberOfExecutedTransactions -= person.startedPortfolio.numberOfExecutedTransactions;
+			group.startedPortfolio.numberOfExecutedSellTransactions -= person.startedPortfolio.numberOfExecutedSellTransactions;
+			group.startedPortfolio.numberOfExecutedBuyTransactions -= person.startedPortfolio.numberOfExecutedBuyTransactions;
+			// adjust portfolio
+			group.portfolio.lastPortfolioSnapshot.portfolioCash -= person.portfolio.lastPortfolioSnapshot.portfolioCash;
+			group.portfolio.lastPortfolioSnapshot.portfolioInvested -= person.portfolio.lastPortfolioSnapshot.portfolioInvested;
+			group.portfolio.numberOfExecutedTransactions -= person.portfolio.numberOfExecutedTransactions;
+			group.portfolio.numberOfExecutedSellTransactions -= person.portfolio.numberOfExecutedSellTransactions;
+			group.portfolio.numberOfExecutedBuyTransactions -= person.portfolio.numberOfExecutedBuyTransactions;
+			// adjust members
 			group.numberOfMembers -= 1;
 		}
 
@@ -80,7 +88,7 @@ const updateGroupMemberDoc = async (requesterUserId: string, groupMembersDoc: ap
 };
 
 const removeGroupFromUser = async (requesterUserId: string, groupId: string): Promise<void> => {
-	const userPublicData = await queryUserPublicData(requesterUserId);
+	const userPublicData = await queryUserPublicDataById(requesterUserId);
 
 	await admin
 		.firestore()
