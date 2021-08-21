@@ -1,57 +1,54 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
-import {Observable} from 'rxjs';
-import {finalize} from 'rxjs/operators';
-import {UploadedFile} from '../../../models';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { UploadedFile } from '../../../models';
 
 @Component({
-    selector: 'app-upload-task',
-    templateUrl: './upload-task.component.html',
-    styleUrls: ['./upload-task.component.scss'],
+	selector: 'app-upload-task',
+	templateUrl: './upload-task.component.html',
+	styleUrls: ['./upload-task.component.scss'],
 })
 export class UploadTaskComponent implements OnInit {
-    @Output() uploadedFilesEmitter: EventEmitter<UploadedFile> = new EventEmitter<UploadedFile>();
+	@Output() uploadedFilesEmitter: EventEmitter<UploadedFile> = new EventEmitter<UploadedFile>();
 
-    @Input() file: File;
-    @Input() filePath: string;
-    @Input() fileName: string;
-    @Input() maxWidth = 130;
-    @Input() maxHeight = 130;
+	@Input() file: File;
+	@Input() filePath: string;
+	@Input() fileName: string;
+	@Input() maxWidth = 130;
+	@Input() maxHeight = 130;
 
-    task: AngularFireUploadTask;
+	task: AngularFireUploadTask;
 
-    percentage$: Observable<number>;
-    snapshot$: Observable<any>;
-    downloadURL: string;
+	percentage$: Observable<number>;
+	snapshot$: Observable<any>;
+	downloadURL: string;
 
-    constructor(private storage: AngularFireStorage) {
-    }
+	constructor(private storage: AngularFireStorage) {}
 
-    ngOnInit() {
-        this.startUpload();
-    }
+	ngOnInit() {
+		this.startUpload();
+	}
 
-    startUpload() {
+	startUpload() {
+		// The storage path
+		const path = this.fileName ? `${this.filePath}/${this.fileName}` : `${this.filePath}/${Date.now()}_${this.file.name}`;
 
-        // The storage path
-        const path = `${this.filePath}/this.fileName` || `${this.filePath}/${Date.now()}_${this.file.name}`;
+		// Reference to storage bucket
+		const ref = this.storage.ref(path);
 
-        // Reference to storage bucket
-        const ref = this.storage.ref(path);
+		// The main task
+		this.task = this.storage.upload(path, this.file);
 
-        // The main task
-        this.task = this.storage.upload(path, this.file);
+		// Progress monitoring
+		this.percentage$ = this.task.percentageChanges();
 
-        // Progress monitoring
-        this.percentage$ = this.task.percentageChanges();
-
-        this.snapshot$ = this.task.snapshotChanges().pipe(
-            // The file's download URL
-            finalize(async () => {
-                this.downloadURL = await ref.getDownloadURL().toPromise();
-                this.uploadedFilesEmitter.emit({downloadURL: this.downloadURL, path});
-            }),
-        );
-    }
-
+		this.snapshot$ = this.task.snapshotChanges().pipe(
+			// The file's download URL
+			finalize(async () => {
+				this.downloadURL = await ref.getDownloadURL().toPromise();
+				this.uploadedFilesEmitter.emit({ downloadURL: this.downloadURL, path });
+			})
+		);
+	}
 }

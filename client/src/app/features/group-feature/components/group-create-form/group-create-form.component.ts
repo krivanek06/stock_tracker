@@ -6,6 +6,7 @@ import { DialogService, UploadedFile, UploaderComponent } from '@shared';
 import * as moment from 'moment';
 import { combineLatest } from 'rxjs';
 import { createSTGroupAllDataInput } from '../../utils';
+import { StGroupAllData } from './../../../../core/graphql-schema/customGraphql.service';
 
 @Component({
 	selector: 'app-group-create-form',
@@ -17,6 +18,7 @@ export class GroupCreateFormComponent implements OnInit {
 	@Output() createGroupEmitter: EventEmitter<StGroupAllDataInput> = new EventEmitter<StGroupAllDataInput>();
 
 	@Input() user: StUserIndetification;
+	@Input() editedGroup: StGroupAllData;
 
 	@ViewChild('uploader') uploader: UploaderComponent;
 	@ViewChild('endDatePicker') endDatePicker: MatDatepicker<Date>;
@@ -39,6 +41,21 @@ export class GroupCreateFormComponent implements OnInit {
 
 	get endDate(): AbstractControl {
 		return this.form.get('endDate');
+	}
+
+	get isOwnerAlsoMember(): AbstractControl {
+		return this.form.get('isOwnerAlsoMember');
+	}
+	get isPrivate(): AbstractControl {
+		return this.form.get('isPrivate');
+	}
+
+	get imagePath(): AbstractControl {
+		return this.form.get('imagePath');
+	}
+
+	get imageUrl(): AbstractControl {
+		return this.form.get('imageUrl');
 	}
 
 	ngOnInit() {
@@ -82,16 +99,22 @@ export class GroupCreateFormComponent implements OnInit {
 	}
 
 	private initForm() {
+		let isOwnerAlsoMember = false;
+		console.log('[this.editedGroup', this.editedGroup);
+		if (this.editedGroup) {
+			isOwnerAlsoMember = !!this.editedGroup.groupMemberData.members.find((m) => m.id === this.editedGroup.owner.id);
+		}
+
 		this.form = this.fb.group({
-			name: [null, [Validators.required]],
-			description: [null],
-			imagePath: [null],
-			imageUrl: [null],
-			startDate: [null, [Validators.required]],
-			endDate: [null, [Validators.required]],
-			isInfinite: [false],
-			isPrivate: [false],
-			isOwnerAlsoMember: [false],
+			name: [this.editedGroup?.name, [Validators.required]],
+			description: [this.editedGroup?.description],
+			imagePath: [this.editedGroup?.imagePath],
+			imageUrl: [this.editedGroup?.imageUrl],
+			startDate: [this.editedGroup?.startDate, [Validators.required]],
+			endDate: [this.editedGroup?.endDate, [Validators.required]],
+			isInfinite: [this.editedGroup?.isInfinite || false],
+			isPrivate: [this.editedGroup?.isPrivate || false],
+			isOwnerAlsoMember: [isOwnerAlsoMember],
 		});
 	}
 
@@ -99,7 +122,35 @@ export class GroupCreateFormComponent implements OnInit {
 		this.watchInfinityChange();
 		this.watchDateStart();
 		this.watchDateEnd();
+		this.watchOwnerMemberWhenEditing();
+		this.watchIsPrivateWhenEditing();
 		this.form.valueChanges.subscribe(() => (this.showError = false));
+	}
+
+	private watchIsPrivateWhenEditing(): void {
+		if (!this.editedGroup) {
+			return;
+		}
+		this.isPrivate.valueChanges.subscribe((res) => {
+			if (res) {
+				DialogService.presentToast('After saving this form group will became private, so no one can request joining, group will became invite only');
+			} else {
+				DialogService.presentToast('After saving this form group will became public, anyone can reuqest joining this group');
+			}
+		});
+	}
+
+	private watchOwnerMemberWhenEditing(): void {
+		if (!this.editedGroup) {
+			return;
+		}
+		this.isOwnerAlsoMember.valueChanges.subscribe((isMember) => {
+			if (isMember) {
+				DialogService.presentToast(`After saving this form, group owner: ${this.editedGroup.owner.nickName} will be member of this group`);
+			} else {
+				DialogService.presentToast(`After saving this form, group owner: ${this.editedGroup.owner.nickName} will be removed from this group`);
+			}
+		});
 	}
 
 	private watchDateEnd() {

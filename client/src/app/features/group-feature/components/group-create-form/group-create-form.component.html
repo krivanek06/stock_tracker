@@ -3,7 +3,14 @@
 		<div>
 			<ion-item>
 				<!-- upload image -->
-				<app-uploader #uploader [maxHeight]="250" [maxWidth]="315" [filePath]="'groups'" (uploadedFilesEmitter)="uploadedGroupImage($event)">
+				<app-uploader
+					#uploader
+					[maxHeight]="250"
+					[maxWidth]="315"
+					[filePath]="'groups'"
+					[defaultUrl]="imageUrl.value"
+					(uploadedFilesEmitter)="uploadedGroupImage($event)"
+				>
 				</app-uploader>
 			</ion-item>
 		</div>
@@ -93,24 +100,28 @@
 	<!-- submit button -->
 	<ion-toolbar>
 		<ion-buttons slot="end">
-			<ion-button fill="solid" color="primary" type="submit" [disabled]="showError || dateStartError || dateEndError"> Create group </ion-button>
+			<ion-button fill="solid" color="primary" type="submit" [disabled]="showError || dateStartError || dateEndError">
+				{{ editedGroup ? 'Edit group' : 'Create group' }}
+			</ion-button>
 		</ion-buttons>
 	</ion-toolbar>
 
-	<!-- invite members input -->
-	<ion-toolbar class="st-title"> Search users which you want to invite </ion-toolbar>
-	<app-user-account-search (clickedUserEmitter)="sendInvitation($event)"> </app-user-account-search>
+	<ng-container *ngIf="!editedGroup">
+		<!-- invite members input -->
+		<ion-toolbar class="st-title"> Search users which you want to invite </ion-toolbar>
+		<app-user-account-search (clickedUserEmitter)="sendInvitation($event)"> </app-user-account-search>
 
-	<!-- listed users -->
-	<ion-toolbar class="ion-margin-top st-title"> Send invitation </ion-toolbar>
-	<ion-item-group class="st-flex-wrap-normal">
-		<app-user-account-info-list
-			*ngFor="let user of invitationSent"
-			(deleteEmitter)="invitationRemove(user)"
-			[showDeleteButton]="true"
-			[clickable]="false"
-			[stUserPublicData]="user"
-		>
-		</app-user-account-info-list>
-	</ion-item-group>
+		<!-- listed users -->
+		<ion-toolbar class="ion-margin-top st-title"> Send invitation </ion-toolbar>
+		<ion-item-group class="st-flex-wrap-normal">
+			<app-user-account-info-list
+				*ngFor="let user of invitationSent"
+				(deleteEmitter)="invitationRemove(user)"
+				[showDeleteButton]="true"
+				[clickable]="false"
+				[stUserPublicData]="user"
+			>
+			</app-user-account-info-list>
+		</ion-item-group>
+	</ng-container>
 </form>

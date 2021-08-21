@@ -136,9 +136,14 @@ export class GroupStorageService {
 						return of(null);
 					}
 					return this.queryStGroupByGroupIdGQL
-						.watch({
-							id: groupid,
-						})
+						.watch(
+							{
+								id: groupid,
+							},
+							{
+								fetchPolicy: 'network-only',
+							}
+						)
 						.valueChanges.pipe(map((res) => res.data.querySTGroupByGroupId));
 				})
 			)

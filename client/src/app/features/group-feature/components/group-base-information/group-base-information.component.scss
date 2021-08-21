@@ -35,8 +35,9 @@
 
 	.c-data-section-wrapper {
 		display: flex;
+		justify-content: space-between;
 
-		@media (max-width: #{$st-var-md-split}) {
+		@media (max-width: #{$st-var-sm-split}) {
 			display: block;
 		}
 

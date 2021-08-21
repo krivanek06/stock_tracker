@@ -127,43 +127,57 @@ export class GraphqlGroupService {
 			},
 			{
 				update: (store: DataProxy, { data: { editGroup } }) => {
-					const user = store.readQuery<AuthenticateUserQuery>({
-						query: AuthenticateUserDocument,
-						variables: {
-							id: this.userStorageService.user.id,
-						},
-					});
-					// save group as owner's or as member's
-					const isGroupOwner = editGroup.owner.id === this.userStorageService.user.id;
-					const groupOwner = [...user.authenticateUser.groups.groupOwner];
-					const groupMember = [...user.authenticateUser.groups.groupMember];
-
-					if (isGroupOwner) {
-						const index = user.authenticateUser.groups.groupOwner.map((x) => x.id).indexOf(editGroup.id);
-						groupOwner.splice(index, 1, editGroup);
-					} else {
-						const index = user.authenticateUser.groups.groupMember.map((x) => x.id).indexOf(editGroup.id);
-						groupMember.splice(index, 1, editGroup);
-					}
-
-					// update cache
-					store.writeQuery({
-						query: AuthenticateUserDocument,
-						variables: {
-							id: this.userStorageService.user.id,
-						},
-						data: {
-							...user,
-							authenticateUser: {
-								...user.authenticateUser,
-								groups: {
-									...user.authenticateUser.groups,
-									groupOwner,
-									groupMember,
-								},
-							},
-						},
-					});
+					// const user = store.readQuery<AuthenticateUserQuery>({
+					// 	query: AuthenticateUserDocument,
+					// 	variables: {
+					// 		id: this.userStorageService.user.id,
+					// 	},
+					// });
+					// const group = store.readFragment<StGroupAllDataFragmentFragment>({
+					// 	id: `STGroupAllData:${groupInput.groupId}`,
+					// 	fragment: StGroupAllDataFragmentFragmentDoc,
+					// 	fragmentName: 'STGroupAllDataFragment',
+					// });
+					// const updatedGroup = {
+					// 	...group,
+					// 	name: groupInput.name,
+					// 	description: groupInput.description,
+					// 	imagePath: groupInput.imagePath,
+					// 	imageUrl: groupInput.imageUrl,
+					// 	isInfinite: groupInput.isInfinite,
+					// 	isPrivate: groupInput.isPrivate,
+					// 	endDate: groupInput.endDate,
+					// 	lastEditedDate: new Date().toISOString(),
+					// };
+					// // save group as owner's or as member's
+					// const isGroupOwner = editGroup.owner.id === this.userStorageService.user.id;
+					// const groupOwner = [...user.authenticateUser.groups.groupOwner];
+					// const groupMember = [...user.authenticateUser.groups.groupMember];
+					// if (isGroupOwner) {
+					// 	const index = user.authenticateUser.groups.groupOwner.map((x) => x.id).indexOf(editGroup.id);
+					// 	groupOwner.splice(index, 1, editGroup);
+					// } else {
+					// 	const index = user.authenticateUser.groups.groupMember.map((x) => x.id).indexOf(editGroup.id);
+					// 	groupMember.splice(index, 1, editGroup);
+					// }
+					// // update cache
+					// store.writeQuery({
+					// 	query: AuthenticateUserDocument,
+					// 	variables: {
+					// 		id: this.userStorageService.user.id,
+					// 	},
+					// 	data: {
+					// 		...user,
+					// 		authenticateUser: {
+					// 			...user.authenticateUser,
+					// 			groups: {
+					// 				...user.authenticateUser.groups,
+					// 				groupOwner,
+					// 				groupMember,
+					// 			},
+					// 		},
+					// 	},
+					// });
 				},
 			}
 		);

@@ -21,6 +21,7 @@
 		(deleteEmitter)="deleteGroup()"
 		(acceptEmitter)="acceptInvitation()"
 		(declineEmitter)="declineInvitation()"
+		(editEmitter)="editGroup(groupData)"
 		(sendInvitationEmitter)="sendInvitation()"
 		(removeInvitationEmitter)="removeInvitation()"
 		[showSendInvitationButton]="canUserSendInvitation$ | async"
@@ -30,6 +31,7 @@
 		[showDeleteButton]="isOwner$ | async"
 		[showAcceptButton]="isUserInvited$ | async"
 		[showDeclineButton]="isUserInvited$ | async"
+		[showEditButton]="isOwner$ | async"
 	>
 	</app-group-base-information>
 </div>

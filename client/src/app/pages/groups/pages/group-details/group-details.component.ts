@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GroupStorageService, StGroupAllData } from '@core';
+import { GroupStorageService } from '@core';
 import { GroupFeatureFacadeService } from '@group-feature';
 import { ConfirmableWithCheckbox } from '@shared';
 import { Observable } from 'rxjs';
 import { GROUPS_PAGES, GROUPS_PAGES_DETAILS_PATH } from '../../model/groups.model';
+import { StGroupAllData } from './../../../../core/graphql-schema/customGraphql.service';
 
 @Component({
 	selector: 'app-group-details',
@@ -45,6 +46,10 @@ export class GroupDetailsComponent implements OnInit {
 	@ConfirmableWithCheckbox('Please confirm leaving group. You will be removed from group statistics', 'Confirm')
 	leaveGroup() {
 		this.groupFeatureFacadeService.leaveGroup();
+	}
+
+	editGroup(groupData: StGroupAllData) {
+		this.groupFeatureFacadeService.createGroup(groupData);
 	}
 
 	@ConfirmableWithCheckbox('Please confirm deleting group. Note that this action is irreversible', 'Confirm')

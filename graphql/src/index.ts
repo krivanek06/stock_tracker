@@ -121,7 +121,7 @@ const mainTypeDefs = gql`
 
 		# groups
 		createGroup(groupInput: STGroupAllDataInput!): STGroupAllData
-		editGroup(groupInput: STGroupAllDataInput!): STGroupAllData
+		editGroup(groupInput: STGroupAllDataInput!): Boolean
 		deleteGroup(id: String!): Boolean
 		toggleInvitationRequestToGroup(id: String!, sendInvitation: Boolean!): STGroupAllData
 		answerReceivedGroupInvitation(id: String!, accept: Boolean!): STGroupAllData

@@ -55,7 +55,11 @@ const removeGroupInvitationSentForUser = async (acceptUser: boolean, userPublicD
 		);
 };
 
-const addUserAsMember = async (acceptUser: boolean, newGroupUser: api.STGroupUser, groupMembers: api.STGroupMembersDocument): Promise<void> => {
+export const addUserAsMember = async (
+	acceptUser: boolean,
+	newGroupUser: api.STGroupUser,
+	groupMembers: api.STGroupMembersDocument
+): Promise<void> => {
 	await admin
 		.firestore()
 		.collection(api.ST_GROUP_COLLECTION_GROUPS)
@@ -84,7 +88,7 @@ const denyUser = async (groupId: string): Promise<void> => {
 		);
 };
 
-const acceptUser = async (groupId: string, groupData: api.STGroupAllData, newGroupUser: api.STGroupUser): Promise<void> => {
+export const acceptUser = async (groupId: string, groupData: api.STGroupAllData, newGroupUser: api.STGroupUser): Promise<void> => {
 	// update group starting portfolio
 	groupData.startedPortfolio.portfolioCash += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioCash;
 	groupData.startedPortfolio.portfolioInvested += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioInvested;

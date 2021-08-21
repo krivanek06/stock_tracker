@@ -143,9 +143,7 @@ mutation CreateGroup($groupInput: STGroupAllDataInput!) {
 }
 
 mutation EditGroup($groupInput: STGroupAllDataInput!) {
-	editGroup(groupInput: $groupInput) {
-		...STGroupIdentificationData
-	}
+	editGroup(groupInput: $groupInput)
 }
 
 mutation DeleteGroup($id: String!) {
