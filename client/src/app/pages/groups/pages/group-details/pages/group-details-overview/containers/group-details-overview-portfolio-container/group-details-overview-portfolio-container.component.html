@@ -1,24 +1,21 @@
 <div class="st-flex-row-sm-col ion-justify-content-around">
 	<!-- portfolio current state -->
-	<app-portfolio-state
-		portfolioState="PARTIAL"
-		[startedBalance]="groupAllData.startedPortfolio.portfolioCash + groupAllData.startedPortfolio.portfolioInvested"
-		[portfolioCash]="groupAllData.portfolio.portfolioCash"
-		[portfolioInvested]="groupAllData.portfolio.lastPortfolioSnapshot.portfolioInvested"
-	></app-portfolio-state>
+	<div class="st-sm-border-bottom-with-space">
+		<app-portfolio-state
+			portfolioState="PARTIAL"
+			[startedBalance]="groupAllData.startedPortfolio.portfolioCash + groupAllData.startedPortfolio.portfolioInvested"
+			[portfolioCash]="groupAllData.portfolio.portfolioCash"
+			[portfolioInvested]="groupAllData.portfolio.lastPortfolioSnapshot.portfolioInvested"
+		></app-portfolio-state>
+	</div>
 
 	<!-- portfolio change -->
-	<div class="st-flex-wrap c-portfolio-change">
-		<app-portfolio-change
-			*ngFor="let tradingChange of tradingChangeWrapper"
-			[inlinePriceWithIncrease]="false"
-			[tradingChangeWrapper]="tradingChange"
-			[balance]="groupAllData.portfolio.lastPortfolioSnapshot.portfolioInvested + groupAllData.portfolio.lastPortfolioSnapshot.portfolioCash"
-		></app-portfolio-change>
+	<div class="st-flex-wrap ion-hide-md-down">
+		<ng-container *ngTemplateOutlet="portfolioChange"></ng-container>
 	</div>
 
 	<!-- portfolio increase chart -->
-	<div class="c-portfolio-chart">
+	<div class="c-portfolio-chart st-sm-border-bottom-with-space">
 		<app-portfolio-increase-chart
 			[heightPx]="200"
 			[stStartedPortfoliobalance]="groupAllData.startedPortfolio.portfolioInvested + groupAllData.startedPortfolio.portfolioCash"
@@ -27,3 +24,17 @@
 		></app-portfolio-increase-chart>
 	</div>
 </div>
+
+<!-- portfolio change -->
+<div class="st-flex-wrap c-portfolio-change ion-hide-md-up st-sm-border-bottom-with-space">
+	<ng-container *ngTemplateOutlet="portfolioChange"></ng-container>
+</div>
+
+<ng-template #portfolioChange>
+	<app-portfolio-change
+		*ngFor="let tradingChange of tradingChangeWrapper"
+		[inlinePriceWithIncrease]="false"
+		[tradingChangeWrapper]="tradingChange"
+		[balance]="groupAllData.portfolio.lastPortfolioSnapshot.portfolioInvested + groupAllData.portfolio.lastPortfolioSnapshot.portfolioCash"
+	></app-portfolio-change>
+</ng-template>

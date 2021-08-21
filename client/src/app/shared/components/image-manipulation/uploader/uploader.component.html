@@ -1,31 +1,34 @@
 <div [ngClass]="{'st-display-flex-center': oneLine}">
-    <div style="margin-right: 16px">
-        <ng-container *ngIf="files.length > 0; else defaultImage">
-            <div *ngFor="let file of files">
-                <app-upload-task
-                        (uploadedFilesEmitter)="uploadFile($event)"
-                        [file]="file"
-                        [maxWidth]="maxWidth"
-                        [maxHeight]="maxHeight"
-                        [fileName]="fileName"
-                        [filePath]="filePath">
-                </app-upload-task>
-            </div>
-        </ng-container>
+	<div style="margin-right: 16px">
+		<ng-container *ngIf="files.length > 0; else defaultImage">
+			<div *ngFor="let file of files">
+				<app-upload-task
+					(uploadedFilesEmitter)="uploadFile($event)"
+					[file]="file"
+					[maxWidth]="maxWidth"
+					[maxHeight]="maxHeight"
+					[fileName]="fileName"
+					[filePath]="filePath"
+				>
+				</app-upload-task>
+			</div>
+		</ng-container>
 
-        <ng-template #defaultImage>
-            <ion-img [src]="defaultUrl" appDefaultImg [style.max-width.px]="maxWidth"></ion-img>
-        </ng-template>
-    </div>
+		<ng-template #defaultImage>
+			<ion-img [src]="defaultUrl" appDefaultImg [style.max-width.px]="maxWidth"></ion-img>
+		</ng-template>
+	</div>
 
-    <div *ngIf="showInput"
-         class="dropzone"
-         appDropzone
-         (hovered)="toggleHover($event)"
-         (dropped)="onDrop($event)"
-         (click)="fileUpload.click()"
-         [class.hovering]="isHovering">
-        <input style="display: none"  type="file"  (change)="onFileSelected($event)"  #fileUpload/>
-        <p>Drag and Drop a File</p>
-    </div>
+	<div
+		*ngIf="showInput"
+		class="dropzone"
+		appDropzone
+		(hovered)="toggleHover($event)"
+		(dropped)="onDrop($event)"
+		(click)="fileUpload.click()"
+		[class.hovering]="isHovering"
+	>
+		<input style="display: none" type="file" (change)="onFileSelected($event)" #fileUpload />
+		<p>Drag and Drop a File</p>
+	</div>
 </div>

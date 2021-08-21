@@ -10,9 +10,9 @@
 
 	<!-- body -->
 	<div class="ion-padding">
-		<ion-text class="st-title">Create group</ion-text>
+		<ion-text class="st-title">{{ editedGroup ? 'Edit group' : 'Create group' }}</ion-text>
 		<div class="ion-margin-top">
-			<app-group-create-form [user]="user$ | async" (createGroupEmitter)="createGroup($event)"> </app-group-create-form>
+			<app-group-create-form [user]="user$ | async" [editedGroup]="editedGroup" (createGroupEmitter)="submitGroup($event)"> </app-group-create-form>
 		</div>
 	</div>
 </ion-content>

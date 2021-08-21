@@ -22,7 +22,15 @@ ion-spinner {
 	}
 }
 
-.st-sm-border-bottom {
+.st-sm-border-bottom-with-space {
+	@media (max-width: #{$st-var-sm-split}) {
+		border-bottom: 1px solid #{$st-light-blue-border};
+		margin-bottom: 16px !important;
+		padding-bottom: 16px !important;
+	}
+}
+
+.st-sm-border-bottom-wtth-space {
 	@media (max-width: #{$st-var-sm-split}) {
 		border-bottom: 1px solid #{$st-light-blue-border};
 	}
@@ -175,6 +183,14 @@ ion-spinner {
 
 .st-small-left-space {
 	margin-left: 8px !important;
+}
+
+.st-right-space {
+	margin-right: 16px !important;
+}
+
+.st-left-space {
+	margin-left: 16px !important;
 }
 
 // custom headers
@@ -662,7 +678,7 @@ ion-skeleton-text {
 }
 
 .st-gap {
-	gap: 10px;
+	gap: 16px;
 }
 
 .st-flex-wrap {

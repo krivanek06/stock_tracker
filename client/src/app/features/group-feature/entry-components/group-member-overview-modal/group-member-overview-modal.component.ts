@@ -47,7 +47,7 @@ export class GroupMemberOverviewModalComponent implements OnInit, OnDestroy {
 
 	ngOnInit(): void {
 		this.groupUser = this.navParams.get('groupUser');
-		console.log('this.groupUser', this.groupUser);
+
 		this.graphqlGroupService
 			.queryStGroupMemberOverviewById(this.groupUser.id)
 			.pipe(takeUntil(componentDestroyed(this)))

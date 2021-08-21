@@ -397,7 +397,7 @@ export type Mutation = {
   editUser?: Maybe<Scalars['Boolean']>;
   resetUserAccount?: Maybe<StUserResetedAccount>;
   createGroup?: Maybe<StGroupAllData>;
-  editGroup?: Maybe<StGroupAllData>;
+  editGroup?: Maybe<Scalars['Boolean']>;
   deleteGroup?: Maybe<Scalars['Boolean']>;
   toggleInvitationRequestToGroup?: Maybe<StGroupAllData>;
   answerReceivedGroupInvitation?: Maybe<StGroupAllData>;
@@ -1965,7 +1965,7 @@ export type EditGroupMutationVariables = Exact<{
 }>;
 
 
-export type EditGroupMutation = { __typename?: 'Mutation', editGroup?: Maybe<{ __typename?: 'STGroupAllData', id: string, name: string, description?: Maybe<string>, imagePath?: Maybe<string>, imageUrl?: Maybe<string>, startDate: string, endDate?: Maybe<string>, isInfinite: boolean, isPrivate: boolean, numberOfMembers: number, numberOfInvitationSent: number, numberOfInvitationReceived: number, lastUpdateDate: string, lastEditedDate: string, createdDate: string, owner: { __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startedPortfolio: { __typename?: 'STPortfolioSnapshotStarted', portfolioInvested: number, portfolioCash: number, date: string, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number } }, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startedPortfolio: { __typename?: 'STPortfolioSnapshotStarted', portfolioInvested: number, portfolioCash: number, date: string, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number }, topMembers: Array<Maybe<{ __typename?: 'STGroupUser', id: string, nickName: string, locale?: Maybe<string>, photoURL: string, accountCreatedDate: string, previousPosition?: Maybe<number>, currentPosition?: Maybe<number>, sinceDate: string, portfolio: { __typename?: 'STPortfolioWrapper', portfolioCash: number, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number, lastPortfolioIncreaseNumber?: Maybe<number>, lastPortfolioIncreasePrct?: Maybe<number>, lastPortfolioSnapshot?: Maybe<{ __typename?: 'STPortfolioSnapshot', portfolioInvested: number, portfolioCash: number, date: string }>, lastTransactionSnapshot?: Maybe<{ __typename?: 'STTransactionSnapshot', transactionsBuy?: Maybe<number>, transactionsSell?: Maybe<number>, date: string }> }, startedPortfolio: { __typename?: 'STPortfolioSnapshotStarted', portfolioInvested: number, portfolioCash: number, date: string, numberOfExecutedTransactions: number, numberOfExecutedBuyTransactions: number, numberOfExecutedSellTransactions: number } }>>, currentAchievedRanks?: Maybe<{ __typename?: 'STRank', rankGainers: number, rankLosers: number, rankPortfolio: number, rankProfit: number, rankNumberOfTrades: number, date: string }> }> };
+export type EditGroupMutation = { __typename?: 'Mutation', editGroup?: Maybe<boolean> };
 
 export type DeleteGroupMutationVariables = Exact<{
   id: Scalars['String'];
@@ -3611,11 +3611,9 @@ export const CreateGroupDocument = gql`
   }
 export const EditGroupDocument = gql`
     mutation EditGroup($groupInput: STGroupAllDataInput!) {
-  editGroup(groupInput: $groupInput) {
-    ...STGroupIdentificationData
-  }
+  editGroup(groupInput: $groupInput)
 }
-    ${StGroupIdentificationDataFragmentDoc}`;
+    `;
 
   @Injectable({
     providedIn: 'root'
