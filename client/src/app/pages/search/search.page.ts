@@ -18,6 +18,7 @@ export class SearchPage implements OnInit {
 	constructor(private router: Router) {}
 
 	ngOnInit() {
+		console.log('segmentValue', this.segmentValue);
 		this.watchSelectedSearchType();
 	}
 

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { GraphqlQueryService, StUserIndentificationDataFragment } from '@core';
+import { GraphqlUserService, StUserIndentificationDataFragment } from '@core';
 import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
@@ -14,10 +14,11 @@ export class UserAccountSearchComponent implements OnInit {
 	@Output() clickedUserEmitter: EventEmitter<StUserIndentificationDataFragment> = new EventEmitter<StUserIndentificationDataFragment>();
 
 	@Input() fullWith = false;
+	@Input() clearOnClick = false;
 	searchedUsers$: Observable<StUserIndentificationDataFragment[]>;
 	form: FormGroup;
 
-	constructor(private fb: FormBuilder, private graphqlQueryService: GraphqlQueryService) {}
+	constructor(private fb: FormBuilder, private graphqlUserService: GraphqlUserService) {}
 
 	ngOnInit() {
 		this.initForm();
@@ -26,6 +27,9 @@ export class UserAccountSearchComponent implements OnInit {
 
 	clickedUser(user: StUserIndentificationDataFragment) {
 		this.clickedUserEmitter.emit(user);
+		if (this.clearOnClick) {
+			this.form.get('username').patchValue('');
+		}
 	}
 
 	private initForm() {
@@ -42,7 +46,7 @@ export class UserAccountSearchComponent implements OnInit {
 				if (res.length <= 2) {
 					return of(null);
 				}
-				return this.graphqlQueryService.queryUserIdentificationByUsername(res);
+				return this.graphqlUserService.queryUserIdentificationByUsername(res);
 			})
 		);
 	}

@@ -1,0 +1,156 @@
+<ion-grid>
+	<ion-row class="ion-justify-content-center">
+		<ion-col size="12" size-lg="11" style="overflow: visible">
+			<!-- search container -->
+			<ion-list class="ion-margin-vertical">
+				<app-user-account-search [fullWith]="true" [clearOnClick]="true" (clickedUserEmitter)="showUserInformation($event)">
+				</app-user-account-search>
+			</ion-list>
+
+			<!-- result of user -->
+			<ng-container *ngIf="userPublicDataSearchFragment$ | async as userData; else showLoader">
+				<!-- user identification -->
+				<div class="st-flex-space-between st-md-border-bottom">
+					<div class="c-image-container-with-other-data">
+						<!-- user imag / name / since -->
+						<div class="c-image-container st-sm-border-bottom">
+							<ion-img class="c-image" appDefaultImg [src]="userData.photoURL"></ion-img>
+							<div class="st-flex-col">
+								<ion-text class="st-font-size-18 st-font-0">{{ userData.nickName }}</ion-text>
+								<ion-text class="st-font-size-14 st-font-4"> Since: {{ userData.accountCreatedDate | date: 'dd.MM.yyyy' }} </ion-text>
+							</div>
+						</div>
+						<!-- other user related data -->
+						<div class="st-flex-col st-sm-border-bottom">
+							<ion-text class="st-font-size-16">Executed transactions: {{ userData.portfolio.numberOfExecutedTransactions }}</ion-text>
+							<ion-text class="st-font-size-16">
+								Executed <span class="st-price-up">BUY</span> transactions: {{ userData.portfolio.numberOfExecutedBuyTransactions }}
+							</ion-text>
+							<ion-text class="st-font-size-16">
+								Executed <span class="st-price-down">SELL</span> transactions: {{ userData.portfolio.numberOfExecutedSellTransactions }}
+							</ion-text>
+						</div>
+					</div>
+				</div>
+
+				<!-- portfolio state overview -->
+				<ion-grid>
+					<ion-row>
+						<ion-col size="12" size-sm="6" size-lg="4" class="st-sm-border-bottom">
+							<!-- portfolio current state -->
+							<app-portfolio-state
+								portfolioState="PARTIAL"
+								[portfolioCash]="userData.portfolio.lastPortfolioSnapshot.portfolioCash"
+								[portfolioInvested]="userData.portfolio.lastPortfolioSnapshot.portfolioInvested"
+							></app-portfolio-state>
+						</ion-col>
+						<ion-col size-lg="5" class="c-portfolio-change ion-hide-lg-down">
+							<!-- LG up - portfolio change -->
+							<app-portfolio-change
+								*ngFor="let tradingChange of tradingChangeWrapper"
+								[inlinePriceWithIncrease]="false"
+								[tradingChangeWrapper]="tradingChange"
+								[balance]="userData.portfolio.lastPortfolioSnapshot.portfolioInvested + userData.portfolio.lastPortfolioSnapshot.portfolioCash"
+							></app-portfolio-change>
+						</ion-col>
+						<ion-col size="12" size-sm="6" size-lg="3" class="st-sm-border-bottom">
+							<!-- portfolio increase chart -->
+							<div class="c-portfolio-chart">
+								<app-portfolio-increase-chart
+									[heightPx]="200"
+									[portfolioInvested]="userData.portfolio.lastPortfolioSnapshot.portfolioInvested"
+									[portfolioCash]="userData.portfolio.lastPortfolioSnapshot.portfolioCash"
+								></app-portfolio-increase-chart>
+							</div>
+						</ion-col>
+					</ion-row>
+
+					<!-- LG down screen -  portfolio change -->
+					<ion-row class="ion-hide-lg-up st-sm-border-bottom">
+						<ion-col class="c-portfolio-change">
+							<app-portfolio-change
+								*ngFor="let tradingChange of tradingChangeWrapper"
+								[inlinePriceWithIncrease]="false"
+								[tradingChangeWrapper]="tradingChange"
+								[balance]="userData.portfolio.lastPortfolioSnapshot.portfolioInvested + userData.portfolio.lastPortfolioSnapshot.portfolioCash"
+							></app-portfolio-change>
+						</ion-col>
+					</ion-row>
+
+					<!-- portfolio growth -->
+					<ion-row class="ion-justify-content-center">
+						<!-- portfolio growth chart -->
+						<ion-col size="12" size-lg="6">
+							<app-portfolio-growth-chart [heightPx]="260" [stPortfolioSnapshots]="userData.userHistoricalData.portfolioSnapshots">
+							</app-portfolio-growth-chart>
+						</ion-col>
+
+						<!-- portfolio change chart -->
+						<ion-col size="12" size-lg="6">
+							<app-portfolio-change-chart [heightPx]="260" [stPortfolioSnapshots]="userData.userHistoricalData.portfolioSnapshots">
+							</app-portfolio-change-chart>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+
+				<!-- holdings table -->
+				<div>
+					<app-generic-list [iconTitle]="'pricetags'" [title]="'Holdings'"></app-generic-list>
+					<app-generic-card>
+						<app-holdings-table
+							[clickable]="false"
+							[holdings]="userData.holdings"
+							[totalPortfolio]="userData.portfolio.lastPortfolioSnapshot.portfolioInvested + userData.portfolio.lastPortfolioSnapshot.portfolioCash"
+						>
+						</app-holdings-table>
+					</app-generic-card>
+				</div>
+
+				<!-- holdings PIE chart -->
+				<ion-grid>
+					<!-- holdings pie charts -->
+					<ion-row *ngIf="userData.holdings.length > 0" class="ion-margin-vertical ion-justify-content-around">
+						<!-- holdings sector -->
+						<ion-col size="12" size-lg="6">
+							<app-pie-chart-wrapper
+								[data]="userData.holdings | holdingsToSectorChartSeries"
+								[heightPx]="300"
+								chartTitle="holdings"
+							></app-pie-chart-wrapper>
+						</ion-col>
+
+						<!-- holdings allocation -->
+						<ion-col size="12" size-lg="6">
+							<app-pie-chart-wrapper
+								[data]="userData.holdings | holdingsToPortfolioChartSeries:  userData.portfolio.lastPortfolioSnapshot.portfolioCash"
+								[heightPx]="300"
+								chartTitle="Holdings allocation"
+							></app-pie-chart-wrapper>
+						</ion-col>
+					</ion-row>
+
+					<!-- transactions -->
+					<ion-row class="ion-justify-content-center">
+						<ion-col size="12" size-lg="6">
+							<app-generic-list [iconTitle]="'reader'" [title]="'Transactions'"></app-generic-list>
+							<app-generic-card additionalStyles="min-height: 300px">
+								<app-transactions-table [transactions]="userData.transactionsSnippets | slice: 0 : 5"> </app-transactions-table>
+							</app-generic-card>
+						</ion-col>
+						<ion-col class="ion-padding" size="12" size-lg="6">
+							<app-transactions-chart [heightPx]="360" [stTransactionSnapshots]="userData.userHistoricalData.transactionSnapshots">
+							</app-transactions-chart>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</ng-container>
+
+			<!-- loader -->
+			<ng-template #showLoader>
+				<div *ngIf="isLoading" class="spinner-container">
+					<ion-spinner color="primary"></ion-spinner>
+				</div>
+			</ng-template>
+		</ion-col>
+	</ion-row>
+</ion-grid>

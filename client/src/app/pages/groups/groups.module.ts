@@ -14,6 +14,11 @@ const routes: Routes = [
 		component: GroupsComponent,
 		children: [
 			{
+				path: '',
+				redirectTo: GROUPS_PAGES.OVERVIEW,
+				pathMatch: 'full',
+			},
+			{
 				path: GROUPS_PAGES.OVERVIEW,
 				loadChildren: () => import('./pages/groups-overview/groups-overview.module').then((m) => m.GroupsOverviewModule),
 			},
@@ -23,10 +28,6 @@ const routes: Routes = [
 				resolve: {
 					groupDetails: ResolveGroupDetailsGuard,
 				},
-			},
-			{
-				path: '',
-				redirectTo: GROUPS_PAGES.OVERVIEW,
 			},
 		],
 	},

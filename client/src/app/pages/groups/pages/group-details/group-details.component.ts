@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GroupStorageService } from '@core';
+import { GroupStorageService, StGroupAllData } from '@core';
 import { GroupFeatureFacadeService } from '@group-feature';
 import { ConfirmableWithCheckbox } from '@shared';
 import { Observable } from 'rxjs';
-import { GROUPS_PAGES, GROUPS_PAGES_DETAILS_PATH } from '../../model/groups.model';
-import { StGroupAllData } from './../../../../core/graphql-schema/customGraphql.service';
+import { GROUPS_PAGES_DETAILS_PATH } from '../../model/groups.model';
+import { GROUPS_PAGES } from './../../model/groups.model';
 
 @Component({
 	selector: 'app-group-details',
