@@ -10,8 +10,10 @@ import { PositionColors } from '@shared';
 })
 export class GroupUserBaseInformationComponent implements OnInit {
 	@Input() groupUser: StGroupUser;
-	@Input() useClassStyling: PositionColors = '';
+	@Input() useClassStyling: PositionColors = ''; // makes font colorfull - used on top three members
 	@Input() showIncreasePosition: boolean = false;
+	@Input() showPortfolioSinceMember: boolean;
+	@Input() groupUserPosition: number;
 	@Input() clickable: boolean = false;
 
 	constructor() {}

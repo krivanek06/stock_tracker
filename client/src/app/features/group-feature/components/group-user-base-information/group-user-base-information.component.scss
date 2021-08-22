@@ -1,4 +1,9 @@
 :host {
+	.c-info-with-position-container {
+		& > * {
+			margin-bottom: 4px;
+		}
+	}
 	.c-main-container {
 		position: relative;
 		padding: 10px;
@@ -16,9 +21,10 @@
 	}
 
 	.current-position-number-container {
-		position: absolute;
-		right: 0;
-		top: 0;
+		height: 100%;
+		align-items: baseline !important;
+		width: 100%;
+		justify-content: flex-end;
 
 		.current-position-number {
 			margin-right: 8px;

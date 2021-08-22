@@ -31,6 +31,7 @@ export const STGroupTypeDefs = gql`
 		endDate: String
 		isInfinite: Boolean!
 		isPrivate: Boolean!
+		isClosed: Boolean!
 		portfolio: STPortfolioWrapper!
 		startedPortfolio: STPortfolioSnapshotStarted!
 		numberOfMembers: Float!

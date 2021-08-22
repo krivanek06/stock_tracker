@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { StGroupAllData, StGroupUser, StUserPublicData } from './../../../../core/graphql-schema/customGraphql.service';
-import { GROUP_MEMBERS_SORT_INPUT_SOURCE } from './../../model';
+import { GroupMemberSortValuesEnum, GROUP_MEMBERS_SORT_INPUT_SOURCE } from './../../model';
 
 @Component({
 	selector: 'app-group-members-table',
@@ -16,6 +16,9 @@ export class GroupMembersTableComponent implements OnInit {
 	form: FormGroup;
 
 	GROUP_MEMBERS_SORT_INPUT_SOURCE = GROUP_MEMBERS_SORT_INPUT_SOURCE;
+	GroupMemberSortValuesEnum = GroupMemberSortValuesEnum;
+
+	showPortfolioSinceMember = false;
 
 	constructor(private fb: FormBuilder) {}
 
@@ -24,12 +27,27 @@ export class GroupMembersTableComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.form = this.fb.group({
-			groupMemberSort: [],
-		});
+		this.initForm();
+		this.watchFormValueChange();
 	}
 
 	clickedMember(groupUser: StGroupUser) {
 		this.clickedUserEmitter.emit(groupUser);
+	}
+
+	private initForm(): void {
+		this.form = this.fb.group({
+			groupMemberSort: [GROUP_MEMBERS_SORT_INPUT_SOURCE[0].value],
+		});
+	}
+
+	private watchFormValueChange(): void {
+		this.groupMemberSort.valueChanges.subscribe((res) => {
+			if (GroupMemberSortValuesEnum.biggest_gains_since_member === res) {
+				this.showPortfolioSinceMember = true;
+			} else {
+				this.showPortfolioSinceMember = false;
+			}
+		});
 	}
 }

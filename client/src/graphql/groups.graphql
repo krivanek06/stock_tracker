@@ -28,6 +28,7 @@ fragment STGroupIdentificationData on STGroupAllData {
 	endDate
 	isInfinite
 	isPrivate
+	isClosed
 	numberOfMembers
 	numberOfInvitationSent
 	numberOfInvitationReceived
@@ -63,6 +64,7 @@ fragment STGroupAllDataFragment on STGroupAllData {
 	endDate
 	isPrivate
 	isInfinite
+	isClosed
 	numberOfMembers
 	numberOfInvitationSent
 	numberOfInvitationReceived

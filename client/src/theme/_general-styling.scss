@@ -40,8 +40,32 @@ ion-spinner {
 	border-bottom: 1px solid #{$st-light-blue-border};
 }
 
-.st-border-top {
+.st-border-right {
+	border-right: 1px solid #{$st-light-blue-border};
+}
+
+.st-border-left {
+	border-left: 1px solid #{$st-light-blue-border};
+}
+
+.st-border-top-normal {
 	border-top: 1px solid #{$st-light-blue-border};
+}
+
+.st-border-bottom-normal {
+	border-bottom: 1px solid;
+}
+
+.st-border-right-normal {
+	border-right: 1px solid;
+}
+
+.st-border-left-normal {
+	border-left: 1px solid;
+}
+
+.st-border-top-normal {
+	border-top: 1px solid;
 }
 
 // --------------- BORDER END -------------------
@@ -191,6 +215,14 @@ ion-spinner {
 
 .st-left-space {
 	margin-left: 16px !important;
+}
+
+.st-right-padding {
+	padding-right: 16px !important;
+}
+
+.st-left-padding {
+	padding-left: 16px !important;
 }
 
 // custom headers

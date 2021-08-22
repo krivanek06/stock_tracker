@@ -61,6 +61,7 @@ export const createEmptySTGroupAllData = (): api.STGroupAllData => {
 		startDate: null,
 		topTransactions: [],
 		isPrivate: false,
+		isClosed: false,
 		imagePath: null,
 		imageUrl: null,
 		numberOfMembers: 0,

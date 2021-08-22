@@ -6,21 +6,29 @@
 			</div>
 			<div>
 				<ion-text class="st-font-size-24 st-font-purple" style="margin-bottom: 8px"> {{ groupIdentification.name }} </ion-text>
-				<div class="st-display-flex-center st-data-label">
+				<div class="st-display-flex-center">
 					<ion-text class="st-font-1 st-small-right-space st-font-size-18">Owner:</ion-text>
 					<ion-avatar class="c-owner-image">
 						<img appDefaultImg [src]="groupIdentification.owner.photoURL" alt="owner's image" />
 					</ion-avatar>
 					<ion-text>{{ groupIdentification.owner.nickName }}</ion-text>
 				</div>
-				<div
-					class="st-font-size-18"
-					[ngClass]="{
-						'st-price-down': groupIdentification.isPrivate,
-						  'st-price-up': !groupIdentification.isPrivate
-					  }"
-				>
-					{{ groupIdentification.isPrivate ? 'Private' : 'Public' }}
+				<div class="st-display-flex-center">
+					<!-- public / private group -->
+					<div *ngIf="!groupIdentification.isPrivate" class="st-price-up st-display-flex-center">
+						<ion-icon name="lock-open"></ion-icon>
+						<ion-text class="st-font-size-18 st-small-left-space">Public</ion-text>
+					</div>
+					<div *ngIf="groupIdentification.isPrivate" class="st-price-down st-display-flex-center">
+						<ion-icon name="lock-closed"></ion-icon>
+						<ion-text class="st-font-size-18 st-small-left-space">Private</ion-text>
+					</div>
+					<!-- border -->
+					<div class="st-left-space st-left-padding st-border-left-normal">
+						<!-- open / closed group -->
+						<ion-text *ngIf="!groupIdentification.isClosed" class="st-font-size-18 st-price-up">Open</ion-text>
+						<ion-text *ngIf="groupIdentification.isClosed" class="st-font-size-18 st-price-down">Closed</ion-text>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -42,20 +50,18 @@
 				</div>
 				<div>
 					<ion-text class="st-font-1 st-small-right-space">Open:</ion-text>
-					<ion-text>{{ groupIdentification.createdDate | relativeTime }}</ion-text>
+					<ion-text *ngIf="!groupIdentification.isClosed">{{ groupIdentification.createdDate | relativeTime }}</ion-text>
 				</div>
 				<div>
-					<ion-text class="st-font-1 st-small-right-space">Last update:</ion-text>
-					<ion-text>{{ groupIdentification.lastUpdateDate | date: 'dd.MM.YYYY' }}</ion-text>
+					<ion-text class="st-font-1 st-small-right-space">Closed in:</ion-text>
+					<ion-text *ngIf="!groupIdentification.isClosed"
+						>{{ groupIdentification.isInfinite ? 'Never' : (groupIdentification.endDate | relativeTime: true) }}</ion-text
+					>
 				</div>
 			</div>
 
 			<!-- data section -->
 			<div class="st-flex-col st-sm-border-bottom-with-space">
-				<div>
-					<ion-text class="st-font-1 st-small-right-space">Members:</ion-text>
-					<ion-text>{{ groupIdentification.numberOfMembers }}</ion-text>
-				</div>
 				<div>
 					<ion-text class="st-font-1 st-small-right-space">Total transactions:</ion-text>
 					<ion-text
@@ -76,6 +82,14 @@
 						>{{ groupIdentification.portfolio.numberOfExecutedSellTransactions -
 						groupIdentification.startedPortfolio.numberOfExecutedSellTransactions}}</ion-text
 					>
+				</div>
+				<div>
+					<ion-text class="st-font-1 st-small-right-space">Members:</ion-text>
+					<ion-text>{{ groupIdentification.numberOfMembers }}</ion-text>
+				</div>
+				<div>
+					<ion-text class="st-font-1 st-small-right-space">Last update:</ion-text>
+					<ion-text>{{ groupIdentification.lastUpdateDate | date: 'dd.MM.YYYY' }}</ion-text>
 				</div>
 			</div>
 		</div>
