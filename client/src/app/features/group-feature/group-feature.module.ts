@@ -9,8 +9,8 @@ import {
 	GroupTopUsersInformationComponent,
 	GroupUserBaseInformationComponent,
 } from './components';
-import { GroupCreateModalComponent } from './entry-components';
-import { GroupMemberOverviewModalComponent } from './entry-components/group-member-overview-modal/group-member-overview-modal.component';
+import { GroupCreateModalComponent, GroupMemberOverviewModalComponent } from './entry-components';
+import { GroupMemberSortPipe } from './pipes';
 
 @NgModule({
 	declarations: [
@@ -21,6 +21,7 @@ import { GroupMemberOverviewModalComponent } from './entry-components/group-memb
 		GroupMembersTableComponent,
 		GroupTopUsersInformationComponent,
 		GroupMemberOverviewModalComponent,
+		GroupMemberSortPipe,
 	],
 	imports: [SharedModule, AccountFeatureModule, SharedMaterialModule, StockTradingFeatureModule],
 	exports: [

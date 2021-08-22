@@ -45,7 +45,12 @@ export const GROUP_PROMOTE_MANAGER: GroupMemberPosition[] = [
 	{ label: 'Remove as manager', values: GroupMemberPositionChangeEnum.REMOVE_MANAGER },
 ];
 
+export enum GroupMemberSortValuesEnum {
+	highest_portfolio = 'highest_portfolio',
+	biggest_gains_since_member = 'biggest_gains_since_member',
+}
+
 export const GROUP_MEMBERS_SORT_INPUT_SOURCE: InputSource[] = [
-	{ caption: 'Higher portfolio', value: 'highest_portfolio' },
-	{ caption: 'Biggest gains since memeber', value: 'biggest_gains_since_member' },
+	{ caption: 'Higher portfolio', value: GroupMemberSortValuesEnum.highest_portfolio },
+	{ caption: 'Biggest gains since memeber', value: GroupMemberSortValuesEnum.biggest_gains_since_member },
 ];

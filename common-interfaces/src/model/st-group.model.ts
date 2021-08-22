@@ -19,9 +19,10 @@ export interface STGroupAllData {
     endDate: string;
     isInfinite: boolean;
     isPrivate: boolean; // if true then group is invite only
+    isClosed: boolean; // true only if isInfinite === false && endDate < today
     numberOfMembers: number;
     numberOfInvitationReceived: number;
-    numberOfInvitationSent: number;
+    numberOfInvitationSent: number; 
     portfolio: STPortfolioWrapper; // total group portfolio
     startedPortfolio: STPortfolioSnapshotStarted; // accumulation of user's portfolio when they joined group
     topTransactions: STTransaction[]; // only sold stock, top profit desc

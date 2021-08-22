@@ -20,7 +20,7 @@
 <div class="st-flex-wrap" style="gap: 10px">
 	<ion-card
 		class="c-member-card"
-		*ngFor="let groupUser of groupAllData.groupMemberData.members; let i = index"
+		*ngFor="let groupUser of groupAllData.groupMemberData.members | groupMemberSort: groupMemberSort.value; let i = index"
 		button
 		(click)="clickedMember(groupUser)"
 		[ngClass]="{
@@ -31,7 +31,9 @@
                 }"
 	>
 		<app-group-user-base-information
-			[showIncreasePosition]="true"
+			[showIncreasePosition]="groupMemberSort.value === GroupMemberSortValuesEnum.highest_portfolio"
+			[groupUserPosition]="i + 1"
+			[showPortfolioSinceMember]="showPortfolioSinceMember"
 			[useClassStyling]="groupUser.id === user?.id && i !== 0 && i !== 1 && i !== 2 ? 'st-my-position-color' :
                                    i === 0 ? 'st-first-position-color' :
                                    i === 1 ? 'st-second-position-color' :
