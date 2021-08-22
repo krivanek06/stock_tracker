@@ -1,16 +1,16 @@
 <ion-content class="ion-padding">
-    <!-- menu page header -->
-    <app-menu-header></app-menu-header>
+	<!-- menu page header -->
+	<app-menu-header></app-menu-header>
 
-    <!-- header -->
-    <app-header [pageIcon]="pageIcon" [pageName]="pageName"></app-header>
+	<!-- header -->
+	<app-header [pageIcon]="pageIcon" [pageName]="pageName"></app-header>
 
-    <ion-grid>
-        <ion-row class="ion-justify-content-center">
-            <ion-col size="12" size-lg="11" size-xl="10" style="overflow: visible">
-                <!-- content of page-->
-                <ng-content></ng-content>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
+	<ion-grid>
+		<ion-row class="ion-justify-content-center">
+			<ion-col size="12" size-lg="11" size-xl="10" style="overflow: visible">
+				<!-- content of page-->
+				<ng-content></ng-content>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
 </ion-content>

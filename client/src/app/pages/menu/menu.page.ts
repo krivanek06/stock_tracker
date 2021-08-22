@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AuthenticationService, componentDestroyed, StUserPublicData, UserStorageService, User_Roles_Enum } from '@core';
 import { MenuController, PopoverController } from '@ionic/angular';
 import { AuthenticationPopoverComponent } from '@login-feature';
@@ -38,6 +38,7 @@ export class MenuPage implements OnInit, OnDestroy {
 		private authenticationService: AuthenticationService,
 		private popoverController: PopoverController,
 		private router: Router,
+		private route: ActivatedRoute,
 		private menu: MenuController
 	) {}
 
@@ -57,6 +58,11 @@ export class MenuPage implements OnInit, OnDestroy {
 
 	applyOverlay(event: boolean) {
 		this.showOverlay = event;
+	}
+
+	clickedRouter(page: MenuPageInterface) {
+		this.selectedNavigation = page;
+		this.router.navigate([page.url], { relativeTo: this.route });
 	}
 
 	async showLoginModal() {

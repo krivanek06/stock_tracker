@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleCha
 import { roundNumber, stFormatLargeNumber } from '@shared';
 import * as Highcharts from 'highcharts';
 import highcharts3D from 'highcharts/highcharts-3d';
+import { STARTING_PORTFOLIO } from '../../../models';
 
 highcharts3D(Highcharts);
 
@@ -12,7 +13,7 @@ highcharts3D(Highcharts);
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioIncreaseChartComponent implements OnInit, OnChanges {
-	@Input() stStartedPortfoliobalance: number;
+	@Input() stStartedPortfoliobalance: number = STARTING_PORTFOLIO;
 	@Input() portfolioInvested: number;
 	@Input() portfolioCash: number;
 	@Input() heightPx = 350;

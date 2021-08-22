@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { GraphqlQueryService, StUserIndentificationDataFragment } from '@core';
+import { GraphqlUserService, StUserIndentificationDataFragment } from '@core';
 import { of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
@@ -13,7 +13,7 @@ export class UserAccountSearchFormComponent implements OnInit {
 	@Output() searchedUsersEmitter: EventEmitter<StUserIndentificationDataFragment[]> = new EventEmitter();
 	form: FormGroup;
 
-	constructor(private fb: FormBuilder, private graphqlQueryService: GraphqlQueryService) {}
+	constructor(private fb: FormBuilder, private graphqlUserService: GraphqlUserService) {}
 
 	ngOnInit(): void {
 		this.form = this.fb.group({
@@ -32,7 +32,7 @@ export class UserAccountSearchFormComponent implements OnInit {
 					if (res.length <= 2) {
 						return of(null);
 					}
-					return this.graphqlQueryService.queryUserIdentificationByUsername(res);
+					return this.graphqlUserService.queryUserIdentificationByUsername(res);
 				})
 			)
 			.subscribe((users) => this.searchedUsersEmitter.emit(users));

@@ -1,21 +1,21 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GraphqlGroupService, StGroupIdentificationDataFragment } from '@core';
 import { Observable, of } from 'rxjs';
 import { debounceTime, switchMap } from 'rxjs/operators';
 
 @Component({
-	selector: 'app-search-group',
-	templateUrl: './search-group.component.html',
-	styleUrls: ['./search-group.component.scss'],
+	selector: 'app-search-group-page',
+	templateUrl: './search-group-page.component.html',
+	styleUrls: ['./search-group-page.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchGroupComponent implements OnInit {
+export class SearchGroupPageComponent implements OnInit {
 	searchedGroups$: Observable<StGroupIdentificationDataFragment[]>;
 	form: FormGroup;
 
-	constructor(private fb: FormBuilder, private graphqlGroupService: GraphqlGroupService, private router: Router) {}
+	constructor(private fb: FormBuilder, private graphqlGroupService: GraphqlGroupService, private router: Router, private route: ActivatedRoute) {}
 
 	ngOnInit() {
 		this.initForm();
@@ -23,7 +23,7 @@ export class SearchGroupComponent implements OnInit {
 	}
 
 	visit(group: StGroupIdentificationDataFragment) {
-		this.router.navigate([`menu/groups/details/${group.id}`]);
+		this.router.navigate([`../../groups/details/${group.id}`], { relativeTo: this.route });
 	}
 
 	private initForm() {

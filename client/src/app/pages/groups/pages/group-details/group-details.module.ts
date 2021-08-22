@@ -11,16 +11,17 @@ const routes: Routes = [
 		component: GroupDetailsComponent,
 		children: [
 			{
+				path: '',
+				redirectTo: GROUPS_PAGES_DETAILS.OVERVIEW,
+				pathMatch: 'full',
+			},
+			{
 				path: GROUPS_PAGES_DETAILS.OVERVIEW,
 				loadChildren: () => import('./pages/group-details-overview/group-details-overview.module').then((m) => m.GroupDetailsOverviewModule),
 			},
 			{
 				path: GROUPS_PAGES_DETAILS.STATS,
 				loadChildren: () => import('./pages/group-details-stats/group-details-stats.module').then((m) => m.GroupDetailsStatsModule),
-			},
-			{
-				path: '',
-				redirectTo: GROUPS_PAGES_DETAILS.OVERVIEW,
 			},
 		],
 	},

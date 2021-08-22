@@ -43,18 +43,17 @@
 				</ng-template>
 			</div>
 
-			<!-- navigation main -->
+			<!-- navigation main 		[routerLink]="[p.url]" routerDirection="root" -->
 			<ion-list>
 				<ion-text class="page-section">Main section</ion-text>
 				<ion-menu-toggle auto-hide="false" *ngFor="let p of mainPages">
 					<ng-container *ngIf="!p.hidden">
 						<div *ngIf="selectedNavigation?.title === p.title" class="navigation-rectangle-selected"></div>
 						<ion-item
-							(click)="selectedNavigation = p"
+							button
+							(click)="clickedRouter(p)"
 							[disabled]="p.disabled"
 							class="navigation"
-							routerDirection="root"
-							[routerLink]="[p.url]"
 							lines="none"
 							detail="false"
 							[class.selected]="selectedNavigation?.title === p.title"
@@ -73,15 +72,14 @@
 					<ng-container *ngIf="!p.hidden">
 						<div *ngIf="selectedNavigation?.title === p.title" class="navigation-rectangle-selected"></div>
 						<ion-item
-							(click)="selectedNavigation = p"
+							button
+							(click)="clickedRouter(p)"
 							[ngClass]="{
                                 'active-finhub-api-item-highlight ': p?.highlight
                             }"
 							[matTooltip]="p?.highlight ? p.highlightText : null"
 							class="navigation"
 							[disabled]="p.disabled"
-							routerDirection="root"
-							[routerLink]="[p.url]"
 							lines="none"
 							detail="false"
 							[class.selected]="selectedNavigation?.title === p.title"
