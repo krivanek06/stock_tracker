@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Platform } from '@ionic/angular';
 import { merge, Observable } from 'rxjs';
 import { filter, mapTo } from 'rxjs/operators';
+import {DialogService} from "@shared";
 
 // https://dmitrymogilko.medium.com/profiling-angular-change-detection-c00605862b9f
 @Component({
@@ -25,7 +26,8 @@ export class AppComponent implements OnInit {
 		private themeService: ThemeService,
 		private languageService: LanguageService,
 		private router: Router,
-		private applicationRef: ApplicationRef
+		private applicationRef: ApplicationRef,
+		ionicDialogService: DialogService
 	) {
 		this.initializeApp();
 		// this.initLoadingEvents();

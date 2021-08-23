@@ -1,7 +1,8 @@
 import {NgModule} from '@angular/core';
 import {AuthenticationPopoverComponent} from './entry-points';
 import {LoginComponent, RegistrationComponent} from './components';
-import {SharedModule} from '@shared';
+import {IonicModule} from "@ionic/angular";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -11,7 +12,9 @@ import {SharedModule} from '@shared';
         LoginComponent
     ],
     imports: [
-        SharedModule
+        IonicModule,
+        ReactiveFormsModule
+
     ],
     exports: [
         AuthenticationPopoverComponent,

@@ -24,6 +24,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { GraphQlModule } from './graph-ql.module';
+import {DialogServiceModule} from "@shared";
+// import {
+// 	ConfirmationPopOverModule,
+// 	FinancialChartModalModule,
+// 	InlineInputPopUpModule,
+// 	OptionPickerPopOverModule
+// } from "./shared/entry-components";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -74,6 +81,13 @@ const MY_DATE_FORMATS = {
 				deps: [HttpClient],
 			},
 		}),
+
+		// entry points imports
+		DialogServiceModule
+		// ConfirmationPopOverModule,
+		// FinancialChartModalModule,
+		// InlineInputPopUpModule,
+		// OptionPickerPopOverModule
 	],
 	providers: [
 		StatusBar,

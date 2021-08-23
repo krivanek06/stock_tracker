@@ -1,12 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDatepicker } from '@angular/material/datepicker';
-import { StGroupAllDataInput, StUserIndentificationDataFragment, StUserIndetification } from '@core';
-import { DialogService, UploadedFile, UploaderComponent } from '@shared';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MatDatepicker} from '@angular/material/datepicker';
+import {StGroupAllData, StGroupAllDataInput, StUserIndentificationDataFragment, StUserIndetification} from '@core';
+import {DialogService, UploadedFile, UploaderComponent} from '@shared';
 import * as moment from 'moment';
-import { combineLatest } from 'rxjs';
-import { createSTGroupAllDataInput } from '../../utils';
-import { StGroupAllData } from './../../../../core/graphql-schema/customGraphql.service';
+import {combineLatest} from 'rxjs';
+import {createSTGroupAllDataInput} from '../../utils';
 
 @Component({
 	selector: 'app-group-create-form',

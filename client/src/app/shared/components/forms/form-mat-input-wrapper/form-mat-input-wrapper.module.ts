@@ -14,7 +14,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatSliderModule} from '@angular/material/slider';
-import {SharedPipesModule} from '../../../pipes';
+import {NumberFormatterPipeModule} from "../../../pipes";
 
 @NgModule({
     declarations: [FormMatInputWrapperComponent],
@@ -33,7 +33,7 @@ import {SharedPipesModule} from '../../../pipes';
         MatAutocompleteModule,
         MatChipsModule,
         MatSliderModule,
-        SharedPipesModule,
+        NumberFormatterPipeModule,
     ],
     exports: [FormMatInputWrapperComponent],
 })

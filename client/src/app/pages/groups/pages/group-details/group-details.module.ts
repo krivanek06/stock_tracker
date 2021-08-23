@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GroupFeatureModule } from '@group-feature';
-import { SharedModule } from '@shared';
 import { GROUPS_PAGES_DETAILS } from '../../model/groups.model';
 import { GroupDetailsComponent } from './group-details.component';
+import {CommonModule} from "@angular/common";
+import {GroupBaseInformationModule} from "@group-feature";
+import {IonicModule} from "@ionic/angular";
 
 const routes: Routes = [
 	{
@@ -29,6 +30,6 @@ const routes: Routes = [
 
 @NgModule({
 	declarations: [GroupDetailsComponent],
-	imports: [SharedModule, GroupFeatureModule, RouterModule.forChild(routes)],
+	imports: [CommonModule, RouterModule.forChild(routes), GroupBaseInformationModule, IonicModule],
 })
 export class GroupDetailsModule {}

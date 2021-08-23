@@ -1,1 +1,1 @@
-export * from './watchlist-table/watchlist-table.component';
+export * from './watchlist-table/watchlist-table.module';

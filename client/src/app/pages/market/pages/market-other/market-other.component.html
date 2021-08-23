@@ -1,82 +1,77 @@
 <mat-accordion *ngIf="dailyOverview$ | async as dailyOverview" [multi]="true">
-    <!-- sector performance -->
-    <app-generic-extension-panel title="Sector performance">
-        <app-market-sector-heat-map
-                [heightPx]="500"
-                [sectorPerformance]="dailyOverview.sectorPerformance">
-        </app-market-sector-heat-map>
-    </app-generic-extension-panel>
+	<!-- sector performance -->
+	<app-generic-extension-panel title="Sector performance">
+		<app-market-sector-heat-map [heightPx]="500" [sectorPerformance]="dailyOverview.sectorPerformance"> </app-market-sector-heat-map>
+	</app-generic-extension-panel>
 
-    <!-- exchange PE -->
-    <app-generic-extension-panel title="Sector NYSE PE">
-        <ion-grid>
-            <ion-row>
-                <!-- exchange industry pe -->
-                <ion-col size="12" size-lg="6">
-                    <app-generic-chart
-                            [chartType]="ChartType.bar"
-                            [heightPx]="315"
-                            [series]="[{
+	<!-- exchange PE -->
+	<app-generic-extension-panel title="Sector NYSE PE">
+		<ion-grid>
+			<ion-row>
+				<!-- exchange industry pe -->
+				<ion-col size="12" size-lg="6">
+					<app-generic-chart
+						[chartType]="ChartType.bar"
+						[heightPx]="315"
+						[series]="[{
                              colorByPoint: true,
                              data: dailyOverview.exchange.exchangeIndustryPE | chartKeyValueFormatter: 'industry' : 'pe'
                             }]"
-                            [showDataLabel]="true"
-                            chartTitle="Exchange industry PE">
-                    </app-generic-chart>
-                </ion-col>
+						[showDataLabel]="true"
+						chartTitle="Exchange industry PE"
+					>
+					</app-generic-chart>
+				</ion-col>
 
-                <!-- exchange sector pe -->
-                <ion-col size="12" size-lg="6">
-                    <app-generic-chart
-                            [chartType]="ChartType.bar"
-                            [heightPx]="315"
-                            [series]="[{
+				<!-- exchange sector pe -->
+				<ion-col size="12" size-lg="6">
+					<app-generic-chart
+						[chartType]="ChartType.bar"
+						[heightPx]="315"
+						[series]="[{
                                     colorByPoint: true,
                                     data: dailyOverview.exchange.exchangeSectorPE | chartKeyValueFormatter: 'sector' : 'pe'
                                 }]"
-                            [showDataLabel]="true"
-                            chartTitle="Exchange sector PE">
-                    </app-generic-chart>
-                </ion-col>
-            </ion-row>
-        </ion-grid>
-    </app-generic-extension-panel>
+						[showDataLabel]="true"
+						chartTitle="Exchange sector PE"
+					>
+					</app-generic-chart>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+	</app-generic-extension-panel>
 
-    <!-- Mutual funds -->
-    <app-generic-extension-panel title='Mutual funds: Vanguard Total International Stock'>
-        <app-financial-chart-container
-                [financialChart]="false"
-                [height]="315"
-                [initWebsockets]="false"
-                name="Vanguard Total International Stock"
-                symbol="VTIAX">
-        </app-financial-chart-container>
-    </app-generic-extension-panel>
+	<!-- Mutual funds -->
+	<app-generic-extension-panel title="Mutual funds: Vanguard Total International Stock">
+		<app-financial-chart-container
+			[financialChart]="false"
+			[height]="315"
+			[initWebsockets]="false"
+			name="Vanguard Total International Stock"
+			symbol="VTIAX"
+		>
+		</app-financial-chart-container>
+	</app-generic-extension-panel>
 
-    <app-generic-extension-panel title="Mutual funds">
-        <app-market-company-quotes-table
-                [showImage]="false"
-                [skeletonLength]="15"
-                [stfmCompanyQuotes]="dailyOverview.mutulaFunds">
-        </app-market-company-quotes-table>
-    </app-generic-extension-panel>
+	<app-generic-extension-panel title="Mutual funds">
+		<app-market-company-quotes-table [showImage]="false" [skeletonLength]="15" [stfmCompanyQuotes]="dailyOverview.mutulaFunds">
+		</app-market-company-quotes-table>
+	</app-generic-extension-panel>
 
-    <!-- Commodities -->
-    <app-generic-extension-panel [title]="'Commodity: ' +  dailyOverview.commodities[0].name">
-        <app-financial-chart-container
-                [financialChart]="false"
-                [height]="315"
-                [initWebsockets]="false"
-                [name]="dailyOverview.commodities[0].name"
-                [symbol]="dailyOverview.commodities[0].symbol">
-        </app-financial-chart-container>
-    </app-generic-extension-panel>
+	<!-- Commodities -->
+	<app-generic-extension-panel [title]="'Commodity: ' +  dailyOverview.commodities[0].name">
+		<app-financial-chart-container
+			[financialChart]="false"
+			[height]="315"
+			[initWebsockets]="false"
+			[name]="dailyOverview.commodities[0].name"
+			[symbol]="dailyOverview.commodities[0].symbol"
+		>
+		</app-financial-chart-container>
+	</app-generic-extension-panel>
 
-    <app-generic-extension-panel title="Commodities">
-        <app-market-company-quotes-table
-                [showImage]="false"
-                [skeletonLength]="15"
-                [stfmCompanyQuotes]="dailyOverview.commodities">
-        </app-market-company-quotes-table>
-    </app-generic-extension-panel>
+	<app-generic-extension-panel title="Commodities">
+		<app-market-company-quotes-table [showImage]="false" [skeletonLength]="15" [stfmCompanyQuotes]="dailyOverview.commodities">
+		</app-market-company-quotes-table>
+	</app-generic-extension-panel>
 </mat-accordion>

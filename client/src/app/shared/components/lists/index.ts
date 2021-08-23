@@ -1,1 +1,1 @@
-export * from './list-skeleton/list-skeleton.component';
+export * from './list-skeleton/list-skeleton.module';

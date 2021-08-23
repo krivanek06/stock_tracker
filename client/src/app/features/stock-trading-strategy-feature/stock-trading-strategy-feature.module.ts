@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {SharedModule} from '@shared';
 import {
     TradingStrategyEmvComponent,
     TradingStrategyEMVHistogramComponent,
@@ -7,6 +6,10 @@ import {
     TradingStrategyRppGlbComponent,
     TradingStrategyRwbComponent
 } from './components';
+import {HighchartsChartModule} from "highcharts-angular";
+import {IonicModule} from "@ionic/angular";
+import {ReactiveFormsModule} from "@angular/forms";
+import {CommonModule} from "@angular/common";
 
 
 @NgModule({
@@ -25,7 +28,10 @@ import {
         TradingStrategyRmcComponent,
     ],
     imports: [
-        SharedModule
+        HighchartsChartModule,
+        IonicModule,
+        ReactiveFormsModule,
+        CommonModule
     ]
 })
 export class StockTradingStrategyFeatureModule {

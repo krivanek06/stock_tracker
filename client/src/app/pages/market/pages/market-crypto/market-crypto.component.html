@@ -1,41 +1,34 @@
 <ion-grid>
-    <!-- bitcoin chart -->
-    <ion-row class="ion-justify-content-center">
-        <ion-col size="12">
-            <app-financial-chart-container
-                    [height]="400"
-                    [isCrypto]="true"
-                    [name]="'Bitcoin - USD'"
-                    [symbol]="'BTCUSD'">
-            </app-financial-chart-container>
-        </ion-col>
-    </ion-row>
+	<!-- bitcoin chart -->
+	<ion-row class="ion-justify-content-center">
+		<ion-col size="12">
+			<app-financial-chart-container [height]="400" [isCrypto]="true" [name]="'Bitcoin - USD'" [symbol]="'BTCUSD'"> </app-financial-chart-container>
+		</ion-col>
+	</ion-row>
 
-    <!-- crypto charts -->
-    <app-generic-list [applyMarginTop]="true" [title]="'Bitcoin stats'"></app-generic-list>
-    <ion-row *ngIf="marketOverview$ | async as marketOverview">
-        <ion-col *ngFor="let data of marketOverview.bitcoin" size="12" size-md="4" size-sm="6">
-            <app-generic-chart
-                    (expandEmitter)="expand(data.documentKey)"
-                    [heightPx]="185"
-                    [series]="[{name: data.name,  data: data.data}]"
-                    [showExpandableButton]="true"
-                    [showLegendLatestValue]="true"
-                    [showLegend]="true">
-            </app-generic-chart>
-        </ion-col>
-    </ion-row>
+	<!-- crypto charts -->
+	<app-generic-list [applyMarginTop]="true" [title]="'Bitcoin stats'"></app-generic-list>
+	<ion-row *ngIf="marketOverview$ | async as marketOverview">
+		<ion-col *ngFor="let data of marketOverview.bitcoin" size="12" size-md="4" size-sm="6">
+			<app-generic-chart
+				(expandEmitter)="expand(data.documentKey)"
+				[heightPx]="185"
+				[series]="[{name: data.name,  data: data.data}]"
+				[showExpandableButton]="true"
+				[showLegendLatestValue]="true"
+				[showLegend]="true"
+			>
+			</app-generic-chart>
+		</ion-col>
+	</ion-row>
 
-    <!-- crypto table -->
-    <app-generic-list [applyMarginTop]="true" [title]="'Top crypto'"></app-generic-list>
-    <ion-row>
-        <ion-col size="12">
-            <app-generic-card>
-                <app-market-top-table-crypto
-                        (itemClickedEmitter)="showSummary($event)"
-                        [topTableCryptoData]="topCrypto">
-                </app-market-top-table-crypto>
-            </app-generic-card>
-        </ion-col>
-    </ion-row>
+	<!-- crypto table -->
+	<app-generic-list [applyMarginTop]="true" [title]="'Top crypto'"></app-generic-list>
+	<ion-row>
+		<ion-col size="12">
+			<app-generic-card>
+				<app-market-top-table-crypto (itemClickedEmitter)="showSummary($event)" [topTableCryptoData]="topCrypto"> </app-market-top-table-crypto>
+			</app-generic-card>
+		</ion-col>
+	</ion-row>
 </ion-grid>

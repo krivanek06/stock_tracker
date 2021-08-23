@@ -1,13 +1,71 @@
 <app-generic-card title="Free cash flow valuation">
     <ng-container *ngIf="freeCashFlowFormula$ | async as formula">
         <!-- formula -->
-        <app-free-cashflow-formula
-                [formula]="formula">
-        </app-free-cashflow-formula>
+        <ion-list>
+            <ion-item>
+                <ion-label class="st-table-main-label"></ion-label>
+                <ion-label *ngFor="let year of formula.historicalYears" class="st-font-0">{{ year }}</ion-label>
+            </ion-item>
+
+            <!--<app-table-increasing-item
+                    [data]="formula.operatingActivities"
+                    name="Operating activities">
+            </app-table-increasing-item>
+
+            <app-table-increasing-item
+                    [data]="formula.capitalExpenditures"
+                    name="Capital expenditures">
+            </app-table-increasing-item>-->
+
+            <!-- <app-table-increasing-item
+                     name="Net borrowings"
+                     [data]="formula.netBorrowings">
+             </app-table-increasing-item>-->
+
+            <app-table-increasing-item
+                    [data]="formula.freeCashFlows"
+                    name="Free cash flow">
+            </app-table-increasing-item>
+
+        </ion-list>
+
+        <ion-list>
+            <ion-item-group class="st-flex-space-evenly st-small-vertical-padding">
+                <ion-item>
+                    <ion-label>Avg. free cash flow:</ion-label>
+                    <ion-label class="st-data-label-end">{{ formula.avgFcf | numberFormatter  }}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Minimum return:</ion-label>
+                    <ion-label class="st-data-label-end">{{ formula.minimumRateReturn | percent: '1.2-2'  }}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Market Cap.:</ion-label>
+                    <ion-label
+                            class="st-data-label-end">{{ formula.estimatedIntrinsicMarketCap | numberFormatter  }}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Intrinsic value:</ion-label>
+                    <ion-label
+                            class="st-font-0 st-data-label-end">{{ formula.estimatedIntrinsicValue | currency  }}</ion-label>
+                </ion-item>
+            </ion-item-group>
+        </ion-list>
+
 
         <!-- checkbox for net borrowings
-        <app-free-cashflow-formula-checkbox
-                (changedCheckedValueEmitter)="applyNetBorrowings($event)">
-        </app-free-cashflow-formula-checkbox>  -->
+       <ion-list>
+            <ion-item>
+                <ion-label>
+                    Free cash flow is calculated as total cash from operating activities minus capital expenditure. If you wish to add net borrowings into the
+                    equation, mark the checkbox.
+                </ion-label>
+            </ion-item>
+            <ion-item>
+                <ion-label class="st-font-0" style="padding: 16px">Add net borrowings</ion-label>
+                <ion-checkbox slot="end" style="margin-right: 16px" (ionChange)="changedCheckedValue($event)"></ion-checkbox>
+            </ion-item>
+        </ion-list>
+          -->
     </ng-container>
 </app-generic-card>

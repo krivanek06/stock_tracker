@@ -1,9 +1,11 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SearchGroupPageComponent} from "./search-group-page.component";
-import {GroupFeatureModule} from "@group-feature";
-import {SharedModule} from "@shared";
 import {RouterModule, Routes} from "@angular/router";
+import {FormMatInputWrapperModule, GenericCardModule} from "@shared";
+import {IonicModule} from "@ionic/angular";
+import {ReactiveFormsModule} from "@angular/forms";
+import {GroupTopUsersInformationModule} from "@group-feature";
 
 
 const routes: Routes = [
@@ -20,9 +22,12 @@ const routes: Routes = [
     ],
     imports: [
         CommonModule,
-        GroupFeatureModule,
-        SharedModule,
-        RouterModule.forChild(routes)
+        RouterModule.forChild(routes),
+        GenericCardModule,
+        IonicModule,
+        FormMatInputWrapperModule,
+        ReactiveFormsModule,
+        GroupTopUsersInformationModule
     ]
 })
 export class SearchGroupPageModule {

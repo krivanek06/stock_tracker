@@ -1,1 +1,1 @@
-export * from './watchlist-modification-container/watchlist-modification-container.component';
+export * from './watchlist-modification-container/watchlist-modification-container.module';

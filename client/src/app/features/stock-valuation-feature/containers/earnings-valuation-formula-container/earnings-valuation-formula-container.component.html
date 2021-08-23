@@ -3,21 +3,74 @@
         <ion-row>
             <!-- variables -->
             <ion-col offset-md="0.5" size="12" size-md="4">
-                <app-earnings-valuation-formula-variables
-                        (growthRate10yEmitter)="growthRate10yChange($event)"
-                        (growthRate5yEmitter)="growthRate5yChange($event)"
-                        (minimumReturnEmitter)="minimumReturnChange($event)"
-                        (resetVariablesEmitter)="resetVariables()"
-                        (terminalMultipleEmitter)="terminalMultipleChange($event)"
-                        [variables]="formula.variable">
-                </app-earnings-valuation-formula-variables>
+                <ion-list>
+                    <ion-list-header class="ion-margin-bottom">
+                        <ion-label class="ion-text-center">
+                            Variables
+                        </ion-label>
+                    </ion-list-header>
+
+                    <app-range-rating-slider
+                            (valueEmitter)="growthRate5yChange($event)"
+                            name="Growth rate up to 5y"
+                            [value]="formula.variable.growthRateNext5y"
+                            [isPercent]="true">
+                    </app-range-rating-slider>
+
+                    <app-range-rating-slider
+                            (valueEmitter)="growthRate10yChange($event)"
+                            name="Growth rate from 5y to 10y"
+                            [value]="formula.variable.growthRateFrom5yTo10y"
+                            [isPercent]="true">
+                    </app-range-rating-slider>
+
+                    <app-range-rating-slider
+                            (valueEmitter)="minimumReturnChange($event)"
+                            name="Minimum return"
+                            [value]="formula.variable.minimumRateReturn"
+                            [isPercent]="true">
+                    </app-range-rating-slider>
+
+                    <app-range-rating-slider
+                            (valueEmitter)="terminalMultipleChange($event)"
+                            name="Terminal multiple"
+                            [value]="formula.variable.terminalMultiple"
+                            [step]="0.1">
+                    </app-range-rating-slider>
+
+                    <ion-item>
+                        <ion-label class="ion-padding">
+                            <ion-button expand="full" shape="round" fill="outline" (click)="resetVariables()">
+                                Reset
+                            </ion-button>
+                        </ion-label>
+                    </ion-item>
+                </ion-list>
+
             </ion-col>
 
             <!-- formula -->
             <ion-col offset-md="1" size="12" size-md="6.5">
-                <app-earnings-valuation-formula
-                        [formula]="formula">
-                </app-earnings-valuation-formula>
+                <ion-list>
+                    <ion-item>
+                        <ion-label></ion-label>
+                        <ion-label class="st-font-0">Discounted PV</ion-label>
+                        <ion-label class="st-font-0">Estimated EPS</ion-label>
+                    </ion-item>
+
+                    <ion-item *ngFor="let data of formula.dates; let i = index">
+                        <ion-label class="st-font-0">{{ formula.dates[i] }}</ion-label>
+                        <ion-label>{{ formula.estimatedDiscountedPV[i] | number : '1.2-2'}}</ion-label>
+                        <ion-label>{{ formula.estimatedEarnings[i] | number : '1.2-2'}}</ion-label>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label>
+                            Intrinsic value: <ion-text class="st-font-0">{{ formula.estimatedIntrinsicValue | currency}}</ion-text>
+                        </ion-label>
+                    </ion-item>
+                </ion-list>
+
             </ion-col>
         </ion-row>
     </ion-grid>

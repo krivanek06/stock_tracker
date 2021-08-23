@@ -1,12 +1,13 @@
-import { AccountFeatureModule } from '@account-feature';
+
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GroupFeatureModule, ResolveGroupDetailsGuard } from '@group-feature';
-import { PagesSharedModule } from '@pages-shared';
-import { SharedModule } from '@shared';
-import { StockTradingFeatureModule } from '@stock-trading-feature';
+import { ResolveGroupDetailsGuard } from '@group-feature';
 import { GroupsComponent } from './groups.component';
 import { GROUPS_PAGES } from './model/groups.model';
+import {CommonModule} from "@angular/common";
+import {IonicModule} from "@ionic/angular";
+import {HeaderModule} from "@shared";
+import {MenuHeaderModule} from "@pages-shared";
 
 const routes: Routes = [
 	{
@@ -23,29 +24,13 @@ const routes: Routes = [
 				resolve: {
 					groupDetails: ResolveGroupDetailsGuard,
 				},
-			},
-			/* {
-				path: '',
-				redirectTo: GROUPS_PAGES.OVERVIEW,
-				pathMatch: 'full',
-			},
-			{
-				path: GROUPS_PAGES.OVERVIEW,
-				loadChildren: () => import('./pages/groups-overview/groups-overview.module').then((m) => m.GroupsOverviewModule),
-			},
-			{
-				path: `${GROUPS_PAGES.DETAILS}/:groupId`,
-				loadChildren: () => import('./pages/group-details/group-details.module').then((m) => m.GroupDetailsModule),
-				resolve: {
-					groupDetails: ResolveGroupDetailsGuard,
-				},
-			}, */
+			}
 		],
 	},
 ];
 
 @NgModule({
 	declarations: [GroupsComponent],
-	imports: [SharedModule, GroupFeatureModule, AccountFeatureModule, RouterModule.forChild(routes), PagesSharedModule, StockTradingFeatureModule],
+	imports: [CommonModule, RouterModule.forChild(routes), IonicModule, HeaderModule, MenuHeaderModule,],
 })
 export class GroupsModule {}

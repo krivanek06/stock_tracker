@@ -2,10 +2,10 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {WatchlistPage} from './watchlist.page';
-import {StockWatchlistModule} from '../../features/stock-watchlist-feature/stock-watchlist.module';
-import {SharedModule} from '../../shared/shared.module';
-import {StockDetailsFeatureModule} from '../../features/stock-details-feature/stock-details-feature.module';
-import {PagesSharedModule} from '@pages-shared';
+import {IonicModule} from "@ionic/angular";
+import {MenuHeaderModule} from "@pages-shared";
+import {GenericCardModule, GenericListModule, HeaderModule} from "@shared";
+import {WatchlistTableModule} from "@stock-watchlist-feature";
 
 const routes: Routes = [
     {
@@ -17,11 +17,13 @@ const routes: Routes = [
 @NgModule({
     imports: [
         CommonModule,
-        StockWatchlistModule,
-        SharedModule,
         RouterModule.forChild(routes),
-        StockDetailsFeatureModule,
-        PagesSharedModule
+        IonicModule,
+        MenuHeaderModule,
+        HeaderModule,
+        GenericListModule,
+        GenericCardModule,
+        WatchlistTableModule,
     ],
     declarations: [
         WatchlistPage

@@ -1,4 +1,4 @@
-<ion-text *ngIf="!price && showNAIfPriceZero; else showItem">N/A</ion-text>
+<span *ngIf="!price && showNAIfPriceZero; else showItem">N/A</span>
 
 <ng-template #showItem>
 	<div

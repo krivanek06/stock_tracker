@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { UsersOverviewPage } from './users-overview.page';
 import {RouterModule, Routes} from '@angular/router';
-import {SharedModule} from '@shared';
-import {AccountFeatureModule} from '@account-feature';
 import {AdminFeatureModule} from '../../../features/admin-feature/admin-feature.module';
+import {IonicModule} from "@ionic/angular";
+import {GenericCardModule, GenericChartModule} from "@shared";
+import {UserIdentificationInfoModule} from "@account-feature";
 
 
 const routes: Routes = [
@@ -16,10 +17,12 @@ const routes: Routes = [
 
 @NgModule({
     imports: [
-        SharedModule,
         RouterModule.forChild(routes),
-        AccountFeatureModule,
-        AdminFeatureModule
+        AdminFeatureModule,
+        IonicModule,
+        GenericCardModule,
+        GenericChartModule,
+        UserIdentificationInfoModule
     ],
   declarations: [UsersOverviewPage]
 })

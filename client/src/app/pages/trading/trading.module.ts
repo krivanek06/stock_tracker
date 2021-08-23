@@ -1,11 +1,18 @@
 import {NgModule} from '@angular/core';
 import {TradingPage} from './trading.page';
 import {RouterModule, Routes} from '@angular/router';
-import {SharedModule} from '../../shared/shared.module';
-import {StockTradingFeatureModule} from '../../features/stock-trading-feature/stock-trading-feature.module';
-import {StockDetailsFeatureModule} from '../../features/stock-details-feature/stock-details-feature.module';
-import {StockWatchlistModule} from '../../features/stock-watchlist-feature/stock-watchlist.module';
-import {PagesSharedModule} from '@pages-shared';
+import {HoldingsTableModule, PortfolioStateModule, TradeConfirmationPopOverModule} from "@stock-trading-feature";
+import {CommonModule} from "@angular/common";
+import {IonicModule} from "@ionic/angular";
+import {MenuHeaderModule} from "@pages-shared";
+import {
+    FinancialChartContainerModule,
+    GenericCardModule,
+    GenericListModule,
+    HeaderModule,
+    StockSummaryContainerModule
+} from "@shared";
+import {DetailsStockSuggestionChangeModule, StockSearchModule} from "@stock-details-feature";
 
 const routes: Routes = [
     {
@@ -16,12 +23,20 @@ const routes: Routes = [
 
 @NgModule({
     imports: [
-        SharedModule,
+        CommonModule,
         RouterModule.forChild(routes),
-        StockTradingFeatureModule,
-        StockDetailsFeatureModule,
-        StockWatchlistModule,
-        PagesSharedModule
+        TradeConfirmationPopOverModule,
+        IonicModule,
+        MenuHeaderModule,
+        HeaderModule,
+        StockSearchModule,
+        PortfolioStateModule,
+        FinancialChartContainerModule,
+        GenericListModule,
+        GenericCardModule,
+        StockSummaryContainerModule,
+        HoldingsTableModule,
+        DetailsStockSuggestionChangeModule
     ],
     declarations: [TradingPage]
 })
