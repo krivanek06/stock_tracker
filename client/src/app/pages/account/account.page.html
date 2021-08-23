@@ -1,54 +1,66 @@
-<app-page-grid-layout pageIcon="person" pageName="Account management">
-	<ng-container *ngIf="user$ | async as user">
-		<ion-row class="ion-justify-content-center">
-			<!-- account form -->
-			<ion-col size="12" size-lg="8" size-md="7">
-				<app-generic-card [additionalClasses]="'st-height-100'" [title]="'Account Information'">
-					<app-user-account-form (submitClickedEmitter)="editUser($event)" [user]="user"> </app-user-account-form>
-				</app-generic-card>
-			</ion-col>
-			<ion-col size="12" size-lg="4" size-md="5">
-				<ion-row>
-					<ion-col size="12" *ngIf="user.userPrivateData.roles.length > 0">
-						<!-- assigned roles -->
-						<app-generic-card [title]="'Assigned roles'" class="ion-margin-bottom">
-							<app-clickable-name-item [itemNames]="user.userPrivateData.roles"> </app-clickable-name-item>
-						</app-generic-card>
-					</ion-col>
-					<ion-col size="12" *ngIf="user.userPrivateData.finnhubKey">
-						<!-- reseted account -->
-						<app-generic-card [title]="'Account resets'">
-							<app-user-account-reseted-info
-								(resetAccountEmitter)="resetAccount()"
-								[resetedAccountInfo]="user.userHistoricalData.resetedAccount"
-								[showResetButton]="!!user.userPrivateData.finnhubKey"
-							>
-							</app-user-account-reseted-info>
-						</app-generic-card>
-					</ion-col>
+<ion-content class="ion-padding">
+	<!-- menu page header -->
+	<app-menu-header></app-menu-header>
 
-					<ion-col size="12" *ngIf="!user.userPrivateData.finnhubKey">
-						<app-user-account-not-activated-message></app-user-account-not-activated-message>
-					</ion-col>
-				</ion-row>
+	<!-- header -->
+	<app-header pageIcon="person" pageName="Account management"></app-header>
+
+	<ion-grid>
+		<ion-row class="ion-justify-content-center">
+			<ion-col size="12" size-lg="11" size-xl="10" style="overflow: visible">
+				<ng-container *ngIf="user$ | async as user">
+					<ion-row class="ion-justify-content-center">
+						<!-- account form -->
+						<ion-col size="12" size-lg="8" size-md="7">
+							<app-generic-card [additionalClasses]="'st-height-100'" [title]="'Account Information'">
+								<app-user-account-form (submitClickedEmitter)="editUser($event)" [user]="user"> </app-user-account-form>
+							</app-generic-card>
+						</ion-col>
+						<ion-col size="12" size-lg="4" size-md="5">
+							<ion-row>
+								<ion-col size="12" *ngIf="user.userPrivateData.roles.length > 0">
+									<!-- assigned roles -->
+									<app-generic-card [title]="'Assigned roles'" class="ion-margin-bottom">
+										<app-clickable-name-item [itemNames]="user.userPrivateData.roles"> </app-clickable-name-item>
+									</app-generic-card>
+								</ion-col>
+								<ion-col size="12" *ngIf="user.userPrivateData.finnhubKey">
+									<!-- reseted account -->
+									<app-generic-card [title]="'Account resets'">
+										<app-user-account-reseted-info
+											(resetAccountEmitter)="resetAccount()"
+											[resetedAccountInfo]="user.userHistoricalData.resetedAccount"
+											[showResetButton]="!!user.userPrivateData.finnhubKey"
+										>
+										</app-user-account-reseted-info>
+									</app-generic-card>
+								</ion-col>
+
+								<ion-col size="12" *ngIf="!user.userPrivateData.finnhubKey">
+									<app-user-account-not-activated-message></app-user-account-not-activated-message>
+								</ion-col>
+							</ion-row>
+						</ion-col>
+					</ion-row>
+
+					<!-- ranks
+						<ion-row class="st-width-90-center">
+				
+						</ion-row>  -->
+
+					<!-- wachlists -->
+					<ion-row class="ion-justify-content-center">
+						<ion-col size="12" size-lg="8" size-md="7">
+							<app-generic-card [title]="'Watchlist modification'">
+								<app-watchlist-modification-container [watchlists]="user.stockWatchlist"> </app-watchlist-modification-container>
+							</app-generic-card>
+						</ion-col>
+						<ion-col size="12" size-lg="4" size-md="5">
+							<!-- empty for UI purpose -->
+						</ion-col>
+					</ion-row>
+				</ng-container>
 			</ion-col>
 		</ion-row>
-
-		<!-- ranks
-        <ion-row class="st-width-90-center">
-
-        </ion-row>  -->
-
-		<!-- wachlists -->
-		<ion-row class="ion-justify-content-center">
-			<ion-col size="12" size-lg="8" size-md="7">
-				<app-generic-card [title]="'Watchlist modification'">
-					<app-watchlist-modification-container [watchlists]="user.stockWatchlist"> </app-watchlist-modification-container>
-				</app-generic-card>
-			</ion-col>
-			<ion-col size="12" size-lg="4" size-md="5">
-				<!-- empty for UI purpose -->
-			</ion-col>
-		</ion-row>
-	</ng-container>
-</app-page-grid-layout>
+	</ion-grid>
+</ion-content>

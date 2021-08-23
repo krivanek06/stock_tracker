@@ -6,7 +6,7 @@ import { SharedModule } from '@shared';
 import { StockDetailsFeatureModule } from '@stock-details-feature';
 import { StockTradingStrategyFeatureModule } from '@stock-trading-strategy-feature';
 import { StockValuationFeatureModule } from '@stock-valuation-feature';
-import { SEARCH_PAGE_STOCK_DETAILS_ENUM } from '../../../models/pages.model';
+import { SEARCH_PAGE_STOCK_DETAILS_ENUM } from '../../models/pages.model';
 import {
 	StockDetailsFinancialComponent,
 	StockDetailsStatisticComponent,

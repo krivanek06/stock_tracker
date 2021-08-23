@@ -1,0 +1,20 @@
+<ion-grid>
+	<ion-row class="ion-justify-content-center">
+		<ion-col size="12" size-lg="11" size-xl="10" style="overflow: visible">
+			<!-- subpage segments -->
+			<ion-segment (ionChange)="segmentChanged($event)" [value]="segmentValue" color="primary" scrollable>
+				<ion-segment-button *ngFor="let data of STOCK_SEARCH_DETAILS_PAGES" [value]="data.value">
+					<ion-label>{{ data.name }}</ion-label>
+				</ion-segment-button>
+			</ion-segment>
+
+			<!-- sub pages -->
+			<router-outlet></router-outlet>
+
+			<!-- spinner -->
+			<div *ngIf="showSpinner" class="spinner-container">
+				<ion-spinner color="primary"></ion-spinner>
+			</div>
+		</ion-col>
+	</ion-row>
+</ion-grid>

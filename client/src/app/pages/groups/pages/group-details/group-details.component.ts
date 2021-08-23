@@ -40,7 +40,7 @@ export class GroupDetailsComponent implements OnInit {
 
 	changeDetailsPage(segment: string) {
 		const groupId = this.route.snapshot.paramMap.get('groupId');
-		this.router.navigate([`/menu/groups/${GROUPS_PAGES.DETAILS}/${groupId}/${segment}`]);
+		this.router.navigateByUrl(`/menu/groups/${GROUPS_PAGES.DETAILS}/${groupId}/${segment}`);
 	}
 
 	@ConfirmableWithCheckbox('Please confirm leaving group. You will be removed from group statistics', 'Confirm')
@@ -55,7 +55,7 @@ export class GroupDetailsComponent implements OnInit {
 	@ConfirmableWithCheckbox('Please confirm deleting group. Note that this action is irreversible', 'Confirm')
 	async deleteGroup() {
 		if (await this.groupFeatureFacadeService.deleteGroup()) {
-			this.router.navigate([`/menu/groups`]);
+			this.router.navigateByUrl(`/menu/groups`);
 		}
 	}
 

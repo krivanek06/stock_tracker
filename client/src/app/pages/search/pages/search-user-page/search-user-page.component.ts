@@ -24,7 +24,6 @@ export class SearchUserPageComponent implements OnInit {
 		this.userPublicDataSearchFragment$ = this.graphqlUserService.queryStUserPublicDataSearch(userPartialInformation.id);
 
 		this.userPublicDataSearchFragment$.pipe(first()).subscribe((userPublicData) => {
-			console.log('received user', userPublicData);
 			this.isLoading = false;
 
 			this.tradingChangeWrapper = this.tradingFeatureFacadeService.createPortfolioHistoricalWrappers(

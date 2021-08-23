@@ -6,12 +6,12 @@ import {WatchlistFeatureFacadeService} from '@stock-watchlist-feature';
 import {map} from 'rxjs/operators';
 
 @Component({
-    selector: 'app-search-stock-screener',
-    templateUrl: './search-stock-screener.component.html',
-    styleUrls: ['./search-stock-screener.component.scss'],
+    selector: 'app-search-stock-page',
+    templateUrl: './search-stock-page.component.html',
+    styleUrls: ['./search-stock-page.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchStockScreenerComponent implements OnInit {
+export class SearchStockPageComponent implements OnInit {
     stockScreenerResult$: Observable<StfmStockScreenerResult[]>;
     stockScreener: StfmStockScreenerInput;
 
