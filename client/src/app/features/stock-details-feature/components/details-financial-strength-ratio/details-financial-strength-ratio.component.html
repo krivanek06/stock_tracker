@@ -1,72 +1,55 @@
 <ion-list *ngIf="stockDetails as details">
-    <ion-item class="st-data-item-wrapper">
-        <ion-label class="st-data-label-parent">Current ratio</ion-label>
-        <ion-label class="st-data-label st-flex-end">
-            {{ details.metric.currentRatioQuarterly | numberFormatter }}
-        </ion-label>
-    </ion-item>
+	<ion-item class="st-data-item-wrapper">
+		<ion-label class="st-data-label-parent">Current ratio</ion-label>
+		<ion-label class="st-data-label st-flex-end"> {{ details.metric.currentRatioQuarterly | numberFormatter }} </ion-label>
+	</ion-item>
 
-    <ion-item class="st-data-item-wrapper">
-        <ion-label class="st-data-label-parent">Quick ratio</ion-label>
-        <ion-label class="st-data-label st-flex-end">
-            {{ details.metric.quickRatioQuarterly | numberFormatter }}
-        </ion-label>
-    </ion-item>
+	<ion-item class="st-data-item-wrapper">
+		<ion-label class="st-data-label-parent">Quick ratio</ion-label>
+		<ion-label class="st-data-label st-flex-end"> {{ details.metric.quickRatioQuarterly | numberFormatter }} </ion-label>
+	</ion-item>
 
-    <ion-item class="st-data-item-wrapper">
-        <ion-label class="st-data-label-parent">Short ratio</ion-label>
-        <ion-label class="st-data-label st-flex-end">
-            {{ details.companyData.defaultKeyStatistics.shortRatio | numberFormatter }}
-        </ion-label>
-    </ion-item>
+	<ion-item class="st-data-item-wrapper">
+		<ion-label class="st-data-label-parent">Short ratio</ion-label>
+		<ion-label class="st-data-label st-flex-end"> {{ details.companyData.defaultKeyStatistics.shortRatio | numberFormatter }} </ion-label>
+	</ion-item>
 
-    <ion-item class="st-data-item-wrapper" *ngIf="details.companyData.defaultKeyStatistics as dk">
-        <ion-label class="st-data-label-parent">Floating shares</ion-label>
-        <ion-label class="st-data-label st-flex-end">
-            {{ dk.floatShares | numberFormatter }} ({{1 / dk.sharesOutstanding * dk.floatShares | percent: '1.2-2'}})
-        </ion-label>
-    </ion-item>
+	<ion-item class="st-data-item-wrapper" *ngIf="details.companyData.defaultKeyStatistics as dk">
+		<ion-label class="st-data-label-parent">Floating shares</ion-label>
+		<ion-label class="st-data-label st-flex-end">
+			{{ dk.floatShares | numberFormatter }} ({{1 / dk.sharesOutstanding * dk.floatShares | percent: '1.2-2'}})
+		</ion-label>
+	</ion-item>
 
-    <ion-item class="st-data-item-wrapper" *ngIf="details.companyData.defaultKeyStatistics as dk">
-        <ion-label class="st-data-label-parent">Shorted shares</ion-label>
-        <ion-label class="st-data-label st-flex-end">
-            {{ dk.sharesShort | numberFormatter }} ({{1 / dk.sharesOutstanding * dk.sharesShort | percent: '1.2-2'}})
-        </ion-label>
-    </ion-item>
+	<ion-item class="st-data-item-wrapper" *ngIf="details.companyData.defaultKeyStatistics as dk">
+		<ion-label class="st-data-label-parent">Shorted shares</ion-label>
+		<ion-label class="st-data-label st-flex-end">
+			{{ dk.sharesShort | numberFormatter }} ({{1 / dk.sharesOutstanding * dk.sharesShort | percent: '1.2-2'}})
+		</ion-label>
+	</ion-item>
 
-    <ion-item class="st-data-item-wrapper">
-        <ion-label class="st-data-label-parent">OCF to revenue ttm.</ion-label>
-        <ion-label class="st-data-label st-flex-end">
-            {{ details.metric.freeOperatingCashFlowrevenueTTM | numberFormatter }}
-        </ion-label>
-    </ion-item>
+	<ion-item class="st-data-item-wrapper">
+		<ion-label class="st-data-label-parent">OCF to revenue ttm.</ion-label>
+		<ion-label class="st-data-label st-flex-end"> {{ details.metric.freeOperatingCashFlowrevenueTTM | numberFormatter }} </ion-label>
+	</ion-item>
 
-    <ion-item class="st-data-item-wrapper">
-        <ion-label class="st-data-label-parent">Long term Debt/Equity</ion-label>
-        <ion-label class="st-data-label st-flex-end">
-            {{ details.metric.longTermDebtequityQuarterly | numberFormatter }}
-        </ion-label>
-    </ion-item>
+	<ion-item class="st-data-item-wrapper">
+		<ion-label class="st-data-label-parent">Long term Debt/Equity</ion-label>
+		<ion-label class="st-data-label st-flex-end"> {{ details.metric.longTermDebtequityQuarterly | numberFormatter }} </ion-label>
+	</ion-item>
 
-    <ion-item class="st-data-item-wrapper">
-        <ion-label class="st-data-label-parent">Total Debt/Equity</ion-label>
-        <ion-label class="st-data-label st-flex-end">
-            {{ details.metric.totalDebttotalEquityQuarterly | numberFormatter }}
-        </ion-label>
-    </ion-item>
+	<ion-item class="st-data-item-wrapper">
+		<ion-label class="st-data-label-parent">Total Debt/Equity</ion-label>
+		<ion-label class="st-data-label st-flex-end"> {{ details.metric.totalDebttotalEquityQuarterly | numberFormatter }} </ion-label>
+	</ion-item>
 
+	<ion-item class="st-data-item-wrapper">
+		<ion-label class="st-data-label-parent">Net Income/Common</ion-label>
+		<ion-label class="st-data-label st-flex-end"> {{ details.companyData.defaultKeyStatistics.netIncomeToCommon | numberFormatter }} </ion-label>
+	</ion-item>
 
-    <ion-item class="st-data-item-wrapper">
-        <ion-label class="st-data-label-parent">Net Income/Common</ion-label>
-        <ion-label class="st-data-label st-flex-end">
-            {{ details.companyData.defaultKeyStatistics.netIncomeToCommon | numberFormatter }}
-        </ion-label>
-    </ion-item>
-
-    <ion-item>
-        <ion-label class="st-data-label-parent">Net fiscal year end</ion-label>
-        <ion-label class="st-data-label st-flex-end">
-            {{ details.companyData.defaultKeyStatistics.nextFiscalYearEnd  | numberFormatter }}
-        </ion-label>
-    </ion-item>
+	<ion-item>
+		<ion-label class="st-data-label-parent">Net fiscal year end</ion-label>
+		<ion-label class="st-data-label st-flex-end"> {{ details.companyData.defaultKeyStatistics.nextFiscalYearEnd | numberFormatter }} </ion-label>
+	</ion-item>
 </ion-list>

@@ -1,28 +1,28 @@
 <ion-list>
-    <ion-item *ngFor="let data of history" class="st-data-item-wrapper">
-        <!-- date time -->
-        <ion-label style="min-width: 38%; max-width: 38%" class="st-font-5 ion-hide-sm-down">
-            {{ data.epochGradeDate * 1000 | relativeTime}}
-        </ion-label>
+	<ion-item *ngFor="let data of history" class="st-data-item-wrapper">
+		<!-- date time -->
+		<ion-label style="min-width: 38%; max-width: 38%" class="st-font-5 ion-hide-sm-down"> {{ data.epochGradeDate * 1000 | relativeTime}} </ion-label>
 
-        <!-- company -->
-        <ion-label class="ion-hide-sm-down" style="min-width: 38%; max-width: 38%"> {{ data.firm }}</ion-label>
+		<!-- company -->
+		<ion-label class="ion-hide-sm-down" style="min-width: 38%; max-width: 38%"> {{ data.firm }}</ion-label>
 
-        <!-- small screen datetime + company -->
-        <ion-label class="ion-hide-sm-up st-fit-content">
-            <div>{{ data.firm }}</div>
-            <div class="st-font-5 st-font-size-12"> {{ data.epochGradeDate * 1000 | relativeTime}}</div>
-        </ion-label>
+		<!-- small screen datetime + company -->
+		<ion-label class="ion-hide-sm-up st-fit-content">
+			<div>{{ data.firm }}</div>
+			<div class="st-font-5 st-font-size-12">{{ data.epochGradeDate * 1000 | relativeTime}}</div>
+		</ion-label>
 
-        <ion-label class="st-display-flex-center st-flex-end-sm" [ngClass]="{
+		<ion-label
+			class="st-display-flex-center st-flex-end-sm"
+			[ngClass]="{
               'st-price-down': data.action === 'down',
               'st-price-up': data.action === 'up'
-            }">
+            }"
+		>
+			<ion-text class="st-small-right-space">{{ data.toGrade }}</ion-text>
 
-            <ion-text class="st-small-right-space">{{ data.toGrade }}</ion-text>
-
-            <ion-icon *ngIf="data.action === 'up'" class="st-price-up" name="caret-up-outline"></ion-icon>
-            <ion-icon *ngIf="data.action === 'down'" class="st-price-down" name="caret-down-outline"></ion-icon>
-        </ion-label>
-    </ion-item>
+			<ion-icon *ngIf="data.action === 'up'" class="st-price-up" name="caret-up-outline"></ion-icon>
+			<ion-icon *ngIf="data.action === 'down'" class="st-price-down" name="caret-down-outline"></ion-icon>
+		</ion-label>
+	</ion-item>
 </ion-list>

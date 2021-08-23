@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
-import { StGroupAllData, StGroupUser, StUserPublicData } from './../../../../core/graphql-schema/customGraphql.service';
+import { StGroupAllData, StGroupUser, StUserPublicData } from '@core';
 import { GroupMemberSortValuesEnum, GROUP_MEMBERS_SORT_INPUT_SOURCE } from './../../model';
 
 @Component({

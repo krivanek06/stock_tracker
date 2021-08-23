@@ -1,8 +1,10 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AdminPage} from './admin.page';
-import {SharedModule} from '@shared';
-import {PagesSharedModule} from '@pages-shared';
+import {IonicModule} from "@ionic/angular";
+import {HeaderModule} from "@shared";
+import {MenuHeaderModule} from "@pages-shared";
+import {CommonModule} from "@angular/common";
 
 const routes: Routes = [
     {
@@ -24,9 +26,11 @@ const routes: Routes = [
 
 @NgModule({
     imports: [
-        SharedModule,
         RouterModule.forChild(routes),
-        PagesSharedModule
+        IonicModule,
+        HeaderModule,
+        MenuHeaderModule,
+        CommonModule
     ],
     declarations: [AdminPage]
 })

@@ -1,48 +1,52 @@
 <ion-label [ngClass]="{ 'st-flex-row-important': inlineDisplay}" style="display: flex; flex-flow: column">
-
-    <!-- left price -->
-    <ion-text *ngIf="showPrice && pricePosition == 'left' " [@marketValueChange]="currentPrice" [ngClass]="{
+	<!-- left price -->
+	<ion-text
+		*ngIf="showPrice && pricePosition == 'left' "
+		[@marketValueChange]="currentPrice"
+		[ngClass]="{
                       'st-font-size-13': inlineDisplay,
                       'st-font-size-12': !inlineDisplay
                   }"
-              class="st-font-5 st-small-right-space">
-        {{ currentPrice - compareToPrice | numberFormatter }}
-    </ion-text>
+		class="st-font-5 st-small-right-space"
+	>
+		{{ currentPrice - compareToPrice | numberFormatter }}
+	</ion-text>
 
-    <!-- percentage -->
-    <ng-container *ngIf="currentPrice && compareToPrice; else showNA">
-        <ion-text [ngClass]="{
+	<!-- percentage -->
+	<ng-container *ngIf="currentPrice && compareToPrice; else showNA">
+		<ion-text
+			[ngClass]="{
                 'st-font-size-13': inlineDisplay,
                 'st-price-up': currentPrice - compareToPrice >= 0,
                  'st-price-down': currentPrice - compareToPrice < 0
                 }"
-                  [style.marginRight.px]="showIcons ? 10 : 0"
-                  class="st-flex-row">
-            <span *ngIf="currentPrice > compareToPrice">+</span>
-            {{ ((currentPrice - compareToPrice) / compareToPrice) | percent: '1.2' }}
-            <ng-container *ngIf="showIcons">
-                <ion-icon *ngIf="currentPrice - compareToPrice >= 0"
-                          class="ion-hide-sm-down"
-                          name="trending-up-outline"></ion-icon>
-                <ion-icon *ngIf="currentPrice - compareToPrice < 0"
-                          class="ion-hide-sm-down"
-                          name="trending-down-outline"></ion-icon>
-            </ng-container>
-        </ion-text>
-    </ng-container>
+			[style.marginRight.px]="showIcons ? 10 : 0"
+			class="st-flex-row"
+		>
+			<span *ngIf="currentPrice > compareToPrice">+</span>
+			{{ ((currentPrice - compareToPrice) / compareToPrice) | percent: '1.2' }}
+			<ng-container *ngIf="showIcons">
+				<ion-icon *ngIf="currentPrice - compareToPrice >= 0" class="ion-hide-sm-down" name="trending-up-outline"></ion-icon>
+				<ion-icon *ngIf="currentPrice - compareToPrice < 0" class="ion-hide-sm-down" name="trending-down-outline"></ion-icon>
+			</ng-container>
+		</ion-text>
+	</ng-container>
 
-    <!-- N/A -->
-    <ng-template #showNA>
-        <ion-text class="st-font-2">N/A</ion-text>
-    </ng-template>
+	<!-- N/A -->
+	<ng-template #showNA>
+		<ion-text class="st-font-2">N/A</ion-text>
+	</ng-template>
 
-    <!-- right price -->
-    <ion-text *ngIf="showPrice && pricePosition == 'right' " [@marketValueChange]="currentPrice" [ngClass]="{
+	<!-- right price -->
+	<ion-text
+		*ngIf="showPrice && pricePosition == 'right' "
+		[@marketValueChange]="currentPrice"
+		[ngClass]="{
                       'st-font-size-13': inlineDisplay,
                       'st-font-size-12': !inlineDisplay
                   }"
-              class="st-font-5 st-small-left-space">
-        {{ currentPrice - compareToPrice | numberFormatter }}
-    </ion-text>
+		class="st-font-5 st-small-left-space"
+	>
+		{{ currentPrice - compareToPrice | numberFormatter }}
+	</ion-text>
 </ion-label>
-

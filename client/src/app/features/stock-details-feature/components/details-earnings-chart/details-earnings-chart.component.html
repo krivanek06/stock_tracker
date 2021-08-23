@@ -1,9 +1,10 @@
-<highcharts-chart *ngIf="earnings"
-                  [(update)]="updateFromInput"
-                  [Highcharts]="Highcharts"
-                  [callbackFunction]="chartCallback"
-                  [options]="chartOptions"
-                  [style.height.px]="height"
-                  style="display: block; width: 100%;"
+<highcharts-chart
+	*ngIf="earnings"
+	[(update)]="updateFromInput"
+	[Highcharts]="Highcharts"
+	[callbackFunction]="chartCallback"
+	[options]="chartOptions"
+	[style.height.px]="height"
+	style="display: block; width: 100%"
 >
 </highcharts-chart>

@@ -8,7 +8,5 @@ export * from './models';
 export * from './operators';
 export * from './pipes';
 export * from './services';
-export * from './shared-material.module';
-export * from './shared.module';
 export * from './utils/index';
 export * from './validators';

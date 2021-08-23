@@ -1,8 +1,9 @@
 import {NgModule} from '@angular/core';
 import {RankingPage} from './ranking.page';
 import {RouterModule, Routes} from '@angular/router';
-import {SharedModule} from '../../shared/shared.module';
-import {PagesSharedModule} from '@pages-shared';
+import {MenuHeaderModule} from "@pages-shared";
+import {HeaderModule} from "@shared";
+import {IonicModule} from "@ionic/angular";
 
 
 const routes: Routes = [
@@ -14,9 +15,10 @@ const routes: Routes = [
 
 @NgModule({
     imports: [
-        SharedModule,
         RouterModule.forChild(routes),
-        PagesSharedModule
+        MenuHeaderModule,
+        HeaderModule,
+        IonicModule,
     ],
     declarations: [RankingPage]
 })

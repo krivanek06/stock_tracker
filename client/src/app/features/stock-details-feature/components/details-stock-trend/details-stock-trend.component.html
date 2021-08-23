@@ -1,28 +1,16 @@
 <ion-item>
-    <!-- Short term -->
-    <ion-label>
-        <app-trend-item
-                [trend]="trend.shortTermTrend"
-                [trendTitle]="'2W - 6W'">
-        </app-trend-item>
-    </ion-label>
+	<!-- Short term -->
+	<ion-label>
+		<app-trend-item [trend]="trend.shortTermTrend" [trendTitle]="'2W - 6W'"> </app-trend-item>
+	</ion-label>
 
-    <!-- Mid term -->
-    <ion-label>
-        <app-trend-item
-                [trend]="trend.midTermTrend"
-                [trendTitle]="'6W - 9M'"
-                [additionalClasses]="'ion-justify-content-center'">
-        </app-trend-item>
-    </ion-label>
+	<!-- Mid term -->
+	<ion-label>
+		<app-trend-item [trend]="trend.midTermTrend" [trendTitle]="'6W - 9M'" [additionalClasses]="'ion-justify-content-center'"> </app-trend-item>
+	</ion-label>
 
-    <!-- Long term -->
-    <ion-label>
-        <app-trend-item
-                [trend]="trend.midTermTrend"
-                [trendTitle]="'9M+'"
-                [additionalClasses]="'ion-justify-content-end'">
-        </app-trend-item>
-    </ion-label>
+	<!-- Long term -->
+	<ion-label>
+		<app-trend-item [trend]="trend.midTermTrend" [trendTitle]="'9M+'" [additionalClasses]="'ion-justify-content-end'"> </app-trend-item>
+	</ion-label>
 </ion-item>
-

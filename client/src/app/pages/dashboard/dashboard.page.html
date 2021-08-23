@@ -24,17 +24,29 @@
 				></app-dashboard-portfolio-change>
 
 				<!-- portfolio change charts -->
-				<app-dashboard-portfolio-change-charts
-					[portfolioCash]="user.portfolio.portfolioCash"
-					[portfolioInvested]="portfolioInvested"
-					[stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots"
-				></app-dashboard-portfolio-change-charts>
+				<ion-row class="ion-justify-content-center">
+					<!-- portfolio growth chart -->
+					<ion-col size="12" size-md="6">
+						<app-portfolio-growth-chart [heightPx]="260" [stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots"> </app-portfolio-growth-chart>
+					</ion-col>
+
+					<!-- portfolio change chart -->
+					<ion-col size="12" size-md="6">
+						<app-portfolio-change-chart [heightPx]="260" [stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots"> </app-portfolio-change-chart>
+					</ion-col>
+				</ion-row>
+
+
 
 				<!-- holdings table -->
-				<app-dashboard-holdings-table
-					[holdings]="clonedHoldings"
-					[totalPortfolio]="portfolioInvested + user.portfolio.portfolioCash"
-				></app-dashboard-holdings-table>
+				<ion-row class="ion-justify-content-center">
+					<ion-col size="12">
+						<app-generic-list [iconTitle]="'pricetags'" [title]="'Holdings'"></app-generic-list>
+						<app-generic-card>
+							<app-holdings-table (itemClickedEmitter)="showSummary($event)" [holdings]="clonedHoldings" [totalPortfolio]="portfolioInvested + user.portfolio.portfolioCash"> </app-holdings-table>
+						</app-generic-card>
+					</ion-col>
+				</ion-row>
 
 				<!-- holdings pie charts -->
 				<ion-row *ngIf="user.holdings.length > 0" class="ion-margin-vertical ion-justify-content-around">
@@ -58,10 +70,17 @@
 				</ion-row>
 
 				<!-- transactions -->
-				<app-dashboard-transactions
-					[stTransactionSnapshots]="user.userHistoricalData.transactionSnapshots"
-					[transactions]="user.transactionsSnippets | slice:0:5"
-				></app-dashboard-transactions>
+				<ion-row class="ion-justify-content-center">
+					<ion-col size="12" size-md="6">
+						<app-generic-list [iconTitle]="'reader'" [title]="'Transactions'"></app-generic-list>
+						<app-generic-card additionalStyles="min-height: 300px">
+							<app-transactions-table [transactions]="user.transactionsSnippets | slice:0:5"> </app-transactions-table>
+						</app-generic-card>
+					</ion-col>
+					<ion-col class="ion-padding" size="12" size-md="6">
+						<app-transactions-chart [heightPx]="360" [stTransactionSnapshots]="user.userHistoricalData.transactionSnapshots"> </app-transactions-chart>
+					</ion-col>
+				</ion-row>
 			</ion-col>
 		</ion-row>
 	</ion-grid>

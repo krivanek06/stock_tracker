@@ -1,1 +1,1 @@
-export * from './group-member-sort.pipe';
+export * from './group-member-sort/group-member-sort.module';

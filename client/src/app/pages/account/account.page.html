@@ -18,16 +18,22 @@
 						</ion-col>
 						<ion-col size="12" size-lg="4" size-md="5">
 							<ion-row>
-								<ion-col size="12" *ngIf="user.userPrivateData.roles.length > 0">
-									<!-- assigned roles -->
-									<app-generic-card [title]="'Assigned roles'" class="ion-margin-bottom">
-										<app-clickable-name-item [itemNames]="user.userPrivateData.roles"> </app-clickable-name-item>
+								<!-- assigned roles -->
+								<ion-col size="12">
+									<app-generic-card title="Assigned roles" class="ion-margin-bottom">
+										<ion-item-group *ngIf="user.userPrivateData.roles.length > 0">
+											<ion-item class="st-display-flex-center st-font-size-14" *ngFor="let name of user.userPrivateData.roles">
+												<ion-label class="ion-text-center st-font-3"> {{ name }} </ion-label>
+											</ion-item>
+										</ion-item-group>
 									</app-generic-card>
 								</ion-col>
+
+								<!-- reseted account -->
 								<ion-col size="12" *ngIf="user.userPrivateData.finnhubKey">
-									<!-- reseted account -->
-									<app-generic-card [title]="'Account resets'">
+									<app-generic-card title="Account resets">
 										<app-user-account-reseted-info
+											*ngIf="user.userHistoricalData.resetedAccount.length > 0"
 											(resetAccountEmitter)="resetAccount()"
 											[resetedAccountInfo]="user.userHistoricalData.resetedAccount"
 											[showResetButton]="!!user.userPrivateData.finnhubKey"
@@ -36,6 +42,7 @@
 									</app-generic-card>
 								</ion-col>
 
+								<!-- account not activated message -->
 								<ion-col size="12" *ngIf="!user.userPrivateData.finnhubKey">
 									<app-user-account-not-activated-message></app-user-account-not-activated-message>
 								</ion-col>

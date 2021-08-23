@@ -78,6 +78,10 @@ export class UserStorageService {
 		return this.getUser().pipe(map((user) => user?.userPrivateData?.roles.includes(User_Roles_Enum.RoleAdmin)));
 	}
 
+	hasRoleCreateGroup(): Observable<boolean> {
+		return this.getUser().pipe(map((user) => user?.userPrivateData?.roles.includes(User_Roles_Enum.RoleGroupCreate)));
+	}
+
 	getUserWatchlists(): Observable<Array<Maybe<{ __typename?: 'STStockWatchlist' } & StStockWatchlistFragmentFragment>> | null> {
 		return this.getUser().pipe(map((u) => u?.stockWatchlist));
 	}

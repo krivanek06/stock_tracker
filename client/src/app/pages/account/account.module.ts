@@ -1,11 +1,16 @@
 import {NgModule} from '@angular/core';
 import {AccountPage} from './account.page';
 import {RouterModule, Routes} from '@angular/router';
-import {SharedModule} from '../../shared/shared.module';
-import {AccountFeatureModule} from '../../features/account-feature/account-feature.module';
-import {StockWatchlistModule} from '../../features/stock-watchlist-feature/stock-watchlist.module';
-import {PagesSharedModule} from '@pages-shared';
-
+import {GenericCardModule, HeaderModule} from "@shared";
+import {MenuHeaderModule} from "@pages-shared";
+import {IonicModule} from "@ionic/angular";
+import {
+    UserAccountFormModule,
+    UserAccountNotActivatedMessageModule,
+    UserAccountResetedInfoModule
+} from "@account-feature";
+import {WatchlistModificationContainerModule} from "@stock-watchlist-feature";
+import {CommonModule} from "@angular/common";
 const routes: Routes = [
     {
         path: '',
@@ -15,11 +20,16 @@ const routes: Routes = [
 
 @NgModule({
     imports: [
-        SharedModule,
+        CommonModule,
         RouterModule.forChild(routes),
-        AccountFeatureModule,
-        StockWatchlistModule,
-        PagesSharedModule
+        HeaderModule,
+        MenuHeaderModule,
+        IonicModule,
+        UserAccountFormModule,
+        GenericCardModule,
+        UserAccountResetedInfoModule,
+        WatchlistModificationContainerModule,
+        UserAccountNotActivatedMessageModule,
     ],
     declarations: [
         AccountPage

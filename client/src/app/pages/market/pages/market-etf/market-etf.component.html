@@ -1,37 +1,29 @@
-<app-financial-chart-container
-        [height]="385"
-        [name]="'ETF: SPY'"
-        [symbol]="'SPY'">
-</app-financial-chart-container>
-
+<app-financial-chart-container [height]="385" [name]="'ETF: SPY'" [symbol]="'SPY'"> </app-financial-chart-container>
 
 <ng-container *ngIf="etfDocument$ | async as etfDocument">
-    <div class="st-flex-wrap ion-margin-vertical">
-        <!-- etf sector weight -->
-        <app-pie-chart-wrapper
-                *ngIf="etfDocument.etfSectorWeight"
-                [data]="etfDocument.etfSectorWeight | chartKeyValueFormatter: 'sector' : 'weightPercentage'"
-                [heightPx]="300"
-                chartTitle="ETF sector allocation">
-        </app-pie-chart-wrapper>
+	<div class="st-flex-wrap ion-margin-vertical">
+		<!-- etf sector weight -->
+		<app-pie-chart-wrapper
+			*ngIf="etfDocument.etfSectorWeight"
+			[data]="etfDocument.etfSectorWeight | chartKeyValueFormatter: 'sector' : 'weightPercentage'"
+			[heightPx]="300"
+			chartTitle="ETF sector allocation"
+		>
+		</app-pie-chart-wrapper>
 
-        <!-- etf country weight -->
-        <app-pie-chart-wrapper
-                *ngIf="etfDocument.etfCountryWeight"
-                [data]="etfDocument.etfCountryWeight | chartKeyValueFormatter: 'country' : 'weightPercentage'"
-                [heightPx]="300"
-                chartTitle="ETF country allocation">
-        </app-pie-chart-wrapper>
-    </div>
+		<!-- etf country weight -->
+		<app-pie-chart-wrapper
+			*ngIf="etfDocument.etfCountryWeight"
+			[data]="etfDocument.etfCountryWeight | chartKeyValueFormatter: 'country' : 'weightPercentage'"
+			[heightPx]="300"
+			chartTitle="ETF country allocation"
+		>
+		</app-pie-chart-wrapper>
+	</div>
 </ng-container>
-
 
 <!-- table of different etfs -->
 <app-generic-extension-panel title="ETF list">
-    <app-market-company-quotes-table
-            (itemClickedEmitter)="etfClicked($event)"
-            [stfmCompanyQuotes]="(marketDailyOverview$ | async)?.etfs">
-    </app-market-company-quotes-table>
+	<app-market-company-quotes-table (itemClickedEmitter)="etfClicked($event)" [stfmCompanyQuotes]="(marketDailyOverview$ | async)?.etfs">
+	</app-market-company-quotes-table>
 </app-generic-extension-panel>
-
-<!-- TODO wtf assets in cards -->

@@ -1,7 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PagesSharedModule } from '@pages-shared';
-import { SharedModule } from '@shared';
+import { IonicModule } from '@ionic/angular';
+import { MenuHeaderModule } from '@pages-shared';
+import { HeaderModule } from '@shared';
 import { SEARCH_PAGE_ENUM } from './models/pages.model';
 import { SearchPage } from './search.page';
 
@@ -30,13 +32,13 @@ const routes: Routes = [
 			{
 				path: `${SEARCH_PAGE_ENUM.STOCK_DETAILS}/:symbol`,
 				loadChildren: () => import('./pages/search-stock-details-page/search-stock-details.module').then((m) => m.SearchStockDetailsModule),
-			}
+			},
 		],
 	},
 ];
 
 @NgModule({
-	imports: [RouterModule.forChild(routes), SharedModule, PagesSharedModule],
+	imports: [RouterModule.forChild(routes), CommonModule, IonicModule, HeaderModule, MenuHeaderModule],
 	declarations: [SearchPage],
 })
 export class SearchPageModule {}

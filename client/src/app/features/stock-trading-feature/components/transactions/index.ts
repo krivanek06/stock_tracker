@@ -1,2 +1,2 @@
-export * from './transactions-table/transactions-table.component';
-export * from './transactions-chart/transactions-chart.component';
+export * from './transactions-table/transactions-table.module';
+export * from './transactions-chart/transactions-chart.module';

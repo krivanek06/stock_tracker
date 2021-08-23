@@ -1,9 +1,7 @@
-import { AccountFeatureModule } from '@account-feature';
+
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GroupFeatureModule } from '@group-feature';
-import { FormMatInputWrapperModule, SharedModule } from '@shared';
-import { StockTradingFeatureModule } from '@stock-trading-feature';
+import {FormMatInputWrapperModule, GenericCardModule} from '@shared';
 import {
 	GroupDetailsOverviewInvitationsContainerComponent,
 	GroupDetailsOverviewMembersContainerComponent,
@@ -11,6 +9,16 @@ import {
 	GroupDetailsOverviewTransactionsContainerComponent,
 } from './containers';
 import { GroupDetailsOverviewComponent } from './group-details-overview.component';
+import {IonicModule} from "@ionic/angular";
+import {UserAccountInfoListModule, UserAccountSearchFormModule} from "@account-feature";
+import {GroupMembersTableModule, GroupUserBaseInformationModule} from "@group-feature";
+import {CommonModule} from "@angular/common";
+import {
+	PortfolioChangeModule,
+	PortfolioIncreaseChartModule,
+	PortfolioStateModule, TransactionsChartModule,
+	TransactionsTableModule
+} from "@stock-trading-feature";
 
 const routes: Routes = [
 	{
@@ -28,12 +36,20 @@ const routes: Routes = [
 		GroupDetailsOverviewInvitationsContainerComponent,
 	],
 	imports: [
-		SharedModule,
-		GroupFeatureModule,
+		CommonModule,
 		RouterModule.forChild(routes),
-		StockTradingFeatureModule,
-		AccountFeatureModule,
 		FormMatInputWrapperModule,
+		IonicModule,
+		UserAccountSearchFormModule,
+		UserAccountInfoListModule,
+		GroupUserBaseInformationModule,
+		GroupMembersTableModule,
+		PortfolioStateModule,
+		PortfolioIncreaseChartModule,
+		PortfolioChangeModule,
+		TransactionsTableModule,
+		GenericCardModule,
+		TransactionsChartModule,
 	],
 })
 export class GroupDetailsOverviewModule {}

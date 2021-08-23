@@ -23,8 +23,9 @@ export class SearchStockDetailsPage implements OnInit, OnDestroy {
 			.getStockDetails()
 			.pipe(takeUntil(componentDestroyed(this)))
 			.subscribe((res) => {
-				console.log(res);
+				console.log('loaded stock details' , res);
 				this.showSpinner = false;
+				console.log('show spinner', this.showSpinner)
 			});
 	}
 

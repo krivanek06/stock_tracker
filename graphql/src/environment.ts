@@ -7,7 +7,7 @@ export const stockDataAPI = 'https://serverflask-eqvqg22pdq-lz.a.run.app'; // GC
 
 export const financialModelingAPI = 'https://financialmodelingprep.com';
 export const financialModelingAPIKey = '795742ba1ec2f519ffa9ea50967d2240';
-export const IS_PRODUCTION = false;
+export const IS_PRODUCTION = true;
 
 /*
 credential: admin.credential.cert({

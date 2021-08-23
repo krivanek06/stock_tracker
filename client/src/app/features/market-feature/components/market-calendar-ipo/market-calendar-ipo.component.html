@@ -1,24 +1,24 @@
 <ion-list>
-    <ion-item class="st-font-1-bold">
-        <ion-label class="ion-margin-end">Company</ion-label>
-        <ion-label>Prince range</ion-label>
-        <ion-label>Action</ion-label>
-        <ion-label>Exchange</ion-label>
-        <ion-label>Market cap.</ion-label>
-        <ion-label>Shares</ion-label>
-        <ion-label>Date</ion-label>
-    </ion-item>
+	<ion-item class="st-font-1-bold">
+		<ion-label class="ion-margin-end">Company</ion-label>
+		<ion-label>Prince range</ion-label>
+		<ion-label>Action</ion-label>
+		<ion-label>Exchange</ion-label>
+		<ion-label>Market cap.</ion-label>
+		<ion-label>Shares</ion-label>
+		<ion-label>Date</ion-label>
+	</ion-item>
 
-    <ion-item *ngFor="let calendar of calendarIpos" class="st-data-item-wrapper">
-        <ion-label class="ion-margin-end st-flex-col">
-            <ion-text>{{ calendar.symbol }}</ion-text>
-            <ion-text class="st-font-4">{{ calendar.company }}</ion-text>
-        </ion-label>
-        <ion-label>{{ calendar.priceRange }}</ion-label>
-        <ion-label>{{ calendar.actions }}</ion-label>
-        <ion-label>{{ calendar.exchange }}</ion-label>
-        <ion-label>{{ calendar.marketCap ? (calendar.marketCap | numberFormatter) : 'N/A' }}</ion-label>
-        <ion-label>{{ calendar.shares ? (calendar.marketCap | numberFormatter) : 'N/A' }}</ion-label>
-        <ion-label>{{ calendar.date | date : 'dd.MM.YYYY' }}</ion-label>
-    </ion-item>
+	<ion-item *ngFor="let calendar of calendarIpos" class="st-data-item-wrapper">
+		<ion-label class="ion-margin-end st-flex-col">
+			<ion-text>{{ calendar.symbol }}</ion-text>
+			<ion-text class="st-font-4">{{ calendar.company }}</ion-text>
+		</ion-label>
+		<ion-label>{{ calendar.priceRange }}</ion-label>
+		<ion-label>{{ calendar.actions }}</ion-label>
+		<ion-label>{{ calendar.exchange }}</ion-label>
+		<ion-label>{{ calendar.marketCap ? (calendar.marketCap | numberFormatter) : 'N/A' }}</ion-label>
+		<ion-label>{{ calendar.shares ? (calendar.marketCap | numberFormatter) : 'N/A' }}</ion-label>
+		<ion-label>{{ calendar.date | date : 'dd.MM.YYYY' }}</ion-label>
+	</ion-item>
 </ion-list>

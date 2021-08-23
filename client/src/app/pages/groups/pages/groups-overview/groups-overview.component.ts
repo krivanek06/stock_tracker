@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { StGroupAllData, StUserPublicData, UserStorageService } from '@core';
 import { GroupFeatureFacadeService } from '@group-feature';
 import { ConfirmableWithCheckbox } from '@shared';
@@ -14,16 +14,13 @@ import { GROUPS_PAGES } from './../../model/groups.model';
 })
 export class GroupsOverviewComponent implements OnInit {
 	user$: Observable<StUserPublicData>;
+	hasRoleCreateGroup$: Observable<boolean>;
 
-	constructor(
-		private groupFeatureFacadeService: GroupFeatureFacadeService,
-		private userStorageService: UserStorageService,
-		private router: Router,
-		private route: ActivatedRoute
-	) {}
+	constructor(private groupFeatureFacadeService: GroupFeatureFacadeService, private userStorageService: UserStorageService, private router: Router) {}
 
 	ngOnInit() {
 		this.user$ = this.userStorageService.getUser();
+		this.hasRoleCreateGroup$ = this.userStorageService.hasRoleCreateGroup();
 	}
 
 	createGroup() {
