@@ -4,11 +4,7 @@ export enum SEARCH_PAGE_ENUM {
 	GROUP = 'group',
 	USER = 'user',
 	STOCK = 'stock',
-}
-
-export enum SEARCH_PAGE_STOCK_ENUM {
-	SCREENER = 'screener',
-	DETAILS = 'details',
+	STOCK_DETAILS = 'stock-details',
 }
 
 export enum SEARCH_PAGE_STOCK_DETAILS_ENUM {

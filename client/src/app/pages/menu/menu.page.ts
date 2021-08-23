@@ -62,7 +62,7 @@ export class MenuPage implements OnInit, OnDestroy {
 
 	clickedRouter(page: MenuPageInterface) {
 		this.selectedNavigation = page;
-		this.router.navigate([page.url], { relativeTo: this.route });
+		this.router.navigateByUrl(page.url);
 	}
 
 	async showLoginModal() {

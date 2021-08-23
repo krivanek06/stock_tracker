@@ -262,6 +262,13 @@
 		white-space: pre-line !important;
 	}
 
+	ion-tab-bar {
+		background-color: transparent;
+		ion-tab-button {
+			background-color: transparent;
+		}
+	}
+
 	ion-list {
 		ion-list-header {
 			color: #{$st-var-font-0};
@@ -326,6 +333,12 @@
 	}
 
 	.dark-theme {
+		ion-tab-bar {
+			ion-tab-button {
+				color: #{$st-var-font-1};
+			}
+		}
+
 		// ANGLAR material
 		mat-expansion-panel {
 			background: linear-gradient(126deg, rgb(5 13 42 / 39%) 0%, rgb(6 15 47 / 60%) 35%, rgb(6 17 52 / 0.7) 100%);

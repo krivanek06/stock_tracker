@@ -1,3 +1,16 @@
-<app-page-grid-layout pageIcon="people" pageName="Group management">
-	<router-outlet></router-outlet>
-</app-page-grid-layout>
+<ion-content class="ion-padding">
+	<!-- menu page header -->
+	<app-menu-header></app-menu-header>
+
+	<!-- header -->
+	<app-header pageIcon="people" pageName="Group management"></app-header>
+
+	<ion-grid>
+		<ion-row class="ion-justify-content-center">
+			<ion-col size="12" size-lg="11" size-xl="10" style="overflow: visible">
+				<!-- content of page-->
+				<router-outlet></router-outlet>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

@@ -2,17 +2,17 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MarketFeatureModule } from '@market-feature';
 import { SharedModule } from '@shared';
-import { SearchStockScreenerComponent } from './search-stock-screener.component';
+import { SearchStockPageComponent } from './search-stock-page.component';
 
 const routes: Routes = [
 	{
 		path: '',
-		component: SearchStockScreenerComponent,
+		component: SearchStockPageComponent,
 	},
 ];
 
 @NgModule({
-	declarations: [SearchStockScreenerComponent],
+	declarations: [SearchStockPageComponent],
 	imports: [MarketFeatureModule, SharedModule, RouterModule.forChild(routes)],
 })
-export class SearchStockScreenerModule {}
+export class SearchStockPageModule {}
