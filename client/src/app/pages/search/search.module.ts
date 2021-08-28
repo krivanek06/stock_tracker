@@ -13,25 +13,24 @@ const routes: Routes = [
 		component: SearchPage,
 		children: [
 			{
-				path: SEARCH_PAGE_ENUM.USER,
-				loadChildren: () => import('./pages/search-user-page/search-user-page.module').then((m) => m.SearchUserPageModule),
+				path: '',
+				loadChildren: () => import('./pages/search-basic/search-basic.module').then((m) => m.SearchBasicModule),
 			},
-			{
-				path: SEARCH_PAGE_ENUM.GROUP,
-				loadChildren: () => import('./pages/search-group-page/search-group-page.module').then((m) => m.SearchGroupPageModule),
-			},
-			{
-				path: SEARCH_PAGE_ENUM.STOCK,
-				loadChildren: () => import('./pages/search-stock-page/search-stock-page.module').then((m) => m.SearchStockPageModule),
-			},
+			// {
+			// 	path: SEARCH_PAGE_ENUM.USER,
+			// 	loadChildren: () => import('./pages/search-basic/search-user-page/search-user-page.module').then((m) => m.SearchUserPageModule),
+			// },
+			// {
+			// 	path: SEARCH_PAGE_ENUM.GROUP,
+			// 	loadChildren: () => import('./pages/search-group-page/search-group-page.module').then((m) => m.SearchGroupPageModule),
+			// },
+			// {
+			// 	path: SEARCH_PAGE_ENUM.STOCK,
+			// 	loadChildren: () => import('./pages/search-stock-page/search-stock-page.module').then((m) => m.SearchStockPageModule),
+			// },
 			{
 				path: `${SEARCH_PAGE_ENUM.STOCK_DETAILS}/:symbol`,
 				loadChildren: () => import('./pages/search-stock-details-page/search-stock-details.module').then((m) => m.SearchStockDetailsModule),
-			},
-			{
-				path: '',
-				redirectTo: SEARCH_PAGE_ENUM.STOCK,
-				pathMatch: 'full',
 			},
 		],
 	},

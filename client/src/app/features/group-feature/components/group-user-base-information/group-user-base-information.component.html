@@ -1,7 +1,9 @@
 <ion-item class="st-flex c-main-container" [ngClass]="{'max-w': !showIncreasePosition}" [button]="clickable">
 	<!-- Image -->
 	<div class="ion-align-self-baseline st-small-right-space">
-		<ion-img [src]="groupUser.photoURL" appDefaultImg></ion-img>
+		<ion-avatar>
+			<ion-img [src]="groupUser.photoURL" appDefaultImg></ion-img>
+		</ion-avatar>
 	</div>
 	<div class="c-info-with-position-container">
 		<!-- Name -->

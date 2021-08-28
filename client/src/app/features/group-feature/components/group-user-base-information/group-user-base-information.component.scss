@@ -23,7 +23,7 @@
 	.current-position-number-container {
 		height: 100%;
 		align-items: baseline !important;
-		width: 100%;
+		flex: 1;
 		justify-content: flex-end;
 
 		.current-position-number {
