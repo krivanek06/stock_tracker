@@ -757,13 +757,13 @@ ion-skeleton-text {
 
 .st-hide-xxl-down {
 	@media (max-width: #{$st-var-xxl-split}) {
-		display: none;
+		display: none !important;
 	}
 }
 
 .st-hide-xs-down {
 	@media (max-width: #{$st-var-xs-split}) {
-		display: none;
+		display: none !important;
 	}
 }
 
@@ -793,4 +793,17 @@ ion-skeleton-text {
 
 .st-my-position-color {
 	color: #c36778;
+}
+
+.st-no-result-container {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	margin-top: 15% !important;
+
+	& > * {
+		margin-bottom: 16px !important;
+		font-size: 18px !important;
+		color: #{$st-var-font-1};
+	}
 }

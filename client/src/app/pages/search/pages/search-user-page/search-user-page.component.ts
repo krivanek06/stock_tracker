@@ -15,12 +15,15 @@ export class SearchUserPageComponent implements OnInit {
 	userPublicDataSearchFragment$: Observable<StUserPublicDataSearchFragment>;
 	tradingChangeWrapper: PortfolioHistoricalWrapper[] = [];
 	isLoading = false;
+	isSearchEmpty = true;
 	constructor(private graphqlUserService: GraphqlUserService, private tradingFeatureFacadeService: TradingFeatureFacadeService) {}
 
 	ngOnInit() {}
 
 	showUserInformation(userPartialInformation: StUserIndentificationDataFragment) {
 		this.isLoading = true;
+		this.isSearchEmpty = false;
+
 		this.userPublicDataSearchFragment$ = this.graphqlUserService.queryStUserPublicDataSearch(userPartialInformation.id);
 
 		this.userPublicDataSearchFragment$.pipe(first()).subscribe((userPublicData) => {
@@ -31,5 +34,10 @@ export class SearchUserPageComponent implements OnInit {
 				[TIME_INTERVAL_ENUM.DAILY, TIME_INTERVAL_ENUM.WEEKLY, TIME_INTERVAL_ENUM.MONTHLY, TIME_INTERVAL_ENUM.FROM_BEGINNING]
 			);
 		});
+	}
+
+	clearResult() {
+		this.userPublicDataSearchFragment$ = null;
+		this.isSearchEmpty = true;
 	}
 }

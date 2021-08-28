@@ -8,10 +8,19 @@
 			</ion-list>
 
 			<!-- listed symbols -->
-			<app-generic-card *ngFor="let group of searchedGroups$ | async">
-				<app-group-top-users-information [showVisitButton]="true" (visitEmitter)="visit(group)" [groupAllData]="group">
-				</app-group-top-users-information>
-			</app-generic-card>
+			<ng-container *ngIf="searchedGroups$ | async as searchedGroup; else noWatchlsit">
+				<app-generic-card *ngFor="let group of searchedGroup">
+					<app-group-top-users-information [showVisitButton]="true" (visitEmitter)="visit(group)" [groupAllData]="group">
+					</app-group-top-users-information>
+				</app-generic-card>
+			</ng-container>
+
+			<!-- no result -->
+			<ng-template #noWatchlsit>
+				<div class="st-no-result-container">
+					<ion-text>No group has been found</ion-text>
+				</div>
+			</ng-template>
 		</ion-col>
 	</ion-row>
 </ion-grid>

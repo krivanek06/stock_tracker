@@ -1,68 +1,107 @@
-<ion-list>
-    <ion-item class="st-font-1-bold">
-        <ion-label>Symbol</ion-label>
-        <ion-label>Price</ion-label>
-        <ion-label>Price +/-</ion-label>
-        <ion-label>Volume +/-</ion-label>
-        <ion-label>Market cap.</ion-label>
-        <ion-label>Shares</ion-label>
-        <ion-label>PE</ion-label>
-        <ion-label>EPS</ion-label>
-        <ion-label>Beta</ion-label>
-        <ion-label>Tags</ion-label>
-        <ion-label>52 week range</ion-label>
-    </ion-item>
+<!-- SM up screen -->
+<ion-list class="ion-hide-sm-down">
+	<ion-item class="st-font-1-bold">
+		<ion-label>Symbol</ion-label>
+		<ion-label>Price</ion-label>
+		<ion-label>Price +/-</ion-label>
+		<ion-label>Volume +/-</ion-label>
+		<ion-label>Market cap.</ion-label>
+		<ion-label class="ion-hide-md-down">Shares</ion-label>
+		<ion-label class="ion-hide-md-down">PE</ion-label>
+		<ion-label class="ion-hide-md-down">EPS</ion-label>
+		<ion-label class="ion-hide-xl-down">Beta</ion-label>
+		<ion-label class="ion-hide-lg-down">Industry</ion-label>
+		<ion-label class="st-hide-xxl-down">52 week range</ion-label>
+	</ion-item>
 
-    <ng-container *ngIf="stockScreenerResults; else showSkeleton">
-        <ion-item (click)="itemClicked(result)"
-                  *ngFor="let result of stockScreenerResults"
-                  button
-                  class="st-data-item-wrapper">
+	<ng-container *ngIf="stockScreenerResults; else showSkeleton">
+		<ion-item (click)="itemClicked(result)" *ngFor="let result of stockScreenerResults" button class="st-data-item-wrapper">
+			<!-- logo + symbol name -->
+			<ion-label class="st-display-flex-center">
+				<ion-img [src]="result.companyQuote?.image" appDefaultImg class="st-symbol-image"></ion-img>
+				<ion-text class="st-font-4">{{ result.symbol }}</ion-text>
+			</ion-label>
 
-            <!-- logo + symbol name -->
-            <ion-label class="st-display-flex-center">
-                <ion-img [src]="result.companyQuote?.image" appDefaultImg class="st-symbol-image"></ion-img>
-                <ion-text class="st-font-4">{{ result.symbol }}</ion-text>
-            </ion-label>
+			<!-- current price -->
+			<ion-label>{{ result.price | currency }}</ion-label>
 
-            <!-- current price -->
-            <ion-label>{{ result.price | currency }}</ion-label>
+			<!-- price change -->
+			<ion-label>
+				<app-price-compare-item [compareToPrice]="result.companyQuote?.previousClose" [currentPrice]="result.price"> </app-price-compare-item>
+			</ion-label>
 
-            <!-- price change -->
-            <ion-label>
-                <app-price-compare-item [compareToPrice]="result.companyQuote?.previousClose"
-                                        [currentPrice]="result.price">
-                </app-price-compare-item>
-            </ion-label>
+			<!-- volume change -->
+			<ion-label>
+				<app-price-compare-item [compareToPrice]="result.companyQuote?.avgVolume" [currentPrice]="result.companyQuote?.volume">
+				</app-price-compare-item>
+			</ion-label>
 
-            <!-- volume change -->
-            <ion-label>
-                <app-price-compare-item [compareToPrice]="result.companyQuote?.avgVolume"
-                                        [currentPrice]="result.volume">
-                </app-price-compare-item>
-            </ion-label>
-
-            <!-- other -->
-            <ion-label>{{ result.marketCap ? (result.marketCap | numberFormatter) : 'N/A' }}</ion-label>
-            <ion-label>{{ result.companyQuote?.sharesOutstanding ? (result.companyQuote.sharesOutstanding | numberFormatter) : 'N/A' }}</ion-label>
-            <ion-label>{{ result.companyQuote?.pe ? (result.companyQuote?.pe | number:'1.2-2') : 'N/A'}}</ion-label>
-            <ion-label>{{ result.companyQuote?.eps ? (result.companyQuote?.eps | number:'1.2-2') : 'N/A' }}</ion-label>
-            <ion-label>{{ result.beta ? (result.beta | number:'1.2-2') : 'N/A' }}</ion-label>
-            <ion-label class="ion-wrap">TODO tags for company</ion-label>
-            <!-- 52 week range -->
-            <ion-label class="st-data-label ion-hide-lg-down">
-                <div style="width: 90%">
-                    <app-table-high-low-range
-                            [max]="result.companyQuote?.yearHigh"
-                            [min]="result.companyQuote?.yearLow"
-                            [value]="result.price">
-                    </app-table-high-low-range>
-                </div>
-            </ion-label>
-        </ion-item>
-    </ng-container>
-
-    <ng-template #showSkeleton>
-        <app-list-skeleton [itemLength]="15"></app-list-skeleton>
-    </ng-template>
+			<!-- other -->
+			<ion-label>{{ result.marketCap ? (result.marketCap | numberFormatter) : 'N/A' }}</ion-label>
+			<ion-label class="ion-hide-md-down"
+				>{{ result.companyQuote?.sharesOutstanding ? (result.companyQuote.sharesOutstanding | numberFormatter) : 'N/A' }}</ion-label
+			>
+			<ion-label class="ion-hide-md-down">{{ result.companyQuote?.pe ? (result.companyQuote?.pe | number:'1.2-2') : 'N/A'}}</ion-label>
+			<ion-label class="ion-hide-md-down">{{ result.companyQuote?.eps ? (result.companyQuote?.eps | number:'1.2-2') : 'N/A' }}</ion-label>
+			<ion-label class="ion-hide-xl-down">{{ result.beta ? (result.beta | number:'1.2-2') : 'N/A' }}</ion-label>
+			<ion-label class="ion-hide-lg-down" style="overflow: visible">
+				<ion-chip color="primary" outline class="st-width-90-center" style="margin-left: -16px">
+					<ion-label color="white" class="ion-text-center st-width-100">{{ result.industry | split: ['—', ' ', '&'] }}</ion-label>
+				</ion-chip>
+			</ion-label>
+			<!-- 52 week range -->
+			<ion-label class="st-data-label st-hide-xxl-down">
+				<div style="width: 90%">
+					<app-table-high-low-range [max]="result.companyQuote?.yearHigh" [min]="result.companyQuote?.yearLow" [value]="result.price">
+					</app-table-high-low-range>
+				</div>
+			</ion-label>
+		</ion-item>
+	</ng-container>
 </ion-list>
+
+<!-- Small screen -->
+<ion-list class="ion-hide-sm-up">
+	<ng-container *ngIf="stockScreenerResults; else showSkeleton">
+		<ion-item-group (click)="itemClicked(result)" *ngFor="let result of stockScreenerResults" class="ion-activatable st-data-item-wrapper">
+			<ion-item>
+				<!-- LOGO + SYMBOL -->
+				<ion-label class="st-display-flex-center st-fit-content">
+					<ion-img [src]="result.companyQuote?.image" appDefaultImg class="st-symbol-image"></ion-img>
+					<div class="st-flex-col">
+						<ion-text>{{ result.symbol }}</ion-text>
+						<ion-text class="st-font-size-12">{{ result.companyName }} </ion-text>
+					</div>
+				</ion-label>
+
+				<!-- price -->
+				<ion-label class="st-font-1-normal st-font-size-16 st-flex-end"> {{ result.price | currency }} </ion-label>
+			</ion-item>
+
+			<ion-item>
+				<!-- market cap -->
+				<ion-label class="st-font-5 st-font-size-14 st-fit-content">
+					Market cap.: {{ result.marketCap ? (result.marketCap | numberFormatter) : 'N/A' }}
+				</ion-label>
+
+				<ion-label class="st-flex-end">
+					<!-- price change -->
+					<app-price-compare-item
+						[showDollarSign]="true"
+						[inlineDisplay]="true"
+						[compareToPrice]="result.companyQuote?.previousClose"
+						[currentPrice]="result.price"
+					>
+					</app-price-compare-item>
+				</ion-label>
+			</ion-item>
+
+			<!-- ripple effect on click -->
+			<ion-ripple-effect></ion-ripple-effect>
+		</ion-item-group>
+	</ng-container>
+</ion-list>
+
+<ng-template #showSkeleton>
+	<app-list-skeleton [itemLength]="15"></app-list-skeleton>
+</ng-template>

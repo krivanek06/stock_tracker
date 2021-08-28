@@ -5,9 +5,9 @@
 </ion-list>
 
 <!-- listed users -->
-<ion-list class="flex-flow-wrap">
+<ion-list *ngIf="searchedUsers$ | async as searchedUsers; else noUserFound" class="flex-flow-wrap">
 	<app-user-account-info-list
-		*ngFor="let user of searchedUsers$ | async"
+		*ngFor="let user of searchedUsers"
 		(click)="clickedUser(user)"
 		[fullWith]="fullWith"
 		[clickable]="true"
@@ -15,3 +15,10 @@
 	>
 	</app-user-account-info-list>
 </ion-list>
+
+<!-- no result -->
+<ng-template #noUserFound>
+	<div *ngIf="showNoUserFoundTest" class="st-no-result-container">
+		<ion-text>No user has been found</ion-text>
+	</div>
+</ng-template>

@@ -15,6 +15,7 @@ export class UserAccountSearchComponent implements OnInit {
 
 	@Input() fullWith = false;
 	@Input() clearOnClick = false;
+	@Input() showNoUserFoundTest = false;
 	searchedUsers$: Observable<StUserIndentificationDataFragment[]>;
 	form: FormGroup;
 
