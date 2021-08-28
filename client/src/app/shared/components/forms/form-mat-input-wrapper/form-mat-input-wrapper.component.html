@@ -33,7 +33,7 @@
 
 			<!-- select -->
 			<mat-select *ngSwitchCase="'SELECT'" [disableRipple]="disabled" [formControl]="formInputControl" [ngClass]="{'disabled-element': disabled}">
-				<mat-option *ngFor="let optionData of inputSource" [value]="optionData.value"> {{ optionData.caption | translate }} </mat-option>
+				<mat-option *ngFor="let optionData of inputSource" [value]="optionData.value"> {{ optionData.caption }} </mat-option>
 			</mat-select>
 
 			<!-- multi select -->
@@ -45,7 +45,7 @@
 				[ngClass]="{'disabled-element': disabled}"
 			>
 				<input (keyup)="multiSelectKeyPress($event.target.value)" class="select-input" placeholder="Search" />
-				<mat-option *ngFor="let optionData of inputSource" [value]="optionData.value"> {{ optionData.caption | translate }} </mat-option>
+				<mat-option *ngFor="let optionData of inputSource" [value]="optionData.value"> {{ optionData.caption }} </mat-option>
 			</mat-select>
 
 			<!-- slider -->
@@ -116,21 +116,21 @@
 				*ngSwitchCase="'CHECKBOX'"
 				[disableRipple]="disabled"
 				[formControl]="formInputControl"
-				[matTooltip]="hintText ? (hintText | translate) : null"
+				[matTooltip]="hintText ? (hintText ) : null"
 				[ngClass]="{'disabled-element': disabled}"
 			>
-				{{ inputCaption | translate }}
+				{{ inputCaption }}
 			</mat-checkbox>
 
 			<!-- radio button -->
 			<mat-radio-group
 				*ngSwitchCase="'RADIO'"
 				[formControl]="formInputControl"
-				[matTooltip]="hintText ? (hintText | translate) : null"
+				[matTooltip]="hintText ? (hintText) : null"
 				[ngClass]="{'disabled-element': disabled}"
 				matTooltipClass="form-input-tooltip"
 			>
-				<mat-radio-button *ngFor="let optionData of inputSource" [value]="optionData.value"> {{ optionData.caption | translate }} </mat-radio-button>
+				<mat-radio-button *ngFor="let optionData of inputSource" [value]="optionData.value"> {{ optionData.caption }} </mat-radio-button>
 			</mat-radio-group>
 		</div>
 	</ng-container>
