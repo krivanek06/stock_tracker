@@ -24,7 +24,7 @@
 
 	<ng-container *ngIf="user.groups.groupOwner.length > 0 || user.groups.groupMember.length > 0; else showNoGroupsMessage">
 		<!-- owner of groups -->
-		<app-generic-card *ngFor="let group of user.groups.groupOwner">
+		<app-generic-card *ngFor="let group of user.groups.groupOwner" additionalClasses="st-bottom-space">
 			<app-group-top-users-information
 				[groupAllData]="group"
 				[showVisitButton]="true"
@@ -33,7 +33,7 @@
 		</app-generic-card>
 
 		<!-- member fo groups -->
-		<app-generic-card *ngFor="let group of user.groups.groupMember">
+		<app-generic-card *ngFor="let group of user.groups.groupMember" additionalClasses="st-bottom-space">
 			<app-group-top-users-information
 				[groupAllData]="group"
 				[showVisitButton]="true"
@@ -54,7 +54,7 @@
 		</ion-list-header>
 
 		<!-- Received invitations -->
-		<app-generic-card *ngFor="let group of user.groups.groupInvitationReceived">
+		<app-generic-card *ngFor="let group of user.groups.groupInvitationReceived" additionalClasses="st-bottom-space">
 			<app-group-top-users-information
 				[groupAllData]="group"
 				[showVisitButton]="true"
@@ -68,7 +68,7 @@
 		</app-generic-card>
 
 		<!-- Sent invitations -->
-		<app-generic-card *ngFor="let group of user.groups.groupInvitationSent">
+		<app-generic-card *ngFor="let group of user.groups.groupInvitationSent" additionalClasses="st-bottom-space">
 			<app-group-top-users-information
 				[groupAllData]="group"
 				[showVisitButton]="true"

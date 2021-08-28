@@ -1,7 +1,7 @@
 import { AccountFeatureFacadeService } from '@account-feature';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { StUserEditDataInput, StUserPublicData, UserStorageService } from '@core';
-import { Confirmable } from '@shared';
+import { ConfirmableWithCheckbox } from '@shared';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -18,12 +18,12 @@ export class AccountPage implements OnInit {
 		this.user$ = this.userStorageService.getUser();
 	}
 
-	@Confirmable('Please confirm reseting account. You will start again with 15 000$ portfolio. All your holdings will be lost.')
+	@ConfirmableWithCheckbox('Please confirm reseting account. You will start again with 25 000$ portfolio. All your holdings will be lost.', 'confirm')
 	resetAccount() {
 		this.userAccountService.resetUserAccount();
 	}
 
-	@Confirmable('Please confirm editing account information')
+	@ConfirmableWithCheckbox('Please confirm editing account information', 'confirm')
 	editUser(editDataInput: StUserEditDataInput) {
 		this.userAccountService.editUser(editDataInput);
 	}

@@ -1,25 +1,24 @@
-import {NameValueContainer} from '@shared';
+import { NameValueContainer } from '@shared';
 
 export enum MARKET_PAGE_ENUM {
-    overview = 'overview',
-    topStocks = 'stocks',
-    crypto = 'crypto',
-    calendar = 'calendar',
-    etf = 'etf',
-    news = 'news',
-    other = 'other'
+	overview = 'overview',
+	topStocks = 'stocks',
+	crypto = 'crypto',
+	calendar = 'calendar',
+	etf = 'etf',
+	news = 'news',
+	other = 'other',
 }
 
 export const MARKET_PAGE_PATH: NameValueContainer[] = [
-    {name: 'stocks', value: MARKET_PAGE_ENUM.topStocks},
-    {name: 'crypto', value: MARKET_PAGE_ENUM.crypto},
-    {name: 'calendar', value: MARKET_PAGE_ENUM.calendar},
-    {name: 'overview', value: MARKET_PAGE_ENUM.overview},
-    {name: 'etf', value: MARKET_PAGE_ENUM.etf},
-    {name: 'news', value: MARKET_PAGE_ENUM.news},
-    {name: 'other', value: MARKET_PAGE_ENUM.other},
+	{ name: 'stocks', value: MARKET_PAGE_ENUM.topStocks },
+	{ name: 'overview', value: MARKET_PAGE_ENUM.overview },
+	{ name: 'crypto', value: MARKET_PAGE_ENUM.crypto },
+	{ name: 'news', value: MARKET_PAGE_ENUM.news },
+	{ name: 'calendar', value: MARKET_PAGE_ENUM.calendar },
+	{ name: 'etf', value: MARKET_PAGE_ENUM.etf },
+	{ name: 'other', value: MARKET_PAGE_ENUM.other },
 ];
-
 
 /*export const MARKET_DAILY_CHANGE_SELECT: NameValueContainer[] = [
     {name: 'Daily top gainers', value: 'stocks_day_gainers'},

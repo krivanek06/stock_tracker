@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GroupStorageService, StGroupAllData } from '@core';
 import { GroupFeatureFacadeService } from '@group-feature';
@@ -13,7 +13,7 @@ import { GROUPS_PAGES } from './../../model/groups.model';
 	styleUrls: ['./group-details.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GroupDetailsComponent implements OnInit {
+export class GroupDetailsComponent implements OnInit, OnDestroy {
 	GROUPS_PAGES_DETAILS_PATH = GROUPS_PAGES_DETAILS_PATH;
 	groupData$: Observable<StGroupAllData>;
 	isOwner$: Observable<boolean>;
@@ -28,6 +28,9 @@ export class GroupDetailsComponent implements OnInit {
 		private route: ActivatedRoute,
 		private groupFeatureFacadeService: GroupFeatureFacadeService
 	) {}
+	ngOnDestroy(): void {
+		this.groupStorageService.setActiveGroupId(null);
+	}
 
 	ngOnInit() {
 		this.groupData$ = this.groupStorageService.getActiveGroup();

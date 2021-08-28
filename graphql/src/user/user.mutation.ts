@@ -72,7 +72,7 @@ export const editUser = async (editInput: api.STUserEditDataInput): Promise<bool
 						nickName: editInput.nickName,
 						photoURL: editInput.photoURL,
 						portfolio: {
-							portfolioCash: initPortfolio ? 15000 : userPublicData.portfolio.portfolioCash,
+							portfolioCash: initPortfolio ? 25000 : userPublicData.portfolio.portfolioCash,
 						},
 					} as api.STUserPublicData,
 					{ merge: true }
@@ -105,6 +105,8 @@ export const resetUserAccount = async (userId: string): Promise<api.STUserResete
 			.set(
 				{
 					resetedAccount: admin.firestore.FieldValue.arrayUnion(reset),
+					portfolioSnapshots: [],
+					transactionSnapshots: [],
 				},
 				{ merge: true }
 			);
@@ -118,7 +120,7 @@ export const resetUserAccount = async (userId: string): Promise<api.STUserResete
 				{
 					portfolio: {
 						lastPortfolioSnapshot: {
-							portfolioCash: 15000,
+							portfolioCash: 25000,
 							portfolioInvested: 0,
 							date: getCurrentIOSDate(),
 						},
@@ -128,14 +130,15 @@ export const resetUserAccount = async (userId: string): Promise<api.STUserResete
 						numberOfExecutedTransactions: 0,
 						numberOfExecutedBuyTransactions: 0,
 						numberOfExecutedSellTransactions: 0,
-						portfolioCash: 15000,
+						portfolioCash: 25000,
 						startingPortfolioSnapshot: {
-							portfolioCash: 15000,
+							portfolioCash: 25000,
 							portfolioInvested: 0,
 							date: getCurrentIOSDate(),
 						},
 					},
 					holdings: [],
+					transactionsSnippets: [],
 				},
 				{ merge: true }
 			);

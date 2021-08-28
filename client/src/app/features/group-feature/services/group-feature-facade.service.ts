@@ -68,7 +68,7 @@ export class GroupFeatureFacadeService {
 	}
 
 	async deleteGroup(): Promise<boolean> {
-		if (this.userStorageService.user.id === this.groupStorageService.activeGroup.owner.id) {
+		if (this.userStorageService.user.id !== this.groupStorageService.activeGroup.owner.id) {
 			await DialogService.presentErrorToast('Action terminated! Only the group owner can delete this group');
 			return false;
 		}

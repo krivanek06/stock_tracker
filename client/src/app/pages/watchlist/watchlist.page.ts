@@ -6,9 +6,8 @@ import {
 	SubscriptionWebsocketService,
 	UserStorageService,
 } from '@core';
-import { SymbolIdentification } from '@shared';
+import { LodashService, SymbolIdentification } from '@shared';
 import { WatchlistFeatureFacadeService } from '@stock-watchlist-feature';
-import { cloneDeep } from 'lodash';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -53,7 +52,7 @@ export class WatchlistPage extends ComponentScreenUpdateBaseDirective implements
 			.getUserWatchlists()
 			.pipe(takeUntil(componentDestroyed(this)))
 			.subscribe((watchlists) => {
-				this.stockWatchlists = cloneDeep(watchlists) || [];
+				this.stockWatchlists = LodashService.cloneDeep(watchlists) || [];
 			});
 	}
 

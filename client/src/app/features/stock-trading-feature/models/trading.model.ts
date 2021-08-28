@@ -1,23 +1,20 @@
-import {StPortfolio} from '@core';
-
 export enum TIME_INTERVAL_ENUM {
-    DAILY = 'Daily',
-    WEEKLY = 'Weekly',
-    MONTHLY = 'Monthly',
-    QUARTERLY = 'Quarterly',
-    YEARLY = 'Yearly',
-    FROM_BEGINNING = 'From beginning'
+	DAILY = 'Daily',
+	WEEKLY = 'Weekly',
+	MONTHLY = 'Monthly',
+	QUARTERLY = 'Quarterly',
+	YEARLY = 'Yearly',
+	FROM_BEGINNING = 'From beginning',
 }
 
 export interface PortfolioHistoricalWrapper {
-    historicalBalance: number;
-    timeIntervalName: TIME_INTERVAL_ENUM;
+	historicalBalance: number;
+	timeIntervalName: TIME_INTERVAL_ENUM;
 }
 
 export interface TradingChangeModel {
-    growth: number;     // ex. 65.45
-    change: number;     // in %, ex. 12.56%
+	growth: number; // ex. 65.45
+	change: number; // in %, ex. 12.56%
 }
 
-
-export const STARTING_PORTFOLIO = 15000;
+export const STARTING_PORTFOLIO = 25000;

@@ -58,7 +58,11 @@ export class UserAccountFormComponent implements OnInit {
 	}
 
 	get formWasEdited(): boolean {
-		return this.user.userPrivateData.finnhubKey !== this.finnhubKey.value || this.user.nickName !== this.nickName.value;
+		return (
+			this.user.userPrivateData.finnhubKey !== this.finnhubKey.value ||
+			this.user.nickName !== this.nickName.value ||
+			this.user.photoURL !== this.photoURL.value
+		);
 	}
 
 	ngOnInit() {
