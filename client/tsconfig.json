@@ -1,81 +1,44 @@
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
-    "sourceMap": true,
-    "declaration": false,
-    "downlevelIteration": true,
-    "emitDecoratorMetadata": false,
-    "experimentalDecorators": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "target": "ES6",
-    "allowJs": true,
-    "lib": [
-      "es2018",
-      "dom",
-      "esnext.asynciterable"
-    ],
-    "allowSyntheticDefaultImports": true,
-    "paths": {
-      "@core": [
-        "src/app/core/index"
-      ],
-      "@api": [
-        "src/app/api/index"
-      ],
-      "@providers": [
-        "src/app/providers/index"
-      ],
-      "@environment": [
-        "src/environments/*"
-      ],
-      "@shared": [
-        "src/app/shared/index"
-      ],
-      "@login-feature": [
-        "src/app/features/login-feature/index"
-      ],
-      "@account-feature": [
-        "src/app/features/account-feature/index"
-      ],
-      "@auth-feature": [
-        "src/app/features/auth-feature/index"
-      ],
-      "@group-feature": [
-        "src/app/features/group-feature/index"
-      ],
-      "@market-feature": [
-        "src/app/features/market-feature/index"
-      ],
-      "@stock-details-feature": [
-        "src/app/features/stock-details-feature/index"
-      ],
-      "@stock-valuation-feature": [
-        "src/app/features/stock-valuation-feature/index"
-      ],
-      "@stock-trading-feature": [
-        "src/app/features/stock-trading-feature/index"
-      ],
-      "@stock-trading-strategy-feature": [
-        "src/app/features/stock-trading-strategy-feature/index"
-      ],
-      "@stock-watchlist-feature": [
-        "src/app/features/stock-watchlist-feature/index"
-      ],
-      "@pages-shared": [
-        "src/app/pages/pages-shared/index"
-      ]
-    }
-  },
-  "angularCompilerOptions": {
-    "enableIvy": true,
-    "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
-  },
-  "exclude": [
-    "node_modules"
-  ]
+	"compileOnSave": false,
+	"compilerOptions": {
+		"baseUrl": "./",
+		"outDir": "./dist/out-tsc",
+		"sourceMap": true,
+		"declaration": false,
+		"downlevelIteration": true,
+		"emitDecoratorMetadata": false,
+		"experimentalDecorators": true,
+		"module": "esnext",
+		"moduleResolution": "node",
+		"importHelpers": true,
+		"target": "ES6",
+		"allowJs": true,
+		"lib": ["es2018", "dom", "esnext.asynciterable"],
+		"allowSyntheticDefaultImports": true,
+		"paths": {
+			"@core": ["src/app/core/index"],
+			"@api": ["src/app/api/index"],
+			"@providers": ["src/app/providers/index"],
+			"@environment": ["src/environments/*"],
+			"@shared": ["src/app/shared/index"],
+			"@login-feature": ["src/app/features/login-feature/index"],
+			"@account-feature": ["src/app/features/account-feature/index"],
+			"@auth-feature": ["src/app/features/auth-feature/index"],
+			"@group-feature": ["src/app/features/group-feature/index"],
+			"@market-feature": ["src/app/features/market-feature/index"],
+			"@stock-details-feature": ["src/app/features/stock-details-feature/index"],
+			"@stock-valuation-feature": ["src/app/features/stock-valuation-feature/index"],
+			"@stock-trading-feature": ["src/app/features/stock-trading-feature/index"],
+			"@stock-trading-strategy-feature": ["src/app/features/stock-trading-strategy-feature/index"],
+			"@stock-watchlist-feature": ["src/app/features/stock-watchlist-feature/index"],
+			"@pages-shared": ["src/app/pages/pages-shared/index"]
+		}
+	},
+	"angularCompilerOptions": {
+		"enableIvy": true,
+		"fullTemplateTypeCheck": true,
+		"strictInputTypes": true,
+		"strictInjectionParameters": true
+	},
+	"exclude": ["node_modules"]
 }

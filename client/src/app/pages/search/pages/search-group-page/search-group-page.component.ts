@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GraphqlGroupService, StGroupIdentificationDataFragment } from '@core';
@@ -11,11 +11,12 @@ import { debounceTime, switchMap } from 'rxjs/operators';
 	styleUrls: ['./search-group-page.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchGroupPageComponent implements OnInit {
+export class SearchGroupPageComponent implements OnInit, OnDestroy {
 	searchedGroups$: Observable<StGroupIdentificationDataFragment[]>;
 	form: FormGroup;
 
 	constructor(private fb: FormBuilder, private graphqlGroupService: GraphqlGroupService, private router: Router) {}
+	ngOnDestroy(): void {}
 
 	ngOnInit() {
 		this.initForm();

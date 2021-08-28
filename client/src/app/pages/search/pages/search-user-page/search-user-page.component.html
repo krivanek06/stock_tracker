@@ -3,7 +3,12 @@
 		<ion-col size="12" size-lg="11" style="overflow: visible">
 			<!-- search container -->
 			<ion-list class="ion-margin-vertical">
-				<app-user-account-search [fullWith]="true" [clearOnClick]="true" (clickedUserEmitter)="showUserInformation($event)">
+				<app-user-account-search
+					[showNoUserFoundTest]="isSearchEmpty"
+					[fullWith]="true"
+					[clearOnClick]="true"
+					(clickedUserEmitter)="showUserInformation($event)"
+				>
 				</app-user-account-search>
 			</ion-list>
 
@@ -31,6 +36,10 @@
 							</ion-text>
 						</div>
 					</div>
+
+					<ion-buttons class="ion-align-items-baseline">
+						<ion-button fill="outline" color="danger" shape="round" style="min-width: 120px" (click)="clearResult()">Clear</ion-button>
+					</ion-buttons>
 				</div>
 
 				<!-- portfolio state overview -->
