@@ -5,16 +5,4 @@
 		margin-top: -16px;
 		min-width: 170px;
 	}
-	.c-portfolio-change {
-		width: 85%;
-		margin: auto;
-		@media (max-width: #{$st-var-sm-split}) {
-			width: 100%;
-		}
-		& > * {
-			@media (max-width: #{$st-var-sm-split}) {
-				width: 100%;
-			}
-		}
-	}
 }

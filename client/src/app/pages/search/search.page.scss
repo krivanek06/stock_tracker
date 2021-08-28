@@ -1,7 +1,11 @@
-@import "variables";
+@import 'variables';
 
 :host {
-  ion-col {
-    overflow: visible;
-  }
+	ion-segment {
+		justify-content: flex-end;
+		margin-bottom: 16px;
+		@media (max-width: #{$st-var-md-split}) {
+			justify-content: normal;
+		}
+	}
 }

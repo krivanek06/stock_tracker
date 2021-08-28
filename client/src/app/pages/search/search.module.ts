@@ -13,11 +13,6 @@ const routes: Routes = [
 		component: SearchPage,
 		children: [
 			{
-				path: '',
-				redirectTo: SEARCH_PAGE_ENUM.STOCK,
-				pathMatch: 'full',
-			},
-			{
 				path: SEARCH_PAGE_ENUM.USER,
 				loadChildren: () => import('./pages/search-user-page/search-user-page.module').then((m) => m.SearchUserPageModule),
 			},
@@ -32,6 +27,11 @@ const routes: Routes = [
 			{
 				path: `${SEARCH_PAGE_ENUM.STOCK_DETAILS}/:symbol`,
 				loadChildren: () => import('./pages/search-stock-details-page/search-stock-details.module').then((m) => m.SearchStockDetailsModule),
+			},
+			{
+				path: '',
+				redirectTo: SEARCH_PAGE_ENUM.STOCK,
+				pathMatch: 'full',
 			},
 		],
 	},
