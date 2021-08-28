@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { GraphqlUserService, StUserIndentificationDataFragment, StUserPublicDataSearchFragment } from '@core';
-import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM } from '@stock-trading-feature';
+import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingFeatureFacadeService } from '@stock-trading-feature';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { TradingFeatureFacadeService } from './../../../../features/stock-trading-feature/services/trading-feature-facade.service';
 
 @Component({
 	selector: 'app-search-user-page',

@@ -1,0 +1,18 @@
+<!-- initial search picker -->
+<ion-segment (ionChange)="segmentChanged($event)" [value]="segmentValue" style="margin-bottom: 16px" class="ion-justify-content-end" color="primary">
+	<ion-segment-button [value]="SEARCH_PAGE.STOCK">
+		<ion-label>Stock</ion-label>
+	</ion-segment-button>
+	<ion-segment-button [value]="SEARCH_PAGE.USER">
+		<ion-label>User</ion-label>
+	</ion-segment-button>
+	<ion-segment-button [value]="SEARCH_PAGE.GROUP">
+		<ion-label>Group</ion-label>
+	</ion-segment-button>
+</ion-segment>
+
+<ng-container [ngSwitch]="segmentValue">
+	<app-search-stock-page *ngSwitchCase="SEARCH_PAGE.STOCK"></app-search-stock-page>
+	<app-search-group-page *ngSwitchCase="SEARCH_PAGE.GROUP"></app-search-group-page>
+	<app-search-user-page *ngSwitchCase="SEARCH_PAGE.USER"></app-search-user-page>
+</ng-container>

@@ -5,26 +5,6 @@
 	<!-- header -->
 	<app-header pageIcon="search" pageName="Search"></app-header>
 
-	<!-- initial search picker -->
-	<ion-segment
-		(ionChange)="segmentChanged($event)"
-		*ngIf="showSearchBar$ | async"
-		[value]="segmentValue"
-		style="margin-bottom: 16px"
-		class="ion-justify-content-end"
-		color="primary"
-	>
-		<ion-segment-button [value]="SEARCH_PAGE.STOCK" [routerLink]="['/menu/search/stock']">
-			<ion-label>Stock</ion-label>
-		</ion-segment-button>
-		<ion-segment-button [value]="SEARCH_PAGE.USER" [routerLink]="['/menu/search/user']">
-			<ion-label>User</ion-label>
-		</ion-segment-button>
-		<ion-segment-button [value]="SEARCH_PAGE.GROUP" [routerLink]="['/menu/search/group']">
-			<ion-label>Group</ion-label>
-		</ion-segment-button>
-	</ion-segment>
-
 	<!-- sub pages -->
 	<router-outlet></router-outlet>
 </ion-content>

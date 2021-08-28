@@ -23,7 +23,7 @@ export const queryStockDetails = async (symbol: string, reload = false): Promise
 		}
 
 		// first fetch or older than 10 days
-		if (!data || reload || data?.forceReload || Math.abs(moment(data.detailsLastUpdate).diff(new Date(), 'days')) > 10) {
+		if (!data || reload || data?.forceReload || !data.detailsLastUpdate || Math.abs(moment(data.detailsLastUpdate).diff(new Date(), 'days')) > 10) {
 			console.log(`Query all stock details for symbol: ${upperSymbol}`);
 			const details = await getStockDetailsFromApi(upperSymbol);
 
