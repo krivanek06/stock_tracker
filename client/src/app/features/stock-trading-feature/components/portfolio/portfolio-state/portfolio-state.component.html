@@ -2,7 +2,7 @@
 <ion-grid *ngIf="portfolioState === 'CARD' ">
 	<ion-row class="ion-justify-content-center">
 		<!-- balance -->
-		<ion-col size="12" size-lg="4" size-sm="12" class="c-padding">
+		<ion-col size="12" size-lg="5" size-sm="12" class="c-padding">
 			<app-generic-fancy-card
 				[cardClasses]="'st-width-100 st-main-color-turquoise-background-linear'"
 				[titleColor]="'st-main-color-turquois'"
@@ -11,8 +11,9 @@
 			>
 				<ion-item class="st-flex-row">
 					<ion-label class="st-font-size-24 st-font-white"> {{ (portfolioCash + portfolioInvested) | currency }} </ion-label>
-					<ion-label style="position: absolute; right: 0">
+					<ion-label class="st-fit-content">
 						<app-price-change-item
+							[showDollarSignOnPrice]="true"
 							[priceChange]="((portfolioCash + portfolioInvested) - startedBalance) / startedBalance * 100"
 							[price]="(portfolioCash + portfolioInvested) - startedBalance"
 						>
@@ -23,7 +24,7 @@
 		</ion-col>
 
 		<!-- invested -->
-		<ion-col size="12" size-lg="4" size-sm="6" class="c-padding">
+		<ion-col size="12" size-lg="3.5" size-sm="6" class="c-padding">
 			<app-generic-fancy-card
 				[cardClasses]="'st-width-100 st-main-color-purple-background-linear'"
 				[titleColor]="'st-font-main-color-purple'"
@@ -37,7 +38,7 @@
 		</ion-col>
 
 		<!-- cash -->
-		<ion-col size="12" size-lg="4" size-sm="6" class="c-padding">
+		<ion-col size="12" size-lg="3.5" size-sm="6" class="c-padding">
 			<app-generic-fancy-card
 				[cardClasses]="'st-width-100 st-main-color-orange-background-linear'"
 				[titleColor]="'st-font-main-color-orange'"

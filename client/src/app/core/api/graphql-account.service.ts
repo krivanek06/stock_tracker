@@ -62,7 +62,7 @@ export class GraphqlAccountService {
 								},
 								portfolio: {
 									...data.authenticateUser.portfolio,
-									portfolioCash: initPortfolio ? 15000 : data.authenticateUser.portfolio.portfolioCash,
+									portfolioCash: initPortfolio ? 25000 : data.authenticateUser.portfolio.portfolioCash,
 								},
 							},
 						},
@@ -100,11 +100,14 @@ export class GraphqlAccountService {
 								userHistoricalData: {
 									...data.authenticateUser.userHistoricalData,
 									resetedAccount: [...data.authenticateUser.userHistoricalData.resetedAccount, resetUserAccount],
+									transactionSnapshots: [],
+									portfolioSnapshots: [],
 								},
 								portfolio: {
 									...data.authenticateUser.portfolio,
-									portfolioCash: 15000,
+									portfolioCash: 25000,
 								},
+								transactionsSnippets: [],
 							},
 						},
 					});

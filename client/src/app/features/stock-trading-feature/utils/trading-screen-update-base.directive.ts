@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Directive, OnDestroy, OnInit, ViewRef } from '@angular/core';
 import { componentDestroyed, StHolding, StUserPublicData, SubscriptionWebsocketService, Summary, UserStorageService } from '@core';
-import { cloneDeep } from 'lodash';
+import { LodashService } from '@shared';
 import { filter, takeUntil } from 'rxjs/operators';
 
 @Directive()
@@ -41,7 +41,7 @@ export abstract class TradingScreenUpdateBaseDirective implements OnInit, OnDest
 				takeUntil(componentDestroyed(this))
 			)
 			.subscribe((user) => {
-				this.clonedHoldings = cloneDeep(user.holdings);
+				this.clonedHoldings = LodashService.cloneDeep(user.holdings);
 				this.calculateTotalPortfolio();
 
 				this.user = user;

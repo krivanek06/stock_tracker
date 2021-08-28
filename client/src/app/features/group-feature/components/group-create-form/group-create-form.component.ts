@@ -1,11 +1,11 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatDatepicker} from '@angular/material/datepicker';
-import {StGroupAllData, StGroupAllDataInput, StUserIndentificationDataFragment, StUserIndetification} from '@core';
-import {DialogService, UploadedFile, UploaderComponent} from '@shared';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDatepicker } from '@angular/material/datepicker';
+import { StGroupAllData, StGroupAllDataInput, StUserIndentificationDataFragment, StUserIndetification } from '@core';
+import { DialogService, UploadedFile, UploaderComponent } from '@shared';
 import * as moment from 'moment';
-import {combineLatest} from 'rxjs';
-import {createSTGroupAllDataInput} from '../../utils';
+import { combineLatest } from 'rxjs';
+import { createSTGroupAllDataInput } from '../../utils';
 
 @Component({
 	selector: 'app-group-create-form',
@@ -166,7 +166,7 @@ export class GroupCreateFormComponent implements OnInit {
 	private watchDateStart() {
 		const today: moment.Moment = moment();
 		this.startDate.valueChanges.subscribe((res) => {
-			this.dateStartError = today.isAfter(moment(res));
+			this.dateStartError = today.isAfter(moment(res)) && !today.isSame(moment(res), 'days');
 		});
 	}
 

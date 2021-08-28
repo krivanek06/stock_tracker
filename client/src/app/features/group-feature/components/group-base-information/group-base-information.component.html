@@ -1,7 +1,7 @@
 <div class="c-section-wrapper">
 	<div class="c-data-section-wrapper">
 		<div class="st-flex ion-margin-end">
-			<div class="st-small-right-space">
+			<div class="st-small-right-space st-small-top-space">
 				<ion-img class="c-group-image" [src]="groupIdentification.imageUrl" appDefaultImg></ion-img>
 			</div>
 			<div>
@@ -50,7 +50,7 @@
 				</div>
 				<div>
 					<ion-text class="st-font-1 st-small-right-space">Open:</ion-text>
-					<ion-text *ngIf="!groupIdentification.isClosed">{{ groupIdentification.createdDate | relativeTime }}</ion-text>
+					<ion-text *ngIf="!groupIdentification.isClosed">{{ groupIdentification.startDate | relativeTime }}</ion-text>
 				</div>
 				<div>
 					<ion-text class="st-font-1 st-small-right-space">Closed in:</ion-text>

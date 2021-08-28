@@ -3,10 +3,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouteReuseStrategy } from '@angular/router';
@@ -50,15 +50,15 @@ const MY_DATE_FORMATS = {
 		HttpClientModule,
 		// FormsModule,
 		GraphQlModule,
-		// Firebase
 		AngularFireModule.initializeApp(environment.firebase), //  as ModuleWithProviders<AngularFireModule>
-		AngularFirestoreModule,
+		// AngularFirestoreModule,
 		AngularFireAuthModule,
 		// AngularFireStorageModule,
-		// MatDatepickerModule,
-		// MatNativeDateModule,
+		MatDatepickerModule,
+		MatNativeDateModule,
 		// MatTooltipModule,
 		// MatProgressBarModule,
+		MatDialogModule,
 
 		BrowserModule,
 		IonicModule.forRoot(),

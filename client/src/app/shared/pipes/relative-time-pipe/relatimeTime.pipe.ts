@@ -21,10 +21,7 @@ export class RelativeTimePipe implements PipeTransform {
 				? Math.floor((+new Date() - +new Date(value)) / 1000)
 				: Math.floor((+new Date(value) - +new Date()) / 1000);
 
-			// less than 30 seconds ago will show as 'Just now'
-			if (differenceInSeconds < 30) {
-				return 'Just now';
-			}
+			const absDiff = Math.abs(differenceInSeconds);
 			/*
             If you want to show a relative date up to months only
             like '2 months ago', '11 months ago', etc
@@ -54,14 +51,14 @@ export class RelativeTimePipe implements PipeTransform {
 			};
 			let counter;
 			for (const i in timeIntervals) {
-				counter = Math.floor(differenceInSeconds / timeIntervals[i]);
+				counter = Math.floor(absDiff / timeIntervals[i]);
 				if (counter > 0) {
 					if (counter === 1) {
 						// singular (1 day ago)
-						return counter + ' ' + i + (!reverse ? ' ago' : '');
+						return counter + ' ' + i + (!reverse && differenceInSeconds > 0 ? ' ago' : '');
 					} else {
 						// plural (2 days ago)
-						return counter + ' ' + i + (!reverse ? 's ago' : '');
+						return counter + ' ' + i + (!reverse && differenceInSeconds > 0 ? 's ago' : '');
 					}
 				}
 			}

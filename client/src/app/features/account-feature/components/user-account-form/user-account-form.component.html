@@ -36,6 +36,7 @@
 		[highlightField]="!finnhubKey.value"
 	></app-form-mat-input-lock-wrapper>
 
+	<!-- messages -->
 	<ng-container *ngIf="finhubValidity$ | async as finhubValidity">
 		<div class="st-normal-message" *ngIf="finhubValidity === 'PENDING' ">Checking your API key validity</div>
 		<div class="st-error-message" *ngIf="finhubValidity === 'INVALID' ">Your API key is invalid</div>
