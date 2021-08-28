@@ -807,3 +807,16 @@ ion-skeleton-text {
 		color: #{$st-var-font-1};
 	}
 }
+
+.st-full-width-sub-elements {
+	width: 85%;
+	margin: auto;
+	@media (max-width: #{$st-var-sm-split}) {
+		width: 100%;
+	}
+	& > * {
+		@media (max-width: #{$st-var-sm-split}) {
+			width: 100%;
+		}
+	}
+}

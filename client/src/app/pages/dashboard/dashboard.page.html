@@ -26,24 +26,29 @@
 				<!-- portfolio change charts -->
 				<ion-row class="ion-justify-content-center">
 					<!-- portfolio growth chart -->
-					<ion-col size="12" size-md="6">
-						<app-portfolio-growth-chart [heightPx]="260" [stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots"> </app-portfolio-growth-chart>
+					<ion-col size="12" size-md="6" class="st-sm-border-bottom-with-space">
+						<app-portfolio-growth-chart [heightPx]="260" [stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots">
+						</app-portfolio-growth-chart>
 					</ion-col>
 
 					<!-- portfolio change chart -->
-					<ion-col size="12" size-md="6">
-						<app-portfolio-change-chart [heightPx]="260" [stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots"> </app-portfolio-change-chart>
+					<ion-col size="12" size-md="6" class="st-sm-border-bottom-with-space">
+						<app-portfolio-change-chart [heightPx]="260" [stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots">
+						</app-portfolio-change-chart>
 					</ion-col>
 				</ion-row>
-
-
 
 				<!-- holdings table -->
 				<ion-row class="ion-justify-content-center">
 					<ion-col size="12">
 						<app-generic-list [iconTitle]="'pricetags'" [title]="'Holdings'"></app-generic-list>
 						<app-generic-card>
-							<app-holdings-table (itemClickedEmitter)="showSummary($event)" [holdings]="clonedHoldings" [totalPortfolio]="portfolioInvested + user.portfolio.portfolioCash"> </app-holdings-table>
+							<app-holdings-table
+								(itemClickedEmitter)="showSummary($event)"
+								[holdings]="clonedHoldings"
+								[totalPortfolio]="portfolioInvested + user.portfolio.portfolioCash"
+							>
+							</app-holdings-table>
 						</app-generic-card>
 					</ion-col>
 				</ion-row>
@@ -78,7 +83,8 @@
 						</app-generic-card>
 					</ion-col>
 					<ion-col class="ion-padding" size="12" size-md="6">
-						<app-transactions-chart [heightPx]="360" [stTransactionSnapshots]="user.userHistoricalData.transactionSnapshots"> </app-transactions-chart>
+						<app-transactions-chart [heightPx]="360" [stTransactionSnapshots]="user.userHistoricalData.transactionSnapshots">
+						</app-transactions-chart>
 					</ion-col>
 				</ion-row>
 			</ion-col>
