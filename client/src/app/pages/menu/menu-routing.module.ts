@@ -44,7 +44,7 @@ const routes: Routes = [
 			},
 			{
 				path: 'groups',
-				//canActivate: [AuthGuard],
+				canActivate: [AuthGuard],
 				loadChildren: () => import('../groups/groups.module').then((m) => m.GroupsModule),
 			},
 			{
@@ -59,6 +59,7 @@ const routes: Routes = [
 			{
 				path: '',
 				redirectTo: 'dashboard',
+				pathMatch: 'full',
 			},
 		],
 	},

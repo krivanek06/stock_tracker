@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+/* import {Injectable} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {StorageService} from './storage/storage.service';
 
@@ -40,3 +40,4 @@ export class LanguageService {
     }
 
 }
+ */

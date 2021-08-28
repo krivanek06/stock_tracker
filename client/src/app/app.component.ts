@@ -1,12 +1,9 @@
 import { ApplicationRef, Component, OnInit } from '@angular/core';
 import { ResolveEnd, ResolveStart, Router } from '@angular/router';
-import { LanguageService, ThemeService } from '@core';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { Platform } from '@ionic/angular';
+import { ThemeService } from '@core';
+import { DialogService } from '@shared';
 import { merge, Observable } from 'rxjs';
 import { filter, mapTo } from 'rxjs/operators';
-import {DialogService} from "@shared";
 
 // https://dmitrymogilko.medium.com/profiling-angular-change-detection-c00605862b9f
 @Component({
@@ -20,11 +17,11 @@ export class AppComponent implements OnInit {
 	private _hideLoaderEvents$: Observable<boolean>;
 
 	constructor(
-		private platform: Platform,
-		private splashScreen: SplashScreen,
-		private statusBar: StatusBar,
+		// private platform: Platform,
+		// private splashScreen: SplashScreen,
+		// private statusBar: StatusBar,
 		private themeService: ThemeService,
-		private languageService: LanguageService,
+		// private languageService: LanguageService,
 		private router: Router,
 		private applicationRef: ApplicationRef,
 		ionicDialogService: DialogService
@@ -63,13 +60,14 @@ export class AppComponent implements OnInit {
 	}
 
 	private initializeApp() {
-		this.platform.ready().then(() => {
-			this.statusBar.styleDefault();
-			this.splashScreen.hide();
+		this.themeService.enableDark();
 
-			this.themeService.enableDark();
-			this.languageService.setInitialLanguage();
-		});
+		// this.platform.ready().then(() => {
+		// 	this.statusBar.styleDefault();
+		// 	this.splashScreen.hide();
+
+		// 	this.languageService.setInitialLanguage();
+		// });
 	}
 
 	ngOnInit() {}

@@ -166,7 +166,7 @@ export class MenuPage implements OnInit, OnDestroy {
 						title: 'Groups',
 						url: '/menu/groups',
 						icon: 'people-outline',
-						disabled: false,
+						disabled: !user,
 						hidden: false,
 					},
 					/*{
