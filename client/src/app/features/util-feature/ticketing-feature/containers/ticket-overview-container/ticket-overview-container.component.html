@@ -1,0 +1,9 @@
+<div *ngFor="let ticket of tickets" class="st-flex-wrap st-bottom-top-space">
+	<app-ticker-overview
+		(closeTicketEmitter)="closeTicket(ticket)"
+		(deleteTicketEmitter)="deleteTicket(ticket)"
+		(submitCommentEmitter)="submitComment(ticket, $event)"
+		[ticket]="ticket"
+		[showManagementButtons]="showManagementButtons"
+	></app-ticker-overview>
+</div>

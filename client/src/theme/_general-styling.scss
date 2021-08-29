@@ -48,7 +48,7 @@ ion-spinner {
 	border-left: 1px solid #{$st-light-blue-border};
 }
 
-.st-border-top-normal {
+.st-border-top {
 	border-top: 1px solid #{$st-light-blue-border};
 }
 
@@ -213,6 +213,10 @@ ion-spinner {
 	margin-top: 8px !important;
 }
 
+.st-bottom-top-space {
+	margin-bottom: 8px !important;
+}
+
 .st-right-space {
 	margin-right: 16px !important;
 }
@@ -235,6 +239,14 @@ ion-spinner {
 
 .st-left-padding {
 	padding-left: 16px !important;
+}
+
+.st-top-padding {
+	padding-top: 16px !important;
+}
+
+.st-padding {
+	padding: 16px !important;
 }
 
 // custom headers

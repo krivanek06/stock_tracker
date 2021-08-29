@@ -87,6 +87,7 @@ const MY_DATE_FORMATS = {
 		MatNativeDateModule,
 		{ provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
 		{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+		// { provide: ErrorHandler, useClass: GlobalErrorHandler },
 	],
 	bootstrap: [AppComponent],
 })

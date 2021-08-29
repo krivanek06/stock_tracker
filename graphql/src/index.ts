@@ -50,6 +50,7 @@ import { STTraingStrategyTypeDefs } from './st-trading-strategy/st-trading-strat
 import { performTransaction } from './st-transaction/st-transaction.mutation';
 import { stTransactionResolvers } from './st-transaction/st-transaction.resolver';
 import { STTransactionTypeDefs } from './st-transaction/st-transaction.typedef';
+import { closeTicket, commentTicket, createTicket, deleteTicket, stTicketsResolver, STTicketsTypeDefs } from './st-utils';
 import { editUser, registerUser, resetUserAccount } from './user/user.mutation';
 import { authenticateUser, queryUserPublicDataById, queryUserPublicDataByUsername } from './user/user.query';
 import { userResolvers } from './user/user.resolver';
@@ -142,6 +143,12 @@ const mainTypeDefs = gql`
 
 		# stock details
 		setForceReloadStockDetails: Boolean
+
+		# utils - tickets
+		createTicket(ticketValuse: STTicketCreateValues!): STTicket
+		commentTicket(ticketId: String!, comment: String!): STTicketComment
+		closeTicket(ticketId: String!): Boolean
+		deleteTicket(ticketId: String!): Boolean
 	}
 `;
 
@@ -220,6 +227,14 @@ const mainResolver = {
 
 		// stock detils
 		setForceReloadStockDetails: async () => await setForceReloadStockDetails(),
+
+		// utils - tickets
+		createTicket: async (_, args: { ticketValuse: api.STTicketCreateValues }, context: Context) =>
+			await createTicket(args.ticketValuse, context.requesterUserId),
+		commentTicket: async (_, args: { ticketId: string; comment: string }, context: Context) =>
+			await commentTicket(args.ticketId, args.comment, context.requesterUserId),
+		closeTicket: async (_, args: { ticketId: string }) => await closeTicket(args.ticketId),
+		deleteTicket: async (_, args: { ticketId: string }) => await deleteTicket(args.ticketId),
 	},
 };
 
@@ -229,6 +244,7 @@ const resolvers = {
 	...stStockWatchlistResolvers,
 	...stGroupResolvers,
 	...mainResolver,
+	...stTicketsResolver,
 };
 
 const server = new ApolloServer({
@@ -251,6 +267,7 @@ const server = new ApolloServer({
 		STEarningsValuationFormulaTypeDefs,
 		STFreeCashFlowFormulaTypeDefs,
 		STFinancialModelingAPITypeDefs,
+		STTicketsTypeDefs,
 	],
 	resolvers,
 	introspection: true,

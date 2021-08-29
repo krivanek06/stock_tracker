@@ -9,6 +9,13 @@ export const userTypeDefs = gql`
 		groupMember: [STGroupAllData]
 	}
 
+	type STUserIndetificationBase {
+		nickName: String!
+		locale: String
+		photoURL: String!
+		accountCreatedDate: String!
+	}
+
 	type STUserIndetification {
 		id: String!
 		nickName: String!
@@ -39,7 +46,8 @@ export const userTypeDefs = gql`
 		id: String
 		finnhubKey: String
 		tradingEnabledDate: String
-		roles: [String]
+		roles: [String]!
+		tickets: [STTicket]!
 		email: String!
 		displayName: String!
 		providerId: String

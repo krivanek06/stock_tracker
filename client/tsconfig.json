@@ -31,7 +31,9 @@
 			"@stock-trading-feature": ["src/app/features/stock-trading-feature/index"],
 			"@stock-trading-strategy-feature": ["src/app/features/stock-trading-strategy-feature/index"],
 			"@stock-watchlist-feature": ["src/app/features/stock-watchlist-feature/index"],
-			"@pages-shared": ["src/app/pages/pages-shared/index"]
+			"@pages-shared": ["src/app/pages/pages-shared/index"],
+			"@admin-feature": ["src/app/features/admin-feature/index"],
+			"@ticketing-feature": ["src/app/features/util-feature/ticketing-feature"]
 		}
 	},
 	"angularCompilerOptions": {

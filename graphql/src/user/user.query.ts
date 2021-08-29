@@ -1,6 +1,7 @@
 import { ApolloError, ValidationError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
+import { convertSTUserPublicDataToSTUserIndentification, convertSTUserPublicDataToSTUserIndentificationBase } from './user.convertor';
 
 export const authenticateUser = async (uid: string) => {
 	try {
@@ -39,6 +40,24 @@ export const queryUserPublicDataByUsername = async (usernamePrefix): Promise<api
 		const userDocs = await admin.firestore().collection(`${api.ST_USER_COLLECTION_USER}`).where('nickName', '>=', usernamePrefix).limit(5).get();
 
 		return userDocs.docs.map((d) => d.data() as api.STUserPublicData);
+	} catch (error) {
+		throw new ApolloError(error);
+	}
+};
+
+export const queryUserIdentification = async (userId: string): Promise<api.STUserIndentification> => {
+	try {
+		const user = await queryUserPublicDataById(userId);
+		return convertSTUserPublicDataToSTUserIndentification(user);
+	} catch (error) {
+		throw new ApolloError(error);
+	}
+};
+
+export const queryUserIdentificationBase = async (userId: string): Promise<api.STUserIndentificationBase> => {
+	try {
+		const user = await queryUserPublicDataById(userId);
+		return convertSTUserPublicDataToSTUserIndentificationBase(user);
 	} catch (error) {
 		throw new ApolloError(error);
 	}

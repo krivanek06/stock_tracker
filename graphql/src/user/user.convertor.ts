@@ -10,3 +10,13 @@ export const convertSTUserPublicDataToSTUserIndentification = (publicData: api.S
 	};
 	return identification;
 };
+
+export const convertSTUserPublicDataToSTUserIndentificationBase = (publicData: api.STUserPublicData): api.STUserIndentificationBase => {
+	const identification: api.STUserIndentificationBase = {
+		accountCreatedDate: publicData.accountCreatedDate,
+		locale: publicData.locale,
+		nickName: publicData.nickName,
+		photoURL: publicData.photoURL,
+	};
+	return identification;
+};

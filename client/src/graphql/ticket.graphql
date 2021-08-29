@@ -1,0 +1,43 @@
+fragment STTicketCommentFragment on STTicketComment {
+	id
+	createdBy {
+		...StUserIndetificationBaseFragment
+	}
+	comment
+	createdAt
+}
+
+fragment STTicketFragment on STTicket {
+	id
+	name
+	type
+	message
+	createdBy {
+		...StUserIndetificationBaseFragment
+	}
+	createdAt
+	isOpen
+	comments {
+		...STTicketCommentFragment
+	}
+}
+
+mutation CreateTicket($ticketValuse: STTicketCreateValues!) {
+	createTicket(ticketValuse: $ticketValuse) {
+		...STTicketFragment
+	}
+}
+
+mutation CommentTicket($ticketId: String!, $comment: String!) {
+	commentTicket(ticketId: $ticketId, comment: $comment) {
+		...STTicketCommentFragment
+	}
+}
+
+mutation CloseTicket($ticketId: String!) {
+	closeTicket(ticketId: $ticketId)
+}
+
+mutation DeleteTicket($ticketId: String!) {
+	deleteTicket(ticketId: $ticketId)
+}
