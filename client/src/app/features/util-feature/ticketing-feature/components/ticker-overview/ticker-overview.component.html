@@ -1,0 +1,50 @@
+<mat-expansion-panel>
+	<mat-expansion-panel-header>
+		<mat-panel-title class="ion-align-items-center c-ticket-name"> {{ ticket.name }} </mat-panel-title>
+		<mat-panel-description class="ion-align-items-center st-gap ion-hide-md-down">
+			<ion-avatar>
+				<ion-img appDefaultImg [src]="ticket.createdBy.photoURL"></ion-img>
+			</ion-avatar>
+			<span>{{ ticket.createdBy.nickName }}</span>
+			<span>|</span>
+			<span>{{ ticket.type }}</span>
+			<span>|</span>
+			<span>{{ ticket.createdAt | relativeTime }}</span>
+		</mat-panel-description>
+	</mat-expansion-panel-header>
+	<ng-template matExpansionPanelContent>
+		<!-- message -->
+		<div class="message-wrapper">{{ ticket.message }}</div>
+
+		<!-- comments -->
+		<div *ngFor="let comment of ticket.comments" class="st-top-padding st-border-top">
+			<div class="st-flex ion-align-items-center st-gap">
+				<ion-avatar class="st-left-space">
+					<ion-img appDefaultImg [src]="comment.createdBy.photoURL"></ion-img>
+				</ion-avatar>
+				<span>{{ comment.createdBy.nickName }}</span>
+				<span>|</span>
+				<span>{{ comment.createdAt | relativeTime }}</span>
+			</div>
+			<div class="st-padding">{{ comment.comment }}</div>
+		</div>
+
+		<!-- comment form -->
+		<form *ngIf="answering" [formGroup]="form" (ngSubmit)="submit()" class="st-padding">
+			<app-form-mat-input-wrapper inputType="TEXTAREA" controlName="comment" inputCaption="Add comment"></app-form-mat-input-wrapper>
+			<ion-buttons class="c-action-buttons">
+				<ion-button color="primary" fill="solid" shape="round" type="submit">Submit</ion-button>
+				<ion-button color="light" fill="solid" shape="round" type="button" (click)="toggleCommentForm()">Cancel</ion-button>
+			</ion-buttons>
+		</form>
+
+		<!-- buttons -->
+		<ion-buttons *ngIf="!answering && showManagementButtons && ticket.isOpen" class="c-action-buttons st-border-top">
+			<ion-button *ngIf="showManagementButtons" type="button" color="primary" fill="solid" shape="round" (click)="toggleCommentForm()">
+				Answer
+			</ion-button>
+			<ion-button *ngIf="showManagementButtons" type="button" color="warning" fill="solid" shape="round" (click)="close()">Close</ion-button>
+			<!-- <ion-button type="button" color="danger" fill="solid" shape="round" (click)="delete()">Delete</ion-button> -->
+		</ion-buttons>
+	</ng-template>
+</mat-expansion-panel>

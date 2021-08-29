@@ -1,0 +1,15 @@
+<form [formGroup]="form" (ngSubmit)="submitForm()">
+	<!-- ticket name -->
+	<app-form-mat-input-wrapper inputCaption="Ticket name" controlName="name"> </app-form-mat-input-wrapper>
+
+	<!-- ticket type -->
+	<app-form-mat-input-wrapper inputCaption="Ticket type" controlName="type" inputType="SELECT" [inputSource]="inputSource">
+	</app-form-mat-input-wrapper>
+
+	<!-- ticket message -->
+	<app-form-mat-input-wrapper inputCaption="Type your message" controlName="message" inputType="TEXTAREA"> </app-form-mat-input-wrapper>
+
+	<ion-buttons class="st-buttons-container">
+		<ion-button type="submit" class="st-button" color="primary" shape="round" fill="solid"> Submit </ion-button>
+	</ion-buttons>
+</form>

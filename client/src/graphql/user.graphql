@@ -1,3 +1,10 @@
+fragment StUserIndetificationBaseFragment on STUserIndetificationBase {
+	nickName
+	locale
+	photoURL
+	accountCreatedDate
+}
+
 fragment STUserIndentificationData on STUserPublicData {
 	id
 	nickName
@@ -158,6 +165,9 @@ query AuthenticateUser($id: String!) {
 			providerId
 			status
 			nicknameLastChange
+			tickets {
+				...STTicketFragment
+			}
 		}
 		stockWatchlist {
 			...STStockWatchlistFragment

@@ -1,6 +1,7 @@
 // export * from './language.service';
 export * from './authentication.service';
 export * from './finnhub-websocket.service';
+export * from './global-error-handler.service';
 export * from './storage/group-storage.service';
 // STORAGE
 export * from './storage/storage.service';

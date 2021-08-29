@@ -1,0 +1,43 @@
+@import 'variables';
+
+:host {
+	mat-expansion-panel-header {
+		padding: 30px;
+	}
+	ion-avatar {
+		width: 40px;
+		height: 40px;
+	}
+
+	.message-wrapper {
+		word-break: break-word;
+		padding-top: 16px;
+		border-top: 1px solid #{$st-light-blue-border};
+		padding-bottom: 8px;
+		margin-bottom: 8px;
+		color: #{$st-var-font-2};
+	}
+
+	.c-action-buttons {
+		display: flex;
+		justify-content: flex-end;
+		gap: 16px;
+		padding: 16px;
+		& > * {
+			min-width: 150px;
+		}
+		@media (max-width: #{$st-var-md-split}) {
+			flex-flow: column;
+			& > * {
+				width: 100%;
+			}
+		}
+	}
+
+	.c-ticket-name {
+		max-width: 40%;
+		@media (max-width: #{$st-var-md-split}) {
+			max-width: 100%;
+		}
+	}
+}

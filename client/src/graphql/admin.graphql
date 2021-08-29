@@ -1,18 +1,21 @@
+fragment STAdminMainInformationsFragment on STAdminMainInformations {
+	lastStockDetailsReload
+	usersRegistrated
+	usersActive
+	usersRegistrationSnippets {
+		...StUserIndetificationBaseFragment
+	}
+	usersWeeklyRegistrated {
+		data
+		timestamp
+	}
+	tickets {
+		...STTicketFragment
+	}
+}
+
 query QueryAdminMainInformations {
-    queryAdminMainInformations {
-        lastStockDetailsReload
-        usersRegistrated
-        usersActive
-        usersRegistrationSnippets {
-            id
-            nickName
-            locale
-            photoURL
-            accountCreatedDate
-        }
-        usersWeeklyRegistrated {
-            data
-            timestamp
-        }
-    }
+	queryAdminMainInformations {
+		...STAdminMainInformationsFragment
+	}
 }

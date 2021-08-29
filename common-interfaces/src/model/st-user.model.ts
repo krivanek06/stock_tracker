@@ -16,12 +16,16 @@ export enum USER_STATUS {
     ALLOWED = "ALLOWED",
 }
 
-export interface STUserIndentification {
-    id: string;
+export interface STUserIndentificationBase {
     nickName: string;
     locale: string;
     photoURL: string;
     accountCreatedDate: string;
+}
+
+export interface STUserIndentification extends STUserIndentificationBase {
+    id: string;
+  
 }
 
 export interface STUserIndentificationWithPortfolio extends STUserIndentification {
@@ -55,7 +59,7 @@ export interface STUserPrivateData {
     id: string;
     finnhubKey: string;
     tradingEnabledDate: string;
-    roles?: string[];
+    roles: string[];
     email: string;
     displayName: string;
     providerId: string;
