@@ -38,13 +38,11 @@ const createGroupObject = async (groupInput: api.STGroupAllDataInput, requesterU
 	if (groupInput.isOwnerAlsoMember) {
 		group.startedPortfolio.portfolioCash = group.owner.portfolio.lastPortfolioSnapshot?.portfolioCash ?? 0;
 		group.startedPortfolio.portfolioInvested = group.owner.portfolio.lastPortfolioSnapshot?.portfolioInvested ?? 0;
-		group.startedPortfolio.numberOfExecutedTransactions = group.owner.portfolio.numberOfExecutedTransactions;
 		group.startedPortfolio.numberOfExecutedSellTransactions = group.owner.portfolio.numberOfExecutedSellTransactions;
 		group.startedPortfolio.numberOfExecutedBuyTransactions = group.owner.portfolio.numberOfExecutedBuyTransactions;
 
 		group.portfolio.lastPortfolioSnapshot.portfolioCash = group.owner.portfolio.lastPortfolioSnapshot.portfolioCash;
 		group.portfolio.lastPortfolioSnapshot.portfolioInvested = group.owner.portfolio.lastPortfolioSnapshot.portfolioInvested;
-		group.portfolio.numberOfExecutedTransactions = group.owner.portfolio.numberOfExecutedTransactions;
 		group.portfolio.numberOfExecutedSellTransactions = group.owner.portfolio.numberOfExecutedSellTransactions;
 		group.portfolio.numberOfExecutedBuyTransactions = group.owner.portfolio.numberOfExecutedBuyTransactions;
 

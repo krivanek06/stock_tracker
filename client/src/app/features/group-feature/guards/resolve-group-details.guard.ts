@@ -11,7 +11,6 @@ export class ResolveGroupDetailsGuard implements Resolve<void> {
 
 	resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<void> | Promise<void> | void {
 		const groupId = route.paramMap.get('groupId');
-		console.log('groupId', groupId);
 		this.groupStorageService.setActiveGroupId(groupId);
 	}
 }

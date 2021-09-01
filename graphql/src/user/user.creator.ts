@@ -43,7 +43,6 @@ export const createSTUserPublicData = (user: api.STUserAuthenticationInput): api
 			},
 			lastPortfolioIncreaseNumber: null,
 			lastPortfolioIncreasePrct: null,
-			numberOfExecutedTransactions: 0,
 			numberOfExecutedBuyTransactions: 0,
 			numberOfExecutedSellTransactions: 0,
 			portfolioCash: 0,

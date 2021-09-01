@@ -96,8 +96,6 @@ export class GroupMemberOverviewModalComponent implements OnInit, OnDestroy {
 				this.groupMemberOverview.portfolio.numberOfExecutedBuyTransactions - this.groupUser.startedPortfolio.numberOfExecutedBuyTransactions,
 			numberOfExecutedSellTransactions:
 				this.groupMemberOverview.portfolio.numberOfExecutedSellTransactions - this.groupUser.startedPortfolio.numberOfExecutedSellTransactions,
-			numberOfExecutedTransactions:
-				this.groupMemberOverview.portfolio.numberOfExecutedTransactions - this.groupUser.startedPortfolio.numberOfExecutedTransactions,
 			portfolioCash: this.groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioCash - this.groupUser.startedPortfolio.portfolioCash,
 			portfolioInvested:
 				this.groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioInvested - this.groupUser.startedPortfolio.portfolioInvested,
@@ -120,7 +118,6 @@ export class GroupMemberOverviewModalComponent implements OnInit, OnDestroy {
 			date: this.groupMemberOverview.accountCreatedDate,
 			numberOfExecutedBuyTransactions: this.groupMemberOverview.portfolio.numberOfExecutedBuyTransactions,
 			numberOfExecutedSellTransactions: this.groupMemberOverview.portfolio.numberOfExecutedSellTransactions,
-			numberOfExecutedTransactions: this.groupMemberOverview.portfolio.numberOfExecutedTransactions,
 			portfolioCash: this.groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioCash,
 			portfolioInvested: this.groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioInvested,
 		};

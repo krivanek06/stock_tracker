@@ -32,7 +32,6 @@ export const createEmptySTGroupAllData = (): api.STGroupAllData => {
 				transactionsSell: 0,
 				date: getCurrentIOSDate(),
 			},
-			numberOfExecutedTransactions: 0,
 			numberOfExecutedBuyTransactions: 0,
 			numberOfExecutedSellTransactions: 0,
 			lastPortfolioIncreaseNumber: null,
@@ -42,7 +41,6 @@ export const createEmptySTGroupAllData = (): api.STGroupAllData => {
 		startedPortfolio: {
 			portfolioCash: 0,
 			portfolioInvested: 0,
-			numberOfExecutedTransactions: 0,
 			numberOfExecutedBuyTransactions: 0,
 			numberOfExecutedSellTransactions: 0,
 			date: getCurrentIOSDate(),
@@ -86,7 +84,6 @@ export const createSTGroupUser = (userPublic: api.STUserPublicData): api.STGroup
 		portfolio: {
 			lastPortfolioSnapshot: userPublic.portfolio.lastPortfolioSnapshot,
 			lastTransactionSnapshot: userPublic.portfolio.lastTransactionSnapshot,
-			numberOfExecutedTransactions: userPublic.portfolio.numberOfExecutedTransactions,
 			numberOfExecutedBuyTransactions: userPublic.portfolio.numberOfExecutedBuyTransactions,
 			numberOfExecutedSellTransactions: userPublic.portfolio.numberOfExecutedSellTransactions,
 			lastPortfolioIncreaseNumber: userPublic.portfolio.lastPortfolioIncreaseNumber,
@@ -96,7 +93,6 @@ export const createSTGroupUser = (userPublic: api.STUserPublicData): api.STGroup
 		startedPortfolio: {
 			numberOfExecutedSellTransactions: userPublic.portfolio.numberOfExecutedSellTransactions,
 			numberOfExecutedBuyTransactions: userPublic.portfolio.numberOfExecutedBuyTransactions,
-			numberOfExecutedTransactions: userPublic.portfolio.numberOfExecutedTransactions,
 			portfolioCash: userPublic.portfolio.lastPortfolioSnapshot.portfolioCash,
 			portfolioInvested: userPublic.portfolio.lastPortfolioSnapshot.portfolioInvested,
 			date: getCurrentIOSDate(),

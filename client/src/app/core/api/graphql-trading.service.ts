@@ -69,7 +69,6 @@ export class GraphqlTradingService {
 								portfolio: {
 									...user.authenticateUser.portfolio,
 									portfolioCash: user.authenticateUser.portfolio.portfolioCash + addCash,
-									numberOfExecutedTransactions: user.authenticateUser.portfolio.numberOfExecutedTransactions + 1,
 									numberOfExecutedBuyTransactions:
 										addCash < 0
 											? user.authenticateUser.portfolio.numberOfExecutedBuyTransactions + 1

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@core';
+import { TradingGuard } from '@stock-trading-feature';
 import { MenuPage } from './menu.page';
 
 const routes: Routes = [
@@ -20,7 +21,7 @@ const routes: Routes = [
 			},
 			{
 				path: 'trading',
-				canActivate: [AuthGuard],
+				canActivate: [AuthGuard, TradingGuard],
 				loadChildren: () => import('../trading/trading.module').then((m) => m.TradingPageModule),
 			},
 			{
@@ -44,7 +45,7 @@ const routes: Routes = [
 			},
 			{
 				path: 'groups',
-				canActivate: [AuthGuard],
+				canActivate: [AuthGuard, TradingGuard],
 				loadChildren: () => import('../groups/groups.module').then((m) => m.GroupsModule),
 			},
 			{

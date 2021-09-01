@@ -46,17 +46,15 @@
 				</div>
 				<div>
 					<ion-text class="st-font-1 st-small-right-space">End:</ion-text>
-					<ion-text>{{ groupIdentification.endDate | date: 'dd.MM.YYYY' }}</ion-text>
+					<ion-text>{{ groupIdentification.isInfinite ? 'Never' : (groupIdentification.endDate | date: 'dd.MM.YYYY') }}</ion-text>
 				</div>
 				<div>
 					<ion-text class="st-font-1 st-small-right-space">Open:</ion-text>
 					<ion-text *ngIf="!groupIdentification.isClosed">{{ groupIdentification.startDate | relativeTime }}</ion-text>
 				</div>
-				<div>
+				<div *ngIf="!groupIdentification.isClosed && !groupIdentification.isInfinite ">
 					<ion-text class="st-font-1 st-small-right-space">Closed in:</ion-text>
-					<ion-text *ngIf="!groupIdentification.isClosed"
-						>{{ groupIdentification.isInfinite ? 'Never' : (groupIdentification.endDate | relativeTime: true) }}</ion-text
-					>
+					<ion-text> {{ groupIdentification.endDate | relativeTime: true }} </ion-text>
 				</div>
 			</div>
 
@@ -64,10 +62,11 @@
 			<div class="st-flex-col st-sm-border-bottom-with-space">
 				<div>
 					<ion-text class="st-font-1 st-small-right-space">Total transactions:</ion-text>
-					<ion-text
-						>{{ groupIdentification.portfolio.numberOfExecutedTransactions - groupIdentification.startedPortfolio.numberOfExecutedTransactions
-						}}</ion-text
-					>
+					<ion-text>
+						{{ ( groupIdentification.portfolio.numberOfExecutedBuyTransactions + groupIdentification.portfolio.numberOfExecutedSellTransactions) -
+						groupIdentification.startedPortfolio.numberOfExecutedBuyTransactions -
+						groupIdentification.startedPortfolio.numberOfExecutedSellTransactions }}
+					</ion-text>
 				</div>
 				<div>
 					<ion-text class="st-font-1 st-small-right-space">Buy transactions:</ion-text>
@@ -96,8 +95,12 @@
 	</div>
 	<!-- buttons -->
 	<ion-buttons
-		*ngIf="showAcceptButton || showDeclineButton || showDeleteButton || showLeaveButton || showVisitButton || sendInvitation || removeInvitation"
+		*ngIf="showAcceptButton || showDeclineButton || showDeleteButton || showLeaveButton || showVisitButton || sendInvitation || removeInvitation || showReloadButton"
 	>
+		<ion-button *ngIf="showReloadButton" fill="outline" color="primary" shape="round" (click)="reload()">
+			<ion-icon class="st-icon-title" name="refresh-circle"></ion-icon>
+			Reload
+		</ion-button>
 		<ion-button *ngIf="showAcceptButton" fill="outline" color="success" shape="round" (click)="accept()">Accept</ion-button>
 		<ion-button *ngIf="showDeclineButton" fill="outline" color="danger" shape="round" (click)="decline()">Decline</ion-button>
 		<span *ngIf="showSendInvitationButton" [matTooltip]="isGroupPrivate ? 'Group is private, you can be only invited' : null ">

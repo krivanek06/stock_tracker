@@ -1,38 +1,33 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {AdminPage} from './admin.page';
-import {IonicModule} from "@ionic/angular";
-import {HeaderModule} from "@shared";
-import {MenuHeaderModule} from "@pages-shared";
-import {CommonModule} from "@angular/common";
+import { UserIdentificationInfoModule } from '@account-feature';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
+import { MenuHeaderModule } from '@pages-shared';
+import { GenericCardModule, GenericChartModule, HeaderModule } from '@shared';
+import { TicketOverviewContainerModule } from '@ticketing-feature';
+import { AdminPage } from './admin.page';
+import { UsersOverviewPage } from './users-overview/users-overview.page';
 
 const routes: Routes = [
-    {
-        path: '',
-        component: AdminPage,
-        children: [
-            {
-                path: '',
-                redirectTo: 'users-overview',
-                pathMatch: 'full'
-            },
-            {
-                path: 'users-overview',
-                loadChildren: () => import('./users-overview/users-overview.module').then(m => m.UsersOverviewPageModule)
-            }
-        ]
-    }
+	{
+		path: '',
+		component: AdminPage,
+	},
 ];
 
 @NgModule({
-    imports: [
-        RouterModule.forChild(routes),
-        IonicModule,
-        HeaderModule,
-        MenuHeaderModule,
-        CommonModule
-    ],
-    declarations: [AdminPage]
+	imports: [
+		RouterModule.forChild(routes),
+		IonicModule,
+		HeaderModule,
+		MenuHeaderModule,
+		CommonModule,
+		GenericCardModule,
+		GenericChartModule,
+		UserIdentificationInfoModule,
+		TicketOverviewContainerModule,
+	],
+	declarations: [AdminPage, UsersOverviewPage],
 })
-export class AdminPageModule {
-}
+export class AdminPageModule {}

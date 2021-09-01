@@ -15,7 +15,6 @@ export const STPortfolioTypeDefs = gql`
 
 	type STPortfolioWrapper {
 		portfolioCash: Float!
-		numberOfExecutedTransactions: Float!
 		numberOfExecutedBuyTransactions: Float!
 		numberOfExecutedSellTransactions: Float!
 		lastPortfolioIncreaseNumber: Float
@@ -28,7 +27,6 @@ export const STPortfolioTypeDefs = gql`
 		portfolioInvested: Float!
 		portfolioCash: Float!
 		date: String!
-		numberOfExecutedTransactions: Float!
 		numberOfExecutedBuyTransactions: Float!
 		numberOfExecutedSellTransactions: Float!
 	}

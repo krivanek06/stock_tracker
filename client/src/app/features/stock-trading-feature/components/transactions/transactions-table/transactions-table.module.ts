@@ -1,20 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {TransactionsTableComponent} from "./transactions-table.component";
-import {IonicModule} from "@ionic/angular";
-import {PriceChangeItemModule} from "@shared";
-import {DefaultImgDirectiveModule} from "../../../../../shared/directives/default-img-directive/default-img-directive.module";
-
-
+import { NgModule } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
+import { DefaultImgDirectiveModule, PriceChangeItemModule } from '@shared';
+import { TransactionsTableComponent } from './transactions-table.component';
 
 @NgModule({
-  declarations: [TransactionsTableComponent],
-  imports: [
-    CommonModule,
-    IonicModule,
-    PriceChangeItemModule,
-    DefaultImgDirectiveModule
-  ],
-  exports: [TransactionsTableComponent]
+	declarations: [TransactionsTableComponent],
+	imports: [CommonModule, IonicModule, PriceChangeItemModule, DefaultImgDirectiveModule],
+	exports: [TransactionsTableComponent],
 })
-export class TransactionsTableModule { }
+export class TransactionsTableModule {}

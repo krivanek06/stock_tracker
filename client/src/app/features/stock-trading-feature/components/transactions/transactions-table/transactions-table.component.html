@@ -12,7 +12,7 @@
 	<ng-container *ngIf="transactions.length > 0; else showNoTransactionText">
 		<ion-item *ngFor="let transaction of transactions" class="st-table-item-no-margin">
 			<ion-label class="st-display-flex-center">
-				<ion-img [src]="transaction.symbol_logo_url" class="st-symbol-image"></ion-img>
+				<ion-img appDefaultImg [src]="transaction.symbol_logo_url" class="st-symbol-image"></ion-img>
 				<div class="st-flex-col">
 					<!-- symbol name -->
 					<ion-text class="st-font-4">{{ transaction.symbol }}</ion-text>

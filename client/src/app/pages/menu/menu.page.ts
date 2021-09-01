@@ -62,7 +62,7 @@ export class MenuPage implements OnInit, OnDestroy {
 
 	clickedRouter(page: MenuPageInterface) {
 		this.selectedNavigation = page;
-		this.router.navigateByUrl(page.url);
+		this.router.navigateByUrl(page.url, { replaceUrl: true });
 	}
 
 	async showLoginModal() {
@@ -166,7 +166,7 @@ export class MenuPage implements OnInit, OnDestroy {
 						title: 'Groups',
 						url: '/menu/groups',
 						icon: 'people-outline',
-						disabled: !user,
+						disabled: !user || !user.userPrivateData.finnhubKey,
 						hidden: false,
 					},
 					/*{

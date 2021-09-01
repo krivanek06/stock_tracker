@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { ActivatedRoute, Router } from '@angular/router';
 import { GroupStorageService, StGroupAllData } from '@core';
 import { GroupFeatureFacadeService } from '@group-feature';
-import { ConfirmableWithCheckbox } from '@shared';
+import { ConfirmableWithCheckbox, DialogService } from '@shared';
 import { Observable } from 'rxjs';
-import { GROUPS_PAGES_DETAILS_PATH } from '../../model/groups.model';
-import { GROUPS_PAGES } from './../../model/groups.model';
+import { first } from 'rxjs/operators';
+import { GROUPS_PAGES, GROUPS_PAGES_DETAILS_PATH } from '../../model';
 
 @Component({
 	selector: 'app-group-details',
@@ -22,6 +22,8 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 	canUserSendInvitation$: Observable<boolean>;
 	hasUserAlreadySentInvitaitonIntoGroup$: Observable<boolean>;
 
+	groupId: string;
+
 	constructor(
 		private groupStorageService: GroupStorageService,
 		private router: Router,
@@ -33,17 +35,18 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
+		this.groupId = this.route.snapshot.paramMap.get('groupId');
 		this.groupData$ = this.groupStorageService.getActiveGroup();
 		this.isOwner$ = this.groupStorageService.isUserOwnerObs();
 		this.isMember$ = this.groupStorageService.isUserMemberObs();
 		this.isUserInvited$ = this.groupStorageService.isUserInvitedObs();
 		this.canUserSendInvitation$ = this.groupStorageService.canUserSendInvitationObs();
 		this.hasUserAlreadySentInvitaitonIntoGroup$ = this.groupStorageService.hasUserAlreadySentInvitaitonIntoGroup();
+		this.groupData$.subscribe(console.log);
 	}
 
 	changeDetailsPage(segment: string) {
-		const groupId = this.route.snapshot.paramMap.get('groupId');
-		this.router.navigateByUrl(`/menu/groups/${GROUPS_PAGES.DETAILS}/${groupId}/${segment}`);
+		this.router.navigateByUrl(`/menu/groups/${GROUPS_PAGES.DETAILS}/${this.groupId}/${segment}`);
 	}
 
 	@ConfirmableWithCheckbox('Please confirm leaving group. You will be removed from group statistics', 'Confirm')
@@ -53,6 +56,11 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
 	editGroup(groupData: StGroupAllData) {
 		this.groupFeatureFacadeService.createGroup(groupData);
+	}
+
+	reloadGroup() {
+		this.groupStorageService.setActiveGroupId(this.groupId);
+		this.groupData$.pipe(first((x) => !!x)).subscribe((group) => DialogService.presentToast(`Group ${group.name} has been refreshed`));
 	}
 
 	@ConfirmableWithCheckbox('Please confirm deleting group. Note that this action is irreversible', 'Confirm')

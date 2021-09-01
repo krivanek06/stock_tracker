@@ -92,7 +92,6 @@ export const acceptUser = async (groupId: string, groupData: api.STGroupAllData,
 	// update group starting portfolio
 	groupData.startedPortfolio.portfolioCash += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioCash;
 	groupData.startedPortfolio.portfolioInvested += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioInvested;
-	groupData.startedPortfolio.numberOfExecutedTransactions += newGroupUser.portfolio.numberOfExecutedTransactions;
 	groupData.startedPortfolio.numberOfExecutedSellTransactions += newGroupUser.portfolio.numberOfExecutedSellTransactions;
 	groupData.startedPortfolio.numberOfExecutedBuyTransactions += newGroupUser.portfolio.numberOfExecutedBuyTransactions;
 
@@ -100,7 +99,6 @@ export const acceptUser = async (groupId: string, groupData: api.STGroupAllData,
 	groupData.portfolio.portfolioCash += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioCash;
 	groupData.portfolio.lastPortfolioSnapshot.portfolioInvested += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioInvested;
 	groupData.portfolio.lastPortfolioSnapshot.portfolioCash += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioCash;
-	groupData.portfolio.numberOfExecutedTransactions += newGroupUser.portfolio.numberOfExecutedTransactions;
 	groupData.portfolio.numberOfExecutedSellTransactions += newGroupUser.portfolio.numberOfExecutedSellTransactions;
 	groupData.portfolio.numberOfExecutedBuyTransactions += newGroupUser.portfolio.numberOfExecutedBuyTransactions;
 

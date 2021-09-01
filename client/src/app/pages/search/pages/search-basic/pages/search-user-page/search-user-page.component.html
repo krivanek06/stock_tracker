@@ -27,7 +27,10 @@
 						</div>
 						<!-- other user related data -->
 						<div class="st-flex-col st-sm-border-bottom">
-							<ion-text class="st-font-size-16">Executed transactions: {{ userData.portfolio.numberOfExecutedTransactions }}</ion-text>
+							<ion-text class="st-font-size-16"
+								>Executed transactions: {{ userData.portfolio.numberOfExecutedBuyTransactions +
+								userData.portfolio.numberOfExecutedSellTransactions}}</ion-text
+							>
 							<ion-text class="st-font-size-16">
 								Executed <span class="st-price-up">BUY</span> transactions: {{ userData.portfolio.numberOfExecutedBuyTransactions }}
 							</ion-text>

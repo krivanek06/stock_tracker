@@ -24,14 +24,16 @@
 		(editEmitter)="editGroup(groupData)"
 		(sendInvitationEmitter)="sendInvitation()"
 		(removeInvitationEmitter)="removeInvitation()"
+		(reloadEmitter)="reloadGroup()"
 		[showSendInvitationButton]="canUserSendInvitation$ | async"
 		[isGroupPrivate]="groupData.isPrivate"
 		[showRemoveInvitationButton]="hasUserAlreadySentInvitaitonIntoGroup$ | async"
-		[showLeaveButton]="isMember$ | async"
+		[showLeaveButton]="(isMember$ | async) && (isOwner$ | async) === false"
 		[showDeleteButton]="isOwner$ | async"
 		[showAcceptButton]="isUserInvited$ | async"
 		[showDeclineButton]="isUserInvited$ | async"
 		[showEditButton]="isOwner$ | async"
+		[showReloadButton]="true"
 	>
 	</app-group-base-information>
 </div>

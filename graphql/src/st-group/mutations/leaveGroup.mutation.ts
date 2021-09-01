@@ -21,13 +21,11 @@ export const leaveGroup = async (groupId: string, { requesterUserId }: Context):
 			// adjest starting portfolios
 			group.startedPortfolio.portfolioCash -= person.startedPortfolio.portfolioCash;
 			group.startedPortfolio.portfolioInvested -= person.startedPortfolio.portfolioInvested;
-			group.startedPortfolio.numberOfExecutedTransactions -= person.startedPortfolio.numberOfExecutedTransactions;
 			group.startedPortfolio.numberOfExecutedSellTransactions -= person.startedPortfolio.numberOfExecutedSellTransactions;
 			group.startedPortfolio.numberOfExecutedBuyTransactions -= person.startedPortfolio.numberOfExecutedBuyTransactions;
 			// adjust portfolio
 			group.portfolio.lastPortfolioSnapshot.portfolioCash -= person.portfolio.lastPortfolioSnapshot.portfolioCash;
 			group.portfolio.lastPortfolioSnapshot.portfolioInvested -= person.portfolio.lastPortfolioSnapshot.portfolioInvested;
-			group.portfolio.numberOfExecutedTransactions -= person.portfolio.numberOfExecutedTransactions;
 			group.portfolio.numberOfExecutedSellTransactions -= person.portfolio.numberOfExecutedSellTransactions;
 			group.portfolio.numberOfExecutedBuyTransactions -= person.portfolio.numberOfExecutedBuyTransactions;
 			// adjust members

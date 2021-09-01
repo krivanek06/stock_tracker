@@ -16,6 +16,7 @@ export class GroupBaseInformationComponent implements OnInit {
 	@Output() editEmitter: EventEmitter<any> = new EventEmitter<any>();
 	@Output() sendInvitationEmitter: EventEmitter<any> = new EventEmitter<any>();
 	@Output() removeInvitationEmitter: EventEmitter<any> = new EventEmitter<any>();
+	@Output() reloadEmitter: EventEmitter<any> = new EventEmitter<any>();
 
 	@Input() groupIdentification: StGroupIdentificationDataFragment | StGroupAllData;
 	@Input() showVisitButton: boolean;
@@ -27,6 +28,7 @@ export class GroupBaseInformationComponent implements OnInit {
 	@Input() showRemoveInvitationButton: boolean;
 	@Input() showEditButton: boolean;
 	@Input() isGroupPrivate: boolean = false;
+	@Input() showReloadButton = false;
 
 	constructor() {}
 
@@ -65,5 +67,9 @@ export class GroupBaseInformationComponent implements OnInit {
 
 	removeInvitation() {
 		this.removeInvitationEmitter.emit();
+	}
+
+	reload() {
+		this.reloadEmitter.emit();
 	}
 }
