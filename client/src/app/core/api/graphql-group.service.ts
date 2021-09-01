@@ -442,7 +442,6 @@ export class GraphqlGroupService {
 									group.portfolio.numberOfExecutedBuyTransactions - groupUser.portfolio.numberOfExecutedBuyTransactions,
 								numberOfExecutedSellTransactions:
 									group.portfolio.numberOfExecutedSellTransactions - groupUser.portfolio.numberOfExecutedSellTransactions,
-								numberOfExecutedTransactions: group.portfolio.numberOfExecutedTransactions - groupUser.portfolio.numberOfExecutedTransactions,
 							},
 							startedPortfolio: {
 								...group.startedPortfolio,
@@ -450,8 +449,6 @@ export class GraphqlGroupService {
 									group.startedPortfolio.numberOfExecutedBuyTransactions - groupUser.startedPortfolio.numberOfExecutedBuyTransactions,
 								numberOfExecutedSellTransactions:
 									group.startedPortfolio.numberOfExecutedSellTransactions - groupUser.startedPortfolio.numberOfExecutedSellTransactions,
-								numberOfExecutedTransactions:
-									group.startedPortfolio.numberOfExecutedTransactions - groupUser.startedPortfolio.numberOfExecutedTransactions,
 								portfolioCash: group.startedPortfolio.portfolioCash - groupUser.startedPortfolio.portfolioCash,
 								portfolioInvested: group.startedPortfolio.portfolioInvested - groupUser.startedPortfolio.portfolioInvested,
 							},

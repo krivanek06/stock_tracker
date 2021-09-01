@@ -24,26 +24,35 @@ export const updateGroupStats = functions.pubsub.topic('updateGroupStats').onPub
 	// get every groups
 	const groupDocs = await admin.firestore().collection(api.ST_GROUP_COLLECTION_GROUPS).get();
 	for await (const groupDoc of groupDocs.docs) {
-		console.log(`Start updating group: ${groupDoc.id}`);
+		try {
+			console.log(`Start updating group: ${groupDoc.id}`);
 
-		// load data for group
-		const groupAllData = groupDoc.data() as api.STGroupAllData;
-		const groupMembersDoc = await loadGroupMembersDoc(groupDoc.id);
-		const groupMembersPublicData = await loadUserPublicDataForGroupDoc(groupMembersDoc);
-		console.log('Loaded group data');
+			// load data for group
+			const groupAllData = groupDoc.data() as api.STGroupAllData;
+			const groupMembersDoc = await loadGroupMembersDoc(groupDoc.id);
+			const groupMembersPublicData = await loadUserPublicDataForGroupDoc(groupMembersDoc);
+			console.log('Loaded group data');
 
-		// calculate current data
-		const currentGroupHoldings = createGroupHoldings(groupMembersPublicData);
-		console.log('created group holdings');
-		const currentGroupPortfolio = createGroupPortfolioSnapshot(groupMembersPublicData, groupMembersDoc, groupAllData.portfolio.lastPortfolioSnapshot);
-		console.log('created group portfolio');
+			// calculate current data
+			const currentGroupHoldings = createGroupHoldings(groupMembersPublicData);
+			console.log('created group holdings');
+			const currentGroupPortfolio = createGroupPortfolioSnapshot(
+				groupMembersPublicData,
+				groupMembersDoc,
+				groupAllData.portfolio.lastPortfolioSnapshot
+			);
+			console.log('created group portfolio');
 
-		// update data in firestore
-		await updateGroupDocument(groupDoc.id, groupAllData, currentGroupPortfolio, groupMembersPublicData);
-		await updategroupMembersDocument(groupDoc.id, currentGroupHoldings, groupMembersDoc.members, groupMembersPublicData);
-		await updateGroupHistoricalDataDocument(groupDoc.id, currentGroupPortfolio);
-		console.log(`Ended updating group: ${groupDoc.id}`);
-		console.log('========================');
+			// update data in firestore
+			await updateGroupDocument(groupDoc.id, groupAllData, currentGroupPortfolio, groupMembersPublicData);
+			await updategroupMembersDocument(groupDoc.id, currentGroupHoldings, groupMembersDoc.members, groupMembersPublicData);
+			await updateGroupHistoricalDataDocument(groupDoc.id, currentGroupPortfolio);
+			console.log(`Ended updating group: ${groupDoc.id}`);
+			console.log('========================');
+		} catch (error) {
+			console.log(`Error for group: ${groupDoc.id}, error:`, error);
+			console.log('========================');
+		}
 	}
 
 	console.log(`Completed updating at ${admin.firestore.Timestamp.now().toDate()}`);
@@ -64,7 +73,6 @@ const createGroupPortfolioSnapshot = (
 				return {
 					...acc,
 					portfolioCash: acc.portfolioCash + cur.portfolioCash,
-					numberOfExecutedTransactions: acc.numberOfExecutedTransactions + cur.numberOfExecutedTransactions,
 					numberOfExecutedBuyTransactions: acc.numberOfExecutedBuyTransactions + cur.numberOfExecutedBuyTransactions,
 					numberOfExecutedSellTransactions: acc.numberOfExecutedSellTransactions + cur.numberOfExecutedSellTransactions,
 					lastPortfolioSnapshot: {
@@ -88,7 +96,6 @@ const createGroupPortfolioSnapshot = (
 				},
 				lastPortfolioIncreaseNumber: 0,
 				lastPortfolioIncreasePrct: 0,
-				numberOfExecutedTransactions: 0,
 				numberOfExecutedBuyTransactions: 0,
 				numberOfExecutedSellTransactions: 0,
 				lastTransactionSnapshot: {
@@ -98,36 +105,6 @@ const createGroupPortfolioSnapshot = (
 				},
 			} as api.STPortfolioWrapper
 		);
-
-	/* 
-		for > numberOfExecutedTransactions, numberOfExecutedBuyTransactions, numberOfExecutedSellTransactions
-		we must subscrat the starting snapshot when users joined group
-	*/
-	const startedPortfolioSnapshotAccumutaiton: api.STPortfolioSnapshotStarted = groupMemberDoc.members
-		.map((m) => m.startedPortfolio)
-		.reduce(
-			(acc, cur) => {
-				return {
-					...acc,
-					numberOfExecutedTransactions: acc.numberOfExecutedTransactions + cur.numberOfExecutedTransactions,
-					numberOfExecutedBuyTransactions: acc.numberOfExecutedBuyTransactions + cur.numberOfExecutedBuyTransactions,
-					numberOfExecutedSellTransactions: acc.numberOfExecutedSellTransactions + cur.numberOfExecutedSellTransactions,
-				} as api.STPortfolioSnapshotStarted;
-			},
-			{
-				date: admin.firestore.Timestamp.now().toDate().toISOString(),
-				numberOfExecutedTransactions: 0,
-				numberOfExecutedBuyTransactions: 0,
-				numberOfExecutedSellTransactions: 0,
-				portfolioCash: 0,
-				portfolioInvested: 0,
-			}
-		);
-
-	// remove starting > numberOfExecutedTransactions, numberOfExecutedBuyTransactions, numberOfExecutedSellTransactions from current values
-	portfolioWrapperAccumulation.numberOfExecutedTransactions -= startedPortfolioSnapshotAccumutaiton.numberOfExecutedTransactions;
-	portfolioWrapperAccumulation.numberOfExecutedBuyTransactions -= startedPortfolioSnapshotAccumutaiton.numberOfExecutedBuyTransactions;
-	portfolioWrapperAccumulation.numberOfExecutedSellTransactions -= startedPortfolioSnapshotAccumutaiton.numberOfExecutedSellTransactions;
 
 	// calculate 'lastPortfolioIncreaseNumber' & 'lastPortfolioIncreasePrct'
 	const currentBalance =
@@ -221,6 +198,7 @@ const updateGroupDocument = async (
 				owner: {
 					portfolio: ownerPublicData.portfolio,
 				},
+				lastUpdateDate: admin.firestore.Timestamp.now().toDate().toISOString(),
 			},
 			{ merge: true }
 		);
@@ -306,6 +284,10 @@ const loadGroupMembersDoc = async (groupId: string): Promise<api.STGroupMembersD
 // load api
 const loadUserPublicDataForGroupDoc = async (groupMemberDoc: api.STGroupMembersDocument): Promise<api.STUserPublicData[]> => {
 	const userIdsRefs = groupMemberDoc.members.map((m) => m.id).map((id) => admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(id));
+	if (userIdsRefs.length === 0) {
+		return [];
+	}
+
 	const unsavedUserPublicDataDocs = await admin.firestore().getAll(...userIdsRefs);
 	return unsavedUserPublicDataDocs.map((userDoc) => {
 		return { ...userDoc.data(), id: userDoc.id } as api.STUserPublicData;

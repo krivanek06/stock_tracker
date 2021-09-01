@@ -1,13 +1,12 @@
-
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ResolveGroupDetailsGuard } from '@group-feature';
+import { IonicModule } from '@ionic/angular';
+import { MenuHeaderModule } from '@pages-shared';
+import { HeaderModule } from '@shared';
 import { GroupsComponent } from './groups.component';
 import { GROUPS_PAGES } from './model/groups.model';
-import {CommonModule} from "@angular/common";
-import {IonicModule} from "@ionic/angular";
-import {HeaderModule} from "@shared";
-import {MenuHeaderModule} from "@pages-shared";
 
 const routes: Routes = [
 	{
@@ -24,13 +23,18 @@ const routes: Routes = [
 				resolve: {
 					groupDetails: ResolveGroupDetailsGuard,
 				},
-			}
+			},
+			// {
+			// 	path: '',
+			// 	redirectTo: GROUPS_PAGES.OVERVIEW,
+			// 	pathMatch: 'full',
+			// },
 		],
 	},
 ];
 
 @NgModule({
 	declarations: [GroupsComponent],
-	imports: [CommonModule, RouterModule.forChild(routes), IonicModule, HeaderModule, MenuHeaderModule,],
+	imports: [CommonModule, RouterModule.forChild(routes), IonicModule, HeaderModule, MenuHeaderModule],
 })
 export class GroupsModule {}

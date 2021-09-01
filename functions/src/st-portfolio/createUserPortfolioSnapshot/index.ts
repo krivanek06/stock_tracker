@@ -12,15 +12,19 @@ export const createUserPortfolioSnapshot = functions.pubsub.topic('createUserPor
 	const usersWithHoldings = await getAllUserWithExistingHoldings();
 
 	for await (const user of usersWithHoldings) {
-		// not cached holdings => query live price for symbols
-		const unsavedSymbols = user.holdings.map((h) => h.symbol).filter((symbol) => !symbolPriceMap.has(symbol));
-		for await (const unsavedSymbol of unsavedSymbols) {
-			const unsavedSymbolsPrice = await getLivePriceAPI(unsavedSymbol);
-			symbolPriceMap.set(unsavedSymbolsPrice.symbol, unsavedSymbolsPrice.price); // cache them into map
-		}
+		try {
+			// not cached holdings => query live price for symbols
+			const unsavedSymbols = user.holdings.map((h) => h.symbol).filter((symbol) => !symbolPriceMap.has(symbol));
+			for await (const unsavedSymbol of unsavedSymbols) {
+				const unsavedSymbolsPrice = await getLivePriceAPI(unsavedSymbol);
+				symbolPriceMap.set(unsavedSymbolsPrice.symbol, unsavedSymbolsPrice.price); // cache them into map
+			}
 
-		// construct portfolio snapshot and save it into DB
-		await savePortfolioSnapShot(user, constructPortfolioSnapshot(user));
+			// construct portfolio snapshot and save it into DB
+			await savePortfolioSnapShot(user, constructPortfolioSnapshot(user));
+		} catch (error) {
+			console.log(`Error for user: ${user.id}, error:`, error);
+		}
 	}
 
 	console.log(`Distinct symbols: ${symbolPriceMap.size}`);
@@ -54,8 +58,8 @@ const savePortfolioSnapShot = async ({ id, portfolio }: api.STUserPublicData, po
 			{
 				portfolio: {
 					lastPortfolioSnapshot: portfolioSnapshot,
-					lastPortfolioIncreaseNumber: Number((currentBalance - previousBalance).toFixed(2)),
-					lastPortfolioIncreasePrct: Number(((currentBalance - previousBalance) / previousBalance).toFixed(4)),
+					lastPortfolioIncreaseNumber: portfolio.lastPortfolioSnapshot ? Number((currentBalance - previousBalance).toFixed(2)) : 0,
+					lastPortfolioIncreasePrct: portfolio.lastPortfolioSnapshot ? Number(((currentBalance - previousBalance) / previousBalance).toFixed(4)) : 0,
 				},
 			} as api.STUserPublicData,
 			{ merge: true }
@@ -77,6 +81,6 @@ const constructPortfolioSnapshot = (user: api.STUserPublicData): api.STPortfolio
 const getAllUserWithExistingHoldings = async (): Promise<api.STUserPublicData[]> => {
 	// cannot use holdings for filtering because when somebody had increase 90% and sold everythin,
 	// then he would not be filtered out
-	const usersWithHoldings = await admin.firestore().collection('users').where('portfolio.numberOfExecutedTransactions', '>', 0).get();
+	const usersWithHoldings = await admin.firestore().collection('users').where('portfolio.numberOfExecutedBuyTransactions', '>', 0).get();
 	return usersWithHoldings.docs.map((d) => d.data() as api.STUserPublicData);
 };

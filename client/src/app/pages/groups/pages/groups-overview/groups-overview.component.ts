@@ -21,8 +21,6 @@ export class GroupsOverviewComponent implements OnInit {
 	ngOnInit() {
 		this.user$ = this.userStorageService.getUser();
 		this.hasRoleCreateGroup$ = this.userStorageService.hasRoleCreateGroup();
-
-		this.user$.subscribe((user) => console.log('user', user));
 	}
 
 	createGroup() {
@@ -40,6 +38,6 @@ export class GroupsOverviewComponent implements OnInit {
 	}
 
 	visitGroup({ id }: StGroupAllData) {
-		this.router.navigate([`/menu/groups/${GROUPS_PAGES.DETAILS}/${id}`]);
+		this.router.navigateByUrl(`/menu/groups/${GROUPS_PAGES.DETAILS}/${id}`, { replaceUrl: true });
 	}
 }

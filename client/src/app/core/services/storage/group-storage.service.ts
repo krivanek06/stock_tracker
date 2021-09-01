@@ -51,6 +51,7 @@ export class GroupStorageService {
 	}
 
 	setActiveGroupId(groupId: string): void {
+		this.activeGroup$.next(null);
 		this.activeGroupId$.next(groupId);
 	}
 

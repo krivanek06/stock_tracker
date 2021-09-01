@@ -20,9 +20,5 @@ export class GroupDetailsOverviewComponent implements OnInit {
 		this.user$ = this.userStorageService.getUser();
 		this.groupAllData$ = this.groupStorageService.getActiveGroup();
 		this.isUserOwner$ = this.groupStorageService.isUserOwnerObs();
-
-		this.groupAllData$.subscribe((res) => {
-			console.log('active group is', res);
-		});
 	}
 }

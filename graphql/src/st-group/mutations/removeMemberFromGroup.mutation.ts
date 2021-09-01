@@ -69,12 +69,10 @@ const updateGroupDocument = async (groupId: string, removingMember: api.STGroupU
 					},
 					numberOfExecutedBuyTransactions: admin.firestore.FieldValue.increment(-removingMember.portfolio.numberOfExecutedBuyTransactions),
 					numberOfExecutedSellTransactions: admin.firestore.FieldValue.increment(-removingMember.portfolio.numberOfExecutedSellTransactions),
-					numberOfExecutedTransactions: admin.firestore.FieldValue.increment(-removingMember.portfolio.numberOfExecutedTransactions),
 				},
 				startedPortfolio: {
 					numberOfExecutedBuyTransactions: admin.firestore.FieldValue.increment(-removingMember.startedPortfolio.numberOfExecutedBuyTransactions),
 					numberOfExecutedSellTransactions: admin.firestore.FieldValue.increment(-removingMember.startedPortfolio.numberOfExecutedSellTransactions),
-					numberOfExecutedTransactions: admin.firestore.FieldValue.increment(-removingMember.startedPortfolio.numberOfExecutedTransactions),
 					portfolioCash: admin.firestore.FieldValue.increment(-removingMember.startedPortfolio.portfolioCash),
 					portfolioInvested: admin.firestore.FieldValue.increment(-removingMember.startedPortfolio.portfolioInvested),
 				},

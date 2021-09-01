@@ -110,7 +110,7 @@ export class GroupCreateFormComponent implements OnInit {
 			imagePath: [this.editedGroup?.imagePath],
 			imageUrl: [this.editedGroup?.imageUrl],
 			startDate: [this.editedGroup?.startDate, [Validators.required]],
-			endDate: [this.editedGroup?.endDate, [Validators.required]],
+			endDate: [this.editedGroup?.endDate, this.editedGroup?.isInfinite ? [] : [Validators.required]],
 			isInfinite: [this.editedGroup?.isInfinite || false],
 			isPrivate: [this.editedGroup?.isPrivate || false],
 			isOwnerAlsoMember: [isOwnerAlsoMember],

@@ -11,7 +11,6 @@ export const createSTGroupUser = (userPublic: StUserPublicData): StGroupUser => 
 		portfolio: {
 			lastPortfolioSnapshot: userPublic.portfolio.lastPortfolioSnapshot,
 			lastTransactionSnapshot: userPublic.portfolio.lastTransactionSnapshot,
-			numberOfExecutedTransactions: userPublic.portfolio.numberOfExecutedTransactions,
 			numberOfExecutedBuyTransactions: userPublic.portfolio.numberOfExecutedBuyTransactions,
 			numberOfExecutedSellTransactions: userPublic.portfolio.numberOfExecutedSellTransactions,
 			lastPortfolioIncreaseNumber: userPublic.portfolio.lastPortfolioIncreaseNumber,
@@ -22,7 +21,6 @@ export const createSTGroupUser = (userPublic: StUserPublicData): StGroupUser => 
 			date: new Date().toISOString(),
 			portfolioInvested: userPublic.portfolio.lastPortfolioSnapshot.portfolioInvested,
 			portfolioCash: userPublic.portfolio.portfolioCash,
-			numberOfExecutedTransactions: userPublic.portfolio.numberOfExecutedTransactions,
 			numberOfExecutedBuyTransactions: userPublic.portfolio.numberOfExecutedBuyTransactions,
 			numberOfExecutedSellTransactions: userPublic.portfolio.numberOfExecutedSellTransactions,
 		},

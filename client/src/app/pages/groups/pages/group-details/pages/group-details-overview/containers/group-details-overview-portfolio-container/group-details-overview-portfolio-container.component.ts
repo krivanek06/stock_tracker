@@ -3,22 +3,34 @@ import { StGroupAllData } from '@core';
 import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingFeatureFacadeService } from '@stock-trading-feature';
 
 @Component({
-  selector: 'app-group-details-overview-portfolio-container',
-  templateUrl: './group-details-overview-portfolio-container.component.html',
-  styleUrls: ['./group-details-overview-portfolio-container.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+	selector: 'app-group-details-overview-portfolio-container',
+	templateUrl: './group-details-overview-portfolio-container.component.html',
+	styleUrls: ['./group-details-overview-portfolio-container.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupDetailsOverviewPortfolioContainerComponent implements OnInit {
-  @Input() groupAllData: StGroupAllData;
+	@Input() groupAllData: StGroupAllData;
 
-  tradingChangeWrapper: PortfolioHistoricalWrapper[] = [];
+	tradingChangeWrapper: PortfolioHistoricalWrapper[] = [];
 
-  constructor(private tradingFeatureFacadeService: TradingFeatureFacadeService) {}
+	constructor(private tradingFeatureFacadeService: TradingFeatureFacadeService) {}
 
-  ngOnInit() {
-    this.tradingChangeWrapper = this.tradingFeatureFacadeService.createPortfolioHistoricalWrappers(
-      this.groupAllData.groupHistoricalData.portfolioSnapshots,
-      [TIME_INTERVAL_ENUM.DAILY, TIME_INTERVAL_ENUM.WEEKLY, TIME_INTERVAL_ENUM.MONTHLY, TIME_INTERVAL_ENUM.FROM_BEGINNING]
-    );
-  }
+	ngOnInit() {
+		this.calculateGroupPortfolio();
+	}
+
+	private calculateGroupPortfolio(): void {
+		this.tradingChangeWrapper = this.tradingFeatureFacadeService.createPortfolioHistoricalWrappers(
+			this.groupAllData.groupHistoricalData.portfolioSnapshots,
+			[TIME_INTERVAL_ENUM.DAILY, TIME_INTERVAL_ENUM.WEEKLY, TIME_INTERVAL_ENUM.MONTHLY, TIME_INTERVAL_ENUM.FROM_BEGINNING]
+		);
+
+		// adjust 'from beginning' -> subsctract user's starting portfolio
+		const usersStartedBalance = this.groupAllData.groupMemberData.members
+			.map((m) => m.startedPortfolio.portfolioCash + m.startedPortfolio.portfolioInvested)
+			.reduce((a, b) => a + b);
+
+		const beginningRef = this.tradingChangeWrapper.find((wrapper) => wrapper.timeIntervalName === TIME_INTERVAL_ENUM.FROM_BEGINNING);
+		beginningRef.historicalBalance = usersStartedBalance;
+	}
 }

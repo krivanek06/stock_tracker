@@ -116,7 +116,6 @@ const updateUserTransactionSnapshots = async (user: api.STUserPublicData, transa
 				portfolio: {
 					...user.portfolio,
 					portfolioCash: isBuy ? user.portfolio.portfolioCash - totalPrice : user.portfolio.portfolioCash + totalPrice,
-					numberOfExecutedTransactions: admin.firestore.FieldValue.increment(1),
 					numberOfExecutedSellTransactions: isBuy ? user.portfolio.numberOfExecutedSellTransactions : admin.firestore.FieldValue.increment(1),
 					numberOfExecutedBuyTransactions: isBuy ? admin.firestore.FieldValue.increment(1) : user.portfolio.numberOfExecutedBuyTransactions,
 					lastTransactionSnapshot: newTransactionSnapshots,

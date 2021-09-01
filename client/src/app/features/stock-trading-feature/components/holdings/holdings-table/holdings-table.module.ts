@@ -1,21 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {HoldingsTableComponent} from "./holdings-table.component";
-import {IonicModule} from "@ionic/angular";
-import {DefaultImgDirectiveModule} from "../../../../../shared/directives/default-img-directive/default-img-directive.module";
-import {PriceCompareItemModule, RecommendationDirectiveModule} from "@shared";
-
-
+import { NgModule } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
+import { DefaultImgDirectiveModule, PriceCompareItemModule, RecommendationDirectiveModule } from '@shared';
+import { HoldingsTableComponent } from './holdings-table.component';
 
 @NgModule({
-  declarations: [HoldingsTableComponent],
-  imports: [
-    CommonModule,
-    IonicModule,
-    DefaultImgDirectiveModule,
-    PriceCompareItemModule,
-    RecommendationDirectiveModule
-  ],
-  exports: [HoldingsTableComponent]
+	declarations: [HoldingsTableComponent],
+	imports: [CommonModule, IonicModule, DefaultImgDirectiveModule, PriceCompareItemModule, RecommendationDirectiveModule],
+	exports: [HoldingsTableComponent],
 })
-export class HoldingsTableModule { }
+export class HoldingsTableModule {}

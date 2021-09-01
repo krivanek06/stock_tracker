@@ -45,8 +45,9 @@ export class TradingFeatureFacadeService {
 		const today: moment.Moment = moment();
 
 		const reverseSnapshots = [...stPortfolioSnapshots].reverse();
+
 		// find needed portfolio
-		const dailyPortfolio = reverseSnapshots.find((change) => today.diff(moment(change.date), 'days') >= 1);
+		const dailyPortfolio = reverseSnapshots.find((change) => !today.isSame(moment(change.date), 'day'));
 		const weeklyPortfolio = reverseSnapshots.find((change) => today.diff(moment(change.date), 'days') >= 7);
 		const monthlyPortfolio = reverseSnapshots.find((change) => today.diff(moment(change.date), 'months') >= 1);
 		const quarterlyPortfolio = reverseSnapshots.find((change) => today.diff(moment(change.date), 'months') >= 4);
