@@ -1,6 +1,7 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { StPortfolioSnapshot } from '@core';
-import { stFormatLargeNumber } from '@shared';
+import { BREAK_POINTS, stFormatLargeNumber } from '@shared';
 import * as Highcharts from 'highcharts';
 import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
 NoDataToDisplay(Highcharts);
@@ -20,7 +21,7 @@ export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
 	updateFromInput = true;
 	chartCallback;
 	chartOptions: any = {}; //  : Highcharts.Options
-	constructor() {
+	constructor(private breakpointObserver: BreakpointObserver) {
 		const self = this;
 
 		this.chartCallback = (chart) => {
@@ -36,9 +37,13 @@ export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
 		setTimeout(() => {
 			window.dispatchEvent(new Event('resize'));
 		}, 300);
+
+		this.breakpointObserver.observe([BREAK_POINTS.SM_DOWN]).subscribe((x) => {
+			this.initChart(!x.matches);
+		});
 	}
 
-	private initChart() {
+	private initChart(showTitle = true) {
 		this.chartOptions = {
 			chart: {
 				type: 'area',
@@ -83,7 +88,7 @@ export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
 				},
 			},
 			title: {
-				text: 'Portfolio growth',
+				text: showTitle ? 'Portfolio growth' : 'Portfolio',
 				align: 'left',
 				style: {
 					color: '#bababa',

@@ -88,7 +88,7 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
 			},
 			title: {
 				text: 'Transaction records',
-				y: 25,
+				y: 35,
 				align: 'left',
 				style: {
 					color: '#bababa',

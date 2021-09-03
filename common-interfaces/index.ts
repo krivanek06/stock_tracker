@@ -9,7 +9,7 @@ export * from './src/model/st-share.model';
 export * from './src/model/st-stock-calculations/index';
 export * from './src/model/st-stockDetails.model';
 export * from './src/model/st-tickets.model';
-export * from './src/model/st-trading-strategy.model';
 export * from './src/model/st-transaction.model';
 export * from './src/model/st-user.model';
 export * from './src/model/st-watchList.model';
+

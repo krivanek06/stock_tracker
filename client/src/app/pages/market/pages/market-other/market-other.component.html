@@ -12,7 +12,7 @@
 				<ion-col size="12" size-lg="6">
 					<app-generic-chart
 						[chartType]="ChartType.bar"
-						[heightPx]="315"
+						[heightPx]="400"
 						[series]="[{
                              colorByPoint: true,
                              data: dailyOverview.exchange.exchangeIndustryPE | chartKeyValueFormatter: 'industry' : 'pe'
@@ -27,7 +27,7 @@
 				<ion-col size="12" size-lg="6">
 					<app-generic-chart
 						[chartType]="ChartType.bar"
-						[heightPx]="315"
+						[heightPx]="400"
 						[series]="[{
                                     colorByPoint: true,
                                     data: dailyOverview.exchange.exchangeSectorPE | chartKeyValueFormatter: 'sector' : 'pe'

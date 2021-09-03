@@ -45,8 +45,6 @@ import {
 	stockDetailsTypeDefs,
 } from './st-stocks';
 import { querySymbolHistoricalPrices } from './st-stocks/st-stocks-query/queryStockHistoricalPrice';
-import { queryTradingStrategies, queryTradingStrategyData } from './st-trading-strategy/st-trading-strategy.query';
-import { STTraingStrategyTypeDefs } from './st-trading-strategy/st-trading-strategy.typedef';
 import { performTransaction } from './st-transaction/st-transaction.mutation';
 import { stTransactionResolvers } from './st-transaction/st-transaction.resolver';
 import { STTransactionTypeDefs } from './st-transaction/st-transaction.typedef';
@@ -101,11 +99,6 @@ const mainTypeDefs = gql`
 		queryStMarketData(key: String!): STMarketChartDataResultCombined
 		queryEtfDocument(etfName: String!): STMarketEtfDocument
 		queryStockScreener(stockScreenerInput: STFMStockScreenerInput!): [STFMStockScreenerResult]
-
-		# trading strategy
-		querySTTradingStrategies: STTradingStrategySearch
-		querySTTradingStrategyData(symbol: String!, strategy: String!): STTradingStrategyData
-
 		# admin
 		queryAdminMainInformations: STAdminMainInformations
 
@@ -178,11 +171,6 @@ const mainResolver = {
 		queryStMarketData: async (_: null, args: { key: string }) => await queryStMarketData(args.key),
 		queryEtfDocument: async (_: null, args: { etfName: string }) => await queryEtfDocument(args.etfName),
 		queryStockScreener: async (_: null, args: { stockScreenerInput: api.STFMStockScreener }) => await queryStockScreener(args.stockScreenerInput),
-
-		// trading strategy
-		querySTTradingStrategies: async (_: null, args: null) => await queryTradingStrategies(),
-		querySTTradingStrategyData: async (_: null, args: { symbol: string; strategy: string }) =>
-			await queryTradingStrategyData(args.symbol, args.strategy),
 
 		// admin
 		queryAdminMainInformations: async (_: null, args: null) => await queryAdminMainInformations(),
@@ -259,7 +247,6 @@ const server = new ApolloServer({
 		STRankTypeDefs,
 		STPortfolioTypeDefs,
 		STGroupTypeDefs,
-		STTraingStrategyTypeDefs,
 		STAdminTypeDefs,
 		STStockDetailsCalculationsTypeDefs,
 		STDiscountedCashFlowFormulaTypeDefs,

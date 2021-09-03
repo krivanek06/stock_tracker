@@ -1,19 +1,19 @@
-<ion-list>
+<ion-list class="ion-hide-sm-down">
 	<ion-item class="st-font-1-bold">
 		<ion-label class="ion-margin-end">Event</ion-label>
-		<ion-label>Country</ion-label>
+		<ion-label class="ion-hide-lg-down">Country</ion-label>
 		<ion-label>Actual</ion-label>
 		<ion-label>Previous</ion-label>
 		<ion-label>Change</ion-label>
-		<ion-label>Estimated</ion-label>
-		<ion-label>Date</ion-label>
+		<ion-label class="ion-hide-md-down">Estimated</ion-label>
+		<ion-label class="ion-hide-md-down">Date</ion-label>
 	</ion-item>
 
 	<ion-item *ngFor="let calendar of calendarEconomic" class="st-data-item-wrapper">
 		<ion-label class="st-font-4 ion-margin-end">{{ calendar.event }}</ion-label>
-		<ion-label>{{ calendar.country }}</ion-label>
-		<ion-label>{{ calendar.actual | currency }}</ion-label>
-		<ion-label>{{ calendar.previous | currency }}</ion-label>
+		<ion-label class="ion-hide-lg-down">{{ calendar.country }}</ion-label>
+		<ion-label>{{ calendar.actual ? (calendar.actual | currency) : 'N/A' }}</ion-label>
+		<ion-label>{{ calendar.previous ? (calendar.previous | currency) : 'N/A' }}</ion-label>
 		<ion-label>
 			<app-price-change-item
 				[priceChange]="calendar.changePercentage"
@@ -24,7 +24,26 @@
 			>
 			</app-price-change-item>
 		</ion-label>
-		<ion-label>{{ calendar.estimate ? (calendar.estimate | currency) : 'N/A' }}</ion-label>
-		<ion-label>{{ calendar.date | date : 'dd.MM.YYYY' }}</ion-label>
+		<ion-label class="ion-hide-md-down">{{ calendar.estimate ? (calendar.estimate | currency) : 'N/A' }}</ion-label>
+		<ion-label class="ion-hide-md-down">{{ calendar.date | date : 'dd.MM.YYYY' }}</ion-label>
+	</ion-item>
+</ion-list>
+
+<!-- SMALL SCREEN -->
+<ion-list class="ion-hide-sm-up">
+	<ion-item class="st-font-1-bold">
+		<ion-label> Event</ion-label>
+		<ion-label class="st-flex-end"> Actual </ion-label>
+	</ion-item>
+
+	<ion-item *ngFor="let calendar of calendarEconomic" class="st-data-item-wrapper">
+		<!-- event name -->
+		<ion-label class="st-width-70"> {{ calendar.event }} </ion-label>
+
+		<!-- price -->
+		<ion-label class="st-flex-end st-flex-col">
+			<ion-text class="st-font-1-normal st-font-size-16"> {{ calendar.actual | currency }} </ion-text>
+			<app-price-change-item [priceChange]="calendar.changePercentage"> </app-price-change-item>
+		</ion-label>
 	</ion-item>
 </ion-list>

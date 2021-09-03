@@ -43,6 +43,12 @@
 		margin-bottom: 10px;
 		color: #{$st-var-font-4};
 		font-size: 13px;
+
+		@media (max-height: 700px) {
+			position: inherit;
+			margin-top: 16px;
+			padding-bottom: 16px;
+		}
 	}
 
 	.navigation {
