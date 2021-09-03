@@ -1,16 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MarketCalendarEarningsComponent} from "./market-calendar-earnings.component";
-import {IonicModule} from "@ionic/angular";
-
-
+import { NgModule } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
+import { NumberFormatterPipeModule } from '@shared';
+import { MarketCalendarEarningsComponent } from './market-calendar-earnings.component';
 
 @NgModule({
-  declarations: [MarketCalendarEarningsComponent],
-  imports: [
-    CommonModule,
-    IonicModule
-  ],
-  exports: [MarketCalendarEarningsComponent]
+	declarations: [MarketCalendarEarningsComponent],
+	imports: [CommonModule, IonicModule, NumberFormatterPipeModule],
+	exports: [MarketCalendarEarningsComponent],
 })
-export class MarketCalendarEarningsModule { }
+export class MarketCalendarEarningsModule {}

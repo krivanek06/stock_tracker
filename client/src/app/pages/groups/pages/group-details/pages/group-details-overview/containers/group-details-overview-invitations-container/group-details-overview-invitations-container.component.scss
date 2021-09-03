@@ -1,8 +1,15 @@
+@import 'variables';
+
 :host {
 	.c-search-header {
 		display: flex;
 		justify-content: space-between;
 		margin-bottom: 0;
+
+		@media (max-width: #{$st-var-sm-split}) {
+			flex-flow: column;
+			gap: 16px;
+		}
 
 		> * {
 			flex: 1;

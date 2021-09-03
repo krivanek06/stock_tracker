@@ -35,7 +35,7 @@
 
 		<!-- notifications -->
 		<ion-item-group *ngIf="user$ | async as user; else showLogin" class="st-flex-end" style="position: relative">
-			<ion-button (click)="toggleNotifications()" fill="clear" slot="end">
+			<ion-button (click)="toggleNotifications()" fill="clear" slot="end" class="ion-hide-sm-down">
 				<ion-icon name="notifications"></ion-icon>
 				<!--<ion-label>3</ion-label>-->
 			</ion-button>

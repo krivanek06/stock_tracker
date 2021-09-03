@@ -608,6 +608,11 @@ ion-skeleton-text {
 	--background-rgb: 200, 200, 255;
 }
 
+.st-width-70 {
+	max-width: 70% !important;
+	min-width: 70% !important;
+}
+
 // MODEL / POP-UP / ALERT
 
 // class to add for each entry-containers

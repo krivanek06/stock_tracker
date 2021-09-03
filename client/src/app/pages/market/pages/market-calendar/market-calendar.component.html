@@ -19,7 +19,11 @@
 			<!-- split history -->
 			<ion-col size="12" size-lg="6">
 				<app-generic-extension-panel title="Calendar stock splits">
-					<app-market-calendar-split-history [splitHistories]="dailyOverview.calendar.calendarSplit"> </app-market-calendar-split-history>
+					<app-market-calendar-split-history
+						*ngIf="dailyOverview.calendar.calendarSplit.length > 0"
+						[splitHistories]="dailyOverview.calendar.calendarSplit"
+					>
+					</app-market-calendar-split-history>
 				</app-generic-extension-panel>
 			</ion-col>
 			<!-- dividend history -->

@@ -51,7 +51,8 @@ export class AuthenticationService {
 		this.userStorageService.setUser(null);
 		this.logout$.next(true);
 		localStorage.removeItem('requesterUserId');
-		await this.apollo.getClient().clearStore();
+		// await this.apollo.getClient().clearStore();
+		await this.apollo.client.resetStore();
 		await this.afAuth.signOut();
 	}
 

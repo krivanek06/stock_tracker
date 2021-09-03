@@ -577,8 +577,6 @@ export type Query = {
   queryStMarketData?: Maybe<StMarketChartDataResultCombined>;
   queryEtfDocument?: Maybe<StMarketEtfDocument>;
   queryStockScreener?: Maybe<Array<Maybe<StfmStockScreenerResult>>>;
-  querySTTradingStrategies?: Maybe<StTradingStrategySearch>;
-  querySTTradingStrategyData?: Maybe<StTradingStrategyData>;
   queryAdminMainInformations?: Maybe<StAdminMainInformations>;
   validatorFinhubKeyValidity?: Maybe<Scalars['Boolean']>;
 };
@@ -648,12 +646,6 @@ export type QueryQueryEtfDocumentArgs = {
 
 export type QueryQueryStockScreenerArgs = {
   stockScreenerInput: StfmStockScreenerInput;
-};
-
-
-export type QueryQueryStTradingStrategyDataArgs = {
-  symbol: Scalars['String'];
-  strategy: Scalars['String'];
 };
 
 
@@ -1654,35 +1646,6 @@ export enum StTicketTypes {
   Defect = 'DEFECT'
 }
 
-export type StTradingStrategyData = {
-  __typename?: 'STTradingStrategyData';
-  interval: Scalars['String'];
-  period: Scalars['String'];
-  series: Array<Maybe<StSeries>>;
-  timestamp: Array<Maybe<Scalars['Float']>>;
-};
-
-export enum StTradingStrategyEnum {
-  RedWhiteBlue = 'RED_WHITE_BLUE',
-  GreenLineBreakout = 'GREEN_LINE_BREAKOUT',
-  ResistancePivotPoints = 'RESISTANCE_PIVOT_POINTS',
-  ExtendedMarkerVerification = 'EXTENDED_MARKER_VERIFICATION',
-  RiskManagementCalculator = 'RISK_MANAGEMENT_CALCULATOR'
-}
-
-export type StTradingStrategySearch = {
-  __typename?: 'STTradingStrategySearch';
-  data: Array<Maybe<StTradingStrategySearchData>>;
-};
-
-export type StTradingStrategySearchData = {
-  __typename?: 'STTradingStrategySearchData';
-  description?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
-  symbol: Scalars['String'];
-  url?: Maybe<Scalars['String']>;
-};
-
 export type StTransaction = {
   __typename?: 'STTransaction';
   transactionId?: Maybe<Scalars['String']>;
@@ -2252,19 +2215,6 @@ export type DeleteTicketMutationVariables = Exact<{
 
 
 export type DeleteTicketMutation = { __typename?: 'Mutation', deleteTicket?: Maybe<boolean> };
-
-export type QueryStTradingStrategiesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type QueryStTradingStrategiesQuery = { __typename?: 'Query', querySTTradingStrategies?: Maybe<{ __typename?: 'STTradingStrategySearch', data: Array<Maybe<{ __typename?: 'STTradingStrategySearchData', description?: Maybe<string>, name: string, symbol: string, url?: Maybe<string> }>> }> };
-
-export type QueryStTradingStrategyDataQueryVariables = Exact<{
-  symbol: Scalars['String'];
-  strategy: Scalars['String'];
-}>;
-
-
-export type QueryStTradingStrategyDataQuery = { __typename?: 'Query', querySTTradingStrategyData?: Maybe<{ __typename?: 'STTradingStrategyData', interval: string, period: string, timestamp: Array<Maybe<number>>, series: Array<Maybe<{ __typename?: 'STSeries', data: Array<Maybe<number>>, name: string }>> }> };
 
 export type StHoldingFragmentFragment = { __typename?: 'STHolding', symbol: string, breakEvenPrice: number, units: number, summary?: Maybe<{ __typename?: 'Summary', avgVolume?: Maybe<number>, ceo?: Maybe<string>, companyName?: Maybe<string>, currency?: Maybe<string>, dividendDate?: Maybe<number>, ePSTTM?: Maybe<number>, earningsDate?: Maybe<number>, exDividendDate?: Maybe<number>, exchangeName?: Maybe<string>, fiveTwoWeekRange?: Maybe<string>, forwardDividendRate?: Maybe<number>, forwardDividendYield?: Maybe<number>, forwardEPS?: Maybe<number>, forwardPE?: Maybe<number>, fullTimeEmployees?: Maybe<string>, id?: Maybe<string>, industry?: Maybe<string>, ipoDate?: Maybe<string>, lastSplitDate?: Maybe<number>, lastSplitFactor?: Maybe<string>, logo_url?: Maybe<string>, longBusinessSummary?: Maybe<string>, marketCap?: Maybe<number>, marketPrice?: Maybe<number>, oneyTargetEst?: Maybe<number>, pERatioTTM?: Maybe<number>, previousClose?: Maybe<number>, recommendationKey?: Maybe<string>, recommendationMean?: Maybe<number>, sandPFiveTwoWeekChange?: Maybe<number>, sector?: Maybe<string>, sharesOutstanding?: Maybe<number>, shortRatio?: Maybe<number>, symbol?: Maybe<string>, targetEstOneyPercent?: Maybe<number>, volume?: Maybe<number>, website?: Maybe<string>, weekRangeFiveTwoMax?: Maybe<number>, weekRangeFiveTwoMin?: Maybe<number>, yearToDatePrice?: Maybe<number>, yearToDatePriceReturn?: Maybe<number>, residance?: Maybe<{ __typename?: 'SummaryResidance', city?: Maybe<string>, state?: Maybe<string>, country?: Maybe<string>, addressOne?: Maybe<string>, zip?: Maybe<string> }> }> };
 
@@ -4561,53 +4511,6 @@ export const DeleteTicketDocument = gql`
   })
   export class DeleteTicketGQL extends Apollo.Mutation<DeleteTicketMutation, DeleteTicketMutationVariables> {
     document = DeleteTicketDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const QueryStTradingStrategiesDocument = gql`
-    query QuerySTTradingStrategies {
-  querySTTradingStrategies {
-    data {
-      description
-      name
-      symbol
-      url
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class QueryStTradingStrategiesGQL extends Apollo.Query<QueryStTradingStrategiesQuery, QueryStTradingStrategiesQueryVariables> {
-    document = QueryStTradingStrategiesDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const QueryStTradingStrategyDataDocument = gql`
-    query QuerySTTradingStrategyData($symbol: String!, $strategy: String!) {
-  querySTTradingStrategyData(symbol: $symbol, strategy: $strategy) {
-    interval
-    period
-    timestamp
-    series {
-      data
-      name
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class QueryStTradingStrategyDataGQL extends Apollo.Query<QueryStTradingStrategyDataQuery, QueryStTradingStrategyDataQueryVariables> {
-    document = QueryStTradingStrategyDataDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

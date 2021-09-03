@@ -1,19 +1,40 @@
-<ion-list>
+<ion-list class="ion-hide-sm-down">
 	<ion-item class="st-font-1-bold">
 		<ion-label>Symbol</ion-label>
-		<ion-label>Eps</ion-label>
-		<ion-label>Eps estimated</ion-label>
-		<ion-label>Revenue</ion-label>
+		<ion-label class="ion-hide-md-down">EPS</ion-label>
+		<ion-label>EPS estimated</ion-label>
+		<ion-label class="ion-hide-md-down">Revenue</ion-label>
 		<ion-label>Revenue estimated</ion-label>
 		<ion-label>Date</ion-label>
 	</ion-item>
 
 	<ion-item *ngFor="let calendar of calendarEarnings" class="st-data-item-wrapper">
 		<ion-label class="st-font-4">{{ calendar.symbol }}</ion-label>
-		<ion-label>{{ calendar.eps || 'N/A' }}</ion-label>
-		<ion-label>{{ calendar.epsEstimated }}</ion-label>
-		<ion-label>{{ calendar.revenue || 'N/A' }}</ion-label>
-		<ion-label>{{ calendar.revenueEstimated }}</ion-label>
+		<ion-label class="ion-hide-md-down">{{ calendar.eps || 'N/A' }}</ion-label>
+		<ion-label>{{ calendar.epsEstimated || 'N/A' }}</ion-label>
+		<ion-label class="ion-hide-md-down">{{ calendar.revenue ? (calendar.revenue | numberFormatter) : 'N/A' }}</ion-label>
+		<ion-label>{{ calendar.revenueEstimated ? (calendar.revenueEstimated | numberFormatter) : 'N/A' }}</ion-label>
 		<ion-label>{{ calendar.date | date : 'dd.MM.YYYY' }}</ion-label>
+	</ion-item>
+</ion-list>
+
+<!-- SMALL SCREEN -->
+<ion-list class="ion-hide-sm-up">
+	<ion-item class="st-font-1-bold">
+		<ion-label>Symbol</ion-label>
+		<ion-label class="st-flex-end">EPS estimated</ion-label>
+	</ion-item>
+
+	<ion-item *ngFor="let calendar of calendarEarnings" class="st-data-item-wrapper">
+		<!-- event name -->
+		<ion-label class="st-width-70">
+			<ion-text>{{ calendar.symbol }} </ion-text>
+			<ion-text class="st-font-4">| {{ calendar.date | date : 'dd.MM.YYYY' }} </ion-text>
+		</ion-label>
+
+		<!-- price -->
+		<ion-label class="st-flex-end">
+			<ion-text class="st-font-1-normal">{{ calendar.epsEstimated || 'N/A' }} </ion-text>
+		</ion-label>
 	</ion-item>
 </ion-list>
