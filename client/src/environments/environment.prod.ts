@@ -11,16 +11,15 @@ export const environment = {
 	graphql: 'https://servergraphql-eqvqg22pdq-lz.a.run.app/graphql',
 
 	// PROD env
-	/*firebase: {
-        apiKey: 'AIzaSyCyCxLITip9zdDAqqNwNFlR4ZR2vnLZkdk',
-        authDomain: 'stocktracker-8e307.firebaseapp.com',
-        databaseURL: 'https://stocktracker-8e307.firebaseio.com',
-        projectId: 'stocktracker-8e307',
-        storageBucket: 'stocktracker-8e307.appspot.com',
-        messagingSenderId: '102120357424',
-        appId: '1:102120357424:web:f80bf8e36b1d791b1777f5',
-        measurementId: 'G-B90GS8PNES'
-    }*/
+	// firebase: {
+	// 	apiKey: "AIzaSyBrI9eMFHdjytB-f57QxVjtruKJZdDBm48",
+	// 	authDomain: "stock-tracker-prod.firebaseapp.com",
+	// 	projectId: "stock-tracker-prod",
+	// 	storageBucket: "stock-tracker-prod.appspot.com",
+	// 	messagingSenderId: "465302188869",
+	// 	appId: "1:465302188869:web:0bc51824750a5cadc4042c",
+	// 	measurementId: "G-C20ZWXSJZ2"
+	// }
 
 	// TEST env
 	firebase: {
@@ -34,5 +33,5 @@ export const environment = {
 		measurementId: 'G-73NKLPNQ5G',
 	},
 
-	version: '0.7.5',
+	version: '0.7.6',
 };

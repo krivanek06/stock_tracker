@@ -1,17 +1,16 @@
-import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
-import {Observable} from 'rxjs';
-import {GraphqlQueryService, StMarketOverviewPartialData} from '@core';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { GraphqlQueryService } from '@core';
+import { first } from 'rxjs/operators';
 
 @Injectable({
-    providedIn: 'root'
+	providedIn: 'root',
 })
-export class MarketOverviewPreloadGuard implements Resolve<StMarketOverviewPartialData> {
-    constructor(private graphqlQueryService: GraphqlQueryService) {
-    }
+export class MarketOverviewPreloadGuard implements Resolve<boolean> {
+	constructor(private graphqlQueryService: GraphqlQueryService) {}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<StMarketOverviewPartialData> | Promise<StMarketOverviewPartialData> | StMarketOverviewPartialData {
-        return this.graphqlQueryService.queryStMarketHistoryOverview();
-    }
-
+	resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+		this.graphqlQueryService.queryStMarketHistoryOverview().pipe(first()).subscribe();
+		return true;
+	}
 }
