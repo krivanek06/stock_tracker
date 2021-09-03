@@ -1,5 +1,6 @@
 import { ApplicationRef, Component, OnInit } from '@angular/core';
 import { ResolveEnd, ResolveStart, Router } from '@angular/router';
+import { SwUpdate } from '@angular/service-worker';
 import { ThemeService } from '@core';
 import { DialogService } from '@shared';
 import { merge, Observable } from 'rxjs';
@@ -24,12 +25,32 @@ export class AppComponent implements OnInit {
 		// private languageService: LanguageService,
 		private router: Router,
 		private applicationRef: ApplicationRef,
+		private updates: SwUpdate,
 		ionicDialogService: DialogService
 	) {
 		this.initializeApp();
 		// this.initLoadingEvents();
 		// monitor change detection
 		// this.monitorChangeDetection();
+		this.monitorSoftwareUpdate(); // needed to reload app if new version is available for service workers
+	}
+
+	private monitorSoftwareUpdate(): void {
+		this.updates.available.subscribe((event) => {
+			console.log('current version is', event.current);
+			console.log('available version is', event.available);
+		});
+		this.updates.activated.subscribe((event) => {
+			console.log('old version was', event.previous);
+			console.log('new version is', event.current);
+		});
+
+		this.updates.available.subscribe((event) => {
+			this.updates.activateUpdate().then(() => {
+				document.location.reload();
+				console.log('The app is updating right now');
+			});
+		});
 	}
 
 	private initLoadingEvents() {

@@ -10,6 +10,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouteReuseStrategy } from '@angular/router';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { DialogServiceModule } from '@shared';
 import { environment } from '../environments/environment';
@@ -74,6 +75,12 @@ const MY_DATE_FORMATS = {
 
 		// entry points imports
 		DialogServiceModule,
+		ServiceWorkerModule.register('ngsw-worker.js', {
+			enabled: environment.production,
+			// Register the ServiceWorker as soon as the app is stable
+			// or after 30 seconds (whichever comes first).
+			registrationStrategy: 'registerWhenStable:30000',
+		}),
 		// ConfirmationPopOverModule,
 		// FinancialChartModalModule,
 		// InlineInputPopUpModule,
