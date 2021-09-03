@@ -10,7 +10,7 @@ export const addNewUserIntoUserRegistration = async (userIdentification: api.STU
 		const weeklyRegistratedUsers = [...userRegistrationDoc.usersWeeklyRegistrated];
 
 		// check if in same week
-		if (moment().isSame(moment(weeklyRegistratedUsers.slice(-1)[0].timestamp), 'week')) {
+		if (weeklyRegistratedUsers.length > 0 && moment().isSame(moment(weeklyRegistratedUsers.slice(-1)[0].timestamp), 'week')) {
 			weeklyRegistratedUsers.slice(-1)[0].data += 1;
 		} else {
 			// user is registrated on different week than last registrated user
