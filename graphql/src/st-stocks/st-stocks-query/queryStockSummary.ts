@@ -17,17 +17,19 @@ export const queryStockSummary = async (symbol: string): Promise<api.STSummary> 
 		const stockDetailsDocs = await admin.firestore().collection(api.ST_STOCK_DATA_COLLECTION).doc(upperSymbol).get();
 		const wrapper = stockDetailsDocs.data() as api.StockDetailsWrapper | undefined;
 
+		// no data in DB
+		if (!wrapper) {
+			const details = await queryStockDetails(upperSymbol);
+			return details?.summary;
+		}
+
 		// update with current data
-		if (!!wrapper) {
-			// multiple upsers may access the same symbol summary in same time so do not load data from API all the time
-			const minutesDelay = IS_PRODUCTION ? 15 : 60;
-			if (Math.abs(moment(wrapper.summaryLastUpdate).diff(new Date(), 'minute')) > minutesDelay) {
-				console.log('updating summary for: ', upperSymbol, ', time diff: ', Math.abs(moment(wrapper.summaryLastUpdate).diff(new Date(), 'minute')));
-				wrapper.details.summary = await updateStockSummary(upperSymbol, wrapper.details.summary);
-				await persistStockSummary(upperSymbol, wrapper.details.summary);
-			}
-		} else {
-			wrapper.details = await queryStockDetails(upperSymbol);
+		// multiple upsers may access the same symbol summary in same time so do not load data from API all the time
+		const minutesDelay = IS_PRODUCTION ? 15 : 40;
+		if (Math.abs(moment(wrapper.summaryLastUpdate).diff(new Date(), 'minute')) > minutesDelay) {
+			console.log('updating summary for: ', upperSymbol, ', time diff: ', Math.abs(moment(wrapper.summaryLastUpdate).diff(new Date(), 'minute')));
+			wrapper.details.summary = await updateStockSummary(upperSymbol, wrapper.details.summary);
+			await persistStockSummary(upperSymbol, wrapper.details.summary);
 		}
 
 		return wrapper.details?.summary;

@@ -3,6 +3,7 @@ import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
 import { STFinancialModelingAPITypeDefs } from './api/financial-modeling/st-financal-modeling-api.typedefs';
 import { queryStockScreener } from './api/financial-modeling/st-financial-modeling.api';
+import { IS_PRODUCTION } from './environment';
 import { queryAdminMainInformations } from './st-admin/st-admin.query';
 import { STAdminTypeDefs } from './st-admin/st-admin.typeDefs';
 import {
@@ -66,11 +67,12 @@ import { watchlistTypeDefs } from './watchlist/watchlist.typedefs';
 
 global.fetch = require('node-fetch');
 
-const serviceAccount = require('../firebase_key.json');
+const serviceAccount = IS_PRODUCTION ? require('../firebase_key_prod.json') : require('../firebase_key.json');
+const databaseURL = IS_PRODUCTION ? 'https://stock-tracker-prod.firebaseio.com' : 'https://stocktrackertest-e51fc.firebaseio.com';
 
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount),
-	databaseURL: 'https://stocktrackertest-e51fc.firebaseio.com',
+	databaseURL: databaseURL,
 });
 
 const mainTypeDefs = gql`

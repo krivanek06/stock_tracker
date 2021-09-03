@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "stocktrackertest-e51fc"
-  }
+    "default": "stocktrackertest-e51fc",
+    "prod": "stock-tracker-prod"
+  },
+  "targets": {}
 }
