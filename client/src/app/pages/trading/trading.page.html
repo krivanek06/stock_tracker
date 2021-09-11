@@ -9,48 +9,56 @@
 		<ion-row class="ion-justify-content-center">
 			<ion-col size="12" size-lg="11" size-xl="10" style="overflow: visible">
 				<ion-row class="ion-margin-bottom">
-					<ion-col size="12" size-lg="7" size-md="6" size-xl="8" style="overflow: visible">
+					<ion-col size="12" size-lg="5" size-md="6" size-xl="4" class="ion-hide-md-up st-sm-border-bottom">
+						<!-- portfolio current state -->
+						<ng-container *ngTemplateOutlet="portfolioState"></ng-container>
+					</ion-col>
+
+					<ion-col size="12" size-lg="7" size-md="6" size-xl="8" class="c-search-stock-wrapper st-sm-border-bottom">
 						<!-- search symbol -->
 						<app-stock-search (clickedSymbolEmitter)="loadSummary($event)" [clearOnClick]="true"> </app-stock-search>
 					</ion-col>
-					<ion-col class="portfolio-container-col ion-hide-md-down" size-lg="5" size-md="6" size-xl="4">
-						<!-- portfolio state -->
-						<app-portfolio-state
-							[portfolioCash]="user?.portfolio?.portfolioCash"
-							[portfolioInvested]="portfolioInvested"
-							portfolioState="PARTIAL"
-							style="margin-top: -35px"
-						>
-						</app-portfolio-state>
+
+					<ion-col size="12" size-lg="5" size-md="6" size-xl="4" class="ion-hide-md-down st-flex ion-justify-content-center">
+						<!-- portfolio current state -->
+						<ng-container *ngTemplateOutlet="portfolioState"></ng-container>
 					</ion-col>
 				</ion-row>
 
-				<ion-row *ngIf="selectedSummary" class="ion-justify-content-center">
-					<!-- financial chart -->
-					<ion-col size="12" size-lg="7.5" size-xl="8">
-						<app-financial-chart-container
-							[closedPrice]="selectedSummary.previousClose"
-							[currentPrice]="selectedSummary.marketPrice"
-							[height]="460"
-							[logoUrl]="selectedSummary.logo_url"
-							[name]="selectedSummary.companyName"
-							[symbol]="selectedSummary.symbol"
-						>
-						</app-financial-chart-container>
-					</ion-col>
-					<!-- summary -->
-					<ion-col size="12" size-lg="4.5" size-xl="4">
-						<app-generic-list [iconTitle]="'barcode-outline'" [title]="'Summary'"></app-generic-list>
-						<app-generic-card>
-							<!-- symbol summary -->
-							<app-stock-summary-container [summary]="selectedSummary"></app-stock-summary-container>
+				<ion-row class="ion-justify-content-center">
+					<ng-container *ngIf="selectedSummary; else showLoader">
+						<!-- financial chart -->
+						<ion-col size="12" size-lg="7.5" size-xl="8">
+							<app-financial-chart-container
+								[closedPrice]="selectedSummary.previousClose"
+								[currentPrice]="selectedSummary.marketPrice"
+								[height]="460"
+								[logoUrl]="selectedSummary.logo_url"
+								[name]="selectedSummary.companyName"
+								[symbol]="selectedSummary.symbol"
+							>
+							</app-financial-chart-container>
+						</ion-col>
+						<!-- summary -->
+						<ion-col size="12" size-lg="4.5" size-xl="4">
+							<app-generic-list [iconTitle]="'barcode-outline'" [title]="'Summary'"></app-generic-list>
+							<app-generic-card>
+								<!-- symbol summary -->
+								<app-stock-summary-container [summary]="selectedSummary"></app-stock-summary-container>
 
-							<!-- buttons -->
-							<ion-buttons class="st-buttons-container st-justify-center">
-								<ion-button (click)="tradeSymbol()" class="st-button" color="primary" fill="solid"> Trade </ion-button>
-							</ion-buttons>
-						</app-generic-card>
-					</ion-col>
+								<!-- buttons -->
+								<ion-buttons class="st-buttons-container st-justify-center">
+									<ion-button (click)="tradeSymbol()" class="st-button" color="primary" fill="solid"> Trade </ion-button>
+								</ion-buttons>
+							</app-generic-card>
+						</ion-col>
+					</ng-container>
+					<!-- loading spinner -->
+					<ng-template #showLoader>
+						<div class="spinner-container">
+							<ion-spinner color="primary"></ion-spinner>
+						</div>
+					</ng-template>
 				</ion-row>
 
 				<!-- holdings -->
@@ -94,3 +102,11 @@
 		</ion-row>
 	</ion-grid>
 </ion-content>
+
+<ng-template #portfolioState>
+	<app-portfolio-state
+		[portfolioCash]="user?.portfolio?.portfolioCash"
+		[portfolioInvested]="portfolioInvested"
+		portfolioState="PARTIAL"
+	></app-portfolio-state>
+</ng-template>

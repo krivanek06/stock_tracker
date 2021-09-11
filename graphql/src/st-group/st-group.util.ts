@@ -102,5 +102,14 @@ export const createSTGroupUser = (userPublic: api.STUserPublicData): api.STGroup
 		currentPosition: null,
 		sinceDate: getCurrentIOSDate(),
 	};
+
+	/* 
+		may happen taht user accept group invitation same day as he activated his account then userPublic.portfolio.lastPortfolioSnapshot is 0,
+		need to change to userPublic.portfolio.portfolioCash as starting point
+	*/
+	if (groupUser.startedPortfolio.portfolioCash === 0 && groupUser.startedPortfolio.portfolioInvested === 0) {
+		groupUser.startedPortfolio.portfolioCash = userPublic.portfolio.portfolioCash;
+	}
+
 	return groupUser;
 };

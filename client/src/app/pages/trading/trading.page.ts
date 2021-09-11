@@ -12,6 +12,7 @@ import {
 import { LodashService, SymbolIdentification } from '@shared';
 import { TradingFeatureFacadeService, TradingScreenUpdateBaseDirective } from '@stock-trading-feature';
 import { first, takeUntil } from 'rxjs/operators';
+import { DialogService } from './../../shared/services/dialog.service';
 
 @Component({
 	selector: 'app-trading',
@@ -57,11 +58,17 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
 	}
 
 	loadSummary(companyQuote: StfmCompanyQuote) {
+		this.selectedSummary = null;
 		this.symbolStorageService
 			.getStockSummary(companyQuote.symbol)
 			.pipe(first())
 			.subscribe((summary) => {
 				console.log('summary', summary);
+				if (!summary) {
+					DialogService.presentToast(`No stock details for symbol ${companyQuote.symbol} has been found`);
+					this.selectedSummary = this.suggestions[0].summary;
+					return;
+				}
 				this.selectedSummary = summary;
 			});
 	}

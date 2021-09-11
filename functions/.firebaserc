@@ -2,7 +2,8 @@
   "projects": {
     "stocktrackertest": "stocktrackertest-e51fc",
     "default": "stocktrackertest-e51fc",
-    "prod": "stock-tracker-prod"
+    "prod": "stock-tracker-prod",
+    "test": "stocktrackertest-e51fc"
   },
   "targets": {}
 }

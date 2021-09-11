@@ -26,6 +26,7 @@ export class DashboardPortfolioChangeComponent implements OnInit {
 			return;
 		}
 		this.tradingChangeWrapper = this.tradingFeatureFacadeService.createPortfolioHistoricalWrappers(this.stPortfolioSnapshots, [
+			TIME_INTERVAL_ENUM.CURRENTLY,
 			TIME_INTERVAL_ENUM.DAILY,
 			TIME_INTERVAL_ENUM.WEEKLY,
 			TIME_INTERVAL_ENUM.MONTHLY,

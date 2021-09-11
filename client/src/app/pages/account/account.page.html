@@ -33,7 +33,6 @@
 								<ion-col size="12" *ngIf="user.userPrivateData.finnhubKey">
 									<app-generic-card title="Account resets">
 										<app-user-account-reseted-info
-											*ngIf="user.userHistoricalData.resetedAccount.length > 0"
 											(resetAccountEmitter)="resetAccount()"
 											[resetedAccountInfo]="user.userHistoricalData.resetedAccount"
 											[showResetButton]="!!user.userPrivateData.finnhubKey"
@@ -78,7 +77,7 @@
 						</ion-col>
 					</ion-row>
 
-					<ion-row class="ion-margin-top">
+					<ion-row class="ion-margin-top" *ngIf="user.userPrivateData.tickets.length > 0">
 						<ion-col size="12">
 							<div class="st-title st-bottom-space">My tickets</div>
 							<app-ticket-overview-container [tickets]="user.userPrivateData.tickets"></app-ticket-overview-container>

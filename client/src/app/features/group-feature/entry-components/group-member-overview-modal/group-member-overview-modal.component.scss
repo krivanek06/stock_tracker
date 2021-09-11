@@ -18,7 +18,7 @@
 	.c-portfolio-change {
 		display: flex;
 		flex-flow: wrap;
-		justify-content: space-between;
+		justify-content: space-around;
 		@media (max-width: #{$st-var-sm-split}) {
 			display: grid;
 			justify-content: normal;

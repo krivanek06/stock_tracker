@@ -160,7 +160,7 @@ export class MenuPage implements OnInit, OnDestroy {
 						disabled: !user,
 						hidden: false,
 						highlight: user?.userPrivateData && !user?.userPrivateData?.finnhubKey,
-						highlightText: 'Trading not activated yet. Follow the instructions on your profile to active your trading account',
+						highlightText: 'Trading is not activated yet. Follow the instructions on your profile to active your trading account',
 					},
 					{
 						title: 'Groups',

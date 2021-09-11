@@ -1,7 +1,7 @@
 <ion-list>
 	<!-- table header -->
 	<ion-item class="st-font-1-bold">
-		<ion-label class="ion-margin-end">Name</ion-label>
+		<ion-label class="ion-margin-end st-flex-1-5">Name</ion-label>
 		<ion-label>Value</ion-label>
 		<ion-label>Held shares</ion-label>
 		<ion-label *ngIf="holders.length > 0 && $any(holders[0])?.weightPercent" class="ion-hide-sm-down"> Weight </ion-label>
@@ -10,7 +10,7 @@
 
 	<!-- body -->
 	<ion-item *ngFor="let holder of holders" class="st-data-item-wrapper">
-		<ion-label class="ion-margin-end st-font-5">{{ holder.holder }}</ion-label>
+		<ion-label class="ion-margin-end st-font-5 st-flex-1-5">{{ holder.holder }}</ion-label>
 		<ion-label>{{ holder.shares * currentSharePrice | numberFormatter}}</ion-label>
 		<ion-label>{{ holder.shares | numberFormatter }}</ion-label>
 		<ion-label *ngIf="showWeight" class="ion-hide-sm-down"> {{ $any(holder)?.weightPercent }}% </ion-label>

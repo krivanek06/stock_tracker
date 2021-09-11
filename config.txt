@@ -1,4 +1,6 @@
 "stock-tracker-common-interfaces": "file:../common-interfaces"
+
+
 ######### firebase change projects
 - gcloud projects list
 - gcloud config set project XXX

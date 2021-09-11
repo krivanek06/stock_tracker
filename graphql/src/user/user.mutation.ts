@@ -35,7 +35,6 @@ export const registerUser = async (user: api.STUserAuthenticationInput): Promise
 	}
 };
 
-// TODO - remove userId from editInput when token will be used with roles & encoded userId
 export const editUser = async (editInput: api.STUserEditDataInput): Promise<boolean> => {
 	try {
 		// update private data
@@ -65,7 +64,7 @@ export const editUser = async (editInput: api.STUserEditDataInput): Promise<bool
 			admin
 				.firestore()
 				.collection(api.ST_USER_COLLECTION_USER)
-				.doc(`${userPublicData.id}`)
+				.doc(userPublicData.id)
 				.set(
 					{
 						...userPublicData,
@@ -73,8 +72,11 @@ export const editUser = async (editInput: api.STUserEditDataInput): Promise<bool
 						photoURL: editInput.photoURL,
 						portfolio: {
 							portfolioCash: initPortfolio ? 25000 : userPublicData.portfolio.portfolioCash,
+							lastPortfolioSnapshot: {
+								portfolioCash: initPortfolio ? 25000 : userPublicData.portfolio.lastPortfolioSnapshot.portfolioCash,
+							},
 						},
-					} as api.STUserPublicData,
+					},
 					{ merge: true }
 				);
 		}
@@ -124,17 +126,16 @@ export const resetUserAccount = async (userId: string): Promise<api.STUserResete
 							portfolioInvested: 0,
 							date: getCurrentIOSDate(),
 						},
-						lastTransactionSnapshot: null,
+						lastTransactionSnapshot: {
+							transactionsBuy: 0,
+							transactionsSell: 0,
+							date: getCurrentIOSDate(),
+						},
 						lastPortfolioIncreaseNumber: null,
 						lastPortfolioIncreasePrct: null,
 						numberOfExecutedBuyTransactions: 0,
 						numberOfExecutedSellTransactions: 0,
 						portfolioCash: 25000,
-						startingPortfolioSnapshot: {
-							portfolioCash: 25000,
-							portfolioInvested: 0,
-							date: getCurrentIOSDate(),
-						},
 					},
 					holdings: [],
 					transactionsSnippets: [],

@@ -1,19 +1,19 @@
 <ion-list>
 	<!-- table header -->
 	<ion-item class="st-font-1-bold">
-		<ion-label class="ion-margin-end">Person</ion-label>
-		<ion-label class="ion-hide-md-down">Owned securities</ion-label>
-		<ion-label class="ion-hide-md-down">Owned value</ion-label>
+		<ion-label class="ion-margin-end st-flex-1-5">Person</ion-label>
+		<ion-label class="ion-hide-md-down">Securities</ion-label>
+		<ion-label class="ion-hide-md-down">Value</ion-label>
 		<ion-label>Transacted</ion-label>
 		<ion-label>Type</ion-label>
-		<ion-label class="ion-hide-sm-down">Unit price</ion-label>
+		<ion-label class="ion-hide-md-down">Unit price</ion-label>
 		<ion-label class="ion-hide-sm-down">Total price</ion-label>
-		<ion-label>Date</ion-label>
+		<ion-label class="ion-hide-sm-down">Date</ion-label>
 	</ion-item>
 
 	<!-- body -->
 	<ion-item *ngFor="let trade of insiderTrades | reverseArray" class="st-data-item-wrapper">
-		<ion-label class="st-flex-col ion-margin-end">
+		<ion-label class="st-flex-col ion-margin-end st-flex-1-5">
 			<ion-text>{{ trade.reportingName }}</ion-text>
 			<ion-text class="st-font-5 st-font-size-12">({{ trade.typeOfOwner || 'Unknown position' }})</ion-text>
 		</ion-label>
@@ -28,8 +28,8 @@
 		>
 			{{ trade.transactionType }}
 		</ion-label>
-		<ion-label class="ion-hide-sm-down">{{ trade.price | currency }}</ion-label>
+		<ion-label class="ion-hide-md-down">{{ trade.price | currency }}</ion-label>
 		<ion-label class="ion-hide-sm-down">{{ trade.price * trade.securitiesTransacted | numberFormatter }}</ion-label>
-		<ion-label class="st-font-5">{{ trade.transactionDate | date:'dd.MM.YYYY' }}</ion-label>
+		<ion-label class="st-font-5 ion-hide-sm-down">{{ trade.transactionDate | date:'dd.MM.YYYY' }}</ion-label>
 	</ion-item>
 </ion-list>

@@ -73,10 +73,11 @@
 			margin-top: 8px;
 		}
 
+		span ion-button,
 		ion-button {
 			min-width: 150px;
 			margin: 5px;
-			@media (max-width: #{$st-var-md-split}) {
+			@media (max-width: #{$st-var-lg-split}) {
 				width: 100%;
 			}
 		}

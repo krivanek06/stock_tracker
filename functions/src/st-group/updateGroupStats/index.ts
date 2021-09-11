@@ -36,11 +36,7 @@ export const updateGroupStats = functions.pubsub.topic('updateGroupStats').onPub
 			// calculate current data
 			const currentGroupHoldings = createGroupHoldings(groupMembersPublicData);
 			console.log('created group holdings');
-			const currentGroupPortfolio = createGroupPortfolioSnapshot(
-				groupMembersPublicData,
-				groupMembersDoc,
-				groupAllData.portfolio.lastPortfolioSnapshot
-			);
+			const currentGroupPortfolio = createGroupPortfolioSnapshot(groupMembersPublicData, groupAllData.portfolio.lastPortfolioSnapshot);
 			console.log('created group portfolio');
 
 			// update data in firestore
@@ -63,7 +59,6 @@ export const updateGroupStats = functions.pubsub.topic('updateGroupStats').onPub
 */
 const createGroupPortfolioSnapshot = (
 	usersPublicData: api.STUserPublicData[],
-	groupMemberDoc: api.STGroupMembersDocument,
 	groupPreviousLastPortfolioSnapshot: api.STPortfolioSnapshot
 ): api.STPortfolioWrapper => {
 	const portfolioWrapperAccumulation: api.STPortfolioWrapper = usersPublicData
@@ -116,7 +111,7 @@ const createGroupPortfolioSnapshot = (
 		portfolioWrapperAccumulation.lastPortfolioIncreasePrct = Number(((currentBalance - previousBalance) / previousBalance).toFixed(4));
 	} else {
 		// at first snapshot 'previousBalance' is 0
-		portfolioWrapperAccumulation.lastPortfolioIncreaseNumber = Number((currentBalance - previousBalance).toFixed(2));
+		portfolioWrapperAccumulation.lastPortfolioIncreaseNumber = 0;
 		portfolioWrapperAccumulation.lastPortfolioIncreasePrct = 0;
 	}
 

@@ -30,7 +30,7 @@ ion-spinner {
 	}
 }
 
-.st-sm-border-bottom-wtth-space {
+.st-sm-border-bottom {
 	@media (max-width: #{$st-var-sm-split}) {
 		border-bottom: 1px solid #{$st-light-blue-border};
 	}
@@ -844,4 +844,21 @@ ion-skeleton-text {
 
 .st-opacity-02 {
 	opacity: 0.2;
+}
+
+// FLEX
+.st-flex-0-75 {
+	flex: 0.75;
+}
+
+.st-flex-1 {
+	flex: 1;
+}
+
+.st-flex-1-5 {
+	flex: 1.5;
+}
+
+.st-flex-2 {
+	flex: 2;
 }

@@ -1,18 +1,16 @@
 <form [formGroup]="form">
 	<!-- group image -->
 	<ion-item-group class="c-uploader-wrapper">
-		<div>
-			<ion-item>
-				<app-uploader
-					#uploader
-					(uploadedFilesEmitter)="uploadedImage($event)"
-					[defaultUrl]="photoURL.value"
-					[fileName]="user.id"
-					[filePath]="'users'"
-					[showInput]="true"
-				>
-				</app-uploader>
-			</ion-item>
+		<div class="st-flex-1">
+			<app-uploader
+				#uploader
+				(uploadedFilesEmitter)="uploadedImage($event)"
+				[defaultUrl]="photoURL.value"
+				[fileName]="user.id"
+				[filePath]="'users'"
+				[showInput]="true"
+			>
+			</app-uploader>
 		</div>
 
 		<div>
