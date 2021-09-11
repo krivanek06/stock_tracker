@@ -1,4 +1,5 @@
 export enum TIME_INTERVAL_ENUM {
+	CURRENTLY = 'Currently',
 	DAILY = 'Daily',
 	WEEKLY = 'Weekly',
 	MONTHLY = 'Monthly',

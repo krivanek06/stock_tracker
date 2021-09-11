@@ -58,8 +58,8 @@ const savePortfolioSnapShot = async ({ id, portfolio }: api.STUserPublicData, po
 			{
 				portfolio: {
 					lastPortfolioSnapshot: portfolioSnapshot,
-					lastPortfolioIncreaseNumber: portfolio.lastPortfolioSnapshot ? Number((currentBalance - previousBalance).toFixed(2)) : 0,
-					lastPortfolioIncreasePrct: portfolio.lastPortfolioSnapshot ? Number(((currentBalance - previousBalance) / previousBalance).toFixed(4)) : 0,
+					lastPortfolioIncreaseNumber: previousBalance !== 0 ? Number((currentBalance - previousBalance).toFixed(2)) : 0,
+					lastPortfolioIncreasePrct: previousBalance !== 0 ? Number(((currentBalance - previousBalance) / previousBalance).toFixed(4)) : 0,
 				},
 			} as api.STUserPublicData,
 			{ merge: true }

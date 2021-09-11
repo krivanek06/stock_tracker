@@ -1,0 +1,12 @@
+11.09.2021 - v 0.7.7
+fix
+- ‘infinity’ - first evaluation on user’s portfolio by cloud functions, when lastPortfolioIncrease is null
+- daily change on users (search) and groups - showing 0%
+- groups - accept group invitation only if user has activated & reseted account - cannot be starting balance
+
+UI changes
+- fix mobile resizing on stock details
+- fix stock trading on mobile
+- fix on trading selecting stock & show loader
+- fix on finhub key placement - lastPortfolioSnapshot.portfolioCash => 25K
+- fix showing message when no stock details for searching symbol on trading

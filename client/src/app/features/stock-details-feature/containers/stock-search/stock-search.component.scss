@@ -1,23 +1,22 @@
-@import "variables";
+@import 'variables';
 
 :host {
-  .form-position {
-    margin-bottom: 8px;
-    margin-left: 8px;
-    width: 75%;
-    @media (max-width: #{$st-var-sm-split}) {
-      width: 100%;
-    }
-  }
+	.form-position {
+		margin-bottom: 8px;
+		margin-left: 8px;
+		width: 75%;
+		@media (max-width: #{$st-var-md-split}) {
+			width: 95%;
+		}
+	}
 
-  .list-container {
-    position: absolute;
-    z-index: 100;
-    background-color: #06123a;
-    width: 75%;
-    @media (max-width: #{$st-var-sm-split}) {
-      width: 100%;
-    }
-  }
-
+	.list-container {
+		position: absolute;
+		z-index: 100;
+		background-color: #06123a;
+		width: 75%;
+		@media (max-width: #{$st-var-md-split}) {
+			width: 95%;
+		}
+	}
 }

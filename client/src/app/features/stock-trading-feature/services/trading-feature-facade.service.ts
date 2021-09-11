@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GraphqlTradingService, StPortfolio, StPortfolioSnapshot, StTransactionInput, Summary, UserStorageService } from '@core';
+import { GraphqlTradingService, StPortfolio, StPortfolioSnapshot, StTransactionInput, Summary } from '@core';
 import { PopoverController } from '@ionic/angular';
 import { DialogService, zipArrays } from '@shared';
 import * as moment from 'moment';
@@ -10,11 +10,7 @@ import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM } from '../models';
 	providedIn: 'root',
 })
 export class TradingFeatureFacadeService {
-	constructor(
-		private popoverController: PopoverController,
-		private userStorageService: UserStorageService,
-		private graphqlTradingService: GraphqlTradingService
-	) {}
+	constructor(private popoverController: PopoverController, private graphqlTradingService: GraphqlTradingService) {}
 
 	async performTransaction(summary: Summary) {
 		const popover = await this.popoverController.create({
@@ -47,15 +43,17 @@ export class TradingFeatureFacadeService {
 		const reverseSnapshots = [...stPortfolioSnapshots].reverse();
 
 		// find needed portfolio
-		const dailyPortfolio = reverseSnapshots.find((change) => !today.isSame(moment(change.date), 'day'));
+		const currentlyPortfolio = reverseSnapshots.length >= 1 ? reverseSnapshots[0] : null;
+		const dailyPortfolio = reverseSnapshots.length >= 2 ? reverseSnapshots[1] : null;
 		const weeklyPortfolio = reverseSnapshots.find((change) => today.diff(moment(change.date), 'days') >= 7);
 		const monthlyPortfolio = reverseSnapshots.find((change) => today.diff(moment(change.date), 'months') >= 1);
 		const quarterlyPortfolio = reverseSnapshots.find((change) => today.diff(moment(change.date), 'months') >= 4);
 		const yearlyPortfolio = reverseSnapshots.find((change) => today.diff(moment(change.date), 'years') >= 1);
 		const fromBeginning = stPortfolioSnapshots[0];
 
-		const portfolios = [dailyPortfolio, weeklyPortfolio, monthlyPortfolio, quarterlyPortfolio, yearlyPortfolio, fromBeginning];
+		const portfolios = [currentlyPortfolio, dailyPortfolio, weeklyPortfolio, monthlyPortfolio, quarterlyPortfolio, yearlyPortfolio, fromBeginning];
 		const timeIntervals = [
+			TIME_INTERVAL_ENUM.CURRENTLY,
 			TIME_INTERVAL_ENUM.DAILY,
 			TIME_INTERVAL_ENUM.WEEKLY,
 			TIME_INTERVAL_ENUM.MONTHLY,

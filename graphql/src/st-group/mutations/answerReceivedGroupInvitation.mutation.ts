@@ -72,15 +72,18 @@ const updateGroupMemberData = async (accept: boolean, groupMembers: api.STGroupM
 const updateGroupData = async (accept: boolean, group: api.STGroupAllData, newGroupUser: api.STGroupUser): Promise<void> => {
 	if (accept) {
 		// update started portfolio
-		group.startedPortfolio.portfolioCash += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioCash;
-		group.startedPortfolio.portfolioInvested += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioInvested;
-		group.startedPortfolio.numberOfExecutedSellTransactions += newGroupUser.portfolio.numberOfExecutedSellTransactions;
-		group.startedPortfolio.numberOfExecutedBuyTransactions += newGroupUser.portfolio.numberOfExecutedBuyTransactions;
+		group.startedPortfolio.portfolioCash += newGroupUser.startedPortfolio.portfolioCash;
+		group.startedPortfolio.portfolioInvested += newGroupUser.startedPortfolio.portfolioInvested;
+		group.startedPortfolio.numberOfExecutedSellTransactions += newGroupUser.startedPortfolio.numberOfExecutedSellTransactions;
+		group.startedPortfolio.numberOfExecutedBuyTransactions += newGroupUser.startedPortfolio.numberOfExecutedBuyTransactions;
+
 		// update portfolio
-		group.portfolio.lastPortfolioSnapshot.portfolioCash += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioCash;
-		group.portfolio.lastPortfolioSnapshot.portfolioInvested += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioInvested;
-		group.portfolio.numberOfExecutedSellTransactions += newGroupUser.portfolio.numberOfExecutedSellTransactions;
-		group.portfolio.numberOfExecutedBuyTransactions += newGroupUser.portfolio.numberOfExecutedBuyTransactions;
+		group.portfolio.portfolioCash += newGroupUser.startedPortfolio.portfolioCash;
+		group.portfolio.lastPortfolioSnapshot.portfolioCash += newGroupUser.startedPortfolio.portfolioCash;
+		group.portfolio.lastPortfolioSnapshot.portfolioInvested += newGroupUser.startedPortfolio.portfolioInvested;
+		group.portfolio.numberOfExecutedSellTransactions += newGroupUser.startedPortfolio.numberOfExecutedSellTransactions;
+		group.portfolio.numberOfExecutedBuyTransactions += newGroupUser.startedPortfolio.numberOfExecutedBuyTransactions;
+
 		// update memvers
 		group.numberOfMembers += 1;
 	}

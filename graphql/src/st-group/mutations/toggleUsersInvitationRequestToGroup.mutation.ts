@@ -90,17 +90,17 @@ const denyUser = async (groupId: string): Promise<void> => {
 
 export const acceptUser = async (groupId: string, groupData: api.STGroupAllData, newGroupUser: api.STGroupUser): Promise<void> => {
 	// update group starting portfolio
-	groupData.startedPortfolio.portfolioCash += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioCash;
-	groupData.startedPortfolio.portfolioInvested += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioInvested;
-	groupData.startedPortfolio.numberOfExecutedSellTransactions += newGroupUser.portfolio.numberOfExecutedSellTransactions;
-	groupData.startedPortfolio.numberOfExecutedBuyTransactions += newGroupUser.portfolio.numberOfExecutedBuyTransactions;
+	groupData.startedPortfolio.portfolioCash += newGroupUser.startedPortfolio.portfolioCash;
+	groupData.startedPortfolio.portfolioInvested += newGroupUser.startedPortfolio.portfolioInvested;
+	groupData.startedPortfolio.numberOfExecutedSellTransactions += newGroupUser.startedPortfolio.numberOfExecutedSellTransactions;
+	groupData.startedPortfolio.numberOfExecutedBuyTransactions += newGroupUser.startedPortfolio.numberOfExecutedBuyTransactions;
 
 	// update group portfolio
-	groupData.portfolio.portfolioCash += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioCash;
-	groupData.portfolio.lastPortfolioSnapshot.portfolioInvested += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioInvested;
-	groupData.portfolio.lastPortfolioSnapshot.portfolioCash += newGroupUser.portfolio.lastPortfolioSnapshot.portfolioCash;
-	groupData.portfolio.numberOfExecutedSellTransactions += newGroupUser.portfolio.numberOfExecutedSellTransactions;
-	groupData.portfolio.numberOfExecutedBuyTransactions += newGroupUser.portfolio.numberOfExecutedBuyTransactions;
+	groupData.portfolio.portfolioCash += newGroupUser.startedPortfolio.portfolioCash;
+	groupData.portfolio.lastPortfolioSnapshot.portfolioInvested += newGroupUser.startedPortfolio.portfolioInvested;
+	groupData.portfolio.lastPortfolioSnapshot.portfolioCash += newGroupUser.startedPortfolio.portfolioCash;
+	groupData.portfolio.numberOfExecutedSellTransactions += newGroupUser.startedPortfolio.numberOfExecutedSellTransactions;
+	groupData.portfolio.numberOfExecutedBuyTransactions += newGroupUser.startedPortfolio.numberOfExecutedBuyTransactions;
 
 	await admin
 		.firestore()
