@@ -1,10 +1,10 @@
-from threading import Thread
 from queue import Queue
-from pytz import UTC
+from threading import Thread
 
+from ExternalAPI.FinancialModelingApi import FinancialModelingApi
 from ExternalAPI.FinhubApi import FinhubApi
 from ExternalAPI.YahooFinance import YahooFinanceRequesterApi
-from ExternalAPI.FinancialModelingApi import FinancialModelingApi
+from pytz import UTC
 
 utc = UTC
 
@@ -35,6 +35,7 @@ class FundamentalServiceDataFetcher:
         t1 = Thread(target=lambda q, arg1: q.put({'companyOutlook': self.financialModeling.getCompanyOutlook(arg1)}), args=(que, symbol))
         t2 = Thread(target=lambda q, arg1: q.put({'mutualFundHolders': self.financialModeling.getMutualFundHolders(arg1)}), args=(que, symbol))
         t3 = Thread(target=lambda q, arg1: q.put({'institutionalHolders': self.financialModeling.getInstitutionalHolders(arg1)}), args=(que, symbol))
+        t5 = Thread(target=lambda q, arg1: q.put({'companyQuote': self.financialModeling.getCompanyQuoteBatch([arg1])}), args=(que, symbol))
         tSector = Thread(target=lambda q, arg1: q.put({'sectorPeers': self.__getSectorPeers(arg1)}), args=(que, symbol))
 
         # Finhub
@@ -46,6 +47,7 @@ class FundamentalServiceDataFetcher:
         t1.start()
         t2.start()
         t3.start()
+        t5.start()
         tSector.start()
         t4.start()
         t6.start()
@@ -56,6 +58,7 @@ class FundamentalServiceDataFetcher:
         t1.join()
         t2.join()
         t3.join()
+        t5.join()
         tSector.join()
         t4.join()
         t6.join()

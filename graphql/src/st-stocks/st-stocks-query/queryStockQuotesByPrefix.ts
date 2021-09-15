@@ -9,7 +9,11 @@ export const queryStockQuotesByPrefix = async (symbolPrefix: string): Promise<ap
 		}
 		const searchPromise = await searchSymbolsByPrefix(symbolPrefix.toUpperCase());
 
-		return searchPromise;
+		// get only from exchanges : nyse, nasdaq - ignore mutual funds, etfs, etc.
+		const exchanges = ['NYSE', 'NASDAQ'];
+		const filteredSymbols = searchPromise.filter((symbol) => exchanges.includes(symbol.exchange));
+
+		return filteredSymbols;
 	} catch (error) {
 		throw new ApolloError(error);
 	}
