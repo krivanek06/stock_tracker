@@ -72,21 +72,25 @@ class FundamentalServiceFormatter:
 
     def _formatSummary(self):
         try:
-            summary_all = self.data['companyData']
-            detail = summary_all.get('summaryDetail')
+            summary_all = self.data.get('companyData', {})
             stats = {} if summary_all.get('defaultKeyStatistics') is None else summary_all.get('defaultKeyStatistics')
-            financialData = summary_all.get('financialData')
-            events = summary_all.get('calendarEvents')
-            earnings = events.get('earnings').get('earningsDate')
+            financialData =  {} if summary_all.get('financialData') is None else  summary_all.get('financialData')
+
+            companyOutlook = self.data['companyOutlook']
+            companyQuote =  self.data['companyQuote'][0]
             profile = self.data['companyOutlook']['profile']
+            splitHistory = companyOutlook['splitHistory'][0] if companyOutlook['splitHistory'] is not None else {}
+            ratios = companyOutlook['ratios'][0]
+            stockDividend = self.data['companyOutlook']['stockDividend'][0] if self.data['companyOutlook']['stockDividend'] is not None  else {}
+            
 
             summary = {
-                'id': summary_all.get('symbol'),
+                'id': profile.get('symbol'),
                 'shortRatio': stats.get('shortRatio'),
                 'sandPFiveTwoWeekChange': stats.get('sandPFiveTwoWeekChange'),
-                'lastSplitFactor': stats.get('lastSplitFactor'),
+                'lastSplitFactor': f"{splitHistory.get('numerator')} / {splitHistory.get('denominator')}" if splitHistory.get('numerator') is not None else None,
                 'exchangeName': profile.get('exchangeShortName'),
-                'lastSplitDate': stats.get('lastSplitDate'),
+                'lastSplitDate': splitHistory.get('date'),
                 'website': profile.get('website'),
                 'residance': {
                     'city': profile.get('city'),
@@ -95,43 +99,45 @@ class FundamentalServiceFormatter:
                     'addressOne': profile.get('address'),
                     'zip': profile.get('zip'),
                 },
-                'avgVolume': detail.get('averageDailyVolumeOneDay'),
-                'ePSTTM': stats.get('trailingEps'),
+                'avgVolume': profile.get('volAvg'),
+                'ePSTTM': companyQuote.get('eps'),
                 'forwardEPS': stats.get('forwardEps'),
-                'earningsDate': earnings[0] if earnings is not None and len(earnings) > 0 else None,
-                'dividendDate': events.get('dividendDate'),
-                'exDividendDate': events.get('exDividendDate'),
-                'forwardDividendYield': detail.get('dividendYield'),
-                'forwardDividendRate': detail.get('dividendRate'),
-                'fiveTwoWeekRange': str(detail.get('fiftyTwoWeekLow')) + ' - ' + str(detail.get('fiftyTwoWeekHigh')),
+                'earningsDate': companyQuote.get('earningsAnnouncement'),
+                'dividendDate': stockDividend.get('paymentDate'),
+                'exDividendDate': stockDividend.get('date'),
+                'forwardDividendYield': ratios.get('dividendYieldTTM'),
+                'forwardDividendRate': ratios.get('dividendPerShareTTM'),
+                'fiveTwoWeekRange': str(companyQuote.get('yearLow')) + ' - ' + str(companyQuote.get('yearHigh')),
                 'oneyTargetEst': financialData.get('targetMeanPrice'),
-                'pERatioTTM': detail.get('trailingPE'),
+                'pERatioTTM': companyQuote.get('pe'),
                 'forwardPE': stats.get('forwardPE'),
-                'volume': detail.get('volume'),
+                'volume': companyOutlook['metrics'].get('volume'),
                 'currency': profile.get('currency'),
                 'industry': profile.get('industry'),
                 'logo_url': profile.get('image'),
                 'ceo': profile.get('ceo'),
                 'fullTimeEmployees': profile.get('fullTimeEmployees'),
                 'ipoDate': profile.get('ipoDate'),
-                'marketPrice': financialData.get('currentPrice'),
-                'previousClose': detail.get('previousClose'),
+                'marketPrice': companyQuote.get('price'),
+                'previousClose': companyQuote.get('previousClose'),
                 'recommendationKey': financialData.get('recommendationKey'),
                 'recommendationMean': financialData.get('recommendationMean'),
                 'sector': profile.get('sector'),
-                'symbol': summary_all.get('symbol'),
+                'symbol': profile.get('symbol'),
                 'targetEstOneyPercent': characterModificationUtil.force_round(
-                    financialData.get('currentPrice') / financialData.get('targetMeanPrice'), 2) if financialData.get(
+                    companyQuote.get('price') / financialData.get('targetMeanPrice'), 2) if financialData.get(
                     'targetMeanPrice') is not None else None,
-                'weekRangeFiveTwoMax': detail.get('fiftyTwoWeekHigh'),
-                'weekRangeFiveTwoMin': detail.get('fiftyTwoWeekLow'),
+                'weekRangeFiveTwoMax': companyQuote.get('yearHigh'),
+                'weekRangeFiveTwoMin': companyQuote.get('yearLow'),
                 'companyName': profile.get('companyName'),
-                'marketCap': detail.get('marketCap'),
-                'sharesOutstanding': stats.get('sharesOutstanding'),
+                'marketCap': companyQuote.get('marketCap'),
+                'sharesOutstanding': companyQuote.get('sharesOutstanding'),
                 'longBusinessSummary': profile.get('description'),
                 'yearToDatePriceReturn': stats.get('fiveTwoWeekChange'),
                 'yearToDatePrice': characterModificationUtil.force_round(
-                    financialData.get('currentPrice') / (1 + stats.get('fiveTwoWeekChange', 0)), 2)
+                    companyQuote.get('price') - 
+                    (companyQuote.get('price') / (1 + stats.get('fiveTwoWeekChange', 0))
+                ), 2)
             }
             self.data['summary'] = summary
         except Exception as e:

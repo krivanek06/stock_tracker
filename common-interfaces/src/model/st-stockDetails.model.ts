@@ -1,11 +1,9 @@
 import { STFMCompanyOutlook, STFMCompanyQuote, STFMHolder, STFMHolderWithWeight } from "./st-financal-modeling-api.model";
 import {
-  CAPM,
-  WACC,
-  STDiscountedCashFlowFormula,
+  CAPM, STDiscountedCashFlowFormula,
   STDividendDiscountedFormula,
   STEarningsValuationFormula,
-  STFreeCashFlowFormula,
+  STFreeCashFlowFormula, WACC
 } from "./st-stock-calculations";
 
 export interface StockDetailsWrapper {
@@ -341,10 +339,10 @@ export interface STSummary {
   ceo: string;
   companyName: string;
   currency: string;
-  dividendDate: number;
+  dividendDate: string;
   ePSTTM: number;
-  earningsDate: number;
-  exDividendDate: number;
+  earningsDate: string;
+  exDividendDate: string;
   exchangeName: string;
   fiveTwoWeekRange: string;
   forwardDividendRate: number;
@@ -355,7 +353,7 @@ export interface STSummary {
   id: string;
   industry: string;
   ipoDate: Date;
-  lastSplitDate: number;
+  lastSplitDate: string;
   lastSplitFactor: string;
   logo_url: string;
   longBusinessSummary: string;
