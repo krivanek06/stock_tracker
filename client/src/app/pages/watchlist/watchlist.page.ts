@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import {
 	componentDestroyed,
-	ComponentScreenUpdateBaseDirective,
+	FinnhubWebsocketService,
 	StStockWatchlistFragmentFragment,
 	SubscriptionWebsocketService,
 	UserStorageService,
 } from '@core';
-import { LodashService, SymbolIdentification } from '@shared';
+import { ComponentScreenUpdateBaseDirective, LodashService, SymbolIdentification } from '@shared';
 import { WatchlistFeatureFacadeService } from '@stock-watchlist-feature';
 import { takeUntil } from 'rxjs/operators';
 
@@ -23,9 +23,10 @@ export class WatchlistPage extends ComponentScreenUpdateBaseDirective implements
 		private watchlistFeatureFacadeService: WatchlistFeatureFacadeService,
 		private userStorageService: UserStorageService,
 		private subscriptionWebsocketService: SubscriptionWebsocketService,
+		public finnhubWebsocket: FinnhubWebsocketService,
 		public cdr: ChangeDetectorRef
 	) {
-		super(cdr, 'WatchlistPage');
+		super(cdr, finnhubWebsocket, 'WatchlistPage');
 	}
 
 	ngOnInit() {
@@ -36,7 +37,6 @@ export class WatchlistPage extends ComponentScreenUpdateBaseDirective implements
 
 	ngOnDestroy(): void {
 		super.ngOnDestroy();
-		this.subscriptionWebsocketService.closeSubscriptionWatchlist();
 	}
 
 	createWatchlist() {

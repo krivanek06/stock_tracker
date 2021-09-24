@@ -1,14 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import {
-	componentDestroyed,
-	ComponentScreenUpdateBaseDirective,
-	FinnhubWebsocketService,
-	GraphqlQueryService,
-	StMarketOverviewPartialData,
-	StMarketTopTableCryptoData,
-} from '@core';
+import { componentDestroyed, FinnhubWebsocketService, GraphqlQueryService, StMarketOverviewPartialData, StMarketTopTableCryptoData } from '@core';
 import { MarketFeatureFacadeService } from '@market-feature';
-import { LodashService, SymbolIdentification } from '@shared';
+import { ComponentScreenUpdateBaseDirective, LodashService, SymbolIdentification } from '@shared';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -24,11 +17,11 @@ export class MarketCryptoComponent extends ComponentScreenUpdateBaseDirective im
 
 	constructor(
 		private graphqlQueryService: GraphqlQueryService,
-		private finnhubWebsocketService: FinnhubWebsocketService,
 		private marketPageFacadeService: MarketFeatureFacadeService,
+		public finnhubWebsocketService: FinnhubWebsocketService,
 		public cdr: ChangeDetectorRef
 	) {
-		super(cdr, 'MarketCryptoComponent');
+		super(cdr, finnhubWebsocketService, 'MarketCryptoComponent');
 	}
 
 	ngOnInit() {
@@ -39,7 +32,6 @@ export class MarketCryptoComponent extends ComponentScreenUpdateBaseDirective im
 
 	ngOnDestroy() {
 		super.ngOnDestroy();
-		this.finnhubWebsocketService.closeConnection(this.componentName);
 	}
 
 	async showSummary(data: StMarketTopTableCryptoData) {

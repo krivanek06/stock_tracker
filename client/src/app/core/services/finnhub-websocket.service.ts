@@ -1,17 +1,22 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { distinctUntilChanged, filter, map, mergeAll } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, timer } from 'rxjs';
+import { distinctUntilChanged, filter, map, mergeAll, take, tap } from 'rxjs/operators';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { MarketSymbolResult } from '../model';
 import { UserStorageService } from './storage/user-storage.service';
+
+interface SubscribedSymbols {
+	componentName: string;
+	symbols: string[];
+	subscriptionExists: boolean;
+}
 
 @Injectable({
 	providedIn: 'root',
 })
 export class FinnhubWebsocketService {
-	private subscribedSymbols: Map<string, string[]> = new Map<string, string[]>();
+	private subscribedSymbols$: BehaviorSubject<SubscribedSymbols[]> = new BehaviorSubject([]);
 	private endpoint = 'wss://ws.finnhub.io?token=';
-
 	private myWebSocket: WebSocketSubject<any>;
 	private isConnectionInitialized$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -21,6 +26,19 @@ export class FinnhubWebsocketService {
 
 	get isConnectionInitialized(): boolean {
 		return this.isConnectionInitialized$.getValue();
+	}
+
+	get subscribedSymbols(): SubscribedSymbols[] {
+		return this.subscribedSymbols$.value;
+	}
+
+	doesSubscriptionForComponentExists(componentName: string): Observable<boolean> {
+		return this.subscribedSymbols$.asObservable().pipe(
+			map((subscribedSymbols) => {
+				const component = subscribedSymbols.find((subscribedSymbol) => subscribedSymbol.componentName === componentName);
+				return component?.subscriptionExists;
+			})
+		);
 	}
 
 	isConnectionInitializedObs(): Observable<boolean> {
@@ -36,23 +54,18 @@ export class FinnhubWebsocketService {
 			filter((x) => !!x),
 			map((x) => x.data as MarketSymbolResult[]),
 			filter((x) => !!x),
-			//tap(x => console.log('res', x)),
+			// tap((x) => console.log('res', x)),
+			tap((x) => {
+				// can happen that we will still receive updates for symbols which are not subscribed
+				x.forEach((element: MarketSymbolResult) => this.unsubscribeForSymbol(element.s));
+			}),
 			mergeAll()
 		);
 	}
 
-	async createSubscribeForSymbol(componentName: string, symbol: string, isCrypto: boolean = false) {
+	async createSubscribeForSymbol(componentName: string, symbol: string, isCrypto: boolean = false): Promise<void> {
 		if (!this.isConnectionInitialized$.value || !this.myWebSocket) {
 			console.log('Websocket createSubscribeForSymbol return, no connection initialized');
-			return;
-		}
-		console.log('sleep');
-		// sleep before creating subscription - wait till unsubscribed from previous page
-		await this.sleep(5000);
-		const neededSubscription = this.checkIfSubscriptionIsNeeded(symbol);
-		this.saveSymbol(componentName, symbol);
-
-		if (!neededSubscription) {
 			return;
 		}
 
@@ -60,48 +73,50 @@ export class FinnhubWebsocketService {
 			symbol = 'BINANCE:' + ''.concat(...symbol.split('-')).toUpperCase() + 'T'; // ex. BINANCE:BTCUSDT
 		}
 
-		console.log(`Sending subscription for: ${symbol}`);
-		this.myWebSocket.next({ type: 'subscribe', symbol });
+		this.saveSymbol(componentName, symbol);
+
+		// sleep before creating subscription - wait till unsubscribed from previous page
+		await this.sleep(4000);
+
+		// send subscription multiple times - endpoint may not react on first time
+		timer(2000, 3000)
+			.pipe(take(3))
+			.subscribe(() => {
+				// set 'subscriptionExists' for component to true
+				const subscribedSymbols = this.subscribedSymbols$.value;
+				const component = subscribedSymbols.find((s) => s.componentName === componentName);
+				if (component && this.checkIfSubscribed(symbol)) {
+					console.log(`Sending subscription for: ${symbol}`);
+					this.myWebSocket.next({ type: 'subscribe', symbol });
+
+					component.subscriptionExists = true;
+					this.subscribedSymbols$.next(subscribedSymbols);
+				}
+			});
 	}
 
 	closeConnection(componentName: string) {
-		if (!this.isConnectionInitialized$.value || !this.myWebSocket) {
-			console.log('Websocket closeConnection return, no connection initialized');
-			return;
-		}
-		const data = this.subscribedSymbols.get(componentName);
+		console.log(`Closing connection for component ${componentName}`);
+		const data = this.subscribedSymbols.find((x) => x.componentName === componentName);
 		if (!!data) {
-			data.forEach((s) => this.closeConnectionForSymbol(componentName, s));
-			this.subscribedSymbols.delete(componentName);
+			console.log(`Closing subscription for:`, data);
+
+			const filteredSubscribedSymbols = this.subscribedSymbols$.value.filter((x) => x.componentName !== componentName);
+			this.subscribedSymbols$.next(filteredSubscribedSymbols);
+
+			data.symbols.forEach((symbol) => this.unsubscribeForSymbol(symbol));
 			this.printSubscriptions();
 		}
 	}
 
-	/**
-	 * First check if another component is subscribed for symbol. If not send unsubscribe message.
-	 */
-	closeConnectionForSymbol(componentName: string, symbol: string) {
+	private unsubscribeForSymbol(symbol: string): void {
 		if (!this.isConnectionInitialized$.value || !this.myWebSocket) {
-			console.log('Websocket closeConnectionForSymbol return, no connection initialized');
+			console.log('Websocket closeConnection return, no connection initialized');
 			return;
 		}
 
-		if (this.subscribedSymbols.get(componentName)) {
-			this.subscribedSymbols.set(
-				componentName,
-				this.subscribedSymbols.get(componentName).filter((s) => s !== symbol)
-			);
-		}
-
-		let subscriptionExists = false;
-		this.subscribedSymbols.forEach((symbols) => {
-			if (!subscriptionExists && symbols.includes(symbol)) {
-				subscriptionExists = true;
-			}
-		});
-
-		if (!subscriptionExists) {
-			console.log(`Closing subscription for: ${symbol}`);
+		if (!this.checkIfSubscribed(symbol)) {
+			console.log(`unsubscribe for ${symbol}`);
 			this.myWebSocket.next({ type: 'unsubscribe', symbol });
 		}
 	}
@@ -123,26 +138,35 @@ export class FinnhubWebsocketService {
 	}
 
 	/**
-	 * Return true if subscription is required. False if already subscribed for symbol
+	 * Return true if subscription exists
 	 */
-	private checkIfSubscriptionIsNeeded(symbol: string): boolean {
-		let result = true;
-		this.subscribedSymbols.forEach((values, key) => {
-			if (result && values.includes(symbol)) {
-				console.log(`Already subscribing for symbol ${symbol}`);
-				result = false;
-			}
-		});
-		return result;
+	private checkIfSubscribed(symbol: string): boolean {
+		return this.subscribedSymbols
+			.map((s) => s.symbols)
+			.reduce((acc, val) => acc.concat(val), [])
+			.includes(symbol);
 	}
 
 	private saveSymbol(componentName: string, symbol: string): void {
-		const savedSymbols = this.subscribedSymbols.get(componentName) || [];
-		this.subscribedSymbols.set(componentName, [...savedSymbols, symbol]);
+		const subscribedSymbols = this.subscribedSymbols$.value;
+		const subscribedSymbolComponent = subscribedSymbols.find((x) => x.componentName === componentName);
+		if (!!subscribedSymbolComponent) {
+			// already exists
+			subscribedSymbolComponent.symbols = [...subscribedSymbolComponent.symbols, symbol];
+			this.subscribedSymbols$.next(subscribedSymbols);
+		} else {
+			// first symbol for component
+			const subscribedSymbol: SubscribedSymbols = {
+				componentName,
+				subscriptionExists: false,
+				symbols: [symbol],
+			};
+			this.subscribedSymbols$.next([...subscribedSymbols, subscribedSymbol]);
+		}
 	}
 
 	private printSubscriptions(): void {
-		this.subscribedSymbols.forEach((v, k) => console.log(k, v));
+		this.subscribedSymbols.forEach((subscribedSymbol) => console.log(subscribedSymbol));
 		console.log('----------------------');
 	}
 
