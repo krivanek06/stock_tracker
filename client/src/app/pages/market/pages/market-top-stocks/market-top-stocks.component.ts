@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { componentDestroyed, ComponentScreenUpdateBaseDirective, FinnhubWebsocketService, GraphqlQueryService, StfmCompanyQuote } from '@core';
-import { MarketFeatureFacadeService } from '@market-feature';
-import { LodashService, SymbolIdentification } from '@shared';
+import { componentDestroyed, FinnhubWebsocketService, GraphqlQueryService, StfmCompanyQuote } from '@core';
+import { ComponentScreenUpdateBaseDirective, LodashService, SymbolIdentification } from '@shared';
 import { WatchlistFeatureFacadeService } from '@stock-watchlist-feature';
 import { first, takeUntil } from 'rxjs/operators';
 
@@ -18,12 +17,11 @@ export class MarketTopStocksComponent extends ComponentScreenUpdateBaseDirective
 
 	constructor(
 		private graphqlQueryService: GraphqlQueryService,
-		private finnhubWebsocketService: FinnhubWebsocketService,
-		private marketPageFacadeService: MarketFeatureFacadeService,
 		private watchlistFeatureFacadeService: WatchlistFeatureFacadeService,
+		public finnhubWebsocketService: FinnhubWebsocketService,
 		public cdr: ChangeDetectorRef
 	) {
-		super(cdr, 'MarketDailyChangeComponent');
+		super(cdr, finnhubWebsocketService, 'MarketDailyChangeComponent');
 	}
 
 	ngOnInit() {
@@ -33,7 +31,6 @@ export class MarketTopStocksComponent extends ComponentScreenUpdateBaseDirective
 
 	ngOnDestroy() {
 		super.ngOnDestroy();
-		this.finnhubWebsocketService.closeConnection(this.componentName);
 	}
 
 	async showSummary(symbolIdentification: SymbolIdentification) {

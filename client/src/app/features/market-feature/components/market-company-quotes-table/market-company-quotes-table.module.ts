@@ -1,34 +1,28 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MarketCompanyQuotesTableComponent} from "./market-company-quotes-table.component";
-import {IonicModule} from "@ionic/angular";
+import { NgModule } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
 import {
-  NumberFormatterPipeModule,
-  PriceChangeItemModule,
-  PriceCompareItemModule,
-  TableHighLowRangeModule,
-  ListSkeletonModule
-} from "@shared";
-import {DefaultImgDirectiveModule} from "../../../../shared/directives/default-img-directive/default-img-directive.module";
-
-
+	DefaultImgDirectiveModule,
+	ListSkeletonModule,
+	NumberFormatterPipeModule,
+	PriceChangeItemModule,
+	PriceCompareItemModule,
+	TableHighLowRangeModule,
+} from '@shared';
+import { MarketCompanyQuotesTableComponent } from './market-company-quotes-table.component';
 
 @NgModule({
-  declarations: [
-    MarketCompanyQuotesTableComponent
-  ],
-  imports: [
-    CommonModule,
-    IonicModule,
-    TableHighLowRangeModule,
-    PriceChangeItemModule,
-    PriceCompareItemModule,
-    NumberFormatterPipeModule,
-    ListSkeletonModule,
-    DefaultImgDirectiveModule
-  ],
-  exports: [
-    MarketCompanyQuotesTableComponent
-  ]
+	declarations: [MarketCompanyQuotesTableComponent],
+	imports: [
+		CommonModule,
+		IonicModule,
+		TableHighLowRangeModule,
+		PriceChangeItemModule,
+		PriceCompareItemModule,
+		NumberFormatterPipeModule,
+		ListSkeletonModule,
+		DefaultImgDirectiveModule,
+	],
+	exports: [MarketCompanyQuotesTableComponent],
 })
-export class MarketCompanyQuotesTableModule { }
+export class MarketCompanyQuotesTableModule {}
