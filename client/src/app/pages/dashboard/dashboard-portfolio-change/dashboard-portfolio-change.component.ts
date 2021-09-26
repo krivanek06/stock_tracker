@@ -34,8 +34,8 @@ export class DashboardPortfolioChangeComponent implements OnInit {
 		]);
 
 		// weekend or closed market => show gains from previous day
-		if ((this.tradingChangeWrapper[0].historicalBalance, this.portfolioCash + this.portfolioInvested)) {
-			this.tradingChangeWrapper[0].historicalBalance = this.tradingChangeWrapper[0].historicalBalance - this.lastPortfolioIncreaseNumber;
-		}
+		// if ((this.tradingChangeWrapper[0].historicalBalance, this.portfolioCash + this.portfolioInvested)) {
+		// 	this.tradingChangeWrapper[0].historicalBalance = this.tradingChangeWrapper[0].historicalBalance - this.lastPortfolioIncreaseNumber;
+		// }
 	}
 }

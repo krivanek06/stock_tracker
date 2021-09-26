@@ -34,6 +34,7 @@ export const userTypeDefs = gql`
 		rank: STRank
 		holdings: [STHolding]!
 		transactionsSnippets: [STTransaction]!
+		topTransactions: [STTransaction]!
 		activity: USER_ACTIVITY
 		groups: STUserGroups!
 		portfolio: STPortfolioWrapper!

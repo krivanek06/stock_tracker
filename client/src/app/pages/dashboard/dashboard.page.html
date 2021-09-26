@@ -74,15 +74,24 @@
 					</ion-col>
 				</ion-row>
 
-				<!-- transactions -->
-				<ion-row class="ion-justify-content-center">
+				<!-- transactions table -->
+				<app-generic-list [iconTitle]="'reader'" [title]="'Transactions'"></app-generic-list>
+				<ion-row>
 					<ion-col size="12" size-md="6">
-						<app-generic-list [iconTitle]="'reader'" [title]="'Transactions'"></app-generic-list>
-						<app-generic-card additionalStyles="min-height: 300px">
-							<app-transactions-table [transactions]="user.transactionsSnippets | slice:0:5"> </app-transactions-table>
+						<app-generic-card title="Last transactions" additionalStyles="min-height: 300px">
+							<app-transactions-table [transactions]="user.transactionsSnippets | slice:0:7"> </app-transactions-table>
 						</app-generic-card>
 					</ion-col>
-					<ion-col class="ion-padding" size="12" size-md="6">
+					<ion-col size="12" size-md="6">
+						<app-generic-card title="Top transactions" additionalStyles="min-height: 300px">
+							<app-transactions-table [transactions]="user.topTransactions| slice:0:7"> </app-transactions-table>
+						</app-generic-card>
+					</ion-col>
+				</ion-row>
+
+				<!-- transactions chart -->
+				<ion-row>
+					<ion-col class="ion-padding" size="12">
 						<app-transactions-chart [heightPx]="360" [stTransactionSnapshots]="user.userHistoricalData.transactionSnapshots">
 						</app-transactions-chart>
 					</ion-col>

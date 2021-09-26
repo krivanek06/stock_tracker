@@ -1,84 +1,70 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {StockDetailsStatisticComponent} from "./stock-details-statistic.component";
-import {IonicModule} from "@ionic/angular";
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
+import { MarketCalendarDividendPayoutModule, MarketCalendarSplitHistoryModule, MarketStockNewsModule } from '@market-feature';
 import {
-    FinancialChartContainerModule,
-    GaugeChartModule,
-    GenericCardModule,
-    GenericChartModule,
-    GenericListModule,
-    ObjNgForPipeModule,
-    SplitKeyToTitlecasePipeModule,
-    StockSummaryContainerModule
-} from "@shared";
+	FinancialChartContainerModule,
+	GaugeChartModule,
+	GenericCardModule,
+	GenericChartModule,
+	GenericListModule,
+	LoaderWrapperModule,
+	ObjNgForPipeModule,
+	SplitKeyToTitlecasePipeModule,
+	StockSummaryContainerModule,
+} from '@shared';
 import {
-    DetailsDividendModule,
-    DetailsEarningsChartModule,
-    DetailsEsgScoreModule,
-    DetailsFinancialStrengthModule,
-    DetailsFinancialStrengthRatioModule,
-    DetailsGradingHistoryModule,
-    DetailsHoldersModule,
-    DetailsKeyExecutivesModule,
-    DetailsPerShareModule,
-    DetailsRatingModule,
-    DetailsRecommendationChartModule,
-    DetailsStockPeersModule,
-    DetailsStockTrendModule,
-    DetailsTransactionsModule,
-    DetailsValuationModule
-} from "@stock-details-feature";
-import {
-    MarketCalendarDividendPayoutModule,
-    MarketCalendarSplitHistoryModule,
-    MarketStockNewsModule
-} from "@market-feature";
-import {RouterModule, Routes} from "@angular/router";
-
-
-const routes: Routes = [
-    {
-        path: '',
-        component: StockDetailsStatisticComponent,
-    }
-]
-
+	DetailsDividendModule,
+	DetailsEarningsChartModule,
+	DetailsEsgScoreModule,
+	DetailsFinancialStrengthModule,
+	DetailsFinancialStrengthRatioModule,
+	DetailsGradingHistoryModule,
+	DetailsHoldersModule,
+	DetailsKeyExecutivesModule,
+	DetailsPerShareModule,
+	DetailsRatingModule,
+	DetailsRecommendationChartModule,
+	DetailsStockPeersModule,
+	DetailsStockTrendModule,
+	DetailsTransactionsModule,
+	DetailsValuationModule,
+} from '@stock-details-feature';
+import { StockDetailsStatisticComponent } from './stock-details-statistic.component';
 
 @NgModule({
-    declarations: [StockDetailsStatisticComponent],
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        IonicModule,
-        FinancialChartContainerModule,
-        GenericCardModule,
-        StockSummaryContainerModule,
-        DetailsValuationModule,
-        DetailsFinancialStrengthModule,
-        GenericChartModule,
-        DetailsFinancialStrengthRatioModule,
-        DetailsPerShareModule,
-        DetailsDividendModule,
-        MarketCalendarDividendPayoutModule,
-        DetailsRatingModule,
-        MarketCalendarSplitHistoryModule,
-        DetailsRecommendationChartModule,
-        DetailsEarningsChartModule,
-        GaugeChartModule,
-        DetailsEsgScoreModule,
-        DetailsStockTrendModule,
-        DetailsGradingHistoryModule,
-        DetailsHoldersModule,
-        DetailsTransactionsModule,
-        DetailsKeyExecutivesModule,
-        DetailsStockPeersModule,
-        GenericListModule,
-        ObjNgForPipeModule,
-        SplitKeyToTitlecasePipeModule,
-        MarketStockNewsModule
-    ],
-    exports: [StockDetailsStatisticComponent]
+	declarations: [StockDetailsStatisticComponent],
+	imports: [
+		CommonModule,
+		IonicModule,
+		FinancialChartContainerModule,
+		GenericCardModule,
+		StockSummaryContainerModule,
+		DetailsValuationModule,
+		DetailsFinancialStrengthModule,
+		GenericChartModule,
+		DetailsFinancialStrengthRatioModule,
+		DetailsPerShareModule,
+		DetailsDividendModule,
+		MarketCalendarDividendPayoutModule,
+		DetailsRatingModule,
+		MarketCalendarSplitHistoryModule,
+		DetailsRecommendationChartModule,
+		DetailsEarningsChartModule,
+		GaugeChartModule,
+		DetailsEsgScoreModule,
+		DetailsStockTrendModule,
+		DetailsGradingHistoryModule,
+		DetailsHoldersModule,
+		DetailsTransactionsModule,
+		DetailsKeyExecutivesModule,
+		DetailsStockPeersModule,
+		GenericListModule,
+		ObjNgForPipeModule,
+		SplitKeyToTitlecasePipeModule,
+		MarketStockNewsModule,
+		LoaderWrapperModule,
+	],
+	exports: [StockDetailsStatisticComponent],
 })
-export class StockDetailsStatisticModule {
-}
+export class StockDetailsStatisticModule {}

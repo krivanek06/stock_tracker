@@ -1,31 +1,13 @@
-import {NgModule} from '@angular/core';
-import {StockDetailsFinancialComponent} from './stock-details-financial.component';
-import {FinancialReportsContainerComponent, FinancialStatementsContainerComponent} from './containers';
-import {CommonModule} from "@angular/common";
-import {IonicModule} from "@ionic/angular";
-import {DetailsStatementSheetModule} from "@stock-details-feature";
-import {RouterModule, Routes} from "@angular/router";
-
-
-const routes: Routes = [
-    {
-        path: '',
-        component: StockDetailsFinancialComponent,
-    }
-]
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
+import { DetailsStatementSheetModule } from '@stock-details-feature';
+import { FinancialReportsContainerComponent, FinancialStatementsContainerComponent } from './containers';
+import { StockDetailsFinancialComponent } from './stock-details-financial.component';
 
 @NgModule({
-    declarations: [
-        StockDetailsFinancialComponent,
-        FinancialStatementsContainerComponent,
-        FinancialReportsContainerComponent
-    ],
-    imports: [
-        CommonModule,
-        IonicModule,
-        DetailsStatementSheetModule,
-        RouterModule.forChild(routes),
-    ]
+	declarations: [StockDetailsFinancialComponent, FinancialStatementsContainerComponent, FinancialReportsContainerComponent],
+	imports: [CommonModule, IonicModule, DetailsStatementSheetModule],
+	exports: [StockDetailsFinancialComponent],
 })
-export class StockDetailsFinancialModule {
-}
+export class StockDetailsFinancialModule {}

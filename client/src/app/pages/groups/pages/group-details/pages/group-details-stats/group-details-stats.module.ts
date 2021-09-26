@@ -1,24 +1,31 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { GroupDetailsStatsComponent } from './group-details-stats.component';
-import {CommonModule} from "@angular/common";
-import {IonicModule} from "@ionic/angular";
+import { IonicModule } from '@ionic/angular';
+import { GenericCardModule, GenericChartModule, GenericListModule, PieChartWrapperModule } from '@shared';
 import {
-	HoldingsAllocationGroupChartModule, HoldingsTableModule,
-	HoldingsToPortfolioChartSeriesPipeModule, HoldingsToSectorChartSeriesPipeModule,
-	PortfolioGrowthChartModule
-} from "@stock-trading-feature";
-import {GenericCardModule, GenericChartModule, GenericListModule, PieChartWrapperModule} from "@shared";
-
-const routes: Routes = [
-	{
-		path: '',
-		component: GroupDetailsStatsComponent,
-	},
-];
+	HoldingsAllocationGroupChartModule,
+	HoldingsTableModule,
+	HoldingsToPortfolioChartSeriesPipeModule,
+	HoldingsToSectorChartSeriesPipeModule,
+	PortfolioGrowthChartModule,
+} from '@stock-trading-feature';
+import { GroupDetailsStatsComponent } from './group-details-stats.component';
 
 @NgModule({
 	declarations: [GroupDetailsStatsComponent],
-	imports: [CommonModule, RouterModule.forChild(routes), IonicModule, PortfolioGrowthChartModule, GenericChartModule, HoldingsAllocationGroupChartModule, GenericListModule, PieChartWrapperModule, HoldingsToPortfolioChartSeriesPipeModule, HoldingsToSectorChartSeriesPipeModule, HoldingsTableModule, GenericCardModule,],
+	imports: [
+		CommonModule,
+		IonicModule,
+		PortfolioGrowthChartModule,
+		GenericChartModule,
+		HoldingsAllocationGroupChartModule,
+		GenericListModule,
+		PieChartWrapperModule,
+		HoldingsToPortfolioChartSeriesPipeModule,
+		HoldingsToSectorChartSeriesPipeModule,
+		HoldingsTableModule,
+		GenericCardModule,
+	],
+	exports: [GroupDetailsStatsComponent],
 })
 export class GroupDetailsStatsModule {}

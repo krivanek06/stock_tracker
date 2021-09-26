@@ -6,6 +6,7 @@ import * as api from 'stock-tracker-common-interfaces';
 /* 
     For each existing group update:
         - portfolio
+		- close if endDate is in past
         - top transactions > max 30
         - last transaction > max 30
         more_information.members
@@ -18,12 +19,13 @@ import * as api from 'stock-tracker-common-interfaces';
 
 */
 // functions.https.onRequest(async () => {
+// functions.pubsub.topic('updateGroupStats').onPublish(async () => {
 export const updateGroupStats = functions.pubsub.topic('updateGroupStats').onPublish(async () => {
 	console.log(`Started updating at ${admin.firestore.Timestamp.now().toDate()}`);
 
 	// get every groups
-	const groupDocs = await admin.firestore().collection(api.ST_GROUP_COLLECTION_GROUPS).get();
-	for await (const groupDoc of groupDocs.docs) {
+	const groupDocs = await getOpenGroups();
+	for await (const groupDoc of groupDocs) {
 		try {
 			console.log(`Start updating group: ${groupDoc.id}`);
 
@@ -43,6 +45,7 @@ export const updateGroupStats = functions.pubsub.topic('updateGroupStats').onPub
 			await updateGroupDocument(groupDoc.id, groupAllData, currentGroupPortfolio, groupMembersPublicData);
 			await updategroupMembersDocument(groupDoc.id, currentGroupHoldings, groupMembersDoc.members, groupMembersPublicData);
 			await updateGroupHistoricalDataDocument(groupDoc.id, currentGroupPortfolio);
+
 			console.log(`Ended updating group: ${groupDoc.id}`);
 			console.log('========================');
 		} catch (error) {
@@ -51,8 +54,33 @@ export const updateGroupStats = functions.pubsub.topic('updateGroupStats').onPub
 		}
 	}
 
+	await closeOpenButEndedGroups();
+
 	console.log(`Completed updating at ${admin.firestore.Timestamp.now().toDate()}`);
 });
+
+const closeOpenButEndedGroups = async (): Promise<void> => {
+	const openButEndedGroups = await admin
+		.firestore()
+		.collection(api.ST_GROUP_COLLECTION_GROUPS)
+		.where('endDate', '<=', new Date().toISOString())
+		.where('isClosed', '==', false)
+		.get();
+
+	for await (const doc of openButEndedGroups.docs) {
+		console.log(`Closed group ${doc.id}`);
+		await doc.ref.update({
+			isClosed: true,
+		});
+	}
+};
+
+const getOpenGroups = async (): Promise<functions.firestore.QueryDocumentSnapshot[]> => {
+	const infiniteGroups = await admin.firestore().collection(api.ST_GROUP_COLLECTION_GROUPS).where('isInfinite', '==', true).get();
+	const notEndedGroups = await admin.firestore().collection(api.ST_GROUP_COLLECTION_GROUPS).where('endDate', '>', new Date().toISOString()).get();
+
+	return [...infiniteGroups.docs, ...notEndedGroups.docs];
+};
 
 /* 
 	from each user create portfolio snapshot for group
@@ -177,8 +205,14 @@ const updateGroupDocument = async (
 		.flatMap((m) => m.transactionsSnippets)
 		.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
+	// sorted by Math.abs(b.returnChange)
 	const topTransactions = [...oldGroupAllData.topTransactions, ...lastTransactions]
 		.filter((t) => t.returnChange)
+		.sort((a, b) => Math.abs(b.returnChange ?? 0) - Math.abs(a.returnChange ?? 0));
+
+	// sorted by first positive then negative
+	const topTransactionsUnique = _uniqBy(topTransactions, 'transactionId')
+		.slice(0, 30)
 		.sort((a, b) => (b.returnChange ?? 0) - (a.returnChange ?? 0));
 
 	await admin
@@ -188,7 +222,7 @@ const updateGroupDocument = async (
 		.set(
 			{
 				lastTransactions: _uniqBy([...lastTransactions, ...oldGroupAllData.lastTransactions], 'transactionId').slice(0, 30),
-				topTransactions: _uniqBy(topTransactions, 'transactionId').slice(0, 30),
+				topTransactions: topTransactionsUnique,
 				portfolio: currentGroupPortfolio,
 				owner: {
 					portfolio: ownerPublicData.portfolio,

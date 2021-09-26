@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { AuthenticationService, componentDestroyed, StUserPublicData, UserStorageService, User_Roles_Enum } from '@core';
-import { MenuController, PopoverController } from '@ionic/angular';
+import { NavigationEnd, Router } from '@angular/router';
+import { AuthenticationService, componentDestroyed, GroupStorageService, StUserPublicData, UserStorageService, User_Roles_Enum } from '@core';
+import { MenuController, NavController, PopoverController } from '@ionic/angular';
 import { AuthenticationPopoverComponent } from '@login-feature';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
@@ -38,8 +38,9 @@ export class MenuPage implements OnInit, OnDestroy {
 		private authenticationService: AuthenticationService,
 		private popoverController: PopoverController,
 		private router: Router,
-		private route: ActivatedRoute,
-		private menu: MenuController
+		private menu: MenuController,
+		private navCtrl: NavController,
+		private groupStorageService: GroupStorageService
 	) {}
 
 	ngOnDestroy(): void {}
@@ -62,7 +63,14 @@ export class MenuPage implements OnInit, OnDestroy {
 
 	clickedRouter(page: MenuPageInterface) {
 		this.selectedNavigation = page;
-		this.router.navigateByUrl(page.url, { replaceUrl: true });
+		this.groupStorageService.setActiveGroupId(null);
+		//this.router.navigateByUrl(page.url, { replaceUrl: true });
+		this.navCtrl.navigateRoot(page.url, { animated: true, animationDirection: 'forward' });
+	}
+
+	closeOverlay() {
+		this.applyOverlay(false);
+		this.dismissMenu();
 	}
 
 	async showLoginModal() {

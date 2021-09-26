@@ -42,6 +42,10 @@ export class GroupStorageService {
 		return this.activeGroupId$.getValue();
 	}
 
+	getActivatedGroupId(): Observable<string> {
+		return this.activeGroupId$.asObservable();
+	}
+
 	getActiveGroup(): Observable<StGroupAllData> {
 		return this.activeGroup$.asObservable();
 	}

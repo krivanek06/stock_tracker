@@ -1,16 +1,20 @@
-@import "variables";
+@import 'variables';
 
 :host {
-  ion-label {
-    color: white;
-  }
+	ion-label {
+		color: white;
+	}
 
-  ion-segment {
-    margin-bottom: 24px;
-    justify-content: flex-end;
-    @media (max-width: #{$st-var-md-split}) {
-      margin-top: 6px;
-      justify-content: normal;
-    }
-  }
+	ion-segment {
+		margin-bottom: 24px;
+		justify-content: flex-end;
+		@media (max-width: #{$st-var-md-split}) {
+			margin-top: 6px;
+			justify-content: normal;
+		}
+
+		ion-segment-button {
+			max-width: 250px;
+		}
+	}
 }

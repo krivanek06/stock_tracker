@@ -9,7 +9,11 @@
 			</ion-segment>
 
 			<!-- sub pages -->
-			<router-outlet></router-outlet>
+			<ng-container [ngSwitch]="segmentValue">
+				<app-stock-details-valuation *ngSwitchCase="SEARCH_PAGE_STOCK_DETAILS_ENUM.VALUATION"></app-stock-details-valuation>
+				<app-stock-details-statistic *ngSwitchCase="SEARCH_PAGE_STOCK_DETAILS_ENUM.STATISTICS"></app-stock-details-statistic>
+				<app-stock-details-financial *ngSwitchCase="SEARCH_PAGE_STOCK_DETAILS_ENUM.FINANCIALS"></app-stock-details-financial>
+			</ng-container>
 
 			<!-- spinner -->
 			<div *ngIf="showSpinner" class="spinner-container">
