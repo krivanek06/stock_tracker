@@ -104,6 +104,13 @@ const updateUserTransactionSnapshots = async (user: api.STUserPublicData, transa
 		{ merge: true }
 	);
 
+	// calculate topTransactions
+	const topTransactions = [...user.topTransactions, transaction]
+		.filter((t) => t.returnChange) // only which have return === SELL
+		.sort((a, b) => Math.abs(b.returnChange ?? 0) - Math.abs(a.returnChange ?? 0)) // order abs(returnChange) desc
+		.slice(0, 20)
+		.sort((a, b) => (b.returnChange ?? 0) - (a.returnChange ?? 0)); // order returnChange desc
+
 	// save last transaction snapshot
 	admin
 		.firestore()
@@ -112,7 +119,8 @@ const updateUserTransactionSnapshots = async (user: api.STUserPublicData, transa
 		.set(
 			{
 				holdings: userHoldings,
-				transactionsSnippets: [transaction, ...user.transactionsSnippets].slice(0, 10),
+				topTransactions: [...topTransactions],
+				transactionsSnippets: [transaction, ...user.transactionsSnippets].slice(0, 20),
 				portfolio: {
 					...user.portfolio,
 					portfolioCash: isBuy ? user.portfolio.portfolioCash - totalPrice : user.portfolio.portfolioCash + totalPrice,

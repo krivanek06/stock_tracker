@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { marketValueChange } from '@shared';
-import { PortfolioHistoricalWrapper } from '../../../models';
+import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM } from '../../../models';
 
 @Component({
 	selector: 'app-portfolio-change',
@@ -13,6 +13,8 @@ export class PortfolioChangeComponent implements OnInit {
 	@Input() balance: number;
 	@Input() tradingChangeWrapper: PortfolioHistoricalWrapper;
 	@Input() inlinePriceWithIncrease = true;
+
+	TIME_INTERVAL_ENUM = TIME_INTERVAL_ENUM;
 
 	constructor() {}
 

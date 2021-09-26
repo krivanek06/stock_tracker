@@ -26,11 +26,22 @@ export class GroupDetailsOverviewPortfolioContainerComponent implements OnInit {
 		);
 
 		// adjust 'from beginning' -> subsctract user's starting portfolio
-		const usersStartedBalance = this.groupAllData.groupMemberData.members
-			.map((m) => m.startedPortfolio.portfolioCash + m.startedPortfolio.portfolioInvested)
-			.reduce((a, b) => a + b);
-
 		const beginningRef = this.tradingChangeWrapper.find((wrapper) => wrapper.timeIntervalName === TIME_INTERVAL_ENUM.FROM_BEGINNING);
-		beginningRef.historicalBalance = usersStartedBalance;
+		if (beginningRef) {
+			const usersStartedBalance = this.groupAllData.groupMemberData.members
+				.map((m) => m.startedPortfolio.portfolioCash + m.startedPortfolio.portfolioInvested)
+				.reduce((a, b) => a + b);
+
+			beginningRef.historicalBalance = usersStartedBalance;
+		}
+
+		// add started with
+		this.tradingChangeWrapper = [
+			...this.tradingChangeWrapper,
+			{
+				timeIntervalName: TIME_INTERVAL_ENUM.STARTED_WITH,
+				historicalBalance: this.groupAllData.startedPortfolio.portfolioCash + this.groupAllData.startedPortfolio.portfolioInvested,
+			},
+		];
 	}
 }

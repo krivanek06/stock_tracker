@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { GroupStorageService, StGroupAllData } from '@core';
 import { GroupFeatureFacadeService } from '@group-feature';
 import { ConfirmableWithCheckbox, DialogService } from '@shared';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { GROUPS_PAGES, GROUPS_PAGES_DETAILS_PATH } from '../../model';
+import { GROUPS_PAGES_DETAILS_PATH } from '../../model';
+import { GROUPS_PAGES_DETAILS } from './../../model/groups.model';
 
 @Component({
 	selector: 'app-group-details',
@@ -15,6 +15,9 @@ import { GROUPS_PAGES, GROUPS_PAGES_DETAILS_PATH } from '../../model';
 })
 export class GroupDetailsComponent implements OnInit, OnDestroy {
 	GROUPS_PAGES_DETAILS_PATH = GROUPS_PAGES_DETAILS_PATH;
+	GROUPS_PAGES_DETAILS = GROUPS_PAGES_DETAILS;
+	segmentValue = GROUPS_PAGES_DETAILS_PATH[0].value;
+
 	groupData$: Observable<StGroupAllData>;
 	isOwner$: Observable<boolean>;
 	isMember$: Observable<boolean>;
@@ -22,31 +25,22 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 	canUserSendInvitation$: Observable<boolean>;
 	hasUserAlreadySentInvitaitonIntoGroup$: Observable<boolean>;
 
-	groupId: string;
-
-	constructor(
-		private groupStorageService: GroupStorageService,
-		private router: Router,
-		private route: ActivatedRoute,
-		private groupFeatureFacadeService: GroupFeatureFacadeService
-	) {}
+	constructor(private groupStorageService: GroupStorageService, private groupFeatureFacadeService: GroupFeatureFacadeService) {}
 	ngOnDestroy(): void {
 		this.groupStorageService.setActiveGroupId(null);
 	}
 
 	ngOnInit() {
-		this.groupId = this.route.snapshot.paramMap.get('groupId');
 		this.groupData$ = this.groupStorageService.getActiveGroup();
 		this.isOwner$ = this.groupStorageService.isUserOwnerObs();
 		this.isMember$ = this.groupStorageService.isUserMemberObs();
 		this.isUserInvited$ = this.groupStorageService.isUserInvitedObs();
 		this.canUserSendInvitation$ = this.groupStorageService.canUserSendInvitationObs();
 		this.hasUserAlreadySentInvitaitonIntoGroup$ = this.groupStorageService.hasUserAlreadySentInvitaitonIntoGroup();
-		this.groupData$.subscribe(console.log);
 	}
 
 	changeDetailsPage(segment: string) {
-		this.router.navigateByUrl(`/menu/groups/${GROUPS_PAGES.DETAILS}/${this.groupId}/${segment}`);
+		this.segmentValue = segment;
 	}
 
 	@ConfirmableWithCheckbox('Please confirm leaving group. You will be removed from group statistics', 'Confirm')
@@ -59,14 +53,14 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 	}
 
 	reloadGroup() {
-		this.groupStorageService.setActiveGroupId(this.groupId);
+		this.groupStorageService.setActiveGroupId(this.groupStorageService.activeGroup.id);
 		this.groupData$.pipe(first((x) => !!x)).subscribe((group) => DialogService.presentToast(`Group ${group.name} has been refreshed`));
 	}
 
 	@ConfirmableWithCheckbox('Please confirm deleting group. Note that this action is irreversible', 'Confirm')
 	async deleteGroup() {
 		if (await this.groupFeatureFacadeService.deleteGroup()) {
-			this.router.navigateByUrl(`/menu/groups`);
+			this.groupStorageService.setActiveGroupId(null);
 		}
 	}
 

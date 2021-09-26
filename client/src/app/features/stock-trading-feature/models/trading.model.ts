@@ -6,6 +6,7 @@ export enum TIME_INTERVAL_ENUM {
 	QUARTERLY = 'Quarterly',
 	YEARLY = 'Yearly',
 	FROM_BEGINNING = 'From beginning',
+	STARTED_WITH = 'Started with',
 }
 
 export interface PortfolioHistoricalWrapper {

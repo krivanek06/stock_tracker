@@ -55,6 +55,13 @@ export class GraphqlTradingService {
 						}
 					}
 
+					// calculate topTransactions
+					const topTransactions = [...user.authenticateUser.topTransactions, transaction]
+						.filter((t) => t.returnChange) // only which have return === SELL
+						.sort((a, b) => Math.abs(b.returnChange ?? 0) - Math.abs(a.returnChange ?? 0)) // order abs(returnChange) desc
+						.slice(0, 20)
+						.sort((a, b) => (b.returnChange ?? 0) - (a.returnChange ?? 0)); // order returnChange desc
+
 					// update cache - store
 					this.apollo.client.writeQuery({
 						query: AuthenticateUserDocument,
@@ -78,7 +85,8 @@ export class GraphqlTradingService {
 											? user.authenticateUser.portfolio.numberOfExecutedSellTransactions + 1
 											: user.authenticateUser.portfolio.numberOfExecutedSellTransactions,
 								},
-								transactionsSnippets: [transaction, ...user.authenticateUser.transactionsSnippets].splice(0, 10),
+								transactionsSnippets: [transaction, ...user.authenticateUser.transactionsSnippets].splice(0, 20),
+								topTransactions: [...topTransactions],
 							},
 						},
 					});

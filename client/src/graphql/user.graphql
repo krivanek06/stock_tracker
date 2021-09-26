@@ -32,6 +32,9 @@ fragment StGroupMemberOverview on STUserPublicData {
 	transactionsSnippets {
 		...STTransactionFragment
 	}
+	topTransactions {
+		...STTransactionFragment
+	}
 	holdings {
 		...STHoldingFragment
 	}
@@ -69,6 +72,9 @@ fragment StUserPublicDataSearch on STUserPublicData {
 		...STRankFragment
 	}
 	transactionsSnippets {
+		...STTransactionFragment
+	}
+	topTransactions {
 		...STTransactionFragment
 	}
 	holdings {
@@ -118,6 +124,9 @@ query AuthenticateUser($id: String!) {
 			...STRankFragment
 		}
 		transactionsSnippets {
+			...STTransactionFragment
+		}
+		topTransactions {
 			...STTransactionFragment
 		}
 		holdings {

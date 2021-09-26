@@ -12,6 +12,9 @@ export class TransactionsTableComponent implements OnInit {
 	@Input() showUser = false;
 	@Input() applyLastChildStyle = false;
 
+	@Input() showUnits = false;
+	@Input() showPrice = false;
+
 	StTransactionOperationEnum = StTransactionOperationEnum;
 
 	constructor() {}

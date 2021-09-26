@@ -1,19 +1,13 @@
 <!-- navigation -->
 <ion-toolbar>
-	<ion-segment
-		color="primary"
-		slot="end"
-		scrollable
-		[value]="GROUPS_PAGES_DETAILS_PATH[0].value"
-		(ionChange)="changeDetailsPage($event.detail.value)"
-	>
+	<ion-segment color="primary" slot="end" scrollable [value]="segmentValue" (ionChange)="changeDetailsPage($event.detail.value)">
 		<ion-segment-button *ngFor="let path of GROUPS_PAGES_DETAILS_PATH" [value]="path.value">
 			<ion-label>{{ path.name }}</ion-label>
 		</ion-segment-button>
 	</ion-segment>
 </ion-toolbar>
 
-<div class="c-group-base-information-container">
+<div class="c-group-base-information-container st-sm-border-bottom-with-space">
 	<app-group-base-information
 		*ngIf="groupData$ | async as groupData; else showLoader"
 		[groupIdentification]="groupData"
@@ -39,7 +33,10 @@
 </div>
 
 <!-- routing -->
-<router-outlet></router-outlet>
+<ng-container [ngSwitch]="segmentValue">
+	<app-group-details-overview *ngSwitchCase="GROUPS_PAGES_DETAILS.OVERVIEW"></app-group-details-overview>
+	<app-group-details-stats *ngSwitchCase="GROUPS_PAGES_DETAILS.STATS"></app-group-details-stats>
+</ng-container>
 
 <!-- loader -->
 <ng-template #showLoader>

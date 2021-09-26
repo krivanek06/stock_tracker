@@ -115,7 +115,7 @@
 	</ion-menu>
 
 	<!-- overlay -->
-	<div *ngIf="showOverlay" class="custom-overflow-div"></div>
+	<div *ngIf="showOverlay" class="custom-overflow-div" (click)="closeOverlay()"></div>
 
 	<!-- routing -->
 	<ion-router-outlet class="ion-page" id="main-content" [ngClass]="{'custom-overlay': showOverlay}"> </ion-router-outlet>

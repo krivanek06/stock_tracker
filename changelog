@@ -1,3 +1,32 @@
+25.09.2021 - v. 0.8.0
+client
+- groups - redirections fixed on details from details.details
+- groups - display started balance
+- dashboard - fix user portfolio currently & daily in portfolio change
+- overlay - fixed closing when clicked outside
+- stock detilas - added space for mobile resolution between cards
+- transaction table - added units & price column
+- dashboard - displayed top transactions
+- size limit 20Mb check when uploading image
+
+Graphql
+- top transaction for user
+
+clooud functions
+- groups - update data untill it is open
+- groups - automatically close by cloud funtion if data.ended is sooner
+
+
+
+24.09.2021 - v 0.7.9
+fix
+- websocker connection to finhub
+
+UI changes
+- display snackbar on websocket connection
+
+-----------------------------------------------
+
 11.09.2021 - v 0.7.7
 fix
 - ‘infinity’ - first evaluation on user’s portfolio by cloud functions, when lastPortfolioIncrease is null

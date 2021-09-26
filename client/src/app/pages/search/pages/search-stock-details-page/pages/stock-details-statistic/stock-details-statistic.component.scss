@@ -1,17 +1,22 @@
-@import "variables";
+@import 'variables';
 
 :host {
-  .news-container {
-    column-count: 4;
-    @media (max-width: #{$st-var-xxl-split}) {
-      column-count: 3;
-    }
-    @media (max-width: #{$st-var-lg-split}) {
-      column-count: 32
-    }
-    @media (max-width: #{$st-var-sm-split}) {
-      column-count: 1;
-    }
-  }
+	.news-container {
+		column-count: 4;
+		@media (max-width: #{$st-var-xxl-split}) {
+			column-count: 3;
+		}
+		@media (max-width: #{$st-var-lg-split}) {
+			column-count: 32;
+		}
+		@media (max-width: #{$st-var-sm-split}) {
+			column-count: 1;
+		}
+	}
 
+	@media (max-width: #{$st-var-sm-split}) {
+		ion-col {
+			margin-bottom: 10px;
+		}
+	}
 }

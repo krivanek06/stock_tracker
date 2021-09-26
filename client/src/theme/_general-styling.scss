@@ -831,7 +831,7 @@ ion-skeleton-text {
 
 .st-full-width-sub-elements {
 	width: 85%;
-	margin: auto;
+	margin: auto !important;
 	@media (max-width: #{$st-var-sm-split}) {
 		width: 100%;
 	}

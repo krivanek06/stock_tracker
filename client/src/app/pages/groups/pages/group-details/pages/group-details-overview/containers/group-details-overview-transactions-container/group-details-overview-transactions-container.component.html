@@ -11,6 +11,8 @@
 					*ngIf="groupAllData.topTransactions.length > 0"
 					[applyLastChildStyle]="true"
 					[showUser]="true"
+					[showPrice]="true"
+					[showUnits]="true"
 					[transactions]="groupAllData.topTransactions"
 				>
 				</app-transactions-table>
@@ -26,6 +28,8 @@
 					*ngIf="groupAllData.lastTransactions.length > 0"
 					[applyLastChildStyle]="true"
 					[showUser]="true"
+					[showPrice]="true"
+					[showUnits]="true"
 					[transactions]="groupAllData.lastTransactions"
 				>
 				</app-transactions-table>

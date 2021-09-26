@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { StGroupAllData, StUserPublicData, UserStorageService } from '@core';
 import { GroupFeatureFacadeService } from '@group-feature';
 import { ConfirmableWithCheckbox } from '@shared';
 import { Observable } from 'rxjs';
-import { GROUPS_PAGES } from './../../model/groups.model';
 
 @Component({
 	selector: 'app-groups-overview',
@@ -13,6 +12,7 @@ import { GROUPS_PAGES } from './../../model/groups.model';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupsOverviewComponent implements OnInit {
+	@Output() visitGroupEmitter: EventEmitter<StGroupAllData> = new EventEmitter();
 	user$: Observable<StUserPublicData>;
 	hasRoleCreateGroup$: Observable<boolean>;
 
@@ -37,7 +37,8 @@ export class GroupsOverviewComponent implements OnInit {
 		this.groupFeatureFacadeService.answerReceivedGroupInvitation(group, false);
 	}
 
-	visitGroup({ id }: StGroupAllData) {
-		this.router.navigateByUrl(`/menu/groups/${GROUPS_PAGES.DETAILS}/${id}`, { replaceUrl: true });
+	visitGroup(groupAllData: StGroupAllData) {
+		this.visitGroupEmitter.emit(groupAllData);
+		// this.router.navigateByUrl(`/menu/groups/${GROUPS_PAGES.DETAILS}/${id}`, { replaceUrl: true });
 	}
 }
