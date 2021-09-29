@@ -92,12 +92,12 @@
 						[series]="[{
                                 colorByPoint: true,
                                  data:[
-                                 {name: 'Gross margin ttm.', y: stockDetails.companyData.financialData.grossMargins},
+                                 {name: 'Gross margin ttm.', y: stockDetails.companyData?.financialData?.grossMargins},
                                  {name: 'Net growth margin 5y', y: stockDetails.metric.netMarginGrowthFiveY / 100},
-                                 {name: 'Net profit margin ttm.', y: stockDetails.companyData.financialData.profitMargins},
+                                 {name: 'Net profit margin ttm.', y: stockDetails.companyData?.financialData?.profitMargins},
                                  {name: 'Operating margin ttm.', y: stockDetails.metric.operatingMarginTTM / 100},
                                  {name: 'Pretax margin ttm.', y: stockDetails.metric.pretaxMarginTTM / 100},
-                                 {name: 'EBITDA margin ttm.', y: stockDetails.companyData.financialData.ebitdaMargins}
+                                 {name: 'EBITDA margin ttm.', y: stockDetails.companyData?.financialData?.ebitdaMargins}
                               ]
                           }]"
 						[showDataLabel]="true"
@@ -133,8 +133,8 @@
 				<!-- Effectiveness -->
 				<app-generic-card additionalClasses="st-height-100" title="Effectiveness">
 					<app-generic-chart
-						*ngIf="stockDetails.companyData.financialData.returnOnAssets ||
-                               stockDetails.companyData.financialData.returnOnEquity ||
+						*ngIf="stockDetails.companyData?.financialData?.returnOnAssets ||
+                               stockDetails.companyData?.financialData?.returnOnEquity ||
                                stockDetails.metric.roiTTM"
 						[chartType]="ChartType.column"
 						[heightPx]="220"
@@ -142,8 +142,8 @@
 						[series]="[{
                                  colorByPoint: true,
                                  data:[
-                                      {name: 'ROA', y: stockDetails.companyData.financialData.returnOnAssets},
-                                      {name: 'ROE', y: stockDetails.companyData.financialData.returnOnEquity},
+                                      {name: 'ROA', y: stockDetails.companyData?.financialData?.returnOnAssets},
+                                      {name: 'ROE', y: stockDetails.companyData?.financialData?.returnOnEquity},
                                       {name: 'ROI ', y: stockDetails.metric.roiTTM / 100}
                                   ]
                       }]"
@@ -191,7 +191,7 @@
 			<ion-col size="12" size-lg="4" size-sm="6">
 				<!-- Financial yearly -->
 				<app-generic-card additionalClasses="st-height-100" title="Financial yearly">
-					<ng-container *ngIf="stockDetails.companyData.earnings?.financialsChart as fc">
+					<ng-container *ngIf="stockDetails.companyData?.earnings?.financialsChart as fc">
 						<app-generic-chart
 							*ngIf="fc?.yearly?.categories?.length > 0"
 							[categories]="fc.yearly.categories"
@@ -207,7 +207,7 @@
 			<ion-col size="12" size-lg="4" size-sm="6">
 				<!-- Financial quarterly -->
 				<app-generic-card additionalClasses="st-height-100" title="Financial quarterly">
-					<ng-container *ngIf="stockDetails.companyData.earnings?.financialsChart as fc">
+					<ng-container *ngIf="stockDetails.companyData?.earnings?.financialsChart as fc">
 						<app-generic-chart
 							*ngIf="fc?.quarterly?.categories?.length > 0"
 							[categories]="fc.quarterly.categories"
@@ -223,8 +223,8 @@
 			<ion-col size="12" size-lg="4">
 				<app-generic-card additionalClasses="st-height-100" title="Earnings">
 					<app-details-earnings-chart
-						*ngIf="stockDetails.companyData.earnings?.earningsChart?.quarterly?.length > 0"
-						[earnings]="stockDetails.companyData.earnings?.earningsChart"
+						*ngIf="stockDetails.companyData?.earnings?.earningsChart?.quarterly?.length > 0"
+						[earnings]="stockDetails.companyData?.earnings?.earningsChart"
 						[height]="225"
 					>
 					</app-details-earnings-chart>
@@ -255,7 +255,7 @@
 						<ion-col size="12" size-sm="6">
 							<!--  Cash to Debt -->
 							<app-generic-card additionalClasses="st-height-100" title="Cash to Debt">
-								<ng-container *ngIf="stockDetails.companyData.financialData as fd">
+								<ng-container *ngIf="stockDetails?.companyData?.financialData as fd">
 									<app-gauge-chart
 										*ngIf="fd.totalCash && fd.totalDebt"
 										[currentPoint]="fd.totalCash"
@@ -274,7 +274,7 @@
 				<ion-col class="st-height-100" size="12" style="padding: 0">
 					<!-- ESG score -->
 					<app-generic-card additionalClasses="st-height-100" title="ESG risk rating">
-						<app-details-esg-score *ngIf="stockDetails.companyData.esgScores" [esgScore]="stockDetails.companyData.esgScores">
+						<app-details-esg-score *ngIf="stockDetails?.companyData?.esgScores" [esgScore]="stockDetails?.companyData?.esgScores">
 						</app-details-esg-score>
 					</app-generic-card>
 				</ion-col>
@@ -283,10 +283,10 @@
 			<ion-col size="12" size-lg="6">
 				<!--  grading history -->
 				<app-generic-card additionalClasses="st-height-100" title="Stock grading">
-					<ion-item-group *ngIf="stockDetails.companyData.upgradeDowngradeHistory.length > 0" class="ion-margin-bottom">
-						<app-details-grading-history [history]="stockDetails.companyData.upgradeDowngradeHistory | slice: 0: 11"> </app-details-grading-history>
+					<ion-item-group *ngIf="stockDetails.companyData?.upgradeDowngradeHistory?.length > 0" class="ion-margin-bottom">
+						<app-details-grading-history [history]="stockDetails?.companyData?.upgradeDowngradeHistory | slice: 0: 11"> </app-details-grading-history>
 					</ion-item-group>
-					<app-details-stock-trend *ngIf="stockDetails.companyData.pageViews as trend" [trend]="trend"> </app-details-stock-trend>
+					<app-details-stock-trend *ngIf="stockDetails?.companyData?.pageViews as trend" [trend]="trend"> </app-details-stock-trend>
 				</app-generic-card>
 			</ion-col>
 		</ion-row>

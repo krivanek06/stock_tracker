@@ -145,6 +145,7 @@ class FundamentalServiceFormatter:
 
     def _formatDividends(self):
         try:
+            summaryDetail = self.data.get('companyData', {}).get('summaryDetail', {})
             self.data['dividends'] = {
                 'dividendGrowthRateFiveY': self.data['metric'].get('dividendGrowthRateFiveY'),
                 'currentDividendYieldTTM': self.data['metric'].get('currentDividendYieldTTM'),
@@ -156,10 +157,8 @@ class FundamentalServiceFormatter:
                 'dividendsPerShareTTM': self.data['metric'].get('dividendsPerShareTTM'),
                 'exDividendDate': self.data['summary'].get('exDividendDate'),
                 'forwardDividendYield': self.data['summary'].get('forwardDividendYield'),
-                'trailingAnnualDividendRate': self.data['companyData']['summaryDetail'].get(
-                    'trailingAnnualDividendRate'),
-                'trailingAnnualDividendYield': self.data['companyData']['summaryDetail'].get(
-                    'trailingAnnualDividendYield'),
+                'trailingAnnualDividendRate': summaryDetail.get('trailingAnnualDividendRate'),
+                'trailingAnnualDividendYield': summaryDetail.get('trailingAnnualDividendYield'),
             }
         except Exception as e:
             print('formatDividends exception: ' + str(e))
