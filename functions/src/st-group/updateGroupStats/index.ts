@@ -106,6 +106,7 @@ const createGroupPortfolioSnapshot = (
 					lastTransactionSnapshot: {
 						transactionsBuy: acc.lastTransactionSnapshot.transactionsBuy + cur.lastTransactionSnapshot.transactionsBuy,
 						transactionsSell: acc.lastTransactionSnapshot.transactionsSell + cur.lastTransactionSnapshot.transactionsSell,
+						transactionFees: acc.lastTransactionSnapshot.transactionFees + cur.lastTransactionSnapshot.transactionFees,
 						date: admin.firestore.Timestamp.now().toDate().toISOString(),
 					},
 					transactionFees: acc.transactionFees + cur.transactionFees,
@@ -126,6 +127,7 @@ const createGroupPortfolioSnapshot = (
 				lastTransactionSnapshot: {
 					transactionsBuy: 0,
 					transactionsSell: 0,
+					transactionFees: 0,
 					date: admin.firestore.Timestamp.now().toDate().toISOString(),
 				},
 			} as api.STPortfolioWrapper

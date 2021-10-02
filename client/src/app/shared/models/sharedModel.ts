@@ -40,6 +40,7 @@ export interface GenericChartSeries {
 	name?: string;
 	sliced?: boolean;
 	y: number;
+	color?: string;
 }
 
 export interface TreeMapData {
