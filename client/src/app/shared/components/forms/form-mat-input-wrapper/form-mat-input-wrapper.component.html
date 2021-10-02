@@ -97,7 +97,7 @@
 			</ng-container>
 
 			<!-- text, number, time, email -->
-			<input *ngSwitchDefault [formControl]="formInputControl" [readOnly]="disabled" [type]="inputType" matInput />
+			<input *ngSwitchDefault [formControl]="formInputControl" [readOnly]="disabled" [type]="inputType" matInput autocomplete="off" />
 
 			<!-- errors -->
 			<mat-error *ngFor="let inputError of usedFormControl.errors | keyvalue" [id]="null"> {{ inputError.value.errorText }} </mat-error>

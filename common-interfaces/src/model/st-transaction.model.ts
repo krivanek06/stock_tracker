@@ -22,6 +22,7 @@ export interface STTransaction {
     units: number;
     operation: STTransactionOperationEnum;
     date: string;
+    transactionFees: number;
 }
 
 export interface STTransactionInput {
@@ -36,6 +37,7 @@ export interface STTransactionSnapshot {
     transactionsBuy: number;
     transactionsSell: number;
 	date: string;  // daily intervals
+    transactionFees: number;
 }
 
 export enum STTransactionOperationEnum {

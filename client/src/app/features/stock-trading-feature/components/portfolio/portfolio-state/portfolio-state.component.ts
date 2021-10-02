@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { STARTING_PORTFOLIO } from './../../../models';
+import { STARTING_PORTFOLIO } from '@core';
 
 @Component({
 	selector: 'app-portfolio-state',

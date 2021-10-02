@@ -1,26 +1,28 @@
-<ion-list class="form-position">
-	<form [formGroup]="form">
-		<ion-item class="st-form-input-background">
-			<ion-label position="floating">Search symbol</ion-label>
-			<ion-input [clearInput]="true" formControlName="symbol" placeholder="Enter symbol" type="text"></ion-input>
-		</ion-item>
-	</form>
-</ion-list>
+<div #insideElement>
+	<ion-list class="form-position">
+		<form [formGroup]="form">
+			<ion-item class="st-form-input-background">
+				<ion-label position="floating">Search symbol</ion-label>
+				<ion-input [clearInput]="true" formControlName="symbol" placeholder="Enter symbol" type="text"></ion-input>
+			</ion-item>
+		</form>
+	</ion-list>
 
-<!-- listed symbols -->
-<ion-list class="list-container">
-	<ng-container *ngIf="searchedCompanyQuotes$ | async as searchedCompanyQuote; else showSkeletons">
-		<app-stock-info-identification-item
-			(click)="clickedSummary(companyQuote)"
-			*ngFor="let companyQuote of searchedCompanyQuote | slice: 0 : 6"
-			[companyQuote]="companyQuote"
-			[showAdditionalData]="true"
-		>
-		</app-stock-info-identification-item>
-	</ng-container>
+	<!-- listed symbols -->
+	<ion-list class="list-container">
+		<ng-container *ngIf="searchedCompanyQuotes$ | async as searchedCompanyQuote; else showSkeletons">
+			<app-stock-info-identification-item
+				(click)="clickedSummary(companyQuote)"
+				*ngFor="let companyQuote of searchedCompanyQuote | slice: 0 : 6"
+				[companyQuote]="companyQuote"
+				[showAdditionalData]="true"
+			>
+			</app-stock-info-identification-item>
+		</ng-container>
 
-	<!-- skeleton -->
-	<ng-template #showSkeletons>
-		<app-list-skeleton *ngIf="loading" [itemLength]="5" [skeletonHeight]="42"></app-list-skeleton>
-	</ng-template>
-</ion-list>
+		<!-- skeleton -->
+		<ng-template #showSkeletons>
+			<app-list-skeleton *ngIf="loading" [itemLength]="5" [skeletonHeight]="42"></app-list-skeleton>
+		</ng-template>
+	</ion-list>
+</div>

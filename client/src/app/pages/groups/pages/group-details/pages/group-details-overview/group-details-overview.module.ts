@@ -9,6 +9,7 @@ import {
 	PortfolioIncreaseChartModule,
 	PortfolioStateModule,
 	TransactionsChartModule,
+	TransactionsSummaryModule,
 	TransactionsTableModule,
 } from '@stock-trading-feature';
 import {
@@ -41,6 +42,7 @@ import { GroupDetailsOverviewComponent } from './group-details-overview.componen
 		TransactionsTableModule,
 		GenericCardModule,
 		TransactionsChartModule,
+		TransactionsSummaryModule,
 	],
 	exports: [GroupDetailsOverviewComponent],
 })

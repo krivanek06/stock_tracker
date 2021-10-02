@@ -50,24 +50,43 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
 					enable: true,
 				},
 			},
-			yAxis: {
-				title: false,
-				startOnTick: false,
-				endOnTick: false,
-
-				opposite: false,
-				gridLineWidth: 1,
-				minorTickInterval: 'auto',
-				tickPixelInterval: 40,
-				minorGridLineWidth: 0,
-				visible: true,
-				gridLineColor: '#66666655',
-				labels: {
-					style: {
-						fontSize: '10px',
+			yAxis: [
+				{
+					startOnTick: false,
+					endOnTick: false,
+					title: false,
+					opposite: false,
+					gridLineWidth: 1,
+					minorTickInterval: 'auto',
+					tickPixelInterval: 40,
+					minorGridLineWidth: 0,
+					visible: true,
+					gridLineColor: '#66666655',
+					labels: {
+						style: {
+							fontSize: '10px',
+						},
 					},
 				},
-			},
+				{
+					title: false,
+					startOnTick: false,
+					endOnTick: false,
+
+					opposite: true,
+					gridLineWidth: 1,
+					minorTickInterval: 'auto',
+					tickPixelInterval: 40,
+					minorGridLineWidth: 0,
+					visible: true,
+					gridLineColor: '#66666655',
+					labels: {
+						style: {
+							fontSize: '10px',
+						},
+					},
+				},
+			],
 			noData: {
 				style: {
 					fontWeight: 'bold',
@@ -134,9 +153,7 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
 				headerFormat: '<p style="color:#909592; font-size: 12px">{point.key}</p><br/>',
 				pointFormatter: function () {
 					const value = stFormatLargeNumber(this.y);
-					return `<p><span style="color: ${
-						this.series.color
-					}; font-weight: bold">● ${this.series.name.toLowerCase()}: </span><span>$${value}</span></p><br/>`;
+					return `<p><span style="color: ${this.series.color}; font-weight: bold">● ${this.series.name}: </span><span>$${value}</span></p><br/>`;
 				},
 			},
 			plotOptions: {
@@ -190,6 +207,14 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
 					name: 'Transaction sells',
 					data: (() => {
 						return this.stTransactionSnapshots.map((point) => [Date.parse(point.date), point.transactionsSell]);
+					})(),
+				},
+				{
+					name: 'Transaction fees',
+					type: 'spline',
+					yAxis: 1,
+					data: (() => {
+						return this.stTransactionSnapshots.map((point) => [Date.parse(point.date), point.transactionFees]);
 					})(),
 				},
 			],

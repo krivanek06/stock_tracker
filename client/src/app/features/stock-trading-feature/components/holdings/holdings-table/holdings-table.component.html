@@ -8,14 +8,16 @@
 		<ion-label>Daily +/-</ion-label>
 		<ion-label>Total +/-</ion-label>
 		<ion-label>Value</ion-label>
+		<ion-label class="st-hide-xxl-down">Units</ion-label>
 		<ion-label class="ion-hide-md-down">Portfolio %</ion-label>
+		<ion-label class="st-hide-xxl-down">Beta</ion-label>
 		<ion-label class="ion-hide-lg-down">Recommend</ion-label>
 	</ion-item>
 
 	<!-- table body -->
 	<ng-container *ngIf="holdings.length > 0; else showNoHoldingsText">
 		<ion-item
-			*ngFor="let holding of holdings; trackBy:identify"
+			*ngFor="let holding of sortByValue(); trackBy:identify"
 			(click)="itemClicked(holding)"
 			class="st-data-item-wrapper ion-hide-sm-down"
 			[ngClass]="{'ion-activatable': clickable}"
@@ -56,10 +58,16 @@
 				<ion-text class="st-font-size-12 st-font-5"> {{ holding.summary.marketPrice | currency }} * {{ holding.units }} </ion-text>
 			</ion-label>
 
+			<!-- units -->
+			<ion-label class="st-hide-xxl-down"> {{ holding.units }} </ion-label>
+
 			<!-- portfolio % -->
 			<ion-label class="ion-hide-md-down st-data-label">
 				{{ (holding.summary.marketPrice * holding.units / totalPortfolio | percent: '1.2-2') }}
 			</ion-label>
+
+			<!-- beta -->
+			<ion-label class="st-hide-xxl-down"> {{ holding.summary.beta ? ( holding.summary.beta | number: '1.2-2') : 'N/A' }} </ion-label>
 
 			<!-- recommendation date -->
 			<ion-label class="ion-hide-lg-down st-data-label">

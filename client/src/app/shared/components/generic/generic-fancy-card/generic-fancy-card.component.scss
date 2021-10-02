@@ -1,51 +1,54 @@
-@import "variables";
+@import 'variables';
 
 :host {
-  ion-card-title {
-    display: flex;
-    align-items: center;
-  }
+	ion-card-title {
+		display: flex;
+		align-items: center;
+	}
 
-  ion-card {
-    position: relative;
-    padding: 12px;
-  }
+	ion-card {
+		position: relative;
+		padding: 12px;
+	}
 
-  ion-card-content {
-    padding: 0;
-  }
+	ion-card-content {
+		padding: 0;
+	}
 
-  .title-dot {
-    height: 20px;
-    width: 20px;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
+	.title-dot {
+		height: 20px;
+		width: 20px;
+		border-radius: 50%;
+		margin-right: 10px;
+	}
 
+	// fancy circle
+	.fancy-circle {
+		position: absolute;
+		height: 100px;
+		width: 100px;
+		background-color: #c4c4c4;
+		opacity: 0.1;
+		border-radius: 50%;
+		// z-index: -1;
+	}
 
-  // fancy circle
-  .fancy-circle {
-    position: absolute;
-    height: 100px;
-    width: 100px;
-    background-color: #C4C4C4;
-    opacity: 0.1;
-    border-radius: 50%;
-    // z-index: -1;
-  }
+	.upper-circle {
+		top: -30px;
+		right: -15px;
+	}
 
-  .upper-circle {
-    top: -30px;
-    right: -15px;
-  }
+	.left-circle {
+		left: -45px;
+		bottom: -50px;
+	}
 
-  .left-circle {
-    left: -45px;
-    bottom: -50px;
-  }
+	.lower-circle {
+		right: 10px;
+		bottom: -35px;
+	}
 
-  .lower-circle {
-    right: 10px;
-    bottom: -35px;
-  }
+	.c-letter-spacing {
+		letter-spacing: 5px;
+	}
 }

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import {
 	componentDestroyed,
 	GraphqlGroupService,
+	STARTING_PORTFOLIO,
 	StGroupMemberOverviewFragment,
 	StGroupUser,
 	StPortfolioSnapshot,
@@ -9,7 +10,7 @@ import {
 	StTransactionSnapshot,
 } from '@core';
 import { ModalController, NavParams } from '@ionic/angular';
-import { PortfolioHistoricalWrapper, STARTING_PORTFOLIO, TIME_INTERVAL_ENUM, TradingFeatureFacadeService } from '@stock-trading-feature';
+import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingFeatureFacadeService } from '@stock-trading-feature';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({

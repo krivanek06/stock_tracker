@@ -40,6 +40,8 @@ export class GenericChartComponent implements OnInit, OnChanges {
 	@Input() enableLegendTogging = false;
 	@Input() showLegendLatestValue = false;
 	@Input() legendAlign: 'left' | 'center' | 'right' = 'left';
+	@Input() legentLayout: 'vertical' | 'horizontal' = 'vertical';
+	@Input() legendVerticalAlign: 'top' | 'middle' | 'bottom' = 'top';
 	@Input() floatingLegend = false;
 
 	@Input() showExpandableButton = false;
@@ -250,8 +252,9 @@ export class GenericChartComponent implements OnInit, OnChanges {
 				itemHiddenStyle: {
 					color: this.enableLegendTogging ? '#494949' : '#acacac',
 				},
-				verticalAlign: 'top',
+				verticalAlign: this.legendVerticalAlign,
 				align: this.legendAlign,
+				layout: this.legentLayout,
 			},
 			accessibility: {
 				point: {

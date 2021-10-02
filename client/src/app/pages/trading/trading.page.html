@@ -8,20 +8,41 @@
 	<ion-grid>
 		<ion-row class="ion-justify-content-center">
 			<ion-col size="12" size-lg="11" size-xl="10" style="overflow: visible">
-				<ion-row class="ion-margin-bottom">
-					<ion-col size="12" size-lg="5" size-md="6" size-xl="4" class="ion-hide-md-up st-sm-border-bottom">
-						<!-- portfolio current state -->
-						<ng-container *ngTemplateOutlet="portfolioState"></ng-container>
+				<ion-row class="ion-justify-content-center ion-margin-top">
+					<ion-col size="12" size-lg="4">
+						<!-- portfolio state -->
+						<app-portfolio-state
+							[portfolioCash]="user?.portfolio?.portfolioCash"
+							[portfolioInvested]="portfolioInvested"
+							portfolioState="PARTIAL"
+						></app-portfolio-state>
 					</ion-col>
+					<ion-col size="12" size-lg="3">
+						<!-- bid / ask -->
+						<app-trading-bid-ask
+							[bidPrice]="selectedSummary?.marketPrice - 0.03"
+							[askPrice]="selectedSummary?.marketPrice + 0.03"
+						></app-trading-bid-ask>
+					</ion-col>
+					<ion-col class="ion-hide-lg-down" size="12" size-lg="4">
+						<!-- portfolio chart -->
+						<div class="c-chart-container">
+							<app-pie-chart-wrapper
+								[heightPx]="280"
+								chartTitle="Portfolio allocation"
+								[data]="[
+									  {name: 'Invested', color: '#5e00df', y: 100 / (portfolioInvested + user?.portfolio?.portfolioCash) * portfolioInvested, sliced: true},
+									  {name: 'Cash', color: '#c7481a', y: 100 / (portfolioInvested + user?.portfolio?.portfolioCash) * user?.portfolio?.portfolioCash}
+								  ]"
+							></app-pie-chart-wrapper>
+						</div>
+					</ion-col>
+				</ion-row>
 
-					<ion-col size="12" size-lg="7" size-md="6" size-xl="8" class="c-search-stock-wrapper st-sm-border-bottom">
-						<!-- search symbol -->
+				<!-- search symbol -->
+				<ion-row>
+					<ion-col size="12" class="c-search-stock-wrapper st-sm-border-bottom">
 						<app-stock-search (clickedSymbolEmitter)="loadSummary($event)" [clearOnClick]="true"> </app-stock-search>
-					</ion-col>
-
-					<ion-col size="12" size-lg="5" size-md="6" size-xl="4" class="ion-hide-md-down st-flex ion-justify-content-center">
-						<!-- portfolio current state -->
-						<ng-container *ngTemplateOutlet="portfolioState"></ng-container>
 					</ion-col>
 				</ion-row>
 

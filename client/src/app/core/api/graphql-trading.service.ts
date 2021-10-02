@@ -40,14 +40,14 @@ export class GraphqlTradingService {
 					let addCash: number;
 
 					if (transactionInput.operation === StTransactionOperationEnum.Buy) {
-						addCash = -(transaction.price * transaction.units);
+						addCash = -(transaction.price * transaction.units) - transaction.transactionFees;
 						if (updatedHoldingIndex >= 0) {
 							userNewHoldings[updatedHoldingIndex] = { ...holding }; // update data
 						} else {
 							userNewHoldings = [...userNewHoldings, holding]; // new holding
 						}
 					} else {
-						addCash = transaction.price * transaction.units;
+						addCash = transaction.price * transaction.units - transaction.transactionFees;
 						if (!performTransaction.holding) {
 							userNewHoldings.splice(updatedHoldingIndex, 1); // no longer exists
 						} else {
@@ -84,6 +84,7 @@ export class GraphqlTradingService {
 										addCash > 0
 											? user.authenticateUser.portfolio.numberOfExecutedSellTransactions + 1
 											: user.authenticateUser.portfolio.numberOfExecutedSellTransactions,
+									transactionFees: user.authenticateUser.portfolio.transactionFees + transaction.transactionFees,
 								},
 								transactionsSnippets: [transaction, ...user.authenticateUser.transactionsSnippets].splice(0, 20),
 								topTransactions: [...topTransactions],

@@ -12,6 +12,7 @@ export interface STPortfolioSnapshot extends STPortfolio {
 export interface STPortfolioSnapshotStarted extends STPortfolioSnapshot {
     numberOfExecutedBuyTransactions: number;
     numberOfExecutedSellTransactions: number;
+    transactionFees: number;
 }
 
 
@@ -22,5 +23,6 @@ export interface STPortfolioWrapper {
     lastPortfolioIncreasePrct: number;
     numberOfExecutedBuyTransactions: number;
     numberOfExecutedSellTransactions: number;
+    transactionFees: number;
     lastTransactionSnapshot: STTransactionSnapshot;
 }

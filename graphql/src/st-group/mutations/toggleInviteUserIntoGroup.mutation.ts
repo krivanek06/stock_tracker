@@ -1,7 +1,7 @@
 import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
-import { queryUserPublicDataById } from '../../user/user.query';
+import { queryUserPublicDataById } from '../../st-user/user.query';
 import { querySTGroupMemberDataByGroupId } from '../st-group.query';
 import { createSTGroupUser } from '../st-group.util';
 

@@ -2,9 +2,9 @@ import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
 import { getCurrentIOSDate } from '../../st-shared/st-shared.functions';
+import { queryUserPublicDataById } from '../../st-user/user.query';
 import { querySTGroupByGroupId, querySTGroupMemberDataByGroupId } from '../st-group.query';
 import { createSTGroupUser } from '../st-group.util';
-import { queryUserPublicDataById } from './../../user/user.query';
 import { leaveGroup } from './leaveGroup.mutation';
 import { acceptUser, addUserAsMember } from './toggleUsersInvitationRequestToGroup.mutation';
 

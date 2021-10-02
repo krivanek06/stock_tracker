@@ -1,7 +1,7 @@
 import { ApolloError, ValidationError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
-import { convertSTUserPublicDataToSTUserIndentification, convertSTUserPublicDataToSTUserIndentificationBase } from './user.convertor';
+import { convertSTUserPublicDataToSTUserIndentification, convertSTUserPublicDataToSTUserIndentificationBase } from './utils/user.convertor';
 
 export const authenticateUser = async (uid: string) => {
 	try {

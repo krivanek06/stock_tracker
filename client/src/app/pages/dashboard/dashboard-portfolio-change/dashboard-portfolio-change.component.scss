@@ -1,0 +1,13 @@
+@import 'variables';
+
+:host {
+	.c-wrapper {
+		margin: auto;
+		margin-top: 16px !important;
+		margin-bottom: 16px !important;
+
+		@media (max-width: #{$st-var-sm-split}) {
+			margin-top: 24px !important;
+		}
+	}
+}

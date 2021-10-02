@@ -26,8 +26,13 @@
 </div>
 
 <!-- portfolio change -->
-<div class="st-flex-wrap st-full-width-sub-elements ion-hide-md-up st-sm-border-bottom-with-space">
+<div class="st-flex-wrap st-full-width-sub-elements ion-hide-md-up st-sm-border-bottom">
 	<ng-container *ngTemplateOutlet="portfolioChange"></ng-container>
+</div>
+
+<!-- transaction summary -->
+<div class="c-transaction-summary">
+	<app-transactions-summary [portfolioWrapper]="groupAllData.portfolio" [startedPortfolio]="groupAllData.startedPortfolio"></app-transactions-summary>
 </div>
 
 <ng-template #portfolioChange>

@@ -18,6 +18,7 @@ export const createTransactionBuy = (user: api.STUserPublicData, transactionInpu
 		},
 		return: null,
 		returnChange: null,
+		transactionFees: transactionInput.price * transactionInput.units * 0.001,
 	};
 	return transactionBuy;
 };
@@ -43,6 +44,7 @@ export const createTransactionSell = (
 		},
 		return: Math.round((transactionInput.price - holding.breakEvenPrice) * transactionInput.units),
 		returnChange: Math.round(((transactionInput.price - holding.breakEvenPrice) / holding.breakEvenPrice) * 100),
+		transactionFees: transactionInput.price * transactionInput.units * 0.001,
 	};
 	return transactionSell;
 };

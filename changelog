@@ -1,3 +1,17 @@
+1.08.2021 - v. 0.8.2
+client
+- reload stock details on modal
+- show beta in holdings
+- change starting portfolio on 100K
+- hide save symbol button when no details are received from backend
+- show  transaction fess in chart
+
+graphql
+- implemented transaction fees
+
+cloud functions
+- added transaction fees for groups
+
 29.09.2021 - v. 0.8.1
 client
 - fixed accessing details.companyData?.XXX because data may be missing
@@ -13,7 +27,7 @@ client
 - dashboard - displayed top transactions
 - size limit 20Mb check when uploading image
 
-Graphql
+graphql
 - top transaction for user
 
 clooud functions
