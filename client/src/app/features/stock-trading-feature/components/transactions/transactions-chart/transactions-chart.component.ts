@@ -81,6 +81,7 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
 					visible: true,
 					gridLineColor: '#66666655',
 					labels: {
+						format: '{value:.2f}',
 						style: {
 							fontSize: '10px',
 						},
