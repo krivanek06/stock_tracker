@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { GraphqlQueryService, StfmCompanyQuote } from '@core';
 import { Observable, of } from 'rxjs';
@@ -14,6 +14,7 @@ export class StockSearchComponent implements OnInit {
 	@Output() clickedSymbolEmitter: EventEmitter<StfmCompanyQuote> = new EventEmitter<StfmCompanyQuote>();
 
 	@Input() clearOnClick = false;
+	@ViewChild('insideElement') insideElement;
 	searchedCompanyQuotes$: Observable<StfmCompanyQuote[]>;
 	form: FormGroup;
 	loading: boolean;
@@ -33,6 +34,13 @@ export class StockSearchComponent implements OnInit {
 		}
 	}
 
+	@HostListener('document:click', ['$event.target'])
+	clickOutside(targetElement) {
+		const clickedInside = this.insideElement.nativeElement.contains(targetElement);
+		if (!clickedInside) {
+			this.form.get('symbol').patchValue(null);
+		}
+	}
 	private initForm() {
 		this.form = this.fb.group({
 			symbol: [null],

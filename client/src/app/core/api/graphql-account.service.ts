@@ -11,6 +11,7 @@ import {
 	ResetUserAccountMutation,
 	StUserEditDataInput,
 } from '../graphql-schema';
+import { STARTING_PORTFOLIO } from '../model';
 import { UserStorageService } from '../services';
 
 @Injectable({
@@ -62,7 +63,7 @@ export class GraphqlAccountService {
 								},
 								portfolio: {
 									...data.authenticateUser.portfolio,
-									portfolioCash: initPortfolio ? 25000 : data.authenticateUser.portfolio.portfolioCash,
+									portfolioCash: initPortfolio ? STARTING_PORTFOLIO : data.authenticateUser.portfolio.portfolioCash,
 								},
 							},
 						},
@@ -105,7 +106,7 @@ export class GraphqlAccountService {
 								},
 								portfolio: {
 									...data.authenticateUser.portfolio,
-									portfolioCash: 25000,
+									portfolioCash: STARTING_PORTFOLIO,
 								},
 								transactionsSnippets: [],
 							},

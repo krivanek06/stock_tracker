@@ -1,3 +1,4 @@
+import { ViewportScroller } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import {
 	componentDestroyed,
@@ -9,7 +10,7 @@ import {
 	SymbolStorageService,
 	UserStorageService,
 } from '@core';
-import { LodashService, SymbolIdentification } from '@shared';
+import { ChartType, LodashService, SymbolIdentification } from '@shared';
 import { TradingFeatureFacadeService, TradingScreenUpdateBaseDirective } from '@stock-trading-feature';
 import { first, takeUntil } from 'rxjs/operators';
 import { DialogService } from './../../shared/services/dialog.service';
@@ -23,13 +24,16 @@ import { DialogService } from './../../shared/services/dialog.service';
 export class TradingPage extends TradingScreenUpdateBaseDirective implements OnInit, OnDestroy {
 	suggestions: StStockSuggestion[] = [];
 
+	ChartType = ChartType;
+
 	constructor(
 		private symbolStorageService: SymbolStorageService,
 		public subscriptionWebsocketService: SubscriptionWebsocketService,
 		private graphqlQueryService: GraphqlQueryService,
 		public userStorageService: UserStorageService,
 		public tradingService: TradingFeatureFacadeService,
-		public cdr: ChangeDetectorRef
+		public cdr: ChangeDetectorRef,
+		private scroll: ViewportScroller
 	) {
 		super(userStorageService, subscriptionWebsocketService, cdr);
 	}
@@ -49,12 +53,14 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
 			.getStockSummary(symbolIdentification.symbol)
 			.pipe(takeUntil(componentDestroyed(this)))
 			.subscribe((res) => {
-				this.selectedSummary = res;
+				this.setSelectedSummary(res);
+				this.scrollTop();
 			});
 	}
 
 	changeSummary(summary: Summary) {
-		this.selectedSummary = summary;
+		this.setSelectedSummary(summary);
+		this.scrollTop();
 	}
 
 	loadSummary(companyQuote: StfmCompanyQuote) {
@@ -66,15 +72,19 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
 				console.log('summary', summary);
 				if (!summary) {
 					DialogService.presentToast(`No stock details for symbol ${companyQuote.symbol} has been found`);
-					this.selectedSummary = this.suggestions[0].summary;
+					this.setSelectedSummary(this.suggestions[0].summary);
 					return;
 				}
-				this.selectedSummary = summary;
+				this.setSelectedSummary(summary);
 			});
 	}
 
 	async tradeSymbol() {
 		await this.tradingService.performTransaction(this.selectedSummary);
+	}
+
+	private scrollTop() {
+		this.scroll.scrollToPosition([0, 0]);
 	}
 
 	private initSuggestions() {
@@ -85,9 +95,13 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
 				this.suggestions = LodashService.cloneDeep(overview.stockSuggestions);
 
 				if (!this.selectedSummary) {
-					this.selectedSummary = this.suggestions[0].summary;
+					this.setSelectedSummary(this.suggestions[0].summary);
 				}
 			});
+	}
+
+	private setSelectedSummary(summary: Summary) {
+		this.selectedSummary = LodashService.cloneDeep(summary);
 	}
 
 	private subscribeForSuggestionPriceChange() {
@@ -98,6 +112,10 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
 				const suggestion = this.suggestions.find((s) => s.summary.symbol === res.s);
 				if (suggestion) {
 					suggestion.summary.marketPrice = res.p;
+				}
+
+				if (this.selectedSummary && this.selectedSummary.id === res.s) {
+					this.selectedSummary.marketPrice = res.p;
 				}
 			});
 	}

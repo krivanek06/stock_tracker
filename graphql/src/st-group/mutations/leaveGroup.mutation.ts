@@ -1,7 +1,7 @@
 import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
-import { queryUserPublicDataById } from '../../user/user.query';
+import { queryUserPublicDataById } from '../../st-user/user.query';
 import { Context } from './../../st-shared/st-shared.interface';
 import { querySTGroupByGroupId, querySTGroupMemberDataByGroupId } from './../st-group.query';
 
@@ -23,11 +23,15 @@ export const leaveGroup = async (groupId: string, { requesterUserId }: Context):
 			group.startedPortfolio.portfolioInvested -= person.startedPortfolio.portfolioInvested;
 			group.startedPortfolio.numberOfExecutedSellTransactions -= person.startedPortfolio.numberOfExecutedSellTransactions;
 			group.startedPortfolio.numberOfExecutedBuyTransactions -= person.startedPortfolio.numberOfExecutedBuyTransactions;
+			group.startedPortfolio.transactionFees -= person.startedPortfolio.transactionFees;
+
 			// adjust portfolio
 			group.portfolio.lastPortfolioSnapshot.portfolioCash -= person.portfolio.lastPortfolioSnapshot.portfolioCash;
 			group.portfolio.lastPortfolioSnapshot.portfolioInvested -= person.portfolio.lastPortfolioSnapshot.portfolioInvested;
 			group.portfolio.numberOfExecutedSellTransactions -= person.portfolio.numberOfExecutedSellTransactions;
 			group.portfolio.numberOfExecutedBuyTransactions -= person.portfolio.numberOfExecutedBuyTransactions;
+			group.portfolio.transactionFees -= person.portfolio.transactionFees;
+
 			// adjust members
 			group.numberOfMembers -= 1;
 		}

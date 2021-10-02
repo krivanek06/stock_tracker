@@ -330,6 +330,8 @@ export const stockDetailsTypeDefs = gql`
 		earningsDate: String
 		exDividendDate: String
 		exchangeName: String
+		beta: String
+		countryFullName: String
 		fiveTwoWeekRange: String
 		forwardDividendRate: Float
 		forwardDividendYield: Float

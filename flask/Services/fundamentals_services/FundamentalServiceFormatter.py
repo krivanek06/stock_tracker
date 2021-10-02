@@ -20,8 +20,11 @@ class FundamentalServiceFormatter:
         self.data['recommendation'].reverse()
 
 
-        self.data['companyOutlook']['rating'] = self.data['companyOutlook']['rating'][0] if len(self.data['companyOutlook']['rating']) > 0 else None
-        self.data['companyOutlook']['ratios'] = self.data['companyOutlook']['ratios'][0] if len(self.data['companyOutlook']['ratios'][0]) > 0 else None
+        if self.data['companyOutlook'].get('rating') is not None:
+            self.data['companyOutlook']['rating'] = self.data['companyOutlook']['rating'][0] if len(self.data['companyOutlook']['rating']) > 0 else None
+            self.data['companyOutlook']['ratios'] = self.data['companyOutlook']['ratios'][0] if len(self.data['companyOutlook']['ratios'][0]) > 0 else None
+        else:
+            self.data['companyOutlook']['rating'] = []
 
         # change: nan, infinity -> null
         self.data = characterModificationUtil.check_value_correction(self.data)
@@ -72,9 +75,9 @@ class FundamentalServiceFormatter:
 
     def _formatSummary(self):
         try:
-            summary_all = self.data.get('companyData', {})
-            stats = {} if summary_all.get('defaultKeyStatistics') is None else summary_all.get('defaultKeyStatistics')
-            financialData =  {} if summary_all.get('financialData') is None else  summary_all.get('financialData')
+            summary_all = self.data.get('companyData') if self.data.get('companyData') is not None else {}
+            stats = summary_all.get('defaultKeyStatistics', {})
+            financialData = summary_all.get('financialData', {})
 
             companyOutlook = self.data['companyOutlook']
             companyQuote =  self.data['companyQuote'][0]
@@ -82,6 +85,7 @@ class FundamentalServiceFormatter:
             splitHistory = companyOutlook['splitHistory'][0] if companyOutlook['splitHistory'] is not None else {}
             ratios = companyOutlook['ratios'][0]
             stockDividend = self.data['companyOutlook']['stockDividend'][0] if self.data['companyOutlook']['stockDividend'] is not None  else {}
+            summaryProfile = summary_all.get('summaryProfile', {})
             
 
             summary = {
@@ -92,6 +96,8 @@ class FundamentalServiceFormatter:
                 'exchangeName': profile.get('exchangeShortName'),
                 'lastSplitDate': splitHistory.get('date'),
                 'website': profile.get('website'),
+                'beta': profile.get('beta'),
+                'countryFullName': summaryProfile.get('country'),
                 'residance': {
                     'city': profile.get('city'),
                     'state': profile.get('state'),
@@ -146,15 +152,16 @@ class FundamentalServiceFormatter:
     def _formatDividends(self):
         try:
             summaryDetail = self.data.get('companyData', {}).get('summaryDetail', {})
+            metric = self.data.get('metric', {})
             self.data['dividends'] = {
-                'dividendGrowthRateFiveY': self.data['metric'].get('dividendGrowthRateFiveY'),
-                'currentDividendYieldTTM': self.data['metric'].get('currentDividendYieldTTM'),
-                'dividendPerShareAnnual': self.data['metric'].get('dividendPerShareAnnual'),
-                'dividendPerShareFiveY': self.data['metric'].get('dividendPerShareFiveY'),
-                'dividendYieldFiveY': self.data['metric'].get('dividendYieldFiveY'),
-                'dividendPayoutRatioTTM': self.data['metric'].get('payoutRatioTTM'),
-                'dividendYieldIndicatedAnnual': self.data['metric'].get('dividendYieldIndicatedAnnual'),
-                'dividendsPerShareTTM': self.data['metric'].get('dividendsPerShareTTM'),
+                'dividendGrowthRateFiveY': metric.get('dividendGrowthRateFiveY'),
+                'currentDividendYieldTTM': metric.get('currentDividendYieldTTM'),
+                'dividendPerShareAnnual': metric.get('dividendPerShareAnnual'),
+                'dividendPerShareFiveY': metric.get('dividendPerShareFiveY'),
+                'dividendYieldFiveY': metric.get('dividendYieldFiveY'),
+                'dividendPayoutRatioTTM': metric.get('payoutRatioTTM'),
+                'dividendYieldIndicatedAnnual': metric.get('dividendYieldIndicatedAnnual'),
+                'dividendsPerShareTTM': metric.get('dividendsPerShareTTM'),
                 'exDividendDate': self.data['summary'].get('exDividendDate'),
                 'forwardDividendYield': self.data['summary'].get('forwardDividendYield'),
                 'trailingAnnualDividendRate': summaryDetail.get('trailingAnnualDividendRate'),
@@ -173,14 +180,15 @@ class FundamentalServiceFormatter:
             self.data['companyData'].pop("price", None)
             self.data['companyData'].pop("summaryDetail", None)
 
-            self.data['metric'].pop("dividendGrowthRateFiveY", None)
-            self.data['metric'].pop("currentDividendYieldTTM", None)
-            self.data['metric'].pop("dividendPerShareAnnual", None)
-            self.data['metric'].pop("dividendPerShareFiveY", None)
-            self.data['metric'].pop("dividendYieldFiveY", None)
-            self.data['metric'].pop("dividendYieldIndicatedAnnual", None)
-            self.data['metric'].pop("dividendsPerShareTTM", None)
-            self.data['metric'].pop("forwardAnnualDividendYieldFour", None)
-            self.data['metric'].pop("trailingAnnualDividendRateThree", None)
+            metric = self.data.get('metric', {})
+            metric.pop("currentDividendYieldTTM", None)
+            metric.pop("dividendGrowthRateFiveY", None)
+            metric.pop("dividendPerShareAnnual", None)
+            metric.pop("dividendPerShareFiveY", None)
+            metric.pop("dividendYieldFiveY", None)
+            metric.pop("dividendYieldIndicatedAnnual", None)
+            metric.pop("dividendsPerShareTTM", None)
+            metric.pop("forwardAnnualDividendYieldFour", None)
+            metric.pop("trailingAnnualDividendRateThree", None)
         except Exception as e:
             print('Exception in removeUnnecessaryData: ' + str(e))

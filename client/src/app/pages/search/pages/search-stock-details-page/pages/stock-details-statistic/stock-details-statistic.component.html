@@ -17,10 +17,7 @@
 			<ion-col size="12" size-lg="6">
 				<!-- summary -->
 				<ion-list-header>
-					<ion-label class="st-display-flex-center">
-						<ion-icon class="st-icon-title" name="barcode-outline"></ion-icon>
-						<ion-text class="st-font-size-18 st-font-0"> {{ 'Summary: ' + stockDetails.id }}</ion-text>
-					</ion-label>
+					<app-generic-list class="st-flex-1" [iconTitle]="'barcode-outline'" [title]="'Summary: ' + stockDetails.id"> </app-generic-list>
 					<ion-button (click)="reloadStockDetails()" *ngIf="isAdmin$ | async">
 						<ion-icon class="st-icon-title" name="refresh-circle"></ion-icon>
 						Reload data

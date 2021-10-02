@@ -3,674 +3,669 @@
 ## QUERY
 ##---------------------------
 fragment SummaryResidanceFragment on SummaryResidance {
-    city
-    state
-    country
-    addressOne
-    zip
+	city
+	state
+	country
+	addressOne
+	zip
 }
 
 fragment StockSummaryFragment on Summary {
-    residance {
-        ...SummaryResidanceFragment
-    }
-    avgVolume
-    ceo
-    companyName
-    currency
-    dividendDate
-    ePSTTM
-    earningsDate
-    exDividendDate
-    exchangeName
-    fiveTwoWeekRange
-    forwardDividendRate
-    forwardDividendYield
-    forwardEPS
-    forwardPE
-    fullTimeEmployees
-    id
-    industry
-    ipoDate
-    lastSplitDate
-    lastSplitFactor
-    logo_url
-    longBusinessSummary
-    marketCap
-    marketPrice
-    oneyTargetEst
-    pERatioTTM
-    previousClose
-    recommendationKey
-    recommendationMean
-    sandPFiveTwoWeekChange
-    sector
-    sharesOutstanding
-    shortRatio
-    symbol
-    targetEstOneyPercent
-    volume
-    website
-    weekRangeFiveTwoMax
-    weekRangeFiveTwoMin
-    yearToDatePrice
-    yearToDatePriceReturn
+	residance {
+		...SummaryResidanceFragment
+	}
+	avgVolume
+	ceo
+	companyName
+	currency
+	dividendDate
+	ePSTTM
+	earningsDate
+	exDividendDate
+	exchangeName
+	fiveTwoWeekRange
+	forwardDividendRate
+	forwardDividendYield
+	forwardEPS
+	forwardPE
+	fullTimeEmployees
+	id
+	industry
+	ipoDate
+	beta
+	countryFullName
+	lastSplitDate
+	lastSplitFactor
+	logo_url
+	longBusinessSummary
+	marketCap
+	marketPrice
+	oneyTargetEst
+	pERatioTTM
+	previousClose
+	recommendationKey
+	recommendationMean
+	sandPFiveTwoWeekChange
+	sector
+	sharesOutstanding
+	shortRatio
+	symbol
+	targetEstOneyPercent
+	volume
+	website
+	weekRangeFiveTwoMax
+	weekRangeFiveTwoMin
+	yearToDatePrice
+	yearToDatePriceReturn
 }
 fragment FinancialReportStatementDataFragment on FinancialReportStatementData {
-    concept
-    label
-    unit
-    value
+	concept
+	label
+	unit
+	value
 }
 
 fragment FinancialReportFragment on FinancialReport {
-    acceptedDate
-    accessNumber
-    cik
-    endDate
-    filedDate
-    form
-    quarter
-    startDate
-    symbol
-    year
-    report {
-        bs {
-            ...FinancialReportStatementDataFragment
-        }
-        cf {
-            ...FinancialReportStatementDataFragment
-        }
-        ic {
-            ...FinancialReportStatementDataFragment
-        }
-    }
+	acceptedDate
+	accessNumber
+	cik
+	endDate
+	filedDate
+	form
+	quarter
+	startDate
+	symbol
+	year
+	report {
+		bs {
+			...FinancialReportStatementDataFragment
+		}
+		cf {
+			...FinancialReportStatementDataFragment
+		}
+		ic {
+			...FinancialReportStatementDataFragment
+		}
+	}
 }
 
-
 fragment recommendationFragment on Recommendations {
-    buy
-    hold
-    period
-    sell
-    strongBuy
-    strongSell
-    symbol
+	buy
+	hold
+	period
+	sell
+	strongBuy
+	strongSell
+	symbol
 }
 
 fragment newsArticleFragment on NewsArticle {
-    datetime
-    headline
-    image
-    sourceName
-    summary
-    url
+	datetime
+	headline
+	image
+	sourceName
+	summary
+	url
 }
 
 fragment calculationFragment on Calculation {
-    avg
-    max
-    min
+	avg
+	max
+	min
 }
 
 fragment esgScoreFragment on EsgScores {
-    totalEsg
-    environmentScore
-    governanceScore
-    highestControversy
-    esgPerformance
-    socialScore
-    peerCount
-    peerEnvironmentPerformance {
-        ...calculationFragment
-    }
-    peerEsgScorePerformance {
-        ...calculationFragment
-    }
-    peerGovernancePerformance {
-        ...calculationFragment
-    }
-    peerHighestControversyPerformance {
-        ...calculationFragment
-    }
-    peerSocialPerformance {
-        ...calculationFragment
-    }
-    percentile
-    peerGroup
-    relatedControversy
+	totalEsg
+	environmentScore
+	governanceScore
+	highestControversy
+	esgPerformance
+	socialScore
+	peerCount
+	peerEnvironmentPerformance {
+		...calculationFragment
+	}
+	peerEsgScorePerformance {
+		...calculationFragment
+	}
+	peerGovernancePerformance {
+		...calculationFragment
+	}
+	peerHighestControversyPerformance {
+		...calculationFragment
+	}
+	peerSocialPerformance {
+		...calculationFragment
+	}
+	percentile
+	peerGroup
+	relatedControversy
 }
 
 fragment defaultKeyStatisticsFragment on DefaultKeyStatistics {
-    bookValue
-    dateShortInterest
-    earningsQuarterlyGrowth
-    enterpriseToEbitda
-    enterpriseToRevenue
-    enterpriseValue
-    fiveYearAverageReturn
-    floatShares
-    forwardEps
-    forwardPE
-    heldPercentInsiders
-    heldPercentInstitutions
-    lastFiscalYearEnd
-    lastSplitDate
-    lastSplitFactor
-    mostRecentQuarter
-    netIncomeToCommon
-    nextFiscalYearEnd
-    pegRatio
-    priceHint
-    priceToBook
-    profitMargins
-    sharesOutstanding
-    sharesPercentSharesOut
-    sharesShort
-    sharesShortPreviousMonthDate
-    sharesShortPriorMonth
-    shortPercentOfFloat
-    shortRatio
-    trailingEps
+	bookValue
+	dateShortInterest
+	earningsQuarterlyGrowth
+	enterpriseToEbitda
+	enterpriseToRevenue
+	enterpriseValue
+	fiveYearAverageReturn
+	floatShares
+	forwardEps
+	forwardPE
+	heldPercentInsiders
+	heldPercentInstitutions
+	lastFiscalYearEnd
+	lastSplitDate
+	lastSplitFactor
+	mostRecentQuarter
+	netIncomeToCommon
+	nextFiscalYearEnd
+	pegRatio
+	priceHint
+	priceToBook
+	profitMargins
+	sharesOutstanding
+	sharesPercentSharesOut
+	sharesShort
+	sharesShortPreviousMonthDate
+	sharesShortPriorMonth
+	shortPercentOfFloat
+	shortRatio
+	trailingEps
 }
 
 fragment financialDataFragment on FinancialData {
-    currentPrice
-    currentRatio
-    debtToEquity
-    earningsGrowth
-    ebitda
-    ebitdaMargins
-    financialCurrency
-    freeCashflow
-    grossMargins
-    grossProfits
-    numberOfAnalystOpinions
-    operatingCashflow
-    operatingMargins
-    profitMargins
-    quickRatio
-    recommendationKey
-    recommendationMean
-    returnOnAssets
-    returnOnEquity
-    revenueGrowth
-    revenuePerShare
-    targetHighPrice
-    targetLowPrice
-    targetMeanPrice
-    targetMedianPrice
-    totalCash
-    totalCashPerShare
-    totalDebt
-    totalRevenue
+	currentPrice
+	currentRatio
+	debtToEquity
+	earningsGrowth
+	ebitda
+	ebitdaMargins
+	financialCurrency
+	freeCashflow
+	grossMargins
+	grossProfits
+	numberOfAnalystOpinions
+	operatingCashflow
+	operatingMargins
+	profitMargins
+	quickRatio
+	recommendationKey
+	recommendationMean
+	returnOnAssets
+	returnOnEquity
+	revenueGrowth
+	revenuePerShare
+	targetHighPrice
+	targetLowPrice
+	targetMeanPrice
+	targetMedianPrice
+	totalCash
+	totalCashPerShare
+	totalDebt
+	totalRevenue
 }
 
 fragment metricFragment on Metric {
-    fiveDayPriceReturnDaily
-    fiveTwoWeekHigh
-    fiveTwoWeekHighDate
-    fiveTwoWeekLow
-    fiveTwoWeekLowDate
-    fiveTwoWeekPriceReturnDaily
-    oneDayAverageTradingVolume
-    oneThreeWeekPriceReturnDaily
-    threeMonthAverageTradingVolume
-    twoSixWeekPriceReturnDaily
-    assetTurnoverAnnual
-    assetTurnoverTTM
-    beta
-    bookValuePerShareAnnual
-    bookValuePerShareQuarterly
-    bookValueShareGrowthFiveY
-    capitalSpendingGrowthFiveY
-    cashFlowPerShareAnnual
-    cashFlowPerShareTTM
-    cashPerSharePerShareAnnual
-    cashPerSharePerShareQuarterly
-    currentEvfreeCashFlowAnnual
-    currentEvfreeCashFlowTTM
-    currentRatioAnnual
-    currentRatioQuarterly
-    ebitdPerShareTTM
-    ebitdaCagrFiveY
-    ebitdaInterimCagrFiveY
-    epsBasicExclExtraItemsAnnual
-    epsBasicExclExtraItemsTTM
-    epsExclExtraItemsAnnual
-    epsExclExtraItemsTTM
-    epsGrowthFiveY
-    epsGrowthQuarterlyYoy
-    epsGrowthTTMYoy
-    epsGrowthThreeY
-    epsInclExtraItemsAnnual
-    epsInclExtraItemsTTM
-    epsNormalizedAnnual
-    focfCagrFiveY
-    freeCashFlowAnnual
-    freeCashFlowPerShareTTM
-    freeCashFlowTTM
-    freeOperatingCashFlowrevenueFiveY
-    freeOperatingCashFlowrevenueTTM
-    grossMarginAnnual
-    grossMarginFiveY
-    grossMarginTTM
-    inventoryTurnoverAnnual
-    inventoryTurnoverTTM
-    longTermDebtequityAnnual
-    longTermDebtequityQuarterly
-    marketCapitalization
-    monthToDatePriceReturnDaily
-    netDebtAnnual
-    netDebtInterim
-    netIncomeEmployeeAnnual
-    netIncomeEmployeeTTM
-    netInterestCoverageAnnual
-    netInterestCoverageTTM
-    netMarginGrowthFiveY
-    netProfitMarginAnnual
-    netProfitMarginFiveY
-    netProfitMarginTTM
-    operatingMarginAnnual
-    operatingMarginFiveY
-    operatingMarginTTM
-    payoutRatioAnnual
-    payoutRatioTTM
-    pbAnnual
-    pbQuarterly
-    pcfShareTTM
-    peBasicExclExtraTTM
-    peExclExtraAnnual
-    peExclExtraHighTTM
-    peExclExtraTTM
-    peExclLowTTM
-    peInclExtraTTM
-    peNormalizedAnnual
-    pfcfShareAnnual
-    pfcfShareTTM
-    pretaxMarginAnnual
-    pretaxMarginFiveY
-    pretaxMarginTTM
-    priceRelativeToSPFiveFiveTwoWeek
-    priceRelativeToSPFiveFourWeek
-    priceRelativeToSPFiveOneThreeWeek
-    priceRelativeToSPFiveTwoSixWeek
-    priceRelativeToSPFiveYtd
-    psAnnual
-    psTTM
-    ptbvAnnual
-    ptbvQuarterly
-    quickRatioAnnual
-    quickRatioQuarterly
-    receivablesTurnoverAnnual
-    receivablesTurnoverTTM
-    revenueEmployeeAnnual
-    revenueEmployeeTTM
-    revenueGrowthFiveY
-    revenueGrowthQuarterlyYoy
-    revenueGrowthTTMYoy
-    revenueGrowthThreeY
-    revenuePerShareAnnual
-    revenuePerShareTTM
-    revenueShareGrowthFiveY
-    roaRfy
-    roaaFiveY
-    roaeFiveY
-    roaeTTM
-    roeRfy
-    roeTTM
-    roiAnnual
-    roiFiveY
-    roiTTM
-    tangibleBookValuePerShareAnnual
-    tangibleBookValuePerShareQuarterly
-    tbvCagrFiveY
-    totalDebtCagrFiveY
-    totalDebttotalEquityAnnual
-    totalDebttotalEquityQuarterly
-    yearToDatePriceReturnDaily
+	fiveDayPriceReturnDaily
+	fiveTwoWeekHigh
+	fiveTwoWeekHighDate
+	fiveTwoWeekLow
+	fiveTwoWeekLowDate
+	fiveTwoWeekPriceReturnDaily
+	oneDayAverageTradingVolume
+	oneThreeWeekPriceReturnDaily
+	threeMonthAverageTradingVolume
+	twoSixWeekPriceReturnDaily
+	assetTurnoverAnnual
+	assetTurnoverTTM
+	beta
+	bookValuePerShareAnnual
+	bookValuePerShareQuarterly
+	bookValueShareGrowthFiveY
+	capitalSpendingGrowthFiveY
+	cashFlowPerShareAnnual
+	cashFlowPerShareTTM
+	cashPerSharePerShareAnnual
+	cashPerSharePerShareQuarterly
+	currentEvfreeCashFlowAnnual
+	currentEvfreeCashFlowTTM
+	currentRatioAnnual
+	currentRatioQuarterly
+	ebitdPerShareTTM
+	ebitdaCagrFiveY
+	ebitdaInterimCagrFiveY
+	epsBasicExclExtraItemsAnnual
+	epsBasicExclExtraItemsTTM
+	epsExclExtraItemsAnnual
+	epsExclExtraItemsTTM
+	epsGrowthFiveY
+	epsGrowthQuarterlyYoy
+	epsGrowthTTMYoy
+	epsGrowthThreeY
+	epsInclExtraItemsAnnual
+	epsInclExtraItemsTTM
+	epsNormalizedAnnual
+	focfCagrFiveY
+	freeCashFlowAnnual
+	freeCashFlowPerShareTTM
+	freeCashFlowTTM
+	freeOperatingCashFlowrevenueFiveY
+	freeOperatingCashFlowrevenueTTM
+	grossMarginAnnual
+	grossMarginFiveY
+	grossMarginTTM
+	inventoryTurnoverAnnual
+	inventoryTurnoverTTM
+	longTermDebtequityAnnual
+	longTermDebtequityQuarterly
+	marketCapitalization
+	monthToDatePriceReturnDaily
+	netDebtAnnual
+	netDebtInterim
+	netIncomeEmployeeAnnual
+	netIncomeEmployeeTTM
+	netInterestCoverageAnnual
+	netInterestCoverageTTM
+	netMarginGrowthFiveY
+	netProfitMarginAnnual
+	netProfitMarginFiveY
+	netProfitMarginTTM
+	operatingMarginAnnual
+	operatingMarginFiveY
+	operatingMarginTTM
+	payoutRatioAnnual
+	payoutRatioTTM
+	pbAnnual
+	pbQuarterly
+	pcfShareTTM
+	peBasicExclExtraTTM
+	peExclExtraAnnual
+	peExclExtraHighTTM
+	peExclExtraTTM
+	peExclLowTTM
+	peInclExtraTTM
+	peNormalizedAnnual
+	pfcfShareAnnual
+	pfcfShareTTM
+	pretaxMarginAnnual
+	pretaxMarginFiveY
+	pretaxMarginTTM
+	priceRelativeToSPFiveFiveTwoWeek
+	priceRelativeToSPFiveFourWeek
+	priceRelativeToSPFiveOneThreeWeek
+	priceRelativeToSPFiveTwoSixWeek
+	priceRelativeToSPFiveYtd
+	psAnnual
+	psTTM
+	ptbvAnnual
+	ptbvQuarterly
+	quickRatioAnnual
+	quickRatioQuarterly
+	receivablesTurnoverAnnual
+	receivablesTurnoverTTM
+	revenueEmployeeAnnual
+	revenueEmployeeTTM
+	revenueGrowthFiveY
+	revenueGrowthQuarterlyYoy
+	revenueGrowthTTMYoy
+	revenueGrowthThreeY
+	revenuePerShareAnnual
+	revenuePerShareTTM
+	revenueShareGrowthFiveY
+	roaRfy
+	roaaFiveY
+	roaeFiveY
+	roaeTTM
+	roeRfy
+	roeTTM
+	roiAnnual
+	roiFiveY
+	roiTTM
+	tangibleBookValuePerShareAnnual
+	tangibleBookValuePerShareQuarterly
+	tbvCagrFiveY
+	totalDebtCagrFiveY
+	totalDebttotalEquityAnnual
+	totalDebttotalEquityQuarterly
+	yearToDatePriceReturnDaily
 }
 
 fragment dividensFragment on Dividens {
-    currentDividendYieldTTM
-    dividendGrowthRateFiveY
-    dividendPerShareAnnual
-    dividendPerShareFiveY
-    dividendYieldFiveY
-    dividendYieldIndicatedAnnual
-    dividendPayoutRatioTTM
-    dividendsPerShareTTM
-    exDividendDate
-    trailingAnnualDividendRate
-    trailingAnnualDividendYield
-    forwardDividendYield
+	currentDividendYieldTTM
+	dividendGrowthRateFiveY
+	dividendPerShareAnnual
+	dividendPerShareFiveY
+	dividendYieldFiveY
+	dividendYieldIndicatedAnnual
+	dividendPayoutRatioTTM
+	dividendsPerShareTTM
+	exDividendDate
+	trailingAnnualDividendRate
+	trailingAnnualDividendYield
+	forwardDividendYield
 }
 
 fragment earningsChartFragment on EarningsChart {
-    currentQuarterEstimate
-    currentQuarterEstimateDate
-    currentQuarterEstimateYear
-    earningsDate
-    quarterly {
-        actual
-        date
-        estimate
-    }
+	currentQuarterEstimate
+	currentQuarterEstimateDate
+	currentQuarterEstimateYear
+	earningsDate
+	quarterly {
+		actual
+		date
+		estimate
+	}
 }
 
 fragment financialChartDataFragment on FinancialsChartData {
-    categories
-    series {
-        data
-        name
-    }
+	categories
+	series {
+		data
+		name
+	}
 }
 
 fragment earningsFragment on Earnings {
-    earningsChart {
-        ...earningsChartFragment
-    }
-    financialCurrency
-    financialsChart {
-        quarterly {
-            ...financialChartDataFragment
-        }
-        yearly {
-            ...financialChartDataFragment
-        }
-    }
+	earningsChart {
+		...earningsChartFragment
+	}
+	financialCurrency
+	financialsChart {
+		quarterly {
+			...financialChartDataFragment
+		}
+		yearly {
+			...financialChartDataFragment
+		}
+	}
 }
 
 fragment historicalMetricsDataFragment on HistoricalMetricsData {
-    name
-    dates
-    data
+	name
+	dates
+	data
 }
 
 fragment CAPMFragment on CAPM {
-    Beta
-    Rf
-    Rm
-    result
+	Beta
+	Rf
+	Rm
+	result
 }
 
 fragment WACCFragment on WACC {
-    CAPM {
-        ...CAPMFragment
-    }
-    Rd
-    Re
-    Wd
-    We
-    result
-    taxRate
+	CAPM {
+		...CAPMFragment
+	}
+	Rd
+	Re
+	Wd
+	We
+	result
+	taxRate
 }
-
 
 # -----------------------------------------
 # QUERY
 
-
 query QueryStockDetails($symbol: String!, $reload: Boolean) {
-    queryStockDetails(symbol: $symbol, reload: $reload) {
-        id
-        recommendation {
-            ...recommendationFragment
-        }
-        companyData {
-            defaultKeyStatistics {
-                ...defaultKeyStatisticsFragment
-            }
-            earnings {
-                ...earningsFragment
-            }
-            financialData {
-                ...financialDataFragment
-            }
-            pageViews {
-                longTermTrend
-                midTermTrend
-                shortTermTrend
-            }
-            upgradeDowngradeHistory {
-                action
-                epochGradeDate
-                firm
-                fromGrade
-                toGrade
-            }
-            esgScores {
-                ...esgScoreFragment
-            }
-        }
-        summary {
-            ...StockSummaryFragment
-        }
-        metric {
-            ...metricFragment
-        }
-        dividends {
-            ...dividensFragment
-        }
-        historicalMetrics {
-            cashRatio {
-                ...historicalMetricsDataFragment
-            }
-            currentRatio {
-                ...historicalMetricsDataFragment
-            }
-            ebitPerShare {
-                ...historicalMetricsDataFragment
-            }
-            eps {
-                ...historicalMetricsDataFragment
-            }
-            grossMargin {
-                ...historicalMetricsDataFragment
-            }
-            longtermDebtTotalAsset {
-                ...historicalMetricsDataFragment
-            }
-            longtermDebtTotalCapital {
-                ...historicalMetricsDataFragment
-            }
-            longtermDebtTotalEquity {
-                ...historicalMetricsDataFragment
-            }
-            netDebtToTotalCapital {
-                ...historicalMetricsDataFragment
-            }
-            netDebtToTotalEquity {
-                ...historicalMetricsDataFragment
-            }
-            netMargin {
-                ...historicalMetricsDataFragment
-            }
-            operatingMargin {
-                ...historicalMetricsDataFragment
-            }
-            pretaxMargin {
-                ...historicalMetricsDataFragment
-            }
-            salesPerShare {
-                ...historicalMetricsDataFragment
-            }
-            sgaToSale {
-                ...historicalMetricsDataFragment
-            }
-            totalDebtToEquity {
-                ...historicalMetricsDataFragment
-            }
-            totalDebtToTotalAsset {
-                ...historicalMetricsDataFragment
-            }
-            totalDebtToTotalCapital {
-                ...historicalMetricsDataFragment
-            }
-            totalRatio {
-                ...historicalMetricsDataFragment
-            }
-        }
-        calculations {
-            CAPM {
-                ...CAPMFragment
-            }
-            WACC {
-                ...WACCFragment
-            }
-        }
-        calculatedPredictions {
-            DCF_V1 {
-                estimatedCompanyTodayValue
-                estimatedDiscountedFactors
-                estimatedDiscountedTerminalValue
-                estimatedFreeCashFlowRate
-                estimatedFreeCashFlowRates
-                estimatedFreeCashFlows
-                estimatedIntrinsicValue
-                estimatedNetIncomeMargin
-                estimatedNetIncomes
-                estimatedPresentValueOfFutureCashFlows
-                estimatedRevenueGrowthRate
-                estimatedRevenues
-                estimatedTerminalValue
-                historical {
-                    freeCashFlows
-                    sharesOutstanding
-                    netIncomeMargins
-                    netIncome
-                    revenue
-                    revenueGrowthRates
-                    historicalYears
-                }
-                variable {
-                    perpetualGrowthRate
-                    requiredRateOfReturn
-                }
-                years
-            }
-            DDF_V1 {
-                dividendGrowthRate
-                dividendsPerShareTTM
-                minimumRateReturn
-                estimatedIntrinsicValue
-            }
-            FCF_V1 {
-                avgFcf
-                estimatedIntrinsicMarketCap
-                estimatedIntrinsicValue
-                historicalYears
-                minimumRateReturn
-                operatingActivities
-                capitalExpenditures
-                freeCashFlows
-                sharesOutstanding
-            }
-            INTRINSIC_V1 {
-                dates
-                eps
-                estimatedDiscountedPV
-                estimatedEarnings
-                estimatedIntrinsicValue
-                variable {
-                    growthRateFrom5yTo10y
-                    growthRateNext5y
-                    minimumRateReturn
-                    terminalMultiple
-                }
-            }
-        }
-        allFinancialReportsYearly {
-            ...FinancialReportFragment
-        }
-        allFinancialReportsQuarterly {
-            ...FinancialReportFragment
-        }
-        institutionalHolders {
-            ...STFMHolderFragment
-        }
-        mutualFundHolders {
-            ...STFMHolderWithWeightFragment
-        }
-        companyOutlook {
-            financialsAnnual {
-                balance {
-                    ...STFMBalanceSheetFragment
-                }
-                cash {
-                    ...STFMCashFlowFragment
-                }
-                income {
-                    ...STFMIncomeStatementFragment
-                }
-            }
-            financialsQuarter {
-                balance {
-                    ...STFMBalanceSheetFragment
-                }
-                cash {
-                    ...STFMCashFlowFragment
-                }
-                income {
-                    ...STFMIncomeStatementFragment
-                }
-            }
-            insideTrades {
-                ...STFMInsideTradeFragment
-            }
-            keyExecutives {
-                ...STFMKeyExecutiveFragment
-            }
-            rating {
-                ...STFMRatingFragment
-            }
-            ratios {
-                ...STFMRatiosFragment
-            }
-            splitHistory {
-                ...STFMSplitHistoryFragment
-            }
-            stockDividend {
-                ...STFMStockDividendFragment
-            }
-            stockNews {
-                ...STFMStockNewFragment
-            }
-        }
-        sectorPeers {
-            ...STFMCompanyQuoteFragment
-        }
-    }
+	queryStockDetails(symbol: $symbol, reload: $reload) {
+		id
+		recommendation {
+			...recommendationFragment
+		}
+		companyData {
+			defaultKeyStatistics {
+				...defaultKeyStatisticsFragment
+			}
+			earnings {
+				...earningsFragment
+			}
+			financialData {
+				...financialDataFragment
+			}
+			pageViews {
+				longTermTrend
+				midTermTrend
+				shortTermTrend
+			}
+			upgradeDowngradeHistory {
+				action
+				epochGradeDate
+				firm
+				fromGrade
+				toGrade
+			}
+			esgScores {
+				...esgScoreFragment
+			}
+		}
+		summary {
+			...StockSummaryFragment
+		}
+		metric {
+			...metricFragment
+		}
+		dividends {
+			...dividensFragment
+		}
+		historicalMetrics {
+			cashRatio {
+				...historicalMetricsDataFragment
+			}
+			currentRatio {
+				...historicalMetricsDataFragment
+			}
+			ebitPerShare {
+				...historicalMetricsDataFragment
+			}
+			eps {
+				...historicalMetricsDataFragment
+			}
+			grossMargin {
+				...historicalMetricsDataFragment
+			}
+			longtermDebtTotalAsset {
+				...historicalMetricsDataFragment
+			}
+			longtermDebtTotalCapital {
+				...historicalMetricsDataFragment
+			}
+			longtermDebtTotalEquity {
+				...historicalMetricsDataFragment
+			}
+			netDebtToTotalCapital {
+				...historicalMetricsDataFragment
+			}
+			netDebtToTotalEquity {
+				...historicalMetricsDataFragment
+			}
+			netMargin {
+				...historicalMetricsDataFragment
+			}
+			operatingMargin {
+				...historicalMetricsDataFragment
+			}
+			pretaxMargin {
+				...historicalMetricsDataFragment
+			}
+			salesPerShare {
+				...historicalMetricsDataFragment
+			}
+			sgaToSale {
+				...historicalMetricsDataFragment
+			}
+			totalDebtToEquity {
+				...historicalMetricsDataFragment
+			}
+			totalDebtToTotalAsset {
+				...historicalMetricsDataFragment
+			}
+			totalDebtToTotalCapital {
+				...historicalMetricsDataFragment
+			}
+			totalRatio {
+				...historicalMetricsDataFragment
+			}
+		}
+		calculations {
+			CAPM {
+				...CAPMFragment
+			}
+			WACC {
+				...WACCFragment
+			}
+		}
+		calculatedPredictions {
+			DCF_V1 {
+				estimatedCompanyTodayValue
+				estimatedDiscountedFactors
+				estimatedDiscountedTerminalValue
+				estimatedFreeCashFlowRate
+				estimatedFreeCashFlowRates
+				estimatedFreeCashFlows
+				estimatedIntrinsicValue
+				estimatedNetIncomeMargin
+				estimatedNetIncomes
+				estimatedPresentValueOfFutureCashFlows
+				estimatedRevenueGrowthRate
+				estimatedRevenues
+				estimatedTerminalValue
+				historical {
+					freeCashFlows
+					sharesOutstanding
+					netIncomeMargins
+					netIncome
+					revenue
+					revenueGrowthRates
+					historicalYears
+				}
+				variable {
+					perpetualGrowthRate
+					requiredRateOfReturn
+				}
+				years
+			}
+			DDF_V1 {
+				dividendGrowthRate
+				dividendsPerShareTTM
+				minimumRateReturn
+				estimatedIntrinsicValue
+			}
+			FCF_V1 {
+				avgFcf
+				estimatedIntrinsicMarketCap
+				estimatedIntrinsicValue
+				historicalYears
+				minimumRateReturn
+				operatingActivities
+				capitalExpenditures
+				freeCashFlows
+				sharesOutstanding
+			}
+			INTRINSIC_V1 {
+				dates
+				eps
+				estimatedDiscountedPV
+				estimatedEarnings
+				estimatedIntrinsicValue
+				variable {
+					growthRateFrom5yTo10y
+					growthRateNext5y
+					minimumRateReturn
+					terminalMultiple
+				}
+			}
+		}
+		allFinancialReportsYearly {
+			...FinancialReportFragment
+		}
+		allFinancialReportsQuarterly {
+			...FinancialReportFragment
+		}
+		institutionalHolders {
+			...STFMHolderFragment
+		}
+		mutualFundHolders {
+			...STFMHolderWithWeightFragment
+		}
+		companyOutlook {
+			financialsAnnual {
+				balance {
+					...STFMBalanceSheetFragment
+				}
+				cash {
+					...STFMCashFlowFragment
+				}
+				income {
+					...STFMIncomeStatementFragment
+				}
+			}
+			financialsQuarter {
+				balance {
+					...STFMBalanceSheetFragment
+				}
+				cash {
+					...STFMCashFlowFragment
+				}
+				income {
+					...STFMIncomeStatementFragment
+				}
+			}
+			insideTrades {
+				...STFMInsideTradeFragment
+			}
+			keyExecutives {
+				...STFMKeyExecutiveFragment
+			}
+			rating {
+				...STFMRatingFragment
+			}
+			ratios {
+				...STFMRatiosFragment
+			}
+			splitHistory {
+				...STFMSplitHistoryFragment
+			}
+			stockDividend {
+				...STFMStockDividendFragment
+			}
+			stockNews {
+				...STFMStockNewFragment
+			}
+		}
+		sectorPeers {
+			...STFMCompanyQuoteFragment
+		}
+	}
 }
 
-
 query QueryStockFinancialReports($symbol: String!) {
-    queryStockFinancialReports(symbol: $symbol) {
-        id
-        allFinancialReportsQuarterly {
-            ...FinancialReportFragment
-        }
-        allFinancialReportsYearly {
-            ...FinancialReportFragment
-        }
-    }
+	queryStockFinancialReports(symbol: $symbol) {
+		id
+		allFinancialReportsQuarterly {
+			...FinancialReportFragment
+		}
+		allFinancialReportsYearly {
+			...FinancialReportFragment
+		}
+	}
 }
 
 query QueryStockSummary($symbol: String!) {
-    queryStockSummary(symbol: $symbol) {
-        ...StockSummaryFragment
-    }
+	queryStockSummary(symbol: $symbol) {
+		...StockSummaryFragment
+	}
 }
-
 
 query QueryStockQuotesByPrefix($symbolPrefix: String!) {
-    queryStockQuotesByPrefix(symbolPrefix: $symbolPrefix) {
-        ...STFMCompanyQuoteFragment
-    }
+	queryStockQuotesByPrefix(symbolPrefix: $symbolPrefix) {
+		...STFMCompanyQuoteFragment
+	}
 }
-
 
 mutation SetForceReloadStockDetails {
-    setForceReloadStockDetails
+	setForceReloadStockDetails
 }
-

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { STARTING_PORTFOLIO } from '@core';
 import { roundNumber, stFormatLargeNumber } from '@shared';
 import * as Highcharts from 'highcharts';
 import highcharts3D from 'highcharts/highcharts-3d';
-import { STARTING_PORTFOLIO } from '../../../models';
 
 highcharts3D(Highcharts);
 

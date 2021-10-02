@@ -21,6 +21,7 @@ fragment STPortfolioWrapperFragment on STPortfolioWrapper {
 	lastTransactionSnapshot {
 		...STTransactionSnapshotFragment
 	}
+	transactionFees
 }
 
 fragment STPortfolioSnapshotStartedFragment on STPortfolioSnapshotStarted {
@@ -29,4 +30,5 @@ fragment STPortfolioSnapshotStartedFragment on STPortfolioSnapshotStarted {
 	date
 	numberOfExecutedBuyTransactions
 	numberOfExecutedSellTransactions
+	transactionFees
 }

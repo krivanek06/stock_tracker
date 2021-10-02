@@ -5,4 +5,24 @@
 		margin-top: -16px;
 		min-width: 170px;
 	}
+
+	.c-transaction-summary {
+		margin-top: 24px;
+		margin-bottom: 24px;
+		padding-bottom: 32px;
+		border-bottom: 1px solid #{$st-light-blue-border};
+		border-top: 1px solid #{$st-light-blue-border};
+		padding-top: 24px;
+
+		@media (max-width: #{$st-var-sm-split}) {
+			margin-top: 0;
+			margin-bottom: 0;
+			padding-bottom: 32px;
+			border-bottom: 1px solid;
+			border-top: 1px solid;
+			padding-top: 16px;
+			border-bottom: 1px solid #{$st-light-blue-border};
+			border-top: 0;
+		}
+	}
 }

@@ -19,19 +19,21 @@
 			</ion-label>
 		</ion-item>
 
+		<!-- bid / ask -->
+		<div class="st-width-100">
+			<app-trading-bid-ask [bidPrice]="price - 0.03" [askPrice]="price + 0.03"></app-trading-bid-ask>
+		</div>
+
 		<!-- estimated price -->
 		<ion-item>
 			<ion-label>
-				<ion-text class="st-font-1">Estimated price / share: {{ price | currency }}</ion-text>
+				<ion-text class="st-font-1 st-font-size-16">Estimated price / share: {{ price | currency }}</ion-text>
 			</ion-label>
 		</ion-item>
 
 		<form [formGroup]="form">
 			<!-- amount -->
-			<ion-item class="ion-margin-bottom">
-				<ion-label position="floating">Number of units</ion-label>
-				<ion-input formControlName="units" min="1" placeholder="Enter amount" type="number"></ion-input>
-			</ion-item>
+			<app-form-mat-input-wrapper inputCaption="Number of units" controlName="units" inputType="number"></app-form-mat-input-wrapper>
 
 			<div class="st-flex-row ion-justify-content-between">
 				<!-- estimated price -->
@@ -48,12 +50,33 @@
 				</ion-item>
 			</div>
 
+			<!-- fees -->
+			<ion-item>
+				<ion-label class="st-font-5"> Fees: {{ (price * 0.001 * units.value) | currency }} (0.1% from price) </ion-label>
+			</ion-item>
+
 			<!-- buttons -->
 			<ion-buttons>
-				<ion-button (click)="submit(STTransactionOperationEnum.Buy)" [disabled]="form.invalid" class="st-button" color="primary" fill="solid">
+				<ion-button
+					class="st-button"
+					(click)="submit(STTransactionOperationEnum.Buy)"
+					[disabled]="form.invalid"
+					fill="outline"
+					color="success"
+					shape="round"
+					fill="solid"
+				>
 					Buy
 				</ion-button>
-				<ion-button (click)="submit(STTransactionOperationEnum.Sell)" [disabled]="form.invalid" class="st-button" color="danger" fill="solid">
+				<ion-button
+					class="st-button"
+					(click)="submit(STTransactionOperationEnum.Sell)"
+					[disabled]="form.invalid"
+					fill="outline"
+					color="danger"
+					shape="round"
+					fill="solid"
+				>
 					Sell
 				</ion-button>
 			</ion-buttons>

@@ -18,6 +18,7 @@ fragment STTransactionFragment on STTransaction {
 	operation
 	symbol
 	symbol_logo_url
+	transactionFees
 }
 
 fragment STTransactionFragmentWithUser on STTransaction {
@@ -31,6 +32,7 @@ fragment STTransactionFragmentWithUser on STTransaction {
 	operation
 	symbol
 	symbol_logo_url
+	transactionFees
 	user {
 		id
 		nickName
@@ -43,6 +45,7 @@ fragment STTransactionFragmentWithUser on STTransaction {
 fragment STTransactionSnapshotFragment on STTransactionSnapshot {
 	transactionsBuy
 	transactionsSell
+	transactionFees
 	date
 }
 

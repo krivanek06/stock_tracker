@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardPortfolioChangeComponent } from './dashboard-portfolio-change/dashboard-portfolio-change.component';
-import { DashboardPage } from './dashboard.page';
+import { IonicModule } from '@ionic/angular';
+import { MenuHeaderModule } from '@pages-shared';
+import { GenericCardModule, GenericListModule, HeaderModule, PieChartWrapperModule } from '@shared';
 import {
 	HoldingsTableModule,
 	HoldingsToPortfolioChartSeriesPipeModule,
@@ -10,11 +11,13 @@ import {
 	PortfolioChangeChartModule,
 	PortfolioChangeModule,
 	PortfolioGrowthChartModule,
-	PortfolioStateModule, TransactionsChartModule, TransactionsTableModule
-} from "@stock-trading-feature";
-import {IonicModule} from "@ionic/angular";
-import {GenericCardModule, GenericListModule, HeaderModule, PieChartWrapperModule} from "@shared";
-import {MenuHeaderModule} from "@pages-shared";
+	PortfolioStateModule,
+	TransactionsChartModule,
+	TransactionsSummaryModule,
+	TransactionsTableModule,
+} from '@stock-trading-feature';
+import { DashboardPortfolioChangeComponent } from './dashboard-portfolio-change/dashboard-portfolio-change.component';
+import { DashboardPage } from './dashboard.page';
 
 const routes: Routes = [
 	{
@@ -42,10 +45,8 @@ const routes: Routes = [
 		HoldingsToPortfolioChartSeriesPipeModule,
 		TransactionsTableModule,
 		TransactionsChartModule,
+		TransactionsSummaryModule,
 	],
-	declarations: [
-		DashboardPage,
-		DashboardPortfolioChangeComponent,
-	],
+	declarations: [DashboardPage, DashboardPortfolioChangeComponent],
 })
 export class DashboardPageModule {}

@@ -1,5 +1,5 @@
 import * as api from 'stock-tracker-common-interfaces';
-import { getCurrentIOSDate } from '../st-shared/st-shared.functions';
+import { getCurrentIOSDate } from '../../st-shared/st-shared.functions';
 
 const defaultImage =
 	'https://firebasestorage.googleapis.com/v0/b/stocktrackertest-e51fc.appspot.com/o/default%2Fdefault_user.png?alt=media&token=d1c21428-de0c-4dde-ad29-8d646616aa11';
@@ -39,6 +39,7 @@ export const createSTUserPublicData = (user: api.STUserAuthenticationInput): api
 			lastTransactionSnapshot: {
 				transactionsBuy: 0,
 				transactionsSell: 0,
+				transactionFees: 0,
 				date: getCurrentIOSDate(),
 			},
 			lastPortfolioIncreaseNumber: null,
@@ -46,6 +47,7 @@ export const createSTUserPublicData = (user: api.STUserAuthenticationInput): api
 			numberOfExecutedBuyTransactions: 0,
 			numberOfExecutedSellTransactions: 0,
 			portfolioCash: 0,
+			transactionFees: 0,
 		},
 		groups: {
 			groupInvitationReceived: [],
@@ -69,4 +71,26 @@ export const createSTUserHistoricalData = (): api.STUserHistoricalData => {
 		userLogs: [],
 	};
 	return historicalData;
+};
+
+export const createNewPortfolio = (): api.STPortfolioWrapper => {
+	return {
+		lastPortfolioSnapshot: {
+			portfolioCash: 100000,
+			portfolioInvested: 0,
+			date: getCurrentIOSDate(),
+		},
+		lastTransactionSnapshot: {
+			transactionsBuy: 0,
+			transactionsSell: 0,
+			transactionFees: 0,
+			date: getCurrentIOSDate(),
+		},
+		lastPortfolioIncreaseNumber: 0,
+		lastPortfolioIncreasePrct: 0,
+		numberOfExecutedBuyTransactions: 0,
+		numberOfExecutedSellTransactions: 0,
+		portfolioCash: 100000,
+		transactionFees: 0,
+	};
 };

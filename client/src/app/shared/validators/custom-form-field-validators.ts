@@ -15,6 +15,22 @@ export const requiredValidator: CustomInputValidatorFn = (control) => {
 	};
 };
 
+export const positiveNumberValidator: CustomInputValidatorFn = (control) => {
+	if (!control.value || isNaN(control.value)) {
+		return null;
+	}
+
+	if (Number(control.value) > 0) {
+		return;
+	}
+
+	return {
+		required: {
+			errorText: 'Enter number higher then 0',
+		},
+	};
+};
+
 export const emailValidator: CustomInputValidatorFn = (control) => {
 	const emailValidationErrors = Validators.email(control);
 

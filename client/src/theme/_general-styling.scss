@@ -423,6 +423,10 @@ ion-spinner {
 	font-size: 24px !important;
 }
 
+.st-letter-spacing-1 {
+	letter-spacing: 1px;
+}
+
 .st-transparent-background {
 	--background: transparent;
 	--box-shadow: none;
@@ -782,6 +786,12 @@ ion-skeleton-text {
 	}
 }
 
+.st-hide-xxxl-down {
+	@media (max-width: #{$st-var-xxxl-split}) {
+		display: none !important;
+	}
+}
+
 .st-hide-xs-down {
 	@media (max-width: #{$st-var-xs-split}) {
 		display: none !important;
@@ -855,10 +865,20 @@ ion-skeleton-text {
 	flex: 1;
 }
 
+.st-flex-1-25 {
+	flex: 1.25;
+}
+
 .st-flex-1-5 {
 	flex: 1.5;
 }
 
 .st-flex-2 {
 	flex: 2;
+}
+
+.st-padding-item {
+	padding-left: var(--padding-start) !important;
+	padding-right: var(--padding-end) !important;
+	padding-top: calc(var(--padding-top) + var(--offset-top)) !important;
 }

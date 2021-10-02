@@ -20,6 +20,7 @@ export class SymbolLookupModalComponent implements OnInit {
 
 	stockDetails$: Observable<StockDetails>;
 	user$: Observable<StUserPublicData>;
+	isAdmin$: Observable<boolean>;
 
 	constructor(
 		private navParams: NavParams,
@@ -36,6 +37,7 @@ export class SymbolLookupModalComponent implements OnInit {
 
 		this.stockDetails$ = this.symbolStorageService.getStockDetails(this.symbolIdentification.symbol);
 		this.user$ = this.userStorageService.getUser();
+		this.isAdmin$ = this.userStorageService.isAdmin();
 		this.checkIfSymbolIsInWatchlist(); // checked if opened symbol is in my watchlist
 		this.checkIfDetailsExists();
 	}
@@ -55,6 +57,11 @@ export class SymbolLookupModalComponent implements OnInit {
 	@Confirmable('Please confirm removing symbol from watchlist')
 	removeSymbolFromWatchlist() {
 		this.modalController.dismiss({ removeSymbol: true });
+	}
+
+	reloadStockDetails() {
+		this.stockDetails$ = this.symbolStorageService.reloadStockDetails(this.symbolIdentification.symbol);
+		this.stockDetails$.pipe(first()).subscribe((res) => DialogService.presentToast(`Data for symbol ${res.id} has been reloaded`));
 	}
 
 	private checkIfDetailsExists() {

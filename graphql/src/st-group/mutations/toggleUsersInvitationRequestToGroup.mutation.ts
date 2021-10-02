@@ -1,7 +1,7 @@
 import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
-import { queryUserPublicDataById } from './../../user/user.query';
+import { queryUserPublicDataById } from '../../st-user/user.query';
 import { querySTGroupByGroupId, querySTGroupMemberDataByGroupId } from './../st-group.query';
 import { createSTGroupUser } from './../st-group.util';
 
@@ -94,6 +94,7 @@ export const acceptUser = async (groupId: string, groupData: api.STGroupAllData,
 	groupData.startedPortfolio.portfolioInvested += newGroupUser.startedPortfolio.portfolioInvested;
 	groupData.startedPortfolio.numberOfExecutedSellTransactions += newGroupUser.startedPortfolio.numberOfExecutedSellTransactions;
 	groupData.startedPortfolio.numberOfExecutedBuyTransactions += newGroupUser.startedPortfolio.numberOfExecutedBuyTransactions;
+	groupData.startedPortfolio.transactionFees += newGroupUser.startedPortfolio.transactionFees;
 
 	// update group portfolio
 	groupData.portfolio.portfolioCash += newGroupUser.startedPortfolio.portfolioCash;
@@ -101,6 +102,7 @@ export const acceptUser = async (groupId: string, groupData: api.STGroupAllData,
 	groupData.portfolio.lastPortfolioSnapshot.portfolioCash += newGroupUser.startedPortfolio.portfolioCash;
 	groupData.portfolio.numberOfExecutedSellTransactions += newGroupUser.startedPortfolio.numberOfExecutedSellTransactions;
 	groupData.portfolio.numberOfExecutedBuyTransactions += newGroupUser.startedPortfolio.numberOfExecutedBuyTransactions;
+	groupData.portfolio.transactionFees += newGroupUser.startedPortfolio.transactionFees;
 
 	await admin
 		.firestore()

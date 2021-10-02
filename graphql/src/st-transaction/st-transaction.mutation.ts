@@ -2,7 +2,7 @@ import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
 import { getLivePriceAPI } from '../api';
-import { queryUserPublicDataById } from '../user/user.query';
+import { queryUserPublicDataById } from '../st-user/user.query';
 import { datesAreOnSameDay, getCurrentIOSDate } from './../st-shared/st-shared.functions';
 import { addTransactionToUserHolding, createTransactionBuy, createTransactionSell, substractTransactionFromUserHolding } from './st-transaction-util';
 import { PerformedTransaction } from './st-transaction.model.local';
@@ -38,11 +38,12 @@ const performTransactionAction = async (
 	let newUserHoldings: api.STHolding[] = [];
 
 	if (transactionInput.operation === api.STTransactionOperationEnum.BUY) {
-		if (user.portfolio.portfolioCash < transactionInput.price * transactionInput.units) {
+		transaction = createTransactionBuy(user, transactionInput);
+
+		if (user.portfolio.portfolioCash < transaction.price * transaction.units + transaction.transactionFees) {
 			throw new ApolloError('Not enough cash on the account. Operation was not realized');
 		}
 
-		transaction = createTransactionBuy(user, transactionInput);
 		newUserHoldings = addTransactionToUserHolding(user, transaction);
 	} else {
 		// find existing holding in user's portfolio
@@ -89,6 +90,7 @@ const updateUserTransactionSnapshots = async (user: api.STUserPublicData, transa
 	const newTransactionSnapshots: api.STTransactionSnapshot = {
 		transactionsBuy: transactionsBuy + (lastTransactionSnapshots?.transactionsBuy ?? 0),
 		transactionsSell: transactionsSell + (lastTransactionSnapshots?.transactionsSell ?? 0),
+		transactionFees: transaction.transactionFees + (lastTransactionSnapshots?.transactionFees ?? 0),
 		date: getCurrentIOSDate(),
 	};
 
@@ -123,10 +125,13 @@ const updateUserTransactionSnapshots = async (user: api.STUserPublicData, transa
 				transactionsSnippets: [transaction, ...user.transactionsSnippets].slice(0, 20),
 				portfolio: {
 					...user.portfolio,
-					portfolioCash: isBuy ? user.portfolio.portfolioCash - totalPrice : user.portfolio.portfolioCash + totalPrice,
+					portfolioCash: isBuy
+						? user.portfolio.portfolioCash - totalPrice - transaction.transactionFees
+						: user.portfolio.portfolioCash + totalPrice - transaction.transactionFees,
 					numberOfExecutedSellTransactions: isBuy ? user.portfolio.numberOfExecutedSellTransactions : admin.firestore.FieldValue.increment(1),
 					numberOfExecutedBuyTransactions: isBuy ? admin.firestore.FieldValue.increment(1) : user.portfolio.numberOfExecutedBuyTransactions,
 					lastTransactionSnapshot: newTransactionSnapshots,
+					transactionFees: user.portfolio.transactionFees + transaction.transactionFees,
 				},
 			},
 			{ merge: true }

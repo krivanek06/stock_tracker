@@ -1,6 +1,6 @@
 import * as api from 'stock-tracker-common-interfaces';
 import { getCurrentIOSDate } from '../st-shared/st-shared.functions';
-import { convertSTUserPublicDataToSTUserIndentification } from '../user/user.convertor';
+import { convertSTUserPublicDataToSTUserIndentification } from '../st-user/utils/user.convertor';
 
 export const initGroupFromInput = (groupInput: api.STGroupAllDataInput): api.STGroupAllData => {
 	const newGroup: api.STGroupAllData = {
@@ -30,6 +30,7 @@ export const createEmptySTGroupAllData = (): api.STGroupAllData => {
 			lastTransactionSnapshot: {
 				transactionsBuy: 0,
 				transactionsSell: 0,
+				transactionFees: 0,
 				date: getCurrentIOSDate(),
 			},
 			numberOfExecutedBuyTransactions: 0,
@@ -37,12 +38,14 @@ export const createEmptySTGroupAllData = (): api.STGroupAllData => {
 			lastPortfolioIncreaseNumber: null,
 			lastPortfolioIncreasePrct: null,
 			portfolioCash: 0,
+			transactionFees: 0,
 		},
 		startedPortfolio: {
 			portfolioCash: 0,
 			portfolioInvested: 0,
 			numberOfExecutedBuyTransactions: 0,
 			numberOfExecutedSellTransactions: 0,
+			transactionFees: 0,
 			date: getCurrentIOSDate(),
 		},
 		createdDate: now,
@@ -89,12 +92,14 @@ export const createSTGroupUser = (userPublic: api.STUserPublicData): api.STGroup
 			lastPortfolioIncreaseNumber: userPublic.portfolio.lastPortfolioIncreaseNumber,
 			lastPortfolioIncreasePrct: userPublic.portfolio.lastPortfolioIncreasePrct,
 			portfolioCash: userPublic.portfolio.portfolioCash,
+			transactionFees: userPublic.portfolio.transactionFees,
 		},
 		startedPortfolio: {
 			numberOfExecutedSellTransactions: userPublic.portfolio.numberOfExecutedSellTransactions,
 			numberOfExecutedBuyTransactions: userPublic.portfolio.numberOfExecutedBuyTransactions,
 			portfolioCash: userPublic.portfolio.lastPortfolioSnapshot.portfolioCash,
 			portfolioInvested: userPublic.portfolio.lastPortfolioSnapshot.portfolioInvested,
+			transactionFees: userPublic.portfolio.transactionFees,
 			date: getCurrentIOSDate(),
 		},
 

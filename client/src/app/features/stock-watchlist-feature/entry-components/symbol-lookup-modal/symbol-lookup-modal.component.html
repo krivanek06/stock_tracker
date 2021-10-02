@@ -1,4 +1,4 @@
-<ion-content class="ion-padding">
+<ion-content class="ion-padding" *ngIf="stockDetails$ | async as stockDetails; else showOnlyChart">
 	<ion-grid>
 		<ion-row>
 			<ion-col size="6">
@@ -38,15 +38,15 @@
 			</ion-col>
 		</ion-row>
 
-		<ng-container *ngIf="stockDetails$ | async as details; else showOnlyChart">
+		<ng-container>
 			<ion-row class="ion-justify-content-center">
 				<!-- financial chart -->
 				<ion-col class="st-md-border-bottom" size="12" size-md="6.5" size-xl="7.5">
 					<app-financial-chart-container
-						[closedPrice]="details.summary.previousClose"
-						[currentPrice]="details.summary.marketPrice"
+						[closedPrice]="stockDetails.summary.previousClose"
+						[currentPrice]="stockDetails.summary.marketPrice"
 						[height]="400"
-						[logoUrl]="details.summary.logo_url"
+						[logoUrl]="stockDetails.summary.logo_url"
 						[name]="symbolIdentification.name"
 						[symbol]="symbolIdentification.symbol"
 					>
@@ -55,8 +55,14 @@
 
 				<ion-col class="st-md-border-bottom ion-padding" size="12" size-md="5.5" size-xl="4.5">
 					<!-- summary -->
-					<app-generic-list [iconTitle]="'barcode-outline'" [title]="'Summary: ' + symbolIdentification.symbol"> </app-generic-list>
-					<app-stock-summary-container [summary]="details.summary"> </app-stock-summary-container>
+					<ion-list-header>
+						<app-generic-list class="st-flex-1" [iconTitle]="'barcode-outline'" [title]="'Summary: ' + stockDetails.id"> </app-generic-list>
+						<ion-button (click)="reloadStockDetails()" *ngIf="isAdmin$ | async">
+							<ion-icon class="st-icon-title" name="refresh-circle"></ion-icon>
+							Reload data
+						</ion-button>
+					</ion-list-header>
+					<app-stock-summary-container [summary]="stockDetails.summary"> </app-stock-summary-container>
 
 					<!-- button-->
 					<ion-buttons class="st-buttons-container st-justify-center">
@@ -65,28 +71,41 @@
 				</ion-col>
 			</ion-row>
 
-			<!-- long business summary -->
-			<ion-row>
-				<ion-col class="st-flex-col" size="12">
-					<app-generic-list title="About company"></app-generic-list>
-					<ion-text class="st-font-3"> {{ details.summary.longBusinessSummary }} </ion-text>
-				</ion-col>
-			</ion-row>
-		</ng-container>
-
-		<!-- loader while no data -->
-		<ng-template #showOnlyChart>
 			<div *ngIf="showSpinner" class="spinner-container">
 				<ion-spinner color="primary"></ion-spinner>
 			</div>
 
-			<!-- financial chart -->
-			<ion-row *ngIf="!showSpinner" class="ion-justify-content-center">
-				<ion-col size="12">
-					<app-financial-chart-container [height]="450" [name]="symbolIdentification.name" [symbol]="symbolIdentification.symbol">
-					</app-financial-chart-container>
+			<!-- long business summary -->
+			<ion-row>
+				<ion-col class="st-flex-col" size="12">
+					<app-generic-list title="About company"></app-generic-list>
+					<ion-text class="st-font-3"> {{ stockDetails.summary.longBusinessSummary }} </ion-text>
 				</ion-col>
 			</ion-row>
-		</ng-template>
+		</ng-container>
 	</ion-grid>
 </ion-content>
+
+<ng-template #showOnlyChart>
+	<ion-content class="ion-padding">
+		<ion-toolbar>
+			<ion-button (click)="dismissModal()" slot="end" color="danger" fill="clear">
+				<ion-icon name="close-outline"></ion-icon>
+				Close
+			</ion-button>
+		</ion-toolbar>
+		<!-- loader while no data -->
+
+		<div *ngIf="showSpinner" class="spinner-container">
+			<ion-spinner color="primary"></ion-spinner>
+		</div>
+
+		<!-- financial chart -->
+		<ion-row *ngIf="!showSpinner" class="ion-justify-content-center">
+			<ion-col size="12">
+				<app-financial-chart-container [height]="450" [name]="symbolIdentification.name" [symbol]="symbolIdentification.symbol">
+				</app-financial-chart-container>
+			</ion-col>
+		</ion-row>
+	</ion-content>
+</ng-template>

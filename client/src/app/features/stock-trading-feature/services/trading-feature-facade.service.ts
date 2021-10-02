@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GraphqlTradingService, StPortfolio, StPortfolioSnapshot, StTransactionInput, Summary } from '@core';
+import { GraphqlTradingService, STARTING_PORTFOLIO, StPortfolio, StPortfolioSnapshot, StTransactionInput, Summary } from '@core';
 import { PopoverController } from '@ionic/angular';
 import { DialogService, zipArrays } from '@shared';
 import * as moment from 'moment';
@@ -49,7 +49,10 @@ export class TradingFeatureFacadeService {
 		const monthlyPortfolio = reverseSnapshots.find((change) => today.diff(moment(change.date), 'months') >= 1);
 		const quarterlyPortfolio = reverseSnapshots.find((change) => today.diff(moment(change.date), 'months') >= 4);
 		const yearlyPortfolio = reverseSnapshots.find((change) => today.diff(moment(change.date), 'years') >= 1);
-		const fromBeginning = stPortfolioSnapshots[0];
+		const fromBeginning = {
+			portfolioInvested: 0,
+			portfolioCash: STARTING_PORTFOLIO,
+		};
 
 		const portfolios = [currentlyPortfolio, dailyPortfolio, weeklyPortfolio, monthlyPortfolio, quarterlyPortfolio, yearlyPortfolio, fromBeginning];
 		const timeIntervals = [

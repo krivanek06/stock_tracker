@@ -341,6 +341,8 @@ export interface STSummary {
   currency: string;
   dividendDate: string;
   ePSTTM: number;
+  beta: string;
+	countryFullName: string;
   earningsDate: string;
   exDividendDate: string;
   exchangeName: string;

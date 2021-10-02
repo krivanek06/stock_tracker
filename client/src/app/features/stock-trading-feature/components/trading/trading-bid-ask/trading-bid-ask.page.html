@@ -1,0 +1,10 @@
+<ion-list>
+	<ion-item>
+		<ion-label class="st-price-up st-font-size-20 ion-text-end"> BID </ion-label>
+		<ion-label class="st-price-down st-font-size-20"> ASK </ion-label>
+	</ion-item>
+	<ion-item>
+		<ion-label class="ion-text-end st-font-size-16" [@marketValueChange]="bidPrice"> {{ bidPrice | currency }} </ion-label>
+		<ion-label class="st-font-size-16" [@marketValueChange]="askPrice"> {{ askPrice | currency }} </ion-label>
+	</ion-item>
+</ion-list>

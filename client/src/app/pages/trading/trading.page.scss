@@ -1,7 +1,14 @@
 :host {
 	.c-search-stock-wrapper {
-		padding-top: 24px;
 		padding-bottom: 24px;
 		overflow: visible;
+	}
+
+	ion-col {
+		overflow: visible;
+	}
+
+	.c-chart-container {
+		margin-top: -36px;
 	}
 }

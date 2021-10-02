@@ -49,11 +49,11 @@ import { querySymbolHistoricalPrices } from './st-stocks/st-stocks-query/querySt
 import { performTransaction } from './st-transaction/st-transaction.mutation';
 import { stTransactionResolvers } from './st-transaction/st-transaction.resolver';
 import { STTransactionTypeDefs } from './st-transaction/st-transaction.typedef';
+import { editUser, registerUser, resetUserAccount } from './st-user/mutations';
+import { authenticateUser, queryUserPublicDataById, queryUserPublicDataByUsername } from './st-user/user.query';
+import { userResolvers } from './st-user/user.resolver';
+import { userTypeDefs } from './st-user/user.typeDefs';
 import { closeTicket, commentTicket, createTicket, deleteTicket, stTicketsResolver, STTicketsTypeDefs } from './st-utils';
-import { editUser, registerUser, resetUserAccount } from './user/user.mutation';
-import { authenticateUser, queryUserPublicDataById, queryUserPublicDataByUsername } from './user/user.query';
-import { userResolvers } from './user/user.resolver';
-import { userTypeDefs } from './user/user.typeDefs';
 import { validatorFinhubKeyValidity } from './validators';
 import {
 	addStockIntoStockWatchlist,

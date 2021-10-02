@@ -1,16 +1,14 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {TradeConfirmationPopOverComponent} from "./trade-confirmation-pop-over.component";
-import {IonicModule} from "@ionic/angular";
-import {ReactiveFormsModule} from "@angular/forms";
-
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { FormMatInputWrapperModule } from '@shared';
+import { TradingBidAskModule } from './../../components/trading';
+import { TradeConfirmationPopOverComponent } from './trade-confirmation-pop-over.component';
 
 @NgModule({
-    declarations: [TradeConfirmationPopOverComponent],
-    imports: [
-        IonicModule, CommonModule, ReactiveFormsModule
-    ],
-    exports: [TradeConfirmationPopOverComponent]
+	declarations: [TradeConfirmationPopOverComponent],
+	imports: [IonicModule, CommonModule, ReactiveFormsModule, TradingBidAskModule, FormMatInputWrapperModule],
+	exports: [TradeConfirmationPopOverComponent],
 })
-export class TradeConfirmationPopOverModule {
-}
+export class TradeConfirmationPopOverModule {}

@@ -1,44 +1,48 @@
-import {NgModule} from '@angular/core';
-import {TradingPage} from './trading.page';
-import {RouterModule, Routes} from '@angular/router';
-import {HoldingsTableModule, PortfolioStateModule, TradeConfirmationPopOverModule} from "@stock-trading-feature";
-import {CommonModule} from "@angular/common";
-import {IonicModule} from "@ionic/angular";
-import {MenuHeaderModule} from "@pages-shared";
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
+import { MenuHeaderModule } from '@pages-shared';
 import {
-    FinancialChartContainerModule,
-    GenericCardModule,
-    GenericListModule,
-    HeaderModule,
-    StockSummaryContainerModule
-} from "@shared";
-import {DetailsStockSuggestionChangeModule, StockSearchModule} from "@stock-details-feature";
+	FinancialChartContainerModule,
+	GenericCardModule,
+	GenericChartModule,
+	GenericListModule,
+	HeaderModule,
+	PieChartWrapperModule,
+	StockSummaryContainerModule,
+} from '@shared';
+import { DetailsStockSuggestionChangeModule, StockSearchModule } from '@stock-details-feature';
+import { HoldingsTableModule, PortfolioStateModule, TradeConfirmationPopOverModule, TradingBidAskModule } from '@stock-trading-feature';
+import { TradingPage } from './trading.page';
 
 const routes: Routes = [
-    {
-        path: '',
-        component: TradingPage
-    }
+	{
+		path: '',
+		component: TradingPage,
+	},
 ];
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        TradeConfirmationPopOverModule,
-        IonicModule,
-        MenuHeaderModule,
-        HeaderModule,
-        StockSearchModule,
-        PortfolioStateModule,
-        FinancialChartContainerModule,
-        GenericListModule,
-        GenericCardModule,
-        StockSummaryContainerModule,
-        HoldingsTableModule,
-        DetailsStockSuggestionChangeModule
-    ],
-    declarations: [TradingPage]
+	imports: [
+		CommonModule,
+		RouterModule.forChild(routes),
+		TradeConfirmationPopOverModule,
+		IonicModule,
+		MenuHeaderModule,
+		HeaderModule,
+		StockSearchModule,
+		PortfolioStateModule,
+		TradingBidAskModule,
+		FinancialChartContainerModule,
+		GenericListModule,
+		GenericCardModule,
+		StockSummaryContainerModule,
+		HoldingsTableModule,
+		GenericChartModule,
+		DetailsStockSuggestionChangeModule,
+		PieChartWrapperModule,
+	],
+	declarations: [TradingPage],
 })
-export class TradingPageModule {
-}
+export class TradingPageModule {}

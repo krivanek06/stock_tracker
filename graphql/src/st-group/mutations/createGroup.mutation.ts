@@ -2,7 +2,7 @@ import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
 import { Context } from '../../st-shared/st-shared.interface';
-import { queryUserPublicDataById } from '../../user/user.query';
+import { queryUserPublicDataById } from '../../st-user/user.query';
 import { createEmptySTGroupHistoricalData, createSTGroupUser, initGroupFromInput } from '../st-group.util';
 
 export const createGroup = async (groupInput: api.STGroupAllDataInput, { requesterUserId }: Context): Promise<api.STGroupAllData> => {
@@ -40,13 +40,13 @@ const createGroupObject = async (groupInput: api.STGroupAllDataInput, requesterU
 		group.startedPortfolio.portfolioInvested = group.owner.portfolio.lastPortfolioSnapshot?.portfolioInvested ?? 0;
 		group.startedPortfolio.numberOfExecutedSellTransactions = group.owner.portfolio.numberOfExecutedSellTransactions;
 		group.startedPortfolio.numberOfExecutedBuyTransactions = group.owner.portfolio.numberOfExecutedBuyTransactions;
+		group.startedPortfolio.transactionFees = group.owner.portfolio.transactionFees;
 
 		group.portfolio.lastPortfolioSnapshot.portfolioCash = group.owner.portfolio.lastPortfolioSnapshot.portfolioCash;
 		group.portfolio.lastPortfolioSnapshot.portfolioInvested = group.owner.portfolio.lastPortfolioSnapshot.portfolioInvested;
 		group.portfolio.numberOfExecutedSellTransactions = group.owner.portfolio.numberOfExecutedSellTransactions;
 		group.portfolio.numberOfExecutedBuyTransactions = group.owner.portfolio.numberOfExecutedBuyTransactions;
-
-		group.numberOfMembers = 1;
+		group.portfolio.transactionFees = group.numberOfMembers = 1;
 	}
 
 	return group;

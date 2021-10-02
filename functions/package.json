@@ -21,7 +21,7 @@
 		"lodash": "^4.17.21",
 		"moment": "^2.29.1",
 		"node-fetch": "^2.6.1",
-		"stock-tracker-common-interfaces": "1.0.35"
+		"stock-tracker-common-interfaces": "1.0.37"
 	},
 	"devDependencies": {
 		"@types/node-fetch": "^2.5.10",

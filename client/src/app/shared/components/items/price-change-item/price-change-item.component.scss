@@ -1,0 +1,9 @@
+@import 'variables';
+
+:host {
+	.c-content-wrapper {
+		@media (max-width: #{$st-var-sm-split}) {
+			justify-content: end;
+		}
+	}
+}

@@ -1,7 +1,7 @@
 import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
-import { queryUserIdentificationBase } from '../../../user/user.query';
+import { queryUserIdentificationBase } from '../../../st-user/user.query';
 
 export const commentTicket = async (ticketId: string, comment: string, requesterUserId: string): Promise<api.STTicketComment> => {
 	try {
