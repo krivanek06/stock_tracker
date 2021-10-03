@@ -1,25 +1,28 @@
 <app-financial-chart-container [height]="385" [name]="'ETF: SPY'" [symbol]="'SPY'"> </app-financial-chart-container>
 
 <ng-container *ngIf="etfDocument$ | async as etfDocument">
-	<div class="st-flex-wrap ion-margin-vertical">
-		<!-- etf sector weight -->
-		<app-pie-chart-wrapper
-			*ngIf="etfDocument.etfSectorWeight"
-			[data]="etfDocument.etfSectorWeight | chartKeyValueFormatter: 'sector' : 'weightPercentage'"
-			[heightPx]="300"
-			chartTitle="ETF sector allocation"
-		>
-		</app-pie-chart-wrapper>
-
-		<!-- etf country weight -->
-		<app-pie-chart-wrapper
-			*ngIf="etfDocument.etfCountryWeight"
-			[data]="etfDocument.etfCountryWeight | chartKeyValueFormatter: 'country' : 'weightPercentage'"
-			[heightPx]="300"
-			chartTitle="ETF country allocation"
-		>
-		</app-pie-chart-wrapper>
-	</div>
+	<ion-row>
+		<ion-col size="12" size-lg="6">
+			<!-- etf sector weight -->
+			<app-pie-chart-wrapper
+				*ngIf="etfDocument.etfSectorWeight"
+				[data]="etfDocument.etfSectorWeight | chartKeyValueFormatter: 'sector' : 'weightPercentage'"
+				[heightPx]="300"
+				chartTitle="ETF sector allocation"
+			>
+			</app-pie-chart-wrapper>
+		</ion-col>
+		<ion-col size="12" size-lg="6">
+			<!-- etf country weight -->
+			<app-pie-chart-wrapper
+				*ngIf="etfDocument.etfCountryWeight"
+				[data]="etfDocument.etfCountryWeight | chartKeyValueFormatter: 'country' : 'weightPercentage'"
+				[heightPx]="300"
+				chartTitle="ETF country allocation"
+			>
+			</app-pie-chart-wrapper>
+		</ion-col>
+	</ion-row>
 </ng-container>
 
 <!-- table of different etfs -->

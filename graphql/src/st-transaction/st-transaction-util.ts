@@ -4,7 +4,7 @@ import { getCurrentIOSDate } from '../st-shared/st-shared.functions';
 export const createTransactionBuy = (user: api.STUserPublicData, transactionInput: api.STTransactionInput): api.STTransaction => {
 	const transactionBuy: api.STTransaction = {
 		operation: api.STTransactionOperationEnum.BUY,
-		price: transactionInput.price,
+		price: transactionInput.price + 0.03,
 		symbol: transactionInput.symbol,
 		symbol_logo_url: transactionInput.symbol_logo_url,
 		units: transactionInput.units,
@@ -30,7 +30,7 @@ export const createTransactionSell = (
 ): api.STTransaction => {
 	const transactionSell: api.STTransaction = {
 		operation: api.STTransactionOperationEnum.SELL,
-		price: transactionInput.price,
+		price: transactionInput.price - 0.03,
 		symbol: transactionInput.symbol,
 		symbol_logo_url: transactionInput.symbol_logo_url,
 		units: transactionInput.units,
