@@ -40,7 +40,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
 	@Input() enableLegendTogging = false;
 	@Input() showLegendLatestValue = false;
 	@Input() legendAlign: 'left' | 'center' | 'right' = 'left';
-	@Input() legentLayout: 'vertical' | 'horizontal' = 'vertical';
+	@Input() legentLayout: 'vertical' | 'horizontal' = 'horizontal';
 	@Input() legendVerticalAlign: 'top' | 'middle' | 'bottom' = 'top';
 	@Input() floatingLegend = false;
 
