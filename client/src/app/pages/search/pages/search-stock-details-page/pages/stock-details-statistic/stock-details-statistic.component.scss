@@ -13,10 +13,4 @@
 			column-count: 1;
 		}
 	}
-
-	@media (max-width: #{$st-var-sm-split}) {
-		ion-col {
-			margin-bottom: 10px;
-		}
-	}
 }

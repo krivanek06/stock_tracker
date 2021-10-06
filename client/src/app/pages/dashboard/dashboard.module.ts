@@ -6,6 +6,7 @@ import { MenuHeaderModule } from '@pages-shared';
 import { GenericCardModule, GenericListModule, HeaderModule, PieChartWrapperModule } from '@shared';
 import {
 	HoldingsTableModule,
+	HoldingsToNameValuePipeModule,
 	HoldingsToPortfolioChartSeriesPipeModule,
 	HoldingsToSectorChartSeriesPipeModule,
 	PortfolioChangeChartModule,
@@ -16,7 +17,9 @@ import {
 	TransactionsSummaryModule,
 	TransactionsTableModule,
 } from '@stock-trading-feature';
-import { DashboardPortfolioChangeComponent } from './dashboard-portfolio-change/dashboard-portfolio-change.component';
+import { GenericChartModule } from './../../shared/components/charts/generic-chart/generic-chart.module';
+import { DashboardPortfolioChangeComponent, DashboardPortfolioChartsComponent } from './containers';
+import { DashboardAllocationChartsComponent } from './containers/dashboard-allocation-charts/dashboard-allocation-charts.component';
 import { DashboardPage } from './dashboard.page';
 
 const routes: Routes = [
@@ -46,7 +49,9 @@ const routes: Routes = [
 		TransactionsTableModule,
 		TransactionsChartModule,
 		TransactionsSummaryModule,
+		GenericChartModule,
+		HoldingsToNameValuePipeModule,
 	],
-	declarations: [DashboardPage, DashboardPortfolioChangeComponent],
+	declarations: [DashboardPage, DashboardPortfolioChangeComponent, DashboardPortfolioChartsComponent, DashboardAllocationChartsComponent],
 })
 export class DashboardPageModule {}

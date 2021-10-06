@@ -46,5 +46,9 @@
 
 	ion-icon {
 		font-size: 23px;
+
+		@media (max-width: #{$st-var-sm-split}) {
+			margin-bottom: 10px;
+		}
 	}
 }
