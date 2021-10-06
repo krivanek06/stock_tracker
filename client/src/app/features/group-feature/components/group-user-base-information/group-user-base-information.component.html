@@ -20,7 +20,11 @@
 					{{ (groupUser.portfolio.portfolioCash + ( groupUser.portfolio.lastPortfolioSnapshot?.portfolioInvested || 0) ) | numberFormatter}}
 				</ion-text>
 				<!-- last portfolio increase -->
-				<app-price-change-item *ngIf="!showPortfolioSinceMember" [isPercent]="true" [priceChange]="groupUser.portfolio.lastPortfolioIncreasePrct">
+				<app-price-change-item
+					*ngIf="!showPortfolioSinceMember && groupUser.portfolio.lastPortfolioIncreasePrct"
+					[isPercent]="true"
+					[priceChange]="groupUser.portfolio.lastPortfolioIncreasePrct"
+				>
 				</app-price-change-item>
 				<!-- portfolio increase since member -->
 				<app-price-compare-item
@@ -54,7 +58,7 @@
 			#{{ groupUserPosition || groupUser.currentPosition }}
 		</div>
 		<app-position-change-item
-			*ngIf="groupUser.previousPosition - groupUser.currentPosition !== 0 && showIncreasePosition"
+			*ngIf="(groupUser.previousPosition || groupUser.currentPosition ) - groupUser.currentPosition !== 0 && showIncreasePosition"
 			[increaseBy]="groupUser.previousPosition - groupUser.currentPosition"
 		>
 		</app-position-change-item>

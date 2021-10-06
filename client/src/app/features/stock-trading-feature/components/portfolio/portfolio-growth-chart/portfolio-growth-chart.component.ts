@@ -144,12 +144,13 @@ export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
 			plotOptions: {
 				area: {
 					marker: {
-						radius: 2,
+						enabled: true,
+						radius: 3,
 					},
-					lineWidth: 1,
+					lineWidth: 2,
 					states: {
 						hover: {
-							lineWidth: 1,
+							lineWidth: 4,
 						},
 					},
 					threshold: null,

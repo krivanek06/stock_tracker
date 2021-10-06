@@ -1,0 +1,51 @@
+<ion-row *ngIf="!!holdings && holdings.length > 0" class="ion-margin-vertical ion-justify-content-around">
+	<!-- holdings sector -->
+	<ion-col size="12" size-md="6">
+		<app-pie-chart-wrapper
+			[data]="holdings | holdingsToSectorChartSeries"
+			[heightPx]="portfolioChartHeight + 15"
+			chartTitle="holdings"
+		></app-pie-chart-wrapper>
+	</ion-col>
+
+	<!-- holdings allocation -->
+	<ion-col size="12" size-md="6">
+		<!-- holdings chart -->
+		<app-pie-chart-wrapper
+			*ngIf="holdings.length < 12; else showInvested"
+			[data]="holdings | holdingsToPortfolioChartSeries:  portfolioCash"
+			[heightPx]="portfolioChartHeight + 15"
+			chartTitle="Holdings allocation"
+		></app-pie-chart-wrapper>
+
+		<!-- invested & cash chart -->
+		<ng-template #showInvested>
+			<app-pie-chart-wrapper
+				[heightPx]="portfolioChartHeight - 15"
+				chartTitle="Portfolio allocation"
+				[data]="[
+				{name: 'Invested', color: '#5e00df', y: 100 / (portfolioInvested + portfolioCash) * portfolioInvested, sliced: true},
+				{name: 'Cash', color: '#c7481a', y: 100 / (portfolioInvested + portfolioCash) * portfolioCash}
+			]"
+			>
+			</app-pie-chart-wrapper>
+		</ng-template>
+	</ion-col>
+</ion-row>
+
+<!-- holdings - value chart -->
+<ion-row>
+	<ion-col size="12">
+		<app-generic-chart
+			[chartType]="ChartType.column"
+			[heightPx]="portfolioChartHeight"
+			[showCategoryNameWithValue]="true"
+			[showCategoryNameWithValueDollar]="true"
+			[series]="[{
+			 colorByPoint: true,
+			 data: (holdings | holdingsToNameValue)
+		  }]"
+		>
+		</app-generic-chart>
+	</ion-col>
+</ion-row>

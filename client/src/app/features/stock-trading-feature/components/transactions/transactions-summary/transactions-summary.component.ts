@@ -64,7 +64,7 @@ export class TransactionsSummaryComponent implements OnInit {
 		const startedTotal = this.startedPortfolio.numberOfExecutedBuyTransactions + this.startedPortfolio.numberOfExecutedSellTransactions;
 		const buy = this.startedPortfolio.numberOfExecutedBuyTransactions;
 		const sell = this.startedPortfolio.numberOfExecutedSellTransactions;
-		const fees = this.startedPortfolio.transactionFees;
+		const fees = this.startedPortfolio.transactionFees ?? 0;
 
 		this.transactionSummary[0].value -= startedTotal;
 		this.transactionSummary[1].value -= buy;

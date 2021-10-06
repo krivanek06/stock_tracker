@@ -34,6 +34,8 @@ export class GenericChartComponent implements OnInit, OnChanges {
 	@Input() showXAxis = true;
 	@Input() sharedTooltip = true;
 	@Input() additionalStyle: string = '';
+	@Input() showCategoryNameWithValue: boolean;
+	@Input() showCategoryNameWithValueDollar: boolean;
 
 	// legend
 	@Input() showLegend = false;
@@ -135,6 +137,18 @@ export class GenericChartComponent implements OnInit, OnChanges {
 				pointFormatter: function () {
 					const value = stFormatLargeNumber(this.y);
 					return `<p><span style="color: ${this.color}; font-weight: bold">● ${this.series.name}: </span><span>${value}</span></p><br/>`;
+				},
+			};
+		}
+
+		if (this.showCategoryNameWithValue) {
+			const dollar = this.showCategoryNameWithValueDollar;
+			this.chartOptions.tooltip = {
+				...this.chartOptions.tooltip,
+				headerFormat: '',
+				pointFormatter: function () {
+					const value = stFormatLargeNumber(this.y, false, dollar);
+					return `<p><span style="color: ${this.color}; font-weight: bold">● ${this.name}: </span><span>${value}</span></p><br/>`;
 				},
 			};
 		}

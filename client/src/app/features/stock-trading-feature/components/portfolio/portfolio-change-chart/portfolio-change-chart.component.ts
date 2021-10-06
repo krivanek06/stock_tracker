@@ -112,6 +112,20 @@ export class PortfolioChangeChartComponent implements OnInit, OnChanges {
 			legend: {
 				enabled: false,
 			},
+			plotOptions: {
+				area: {
+					marker: {
+						enabled: true,
+						radius: 3,
+					},
+					lineWidth: 4,
+					states: {
+						hover: {
+							lineWidth: 5,
+						},
+					},
+				},
+			},
 			tooltip: {
 				padding: 11,
 				enabled: true,

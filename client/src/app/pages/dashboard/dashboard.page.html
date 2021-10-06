@@ -24,19 +24,7 @@
 				></app-dashboard-portfolio-change>
 
 				<!-- portfolio change charts -->
-				<ion-row class="ion-justify-content-center">
-					<!-- portfolio growth chart -->
-					<ion-col size="12" size-md="6" class="st-sm-border-bottom-with-space">
-						<app-portfolio-growth-chart [heightPx]="260" [stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots">
-						</app-portfolio-growth-chart>
-					</ion-col>
-
-					<!-- portfolio change chart -->
-					<ion-col size="12" size-md="6" class="st-sm-border-bottom-with-space">
-						<app-portfolio-change-chart [heightPx]="260" [stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots">
-						</app-portfolio-change-chart>
-					</ion-col>
-				</ion-row>
+				<app-dashboard-portfolio-charts [stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots"></app-dashboard-portfolio-charts>
 
 				<!-- holdings table -->
 				<ion-row class="ion-justify-content-center">
@@ -54,37 +42,23 @@
 				</ion-row>
 
 				<!-- holdings pie charts -->
-				<ion-row *ngIf="user.holdings.length > 0" class="ion-margin-vertical ion-justify-content-around">
-					<!-- holdings sector -->
-					<ion-col size="12" size-md="6">
-						<app-pie-chart-wrapper
-							[data]="user.holdings | holdingsToSectorChartSeries"
-							[heightPx]="300"
-							chartTitle="holdings"
-						></app-pie-chart-wrapper>
-					</ion-col>
-
-					<!-- holdings allocation -->
-					<ion-col size="12" size-md="6">
-						<app-pie-chart-wrapper
-							[data]="user.holdings | holdingsToPortfolioChartSeries:  user.portfolio.portfolioCash"
-							[heightPx]="300"
-							chartTitle="Holdings allocation"
-						></app-pie-chart-wrapper>
-					</ion-col>
-				</ion-row>
+				<app-dashboard-allocation-charts
+					[portfolioInvested]="portfolioInvested"
+					[portfolioCash]="user.portfolio.portfolioCash"
+					[holdings]="user.holdings"
+				></app-dashboard-allocation-charts>
 
 				<!-- transactions table -->
 				<app-generic-list [iconTitle]="'reader'" [title]="'Transactions'"></app-generic-list>
 				<ion-row>
-					<ion-col size="12" size-md="6">
+					<ion-col size="12" size-md="5.9">
 						<app-generic-card title="Last transactions" additionalStyles="height: 100%; min-height: 300px">
-							<app-transactions-table [transactions]="user.transactionsSnippets | slice:0:7"> </app-transactions-table>
+							<app-transactions-table [transactions]="user.transactionsSnippets | slice:0:10"> </app-transactions-table>
 						</app-generic-card>
 					</ion-col>
-					<ion-col size="12" size-md="6">
+					<ion-col size="12" size-md="5.9" push-md="0.2">
 						<app-generic-card title="Top transactions" additionalStyles="height: 100%; min-height: 300px">
-							<app-transactions-table [transactions]="user.topTransactions| slice:0:7"> </app-transactions-table>
+							<app-transactions-table [transactions]="user.topTransactions| slice:0:10"> </app-transactions-table>
 						</app-generic-card>
 					</ion-col>
 				</ion-row>
@@ -97,7 +71,7 @@
 				<!-- transactions chart -->
 				<ion-row>
 					<ion-col class="ion-padding" size="12">
-						<app-transactions-chart [heightPx]="360" [stTransactionSnapshots]="user.userHistoricalData.transactionSnapshots">
+						<app-transactions-chart [heightPx]="transactionHeight" [stTransactionSnapshots]="user.userHistoricalData.transactionSnapshots">
 						</app-transactions-chart>
 					</ion-col>
 				</ion-row>
