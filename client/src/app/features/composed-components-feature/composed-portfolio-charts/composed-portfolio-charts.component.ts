@@ -6,12 +6,12 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
-	selector: 'app-dashboard-portfolio-charts',
-	templateUrl: './dashboard-portfolio-charts.component.html',
-	styleUrls: ['./dashboard-portfolio-charts.component.scss'],
+	selector: 'app-composed-portfolio-charts',
+	templateUrl: './composed-portfolio-charts.component.html',
+	styleUrls: ['./composed-portfolio-charts.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardPortfolioChartsComponent implements OnInit {
+export class ComposedPortfolioChartsComponent implements OnInit {
 	@Input() stPortfolioSnapshots: StPortfolioSnapshot[];
 	portfolioChartHeight: number;
 	isXXLDownScreen$: Observable<boolean>;
@@ -19,7 +19,7 @@ export class DashboardPortfolioChartsComponent implements OnInit {
 	constructor(private breakpointObserver: BreakpointObserver) {}
 
 	ngOnInit(): void {
-		this.portfolioChartHeight = WindowService.getWindowHeightPrctInPx(36);
+		this.portfolioChartHeight = WindowService.getWindowHeightPrctInPx(34);
 		this.isXXLDownScreen$ = this.breakpointObserver.observe([BREAK_POINTS.XXL_DOWN]).pipe(map((x) => x.matches));
 	}
 }

@@ -12,7 +12,7 @@
 		<ion-col *ngFor="let data of marketOverview.bitcoin" size="12" size-md="4" size-sm="6">
 			<app-generic-chart
 				(expandEmitter)="expand(data.documentKey)"
-				[heightPx]="185"
+				[heightPx]="chartHeight"
 				[series]="[{name: data.name,  data: data.data}]"
 				[showExpandableButton]="true"
 				[showLegendLatestValue]="true"

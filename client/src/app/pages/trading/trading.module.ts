@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { MenuHeaderModule } from '@pages-shared';
 import {
 	FinancialChartContainerModule,
 	GenericCardModule,
@@ -14,6 +13,7 @@ import {
 } from '@shared';
 import { DetailsStockSuggestionChangeModule, StockSearchModule } from '@stock-details-feature';
 import { HoldingsTableModule, PortfolioStateModule, TradeConfirmationPopOverModule, TradingBidAskModule } from '@stock-trading-feature';
+import { MenuHeaderModule } from 'src/app/features/composed-components-feature';
 import { TradingPage } from './trading.page';
 
 const routes: Routes = [

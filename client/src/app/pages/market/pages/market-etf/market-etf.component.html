@@ -1,4 +1,4 @@
-<app-financial-chart-container [height]="385" [name]="'ETF: SPY'" [symbol]="'SPY'"> </app-financial-chart-container>
+<app-financial-chart-container [height]="chartHeight" [name]="'ETF: SPY'" [symbol]="'SPY'"> </app-financial-chart-container>
 
 <ng-container *ngIf="etfDocument$ | async as etfDocument">
 	<ion-row>
@@ -7,7 +7,7 @@
 			<app-pie-chart-wrapper
 				*ngIf="etfDocument.etfSectorWeight"
 				[data]="etfDocument.etfSectorWeight | chartKeyValueFormatter: 'sector' : 'weightPercentage'"
-				[heightPx]="300"
+				[heightPx]="chartHeighrPie"
 				chartTitle="ETF sector allocation"
 			>
 			</app-pie-chart-wrapper>
@@ -17,7 +17,7 @@
 			<app-pie-chart-wrapper
 				*ngIf="etfDocument.etfCountryWeight"
 				[data]="etfDocument.etfCountryWeight | chartKeyValueFormatter: 'country' : 'weightPercentage'"
-				[heightPx]="300"
+				[heightPx]="chartHeighrPie"
 				chartTitle="ETF country allocation"
 			>
 			</app-pie-chart-wrapper>

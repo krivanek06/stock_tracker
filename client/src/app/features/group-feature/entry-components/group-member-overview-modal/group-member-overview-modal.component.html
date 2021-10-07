@@ -108,78 +108,30 @@
 				</ion-col>
 			</ion-row>
 
-			<!-- portfolio growth -->
-			<ion-row class="ion-justify-content-center">
-				<!-- portfolio growth chart -->
-				<ion-col size="12" size-lg="6">
-					<app-portfolio-growth-chart [heightPx]="260" [stPortfolioSnapshots]="stPortfolioSnapshots"> </app-portfolio-growth-chart>
-				</ion-col>
+			<!-- portfolio change charts -->
+			<app-composed-portfolio-charts [stPortfolioSnapshots]="stPortfolioSnapshots"></app-composed-portfolio-charts>
 
-				<!-- portfolio change chart -->
-				<ion-col size="12" size-lg="6">
-					<app-portfolio-change-chart [heightPx]="260" [stPortfolioSnapshots]="stPortfolioSnapshots"> </app-portfolio-change-chart>
-				</ion-col>
-			</ion-row>
-		</ion-grid>
+			<!-- holdings table -->
+			<app-composed-portfolio-holdings-table
+				[clickable]="false"
+				[holdings]="groupMemberOverview.holdings"
+				[totalPortfolio]="groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioInvested + groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioCash"
+			>
+			</app-composed-portfolio-holdings-table>
 
-		<!-- holdings table -->
-		<div>
-			<app-generic-list [iconTitle]="'pricetags'" [title]="'Holdings'"></app-generic-list>
-			<app-generic-card>
-				<app-holdings-table
-					[clickable]="false"
-					[holdings]="groupMemberOverview.holdings"
-					[totalPortfolio]="groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioInvested + groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioCash"
-				>
-				</app-holdings-table>
-			</app-generic-card>
-		</div>
-
-		<!-- holdings PIE chart -->
-		<ion-grid>
 			<!-- holdings pie charts -->
-			<ion-row *ngIf="groupMemberOverview.holdings.length > 0" class="ion-margin-vertical ion-justify-content-around">
-				<!-- holdings sector -->
-				<ion-col size="12" size-lg="6">
-					<app-pie-chart-wrapper
-						[data]="groupMemberOverview.holdings | holdingsToSectorChartSeries"
-						[heightPx]="300"
-						chartTitle="holdings"
-					></app-pie-chart-wrapper>
-				</ion-col>
-
-				<!-- holdings allocation -->
-				<ion-col size="12" size-lg="6">
-					<app-pie-chart-wrapper
-						[data]="groupMemberOverview.holdings | holdingsToPortfolioChartSeries:  groupMemberOverview.portfolio.portfolioCash"
-						[heightPx]="300"
-						chartTitle="Holdings allocation"
-					></app-pie-chart-wrapper>
-				</ion-col>
-			</ion-row>
+			<app-composed-portfolio-allocation-charts
+				[portfolioInvested]="groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioInvested"
+				[portfolioCash]="groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioCash"
+				[holdings]="groupMemberOverview.holdings"
+			></app-composed-portfolio-allocation-charts>
 
 			<!-- transactions table -->
-			<app-generic-list [iconTitle]="'reader'" [title]="'Transactions'"></app-generic-list>
-			<ion-row>
-				<ion-col size="12" size-md="6">
-					<app-generic-card title="Last transactions" additionalStyles="min-height: 300px">
-						<app-transactions-table [transactions]="groupMemberOverview.transactionsSnippets | slice:0:7"> </app-transactions-table>
-					</app-generic-card>
-				</ion-col>
-				<ion-col size="12" size-md="6">
-					<app-generic-card title="Top transactions" additionalStyles="min-height: 300px">
-						<app-transactions-table [transactions]="groupMemberOverview.topTransactions| slice:0:7"> </app-transactions-table>
-					</app-generic-card>
-				</ion-col>
-			</ion-row>
-
-			<!-- transactions chart -->
-			<ion-row>
-				<ion-col class="ion-padding" size="12">
-					<app-transactions-chart [heightPx]="360" [stTransactionSnapshots]="groupMemberOverview.userHistoricalData.transactionSnapshots">
-					</app-transactions-chart>
-				</ion-col>
-			</ion-row>
+			<app-composed-transactions
+				[stTransactionSnapshots]="groupMemberOverview.userHistoricalData.transactionSnapshots"
+				[portfolioWrapper]="groupMemberOverview.portfolio"
+				[transactions]="groupMemberOverview.transactionsSnippets"
+			></app-composed-transactions>
 		</ion-grid>
 	</div>
 

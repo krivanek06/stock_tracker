@@ -625,7 +625,7 @@ ion-skeleton-text {
 	width: 85% !important;
 	height: 90%;
 	max-height: 850px !important;
-	@media (max-width: #{$st-var-md-split}) {
+	@media (max-width: #{$st-var-lg-split}) {
 		width: 100% !important;
 		height: 100% !important;
 		max-height: 100% !important;

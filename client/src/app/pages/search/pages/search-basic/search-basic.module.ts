@@ -3,10 +3,23 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import {
+	ComposedPortfolioAllocationChartsModule,
+	ComposedPortfolioChartsModule,
+	ComposedPortfolioHoldingsTableModule,
+	ComposedTransactionsModule,
+} from '@composed-components-feature';
 import { GroupTopUsersInformationModule } from '@group-feature';
 import { IonicModule } from '@ionic/angular';
 import { MarketSearchModule } from '@market-feature';
-import { DefaultImgDirectiveModule, FormMatInputWrapperModule, GenericCardModule, GenericListModule, PieChartWrapperModule } from '@shared';
+import {
+	DefaultImgDirectiveModule,
+	FormMatInputWrapperModule,
+	GenericCardModule,
+	GenericExtensionPanelModule,
+	GenericListModule,
+	PieChartWrapperModule,
+} from '@shared';
 import {
 	HoldingsTableModule,
 	HoldingsToPortfolioChartSeriesPipeModule,
@@ -19,7 +32,6 @@ import {
 	TransactionsChartModule,
 	TransactionsTableModule,
 } from '@stock-trading-feature';
-import { GenericExtensionPanelModule } from './../../../../shared/components/generic/generic-extension-panel/generic-extension-panel.module';
 import { SearchGroupPageComponent } from './pages/search-group-page/search-group-page.component';
 import { SearchStockPageComponent } from './pages/search-stock-page/search-stock-page.component';
 import { SearchUserPageComponent } from './pages/search-user-page/search-user-page.component';
@@ -57,6 +69,10 @@ const routes: Routes = [
 		TransactionsChartModule,
 		PortfolioChangeChartModule,
 		GenericExtensionPanelModule,
+		ComposedPortfolioChartsModule,
+		ComposedTransactionsModule,
+		ComposedPortfolioAllocationChartsModule,
+		ComposedPortfolioHoldingsTableModule,
 		RouterModule.forChild(routes),
 	],
 })

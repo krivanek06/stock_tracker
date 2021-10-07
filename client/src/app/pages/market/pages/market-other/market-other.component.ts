@@ -1,24 +1,24 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
-import {GraphqlQueryService, StMarketDailyOverview} from '@core';
-import {ChartType} from '@shared';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { GraphqlQueryService, StMarketDailyOverview } from '@core';
+import { ChartType, WindowService } from '@shared';
+import { Observable } from 'rxjs';
 
 @Component({
-    selector: 'app-market-other',
-    templateUrl: './market-other.component.html',
-    styleUrls: ['./market-other.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-market-other',
+	templateUrl: './market-other.component.html',
+	styleUrls: ['./market-other.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MarketOtherComponent implements OnInit {
+	dailyOverview$: Observable<StMarketDailyOverview>;
 
-    dailyOverview$: Observable<StMarketDailyOverview>;
+	ChartType = ChartType;
+	chartHeight: number;
 
-    ChartType = ChartType;
+	constructor(private graphqlQueryService: GraphqlQueryService) {}
 
-    constructor(private graphqlQueryService: GraphqlQueryService) {
-    }
-
-    ngOnInit() {
-        this.dailyOverview$ = this.graphqlQueryService.queryMarketDailyOverview();
-    }
+	ngOnInit() {
+		this.dailyOverview$ = this.graphqlQueryService.queryMarketDailyOverview();
+		this.chartHeight = WindowService.getWindowHeightPrctInPx(45);
+	}
 }

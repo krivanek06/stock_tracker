@@ -40,15 +40,18 @@
 @import 'theme/custom-variables.scss';
 @import 'theme/appTooltip.scss';
 @import 'theme/general-styling';
+@import 'variables';
 
 * {
 	font-size: 14px;
 
 	ion-icon {
 		font-size: 23px;
+	}
 
+	ion-col {
 		@media (max-width: #{$st-var-sm-split}) {
-			margin-bottom: 10px;
+			margin-bottom: 10px !important;
 		}
 	}
 }

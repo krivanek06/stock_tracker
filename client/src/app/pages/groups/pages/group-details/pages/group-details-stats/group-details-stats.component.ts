@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { GroupStorageService, StGroupAllData, StHolding } from '@core';
-import { ChartType, SymbolIdentification } from '@shared';
+import { SymbolIdentification, WindowService } from '@shared';
 import { WatchlistFeatureFacadeService } from '@stock-watchlist-feature';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -15,13 +15,16 @@ export class GroupDetailsStatsComponent implements OnInit {
 	groupAllData$: Observable<StGroupAllData>;
 
 	holdings$: Observable<StHolding[]>;
-	ChartType = ChartType;
+	chartHeight: number;
+	chartHeightGroup: number;
 
 	constructor(private groupStorageService: GroupStorageService, private watchlistFeatureFacadeService: WatchlistFeatureFacadeService) {}
 
 	ngOnInit() {
 		this.groupAllData$ = this.groupStorageService.getActiveGroup();
 		this.holdings$ = this.groupAllData$.pipe(map((groupData) => groupData.groupMemberData.holdings.map((h) => h.holding)));
+		this.chartHeight = WindowService.getWindowHeightPrctInPx(35);
+		this.chartHeightGroup = WindowService.getWindowHeightPrctInPx(40);
 	}
 
 	async showSummary(symbolIdentification: SymbolIdentification) {

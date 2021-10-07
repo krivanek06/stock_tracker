@@ -2,8 +2,9 @@
 
 <ng-template #showItem>
 	<div
-		class="c-content-wrapper"
 		[ngClass]="{
+		'c-xs-end': applyEndOnXsDown,
+		'c-sm-end': applyEndOnSmDown,
         'st-flex-col': pricePosition === 'bottom',
         'st-display-flex-center': pricePosition !== 'bottom'
        }"

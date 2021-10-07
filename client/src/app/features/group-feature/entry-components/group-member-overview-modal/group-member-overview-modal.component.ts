@@ -10,6 +10,7 @@ import {
 	StTransactionSnapshot,
 } from '@core';
 import { ModalController, NavParams } from '@ionic/angular';
+import { WindowService } from '@shared';
 import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingFeatureFacadeService } from '@stock-trading-feature';
 import { takeUntil } from 'rxjs/operators';
 
@@ -37,6 +38,8 @@ export class GroupMemberOverviewModalComponent implements OnInit, OnDestroy {
 	stTransactionSnapshots: StTransactionSnapshot[];
 	stPortfolioSnapshotStarted: StPortfolioSnapshotStarted;
 
+	chartHeight: number;
+
 	constructor(
 		private modalController: ModalController,
 		private navParams: NavParams,
@@ -47,6 +50,7 @@ export class GroupMemberOverviewModalComponent implements OnInit, OnDestroy {
 	ngOnDestroy(): void {}
 
 	ngOnInit(): void {
+		this.chartHeight = WindowService.getWindowHeightPrctInPx(35);
 		this.groupUser = this.navParams.get('groupUser');
 
 		this.graphqlGroupService

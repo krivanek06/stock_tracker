@@ -1,6 +1,6 @@
 <ion-list>
 	<!-- table header -->
-	<ion-item class="st-font-1-bold">
+	<ion-item class="st-font-1-bold st-hide-xs-down">
 		<ion-label>Symbol</ion-label>
 		<ion-label>Price</ion-label>
 		<ion-label>Market cap.</ion-label>
@@ -18,12 +18,18 @@
 
 		<!-- price -->
 		<ion-label>
-			<app-price-change-item [isPercent]="false" [priceChange]="peer.changesPercentage" [price]="peer.price" pricePosition="left">
+			<app-price-change-item
+				[applyEndOnXsDown]="true"
+				[isPercent]="false"
+				[priceChange]="peer.changesPercentage"
+				[price]="peer.price"
+				pricePosition="left"
+			>
 			</app-price-change-item>
 		</ion-label>
 
 		<!-- market cap -->
-		<ion-label>{{ peer.marketCap | numberFormatter }}</ion-label>
+		<ion-label class="st-hide-xs-down">{{ peer.marketCap | numberFormatter }}</ion-label>
 		<!-- PE  -->
 		<ion-label class="ion-hide-sm-down">{{ peer.pe ? (peer.pe | number: '1.2-2') : 'N/A' }}</ion-label>
 		<!-- 52 week change -->
