@@ -1,28 +1,28 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {GraphqlQueryService, StMarketOverviewPartialData} from '@core';
-import {Observable} from 'rxjs';
-import {MarketFeatureFacadeService} from '@market-feature';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { GraphqlQueryService, StMarketOverviewPartialData } from '@core';
+import { MarketFeatureFacadeService } from '@market-feature';
+import { WindowService } from '@shared';
+import { Observable } from 'rxjs';
 
 @Component({
-    selector: 'app-market-overview',
-    templateUrl: './market-overview.component.html',
-    styleUrls: ['./market-overview.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-market-overview',
+	templateUrl: './market-overview.component.html',
+	styleUrls: ['./market-overview.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MarketOverviewComponent implements OnInit {
-    marketOverview$: Observable<StMarketOverviewPartialData>;
+	marketOverview$: Observable<StMarketOverviewPartialData>;
 
-    chartHeight = 185;
+	chartHeight: number;
 
-    constructor(private graphqlQueryService: GraphqlQueryService,
-                private marketPageFacadeService: MarketFeatureFacadeService) {
-    }
+	constructor(private graphqlQueryService: GraphqlQueryService, private marketPageFacadeService: MarketFeatureFacadeService) {}
 
-    ngOnInit() {
-        this.marketOverview$ = this.graphqlQueryService.queryStMarketHistoryOverview();
-    }
+	ngOnInit() {
+		this.marketOverview$ = this.graphqlQueryService.queryStMarketHistoryOverview();
+		this.chartHeight = WindowService.getWindowHeightPrctInPx(25);
+	}
 
-    async expand(documentKey: string) {
-        await this.marketPageFacadeService.showMarketChartBuilder(documentKey);
-    }
+	async expand(documentKey: string) {
+		await this.marketPageFacadeService.showMarketChartBuilder(documentKey);
+	}
 }

@@ -40,5 +40,6 @@
 
 <!-- transaction records -->
 <app-generic-card class="ion-margin-top" *ngIf="groupAllData.groupHistoricalData.transactionSnapshots.length > 0">
-	<app-transactions-chart [heightPx]="275" [stTransactionSnapshots]="groupAllData.groupHistoricalData.transactionSnapshots"> </app-transactions-chart>
+	<app-transactions-chart [heightPx]="transactionHeight" [stTransactionSnapshots]="groupAllData.groupHistoricalData.transactionSnapshots">
+	</app-transactions-chart>
 </app-generic-card>

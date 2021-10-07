@@ -1,0 +1,26 @@
+<!-- transactions table -->
+<app-generic-list [iconTitle]="'reader'" [title]="'Transactions'"></app-generic-list>
+<ion-row>
+	<ion-col size="12" size-md="5.9">
+		<app-generic-card title="Last transactions" additionalStyles="height: 100%; min-height: 300px">
+			<app-transactions-table [transactions]="transactions  | slice:0:10"> </app-transactions-table>
+		</app-generic-card>
+	</ion-col>
+	<ion-col size="12" size-md="5.9" push-md="0.2">
+		<app-generic-card title="Top transactions" additionalStyles="height: 100%; min-height: 300px">
+			<app-transactions-table [transactions]="transactions | slice:0:10"> </app-transactions-table>
+		</app-generic-card>
+	</ion-col>
+</ion-row>
+
+<!-- transaction summary -->
+<div class="ion-padding ion-margin-top">
+	<app-transactions-summary [portfolioWrapper]="portfolioWrapper"></app-transactions-summary>
+</div>
+
+<!-- transactions chart -->
+<ion-row>
+	<ion-col class="ion-padding" size="12">
+		<app-transactions-chart [heightPx]="transactionHeight" [stTransactionSnapshots]="stTransactionSnapshots"> </app-transactions-chart>
+	</ion-col>
+</ion-row>

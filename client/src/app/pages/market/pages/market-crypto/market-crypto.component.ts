@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { componentDestroyed, FinnhubWebsocketService, GraphqlQueryService, StMarketOverviewPartialData, StMarketTopTableCryptoData } from '@core';
 import { MarketFeatureFacadeService } from '@market-feature';
-import { ComponentScreenUpdateBaseDirective, LodashService, SymbolIdentification } from '@shared';
+import { ComponentScreenUpdateBaseDirective, LodashService, SymbolIdentification, WindowService } from '@shared';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -14,6 +14,7 @@ import { takeUntil } from 'rxjs/operators';
 export class MarketCryptoComponent extends ComponentScreenUpdateBaseDirective implements OnInit, OnDestroy {
 	marketOverview$: Observable<StMarketOverviewPartialData>;
 	topCrypto: StMarketTopTableCryptoData[] = [];
+	chartHeight: number;
 
 	constructor(
 		private graphqlQueryService: GraphqlQueryService,
@@ -28,6 +29,7 @@ export class MarketCryptoComponent extends ComponentScreenUpdateBaseDirective im
 		super.ngOnInit();
 		this.createCopyOfTopCrypto();
 		this.marketOverview$ = this.graphqlQueryService.queryStMarketHistoryOverview();
+		this.chartHeight = WindowService.getWindowHeightPrctInPx(25);
 	}
 
 	ngOnDestroy() {

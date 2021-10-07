@@ -1,27 +1,27 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'app-price-change-item',
-    templateUrl: './price-change-item.component.html',
-    styleUrls: ['./price-change-item.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+	selector: 'app-price-change-item',
+	templateUrl: './price-change-item.component.html',
+	styleUrls: ['./price-change-item.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PriceChangeItemComponent implements OnInit {
-    @Input() price: number;
-    @Input() priceChange: number;
-    @Input() pricePosition: 'left' | 'right' | 'bottom' = 'right';
-    @Input() priceText: string;
-    @Input() showIcon = true;
-    @Input() isPercent = false;
-    @Input() showNAIfPriceZero: boolean;
-    @Input() showDollarSignOnPrice: boolean;
+	@Input() price: number;
+	@Input() priceChange: number;
+	@Input() pricePosition: 'left' | 'right' | 'bottom' = 'right';
+	@Input() priceText: string;
+	@Input() showIcon = true;
+	@Input() isPercent = false;
+	@Input() showNAIfPriceZero: boolean;
+	@Input() showDollarSignOnPrice: boolean;
+	@Input() applyEndOnSmDown: boolean;
+	@Input() applyEndOnXsDown: boolean;
 
-    constructor() {
-    }
+	constructor() {}
 
-    ngOnInit() {
-        // can be infinity
-        this.priceChange = Number.isFinite(this.priceChange) ? this.priceChange : null;
-    }
-
+	ngOnInit() {
+		// can be infinity
+		this.priceChange = Number.isFinite(this.priceChange) ? this.priceChange : null;
+	}
 }

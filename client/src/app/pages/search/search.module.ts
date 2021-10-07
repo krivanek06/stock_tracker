@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { MenuHeaderModule } from '@pages-shared';
 import { HeaderModule } from '@shared';
+import { MenuHeaderModule } from 'src/app/features/composed-components-feature';
 import { SEARCH_PAGE_ENUM } from './models/pages.model';
 import { SearchPage } from './search.page';
 

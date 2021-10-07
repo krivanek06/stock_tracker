@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { MenuHeaderModule } from '@pages-shared';
 import { HeaderModule } from '@shared';
+import { MenuHeaderModule } from 'src/app/features/composed-components-feature';
 import { GroupsComponent } from './groups.component';
 import { GroupDetailsModule, GroupsOverviewModule } from './pages';
 

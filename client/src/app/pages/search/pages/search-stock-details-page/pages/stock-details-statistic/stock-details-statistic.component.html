@@ -152,23 +152,27 @@
 		</ion-row>
 
 		<ion-row>
-			<ion-col size="12" size-lg="4.5" size-md="6">
-				<!-- rating -->
-				<app-generic-card additionalClasses="st-height-100" title="Rating">
-					<app-details-rating *ngIf="stockDetails.companyOutlook.rating" [rating]="stockDetails.companyOutlook.rating"> </app-details-rating>
-				</app-generic-card>
+			<ion-col size="12" size-lg="5">
+				<ion-row>
+					<ion-col size="12" size-md="6" size-lg="12">
+						<!-- rating -->
+						<app-generic-card additionalClasses="st-height-100" title="Rating">
+							<app-details-rating *ngIf="stockDetails.companyOutlook.rating" [rating]="stockDetails.companyOutlook.rating"> </app-details-rating>
+						</app-generic-card>
+					</ion-col>
+					<ion-col size="12" size-md="6" size-lg="12">
+						<!-- split history -->
+						<app-generic-card additionalClasses="st-height-100" title="Split history">
+							<app-market-calendar-split-history
+								*ngIf="stockDetails.companyOutlook.splitHistory"
+								[splitHistories]="stockDetails.companyOutlook.splitHistory"
+							>
+							</app-market-calendar-split-history>
+						</app-generic-card>
+					</ion-col>
+				</ion-row>
 			</ion-col>
-			<ion-col size="12" size-lg="3" size-md="6">
-				<!-- split history -->
-				<app-generic-card additionalClasses="st-height-100" title="Split history">
-					<app-market-calendar-split-history
-						*ngIf="stockDetails.companyOutlook.splitHistory"
-						[splitHistories]="stockDetails.companyOutlook.splitHistory"
-					>
-					</app-market-calendar-split-history>
-				</app-generic-card>
-			</ion-col>
-			<ion-col size="12" size-lg="4.5">
+			<ion-col size="12" size-lg="7">
 				<!-- recommendation chart -->
 				<app-generic-card additionalClasses="st-height-100" title="Recommendation">
 					<app-details-recommendation-chart *ngIf="stockDetails.recommendation.length > 0" [recommendations]="stockDetails.recommendation">
@@ -186,7 +190,7 @@
 							*ngIf="fc?.yearly?.categories?.length > 0"
 							[categories]="fc.yearly.categories"
 							[chartType]="ChartType.column"
-							[heightPx]="225"
+							[heightPx]="financialsHeight"
 							[series]="fc.yearly.series"
 						>
 						</app-generic-chart>
@@ -202,7 +206,7 @@
 							*ngIf="fc?.quarterly?.categories?.length > 0"
 							[categories]="fc.quarterly.categories"
 							[chartType]="ChartType.column"
-							[heightPx]="225"
+							[heightPx]="financialsHeight"
 							[series]="fc.quarterly.series"
 						>
 						</app-generic-chart>
@@ -215,7 +219,7 @@
 					<app-details-earnings-chart
 						*ngIf="stockDetails.companyData?.earnings?.earningsChart?.quarterly?.length > 0"
 						[earnings]="stockDetails.companyData?.earnings?.earningsChart"
-						[height]="225"
+						[height]="financialsHeight"
 					>
 					</app-details-earnings-chart>
 				</app-generic-card>
@@ -234,7 +238,7 @@
 									[currentPoint]="stockDetails.summary.marketPrice"
 									[displayValue]="stockDetails.summary.targetEstOneyPercent | percent: '1.2'"
 									[endingPoint]="stockDetails.summary.oneyTargetEst"
-									[height]="125"
+									[height]="140"
 									[startingPoint]="0"
 									[tooltipName]="'Target'"
 									[tooltipValue]="'$' + stockDetails.summary.oneyTargetEst + ' (' + (stockDetails.summary.targetEstOneyPercent | percent: '1.2') + ')'"
@@ -251,7 +255,7 @@
 										[currentPoint]="fd.totalCash"
 										[displayValue]=" 1 / fd.totalDebt * fd.totalCash | percent: '1.2'"
 										[endingPoint]="fd.totalDebt"
-										[height]="125"
+										[height]="140"
 										[startingPoint]="0"
 										[tooltipName]="'Cash to Debt'"
 									>
@@ -355,7 +359,8 @@
 								[title]="data.name + ': ' + data.data[data.data.length - 1]"
 								additionalClasses="st-height-100"
 							>
-								<app-generic-chart *ngIf="data.dates.length > 0" [categories]="data.dates" [heightPx]="130" [series]="[data]"> </app-generic-chart>
+								<app-generic-chart *ngIf="data.dates.length > 0" [categories]="data.dates" [heightPx]="chartHeight" [series]="[data]">
+								</app-generic-chart>
 							</app-generic-card>
 						</ng-container>
 						<ng-template #emptyCard>
