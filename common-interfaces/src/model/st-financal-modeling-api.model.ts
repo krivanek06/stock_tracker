@@ -84,6 +84,8 @@ export interface STFMProfile {
   ipoDate: string;
   isActivelyTrading: boolean;
   isEtf: boolean;
+  isAdr: boolean;
+  isFund: boolean;
   isin: string;
   lastDiv: number;
   mktCap: number;
