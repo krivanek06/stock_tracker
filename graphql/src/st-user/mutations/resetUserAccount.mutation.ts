@@ -43,6 +43,7 @@ export const resetUserAccount = async (userId: string): Promise<api.STUserResete
 						...newPortfolioWrapper,
 					},
 					holdings: [],
+					topTransactions: [],
 					transactionsSnippets: [],
 				},
 				{ merge: true }

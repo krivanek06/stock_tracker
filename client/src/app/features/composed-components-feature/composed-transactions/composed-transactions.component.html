@@ -8,14 +8,14 @@
 	</ion-col>
 	<ion-col size="12" size-md="5.9" push-md="0.2">
 		<app-generic-card title="Top transactions" additionalStyles="height: 100%; min-height: 300px">
-			<app-transactions-table [transactions]="transactions | slice:0:10"> </app-transactions-table>
+			<app-transactions-table [transactions]="topTransactions | slice:0:10"> </app-transactions-table>
 		</app-generic-card>
 	</ion-col>
 </ion-row>
 
 <!-- transaction summary -->
 <div class="ion-padding ion-margin-top">
-	<app-transactions-summary [portfolioWrapper]="portfolioWrapper"></app-transactions-summary>
+	<app-transactions-summary [portfolioWrapper]="portfolioWrapper" [startedPortfolio]="startedPortfolio"></app-transactions-summary>
 </div>
 
 <!-- transactions chart -->
