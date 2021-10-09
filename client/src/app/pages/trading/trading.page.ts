@@ -60,7 +60,7 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
 		this.router.navigateByUrl(`/menu/search/stock-details/${this.selectedSummary.symbol}`);
 	}
 
-	changeSymbol(symbolIdentification: SymbolIdentification) {
+	changeSymbol(symbolIdentification: SymbolIdentification): void {
 		this.selectedSummary = null;
 		this.symbolStorageService
 			.getStockSummary(symbolIdentification.symbol)
@@ -71,9 +71,8 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
 			});
 	}
 
-	changeSummary(summary: Summary) {
-		this.setSelectedSummary(summary);
-		this.scrollTop();
+	changeSummary(summary: Summary): void {
+		this.changeSymbol({ symbol: summary.symbol, name: summary.companyName });
 	}
 
 	loadSummary(companyQuote: StfmCompanyQuote) {
