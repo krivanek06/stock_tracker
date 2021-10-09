@@ -109,6 +109,7 @@ export class GraphqlAccountService {
 									portfolioCash: STARTING_PORTFOLIO,
 								},
 								transactionsSnippets: [],
+								topTransactions: [],
 							},
 						},
 					});
