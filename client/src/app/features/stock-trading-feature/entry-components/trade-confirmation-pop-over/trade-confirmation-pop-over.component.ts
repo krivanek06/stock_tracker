@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { StTransactionInput, StTransactionOperationEnum } from '@core';
+import { StHolding, StTransactionInput, StTransactionOperationEnum } from '@core';
 import { NavParams, PopoverController } from '@ionic/angular';
 import { positiveNumberValidator, requiredValidator } from '@shared';
 
@@ -14,9 +14,12 @@ export class TradeConfirmationPopOverComponent implements OnInit {
 	STTransactionOperationEnum = StTransactionOperationEnum;
 	form: FormGroup;
 
+	// received properties
 	symbol: string;
 	symbolLogoUrl: string;
 	price: number;
+	holding: StHolding;
+	portoflioCash: number;
 
 	constructor(private popoverController: PopoverController, private navParams: NavParams, private fb: FormBuilder) {}
 
@@ -32,6 +35,8 @@ export class TradeConfirmationPopOverComponent implements OnInit {
 		this.symbol = this.navParams.get('symbol');
 		this.symbolLogoUrl = this.navParams.get('symbolLogoUrl');
 		this.price = Number(this.navParams.get('price'));
+		this.holding = this.navParams.get('holding');
+		this.portoflioCash = this.navParams.get('portoflioCash');
 
 		this.initForm();
 	}

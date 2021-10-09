@@ -89,7 +89,7 @@ const mainTypeDefs = gql`
 
 		# details
 		queryStockDetails(symbol: String!, reload: Boolean): StockDetails
-		queryStockSummary(symbol: String!): Summary
+		queryStockSummary(symbol: String!, allowReload: Boolean): Summary
 		queryStockQuotesByPrefix(symbolPrefix: String!): [STFMCompanyQuote]!
 		queryStockFinancialReports(symbol: String!): StockDetailsFinancialReports
 		querySymbolHistoricalPrices(symbol: String!, period: String!): SymbolHistoricalPrices
@@ -160,7 +160,7 @@ const mainResolver = {
 
 		// stock details
 		queryStockDetails: async (_: null, args: { symbol: string; reload: boolean }) => await queryStockDetails(args.symbol, args.reload),
-		queryStockSummary: async (_: null, args: { symbol: string }) => await queryStockSummary(args.symbol),
+		queryStockSummary: async (_: null, args: { symbol: string; allowReload?: boolean }) => await queryStockSummary(args.symbol, args.allowReload),
 		queryStockQuotesByPrefix: async (_: null, args: { symbolPrefix: string }) => await queryStockQuotesByPrefix(args.symbolPrefix),
 		queryStockFinancialReports: async (_: null, args: { symbol: string }) => await queryStockFinancialReports(args.symbol),
 		querySymbolHistoricalPrices: async (_: null, args: { symbol: string; period: string }) =>

@@ -30,7 +30,8 @@ export class WatchlistFeatureFacadeService {
 		console.log('dismiss', dismiss);
 
 		if (dismiss.data?.redirect) {
-			this.router.navigateByUrl(`/menu/search/stock-details/${symbolIdentification.symbol}`);
+			const symbol = symbolIdentification.symbol.split('.')[0]; // ex: MMM.DE => MMM
+			this.router.navigateByUrl(`/menu/search/stock-details/${symbol}`);
 		} else if (dismiss.data?.addSymbol) {
 			this.addSymbolToWatchlist(symbolIdentification.symbol);
 		} else if (dismiss.data?.removeSymbol) {

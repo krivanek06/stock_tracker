@@ -38,7 +38,9 @@
 		<ion-label class="st-data-label-parent">Price</ion-label>
 		<ion-label class="st-flex-row st-flex-end">
 			<app-price-compare-item [compareToPrice]="summary.previousClose" [currentPrice]="currentPrice" [showPrice]="false"> </app-price-compare-item>
-			<ion-text [@marketValueChange]="currentPrice" class="st-data-label" style="margin-left: 10px"> {{ currentPrice | currency }} </ion-text>
+			<ion-text [@marketValueChange]="currentPrice" class="st-data-label" style="margin-left: 10px">
+				{{ currentPrice | currency: summary.currency }}
+			</ion-text>
 		</ion-label>
 	</ion-item>
 
@@ -46,7 +48,7 @@
 		<ion-label class="st-data-label-parent">1y target</ion-label>
 		<ion-label class="st-flex-end st-display-flex-center">
 			<app-price-compare-item [compareToPrice]="summary.oneyTargetEst" [currentPrice]="currentPrice" [showPrice]="false"> </app-price-compare-item>
-			<ion-text class="st-data-label st-small-left-space">{{ summary.oneyTargetEst | currency }}</ion-text>
+			<ion-text class="st-data-label st-small-left-space">{{ summary.oneyTargetEst | currency: summary.currency }}</ion-text>
 		</ion-label>
 	</ion-item>
 

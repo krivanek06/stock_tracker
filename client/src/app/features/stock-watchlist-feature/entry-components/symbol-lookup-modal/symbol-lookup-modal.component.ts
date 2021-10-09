@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { StockDetails, StUserPublicData, SymbolStorageService, UserStorageService } from '@core';
+import { StockDetails, StUserPublicData, SymbolStorageService, SymbolType, UserStorageService } from '@core';
 import { ModalController, NavParams } from '@ionic/angular';
 import { Confirmable, DialogService, SymbolIdentification } from '@shared';
 import { Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-symbol-lookup-modal',
@@ -18,7 +18,10 @@ export class SymbolLookupModalComponent implements OnInit {
 	isSymbolInWatchlist = false;
 	showSpinner = true;
 
+	SymbolType = SymbolType;
+
 	stockDetails$: Observable<StockDetails>;
+	symbolType$: Observable<SymbolType>;
 	user$: Observable<StUserPublicData>;
 	isAdmin$: Observable<boolean>;
 
@@ -36,6 +39,7 @@ export class SymbolLookupModalComponent implements OnInit {
 		this.showAddToWatchlistOption = this.navParams.get('showAddToWatchlistOption');
 
 		this.stockDetails$ = this.symbolStorageService.getStockDetails(this.symbolIdentification.symbol);
+		this.symbolType$ = this.stockDetails$.pipe(map((x) => x.summary.symbolType));
 		this.user$ = this.userStorageService.getUser();
 		this.isAdmin$ = this.userStorageService.isAdmin();
 		this.checkIfSymbolIsInWatchlist(); // checked if opened symbol is in my watchlist

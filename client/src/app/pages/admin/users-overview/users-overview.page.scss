@@ -1,0 +1,12 @@
+@import 'variables';
+
+:host {
+	.c-main-buttons {
+		padding: 16px 8px;
+		& > * {
+			@media (max-width: #{$st-var-md-split}) {
+				width: 100%;
+			}
+		}
+	}
+}

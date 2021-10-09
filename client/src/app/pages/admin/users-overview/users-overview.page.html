@@ -1,26 +1,40 @@
 <ion-grid *ngIf="adminMainInformations">
+	<!-- main buttons -->
+	<ion-row>
+		<ion-col size="12">
+			<ion-buttons class="c-main-buttons">
+				<ion-button fill="outline" color="danger" shape="round" (click)="forceReloadAllSymbols()"> Force reload symbols </ion-button>
+			</ion-buttons>
+		</ion-col>
+	</ion-row>
+
 	<ion-list>
 		<ion-item>
 			<ion-label class="st-font-size-18 st-font-1"> Total users {{ adminMainInformations.usersRegistrated }} </ion-label>
-			<ion-label class="st-font-size-18 st-font-1"> Active users {{ adminMainInformations.usersActive }} </ion-label>
+			<!-- <ion-label class="st-font-size-18 st-font-1"> Active users {{ adminMainInformations.usersActive }} </ion-label> -->
 		</ion-item>
 	</ion-list>
 
+	<!-- user registration chart -->
 	<ion-row>
-		<!-- user registration chart -->
-		<ion-col size="12" size-md="7">
+		<ion-col size="12">
 			<app-generic-card [title]="'User registration'">
-				<app-generic-chart [heightPx]="350" [series]="[{name: 'Registered users', data: data }]"> </app-generic-chart>
+				<app-generic-chart [heightPx]="chartHeight" [series]="[{name: 'Registered users', data: data }]"> </app-generic-chart>
 			</app-generic-card>
 		</ion-col>
-		<!-- latest registered users -->
-		<ion-col size="12" size-md="5">
+	</ion-row>
+
+	<!-- latest registered users -->
+	<ion-row>
+		<ion-col size="12">
 			<app-generic-card [title]="'Latest registered users'">
-				<app-user-identification-info
-					*ngFor="let stUserIndetification of adminMainInformations.usersRegistrationSnippets"
-					[stUserIndetification]="stUserIndetification"
-				>
-				</app-user-identification-info>
+				<div class="st-flex-wrap">
+					<app-user-identification-info
+						*ngFor="let stUserIndetification of adminMainInformations.usersRegistrationSnippets"
+						[stUserIndetification]="stUserIndetification"
+					>
+					</app-user-identification-info>
+				</div>
 			</app-generic-card>
 		</ion-col>
 	</ion-row>

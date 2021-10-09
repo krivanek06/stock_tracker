@@ -12,7 +12,7 @@ export class ComposedPortfolioAllocationChartsComponent implements OnInit {
 	@Input() holdings: StHolding[] = [];
 	@Input() portfolioCash: number;
 	@Input() portfolioInvested: number;
-	@Input() portfolioChartHeightPrct: number = 40;
+	@Input() portfolioChartHeightPrct: number = 32;
 	ChartType = ChartType;
 
 	portfolioChartHeight: number;

@@ -13,6 +13,13 @@ export const stockDetailsTypeDefs = gql`
 		allFinancialReportsYearly: [FinancialReport]
 	}
 
+	enum SymbolType {
+		STOCK
+		ETF
+		FUND
+		ADR
+	}
+
 	type StockDetails {
 		id: String!
 		recommendation: [Recommendations]
@@ -339,6 +346,7 @@ export const stockDetailsTypeDefs = gql`
 		forwardPE: Float
 		fullTimeEmployees: String
 		id: String
+		symbolType: SymbolType
 		industry: String
 		ipoDate: String
 		lastSplitDate: String
@@ -365,6 +373,7 @@ export const stockDetailsTypeDefs = gql`
 		weekRangeFiveTwoMin: Float
 		yearToDatePrice: Float
 		yearToDatePriceReturn: Float
+		isActivelyTrading: Boolean
 	}
 
 	type Dividens {

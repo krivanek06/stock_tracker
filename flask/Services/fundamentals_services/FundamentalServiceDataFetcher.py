@@ -26,16 +26,33 @@ class FundamentalServiceDataFetcher:
         return [] if not searchedResult else self.financialModeling.getCompanyQuoteBatch(searchedResult[0]['peersList'])
 
     def __fetchStockDetails(self, symbol):
+        # get result from threads into one dict
+        merge = {}
         que = Queue()
+
+        outlook = Thread(target=lambda q, arg1: q.put({'companyOutlook': self.financialModeling.getCompanyOutlook(arg1)}), args=(que, symbol))
+        companyQuote = Thread(target=lambda q, arg1: q.put({'companyQuote': self.financialModeling.getCompanyQuoteBatch([arg1])}), args=(que, symbol))
+
+        outlook.start()
+        companyQuote.start()
+
+        outlook.join()
+        companyQuote.join()
+
+        merge = self.__getMergeResult(que)
+
+        # check if symbol is not stock then just return
+        profile = merge.get('companyOutlook', {}).get('profile', {})
+        if profile.get('isEtf') == True or profile.get('isFund') == True:
+            return merge
 
         # Yahoo finance
         t4 = Thread(target=lambda q, arg1: q.put(self.yRequester.get_company_data(arg1)), args=(que, symbol))
 
         # Financial modeling getMutualFundHolders
-        t1 = Thread(target=lambda q, arg1: q.put({'companyOutlook': self.financialModeling.getCompanyOutlook(arg1)}), args=(que, symbol))
         t2 = Thread(target=lambda q, arg1: q.put({'mutualFundHolders': self.financialModeling.getMutualFundHolders(arg1)}), args=(que, symbol))
         t3 = Thread(target=lambda q, arg1: q.put({'institutionalHolders': self.financialModeling.getInstitutionalHolders(arg1)}), args=(que, symbol))
-        t5 = Thread(target=lambda q, arg1: q.put({'companyQuote': self.financialModeling.getCompanyQuoteBatch([arg1])}), args=(que, symbol))
+       
         tSector = Thread(target=lambda q, arg1: q.put({'sectorPeers': self.__getSectorPeers(arg1)}), args=(que, symbol))
 
         # Finhub
@@ -44,10 +61,8 @@ class FundamentalServiceDataFetcher:
         t11 = Thread(target=lambda q, arg1: q.put(self.finhub.getStockMetrics(arg1)), args=(que, symbol))
 
         # start threads
-        t1.start()
         t2.start()
         t3.start()
-        t5.start()
         tSector.start()
         t4.start()
         t6.start()
@@ -55,18 +70,17 @@ class FundamentalServiceDataFetcher:
         t11.start()
 
         # wait threads to finish
-        t1.join()
         t2.join()
         t3.join()
-        t5.join()
         tSector.join()
         t4.join()
         t6.join()
         t7.join()
         t11.join()
 
-        # get result from threads into one dict
-        merge = {}
+        return self.__getMergeResult(que, merge)
+    
+    def __getMergeResult(self, que: Queue, merge = {}): 
         while not que.empty():
             try:
                 merge = {**merge, **que.get()}

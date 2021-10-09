@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { IonicModule } from '@ionic/angular';
 import {
+	DefaultImgDirectiveModule,
 	FormMatInputLockWrapperModule,
 	ListSkeletonModule,
 	NumberFormatterPipeModule,
@@ -28,6 +29,7 @@ import { MarketSearchTableComponent } from './market-search-table/market-search-
 		FormMatInputLockWrapperModule,
 		ReactiveFormsModule,
 		SplitPipeModule,
+		DefaultImgDirectiveModule,
 	],
 	exports: [MarketSearchFormComponent, MarketSearchFormResultComponent, MarketSearchTableComponent],
 })

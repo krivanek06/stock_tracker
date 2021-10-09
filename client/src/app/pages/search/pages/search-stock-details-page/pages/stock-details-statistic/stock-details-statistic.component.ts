@@ -29,7 +29,7 @@ export class StockDetailsStatisticComponent implements OnInit {
 		this.stockDetails$ = this.symbolStorageService.getStockDetails();
 		this.isAdmin$ = this.userStorageService.isAdmin();
 		this.chartHeight = WindowService.getWindowHeightPrctInPx(20);
-		this.financialsHeight = WindowService.getWindowHeightPrctInPx(30);
+		this.financialsHeight = WindowService.getWindowHeightPrctInPx(27);
 	}
 
 	reloadStockDetails() {

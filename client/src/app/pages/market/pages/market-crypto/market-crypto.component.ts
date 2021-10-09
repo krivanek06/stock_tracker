@@ -29,7 +29,7 @@ export class MarketCryptoComponent extends ComponentScreenUpdateBaseDirective im
 		super.ngOnInit();
 		this.createCopyOfTopCrypto();
 		this.marketOverview$ = this.graphqlQueryService.queryStMarketHistoryOverview();
-		this.chartHeight = WindowService.getWindowHeightPrctInPx(25);
+		this.chartHeight = WindowService.getWindowHeightPrctInPx(20);
 	}
 
 	ngOnDestroy() {

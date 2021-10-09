@@ -15,7 +15,7 @@ export function Confirmable(message: string, cancelButton = 'Cancel', confirmBut
 }
 
 
-export function ConfirmableWithCheckbox(message: string, confirmButton = null, rejectButton = null) {
+export function ConfirmableWithCheckbox(message: string, confirmButton = 'Confirm', rejectButton = null) {
     return function(target: any, key: string | symbol, descriptor: PropertyDescriptor) {
         const original = descriptor.value;
         descriptor.value = function(...args: any[]) {
