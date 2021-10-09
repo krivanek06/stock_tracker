@@ -30,6 +30,7 @@ fragment StockSummaryFragment on Summary {
 	forwardPE
 	fullTimeEmployees
 	id
+	symbolType
 	industry
 	ipoDate
 	beta
@@ -57,6 +58,7 @@ fragment StockSummaryFragment on Summary {
 	weekRangeFiveTwoMin
 	yearToDatePrice
 	yearToDatePriceReturn
+	isActivelyTrading
 }
 fragment FinancialReportStatementDataFragment on FinancialReportStatementData {
 	concept
@@ -654,8 +656,8 @@ query QueryStockFinancialReports($symbol: String!) {
 	}
 }
 
-query QueryStockSummary($symbol: String!) {
-	queryStockSummary(symbol: $symbol) {
+query QueryStockSummary($symbol: String!, $allowReload: Boolean = true) {
+	queryStockSummary(symbol: $symbol, allowReload: $allowReload) {
 		...StockSummaryFragment
 	}
 }

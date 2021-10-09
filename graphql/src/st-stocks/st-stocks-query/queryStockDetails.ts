@@ -28,15 +28,18 @@ export const queryStockDetails = async (symbol: string, reload = false): Promise
 			const details = await getStockDetailsFromApi(upperSymbol);
 
 			// no summary was found - insufficient data
-			if (!details) {
+			if (!details || !details.summary) {
 				return null;
 			}
 
-			await saveFinancialReports(symbol, details);
+			// if not mutual fund or etf when it should have financial repots
+			if (details.summary.symbolType === api.SymbolType.STOCK || details.summary.symbolType === api.SymbolType.ADR) {
+				await saveFinancialReports(symbol, details);
 
-			// remove FinancialReportStatement
-			details.allFinancialReportsQuarterly = modifyFinancialReports(details.allFinancialReportsQuarterly);
-			details.allFinancialReportsYearly = modifyFinancialReports(details.allFinancialReportsYearly);
+				// remove FinancialReportStatement
+				details.allFinancialReportsQuarterly = modifyFinancialReports(details.allFinancialReportsQuarterly);
+				details.allFinancialReportsYearly = modifyFinancialReports(details.allFinancialReportsYearly);
+			}
 
 			await saveDataIntoFirestore(symbol, details);
 

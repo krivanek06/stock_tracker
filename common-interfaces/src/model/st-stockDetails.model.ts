@@ -20,6 +20,13 @@ export interface StockDetailsFinancialReports {
   allFinancialReportsYearly: STFinancialReport[];
 }
 
+export enum SymbolType {
+  STOCK = 'STOCK',
+  ETF = 'ETF',
+  FUND = 'FUND',
+  ADR = 'ADR'
+}
+
 export interface StockDetails {
   id: string;
   allFinancialReportsQuarterly: STFinancialReport[];
@@ -353,6 +360,7 @@ export interface STSummary {
   forwardPE: number;
   fullTimeEmployees: string;
   id: string;
+  symbolType: SymbolType;
   industry: string;
   ipoDate: Date;
   lastSplitDate: string;
@@ -379,6 +387,7 @@ export interface STSummary {
   weekRangeFiveTwoMin: number;
   yearToDatePrice: number;
   yearToDatePriceReturn: number;
+  isActivelyTrading: boolean;
 }
 
 export interface Residance {

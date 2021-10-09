@@ -1,3 +1,10 @@
+9.10.2021 - v. 0.9.3
+client
+- added ETF, FUND, STOCK, ADR types for symbol
+- added reload all symbols button on admin page
+- enabled trading ETF & FUNDS
+
+
 7.10.2021 - v. 0.9.2
 client
 - resized graph heights by percentage of window height instead of hard coded PX values

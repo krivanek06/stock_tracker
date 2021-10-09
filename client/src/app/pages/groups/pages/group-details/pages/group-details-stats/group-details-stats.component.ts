@@ -23,8 +23,8 @@ export class GroupDetailsStatsComponent implements OnInit {
 	ngOnInit() {
 		this.groupAllData$ = this.groupStorageService.getActiveGroup();
 		this.holdings$ = this.groupAllData$.pipe(map((groupData) => groupData.groupMemberData.holdings.map((h) => h.holding)));
-		this.chartHeight = WindowService.getWindowHeightPrctInPx(35);
-		this.chartHeightGroup = WindowService.getWindowHeightPrctInPx(40);
+		this.chartHeight = WindowService.getWindowHeightPrctInPx(32);
+		this.chartHeightGroup = WindowService.getWindowHeightPrctInPx(37);
 	}
 
 	async showSummary(symbolIdentification: SymbolIdentification) {

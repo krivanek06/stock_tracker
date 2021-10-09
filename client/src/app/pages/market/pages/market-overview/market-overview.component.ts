@@ -19,7 +19,7 @@ export class MarketOverviewComponent implements OnInit {
 
 	ngOnInit() {
 		this.marketOverview$ = this.graphqlQueryService.queryStMarketHistoryOverview();
-		this.chartHeight = WindowService.getWindowHeightPrctInPx(25);
+		this.chartHeight = WindowService.getWindowHeightPrctInPx(20);
 	}
 
 	async expand(documentKey: string) {

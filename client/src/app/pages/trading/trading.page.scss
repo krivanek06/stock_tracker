@@ -1,3 +1,5 @@
+@import 'variables';
+
 :host {
 	.c-search-stock-wrapper {
 		padding-bottom: 24px;
@@ -10,5 +12,34 @@
 
 	.c-chart-container {
 		margin-top: -36px;
+	}
+
+	.c-buttons {
+		padding: 16px;
+		justify-content: flex-end;
+		gap: 16px;
+
+		@media (max-width: #{$st-var-lg-split}) {
+			flex-flow: column;
+			margin-top: 16px;
+			margin-bottom: 16px;
+			gap: 8px;
+			justify-content: center;
+		}
+
+		&:last-child {
+			margin-right: 3%;
+			@media (max-width: #{$st-var-lg-split}) {
+				margin-right: 0;
+			}
+		}
+
+		& > * {
+			min-width: 250px;
+
+			@media (max-width: #{$st-var-lg-split}) {
+				width: 95%;
+			}
+		}
 	}
 }

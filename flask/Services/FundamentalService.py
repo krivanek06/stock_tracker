@@ -1,6 +1,9 @@
-from Services.fundamentals_services.FundamentalServiceCalculationFacade import FundamentalServiceCalculationFacade
-from Services.fundamentals_services.FundamentalServiceDataFetcher import FundamentalServiceDataFetcher
-from Services.fundamentals_services.FundamentalServiceFormatter import FundamentalServiceFormatter
+from Services.fundamentals_services.FundamentalServiceCalculationFacade import \
+    FundamentalServiceCalculationFacade
+from Services.fundamentals_services.FundamentalServiceDataFetcher import \
+    FundamentalServiceDataFetcher
+from Services.fundamentals_services.FundamentalServiceFormatter import \
+    FundamentalServiceFormatter
 
 
 class FundamentalService:
@@ -17,9 +20,10 @@ class FundamentalService:
         # format data
         data = FundamentalServiceFormatter(data).formatFetchedStockDetails(symbol)
 
-        # calculate additional data & estimations
-        calculatorFacade = FundamentalServiceCalculationFacade(data)
-        calculatorFacade.calculateAdditionalData()
-        calculatorFacade.calculatePredictions()
+        # calculate additional data & estimations for stocks
+        if data.get('summary', {}).get('symbolType') == 'STOCK' or data.get('summary', {}).get('symbolType') == 'ADR': 
+            calculatorFacade = FundamentalServiceCalculationFacade(data)
+            calculatorFacade.calculateAdditionalData()
+            calculatorFacade.calculatePredictions()
 
         return data

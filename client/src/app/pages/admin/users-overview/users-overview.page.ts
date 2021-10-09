@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { componentDestroyed, GraphqlAdminService, StAdminMainInformationsFragmentFragment } from '@core';
+import { ConfirmableWithCheckbox, WindowService } from '@shared';
 import { takeUntil } from 'rxjs/operators';
+import { DialogService } from './../../../shared/services/dialog.service';
 
 @Component({
 	selector: 'app-users-overview',
@@ -13,12 +15,22 @@ export class UsersOverviewPage implements OnInit, OnDestroy {
 
 	data: number[][] = [];
 
+	chartHeight: number;
+
 	constructor(private graphqlAdminService: GraphqlAdminService, private cd: ChangeDetectorRef) {}
 
 	ngOnDestroy(): void {}
 
 	ngOnInit() {
+		this.chartHeight = WindowService.getWindowHeightPrctInPx(25);
 		this.initAdminMainInformations();
+	}
+
+	@ConfirmableWithCheckbox('Confirm before force reloading all stock details')
+	forceReloadAllSymbols(): void {
+		this.graphqlAdminService.setForceReloadStockDetails().subscribe(() => {
+			DialogService.presentToast('All stock have been set to reload');
+		});
 	}
 
 	private initAdminMainInformations() {

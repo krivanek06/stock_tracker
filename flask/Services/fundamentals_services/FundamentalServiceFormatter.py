@@ -12,6 +12,14 @@ class FundamentalServiceFormatter:
 
         # format data
         self._formatSummary()
+        
+        # check if etf or fund then just return
+        if self.data['summary']['symbolType'] == 'ETF' or self.data['summary']['symbolType'] == 'FUND':
+            self.data = characterModificationUtil.check_value_correction(self.data)
+            self._notStockRemoveUnusedData()
+            return self.data
+
+        # format data
         self._formatDividends()
         self._formatEarningsFinancialChart()
         self._formatHistoricalMetrics()
@@ -32,6 +40,10 @@ class FundamentalServiceFormatter:
         # remove data
         self._removeUnnecessaryData()
         return self.data
+
+    def _notStockRemoveUnusedData(self):
+        self.data.pop('companyOutlook', None)
+        self.data.pop('companyQuote', None)
 
     def _formatInstitutionalHolder(self):
         self.data['institutionalHolders'] = sorted(self.data['institutionalHolders'], key=lambda k: k['shares'], reverse=True)[0:15]
@@ -72,6 +84,18 @@ class FundamentalServiceFormatter:
         except Exception as e:
             print('formatEarningsFinancialChart exception: ' + str(e))
             pass
+    
+    def _getSymbolType(self):
+        profile = self.data['companyOutlook'].get('profile', {})
+        if profile.get('isEtf') == True:
+            return 'ETF'
+        if profile.get('isFund') == True:
+            return 'FUND'
+        if profile.get('isAdr') == True:
+            return 'ADR'
+        if profile.get('isEtf') == False and profile.get('isFund') == False and profile.get('isAdr') == False:
+            return 'STOCK'
+        return 'Unknown'
 
     def _formatSummary(self):
         try:
@@ -81,7 +105,7 @@ class FundamentalServiceFormatter:
 
             companyOutlook = self.data['companyOutlook']
             companyQuote =  self.data['companyQuote'][0]
-            profile = self.data['companyOutlook']['profile']
+            profile = self.data['companyOutlook'].get('profile', {})
             splitHistory = companyOutlook['splitHistory'][0] if companyOutlook['splitHistory'] is not None else {}
             ratios = companyOutlook['ratios'][0]
             stockDividend = self.data['companyOutlook']['stockDividend'][0] if self.data['companyOutlook']['stockDividend'] is not None  else {}
@@ -90,6 +114,8 @@ class FundamentalServiceFormatter:
 
             summary = {
                 'id': profile.get('symbol'),
+                'symbolType': self._getSymbolType(),
+                'isActivelyTrading': profile.get('isActivelyTrading'),
                 'shortRatio': stats.get('shortRatio'),
                 'sandPFiveTwoWeekChange': stats.get('sandPFiveTwoWeekChange'),
                 'lastSplitFactor': f"{splitHistory.get('numerator')} / {splitHistory.get('denominator')}" if splitHistory.get('numerator') is not None else None,
@@ -173,12 +199,13 @@ class FundamentalServiceFormatter:
 
     def _removeUnnecessaryData(self):
         try:
-            self.data['companyData'].pop("calendarEvents", None)
-            self.data['companyData'].pop("recommendationTrend", None)
-            self.data['companyData'].pop("financialsTemplate", None)
-            self.data['companyData'].pop("quoteType", None)
-            self.data['companyData'].pop("price", None)
-            self.data['companyData'].pop("summaryDetail", None)
+            if self.data.get('companyData') is not None:
+                self.data['companyData'].pop("calendarEvents", None)
+                self.data['companyData'].pop("recommendationTrend", None)
+                self.data['companyData'].pop("financialsTemplate", None)
+                self.data['companyData'].pop("quoteType", None)
+                self.data['companyData'].pop("price", None)
+                self.data['companyData'].pop("summaryDetail", None)
 
             metric = self.data.get('metric', {})
             metric.pop("currentDividendYieldTTM", None)

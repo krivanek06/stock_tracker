@@ -1,5 +1,6 @@
 import { ViewportScroller } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {
 	componentDestroyed,
 	GraphqlQueryService,
@@ -8,6 +9,7 @@ import {
 	SubscriptionWebsocketService,
 	Summary,
 	SymbolStorageService,
+	SymbolType,
 	UserStorageService,
 } from '@core';
 import { ChartType, LodashService, SymbolIdentification } from '@shared';
@@ -25,6 +27,7 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
 	suggestions: StStockSuggestion[] = [];
 
 	ChartType = ChartType;
+	SymbolType = SymbolType;
 
 	constructor(
 		private symbolStorageService: SymbolStorageService,
@@ -33,9 +36,14 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
 		public userStorageService: UserStorageService,
 		public tradingService: TradingFeatureFacadeService,
 		public cdr: ChangeDetectorRef,
-		private scroll: ViewportScroller
+		private scroll: ViewportScroller,
+		private router: Router
 	) {
 		super(userStorageService, subscriptionWebsocketService, cdr);
+	}
+
+	get isStock(): boolean {
+		return this.selectedSummary?.symbolType === SymbolType.Stock || this.selectedSummary?.symbolType === SymbolType.Adr;
 	}
 
 	ngOnInit() {
@@ -48,7 +56,12 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
 		super.ngOnDestroy();
 	}
 
+	showDetails() {
+		this.router.navigateByUrl(`/menu/search/stock-details/${this.selectedSummary.symbol}`);
+	}
+
 	changeSymbol(symbolIdentification: SymbolIdentification) {
+		this.selectedSummary = null;
 		this.symbolStorageService
 			.getStockSummary(symbolIdentification.symbol)
 			.pipe(takeUntil(componentDestroyed(this)))

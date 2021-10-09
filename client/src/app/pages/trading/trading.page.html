@@ -46,10 +46,10 @@
 					</ion-col>
 				</ion-row>
 
-				<ion-row class="ion-justify-content-center">
-					<ng-container *ngIf="selectedSummary; else showLoader">
+				<ng-container *ngIf="selectedSummary; else showLoader">
+					<ion-row class="ion-justify-content-center">
 						<!-- financial chart -->
-						<ion-col size="12" size-lg="7.5" size-xl="8">
+						<ion-col size="12" [sizeLg]="isStock ? 8 : 12">
 							<app-financial-chart-container
 								[closedPrice]="selectedSummary.previousClose"
 								[currentPrice]="selectedSummary.marketPrice"
@@ -61,26 +61,30 @@
 							</app-financial-chart-container>
 						</ion-col>
 						<!-- summary -->
-						<ion-col size="12" size-lg="4.5" size-xl="4">
+						<ion-col *ngIf="isStock" size="12" size-lg="4" class="st-overflow-hide">
 							<app-generic-list [iconTitle]="'barcode-outline'" [title]="'Summary'"></app-generic-list>
-							<app-generic-card>
+							<app-generic-card additionalClasses="st-height-100">
 								<!-- symbol summary -->
 								<app-stock-summary-container [summary]="selectedSummary"></app-stock-summary-container>
-
-								<!-- buttons -->
-								<ion-buttons class="st-buttons-container st-justify-center">
-									<ion-button (click)="tradeSymbol()" class="st-button" color="primary" fill="solid"> Trade </ion-button>
-								</ion-buttons>
 							</app-generic-card>
 						</ion-col>
-					</ng-container>
-					<!-- loading spinner -->
-					<ng-template #showLoader>
-						<div class="spinner-container">
-							<ion-spinner color="primary"></ion-spinner>
-						</div>
-					</ng-template>
-				</ion-row>
+					</ion-row>
+
+					<!-- buttons -->
+					<ion-toolbar>
+						<ion-buttons class="c-buttons">
+							<ion-button *ngIf="isStock" (click)="showDetails()" shape="round" color="primary" fill="solid"> Details </ion-button>
+							<ion-button (click)="tradeSymbol()" shape="round" color="warning" fill="solid"> Trade </ion-button>
+						</ion-buttons>
+					</ion-toolbar>
+				</ng-container>
+
+				<!-- loading spinner -->
+				<ng-template #showLoader>
+					<div class="spinner-container">
+						<ion-spinner color="primary"></ion-spinner>
+					</div>
+				</ng-template>
 
 				<!-- holdings -->
 				<ion-row>

@@ -43,6 +43,7 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseD
 
 	ngOnInit() {
 		super.ngOnInit();
+		this.symbol = this.symbol.split('.')[0];
 		this.loadChartData();
 		if (this.initWebsockets) {
 			this.initWebsocketConnection();

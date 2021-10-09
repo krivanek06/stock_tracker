@@ -18,7 +18,7 @@ export class AccountPage implements OnInit {
 		this.user$ = this.userStorageService.getUser();
 	}
 
-	@ConfirmableWithCheckbox('Please confirm reseting account. You will start again with 25 000$ portfolio. All your holdings will be lost.', 'confirm')
+	@ConfirmableWithCheckbox('Please confirm reseting account. You will start again with 100 000$ portfolio. All your holdings will be lost.', 'confirm')
 	resetAccount() {
 		this.userAccountService.resetUserAccount();
 	}

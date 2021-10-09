@@ -6,7 +6,7 @@ import { IS_PRODUCTION } from '../../environment';
 import { getCompanyQuoteBatch } from './../../api';
 import { queryStockDetails } from './queryStockDetails';
 
-export const queryStockSummary = async (symbol: string): Promise<api.STSummary> => {
+export const queryStockSummary = async (symbol: string, allowReload: boolean = false): Promise<api.STSummary> => {
 	try {
 		const upperSymbol = symbol.toUpperCase();
 
@@ -23,9 +23,15 @@ export const queryStockSummary = async (symbol: string): Promise<api.STSummary> 
 			return details?.summary;
 		}
 
+		// if hard reset is true, allow reload
+		if (wrapper.forceReload && allowReload) {
+			const details = await queryStockDetails(upperSymbol);
+			return details?.summary;
+		}
+
 		// update with current data
 		// multiple upsers may access the same symbol summary in same time so do not load data from API all the time
-		const minutesDelay = IS_PRODUCTION ? 15 : 40;
+		const minutesDelay = IS_PRODUCTION ? 10 : 40;
 		if (Math.abs(moment(wrapper.summaryLastUpdate).diff(new Date(), 'minute')) > minutesDelay) {
 			console.log('updating summary for: ', upperSymbol, ', time diff: ', Math.abs(moment(wrapper.summaryLastUpdate).diff(new Date(), 'minute')));
 			wrapper.details.summary = await updateStockSummary(upperSymbol, wrapper.details.summary);
@@ -54,8 +60,17 @@ const updateStockSummary = async (symbol: string, summary: api.STSummary): Promi
 };
 
 const persistStockSummary = async (symbol: string, summary: api.STSummary): Promise<void> => {
-	await admin.firestore().collection(api.ST_STOCK_DATA_COLLECTION).doc(symbol).update({
-		'details.summary': summary,
-		summaryLastUpdate: admin.firestore.Timestamp.now().toDate().toISOString(),
-	});
+	await admin
+		.firestore()
+		.collection(api.ST_STOCK_DATA_COLLECTION)
+		.doc(symbol)
+		.set(
+			{
+				details: {
+					summary: summary,
+				},
+				summaryLastUpdate: admin.firestore.Timestamp.now().toDate().toISOString(),
+			},
+			{ merge: true }
+		);
 };

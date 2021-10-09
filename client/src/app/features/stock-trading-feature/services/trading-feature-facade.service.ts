@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GraphqlTradingService, STARTING_PORTFOLIO, StPortfolio, StPortfolioSnapshot, StTransactionInput, Summary } from '@core';
+import { GraphqlTradingService, STARTING_PORTFOLIO, StPortfolio, StPortfolioSnapshot, StTransactionInput, Summary, UserStorageService } from '@core';
 import { PopoverController } from '@ionic/angular';
 import { DialogService, zipArrays } from '@shared';
 import * as moment from 'moment';
@@ -10,9 +10,16 @@ import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM } from '../models';
 	providedIn: 'root',
 })
 export class TradingFeatureFacadeService {
-	constructor(private popoverController: PopoverController, private graphqlTradingService: GraphqlTradingService) {}
+	constructor(
+		private popoverController: PopoverController,
+		private graphqlTradingService: GraphqlTradingService,
+		private userStorageService: UserStorageService
+	) {}
 
 	async performTransaction(summary: Summary) {
+		const holding = this.userStorageService.user.holdings.find((h) => h.symbol === summary.symbol);
+		const portoflioCash = this.userStorageService.user.portfolio.portfolioCash;
+
 		const popover = await this.popoverController.create({
 			component: TradeConfirmationPopOverComponent,
 			cssClass: 'custom-popover',
@@ -21,6 +28,8 @@ export class TradingFeatureFacadeService {
 				symbol: summary.symbol,
 				price: summary.marketPrice,
 				symbolLogoUrl: summary.logo_url,
+				holding,
+				portoflioCash,
 			},
 		});
 
@@ -29,6 +38,7 @@ export class TradingFeatureFacadeService {
 		const data = res?.data?.data as StTransactionInput;
 
 		if (!!data) {
+			await DialogService.presentToast(`Your order has been submitted to ${data.operation} symbol: ${data.symbol}`);
 			await this.graphqlTradingService.performTransaction(data).toPromise();
 			await DialogService.presentToast(`${data.operation} operation on ${data.symbol} has been completed `);
 		}
