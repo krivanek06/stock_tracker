@@ -1,6 +1,15 @@
 <ion-row class="ion-justify-content-center">
 	<ion-col size="12">
-		<app-generic-list [iconTitle]="'pricetags'" [title]="title"></app-generic-list>
+		<!-- header info -->
+		<ion-list-header>
+			<ion-icon class="st-icon-title" name="pricetags"></ion-icon>
+
+			<ion-label>
+				<ion-text class="st-font-size-18 st-font-0 st-right-space"> {{ title }}</ion-text>
+				<ion-text *ngIf="showHoldingNumber" class="st-font-size-18 st-font-3">[{{holdings.length}}/45] </ion-text>
+			</ion-label>
+		</ion-list-header>
+
 		<app-generic-card>
 			<app-holdings-table [clickable]="clickable" (itemClickedEmitter)="showSummary($event)" [holdings]="holdings" [totalPortfolio]="totalPortfolio">
 			</app-holdings-table>
