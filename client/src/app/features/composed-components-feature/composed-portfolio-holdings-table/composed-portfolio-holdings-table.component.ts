@@ -13,7 +13,8 @@ export class ComposedPortfolioHoldingsTableComponent implements OnInit {
 	@Input() holdings: StHolding[];
 	@Input() totalPortfolio: number;
 	@Input() clickable = true;
-	@Input() title = 'Holdings';
+	@Input() title: string = 'Holdings';
+	@Input() showHoldingNumber = true;
 
 	constructor(private watchlistFeatureFacadeService: WatchlistFeatureFacadeService) {}
 

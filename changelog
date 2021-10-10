@@ -1,3 +1,8 @@
+9.10.2021 - v. 0.9.4
+client
+- holdings only 45 symbols
+- user reset account - reset user data in groups
+
 9.10.2021 - v. 0.9.3
 client
 - added ETF, FUND, STOCK, ADR types for symbol

@@ -89,7 +89,15 @@
 				<!-- holdings -->
 				<ion-row>
 					<ion-col size="12">
-						<app-generic-list [iconTitle]="'pricetags'" [title]="'Holdings'"></app-generic-list>
+						<ion-list-header>
+							<ion-icon class="st-icon-title" name="pricetags"></ion-icon>
+
+							<ion-label>
+								<ion-text class="st-font-size-18 st-font-0 st-right-space">Holdings</ion-text>
+								<ion-text class="st-font-size-18 st-font-3">[{{clonedHoldings.length}}/45] </ion-text>
+							</ion-label>
+						</ion-list-header>
+
 						<app-generic-card>
 							<app-holdings-table
 								(itemClickedEmitter)="changeSymbol($event)"
