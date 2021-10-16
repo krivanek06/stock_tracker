@@ -261,10 +261,10 @@ export const getSectorPerformance = async (): Promise<api.STFMSectorPerformance[
 	}
 };
 
-export const stockScreener = async (stockScreener: api.STFMStockScreener): Promise<api.STFMStockScreenerResult[]> => {
+export const stockScreener = async (stockScreener: api.STFMStockScreener, limit = 100000000): Promise<api.STFMStockScreenerResult[]> => {
 	try {
 		const urlParams = new URLSearchParams(Object.entries(stockScreener));
-		const promise = await fetch(`${financialModelingAPI}/api/v3/stock-screener?${urlParams}&limit=100&apikey=${financialModelingAPIKey}`);
+		const promise = await fetch(`${financialModelingAPI}/api/v3/stock-screener?${urlParams}&limit=${limit}&apikey=${financialModelingAPIKey}`);
 		const respose = (await promise.json()) as api.STFMStockScreenerResult[];
 		return respose;
 	} catch {
@@ -272,21 +272,26 @@ export const stockScreener = async (stockScreener: api.STFMStockScreener): Promi
 	}
 };
 
-export const queryStockScreener = async (stockScreenerInput: api.STFMStockScreener): Promise<api.STFMStockScreenerResult[]> => {
+export const queryStockScreener = async (
+	stockScreenerInput: api.STFMStockScreener,
+	offset: number,
+	limit: number
+): Promise<{ result: api.STFMStockScreenerResult[]; found: number; offset: number; limit: number }> => {
 	try {
 		const stockScreeners = await stockScreener(stockScreenerInput);
+		const slicedStockScreeners = stockScreeners.slice(offset, offset + limit);
 
 		// load additional data
 		const symbols = _chunk(
-			stockScreeners.map((data) => data.symbol),
+			slicedStockScreeners.map((data) => data.symbol),
 			20
 		) as string[][];
 		const companyQuotesPromises = _flatten(await Promise.all([...symbols.map((d) => getCompanyQuoteBatch(d))])) as api.STFMCompanyQuote[];
-		const stockScreenersWithCompanYQuotes = stockScreeners.map((screener) => {
+		const result = slicedStockScreeners.map((screener) => {
 			return { ...screener, companyQuote: companyQuotesPromises.find((d) => d.symbol === screener.symbol) } as api.STFMStockScreenerResult;
 		});
 
-		return stockScreenersWithCompanYQuotes;
+		return { result, found: stockScreeners.length, offset, limit };
 	} catch (error) {
 		throw new ApolloError(error);
 	}
