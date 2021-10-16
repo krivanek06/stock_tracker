@@ -14,12 +14,14 @@ export class MarketOverviewComponent implements OnInit {
 	marketOverview$: Observable<StMarketOverviewPartialData>;
 
 	chartHeight: number;
+	chartHeightMain: number;
 
 	constructor(private graphqlQueryService: GraphqlQueryService, private marketPageFacadeService: MarketFeatureFacadeService) {}
 
 	ngOnInit() {
 		this.marketOverview$ = this.graphqlQueryService.queryStMarketHistoryOverview();
 		this.chartHeight = WindowService.getWindowHeightPrctInPx(20);
+		this.chartHeightMain = WindowService.getWindowHeightPrctInPx(25);
 	}
 
 	async expand(documentKey: string) {
