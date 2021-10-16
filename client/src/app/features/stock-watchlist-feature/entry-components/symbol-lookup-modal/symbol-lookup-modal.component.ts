@@ -44,6 +44,8 @@ export class SymbolLookupModalComponent implements OnInit {
 		this.isAdmin$ = this.userStorageService.isAdmin();
 		this.checkIfSymbolIsInWatchlist(); // checked if opened symbol is in my watchlist
 		this.checkIfDetailsExists();
+
+		// this.stockDetails$.subscribe(console.log);
 	}
 
 	dismissModal() {

@@ -48,15 +48,12 @@
 					[logoUrl]="stockDetails.summary.logo_url"
 					[name]="symbolIdentification.name"
 					[symbol]="symbolIdentification.symbol"
+					[financialChart]="symbolType === SymbolType.Stock || symbolType === SymbolType.Adr"
 				>
 				</app-financial-chart-container>
 			</ion-col>
 
-			<ion-col
-				class="st-md-border-bottom ion-padding"
-				size="12"
-				[sizeMd]="symbolType === SymbolType.Stock || symbolType === SymbolType.Adr ? '5' : '0'"
-			>
+			<ion-col *ngIf="symbolType === SymbolType.Stock || symbolType === SymbolType.Adr" class="st-md-border-bottom ion-padding" size="12" size-md="5">
 				<!-- summary -->
 				<ion-list-header>
 					<app-generic-list class="st-flex-1" [iconTitle]="'barcode-outline'" [title]="'Summary: ' + stockDetails.id"> </app-generic-list>
