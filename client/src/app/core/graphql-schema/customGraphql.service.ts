@@ -576,7 +576,7 @@ export type Query = {
   queryMarketDailyOverview?: Maybe<StMarketDailyOverview>;
   queryStMarketData?: Maybe<StMarketChartDataResultCombined>;
   queryEtfDocument?: Maybe<StMarketEtfDocument>;
-  queryStockScreener?: Maybe<Array<Maybe<StfmStockScreenerResult>>>;
+  queryStockScreener?: Maybe<StfmStockScreenerResultWrapper>;
   queryAdminMainInformations?: Maybe<StAdminMainInformations>;
   validatorFinhubKeyValidity?: Maybe<Scalars['Boolean']>;
 };
@@ -647,6 +647,8 @@ export type QueryQueryEtfDocumentArgs = {
 
 export type QueryQueryStockScreenerArgs = {
   stockScreenerInput: StfmStockScreenerInput;
+  offset: Scalars['Int'];
+  limit: Scalars['Int'];
 };
 
 
@@ -1247,6 +1249,14 @@ export type StfmStockScreenerResult = {
   isEtf?: Maybe<Scalars['Boolean']>;
   isActivelyTrading?: Maybe<Scalars['Boolean']>;
   companyQuote?: Maybe<StfmCompanyQuote>;
+};
+
+export type StfmStockScreenerResultWrapper = {
+  __typename?: 'STFMStockScreenerResultWrapper';
+  result?: Maybe<Array<Maybe<StfmStockScreenerResult>>>;
+  found?: Maybe<Scalars['Float']>;
+  offset?: Maybe<Scalars['Float']>;
+  limit?: Maybe<Scalars['Float']>;
 };
 
 export type StfmTopStocks = {
@@ -2113,10 +2123,12 @@ export type QueryStMarketDataQuery = { __typename?: 'Query', queryStMarketData?:
 
 export type QueryStockScreenerQueryVariables = Exact<{
   stockScreenerInput: StfmStockScreenerInput;
+  offset: Scalars['Int'];
+  limit: Scalars['Int'];
 }>;
 
 
-export type QueryStockScreenerQuery = { __typename?: 'Query', queryStockScreener?: Maybe<Array<Maybe<{ __typename?: 'STFMStockScreenerResult', symbol?: Maybe<string>, companyName?: Maybe<string>, marketCap?: Maybe<number>, sector?: Maybe<string>, industry?: Maybe<string>, beta?: Maybe<number>, price?: Maybe<number>, lastAnnualDividend?: Maybe<number>, volume?: Maybe<number>, exchange?: Maybe<string>, exchangeShortName?: Maybe<string>, country?: Maybe<string>, isEtf?: Maybe<boolean>, isActivelyTrading?: Maybe<boolean>, companyQuote?: Maybe<{ __typename?: 'STFMCompanyQuote', avgVolume?: Maybe<number>, change?: Maybe<number>, changesPercentage?: Maybe<number>, dayHigh?: Maybe<number>, dayLow?: Maybe<number>, earningsAnnouncement?: Maybe<string>, eps?: Maybe<number>, exchange?: Maybe<string>, marketCap?: Maybe<number>, name?: Maybe<string>, open?: Maybe<number>, pe?: Maybe<number>, previousClose?: Maybe<number>, price?: Maybe<number>, priceAvg200?: Maybe<number>, priceAvg50?: Maybe<number>, sharesOutstanding?: Maybe<number>, symbol?: Maybe<string>, timestamp?: Maybe<number>, volume?: Maybe<number>, yearHigh?: Maybe<number>, yearLow?: Maybe<number>, image?: Maybe<string> }> }>>> };
+export type QueryStockScreenerQuery = { __typename?: 'Query', queryStockScreener?: Maybe<{ __typename?: 'STFMStockScreenerResultWrapper', found?: Maybe<number>, offset?: Maybe<number>, limit?: Maybe<number>, result?: Maybe<Array<Maybe<{ __typename?: 'STFMStockScreenerResult', symbol?: Maybe<string>, companyName?: Maybe<string>, marketCap?: Maybe<number>, sector?: Maybe<string>, industry?: Maybe<string>, beta?: Maybe<number>, price?: Maybe<number>, lastAnnualDividend?: Maybe<number>, volume?: Maybe<number>, exchange?: Maybe<string>, exchangeShortName?: Maybe<string>, country?: Maybe<string>, isEtf?: Maybe<boolean>, isActivelyTrading?: Maybe<boolean>, companyQuote?: Maybe<{ __typename?: 'STFMCompanyQuote', avgVolume?: Maybe<number>, change?: Maybe<number>, changesPercentage?: Maybe<number>, dayHigh?: Maybe<number>, dayLow?: Maybe<number>, earningsAnnouncement?: Maybe<string>, eps?: Maybe<number>, exchange?: Maybe<string>, marketCap?: Maybe<number>, name?: Maybe<string>, open?: Maybe<number>, pe?: Maybe<number>, previousClose?: Maybe<number>, price?: Maybe<number>, priceAvg200?: Maybe<number>, priceAvg50?: Maybe<number>, sharesOutstanding?: Maybe<number>, symbol?: Maybe<string>, timestamp?: Maybe<number>, volume?: Maybe<number>, yearHigh?: Maybe<number>, yearLow?: Maybe<number>, image?: Maybe<string> }> }>>> }> };
 
 export type StPortfolioFragmentFragment = { __typename?: 'STPortfolio', portfolioInvested: number, portfolioCash: number };
 
@@ -4104,25 +4116,30 @@ export const QueryStMarketDataDocument = gql`
     }
   }
 export const QueryStockScreenerDocument = gql`
-    query QueryStockScreener($stockScreenerInput: STFMStockScreenerInput!) {
-  queryStockScreener(stockScreenerInput: $stockScreenerInput) {
-    symbol
-    companyName
-    marketCap
-    sector
-    industry
-    beta
-    price
-    lastAnnualDividend
-    volume
-    exchange
-    exchangeShortName
-    country
-    isEtf
-    isActivelyTrading
-    companyQuote {
-      ...STFMCompanyQuoteFragment
+    query QueryStockScreener($stockScreenerInput: STFMStockScreenerInput!, $offset: Int!, $limit: Int!) {
+  queryStockScreener(stockScreenerInput: $stockScreenerInput, offset: $offset, limit: $limit) {
+    result {
+      symbol
+      companyName
+      marketCap
+      sector
+      industry
+      beta
+      price
+      lastAnnualDividend
+      volume
+      exchange
+      exchangeShortName
+      country
+      isEtf
+      isActivelyTrading
+      companyQuote {
+        ...STFMCompanyQuoteFragment
+      }
     }
+    found
+    offset
+    limit
   }
 }
     ${StfmCompanyQuoteFragmentFragmentDoc}`;

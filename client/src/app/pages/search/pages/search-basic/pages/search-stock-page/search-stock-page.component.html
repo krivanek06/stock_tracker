@@ -10,7 +10,7 @@
 					<ion-col size="12" size-lg="3">
 						<app-market-search-form-result [stockScreener]="stockScreener"></app-market-search-form-result>
 						<div class="ion-margin-top">
-							<ion-button (click)="filterSymbols()" color="primary" fill="solid">Filter</ion-button>
+							<ion-button (click)="filterResult()" color="primary" fill="solid">Filter</ion-button>
 						</div>
 					</ion-col>
 				</ion-row>
@@ -19,11 +19,15 @@
 			<!-- table results -->
 			<ion-row class="st-top-space">
 				<ion-col size="12">
-					<app-generic-card title="Stock screener results">
+					<app-generic-card [title]="'Stock screener results: ' + stockScreenerResult?.found">
 						<app-market-search-table
 							(itemClickedEmitter)="showSummarySymbol($event)"
-							[stockScreenerResults]="stockScreenerResult$ | async"
+							[stockScreenerResults]="stockScreenerResult?.result"
 						></app-market-search-table>
+
+						<ion-infinite-scroll threshold="250px" (ionInfinite)="loadData($event, limit)">
+							<app-list-skeleton [itemLength]="limit"></app-list-skeleton>
+						</ion-infinite-scroll>
 					</app-generic-card>
 				</ion-col>
 			</ion-row>

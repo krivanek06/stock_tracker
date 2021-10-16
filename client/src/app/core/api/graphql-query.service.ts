@@ -12,7 +12,7 @@ import {
 	QuerySymbolHistoricalPricesGQL,
 	StfmCompanyQuote,
 	StfmStockScreenerInput,
-	StfmStockScreenerResult,
+	StfmStockScreenerResultWrapper,
 	StMarketChartDataResultCombined,
 	StMarketDailyOverview,
 	StMarketDatasetKeyCategory,
@@ -62,11 +62,13 @@ export class GraphqlQueryService {
 		return this.queryStMarketHistoryOverviewGQL.fetch().pipe(map((x) => x.data.querySTMarketHistoryOverview));
 	}
 
-	queryStockScreener(stockScreenerInput: StfmStockScreenerInput): Observable<StfmStockScreenerResult[]> {
+	queryStockScreener(stockScreenerInput: StfmStockScreenerInput, offset: number, limit: number): Observable<StfmStockScreenerResultWrapper> {
 		return this.queryStockScreenerGQL
 			.fetch(
 				{
 					stockScreenerInput,
+					limit,
+					offset,
 				},
 				{
 					fetchPolicy: 'network-only',
