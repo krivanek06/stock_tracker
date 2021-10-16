@@ -100,7 +100,7 @@ const mainTypeDefs = gql`
 		queryMarketDailyOverview: STMarketDailyOverview
 		queryStMarketData(key: String!): STMarketChartDataResultCombined
 		queryEtfDocument(etfName: String!): STMarketEtfDocument
-		queryStockScreener(stockScreenerInput: STFMStockScreenerInput!): [STFMStockScreenerResult]
+		queryStockScreener(stockScreenerInput: STFMStockScreenerInput!, offset: Int!, limit: Int!): STFMStockScreenerResultWrapper
 		# admin
 		queryAdminMainInformations: STAdminMainInformations
 
@@ -172,7 +172,8 @@ const mainResolver = {
 		queryStMarketAllCategories: async (_: null, args: null) => await queryStMarketAllCategories(),
 		queryStMarketData: async (_: null, args: { key: string }) => await queryStMarketData(args.key),
 		queryEtfDocument: async (_: null, args: { etfName: string }) => await queryEtfDocument(args.etfName),
-		queryStockScreener: async (_: null, args: { stockScreenerInput: api.STFMStockScreener }) => await queryStockScreener(args.stockScreenerInput),
+		queryStockScreener: async (_: null, args: { stockScreenerInput: api.STFMStockScreener; offset: number; limit: number }) =>
+			await queryStockScreener(args.stockScreenerInput, args.offset, args.limit),
 
 		// admin
 		queryAdminMainInformations: async (_: null, args: null) => await queryAdminMainInformations(),

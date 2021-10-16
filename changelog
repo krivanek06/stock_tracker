@@ -1,3 +1,8 @@
+16.10.2021 - v. 0.9.5
+client
+- stock screener - infinite scroll
+- fixed not showing details button when not stock in modal
+
 9.10.2021 - v. 0.9.4
 client
 - holdings only 45 symbols
