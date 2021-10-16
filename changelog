@@ -2,6 +2,10 @@
 client
 - stock screener - infinite scroll
 - fixed not showing details button when not stock in modal
+- marker page - change ETFs
+
+graphql
+- stock screener - added limit & offset
 
 9.10.2021 - v. 0.9.4
 client

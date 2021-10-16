@@ -23,6 +23,23 @@
 			</app-pie-chart-wrapper>
 		</ion-col>
 	</ion-row>
+
+	<!-- holdings - value chart -->
+	<ion-row>
+		<ion-col size="12">
+			<app-generic-chart
+				chartTitle="ETF share number holdings"
+				[chartType]="ChartType.column"
+				[heightPx]="chartHeight"
+				[showCategoryNameWithValue]="true"
+				[series]="[{
+					colorByPoint: true,
+					data: (etfHolders$ | async)
+				}]"
+			>
+			</app-generic-chart>
+		</ion-col>
+	</ion-row>
 </ng-container>
 
 <!-- table of different etfs -->
