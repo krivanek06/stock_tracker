@@ -104,7 +104,7 @@ export class HoldingsAllocationGroupChartComponent implements OnInit {
 			xAxis: {
 				categories: this.data.map((d) => d.symbol),
 				labels: {
-					enabled: this.data.length < 25,
+					enabled: true,
 				},
 			},
 			title: {

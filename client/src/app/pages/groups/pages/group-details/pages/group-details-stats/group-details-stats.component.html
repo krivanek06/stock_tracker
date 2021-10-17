@@ -57,7 +57,7 @@
 
 		<!-- holdings tabls -->
 		<app-composed-portfolio-holdings-table
-			title="Group symbol holdings"
+			[title]="'Group symbol holdings: ' + holdings.length"
 			[totalPortfolio]="groupData.portfolio.lastPortfolioSnapshot.portfolioInvested + groupData.portfolio.lastPortfolioSnapshot.portfolioCash"
 			[holdings]="holdings"
 			[showHoldingNumber]="false"
