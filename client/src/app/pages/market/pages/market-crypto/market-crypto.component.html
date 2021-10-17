@@ -26,7 +26,7 @@
 	<app-generic-list [applyMarginTop]="true" [title]="'Top crypto'"></app-generic-list>
 	<ion-row>
 		<ion-col size="12">
-			<app-generic-card>
+			<app-generic-card [secondaryText]="'last updated at ' + (lastUpdateTopStocks | date: 'dd.MM.YYYY - HH:mm')">
 				<app-market-top-table-crypto (itemClickedEmitter)="showSummary($event)" [topTableCryptoData]="topCrypto"> </app-market-top-table-crypto>
 			</app-generic-card>
 		</ion-col>

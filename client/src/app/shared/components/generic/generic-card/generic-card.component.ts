@@ -9,9 +9,9 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 export class GenericCardComponent implements OnInit {
 	@Input() title: string;
 	@Input() additionalClasses: string;
-	@Input() removeHeader = false;
 	@Input() showSkeleton = false;
 	@Input() additionalStyles: string;
+	@Input() secondaryText: string;
 
 	constructor() {}
 

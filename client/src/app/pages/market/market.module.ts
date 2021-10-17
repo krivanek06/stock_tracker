@@ -41,41 +41,6 @@ const routes: Routes = [
 		path: '',
 		component: MarketPage,
 		resolve: [MarketOverviewPreloadGuard],
-		// children: [
-		// 	{
-		// 		path: MARKET_PAGE_ENUM.topStocks,
-		// 		loadChildren: () => import('./pages/market-top-stocks/market-top-stocks-page.module').then((m) => m.MarketTopStocksPageModule),
-		// 	},
-		// 	{
-		// 		path: MARKET_PAGE_ENUM.overview,
-		// 		loadChildren: () => import('./pages/market-overview/market-overview-page.module').then((m) => m.MarketOverviewPageModule),
-		// 	},
-		// 	{
-		// 		path: MARKET_PAGE_ENUM.etf,
-		// 		loadChildren: () => import('./pages/market-etf/market-etf-page.module').then((m) => m.MarketEtfPageModule),
-		// 	},
-		// 	{
-		// 		path: MARKET_PAGE_ENUM.news,
-		// 		loadChildren: () => import('./pages/market-news/market-news-page.module').then((m) => m.MarketNewsPageModule),
-		// 	},
-		// 	{
-		// 		path: MARKET_PAGE_ENUM.crypto,
-		// 		loadChildren: () => import('./pages/market-crypto/market-crypto-page.module').then((m) => m.MarketCryptoPageModule),
-		// 	},
-		// 	{
-		// 		path: MARKET_PAGE_ENUM.calendar,
-		// 		loadChildren: () => import('./pages/market-calendar/market-calendar-page.module').then((m) => m.MarketCalendarPageModule),
-		// 	},
-		// 	{
-		// 		path: MARKET_PAGE_ENUM.other,
-		// 		loadChildren: () => import('./pages/market-other/market-other-page.module').then((m) => m.MarketOtherPageModule),
-		// 	},
-		// 	{
-		// 		path: '',
-		// 		redirectTo: MARKET_PAGE_ENUM.topStocks,
-		// 		pathMatch: 'full',
-		// 	},
-		// ],
 	},
 ];
 

@@ -132,6 +132,7 @@ query QueryMarketDailyOverview {
 			...STFMSectorPerformanceFragment
 		}
 		lastUpdate
+		lastUpdateTopStocks
 		stockScreener {
 			symbol
 			companyName
