@@ -45,7 +45,7 @@
 				<app-generic-card additionalClasses="st-height-100" title="Financial yearly growth">
 					<app-generic-chart
 						[chartType]="ChartType.bar"
-						[heightPx]="315"
+						[heightPx]="chartHeight_35"
 						[isPercentage]="true"
 						[series]="[{
                              colorByPoint: true,
@@ -190,7 +190,7 @@
 							*ngIf="fc?.yearly?.categories?.length > 0"
 							[categories]="fc.yearly.categories"
 							[chartType]="ChartType.column"
-							[heightPx]="financialsHeight"
+							[heightPx]="chartHeight_27"
 							[series]="fc.yearly.series"
 						>
 						</app-generic-chart>
@@ -206,7 +206,7 @@
 							*ngIf="fc?.quarterly?.categories?.length > 0"
 							[categories]="fc.quarterly.categories"
 							[chartType]="ChartType.column"
-							[heightPx]="financialsHeight"
+							[heightPx]="chartHeight_27"
 							[series]="fc.quarterly.series"
 						>
 						</app-generic-chart>
@@ -219,7 +219,7 @@
 					<app-details-earnings-chart
 						*ngIf="stockDetails.companyData?.earnings?.earningsChart?.quarterly?.length > 0"
 						[earnings]="stockDetails.companyData?.earnings?.earningsChart"
-						[height]="financialsHeight"
+						[height]="chartHeight_27"
 					>
 					</app-details-earnings-chart>
 				</app-generic-card>
@@ -359,7 +359,7 @@
 								[title]="data.name + ': ' + data.data[data.data.length - 1]"
 								additionalClasses="st-height-100"
 							>
-								<app-generic-chart *ngIf="data.dates.length > 0" [categories]="data.dates" [heightPx]="chartHeight" [series]="[data]">
+								<app-generic-chart *ngIf="data.dates.length > 0" [categories]="data.dates" [heightPx]="chartHeight_20" [series]="[data]">
 								</app-generic-chart>
 							</app-generic-card>
 						</ng-container>
