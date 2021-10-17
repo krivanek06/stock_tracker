@@ -1,18 +1,8 @@
-import { STSummary } from "../st-stockDetails.model";
 import {
-  STFMStockNew,
-  STFMEtfHolder, STFMEtfSectorWeight, STFMEtfCountryWeight,
-  STFMCalendarEconomic,
-  STFMStockDividend,
-  STFMCalendarIpo,
-  STFMCalendarEarnings,
-  STFMCompanyQuote,
-  STFMExchangeIndustryPE,
-  STFMExchangeSectorPE,
-  STFMSplitHistory,
-  STFMSectorPerformance,
-  STFMStockScreenerResult
+  STFMCalendarEarnings, STFMCalendarEconomic, STFMCalendarIpo, STFMCompanyQuote, STFMEtfCountryWeight, STFMEtfHolder, STFMEtfSectorWeight, STFMExchangeIndustryPE,
+  STFMExchangeSectorPE, STFMSectorPerformance, STFMSplitHistory, STFMStockDividend, STFMStockNew, STFMStockScreenerResult
 } from "../st-financal-modeling-api.model";
+import { STSummary } from "../st-stockDetails.model";
 
 export interface STMarketDailyOverview {
   id: string;
@@ -30,6 +20,7 @@ export interface STMarketDailyOverview {
   sectorPerformance: STFMSectorPerformance[];
   stockScreener: STFMStockScreenerResult[];
   lastUpdate?: string;
+  lastUpdateTopStocks?: string;
 }
 
 export interface STMarketExchange {
