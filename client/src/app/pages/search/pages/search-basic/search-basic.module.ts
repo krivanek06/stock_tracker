@@ -18,6 +18,7 @@ import {
 	GenericCardModule,
 	GenericExtensionPanelModule,
 	GenericListModule,
+	ListSkeletonModule,
 	PieChartWrapperModule,
 } from '@shared';
 import {
@@ -73,6 +74,7 @@ const routes: Routes = [
 		ComposedTransactionsModule,
 		ComposedPortfolioAllocationChartsModule,
 		ComposedPortfolioHoldingsTableModule,
+		ListSkeletonModule,
 		RouterModule.forChild(routes),
 	],
 })

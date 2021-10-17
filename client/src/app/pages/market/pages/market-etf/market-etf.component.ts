@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { GraphqlQueryService, StMarketDailyOverview, StMarketEtfDocument } from '@core';
-import { SymbolIdentification, WindowService } from '@shared';
+import { ChartType, GenericChartSeries, SymbolIdentification, WindowService } from '@shared';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-market-etf',
@@ -12,19 +13,30 @@ import { Observable } from 'rxjs';
 export class MarketEtfComponent implements OnInit {
 	marketDailyOverview$: Observable<StMarketDailyOverview>;
 	etfDocument$: Observable<StMarketEtfDocument>;
+	etfHolders$: Observable<GenericChartSeries[]>;
 	chartHeight: number;
 	chartHeighrPie: number;
+
+	ChartType = ChartType;
 
 	constructor(private graphqlQueryService: GraphqlQueryService) {}
 
 	ngOnInit() {
 		this.marketDailyOverview$ = this.graphqlQueryService.queryMarketDailyOverview();
-		this.etfDocument$ = this.graphqlQueryService.queryEtfDocument('SPY');
-
 		this.chartHeight = WindowService.getWindowHeightPrctInPx(42);
 		this.chartHeighrPie = WindowService.getWindowHeightPrctInPx(38);
-		this.etfDocument$.subscribe((r) => console.log('etf', r));
+		this.etfClicked({ symbol: 'SPY', name: 'S&P 500' });
 	}
 
-	etfClicked(symbolIdentification: SymbolIdentification) {}
+	etfClicked(symbolIdentification: SymbolIdentification) {
+		this.etfDocument$ = this.graphqlQueryService.queryEtfDocument(symbolIdentification.symbol);
+		this.etfHolders$ = this.etfDocument$.pipe(
+			map((document) =>
+				document.etfHolders.map((x) => {
+					return { name: x.asset, y: x.sharesNumber } as GenericChartSeries;
+				})
+			)
+		);
+		this.etfDocument$.subscribe((r) => console.log('etf', r));
+	}
 }

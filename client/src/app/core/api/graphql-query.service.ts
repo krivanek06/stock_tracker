@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
@@ -12,7 +13,7 @@ import {
 	QuerySymbolHistoricalPricesGQL,
 	StfmCompanyQuote,
 	StfmStockScreenerInput,
-	StfmStockScreenerResult,
+	StfmStockScreenerResultWrapper,
 	StMarketChartDataResultCombined,
 	StMarketDailyOverview,
 	StMarketDatasetKeyCategory,
@@ -33,7 +34,8 @@ export class GraphqlQueryService {
 		private queryStMarketAllCategoriesGQL: QueryStMarketAllCategoriesGQL,
 		private querySymbolHistoricalPricesGQL: QuerySymbolHistoricalPricesGQL,
 		private queryEtfDocumentGQL: QueryEtfDocumentGQL,
-		private queryStockScreenerGQL: QueryStockScreenerGQL
+		private queryStockScreenerGQL: QueryStockScreenerGQL,
+		private apollo: Apollo
 	) {}
 
 	querySymbolHistoricalPrices(symbol: string, period: string = '1d'): Observable<SymbolHistoricalPrices> {
@@ -55,18 +57,23 @@ export class GraphqlQueryService {
 			.pipe(map((x) => x.data.queryStockQuotesByPrefix));
 	}
 	queryMarketDailyOverview(): Observable<StMarketDailyOverview> {
-		return this.queryMarketDailyOverviewGQL.fetch().pipe(map((x) => x.data.queryMarketDailyOverview));
+		const interval = 1000 * 60 * 11; // 11 minutes;
+		return this.queryMarketDailyOverviewGQL
+			.watch(null, { pollInterval: interval, fetchPolicy: 'network-only' })
+			.valueChanges.pipe(map((x) => x.data.queryMarketDailyOverview));
 	}
 
 	queryStMarketHistoryOverview(): Observable<StMarketOverviewPartialData> {
 		return this.queryStMarketHistoryOverviewGQL.fetch().pipe(map((x) => x.data.querySTMarketHistoryOverview));
 	}
 
-	queryStockScreener(stockScreenerInput: StfmStockScreenerInput): Observable<StfmStockScreenerResult[]> {
+	queryStockScreener(stockScreenerInput: StfmStockScreenerInput, offset: number, limit: number): Observable<StfmStockScreenerResultWrapper> {
 		return this.queryStockScreenerGQL
 			.fetch(
 				{
 					stockScreenerInput,
+					limit,
+					offset,
 				},
 				{
 					fetchPolicy: 'network-only',
