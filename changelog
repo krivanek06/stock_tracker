@@ -6,6 +6,7 @@ client
 
 graphql
 - stock screener - added limit & offset
+- account - updating user information in groups when changing nickname or photo
 
 functions
 - updateMarketDailyOverview - changed to update top stocks more frequently
