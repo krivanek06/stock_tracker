@@ -4,7 +4,7 @@ import { getCurrentIOSDate } from '../st-shared/st-shared.functions';
 export const createTransactionBuy = (user: api.STUserPublicData, transactionInput: api.STTransactionInput): api.STTransaction => {
 	const transactionBuy: api.STTransaction = {
 		operation: api.STTransactionOperationEnum.BUY,
-		price: transactionInput.price + 0.03,
+		price: transactionInput.price + transactionInput.price * 0.005,
 		symbol: transactionInput.symbol,
 		symbol_logo_url: transactionInput.symbol_logo_url,
 		units: transactionInput.units,
@@ -18,7 +18,7 @@ export const createTransactionBuy = (user: api.STUserPublicData, transactionInpu
 		},
 		return: null,
 		returnChange: null,
-		transactionFees: transactionInput.price * transactionInput.units * 0.001,
+		transactionFees: transactionInput.price * transactionInput.units * 0.0015,
 	};
 	return transactionBuy;
 };
@@ -28,9 +28,10 @@ export const createTransactionSell = (
 	holding: api.STHolding,
 	transactionInput: api.STTransactionInput
 ): api.STTransaction => {
+	const sellingPrice = transactionInput.price - transactionInput.price * 0.005;
 	const transactionSell: api.STTransaction = {
 		operation: api.STTransactionOperationEnum.SELL,
-		price: transactionInput.price - 0.03,
+		price: sellingPrice,
 		symbol: transactionInput.symbol,
 		symbol_logo_url: transactionInput.symbol_logo_url,
 		units: transactionInput.units,
@@ -42,9 +43,9 @@ export const createTransactionSell = (
 			locale: user.locale,
 			accountCreatedDate: user.accountCreatedDate,
 		},
-		return: Math.round((transactionInput.price - holding.breakEvenPrice) * transactionInput.units),
-		returnChange: Math.round(((transactionInput.price - holding.breakEvenPrice) / holding.breakEvenPrice) * 100),
-		transactionFees: transactionInput.price * transactionInput.units * 0.001,
+		return: Math.round((sellingPrice - holding.breakEvenPrice) * transactionInput.units),
+		returnChange: Math.round(((sellingPrice - holding.breakEvenPrice) / holding.breakEvenPrice) * 100),
+		transactionFees: transactionInput.price * transactionInput.units * 0.0015,
 	};
 	return transactionSell;
 };

@@ -1,8 +1,14 @@
+16.10.2021 - v. 0.9.6
+clinet
+- fixed transaction selling
+
 16.10.2021 - v. 0.9.5
 client
 - stock screener - infinite scroll
 - fixed not showing details button when not stock in modal
 - marker page - change ETFs
+- transaction feest - 0.15%
+- bid / ask price - 0.5% diff
 
 graphql
 - stock screener - added limit & offset
