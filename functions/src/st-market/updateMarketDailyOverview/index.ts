@@ -1,5 +1,6 @@
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
+import * as moment from 'moment';
 import * as api from 'stock-tracker-common-interfaces';
 import {
 	getCalendarDividend,
@@ -31,18 +32,33 @@ const SEARCH_ENDPOINT = `${stockDataAPI}/search`;
 // functions.pubsub.topic('updateMarketDailyOverview').onPublish(async () => {
 export const updateMarketDailyOverview = functions.pubsub.topic('updateMarketDailyOverview').onPublish(async () => {
 	console.log(`Started updating at ${admin.firestore.Timestamp.now().toDate()}`);
-	console.log('Fetched overview');
-	const newOverview = await fetchDailyOverviewFromApi();
+	const oldOverview = await getDailyOverview();
 
-	console.log('Fetched suggestions');
-	newOverview.stockSuggestions = await fetchSuggestions();
+	console.log('Fetched top stocks');
+	let newOverview = await fetchTopStock();
+
+	if (moment(new Date()).diff(moment(oldOverview.lastUpdate), 'hours') > 0) {
+		console.log('Fetched overview rest data');
+		const newOverviewRestData = await fetchDailyOverviewFromApi();
+
+		// combine data into one
+		newOverview = { ...newOverview, ...newOverviewRestData };
+
+		console.log('Fetched suggestions');
+		newOverview.stockSuggestions = await fetchSuggestions();
+	}
 
 	console.log('Save into firestore');
 	await updateMarketOverviewCollection(newOverview);
 	console.log(`Completed updating at ${admin.firestore.Timestamp.now().toDate()}`);
 });
 
-const fetchDailyOverviewFromApi = async (): Promise<api.STMarketDailyOverview> => {
+const getDailyOverview = async (): Promise<api.STMarketDailyOverview> => {
+	const doc = await admin.firestore().collection(api.ST_SHARED_ENUM.ST_COLLECTION).doc(api.ST_SHARED_ENUM.MARKET_DAILY_OVERVIEW).get();
+	return doc.data() as api.STMarketDailyOverview;
+};
+
+const fetchTopStock = async (): Promise<Partial<api.STMarketDailyOverview>> => {
 	const topDailyGainers = await getTopGainersStocks();
 	const topDailyLosers = await getTopLosersStocks();
 	const topMostActive = await getMostActiveStocks();
@@ -72,6 +88,21 @@ const fetchDailyOverviewFromApi = async (): Promise<api.STMarketDailyOverview> =
 		)
 	).reduce((a, b) => a.concat(b), []);
 
+	const topCrypto = (await (await fetch(`${SEARCH_ENDPOINT}/top_crypto`)).json())['top_crypto'] as api.STMarketTopTableCryptoData[];
+
+	const result: Partial<api.STMarketDailyOverview> = {
+		id: 'STMarketDailyOverview',
+		dailyGainers,
+		dailyLosers,
+		mostActive,
+		topCrypto,
+		lastUpdateTopStocks: admin.firestore.Timestamp.now().toDate().toISOString(),
+	};
+
+	return result;
+};
+
+const fetchDailyOverviewFromApi = async (): Promise<Partial<api.STMarketDailyOverview>> => {
 	const news = await getNews();
 	const exchangeSectorPE = await getExchangeSectorPE();
 	const exchangeIndustryPE = await getExchangeIndustryPE();
@@ -79,7 +110,6 @@ const fetchDailyOverviewFromApi = async (): Promise<api.STMarketDailyOverview> =
 	const etfs = (await getEtf()).sort((a, b) => b.changesPercentage - a.changesPercentage).slice(0, 15);
 	const mutulaFunds = (await getMutualFund()).sort((a, b) => b.changesPercentage - a.changesPercentage).slice(0, 15);
 	const sectorPerformance = await getSectorPerformance();
-	const topCrypto = (await (await fetch(`${SEARCH_ENDPOINT}/top_crypto`)).json())['top_crypto'] as api.STMarketTopTableCryptoData[];
 
 	const calendarEarnings = (await getCalendarEarnings()).slice(0, 20);
 	const calendarIpo = (await getCalendarIpo()).slice(0, 20);
@@ -94,12 +124,9 @@ const fetchDailyOverviewFromApi = async (): Promise<api.STMarketDailyOverview> =
 		volumeMoreThan: 10000000,
 	});
 
-	const result: api.STMarketDailyOverview = {
+	const result: Partial<api.STMarketDailyOverview> = {
 		id: 'STMarketDailyOverview',
 		commodities,
-		dailyGainers,
-		dailyLosers,
-		mostActive,
 		etfs,
 		exchange: {
 			id: 'NYSE',
@@ -107,7 +134,6 @@ const fetchDailyOverviewFromApi = async (): Promise<api.STMarketDailyOverview> =
 			exchangeSectorPE,
 		},
 		mutulaFunds,
-		topCrypto,
 		news,
 		stockSuggestions: [],
 		calendar: {
@@ -152,7 +178,7 @@ const fetchSuggestions = async (): Promise<api.STStockSuggestion[]> => {
 	return suggestions;
 };
 
-const updateMarketOverviewCollection = async (newOverview: api.STMarketDailyOverview): Promise<void> => {
+const updateMarketOverviewCollection = async (newOverview: Partial<api.STMarketDailyOverview>): Promise<void> => {
 	await admin
 		.firestore()
 		.collection(api.ST_SHARED_ENUM.ST_COLLECTION)

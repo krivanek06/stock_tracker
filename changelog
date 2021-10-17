@@ -7,6 +7,9 @@ client
 graphql
 - stock screener - added limit & offset
 
+functions
+- updateMarketDailyOverview - changed to update top stocks more frequently
+
 9.10.2021 - v. 0.9.4
 client
 - holdings only 45 symbols

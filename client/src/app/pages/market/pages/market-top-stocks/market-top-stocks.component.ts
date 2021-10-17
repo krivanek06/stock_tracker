@@ -35,7 +35,7 @@ export class MarketTopStocksComponent extends ComponentScreenUpdateBaseDirective
 
 	async showSummary(symbolIdentification: SymbolIdentification) {
 		if (!!symbolIdentification) {
-			await this.watchlistFeatureFacadeService.presentSymbolLookupModal(symbolIdentification, false);
+			await this.watchlistFeatureFacadeService.presentSymbolLookupModal(symbolIdentification, true);
 		}
 	}
 
