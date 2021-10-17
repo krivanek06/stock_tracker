@@ -6,7 +6,7 @@
 
 export const financialModelingAPI = 'https://financialmodelingprep.com';
 export const financialModelingAPIKey = '795742ba1ec2f519ffa9ea50967d2240';
-export const IS_PRODUCTION = false;
+export const IS_PRODUCTION = true;
 
 export const stockDataAPI = IS_PRODUCTION ? 'https://serverflask-j6sqew4pvq-lm.a.run.app' : 'https://serverflask-eqvqg22pdq-lz.a.run.app';
 
