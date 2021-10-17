@@ -21,7 +21,7 @@
 
 		<!-- bid / ask -->
 		<div class="st-width-100">
-			<app-trading-bid-ask [bidPrice]="price - 0.03" [askPrice]="price + 0.03"></app-trading-bid-ask>
+			<app-trading-bid-ask [bidPrice]="price - price * 0.005" [askPrice]="price + price * 0.005"></app-trading-bid-ask>
 		</div>
 
 		<!-- estimated price -->
@@ -56,7 +56,7 @@
 
 			<!-- fees -->
 			<ion-item>
-				<ion-label class="st-font-5"> Fees: {{ (price * 0.001 * units.value) | currency }} (0.1% from price) </ion-label>
+				<ion-label class="st-font-5"> Fees: {{ (price * 0.0015 * units.value) | currency }} (0.25% from price) </ion-label>
 			</ion-item>
 
 			<!-- buttons -->
