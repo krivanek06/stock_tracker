@@ -1,218 +1,217 @@
 fragment STMarketChartDataResultCombinedFragment on STMarketChartDataResultCombined {
-    currentDate
-    currentValue
-    data
-    documentKey
-    name
-    parentName
-    lastUpdate
+	currentDate
+	currentValue
+	data
+	documentKey
+	name
+	parentName
+	lastUpdate
 }
 
 fragment STMarketTopTableCryptoDataFragment on STMarketTopTableCryptoData {
-    circulatingSupply
-    coinImageUrl
-    currency
-    fiftyTwoWeekHigh
-    fiftyTwoWeekLow
-    marketCap
-    quoteType
-    regularMarketChange
-    regularMarketChangePercent
-    regularMarketClosed
-    regularMarketOpen
-    regularMarketPrice
-    regularMarketVolume
-    shortName
-    symbol
-    volume24Hr
-    volumeAllCurrencies
+	circulatingSupply
+	coinImageUrl
+	currency
+	fiftyTwoWeekHigh
+	fiftyTwoWeekLow
+	marketCap
+	quoteType
+	regularMarketChange
+	regularMarketChangePercent
+	regularMarketClosed
+	regularMarketOpen
+	regularMarketPrice
+	regularMarketVolume
+	shortName
+	symbol
+	volume24Hr
+	volumeAllCurrencies
 }
-
-
 
 # -----------------------------------------
 # QUERY
 query QuerySTMarketHistoryOverview {
-    querySTMarketHistoryOverview {
-        sp500 {
-            ...STMarketChartDataResultCombinedFragment
-        }
-        bonds {
-            ...STMarketChartDataResultCombinedFragment
-        }
-        inflation_rate {
-            ...STMarketChartDataResultCombinedFragment
-        }
-        misery_index {
-            ...STMarketChartDataResultCombinedFragment
-        }
-        treasury_yield {
-            ...STMarketChartDataResultCombinedFragment
-        }
-        investor_sentiment {
-            ...STMarketChartDataResultCombinedFragment
-        }
-        bitcoin {
-            ...STMarketChartDataResultCombinedFragment
-        }
-        lastUpdate
-    }
+	querySTMarketHistoryOverview {
+		sp500 {
+			...STMarketChartDataResultCombinedFragment
+		}
+		bonds {
+			...STMarketChartDataResultCombinedFragment
+		}
+		inflation_rate {
+			...STMarketChartDataResultCombinedFragment
+		}
+		misery_index {
+			...STMarketChartDataResultCombinedFragment
+		}
+		treasury_yield {
+			...STMarketChartDataResultCombinedFragment
+		}
+		investor_sentiment {
+			...STMarketChartDataResultCombinedFragment
+		}
+		bitcoin {
+			...STMarketChartDataResultCombinedFragment
+		}
+		lastUpdate
+	}
 }
-
 
 # QUERY --------------------
 
-
 query QuerySymbolHistoricalPrices($symbol: String!, $period: String!) {
-    querySymbolHistoricalPrices(symbol: $symbol, period: $period) {
-        livePrice
-        symbol
-        period
-        price
-        volume
-    }
+	querySymbolHistoricalPrices(symbol: $symbol, period: $period) {
+		livePrice
+		symbol
+		period
+		price
+		volume
+	}
 }
 
-
 query QueryMarketDailyOverview {
-    queryMarketDailyOverview {
-        id
-        dailyGainers {
-            ...STFMCompanyQuoteFragment
-        }
-        dailyLosers {
-            ...STFMCompanyQuoteFragment
-        }
-        mostActive {
-            ...STFMCompanyQuoteFragment
-        }
-        stockSuggestions {
-            historicalData
-            summary {
-                ...StockSummaryFragment
-            }
-        }
-        topCrypto {
-            ...STMarketTopTableCryptoDataFragment
-        }
-        news {
-            ...STFMStockNewFragment
-        }
-        calendar {
-            calendarEconomic {
-                ...STFMCalendarEconomicFragment
-            }
-            calendarDividend {
-                ...STFMStockDividendFragment
-            }
-            calendarSplit {
-                ...STFMSplitHistoryFragment
-            }
-            calendarIpo {
-                ...STFMCalendarIpoFragment
-            }
-            calendarEarnings {
-                ...STFMCalendarEarningsFragment
-            }
-        }
-        mutulaFunds {
-            ...STFMCompanyQuoteFragment
-        }
-        etfs {
-            ...STFMCompanyQuoteFragment
-        }
-        commodities {
-            ...STFMCompanyQuoteFragment
-        }
-        exchange {
-            id
-            exchangeIndustryPE {
-                ...STFMExchangeIndustryPEFragment
-            }
-            exchangeSectorPE {
-                ...STFMExchangeSectorPEFragment
-            }
-        }
-        sectorPerformance {
-            ...STFMSectorPerformanceFragment
-        }
-        lastUpdate
-        stockScreener {
-            symbol
-            companyName
-            marketCap
-            sector
-            industry
-            beta
-            price
-            lastAnnualDividend
-            volume
-            exchange
-            exchangeShortName
-            country
-            isEtf
-            isActivelyTrading
-            companyQuote {
-                ...STFMCompanyQuoteFragment
-            }
-        }
-    }
+	queryMarketDailyOverview {
+		id
+		dailyGainers {
+			...STFMCompanyQuoteFragment
+		}
+		dailyLosers {
+			...STFMCompanyQuoteFragment
+		}
+		mostActive {
+			...STFMCompanyQuoteFragment
+		}
+		stockSuggestions {
+			historicalData
+			summary {
+				...StockSummaryFragment
+			}
+		}
+		topCrypto {
+			...STMarketTopTableCryptoDataFragment
+		}
+		news {
+			...STFMStockNewFragment
+		}
+		calendar {
+			calendarEconomic {
+				...STFMCalendarEconomicFragment
+			}
+			calendarDividend {
+				...STFMStockDividendFragment
+			}
+			calendarSplit {
+				...STFMSplitHistoryFragment
+			}
+			calendarIpo {
+				...STFMCalendarIpoFragment
+			}
+			calendarEarnings {
+				...STFMCalendarEarningsFragment
+			}
+		}
+		mutulaFunds {
+			...STFMCompanyQuoteFragment
+		}
+		etfs {
+			...STFMCompanyQuoteFragment
+		}
+		commodities {
+			...STFMCompanyQuoteFragment
+		}
+		exchange {
+			id
+			exchangeIndustryPE {
+				...STFMExchangeIndustryPEFragment
+			}
+			exchangeSectorPE {
+				...STFMExchangeSectorPEFragment
+			}
+		}
+		sectorPerformance {
+			...STFMSectorPerformanceFragment
+		}
+		lastUpdate
+		lastUpdateTopStocks
+		stockScreener {
+			symbol
+			companyName
+			marketCap
+			sector
+			industry
+			beta
+			price
+			lastAnnualDividend
+			volume
+			exchange
+			exchangeShortName
+			country
+			isEtf
+			isActivelyTrading
+			companyQuote {
+				...STFMCompanyQuoteFragment
+			}
+		}
+	}
 }
 
 query QueryEtfDocument($etfName: String!) {
-    queryEtfDocument(etfName: $etfName) {
-        id
-        etfHolders {
-            ...STFMEtfHolderFragment
-        }
-        etfSectorWeight {
-            ...STFMEtfSectorWeightFragment
-        }
-        etfCountryWeight {
-            ...STFMEtfCountryWeightFragment
-        }
-        lastUpdate
-    }
+	queryEtfDocument(etfName: $etfName) {
+		id
+		etfHolders {
+			...STFMEtfHolderFragment
+		}
+		etfSectorWeight {
+			...STFMEtfSectorWeightFragment
+		}
+		etfCountryWeight {
+			...STFMEtfCountryWeightFragment
+		}
+		lastUpdate
+	}
 }
-
 
 query QueryStMarketAllCategories {
-    queryStMarketAllCategories {
-        categories {
-            data {
-                documentKey
-                name
-            }
-            name
-        }
-    }
+	queryStMarketAllCategories {
+		categories {
+			data {
+				documentKey
+				name
+			}
+			name
+		}
+	}
 }
-
 
 query QueryStMarketData($key: String!) {
-    queryStMarketData(key: $key) {
-        ...STMarketChartDataResultCombinedFragment
-    }
+	queryStMarketData(key: $key) {
+		...STMarketChartDataResultCombinedFragment
+	}
 }
 
-query QueryStockScreener($stockScreenerInput: STFMStockScreenerInput!){
-    queryStockScreener(stockScreenerInput: $stockScreenerInput){
-        symbol
-        companyName
-        marketCap
-        sector
-        industry
-        beta
-        price
-        lastAnnualDividend
-        volume
-        exchange
-        exchangeShortName
-        country
-        isEtf
-        isActivelyTrading
-        companyQuote {
-            ...STFMCompanyQuoteFragment
-        }
-    }
+query QueryStockScreener($stockScreenerInput: STFMStockScreenerInput!, $offset: Int!, $limit: Int!) {
+	queryStockScreener(stockScreenerInput: $stockScreenerInput, offset: $offset, limit: $limit) {
+		result {
+			symbol
+			companyName
+			marketCap
+			sector
+			industry
+			beta
+			price
+			lastAnnualDividend
+			volume
+			exchange
+			exchangeShortName
+			country
+			isEtf
+			isActivelyTrading
+			companyQuote {
+				...STFMCompanyQuoteFragment
+			}
+		}
+		found
+		offset
+		limit
+	}
 }

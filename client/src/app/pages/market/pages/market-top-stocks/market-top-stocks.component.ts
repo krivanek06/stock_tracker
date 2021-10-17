@@ -14,6 +14,7 @@ export class MarketTopStocksComponent extends ComponentScreenUpdateBaseDirective
 	topGainers: StfmCompanyQuote[] = [];
 	topLosers: StfmCompanyQuote[] = [];
 	mostActive: StfmCompanyQuote[] = [];
+	lastUpdateTopStocks: string;
 
 	constructor(
 		private graphqlQueryService: GraphqlQueryService,
@@ -35,7 +36,7 @@ export class MarketTopStocksComponent extends ComponentScreenUpdateBaseDirective
 
 	async showSummary(symbolIdentification: SymbolIdentification) {
 		if (!!symbolIdentification) {
-			await this.watchlistFeatureFacadeService.presentSymbolLookupModal(symbolIdentification, false);
+			await this.watchlistFeatureFacadeService.presentSymbolLookupModal(symbolIdentification, true);
 		}
 	}
 
@@ -47,6 +48,7 @@ export class MarketTopStocksComponent extends ComponentScreenUpdateBaseDirective
 				this.topGainers = LodashService.cloneDeep(res.dailyGainers);
 				this.topLosers = LodashService.cloneDeep(res.dailyLosers);
 				this.mostActive = LodashService.cloneDeep(res.mostActive);
+				this.lastUpdateTopStocks = res.lastUpdateTopStocks;
 
 				// init subscription only if service is initialized
 				this.finnhubWebsocketService

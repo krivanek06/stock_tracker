@@ -44,6 +44,11 @@ const performTransactionAction = async (
 			throw new ApolloError('Not enough cash on the account. Operation was not realized');
 		}
 
+		const userAlreadyOwnsSymbol = !!user.holdings.find((h) => h.symbol === transaction.symbol);
+		if (!userAlreadyOwnsSymbol && user.holdings.length >= 45) {
+			throw new ApolloError('You can only hold 45 distinct symbols. Operation was not realized');
+		}
+
 		newUserHoldings = addTransactionToUserHolding(user, transaction);
 	} else {
 		// find existing holding in user's portfolio

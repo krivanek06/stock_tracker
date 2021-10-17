@@ -1,6 +1,7 @@
 <ion-card [class]="'left-padding-small-screen ' + additionalClasses" [style]="additionalStyles">
-	<ion-card-header *ngIf="!removeHeader">
+	<ion-card-header>
 		<ion-card-subtitle> {{ title }} </ion-card-subtitle>
+		<ion-text class="st-flex-end">{{ secondaryText }} </ion-text>
 	</ion-card-header>
 	<ion-card-content>
 		<ng-content></ng-content>

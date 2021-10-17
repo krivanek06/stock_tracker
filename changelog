@@ -1,3 +1,21 @@
+16.10.2021 - v. 0.9.5
+client
+- stock screener - infinite scroll
+- fixed not showing details button when not stock in modal
+- marker page - change ETFs
+
+graphql
+- stock screener - added limit & offset
+- account - updating user information in groups when changing nickname or photo
+
+functions
+- updateMarketDailyOverview - changed to update top stocks more frequently
+
+9.10.2021 - v. 0.9.4
+client
+- holdings only 45 symbols
+- user reset account - reset user data in groups
+
 9.10.2021 - v. 0.9.3
 client
 - added ETF, FUND, STOCK, ADR types for symbol

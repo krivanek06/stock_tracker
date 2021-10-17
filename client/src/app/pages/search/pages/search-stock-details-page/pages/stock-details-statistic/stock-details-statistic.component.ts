@@ -16,8 +16,9 @@ export class StockDetailsStatisticComponent implements OnInit {
 	isAdmin$: Observable<boolean>;
 
 	ChartType = ChartType;
-	chartHeight: number;
-	financialsHeight: number;
+	chartHeight_20: number;
+	chartHeight_27: number;
+	chartHeight_35: number;
 
 	constructor(
 		private symbolStorageService: SymbolStorageService,
@@ -28,8 +29,9 @@ export class StockDetailsStatisticComponent implements OnInit {
 	ngOnInit(): void {
 		this.stockDetails$ = this.symbolStorageService.getStockDetails();
 		this.isAdmin$ = this.userStorageService.isAdmin();
-		this.chartHeight = WindowService.getWindowHeightPrctInPx(20);
-		this.financialsHeight = WindowService.getWindowHeightPrctInPx(27);
+		this.chartHeight_20 = WindowService.getWindowHeightPrctInPx(20);
+		this.chartHeight_27 = WindowService.getWindowHeightPrctInPx(27);
+		this.chartHeight_35 = WindowService.getWindowHeightPrctInPx(35);
 	}
 
 	reloadStockDetails() {

@@ -15,6 +15,7 @@ export class MarketCryptoComponent extends ComponentScreenUpdateBaseDirective im
 	marketOverview$: Observable<StMarketOverviewPartialData>;
 	topCrypto: StMarketTopTableCryptoData[] = [];
 	chartHeight: number;
+	lastUpdateTopStocks: string;
 
 	constructor(
 		private graphqlQueryService: GraphqlQueryService,
@@ -51,6 +52,7 @@ export class MarketCryptoComponent extends ComponentScreenUpdateBaseDirective im
 			.pipe(takeUntil(componentDestroyed(this)))
 			.subscribe((res) => {
 				this.topCrypto = LodashService.cloneDeep(res.topCrypto);
+				this.lastUpdateTopStocks = res.lastUpdateTopStocks;
 				this.initSubscriptionForTopCrypto();
 			});
 	}
