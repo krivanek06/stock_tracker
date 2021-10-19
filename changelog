@@ -1,3 +1,9 @@
+18.10.2021 - v. 0.9.7.1
+client
+- fixed ticket comment wrapping
+
+-----------------------------------------------
+
 18.10.2021 - v. 0.9.7
 client
 - fixed navigation from search group to group details
@@ -8,9 +14,13 @@ graphql
 - tickets - saving userId - enabled query my tickets
 - ticket - editing comments
 
+-----------------------------------------------
+
 16.10.2021 - v. 0.9.6
 client
 - fixed transaction selling
+
+-----------------------------------------------
 
 16.10.2021 - v. 0.9.5
 client
@@ -27,10 +37,14 @@ graphql
 functions
 - updateMarketDailyOverview - changed to update top stocks more frequently
 
+-----------------------------------------------
+
 9.10.2021 - v. 0.9.4
 client
 - holdings only 45 symbols
 - user reset account - reset user data in groups
+
+-----------------------------------------------
 
 9.10.2021 - v. 0.9.3
 client
@@ -38,14 +52,19 @@ client
 - added reload all symbols button on admin page
 - enabled trading ETF & FUNDS
 
+-----------------------------------------------
 
 7.10.2021 - v. 0.9.2
 client
 - resized graph heights by percentage of window height instead of hard coded PX values
 
+-----------------------------------------------
+
 1.10.2021 - v. 0.9.1
 client
 - hotfix for graphs
+
+-----------------------------------------------
 
 1.10.2021 - v. 0.9.0
 client
@@ -61,9 +80,13 @@ graphql
 cloud functions
 - added transaction fees for groups
 
+-----------------------------------------------
+
 29.09.2021 - v. 0.8.1
 client
 - fixed accessing details.companyData?.XXX because data may be missing
+
+-----------------------------------------------
 
 25.09.2021 - v. 0.8.0
 client
@@ -83,7 +106,7 @@ clooud functions
 - groups - update data untill it is open
 - groups - automatically close by cloud funtion if data.ended is sooner
 
-
+-----------------------------------------------
 
 24.09.2021 - v 0.7.9
 fix
