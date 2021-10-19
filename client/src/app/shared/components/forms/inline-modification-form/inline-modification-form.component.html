@@ -1,28 +1,23 @@
 <ion-item-group class="st-flex-row-md-justify-center">
-    <form [formGroup]="form">
-        <ion-item class="form-item">
-            <ion-label position="floating">
-                {{ label }}
-            </ion-label>
-            <ion-input [value]="name" formControlName="name" type="text"></ion-input>
-        </ion-item>
-    </form>
+	<form [formGroup]="form">
+		<ion-item class="form-item">
+			<ion-label position="floating"> {{ label }} </ion-label>
+			<ion-input [value]="name" formControlName="name" type="text"></ion-input>
+		</ion-item>
+	</form>
 
-
-    <ion-buttons>
-        <!-- accept -->
-        <ion-button (click)="accept()" *ngIf="editing" class="st-transparent-background st-clickable"
-                    color="success">
-            <ion-icon class="st-clickable" name="checkmark-circle" slot="icon-only"></ion-icon>
-        </ion-button>
-        <!-- modify -->
-        <ion-button (click)="modify()" class="st-transparent-background st-clickable" color="warning">
-            <ion-icon class="st-clickable" name="pencil" slot="icon-only"></ion-icon>
-        </ion-button>
-        <!-- delete -->
-        <ion-button (click)="remove()" *ngIf="editing" class="st-transparent-background st-clickable"
-                    color="danger">
-            <ion-icon class="st-clickable" name="trash-bin" slot="icon-only"></ion-icon>
-        </ion-button>
-    </ion-buttons>
+	<ion-buttons>
+		<!-- accept -->
+		<ion-button (click)="accept()" *ngIf="editing" class="st-transparent-background st-clickable" color="success">
+			<ion-icon class="st-clickable" name="checkmark-circle" slot="icon-only"></ion-icon>
+		</ion-button>
+		<!-- modify -->
+		<ion-button (click)="modify()" class="st-transparent-background st-clickable" color="warning">
+			<ion-icon class="st-clickable" name="pencil" slot="icon-only"></ion-icon>
+		</ion-button>
+		<!-- delete -->
+		<ion-button (click)="remove()" *ngIf="editing" class="st-transparent-background st-clickable" color="danger">
+			<ion-icon class="st-clickable" name="trash-bin" slot="icon-only"></ion-icon>
+		</ion-button>
+	</ion-buttons>
 </ion-item-group>

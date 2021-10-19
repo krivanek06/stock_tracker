@@ -1,7 +1,7 @@
 fragment STTicketCommentFragment on STTicketComment {
 	id
 	createdBy {
-		...StUserIndetificationBaseFragment
+		...StUserIndetificationFragment
 	}
 	comment
 	createdAt
@@ -11,9 +11,8 @@ fragment STTicketFragment on STTicket {
 	id
 	name
 	type
-	message
 	createdBy {
-		...StUserIndetificationBaseFragment
+		...StUserIndetificationFragment
 	}
 	createdAt
 	isOpen
@@ -32,6 +31,10 @@ mutation CommentTicket($ticketId: String!, $comment: String!) {
 	commentTicket(ticketId: $ticketId, comment: $comment) {
 		...STTicketCommentFragment
 	}
+}
+
+mutation CommentTicketEdit($commentEditValues: STTicketCommentEditValues!) {
+	commentTicketEdit(commentEditValues: $commentEditValues)
 }
 
 mutation CloseTicket($ticketId: String!) {

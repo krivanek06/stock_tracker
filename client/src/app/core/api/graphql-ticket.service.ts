@@ -9,12 +9,15 @@ import {
 	AuthenticateUserQuery,
 	CloseTicketGQL,
 	CloseTicketMutation,
+	CommentTicketEditGQL,
+	CommentTicketEditMutation,
 	CommentTicketGQL,
 	CommentTicketMutation,
 	CreateTicketGQL,
 	CreateTicketMutation,
 	DeleteTicketGQL,
 	StTicket,
+	StTicketCommentEditValues,
 	StTicketFragmentFragment,
 	StTicketFragmentFragmentDoc,
 } from './../graphql-schema/customGraphql.service';
@@ -28,7 +31,8 @@ export class GraphqlTicketService {
 		private CreateTicketGQL: CreateTicketGQL,
 		private closeTicketGQL: CloseTicketGQL,
 		private deleteTicketGQL: DeleteTicketGQL,
-		private commentTicketGQL: CommentTicketGQL
+		private commentTicketGQL: CommentTicketGQL,
+		private commentTicketEditGQL: CommentTicketEditGQL
 	) {}
 
 	createTicket(ticketValuse: StTicketCreateValues): Observable<FetchResult<CreateTicketMutation>> {
@@ -67,6 +71,10 @@ export class GraphqlTicketService {
 		);
 	}
 
+	deleteTicket() {
+		// TODO
+	}
+
 	commentTicket({ id }: StTicket, comment: string): Observable<FetchResult<CommentTicketMutation>> {
 		return this.commentTicketGQL.mutate(
 			{
@@ -91,6 +99,37 @@ export class GraphqlTicketService {
 						data: {
 							...ticket,
 							comments: [...ticket.comments, commentTicket],
+						},
+					});
+				},
+			}
+		);
+	}
+	commentTicketEdit(commentEditValues: StTicketCommentEditValues): Observable<FetchResult<CommentTicketEditMutation>> {
+		return this.commentTicketEditGQL.mutate(
+			{
+				commentEditValues,
+			},
+			{
+				update: (store: DataProxy) => {
+					const ticket = store.readFragment<StTicketFragmentFragment>({
+						id: `STTicket:${commentEditValues.ticketId}`,
+						fragment: StTicketFragmentFragmentDoc,
+						fragmentName: 'STTicketFragment',
+					});
+
+					// update comment in array
+					const comments = ticket.comments.map((el) => {
+						return el.id == commentEditValues.commentId ? Object.assign({}, el, { comment: commentEditValues.newComment }) : el;
+					});
+
+					store.writeFragment({
+						id: `STTicket:${commentEditValues.ticketId}`,
+						fragment: StTicketFragmentFragmentDoc,
+						fragmentName: 'STTicketFragment',
+						data: {
+							...ticket,
+							comments: [...comments],
 						},
 					});
 				},

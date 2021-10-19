@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { GraphqlGroupService, StGroupIdentificationDataFragment } from '@core';
+import { GraphqlGroupService, GroupStorageService, StGroupIdentificationDataFragment } from '@core';
 import { Observable, of } from 'rxjs';
 import { debounceTime, switchMap } from 'rxjs/operators';
 
@@ -15,7 +15,12 @@ export class SearchGroupPageComponent implements OnInit, OnDestroy {
 	searchedGroups$: Observable<StGroupIdentificationDataFragment[]>;
 	form: FormGroup;
 
-	constructor(private fb: FormBuilder, private graphqlGroupService: GraphqlGroupService, private router: Router) {}
+	constructor(
+		private fb: FormBuilder,
+		private graphqlGroupService: GraphqlGroupService,
+		private groupStorageService: GroupStorageService,
+		private router: Router
+	) {}
 	ngOnDestroy(): void {}
 
 	ngOnInit() {
@@ -24,7 +29,8 @@ export class SearchGroupPageComponent implements OnInit, OnDestroy {
 	}
 
 	visit(group: StGroupIdentificationDataFragment) {
-		this.router.navigateByUrl(`/menu/groups/details/${group.id}`);
+		this.groupStorageService.setActiveGroupId(group.id);
+		this.router.navigateByUrl(`/menu/groups`);
 	}
 
 	private initForm() {

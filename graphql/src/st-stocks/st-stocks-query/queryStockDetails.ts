@@ -47,7 +47,7 @@ export const queryStockDetails = async (symbol: string, reload = false): Promise
 		}
 
 		// fetch fresh news
-		if (!!data.details && Math.abs(moment(data.newsLastUpdate).diff(new Date(), 'days')) > 1) {
+		if (!!data.details && Math.abs(moment(data.newsLastUpdate).diff(new Date(), 'days')) > 1 && !!data?.details?.companyOutlook?.stockNews) {
 			console.log(`Query stock news for symbol: ${upperSymbol}`);
 			data.details.companyOutlook.stockNews = await getAndSaveStockNewsFromApi(upperSymbol, data);
 		}

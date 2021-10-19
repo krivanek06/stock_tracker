@@ -3,7 +3,9 @@
 		(closeTicketEmitter)="closeTicket(ticket)"
 		(deleteTicketEmitter)="deleteTicket(ticket)"
 		(submitCommentEmitter)="submitComment(ticket, $event)"
+		(editCommentEmitter)="editComment($event)"
 		[ticket]="ticket"
-		[showManagementButtons]="showManagementButtons"
+		[user]="user$ | async"
+		[showClosedButton]="showClosedButton"
 	></app-ticker-overview>
 </div>

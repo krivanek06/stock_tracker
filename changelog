@@ -1,5 +1,15 @@
+18.10.2021 - v. 0.9.7
+client
+- fixed navigation from search group to group details
+- tickets - added icon
+- ticket - editing comments
+
+graphql
+- tickets - saving userId - enabled query my tickets
+- ticket - editing comments
+
 16.10.2021 - v. 0.9.6
-clinet
+client
 - fixed transaction selling
 
 16.10.2021 - v. 0.9.5
