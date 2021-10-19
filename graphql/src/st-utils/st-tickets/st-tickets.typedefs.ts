@@ -6,8 +6,7 @@ export const STTicketsTypeDefs = gql`
 		id: String!
 		name: String!
 		type: STTicketTypes!
-		message: String!
-		createdBy: STUserIndetificationBase!
+		createdBy: STUserIndetification!
 		createdAt: String!
 		isOpen: Boolean!
 		comments: [STTicketComment]!
@@ -15,7 +14,7 @@ export const STTicketsTypeDefs = gql`
 
 	type STTicketComment {
 		id: String!
-		createdBy: STUserIndetificationBase!
+		createdBy: STUserIndetification!
 		comment: String!
 		createdAt: String!
 	}
@@ -30,5 +29,11 @@ export const STTicketsTypeDefs = gql`
 		name: String!
 		type: STTicketTypes!
 		message: String!
+	}
+
+	input STTicketCommentEditValues {
+		ticketId: String!
+		commentId: String!
+		newComment: String!
 	}
 `;

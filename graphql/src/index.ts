@@ -54,6 +54,7 @@ import { authenticateUser, queryUserPublicDataById, queryUserPublicDataByUsernam
 import { userResolvers } from './st-user/user.resolver';
 import { userTypeDefs } from './st-user/user.typeDefs';
 import { closeTicket, commentTicket, createTicket, deleteTicket, stTicketsResolver, STTicketsTypeDefs } from './st-utils';
+import { commentTicketEdit } from './st-utils/st-tickets/mutations/comment-ticket-edit.mutation';
 import { validatorFinhubKeyValidity } from './validators';
 import {
 	addStockIntoStockWatchlist,
@@ -142,6 +143,7 @@ const mainTypeDefs = gql`
 		# utils - tickets
 		createTicket(ticketValuse: STTicketCreateValues!): STTicket
 		commentTicket(ticketId: String!, comment: String!): STTicketComment
+		commentTicketEdit(commentEditValues: STTicketCommentEditValues!): String
 		closeTicket(ticketId: String!): Boolean
 		deleteTicket(ticketId: String!): Boolean
 	}
@@ -224,6 +226,8 @@ const mainResolver = {
 			await createTicket(args.ticketValuse, context.requesterUserId),
 		commentTicket: async (_, args: { ticketId: string; comment: string }, context: Context) =>
 			await commentTicket(args.ticketId, args.comment, context.requesterUserId),
+		commentTicketEdit: async (_, args: { commentEditValues: api.STTicketCommentEditValues }, context: Context) =>
+			await commentTicketEdit(args.commentEditValues, context.requesterUserId),
 		closeTicket: async (_, args: { ticketId: string }) => await closeTicket(args.ticketId),
 		deleteTicket: async (_, args: { ticketId: string }) => await deleteTicket(args.ticketId),
 	},

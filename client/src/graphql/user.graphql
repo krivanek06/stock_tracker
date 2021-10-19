@@ -1,3 +1,11 @@
+fragment StUserIndetificationFragment on STUserIndetification {
+	id
+	nickName
+	locale
+	photoURL
+	accountCreatedDate
+}
+
 fragment StUserIndetificationBaseFragment on STUserIndetificationBase {
 	nickName
 	locale

@@ -36,7 +36,7 @@ export class TicketFormComponent implements OnInit {
 
 	private intiForm(): void {
 		this.form = this.fb.group({
-			name: [null, [requiredValidator, maxLengthValidator(130)]],
+			name: [null, [requiredValidator, maxLengthValidator(80)]],
 			type: [null, [requiredValidator]],
 			message: [null, [requiredValidator]],
 		});
