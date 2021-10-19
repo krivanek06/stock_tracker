@@ -12,7 +12,7 @@ export const createTicket = async (ticketValuse: api.STTicketCreateValues, reque
 			name: ticketValuse.name,
 			type: ticketValuse.type,
 			id: ref.id,
-			comments: [createComment(userIdentification, ticketValuse.name)],
+			comments: [createComment(userIdentification, ticketValuse.message)],
 			isOpen: true,
 			createdBy: userIdentification,
 			createdAt: admin.firestore.Timestamp.now().toDate().toISOString(),

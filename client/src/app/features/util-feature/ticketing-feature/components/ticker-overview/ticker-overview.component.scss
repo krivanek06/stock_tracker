@@ -25,6 +25,11 @@
 		}
 	}
 
+	.c-comment {
+		padding: 16px;
+		word-break: break-word;
+	}
+
 	.c-action-buttons {
 		display: flex;
 		justify-content: flex-end;
