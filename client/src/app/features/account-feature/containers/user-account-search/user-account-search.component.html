@@ -5,16 +5,20 @@
 </ion-list>
 
 <!-- listed users -->
-<ion-list *ngIf="searchedUsers$ | async as searchedUsers; else noUserFound" class="flex-flow-wrap">
-	<app-user-account-info-list
-		*ngFor="let user of searchedUsers"
-		(click)="clickedUser(user)"
-		[fullWith]="fullWith"
-		[clickable]="true"
-		[stUserPublicData]="user"
-	>
-	</app-user-account-info-list>
-</ion-list>
+<ng-container *ngIf="searchedUsers$ | async as searchedUsers; else noUserFound">
+	<ng-container *ngIf="searchedUsers.length > 0; else noUserFound">
+		<ion-list class="flex-flow-wrap">
+			<app-user-account-info-list
+				*ngFor="let user of searchedUsers"
+				(click)="clickedUser(user)"
+				[fullWith]="fullWith"
+				[clickable]="true"
+				[stUserPublicData]="user"
+			>
+			</app-user-account-info-list>
+		</ion-list>
+	</ng-container>
+</ng-container>
 
 <!-- no result -->
 <ng-template #noUserFound>

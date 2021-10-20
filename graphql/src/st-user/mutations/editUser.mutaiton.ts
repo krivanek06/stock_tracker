@@ -2,7 +2,7 @@ import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
 import { getCurrentIOSDate } from '../../st-shared/st-shared.functions';
-import { queryUserPublicDataById } from '../user.query';
+import { queryUserPublicDataById, queryUserPublicDataByUsername } from '../user.query';
 import { resolveUserPrivateData } from '../user.resolver';
 
 export const editUser = async (editInput: api.STUserEditDataInput): Promise<boolean> => {
@@ -23,6 +23,14 @@ export const editUser = async (editInput: api.STUserEditDataInput): Promise<bool
 
 		// update nickname or photo
 		if (userPublicData.nickName !== editInput.nickName || userPublicData.photoURL !== editInput.photoURL) {
+			const similarUserNames = await queryUserPublicDataByUsername(editInput.nickName);
+			const existsSameName = similarUserNames.find((u) => u.nickName.toLocaleLowerCase() === editInput.nickName.toLowerCase());
+
+			// somebody else already has this nickname
+			if (existsSameName && existsSameName.id !== editInput.userId) {
+				throw new ApolloError(`User with name ${editInput.nickName} aleady exists`);
+			}
+
 			await updateUserPublicData(editInput, userPublicData);
 			await updateUserPublicDataInGroups(editInput, userPublicData);
 		}

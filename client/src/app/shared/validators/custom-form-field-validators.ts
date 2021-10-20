@@ -31,6 +31,22 @@ export const positiveNumberValidator: CustomInputValidatorFn = (control) => {
 	};
 };
 
+export const wholeNumberValidator: CustomInputValidatorFn = (control) => {
+	if (!control.value || isNaN(control.value)) {
+		return null;
+	}
+
+	if (Number.isInteger(Number(control.value))) {
+		return;
+	}
+
+	return {
+		required: {
+			errorText: 'Enter only whole number',
+		},
+	};
+};
+
 export const emailValidator: CustomInputValidatorFn = (control) => {
 	const emailValidationErrors = Validators.email(control);
 

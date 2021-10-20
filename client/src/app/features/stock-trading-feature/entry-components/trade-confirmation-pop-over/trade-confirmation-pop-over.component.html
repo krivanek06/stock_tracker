@@ -29,7 +29,7 @@
 			<ion-text class="st-font-1 st-font-size-16">Estimated price / share: {{ price | currency }}</ion-text>
 			<div class="st-flex-col st-top-space">
 				<ion-text *ngIf="holding" class="st-font-2 st-font-size-16">
-					owned: {{ ( holding.units * holding.breakEvenPrice) | currency }} ({{holding.breakEvenPrice | currency}} * {{ holding.units }})
+					Owned: {{ ( holding.units * holding.breakEvenPrice) | currency }} ({{holding.breakEvenPrice | currency}} * {{ holding.units }})
 				</ion-text>
 				<ion-text class="st-font-2 st-font-size-16 ion-text-center">Cash: {{ portoflioCash | currency }}</ion-text>
 			</div>

@@ -71,8 +71,21 @@ export class GraphqlTicketService {
 		);
 	}
 
-	deleteTicket() {
-		// TODO
+	deleteTicket(ticket: StTicket): Observable<FetchResult<CommentTicketMutation>> {
+		return this.deleteTicketGQL.mutate(
+			{
+				ticketId: ticket.id,
+			},
+			{
+				update: (store: any) => {
+					const normalizedId = store.identify({ id: ticket.id, __typename: 'STTicket' });
+					if (normalizedId) {
+						store.evict({ id: normalizedId });
+						store.gc();
+					}
+				},
+			}
+		);
 	}
 
 	commentTicket({ id }: StTicket, comment: string): Observable<FetchResult<CommentTicketMutation>> {

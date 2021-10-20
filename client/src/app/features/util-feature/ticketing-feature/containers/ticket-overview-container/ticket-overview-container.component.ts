@@ -10,22 +10,26 @@ import { Observable } from 'rxjs';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TicketOverviewContainerComponent implements OnInit {
-	@Input() showClosedButton: boolean;
 	@Input() tickets: StTicket[] = [];
 
 	user$: Observable<StUserPublicData>;
+	isAdmin$: Observable<boolean>;
 
 	constructor(private graphqlTicketService: GraphqlTicketService, private userStorageService: UserStorageService) {}
 
 	ngOnInit(): void {
 		this.user$ = this.userStorageService.getUser();
+		this.isAdmin$ = this.userStorageService.isAdmin();
 	}
 
 	async closeTicket(ticket: StTicket) {
 		await this.graphqlTicketService.closeTicket(ticket).toPromise();
 		DialogService.presentToast(`Ticket ${ticket.id} has been closed`);
 	}
-	deleteTicket(ticket: StTicket) {}
+	async deleteTicket(ticket: StTicket) {
+		await this.graphqlTicketService.deleteTicket(ticket).toPromise();
+		DialogService.presentToast(`Ticket ${ticket.id} has been deleted`);
+	}
 
 	async editComment(commentEditValues: StTicketCommentEditValues) {
 		await this.graphqlTicketService.commentTicketEdit(commentEditValues).toPromise();
