@@ -35,9 +35,17 @@ export const queryUserPublicDataById = async (uid: string): Promise<api.STUserPu
 	}
 };
 
-export const queryUserPublicDataByUsername = async (usernamePrefix): Promise<api.STUserPublicData[]> => {
+export const queryUserPublicDataByUsername = async (usernamePrefix: string): Promise<api.STUserPublicData[]> => {
 	try {
-		const userDocs = await admin.firestore().collection(`${api.ST_USER_COLLECTION_USER}`).where('nickName', '>=', usernamePrefix).limit(5).get();
+		// const userDocs = await admin.firestore().collection(api.ST_USER_COLLECTION_USER).where('nickName', '>=', usernamePrefix).limit(10).get();
+		const userDocs = await admin
+			.firestore()
+			.collection(api.ST_USER_COLLECTION_USER)
+			.orderBy('nickName')
+			.where('nickName', '>=', usernamePrefix.toUpperCase())
+			.where('nickName', '<=', usernamePrefix.toLowerCase() + '\uf8ff')
+			.limit(10)
+			.get();
 
 		return userDocs.docs.map((d) => d.data() as api.STUserPublicData);
 	} catch (error) {

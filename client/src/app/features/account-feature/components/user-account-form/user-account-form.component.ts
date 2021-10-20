@@ -4,9 +4,11 @@ import {
 	Component,
 	EventEmitter,
 	Input,
+	OnChanges,
 	OnInit,
 	Output,
 	QueryList,
+	SimpleChanges,
 	ViewChild,
 	ViewChildren,
 } from '@angular/core';
@@ -31,7 +33,7 @@ import { AsyncValidatorFinhubKeyValidity } from './../../validators';
 	styleUrls: ['./user-account-form.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserAccountFormComponent implements OnInit {
+export class UserAccountFormComponent implements OnInit, OnChanges {
 	@Output() submitClickedEmitter: EventEmitter<StUserEditDataInput> = new EventEmitter<StUserEditDataInput>();
 
 	@Input() user: StUserPublicData;
@@ -70,6 +72,14 @@ export class UserAccountFormComponent implements OnInit {
 		this.finhubValidity$ = this.finnhubKey.statusChanges.pipe(map((status) => (this.finnhubKey.disabled ? 'VALID' : status)));
 
 		this.finhubValidity$.subscribe(console.log);
+	}
+
+	ngOnChanges(changes: SimpleChanges) {
+		console.log('changes', changes);
+		if (changes.user && changes.user.previousValue) {
+			const currentUser = changes.user?.currentValue as StUserPublicData;
+			this.nickName.patchValue(currentUser?.nickName);
+		}
 	}
 
 	async submit() {

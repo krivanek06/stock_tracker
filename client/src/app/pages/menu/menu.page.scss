@@ -3,6 +3,10 @@
 :host {
 	ion-content {
 		--padding-bottom: 0 !important;
+
+		@media (max-width: #{$st-var-xl-split}) {
+			width: 260px;
+		}
 	}
 
 	ion-item ion-label {
@@ -26,14 +30,9 @@
 		margin-bottom: 8px;
 	}
 
-	ion-menu,
-	ion-content {
-		min-width: 230px !important;
-		max-width: 230px !important;
-		@media (max-width: #{$st-var-xl-split}) {
-			min-width: 250px !important;
-			max-width: 250px !important;
-		}
+	ion-menu {
+		min-width: 260px !important;
+		width: 15%;
 	}
 
 	.c-version {

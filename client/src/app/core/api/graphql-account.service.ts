@@ -107,6 +107,9 @@ export class GraphqlAccountService {
 								portfolio: {
 									...data.authenticateUser.portfolio,
 									portfolioCash: STARTING_PORTFOLIO,
+									numberOfExecutedBuyTransactions: 0,
+									numberOfExecutedSellTransactions: 0,
+									transactionFees: 0,
 								},
 								transactionsSnippets: [],
 								topTransactions: [],

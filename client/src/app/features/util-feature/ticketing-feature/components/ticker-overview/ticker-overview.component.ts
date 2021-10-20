@@ -16,7 +16,7 @@ export class TickerOverviewComponent implements OnInit {
 	@Output() deleteTicketEmitter: EventEmitter<any> = new EventEmitter<any>();
 
 	@Input() ticket: StTicket;
-	@Input() showClosedButton: boolean;
+	@Input() isAdmin: boolean;
 	@Input() user: StUserPublicData;
 
 	editingComment: StTicketComment;

@@ -1,3 +1,14 @@
+18.10.2021 - v. 0.9.7.2
+client
+- side navigation 15% width, min-width: 260px
+- only whole shares (could trade fractional shares)
+- deleting tickets
+- fixed reseting user starts (executed transactions & fees) on account reset
+
+graphql
+- search user ignore case
+- disabled changing nickname when already exists
+
 18.10.2021 - v. 0.9.7.1
 client
 - fixed ticket comment wrapping

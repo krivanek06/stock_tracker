@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StHolding, StTransactionInput, StTransactionOperationEnum } from '@core';
 import { NavParams, PopoverController } from '@ionic/angular';
-import { positiveNumberValidator, requiredValidator } from '@shared';
+import { positiveNumberValidator, requiredValidator, wholeNumberValidator } from '@shared';
 
 @Component({
 	selector: 'app-trade-confirmation-pop-over',
@@ -60,7 +60,7 @@ export class TradeConfirmationPopOverComponent implements OnInit {
 
 	private initForm() {
 		this.form = this.fb.group({
-			units: [null, [requiredValidator, positiveNumberValidator]],
+			units: [null, [requiredValidator, positiveNumberValidator, wholeNumberValidator]],
 			confirmation: [false, [Validators.required, Validators.requiredTrue]],
 		});
 	}
