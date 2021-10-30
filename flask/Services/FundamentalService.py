@@ -20,10 +20,12 @@ class FundamentalService:
         # format data
         data = FundamentalServiceFormatter(data).formatFetchedStockDetails(symbol)
 
-        # calculate additional data & estimations for stocks
+       
+        calculatorFacade = FundamentalServiceCalculationFacade(data)
+        calculatorFacade.calculateAdditionalData()
+
+         # calculate estimations for stocks
         if data.get('summary', {}).get('symbolType') == 'STOCK' or data.get('summary', {}).get('symbolType') == 'ADR': 
-            calculatorFacade = FundamentalServiceCalculationFacade(data)
-            calculatorFacade.calculateAdditionalData()
             calculatorFacade.calculatePredictions()
 
         return data

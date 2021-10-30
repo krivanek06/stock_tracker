@@ -1,6 +1,9 @@
-from Services.fundamentals_services.calculators.FundamentalServiceCalculator import FundamentalServiceCalculator
-from Services.fundamentals_services.calculators.FundamentalServiceEstimationDCF import FundamentalServiceEstimationDCF
-from Services.fundamentals_services.calculators.FundamentalServiceEstimation import FundamentalServiceEstimation
+from Services.fundamentals_services.calculators.FundamentalServiceCalculator import \
+    FundamentalServiceCalculator
+from Services.fundamentals_services.calculators.FundamentalServiceEstimation import \
+    FundamentalServiceEstimation
+from Services.fundamentals_services.calculators.FundamentalServiceEstimationDCF import \
+    FundamentalServiceEstimationDCF
 
 
 class FundamentalServiceCalculationFacade:
@@ -13,10 +16,11 @@ class FundamentalServiceCalculationFacade:
     def calculateAdditionalData(self):
         calculator = FundamentalServiceCalculator(self.data)
 
-        self.data['calculations'] = {
-            'CAPM': calculator.calculateCAPM(),
-            'WACC': calculator.calculateWACC()
-        }
+        self.data['calculations'] = {}
+        self.data['calculations']['Beta'] =  calculator.calculateBeta()
+        self.data['calculations']['CAPM'] =  calculator.calculateCAPM()
+        self.data['calculations']['WACC'] =  calculator.calculateWACC()
+        self.data['summary']['beta'] =  self.data['calculations']['Beta']
 
     def calculatePredictions(self):
         dcfEstimation = FundamentalServiceEstimationDCF(self.data)

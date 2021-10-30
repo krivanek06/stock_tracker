@@ -1,3 +1,14 @@
+import datetime as dt
+from math import isnan
+
+import numpy as np
+import pandas as pd
+import pandas_datareader as pdr
+
+#import scipy.stats as stats
+#import statsmodels.api as sm
+
+
 class FundamentalServiceCalculator:
     def __init__(self, data):
         self.data = data
@@ -37,9 +48,35 @@ class FundamentalServiceCalculator:
     def calculateCAPM(self):
         try:
             Rf = 0.025  # Risk free rate - hardcoded 2.5% , TODO may be 10y US treasury yield
-            beta = round(self.data['companyData']['defaultKeyStatistics']['beta'], 2)
+            beta = round(self.data['calculations']['Beta'], 2)
             Rm = 0.10  # expected return of market (SP500)
 
             return {'result': round(Rf + beta * (Rm - Rf), 4), 'Rf': Rf, 'Beta': beta, 'Rm': Rm}
         except:
             return None
+
+    '''
+        Custom beta calculation - may not be present if stocks live less than 5y
+        link > https://www.youtube.com/watch?v=Y-BqM3WaX-I&ab_channel=Algovibes
+        https://www.learnpythonwithrune.org/calculate-the-market-sp-500-beta-with-python-for-any-stock/ 
+    '''
+    def calculateBeta(self):
+        summary = self.data.get('summary', {})
+        if summary.get('beta') is not None and summary.get('beta') > 0: 
+            return round(summary.get('beta'), 2)
+
+        tickers = [ self.symbol,  '^GSPC']
+        end = dt.datetime.today()
+        start =  dt.datetime.today() - dt.timedelta(weeks=52 * 5)
+        
+        data = pdr.get_data_yahoo(tickers, start, end, interval="m")
+        
+        data = data['Adj Close']
+        
+        log_returns = np.log(data/data.shift())
+        cov = log_returns.cov()
+        var = log_returns['^GSPC'].var()
+        
+        result = cov.loc[self.symbol, '^GSPC'] / var
+        return  None if isnan(result) else round(result, 2)
+
