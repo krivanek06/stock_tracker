@@ -1,5 +1,8 @@
 import datetime as dt
-from math import isnan
+import re
+from itertools import chain
+from math import isnan, sqrt
+from statistics import stdev
 
 import numpy as np
 import pandas as pd
@@ -49,7 +52,7 @@ class FundamentalServiceCalculator:
         try:
             Rf = 0.025  # Risk free rate - hardcoded 2.5% , TODO may be 10y US treasury yield
             beta = round(self.data['calculations']['Beta'], 2)
-            Rm = 0.10  # expected return of market (SP500)
+            Rm = 0.9  # expected return of market (SP500)
 
             return {'result': round(Rf + beta * (Rm - Rf), 4), 'Rf': Rf, 'Beta': beta, 'Rm': Rm}
         except:
@@ -57,8 +60,7 @@ class FundamentalServiceCalculator:
 
     '''
         Custom beta calculation - may not be present if stocks live less than 5y
-        link > https://www.youtube.com/watch?v=Y-BqM3WaX-I&ab_channel=Algovibes
-        https://www.learnpythonwithrune.org/calculate-the-market-sp-500-beta-with-python-for-any-stock/ 
+        link > https://www.learnpythonwithrune.org/calculate-the-market-sp-500-beta-with-python-for-any-stock/ 
     '''
     def calculateBeta(self):
         summary = self.data.get('summary', {})
@@ -79,4 +81,23 @@ class FundamentalServiceCalculator:
         
         result = cov.loc[self.symbol, '^GSPC'] / var
         return  None if isnan(result) else round(result, 2)
+    
+    # https://www.youtube.com/watch?v=v17M0glWCHA&t=16s&ab_channel=BionicTurtle
+    def calculateStandardDeviation(self):
+        end = dt.datetime.today()
+        start =  dt.datetime.today() - dt.timedelta(days=252)
+        data = pdr.get_data_yahoo(self.symbol, start, end)
+        data['Log returns'] = np.log(data['Close']/data['Close'].shift())
+        data['Log returns'].std() # daily standard deviation
+        yearlyStandardDeviation = data['Log returns'].std()*252**.5
+        return round(yearlyStandardDeviation, 4)
+
+    
+    def calculateVolatility(self):
+        if self.data['calculations']['StdevYearly'] is None:
+            return None
+        return round(self.data['calculations']['StdevYearly'] * 100, 2)
+    
+    def calculateEverything(self):
+        pass
 
