@@ -26,6 +26,7 @@ class FundamentalServiceFormatter:
         self._formatMutualFundHolders()
         self._formatInstitutionalHolder()
         self.data['recommendation'].reverse()
+        self.data['analystEstimates'].reverse()
 
 
         if self.data['companyOutlook'].get('rating') is not None:

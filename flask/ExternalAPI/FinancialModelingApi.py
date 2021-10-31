@@ -1,7 +1,8 @@
-import environments_keys
-from requests import get
 from datetime import datetime, timedelta
+
+import environments_keys
 from dateutil.relativedelta import relativedelta
+from requests import get
 
 
 class FinancialModelingApi:
@@ -135,6 +136,26 @@ class FinancialModelingApi:
     def getBalanceSheet(self, symbol, quarterly: bool):
         period = 'quarter' if quarterly else 'year'
         return self._makeRequest('balance-sheet-statement', symbol, {'period': period, 'limit': 400})
+    
+    def getAnalystEstimates(self, symbol): 
+        return self._makeRequest('analyst-estimates', symbol, {'limit': 3})
+    
+    def getSocialSentiment(self, symbol): 
+        sentimenArr = self._makeRequest('social-sentiment', '',  {'limit': 100, 'symbol': symbol},  'v4')
+        if len(sentimenArr) == 0:
+            return [] 
+        
+        result = {
+            'date': sentimenArr[0].get('date', None),
+            'symbol': sentimenArr[0].get('symbol', None)
+        }
+        # reduce arrays into mean value
+        for key in sentimenArr[0].keys():
+            if key in ['date', 'symbol']:
+                continue
+            result[key] = sum([data[key] if data[key] is not None else 0 for data in sentimenArr]) / 100
+        return result
+
 
     def getCashFlow(self, symbol, quarterly: bool):
         period = 'quarter' if quarterly else 'year'

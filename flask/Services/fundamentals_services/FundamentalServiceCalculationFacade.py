@@ -20,6 +20,9 @@ class FundamentalServiceCalculationFacade:
         self.data['calculations']['Beta'] =  calculator.calculateBeta()
         self.data['calculations']['CAPM'] =  calculator.calculateCAPM()
         self.data['calculations']['WACC'] =  calculator.calculateWACC()
+        self.data['calculations']['StdevYearly'] =  calculator.calculateStandardDeviation()
+        self.data['calculations']['VolatilityYearly'] =  calculator.calculateVolatility()
+        calculator.calculateEverything()
         self.data['summary']['beta'] =  self.data['calculations']['Beta']
 
     def calculatePredictions(self):
