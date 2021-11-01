@@ -22,7 +22,11 @@ class FundamentalService:
 
        
         calculatorFacade = FundamentalServiceCalculationFacade(data)
-        calculatorFacade.calculateAdditionalData()
+        data['calculations'] = calculatorFacade.calculateAdditionalData()
+
+        # add beta to summary
+        if data.get('summary') is not None:
+            data['summary']['beta'] =  data['calculations']['beta']
 
          # calculate estimations for stocks
         if data.get('summary', {}).get('symbolType') == 'STOCK' or data.get('summary', {}).get('symbolType') == 'ADR': 

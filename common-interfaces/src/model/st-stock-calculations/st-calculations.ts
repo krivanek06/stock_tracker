@@ -1,5 +1,5 @@
 export interface CAPM {
-    Beta: number;
+    beta: number;
     Rf: number;
     Rm: number;
     result: number;
