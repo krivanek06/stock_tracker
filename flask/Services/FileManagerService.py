@@ -1,13 +1,13 @@
-from os import path, makedirs
-from json import dump, load
 from datetime import datetime
+from json import dump, load
+from os import makedirs, path
 
 
 class FileManagerService:
     def __init__(self):
         self.FOLDER = 'resource'
-        if not path.exists(self.FOLDER):
-            makedirs(self.FOLDER)
+        #if not path.exists(self.FOLDER):
+        #    makedirs(self.FOLDER)
 
     def getJsonFile(self, document):
         if path.exists(self.FOLDER + "/" + document):

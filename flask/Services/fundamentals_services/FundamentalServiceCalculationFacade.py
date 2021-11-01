@@ -7,23 +7,33 @@ from Services.fundamentals_services.calculators.FundamentalServiceEstimationDCF 
 
 
 class FundamentalServiceCalculationFacade:
-    def __init__(self, data):
+    def __init__(self, data = None):
         self.QUARTERLY = 'quarterly'
         self.YEARLY = 'yearly'
 
         self.data = data
 
-    def calculateAdditionalData(self):
+    def calculateAdditionalData(self, symbol = None):
+        symbol = symbol if symbol is not None else self.data['id']
         calculator = FundamentalServiceCalculator(self.data)
+        
+        volatilityYearly = calculator.calculateVolatility(symbol)
+        benchmarkYearlyReturnPrct = volatilityYearly.get('benchmarkYearlyReturnPrct')
+        symbolYearlyPriceReturnPrct = volatilityYearly.get('symbolYearlyPriceReturnPrct')
+      
+        beta = calculator.calculateBeta(symbol)
 
-        self.data['calculations'] = {}
-        self.data['calculations']['Beta'] =  calculator.calculateBeta()
-        self.data['calculations']['CAPM'] =  calculator.calculateCAPM()
-        self.data['calculations']['WACC'] =  calculator.calculateWACC()
-        self.data['calculations']['StdevYearly'] =  calculator.calculateStandardDeviation()
-        self.data['calculations']['VolatilityYearly'] =  calculator.calculateVolatility()
-        calculator.calculateEverything()
-        self.data['summary']['beta'] =  self.data['calculations']['Beta']
+        calculations = {
+            'symbol': symbol
+        }
+        calculations['CAPM'] =  calculator.calculateCAPM(beta)
+        calculations['beta'] =  beta
+        calculations['WACC'] =  calculator.calculateWACC(beta)
+        calculations['volatility'] = volatilityYearly
+        calculations['sharpRatio'] =  calculator.calculateSharpRatio(symbolYearlyPriceReturnPrct, volatilityYearly.get('volatilityPrct'))
+        calculations['alpha'] =  calculator.calculateAlpha(symbolYearlyPriceReturnPrct, benchmarkYearlyReturnPrct, beta)
+
+        return calculations
 
     def calculatePredictions(self):
         dcfEstimation = FundamentalServiceEstimationDCF(self.data)

@@ -1,6 +1,10 @@
 from flask import Flask, request
-from flask_json import FlaskJSON, json_response
 from flask_cors import CORS
+from flask_json import FlaskJSON, json_response
+from Services.fundamentals_services.calculators.FundamentalServiceCalculator import \
+    FundamentalServiceCalculator
+from Services.fundamentals_services.FundamentalServiceCalculationFacade import \
+    FundamentalServiceCalculationFacade
 from Services.FundamentalService import FundamentalService
 
 app = Flask(__name__)
@@ -27,4 +31,14 @@ def getStockNews():
         return json_response(data=FundamentalService().getStockNews(symbol)[:15])
     except Exception as e:
         print(f'{ERROR_MESSAGE} getStockNews(), message: {e}')
+        return json_response(data=None)
+
+
+@app.route('/calculate_metrics')
+def calculateStandardDeviation():
+    try:
+        symbol = request.args.get('symbol')
+        return json_response(data=FundamentalServiceCalculationFacade().calculateAdditionalData(symbol))
+    except Exception as e:
+        print(f'{ERROR_MESSAGE} calculateStandardDeviation(), message: {e}')
         return json_response(data=None)

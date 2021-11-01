@@ -85,8 +85,24 @@ export interface STStockDetailsCalculatedPredictions {
 }
 
 export interface STStockDetailsCalculations {
+  symbol: string;
   CAPM: CAPM;
   WACC: WACC;
+  alpha: number;
+  beta: number;
+  sharpRatio: number;
+  volatility: STStockDetailsCalculationsVolatility;
+}
+
+export interface STStockDetailsCalculationsVolatility {
+  benchmarkYearlyReturnPrct: number;
+  meanPrice: number;
+  stdDailyPrct: number;
+  stdDailyPrice: number;
+  stdYearlyPrct: number;
+  stdYearlyPrice: number;
+  symbolYearlyPriceReturnPrct: number;
+  volatilityPrct: number;
 }
 
 export interface STHistoricalMetrics {
@@ -348,7 +364,7 @@ export interface STSummary {
   currency: string;
   dividendDate: string;
   ePSTTM: number;
-  beta: string;
+  beta: number;
 	countryFullName: string;
   earningsDate: string;
   exDividendDate: string;
