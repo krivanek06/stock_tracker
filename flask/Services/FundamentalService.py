@@ -20,16 +20,17 @@ class FundamentalService:
         # format data
         data = FundamentalServiceFormatter(data).formatFetchedStockDetails(symbol)
 
+        summary = data.get('summary', {})
        
-        calculatorFacade = FundamentalServiceCalculationFacade(data)
-        data['calculations'] = calculatorFacade.calculateAdditionalData()
+        calculatorFacade = FundamentalServiceCalculationFacade()
+        data['calculations'] = calculatorFacade.calculateAdditionalData(symbol, data)
 
         # add beta to summary
-        if data.get('summary') is not None:
-            data['summary']['beta'] =  data['calculations']['beta']
+        if summary != {}:
+            summary['beta'] =  data['calculations']['beta']
 
          # calculate estimations for stocks
-        if data.get('summary', {}).get('symbolType') == 'STOCK' or data.get('summary', {}).get('symbolType') == 'ADR': 
-            calculatorFacade.calculatePredictions()
+        if summary.get('symbolType') == 'STOCK' or summary.get('symbolType') == 'ADR': 
+            data['calculatedPredictions'] = calculatorFacade.calculatePredictions(data)
 
         return data
