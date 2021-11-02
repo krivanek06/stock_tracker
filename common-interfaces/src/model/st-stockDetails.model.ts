@@ -94,6 +94,17 @@ export interface STStockDetailsCalculations {
   volatility: STStockDetailsCalculationsVolatility;
 }
 
+export interface STPortfolioMetrics {
+  portfolioAlpha: number;
+  portfolioAnnualVariancePrct: number;
+  portfolioAnnualVolatilityPrct: number;
+  portfolioBeta: number;
+  portfolioReturn: number;
+  portfolioSharpRatio: number;
+  portfolioVolatilityMeanPrct: number;
+  stockAddinalData: STStockDetailsCalculations[];
+}
+
 export interface STStockDetailsCalculationsVolatility {
   benchmarkYearlyReturnPrct: number;
   meanPrice: number;

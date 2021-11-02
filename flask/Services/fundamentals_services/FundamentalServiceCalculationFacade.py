@@ -1,3 +1,5 @@
+from typing import List
+
 from Services.fundamentals_services.calculators.FundamentalServiceCalculator import \
     FundamentalServiceCalculator
 from Services.fundamentals_services.calculators.FundamentalServiceEstimation import \
@@ -7,39 +9,61 @@ from Services.fundamentals_services.calculators.FundamentalServiceEstimationDCF 
 
 
 class FundamentalServiceCalculationFacade:
-    def __init__(self, data = None):
-        self.QUARTERLY = 'quarterly'
-        self.YEARLY = 'yearly'
+    def __init__(self):
+        self.calculator = FundamentalServiceCalculator()
+    
+    def calculatePortfolioMetrics(self, stocksSymbols: List[str], stockPortfolioWeights: List[float], clearCache = False):
+        portfolioVolatility = self.calculator.calculatePortfolioVolatility(stocksSymbols, stockPortfolioWeights)
+        stockPriceReturns = [symbolData.get('yearlyPriceReturnPrct', 0) for symbolData in portfolioVolatility.get('symbols', [])]
+        portfolioReturn = self.calculator.calculatePortfolioReturn(stockPortfolioWeights, stockPriceReturns)
+        portfolioSharpRatio = self.calculator.calculateSharpRatio(portfolioReturn, portfolioVolatility.get('portfolioAnnualVolatilityPrct'))
 
-        self.data = data
-
-    def calculateAdditionalData(self, symbol = None):
-        symbol = symbol if symbol is not None else self.data['id']
-        calculator = FundamentalServiceCalculator(self.data)
+        # portfolio beta is the weighted average of stock beta - https://www.youtube.com/watch?v=nRRhzsiVT9s&ab_channel=Edspira
+        stockBeta = [symbolData.get('beta') for symbolData in portfolioVolatility.get('symbols', [])]
+        portfolioBeta = sum([stockBeta[i] * stockPortfolioWeights[i] for i in range(len(stockBeta))])
         
-        volatilityYearly = calculator.calculateVolatility(symbol)
-        benchmarkYearlyReturnPrct = volatilityYearly.get('benchmarkYearlyReturnPrct')
-        symbolYearlyPriceReturnPrct = volatilityYearly.get('symbolYearlyPriceReturnPrct')
-      
-        beta = calculator.calculateBeta(symbol)
+        # additional data for symbols
+        stockAddinalData = [self.calculateAdditionalData(s) for s in stocksSymbols]
 
-        calculations = {
-            'symbol': symbol
+        # calculate alpha
+        benchmarkYearlyReturn = stockAddinalData[0].get('volatility', {}).get('benchmarkYearlyReturnPrct', None)
+        portfolioAlpha = self.calculator.calculateAlpha(portfolioReturn, benchmarkYearlyReturn, portfolioBeta)
+
+        # clear local cache
+        if clearCache:
+            self.calculator.clearCache()
+
+        # same as stockAddinalData
+        portfolioVolatility.pop('symbols', None)
+
+        return {
+            **portfolioVolatility, 
+            'portfolioSharpRatio': portfolioSharpRatio, 
+            'portfolioBeta': portfolioBeta,
+            'portfolioAlpha': portfolioAlpha,
+            'portfolioReturn': portfolioReturn,
+            'stockAddinalData': stockAddinalData
         }
-        calculations['CAPM'] =  calculator.calculateCAPM(beta)
-        calculations['beta'] =  beta
-        calculations['WACC'] =  calculator.calculateWACC(beta)
-        calculations['volatility'] = volatilityYearly
-        calculations['sharpRatio'] =  calculator.calculateSharpRatio(symbolYearlyPriceReturnPrct, volatilityYearly.get('volatilityPrct'))
-        calculations['alpha'] =  calculator.calculateAlpha(symbolYearlyPriceReturnPrct, benchmarkYearlyReturnPrct, beta)
 
-        return calculations
+    def calculateAdditionalData(self, symbol = None, data = None):        
+        volatilityYearly = self.calculator.calculateVolatility(symbol)
+        beta = self.calculator.calculateBeta(symbol)
 
-    def calculatePredictions(self):
-        dcfEstimation = FundamentalServiceEstimationDCF(self.data)
-        estimation = FundamentalServiceEstimation(self.data)
+        return {
+            'symbol': symbol,
+            'beta': beta,
+            'volatility': volatilityYearly,
+            'sharpRatio': self.calculator.calculateSharpRatio(volatilityYearly.get('symbolYearlyPriceReturnPrct'), volatilityYearly.get('volatilityPrct')),
+            'alpha': self.calculator.calculateAlpha(volatilityYearly.get('symbolYearlyPriceReturnPrct'), volatilityYearly.get('benchmarkYearlyReturnPrct'), beta),
+            'CAPM': self.calculator.calculateCAPM(beta),
+            'WACC': self.calculator.calculateWACC(beta, data),
+        }
 
-        self.data['calculatedPredictions'] = {
+    def calculatePredictions(self, data):
+        dcfEstimation = FundamentalServiceEstimationDCF(data)
+        estimation = FundamentalServiceEstimation(data)
+
+        return {
             'DCF_V1': dcfEstimation.estimateDFC(),
             'DDF_V1': estimation.estimateDividendDiscountedFormula(),
             'FCF_V1': estimation.estimateFCFValuation(),

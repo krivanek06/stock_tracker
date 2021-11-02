@@ -1,11 +1,12 @@
-from flask import Flask
-from werkzeug.middleware.dispatcher import DispatcherMiddleware
-from werkzeug.exceptions import NotFound
 from flask_json import FlaskJSON
+from werkzeug.exceptions import NotFound
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
 
-from Controllers.fundamentals import app as fundamentals
+from Controllers.calculator import app as calculator
 from Controllers.chart_data import app as chart_data
+from Controllers.fundamentals import app as fundamentals
 from Controllers.search import app as search
+from flask import Flask
 
 app = Flask(__name__)
 FlaskJSON(app)
@@ -16,6 +17,7 @@ app.wsgi_app = DispatcherMiddleware(NotFound(), {
     "/fundamentals": fundamentals,
     '/chart_data': chart_data,
     '/search': search,
+    '/calculator': calculator
 })
 
 # https://stackoverflow.com/questions/30906489/how-to-implement-flask-application-dispatching-by-path-with-wsgi/30915745
