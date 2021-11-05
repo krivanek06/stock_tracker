@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 import pandas_datareader as pdr
 from dateutil.relativedelta import relativedelta
+from ExternalAPI.FinancialModelingApi import FinancialModelingApi
 
 
 class FundamentalServiceCalculator:
@@ -19,6 +20,7 @@ class FundamentalServiceCalculator:
             same stock yearly data is fetched and process is slow
         '''
         self.stockYearlyValuesCache = {}
+        self.financialApi = FinancialModelingApi()
 
     ''' 
             link > https://www.youtube.com/watch?v=0inqw9cCJnM&ab_channel=LearntoInvest
@@ -71,32 +73,19 @@ class FundamentalServiceCalculator:
     '''
     def calculateBeta(self, symbol: str = None) -> float:
         try:
-            # calcualte beta manually
-            # tickers = [ symbol,  '^GSPC']
-            # end = dt.datetime.today()
-            # start =  dt.datetime.today() - dt.timedelta(weeks=52 * 5)
-            
-            # data = pdr.get_data_yahoo(tickers, start, end, interval="m")
-
-            # data = data['Adj Close']
-            # log_returns = np.log(data/data.shift())
-
-            # cov = log_returns.cov()
-            # var = log_returns['^GSPC'].var()
-            
-            # result = cov.loc[symbol, '^GSPC'] / var
-            # return  None if isnan(result) else round(result, 2)
-
             self.__loadAndCacheStockClosedPrice([ symbol,  '^GSPC'], 5, 'm')
             market = self.stockYearlyValuesCache.get('^GSPC_m')
             stock = self.stockYearlyValuesCache.get(f'{symbol}_m')
             
-            marketReturns = market.pct_change()[1:]
             stockReturns = stock.pct_change()[1:]
+            marketReturns = market.pct_change()[-len(stockReturns):] # must be same length
+
             covariance = np.cov(stockReturns,marketReturns) # Calculate covariance between stock and market
             beta = covariance[0,1]/covariance[1,1]
+            
             return round(beta, 2)
-        except:
+        except Exception as e:
+            print(e)
             return None
     
     # https://www.youtube.com/watch?v=v17M0glWCHA&t=16s&ab_channel=BionicTurtle
@@ -149,11 +138,17 @@ class FundamentalServiceCalculator:
         if unsavesStockSymbols != []:
             print('loading data for symbols')
             print(unsavesStockSymbols)
-            data = pdr.get_data_yahoo(unsavesStockSymbols , start, end, interval = interval)
+            #data = pdr.get_data_yahoo(unsavesStockSymbols , start, end, interval = interval)
             for symbol in unsavesStockSymbols:
+                data = self.financialApi.getHistoricalDailyPrices(symbol, f'{years}y', True)['historical']
+                closedPrice = [x.get('close') for x in data][::-1]
+                
                 # monthly data may also be persisted but has to be called differently
                 symbolName = getSymbolName(symbol, interval)
-                self.stockYearlyValuesCache[symbolName] = data['Adj Close'][symbol]
+                closedPrice = pd.Series(closedPrice)
+                self.stockYearlyValuesCache[symbolName] = closedPrice
+                #symbolName = getSymbolName(symbol, interval)
+                #self.stockYearlyValuesCache[symbolName] = data['Adj Close'][symbol]
             print('cached symbols')
             print(list(self.stockYearlyValuesCache.keys()))
     
@@ -170,6 +165,8 @@ class FundamentalServiceCalculator:
 
             # calculate annual volatility with weights
             values = [self.stockYearlyValuesCache[symbol].pct_change()[1:].values for symbol in stocksSymbols]
+            minimal = len(min(values, key=len)) # all values must have the same length
+            values = [v[-minimal:] for v in values]
             covariance = np.cov(values)
             
             annualStockWeights = [x * 252 for x in stockPortfolioWeights]
@@ -178,7 +175,12 @@ class FundamentalServiceCalculator:
             
             # calculate volatility for each symbol
             volatility = [round(round(pstdev(self.stockYearlyValuesCache[symbol].pct_change()[1:].values), 4) * sqrt(252), 4) for symbol in stocksSymbols]
-            yearlyPriceReturn = [round(((self.stockYearlyValuesCache[symbol][-1] - self.stockYearlyValuesCache[symbol][[0]]) / self.stockYearlyValuesCache[symbol][0])[0], 4) for symbol in stocksSymbols]
+            yearlyPriceReturn = []
+            for symbol in stocksSymbols:
+                values = self.stockYearlyValuesCache[symbol].values
+                yearlyPriceReturn.append(round(((values[-1] - values[[0]]) / values[0])[0], 4))
+
+            #yearlyPriceReturn = [round(((self.stockYearlyValuesCache[symbol].values[-1] - self.stockYearlyValuesCache[symbol].values[[0]]) / self.stockYearlyValuesCache[symbol][0])[0], 4) for symbol in stocksSymbols]
             volatilityMean = round(sum(volatility) / len(volatility), 4)
             volatilitySymbols = [{
                 'symbol': stocksSymbols[i], 
@@ -193,7 +195,8 @@ class FundamentalServiceCalculator:
                 'portfolioVolatilityMeanPrct': round(volatilityMean, 4),
                 'symbols': volatilitySymbols
             }
-        except:
+        except Exception as e:
+            print(e)
             return None
     
     

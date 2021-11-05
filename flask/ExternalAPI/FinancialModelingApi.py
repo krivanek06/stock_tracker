@@ -26,14 +26,15 @@ class FinancialModelingApi:
             return []
         return self._makeRequest(f'historical-chart/{timeInterval}', symbol)
 
-    def getHistoricalDailyPrices(self, symbol: str, timeInterval: str):
+    def getHistoricalDailyPrices(self, symbol: str, timeInterval: str, isLine: bool = False):
         if timeInterval not in ['1y', '5y', 'all']:
             return []
         timeInterval = '100y' if timeInterval == 'all' else timeInterval
         timeInterval = timeInterval[:-1]  # remove 'y'
         end = datetime.today().strftime('%Y-%m-%d')
         start = (datetime.now() - relativedelta(years=int(timeInterval))).strftime('%Y-%m-%d')
-        return self._makeRequest('historical-price-full', symbol, {'from': start, 'to': end})
+        serietype = 'line' if isLine else ''
+        return self._makeRequest('historical-price-full', symbol, {'from': start, 'to': end, 'serietype': serietype})
 
     def getHistoricalAllDailyPricesOnlyLines(self, symbol: str):
         return self._makeRequest('historical-price-full', symbol, {'serietype': 'line'})
