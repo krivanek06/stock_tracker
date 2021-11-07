@@ -36,6 +36,8 @@ export const stockDetailsTypeDefs = gql`
 		mutualFundHolders: [STFMHolderWithWeight]
 		companyOutlook: STFMCompanyOutlook
 		sectorPeers: [STFMCompanyQuote]
+		socialSentiment: [STFMSocialSentiment]
+		analystEstimatesYearly: [STAnalystEstimates]
 	}
 
 	type FinancialReport {
@@ -73,8 +75,26 @@ export const stockDetailsTypeDefs = gql`
 	}
 
 	type STStockDetailsCalculations {
+		symbol: String
+		date: String
 		CAPM: CAPM
 		WACC: WACC
+		alpha: Float
+		beta: Float
+		sharpRatio: Float
+		volatility: STStockRiskCalculationsVolatility
+	}
+
+	type STStockRiskCalculationsVolatility {
+		benchmarkYearlyReturnPrct: Float
+		meanPrice: Float
+		stdDailyPrct: Float
+		stdDailyPrice: Float
+		stdYearlyPrct: Float
+		stdYearlyPrice: Float
+		symbolYearlyPriceReturnPrct: Float
+		volatilityPrct: Float
+		date: String
 	}
 
 	type HistoricalMetrics {

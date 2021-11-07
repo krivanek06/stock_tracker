@@ -24,6 +24,18 @@ export const STPortfolioTypeDefs = gql`
 		transactionFees: Float
 	}
 
+	type STPortfolioRiskCalculations {
+		date: String
+		portfolioAlpha: Float
+		portfolioAnnualVariancePrct: Float
+		portfolioAnnualVolatilityPrct: Float
+		portfolioBeta: Float
+		portfolioEstimatedReturnPrct: Float
+		portfolioEstimatedReturnValue: Float
+		portfolioSharpRatio: Float
+		portfolioVolatilityMeanPrct: Float
+	}
+
 	type STPortfolioSnapshotStarted {
 		portfolioInvested: Float!
 		portfolioCash: Float!
