@@ -511,14 +511,14 @@ query QueryStockDetails($symbol: String!, $reload: Boolean) {
 				date
 			}
 			CAPM {
-				Beta
+				beta
 				Rf
 				Rm
 				result
 			}
 			WACC {
 				CAPM {
-					Beta
+					beta
 					Rf
 					Rm
 					result

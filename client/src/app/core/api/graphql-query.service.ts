@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
@@ -34,8 +33,7 @@ export class GraphqlQueryService {
 		private queryStMarketAllCategoriesGQL: QueryStMarketAllCategoriesGQL,
 		private querySymbolHistoricalPricesGQL: QuerySymbolHistoricalPricesGQL,
 		private queryEtfDocumentGQL: QueryEtfDocumentGQL,
-		private queryStockScreenerGQL: QueryStockScreenerGQL,
-		private apollo: Apollo
+		private queryStockScreenerGQL: QueryStockScreenerGQL
 	) {}
 
 	querySymbolHistoricalPrices(symbol: string, period: string = '1d'): Observable<SymbolHistoricalPrices> {

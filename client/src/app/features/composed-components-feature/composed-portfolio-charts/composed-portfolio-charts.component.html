@@ -9,3 +9,10 @@
 		<app-portfolio-change-chart [heightPx]="portfolioChartHeight" [stPortfolioSnapshots]="stPortfolioSnapshots"> </app-portfolio-change-chart>
 	</ion-col>
 </ion-row>
+
+<!-- portfolio comparison -->
+<ion-row *ngIf="portfolioComparisonSeries.length > 0">
+	<ion-col size="12">
+		<app-series-comparison-chart title="Portfolio comparision" [series]="portfolioComparisonSeries"></app-series-comparison-chart>
+	</ion-col>
+</ion-row>

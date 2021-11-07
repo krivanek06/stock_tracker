@@ -38,6 +38,14 @@ export interface IdNameContainer {
 }
 
 export interface GenericChartSeries {
+	type: ChartType;
+	name: string;
+	data: GenericChartSeriesData[] | number[] | number[][];
+	color?: string;
+	lineWidth?: number;
+}
+
+export interface GenericChartSeriesData {
 	name?: string;
 	sliced?: boolean;
 	y: number;
