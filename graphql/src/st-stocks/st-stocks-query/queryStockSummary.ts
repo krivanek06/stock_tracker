@@ -31,7 +31,7 @@ export const queryStockSummary = async (symbol: string, allowReload: boolean = f
 
 		// update with current data
 		// multiple upsers may access the same symbol summary in same time so do not load data from API all the time
-		const minutesDelay = IS_PRODUCTION ? 10 : 40;
+		const minutesDelay = IS_PRODUCTION ? 10 : 90;
 		if (Math.abs(moment(wrapper.summaryLastUpdate).diff(new Date(), 'minute')) > minutesDelay) {
 			console.log('updating summary for: ', upperSymbol, ', time diff: ', Math.abs(moment(wrapper.summaryLastUpdate).diff(new Date(), 'minute')));
 			wrapper.details.summary = await updateStockSummary(upperSymbol, wrapper.details.summary);
