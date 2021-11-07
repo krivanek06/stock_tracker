@@ -2,7 +2,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { BreakpointState } from '@angular/cdk/layout/breakpoints-observer';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BREAK_POINTS, ChartType, GenericChartSeries } from '../../../models';
+import { BREAK_POINTS, ChartType, GenericChartSeriesData } from '../../../models';
 
 @Component({
 	selector: 'app-pie-chart-wrapper',
@@ -13,7 +13,7 @@ import { BREAK_POINTS, ChartType, GenericChartSeries } from '../../../models';
 export class PieChartWrapperComponent implements OnInit {
 	@Input() heightPx: number;
 	@Input() chartTitle: string;
-	@Input() data: GenericChartSeries[];
+	@Input() data: GenericChartSeriesData[];
 
 	breakpointSmDown$: Observable<BreakpointState>;
 	ChartType = ChartType;

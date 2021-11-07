@@ -1,15 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { StHolding } from '@core';
-import { GenericChartSeries } from '@shared';
+import { GenericChartSeriesData } from '@shared';
 
 @Pipe({
 	name: 'holdingsToSectorChartSeries',
 })
 export class HoldingsToSectorChartSeriesPipe implements PipeTransform {
-	transform(holdings: StHolding[]): GenericChartSeries[] {
+	transform(holdings: StHolding[]): GenericChartSeriesData[] {
 		// from holdings creates -> [{name: 'Technology', y: 5}, {name: 'Cruise', y: 2} ... ]
 		const helper = [];
-		let sectorPairs: GenericChartSeries[] = [];
+		let sectorPairs: GenericChartSeriesData[] = [];
 		holdings
 			.filter((h) => h?.summary?.sector) // you may own etf or mutual fund which have no sector
 			.map((s) => s.summary)

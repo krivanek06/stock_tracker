@@ -36,7 +36,7 @@ export const stockDetailsTypeDefs = gql`
 		mutualFundHolders: [STFMHolderWithWeight]
 		companyOutlook: STFMCompanyOutlook
 		sectorPeers: [STFMCompanyQuote]
-		socialSentiment: [STFMSocialSentiment]
+		socialSentiment: STFMSocialSentiment
 		analystEstimatesYearly: [STAnalystEstimates]
 	}
 

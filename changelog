@@ -1,7 +1,12 @@
 7.11.2021 - v. 0.9.8
 client
 - changed login / reigistration UI
+- changed primary color to #25aedd
 - show portfolio risk on dashboard
+- show portfolio vs S&P 500 comparison
+
+graphql
+- fetching social sentiment & analyst estimates
 
 18.10.2021 - v. 0.9.7.2
 client
