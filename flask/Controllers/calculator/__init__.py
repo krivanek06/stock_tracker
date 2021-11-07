@@ -15,7 +15,7 @@ ERROR_MESSAGE = 'Error in Fundamentals controller, method: '
 # data should be cleaned after cloud run (docker) will go to sleep
 calculatorFacade = FundamentalServiceCalculationFacade()
 
-@app.route('/calculate_metrics')
+@app.route('/calculate_symbol_risk')
 def calculateMetrics():
     try:
         symbol = request.args.get('symbol')
@@ -25,14 +25,15 @@ def calculateMetrics():
         return json_response(data=None)
 
 
-@app.route('/calculate_portfolio_metrics', methods = ['POST'])
+@app.route('/calculate_portfolio_risk', methods = ['POST'])
 def calculatePortfolioMetrics():
     try:
         data = request.json
         symbols = data.get('symbols')
-        weights = data.get('weights')
-        clearCache = data.get('clearCache', False)
-        return json_response(data=calculatorFacade.calculatePortfolioMetrics(symbols, weights, clearCache))
+        weights = [float(x) for x in data.get('weights', [])]
+        symbolsBeta = [float(x) for x in data.get('symbolsBeta', [])]
+        clearCache = bool(data.get('clearCache', False))
+        return json_response(data=calculatorFacade.calculatePortfolioRisk(symbols, weights, symbolsBeta, clearCache))
     except Exception as e:
         print(f'{ERROR_MESSAGE} calculatePortfolioMetrics(), message: {e}')
         return json_response(data=None)
