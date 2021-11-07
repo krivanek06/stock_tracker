@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { StPortfolioSnapshot } from '@core';
+import { StPortfolioRiskCalculations, StPortfolioSnapshot } from '@core';
 import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingFeatureFacadeService } from '@stock-trading-feature';
 
 @Component({
@@ -9,6 +9,7 @@ import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingFeatureFacadeSer
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardPortfolioChangeComponent implements OnInit {
+	@Input() stPortfolioRiskCalculations: StPortfolioRiskCalculations;
 	@Input() stPortfolioSnapshots: StPortfolioSnapshot[];
 	@Input() portfolioCash: number;
 	@Input() portfolioInvested: number;

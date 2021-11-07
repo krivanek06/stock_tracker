@@ -131,6 +131,9 @@ query AuthenticateUser($id: String!) {
 		portfolio {
 			...STPortfolioWrapperFragment
 		}
+		portfolioRisk {
+			...STPortfolioRiskCalculationsFragment
+		}
 		rank {
 			...STRankFragment
 		}
