@@ -2,7 +2,7 @@ import * as moment from 'moment';
 import * as api from 'stock-tracker-common-interfaces';
 import { URLSearchParams } from 'url';
 import { financialModelingAPI, financialModelingAPIKey } from '../environment';
-import { LodashFuntions } from './../util/lodash.functions';
+import { LodashFuntions } from '../util/lodash.functions';
 
 const fetch = require('node-fetch');
 
@@ -21,19 +21,34 @@ export const getHistoricalPricesAPI = async (symbol: string, timeInterval: strin
 };
 
 // example: https://financialmodelingprep.com/api/v3/historical-price-full/AAPL?from=2018-03-12&to=2019-03-12&apikey=795742ba1ec2f519ffa9ea50967d2240
-export const getHistoricalDailyPricesAPI = async (symbol: string, timeInterval: string): Promise<api.STFMHistoricalDailyPrices[]> => {
+export const getHistoricalDailyPricesAPI = async (
+	symbol: string,
+	timeInterval: string | null = null,
+	serietype: '' | 'line' = '',
+	startDate: string | null = null
+): Promise<api.STFMHistoricalDailyPrices[]> => {
 	try {
-		if (!['1y', '5y', 'all'].includes(timeInterval)) {
+		const today = moment().format('YYYY-MM-DD');
+		let start: string | null = null;
+
+		if (timeInterval) {
+			if (!['1y', '5y', 'all'].includes(timeInterval)) {
+				return new Promise([] as any);
+			}
+
+			const startTimeInterval = (timeInterval === 'all' ? '100y' : timeInterval).slice(0, -1); // remove 'y'
+			start = moment().subtract(Number(startTimeInterval), 'years').format('YYYY-MM-DD');
+		} else {
+			start = startDate;
+		}
+
+		// must be defined
+		if (!start) {
 			return new Promise([] as any);
 		}
 
-		const startTimeInterval = (timeInterval === 'all' ? '100y' : timeInterval).slice(0, -1); // remove 'y'
-
-		const today = moment().format('YYYY-MM-DD');
-		const start = moment().subtract(Number(startTimeInterval), 'years').format('YYYY-MM-DD');
-
 		const promise = await fetch(
-			`${financialModelingAPI}/api/v3/historical-price-full/${symbol}?from=${start}&to=${today}&apikey=${financialModelingAPIKey}`
+			`${financialModelingAPI}/api/v3/historical-price-full/${symbol}?from=${start}&to=${today}&serietype=${serietype}&apikey=${financialModelingAPIKey}`
 		);
 		const respose = await promise.json();
 		const result = respose['historical'] as api.STFMHistoricalDailyPrices[];

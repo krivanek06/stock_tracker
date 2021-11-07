@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 
 from Services.fundamentals_services.calculators.FundamentalServiceCalculator import \
@@ -12,25 +13,34 @@ class FundamentalServiceCalculationFacade:
     def __init__(self):
         self.calculator = FundamentalServiceCalculator()
     
-    def calculatePortfolioMetrics(self, stocksSymbols: List[str], stockPortfolioWeights: List[float], clearCache = False):
-        portfolioVolatility = self.calculator.calculatePortfolioVolatility(stocksSymbols, stockPortfolioWeights)
-        stockPriceReturns = [symbolData.get('yearlyPriceReturnPrct', 0) for symbolData in portfolioVolatility.get('symbols', [])]
-        portfolioReturn = self.calculator.calculatePortfolioReturn(stockPortfolioWeights, stockPriceReturns)
-        portfolioSharpRatio = self.calculator.calculateSharpRatio(portfolioReturn, portfolioVolatility.get('portfolioAnnualVolatilityPrct'))
+    '''
+        example: 
+        	"symbols": ["SPY", "GLD", "AMZN", "CCL", "UBER", "FB", "GOOG", "LYFT", "AAL", "INTC", "T", "IBM", "AMD", "MSFT", "VOO", "CLOV", "F", "AMC", "BAC", "MA"],
+            "weights": [0.05, 0.05, 0.05, 0.05,0.05, 0.05, 0.05, 0.05,0.05, 0.05, 0.05, 0.05,0.05, 0.05, 0.05, 0.05,0.05, 0.05, 0.05, 0.05],
+            "symbolsBeta": [1.54, 1.07, 1.63, 1.63, 1.63, 1.54, 1.07, 1.63, 1.63, 1.63, 1.54, 1.07, 1.63, 1.63, 1.63, 1.54, 1.07, 1.63, 1.63, 1.63]
+    '''
+    def calculatePortfolioRisk(self, stocksSymbols: List[str], stockPortfolioWeights: List[float], symbolsBeta: List[float] = [], clearCache = False):
+        portfolioVolatility = self.calculator.calculatePortfolioVolatility(stocksSymbols, stockPortfolioWeights, symbolsBeta)
+        stockPriceReturnsPrct = [symbolData.get('yearlyPriceReturnPrct', 0) for symbolData in portfolioVolatility.get('symbols', [])]
+        stockPriceReturnsValue = [symbolData.get('yearlyPriceReturnValue', 0) for symbolData in portfolioVolatility.get('symbols', [])]
+
+        portfolioEstimatedReturnPrct, portfolioEstimatedReturnValue = self.calculator.calculatePortfolioReturn(stockPortfolioWeights, stockPriceReturnsPrct, stockPriceReturnsValue)
+        portfolioSharpRatio = self.calculator.calculateSharpRatio(portfolioEstimatedReturnPrct, portfolioVolatility.get('portfolioAnnualVolatilityPrct'))
 
         # portfolio beta is the weighted average of stock beta - https://www.youtube.com/watch?v=nRRhzsiVT9s&ab_channel=Edspira
         stockBeta = [symbolData.get('beta') for symbolData in portfolioVolatility.get('symbols', [])]
-        portfolioBeta = sum([stockBeta[i] * stockPortfolioWeights[i] for i in range(len(stockBeta))])
+        portfolioBeta = round(sum([stockBeta[i] * stockPortfolioWeights[i] for i in range(len(stockBeta))]), 4)
         
         # additional data for symbols
-        stockAddinalData = [self.calculateAdditionalData(s) for s in stocksSymbols]
+        stockAddinalData = [self.calculateAdditionalData(s) for s in stocksSymbols[:1]]
 
         # calculate alpha
         benchmarkYearlyReturn = stockAddinalData[0].get('volatility', {}).get('benchmarkYearlyReturnPrct', None)
-        portfolioAlpha = self.calculator.calculateAlpha(portfolioReturn, benchmarkYearlyReturn, portfolioBeta)
+        portfolioAlpha = self.calculator.calculateAlpha(portfolioEstimatedReturnPrct, benchmarkYearlyReturn, portfolioBeta)
 
         # clear local cache
         if clearCache:
+            print('CLEARING STOCK PRICE CACHE')
             self.calculator.clearCache()
 
         # same as stockAddinalData
@@ -41,8 +51,9 @@ class FundamentalServiceCalculationFacade:
             'portfolioSharpRatio': portfolioSharpRatio, 
             'portfolioBeta': portfolioBeta,
             'portfolioAlpha': portfolioAlpha,
-            'portfolioReturn': portfolioReturn,
-            'stockAddinalData': stockAddinalData
+            'portfolioEstimatedReturnPrct': portfolioEstimatedReturnPrct,
+            'portfolioEstimatedReturnValue': portfolioEstimatedReturnValue,
+            'date': datetime.today(),
         }
 
     def calculateAdditionalData(self, symbol = None, data = None):        
@@ -57,6 +68,7 @@ class FundamentalServiceCalculationFacade:
             'alpha': self.calculator.calculateAlpha(volatilityYearly.get('symbolYearlyPriceReturnPrct'), volatilityYearly.get('benchmarkYearlyReturnPrct'), beta),
             'CAPM': self.calculator.calculateCAPM(beta),
             'WACC': self.calculator.calculateWACC(beta, data),
+            'date': datetime.today()
         }
 
     def calculatePredictions(self, data):

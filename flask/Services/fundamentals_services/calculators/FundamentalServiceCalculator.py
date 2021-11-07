@@ -1,14 +1,8 @@
-import datetime as dt
-import re
-from itertools import chain
 from math import isnan, sqrt
 from statistics import pstdev, stdev, variance
-from typing import List
+from typing import List, Tuple
 
 import numpy as np
-import pandas as pd
-import pandas_datareader as pdr
-from dateutil.relativedelta import relativedelta
 from ExternalAPI.FinancialModelingApi import FinancialModelingApi
 
 
@@ -77,8 +71,8 @@ class FundamentalServiceCalculator:
             market = self.stockYearlyValuesCache.get('^GSPC_m')
             stock = self.stockYearlyValuesCache.get(f'{symbol}_m')
             
-            stockReturns = stock.pct_change()[1:]
-            marketReturns = market.pct_change()[-len(stockReturns):] # must be same length
+            stockReturns = self.__pct_change(stock)
+            marketReturns = self.__pct_change(market)[-len(stockReturns):] # must be same length
 
             covariance = np.cov(stockReturns,marketReturns) # Calculate covariance between stock and market
             beta = covariance[0,1]/covariance[1,1]
@@ -94,22 +88,22 @@ class FundamentalServiceCalculator:
     def calculateVolatility(self, symbol) -> dict:
         self.__loadAndCacheStockClosedPrice([symbol, '^GSPC'] )
 
-        symbolData = self.stockYearlyValuesCache.get(symbol) # data['Adj Close'][symbol]
-        mean = round(symbolData.mean(), 2)
-        stdPrice = round(symbolData.std(), 2)
+        symbolData = self.stockYearlyValuesCache.get(symbol)
+        mean = round(sum(symbolData) / len(symbolData), 2)
+        stdPrice = round(stdev(symbolData), 2)
         cov = round(stdPrice / mean, 4)
 
-        stdDailyPrct = round(pstdev(symbolData.pct_change()[1:]), 4)
+        # daily variance
+        stdDailyPrct = round(pstdev(self.__pct_change(symbolData)), 4)
         stdDailyPrice = round(mean * stdDailyPrct, 2)
         volatilityPrct = round(stdDailyPrct * sqrt(252), 4)
         
         # calcualte yearly return for synbol
-        symbolValues = symbolData.values
-        yearlyPriceReturn = round(((symbolValues[-1] - symbolValues[[0]]) / symbolValues[0])[0], 4)
+        yearlyPriceReturn = round(((symbolData[-1] - symbolData[0]) / symbolData[0]), 4)
 
         # calcualte yearly return for banchmark
-        benchMarkValues = self.stockYearlyValuesCache.get('^GSPC').values # data['Adj Close']['^GSPC'].values
-        benchMarkYearlyReturn = round(((benchMarkValues[-1] - benchMarkValues[[0]]) / benchMarkValues[0])[0], 4)
+        benchMarkValues = self.stockYearlyValuesCache.get('^GSPC')#.values # data['Adj Close']['^GSPC'].values
+        benchMarkYearlyReturn = round(((benchMarkValues[-1] - benchMarkValues[0]) / benchMarkValues[0]), 4)
 
 
         return {'stdDailyPrct': stdDailyPrct, 
@@ -128,9 +122,6 @@ class FundamentalServiceCalculator:
         def getSymbolName(symbol, interval) -> str:
             return symbol if interval == 'd' else f'{symbol}_m'
 
-        end = dt.datetime.today()
-        start =  dt.datetime.today() - relativedelta(years=years)
-
         # download and cache data
         unsavesStockSymbols = [s for s in stocksSymbols if self.stockYearlyValuesCache.get(getSymbolName(s, interval)) is None]
 
@@ -138,55 +129,62 @@ class FundamentalServiceCalculator:
         if unsavesStockSymbols != []:
             print('loading data for symbols')
             print(unsavesStockSymbols)
-            #data = pdr.get_data_yahoo(unsavesStockSymbols , start, end, interval = interval)
+            print()
+
             for symbol in unsavesStockSymbols:
                 data = self.financialApi.getHistoricalDailyPrices(symbol, f'{years}y', True)['historical']
                 closedPrice = [x.get('close') for x in data][::-1]
                 
                 # monthly data may also be persisted but has to be called differently
                 symbolName = getSymbolName(symbol, interval)
-                closedPrice = pd.Series(closedPrice)
-                self.stockYearlyValuesCache[symbolName] = closedPrice
-                #symbolName = getSymbolName(symbol, interval)
-                #self.stockYearlyValuesCache[symbolName] = data['Adj Close'][symbol]
+                self.stockYearlyValuesCache[symbolName] =  closedPrice #pd.Series(closedPrice)
             print('cached symbols')
             print(list(self.stockYearlyValuesCache.keys()))
+            print('-------------------------------')
     
-    def calculatePortfolioReturn(self,  stockPortfolioWeights: List[float], stcokYearlyPriceReturns: List[float]):
-        if(len(stockPortfolioWeights) != len(stcokYearlyPriceReturns)):
+    def calculatePortfolioReturn(self,  stockPortfolioWeights: List[float], stcokYearlyPriceReturnsPrct: List[float], stockPriceReturnsValue: List[float]) -> Tuple[float, float]:
+        if(len(stockPortfolioWeights) != len(stcokYearlyPriceReturnsPrct)):
             return 0
-        return round(sum([ stockPortfolioWeights[i] * stcokYearlyPriceReturns[i] for i in range(len(stockPortfolioWeights))]), 4)
+        
+        estimatedPrctReturn = round(sum([ stockPortfolioWeights[i] * stcokYearlyPriceReturnsPrct[i] for i in range(len(stockPortfolioWeights))]), 4)
+        estimatedValueReturn = round(sum([ stockPortfolioWeights[i] * stockPriceReturnsValue[i] for i in range(len(stockPortfolioWeights))]), 4)
+        return estimatedPrctReturn, estimatedValueReturn
 
 
     # link > https://www.youtube.com/watch?v=5wresdHooHQ&ab_channel=MattMacarty
-    def calculatePortfolioVolatility(self, stocksSymbols: List[str], stockPortfolioWeights: List[float]) -> dict:
+    def calculatePortfolioVolatility(self, stocksSymbols: List[str], stockPortfolioWeights: List[float], symbolsBeta: List[float] = []) -> dict:
         try:
             self.__loadAndCacheStockClosedPrice(stocksSymbols)
 
             # calculate annual volatility with weights
-            values = [self.stockYearlyValuesCache[symbol].pct_change()[1:].values for symbol in stocksSymbols]
+            values = [self.__pct_change(self.stockYearlyValuesCache[symbol]) for symbol in stocksSymbols]
             minimal = len(min(values, key=len)) # all values must have the same length
             values = [v[-minimal:] for v in values]
             covariance = np.cov(values)
+            
             
             annualStockWeights = [x * 252 for x in stockPortfolioWeights]
             annualVariance = np.matmul(np.matmul(np.transpose(stockPortfolioWeights), covariance), annualStockWeights)
             annualVolatility = sqrt(annualVariance)
             
             # calculate volatility for each symbol
-            volatility = [round(round(pstdev(self.stockYearlyValuesCache[symbol].pct_change()[1:].values), 4) * sqrt(252), 4) for symbol in stocksSymbols]
+            volatility = [round(round(pstdev(self.__pct_change(self.stockYearlyValuesCache[symbol])), 4) * sqrt(252), 4) for symbol in stocksSymbols]
             yearlyPriceReturn = []
             for symbol in stocksSymbols:
-                values = self.stockYearlyValuesCache[symbol].values
-                yearlyPriceReturn.append(round(((values[-1] - values[[0]]) / values[0])[0], 4))
+                values = self.stockYearlyValuesCache[symbol]#.values
+                yearlyPriceReturn.append({
+                    'prct': round(((values[-1] - values[0]) / values[0]), 4), 
+                    'value': round((values[-1] - values[0]), 4)
+                })
 
-            #yearlyPriceReturn = [round(((self.stockYearlyValuesCache[symbol].values[-1] - self.stockYearlyValuesCache[symbol].values[[0]]) / self.stockYearlyValuesCache[symbol][0])[0], 4) for symbol in stocksSymbols]
+
             volatilityMean = round(sum(volatility) / len(volatility), 4)
             volatilitySymbols = [{
                 'symbol': stocksSymbols[i], 
                 'volatility': volatility[i], 
-                'beta': self.calculateBeta(stocksSymbols[i]),
-                'yearlyPriceReturnPrct': yearlyPriceReturn[i]
+                'beta': self.calculateBeta(stocksSymbols[i]) if i >= len(symbolsBeta) or symbolsBeta[i] is None else symbolsBeta[i],
+                'yearlyPriceReturnPrct': yearlyPriceReturn[i].get('prct', 0),
+                'yearlyPriceReturnValue': yearlyPriceReturn[i].get('value', 0)
             } for i in range(len(stocksSymbols))]
             
             return {
@@ -212,13 +210,13 @@ class FundamentalServiceCalculator:
             return None
         return round(symbolYearlyPriceReturn - 0.025 - beta * (benchmarkYearlyReturn - 0.025), 4)
     
-    def getStockMonthlyReturns(self, symbol):
-        end = dt.datetime.today()
-        start =  dt.datetime.today() - dt.timedelta(weeks=52 *  100)
-        data = pdr.get_data_yahoo(symbol, start, end, interval = "m")
-        return data.resample('M').ffill().pct_change()['Adj Close'].values
-    
     def clearCache(self): 
         self.stockYearlyValuesCache = {}
+    
+    def __pct_change(self, nparray: List[float]):
+        nparray = np.array(nparray)
+        pct=np.zeros_like(nparray)
+        pct[1:]=np.diff(nparray) / np.abs(nparray[:-1])
+        return pct[1:] # first values is 0
                 
     
