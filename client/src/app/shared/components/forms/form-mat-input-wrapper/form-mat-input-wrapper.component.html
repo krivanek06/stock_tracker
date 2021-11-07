@@ -107,6 +107,9 @@
 			<mat-icon *ngIf="hintText" [matTooltip]="hintText" class="helper-text-tooltip-icon" matSuffix matTooltipClass="form-input-tooltip">
 				help_outline
 			</mat-icon>
+
+			<!-- prefix icon -->
+			<mat-icon *ngIf="icon" matPrefix class="icon-prefix">{{ icon }}</mat-icon>
 		</mat-form-field>
 
 		<!-- mat-form-field can not contain the following elements -->

@@ -11,6 +11,10 @@ const errorLink = onError(({ graphQLErrors, networkError, response }) => {
 	if (graphQLErrors) {
 		graphQLErrors.forEach((e) => {
 			DialogService.presentErrorToast(e.message);
+
+			// user not found - remove userId from localstorage
+			if (e.message === 'User ID not found') {
+			}
 		});
 		graphQLErrors.map(({ message, locations, path }) => console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`));
 	}

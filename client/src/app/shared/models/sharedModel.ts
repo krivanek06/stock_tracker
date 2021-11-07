@@ -68,6 +68,7 @@ export type InputType =
 	| 'text'
 	| 'number'
 	| 'email'
+	| 'password'
 	| 'password';
 
 export type PositionColors = 'st-first-position-color' | 'st-second-position-color' | 'st-third-position-color' | 'st-my-position-color' | '';

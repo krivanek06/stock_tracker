@@ -13,6 +13,7 @@ export class FormMatInputWrapperComponent implements OnInit {
 	@Input() controlName: string;
 	@Input() inputType: InputType;
 	@Input() inputCaption: string;
+	@Input() icon: string;
 	@Input() disabled: boolean;
 	@Input() hintText: string;
 	@Input() inputSource: InputSource[] = []; // data which are displayed in Select.options
