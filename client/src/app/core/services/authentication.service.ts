@@ -47,7 +47,8 @@ export class AuthenticationService {
 		await this.signInUser(credentials);
 	}
 
-	async logout() {
+	async logout(): Promise<void> {
+		console.log('logging out');
 		this.userStorageService.setUser(null);
 		this.logout$.next(true);
 		localStorage.removeItem('requesterUserId');
@@ -58,10 +59,13 @@ export class AuthenticationService {
 
 	private initUserIfExists(userId: string) {
 		console.log(`Init user ${userId}`);
+
+		// user already logged in - init skeleton till he is loaded
 		this.afAuth.user.subscribe((u) => {
 			this.userStorageService.setIsAuthenticating(!!u);
 		});
 
+		// if store change, write data to user storage
 		this.authenticateUserGQL
 			.watch(
 				{ id: userId },
@@ -70,12 +74,17 @@ export class AuthenticationService {
 				}
 			)
 			.valueChanges.pipe(
-				filter((x) => !!x.data),
-				map((x) => x.data.authenticateUser),
-				filter((x) => !!x),
+				//filter((x) => !!x.data),
+				map((x) => x?.data?.authenticateUser),
+				//filter((x) => !!x),
+				//catchError(() => of('asddass')),
 				takeUntil(this.logout$)
 			)
 			.subscribe((user) => {
+				if (!user) {
+					this.logout();
+					return;
+				}
 				console.log('updating user');
 				localStorage.setItem('requesterUserId', user.id);
 				console.log('useruser', user);
