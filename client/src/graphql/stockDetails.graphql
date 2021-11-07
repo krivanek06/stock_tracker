@@ -390,25 +390,6 @@ fragment historicalMetricsDataFragment on HistoricalMetricsData {
 	data
 }
 
-fragment CAPMFragment on CAPM {
-	Beta
-	Rf
-	Rm
-	result
-}
-
-fragment WACCFragment on WACC {
-	CAPM {
-		...CAPMFragment
-	}
-	Rd
-	Re
-	Wd
-	We
-	result
-	taxRate
-}
-
 # -----------------------------------------
 # QUERY
 
@@ -513,12 +494,48 @@ query QueryStockDetails($symbol: String!, $reload: Boolean) {
 			}
 		}
 		calculations {
+			symbol
+			date
+			alpha
+			beta
+			sharpRatio
+			volatility {
+				benchmarkYearlyReturnPrct
+				meanPrice
+				stdDailyPrct
+				stdDailyPrice
+				stdYearlyPrct
+				stdYearlyPrice
+				symbolYearlyPriceReturnPrct
+				volatilityPrct
+				date
+			}
 			CAPM {
-				...CAPMFragment
+				Beta
+				Rf
+				Rm
+				result
 			}
 			WACC {
-				...WACCFragment
+				CAPM {
+					Beta
+					Rf
+					Rm
+					result
+				}
+				Rd
+				Re
+				Wd
+				We
+				result
+				taxRate
 			}
+		}
+		socialSentiment {
+			...STFMSocialSentimentFragment
+		}
+		analystEstimatesYearly {
+			...STAnalystEstimatesFragment
 		}
 		calculatedPredictions {
 			DCF_V1 {

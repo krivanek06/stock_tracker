@@ -38,6 +38,7 @@ export const userTypeDefs = gql`
 		activity: USER_ACTIVITY
 		groups: STUserGroups!
 		portfolio: STPortfolioWrapper!
+		portfolioRisk: STPortfolioRiskCalculations
 		userPrivateData: STUserPrivateData!
 		userHistoricalData: STUserHistoricalData!
 		stockWatchlist: [STStockWatchlist]!
