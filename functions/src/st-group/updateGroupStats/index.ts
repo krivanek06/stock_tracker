@@ -1,8 +1,8 @@
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import { uniqBy as _uniqBy } from 'lodash';
+import * as moment from 'moment';
 import * as api from 'stock-tracker-common-interfaces';
-
 /* 
     For each existing group update:
         - portfolio
@@ -20,7 +20,8 @@ import * as api from 'stock-tracker-common-interfaces';
 */
 // functions.https.onRequest(async () => {
 // functions.pubsub.topic('updateGroupStats').onPublish(async () => {
-export const updateGroupStats = functions.pubsub.topic('updateGroupStats').onPublish(async () => {
+export const updateGroupStats = functions.https.onRequest(async () => {
+	const startTime = new Date().getTime();
 	console.log(`Started updating at ${admin.firestore.Timestamp.now().toDate()}`);
 
 	// get every groups
@@ -33,7 +34,7 @@ export const updateGroupStats = functions.pubsub.topic('updateGroupStats').onPub
 			const groupAllData = groupDoc.data() as api.STGroupAllData;
 			const groupMembersDoc = await loadGroupMembersDoc(groupDoc.id);
 			const groupMembersPublicData = await loadUserPublicDataForGroupDoc(groupMembersDoc);
-			console.log('Loaded group data');
+			console.log(`Loaded group data for: ${groupAllData.name}`);
 
 			// calculate current data
 			const currentGroupHoldings = createGroupHoldings(groupMembersPublicData);
@@ -46,7 +47,7 @@ export const updateGroupStats = functions.pubsub.topic('updateGroupStats').onPub
 			await updategroupMembersDocument(groupDoc.id, currentGroupHoldings, groupMembersDoc.members, groupMembersPublicData);
 			await updateGroupHistoricalDataDocument(groupDoc.id, currentGroupPortfolio);
 
-			console.log(`Ended updating group: ${groupDoc.id}`);
+			console.log(`Ended updating group: ${groupAllData.name}`);
 			console.log('========================');
 		} catch (error) {
 			console.log(`Error for group: ${groupDoc.id}, error:`, error);
@@ -56,7 +57,7 @@ export const updateGroupStats = functions.pubsub.topic('updateGroupStats').onPub
 
 	await closeOpenButEndedGroups();
 
-	console.log(`Completed updating at ${admin.firestore.Timestamp.now().toDate()}`);
+	console.log(`Completed updating at ${admin.firestore.Timestamp.now().toDate()}, took ${(new Date().getTime() - startTime) / 1000} sec.`);
 });
 
 const closeOpenButEndedGroups = async (): Promise<void> => {
@@ -89,6 +90,7 @@ const createGroupPortfolioSnapshot = (
 	usersPublicData: api.STUserPublicData[],
 	groupPreviousLastPortfolioSnapshot: api.STPortfolioSnapshot
 ): api.STPortfolioWrapper => {
+	// accumulate members data into one object
 	const portfolioWrapperAccumulation: api.STPortfolioWrapper = usersPublicData
 		.map((m) => m.portfolio)
 		.reduce(
@@ -104,9 +106,15 @@ const createGroupPortfolioSnapshot = (
 						date: admin.firestore.Timestamp.now().toDate().toISOString(),
 					},
 					lastTransactionSnapshot: {
-						transactionsBuy: acc.lastTransactionSnapshot.transactionsBuy + cur.lastTransactionSnapshot.transactionsBuy,
-						transactionsSell: acc.lastTransactionSnapshot.transactionsSell + cur.lastTransactionSnapshot.transactionsSell,
-						transactionFees: acc.lastTransactionSnapshot.transactionFees + cur.lastTransactionSnapshot.transactionFees,
+						transactionsBuy:
+							acc.lastTransactionSnapshot.transactionsBuy +
+							(moment(cur.lastTransactionSnapshot.date).isSame(new Date(), 'day') ? cur.lastTransactionSnapshot.transactionsBuy : 0),
+						transactionsSell:
+							acc.lastTransactionSnapshot.transactionsSell +
+							(moment(cur.lastTransactionSnapshot.date).isSame(new Date(), 'day') ? cur.lastTransactionSnapshot.transactionsSell : 0),
+						transactionFees:
+							acc.lastTransactionSnapshot.transactionFees +
+							(moment(cur.lastTransactionSnapshot.date).isSame(new Date(), 'day') ? cur.lastTransactionSnapshot.transactionFees : 0),
 						date: admin.firestore.Timestamp.now().toDate().toISOString(),
 					},
 					transactionFees: acc.transactionFees + cur.transactionFees,
