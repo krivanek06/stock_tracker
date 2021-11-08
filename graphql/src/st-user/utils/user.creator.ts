@@ -30,6 +30,7 @@ export const createSTUserPublicData = (user: api.STUserAuthenticationInput): api
 		accountCreatedDate: getCurrentIOSDate(),
 		lastSignInDate: getCurrentIOSDate(),
 		transactionsSnippets: [],
+		portfolioRisk: null,
 		portfolio: {
 			lastPortfolioSnapshot: {
 				portfolioCash: 0,
