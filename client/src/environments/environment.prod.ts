@@ -26,5 +26,5 @@ export const environment = {
 	// 	measurementId: 'G-C20ZWXSJZ2',
 	// },
 
-	version: '0.9.7.2',
+	version: '0.9.8',
 };
