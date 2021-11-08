@@ -31,7 +31,8 @@
 
 			<!-- year change -->
 			<ion-label>
-				<app-price-compare-item [compareToPrice]="summary.yearToDatePrice" [currentPrice]="summary.marketPrice"> </app-price-compare-item>
+				<app-price-compare-item [compareToPrice]="summary.marketPrice - summary.yearToDatePrice" [currentPrice]="summary.marketPrice">
+				</app-price-compare-item>
 			</ion-label>
 
 			<!-- Market cap -->
