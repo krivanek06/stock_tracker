@@ -20,7 +20,7 @@ import * as api from 'stock-tracker-common-interfaces';
 */
 // functions.https.onRequest(async () => {
 // functions.pubsub.topic('updateGroupStats').onPublish(async () => {
-export const updateGroupStats = functions.https.onRequest(async () => {
+export const updateGroupStats = functions.pubsub.topic('updateGroupStats').onPublish(async () => {
 	const startTime = new Date().getTime();
 	console.log(`Started updating at ${admin.firestore.Timestamp.now().toDate()}`);
 
