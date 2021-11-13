@@ -21,8 +21,6 @@
 			<app-form-mat-input-wrapper inputCaption="Email" inputType="EMAIL" controlName="email" [disabled]="true"> </app-form-mat-input-wrapper>
 		</div>
 	</ion-item-group>
-	<!-- locale -->
-	<app-form-mat-input-wrapper inputCaption="Locale" controlName="locale" [disabled]="true"> </app-form-mat-input-wrapper>
 
 	<!-- nickName -->
 	<app-form-mat-input-lock-wrapper inputCaption="NickName" controlName="nickName"> </app-form-mat-input-lock-wrapper>
@@ -48,6 +46,7 @@
 			*ngIf="formWasEdited"
 			class="st-button st-width-full-md-screen"
 			color="primary"
+			shape="round"
 			fill="solid"
 		>
 			Save
