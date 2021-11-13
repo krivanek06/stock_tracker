@@ -17,12 +17,13 @@ export const createUserPortfolioSnapshot = functions.pubsub.topic('createUserPor
 
 	// load users who has non empty holdings
 	const usersWithHoldings = await getAllUserWithExistingHoldingsFirebase();
-	console.log('users with holdings: ', usersWithHoldings.length);
+	const total = usersWithHoldings.length;
+	console.log('users with holdings: ', total);
 
 	let counter = 1;
 	for await (const user of usersWithHoldings) {
 		try {
-			console.log(`updating user: ${user.id}, nickname: ${user.nickName}`);
+			console.log(`updating user: ${user.id}, nickname: ${user.nickName}, [${counter} / ${total}]`);
 			// not cached holdings => query live price for symbols
 			const unsavedSymbols = user.holdings.map((h) => h.symbol).filter((symbol) => !symbolPriceMap.has(symbol));
 			await cacheDataForUnsavedSymbols(unsavedSymbols);
@@ -31,11 +32,10 @@ export const createUserPortfolioSnapshot = functions.pubsub.topic('createUserPor
 			await savePortfolioSnapShot(user, constructPortfolioSnapshot(user));
 
 			// calculate & save portfolio metrics
-			const portfolioRisk = await getPortfolioRisk(user, counter === usersWithHoldings.length);
+			const portfolioRisk = await getPortfolioRisk(user, counter === total);
 			await savePortfolioRisk(user, portfolioRisk);
 
 			counter += 1;
-			console.log('---------------------------');
 		} catch (error) {
 			console.log(`Error for user: ${user.id}, error:`, error);
 		}
@@ -105,8 +105,13 @@ const constructPortfolioSnapshot = (user: api.STUserPublicData): api.STPortfolio
 	return portfolioSnapshot;
 };
 
-const getPortfolioRisk = async (user: api.STUserPublicData, isLastUser = false): Promise<api.STPortfolioRiskCalculations> => {
+const getPortfolioRisk = async (user: api.STUserPublicData, isLastUser = false): Promise<api.STPortfolioRiskCalculations | null> => {
 	const portfolioInvested = user.holdings.map((h) => (symbolPriceMap.get(h.symbol)?.price ?? 0) * h.units).reduce((a, b) => a + b, 0);
+
+	// can be 0 - then error for division
+	if (!portfolioInvested) {
+		return null;
+	}
 
 	const symbols = user.holdings.map((h) => h.symbol);
 	const weights = user.holdings.map((h) => (1 / portfolioInvested) * ((symbolPriceMap.get(h.symbol)?.price ?? 0) * h.units));
@@ -117,7 +122,6 @@ const getPortfolioRisk = async (user: api.STUserPublicData, isLastUser = false):
 };
 
 const savePortfolioRisk = async (user: api.STUserPublicData, portfolioRisk: api.STPortfolioRiskCalculations | null = null): Promise<void> => {
-	console.log('saving', portfolioRisk);
 	await admin.firestore().collection('users').doc(user.id).set(
 		{
 			portfolioRisk,

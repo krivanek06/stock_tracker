@@ -67,9 +67,9 @@ class FundamentalServiceCalculator:
     '''
     def calculateBeta(self, symbol: str = None) -> float:
         try:
-            self.__loadAndCacheStockClosedPrice([ symbol,  '^GSPC'], 5, 'm')
-            market = self.stockYearlyValuesCache.get('^GSPC_m')
-            stock = self.stockYearlyValuesCache.get(f'{symbol}_m')
+            self.__loadAndCacheStockClosedPrice([ symbol,  '^GSPC'])
+            market = self.stockYearlyValuesCache.get('^GSPC')
+            stock = self.stockYearlyValuesCache.get(symbol)
             
             stockReturns = self.__prct_change(stock)
             marketReturns = self.__prct_change(market)[-len(stockReturns):] # must be same length
@@ -165,8 +165,14 @@ class FundamentalServiceCalculator:
             
             
             annualStockWeights = [x * 252 for x in stockPortfolioWeights]
-            annualVariance = np.matmul(np.matmul(np.transpose(stockPortfolioWeights), covariance), annualStockWeights)
-            annualVolatility = sqrt(annualVariance)
+            if(len(stocksSymbols) > 1):
+                annualVariance = np.matmul(np.matmul(np.transpose(stockPortfolioWeights), covariance), annualStockWeights)
+                annualVolatility = sqrt(annualVariance)
+            else:
+                # np.matmul fails when length or array is 1
+                symbolVolatility = self.calculateVolatility(stocksSymbols[0])
+                annualVariance = symbolVolatility.get('stdDailyPrct')
+                annualVolatility = symbolVolatility.get('volatilityPrct')
             
             # calculate volatility for each symbol
             volatility = [round(round(pstdev(self.__prct_change(self.stockYearlyValuesCache[symbol])), 4) * sqrt(252), 4) for symbol in stocksSymbols]
