@@ -10,7 +10,6 @@ import {
 	UserCredential,
 } from '@angular/fire/auth';
 import { Apollo } from 'apollo-angular';
-import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';
 import { filter, first, map, takeUntil } from 'rxjs/operators';
 import { AuthenticateUserGQL, RegisterUserGQL, StUserAuthenticationInput, StUserPublicData } from '../graphql-schema';
@@ -104,7 +103,8 @@ export class AuthenticationService {
 	}
 
 	private async signInUser(credential: UserCredential): Promise<void> {
-		const isNewUser = moment(credential.user.metadata.creationTime).isSame(moment(new Date()), 'day');
+		const isNewUser = credential.user.metadata.creationTime === credential.user.metadata.lastSignInTime;
+
 		if (isNewUser) {
 			const stUserAuthenticationInput: StUserAuthenticationInput = {
 				displayName: credential.user.displayName || credential.user.email.split('@')[0],

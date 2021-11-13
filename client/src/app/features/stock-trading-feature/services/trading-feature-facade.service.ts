@@ -61,7 +61,7 @@ export class TradingFeatureFacadeService {
 		const yearlyPortfolio = reverseSnapshots.find((change) => today.diff(moment(change.date), 'years') >= 1);
 		const fromBeginning = {
 			portfolioInvested: 0,
-			portfolioCash: STARTING_PORTFOLIO,
+			portfolioCash: reverseSnapshots.length > 0 ? STARTING_PORTFOLIO : null,
 		};
 
 		const portfolios = [currentlyPortfolio, dailyPortfolio, weeklyPortfolio, monthlyPortfolio, quarterlyPortfolio, yearlyPortfolio, fromBeginning];
@@ -74,6 +74,12 @@ export class TradingFeatureFacadeService {
 			TIME_INTERVAL_ENUM.YEARLY,
 			TIME_INTERVAL_ENUM.FROM_BEGINNING,
 		];
+		const alwaysDisplayTimeIntervals = [
+			TIME_INTERVAL_ENUM.CURRENTLY,
+			TIME_INTERVAL_ENUM.DAILY,
+			TIME_INTERVAL_ENUM.WEEKLY,
+			TIME_INTERVAL_ENUM.FROM_BEGINNING,
+		];
 
 		// zip them and filter out not null and required data
 		return zipArrays(timeIntervals as any[], portfolios)
@@ -83,6 +89,10 @@ export class TradingFeatureFacadeService {
 					historicalBalance: intervalPortfolio[1]?.portfolioInvested + intervalPortfolio[1]?.portfolioCash,
 				};
 			})
-			.filter((wrapper) => !!wrapper.historicalBalance && requiredTimeIntervals.includes(wrapper.timeIntervalName));
+			.filter(
+				(wrapper) =>
+					(!!wrapper.historicalBalance && requiredTimeIntervals.includes(wrapper.timeIntervalName)) ||
+					(requiredTimeIntervals.includes(wrapper.timeIntervalName) && alwaysDisplayTimeIntervals.includes(wrapper.timeIntervalName))
+			);
 	}
 }

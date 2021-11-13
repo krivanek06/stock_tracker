@@ -46,7 +46,8 @@ const createGroupObject = async (groupInput: api.STGroupAllDataInput, requesterU
 		group.portfolio.lastPortfolioSnapshot.portfolioInvested = group.owner.portfolio.lastPortfolioSnapshot.portfolioInvested;
 		group.portfolio.numberOfExecutedSellTransactions = group.owner.portfolio.numberOfExecutedSellTransactions;
 		group.portfolio.numberOfExecutedBuyTransactions = group.owner.portfolio.numberOfExecutedBuyTransactions;
-		group.portfolio.transactionFees = group.numberOfMembers = 1;
+		group.portfolio.transactionFees = group.owner.portfolio.transactionFees;
+		group.numberOfMembers = 1;
 	}
 
 	return group;
@@ -98,8 +99,8 @@ const updateGroupOwnersData = async (groupid: string, requesterUserId: string): 
 };
 
 const sendGroupInvitationToUser = async (groupInput: api.STGroupAllDataInput, groupId: string): Promise<void> => {
-	await groupInput.invitationSent.forEach((userId) => {
-		admin
+	for (const userId of groupInput.invitationSent) {
+		await admin
 			.firestore()
 			.collection(api.ST_USER_COLLECTION_USER)
 			.doc(userId)
@@ -111,5 +112,5 @@ const sendGroupInvitationToUser = async (groupInput: api.STGroupAllDataInput, gr
 				},
 				{ merge: true }
 			);
-	});
+	}
 };
