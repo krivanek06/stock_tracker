@@ -127,7 +127,7 @@ export class HoldingsPackedBubleChartComponent implements OnInit {
 			},
 			plotOptions: {
 				packedbubble: {
-					minSize: '50%',
+					minSize: '35%',
 					maxSize: '130%',
 					zMin: 0,
 					zMax: 1000,
