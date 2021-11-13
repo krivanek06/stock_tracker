@@ -15,6 +15,9 @@ import { createSTGroupUser } from './../st-group.util';
 export const answerReceivedGroupInvitation = async (groupId: string, accept: boolean, { requesterUserId }: Context): Promise<api.STGroupAllData> => {
 	try {
 		const group = await querySTGroupByGroupId(groupId);
+		if (!group) {
+			throw new ApolloError(`You can not answer group's invitation, group no longer exists.`);
+		}
 		const groupMembers = await querySTGroupMemberDataByGroupId(groupId);
 
 		if (!groupMembers.invitationSent.map((x) => x.id).includes(requesterUserId)) {

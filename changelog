@@ -8,6 +8,7 @@ client
 
 graphql
 - fetching social sentiment & analyst estimates
+- fix creating group transaction fees were negattive
 
 -----------------------------------------------
 

@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts/highstock';
+import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
 import { ChartType, GenericChartSeries } from '../../../models';
+
+NoDataToDisplay(Highcharts);
 
 @Component({
 	selector: 'app-series-comparison-chart',
