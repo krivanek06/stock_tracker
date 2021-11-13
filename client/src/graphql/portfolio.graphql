@@ -32,3 +32,15 @@ fragment STPortfolioSnapshotStartedFragment on STPortfolioSnapshotStarted {
 	numberOfExecutedSellTransactions
 	transactionFees
 }
+
+fragment STPortfolioRiskCalculationsFragment on STPortfolioRiskCalculations {
+	date
+	portfolioAlpha
+	portfolioAnnualVariancePrct
+	portfolioAnnualVolatilityPrct
+	portfolioBeta
+	portfolioEstimatedReturnPrct
+	portfolioEstimatedReturnValue
+	portfolioSharpRatio
+	portfolioVolatilityMeanPrct
+}

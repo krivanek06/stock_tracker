@@ -1,19 +1,22 @@
 :host {
-  ion-label {
-    color: white;
-  }
+	ion-label {
+		color: white;
+	}
 
-  .social-media-container {
-    border-top: 1px solid #b0b0b0;
-    margin-top: 25px;
-  }
+	ion-segment {
+		gap: 24px;
+		padding: 16px;
+	}
 
-  .c-spinner-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 38vh;
-  }
+	.social-media-container {
+		border-top: 1px solid #b0b0b0;
+		margin-top: 25px;
+	}
 
-
+	.c-spinner-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-height: 38vh;
+	}
 }

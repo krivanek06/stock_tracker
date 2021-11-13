@@ -9,6 +9,7 @@ export enum ChartType {
 	bar = 'bar',
 	spline = 'spline',
 	histogram = 'histogram',
+	packedbubble = 'packedbubble',
 }
 
 export enum BREAK_POINTS {
@@ -38,6 +39,14 @@ export interface IdNameContainer {
 }
 
 export interface GenericChartSeries {
+	type: ChartType;
+	name: string;
+	data: GenericChartSeriesData[] | number[] | number[][];
+	color?: string;
+	lineWidth?: number;
+}
+
+export interface GenericChartSeriesData {
 	name?: string;
 	sliced?: boolean;
 	y: number;
@@ -68,6 +77,7 @@ export type InputType =
 	| 'text'
 	| 'number'
 	| 'email'
+	| 'password'
 	| 'password';
 
 export type PositionColors = 'st-first-position-color' | 'st-second-position-color' | 'st-third-position-color' | 'st-my-position-color' | '';

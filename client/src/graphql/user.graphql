@@ -76,6 +76,9 @@ fragment StUserPublicDataSearch on STUserPublicData {
 	portfolio {
 		...STPortfolioWrapperFragment
 	}
+	portfolioRisk {
+		...STPortfolioRiskCalculationsFragment
+	}
 	rank {
 		...STRankFragment
 	}
@@ -127,6 +130,9 @@ query AuthenticateUser($id: String!) {
 		lastSignInDate
 		portfolio {
 			...STPortfolioWrapperFragment
+		}
+		portfolioRisk {
+			...STPortfolioRiskCalculationsFragment
 		}
 		rank {
 			...STRankFragment

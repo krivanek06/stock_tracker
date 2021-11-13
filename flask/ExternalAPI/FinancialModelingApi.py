@@ -1,7 +1,8 @@
-import environments_keys
-from requests import get
 from datetime import datetime, timedelta
+
+import environments_keys
 from dateutil.relativedelta import relativedelta
+from requests import get
 
 
 class FinancialModelingApi:
@@ -25,14 +26,15 @@ class FinancialModelingApi:
             return []
         return self._makeRequest(f'historical-chart/{timeInterval}', symbol)
 
-    def getHistoricalDailyPrices(self, symbol: str, timeInterval: str):
+    def getHistoricalDailyPrices(self, symbol: str, timeInterval: str, isLine: bool = False):
         if timeInterval not in ['1y', '5y', 'all']:
             return []
         timeInterval = '100y' if timeInterval == 'all' else timeInterval
         timeInterval = timeInterval[:-1]  # remove 'y'
         end = datetime.today().strftime('%Y-%m-%d')
         start = (datetime.now() - relativedelta(years=int(timeInterval))).strftime('%Y-%m-%d')
-        return self._makeRequest('historical-price-full', symbol, {'from': start, 'to': end})
+        serietype = 'line' if isLine else ''
+        return self._makeRequest('historical-price-full', symbol, {'from': start, 'to': end, 'serietype': serietype})
 
     def getHistoricalAllDailyPricesOnlyLines(self, symbol: str):
         return self._makeRequest('historical-price-full', symbol, {'serietype': 'line'})
@@ -135,6 +137,26 @@ class FinancialModelingApi:
     def getBalanceSheet(self, symbol, quarterly: bool):
         period = 'quarter' if quarterly else 'year'
         return self._makeRequest('balance-sheet-statement', symbol, {'period': period, 'limit': 400})
+    
+    def getAnalystEstimates(self, symbol): 
+        return self._makeRequest('analyst-estimates', symbol, {'limit': 3})
+    
+    def getSocialSentiment(self, symbol): 
+        sentimenArr = self._makeRequest('social-sentiment', '',  {'limit': 100, 'symbol': symbol},  'v4')
+        if len(sentimenArr) == 0:
+            return [] 
+        
+        result = {
+            'date': sentimenArr[0].get('date', None),
+            'symbol': sentimenArr[0].get('symbol', None)
+        }
+        # reduce arrays into mean value
+        for key in sentimenArr[0].keys():
+            if key in ['date', 'symbol']:
+                continue
+            result[key] = sum([data[key] if data[key] is not None else 0 for data in sentimenArr]) / 100
+        return result
+
 
     def getCashFlow(self, symbol, quarterly: bool):
         period = 'quarter' if quarterly else 'year'

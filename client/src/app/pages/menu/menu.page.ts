@@ -3,6 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { AuthenticationService, componentDestroyed, GroupStorageService, StUserPublicData, UserStorageService, User_Roles_Enum } from '@core';
 import { MenuController, NavController, PopoverController } from '@ionic/angular';
 import { AuthenticationPopoverComponent } from '@login-feature';
+import { DialogService } from '@shared';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
@@ -85,6 +86,7 @@ export class MenuPage implements OnInit, OnDestroy {
 
 	async logout() {
 		await this.authenticationService.logout();
+		DialogService.presentToast('You have been successfully logged out');
 	}
 
 	private watchRouterUrlChange() {

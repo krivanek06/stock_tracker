@@ -9,6 +9,50 @@ export interface STFMHolderWithWeight extends STFMHolder {
   weightPercent?: number;
 }
 
+export interface STFMSocialSentiment {
+  absoluteIndex: number;
+  date: string;
+  generalPerception: number;
+  redditCommentMentions: number;
+  redditCommentSentiment: number;
+  redditPostMentions: number;
+  redditPostSentiment: number;
+  relativeIndex: number;
+  sentiment: number;
+  stocktwitsPostMentions: number;
+  stocktwitsPostSentiment: number;
+  symbol: string;
+  tweetMentions: number;
+  tweetSentiment: number;
+  yahooFinanceCommentMentions: number;
+  yahooFinanceCommentSentiment: number;
+}
+
+export interface AnalystEstimates {
+  date: string;
+  estimatedEbitAvg: number;
+  estimatedEbitHigh: number;
+  estimatedEbitLow: number;
+  estimatedEbitdaAvg: number;
+  estimatedEbitdaHigh: number;
+  estimatedEbitdaLow: number;
+  estimatedEpsAvg: number;
+  estimatedEpsHigh: number;
+  estimatedEpsLow: number;
+  estimatedNetIncomeAvg: number;
+  estimatedNetIncomeHigh: number;
+  estimatedNetIncomeLow: number;
+  estimatedRevenueAvg: number;
+  estimatedRevenueHigh: number;
+  estimatedRevenueLow: number;
+  estimatedSgaExpenseAvg: number;
+  estimatedSgaExpenseHigh: number;
+  estimatedSgaExpenseLow: number;
+  numberAnalystEstimatedRevenue: number;
+  numberAnalystsEstimatedEps: number;
+  symbol: string;
+}
+
 export interface STFMCompanyOutlook {
   financialsAnnual: STFMFinancials;
   financialsQuarter: STFMFinancials;

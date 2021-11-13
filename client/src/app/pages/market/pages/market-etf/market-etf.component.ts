@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { GraphqlQueryService, StMarketDailyOverview, StMarketEtfDocument } from '@core';
-import { ChartType, GenericChartSeries, SymbolIdentification, WindowService } from '@shared';
+import { ChartType, GenericChartSeriesData, SymbolIdentification, WindowService } from '@shared';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -13,7 +13,7 @@ import { map } from 'rxjs/operators';
 export class MarketEtfComponent implements OnInit {
 	marketDailyOverview$: Observable<StMarketDailyOverview>;
 	etfDocument$: Observable<StMarketEtfDocument>;
-	etfHolders$: Observable<GenericChartSeries[]>;
+	etfHolders$: Observable<GenericChartSeriesData[]>;
 	chartHeight: number;
 	chartHeighrPie: number;
 
@@ -33,7 +33,7 @@ export class MarketEtfComponent implements OnInit {
 		this.etfHolders$ = this.etfDocument$.pipe(
 			map((document) =>
 				document.etfHolders.map((x) => {
-					return { name: x.asset, y: x.sharesNumber } as GenericChartSeries;
+					return { name: x.asset, y: x.sharesNumber } as GenericChartSeriesData;
 				})
 			)
 		);

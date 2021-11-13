@@ -52,6 +52,8 @@ class FundamentalServiceDataFetcher:
         # Financial modeling getMutualFundHolders
         t2 = Thread(target=lambda q, arg1: q.put({'mutualFundHolders': self.financialModeling.getMutualFundHolders(arg1)}), args=(que, symbol))
         t3 = Thread(target=lambda q, arg1: q.put({'institutionalHolders': self.financialModeling.getInstitutionalHolders(arg1)}), args=(que, symbol))
+        tAnalyst = Thread(target=lambda q, arg1: q.put({'analystEstimates': self.financialModeling.getAnalystEstimates(arg1)}), args=(que, symbol))
+        tSocialSentiment = Thread(target=lambda q, arg1: q.put({'socialSentiment': self.financialModeling.getSocialSentiment(arg1)}), args=(que, symbol))
        
         tSector = Thread(target=lambda q, arg1: q.put({'sectorPeers': self.__getSectorPeers(arg1)}), args=(que, symbol))
 
@@ -64,6 +66,8 @@ class FundamentalServiceDataFetcher:
         t2.start()
         t3.start()
         tSector.start()
+        tAnalyst.start()
+        tSocialSentiment.start()
         t4.start()
         t6.start()
         t7.start()
@@ -73,6 +77,8 @@ class FundamentalServiceDataFetcher:
         t2.join()
         t3.join()
         tSector.join()
+        tAnalyst.join()
+        tSocialSentiment.join()
         t4.join()
         t6.join()
         t7.join()

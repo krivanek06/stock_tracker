@@ -12,7 +12,7 @@ export const updateStocksSummary = functions.pubsub.topic('updateStocksSummary')
 
 	// query only symbols which was not updated
 	const today = new Date();
-	today.setHours(today.getHours() - 4);
+	today.setHours(today.getHours() - 2);
 
 	console.log(today.toISOString());
 

@@ -1,15 +1,9 @@
 <div *ngIf="downloadURL as url" class="st-flex ion-justify-content-center">
-    <ion-img [src]="url" [style.max-width.px]="maxWidth"  [style.max-height.px]="maxHeight"></ion-img>
+	<ion-img [src]="url" [style.max-width.px]="maxWidth" [style.max-height.px]="maxHeight"></ion-img>
 </div>
-
 
 <!-- progress -->
 <div class="progress-container" *ngIf="percentage$ | async as pct">
-    <progress [value]="pct" max="100"></progress>
-    <ion-text class="ion-margin-start">{{ pct | number }}%</ion-text>
-</div>
-
-<!-- transfered bytes -->
-<div *ngIf="snapshot$ | async as snap" class="ion-text-center">
-    <ion-text>{{ snap.bytesTransferred }} of {{ snap.totalBytes }}</ion-text>
+	<ion-text class="ion-margin-start">{{ pct | number }}%</ion-text>
+	<mat-progress-bar mode="determinate" [value]="pct" max="100"></mat-progress-bar>
 </div>

@@ -122,7 +122,11 @@ const getAndSaveStockNewsFromApi = async (symbol: string, data: api.StockDetails
 		.doc(symbol)
 		.set(
 			{
-				['details.companyOutlook.stockNews']: response,
+				details: {
+					companyOutlook: {
+						stockNews: response,
+					},
+				},
 				newsLastUpdate: getCurrentIOSDate(),
 			},
 			{ merge: true }

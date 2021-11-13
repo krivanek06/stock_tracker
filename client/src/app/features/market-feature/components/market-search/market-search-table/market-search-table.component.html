@@ -45,7 +45,7 @@
 			<ion-label class="ion-hide-md-down">{{ result.companyQuote?.eps ? (result.companyQuote?.eps | number:'1.2-2') : 'N/A' }}</ion-label>
 			<ion-label class="ion-hide-xl-down">{{ result.beta ? (result.beta | number:'1.2-2') : 'N/A' }}</ion-label>
 			<ion-label class="ion-hide-lg-down" style="overflow: visible">
-				<ion-chip color="primary" outline class="st-width-90-center" style="margin-left: -16px">
+				<ion-chip color="primary" outline class="st-width-90-center c-chip">
 					<ion-label color="white" class="ion-text-center st-width-100">
 						{{ result.industry ? (result.industry | split: ['—', ' ', '&']) : result.exchange | split: ['—', '_'] }}
 					</ion-label>
