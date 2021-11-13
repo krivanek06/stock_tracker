@@ -72,6 +72,9 @@ const savePortfolioSnapShot = async ({ id, portfolio }: api.STUserPublicData, po
 	const previousBalance = portfolio.lastPortfolioSnapshot.portfolioCash + portfolio.lastPortfolioSnapshot.portfolioInvested;
 	const currentBalance = portfolioSnapshot.portfolioCash + portfolioSnapshot.portfolioInvested;
 
+	const lastPortfolioIncreaseNumber = Number(currentBalance - previousBalance);
+	const lastPortfolioIncreasePrct = Number((currentBalance - previousBalance) / previousBalance);
+
 	// save as latest snapshot
 	await admin
 		.firestore()
@@ -81,8 +84,9 @@ const savePortfolioSnapShot = async ({ id, portfolio }: api.STUserPublicData, po
 			{
 				portfolio: {
 					lastPortfolioSnapshot: portfolioSnapshot,
-					lastPortfolioIncreaseNumber: previousBalance !== 0 ? Number((currentBalance - previousBalance).toFixed(2)) : 0,
-					lastPortfolioIncreasePrct: previousBalance !== 0 ? Number(((currentBalance - previousBalance) / previousBalance).toFixed(4)) : 0,
+					lastPortfolioIncreaseNumber:
+						!isNaN(lastPortfolioIncreaseNumber) && previousBalance !== 0 ? Number(lastPortfolioIncreaseNumber.toFixed(2)) : 0,
+					lastPortfolioIncreasePrct: !isNaN(lastPortfolioIncreasePrct) && previousBalance !== 0 ? Number(lastPortfolioIncreasePrct.toFixed(4)) : 0,
 				},
 			} as api.STUserPublicData,
 			{ merge: true }
