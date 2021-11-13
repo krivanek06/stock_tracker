@@ -4,6 +4,7 @@ client
 - changed primary color to #25aedd
 - show portfolio risk on dashboard
 - show portfolio vs S&P 500 comparison
+- groups - holdings packed buble chart
 
 graphql
 - fetching social sentiment & analyst estimates

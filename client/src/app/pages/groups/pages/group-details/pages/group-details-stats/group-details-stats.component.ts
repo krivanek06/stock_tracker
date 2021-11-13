@@ -15,16 +15,19 @@ export class GroupDetailsStatsComponent implements OnInit {
 	groupAllData$: Observable<StGroupAllData>;
 
 	holdings$: Observable<StHolding[]>;
-	chartHeight: number;
-	chartHeightGroup: number;
+	chartHeight_32: number;
+	chartHeightGroup_37: number;
+	chartHeightGroup_55: number;
 
 	constructor(private groupStorageService: GroupStorageService, private watchlistFeatureFacadeService: WatchlistFeatureFacadeService) {}
 
 	ngOnInit() {
 		this.groupAllData$ = this.groupStorageService.getActiveGroup();
 		this.holdings$ = this.groupAllData$.pipe(map((groupData) => groupData.groupMemberData.holdings.map((h) => h.holding)));
-		this.chartHeight = WindowService.getWindowHeightPrctInPx(32);
-		this.chartHeightGroup = WindowService.getWindowHeightPrctInPx(37);
+
+		this.chartHeight_32 = WindowService.getWindowHeightPrctInPx(32);
+		this.chartHeightGroup_37 = WindowService.getWindowHeightPrctInPx(37);
+		this.chartHeightGroup_55 = WindowService.getWindowHeightPrctInPx(55);
 	}
 
 	async showSummary(symbolIdentification: SymbolIdentification) {

@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { GenericCardModule, GenericChartModule, GenericListModule, PieChartWrapperModule } from '@shared';
 import {
 	HoldingsAllocationGroupChartModule,
+	HoldingsPackedBubleChartModule,
 	HoldingsTableModule,
 	HoldingsToPortfolioChartSeriesPipeModule,
 	HoldingsToSectorChartSeriesPipeModule,
@@ -27,6 +28,7 @@ import { GroupDetailsStatsComponent } from './group-details-stats.component';
 		HoldingsTableModule,
 		GenericCardModule,
 		ComposedPortfolioHoldingsTableModule,
+		HoldingsPackedBubleChartModule,
 	],
 	exports: [GroupDetailsStatsComponent],
 })

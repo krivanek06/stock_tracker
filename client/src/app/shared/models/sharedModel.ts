@@ -9,6 +9,7 @@ export enum ChartType {
 	bar = 'bar',
 	spline = 'spline',
 	histogram = 'histogram',
+	packedbubble = 'packedbubble',
 }
 
 export enum BREAK_POINTS {
