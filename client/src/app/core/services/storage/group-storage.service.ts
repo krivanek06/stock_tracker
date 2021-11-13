@@ -152,6 +152,6 @@ export class GroupStorageService {
 						.valueChanges.pipe(map((res) => res.data.querySTGroupByGroupId));
 				})
 			)
-			.subscribe((groupData) => this.activeGroup$.next(groupData));
+			.subscribe((groupData: StGroupAllData) => this.activeGroup$.next(groupData));
 	}
 }

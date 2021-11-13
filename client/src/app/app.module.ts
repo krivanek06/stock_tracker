@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireAuthModule } from '@angular/fire/auth';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { getStorage, provideStorage } from '@angular/fire/storage';
+//import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -51,9 +53,14 @@ const MY_DATE_FORMATS = {
 		HttpClientModule,
 		// FormsModule,
 		GraphQlModule,
-		AngularFireModule.initializeApp(environment.firebase), //  as ModuleWithProviders<AngularFireModule>
+		//AngularFireModule.initializeApp(environment.firebase), //  as ModuleWithProviders<AngularFireModule>
 		// AngularFirestoreModule,
-		AngularFireAuthModule,
+		//AngularFireAuthModule,
+		provideFirebaseApp(() => initializeApp(environment.firebase)),
+		provideAuth(() => getAuth()),
+		provideStorage(() => getStorage()),
+		//provideFirestore(() => getFirestore()),
+		//provideStorage(() => getStorage()),
 		// AngularFireStorageModule,
 		MatDatepickerModule,
 		MatNativeDateModule,

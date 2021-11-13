@@ -1,13 +1,21 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
+import {
+	Auth,
+	authState,
+	createUserWithEmailAndPassword,
+	GoogleAuthProvider,
+	onAuthStateChanged,
+	signInWithEmailAndPassword,
+	signInWithPopup,
+	UserCredential,
+} from '@angular/fire/auth';
 import { Apollo } from 'apollo-angular';
-import { default as auth, default as firebase } from 'firebase';
-import { Subject } from 'rxjs';
+import * as moment from 'moment';
+import { Observable, Subject } from 'rxjs';
 import { filter, first, map, takeUntil } from 'rxjs/operators';
 import { AuthenticateUserGQL, RegisterUserGQL, StUserAuthenticationInput, StUserPublicData } from '../graphql-schema';
 import { LoginIUser, RegisterIUser } from '../model';
 import { UserStorageService } from './storage/user-storage.service';
-import UserCredential = firebase.auth.UserCredential;
 
 @Injectable({
 	providedIn: 'root',
@@ -20,10 +28,10 @@ export class AuthenticationService {
 		private apollo: Apollo,
 		private authenticateUserGQL: AuthenticateUserGQL,
 		private registerUserGQL: RegisterUserGQL,
-		private afAuth: AngularFireAuth
+		private afAuth: Auth
 	) {
 		// check if user is cached and automatically authenticate
-		this.afAuth.authState
+		authState(this.afAuth)
 			.pipe(
 				first(),
 				filter((x) => !!x)
@@ -32,18 +40,18 @@ export class AuthenticationService {
 	}
 
 	async googleSignIn(): Promise<void> {
-		const provider = new auth.auth.GoogleAuthProvider();
-		const credentials = await this.afAuth.signInWithPopup(provider);
+		const provider = new GoogleAuthProvider();
+		const credentials = await signInWithPopup(this.afAuth, provider);
 		await this.signInUser(credentials);
 	}
 
 	async normalRegistration(registerIUser: RegisterIUser) {
-		const credentials = await this.afAuth.createUserWithEmailAndPassword(registerIUser.email, registerIUser.password1);
+		const credentials = await createUserWithEmailAndPassword(this.afAuth, registerIUser.email, registerIUser.password1);
 		await this.signInUser(credentials);
 	}
 
 	async normalLogin(loginIUser: LoginIUser) {
-		const credentials = await this.afAuth.signInWithEmailAndPassword(loginIUser.email, loginIUser.password);
+		const credentials = await signInWithEmailAndPassword(this.afAuth, loginIUser.email, loginIUser.password);
 		await this.signInUser(credentials);
 	}
 
@@ -61,7 +69,9 @@ export class AuthenticationService {
 		console.log(`Init user ${userId}`);
 
 		// user already logged in - init skeleton till he is loaded
-		this.afAuth.user.subscribe((u) => {
+		const authStateChange = new Observable((observer: any) => onAuthStateChanged(this.afAuth, observer));
+		authStateChange.subscribe((u) => {
+			console.log('authenticated user', u);
 			this.userStorageService.setIsAuthenticating(!!u);
 		});
 
@@ -94,15 +104,14 @@ export class AuthenticationService {
 	}
 
 	private async signInUser(credential: UserCredential): Promise<void> {
-		if (credential.additionalUserInfo.isNewUser) {
-			const profile = credential.additionalUserInfo.profile as any;
+		const isNewUser = moment(credential.user.metadata.creationTime).isSame(moment(new Date()), 'day');
+		if (isNewUser) {
 			const stUserAuthenticationInput: StUserAuthenticationInput = {
 				displayName: credential.user.displayName || credential.user.email.split('@')[0],
 				email: credential.user.email,
 				uid: credential.user.uid,
 				photoURL: credential.user.photoURL,
 				providerId: credential.user.providerId,
-				locale: profile?.locale,
 			};
 
 			await this.registerUserGQL.mutate({ stUserAuthenticationInput }).toPromise();

@@ -71,8 +71,8 @@ class FundamentalServiceCalculator:
             market = self.stockYearlyValuesCache.get('^GSPC_m')
             stock = self.stockYearlyValuesCache.get(f'{symbol}_m')
             
-            stockReturns = self.__pct_change(stock)
-            marketReturns = self.__pct_change(market)[-len(stockReturns):] # must be same length
+            stockReturns = self.__prct_change(stock)
+            marketReturns = self.__prct_change(market)[-len(stockReturns):] # must be same length
 
             covariance = np.cov(stockReturns,marketReturns) # Calculate covariance between stock and market
             beta = covariance[0,1]/covariance[1,1]
@@ -88,29 +88,30 @@ class FundamentalServiceCalculator:
     def calculateVolatility(self, symbol) -> dict:
         self.__loadAndCacheStockClosedPrice([symbol, '^GSPC'] )
 
-        symbolData = self.stockYearlyValuesCache.get(symbol)
-        mean = round(sum(symbolData) / len(symbolData), 2)
-        stdPrice = round(stdev(symbolData), 2)
-        cov = round(stdPrice / mean, 4)
+        symbolData = self.stockYearlyValuesCache.get(symbol) # closed prices of symbol
 
-        # daily variance
-        stdDailyPrct = round(pstdev(self.__pct_change(symbolData)), 4)
-        stdDailyPrice = round(mean * stdDailyPrct, 2)
+        stdDailyPrct = round(pstdev(self.__prct_change(symbolData)), 4)
+        stdDailyPrice = round(stdev(symbolData), 2)
+
+        mean = round(sum(symbolData) / len(symbolData), 2)
+        stdYearlyPrct =  round(stdDailyPrct * sqrt(252), 4) 
+        stdYearlyPrice = round(stdDailyPrice * sqrt(252), 2) 
+      
         volatilityPrct = round(stdDailyPrct * sqrt(252), 4)
         
         # calcualte yearly return for synbol
         yearlyPriceReturn = round(((symbolData[-1] - symbolData[0]) / symbolData[0]), 4)
 
         # calcualte yearly return for banchmark
-        benchMarkValues = self.stockYearlyValuesCache.get('^GSPC')#.values # data['Adj Close']['^GSPC'].values
+        benchMarkValues = self.stockYearlyValuesCache.get('^GSPC')
         benchMarkYearlyReturn = round(((benchMarkValues[-1] - benchMarkValues[0]) / benchMarkValues[0]), 4)
 
 
         return {'stdDailyPrct': stdDailyPrct, 
                 'stdDailyPrice': stdDailyPrice,
                 'meanPrice': mean, 
-                'stdYearlyPrice': stdPrice,
-                'stdYearlyPrct': cov,
+                'stdYearlyPrice': stdYearlyPrice,
+                'stdYearlyPrct': stdYearlyPrct,
                 'volatilityPrct': volatilityPrct ,
                 'symbolYearlyPriceReturnPrct': yearlyPriceReturn, 
                 'benchmarkYearlyReturnPrct': benchMarkYearlyReturn }
@@ -157,7 +158,7 @@ class FundamentalServiceCalculator:
             self.__loadAndCacheStockClosedPrice(stocksSymbols)
 
             # calculate annual volatility with weights
-            values = [self.__pct_change(self.stockYearlyValuesCache[symbol]) for symbol in stocksSymbols]
+            values = [self.__prct_change(self.stockYearlyValuesCache[symbol]) for symbol in stocksSymbols]
             minimal = len(min(values, key=len)) # all values must have the same length
             values = [v[-minimal:] for v in values]
             covariance = np.cov(values)
@@ -168,7 +169,7 @@ class FundamentalServiceCalculator:
             annualVolatility = sqrt(annualVariance)
             
             # calculate volatility for each symbol
-            volatility = [round(round(pstdev(self.__pct_change(self.stockYearlyValuesCache[symbol])), 4) * sqrt(252), 4) for symbol in stocksSymbols]
+            volatility = [round(round(pstdev(self.__prct_change(self.stockYearlyValuesCache[symbol])), 4) * sqrt(252), 4) for symbol in stocksSymbols]
             yearlyPriceReturn = []
             for symbol in stocksSymbols:
                 values = self.stockYearlyValuesCache[symbol]#.values
@@ -213,7 +214,7 @@ class FundamentalServiceCalculator:
     def clearCache(self): 
         self.stockYearlyValuesCache = {}
     
-    def __pct_change(self, nparray: List[float]):
+    def __prct_change(self, nparray: List[float]):
         nparray = np.array(nparray)
         pct=np.zeros_like(nparray)
         pct[1:]=np.diff(nparray) / np.abs(nparray[:-1])

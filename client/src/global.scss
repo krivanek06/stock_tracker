@@ -1,3 +1,7 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
 /*
  * App Global CSS
  * ----------------------------------------------------------------------------
@@ -27,20 +31,8 @@
 
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
-/* table */
-/*
-@import '~@swimlane/ngx-datatable/index.css';
-@import '~@swimlane/ngx-datatable/themes/material.scss';
-@import '~@swimlane/ngx-datatable/themes/dark.scss';
-@import '~@swimlane/ngx-datatable/themes/bootstrap.scss';
-@import '~@swimlane/ngx-datatable/assets/icons.css';*/
-
-// angular material
-// @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-
 // custom
 @import 'theme/custom-variables.scss';
-@import 'theme/appTooltip.scss';
 @import 'theme/general-styling';
 @import 'variables';
 
