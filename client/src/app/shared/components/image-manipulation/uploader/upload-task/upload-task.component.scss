@@ -1,12 +1,13 @@
 :host {
-  .progress-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    width: 100%;
+	.progress-container {
+		display: flex;
+		flex-flow: column;
+		align-items: center;
+		margin-top: 16px;
+		width: 100%;
 
-    progress {
-      width: 80%;
-    }
-  }
+		progress {
+			width: 80%;
+		}
+	}
 }

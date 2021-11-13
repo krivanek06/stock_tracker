@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterModule, Routes } from '@angular/router';
 import {
 	ComposedPortfolioAllocationChartsModule,
@@ -28,6 +29,7 @@ const routes: Routes = [
 		IonicModule,
 		HeaderModule,
 		MenuHeaderModule,
+		MatIconModule,
 		PortfolioStateModule,
 		ComposedPortfolioChartsModule,
 		ComposedTransactionsModule,

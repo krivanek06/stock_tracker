@@ -9,6 +9,20 @@ export interface STPortfolioSnapshot extends STPortfolio {
     date: string; 
 }
 
+export interface STPortfolioRiskCalculations {
+    date: Date;
+    portfolioAlpha: number;
+    portfolioAnnualVariancePrct: number;
+    portfolioAnnualVolatilityPrct: number;
+    portfolioBeta: number;
+    portfolioEstimatedReturnPrct: number;
+    portfolioEstimatedReturnValue: number;
+    portfolioSharpRatio: number;
+    portfolioVolatilityMeanPrct: number;
+  }
+  
+  
+
 export interface STPortfolioSnapshotStarted extends STPortfolioSnapshot {
     numberOfExecutedBuyTransactions: number;
     numberOfExecutedSellTransactions: number;

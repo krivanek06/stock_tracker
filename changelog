@@ -1,3 +1,17 @@
+9.11.2021 - v. 0.9.8
+client
+- changed login / reigistration UI
+- changed primary color to #25aedd
+- show portfolio risk on dashboard
+- show portfolio vs S&P 500 comparison
+- groups - holdings packed buble chart
+
+graphql
+- fetching social sentiment & analyst estimates
+- fix creating group transaction fees were negattive
+
+-----------------------------------------------
+
 08.11.2021 - v. 0.9.7.3
 client
 - watchlist fixed yearly +/-
@@ -5,6 +19,7 @@ client
 cloud functions
 - groups fixed transaction chart
 
+-----------------------------------------------
 
 18.10.2021 - v. 0.9.7.2
 client
@@ -16,6 +31,8 @@ client
 graphql
 - search user ignore case
 - disabled changing nickname when already exists
+
+-----------------------------------------------
 
 18.10.2021 - v. 0.9.7.1
 client

@@ -12,16 +12,9 @@ import {
 	ViewChild,
 	ViewChildren,
 } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { StUserEditDataInput, StUserPublicData } from '@core';
-import {
-	AsyncValidatorStats,
-	FormMatInputLockWrapperComponent,
-	maxLengthValidator,
-	requiredValidator,
-	UploadedFile,
-	UploaderComponent,
-} from '@shared';
+import { FormMatInputLockWrapperComponent, maxLengthValidator, requiredValidator, UploadedFile, UploaderComponent } from '@shared';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { convertUserAccountFormToStUserEditDataInput } from '../../models';
@@ -43,7 +36,7 @@ export class UserAccountFormComponent implements OnInit, OnChanges {
 
 	form: FormGroup;
 
-	finhubValidity$: Observable<AsyncValidatorStats>;
+	finhubValidity$: Observable<string>;
 
 	constructor(private fb: FormBuilder, private asyncValidatorFinhubKeyValidity: AsyncValidatorFinhubKeyValidity, private cd: ChangeDetectorRef) {}
 
@@ -116,7 +109,6 @@ export class UserAccountFormComponent implements OnInit, OnChanges {
 			],
 			nickName: [{ value: this.user.nickName, disabled: true }, [requiredValidator, maxLengthValidator(30)]],
 			photoURL: [{ value: this.user.photoURL, disabled: true }, [requiredValidator]],
-			locale: [{ value: this.user.locale, disabled: true }, [Validators.required]],
 		});
 	}
 }

@@ -18,13 +18,14 @@ export class AccountPage implements OnInit {
 		this.user$ = this.userStorageService.getUser();
 	}
 
-	@ConfirmableWithCheckbox('Please confirm reseting account. You will start again with 100 000$ portfolio. All your holdings will be lost.', 'confirm')
+	@ConfirmableWithCheckbox('Please confirm reseting account. You will start again with 100 000$ portfolio. All your holdings will be lost.')
 	resetAccount() {
 		this.userAccountService.resetUserAccount();
 	}
 
 	@ConfirmableWithCheckbox('Please confirm editing account information', 'confirm')
 	editUser(editDataInput: StUserEditDataInput) {
+		console.log('editing', editDataInput);
 		this.userAccountService.editUser(editDataInput);
 	}
 }

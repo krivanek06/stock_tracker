@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+import { getDownloadURL, percentage, ref, Storage, uploadBytesResumable, UploadTask } from '@angular/fire/storage';
+//import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/compat/storage';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { UploadedFile } from '../../../../models';
-
 @Component({
 	selector: 'app-upload-task',
 	templateUrl: './upload-task.component.html',
@@ -18,13 +18,12 @@ export class UploadTaskComponent implements OnInit {
 	@Input() maxWidth = 130;
 	@Input() maxHeight = 130;
 
-	task: AngularFireUploadTask;
+	task: UploadTask;
 
 	percentage$: Observable<number>;
-	snapshot$: Observable<any>;
 	downloadURL: string;
 
-	constructor(private storage: AngularFireStorage) {}
+	constructor(private storage: Storage) {}
 
 	ngOnInit() {
 		this.startUpload();
@@ -35,20 +34,22 @@ export class UploadTaskComponent implements OnInit {
 		const path = this.fileName ? `${this.filePath}/${this.fileName}` : `${this.filePath}/${Date.now()}_${this.file.name}`;
 
 		// Reference to storage bucket
-		const ref = this.storage.ref(path);
+		const refefence = ref(this.storage, path);
 
 		// The main task
-		this.task = this.storage.upload(path, this.file);
+		this.task = uploadBytesResumable(refefence, this.file);
 
 		// Progress monitoring
-		this.percentage$ = this.task.percentageChanges();
+		this.percentage$ = percentage(this.task).pipe(map((x) => x.progress));
 
-		this.snapshot$ = this.task.snapshotChanges().pipe(
-			// The file's download URL
-			finalize(async () => {
-				this.downloadURL = await ref.getDownloadURL().toPromise();
+		// emit when finished
+		percentage(this.task)
+			.pipe(first((x) => x.progress === 100))
+			.subscribe(async (res) => {
+				// The file's download URL
+				console.log('final', res);
+				this.downloadURL = await getDownloadURL(res.snapshot.ref);
 				this.uploadedFilesEmitter.emit({ downloadURL: this.downloadURL, path });
-			})
-		);
+			});
 	}
 }

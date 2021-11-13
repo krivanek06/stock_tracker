@@ -10,4 +10,28 @@
 			margin-top: 24px !important;
 		}
 	}
+
+	.c-flex-wrap {
+		display: flex;
+		flex-flow: wrap;
+		align-items: baseline;
+		justify-content: space-around;
+
+		@media (max-width: #{$st-var-sm-split}) {
+			justify-content: space-between;
+			flex-flow: column;
+		}
+	}
+
+	.c-header {
+		margin-left: 12px;
+		margin-bottom: 6px !important;
+		color: white;
+		align-items: center;
+		display: flex;
+		gap: 16px;
+		@media (max-width: #{$st-var-sm-split}) {
+			margin-bottom: 16px;
+		}
+	}
 }

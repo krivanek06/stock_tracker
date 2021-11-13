@@ -10,6 +10,7 @@ export const editUser = async (editInput: api.STUserEditDataInput): Promise<bool
 		// update private data
 		const userPrivateData = await resolveUserPrivateData(editInput.userId);
 		if (userPrivateData.finnhubKey !== editInput.finnhubKey) {
+			console.log(`upadting finnhub key for user ${userPrivateData.id}`);
 			await updateUserPrivateData(editInput, userPrivateData);
 		}
 

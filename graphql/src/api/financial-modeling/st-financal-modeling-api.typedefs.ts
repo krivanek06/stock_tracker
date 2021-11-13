@@ -469,6 +469,50 @@ export const STFinancialModelingAPITypeDefs = gql`
 		limit: Float
 	}
 
+	type STFMSocialSentiment {
+		absoluteIndex: Float
+		date: String
+		generalPerception: Float
+		redditCommentMentions: Float
+		redditCommentSentiment: Float
+		redditPostMentions: Float
+		redditPostSentiment: Float
+		relativeIndex: Float
+		sentiment: Float
+		stocktwitsPostMentions: Float
+		stocktwitsPostSentiment: Float
+		symbol: String
+		tweetMentions: Float
+		tweetSentiment: Float
+		yahooFinanceCommentMentions: Float
+		yahooFinanceCommentSentiment: Float
+	}
+
+	type STAnalystEstimates {
+		date: String
+		estimatedEbitAvg: Float
+		estimatedEbitHigh: Float
+		estimatedEbitLow: Float
+		estimatedEbitdaAvg: Float
+		estimatedEbitdaHigh: Float
+		estimatedEbitdaLow: Float
+		estimatedEpsAvg: Float
+		estimatedEpsHigh: Float
+		estimatedEpsLow: Float
+		estimatedNetIncomeAvg: Float
+		estimatedNetIncomeHigh: Float
+		estimatedNetIncomeLow: Float
+		estimatedRevenueAvg: Float
+		estimatedRevenueHigh: Float
+		estimatedRevenueLow: Float
+		estimatedSgaExpenseAvg: Float
+		estimatedSgaExpenseHigh: Float
+		estimatedSgaExpenseLow: Float
+		numberAnalystEstimatedRevenue: Float
+		numberAnalystsEstimatedEps: Float
+		symbol: String
+	}
+
 	# input
 
 	input STFMStockScreenerInput {

@@ -1,6 +1,6 @@
 <app-generic-chart
 	*ngIf="breakpointSmDown$ | async as breakpointSmDown"
-	[additionalStyle]="!breakpointSmDown.matches  ? 'min-width: 400px' : ''"
+	[additionalStyle]="!breakpointSmDown.matches  ? 'min-width: 350px' : ''"
 	[chartTitlePosition]="'center'"
 	[chartTitle]="chartTitle"
 	[chartType]="ChartType.pie"

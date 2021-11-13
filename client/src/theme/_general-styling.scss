@@ -30,6 +30,12 @@ ion-spinner {
 	}
 }
 
+.st-border-bottom-with-space {
+	border-bottom: 1px solid #{$st-light-blue-border};
+	margin-bottom: 16px !important;
+	padding-bottom: 16px !important;
+}
+
 .st-sm-border-bottom {
 	@media (max-width: #{$st-var-sm-split}) {
 		border-bottom: 1px solid #{$st-light-blue-border};
@@ -493,6 +499,12 @@ ion-spinner {
 	}
 }
 
+.st-width-full-sm-screen {
+	@media (max-width: #{$st-var-sm-split}) {
+		width: 100% !important;
+	}
+}
+
 .st-width-100 {
 	width: 100%;
 }
@@ -691,6 +703,7 @@ ion-skeleton-text {
 	@media (max-width: #{$st-var-sm-split}) {
 		display: flex;
 		justify-content: space-between;
+		width: 100%;
 	}
 }
 
@@ -848,7 +861,7 @@ ion-skeleton-text {
 }
 
 .st-full-width-sub-elements {
-	width: 85%;
+	width: 90%;
 	margin: auto !important;
 	@media (max-width: #{$st-var-sm-split}) {
 		width: 100%;

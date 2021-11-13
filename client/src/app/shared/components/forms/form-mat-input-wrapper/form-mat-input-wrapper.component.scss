@@ -1,6 +1,10 @@
 @import 'variables';
 
 :host ::ng-deep {
+	.icon-prefix {
+		color: white;
+		margin-right: 10px;
+	}
 	.disabled-element {
 		opacity: 0.55;
 		cursor: default;

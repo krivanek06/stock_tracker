@@ -1,6 +1,6 @@
 from flask import Flask, request
-from flask_json import FlaskJSON, json_response
 from flask_cors import CORS
+from flask_json import FlaskJSON, json_response
 from Services.FundamentalService import FundamentalService
 
 app = Flask(__name__)
@@ -28,3 +28,5 @@ def getStockNews():
     except Exception as e:
         print(f'{ERROR_MESSAGE} getStockNews(), message: {e}')
         return json_response(data=None)
+
+

@@ -1,4 +1,4 @@
-import { STFMCompanyOutlook, STFMCompanyQuote, STFMHolder, STFMHolderWithWeight } from "./st-financal-modeling-api.model";
+import { AnalystEstimates, STFMCompanyOutlook, STFMCompanyQuote, STFMHolder, STFMHolderWithWeight, STFMSocialSentiment } from "./st-financal-modeling-api.model";
 import {
   CAPM, STDiscountedCashFlowFormula,
   STDividendDiscountedFormula,
@@ -43,6 +43,8 @@ export interface StockDetails {
   mutualFundHolders: STFMHolderWithWeight[];
   companyOutlook: STFMCompanyOutlook;
   sectorPeers: STFMCompanyQuote[];
+  socialSentiment: STFMSocialSentiment;
+  analystEstimatesYearly: AnalystEstimates[];
 }
 
 export interface STFinancialReport {
@@ -85,8 +87,25 @@ export interface STStockDetailsCalculatedPredictions {
 }
 
 export interface STStockDetailsCalculations {
+  symbol: string;
   CAPM: CAPM;
   WACC: WACC;
+  alpha: number;
+  beta: number;
+  sharpRatio: number;
+  volatility: STStockRiskCalculationsVolatility;
+}
+
+export interface STStockRiskCalculationsVolatility {
+  benchmarkYearlyReturnPrct: number;
+  meanPrice: number;
+  stdDailyPrct: number;
+  stdDailyPrice: number;
+  stdYearlyPrct: number;
+  stdYearlyPrice: number;
+  symbolYearlyPriceReturnPrct: number;
+  volatilityPrct: number;
+  date: Date;
 }
 
 export interface STHistoricalMetrics {
@@ -348,7 +367,7 @@ export interface STSummary {
   currency: string;
   dividendDate: string;
   ePSTTM: number;
-  beta: string;
+  beta: number;
 	countryFullName: string;
   earningsDate: string;
   exDividendDate: string;
