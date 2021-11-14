@@ -3,7 +3,6 @@ import { GroupStorageService, StGroupAllData, StHolding } from '@core';
 import { SymbolIdentification, WindowService } from '@shared';
 import { WatchlistFeatureFacadeService } from '@stock-watchlist-feature';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-group-details-stats',
@@ -23,7 +22,7 @@ export class GroupDetailsStatsComponent implements OnInit {
 
 	ngOnInit() {
 		this.groupAllData$ = this.groupStorageService.getActiveGroup();
-		this.holdings$ = this.groupAllData$.pipe(map((groupData) => groupData.groupMemberData.holdings.map((h) => h.holding)));
+		this.holdings$ = this.groupStorageService.getActiveGroupHoldings();
 
 		this.chartHeight_32 = WindowService.getWindowHeightPrctInPx(32);
 		this.chartHeightGroup_37 = WindowService.getWindowHeightPrctInPx(37);
