@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { StGroupAllData } from '../../graphql-schema';
+import { StGroupAllData, StHolding } from '../../graphql-schema';
 import { QueryStGroupByGroupIdGQL } from './../../graphql-schema';
 import { UserStorageService } from './user-storage.service';
 
@@ -48,6 +48,13 @@ export class GroupStorageService {
 
 	getActiveGroup(): Observable<StGroupAllData> {
 		return this.activeGroup$.asObservable();
+	}
+
+	getActiveGroupHoldings(): Observable<StHolding[]> {
+		return this.getActiveGroup().pipe(
+			filter((groupData) => !!groupData?.groupMemberData?.holdings),
+			map((groupData) => groupData.groupMemberData.holdings.map((h) => h.holding))
+		);
 	}
 
 	getActiveGroupNotNull(): Observable<StGroupAllData> {
