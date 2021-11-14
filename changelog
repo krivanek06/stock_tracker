@@ -1,3 +1,10 @@
+9.11.2021 - v. 0.9.8.1
+client
+- GroupDetailsStatsComponent - filtering out null values when mapping to group holdings
+
+graphql
+- stopped updating stock's summary when query them - we have clodu function for that
+
 9.11.2021 - v. 0.9.8
 client
 - changed login / reigistration UI

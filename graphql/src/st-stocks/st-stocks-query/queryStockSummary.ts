@@ -1,9 +1,7 @@
 import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
-import * as moment from 'moment';
 import * as api from 'stock-tracker-common-interfaces';
 import { IS_PRODUCTION } from '../../environment';
-import { getCompanyQuoteBatch } from './../../api';
 import { queryStockDetails } from './queryStockDetails';
 
 export const queryStockSummary = async (symbol: string, allowReload: boolean = false): Promise<api.STSummary> => {
@@ -31,12 +29,12 @@ export const queryStockSummary = async (symbol: string, allowReload: boolean = f
 
 		// update with current data
 		// multiple upsers may access the same symbol summary in same time so do not load data from API all the time
-		const minutesDelay = IS_PRODUCTION ? 10 : 90;
-		if (Math.abs(moment(wrapper.summaryLastUpdate).diff(new Date(), 'minute')) > minutesDelay) {
-			console.log('updating summary for: ', upperSymbol, ', time diff: ', Math.abs(moment(wrapper.summaryLastUpdate).diff(new Date(), 'minute')));
-			wrapper.details.summary = await updateStockSummary(upperSymbol, wrapper.details.summary);
-			await persistStockSummary(upperSymbol, wrapper.details.summary);
-		}
+		// const minutesDelay = IS_PRODUCTION ? 10 : 90;
+		// if (Math.abs(moment(wrapper.summaryLastUpdate).diff(new Date(), 'minute')) > minutesDelay) {
+		// 	console.log('updating summary for: ', upperSymbol, ', time diff: ', Math.abs(moment(wrapper.summaryLastUpdate).diff(new Date(), 'minute')));
+		// 	wrapper.details.summary = await updateStockSummary(upperSymbol, wrapper.details.summary);
+		// 	await persistStockSummary(upperSymbol, wrapper.details.summary);
+		// }
 
 		return wrapper.details?.summary;
 	} catch (error) {
@@ -44,33 +42,38 @@ export const queryStockSummary = async (symbol: string, allowReload: boolean = f
 	}
 };
 
-const updateStockSummary = async (symbol: string, summary: api.STSummary): Promise<api.STSummary> => {
-	const companyQuote = await getCompanyQuoteBatch([symbol]);
-	const symbolQUote = companyQuote[0];
+// const updateStockSummary = async (symbol: string, summary: api.STSummary): Promise<api.STSummary> => {
+// 	try {
+// 		const companyQuote = await getCompanyQuoteBatch([symbol]);
+// 		const symbolQUote = companyQuote[0];
 
-	summary.marketPrice = symbolQUote.price;
-	summary.previousClose = symbolQUote.previousClose;
-	summary.ePSTTM = symbolQUote.eps;
-	summary.pERatioTTM = symbolQUote.pe;
-	summary.volume = symbolQUote.volume;
-	summary.weekRangeFiveTwoMax = symbolQUote.yearHigh;
-	summary.weekRangeFiveTwoMin = symbolQUote.yearLow;
+// 		summary.marketPrice = symbolQUote.price;
+// 		summary.previousClose = symbolQUote.previousClose;
+// 		summary.ePSTTM = symbolQUote.eps;
+// 		summary.pERatioTTM = symbolQUote.pe;
+// 		summary.volume = symbolQUote.volume;
+// 		summary.weekRangeFiveTwoMax = symbolQUote.yearHigh;
+// 		summary.weekRangeFiveTwoMin = symbolQUote.yearLow;
 
-	return summary;
-};
+// 		return summary;
+// 	} catch (error) {
+// 		console.log(`Error updating summary for symbol: ${symbol}`);
+// 	}
+// 	return summary;
+// };
 
-const persistStockSummary = async (symbol: string, summary: api.STSummary): Promise<void> => {
-	await admin
-		.firestore()
-		.collection(api.ST_STOCK_DATA_COLLECTION)
-		.doc(symbol)
-		.set(
-			{
-				details: {
-					summary: summary,
-				},
-				summaryLastUpdate: admin.firestore.Timestamp.now().toDate().toISOString(),
-			},
-			{ merge: true }
-		);
-};
+// const persistStockSummary = async (symbol: string, summary: api.STSummary): Promise<void> => {
+// 	await admin
+// 		.firestore()
+// 		.collection(api.ST_STOCK_DATA_COLLECTION)
+// 		.doc(symbol)
+// 		.set(
+// 			{
+// 				details: {
+// 					summary: summary,
+// 				},
+// 				summaryLastUpdate: admin.firestore.Timestamp.now().toDate().toISOString(),
+// 			},
+// 			{ merge: true }
+// 		);
+// };
