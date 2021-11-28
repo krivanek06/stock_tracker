@@ -64,6 +64,9 @@ export const getCompanyQuoteBatch = async (symbols: string[] = []): Promise<api.
 
 		respose.forEach((company) => (company.image = `https://financialmodelingprep.com/image-stock/${company.symbol}.png`));
 
+		// sort items as input symbols were
+		respose.sort((a, b) => symbols.indexOf(a.symbol) - symbols.indexOf(b.symbol));
+
 		return respose;
 	} catch {
 		return [];
