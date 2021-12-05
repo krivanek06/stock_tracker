@@ -1,4 +1,4 @@
-<ion-content class="ion-padding">
+<div class="ion-padding">
 	<ion-toolbar>
 		<ion-buttons slot="end">
 			<ion-button color="danger" (click)="dismissModal()" fill="clear">
@@ -15,4 +15,4 @@
 			<app-group-create-form [user]="user$ | async" [editedGroup]="editedGroup" (createGroupEmitter)="submitGroup($event)"> </app-group-create-form>
 		</div>
 	</div>
-</ion-content>
+</div>

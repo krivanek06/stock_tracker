@@ -15,7 +15,10 @@ export enum ChartType {
 export enum BREAK_POINTS {
 	XS_DOWN = '(max-width: 400px)',
 	SM_DOWN = '(max-width: 576px)',
-	XXL_DOWN = '(max-width: 1600px)',
+	MD_DOWN = '(max-width: 768px)',
+	LG_DOWN = '(max-width: 1024px)',
+	XL_DOWN = '(max-width: 1280px)',
+	XXL_DOWN = '(max-width: 1536px)',
 }
 
 export interface SymbolIdentification {

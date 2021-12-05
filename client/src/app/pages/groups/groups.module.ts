@@ -5,17 +5,26 @@ import { IonicModule } from '@ionic/angular';
 import { HeaderModule } from '@shared';
 import { MenuHeaderModule } from 'src/app/features/composed-components-feature';
 import { GroupsComponent } from './groups.component';
-import { GroupDetailsModule, GroupsOverviewModule } from './pages';
 
 const routes: Routes = [
 	{
 		path: '',
 		component: GroupsComponent,
+		children: [
+			{
+				path: '',
+				loadChildren: () => import('./pages/groups-overview/groups-overview.module').then((m) => m.GroupsOverviewModule),
+			},
+			{
+				path: ':groupId',
+				loadChildren: () => import('./pages/group-details/group-details.module').then((m) => m.GroupDetailsModule),
+			},
+		],
 	},
 ];
 
 @NgModule({
 	declarations: [GroupsComponent],
-	imports: [CommonModule, RouterModule.forChild(routes), IonicModule, HeaderModule, MenuHeaderModule, GroupsOverviewModule, GroupDetailsModule],
+	imports: [CommonModule, RouterModule.forChild(routes), IonicModule, HeaderModule, MenuHeaderModule],
 })
 export class GroupsModule {}
