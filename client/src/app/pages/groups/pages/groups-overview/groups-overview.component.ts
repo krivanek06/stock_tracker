@@ -38,7 +38,6 @@ export class GroupsOverviewComponent implements OnInit {
 	}
 
 	visitGroup(groupAllData: StGroupAllData) {
-		this.visitGroupEmitter.emit(groupAllData);
-		// this.router.navigateByUrl(`/menu/groups/${GROUPS_PAGES.DETAILS}/${id}`, { replaceUrl: true });
+		this.router.navigateByUrl(`/menu/groups/${groupAllData.id}`);
 	}
 }

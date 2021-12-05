@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { MarketCalendarDividendPayoutModule, MarketCalendarSplitHistoryModule, MarketStockNewsModule } from '@market-feature';
 import {
@@ -32,10 +33,18 @@ import {
 } from '@stock-details-feature';
 import { StockDetailsStatisticComponent } from './stock-details-statistic.component';
 
+const routes: Routes = [
+	{
+		path: '',
+		component: StockDetailsStatisticComponent,
+	},
+];
+
 @NgModule({
 	declarations: [StockDetailsStatisticComponent],
 	imports: [
 		CommonModule,
+		RouterModule.forChild(routes),
 		IonicModule,
 		FinancialChartContainerModule,
 		GenericCardModule,
@@ -65,6 +74,5 @@ import { StockDetailsStatisticComponent } from './stock-details-statistic.compon
 		MarketStockNewsModule,
 		LoaderWrapperModule,
 	],
-	exports: [StockDetailsStatisticComponent],
 })
 export class StockDetailsStatisticModule {}

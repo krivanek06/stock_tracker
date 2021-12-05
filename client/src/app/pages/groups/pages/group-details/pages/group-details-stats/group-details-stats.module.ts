@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { ComposedPortfolioHoldingsTableModule } from '@composed-components-feature';
 import { IonicModule } from '@ionic/angular';
 import { GenericCardModule, GenericChartModule, GenericListModule, PieChartWrapperModule } from '@shared';
@@ -12,6 +13,13 @@ import {
 	PortfolioGrowthChartModule,
 } from '@stock-trading-feature';
 import { GroupDetailsStatsComponent } from './group-details-stats.component';
+
+const routes: Routes = [
+	{
+		path: '',
+		component: GroupDetailsStatsComponent,
+	},
+];
 
 @NgModule({
 	declarations: [GroupDetailsStatsComponent],
@@ -29,6 +37,7 @@ import { GroupDetailsStatsComponent } from './group-details-stats.component';
 		GenericCardModule,
 		ComposedPortfolioHoldingsTableModule,
 		HoldingsPackedBubleChartModule,
+		RouterModule.forChild(routes),
 	],
 	exports: [GroupDetailsStatsComponent],
 })

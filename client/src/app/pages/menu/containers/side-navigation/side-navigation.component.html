@@ -1,0 +1,125 @@
+<!-- <ion-item>
+	<ion-label class="ion-text-end">
+		<ion-button class="ion-hide-xl-up remove-color" fill="clear" (click)="dismissMenu()">
+			<ion-icon name="close-outline" class="remove-color"></ion-icon>
+			Close
+		</ion-button>
+	</ion-label>
+</ion-item> -->
+<div class="flex items-center gap-4" [ngClass]="{'pl-4': !showMenuButton}">
+	<button *ngIf="showMenuButton" mat-icon-button color="secondary" class="c-menu-icon" (click)="dismissMenu()">
+		<mat-icon>menu</mat-icon>
+	</button>
+</div>
+
+<!-- avatar -->
+<div class="navigation-avatar">
+	<!-- logged in user -->
+	<ng-container *ngIf="user; else noUser">
+		<img class="user-avatar" [src]="user.photoURL" />
+		<ion-label class="navigation-avatar-name st-font-1"> {{ user.userPrivateData.displayName }} </ion-label>
+		<ion-label class="navigation-avatar-name st-font-4 st-font-size-12"> ({{ user.nickName }}) </ion-label>
+	</ng-container>
+
+	<!-- no logged in user -->
+	<ng-template #noUser>
+		<ion-thumbnail>
+			<ion-skeleton-text [animated]="authenticating"></ion-skeleton-text>
+		</ion-thumbnail>
+		<ion-label>
+			<ion-skeleton-text [animated]="authenticating" style="width: 80%"></ion-skeleton-text>
+		</ion-label>
+		<ion-label>
+			<ion-skeleton-text [animated]="authenticating" style="width: 60%"></ion-skeleton-text>
+		</ion-label>
+	</ng-template>
+</div>
+
+<!-- navigation -->
+<div>
+	<ion-text class="page-section">Main section</ion-text>
+	<div *ngFor="let p of mainPages" class="c-main-nav">
+		<ng-container *ngIf="!p.hidden">
+			<div *ngIf="selectedNavigation?.title === p.title" class="navigation-rectangle-selected"></div>
+
+			<mat-nav-list class="c-nav-list-not-expanded">
+				<!-- main page -->
+				<mat-list-item
+					(click)="clickedRouter(p)"
+					[disabled]="p.disabled"
+					[matTooltip]="p?.highlight ? p.highlightText : null"
+					[ngClass]="{'item-selected': selectedNavigation?.title === p.title}"
+				>
+					<!-- left icon -->
+					<mat-icon mat-list-icon class="st-icon"> {{ p.icon }} </mat-icon>
+
+					<!-- navigation label -->
+					<h4
+						mat-line
+						[ngClass]="{
+                    'g-color-white ': selectedNavigation?.title !== p.title,
+                    'st-icon': selectedNavigation?.title === p.title
+                }"
+					>
+						{{ p.title | titlecase }}
+					</h4>
+				</mat-list-item>
+			</mat-nav-list>
+		</ng-container>
+	</div>
+</div>
+
+<!-- navigation other -->
+<div class="mt-4 mb-7">
+	<ion-text class="page-section">Other</ion-text>
+	<div *ngFor="let p of otherPages" class="c-main-nav">
+		<ng-container *ngIf="!p.hidden">
+			<div *ngIf="selectedNavigation?.title === p.title" class="navigation-rectangle-selected"></div>
+
+			<mat-nav-list class="c-nav-list-not-expanded">
+				<!-- main page -->
+				<mat-list-item
+					(click)="clickedRouter(p)"
+					[disabled]="p.disabled"
+					[matTooltip]="p?.highlight ? p.highlightText : null"
+					[ngClass]="{'item-selected': selectedNavigation?.title === p.title}"
+				>
+					<!-- left icon -->
+					<mat-icon mat-list-icon class="st-icon"> {{ p.icon }} </mat-icon>
+
+					<!-- navigation label -->
+					<h4
+						mat-line
+						[ngClass]="{
+                    'g-color-white ': selectedNavigation?.title !== p.title,
+                    'st-icon': selectedNavigation?.title === p.title
+                }"
+					>
+						{{ p.title | titlecase }}
+					</h4>
+				</mat-list-item>
+			</mat-nav-list>
+		</ng-container>
+	</div>
+
+	<!-- logout -->
+	<div class="c-main-nav">
+		<mat-nav-list class="c-nav-list-not-expanded">
+			<mat-list-item (click)="logout()">
+				<mat-icon mat-list-icon class="st-icon"> logout </mat-icon>
+				<h4 mat-line class="g-color-white">LogOut</h4>
+			</mat-list-item>
+		</mat-nav-list>
+
+		<!-- login -->
+		<ng-template #loginButton>
+			<mat-list-item (click)="showLoginModal()">
+				<mat-icon mat-list-icon class="st-icon"> login </mat-icon>
+				<h4 mat-line class="g-color-white">LogIn</h4>
+			</mat-list-item>
+		</ng-template>
+	</div>
+</div>
+
+<!-- version -->
+<ion-text class="c-version">Version: {{ version }}</ion-text>

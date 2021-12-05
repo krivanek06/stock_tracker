@@ -1,32 +1,30 @@
-<ion-content class="ion-padding">
-	<!-- menu page header -->
-	<app-menu-header></app-menu-header>
+<!-- menu page header -->
+<app-menu-header></app-menu-header>
 
-	<!-- header -->
-	<app-header pageIcon="rocket" pageName="Market"></app-header>
+<!-- header -->
+<app-header pageIcon="rocket" pageName="Market"></app-header>
 
-	<ion-grid>
-		<ion-row class="ion-justify-content-center">
-			<ion-col size="12" size-lg="11" size-xl="10" style="overflow: visible">
-				<!-- initial subpage picker -->
-				<ion-segment color="primary" scrollable (ionChange)="segmentChanged($event)" [value]="segment">
-					<ion-segment-button *ngFor="let path of MARKET_PAGE_PATH" [value]="path.value">
-						<ion-label>{{ path.name }}</ion-label>
-					</ion-segment-button>
-				</ion-segment>
+<ion-grid>
+	<ion-row class="ion-justify-content-center">
+		<ion-col size="12" size-lg="11" size-xl="10" style="overflow: visible">
+			<!-- initial subpage picker -->
+			<ion-segment color="primary" scrollable (ionChange)="segmentChanged($event)" [value]="segment">
+				<ion-segment-button *ngFor="let path of MARKET_PAGE_PATH" [value]="path.value">
+					<ion-label>{{ path.name }}</ion-label>
+				</ion-segment-button>
+			</ion-segment>
 
-				<!-- sub pages -->
-				<!-- <router-outlet></router-outlet> -->
-				<ng-container [ngSwitch]="segment">
-					<app-market-top-stocks *ngSwitchCase="MARKET_PAGE_ENUM.topStocks"></app-market-top-stocks>
-					<app-market-overview *ngSwitchCase="MARKET_PAGE_ENUM.overview"></app-market-overview>
-					<app-market-other *ngSwitchCase="MARKET_PAGE_ENUM.other"></app-market-other>
-					<app-market-news *ngSwitchCase="MARKET_PAGE_ENUM.news"></app-market-news>
-					<app-market-etf *ngSwitchCase="MARKET_PAGE_ENUM.etf"></app-market-etf>
-					<app-market-crypto *ngSwitchCase="MARKET_PAGE_ENUM.crypto"></app-market-crypto>
-					<app-market-calendar *ngSwitchCase="MARKET_PAGE_ENUM.calendar"></app-market-calendar>
-				</ng-container>
-			</ion-col>
-		</ion-row>
-	</ion-grid>
-</ion-content>
+			<!-- sub pages -->
+			<!-- <router-outlet></router-outlet> -->
+			<ng-container [ngSwitch]="segment">
+				<app-market-top-stocks *ngSwitchCase="MARKET_PAGE_ENUM.topStocks"></app-market-top-stocks>
+				<app-market-overview *ngSwitchCase="MARKET_PAGE_ENUM.overview"></app-market-overview>
+				<app-market-other *ngSwitchCase="MARKET_PAGE_ENUM.other"></app-market-other>
+				<app-market-news *ngSwitchCase="MARKET_PAGE_ENUM.news"></app-market-news>
+				<app-market-etf *ngSwitchCase="MARKET_PAGE_ENUM.etf"></app-market-etf>
+				<app-market-crypto *ngSwitchCase="MARKET_PAGE_ENUM.crypto"></app-market-crypto>
+				<app-market-calendar *ngSwitchCase="MARKET_PAGE_ENUM.calendar"></app-market-calendar>
+			</ng-container>
+		</ion-col>
+	</ion-row>
+</ion-grid>

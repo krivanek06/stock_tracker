@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GroupStorageService, StGroupAllData } from '@core';
 import { GroupFeatureFacadeService } from '@group-feature';
 import { ConfirmableWithCheckbox, DialogService } from '@shared';
@@ -16,7 +17,7 @@ import { GROUPS_PAGES_DETAILS } from './../../model/groups.model';
 export class GroupDetailsComponent implements OnInit, OnDestroy {
 	GROUPS_PAGES_DETAILS_PATH = GROUPS_PAGES_DETAILS_PATH;
 	GROUPS_PAGES_DETAILS = GROUPS_PAGES_DETAILS;
-	segmentValue = GROUPS_PAGES_DETAILS_PATH[0].value;
+	// segmentValue = GROUPS_PAGES_DETAILS_PATH[0].value;
 
 	groupData$: Observable<StGroupAllData>;
 	isOwner$: Observable<boolean>;
@@ -25,12 +26,18 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 	canUserSendInvitation$: Observable<boolean>;
 	hasUserAlreadySentInvitaitonIntoGroup$: Observable<boolean>;
 
-	constructor(private groupStorageService: GroupStorageService, private groupFeatureFacadeService: GroupFeatureFacadeService) {}
+	constructor(
+		private groupStorageService: GroupStorageService,
+		private groupFeatureFacadeService: GroupFeatureFacadeService,
+		private route: ActivatedRoute,
+		private router: Router
+	) {}
 	ngOnDestroy(): void {
 		this.groupStorageService.setActiveGroupId(null);
 	}
 
 	ngOnInit() {
+		this.groupStorageService.setActiveGroupId(this.route.snapshot.params.groupId);
 		this.groupData$ = this.groupStorageService.getActiveGroup();
 		this.isOwner$ = this.groupStorageService.isUserOwnerObs();
 		this.isMember$ = this.groupStorageService.isUserMemberObs();
@@ -40,7 +47,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 	}
 
 	changeDetailsPage(segment: string) {
-		this.segmentValue = segment;
+		this.router.navigateByUrl(`menu/groups/${this.groupStorageService.activeGroupId}/${segment}`);
 	}
 
 	@ConfirmableWithCheckbox('Please confirm leaving group. You will be removed from group statistics', 'Confirm')

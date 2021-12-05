@@ -1,22 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { AuthenticationService, componentDestroyed, GroupStorageService, StUserPublicData, UserStorageService, User_Roles_Enum } from '@core';
-import { MenuController, NavController, PopoverController } from '@ionic/angular';
-import { AuthenticationPopoverComponent } from '@login-feature';
-import { DialogService } from '@shared';
-import { Observable } from 'rxjs';
-import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
-
-interface MenuPageInterface {
-	title: string;
-	url: string;
-	icon: string;
-	disabled: boolean;
-	hidden: boolean;
-	highlight?: boolean;
-	highlightText?: string;
-}
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { GroupStorageService, StUserPublicData, UserStorageService } from '@core';
+import { MenuController, NavController } from '@ionic/angular';
+import { BREAK_POINTS } from '@shared';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-menu',
@@ -27,21 +16,21 @@ export class MenuPage implements OnInit, OnDestroy {
 	user$: Observable<StUserPublicData>;
 	authenticating$: Observable<boolean>;
 
-	showOverlay = false;
-	selectedNavigation: MenuPageInterface;
-	mainPages: MenuPageInterface[] = [];
-	otherPages: MenuPageInterface[] = [];
+	// showOverlay = false;
 
-	version = environment.version;
+	activeRoutes$!: Observable<string[]>;
+	// isExpanded = true;
+	closeScreen$!: Observable<boolean>;
+	isOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
 	constructor(
 		private userStorageService: UserStorageService,
-		private authenticationService: AuthenticationService,
-		private popoverController: PopoverController,
 		private router: Router,
 		private menu: MenuController,
 		private navCtrl: NavController,
-		private groupStorageService: GroupStorageService
+		private groupStorageService: GroupStorageService,
+		private breakpointObserver: BreakpointObserver,
+		private cd: ChangeDetectorRef
 	) {}
 
 	ngOnDestroy(): void {}
@@ -50,157 +39,45 @@ export class MenuPage implements OnInit, OnDestroy {
 		this.user$ = this.userStorageService.getUser();
 		this.authenticating$ = this.userStorageService.getIsAuthenticating();
 
-		this.initPages();
-		this.watchRouterUrlChange();
-	}
+		// this.activeRoutes$ = this.menuNavigationService.getRouterSectionsInArray();
+		this.closeScreen$ = this.breakpointObserver.observe([BREAK_POINTS.XL_DOWN]).pipe(map((x) => x.matches));
 
-	dismissMenu() {
-		this.menu.close('main');
-	}
-
-	applyOverlay(event: boolean) {
-		this.showOverlay = event;
-	}
-
-	clickedRouter(page: MenuPageInterface) {
-		this.selectedNavigation = page;
-		this.groupStorageService.setActiveGroupId(null);
-		//this.router.navigateByUrl(page.url, { replaceUrl: true });
-		this.navCtrl.navigateRoot(page.url, { animated: true, animationDirection: 'forward' });
-	}
-
-	closeOverlay() {
-		this.applyOverlay(false);
-		this.dismissMenu();
-	}
-
-	async showLoginModal() {
-		const modal = await this.popoverController.create({
-			component: AuthenticationPopoverComponent,
-			cssClass: 'custom-popover',
-			translucent: true,
+		// need to show sidenav if view is large
+		this.closeScreen$.subscribe((isMdDownScreen) => {
+			if (!isMdDownScreen && !this.isOpen$.value) {
+				this.toggleMatDrawerExpandedView();
+			}
 		});
-
-		return await modal.present();
 	}
 
-	async logout() {
-		await this.authenticationService.logout();
-		DialogService.presentToast('You have been successfully logged out');
+	// toggleExpandedView(): void {
+	// 	this.isExpanded = !this.isExpanded;
+
+	// 	// needed becuase when isExpanded is false, mat-drawer is still expanded
+	// 	this.cd.detectChanges();
+	// }
+
+	toggleMatDrawerExpandedView(): void {
+		this.isOpen$.next(!this.isOpen$.value);
 	}
 
-	private watchRouterUrlChange() {
-		this.router.events
-			.pipe(
-				filter((event) => event instanceof NavigationEnd),
-				takeUntil(componentDestroyed(this))
-			)
-			.subscribe((res: NavigationEnd) => {
-				let path = res.url.split('/menu/')[1];
+	// dismissMenu() {
+	// 	this.menu.close('main');
+	// }
 
-				if (!!path) {
-					path = path.split('/')[0];
-					let page = this.mainPages.find((s) => s.title.toLowerCase() === path.toLowerCase());
-					if (!page) {
-						page = this.otherPages.find((s) => s.title.toLowerCase() === path.toLowerCase());
-					}
-					this.selectedNavigation = page;
-				}
-			});
-	}
+	// applyOverlay(event: boolean) {
+	// 	this.showOverlay = event;
+	// }
 
-	private initPages() {
-		this.userStorageService
-			.getUser()
-			.pipe(
-				/*filter(x => !!x && !!x.userPrivateData),*/
-				distinctUntilChanged(
-					(prev, curr) =>
-						prev?.nickName === curr?.nickName && // changed nickname
-						prev?.photoURL === curr?.photoURL && // changed photo
-						prev?.userPrivateData.finnhubKey === curr?.userPrivateData?.finnhubKey &&
-						prev?.userPrivateData.roles.length === curr?.userPrivateData?.roles?.length
-				),
-				takeUntil(componentDestroyed(this))
-			)
-			.subscribe((user) => {
-				this.mainPages = [
-					{
-						title: 'Dashboard',
-						url: '/menu/dashboard',
-						icon: 'grid-outline',
-						disabled: !user,
-						hidden: false,
-					},
-					{
-						title: 'Market',
-						url: '/menu/market',
-						icon: 'rocket-outline',
-						disabled: false,
-						hidden: false,
-					},
-					{
-						title: 'Watchlist',
-						url: '/menu/watchlist',
-						icon: 'stats-chart-outline',
-						disabled: !user,
-						hidden: false,
-					},
-					{
-						title: 'Trading',
-						url: '/menu/trading',
-						icon: 'analytics-outline',
-						disabled: !user || !user.userPrivateData.finnhubKey,
-						hidden: false,
-					},
-					{
-						title: 'Search',
-						url: '/menu/search',
-						icon: 'search-outline',
-						disabled: false,
-						hidden: false,
-					},
-				];
+	// clickedRouter(page: MenuPageInterface) {
+	// 	this.selectedNavigation = page;
+	// 	this.groupStorageService.setActiveGroupId(null);
+	// 	//this.router.navigateByUrl(page.url, { replaceUrl: true });
+	// 	this.navCtrl.navigateRoot(page.url, { animated: true, animationDirection: 'forward' });
+	// }
 
-				this.otherPages = [
-					{
-						title: 'Account',
-						url: '/menu/account',
-						icon: 'person-outline',
-						disabled: !user,
-						hidden: false,
-						highlight: user?.userPrivateData && !user?.userPrivateData?.finnhubKey,
-						highlightText: 'Trading is not activated yet. Follow the instructions on your profile to active your trading account',
-					},
-					{
-						title: 'Groups',
-						url: '/menu/groups',
-						icon: 'people-outline',
-						disabled: !user || !user.userPrivateData.finnhubKey,
-						hidden: false,
-					},
-					/*{
-                    title: 'Ranking',
-                    url: '/menu/ranking',
-                    icon: 'medal-outline',
-                    disabled: false,
-                    hidden: false
-                },*/
-					{
-						title: 'Admin',
-						url: '/menu/admin',
-						icon: 'finger-print-outline',
-						disabled: !user,
-						hidden: !user || !user.userPrivateData.roles.includes(User_Roles_Enum.RoleAdmin),
-					},
-					/* {
-                     title: 'About',
-                     url: '/menu/about',
-                     icon: 'help-circle-outline',
-                     disabled: false,
-                     hidden: false
-                 },*/
-				];
-			});
-	}
+	// closeOverlay() {
+	// 	this.applyOverlay(false);
+	// 	this.dismissMenu();
+	// }
 }

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { SEARCH_PAGE_ENUM } from './../../models/pages.model';
 
 @Component({
@@ -11,11 +12,11 @@ export class SearchBasicComponent implements OnInit {
 	segmentValue = SEARCH_PAGE_ENUM.STOCK;
 	SEARCH_PAGE = SEARCH_PAGE_ENUM;
 
-	constructor() {}
+	constructor(private router: Router) {}
 
 	ngOnInit() {}
 
 	segmentChanged(segment: CustomEvent) {
-		this.segmentValue = segment.detail.value;
+		this.router.navigateByUrl(`menu/search/${segment.detail.value}`);
 	}
 }

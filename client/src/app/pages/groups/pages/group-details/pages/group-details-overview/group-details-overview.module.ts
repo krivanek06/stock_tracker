@@ -1,6 +1,7 @@
 import { UserAccountInfoListModule, UserAccountSearchFormModule } from '@account-feature';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { GroupMembersTableModule, GroupUserBaseInformationModule } from '@group-feature';
 import { IonicModule } from '@ionic/angular';
 import { FormMatInputWrapperModule, GenericCardModule } from '@shared';
@@ -19,6 +20,13 @@ import {
 	GroupDetailsOverviewTransactionsContainerComponent,
 } from './containers';
 import { GroupDetailsOverviewComponent } from './group-details-overview.component';
+
+const routes: Routes = [
+	{
+		path: '',
+		component: GroupDetailsOverviewComponent,
+	},
+];
 
 @NgModule({
 	declarations: [
@@ -43,6 +51,7 @@ import { GroupDetailsOverviewComponent } from './group-details-overview.componen
 		GenericCardModule,
 		TransactionsChartModule,
 		TransactionsSummaryModule,
+		RouterModule.forChild(routes),
 	],
 	exports: [GroupDetailsOverviewComponent],
 })

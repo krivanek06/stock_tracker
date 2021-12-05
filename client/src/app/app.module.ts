@@ -11,9 +11,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouteReuseStrategy } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { DialogServiceModule } from '@shared';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -96,7 +95,7 @@ const MY_DATE_FORMATS = {
 	providers: [
 		// StatusBar,
 		// SplashScreen,
-		{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+		// { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
 		MatDatepickerModule,
 		MatNativeDateModule,
 		{ provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
