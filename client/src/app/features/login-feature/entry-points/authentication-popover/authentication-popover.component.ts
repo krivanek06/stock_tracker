@@ -42,7 +42,7 @@ export class AuthenticationPopoverComponent implements OnInit, OnDestroy {
 		} catch (e) {
 			this.toggleSpinner();
 			this.loginComp.loginForm.reset();
-			DialogService.presentToast(e.message);
+			DialogService.showNotificationBar(e.message);
 		}
 	}
 
@@ -55,7 +55,7 @@ export class AuthenticationPopoverComponent implements OnInit, OnDestroy {
 		} catch (e) {
 			this.toggleSpinner();
 			this.registrationComp.registrationForm.reset();
-			DialogService.presentToast(e.message);
+			DialogService.showNotificationBar(e.message);
 		}
 	}
 

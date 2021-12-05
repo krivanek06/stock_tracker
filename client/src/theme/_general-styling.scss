@@ -903,3 +903,87 @@ ion-skeleton-text {
 	padding-right: var(--padding-end) !important;
 	padding-top: calc(var(--padding-top) + var(--offset-top)) !important;
 }
+
+// GLOBAL CLASSES
+// GLOBAL CLASSES
+// GLOBAL CLASSES
+// GLOBAL CLASSES
+// GLOBAL CLASSES
+
+mat-error,
+.input-error-text {
+	color: #{$st-red};
+	font-size: 12px;
+}
+
+// needed to show background shadow when overlay is applied
+.cdk-overlay-backdrop {
+	background-color: rgba(123, 123, 123, 0.48) !important;
+}
+
+.g-overlay-disabled {
+	background-color: #e0e0e0 !important;
+	pointer-events: none;
+}
+
+mat-expansion-panel-header {
+	min-height: 60px;
+}
+
+mat-card {
+	padding: 22px;
+	mat-card-header {
+		.mat-card-header-text {
+			margin: 0;
+		}
+
+		mat-card-subtitle {
+			margin-top: 16px;
+		}
+	}
+
+	mat-card-content {
+		margin-top: 16px;
+	}
+}
+
+// this affects all mat-buttons
+
+.g-custom-snack-bar {
+	background-color: #232439 !important;
+	color: #f6f6f7 !important;
+	border-radius: 10px !important;
+}
+
+/* mat tooltip */
+.cdk-overlay-pane {
+	&.mat-tooltip-panel {
+		.mat-tooltip {
+			color: #cccccc;
+			background-color: #3a3a3a;
+			border: 1px solid #242424;
+			border-radius: 8px;
+			font-size: 14px;
+			padding: 14px;
+		}
+	}
+}
+
+/* mat dialog */
+.g-mat-dialog .mat-dialog-container {
+	max-width: 90vw !important;
+	width: 90vw !important;
+
+	@screen md {
+		width: 75vw !important;
+	}
+
+	@screen xl {
+		width: 60vw !important;
+	}
+}
+
+.g-divider {
+	width: 1px;
+	background-color: rgba(0, 0, 0, 0.12);
+}

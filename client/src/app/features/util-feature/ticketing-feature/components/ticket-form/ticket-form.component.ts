@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
 import { StTicketCreateValues } from '@core';
-import { ConfirmableWithCheckbox, InputSource, maxLengthValidator, requiredValidator } from '@shared';
+import { Confirmable, InputSource, maxLengthValidator, requiredValidator } from '@shared';
 import { TICKET_FORM_INPUT_SOURSE } from '../../models';
 
 @Component({
@@ -28,7 +28,7 @@ export class TicketFormComponent implements OnInit {
 		}
 	}
 
-	@ConfirmableWithCheckbox('Please confirm sending a ticket', 'confirm')
+	@Confirmable('Please confirm sending a ticket')
 	private submit() {
 		this.submitFormEmitter.emit(this.form.value);
 		this.formDirective.resetForm();

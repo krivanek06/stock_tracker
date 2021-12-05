@@ -67,14 +67,14 @@ export class SymbolLookupModalComponent implements OnInit {
 
 	reloadStockDetails() {
 		this.stockDetails$ = this.symbolStorageService.reloadStockDetails(this.symbolIdentification.symbol);
-		this.stockDetails$.pipe(first()).subscribe((res) => DialogService.presentToast(`Data for symbol ${res.id} has been reloaded`));
+		this.stockDetails$.pipe(first()).subscribe((res) => DialogService.showNotificationBar(`Data for symbol ${res.id} has been reloaded`));
 	}
 
 	private checkIfDetailsExists() {
 		this.stockDetails$.pipe(first()).subscribe((details) => {
 			this.showSpinner = false;
 			if (!details) {
-				DialogService.presentErrorToast(`Could not find details for symbol ${this.symbolIdentification.symbol}`);
+				DialogService.showNotificationBar(`Could not find details for symbol ${this.symbolIdentification.symbol}`, 'error');
 			}
 		});
 	}

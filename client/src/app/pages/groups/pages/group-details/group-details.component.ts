@@ -2,11 +2,10 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { ActivatedRoute, Router } from '@angular/router';
 import { GroupStorageService, StGroupAllData } from '@core';
 import { GroupFeatureFacadeService } from '@group-feature';
-import { ConfirmableWithCheckbox, DialogService } from '@shared';
+import { Confirmable, DialogService } from '@shared';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { GROUPS_PAGES_DETAILS_PATH } from '../../model';
-import { GROUPS_PAGES_DETAILS } from './../../model/groups.model';
+import { GROUPS_PAGES_DETAILS, GROUPS_PAGES_DETAILS_PATH } from '../../model';
 
 @Component({
 	selector: 'app-group-details',
@@ -50,7 +49,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 		this.router.navigateByUrl(`menu/groups/${this.groupStorageService.activeGroupId}/${segment}`);
 	}
 
-	@ConfirmableWithCheckbox('Please confirm leaving group. You will be removed from group statistics', 'Confirm')
+	@Confirmable('Please confirm leaving group. You will be removed from group statistics', 'Confirm')
 	leaveGroup() {
 		this.groupFeatureFacadeService.leaveGroup();
 	}
@@ -61,32 +60,32 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
 	reloadGroup() {
 		this.groupStorageService.setActiveGroupId(this.groupStorageService.activeGroup.id);
-		this.groupData$.pipe(first((x) => !!x)).subscribe((group) => DialogService.presentToast(`Group ${group.name} has been refreshed`));
+		this.groupData$.pipe(first((x) => !!x)).subscribe((group) => DialogService.showNotificationBar(`Group ${group.name} has been refreshed`));
 	}
 
-	@ConfirmableWithCheckbox('Please confirm deleting group. Note that this action is irreversible', 'Confirm')
+	@Confirmable('Please confirm deleting group. Note that this action is irreversible')
 	async deleteGroup() {
 		if (await this.groupFeatureFacadeService.deleteGroup()) {
 			this.groupStorageService.setActiveGroupId(null);
 		}
 	}
 
-	@ConfirmableWithCheckbox('Please confirm sending a request to join the group', 'Confirm')
+	@Confirmable('Please confirm sending a request to join the group')
 	async sendInvitation() {
 		this.groupFeatureFacadeService.toggleInvitationRequestToGroup(this.groupStorageService.activeGroup, true);
 	}
 
-	@ConfirmableWithCheckbox('Please confirm declining your request to joining the group', 'Confirm')
+	@Confirmable('Please confirm declining your request to joining the group')
 	async removeInvitation() {
 		this.groupFeatureFacadeService.toggleInvitationRequestToGroup(this.groupStorageService.activeGroup, false);
 	}
 
-	@ConfirmableWithCheckbox('Please confirm your decision to join the group', 'Confirm')
+	@Confirmable('Please confirm your decision to join the group')
 	async acceptInvitation() {
 		this.groupFeatureFacadeService.answerReceivedGroupInvitation(this.groupStorageService.activeGroup, true);
 	}
 
-	@ConfirmableWithCheckbox('Please confirm your decision to decline invitation for joining the group', 'Confirm')
+	@Confirmable('Please confirm your decision to decline invitation for joining the group')
 	async declineInvitation() {
 		this.groupFeatureFacadeService.answerReceivedGroupInvitation(this.groupStorageService.activeGroup, false);
 	}

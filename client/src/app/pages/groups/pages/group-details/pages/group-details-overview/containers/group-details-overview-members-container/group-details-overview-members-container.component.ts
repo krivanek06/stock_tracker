@@ -47,7 +47,7 @@ export class GroupDetailsOverviewMembersContainerComponent implements OnInit {
 
 	private async removeGroupUserFromGroup(groupUser: StGroupUser) {
 		const message = `Please confirm removing member ${groupUser.nickName} from group ${this.groupAllData.name}`;
-		if (await DialogService.presentConfirmationPopOver(message, 'confirm')) {
+		if (await DialogService.showConfirmDialog(message)) {
 			console.log('remove user from group');
 			this.groupFeatureFacadeService.removeMemberFromGroup(this.groupAllData, groupUser);
 		}
@@ -56,7 +56,7 @@ export class GroupDetailsOverviewMembersContainerComponent implements OnInit {
 	private async makeGroupUserAsOwner(groupUser: StGroupUser) {
 		const message = `Please confirm making group member ${groupUser.nickName} as a new group owner. 
         You will be permanently removed from your position.`;
-		if (await DialogService.presentConfirmationPopOver(message, 'confirm')) {
+		if (await DialogService.showConfirmDialog(message)) {
 			console.log('make new group owener');
 		}
 	}

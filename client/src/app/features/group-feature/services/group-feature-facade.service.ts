@@ -11,8 +11,7 @@ import {
 } from '@core';
 import { ModalController } from '@ionic/angular';
 import { DialogService } from '@shared';
-import { GroupCreateModalComponent } from '../entry-components';
-import { GroupMemberOverviewModalComponent } from './../entry-components';
+import { GroupCreateModalComponent, GroupMemberOverviewModalComponent } from '../entry-components';
 
 @Injectable({
 	providedIn: 'root',
@@ -39,11 +38,11 @@ export class GroupFeatureFacadeService {
 		if (!!groupAllDataInput) {
 			if (!editedGroup) {
 				await this.graphqlGroupService.createGroup(groupAllDataInput).toPromise();
-				await DialogService.presentToast(`Group ${groupAllDataInput.name} has been created`);
+				await DialogService.showNotificationBar(`Group ${groupAllDataInput.name} has been created`);
 			} else {
 				await this.graphqlGroupService.editGroup(groupAllDataInput).toPromise();
 				this.groupStorageService.setActiveGroupId(groupAllDataInput.groupId);
-				await DialogService.presentToast(`Group ${groupAllDataInput.name} has been edited`);
+				await DialogService.showNotificationBar(`Group ${groupAllDataInput.name} has been edited`);
 			}
 		}
 	}
@@ -64,17 +63,17 @@ export class GroupFeatureFacadeService {
 	async answerReceivedGroupInvitation(stGroupPartialData: StGroupIdentificationDataFragment, accept: boolean): Promise<void> {
 		await this.graphqlGroupService.answerReceivedGroupInvitation(stGroupPartialData, accept).toPromise();
 		const result = accept ? 'accepted' : 'declined';
-		await DialogService.presentToast(`You ${result} group ${stGroupPartialData.name}'s invitation`);
+		await DialogService.showNotificationBar(`You ${result} group ${stGroupPartialData.name}'s invitation`);
 	}
 
 	async deleteGroup(): Promise<boolean> {
 		if (this.userStorageService.user.id !== this.groupStorageService.activeGroup.owner.id) {
-			await DialogService.presentErrorToast('Action terminated! Only the group owner can delete this group');
+			await DialogService.showNotificationBar('Action terminated! Only the group owner can delete this group', 'error');
 			return false;
 		}
 
 		await this.graphqlGroupService.deleteGroup(this.groupStorageService.activeGroup).toPromise();
-		await DialogService.presentToast(`Group ${this.groupStorageService.activeGroup.name} has been deleted`);
+		await DialogService.showNotificationBar(`Group ${this.groupStorageService.activeGroup.name} has been deleted`);
 
 		return true;
 	}
@@ -87,9 +86,9 @@ export class GroupFeatureFacadeService {
 		await this.graphqlGroupService.toggleInvitationRequestToGroup(stGroupPartialData, sendInvitation).toPromise();
 
 		if (sendInvitation) {
-			await DialogService.presentToast(`You have send your request to join group ${stGroupPartialData.name}`);
+			await DialogService.showNotificationBar(`You have send your request to join group ${stGroupPartialData.name}`);
 		} else {
-			await DialogService.presentToast(`You have declined your request to joining group ${stGroupPartialData.name}`);
+			await DialogService.showNotificationBar(`You have declined your request to joining group ${stGroupPartialData.name}`);
 		}
 	}
 
@@ -103,33 +102,33 @@ export class GroupFeatureFacadeService {
 		// remove invitation for user
 		if (!inviteUser) {
 			await this.graphqlGroupService.toggleInviteUserIntoGroup(groupUser.id, groupId, inviteUser).toPromise();
-			await DialogService.presentToast(`Group invitation for user: ${groupUser.nickName} has been removed`);
+			await DialogService.showNotificationBar(`Group invitation for user: ${groupUser.nickName} has been removed`);
 			return;
 		}
 		// check if user already a member or received invitation
 		if (this.groupStorageService.membersIds.includes(groupUser.id)) {
-			await DialogService.presentErrorToast(`User: ${groupUser.nickName} is already a member of this group`);
+			await DialogService.showNotificationBar(`User: ${groupUser.nickName} is already a member of this group`, 'error');
 			return;
 		}
 		// do not allow double invitaiton
 		if (this.groupStorageService.sentInvitationIds.includes(groupUser.id)) {
-			await DialogService.presentErrorToast(`You have already sent an invitation for user: ${groupUser.nickName}`);
+			await DialogService.showNotificationBar(`You have already sent an invitation for user: ${groupUser.nickName}`, 'error');
 			return;
 		}
 		// user sent invitaiton to group
 		if (this.groupStorageService.invitationReceivedIds.includes(groupUser.id)) {
-			await DialogService.presentErrorToast(`User: ${groupUser.nickName} already sent an invitation for this group, please accept his`);
+			await DialogService.showNotificationBar(`User: ${groupUser.nickName} already sent an invitation for this group, please accept his`, 'error');
 			return;
 		}
 		// cannot invite yourself into group
 		if (this.groupStorageService.activeGroup.owner.id === groupUser.id) {
-			await DialogService.presentErrorToast(`Sorry man, you cannot invite yourself. Check the 'join group' button`);
+			await DialogService.showNotificationBar(`Sorry man, you cannot invite yourself. Check the 'join group' button`, 'error');
 			return;
 		}
 
 		// send invitation for user
 		await this.graphqlGroupService.toggleInviteUserIntoGroup(groupUser.id, groupId, inviteUser).toPromise();
-		await DialogService.presentToast(`Group invitation to user: ${groupUser.nickName} has been send`);
+		await DialogService.showNotificationBar(`Group invitation to user: ${groupUser.nickName} has been send`);
 	}
 
 	/***
@@ -142,19 +141,19 @@ export class GroupFeatureFacadeService {
 		await this.graphqlGroupService.toggleUsersInvitationRequestToGroup(groupUser.id, groupId, acceptUser).toPromise();
 
 		if (acceptUser) {
-			await DialogService.presentToast(`You have successfully accpted user: ${groupUser.nickName} into group`);
+			await DialogService.showNotificationBar(`You have successfully accpted user: ${groupUser.nickName} into group`);
 		} else {
-			await DialogService.presentToast(`You have declined user: ${groupUser.nickName} request for joining into group`);
+			await DialogService.showNotificationBar(`You have declined user: ${groupUser.nickName} request for joining into group`);
 		}
 	}
 
 	async leaveGroup(): Promise<void> {
 		await this.graphqlGroupService.leaveGroup(this.groupStorageService.activeGroup.id).toPromise();
-		await DialogService.presentToast(`You left group ${this.groupStorageService.activeGroup.name}`);
+		await DialogService.showNotificationBar(`You left group ${this.groupStorageService.activeGroup.name}`);
 	}
 
 	async removeMemberFromGroup({ id, name }: StGroupAllData, groupUser: StGroupUser): Promise<void> {
 		await this.graphqlGroupService.removeMemberFromGroup(id, groupUser).toPromise();
-		await DialogService.presentToast(`You have successfully removed user ${groupUser.nickName} from group ${name}`);
+		await DialogService.showNotificationBar(`You have successfully removed user ${groupUser.nickName} from group ${name}`);
 	}
 }
