@@ -24,20 +24,20 @@ export class TicketOverviewContainerComponent implements OnInit {
 
 	async closeTicket(ticket: StTicket) {
 		await this.graphqlTicketService.closeTicket(ticket).toPromise();
-		DialogService.presentToast(`Ticket ${ticket.id} has been closed`);
+		DialogService.showNotificationBar(`Ticket ${ticket.id} has been closed`);
 	}
 	async deleteTicket(ticket: StTicket) {
 		await this.graphqlTicketService.deleteTicket(ticket).toPromise();
-		DialogService.presentToast(`Ticket ${ticket.id} has been deleted`);
+		DialogService.showNotificationBar(`Ticket ${ticket.id} has been deleted`);
 	}
 
 	async editComment(commentEditValues: StTicketCommentEditValues) {
 		await this.graphqlTicketService.commentTicketEdit(commentEditValues).toPromise();
-		DialogService.presentToast(`Comment has been edited`);
+		DialogService.showNotificationBar(`Comment has been edited`);
 	}
 
 	async submitComment(ticket: StTicket, comment: string) {
 		await this.graphqlTicketService.commentTicket(ticket, comment).toPromise();
-		DialogService.presentToast(`Comment was added to ticket ${ticket.id}`);
+		DialogService.showNotificationBar(`Comment was added to ticket ${ticket.id}`);
 	}
 }

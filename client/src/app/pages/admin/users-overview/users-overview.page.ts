@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { componentDestroyed, GraphqlAdminService, StAdminMainInformationsFragmentFragment } from '@core';
-import { ConfirmableWithCheckbox, WindowService } from '@shared';
+import { Confirmable, WindowService } from '@shared';
 import { takeUntil } from 'rxjs/operators';
 import { DialogService } from './../../../shared/services/dialog.service';
 
@@ -26,10 +26,10 @@ export class UsersOverviewPage implements OnInit, OnDestroy {
 		this.initAdminMainInformations();
 	}
 
-	@ConfirmableWithCheckbox('Confirm before force reloading all stock details')
+	@Confirmable('Confirm before force reloading all stock details')
 	forceReloadAllSymbols(): void {
 		this.graphqlAdminService.setForceReloadStockDetails().subscribe(() => {
-			DialogService.presentToast('All stock have been set to reload');
+			DialogService.showNotificationBar('All stock have been set to reload');
 		});
 	}
 

@@ -41,7 +41,7 @@ export class WatchlistFeatureFacadeService {
 
 	async addSymbolToWatchlist(symbol: string): Promise<void> {
 		if (this.userStorageService.user.stockWatchlist.length === 0) {
-			const confirmation = await DialogService.presentAlertConfirm(`You have not created your watchlist yet. Do you with to create one ?`);
+			const confirmation = await DialogService.showConfirmDialog(`You have not created your watchlist yet. Do you with to create one ?`);
 			if (confirmation) {
 				await this.createWatchlist();
 			} else {
@@ -69,7 +69,7 @@ export class WatchlistFeatureFacadeService {
 
 		if (watchlistId) {
 			await this.graphqlWatchlistService.addSymbolToWatchlist(watchlistId, symbol).toPromise();
-			await DialogService.presentToast(`Symbol ${symbol} has been added into watchlist ${watchlistName}`);
+			await DialogService.showNotificationBar(`Symbol ${symbol} has been added into watchlist ${watchlistName}`);
 		}
 	}
 
@@ -78,23 +78,23 @@ export class WatchlistFeatureFacadeService {
 
 		if (name) {
 			await this.graphqlWatchlistService.createWatchList(name).toPromise();
-			DialogService.presentToast(`Watchlist ${name} has been created`);
+			DialogService.showNotificationBar(`Watchlist ${name} has been created`);
 		}
 	}
 
 	async removeStockFromWatchlist(data: SymbolIdentification, documentId: string) {
 		const watchlistName = this.userStorageService.user.stockWatchlist.find((s) => s.id === documentId).name;
 		await this.graphqlWatchlistService.removeStockFromWatchlist(documentId, data.symbol).toPromise();
-		await DialogService.presentToast(`Symbol deleted from watchlist: ${watchlistName}`);
+		await DialogService.showNotificationBar(`Symbol deleted from watchlist: ${watchlistName}`);
 	}
 
 	async deleteWatchlist(input: StStockWatchInputlistIdentifier) {
 		await this.graphqlWatchlistService.deleteUserWatchlist(input.id).toPromise();
-		await DialogService.presentToast(`Watchlist ${input.additionalData} has been removed`);
+		await DialogService.showNotificationBar(`Watchlist ${input.additionalData} has been removed`);
 	}
 
 	async renameWatchlist(input: StStockWatchInputlistIdentifier) {
 		await this.graphqlWatchlistService.renameStockWatchlist(input.id, input.additionalData).toPromise();
-		await DialogService.presentToast('Watchlist has been renamed');
+		await DialogService.showNotificationBar('Watchlist has been renamed');
 	}
 }

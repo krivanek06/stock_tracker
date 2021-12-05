@@ -32,7 +32,7 @@ export class RegistrationComponent implements OnInit {
 			this.password2.patchValue(null);
 			this.password1.updateValueAndValidity();
 			this.password2.updateValueAndValidity();
-			DialogService.presentErrorToast('Passwords do not match!');
+			DialogService.showNotificationBar('Passwords do not match!', 'error');
 			return;
 		}
 

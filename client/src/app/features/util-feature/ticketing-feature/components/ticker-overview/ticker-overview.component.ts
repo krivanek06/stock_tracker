@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
 import { StTicket, StTicketComment, StTicketCommentEditValues, StUserPublicData } from '@core';
-import { ConfirmableWithCheckbox, requiredValidator } from '@shared';
+import { Confirmable, requiredValidator } from '@shared';
 
 @Component({
 	selector: 'app-ticker-overview',
@@ -60,17 +60,17 @@ export class TickerOverviewComponent implements OnInit {
 		});
 	}
 
-	@ConfirmableWithCheckbox('Confirm closing ticket', 'confirm')
+	@Confirmable('Confirm closing ticket')
 	close() {
 		this.closeTicketEmitter.emit();
 	}
 
-	@ConfirmableWithCheckbox('Confirm deleting ticket', 'confirm')
+	@Confirmable('Confirm deleting ticket')
 	delete() {
 		this.deleteTicketEmitter.emit();
 	}
 
-	@ConfirmableWithCheckbox('Confirm submitting comment', 'confirm')
+	@Confirmable('Confirm submitting comment')
 	private submitForm() {
 		if (this.editingComment) {
 			this.editCommentEmitter.emit({ ticketId: this.ticket.id, commentId: this.editingComment.id, newComment: this.comment.value });

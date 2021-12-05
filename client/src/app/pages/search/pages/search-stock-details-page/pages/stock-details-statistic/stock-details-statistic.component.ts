@@ -36,7 +36,7 @@ export class StockDetailsStatisticComponent implements OnInit {
 
 	reloadStockDetails() {
 		this.stockDetails$ = this.symbolStorageService.reloadStockDetails();
-		this.stockDetails$.pipe(first()).subscribe((res) => DialogService.presentToast(`Data for symbol ${res.id} has been reloaded`));
+		this.stockDetails$.pipe(first()).subscribe((res) => DialogService.showNotificationBar(`Data for symbol ${res.id} has been reloaded`));
 	}
 
 	showPeerSummary(stockPeer: StfmCompanyQuote) {

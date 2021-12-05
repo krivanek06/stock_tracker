@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { IonicModule } from '@ionic/angular';
-import { ConfirmationPopOverModule } from '../entry-components/confirmation-pop-over/confirmation-pop-over.module';
-import { InlineInputPopUpModule } from '../entry-components/inline-input-pop-up/inline-input-pop-up.module';
-import { OptionPickerPopOverModule } from '../entry-components/option-picker-pop-over/option-picker-pop-over.module';
+import { ConfirmDialogModule, InlineInputPopUpModule, OptionPickerPopOverModule } from '../entry-components';
 import { DialogService } from './dialog.service';
 
 @NgModule({
 	declarations: [],
-	imports: [IonicModule, InlineInputPopUpModule, ConfirmationPopOverModule, OptionPickerPopOverModule],
+	imports: [IonicModule, InlineInputPopUpModule, OptionPickerPopOverModule, MatSnackBarModule, MatDialogModule, ConfirmDialogModule],
 	providers: [DialogService],
-	exports: [IonicModule, InlineInputPopUpModule, ConfirmationPopOverModule, OptionPickerPopOverModule],
+	exports: [IonicModule, InlineInputPopUpModule, OptionPickerPopOverModule, MatSnackBarModule, MatDialogModule, ConfirmDialogModule],
 })
 export class DialogServiceModule {}

@@ -24,7 +24,7 @@ export abstract class ComponentScreenUpdateBaseDirective implements OnInit, OnDe
 			.pipe(first((x) => !!x))
 			.subscribe(() => {
 				if (this.componentName) {
-					DialogService.presentToast('Wait for server connection to receive live data', 5000);
+					DialogService.showNotificationBar('Wait for server connection to receive live data', 'notification', 5000);
 				}
 			});
 
@@ -37,7 +37,7 @@ export abstract class ComponentScreenUpdateBaseDirective implements OnInit, OnDe
 			)
 			.subscribe(() => {
 				if (this.componentName) {
-					DialogService.presentToast('Connection initialized');
+					DialogService.showNotificationBar('Connection initialized');
 				}
 			});
 	}

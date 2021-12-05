@@ -9,32 +9,28 @@ import { environment } from '../environments/environment';
 
 const errorLink = onError(({ graphQLErrors, networkError, response }) => {
 	if (graphQLErrors) {
-		graphQLErrors.forEach((e) => {
-			DialogService.presentErrorToast(e.message);
+		if (graphQLErrors[0].message === 'Internal Server Error') {
+			DialogService.showNotificationBar('An error happened on the server, we will be fixing it soon', 'error', 5000);
+		} else {
+			DialogService.showNotificationBar(graphQLErrors[0].message, 'error', 5000);
+		}
 
-			// user not found - remove userId from localstorage
-			if (e.message === 'User ID not found') {
-			}
+		graphQLErrors.forEach((e) => {
+			console.log(e);
 		});
 		graphQLErrors.map(({ message, locations, path }) => console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`));
 	}
 	if (networkError) {
-		console.log(`[Network error]: ${networkError}`);
-		DialogService.presentErrorToast(networkError.message);
+		console.log(`[Network error]:`, networkError);
+		DialogService.showNotificationBar('A network error happend when executing the operation, probably bad request was send', 'error', 5000);
 	}
 });
 
-const basicContext = setContext((operation, context) => ({
-	headers: {
-		Accept: 'charset=utf-8',
-	},
-}));
-
-const requesterContext = setContext((operation, context) => {
+const basicContext = setContext((operation, context) => {
 	const requesterUserId = localStorage.getItem('requesterUserId') || '';
-	console.log('requesterUserId', requesterUserId);
 	return {
 		headers: {
+			Accept: 'charset=utf-8',
 			requesterUserId: requesterUserId,
 		},
 	};
@@ -49,7 +45,7 @@ const requesterContext = setContext((operation, context) => {
 					assumeImmutableResults: true,
 					freezeResults: true,
 					cache: new InMemoryCache(),
-					link: ApolloLink.from([basicContext, requesterContext, errorLink, httpLink.create({ uri: environment.graphql })]),
+					link: ApolloLink.from([basicContext, errorLink, httpLink.create({ uri: environment.graphql })]),
 					defaultOptions: {
 						watchQuery: {
 							errorPolicy: 'all',

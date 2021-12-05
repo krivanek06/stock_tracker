@@ -83,7 +83,7 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
 			.subscribe((summary) => {
 				console.log('summary', summary);
 				if (!summary) {
-					DialogService.presentToast(`No stock details for symbol ${companyQuote.symbol} has been found`);
+					DialogService.showNotificationBar(`No stock details for symbol ${companyQuote.symbol} has been found`);
 					this.setSelectedSummary(this.suggestions[0].summary);
 					return;
 				}

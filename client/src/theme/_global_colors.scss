@@ -1,0 +1,44 @@
+@import 'custom-variables';
+
+.g-color-success {
+	color: #{$st-var-price-up} !important;
+}
+
+.g-background-color-success {
+	background-color: #{$st-var-price-up} !important;
+}
+
+.g-color-secondary {
+	color: #{$st-var-font-2} !important;
+}
+
+.g-background-color-secondary {
+	background-color: #{$st-var-font-2} !important;
+}
+
+.g-color-primary {
+	color: #{$st-var-blue-1} !important;
+}
+
+.g-background-color-primary {
+	background-color: #{$st-var-blue-1} !important;
+}
+
+.g-color-white {
+	color: white !important;
+}
+
+/*
+  -----------
+  buttons
+  -----------
+*/
+.g-button-secondary {
+	background-color: #{$st-var-font-2} !important;
+	color: white !important;
+}
+
+.g-button-secondary-flat {
+	background-color: white !important;
+	color: #{$st-var-font-2} !important;
+}

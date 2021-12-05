@@ -64,7 +64,7 @@ export class SideNavigationComponent implements OnInit, OnDestroy {
 
 	async logout() {
 		await this.authenticationService.logout();
-		DialogService.presentToast('You have been successfully logged out');
+		DialogService.showNotificationBar('You have been successfully logged out');
 	}
 
 	async showLoginModal() {

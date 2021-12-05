@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UploadedFile } from '../../../models';
-import { DialogService } from './../../../services/dialog.service';
+import { DialogService } from './../../../services';
 
 @Component({
 	selector: 'app-uploader',
@@ -46,7 +46,7 @@ export class UploaderComponent implements OnInit {
 				this.files.push(file);
 			} else {
 				const size = Math.round(file.size / 1024 / 1024);
-				DialogService.presentErrorToast(`Unable to upload file, limit size is 20Mb, your size is ${size} Mb`);
+				DialogService.showNotificationBar(`Unable to upload file, limit size is 20Mb, your size is ${size} Mb`, 'error');
 			}
 		}
 	}

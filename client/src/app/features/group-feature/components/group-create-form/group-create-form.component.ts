@@ -79,7 +79,9 @@ export class GroupCreateFormComponent implements OnInit {
 
 	sendInvitation(userPublicData: StUserIndentificationDataFragment) {
 		if (this.user.id === userPublicData.id) {
-			DialogService.presentToast('You cannot invite yourself into the group. If you want to be part of the group, please check "Add me as member" ');
+			DialogService.showNotificationBar(
+				'You cannot invite yourself into the group. If you want to be part of the group, please check "Add me as member" '
+			);
 			return;
 		}
 		if (!this.invitationSent.map((user) => user.id).includes(userPublicData.id)) {
@@ -132,9 +134,11 @@ export class GroupCreateFormComponent implements OnInit {
 		}
 		this.isPrivate.valueChanges.subscribe((res) => {
 			if (res) {
-				DialogService.presentToast('After saving this form group will became private, so no one can request joining, group will became invite only');
+				DialogService.showNotificationBar(
+					'After saving this form group will became private, so no one can request joining, group will became invite only'
+				);
 			} else {
-				DialogService.presentToast('After saving this form group will became public, anyone can reuqest joining this group');
+				DialogService.showNotificationBar('After saving this form group will became public, anyone can reuqest joining this group');
 			}
 		});
 	}
@@ -145,9 +149,9 @@ export class GroupCreateFormComponent implements OnInit {
 		}
 		this.isOwnerAlsoMember.valueChanges.subscribe((isMember) => {
 			if (isMember) {
-				DialogService.presentToast(`After saving this form, group owner: ${this.editedGroup.owner.nickName} will be member of this group`);
+				DialogService.showNotificationBar(`After saving this form, group owner: ${this.editedGroup.owner.nickName} will be member of this group`);
 			} else {
-				DialogService.presentToast(`After saving this form, group owner: ${this.editedGroup.owner.nickName} will be removed from this group`);
+				DialogService.showNotificationBar(`After saving this form, group owner: ${this.editedGroup.owner.nickName} will be removed from this group`);
 			}
 		});
 	}

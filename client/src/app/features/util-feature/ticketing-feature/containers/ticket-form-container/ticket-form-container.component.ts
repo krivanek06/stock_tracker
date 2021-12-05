@@ -15,6 +15,6 @@ export class TicketFormContainerComponent implements OnInit {
 
 	async submitForm(ticketValues: StTicketCreateValues) {
 		await this.graphqlTicketService.createTicket(ticketValues).toPromise();
-		DialogService.presentToast('You have successfully submitted your ticket');
+		DialogService.showNotificationBar('You have successfully submitted your ticket');
 	}
 }

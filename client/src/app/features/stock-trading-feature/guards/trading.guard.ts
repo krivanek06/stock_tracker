@@ -19,7 +19,7 @@ export class TradingGuard implements CanActivate {
 				if (!!user.userPrivateData.finnhubKey) {
 					return true;
 				}
-				DialogService.presentErrorToast('Unauthorized access, traading is not yet enabled. You have been redirected');
+				DialogService.showNotificationBar('Unauthorized access, traading is not yet enabled. You have been redirected', 'error');
 				return this.router.createUrlTree(['/menu/market']);
 			})
 		);
