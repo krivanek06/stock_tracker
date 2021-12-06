@@ -1,7 +1,7 @@
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import * as api from 'stock-tracker-common-interfaces';
-import { getAllUserWithExistingHoldingsFirebase, getPortfolioRiskCustomRest, getStockSummaryFirebase } from '../../api';
+import { getPortfolioRiskCustomRest, getStockSummaryFirebase, getUsersToUpdatePortfolio } from '../../api';
 
 interface SymbolPriceMap {
 	price: number;
@@ -11,12 +11,16 @@ interface SymbolPriceMap {
 const symbolPriceMap: Map<string, SymbolPriceMap> = new Map<string, SymbolPriceMap>();
 
 // functions.https.onRequest(async () => {
+//
 export const createUserPortfolioSnapshot = functions.pubsub.topic('createUserPortfolioSnapshot').onPublish(async () => {
 	const start = admin.firestore.Timestamp.now();
 	console.log(`Started updating at ${start.toDate()}`);
 
 	// load users who has non empty holdings
-	const usersWithHoldings = await getAllUserWithExistingHoldingsFirebase();
+	const yesterday = new Date();
+	yesterday.setHours(12, 0, 0, 0); // today noon
+	console.log('date: ', yesterday.toISOString());
+	const usersWithHoldings = await getUsersToUpdatePortfolio(yesterday.toISOString());
 	const total = usersWithHoldings.length;
 	console.log('users with holdings: ', total);
 
@@ -117,7 +121,7 @@ const getPortfolioRisk = async (user: api.STUserPublicData, isLastUser = false):
 	const weights = user.holdings.map((h) => (1 / portfolioInvested) * ((symbolPriceMap.get(h.symbol)?.price ?? 0) * h.units));
 	const symbolsBeta = user.holdings.map((h) => symbolPriceMap.get(h.symbol)?.beta ?? 1);
 
-	const result = await getPortfolioRiskCustomRest(symbols, weights, symbolsBeta, isLastUser);
+	const result = await getPortfolioRiskCustomRest(symbols, weights, symbolsBeta, false);
 	return result;
 };
 
