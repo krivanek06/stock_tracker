@@ -69,7 +69,7 @@ export interface InputSource {
 }
 
 export type InputType =
-	| 'checkbox'
+	| 'CHECKBOX'
 	| 'RADIO'
 	| 'TEXTAREA'
 	| 'SLIDE_TOGGLE'
@@ -77,11 +77,10 @@ export type InputType =
 	| 'MULTISELECT'
 	| 'CHIPSELECT'
 	| 'SLIDER'
-	| 'text'
-	| 'number'
-	| 'email'
-	| 'password'
-	| 'password';
+	| 'TEXT'
+	| 'NUMBER'
+	| 'EMAIL'
+	| 'PASSWORD';
 
 export type PositionColors = 'st-first-position-color' | 'st-second-position-color' | 'st-third-position-color' | 'st-my-position-color' | '';
 

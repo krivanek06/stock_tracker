@@ -30,7 +30,7 @@ export class AuthenticationPopoverComponent implements OnInit, OnDestroy {
 		this.monitorUserLogInState();
 	}
 
-	segmentChanged(event: CustomEvent) {
+	segmentChanged(event: any) {
 		this.segmentValue = event.detail.value;
 	}
 

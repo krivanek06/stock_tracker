@@ -32,7 +32,7 @@ export class MenuHeaderComponent implements OnInit {
 		this.isAuthenticating$ = this.userStorageService.getIsAuthenticating();
 	}
 
-	searchSymbol(event: CustomEvent) {
+	searchSymbol(event: any) {
 		if (!event.detail.value) {
 			this.searchCompanyQuotes$ = undefined;
 			this.loading = false;

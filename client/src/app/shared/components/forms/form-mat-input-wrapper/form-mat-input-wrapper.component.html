@@ -44,7 +44,7 @@
 				[multiple]="true"
 				[ngClass]="{'disabled-element': disabled}"
 			>
-				<input (keyup)="multiSelectKeyPress($event.target.value)" class="select-input" placeholder="Search" />
+				<input (keyup)="multiSelectKeyPress($event)" class="select-input" placeholder="Search" />
 				<mat-option *ngFor="let optionData of inputSource" [value]="optionData.value"> {{ optionData.caption }} </mat-option>
 			</mat-select>
 
@@ -97,7 +97,7 @@
 			</ng-container>
 
 			<!-- text, number, time, email -->
-			<input *ngSwitchDefault [formControl]="formInputControl" [readOnly]="disabled" [type]="inputType" matInput autocomplete="off" />
+			<input *ngSwitchDefault [formControl]="formInputControl" [readOnly]="disabled" [type]="inputType | lowercase" matInput autocomplete="off" />
 
 			<!-- errors -->
 			<mat-error *ngFor="let inputError of usedFormControl.errors | keyvalue" [id]="null"> {{ inputError.value.errorText }} </mat-error>

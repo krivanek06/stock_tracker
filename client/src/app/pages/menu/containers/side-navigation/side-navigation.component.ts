@@ -4,7 +4,7 @@ import { AuthenticationService, componentDestroyed, StUserPublicData, UserStorag
 import { PopoverController } from '@ionic/angular';
 import { AuthenticationPopoverComponent } from '@login-feature';
 import { DialogService } from '@shared';
-import { distinctUntilChanged, filter, takeUntil } from 'rxjs';
+import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { environment } from './../../../../../environments/environment.prod';
 
 interface MenuPageInterface {
@@ -111,7 +111,7 @@ export class SideNavigationComponent implements OnInit, OnDestroy {
 				),
 				takeUntil(componentDestroyed(this))
 			)
-			.subscribe((user) => {
+			.subscribe((user: StUserPublicData) => {
 				this.mainPages = [
 					{
 						title: 'Dashboard',

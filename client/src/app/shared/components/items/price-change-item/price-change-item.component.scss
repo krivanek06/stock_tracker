@@ -3,13 +3,13 @@
 :host {
 	.c-sm-end {
 		@media (max-width: #{$st-var-sm-split}) {
-			justify-content: end;
+			justify-content: flex-end;
 		}
 	}
 
 	.c-xs-end {
 		@media (max-width: #{$st-var-xs-split}) {
-			justify-content: end;
+			justify-content: flex-end;
 		}
 	}
 }

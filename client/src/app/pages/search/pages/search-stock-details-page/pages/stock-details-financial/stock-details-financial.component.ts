@@ -21,7 +21,7 @@ export class StockDetailsFinancialComponent implements OnInit {
 		this.stockDetails$ = this.symbolStorageService.getStockDetails();
 	}
 
-	changeActiveStatement(event: CustomEvent) {
+	changeActiveStatement(event: any) {
 		this.activeStatement = event.detail.value;
 	}
 }

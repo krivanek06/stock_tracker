@@ -31,10 +31,9 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 // custom
-@import 'theme/custom-variables.scss';
+@import 'theme/custom-variables';
 @import 'theme/general-styling';
 @import 'theme/global_colors';
-@import 'variables';
 
 * {
 	font-size: 14px;
