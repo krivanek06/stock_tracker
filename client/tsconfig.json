@@ -8,12 +8,13 @@
 		"downlevelIteration": true,
 		"emitDecoratorMetadata": false,
 		"experimentalDecorators": true,
-		"module": "esnext",
+		"module": "es2020",
 		"moduleResolution": "node",
 		"importHelpers": true,
 		"target": "ES6",
 		"allowJs": true,
 		"lib": ["es2018", "dom", "esnext.asynciterable"],
+		"types": ["node"],
 		"allowSyntheticDefaultImports": true,
 		"paths": {
 			"@core": ["src/app/core/index"],
@@ -39,9 +40,10 @@
 	},
 	"angularCompilerOptions": {
 		"enableIvy": true,
-		"fullTemplateTypeCheck": true,
-		"strictInputTypes": true,
-		"strictInjectionParameters": true
+		"enableI18nLegacyMessageIdFormat": false,
+		"strictInjectionParameters": true,
+		"strictInputAccessModifiers": true,
+		"strictTemplates": true
 	},
 	"exclude": ["node_modules"]
 }

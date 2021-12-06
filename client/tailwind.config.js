@@ -9,6 +9,13 @@ module.exports = {
 	},
 	darkMode: 'class', // or 'media' or 'class'
 	theme: {
+		fontFamily: {
+			sans: ['sans-serif', 'Poppins'],
+			serif: ['sans-serif', 'Poppins'],
+		},
+		backgroundColor: (theme) => ({
+			...theme('colors'),
+		}),
 		screens: {
 			xs: '475px',
 			...defaultTheme.screens,
@@ -27,6 +34,7 @@ module.exports = {
 
 				danger: '#E84E40',
 				success: '#53C432',
+				'primary-secondary': '#d7edff',
 			},
 		},
 	},

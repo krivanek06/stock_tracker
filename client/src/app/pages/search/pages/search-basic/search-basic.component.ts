@@ -16,7 +16,7 @@ export class SearchBasicComponent implements OnInit {
 
 	ngOnInit() {}
 
-	segmentChanged(segment: CustomEvent) {
+	segmentChanged(segment: any) {
 		this.router.navigateByUrl(`menu/search/${segment.detail.value}`);
 	}
 }

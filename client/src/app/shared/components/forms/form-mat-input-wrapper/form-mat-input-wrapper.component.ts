@@ -11,7 +11,7 @@ import { stFormatLargeNumber } from '../../../utils';
 })
 export class FormMatInputWrapperComponent implements OnInit {
 	@Input() controlName: string;
-	@Input() inputType: InputType;
+	@Input() inputType: InputType = 'TEXT';
 	@Input() inputCaption: string;
 	@Input() icon: string;
 	@Input() disabled: boolean;
@@ -63,7 +63,8 @@ export class FormMatInputWrapperComponent implements OnInit {
 	/*
 	 * used when inputType === MULTISELECT to filter data
 	 * */
-	multiSelectKeyPress(value: string) {
+	multiSelectKeyPress(event: any) {
+		const value = event.target.value;
 		if (this.copyInputSource.length === 0) {
 			this.copyInputSource = [...this.inputSource];
 		}

@@ -45,7 +45,8 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 		this.hasUserAlreadySentInvitaitonIntoGroup$ = this.groupStorageService.hasUserAlreadySentInvitaitonIntoGroup();
 	}
 
-	changeDetailsPage(segment: string) {
+	changeDetailsPage(event: any) {
+		const segment = event.detail.value;
 		this.router.navigateByUrl(`menu/groups/${this.groupStorageService.activeGroupId}/${segment}`);
 	}
 

@@ -31,7 +31,7 @@ export class SearchStockDetailsPage implements OnInit, OnDestroy {
 
 	ngOnDestroy() {}
 
-	segmentChanged(data: CustomEvent) {
+	segmentChanged(data: any) {
 		this.router.navigateByUrl(`menu/search/${SEARCH_PAGE_ENUM.STOCK_DETAILS}/${this.stockDetailsService.activeSymbol}/${data.detail.value}`);
 	}
 }
