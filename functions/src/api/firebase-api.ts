@@ -18,6 +18,11 @@ export const getAllUserWithExistingHoldingsFirebase = async (): Promise<api.STUs
 	return usersWithHoldings.docs.map((d) => d.data() as api.STUserPublicData);
 };
 
+export const getUsersToUpdatePortfolio = async (date: string): Promise<api.STUserPublicData[]> => {
+	const usersDocs = await admin.firestore().collection('users').where('portfolio.lastPortfolioSnapshot.date', '<', date).limit(30).get();
+	return usersDocs.docs.map((d) => d.data() as api.STUserPublicData);
+};
+
 export const getUserHistoricalData = async ({ id }: api.STUserPublicData): Promise<api.STUserHistoricalData> => {
 	const doc = await admin
 		.firestore()
