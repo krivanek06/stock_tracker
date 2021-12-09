@@ -1,3 +1,7 @@
+9.11.2021 - v. 0.9.8.2
+client 
+- change displayed fees from 0.015% to 0.25%
+
 9.11.2021 - v. 0.9.8.1
 client
 - GroupDetailsStatsComponent - filtering out null values when mapping to group holdings
