@@ -1,6 +1,8 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
+const colors = require('tailwindcss/colors');
 
 module.exports = {
+	mode: 'jit', // <= add here
 	prefix: '',
 	important: true, // to overwride angular material
 	purge: {
@@ -8,13 +10,16 @@ module.exports = {
 		content: ['./src/**/*.{html,ts}'],
 	},
 	darkMode: 'class', // or 'media' or 'class'
+	corePlugins: {
+		preflight: false,
+	},
 	theme: {
 		fontFamily: {
 			sans: ['sans-serif', 'Poppins'],
 			serif: ['sans-serif', 'Poppins'],
 		},
 		backgroundColor: (theme) => ({
-			...theme('colors'),
+			...colors,
 		}),
 		screens: {
 			xs: '475px',
@@ -41,5 +46,5 @@ module.exports = {
 	variants: {
 		extend: {},
 	},
-	plugins: [require('@tailwindcss/typography')],
+	plugins: [], // require('@tailwindcss/typography')
 };
