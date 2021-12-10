@@ -8,7 +8,7 @@
 		"downlevelIteration": true,
 		"emitDecoratorMetadata": false,
 		"experimentalDecorators": true,
-		"module": "es2020",
+		"module": "esnext",
 		"moduleResolution": "node",
 		"importHelpers": true,
 		"target": "ES6",
@@ -40,10 +40,11 @@
 	},
 	"angularCompilerOptions": {
 		"enableIvy": true,
-		"enableI18nLegacyMessageIdFormat": false,
+		"fullTemplateTypeCheck": true,
+		"strictInputTypes": true,
 		"strictInjectionParameters": true,
+		"enableI18nLegacyMessageIdFormat": false,
 		"strictInputAccessModifiers": true,
 		"strictTemplates": true
-	},
-	"exclude": ["node_modules"]
+	}
 }
