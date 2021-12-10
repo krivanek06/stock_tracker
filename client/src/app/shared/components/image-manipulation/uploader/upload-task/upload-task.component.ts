@@ -40,11 +40,11 @@ export class UploadTaskComponent implements OnInit {
 		this.task = uploadBytesResumable(refefence, this.file);
 
 		// Progress monitoring
-		this.percentage$ = percentage(this.task).pipe(map((x) => x.progress));
+		this.percentage$ = percentage(this.task).pipe(map((x: any) => x.progress));
 
 		// emit when finished
 		percentage(this.task)
-			.pipe(first((x) => x.progress === 100))
+			.pipe(first((x: any) => x.progress === 100))
 			.subscribe(async (res) => {
 				// The file's download URL
 				console.log('final', res);

@@ -2,7 +2,6 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 const colors = require('tailwindcss/colors');
 
 module.exports = {
-	mode: 'jit', // <= add here
 	prefix: '',
 	important: true, // to overwride angular material
 	purge: {
@@ -46,5 +45,5 @@ module.exports = {
 	variants: {
 		extend: {},
 	},
-	plugins: [], // require('@tailwindcss/typography')
+	plugins: [require('@tailwindcss/typography')], //
 };
