@@ -10,6 +10,11 @@ const routes: Routes = [
 		component: MenuPage,
 		children: [
 			{
+				path: '',
+				redirectTo: 'dashboard',
+				pathMatch: 'full',
+			},
+			{
 				path: 'dashboard',
 				canActivate: [AuthGuard],
 				loadChildren: () => import('../dashboard/dashboard.module').then((m) => m.DashboardPageModule),
@@ -56,11 +61,6 @@ const routes: Routes = [
 			{
 				path: 'search',
 				loadChildren: () => import('../search/search.module').then((m) => m.SearchPageModule),
-			},
-			{
-				path: '',
-				redirectTo: 'dashboard',
-				pathMatch: 'full',
 			},
 		],
 	},
