@@ -1,7 +1,6 @@
 @use '@angular/material' as mat;
 @use 'sass:map';
 
-@import '~@angular/material/theming';
 
 @include mat.core();
 

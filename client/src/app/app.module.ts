@@ -65,6 +65,7 @@ const MY_DATE_FORMATS = {
 		// MatTooltipModule,
 		// MatProgressBarModule,
 		// MatDialogModule,
+		// MatSnackBarModule,
 
 		BrowserModule,
 		IonicModule.forRoot(),
