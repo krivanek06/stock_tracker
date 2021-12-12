@@ -7,8 +7,9 @@ describe('NotificationProgressComponent', () => {
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			declarations: [NotificationProgressComponent],
-		}).compileComponents();
+    declarations: [NotificationProgressComponent],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
 	});
 
 	beforeEach(() => {

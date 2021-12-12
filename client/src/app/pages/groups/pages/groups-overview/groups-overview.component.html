@@ -1,7 +1,7 @@
 <!-- Group create button -->
 <ion-toolbar>
 	<ion-buttons slot="end">
-		<span [matTooltip]="(hasRoleCreateGroup$ | async) ? null : 'You do not have sufficient role to create groups'">
+		<span [matTooltip]="(hasRoleCreateGroup$ | async) ? '' : 'You do not have sufficient role to create groups'">
 			<ion-button
 				[disabled]="(hasRoleCreateGroup$ | async) === false"
 				(click)="createGroup()"

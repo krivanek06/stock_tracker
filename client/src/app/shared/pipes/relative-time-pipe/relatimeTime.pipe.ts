@@ -15,7 +15,7 @@ export class RelativeTimePipe implements PipeTransform {
             reverse === false -> return time diff from value (which represents past date) compared to today
             reverse === true -> return time diff from today compared to value (which represents future date)
     */
-	transform(value: string | number | undefined, reverse = false): string {
+	transform(value: string | number | undefined | null, reverse = false): string {
 		if (!value) {
 			return '';
 		}

@@ -8,7 +8,8 @@
 	</app-group-details-overview-invitations-container>
 
 	<!-- members -->
-	<app-group-details-overview-members-container [user]="user$ | async" [groupAllData]="groupData"> </app-group-details-overview-members-container>
+	<app-group-details-overview-members-container *ngIf="user$ | async as user" [user]="user" [groupAllData]="groupData">
+	</app-group-details-overview-members-container>
 
 	<!-- transactions -->
 	<app-group-details-overview-transactions-container [groupAllData]="groupData"> </app-group-details-overview-transactions-container>

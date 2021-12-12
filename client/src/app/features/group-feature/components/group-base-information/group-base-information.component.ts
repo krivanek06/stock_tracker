@@ -19,16 +19,16 @@ export class GroupBaseInformationComponent implements OnInit {
 	@Output() reloadEmitter: EventEmitter<any> = new EventEmitter<any>();
 
 	@Input() groupIdentification!: StGroupIdentificationDataFragment | StGroupAllData;
-	@Input() showVisitButton = false;
-	@Input() showAcceptButton = false;
-	@Input() showDeclineButton = false;
-	@Input() showDeleteButton = false;
-	@Input() showLeaveButton = false;
-	@Input() showSendInvitationButton = false;
-	@Input() showRemoveInvitationButton = false;
-	@Input() showEditButton = false;
-	@Input() isGroupPrivate = false;
-	@Input() showReloadButton = false;
+	@Input() showVisitButton: boolean | null = false;
+	@Input() showAcceptButton: boolean | null = false;
+	@Input() showDeclineButton: boolean | null = false;
+	@Input() showDeleteButton: boolean | null = false;
+	@Input() showLeaveButton: boolean | null = false;
+	@Input() showSendInvitationButton: boolean | null = false;
+	@Input() showRemoveInvitationButton: boolean | null = false;
+	@Input() showEditButton: boolean | null = false;
+	@Input() isGroupPrivate: boolean | null = false;
+	@Input() showReloadButton: boolean | null = false;
 
 	constructor() {}
 
