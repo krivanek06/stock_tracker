@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
@@ -8,7 +7,6 @@ import { getStorage, provideStorage } from '@angular/fire/storage';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { IonicModule } from '@ionic/angular';
@@ -42,63 +40,61 @@ const MY_DATE_FORMATS = {
 };
 
 @NgModule({
-    declarations: [AppComponent],
-    imports: [
-        CommonModule,
-        BrowserAnimationsModule,
-        // ReactiveFormsModule,
-        HttpClientModule,
-        // FormsModule,
-        GraphQlModule,
-        //AngularFireModule.initializeApp(environment.firebase), //  as ModuleWithProviders<AngularFireModule>
-        // AngularFirestoreModule,
-        //AngularFireAuthModule,
-        provideFirebaseApp(() => initializeApp(environment.firebase)),
-        provideAuth(() => getAuth()),
-        provideStorage(() => getStorage()),
-        //provideFirestore(() => getFirestore()),
-        //provideStorage(() => getStorage()),
-        // AngularFireStorageModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        // MatTooltipModule,
-        // MatProgressBarModule,
-        // MatDialogModule,
-        // MatSnackBarModule,
-        BrowserModule,
-        IonicModule.forRoot(),
-        AppRoutingModule,
-        // TranslateModule.forRoot({
-        // 	defaultLanguage: 'en',
-        // 	loader: {
-        // 		provide: TranslateLoader,
-        // 		useFactory: HttpLoaderFactory,
-        // 		deps: [HttpClient],
-        // 	},
-        // }),
-        // entry points imports
-        DialogServiceModule,
-        ServiceWorkerModule.register('ngsw-worker.js', {
-            enabled: environment.production,
-            // Register the ServiceWorker as soon as the app is stable
-            // or after 30 seconds (whichever comes first).
-            registrationStrategy: 'registerWhenStable:30000',
-        }),
-        // ConfirmationPopOverModule,
-        // FinancialChartModalModule,
-        // InlineInputPopUpModule,
-        // OptionPickerPopOverModule
-    ],
-    providers: [
-        // StatusBar,
-        // SplashScreen,
-        // { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-        MatDatepickerModule,
-        MatNativeDateModule,
-        { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-        { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
-        // { provide: ErrorHandler, useClass: GlobalErrorHandler },
-    ],
-    bootstrap: [AppComponent]
+	declarations: [AppComponent],
+	imports: [
+		CommonModule,
+		BrowserAnimationsModule,
+		// ReactiveFormsModule,
+		// FormsModule,
+		GraphQlModule,
+		//AngularFireModule.initializeApp(environment.firebase), //  as ModuleWithProviders<AngularFireModule>
+		// AngularFirestoreModule,
+		//AngularFireAuthModule,
+		provideFirebaseApp(() => initializeApp(environment.firebase)),
+		provideAuth(() => getAuth()),
+		provideStorage(() => getStorage()),
+		//provideFirestore(() => getFirestore()),
+		//provideStorage(() => getStorage()),
+		// AngularFireStorageModule,
+		MatDatepickerModule,
+		MatNativeDateModule,
+		// MatTooltipModule,
+		// MatProgressBarModule,
+		// MatDialogModule,
+		// MatSnackBarModule,
+		IonicModule.forRoot(),
+		AppRoutingModule,
+		// TranslateModule.forRoot({
+		// 	defaultLanguage: 'en',
+		// 	loader: {
+		// 		provide: TranslateLoader,
+		// 		useFactory: HttpLoaderFactory,
+		// 		deps: [HttpClient],
+		// 	},
+		// }),
+		// entry points imports
+		DialogServiceModule,
+		ServiceWorkerModule.register('ngsw-worker.js', {
+			enabled: environment.production,
+			// Register the ServiceWorker as soon as the app is stable
+			// or after 30 seconds (whichever comes first).
+			registrationStrategy: 'registerWhenStable:30000',
+		}),
+		// ConfirmationPopOverModule,
+		// FinancialChartModalModule,
+		// InlineInputPopUpModule,
+		// OptionPickerPopOverModule
+	],
+	providers: [
+		// StatusBar,
+		// SplashScreen,
+		// { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+		MatDatepickerModule,
+		MatNativeDateModule,
+		{ provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+		{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+		// { provide: ErrorHandler, useClass: GlobalErrorHandler },
+	],
+	bootstrap: [AppComponent],
 })
 export class AppModule {}

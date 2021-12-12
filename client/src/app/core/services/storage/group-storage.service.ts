@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { StGroupAllData, StHolding } from '../../graphql-schema';
-import { QueryStGroupByGroupIdGQL } from './../../graphql-schema';
+import { QueryStGroupByGroupIdGQL, StGroupAllData, StHolding } from '../../graphql-schema';
 import { UserStorageService } from './user-storage.service';
 
 @Injectable({

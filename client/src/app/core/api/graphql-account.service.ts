@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FetchResult } from '@apollo/client';
-import { DataProxy } from '@apollo/client/cache/core/types/DataProxy';
+import { DataProxy, FetchResult } from '@apollo/client/core';
 import { Observable } from 'rxjs';
 import {
 	AuthenticateUserDocument,

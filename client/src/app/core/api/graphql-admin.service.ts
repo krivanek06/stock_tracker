@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { FetchResult } from '@apollo/client';
+import { FetchResult } from '@apollo/client/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { QueryAdminMainInformationsGQL } from '../graphql-schema';
-import { StAdminMainInformationsFragmentFragment } from './../graphql-schema';
-import { SetForceReloadStockDetailsGQL } from './../graphql-schema/customGraphql.service';
+import { QueryAdminMainInformationsGQL, SetForceReloadStockDetailsGQL, StAdminMainInformationsFragmentFragment } from '../graphql-schema';
 
 @Injectable({
 	providedIn: 'root',

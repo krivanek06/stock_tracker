@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DataProxy } from '@apollo/client/cache/core/types/DataProxy';
-import { FetchResult } from '@apollo/client/core';
+import { DataProxy, FetchResult } from '@apollo/client/core';
 import { Observable } from 'rxjs';
 import {
 	AddStockIntoWatchlistGQL,

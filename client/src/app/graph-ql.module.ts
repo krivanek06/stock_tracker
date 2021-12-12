@@ -1,9 +1,11 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { ApolloLink, InMemoryCache } from '@apollo/client/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { ApolloClientOptions, ApolloLink, InMemoryCache } from '@apollo/client/core';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import { DialogService } from '@shared';
-import { APOLLO_OPTIONS } from 'apollo-angular';
+import { Apollo, ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { environment } from '../environments/environment';
 
@@ -36,29 +38,39 @@ const basicContext = setContext((operation, context) => {
 	};
 });
 
+export function createDefaultApollo(httpLink: HttpLink): ApolloClientOptions<any> {
+	return {
+		connectToDevTools: !environment.production,
+		assumeImmutableResults: true,
+		cache: new InMemoryCache({}),
+		link: ApolloLink.from([
+			basicContext,
+			errorLink,
+			httpLink.create({
+				uri: environment.graphql,
+			}),
+		]),
+		defaultOptions: {
+			watchQuery: {
+				errorPolicy: 'all',
+			},
+		},
+	};
+}
+
 @NgModule({
+	imports: [BrowserModule, ApolloModule, HttpClientModule],
 	providers: [
 		{
 			provide: APOLLO_OPTIONS,
-			useFactory: (httpLink: HttpLink) => {
-				return {
-					assumeImmutableResults: true,
-					freezeResults: true,
-					cache: new InMemoryCache(),
-					link: ApolloLink.from([basicContext, errorLink, httpLink.create({ uri: environment.graphql })]),
-					defaultOptions: {
-						watchQuery: {
-							errorPolicy: 'all',
-						},
-					},
-				};
-			},
+			useFactory: createDefaultApollo,
 			deps: [HttpLink],
 		},
 	],
+	exports: [BrowserModule, ApolloModule, HttpClientModule],
 })
 export class GraphQlModule {
-	// constructor(apollo: Apollo) {
-	// 	window['__APOLLO_CLIENT__'] = apollo.getClient(); // Used by the Apollo Chrome extension
-	// }
+	constructor(apollo: Apollo) {
+		// window = {...window, '__APOLLO_CLIENT__': apollo.getClient()}; // Used by the Apollo Chrome extension
+	}
 }

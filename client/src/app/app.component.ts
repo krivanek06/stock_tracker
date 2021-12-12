@@ -3,6 +3,7 @@ import { ResolveEnd, ResolveStart, Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import { ThemeService } from '@core';
 import { DialogService } from '@shared';
+import { Apollo } from 'apollo-angular';
 import { merge, Observable } from 'rxjs';
 import { filter, mapTo } from 'rxjs/operators';
 

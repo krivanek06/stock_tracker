@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { DataProxy } from '@apollo/client';
-import { FetchResult } from '@apollo/client/core';
+import { DataProxy, FetchResult } from '@apollo/client/core';
 import { Observable } from 'rxjs';
-import { StTicketCreateValues } from '../graphql-schema';
 import { UserStorageService } from '../services';
 import {
 	AuthenticateUserDocument,
@@ -19,9 +17,10 @@ import {
 	StTicket,
 	StTicketComment,
 	StTicketCommentEditValues,
+	StTicketCreateValues,
 	StTicketFragmentFragment,
 	StTicketFragmentFragmentDoc,
-} from './../graphql-schema/customGraphql.service';
+} from './../graphql-schema';
 
 @Injectable({
 	providedIn: 'root',
