@@ -24,8 +24,8 @@ export class GroupMemberOverviewModalComponent implements OnInit, OnDestroy {
 	/* 
     both variable reference the same user
   */
-	groupUser: StGroupUser;
-	groupMemberOverview: StGroupMemberOverviewFragment;
+	groupUser!: StGroupUser;
+	groupMemberOverview?: StGroupMemberOverviewFragment;
 
 	sinceGroupMemberChecked: boolean = false;
 	tradingChangeWrapper: PortfolioHistoricalWrapper[] = [];
@@ -33,12 +33,12 @@ export class GroupMemberOverviewModalComponent implements OnInit, OnDestroy {
 	/* 
     variable needed becuase we can view user proformance since he created his account or since he joined the group
   */
-	startedBalance: number;
-	stPortfolioSnapshots: StPortfolioSnapshot[];
-	stTransactionSnapshots: StTransactionSnapshot[];
-	stPortfolioSnapshotStarted: StPortfolioSnapshotStarted;
+	startedBalance: number = STARTING_PORTFOLIO;
+	stPortfolioSnapshots: StPortfolioSnapshot[] = [];
+	stTransactionSnapshots: StTransactionSnapshot[] = [];
+	stPortfolioSnapshotStarted!: StPortfolioSnapshotStarted;
 
-	chartHeight: number;
+	chartHeight!: number;
 
 	constructor(
 		private modalController: ModalController,
@@ -78,6 +78,9 @@ export class GroupMemberOverviewModalComponent implements OnInit, OnDestroy {
 	}
 
 	private initPropertiesSinceUserJoinedGroup(): void {
+		if (!this.groupUser || !this.groupMemberOverview) {
+			return;
+		}
 		const sinceGroupMemberTime = new Date(this.groupUser.sinceDate).getTime();
 
 		this.startedBalance = this.groupUser.startedPortfolio.portfolioCash + this.groupUser.startedPortfolio.portfolioInvested;
@@ -108,6 +111,9 @@ export class GroupMemberOverviewModalComponent implements OnInit, OnDestroy {
 	}
 
 	private initPropertiesSinceUserCreatedItsAccount(): void {
+		if (!this.groupUser || !this.groupMemberOverview) {
+			return;
+		}
 		this.startedBalance = STARTING_PORTFOLIO;
 		this.stPortfolioSnapshots = this.groupMemberOverview.userHistoricalData.portfolioSnapshots;
 		this.stTransactionSnapshots = this.groupMemberOverview.userHistoricalData.transactionSnapshots;

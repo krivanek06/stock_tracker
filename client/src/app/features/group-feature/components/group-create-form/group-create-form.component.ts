@@ -16,14 +16,14 @@ import { createSTGroupAllDataInput } from '../../utils';
 export class GroupCreateFormComponent implements OnInit {
 	@Output() createGroupEmitter: EventEmitter<StGroupAllDataInput> = new EventEmitter<StGroupAllDataInput>();
 
-	@Input() user: StUserIndetification;
-	@Input() editedGroup: StGroupAllData;
+	@Input() user!: StUserIndetification;
+	@Input() editedGroup!: StGroupAllData;
 
-	@ViewChild('uploader') uploader: UploaderComponent;
-	@ViewChild('endDatePicker') endDatePicker: MatDatepicker<Date>;
+	@ViewChild('uploader') uploader!: UploaderComponent;
+	@ViewChild('endDatePicker') endDatePicker!: MatDatepicker<Date>;
 
 	invitationSent: StUserIndentificationDataFragment[] = [];
-	form: FormGroup;
+	form!: FormGroup;
 	showError = false;
 	dateStartError = false;
 	dateEndError = false;
@@ -31,30 +31,30 @@ export class GroupCreateFormComponent implements OnInit {
 	constructor(private fb: FormBuilder) {}
 
 	get isInfinite(): AbstractControl {
-		return this.form.get('isInfinite');
+		return this.form.get('isInfinite') as AbstractControl;
 	}
 
 	get startDate(): AbstractControl {
-		return this.form.get('startDate');
+		return this.form.get('startDate') as AbstractControl;
 	}
 
 	get endDate(): AbstractControl {
-		return this.form.get('endDate');
+		return this.form.get('endDate') as AbstractControl;
 	}
 
 	get isOwnerAlsoMember(): AbstractControl {
-		return this.form.get('isOwnerAlsoMember');
+		return this.form.get('isOwnerAlsoMember') as AbstractControl;
 	}
 	get isPrivate(): AbstractControl {
-		return this.form.get('isPrivate');
+		return this.form.get('isPrivate') as AbstractControl;
 	}
 
 	get imagePath(): AbstractControl {
-		return this.form.get('imagePath');
+		return this.form.get('imagePath') as AbstractControl;
 	}
 
 	get imageUrl(): AbstractControl {
-		return this.form.get('imageUrl');
+		return this.form.get('imageUrl') as AbstractControl;
 	}
 
 	ngOnInit() {
@@ -73,8 +73,8 @@ export class GroupCreateFormComponent implements OnInit {
 	}
 
 	uploadedGroupImage(files: UploadedFile[]) {
-		this.form.get('imagePath').patchValue(files[0].path);
-		this.form.get('imageUrl').patchValue(files[0].downloadURL);
+		this.imagePath.patchValue(files[0].path);
+		this.imageUrl.patchValue(files[0].downloadURL);
 	}
 
 	sendInvitation(userPublicData: StUserIndentificationDataFragment) {

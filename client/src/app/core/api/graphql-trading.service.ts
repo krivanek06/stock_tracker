@@ -6,8 +6,10 @@ import { Observable } from 'rxjs';
 import {
 	AuthenticateUserDocument,
 	AuthenticateUserQuery,
+	PerformedTransaction,
 	PerformTransactionGQL,
 	PerformTransactionMutation,
+	StHolding,
 	StTransactionInput,
 	StTransactionOperationEnum,
 } from '../graphql-schema';
@@ -25,13 +27,20 @@ export class GraphqlTradingService {
 				transactionInput,
 			},
 			{
-				update: (store: DataProxy, { data: { performTransaction } }) => {
+				update: (store: DataProxy, { data }) => {
+					const performTransaction = data?.performTransaction as PerformedTransaction;
+
 					const user = store.readQuery<AuthenticateUserQuery>({
 						query: AuthenticateUserDocument,
 						variables: {
 							id: this.userStorageService.user.id,
 						},
 					});
+
+					if (!user?.authenticateUser) {
+						return;
+					}
+
 					const { transaction, holding } = performTransaction;
 
 					const updatedHoldingIndex = user.authenticateUser.holdings.findIndex((h) => h.symbol === transaction.symbol);
@@ -42,16 +51,16 @@ export class GraphqlTradingService {
 					if (transactionInput.operation === StTransactionOperationEnum.Buy) {
 						addCash = -(transaction.price * transaction.units) - transaction.transactionFees;
 						if (updatedHoldingIndex >= 0) {
-							userNewHoldings[updatedHoldingIndex] = { ...holding }; // update data
+							userNewHoldings.splice(updatedHoldingIndex, 0, holding as StHolding); // update data
 						} else {
-							userNewHoldings = [...userNewHoldings, holding]; // new holding
+							userNewHoldings = [...userNewHoldings, holding as StHolding]; // new holding
 						}
 					} else {
 						addCash = transaction.price * transaction.units - transaction.transactionFees;
 						if (!performTransaction.holding) {
 							userNewHoldings.splice(updatedHoldingIndex, 1); // no longer exists
 						} else {
-							userNewHoldings[updatedHoldingIndex] = { ...holding }; // update data
+							userNewHoldings.splice(updatedHoldingIndex, 0, holding as StHolding); // update data
 						}
 					}
 
@@ -84,7 +93,7 @@ export class GraphqlTradingService {
 										addCash > 0
 											? user.authenticateUser.portfolio.numberOfExecutedSellTransactions + 1
 											: user.authenticateUser.portfolio.numberOfExecutedSellTransactions,
-									transactionFees: user.authenticateUser.portfolio.transactionFees + transaction.transactionFees,
+									transactionFees: (user.authenticateUser.portfolio.transactionFees || 0) + transaction.transactionFees,
 								},
 								transactionsSnippets: [transaction, ...user.authenticateUser.transactionsSnippets].splice(0, 20),
 								topTransactions: [...topTransactions],

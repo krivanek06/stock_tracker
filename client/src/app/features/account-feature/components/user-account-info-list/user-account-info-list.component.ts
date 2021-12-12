@@ -1,32 +1,30 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StUserIndentificationDataFragment} from '@core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { StUserIndentificationDataFragment } from '@core';
 
 @Component({
-    selector: 'app-user-account-info-list',
-    templateUrl: './user-account-info-list.component.html',
-    styleUrls: ['./user-account-info-list.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-user-account-info-list',
+	templateUrl: './user-account-info-list.component.html',
+	styleUrls: ['./user-account-info-list.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserAccountInfoListComponent implements OnInit {
-    @Output() deleteEmitter: EventEmitter<any> = new EventEmitter<any>();
-    @Output() clickedEmitter: EventEmitter<any> = new EventEmitter<any>();
+	@Output() deleteEmitter: EventEmitter<any> = new EventEmitter<any>();
+	@Output() clickedEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-    @Input() stUserPublicData: StUserIndentificationDataFragment;
-    @Input() clickable = false;
-    @Input() showDeleteButton = false;
-    @Input() fullWith = false;
+	@Input() stUserPublicData!: StUserIndentificationDataFragment;
+	@Input() clickable = false;
+	@Input() showDeleteButton = false;
+	@Input() fullWith = false;
 
-    constructor() {
-    }
+	constructor() {}
 
-    ngOnInit() {
-    }
+	ngOnInit() {}
 
-    deletePerson() {
-        this.deleteEmitter.emit();
-    }
+	deletePerson() {
+		this.deleteEmitter.emit();
+	}
 
-    clickedPerson() {
-        this.clickedEmitter.emit();
-    }
+	clickedPerson() {
+		this.clickedEmitter.emit();
+	}
 }

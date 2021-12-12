@@ -11,7 +11,7 @@ export const STTransactionTypeDefs = gql`
 		symbol: String!
 		breakEvenPrice: Float!
 		units: Float!
-		summary: Summary
+		summary: Summary!
 	}
 
 	type STTransaction {
@@ -25,7 +25,7 @@ export const STTransactionTypeDefs = gql`
 		units: Float!
 		date: String!
 		operation: STTransactionOperationEnum!
-		transactionFees: Float
+		transactionFees: Float!
 	}
 
 	type STTransactionSnapshot {

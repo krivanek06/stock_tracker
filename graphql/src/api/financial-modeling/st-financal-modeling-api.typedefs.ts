@@ -17,23 +17,23 @@ export const STFinancialModelingAPITypeDefs = gql`
 	}
 
 	type STFMCompanyOutlook {
-		financialsAnnual: STFMFinancials
-		financialsQuarter: STFMFinancials
-		insideTrades: [STFMInsideTrade]
-		keyExecutives: [STFMKeyExecutive]
-		metrics: STFMMetrics
-		profile: STFMProfile
+		financialsAnnual: STFMFinancials!
+		financialsQuarter: STFMFinancials!
+		insideTrades: [STFMInsideTrade!]!
+		keyExecutives: [STFMKeyExecutive!]!
+		metrics: STFMMetrics!
+		profile: STFMProfile!
 		rating: STFMRating
 		ratios: STFMRatios
-		splitHistory: [STFMSplitHistory]
-		stockDividend: [STFMStockDividend]
-		stockNews: [STFMStockNew]
+		splitHistory: [STFMSplitHistory!]!
+		stockDividend: [STFMStockDividend!]!
+		stockNews: [STFMStockNew!]!
 	}
 
 	type STFMFinancials {
-		balance: [STFMBalanceSheet]
-		cash: [STFMCashFlow]
-		income: [STFMIncomeStatement]
+		balance: [STFMBalanceSheet]!
+		cash: [STFMCashFlow]!
+		income: [STFMIncomeStatement]!
 	}
 
 	type STFMInsideTrade {
@@ -445,15 +445,15 @@ export const STFinancialModelingAPITypeDefs = gql`
 	}
 
 	type STFMStockScreenerResult {
-		symbol: String
-		companyName: String
-		marketCap: Float
+		symbol: String!
+		companyName: String!
+		marketCap: Float!
 		sector: String
 		industry: String
 		beta: Float
 		price: Float
 		lastAnnualDividend: Float
-		volume: Float
+		volume: Float!
 		exchange: String
 		exchangeShortName: String
 		country: String

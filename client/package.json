@@ -4,14 +4,14 @@
 	"author": "Eduard Krivanek",
 	"homepage": "https://ionicframework.com/",
 	"scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": " NODE_ENV=production ng build --configuration production --configuration production --aot --build-optimizer --output-hashing=none --vendor-chunk=true",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
-    "generate-types": "graphql-codegen --config codegen.yml"
-  },
+		"ng": "ng",
+		"start": "ng serve",
+		"build": " NODE_ENV=production ng build --configuration production --configuration production --aot --build-optimizer --output-hashing=none --vendor-chunk=true",
+		"test": "ng test",
+		"lint": "ng lint",
+		"e2e": "ng e2e",
+		"generate-types": "graphql-codegen --config codegen.yml"
+	},
 	"private": true,
 	"dependencies": {
 		"@angular/animations": "^12.2.14",
@@ -46,9 +46,9 @@
 		"zone.js": "~0.11.4"
 	},
 	"devDependencies": {
+		"@angular-devkit/build-angular": "^12.2.14",
 		"@angular-devkit/core": "^12.2.14",
 		"@angular-devkit/schematics": "^12.2.14",
-		"@angular-devkit/build-angular": "^12.2.14",
 		"@angular-eslint/builder": "12.5.0",
 		"@angular-eslint/eslint-plugin": "12.5.0",
 		"@angular-eslint/eslint-plugin-template": "12.5.0",
@@ -89,15 +89,6 @@
 		"tailwindcss": "^2.2.16",
 		"ts-node": "~9.1.1",
 		"typescript": "4.3.5"
-	},
-	"browser": {
-		"http": false,
-		"https": false,
-		"net": false,
-		"path": false,
-		"stream": false,
-		"tls": false,
-		"fs": false
 	},
 	"description": "An Ionic project"
 }

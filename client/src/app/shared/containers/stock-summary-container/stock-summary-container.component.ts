@@ -12,8 +12,8 @@ import { ComponentScreenUpdateBaseDirective } from '../../directives';
 	animations: [marketValueChange],
 })
 export class StockSummaryContainerComponent extends ComponentScreenUpdateBaseDirective implements OnInit, OnDestroy {
-	@Input() summary: Summary;
-	currentPrice: number;
+	@Input() summary!: Summary;
+	currentPrice: number | undefined;
 
 	constructor(public finnhubWebsocketService: FinnhubWebsocketService, public cd: ChangeDetectorRef) {
 		super(cd, finnhubWebsocketService, 'StockSummaryContainerComponent');
@@ -22,7 +22,7 @@ export class StockSummaryContainerComponent extends ComponentScreenUpdateBaseDir
 	ngOnInit() {
 		super.ngOnInit();
 		this.initWebsocketConnection();
-		this.currentPrice = this.summary.marketPrice;
+		this.currentPrice = this.summary.marketPrice || undefined;
 	}
 
 	ngOnDestroy() {

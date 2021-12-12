@@ -11,7 +11,7 @@ import { SymbolIdentification } from '@shared';
 export class MarketSearchTableComponent implements OnInit {
 	@Output() itemClickedEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
 
-	@Input() stockScreenerResults: StfmStockScreenerResult[];
+	@Input() stockScreenerResults: StfmStockScreenerResult[] = [];
 
 	constructor() {}
 

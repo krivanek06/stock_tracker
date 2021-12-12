@@ -9,7 +9,7 @@ export const STTicketsTypeDefs = gql`
 		createdBy: STUserIndetification!
 		createdAt: String!
 		isOpen: Boolean!
-		comments: [STTicketComment]!
+		comments: [STTicketComment!]!
 	}
 
 	type STTicketComment {

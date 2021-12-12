@@ -11,9 +11,9 @@ import { GroupMemberSortValuesEnum, GROUP_MEMBERS_SORT_INPUT_SOURCE } from './..
 export class GroupMembersTableComponent implements OnInit {
 	@Output() clickedUserEmitter: EventEmitter<StGroupUser> = new EventEmitter();
 
-	@Input() groupAllData: StGroupAllData;
-	@Input() user: StUserPublicData;
-	form: FormGroup;
+	@Input() groupAllData!: StGroupAllData;
+	@Input() user!: StUserPublicData;
+	form!: FormGroup;
 
 	GROUP_MEMBERS_SORT_INPUT_SOURCE = GROUP_MEMBERS_SORT_INPUT_SOURCE;
 	GroupMemberSortValuesEnum = GroupMemberSortValuesEnum;
@@ -23,7 +23,7 @@ export class GroupMembersTableComponent implements OnInit {
 	constructor(private fb: FormBuilder) {}
 
 	get groupMemberSort(): AbstractControl {
-		return this.form.get('groupMemberSort');
+		return this.form.get('groupMemberSort') as AbstractControl;
 	}
 
 	ngOnInit() {

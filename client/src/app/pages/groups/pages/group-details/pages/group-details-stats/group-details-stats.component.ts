@@ -11,12 +11,12 @@ import { Observable } from 'rxjs';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupDetailsStatsComponent implements OnInit {
-	groupAllData$: Observable<StGroupAllData>;
+	groupAllData$!: Observable<StGroupAllData | null>;
 
-	holdings$: Observable<StHolding[]>;
-	chartHeight_32: number;
-	chartHeightGroup_37: number;
-	chartHeightGroup_55: number;
+	holdings$!: Observable<StHolding[]>;
+	chartHeight_32!: number;
+	chartHeightGroup_37!: number;
+	chartHeightGroup_55!: number;
 
 	constructor(private groupStorageService: GroupStorageService, private watchlistFeatureFacadeService: WatchlistFeatureFacadeService) {}
 

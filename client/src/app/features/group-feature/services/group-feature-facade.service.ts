@@ -41,7 +41,7 @@ export class GroupFeatureFacadeService {
 				await DialogService.showNotificationBar(`Group ${groupAllDataInput.name} has been created`);
 			} else {
 				await this.graphqlGroupService.editGroup(groupAllDataInput).toPromise();
-				this.groupStorageService.setActiveGroupId(groupAllDataInput.groupId);
+				this.groupStorageService.setActiveGroupId(groupAllDataInput?.groupId || null);
 				await DialogService.showNotificationBar(`Group ${groupAllDataInput.name} has been edited`);
 			}
 		}

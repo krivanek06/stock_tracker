@@ -14,7 +14,7 @@ export class MarketTopStocksComponent extends ComponentScreenUpdateBaseDirective
 	topGainers: StfmCompanyQuote[] = [];
 	topLosers: StfmCompanyQuote[] = [];
 	mostActive: StfmCompanyQuote[] = [];
-	lastUpdateTopStocks: string;
+	lastUpdateTopStocks!: string;
 
 	constructor(
 		private graphqlQueryService: GraphqlQueryService,

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { RegisterIUser } from '@core';
 import { DialogService, emailValidator, requiredValidator } from '@shared';
 
@@ -11,9 +11,21 @@ import { DialogService, emailValidator, requiredValidator } from '@shared';
 })
 export class RegistrationComponent implements OnInit {
 	@Output() registrationEmitter: EventEmitter<RegisterIUser> = new EventEmitter<RegisterIUser>();
-	registrationForm: FormGroup;
+	registrationForm!: FormGroup;
 
 	constructor(private formBuilder: FormBuilder) {}
+
+	get email(): AbstractControl {
+		return this.registrationForm.get('email') as AbstractControl;
+	}
+
+	get password1(): AbstractControl {
+		return this.registrationForm.get('password1') as AbstractControl;
+	}
+
+	get password2(): AbstractControl {
+		return this.registrationForm.get('password2') as AbstractControl;
+	}
 
 	ngOnInit() {
 		this.registrationForm = this.formBuilder.group({
@@ -41,17 +53,5 @@ export class RegistrationComponent implements OnInit {
 			password1: this.password1.value,
 			password2: this.password2.value,
 		});
-	}
-
-	get email() {
-		return this.registrationForm.get('email');
-	}
-
-	get password1() {
-		return this.registrationForm.get('password1');
-	}
-
-	get password2() {
-		return this.registrationForm.get('password2');
 	}
 }

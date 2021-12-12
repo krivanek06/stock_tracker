@@ -12,8 +12,8 @@ import { Observable } from 'rxjs';
 export class TicketOverviewContainerComponent implements OnInit {
 	@Input() tickets: StTicket[] = [];
 
-	user$: Observable<StUserPublicData>;
-	isAdmin$: Observable<boolean>;
+	user$!: Observable<StUserPublicData>;
+	isAdmin$!: Observable<boolean>;
 
 	constructor(private graphqlTicketService: GraphqlTicketService, private userStorageService: UserStorageService) {}
 

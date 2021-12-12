@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { GraphqlUserService, StUserIndentificationDataFragment } from '@core';
 import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -16,10 +16,14 @@ export class UserAccountSearchComponent implements OnInit {
 	@Input() fullWith = false;
 	@Input() clearOnClick = false;
 	@Input() showNoUserFoundTest = false;
-	searchedUsers$: Observable<StUserIndentificationDataFragment[]>;
-	form: FormGroup;
+	searchedUsers$!: Observable<StUserIndentificationDataFragment[] | null>;
+	form!: FormGroup;
 
 	constructor(private fb: FormBuilder, private graphqlUserService: GraphqlUserService) {}
+
+	get username(): AbstractControl {
+		return this.form.get('username') as AbstractControl;
+	}
 
 	ngOnInit() {
 		this.initForm();
@@ -29,7 +33,7 @@ export class UserAccountSearchComponent implements OnInit {
 	clickedUser(user: StUserIndentificationDataFragment) {
 		this.clickedUserEmitter.emit(user);
 		if (this.clearOnClick) {
-			this.form.get('username').patchValue('');
+			this.username.patchValue('');
 		}
 	}
 
@@ -40,7 +44,7 @@ export class UserAccountSearchComponent implements OnInit {
 	}
 
 	private watchForm() {
-		this.searchedUsers$ = this.form.get('username').valueChanges.pipe(
+		this.searchedUsers$ = this.username.valueChanges.pipe(
 			debounceTime(500),
 			distinctUntilChanged(),
 			switchMap((res) => {

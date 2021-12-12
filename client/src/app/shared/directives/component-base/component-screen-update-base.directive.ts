@@ -6,7 +6,7 @@ import { DialogService } from '../../services';
 @Directive()
 export abstract class ComponentScreenUpdateBaseDirective implements OnInit, OnDestroy {
 	interval: any;
-	componentName: string;
+	componentName?: string;
 
 	updateIntervalMs = 1800;
 

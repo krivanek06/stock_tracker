@@ -15,20 +15,20 @@ export class TickerOverviewComponent implements OnInit {
 	@Output() closeTicketEmitter: EventEmitter<any> = new EventEmitter<any>();
 	@Output() deleteTicketEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-	@Input() ticket: StTicket;
-	@Input() isAdmin: boolean;
-	@Input() user: StUserPublicData;
+	@Input() ticket!: StTicket;
+	@Input() isAdmin = false;
+	@Input() user!: StUserPublicData;
 
-	editingComment: StTicketComment;
-	answering: boolean;
-	form: FormGroup;
+	editingComment: StTicketComment | null = null;
+	form!: FormGroup;
+	answering = false;
 
-	@ViewChild(FormGroupDirective) formDirective: NgForm;
+	@ViewChild(FormGroupDirective) formDirective!: NgForm;
 
 	constructor(private fb: FormBuilder) {}
 
 	get comment(): AbstractControl {
-		return this.form.get('comment');
+		return this.form.get('comment') as AbstractControl;
 	}
 
 	ngOnInit(): void {

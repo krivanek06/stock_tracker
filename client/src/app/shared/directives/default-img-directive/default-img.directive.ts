@@ -4,7 +4,7 @@ import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
 	selector: '[appDefaultImg]',
 })
 export class DefaultImgDirective implements AfterViewInit {
-	@Input() src: string;
+	@Input() src!: string | null | undefined;
 
 	constructor(private imageRef: ElementRef) {}
 
@@ -16,7 +16,9 @@ export class DefaultImgDirective implements AfterViewInit {
 			return;
 		}
 		img.onload = () => {
-			this.setImage(this.src);
+			if (this.src) {
+				this.setImage(this.src);
+			}
 		};
 
 		img.onerror = () => {

@@ -10,6 +10,7 @@ import {
 	GenericChartModule,
 	GenericListModule,
 	LoaderWrapperModule,
+	ObjectKeyPipeModule,
 	ObjNgForPipeModule,
 	SplitKeyToTitlecasePipeModule,
 	StockSummaryContainerModule,
@@ -73,6 +74,7 @@ const routes: Routes = [
 		SplitKeyToTitlecasePipeModule,
 		MarketStockNewsModule,
 		LoaderWrapperModule,
+		ObjectKeyPipeModule,
 	],
 })
 export class StockDetailsStatisticModule {}

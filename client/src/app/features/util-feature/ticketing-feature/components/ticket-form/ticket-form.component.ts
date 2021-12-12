@@ -13,8 +13,8 @@ import { TICKET_FORM_INPUT_SOURSE } from '../../models';
 export class TicketFormComponent implements OnInit {
 	@Output() submitFormEmitter: EventEmitter<StTicketCreateValues> = new EventEmitter<StTicketCreateValues>();
 	inputSource: InputSource[] = TICKET_FORM_INPUT_SOURSE;
-	form: FormGroup;
-	@ViewChild(FormGroupDirective) formDirective: NgForm;
+	form!: FormGroup;
+	@ViewChild(FormGroupDirective) formDirective!: NgForm;
 	constructor(private fb: FormBuilder) {}
 
 	ngOnInit(): void {

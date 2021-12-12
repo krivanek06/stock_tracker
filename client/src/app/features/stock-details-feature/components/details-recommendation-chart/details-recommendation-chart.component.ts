@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 //import HighchartsMoreModule from 'highcharts/highcharts-more';
-import { Recommendations } from '@core';
+import { Maybe, Recommendations } from '@core';
 import * as Highcharts from 'highcharts/highstock';
 
 //HighchartsMoreModule(Highcharts);
@@ -12,17 +12,17 @@ import * as Highcharts from 'highcharts/highstock';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DetailsRecommendationChartComponent implements OnInit, OnChanges {
-	@Input() recommendations: Recommendations[];
+	@Input() recommendations?: Recommendations[] | Maybe<Recommendations[]>;
 
 	Highcharts: typeof Highcharts = Highcharts;
-	chart;
+	chart: any;
 	updateFromInput = false;
-	chartCallback;
+	chartCallback: any;
 	chartOptions = {}; //  : Highcharts.Options
 	constructor() {
 		const self = this;
 
-		this.chartCallback = (chart) => {
+		this.chartCallback = (chart: any) => {
 			self.chart = chart;
 		};
 	}
@@ -58,7 +58,7 @@ export class DetailsRecommendationChartComponent implements OnInit, OnChanges {
 						font: '10px Trebuchet MS, Verdana, sans-serif',
 					},
 				},
-				categories: !this.recommendations ? [] : this.recommendations.map((rec) => new Date(rec.period).toString().split(' ')[1]),
+				categories: !this.recommendations ? [] : this.recommendations.map((rec) => new Date(rec.period || '').toString().split(' ')[1]),
 			},
 			yAxis: {
 				title: false,

@@ -10,7 +10,7 @@ import { STATEMENT_TYPE, STOCK_SEARCH_DETAILS_FINANCIAL_PAGES } from '../../../.
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StockDetailsFinancialComponent implements OnInit {
-	stockDetails$: Observable<StockDetails>;
+	stockDetails$!: Observable<StockDetails | null>;
 
 	activeStatement = STATEMENT_TYPE.BALANCE_SHEET;
 	STOCK_SEARCH_DETAILS_FINANCIAL_PAGES = STOCK_SEARCH_DETAILS_FINANCIAL_PAGES;

@@ -35,7 +35,7 @@ export class AuthenticationService {
 				first(),
 				filter((x) => !!x)
 			)
-			.subscribe((user) => this.initUserIfExists(user.uid));
+			.subscribe((user) => this.initUserIfExists(user?.uid));
 	}
 
 	async googleSignIn(): Promise<void> {
@@ -64,7 +64,10 @@ export class AuthenticationService {
 		await this.afAuth.signOut();
 	}
 
-	private initUserIfExists(userId: string) {
+	private initUserIfExists(userId: string | null | undefined) {
+		if (!userId) {
+			return;
+		}
 		console.log(`Init user ${userId}`);
 
 		// user already logged in - init skeleton till he is loaded
@@ -107,7 +110,7 @@ export class AuthenticationService {
 
 		if (isNewUser) {
 			const stUserAuthenticationInput: StUserAuthenticationInput = {
-				displayName: credential.user.displayName || credential.user.email.split('@')[0],
+				displayName: credential.user.displayName || credential.user?.email?.split('@')[0],
 				email: credential.user.email,
 				uid: credential.user.uid,
 				photoURL: credential.user.photoURL,

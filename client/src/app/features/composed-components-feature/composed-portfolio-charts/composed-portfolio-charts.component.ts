@@ -12,13 +12,13 @@ import { map } from 'rxjs/operators';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ComposedPortfolioChartsComponent implements OnInit {
-	@Input() stPortfolioSnapshots: StPortfolioSnapshot[];
-	portfolioChartHeight: number;
+	@Input() stPortfolioSnapshots: StPortfolioSnapshot[] = [];
+	portfolioChartHeight!: number;
 	portfolioComparisonSeries: GenericChartSeries[] = [];
-	isXXLDownScreen$: Observable<boolean>;
+	isXXLDownScreen$!: Observable<boolean>;
 
-	private portfolioBalance: number[];
-	private portfolioTimestamps: number[];
+	private portfolioBalance: number[] = [];
+	private portfolioTimestamps: number[] = [];
 
 	constructor(private breakpointObserver: BreakpointObserver, private graphqlQueryService: GraphqlQueryService, private cd: ChangeDetectorRef) {}
 
@@ -56,7 +56,7 @@ export class ComposedPortfolioChartsComponent implements OnInit {
 				{
 					type: ChartType.line,
 					name: 'My portfolio',
-					data: LodashService.zipArrays(this.portfolioTimestamps, this.portfolioBalance),
+					data: LodashService.zipArrays(this.portfolioTimestamps, this.portfolioBalance) as number[][],
 					color: '#22aad9',
 					lineWidth: 3,
 				},
@@ -68,7 +68,7 @@ export class ComposedPortfolioChartsComponent implements OnInit {
 					data: LodashService.takeRight(
 						res.price.map((x) => [x[0], x[4]]),
 						this.portfolioBalance.length
-					),
+					) as number[][],
 				},
 			];
 

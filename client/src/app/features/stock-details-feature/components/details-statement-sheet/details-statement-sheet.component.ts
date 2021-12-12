@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DetailsStatementSheetComponent implements OnInit {
-	@Input() sheetTitle: string;
+	@Input() sheetTitle!: string;
 	@Input() sheets: any[] = []; // StfmBalanceSheet[] | StfmIncomeStatement[] | StfmCashFlow[]
 
 	sliderConfig = {

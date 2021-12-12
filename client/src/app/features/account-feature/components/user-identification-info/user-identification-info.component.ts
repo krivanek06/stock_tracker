@@ -10,7 +10,7 @@ import { StUserIndetificationBase } from '@core';
 export class UserIdentificationInfoComponent implements OnInit {
 	@Output() clickedEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-	@Input() stUserIndetification: StUserIndetificationBase;
+	@Input() stUserIndetification!: StUserIndetificationBase;
 	@Input() clickable = false;
 
 	constructor() {}

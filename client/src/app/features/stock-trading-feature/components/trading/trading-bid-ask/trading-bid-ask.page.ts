@@ -9,8 +9,8 @@ import { marketValueChange } from '@shared';
 	animations: [marketValueChange],
 })
 export class TradingBidAskPage implements OnInit {
-	@Input() bidPrice: number;
-	@Input() askPrice: number;
+	@Input() bidPrice!: number;
+	@Input() askPrice!: number;
 
 	constructor() {}
 

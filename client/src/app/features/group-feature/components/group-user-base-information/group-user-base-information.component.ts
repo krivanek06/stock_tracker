@@ -9,11 +9,11 @@ import { PositionColors } from '@shared';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupUserBaseInformationComponent implements OnInit {
-	@Input() groupUser: StGroupUser;
+	@Input() groupUser!: StGroupUser;
 	@Input() useClassStyling: PositionColors = ''; // makes font colorfull - used on top three members
 	@Input() showIncreasePosition: boolean = false;
-	@Input() showPortfolioSinceMember: boolean;
-	@Input() groupUserPosition: number;
+	@Input() showPortfolioSinceMember = false;
+	@Input() groupUserPosition: number | null = null;
 	@Input() clickable: boolean = false;
 
 	constructor() {}

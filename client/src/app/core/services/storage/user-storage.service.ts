@@ -7,7 +7,7 @@ import { Maybe, StStockWatchlistFragmentFragment, StUserIndetification, StUserPu
 	providedIn: 'root',
 })
 export class UserStorageService {
-	private user$: BehaviorSubject<StUserPublicData> = new BehaviorSubject<StUserPublicData>(null);
+	private user$: BehaviorSubject<StUserPublicData | null> = new BehaviorSubject<StUserPublicData | null>(null);
 	private authenticating$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
 	constructor() {}
@@ -17,7 +17,7 @@ export class UserStorageService {
 			throw new Error('trying to access StUserPublicData, but does not exists');
 		}
 
-		return this.user$.getValue();
+		return this.user$.getValue() as StUserPublicData;
 	}
 
 	get userIdentification(): StUserIndetification {
@@ -26,7 +26,7 @@ export class UserStorageService {
 			id: user.id,
 			accountCreatedDate: user.accountCreatedDate,
 			nickName: user.nickName,
-			photoURL: user.photoURL,
+			photoURL: user.photoURL || '',
 			locale: user.locale,
 			__typename: 'STUserIndetification',
 		};
@@ -36,7 +36,7 @@ export class UserStorageService {
 		return this.authenticating$.getValue();
 	}
 
-	getUserIdentification(): Observable<StUserIndetification> {
+	getUserIdentification(): Observable<StUserIndetification | null> {
 		return this.getUser().pipe(
 			map((user) => {
 				if (!user) {
@@ -46,7 +46,7 @@ export class UserStorageService {
 					id: user.id,
 					accountCreatedDate: user.accountCreatedDate,
 					nickName: user.nickName,
-					photoURL: user.photoURL,
+					photoURL: user.photoURL || '',
 					locale: user.locale,
 					__typename: 'STUserIndetification',
 				};
@@ -55,14 +55,14 @@ export class UserStorageService {
 	}
 
 	getUser(): Observable<StUserPublicData> {
-		return this.user$.asObservable();
+		return this.user$.asObservable() as Observable<StUserPublicData>;
 	}
 
 	getUserNotNull(): Observable<StUserPublicData> {
 		return this.getUser().pipe(filter((user) => !!user));
 	}
 
-	setUser(user: StUserPublicData) {
+	setUser(user: StUserPublicData | null) {
 		this.user$.next(user);
 	}
 

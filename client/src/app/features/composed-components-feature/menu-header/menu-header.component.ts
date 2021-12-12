@@ -11,15 +11,15 @@ import { Observable } from 'rxjs';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuHeaderComponent implements OnInit {
-	@ViewChild('mySearchbar') searchBar: IonSearchbar;
+	@ViewChild('mySearchbar') searchBar!: IonSearchbar;
 
-	searchCompanyQuotes$: Observable<StfmCompanyQuote[]>;
+	searchCompanyQuotes$?: Observable<StfmCompanyQuote[]>;
 
 	loading = false;
 	showNotifications = false;
 
-	user$: Observable<StUserPublicData>;
-	isAuthenticating$: Observable<boolean>;
+	user$!: Observable<StUserPublicData>;
+	isAuthenticating$!: Observable<boolean>;
 
 	constructor(
 		private firebaseSearchService: GraphqlQueryService,

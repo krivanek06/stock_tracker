@@ -26,72 +26,72 @@ export class MarketSearchFormComponent implements OnInit {
 	marketSearchEtfInputSource = marketSearchEtfInputSource;
 	marketSearchActivelyTradedInputSource = marketSearchActivelyTradedInputSource;
 
-	form: FormGroup;
+	form!: FormGroup;
 
 	constructor(private fb: FormBuilder) {}
 
 	get marketCapMoreThan(): AbstractControl {
-		return this.form.get('marketCapMoreThan');
+		return this.form.get('marketCapMoreThan') as AbstractControl;
 	}
 
 	get marketCapLowerThan(): AbstractControl {
-		return this.form.get('marketCapLowerThan');
+		return this.form.get('marketCapLowerThan') as AbstractControl;
 	}
 
 	get priceMoreThan(): AbstractControl {
-		return this.form.get('priceMoreThan');
+		return this.form.get('priceMoreThan') as AbstractControl;
 	}
 
 	get priceLowerThan(): AbstractControl {
-		return this.form.get('priceLowerThan');
+		return this.form.get('priceLowerThan') as AbstractControl;
 	}
 
 	get betaMoreThan(): AbstractControl {
-		return this.form.get('betaMoreThan');
+		return this.form.get('betaMoreThan') as AbstractControl;
 	}
 
 	get betaLowerThan(): AbstractControl {
-		return this.form.get('betaLowerThan');
+		return this.form.get('betaLowerThan') as AbstractControl;
 	}
 
 	get volumeMoreThan(): AbstractControl {
-		return this.form.get('volumeMoreThan');
+		return this.form.get('volumeMoreThan') as AbstractControl;
 	}
 
 	get volumeLowerThan(): AbstractControl {
-		return this.form.get('volumeLowerThan');
+		return this.form.get('volumeLowerThan') as AbstractControl;
 	}
 
 	get dividendMoreThan(): AbstractControl {
-		return this.form.get('dividendMoreThan');
+		return this.form.get('dividendMoreThan') as AbstractControl;
 	}
 
 	get dividendLowerThan(): AbstractControl {
-		return this.form.get('dividendLowerThan');
+		return this.form.get('dividendLowerThan') as AbstractControl;
 	}
 
 	get isEtf(): AbstractControl {
-		return this.form.get('isEtf');
+		return this.form.get('isEtf') as AbstractControl;
 	}
 
 	get isActivelyTrading(): AbstractControl {
-		return this.form.get('isActivelyTrading');
+		return this.form.get('isActivelyTrading') as AbstractControl;
 	}
 
 	get sector(): AbstractControl {
-		return this.form.get('sector');
+		return this.form.get('sector') as AbstractControl;
 	}
 
 	get industry(): AbstractControl {
-		return this.form.get('industry');
+		return this.form.get('industry') as AbstractControl;
 	}
 
 	get country(): AbstractControl {
-		return this.form.get('country');
+		return this.form.get('country') as AbstractControl;
 	}
 
 	get exchange(): AbstractControl {
-		return this.form.get('exchange');
+		return this.form.get('exchange') as AbstractControl;
 	}
 
 	ngOnInit() {

@@ -1,19 +1,16 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {UpgradeDowngradeHistory} from '@core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { UpgradeDowngradeHistory } from '@core';
 
 @Component({
-    selector: 'app-details-grading-history',
-    templateUrl: './details-grading-history.component.html',
-    styleUrls: ['./details-grading-history.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-details-grading-history',
+	templateUrl: './details-grading-history.component.html',
+	styleUrls: ['./details-grading-history.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DetailsGradingHistoryComponent implements OnInit {
-    @Input() history: UpgradeDowngradeHistory[];
+	@Input() history: UpgradeDowngradeHistory[] = [];
 
-    constructor() {
-    }
+	constructor() {}
 
-    ngOnInit() {
-    }
-
+	ngOnInit() {}
 }

@@ -10,7 +10,7 @@ import { TradingScreenUpdateBaseDirective } from '@stock-trading-feature';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardPage extends TradingScreenUpdateBaseDirective implements OnInit, OnDestroy {
-	transactionHeight: number;
+	transactionHeight!: number;
 
 	constructor(
 		public userStorageService: UserStorageService,

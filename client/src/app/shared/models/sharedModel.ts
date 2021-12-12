@@ -42,17 +42,18 @@ export interface IdNameContainer {
 }
 
 export interface GenericChartSeries {
-	type: ChartType;
-	name: string;
+	type?: ChartType;
+	name?: string;
 	data: GenericChartSeriesData[] | number[] | number[][];
-	color?: string;
+	color?: string | any;
 	lineWidth?: number;
+	colorByPoint?: boolean;
 }
 
 export interface GenericChartSeriesData {
 	name?: string;
 	sliced?: boolean;
-	y: number;
+	y: number | undefined | null;
 	color?: string;
 }
 
@@ -68,6 +69,22 @@ export interface InputSource {
 	caption: string;
 }
 
+export enum InputTypeEnum {
+	TEXT = 'TEXT',
+	NUMBER = 'NUMBER',
+	EMAIL = 'EMAIL',
+	PASSWORD = 'PASSWORD',
+	FILTER_FROM_LIST = 'FILTER_FROM_LIST',
+	CHECKBOX = 'CHECKBOX',
+	RADIO = 'RADIO',
+	SLIDE_TOGGLE = 'SLIDE_TOGGLE',
+	TIME = 'TIME',
+	SELECT = 'SELECT',
+	TEXTAREA = 'TEXTAREA',
+	MULTISELECT = 'MULTISELECT',
+	BUTTON = 'BUTTON',
+}
+
 export type InputType =
 	| 'CHECKBOX'
 	| 'RADIO'
@@ -81,6 +98,12 @@ export type InputType =
 	| 'NUMBER'
 	| 'EMAIL'
 	| 'PASSWORD';
+
+export interface InputSourceSliderConfig {
+	step: number;
+	min: number;
+	max: number;
+}
 
 export type PositionColors = 'st-first-position-color' | 'st-second-position-color' | 'st-third-position-color' | 'st-my-position-color' | '';
 

@@ -57,7 +57,7 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
 	}
 
 	showDetails() {
-		this.router.navigateByUrl(`/menu/search/stock-details/${this.selectedSummary.symbol}`);
+		this.router.navigateByUrl(`/menu/search/stock-details/${this.selectedSummary?.symbol}`);
 	}
 
 	changeSymbol(symbolIdentification: SymbolIdentification): void {
@@ -72,7 +72,9 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
 	}
 
 	changeSummary(summary: Summary): void {
-		this.changeSymbol({ symbol: summary.symbol, name: summary.companyName });
+		if (summary.symbol && summary.companyName) {
+			this.changeSymbol({ symbol: summary.symbol, name: summary.companyName });
+		}
 	}
 
 	loadSummary(companyQuote: StfmCompanyQuote) {
@@ -84,7 +86,7 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
 				console.log('summary', summary);
 				if (!summary) {
 					DialogService.showNotificationBar(`No stock details for symbol ${companyQuote.symbol} has been found`);
-					this.setSelectedSummary(this.suggestions[0].summary);
+					this.setSelectedSummary(this.suggestions[0].summary as Summary);
 					return;
 				}
 				this.setSelectedSummary(summary);
@@ -104,16 +106,16 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
 			.queryMarketDailyOverview()
 			.pipe(first())
 			.subscribe((overview) => {
-				this.suggestions = LodashService.cloneDeep(overview.stockSuggestions);
+				this.suggestions = LodashService.cloneDeep(overview.stockSuggestions) as StStockSuggestion[];
 
 				if (!this.selectedSummary) {
-					this.setSelectedSummary(this.suggestions[0].summary);
+					this.setSelectedSummary(this.suggestions[0]?.summary as Summary);
 				}
 			});
 	}
 
-	private setSelectedSummary(summary: Summary) {
-		this.selectedSummary = LodashService.cloneDeep(summary);
+	private setSelectedSummary(summary: Summary | null) {
+		this.selectedSummary = !!summary ? LodashService.cloneDeep(summary) : null;
 	}
 
 	private subscribeForSuggestionPriceChange() {
@@ -121,8 +123,8 @@ export class TradingPage extends TradingScreenUpdateBaseDirective implements OnI
 			.initSubscriptionStockSuggestions()
 			.pipe(takeUntil(componentDestroyed(this)))
 			.subscribe((res) => {
-				const suggestion = this.suggestions.find((s) => s.summary.symbol === res.s);
-				if (suggestion) {
+				const suggestion = this.suggestions.find((s) => s.summary?.symbol === res.s);
+				if (suggestion && suggestion.summary) {
 					suggestion.summary.marketPrice = res.p;
 				}
 

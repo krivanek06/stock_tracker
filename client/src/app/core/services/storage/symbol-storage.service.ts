@@ -14,7 +14,7 @@ import {
 	providedIn: 'root',
 })
 export class SymbolStorageService {
-	private activeSymbol$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+	private activeSymbol$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
 	constructor(
 		private queryStockDetailsGQL: QueryStockDetailsGQL,
@@ -22,19 +22,19 @@ export class SymbolStorageService {
 		private queryStockFinancialReportsGQL: QueryStockFinancialReportsGQL
 	) {}
 
-	get activeSymbol(): string {
+	get activeSymbol(): string | null {
 		return this.activeSymbol$.getValue();
 	}
 
-	getActiveSymbol(): Observable<string> {
+	getActiveSymbol(): Observable<string | null> {
 		return this.activeSymbol$.asObservable();
 	}
 
-	setActiveSymbol(symbol: string) {
+	setActiveSymbol(symbol: string | null) {
 		this.activeSymbol$.next(symbol);
 	}
 
-	getStockDetails(symbol: string = this.activeSymbol): Observable<StockDetails> {
+	getStockDetails(symbol = this.activeSymbol): Observable<StockDetails | null> {
 		if (!symbol) {
 			return of(null);
 		}
@@ -42,10 +42,13 @@ export class SymbolStorageService {
 			.fetch({
 				symbol,
 			})
-			.pipe(map((res) => res.data.queryStockDetails));
+			.pipe(map((res) => res.data.queryStockDetails as StockDetails));
 	}
 
-	reloadStockDetails(symbol: string = this.activeSymbol) {
+	reloadStockDetails(symbol = this.activeSymbol): Observable<any> {
+		if (!symbol) {
+			return of(null);
+		}
 		return this.queryStockDetailsGQL
 			.fetch(
 				{
@@ -59,19 +62,26 @@ export class SymbolStorageService {
 			.pipe(map((res) => res.data.queryStockDetails));
 	}
 
-	getStockSummary(symbol: string = this.activeSymbol): Observable<Summary> {
+	getStockSummary(symbol = this.activeSymbol): Observable<Summary | null> {
+		if (!symbol) {
+			return of(null);
+		}
+
 		return this.queryStockSummaryGQL
 			.fetch({
 				symbol,
 			})
-			.pipe(map((res) => res.data.queryStockSummary));
+			.pipe(map((res) => res.data.queryStockSummary as Summary));
 	}
 
-	getStockFinancialReports(symbol: string = this.activeSymbol): Observable<StockDetailsFinancialReports> {
+	getStockFinancialReports(symbol = this.activeSymbol): Observable<StockDetailsFinancialReports | null> {
+		if (!symbol) {
+			return of(null);
+		}
 		return this.queryStockFinancialReportsGQL
 			.fetch({
 				symbol,
 			})
-			.pipe(map((res) => res.data.queryStockFinancialReports));
+			.pipe(map((res) => res.data.queryStockFinancialReports as StockDetailsFinancialReports));
 	}
 }

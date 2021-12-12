@@ -5,8 +5,6 @@
 }"
 >
 	<app-form-mat-input-wrapper
-		[chipMaxAllowed]="chipMaxAllowed"
-		[chipSelectedValues]="chipSelectedValues"
 		[controlName]="controlName"
 		[disabled]="disabled.value"
 		[hintText]="hintText"
@@ -15,9 +13,7 @@
 		[inputSource]="inputSource"
 		[inputType]="allowChangeInput ? changeInputTo : inputType"
 		[sliderLabelShowDollarSign]="sliderLabelShowDollarSign"
-		[sliderMaxValue]="sliderMaxValue"
-		[sliderMinValue]="sliderMinValue"
-		[sliderStepValue]="sliderStepValue"
+		[inputTypeSliderConfig]="sliderConfig"
 	></app-form-mat-input-wrapper>
 
 	<div class="st-display-flex-center" [ngClass]='{"has-erros": formInputControl.touched && formInputControl.invalid }'>

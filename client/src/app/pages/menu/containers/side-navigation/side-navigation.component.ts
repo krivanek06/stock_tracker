@@ -25,11 +25,11 @@ interface MenuPageInterface {
 export class SideNavigationComponent implements OnInit, OnDestroy {
 	@Output() closeEmitter: EventEmitter<void> = new EventEmitter<void>();
 
-	@Input() showMenuButton!: boolean;
-	@Input() user: StUserPublicData;
-	@Input() authenticating: boolean;
+	@Input() showMenuButton!: boolean | null;
+	@Input() user!: StUserPublicData | null;
+	@Input() authenticating!: boolean | null;
 
-	selectedNavigation: MenuPageInterface;
+	selectedNavigation?: MenuPageInterface;
 	mainPages: MenuPageInterface[] = [];
 	otherPages: MenuPageInterface[] = [];
 
@@ -83,8 +83,9 @@ export class SideNavigationComponent implements OnInit, OnDestroy {
 				filter((event) => event instanceof NavigationEnd),
 				takeUntil(componentDestroyed(this))
 			)
-			.subscribe((res: NavigationEnd) => {
-				let path = res.url.split('/menu/')[1];
+			.subscribe((res) => {
+				const navigation = res as NavigationEnd;
+				let path = navigation.url.split('/menu/')[1];
 
 				if (!!path) {
 					path = path.split('/')[0];

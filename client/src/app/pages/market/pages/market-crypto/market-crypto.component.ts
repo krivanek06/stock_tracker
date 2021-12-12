@@ -12,10 +12,10 @@ import { takeUntil } from 'rxjs/operators';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MarketCryptoComponent extends ComponentScreenUpdateBaseDirective implements OnInit, OnDestroy {
-	marketOverview$: Observable<StMarketOverviewPartialData>;
+	marketOverview$!: Observable<StMarketOverviewPartialData>;
 	topCrypto: StMarketTopTableCryptoData[] = [];
-	chartHeight: number;
-	lastUpdateTopStocks: string;
+	chartHeight!: number;
+	lastUpdateTopStocks!: string;
 
 	constructor(
 		private graphqlQueryService: GraphqlQueryService,
@@ -39,7 +39,7 @@ export class MarketCryptoComponent extends ComponentScreenUpdateBaseDirective im
 
 	async showSummary(data: StMarketTopTableCryptoData) {
 		const symbolIdentification: SymbolIdentification = { symbol: data.symbol, name: data.shortName };
-		await this.marketPageFacadeService.showFinancialChart(symbolIdentification, data.coinImageUrl, true);
+		await this.marketPageFacadeService.showFinancialChart(symbolIdentification, data.coinImageUrl || undefined, true);
 	}
 
 	async expand(documentKey: string) {

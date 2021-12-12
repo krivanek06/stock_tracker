@@ -10,12 +10,12 @@
 				[title]="'Balance'"
 			>
 				<ion-item class="st-flex-row">
-					<ion-label class="st-font-size-24 st-font-white"> {{ (portfolioCash + portfolioInvested) | currency }} </ion-label>
+					<ion-label class="st-font-size-24 st-font-white"> {{ (cashOnHand + invested) | currency }} </ion-label>
 					<ion-label class="st-fit-content">
 						<app-price-change-item
 							[showDollarSignOnPrice]="true"
-							[priceChange]="((portfolioCash + portfolioInvested) - startedBalance) / startedBalance * 100"
-							[price]="(portfolioCash + portfolioInvested) - startedBalance"
+							[priceChange]="((cashOnHand + invested) - startedBalance) / startedBalance * 100"
+							[price]="(cashOnHand + invested) - startedBalance"
 						>
 						</app-price-change-item>
 					</ion-label>
@@ -62,9 +62,8 @@
 			<ion-text class="st-font-size-18 st-main-color-turquois">Balance</ion-text>
 		</ion-label>
 		<ion-label class="st-flex-row-sm-col ion-align-items-center">
-			<ion-text class="st-small-right-space st-font-0 st-font-size-18"> {{ (portfolioCash + portfolioInvested) | numberFormatter}} </ion-text>
-			<app-price-compare-item [compareToPrice]="startedBalance" [currentPrice]="portfolioInvested + portfolioCash" [showPrice]="false">
-			</app-price-compare-item>
+			<ion-text class="st-small-right-space st-font-0 st-font-size-18"> {{ (cashOnHand + invested) | numberFormatter}} </ion-text>
+			<app-price-compare-item [compareToPrice]="startedBalance" [currentPrice]="invested + cashOnHand" [showPrice]="false"> </app-price-compare-item>
 		</ion-label>
 	</div>
 

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GraphqlGroupService, StGroupIdentificationDataFragment } from '@core';
 import { Observable, of } from 'rxjs';
@@ -12,10 +12,14 @@ import { debounceTime, switchMap } from 'rxjs/operators';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchGroupPageComponent implements OnInit {
-	searchedGroups$: Observable<StGroupIdentificationDataFragment[]>;
-	form: FormGroup;
+	searchedGroups$!: Observable<StGroupIdentificationDataFragment[] | null>;
+	form!: FormGroup;
 
 	constructor(private fb: FormBuilder, private graphqlGroupService: GraphqlGroupService, private router: Router) {}
+
+	get groupName(): AbstractControl {
+		return this.form.get('groupName') as AbstractControl;
+	}
 
 	ngOnInit() {
 		this.initForm();
@@ -33,7 +37,7 @@ export class SearchGroupPageComponent implements OnInit {
 	}
 
 	private watchForm() {
-		this.searchedGroups$ = this.form.get('groupName').valueChanges.pipe(
+		this.searchedGroups$ = this.groupName.valueChanges.pipe(
 			debounceTime(300),
 			switchMap((res) => {
 				if (!res || res.length <= 1) {

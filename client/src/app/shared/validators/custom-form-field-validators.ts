@@ -1,4 +1,4 @@
-import { AbstractControl, FormControl, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, Validators } from '@angular/forms';
 import { CustomInputValidatorFn } from './validators.model';
 
 export const requiredValidator: CustomInputValidatorFn = (control) => {
@@ -15,34 +15,51 @@ export const requiredValidator: CustomInputValidatorFn = (control) => {
 	};
 };
 
+export const wholeNumberValidator: CustomInputValidatorFn = (control) => {
+	const wholeNumberValidatorFn = Validators.pattern('^[0-9]*$');
+	const validationErrors = wholeNumberValidatorFn(control);
+
+	if (validationErrors) {
+		return {
+			wholeNumber: {
+				errorText: `The given field can only contain whole numbers`,
+			},
+		};
+	}
+
+	return null;
+};
+
+export const maxLengthValidator = (maxLength: number): CustomInputValidatorFn => {
+	const maxLengthValidatorFn = Validators.maxLength(maxLength);
+
+	return (control: AbstractControl) => {
+		const maxLengthValidationErrors = maxLengthValidatorFn(control);
+
+		if (maxLengthValidationErrors) {
+			return {
+				interval: {
+					errorText: `The given field can only contain ${maxLength} characters`,
+				},
+			};
+		}
+
+		return null;
+	};
+};
+
 export const positiveNumberValidator: CustomInputValidatorFn = (control) => {
 	if (!control.value || isNaN(control.value)) {
 		return null;
 	}
 
 	if (Number(control.value) > 0) {
-		return;
+		return null;
 	}
 
 	return {
 		required: {
 			errorText: 'Enter number higher then 0',
-		},
-	};
-};
-
-export const wholeNumberValidator: CustomInputValidatorFn = (control) => {
-	if (!control.value || isNaN(control.value)) {
-		return null;
-	}
-
-	if (Number.isInteger(Number(control.value))) {
-		return;
-	}
-
-	return {
-		required: {
-			errorText: 'Enter only whole number',
 		},
 	};
 };
@@ -96,22 +113,3 @@ export const intervalValidator = (min: number, max: number) => {
 		return null;
 	};
 };
-
-export function maxLengthValidator(maxLength: number): ValidatorFn {
-	const dmaxLengthValidatorBody: CustomInputValidatorFn = (control: FormControl) => {
-		if (!control.value) {
-			return null;
-		}
-
-		if ((control.value as string).length > maxLength) {
-			return {
-				max_length_error: {
-					errorText: `Maximum length for this input is:  ${maxLength}`,
-				},
-			};
-		}
-
-		return null;
-	};
-	return dmaxLengthValidatorBody;
-}

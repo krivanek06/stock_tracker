@@ -13,7 +13,7 @@
 		<!-- holdings chart -->
 		<app-pie-chart-wrapper
 			*ngIf="holdings.length < 12; else showInvested"
-			[data]="holdings | holdingsToPortfolioChartSeries:  portfolioCash"
+			[data]="portfolioCash ? (holdings | holdingsToPortfolioChartSeries:  portfolioCash) : []"
 			[heightPx]="portfolioChartHeight + 15"
 			chartTitle="Holdings allocation"
 		></app-pie-chart-wrapper>
@@ -23,10 +23,10 @@
 			<app-pie-chart-wrapper
 				[heightPx]="portfolioChartHeight - 15"
 				chartTitle="Portfolio allocation"
-				[data]="[
-				{name: 'Invested', color: '#5e00df', y: 100 / (portfolioInvested + portfolioCash) * portfolioInvested, sliced: true},
-				{name: 'Cash', color: '#c7481a', y: 100 / (portfolioInvested + portfolioCash) * portfolioCash}
-			]"
+				[data]="portfolioCash && portfolioInvested ? ([
+					{name: 'Invested', color: '#5e00df', y: 100 / (portfolioInvested + portfolioCash) * portfolioInvested, sliced: true},
+					{name: 'Cash', color: '#c7481a', y: 100 / (portfolioInvested + portfolioCash) * portfolioCash}
+				]) : []"
 			>
 			</app-pie-chart-wrapper>
 		</ng-template>

@@ -11,8 +11,8 @@ import { USER_MEMBER_ACTIONS_ENUM } from '../../model/group-details-overview.mod
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupDetailsOverviewMembersContainerComponent implements OnInit {
-	@Input() groupAllData: StGroupAllData;
-	@Input() user: StUserPublicData;
+	@Input() groupAllData!: StGroupAllData;
+	@Input() user!: StUserPublicData;
 
 	constructor(private groupFeatureFacadeService: GroupFeatureFacadeService) {}
 

@@ -19,8 +19,8 @@
 		<ion-text
 			*ngIf="price || priceChange; else showNA"
 			[ngClass]="{
-                    'st-price-up': priceChange > 0,
-                    'st-price-down': priceChange < 0
+                    'st-price-up': priceChange && priceChange > 0,
+                    'st-price-down': priceChange && priceChange < 0
                      }"
 			class="st-flex-row"
 		>

@@ -10,6 +10,7 @@ import {
 	ResetUserAccountGQL,
 	ResetUserAccountMutation,
 	StUserEditDataInput,
+	StUserResetedAccount,
 } from '../graphql-schema';
 import { STARTING_PORTFOLIO } from '../model';
 import { UserStorageService } from '../services';
@@ -35,15 +36,19 @@ export class GraphqlAccountService {
 					__typename: 'Mutation',
 					editUser: true,
 				},
-				update: (store: DataProxy, { data: { editUser } }) => {
-					const data = store.readQuery<AuthenticateUserQuery>({
+				update: (store: DataProxy, { data }) => {
+					const cache = store.readQuery<AuthenticateUserQuery>({
 						query: AuthenticateUserDocument,
 						variables: {
 							id: this.userStorageService.user.id,
 						},
 					});
 
-					const initPortfolio = !data.authenticateUser.userPrivateData.tradingEnabledDate && !!editInput.finnhubKey;
+					if (!cache?.authenticateUser) {
+						return;
+					}
+
+					const initPortfolio = !cache.authenticateUser.userPrivateData.tradingEnabledDate && !!editInput.finnhubKey;
 
 					// update watchlist inside cache
 					store.writeQuery({
@@ -52,18 +57,18 @@ export class GraphqlAccountService {
 							id: this.userStorageService.user.id,
 						},
 						data: {
-							...data,
+							...cache,
 							authenticateUser: {
-								...data.authenticateUser,
+								...cache.authenticateUser,
 								photoURL: editInput.photoURL,
 								nickName: editInput.nickName,
 								userPrivateData: {
-									...data.authenticateUser.userPrivateData,
+									...cache.authenticateUser.userPrivateData,
 									finnhubKey: editInput.finnhubKey,
 								},
 								portfolio: {
-									...data.authenticateUser.portfolio,
-									portfolioCash: initPortfolio ? STARTING_PORTFOLIO : data.authenticateUser.portfolio.portfolioCash,
+									...cache.authenticateUser.portfolio,
+									portfolioCash: initPortfolio ? STARTING_PORTFOLIO : cache.authenticateUser.portfolio.portfolioCash,
 								},
 							},
 						},
@@ -79,13 +84,18 @@ export class GraphqlAccountService {
 				userId: this.userStorageService.user.id,
 			},
 			{
-				update: (store: DataProxy, { data: { resetUserAccount } }) => {
-					const data = store.readQuery<AuthenticateUserQuery>({
+				update: (store: DataProxy, { data }) => {
+					const resetUserAccount = data?.resetUserAccount as StUserResetedAccount;
+					const cache = store.readQuery<AuthenticateUserQuery>({
 						query: AuthenticateUserDocument,
 						variables: {
 							id: this.userStorageService.user.id,
 						},
 					});
+
+					if (!cache?.authenticateUser) {
+						return;
+					}
 
 					// update watchlist inside cache
 					store.writeQuery({
@@ -94,18 +104,18 @@ export class GraphqlAccountService {
 							id: this.userStorageService.user.id,
 						},
 						data: {
-							...data,
+							...cache,
 							authenticateUser: {
-								...data.authenticateUser,
+								...cache.authenticateUser,
 								holdings: [],
 								userHistoricalData: {
-									...data.authenticateUser.userHistoricalData,
-									resetedAccount: [...data.authenticateUser.userHistoricalData.resetedAccount, resetUserAccount],
+									...cache.authenticateUser.userHistoricalData,
+									resetedAccount: [...cache.authenticateUser.userHistoricalData.resetedAccount, resetUserAccount],
 									transactionSnapshots: [],
 									portfolioSnapshots: [],
 								},
 								portfolio: {
-									...data.authenticateUser.portfolio,
+									...cache.authenticateUser.portfolio,
 									portfolioCash: STARTING_PORTFOLIO,
 									numberOfExecutedBuyTransactions: 0,
 									numberOfExecutedSellTransactions: 0,

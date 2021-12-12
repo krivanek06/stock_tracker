@@ -52,7 +52,7 @@ export class WatchlistPage extends ComponentScreenUpdateBaseDirective implements
 			.getUserWatchlists()
 			.pipe(takeUntil(componentDestroyed(this)))
 			.subscribe((watchlists) => {
-				this.stockWatchlists = LodashService.cloneDeep(watchlists) || [];
+				this.stockWatchlists = (LodashService.cloneDeep(watchlists) as StStockWatchlistFragmentFragment[]) || [];
 			});
 	}
 
@@ -62,10 +62,13 @@ export class WatchlistPage extends ComponentScreenUpdateBaseDirective implements
 			.pipe(takeUntil(componentDestroyed(this)))
 			.subscribe((res) => {
 				for (const watchlist of this.stockWatchlists) {
-					const objIndex = watchlist.summaries.findIndex((obj) => obj.symbol === res.s);
+					const objIndex = watchlist.summaries?.findIndex((obj) => obj?.symbol === res.s);
 
-					if (objIndex !== -1) {
-						watchlist.summaries[objIndex].marketPrice = res.p;
+					if (!!objIndex && objIndex !== -1) {
+						const summary = watchlist.summaries?.find((summary, index) => index === objIndex);
+						if (summary) {
+							summary.marketPrice = res.p;
+						}
 					}
 				}
 			});

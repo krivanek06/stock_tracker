@@ -16,14 +16,14 @@ export class GroupTopUsersInformationComponent implements OnInit {
 	@Output() sendInvitationEmitter: EventEmitter<any> = new EventEmitter<any>();
 	@Output() removeInvitationEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-	@Input() groupAllData: StGroupIdentificationDataFragment | StGroupAllData;
-	@Input() showVisitButton: boolean;
-	@Input() showAcceptButton: boolean;
-	@Input() showDeclineButton: boolean;
-	@Input() showDeleteButton: boolean;
-	@Input() showLeaveButton: boolean;
-	@Input() showSendInvitationButton: boolean;
-	@Input() showRemoveInvitationButton: boolean;
+	@Input() groupAllData!: StGroupIdentificationDataFragment | StGroupAllData;
+	@Input() showVisitButton = false;
+	@Input() showAcceptButton = false;
+	@Input() showDeclineButton = false;
+	@Input() showDeleteButton = false;
+	@Input() showLeaveButton = false;
+	@Input() showSendInvitationButton = false;
+	@Input() showRemoveInvitationButton = false;
 
 	constructor() {}
 

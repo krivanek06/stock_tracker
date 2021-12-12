@@ -10,7 +10,7 @@ import { Confirmable, DialogService } from '@shared';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupDetailsOverviewInvitationsContainerComponent implements OnInit {
-	@Input() groupAllData: StGroupAllData;
+	@Input() groupAllData!: StGroupAllData;
 
 	displayUsers: StUserIndentificationDataFragment[] = [];
 

@@ -1,37 +1,33 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StStockWatchlist, Summary} from '@core';
-import {marketValueChange, SymbolIdentification} from '@shared';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { StStockWatchlist, Summary } from '@core';
+import { marketValueChange, SymbolIdentification } from '@shared';
 
 @Component({
-    selector: 'app-watchlist-table',
-    templateUrl: './watchlist-table.component.html',
-    styleUrls: ['./watchlist-table.component.scss'],
-    animations: [
-        marketValueChange
-    ]
+	selector: 'app-watchlist-table',
+	templateUrl: './watchlist-table.component.html',
+	styleUrls: ['./watchlist-table.component.scss'],
+	animations: [marketValueChange],
 })
 export class WatchlistTableComponent implements OnInit {
-    @Output() itemClickedEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
+	@Output() itemClickedEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
 
-    @Input() watchlist: StStockWatchlist;
+	@Input() watchlist!: StStockWatchlist;
 
-    showDailyChange = true;
+	showDailyChange = true;
 
-    constructor() {
-    }
+	constructor() {}
 
-    ngOnInit() {
-    }
+	ngOnInit() {}
 
-    itemClicked(identification: Summary) {
-        this.itemClickedEmitter.emit({symbol: identification.symbol, name: identification.companyName});
-    }
+	itemClicked(identification: Summary) {
+		this.itemClickedEmitter.emit({ symbol: identification.symbol, name: identification.companyName });
+	}
 
-    toggleDailyChange() {
-        this.showDailyChange = !this.showDailyChange;
-    }
+	toggleDailyChange() {
+		this.showDailyChange = !this.showDailyChange;
+	}
 
-    identify(index, item: Summary) {
-        return item?.symbol || index;
-    }
+	identify(index: any, item: Summary) {
+		return item?.symbol || index;
+	}
 }

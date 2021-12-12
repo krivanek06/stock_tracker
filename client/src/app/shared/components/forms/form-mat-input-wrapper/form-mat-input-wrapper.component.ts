@@ -1,38 +1,54 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ControlContainer, FormControl } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { InputSource, InputType } from '../../../models';
-import { stFormatLargeNumber } from '../../../utils';
+import { MatSelectChange } from '@angular/material/select';
+import { MatSliderChange } from '@angular/material/slider';
+import { first } from 'rxjs/operators';
+import { Required } from '../../../decorators';
+import { InputSource, InputSourceSliderConfig, InputType } from '../../../models';
 
+/**
+ * Wrapper pre inputy.
+ * Sluzi na to, aby sme nemuseli na kazdom mieste nanovo stylovat inputy a aby sme mohli lahsie
+ * tie inputy naparametrizovat.
+ */
 @Component({
 	selector: 'app-form-mat-input-wrapper',
 	templateUrl: './form-mat-input-wrapper.component.html',
 	styleUrls: ['./form-mat-input-wrapper.component.scss'],
 })
-export class FormMatInputWrapperComponent implements OnInit {
-	@Input() controlName: string;
+export class FormMatInputWrapperComponent implements OnInit, OnChanges {
+	/* emits only if showCloseIcon === true &&  inputType === 'TEXT' */
+	@Output() resetInputValueEmitter: EventEmitter<void> = new EventEmitter<void>();
+
+	@Required
+	@Input()
+	controlName!: string;
+
+	@Required
+	@Input()
+	inputCaption!: string;
+
+	@Input() prefixIcon: string | undefined;
+
 	@Input() inputType: InputType = 'TEXT';
-	@Input() inputCaption: string;
-	@Input() icon: string;
-	@Input() disabled: boolean;
-	@Input() hintText: string;
-	@Input() inputSource: InputSource[] = []; // data which are displayed in Select.options
-	@Input() highlightField: boolean;
+	@Input() inputAutoComplete = true;
+	@Input() disabled = false;
+	@Input() hintText: string | undefined;
+	@Input() showCloseIcon = false; // use only if inputType === 'TEXT'
+	@Input() inputSource: InputSource[] | null | undefined = []; // data which are displayed in Select.options
+	@Input() fieldsetAdditionalClasses = '';
+	@Input() inputTypeSliderConfig!: InputSourceSliderConfig;
 
-	@Input() chipMaxAllowed = 999; // only used when inputType === MULTISELECT
-	@Input() chipSelectedValues: InputSource[] = []; // used display selected values when inputType === CHIPSELECT
+	@Input() highlightField = false;
+	@Input() sliderLabelShowDollarSign = false;
 
-	@Input() sliderMaxValue: number;
-	@Input() sliderMinValue: number;
-	@Input() sliderStepValue: number;
-	@Input() sliderLabelShowDollarSign: boolean = false;
-
-	@ViewChild('chipSearchInput') chipSearchInput: ElementRef<HTMLInputElement>; // needed to remove value when picked chip on inputType === CHIPSELECT
-
-	formInputControl: FormControl;
 	/*
-	 * used when inputType === CHIPSELECT
-	 * */
+    Only used when inputType === BUTTON
+  */
+	@Input() buttonOffCaption: string | undefined;
+	selectedInputSouce: InputSource | undefined; // ONLY USED FOR inputType === SELECT
+
+	formInputControl!: FormControl;
 	private copyInputSource: InputSource[] = []; // storing original inputSource when filtering in inputType === MULTISELECT
 
 	constructor(private controlContainer: ControlContainer) {}
@@ -46,70 +62,68 @@ export class FormMatInputWrapperComponent implements OnInit {
 	}
 
 	get usedFormControl(): FormControl {
-		if (this.inputType === 'CHIPSELECT') {
-			return this.chipInputControl;
-		}
 		return this.formInputControl;
 	}
 
-	ngOnInit(): void {
-		this.formInputControl = this.controlContainer.control.get(this.controlName) as FormControl;
-
-		if (this.inputType === 'CHIPSELECT') {
-			this.controlChipSelect();
+	get shouldBeErrorsShowed(): boolean | null {
+		if (!this.usedFormControl) {
+			return false;
 		}
+
+		return this.usedFormControl.errors && (this.usedFormControl.touched || this.usedFormControl.dirty);
+	}
+
+	ngOnInit(): void {
+		this.formInputControl = this.controlContainer.control?.get(this.controlName) as FormControl;
+
+		// create copy - used when filtering
+		if (this.inputSource && this.copyInputSource.length === 0) {
+			this.copyInputSource = [...this.inputSource];
+		}
+	}
+
+	ngOnChanges(changes: SimpleChanges): void {
+		if (changes?.inputSource?.currentValue && this.copyInputSource.length === 0) {
+			this.copyInputSource = [...(changes?.inputSource?.currentValue as InputSource[])];
+		}
+
+		// when in editing we patch value into selectedInputSouce m we want to find a value
+		// form inputSource to display image (flag, etc.)
+		if (this.inputType === 'SELECT' && !!this.formInputControl && !!this.inputSource) {
+			this.selectedInputSouce = this.inputSource?.find((s) => s.value === this.formInputControl.value);
+			if (!this.selectedInputSouce) {
+				this.formInputControl.valueChanges.pipe(first()).subscribe((res) => {
+					this.selectedInputSouce = this.inputSource?.find((s) => s.value === res);
+				});
+			}
+		}
+	}
+
+	resetValue(): void {
+		this.resetInputValueEmitter.emit();
+	}
+
+	toggleButton(): void {
+		this.formInputControl.patchValue(!this.formInputControl.value);
 	}
 
 	/*
 	 * used when inputType === MULTISELECT to filter data
 	 * */
-	multiSelectKeyPress(event: any) {
-		const value = event.target.value;
-		if (this.copyInputSource.length === 0) {
-			this.copyInputSource = [...this.inputSource];
-		}
+	multiSelectKeyPress(event: any): void {
+		const value = event.target?.value;
 		this.inputSource = this.copyInputSource.filter((inputSource) => inputSource.caption.toString().toLowerCase().startsWith(value.toLowerCase()));
 	}
 
-	chipRemoved(chipIndex: number) {
-		const values = this.chipInputControl.value as string[];
-		this.chipInputControl.patchValue([...values.filter((_, index) => index !== chipIndex)]);
-		this.chipSelectedValues.splice(chipIndex, 1);
-		this.chipInputControl.markAsDirty();
-	}
-
-	chipSuggestionSelected(event: MatAutocompleteSelectedEvent) {
-		if (!!this.chipMaxAllowed && this.chipSelectedValues.length === this.chipMaxAllowed) {
+	selectOption(event: MatSelectChange): void {
+		if (!this.inputSource) {
 			return;
 		}
 
-		this.chipSelectedValues = [...this.chipSelectedValues, this.inputSource.find((s) => s.value === event.option.value)];
-		this.chipInputControl.patchValue([...this.chipInputControl.value, event.option.value]);
-		this.chipSearchInputControl.setValue(null);
-		this.chipSearchInput.nativeElement.value = null;
+		this.selectedInputSouce = this.inputSource.find((s) => s.value === event.source.value);
 	}
 
-	sliderFormatLabel(value: number) {
-		return stFormatLargeNumber(value, null, this.sliderLabelShowDollarSign);
-	}
-
-	private controlChipSelect(): void {
-		/**
-		 * CHIPSELECT required format
-		 * {
-		 *   searchInput: [value, [validators]],
-		 *   trueFormInput: [[...values], [validators]]
-		 * }
-		 *
-		 * searchInput - text field for autocompletion
-		 * trueFormInput - array of values which are send into API
-		 */
-		if (!this.chipInputControl || !this.chipSearchInputControl) {
-			throw new Error(`The provided formGroup should have 'searchInput' and 'trueFormInput' controls`);
-		}
-
-		if (!Array.isArray(this.chipInputControl.value)) {
-			throw new Error(`The 'trueFormInput' control in the provided formGroup should be an array.`);
-		}
+	setSliderValue(event: MatSliderChange): void {
+		this.usedFormControl.patchValue(event.value);
 	}
 }

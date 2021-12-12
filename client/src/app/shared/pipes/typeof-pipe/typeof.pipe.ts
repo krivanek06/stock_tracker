@@ -1,12 +1,17 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'typeof'
+	name: 'typeof',
 })
 export class TypeofPipe implements PipeTransform {
-
-    transform(value: any): any {
-        return typeof value;
-    }
-
+	transform(value: unknown): 'string' | 'number' | 'bigint' | 'boolean' | 'symbol' | 'undefined' | 'object' | 'function' | 'array' | null {
+		try {
+			if (value instanceof Array) {
+				return 'array';
+			}
+			return typeof value;
+		} catch (e) {
+			return null;
+		}
+	}
 }

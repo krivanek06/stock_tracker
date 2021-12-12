@@ -12,18 +12,18 @@ import { first, map } from 'rxjs/operators';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SymbolLookupModalComponent implements OnInit {
-	symbolIdentification: SymbolIdentification;
-	watchlistId: string;
+	symbolIdentification!: SymbolIdentification;
+	watchlistId!: string;
 	showAddToWatchlistOption = true;
 	isSymbolInWatchlist = false;
 	showSpinner = true;
 
 	SymbolType = SymbolType;
 
-	stockDetails$: Observable<StockDetails>;
-	symbolType$: Observable<SymbolType>;
-	user$: Observable<StUserPublicData>;
-	isAdmin$: Observable<boolean>;
+	stockDetails$!: Observable<StockDetails | null>;
+	symbolType$!: Observable<SymbolType | null>;
+	user$!: Observable<StUserPublicData>;
+	isAdmin$!: Observable<boolean>;
 
 	constructor(
 		private navParams: NavParams,
@@ -39,7 +39,7 @@ export class SymbolLookupModalComponent implements OnInit {
 		this.showAddToWatchlistOption = this.navParams.get('showAddToWatchlistOption');
 
 		this.stockDetails$ = this.symbolStorageService.getStockDetails(this.symbolIdentification.symbol);
-		this.symbolType$ = this.stockDetails$.pipe(map((x) => x.summary.symbolType));
+		this.symbolType$ = this.stockDetails$.pipe(map((x) => x?.summary?.symbolType || null));
 		this.user$ = this.userStorageService.getUser();
 		this.isAdmin$ = this.userStorageService.isAdmin();
 		this.checkIfSymbolIsInWatchlist(); // checked if opened symbol is in my watchlist
@@ -67,7 +67,9 @@ export class SymbolLookupModalComponent implements OnInit {
 
 	reloadStockDetails() {
 		this.stockDetails$ = this.symbolStorageService.reloadStockDetails(this.symbolIdentification.symbol);
-		this.stockDetails$.pipe(first()).subscribe((res) => DialogService.showNotificationBar(`Data for symbol ${res.id} has been reloaded`));
+		this.stockDetails$
+			.pipe(first())
+			.subscribe(() => DialogService.showNotificationBar(`Data for symbol ${this.symbolIdentification.symbol} has been reloaded`));
 	}
 
 	private checkIfDetailsExists() {
