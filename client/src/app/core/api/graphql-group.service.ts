@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FetchResult } from '@apollo/client';
-import { DataProxy } from '@apollo/client/cache/core/types/DataProxy';
+import { DataProxy, FetchResult } from '@apollo/client/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
@@ -16,29 +15,27 @@ import {
 	EditGroupMutation,
 	LeaveGroupGQL,
 	LeaveGroupMutation,
-	RemoveMemberFromGroupGQL,
-	StGroupAllData,
-	StGroupAllDataInput,
-	StGroupIdentificationDataFragment,
-	ToggleInvitationRequestToGroupGQL,
-	ToggleInvitationRequestToGroupMutation,
-} from '../graphql-schema';
-import { UserStorageService } from '../services';
-import { createSTGroupUser } from '../utils';
-import {
 	QueryStGroupByGroupIdGQL,
 	QueryStGroupByGroupNameGQL,
 	QueryStGroupMemberOverviewByIdGQL,
+	RemoveMemberFromGroupGQL,
 	RemoveMemberFromGroupMutation,
+	StGroupAllData,
 	StGroupAllDataFragmentFragment,
 	StGroupAllDataFragmentFragmentDoc,
+	StGroupAllDataInput,
+	StGroupIdentificationDataFragment,
 	StGroupMemberOverviewFragment,
 	StGroupUser,
 	StUserPublicData,
+	ToggleInvitationRequestToGroupGQL,
+	ToggleInvitationRequestToGroupMutation,
 	ToggleInviteUserIntoGroupGQL,
 	ToggleInviteUserIntoGroupMutation,
 	ToggleUsersInvitationRequestToGroupGQL,
-} from './../graphql-schema/customGraphql.service';
+} from '../graphql-schema';
+import { UserStorageService } from '../services';
+import { createSTGroupUser } from '../utils';
 
 @Injectable({
 	providedIn: 'root',
