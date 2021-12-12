@@ -9,7 +9,7 @@ import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingFeatureFacadeSer
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupDetailsOverviewPortfolioContainerComponent implements OnInit {
-	@Input() groupAllData: StGroupAllData;
+	@Input() groupAllData!: StGroupAllData;
 
 	tradingChangeWrapper: PortfolioHistoricalWrapper[] = [];
 

@@ -10,8 +10,8 @@ import { WatchlistFeatureFacadeService } from '@stock-watchlist-feature';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ComposedPortfolioHoldingsTableComponent implements OnInit {
-	@Input() holdings: StHolding[];
-	@Input() totalPortfolio: number;
+	@Input() holdings: StHolding[] = [];
+	@Input() totalPortfolio?: number;
 	@Input() clickable = true;
 	@Input() title: string = 'Holdings';
 	@Input() showHoldingNumber = true;

@@ -14,16 +14,18 @@
 		<!-- portfolio change -->
 		<ng-template #showOther>
 			<ng-container *ngIf="tradingChangeWrapper.historicalBalance; else showNA">
-				<ion-text class="st-font-size-20 weekly-change" [@marketValueChange]="balance">
-					{{ balance - tradingChangeWrapper.historicalBalance | currency }}
-				</ion-text>
-				<app-price-change-item
-					*ngIf="balance - tradingChangeWrapper.historicalBalance !== 0"
-					[isPercent]="true"
-					[applyEndOnSmDown]="true"
-					[priceChange]="(balance - tradingChangeWrapper.historicalBalance) / tradingChangeWrapper.historicalBalance"
-				>
-				</app-price-change-item>
+				<ng-container *ngIf="balance">
+					<ion-text class="st-font-size-20 weekly-change" [@marketValueChange]="balance">
+						{{ balance - tradingChangeWrapper.historicalBalance | currency }}
+					</ion-text>
+					<app-price-change-item
+						*ngIf="balance - tradingChangeWrapper.historicalBalance !== 0"
+						[isPercent]="true"
+						[applyEndOnSmDown]="true"
+						[priceChange]="(balance - tradingChangeWrapper.historicalBalance) / tradingChangeWrapper.historicalBalance"
+					>
+					</app-price-change-item>
+				</ng-container>
 			</ng-container>
 
 			<ng-template #showNA>

@@ -12,11 +12,11 @@ import { map } from 'rxjs/operators';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchStockPageComponent implements OnInit {
-	stockScreenerResult: StfmStockScreenerResultWrapper;
-	stockScreener: StfmStockScreenerInput;
+	stockScreenerResult: StfmStockScreenerResultWrapper | null = null;
+	stockScreener: StfmStockScreenerInput | null = null;
 
 	limit = 50;
-	@ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
+	@ViewChild(IonInfiniteScroll) infiniteScroll!: IonInfiniteScroll;
 	private offset: number = 0;
 
 	constructor(
@@ -46,10 +46,10 @@ export class SearchStockPageComponent implements OnInit {
 	loadData(event: any, offset: number): void {
 		this.offset = this.offset + offset;
 		console.log('load', this.offset);
-		this.graphqlQueryService.queryStockScreener(this.stockScreener, this.offset, this.limit).subscribe((res) => {
+		this.graphqlQueryService.queryStockScreener(this.stockScreener as StfmStockScreenerInput, this.offset, this.limit).subscribe((res) => {
 			console.log(res);
 			this.stockScreenerResult = this.stockScreenerResult
-				? { ...this.stockScreenerResult, result: [...this.stockScreenerResult.result, ...res.result] }
+				? { ...this.stockScreenerResult, result: [...(this.stockScreenerResult.result || []), ...(res.result || [])] }
 				: res;
 			this.cd.detectChanges();
 
@@ -57,7 +57,7 @@ export class SearchStockPageComponent implements OnInit {
 				event.target.complete();
 			}
 
-			if (this.offset + this.limit > this.stockScreenerResult.found) {
+			if (this.offset + this.limit > (this.stockScreenerResult.found || 0)) {
 				this.toggleInfiniteScroll();
 			}
 		});

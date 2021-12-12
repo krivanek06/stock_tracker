@@ -19,8 +19,8 @@ export const STPortfolioTypeDefs = gql`
 		numberOfExecutedSellTransactions: Float!
 		lastPortfolioIncreaseNumber: Float
 		lastPortfolioIncreasePrct: Float
-		lastPortfolioSnapshot: STPortfolioSnapshot
-		lastTransactionSnapshot: STTransactionSnapshot
+		lastPortfolioSnapshot: STPortfolioSnapshot!
+		lastTransactionSnapshot: STTransactionSnapshot!
 		transactionFees: Float
 	}
 

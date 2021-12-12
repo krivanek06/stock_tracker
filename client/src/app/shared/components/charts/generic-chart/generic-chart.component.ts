@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { ChartSeriesData } from '@core';
+import { Series } from '@core';
 import highcharts3D from 'highcharts/highcharts-3d';
 import * as Highcharts from 'highcharts/highstock';
 import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
-import { ChartType } from '../../../models';
+import { ChartType, GenericChartSeries } from '../../../models';
 import { stFormatLargeNumber } from '../../../utils';
 
 NoDataToDisplay(Highcharts);
@@ -18,24 +18,24 @@ highcharts3D(Highcharts);
 export class GenericChartComponent implements OnInit, OnChanges {
 	@Output() expandEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-	@Input() series: any[]; // y-axis
+	@Input() series!: GenericChartSeries[] | Series[]; // y-axis
 	@Input() heightPx = 400;
 	@Input() chartType: ChartType = ChartType.line;
-	@Input() chartTitle: string;
+	@Input() chartTitle = '';
 	@Input() chartTitlePosition = 'left';
 	@Input() showTimelineSlider = false;
 	@Input() showTooltip = true;
 	@Input() showDataLabel = false;
-	@Input() categories: string[];
-	@Input() timestamp: number[];
+	@Input() categories: string[] = [];
+	@Input() timestamp: number[] = [];
 	@Input() enable3D = false;
 	@Input() isPercentage = false;
 	@Input() showYAxis = true;
 	@Input() showXAxis = true;
 	@Input() sharedTooltip = true;
 	@Input() additionalStyle: string = '';
-	@Input() showCategoryNameWithValue: boolean;
-	@Input() showCategoryNameWithValueDollar: boolean;
+	@Input() showCategoryNameWithValue = false;
+	@Input() showCategoryNameWithValueDollar = false;
 
 	// legend
 	@Input() showLegend = false;
@@ -50,14 +50,14 @@ export class GenericChartComponent implements OnInit, OnChanges {
 	@Input() addFancyColoring = false;
 
 	Highcharts: typeof Highcharts = Highcharts;
-	chart;
+	chart: any;
 	updateFromInput = true;
-	chartCallback;
+	chartCallback: any;
 	chartOptions: any = {}; //  : Highcharts.Options
 	constructor() {
 		const self = this;
 
-		this.chartCallback = (chart) => {
+		this.chartCallback = (chart: any) => {
 			self.chart = chart; // new Highcharts.Chart(this.chartOptions); //chart;
 		};
 	}
@@ -70,7 +70,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
 			this.series = this.series.map((s) => {
 				return {
 					...s,
-					data: s.data.map((d) => {
+					data: s.data.map((d: any) => {
 						return { ...d, y: d.y * 100 };
 					}),
 				};
@@ -321,7 +321,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
 					},
 					enableMouseTracking: this.showTooltip,
 					events: {
-						legendItemClick: (e) => {
+						legendItemClick: (e: any) => {
 							if (!this.enableLegendTogging) {
 								e.preventDefault(); // prevent toggling series visibility
 							}
@@ -377,7 +377,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
 							value: 4,
 						},
 					},
-					colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+					colors: Highcharts.map(Highcharts.getOptions().colors as any[], function (color: any) {
 						return {
 							radialGradient: {
 								cx: 0.5,
@@ -443,17 +443,17 @@ export class GenericChartComponent implements OnInit, OnChanges {
 	private fancyColoring() {
 		let count = 0;
 		this.series = this.series.map((s) => {
-			const data: ChartSeriesData = {
+			const data: GenericChartSeries = {
 				name: s.name,
 				data: s.data,
 				color: {
 					linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
 					stops: [
-						[0, Highcharts.getOptions().colors[(count % 5) + 2]], // '#25aedd'
-						[1, Highcharts.getOptions().colors[count % 10]],
+						[0, (Highcharts.getOptions().colors as any[])[(count % 5) + 2]], // '#25aedd'
+						[1, (Highcharts.getOptions().colors as any[])[count % 10]],
 					],
 				},
-			};
+			} as GenericChartSeries;
 			count += 1;
 			return data;
 		});

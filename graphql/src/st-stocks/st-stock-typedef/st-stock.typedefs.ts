@@ -9,8 +9,8 @@ export const stockDetailsTypeDefs = gql`
 
 	type StockDetailsFinancialReports {
 		id: String!
-		allFinancialReportsQuarterly: [FinancialReport]
-		allFinancialReportsYearly: [FinancialReport]
+		allFinancialReportsQuarterly: [FinancialReport!]!
+		allFinancialReportsYearly: [FinancialReport!]!
 	}
 
 	enum SymbolType {
@@ -22,22 +22,22 @@ export const stockDetailsTypeDefs = gql`
 
 	type StockDetails {
 		id: String!
-		recommendation: [Recommendations]
-		companyData: CompanyData
+		recommendation: [Recommendations!]!
+		companyData: CompanyData!
 		summary: Summary!
 		metric: Metric
 		dividends: Dividens
 		historicalMetrics: HistoricalMetrics
 		calculations: STStockDetailsCalculations
-		calculatedPredictions: STStockDetailsCalculatedPredictions
-		allFinancialReportsQuarterly: [FinancialReport]
-		allFinancialReportsYearly: [FinancialReport]
-		institutionalHolders: [STFMHolder]
-		mutualFundHolders: [STFMHolderWithWeight]
-		companyOutlook: STFMCompanyOutlook
-		sectorPeers: [STFMCompanyQuote]
+		calculatedPredictions: STStockDetailsCalculatedPredictions!
+		allFinancialReportsQuarterly: [FinancialReport!]!
+		allFinancialReportsYearly: [FinancialReport!]!
+		institutionalHolders: [STFMHolder!]!
+		mutualFundHolders: [STFMHolderWithWeight!]!
+		companyOutlook: STFMCompanyOutlook!
+		sectorPeers: [STFMCompanyQuote!]!
 		socialSentiment: STFMSocialSentiment
-		analystEstimatesYearly: [STAnalystEstimates]
+		analystEstimates: [STAnalystEstimates!]!
 	}
 
 	type FinancialReport {
@@ -55,9 +55,9 @@ export const stockDetailsTypeDefs = gql`
 	}
 
 	type FinancialReportStatement {
-		bs: [FinancialReportStatementData]
-		cf: [FinancialReportStatementData]
-		ic: [FinancialReportStatementData]
+		bs: [FinancialReportStatementData]!
+		cf: [FinancialReportStatementData]!
+		ic: [FinancialReportStatementData]!
 	}
 
 	type FinancialReportStatementData {
@@ -121,8 +121,8 @@ export const stockDetailsTypeDefs = gql`
 
 	type HistoricalMetricsData {
 		name: String
-		dates: [String]
-		data: [Float]
+		dates: [String!]!
+		data: [Float!]!
 	}
 
 	type CompanyData {
@@ -131,7 +131,7 @@ export const stockDetailsTypeDefs = gql`
 		esgScores: EsgScores
 		financialData: FinancialData
 		pageViews: PageViews
-		upgradeDowngradeHistory: [UpgradeDowngradeHistory]
+		upgradeDowngradeHistory: [UpgradeDowngradeHistory!]!
 	}
 
 	type Recommendations {
@@ -181,7 +181,7 @@ export const stockDetailsTypeDefs = gql`
 		## priceToSalesTrailingOneTwoMonths": null,
 		profitMargins: Float ## *100
 		## revenueQuarterlyGrowth": null,
-		sharesOutstanding: Float
+		sharesOutstanding: Float!
 		## sharesPercentSharesOut": 0.0055,
 		sharesPercentSharesOut: Float
 		sharesShort: Float
@@ -198,23 +198,23 @@ export const stockDetailsTypeDefs = gql`
 	}
 
 	type Earnings {
-		earningsChart: EarningsChart
-		financialCurrency: String
-		financialsChart: FinancialsChart
+		earningsChart: EarningsChart!
+		financialCurrency: String!
+		financialsChart: FinancialsChart!
 	}
 
 	type EarningsChart {
-		currentQuarterEstimate: Float
-		currentQuarterEstimateDate: String
-		currentQuarterEstimateYear: Float
-		earningsDate: [Float]
-		quarterly: [EarningsChartData]
+		currentQuarterEstimate: Float!
+		currentQuarterEstimateDate: String!
+		currentQuarterEstimateYear: Float!
+		earningsDate: [Float!]!
+		quarterly: [EarningsChartData!]!
 	}
 
 	type EarningsChartData {
 		actual: Float
-		date: String
-		estimate: Float
+		date: String!
+		estimate: Float!
 	}
 
 	type FinancialsChart {
@@ -223,12 +223,12 @@ export const stockDetailsTypeDefs = gql`
 	}
 
 	type FinancialsChartData {
-		categories: [String]
-		series: [Series]
+		categories: [String!]!
+		series: [Series!]!
 	}
 
 	type Series {
-		data: [Float]
+		data: [Float]!
 		name: String
 	}
 
@@ -348,9 +348,9 @@ export const stockDetailsTypeDefs = gql`
 	}
 
 	type Summary {
-		avgVolume: Float
+		avgVolume: Float!
 		ceo: String
-		companyName: String
+		companyName: String!
 		currency: String
 		dividendDate: String
 		ePSTTM: Float
@@ -365,7 +365,7 @@ export const stockDetailsTypeDefs = gql`
 		forwardEPS: Float
 		forwardPE: Float
 		fullTimeEmployees: String
-		id: String
+		id: String!
 		symbolType: SymbolType
 		industry: String
 		ipoDate: String
@@ -373,21 +373,21 @@ export const stockDetailsTypeDefs = gql`
 		lastSplitFactor: String
 		logo_url: String
 		longBusinessSummary: String
-		marketCap: Float
-		marketPrice: Float
+		marketCap: Float!
+		marketPrice: Float!
 		oneyTargetEst: Float
 		pERatioTTM: Float
-		previousClose: Float
+		previousClose: Float!
 		recommendationKey: String
 		recommendationMean: Float
 		residance: SummaryResidance
 		sandPFiveTwoWeekChange: Float
 		sector: String
-		sharesOutstanding: Float
+		sharesOutstanding: Float!
 		shortRatio: Float
-		symbol: String
+		symbol: String!
 		targetEstOneyPercent: Float
-		volume: Float
+		volume: Float!
 		website: String
 		weekRangeFiveTwoMax: Float
 		weekRangeFiveTwoMin: Float
@@ -546,10 +546,10 @@ export const stockDetailsTypeDefs = gql`
 	}
 
 	type SymbolHistoricalPrices {
-		livePrice: Float
-		symbol: String
-		period: String
-		price: [[Float]]
-		volume: [[Float]]
+		livePrice: Float!
+		symbol: String!
+		period: String!
+		price: [[Float!]!]!
+		volume: [[Float!]!]!
 	}
 `;

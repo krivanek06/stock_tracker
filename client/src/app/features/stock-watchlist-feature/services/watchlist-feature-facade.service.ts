@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { FinnhubWebsocketService, GraphqlWatchlistService, StStockWatchInputlistIdentifier, UserStorageService } from '@core';
-import { ModalController, PopoverController } from '@ionic/angular';
+import { GraphqlWatchlistService, StStockWatchInputlistIdentifier, UserStorageService } from '@core';
+import { ModalController } from '@ionic/angular';
 import { DialogService, IdNameContainer, SymbolIdentification } from '@shared';
 import { SymbolLookupModalComponent } from '../entry-components'; // TODO circular dependency
 
@@ -10,15 +10,13 @@ import { SymbolLookupModalComponent } from '../entry-components'; // TODO circul
 })
 export class WatchlistFeatureFacadeService {
 	constructor(
-		private finnhubWebsocketService: FinnhubWebsocketService,
 		private graphqlWatchlistService: GraphqlWatchlistService,
 		private userStorageService: UserStorageService,
 		private modalController: ModalController,
-		private popoverController: PopoverController,
 		private router: Router
 	) {}
 
-	async presentSymbolLookupModal(symbolIdentification: SymbolIdentification, showAddToWatchlistOption: boolean, watchlistId: string = null) {
+	async presentSymbolLookupModal(symbolIdentification: SymbolIdentification, showAddToWatchlistOption: boolean, watchlistId: string | null = null) {
 		const modal = await this.modalController.create({
 			component: SymbolLookupModalComponent,
 			componentProps: { symbolIdentification, showAddToWatchlistOption, watchlistId },
@@ -34,7 +32,7 @@ export class WatchlistFeatureFacadeService {
 			this.router.navigateByUrl(`/menu/search/stock-details/${symbol}`);
 		} else if (dismiss.data?.addSymbol) {
 			this.addSymbolToWatchlist(symbolIdentification.symbol);
-		} else if (dismiss.data?.removeSymbol) {
+		} else if (dismiss.data?.removeSymbol && watchlistId) {
 			this.removeStockFromWatchlist(symbolIdentification, watchlistId);
 		}
 	}
@@ -51,8 +49,8 @@ export class WatchlistFeatureFacadeService {
 
 		const watchlists = this.userStorageService.user.stockWatchlist;
 
-		let watchlistId;
-		let watchlistName;
+		let watchlistId: string;
+		let watchlistName: string;
 
 		if (watchlists.length === 1) {
 			// default, only 1 watchlist
@@ -64,7 +62,7 @@ export class WatchlistFeatureFacadeService {
 				return { name: `${watchlist.name}  [ ${watchlist?.summaries.length} ]`, id: watchlist.id } as IdNameContainer;
 			});
 			watchlistId = await DialogService.presentOptionsPopOver('Select watchlist', options);
-			watchlistName = watchlists.find((watchlist) => watchlist.id === watchlistId)?.name;
+			watchlistName = watchlists.find((watchlist) => watchlist.id === watchlistId)?.name || '';
 		}
 
 		if (watchlistId) {
@@ -83,18 +81,27 @@ export class WatchlistFeatureFacadeService {
 	}
 
 	async removeStockFromWatchlist(data: SymbolIdentification, documentId: string) {
-		const watchlistName = this.userStorageService.user.stockWatchlist.find((s) => s.id === documentId).name;
-		await this.graphqlWatchlistService.removeStockFromWatchlist(documentId, data.symbol).toPromise();
-		await DialogService.showNotificationBar(`Symbol deleted from watchlist: ${watchlistName}`);
+		const userWatlist = this.userStorageService.user?.stockWatchlist || [];
+		if (userWatlist) {
+			const watchlistName = userWatlist.find((s) => s.id === documentId)?.name;
+			await this.graphqlWatchlistService.removeStockFromWatchlist(documentId, data.symbol).toPromise();
+			DialogService.showNotificationBar(`Symbol deleted from watchlist: ${watchlistName}`);
+		}
 	}
 
 	async deleteWatchlist(input: StStockWatchInputlistIdentifier) {
+		if (!input.id) {
+			return;
+		}
 		await this.graphqlWatchlistService.deleteUserWatchlist(input.id).toPromise();
-		await DialogService.showNotificationBar(`Watchlist ${input.additionalData} has been removed`);
+		DialogService.showNotificationBar(`Watchlist ${input.additionalData} has been removed`);
 	}
 
 	async renameWatchlist(input: StStockWatchInputlistIdentifier) {
+		if (!input.id || !input.additionalData) {
+			return;
+		}
 		await this.graphqlWatchlistService.renameStockWatchlist(input.id, input.additionalData).toPromise();
-		await DialogService.showNotificationBar('Watchlist has been renamed');
+		DialogService.showNotificationBar('Watchlist has been renamed');
 	}
 }

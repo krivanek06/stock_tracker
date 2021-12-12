@@ -3,10 +3,10 @@ import { gql } from 'apollo-server';
 export const userTypeDefs = gql`
 	# type
 	type STUserGroups {
-		groupInvitationSent: [STGroupAllData]
-		groupInvitationReceived: [STGroupAllData]
-		groupOwner: [STGroupAllData]
-		groupMember: [STGroupAllData]
+		groupInvitationSent: [STGroupAllData!]!
+		groupInvitationReceived: [STGroupAllData!]!
+		groupOwner: [STGroupAllData!]!
+		groupMember: [STGroupAllData!]!
 	}
 
 	type STUserIndetificationBase {
@@ -32,16 +32,16 @@ export const userTypeDefs = gql`
 		accountCreatedDate: String!
 		lastSignInDate: String!
 		rank: STRank
-		holdings: [STHolding]!
-		transactionsSnippets: [STTransaction]!
-		topTransactions: [STTransaction]!
+		holdings: [STHolding!]!
+		transactionsSnippets: [STTransaction!]!
+		topTransactions: [STTransaction!]!
 		activity: USER_ACTIVITY
 		groups: STUserGroups!
 		portfolio: STPortfolioWrapper!
 		portfolioRisk: STPortfolioRiskCalculations
 		userPrivateData: STUserPrivateData!
 		userHistoricalData: STUserHistoricalData!
-		stockWatchlist: [STStockWatchlist]!
+		stockWatchlist: [STStockWatchlist!]!
 	}
 
 	type STUserPrivateData {
@@ -49,7 +49,7 @@ export const userTypeDefs = gql`
 		finnhubKey: String
 		tradingEnabledDate: String
 		roles: [String]!
-		tickets: [STTicket]!
+		tickets: [STTicket!]!
 		email: String!
 		displayName: String!
 		providerId: String
@@ -59,11 +59,11 @@ export const userTypeDefs = gql`
 	}
 
 	type STUserHistoricalData {
-		portfolioSnapshots: [STPortfolioSnapshot]!
-		transactionSnapshots: [STTransactionSnapshot]!
-		bestAchievedRanks: [STRank]!
-		resetedAccount: [STUserResetedAccount]!
-		userLogs: [STLog]!
+		portfolioSnapshots: [STPortfolioSnapshot!]!
+		transactionSnapshots: [STTransactionSnapshot!]!
+		bestAchievedRanks: [STRank!]!
+		resetedAccount: [STUserResetedAccount!]!
+		userLogs: [STLog!]!
 	}
 
 	type STUserResetedAccount {

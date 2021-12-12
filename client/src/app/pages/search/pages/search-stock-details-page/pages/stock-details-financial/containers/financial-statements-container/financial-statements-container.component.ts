@@ -9,8 +9,8 @@ import { STATEMENT_TYPE } from '../../../../../../models/pages.model';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FinancialStatementsContainerComponent implements OnInit {
-	@Input() stockDetails: StockDetails;
-	@Input() activeStatement: STATEMENT_TYPE;
+	@Input() stockDetails!: StockDetails;
+	@Input() activeStatement!: STATEMENT_TYPE;
 
 	STATEMENT_TYPE = STATEMENT_TYPE;
 

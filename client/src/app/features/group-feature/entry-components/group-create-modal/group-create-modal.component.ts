@@ -11,8 +11,8 @@ import { Observable } from 'rxjs';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupCreateModalComponent implements OnInit {
-	editedGroup: StGroupAllData;
-	user$: Observable<StUserIndetification>;
+	editedGroup!: StGroupAllData;
+	user$!: Observable<StUserIndetification | null>;
 
 	constructor(private modalController: ModalController, private userStorageService: UserStorageService, private navParams: NavParams) {}
 

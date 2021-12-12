@@ -1,8 +1,6 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { GroupStorageService, StUserPublicData, UserStorageService } from '@core';
-import { MenuController, NavController } from '@ionic/angular';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { StUserPublicData, UserStorageService } from '@core';
 import { BREAK_POINTS } from '@shared';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -13,8 +11,8 @@ import { map } from 'rxjs/operators';
 	styleUrls: ['./menu.page.scss'],
 })
 export class MenuPage implements OnInit, OnDestroy {
-	user$: Observable<StUserPublicData>;
-	authenticating$: Observable<boolean>;
+	user$!: Observable<StUserPublicData>;
+	authenticating$!: Observable<boolean>;
 
 	// showOverlay = false;
 
@@ -23,15 +21,7 @@ export class MenuPage implements OnInit, OnDestroy {
 	closeScreen$!: Observable<boolean>;
 	isOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
-	constructor(
-		private userStorageService: UserStorageService,
-		private router: Router,
-		private menu: MenuController,
-		private navCtrl: NavController,
-		private groupStorageService: GroupStorageService,
-		private breakpointObserver: BreakpointObserver,
-		private cd: ChangeDetectorRef
-	) {}
+	constructor(private userStorageService: UserStorageService, private breakpointObserver: BreakpointObserver) {}
 
 	ngOnDestroy(): void {}
 
@@ -50,34 +40,7 @@ export class MenuPage implements OnInit, OnDestroy {
 		});
 	}
 
-	// toggleExpandedView(): void {
-	// 	this.isExpanded = !this.isExpanded;
-
-	// 	// needed becuase when isExpanded is false, mat-drawer is still expanded
-	// 	this.cd.detectChanges();
-	// }
-
 	toggleMatDrawerExpandedView(): void {
 		this.isOpen$.next(!this.isOpen$.value);
 	}
-
-	// dismissMenu() {
-	// 	this.menu.close('main');
-	// }
-
-	// applyOverlay(event: boolean) {
-	// 	this.showOverlay = event;
-	// }
-
-	// clickedRouter(page: MenuPageInterface) {
-	// 	this.selectedNavigation = page;
-	// 	this.groupStorageService.setActiveGroupId(null);
-	// 	//this.router.navigateByUrl(page.url, { replaceUrl: true });
-	// 	this.navCtrl.navigateRoot(page.url, { animated: true, animationDirection: 'forward' });
-	// }
-
-	// closeOverlay() {
-	// 	this.applyOverlay(false);
-	// 	this.dismissMenu();
-	// }
 }

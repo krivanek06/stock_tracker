@@ -10,9 +10,9 @@ import { DialogService } from './../../../services';
 export class UploaderComponent implements OnInit {
 	@Output() uploadedFilesEmitter: EventEmitter<UploadedFile[]> = new EventEmitter<UploadedFile[]>();
 
-	@Input() defaultUrl: string;
-	@Input() filePath: string;
-	@Input() fileName: string;
+	@Input() defaultUrl!: string;
+	@Input() filePath!: string;
+	@Input() fileName!: string;
 	@Input() singleFile = true;
 	@Input() oneLine = false;
 	@Input() showInput = true;
@@ -20,7 +20,7 @@ export class UploaderComponent implements OnInit {
 	@Input() maxHeight = 130;
 
 	files: File[] = [];
-	isHovering: boolean;
+	isHovering = false;
 	private uploadedFiles: UploadedFile[] = [];
 
 	constructor() {}
@@ -37,7 +37,7 @@ export class UploaderComponent implements OnInit {
 		this.isHovering = event;
 	}
 
-	onFileSelected(event) {
+	onFileSelected(event: any) {
 		const limit = 1024 * 1024 * 20; // 20Mb
 		const file: File = event.target.files[0];
 		if (file) {
@@ -52,12 +52,15 @@ export class UploaderComponent implements OnInit {
 	}
 
 	onDrop(files: FileList) {
+		if (files.item.length === 0) {
+			return;
+		}
 		this.clearImages();
 		if (this.singleFile) {
-			this.files.push(files.item(0));
+			this.files.push(files.item(0) as File);
 		} else {
 			for (let i = 0; i < files.length; i++) {
-				this.files.push(files.item(i));
+				this.files.push(files.item(i) as File);
 			}
 		}
 	}

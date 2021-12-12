@@ -11,7 +11,7 @@ import { takeUntil } from 'rxjs/operators';
 	styleUrls: ['./market-chart-builder.component.scss'],
 })
 export class MarketChartBuilderComponent implements OnInit, OnDestroy {
-	categories$: Observable<StMarketDatasetKeyCategory[]>;
+	categories$!: Observable<StMarketDatasetKeyCategory[]>;
 
 	activeDocumentKeys: string[] = [];
 	series: StMarketChartDataResultCombined[] = [];

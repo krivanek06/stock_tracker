@@ -10,8 +10,8 @@ import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM } from '../../../models'
 	animations: [marketValueChange],
 })
 export class PortfolioChangeComponent implements OnInit {
-	@Input() balance: number;
-	@Input() tradingChangeWrapper: PortfolioHistoricalWrapper;
+	@Input() balance?: number | null;
+	@Input() tradingChangeWrapper!: PortfolioHistoricalWrapper;
 	@Input() inlinePriceWithIncrease = true;
 
 	TIME_INTERVAL_ENUM = TIME_INTERVAL_ENUM;

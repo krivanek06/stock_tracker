@@ -37,20 +37,20 @@ export const STGroupTypeDefs = gql`
 		numberOfMembers: Float!
 		numberOfInvitationReceived: Float!
 		numberOfInvitationSent: Float!
-		topTransactions: [STTransaction]!
-		lastTransactions: [STTransaction]!
-		managers: [STGroupUser]!
+		topTransactions: [STTransaction!]!
+		lastTransactions: [STTransaction!]!
+		managers: [STGroupUser!]!
 		groupHistoricalData: STGroupHistoricalData!
 		groupMemberData: STGroupMemberData!
-		topMembers: [STGroupUser]!
+		topMembers: [STGroupUser!]!
 	}
 
 	type STGroupMemberData {
 		id: String!
-		members: [STGroupUser]!
-		holdings: [STGroupHoldings]!
-		invitationSent: [STGroupUser]!
-		invitationReceived: [STGroupUser]
+		members: [STGroupUser!]!
+		holdings: [STGroupHoldings!]!
+		invitationSent: [STGroupUser!]!
+		invitationReceived: [STGroupUser!]!
 	}
 
 	type STGroupHoldings {
@@ -59,10 +59,10 @@ export const STGroupTypeDefs = gql`
 	}
 
 	type STGroupHistoricalData {
-		portfolioSnapshots: [STPortfolioSnapshot]!
-		transactionSnapshots: [STTransactionSnapshot]!
-		bestAchievedRanks: [STRank]!
-		groupLogs: [STLog]!
+		portfolioSnapshots: [STPortfolioSnapshot!]!
+		transactionSnapshots: [STTransactionSnapshot!]!
+		bestAchievedRanks: [STRank!]!
+		groupLogs: [STLog!]!
 	}
 
 	input STGroupAllDataInput {

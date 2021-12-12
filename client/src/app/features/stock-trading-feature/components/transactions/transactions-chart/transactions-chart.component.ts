@@ -12,18 +12,18 @@ NoDataToDisplay(Highcharts);
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransactionsChartComponent implements OnInit, OnChanges {
-	@Input() stTransactionSnapshots: StTransactionSnapshot[];
+	@Input() stTransactionSnapshots: StTransactionSnapshot[] = [];
 	@Input() heightPx = 350;
 
 	Highcharts: typeof Highcharts = Highcharts;
-	chart;
+	chart: any;
 	updateFromInput = true;
-	chartCallback;
+	chartCallback: any;
 	chartOptions: any = {}; //  : Highcharts.Options
 	constructor() {
 		const self = this;
 
-		this.chartCallback = (chart) => {
+		this.chartCallback = (chart: any) => {
 			self.chart = chart;
 		};
 	}
@@ -139,7 +139,8 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
 					color: '#494949',
 				},
 				labelFormatter: function () {
-					return `<span style="color: ${this.color};">${this.name}</span>`;
+					const that = this as any;
+					return `<span style="color: ${that.color};">${that.name}</span>`;
 				},
 			},
 			tooltip: {
@@ -153,8 +154,9 @@ export class TransactionsChartComponent implements OnInit, OnChanges {
 				shared: true,
 				headerFormat: '<p style="color:#909592; font-size: 12px">{point.key}</p><br/>',
 				pointFormatter: function () {
-					const value = stFormatLargeNumber(this.y);
-					return `<p><span style="color: ${this.series.color}; font-weight: bold">● ${this.series.name}: </span><span>$${value}</span></p><br/>`;
+					const that = this as any;
+					const value = stFormatLargeNumber(that.y);
+					return `<p><span style="color: ${that.series.color}; font-weight: bold">● ${that.series.name}: </span><span>$${value}</span></p><br/>`;
 				},
 			},
 			plotOptions: {

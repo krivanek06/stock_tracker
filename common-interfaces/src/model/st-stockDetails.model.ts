@@ -44,7 +44,7 @@ export interface StockDetails {
   companyOutlook: STFMCompanyOutlook;
   sectorPeers: STFMCompanyQuote[];
   socialSentiment: STFMSocialSentiment;
-  analystEstimatesYearly: AnalystEstimates[];
+  analystEstimates: AnalystEstimates[];
 }
 
 export interface STFinancialReport {

@@ -11,11 +11,11 @@ import { DialogService } from './../../../shared/services/dialog.service';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersOverviewPage implements OnInit, OnDestroy {
-	adminMainInformations: StAdminMainInformationsFragmentFragment;
+	adminMainInformations!: StAdminMainInformationsFragmentFragment;
 
 	data: number[][] = [];
 
-	chartHeight: number;
+	chartHeight!: number;
 
 	constructor(private graphqlAdminService: GraphqlAdminService, private cd: ChangeDetectorRef) {}
 

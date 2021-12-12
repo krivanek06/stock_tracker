@@ -16,7 +16,9 @@ export class GraphqlAdminService {
 	) {}
 
 	queryAdminMainInformations(): Observable<StAdminMainInformationsFragmentFragment> {
-		return this.queryAdminMainInformationsGQL.watch().valueChanges.pipe(map((x) => x.data.queryAdminMainInformations));
+		return this.queryAdminMainInformationsGQL
+			.watch()
+			.valueChanges.pipe(map((x) => x.data.queryAdminMainInformations as StAdminMainInformationsFragmentFragment));
 	}
 
 	setForceReloadStockDetails(): Observable<FetchResult<any>> {

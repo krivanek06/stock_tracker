@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { LoginIUser } from '@core';
 import { emailValidator, requiredValidator } from '@shared';
 
@@ -12,9 +12,17 @@ import { emailValidator, requiredValidator } from '@shared';
 export class LoginComponent implements OnInit {
 	@Output() loginEmitter: EventEmitter<LoginIUser> = new EventEmitter<LoginIUser>();
 
-	loginForm: FormGroup;
+	loginForm!: FormGroup;
 
 	constructor(private formBuilder: FormBuilder) {}
+
+	get email(): AbstractControl {
+		return this.loginForm.get('email') as AbstractControl;
+	}
+
+	get password(): AbstractControl {
+		return this.loginForm.get('password') as AbstractControl;
+	}
 
 	ngOnInit() {
 		this.loginForm = this.formBuilder.group({
@@ -28,13 +36,5 @@ export class LoginComponent implements OnInit {
 			return;
 		}
 		this.loginEmitter.emit({ email: this.email.value, password: this.password.value });
-	}
-
-	get email() {
-		return this.loginForm.get('email');
-	}
-
-	get password() {
-		return this.loginForm.get('password');
 	}
 }

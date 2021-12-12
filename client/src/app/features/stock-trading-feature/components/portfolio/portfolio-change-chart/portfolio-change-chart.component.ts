@@ -12,19 +12,19 @@ NoDataToDisplay(Highcharts);
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioChangeChartComponent implements OnInit, OnChanges {
-	@Input() stPortfolioSnapshots: StPortfolioSnapshot[];
+	@Input() stPortfolioSnapshots: StPortfolioSnapshot[] = [];
 	@Input() heightPx = 350;
 	Highcharts: typeof Highcharts = Highcharts;
-	chart;
+	chart: any;
 	updateFromInput = true;
-	chartCallback;
+	chartCallback: any;
 	chartOptions: any = {}; //  : Highcharts.Options
-	private data: any[];
+	private data: any[] = [];
 
 	constructor() {
 		const self = this;
 
-		this.chartCallback = (chart) => {
+		this.chartCallback = (chart: any) => {
 			self.chart = chart;
 		};
 	}
@@ -138,10 +138,11 @@ export class PortfolioChangeChartComponent implements OnInit, OnChanges {
 				shared: true,
 				headerFormat: '<p style="color:#909592; font-size: 12px">{point.key}</p><br/>',
 				pointFormatter: function () {
-					const isPositive = this.y >= 0;
+					const that = this as any;
+					const isPositive = that.y >= 0;
 					const color = isPositive ? '#0d920d' : '#bf0000';
 					const label = isPositive ? 'Profit' : 'Loss';
-					const value = stFormatLargeNumber(this.y);
+					const value = stFormatLargeNumber(that.y);
 					return `<span style="font-weight: bold; color: ${color}">● ${label}: </span><span>$${value} </span><br/>`;
 				},
 			},

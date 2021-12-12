@@ -12,8 +12,8 @@ import { LoginComponent, RegistrationComponent } from '../../components';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthenticationPopoverComponent implements OnInit, OnDestroy {
-	@ViewChild('loginComp') loginComp: LoginComponent;
-	@ViewChild('registrationComp') registrationComp: RegistrationComponent;
+	@ViewChild('loginComp') loginComp!: LoginComponent;
+	@ViewChild('registrationComp') registrationComp!: RegistrationComponent;
 
 	segmentValue = 'login';
 	showSpinner = false;
@@ -39,7 +39,7 @@ export class AuthenticationPopoverComponent implements OnInit, OnDestroy {
 			this.toggleSpinner();
 			await this.authenticationService.normalLogin(data);
 			this.toggleSpinner();
-		} catch (e) {
+		} catch (e: any) {
 			this.toggleSpinner();
 			this.loginComp.loginForm.reset();
 			DialogService.showNotificationBar(e.message);
@@ -52,7 +52,7 @@ export class AuthenticationPopoverComponent implements OnInit, OnDestroy {
 			await this.authenticationService.normalRegistration(registerIUser);
 			this.toggleSpinner();
 			// this.router.navigate(['/menu/dashboard']);
-		} catch (e) {
+		} catch (e: any) {
 			this.toggleSpinner();
 			this.registrationComp.registrationForm.reset();
 			DialogService.showNotificationBar(e.message);

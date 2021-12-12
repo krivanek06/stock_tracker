@@ -21,16 +21,16 @@ export class HoldingsAllocationGroupChartComponent implements OnInit {
 	@Input() showTitle = false;
 
 	Highcharts: typeof Highcharts = Highcharts;
-	chart;
+	chart: any;
 	updateFromInput = true;
-	chartCallback;
+	chartCallback: any;
 	chartOptions: any = {}; //  : Highcharts.Options
 	private data: StGroupHoldingsHelper[] = [];
 
 	constructor() {
 		const self = this;
 
-		this.chartCallback = (chart) => {
+		this.chartCallback = (chart: any) => {
 			self.chart = chart;
 		};
 	}
@@ -138,8 +138,9 @@ export class HoldingsAllocationGroupChartComponent implements OnInit {
 				useHTML: true,
 				x: 30,
 				labelFormatter: function () {
-					const spans = this.userOptions.data
-						.map((d) => {
+					const that = this as any;
+					const spans = that.userOptions.data
+						.map((d: any) => {
 							return `<span style="color: ${d.color}; margin-right: 16px; font-size: 12px">● ${d.name}</span>`;
 						})
 						.join(' ');
@@ -157,16 +158,17 @@ export class HoldingsAllocationGroupChartComponent implements OnInit {
 				shared: true,
 				headerFormat: '<p style="color:#909592; font-size: 12px">{point.key}</p><br/>',
 				pointFormatter: function () {
-					const color = this.series.color;
-					const label = this.series.name;
-					const value = label === 'Value' ? '$' + stFormatLargeNumber(this.y) : this.y;
+					const that = this as any;
+					const color = that.series.color;
+					const label = that.series.name;
+					const value = label === 'Value' ? '$' + stFormatLargeNumber(that.y) : that.y;
 					return `<span style="font-weight: bold; color: ${color}">● ${label}: </span><span>${value} </span><br/>`;
 				},
 			},
 			plotOptions: {
 				series: {
 					events: {
-						legendItemClick: function (e) {
+						legendItemClick: function (e: any) {
 							e.preventDefault(); // disable legend click
 						},
 					},
@@ -179,7 +181,7 @@ export class HoldingsAllocationGroupChartComponent implements OnInit {
 					color: '#3dd0d7',
 					yAxis: 1,
 					data: this.data.map((d, index) => {
-						return { name: d.symbol, y: d.totalValue, color: Highcharts.getOptions().colors[index % 9] };
+						return { name: d.symbol, y: d.totalValue, color: (Highcharts.getOptions().colors as any[])[index % 9] };
 					}),
 				},
 				{

@@ -17,6 +17,7 @@ import {
 	CreateTicketMutation,
 	DeleteTicketGQL,
 	StTicket,
+	StTicketComment,
 	StTicketCommentEditValues,
 	StTicketFragmentFragment,
 	StTicketFragmentFragmentDoc,
@@ -41,13 +42,18 @@ export class GraphqlTicketService {
 				ticketValuse,
 			},
 			{
-				update: (store: DataProxy, { data: { createTicket } }) => {
+				update: (store: DataProxy, { data }) => {
+					const createTicket = data?.createTicket as StTicket;
 					const user = store.readQuery<AuthenticateUserQuery>({
 						query: AuthenticateUserDocument,
 						variables: {
 							id: this.userStorageService.user.id,
 						},
 					});
+
+					if (!user?.authenticateUser) {
+						return;
+					}
 
 					// update cashe
 					store.writeQuery({
@@ -95,7 +101,8 @@ export class GraphqlTicketService {
 				comment: comment,
 			},
 			{
-				update: (store: DataProxy, { data: { commentTicket } }) => {
+				update: (store: DataProxy, { data }) => {
+					const commentTicket = data?.commentTicket as StTicketComment;
 					const ticket = store.readFragment<StTicketFragmentFragment>({
 						id: `STTicket:${id}`,
 						fragment: StTicketFragmentFragmentDoc,
@@ -111,7 +118,7 @@ export class GraphqlTicketService {
 						fragmentName: 'STTicketFragment',
 						data: {
 							...ticket,
-							comments: [...ticket.comments, commentTicket],
+							comments: [...(ticket?.comments || []), commentTicket],
 						},
 					});
 				},
@@ -130,6 +137,10 @@ export class GraphqlTicketService {
 						fragment: StTicketFragmentFragmentDoc,
 						fragmentName: 'STTicketFragment',
 					});
+
+					if (!ticket) {
+						return;
+					}
 
 					// update comment in array
 					const comments = ticket.comments.map((el) => {
@@ -156,7 +167,7 @@ export class GraphqlTicketService {
 				ticketId: id,
 			},
 			{
-				update: (store: DataProxy, { data: { closeTicket } }) => {
+				update: (store: DataProxy, { data }) => {
 					const ticket = store.readFragment<StTicketFragmentFragment>({
 						id: `STTicket:${id}`,
 						fragment: StTicketFragmentFragmentDoc,

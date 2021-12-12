@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountPage implements OnInit {
-	user$: Observable<StUserPublicData>;
+	user$!: Observable<StUserPublicData>;
 	constructor(private userStorageService: UserStorageService, private userAccountService: AccountFeatureFacadeService) {}
 
 	ngOnInit() {

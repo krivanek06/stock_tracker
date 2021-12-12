@@ -15,7 +15,11 @@ export class RelativeTimePipe implements PipeTransform {
             reverse === false -> return time diff from value (which represents past date) compared to today
             reverse === true -> return time diff from today compared to value (which represents future date)
     */
-	transform(value: string | number, reverse = false): string {
+	transform(value: string | number | undefined, reverse = false): string {
+		if (!value) {
+			return '';
+		}
+
 		if (value) {
 			const differenceInSeconds = !reverse
 				? Math.floor((+new Date() - +new Date(value)) / 1000)
@@ -40,25 +44,30 @@ export class RelativeTimePipe implements PipeTransform {
 			// }
 
 			// All values are in seconds
-			const timeIntervals = {
-				year: 31536000,
-				month: 2592000,
-				week: 604800,
-				day: 86400,
-				hour: 3600,
-				minute: 60,
-				second: 1,
-			};
+			// const timeIntervals = {
+			// 	year: 31536000,
+			// 	month: 2592000,
+			// 	week: 604800,
+			// 	day: 86400,
+			// 	hour: 3600,
+			// 	minute: 60,
+			// 	second: 1,
+			// };
+			const timeIntervalsKeys = ['year', 'month', 'week', 'day', 'hour', 'minute', 'second'];
+			const timeIntervalsValues = [31536000, 2592000, 604800, 86400, 3600, 60, 1];
 			let counter;
-			for (const i in timeIntervals) {
-				counter = Math.floor(absDiff / timeIntervals[i]);
+			for (let i = 0; i < timeIntervalsKeys.length; i++) {
+				const value = timeIntervalsValues[i];
+				const key = timeIntervalsKeys[i];
+
+				counter = Math.floor(absDiff / value);
 				if (counter > 0) {
 					if (counter === 1) {
 						// singular (1 day ago)
-						return counter + ' ' + i + (!reverse && differenceInSeconds > 0 ? ' ago' : '');
+						return counter + ' ' + key + (!reverse && differenceInSeconds > 0 ? ' ago' : '');
 					} else {
 						// plural (2 days ago)
-						return counter + ' ' + i + (!reverse && differenceInSeconds > 0 ? 's ago' : '');
+						return counter + ' ' + key + (!reverse && differenceInSeconds > 0 ? 's ago' : '');
 					}
 				}
 			}

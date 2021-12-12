@@ -9,8 +9,8 @@ import { WindowService } from '@shared';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupDetailsOverviewTransactionsContainerComponent implements OnInit {
-	@Input() groupAllData: StGroupAllData;
-	transactionHeight: number;
+	@Input() groupAllData!: StGroupAllData;
+	transactionHeight!: number;
 
 	constructor() {}
 

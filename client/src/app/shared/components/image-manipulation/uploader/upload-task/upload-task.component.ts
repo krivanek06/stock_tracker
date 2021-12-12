@@ -12,16 +12,16 @@ import { UploadedFile } from '../../../../models';
 export class UploadTaskComponent implements OnInit {
 	@Output() uploadedFilesEmitter: EventEmitter<UploadedFile> = new EventEmitter<UploadedFile>();
 
-	@Input() file: File;
-	@Input() filePath: string;
-	@Input() fileName: string;
+	@Input() file!: File;
+	@Input() filePath!: string;
+	@Input() fileName!: string;
 	@Input() maxWidth = 130;
 	@Input() maxHeight = 130;
 
-	task: UploadTask;
+	task: UploadTask | undefined;
 
-	percentage$: Observable<number>;
-	downloadURL: string;
+	percentage$!: Observable<number>;
+	downloadURL!: string;
 
 	constructor(private storage: Storage) {}
 

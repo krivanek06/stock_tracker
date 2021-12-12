@@ -52,8 +52,8 @@
 							<!-- portfolio current state -->
 							<app-portfolio-state
 								portfolioState="PARTIAL"
-								[portfolioCash]="userData.portfolio.lastPortfolioSnapshot.portfolioCash"
-								[portfolioInvested]="userData.portfolio.lastPortfolioSnapshot.portfolioInvested"
+								[portfolioCash]="userData.portfolio.lastPortfolioSnapshot?.portfolioCash"
+								[portfolioInvested]="userData.portfolio.lastPortfolioSnapshot?.portfolioInvested"
 							></app-portfolio-state>
 						</ion-col>
 						<ion-col size-lg="5" class="c-portfolio-change ion-hide-lg-down">
@@ -62,7 +62,7 @@
 								*ngFor="let tradingChange of tradingChangeWrapper"
 								[inlinePriceWithIncrease]="false"
 								[tradingChangeWrapper]="tradingChange"
-								[balance]="userData.portfolio.lastPortfolioSnapshot.portfolioInvested + userData.portfolio.lastPortfolioSnapshot.portfolioCash"
+								[balance]="balance$ | async"
 							></app-portfolio-change>
 						</ion-col>
 						<ion-col size="12" size-sm="6" size-lg="3" class="st-sm-border-bottom">
@@ -70,8 +70,8 @@
 							<div class="c-portfolio-chart">
 								<app-portfolio-increase-chart
 									[heightPx]="200"
-									[portfolioInvested]="userData.portfolio.lastPortfolioSnapshot.portfolioInvested"
-									[portfolioCash]="userData.portfolio.lastPortfolioSnapshot.portfolioCash"
+									[portfolioInvested]="userData.portfolio.lastPortfolioSnapshot?.portfolioInvested"
+									[portfolioCash]="userData.portfolio.lastPortfolioSnapshot?.portfolioCash"
 								></app-portfolio-increase-chart>
 							</div>
 						</ion-col>

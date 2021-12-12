@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StGroupAllData, StUserPublicData, UserStorageService } from '@core';
 import { GroupFeatureFacadeService } from '@group-feature';
@@ -12,9 +12,8 @@ import { Observable } from 'rxjs';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupsOverviewComponent implements OnInit {
-	@Output() visitGroupEmitter: EventEmitter<StGroupAllData> = new EventEmitter();
-	user$: Observable<StUserPublicData>;
-	hasRoleCreateGroup$: Observable<boolean>;
+	user$!: Observable<StUserPublicData>;
+	hasRoleCreateGroup$!: Observable<boolean>;
 
 	constructor(private groupFeatureFacadeService: GroupFeatureFacadeService, private userStorageService: UserStorageService, private router: Router) {}
 

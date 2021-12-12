@@ -10,9 +10,9 @@ interface RecommendationColor {
 	selector: '[appRecommendation]',
 })
 export class RecommendationDirective implements OnInit {
-	@Input() recommendationKey: string;
-	@Input() recommendationMean;
-	private recommendationColors: RecommendationColor[];
+	@Input() recommendationKey!: string;
+	@Input() recommendationMean!: number;
+	private recommendationColors: RecommendationColor[] = [];
 
 	constructor(private elRef: ElementRef, private renderer: Renderer2) {}
 

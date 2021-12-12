@@ -12,8 +12,8 @@ import { marketValueChange, SymbolIdentification } from '@shared';
 export class HoldingsTableComponent implements OnInit {
 	@Output() itemClickedEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
 
-	@Input() holdings: StHolding[];
-	@Input() totalPortfolio: number;
+	@Input() holdings: StHolding[] = [];
+	@Input() totalPortfolio!: number;
 	@Input() clickable = true;
 
 	showDailyChange = true;
@@ -33,7 +33,7 @@ export class HoldingsTableComponent implements OnInit {
 		this.showDailyChange = !this.showDailyChange;
 	}
 
-	identify(index, item: StHolding) {
+	identify(index: any, item: StHolding) {
 		return item.symbol;
 	}
 

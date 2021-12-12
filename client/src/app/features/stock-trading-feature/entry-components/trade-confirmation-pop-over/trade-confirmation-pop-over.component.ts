@@ -12,23 +12,23 @@ import { positiveNumberValidator, requiredValidator, wholeNumberValidator } from
 })
 export class TradeConfirmationPopOverComponent implements OnInit {
 	STTransactionOperationEnum = StTransactionOperationEnum;
-	form: FormGroup;
+	form!: FormGroup;
 
 	// received properties
-	symbol: string;
-	symbolLogoUrl: string;
-	price: number;
-	holding: StHolding;
-	portoflioCash: number;
+	symbol!: string;
+	symbolLogoUrl!: string;
+	price!: number;
+	holding!: StHolding;
+	portoflioCash!: number;
 
 	constructor(private popoverController: PopoverController, private navParams: NavParams, private fb: FormBuilder) {}
 
 	get units(): AbstractControl {
-		return this.form.get('units');
+		return this.form.get('units') as AbstractControl;
 	}
 
 	get confirmation(): AbstractControl {
-		return this.form.get('confirmation');
+		return this.form.get('confirmation') as AbstractControl;
 	}
 
 	ngOnInit() {

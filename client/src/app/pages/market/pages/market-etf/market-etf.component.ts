@@ -11,11 +11,11 @@ import { map } from 'rxjs/operators';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MarketEtfComponent implements OnInit {
-	marketDailyOverview$: Observable<StMarketDailyOverview>;
-	etfDocument$: Observable<StMarketEtfDocument>;
-	etfHolders$: Observable<GenericChartSeriesData[]>;
-	chartHeight: number;
-	chartHeighrPie: number;
+	marketDailyOverview$!: Observable<StMarketDailyOverview>;
+	etfDocument$!: Observable<StMarketEtfDocument>;
+	etfHolders$!: Observable<GenericChartSeriesData[]>;
+	chartHeight!: number;
+	chartHeighrPie!: number;
 
 	ChartType = ChartType;
 

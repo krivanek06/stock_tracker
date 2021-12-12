@@ -9,10 +9,10 @@ import { Observable } from 'rxjs';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupDetailsOverviewComponent implements OnInit {
-	user$: Observable<StUserPublicData>;
-	isUserOwner$: Observable<boolean>;
+	user$!: Observable<StUserPublicData>;
+	isUserOwner$!: Observable<boolean>;
 
-	groupAllData$: Observable<StGroupAllData>;
+	groupAllData$!: Observable<StGroupAllData | null>;
 
 	constructor(private groupStorageService: GroupStorageService, private userStorageService: UserStorageService) {}
 

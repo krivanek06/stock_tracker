@@ -29,27 +29,27 @@ import { AsyncValidatorFinhubKeyValidity } from './../../validators';
 export class UserAccountFormComponent implements OnInit, OnChanges {
 	@Output() submitClickedEmitter: EventEmitter<StUserEditDataInput> = new EventEmitter<StUserEditDataInput>();
 
-	@Input() user: StUserPublicData;
+	@Input() user!: StUserPublicData;
 
-	@ViewChild('uploader') uploader: UploaderComponent;
-	@ViewChildren(FormMatInputLockWrapperComponent) formWrappers: QueryList<FormMatInputLockWrapperComponent>;
+	@ViewChild('uploader') uploader!: UploaderComponent;
+	@ViewChildren(FormMatInputLockWrapperComponent) formWrappers!: QueryList<FormMatInputLockWrapperComponent>;
 
-	form: FormGroup;
+	form!: FormGroup;
 
-	finhubValidity$: Observable<string>;
+	finhubValidity$!: Observable<string>;
 
 	constructor(private fb: FormBuilder, private asyncValidatorFinhubKeyValidity: AsyncValidatorFinhubKeyValidity, private cd: ChangeDetectorRef) {}
 
 	get finnhubKey(): AbstractControl {
-		return this.form.get('finnhubKey');
+		return this.form.get('finnhubKey') as AbstractControl;
 	}
 
 	get nickName(): AbstractControl {
-		return this.form.get('nickName');
+		return this.form.get('nickName') as AbstractControl;
 	}
 
 	get photoURL(): AbstractControl {
-		return this.form.get('photoURL');
+		return this.form.get('photoURL') as AbstractControl;
 	}
 
 	get formWasEdited(): boolean {
@@ -86,7 +86,7 @@ export class UserAccountFormComponent implements OnInit, OnChanges {
 	}
 
 	uploadedImage(files: UploadedFile[]) {
-		this.form.get('photoURL').patchValue(files[0].downloadURL);
+		this.photoURL.patchValue(files[0].downloadURL);
 	}
 
 	cancel() {

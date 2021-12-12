@@ -7,7 +7,7 @@
 					[closedPrice]="stockDetails.summary.previousClose"
 					[currentPrice]="stockDetails.summary.marketPrice"
 					[height]="410"
-					[logoUrl]="stockDetails.summary.logo_url"
+					[logoUrl]="stockDetails.summary.logo_url || ''"
 					[name]="stockDetails.summary.companyName"
 					[symbol]="stockDetails.summary.symbol"
 				>
@@ -48,18 +48,17 @@
 						[heightPx]="chartHeight_35"
 						[isPercentage]="true"
 						[series]="[{
-                             colorByPoint: true,
                              data:[
-                                {name: 'Revenue ttm. yoy', y: stockDetails.metric.revenueGrowthTTMYoy / 100},
-                                {name: 'Revenue qrt. yoy', y: stockDetails.metric.revenueGrowthQuarterlyYoy / 100},
-                                {name: 'Revenue 5y', y: stockDetails.metric.revenueGrowthFiveY / 100},
-                                {name: 'EPS qrt. yoy', y: stockDetails.metric.epsGrowthQuarterlyYoy / 100},
-                                {name: 'EPS ttm yoy', y: stockDetails.metric.epsGrowthTTMYoy / 100},
-                                {name: 'Capital spending yoy', y: stockDetails.metric.capitalSpendingGrowthFiveY  / 100},
-                                {name: 'BV per share 5y', y: stockDetails.metric.bookValueShareGrowthFiveY  / 100},
-                                {name: 'Assets turnover ttm', y: stockDetails.metric.assetTurnoverTTM/ 100},
-                                {name: 'Inventory turnover ttm', y: stockDetails.metric.inventoryTurnoverTTM / 100},
-                                {name: 'Dividend rate 5y', y: stockDetails.dividends.dividendGrowthRateFiveY / 100}
+                                {name: 'Revenue ttm. yoy', y: stockDetails.metric?.revenueGrowthTTMYoy ? ((stockDetails.metric?.revenueGrowthTTMYoy || 1) / 100) : null},
+                                {name: 'Revenue qrt. yoy', y: stockDetails.metric?.revenueGrowthQuarterlyYoy ? ((stockDetails.metric?.revenueGrowthQuarterlyYoy || 1) / 100) : null},
+                                {name: 'Revenue 5y', y: stockDetails.metric?.revenueGrowthFiveY ? ((stockDetails.metric?.revenueGrowthFiveY || 1) / 100) : null},
+                                {name: 'EPS qrt. yoy', y: stockDetails.metric?.epsGrowthQuarterlyYoy ? ((stockDetails.metric?.epsGrowthQuarterlyYoy || 1) / 100) : null},
+                                {name: 'EPS ttm yoy', y: stockDetails.metric?.epsGrowthTTMYoy ? ((stockDetails.metric?.epsGrowthTTMYoy || 1) / 100) : null},
+                                {name: 'Capital spending yoy', y: stockDetails.metric?.capitalSpendingGrowthFiveY ? ((stockDetails.metric?.capitalSpendingGrowthFiveY || 1) / 100) : null},
+                                {name: 'BV per share 5y', y: stockDetails.metric?.bookValueShareGrowthFiveY ? ((stockDetails.metric?.bookValueShareGrowthFiveY || 1) / 100) : null},
+                                {name: 'Assets turnover ttm', y: stockDetails.metric?.assetTurnoverTTM ? ((stockDetails.metric?.assetTurnoverTTM || 1) / 100) : null},
+                                {name: 'Inventory turnover ttm',  y: stockDetails.metric?.inventoryTurnoverTTM ? ((stockDetails.metric?.inventoryTurnoverTTM || 1) / 100) : null},
+                                {name: 'Dividend rate 5y',  y: stockDetails.dividends?.dividendGrowthRateFiveY ? ((stockDetails.dividends?.dividendGrowthRateFiveY || 1) / 100) : null}
                               ]
                           }]"
 						[showDataLabel]="true"
@@ -90,10 +89,10 @@
                                 colorByPoint: true,
                                  data:[
                                  {name: 'Gross margin ttm.', y: stockDetails.companyData?.financialData?.grossMargins},
-                                 {name: 'Net growth margin 5y', y: stockDetails.metric.netMarginGrowthFiveY / 100},
+                                 {name: 'Net growth margin 5y', y: stockDetails.metric?.netMarginGrowthFiveY  ? (stockDetails.metric?.netMarginGrowthFiveY || 1) / 100 : null},
                                  {name: 'Net profit margin ttm.', y: stockDetails.companyData?.financialData?.profitMargins},
-                                 {name: 'Operating margin ttm.', y: stockDetails.metric.operatingMarginTTM / 100},
-                                 {name: 'Pretax margin ttm.', y: stockDetails.metric.pretaxMarginTTM / 100},
+                                 {name: 'Operating margin ttm.', y: stockDetails.metric?.operatingMarginTTM  ? (stockDetails.metric?.operatingMarginTTM || 1) / 100 : null},
+                                 {name: 'Pretax margin ttm.', y: stockDetails.metric?.pretaxMarginTTM ? (stockDetails.metric?.pretaxMarginTTM || 1 ) / 100 : null},
                                  {name: 'EBITDA margin ttm.', y: stockDetails.companyData?.financialData?.ebitdaMargins}
                               ]
                           }]"
@@ -108,20 +107,13 @@
 			<ion-col size="12" size-lg="4" size-sm="6">
 				<!-- dividends -->
 				<app-generic-card additionalClasses="st-height-100" title="Dividend">
-					<app-details-dividend
-						*ngIf="stockDetails.dividends.dividendPerShareAnnual  || stockDetails.dividends.dividendsPerShareTTM "
-						[dividends]="stockDetails.dividends"
-					>
-					</app-details-dividend>
+					<app-details-dividend *ngIf="stockDetails.dividends as  dividends" [dividends]="dividends"> </app-details-dividend>
 				</app-generic-card>
 			</ion-col>
 			<ion-col size="12" size-lg="4" size-sm="6">
 				<!-- dividend payouts -->
 				<app-generic-card additionalClasses="st-height-100" title="Dividend payouts">
-					<app-market-calendar-dividend-payout
-						*ngIf="stockDetails.companyOutlook.stockDividend"
-						[dividendPayouts]="stockDetails.companyOutlook.stockDividend"
-					>
+					<app-market-calendar-dividend-payout *ngIf="stockDetails.companyOutlook.stockDividend as stockDividend" [dividendPayouts]="stockDividend">
 					</app-market-calendar-dividend-payout>
 				</app-generic-card>
 			</ion-col>
@@ -132,7 +124,7 @@
 					<app-generic-chart
 						*ngIf="stockDetails.companyData?.financialData?.returnOnAssets ||
                                stockDetails.companyData?.financialData?.returnOnEquity ||
-                               stockDetails.metric.roiTTM"
+                               stockDetails.metric?.roiTTM"
 						[chartType]="ChartType.column"
 						[heightPx]="220"
 						[isPercentage]="true"
@@ -141,7 +133,7 @@
                                  data:[
                                       {name: 'ROA', y: stockDetails.companyData?.financialData?.returnOnAssets},
                                       {name: 'ROE', y: stockDetails.companyData?.financialData?.returnOnEquity},
-                                      {name: 'ROI ', y: stockDetails.metric.roiTTM / 100}
+                                      {name: 'ROI ', y: stockDetails.metric?.roiTTM  ? (stockDetails.metric?.roiTTM || 1) / 100 : null}
                                   ]
                       }]"
 						[showDataLabel]="true"
@@ -175,7 +167,10 @@
 			<ion-col size="12" size-lg="7">
 				<!-- recommendation chart -->
 				<app-generic-card additionalClasses="st-height-100" title="Recommendation">
-					<app-details-recommendation-chart *ngIf="stockDetails.recommendation.length > 0" [recommendations]="stockDetails.recommendation">
+					<app-details-recommendation-chart
+						*ngIf="stockDetails.recommendation && stockDetails.recommendation.length > 0"
+						[recommendations]="stockDetails.recommendation"
+					>
 					</app-details-recommendation-chart>
 				</app-generic-card>
 			</ion-col>
@@ -186,14 +181,16 @@
 				<!-- Financial yearly -->
 				<app-generic-card additionalClasses="st-height-100" title="Financial yearly">
 					<ng-container *ngIf="stockDetails.companyData?.earnings?.financialsChart as fc">
-						<app-generic-chart
-							*ngIf="fc?.yearly?.categories?.length > 0"
-							[categories]="fc.yearly.categories"
-							[chartType]="ChartType.column"
-							[heightPx]="chartHeight_27"
-							[series]="fc.yearly.series"
-						>
-						</app-generic-chart>
+						<ng-container *ngIf="fc?.quarterly?.categories as categories">
+							<app-generic-chart
+								*ngIf="categories.length > 0"
+								[categories]="categories"
+								[chartType]="ChartType.column"
+								[heightPx]="chartHeight_27"
+								[series]="fc.yearly?.series || []"
+							>
+							</app-generic-chart>
+						</ng-container>
 					</ng-container>
 				</app-generic-card>
 			</ion-col>
@@ -202,26 +199,26 @@
 				<!-- Financial quarterly -->
 				<app-generic-card additionalClasses="st-height-100" title="Financial quarterly">
 					<ng-container *ngIf="stockDetails.companyData?.earnings?.financialsChart as fc">
-						<app-generic-chart
-							*ngIf="fc?.quarterly?.categories?.length > 0"
-							[categories]="fc.quarterly.categories"
-							[chartType]="ChartType.column"
-							[heightPx]="chartHeight_27"
-							[series]="fc.quarterly.series"
-						>
-						</app-generic-chart>
+						<ng-container *ngIf="fc?.quarterly?.categories as categories">
+							<app-generic-chart
+								*ngIf="categories.length > 0"
+								[categories]="categories"
+								[chartType]="ChartType.column"
+								[heightPx]="chartHeight_27"
+								[series]="fc.quarterly?.series || []"
+							>
+							</app-generic-chart>
+						</ng-container>
 					</ng-container>
 				</app-generic-card>
 			</ion-col>
 
 			<ion-col size="12" size-lg="4">
 				<app-generic-card additionalClasses="st-height-100" title="Earnings">
-					<app-details-earnings-chart
-						*ngIf="stockDetails.companyData?.earnings?.earningsChart?.quarterly?.length > 0"
-						[earnings]="stockDetails.companyData?.earnings?.earningsChart"
-						[height]="chartHeight_27"
-					>
-					</app-details-earnings-chart>
+					<ng-container *ngIf="stockDetails.companyData?.earnings?.earningsChart as earnings">
+						<app-details-earnings-chart *ngIf="earnings.quarterly.length > 0" [earnings]="earnings" [height]="chartHeight_27">
+						</app-details-earnings-chart>
+					</ng-container>
 				</app-generic-card>
 			</ion-col>
 		</ion-row>
@@ -268,8 +265,7 @@
 				<ion-col class="st-height-100" size="12" style="padding: 0">
 					<!-- ESG score -->
 					<app-generic-card additionalClasses="st-height-100" title="ESG risk rating">
-						<app-details-esg-score *ngIf="stockDetails?.companyData?.esgScores" [esgScore]="stockDetails?.companyData?.esgScores">
-						</app-details-esg-score>
+						<app-details-esg-score *ngIf="stockDetails?.companyData?.esgScores as score" [esgScore]="score"> </app-details-esg-score>
 					</app-generic-card>
 				</ion-col>
 			</ion-col>
@@ -277,10 +273,12 @@
 			<ion-col size="12" size-lg="6">
 				<!--  grading history -->
 				<app-generic-card additionalClasses="st-height-100" title="Stock grading">
-					<ion-item-group *ngIf="stockDetails.companyData?.upgradeDowngradeHistory?.length > 0" class="ion-margin-bottom">
-						<app-details-grading-history [history]="stockDetails?.companyData?.upgradeDowngradeHistory | slice: 0: 11"> </app-details-grading-history>
-					</ion-item-group>
-					<app-details-stock-trend *ngIf="stockDetails?.companyData?.pageViews as trend" [trend]="trend"> </app-details-stock-trend>
+					<ng-container *ngIf="stockDetails.companyData?.upgradeDowngradeHistory as upgradeDowngradeHistory">
+						<ion-item-group *ngIf="upgradeDowngradeHistory.length > 0" class="ion-margin-bottom">
+							<app-details-grading-history [history]="upgradeDowngradeHistory | slice: 0: 11"> </app-details-grading-history>
+						</ion-item-group>
+						<app-details-stock-trend *ngIf="stockDetails?.companyData?.pageViews as trend" [trend]="trend"> </app-details-stock-trend>
+					</ng-container>
 				</app-generic-card>
 			</ion-col>
 		</ion-row>
@@ -291,7 +289,7 @@
 			<ion-col size="12" size-lg="6">
 				<app-generic-card additionalClasses="st-height-100" title="Institutional holders">
 					<app-details-holders
-						*ngIf="stockDetails.institutionalHolders?.length > 0"
+						*ngIf="stockDetails.institutionalHolders.length > 0"
 						[currentSharePrice]="stockDetails.summary.previousClose"
 						[holders]="stockDetails.institutionalHolders"
 						[outstandingShares]="stockDetails.summary.sharesOutstanding"
@@ -303,7 +301,7 @@
 			<ion-col size="12" size-lg="6">
 				<app-generic-card additionalClasses="st-height-100" title="Mutual fund holders">
 					<app-details-holders
-						*ngIf="stockDetails.mutualFundHolders?.length > 0"
+						*ngIf="stockDetails.mutualFundHolders.length > 0"
 						[currentSharePrice]="stockDetails.summary.previousClose"
 						[holders]="stockDetails.mutualFundHolders"
 						[outstandingShares]="stockDetails.summary.sharesOutstanding"
@@ -318,42 +316,37 @@
 		<ion-row>
 			<ion-col size="12">
 				<app-generic-card title="Insider transactions">
-					<app-details-transactions
-						*ngIf="stockDetails.companyOutlook.insideTrades?.length > 0"
-						[insiderTrades]="stockDetails.companyOutlook.insideTrades"
-					>
-					</app-details-transactions>
+					<ng-container *ngIf="stockDetails.companyOutlook.insideTrades as insideTrades ">
+						<app-details-transactions *ngIf="insideTrades.length > 0" [insiderTrades]="insideTrades"> </app-details-transactions>
+					</ng-container>
 				</app-generic-card>
 			</ion-col>
 		</ion-row>
 
 		<ion-row>
 			<!-- key executives -->
-			<ion-col *ngIf="stockDetails.companyOutlook.keyExecutives" size="12" size-lg="4">
+			<ion-col *ngIf="stockDetails.companyOutlook.keyExecutives as keyExecutives" size="12" size-lg="4">
 				<app-generic-card additionalClasses="st-height-100" title="Key executives">
-					<app-details-key-executives
-						*ngIf="stockDetails.companyOutlook.keyExecutives.length > 0"
-						[keyExecutives]="stockDetails.companyOutlook.keyExecutives | slice: 0 : 8"
-					>
-					</app-details-key-executives>
+					<app-details-key-executives *ngIf="keyExecutives.length > 0" [keyExecutives]="keyExecutives | slice: 0 : 8"> </app-details-key-executives>
 				</app-generic-card>
 			</ion-col>
 
 			<!-- peers -->
 			<ion-col size="12" size-lg="8">
 				<app-generic-card additionalClasses="st-height-100" title="Sector peers">
-					<app-details-stock-peers (clickedPeerEmitter)="showPeerSummary($event)" [sectorPeers]="stockDetails.sectorPeers"> </app-details-stock-peers>
+					<app-details-stock-peers *ngIf="stockDetails.sectorPeers as peers" (clickedPeerEmitter)="showPeerSummary($event)" [sectorPeers]="peers">
+					</app-details-stock-peers>
 				</app-generic-card>
 			</ion-col>
 		</ion-row>
 
 		<!-- historical metrics -->
-		<ng-container *ngIf="stockDetails.historicalMetrics">
+		<ng-container *ngIf="stockDetails.historicalMetrics as metrics">
 			<app-generic-list [applyMarginTop]="true" title="Yearly metrics"></app-generic-list>
 			<ion-row>
-				<ng-container *ngFor="let key of stockDetails.historicalMetrics | objNgFor; let i = index; let last=last">
+				<ng-container *ngFor="let key of metrics | objNgFor; let i = index; let last=last">
 					<ion-col *ngIf="key !== '__typename'" [sizeLg]="i > 15 ? 6  : 4" [sizeSm]="last ? 12 : 6" size="12">
-						<ng-container *ngIf="stockDetails.historicalMetrics[key] as data; else emptyCard">
+						<ng-container *ngIf="(metrics | objectKeyPipe: key) as data; else emptyCard">
 							<app-generic-card
 								*ngIf="data.data.length > 0; else emptyCard"
 								[title]="data.name + ': ' + data.data[data.data.length - 1]"
@@ -372,13 +365,15 @@
 		</ng-container>
 
 		<!-- news -->
-		<ion-row *ngIf="stockDetails.companyOutlook.stockNews?.length > 0">
-			<app-generic-list [applyMarginTop]="true" title="News"></app-generic-list>
-			<ion-col size="12">
-				<div class="news-container">
-					<app-market-stock-news *ngFor="let article of stockDetails.companyOutlook.stockNews" [stockArticle]="article"> </app-market-stock-news>
-				</div>
-			</ion-col>
-		</ion-row>
+		<ng-container *ngIf="stockDetails.companyOutlook.stockNews as stockNews">
+			<ion-row *ngIf="stockNews.length > 0">
+				<app-generic-list [applyMarginTop]="true" title="News"></app-generic-list>
+				<ion-col size="12">
+					<div class="news-container">
+						<app-market-stock-news *ngFor="let article of stockDetails.companyOutlook.stockNews" [stockArticle]="article"> </app-market-stock-news>
+					</div>
+				</ion-col>
+			</ion-row>
+		</ng-container>
 	</ion-grid>
 </app-loader-wrapper>

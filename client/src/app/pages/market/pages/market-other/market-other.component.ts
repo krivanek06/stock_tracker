@@ -10,10 +10,10 @@ import { Observable } from 'rxjs';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MarketOtherComponent implements OnInit {
-	dailyOverview$: Observable<StMarketDailyOverview>;
+	dailyOverview$!: Observable<StMarketDailyOverview>;
 
 	ChartType = ChartType;
-	chartHeight: number;
+	chartHeight!: number;
 
 	constructor(private graphqlQueryService: GraphqlQueryService) {}
 

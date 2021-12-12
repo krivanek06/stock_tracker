@@ -1,7 +1,7 @@
 <ion-label [ngClass]="{ 'st-flex-row-important': inlineDisplay}" style="display: flex; flex-flow: column">
 	<!-- left price -->
 	<ion-text
-		*ngIf="showPrice && pricePosition == 'left' "
+		*ngIf="showPrice && pricePosition === 'left' "
 		[@marketValueChange]="currentPrice"
 		[ngClass]="{
                       'st-font-size-13': inlineDisplay,
@@ -9,7 +9,7 @@
                   }"
 		class="st-font-5 st-small-right-space"
 	>
-		{{ currentPrice - compareToPrice | numberFormatter: null : showDollarSign }}
+		{{ currentPrice - compareToPrice | numberFormatter: false : showDollarSign }}
 	</ion-text>
 
 	<!-- percentage -->
@@ -39,7 +39,7 @@
 
 	<!-- right price -->
 	<ion-text
-		*ngIf="showPrice && pricePosition == 'right' "
+		*ngIf="showPrice && pricePosition === 'right' "
 		[@marketValueChange]="currentPrice"
 		[ngClass]="{
                       'st-font-size-13': inlineDisplay,
@@ -47,6 +47,6 @@
                   }"
 		class="st-font-5 st-small-left-space"
 	>
-		{{ currentPrice - compareToPrice | numberFormatter: null : showDollarSign }}
+		{{ currentPrice - compareToPrice | numberFormatter: false : showDollarSign }}
 	</ion-text>
 </ion-label>

@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InformationCardComponent implements OnInit {
-	@Input() title: string;
+	@Input() title!: string;
 
 	constructor() {}
 

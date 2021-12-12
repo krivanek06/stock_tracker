@@ -18,12 +18,12 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 	GROUPS_PAGES_DETAILS = GROUPS_PAGES_DETAILS;
 	// segmentValue = GROUPS_PAGES_DETAILS_PATH[0].value;
 
-	groupData$: Observable<StGroupAllData>;
-	isOwner$: Observable<boolean>;
-	isMember$: Observable<boolean>;
-	isUserInvited$: Observable<boolean>;
-	canUserSendInvitation$: Observable<boolean>;
-	hasUserAlreadySentInvitaitonIntoGroup$: Observable<boolean>;
+	groupData$!: Observable<StGroupAllData | null>;
+	isOwner$!: Observable<boolean>;
+	isMember$!: Observable<boolean>;
+	isUserInvited$!: Observable<boolean>;
+	canUserSendInvitation$!: Observable<boolean>;
+	hasUserAlreadySentInvitaitonIntoGroup$!: Observable<boolean>;
 
 	constructor(
 		private groupStorageService: GroupStorageService,
@@ -61,7 +61,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
 	reloadGroup() {
 		this.groupStorageService.setActiveGroupId(this.groupStorageService.activeGroup.id);
-		this.groupData$.pipe(first((x) => !!x)).subscribe((group) => DialogService.showNotificationBar(`Group ${group.name} has been refreshed`));
+		this.groupData$.pipe(first((x) => !!x)).subscribe((group) => DialogService.showNotificationBar(`Group ${group?.name} has been refreshed`));
 	}
 
 	@Confirmable('Please confirm deleting group. Note that this action is irreversible')

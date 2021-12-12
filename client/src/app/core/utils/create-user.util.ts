@@ -6,7 +6,7 @@ export const createSTGroupUser = (userPublic: StUserPublicData): StGroupUser => 
 		accountCreatedDate: userPublic.accountCreatedDate,
 		locale: userPublic.locale,
 		nickName: userPublic.nickName,
-		photoURL: userPublic.photoURL,
+		photoURL: userPublic.photoURL || '',
 		id: userPublic.id,
 		portfolio: {
 			lastPortfolioSnapshot: userPublic.portfolio.lastPortfolioSnapshot,

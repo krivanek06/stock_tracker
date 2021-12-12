@@ -12,13 +12,13 @@ import { first } from 'rxjs/operators';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StockDetailsStatisticComponent implements OnInit {
-	stockDetails$: Observable<StockDetails>;
-	isAdmin$: Observable<boolean>;
+	stockDetails$!: Observable<StockDetails | null>;
+	isAdmin$!: Observable<boolean>;
 
 	ChartType = ChartType;
-	chartHeight_20: number;
-	chartHeight_27: number;
-	chartHeight_35: number;
+	chartHeight_20!: number;
+	chartHeight_27!: number;
+	chartHeight_35!: number;
 
 	constructor(
 		private symbolStorageService: SymbolStorageService,
@@ -36,10 +36,12 @@ export class StockDetailsStatisticComponent implements OnInit {
 
 	reloadStockDetails() {
 		this.stockDetails$ = this.symbolStorageService.reloadStockDetails();
-		this.stockDetails$.pipe(first()).subscribe((res) => DialogService.showNotificationBar(`Data for symbol ${res.id} has been reloaded`));
+		this.stockDetails$.pipe(first()).subscribe((res) => DialogService.showNotificationBar(`Data for symbol ${res?.id} has been reloaded`));
 	}
 
 	showPeerSummary(stockPeer: StfmCompanyQuote) {
-		this.watchlistFeatureFacadeService.presentSymbolLookupModal({ symbol: stockPeer.symbol, name: stockPeer.name }, true);
+		if (stockPeer.symbol && stockPeer.name) {
+			this.watchlistFeatureFacadeService.presentSymbolLookupModal({ symbol: stockPeer.symbol, name: stockPeer.name }, true);
+		}
 	}
 }

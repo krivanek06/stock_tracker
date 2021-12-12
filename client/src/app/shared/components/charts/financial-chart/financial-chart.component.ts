@@ -23,23 +23,23 @@ HighchartsMoreModule(Highcharts);*/
 export class FinancialChartComponent implements OnInit, OnChanges {
 	@Output() priceRangeEmitter: EventEmitter<number[]> = new EventEmitter<number[]>();
 
-	@Input() price: any[][];
-	@Input() volume: any[][];
+	@Input() price!: any[][];
+	@Input() volume!: any[][];
 	@Input() height = 350;
 	@Input() showYAxis = true;
-	@Input() financialChart: boolean;
+	@Input() financialChart!: boolean;
 
 	// Define chart options
 	Highcharts: typeof Highcharts = Highcharts;
-	chart;
+	chart: any;
 	updateFromInput = true;
-	chartCallback;
+	chartCallback: any;
 	chartOptions = {}; //  : Highcharts.Options
 	constructor() {
 		// save chart into varaible
 		const self = this;
 
-		this.chartCallback = (chart) => {
+		this.chartCallback = (chart: any) => {
 			self.chart = chart;
 		};
 	}
@@ -72,7 +72,7 @@ export class FinancialChartComponent implements OnInit, OnChanges {
 		} else if (start instanceof Array) {
 			const lastIndex = start.length - 1;
 			const startingPrice = start[lastIndex];
-			const endingPrice = end[lastIndex];
+			const endingPrice = (end as number[])[lastIndex];
 			this.priceRangeEmitter.emit([startingPrice, endingPrice]);
 		}
 	}
@@ -96,8 +96,13 @@ export class FinancialChartComponent implements OnInit, OnChanges {
 							y2: 1,
 						},
 						stops: [
-							[0, Highcharts.getOptions().colors[0]],
-							[1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')],
+							[0, (Highcharts.getOptions().colors as any[])[0]],
+							[
+								1,
+								Highcharts.color((Highcharts.getOptions().colors as any[])[0])
+									.setOpacity(0)
+									.get('rgba'),
+							],
 						],
 					},
 					threshold: null,
@@ -228,23 +233,24 @@ export class FinancialChartComponent implements OnInit, OnChanges {
 					color: '#D9D8D8',
 				},
 				formatter: function () {
-					const formattedDate = stFormatDateWithHours(new Date(this.x));
+					const that = this as any;
+					const formattedDate = stFormatDateWithHours(new Date(that.x));
 
 					// No volume
-					if (this.points.length === 1) {
-						const color = this.points[0].color;
-						const price = this.points[0].y;
+					if (that.points?.length === 1) {
+						const color = that.points[0].color;
+						const price = that.points[0].y;
 						return `<span style="color: #707070">${formattedDate}</span><br/>
                                 <b style="color: ${color}">● Price: </b>$${price}`;
 					}
 
-					const open = this.points[0].point.open;
-					const closed = this.points[0].point.close;
+					const open = that.points[0].point.open;
+					const closed = that.points[0].point.close;
 					const closedDiff = Math.round((closed - open) * 100) / 100;
 					const closedText = closedDiff > 0 ? '  +$' + closedDiff : '  -$' + Math.abs(closedDiff);
 					const closedColor = open > closed ? 'red' : 'green';
 
-					let volume = this.points[1].y;
+					let volume = that.points[1].y;
 					let counter = 0;
 					while (volume > 1000) {
 						volume = volume / 1000;
@@ -260,7 +266,7 @@ export class FinancialChartComponent implements OnInit, OnChanges {
 				shared: true,
 				xDateFormat: '%d-%m-%Y',
 				valueDecimals: 2,
-				positioner: function (width, height, point) {
+				positioner: function (width: any, height: any, point: any) {
 					const position = {
 						x: 0, // point.series.chart.plotLeft
 						y: 0, // point.series.yAxis.top - chart.plotTop - 30 volume
@@ -278,7 +284,7 @@ export class FinancialChartComponent implements OnInit, OnChanges {
 					},
 				},
 				events: {
-					afterSetExtremes: (e) => this.recalculatePriceRange(e.target.series[0].processedYData),
+					afterSetExtremes: (e: any) => this.recalculatePriceRange(e.target.series[0].processedYData),
 				},
 			},
 			yAxis: [],

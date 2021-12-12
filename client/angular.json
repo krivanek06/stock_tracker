@@ -12,7 +12,11 @@
 			"schematics": {
 				"@schematics/angular:component": {
 					"skipTests": true,
-					"style": "scss"
+					"style": "scss",
+					"changeDetection": "OnPush"
+				},
+				"@schematics/angular:application": {
+					"strict": true
 				}
 			},
 			"architect": {

@@ -10,7 +10,7 @@ import { NavParams, PopoverController } from '@ionic/angular';
 })
 export class InlineInputPopUpComponent implements OnInit {
 	inputLabel: string;
-	form: FormGroup;
+	form!: FormGroup;
 
 	constructor(private popoverController: PopoverController, private navParams: NavParams, private fb: FormBuilder) {
 		this.inputLabel = this.navParams.get('inputLabel');
@@ -38,6 +38,6 @@ export class InlineInputPopUpComponent implements OnInit {
 	}
 
 	get inputData(): AbstractControl {
-		return this.form.get('inputData');
+		return this.form.get('inputData') as AbstractControl;
 	}
 }

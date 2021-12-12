@@ -534,7 +534,7 @@ query QueryStockDetails($symbol: String!, $reload: Boolean) {
 		socialSentiment {
 			...STFMSocialSentimentFragment
 		}
-		analystEstimatesYearly {
+		analystEstimates {
 			...STAnalystEstimatesFragment
 		}
 		calculatedPredictions {

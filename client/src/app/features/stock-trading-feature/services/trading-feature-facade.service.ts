@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GraphqlTradingService, STARTING_PORTFOLIO, StPortfolio, StPortfolioSnapshot, StTransactionInput, Summary, UserStorageService } from '@core';
+import { GraphqlTradingService, STARTING_PORTFOLIO, StPortfolioSnapshot, StTransactionInput, Summary, UserStorageService } from '@core';
 import { PopoverController } from '@ionic/angular';
 import { DialogService, zipArrays } from '@shared';
 import * as moment from 'moment';
@@ -16,7 +16,10 @@ export class TradingFeatureFacadeService {
 		private userStorageService: UserStorageService
 	) {}
 
-	async performTransaction(summary: Summary) {
+	async performTransaction(summary: Summary | null): Promise<void> {
+		if (!summary) {
+			return;
+		}
 		const holding = this.userStorageService.user.holdings.find((h) => h.symbol === summary.symbol);
 		const portoflioCash = this.userStorageService.user.portfolio.portfolioCash;
 
@@ -38,9 +41,9 @@ export class TradingFeatureFacadeService {
 		const data = res?.data?.data as StTransactionInput;
 
 		if (!!data) {
-			await DialogService.showNotificationBar(`Your order has been submitted to ${data.operation} symbol: ${data.symbol}`);
+			DialogService.showNotificationBar(`Your order has been submitted to ${data.operation} symbol: ${data.symbol}`, 'notification');
 			await this.graphqlTradingService.performTransaction(data).toPromise();
-			await DialogService.showNotificationBar(`${data.operation} operation on ${data.symbol} has been completed `);
+			DialogService.showNotificationBar(`${data.operation} operation on ${data.symbol} has been completed `);
 		}
 	}
 
@@ -83,7 +86,7 @@ export class TradingFeatureFacadeService {
 
 		// zip them and filter out not null and required data
 		return zipArrays(timeIntervals as any[], portfolios)
-			.map((intervalPortfolio: [TIME_INTERVAL_ENUM, StPortfolio]) => {
+			.map((intervalPortfolio) => {
 				return {
 					timeIntervalName: intervalPortfolio[0],
 					historicalBalance: intervalPortfolio[1]?.portfolioInvested + intervalPortfolio[1]?.portfolioCash,
