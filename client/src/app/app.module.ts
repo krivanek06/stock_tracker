@@ -42,66 +42,63 @@ const MY_DATE_FORMATS = {
 };
 
 @NgModule({
-	declarations: [AppComponent],
-	entryComponents: [],
-	imports: [
-		CommonModule,
-		BrowserAnimationsModule,
-		// ReactiveFormsModule,
-		HttpClientModule,
-		// FormsModule,
-		GraphQlModule,
-		//AngularFireModule.initializeApp(environment.firebase), //  as ModuleWithProviders<AngularFireModule>
-		// AngularFirestoreModule,
-		//AngularFireAuthModule,
-		provideFirebaseApp(() => initializeApp(environment.firebase)),
-		provideAuth(() => getAuth()),
-		provideStorage(() => getStorage()),
-		//provideFirestore(() => getFirestore()),
-		//provideStorage(() => getStorage()),
-		// AngularFireStorageModule,
-		MatDatepickerModule,
-		MatNativeDateModule,
-		// MatTooltipModule,
-		// MatProgressBarModule,
-		// MatDialogModule,
-		// MatSnackBarModule,
-
-		BrowserModule,
-		IonicModule.forRoot(),
-		AppRoutingModule,
-		// TranslateModule.forRoot({
-		// 	defaultLanguage: 'en',
-		// 	loader: {
-		// 		provide: TranslateLoader,
-		// 		useFactory: HttpLoaderFactory,
-		// 		deps: [HttpClient],
-		// 	},
-		// }),
-
-		// entry points imports
-		DialogServiceModule,
-		ServiceWorkerModule.register('ngsw-worker.js', {
-			enabled: environment.production,
-			// Register the ServiceWorker as soon as the app is stable
-			// or after 30 seconds (whichever comes first).
-			registrationStrategy: 'registerWhenStable:30000',
-		}),
-		// ConfirmationPopOverModule,
-		// FinancialChartModalModule,
-		// InlineInputPopUpModule,
-		// OptionPickerPopOverModule
-	],
-	providers: [
-		// StatusBar,
-		// SplashScreen,
-		// { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-		MatDatepickerModule,
-		MatNativeDateModule,
-		{ provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-		{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
-		// { provide: ErrorHandler, useClass: GlobalErrorHandler },
-	],
-	bootstrap: [AppComponent],
+    declarations: [AppComponent],
+    imports: [
+        CommonModule,
+        BrowserAnimationsModule,
+        // ReactiveFormsModule,
+        HttpClientModule,
+        // FormsModule,
+        GraphQlModule,
+        //AngularFireModule.initializeApp(environment.firebase), //  as ModuleWithProviders<AngularFireModule>
+        // AngularFirestoreModule,
+        //AngularFireAuthModule,
+        provideFirebaseApp(() => initializeApp(environment.firebase)),
+        provideAuth(() => getAuth()),
+        provideStorage(() => getStorage()),
+        //provideFirestore(() => getFirestore()),
+        //provideStorage(() => getStorage()),
+        // AngularFireStorageModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        // MatTooltipModule,
+        // MatProgressBarModule,
+        // MatDialogModule,
+        // MatSnackBarModule,
+        BrowserModule,
+        IonicModule.forRoot(),
+        AppRoutingModule,
+        // TranslateModule.forRoot({
+        // 	defaultLanguage: 'en',
+        // 	loader: {
+        // 		provide: TranslateLoader,
+        // 		useFactory: HttpLoaderFactory,
+        // 		deps: [HttpClient],
+        // 	},
+        // }),
+        // entry points imports
+        DialogServiceModule,
+        ServiceWorkerModule.register('ngsw-worker.js', {
+            enabled: environment.production,
+            // Register the ServiceWorker as soon as the app is stable
+            // or after 30 seconds (whichever comes first).
+            registrationStrategy: 'registerWhenStable:30000',
+        }),
+        // ConfirmationPopOverModule,
+        // FinancialChartModalModule,
+        // InlineInputPopUpModule,
+        // OptionPickerPopOverModule
+    ],
+    providers: [
+        // StatusBar,
+        // SplashScreen,
+        // { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+        MatDatepickerModule,
+        MatNativeDateModule,
+        { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+        { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+        // { provide: ErrorHandler, useClass: GlobalErrorHandler },
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}

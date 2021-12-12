@@ -7,8 +7,9 @@ describe('ConfirmDialogComponent', () => {
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			declarations: [ConfirmDialogComponent],
-		}).compileComponents();
+    declarations: [ConfirmDialogComponent],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
 	});
 
 	beforeEach(() => {

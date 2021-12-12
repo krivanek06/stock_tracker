@@ -12,7 +12,7 @@ import { USER_MEMBER_ACTIONS_ENUM } from '../../model/group-details-overview.mod
 })
 export class GroupDetailsOverviewMembersContainerComponent implements OnInit {
 	@Input() groupAllData!: StGroupAllData;
-	@Input() user!: StUserPublicData;
+	@Input() user!: StUserPublicData | null;
 
 	constructor(private groupFeatureFacadeService: GroupFeatureFacadeService) {}
 
@@ -20,7 +20,7 @@ export class GroupDetailsOverviewMembersContainerComponent implements OnInit {
 
 	clickedMember(groupUser: StGroupUser) {
 		console.log('clicked', groupUser);
-		if (this.groupAllData.owner.id === this.user.id && groupUser.id !== this.groupAllData.owner.id) {
+		if (this.user && this.groupAllData.owner.id === this.user.id && groupUser.id !== this.groupAllData.owner.id) {
 			// if I am the owner and I did not clicked on myself
 			this.showOptionsForOwner(groupUser);
 		} else {
