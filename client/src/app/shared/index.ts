@@ -4,6 +4,7 @@ export * from './containers';
 export * from './decorators';
 export * from './directives';
 export * from './entry-components';
+export * from './mat-module.module';
 export * from './models';
 export * from './operators';
 export * from './pipes';

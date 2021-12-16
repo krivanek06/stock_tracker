@@ -13,10 +13,15 @@
 			<!-- current price & daily change -->
 			<div class="st-flex-row" style="align-self: flex-end">
 				<ion-text [@marketValueChange]="currentPrice" class="st-font-size-18" style="margin-right: 10px"> {{ currentPrice | currency }} </ion-text>
-				<ion-text class="st-font-size-13 st-font-5">{{ currentPrice - closedPrice | currency }}</ion-text>
+				<ion-text *ngIf="currentPrice" class="st-font-size-13 st-font-5">{{ currentPrice - closedPrice | currency }}</ion-text>
 			</div>
 			<!-- daily % change -->
-			<app-price-change-item [isPercent]="true" [priceChange]="(currentPrice - closedPrice) / closedPrice" style="place-self: flex-end">
+			<app-price-change-item
+				*ngIf="currentPrice"
+				[isPercent]="true"
+				[priceChange]="(currentPrice - closedPrice) / closedPrice"
+				style="place-self: flex-end"
+			>
 			</app-price-change-item>
 		</div>
 	</ion-label>

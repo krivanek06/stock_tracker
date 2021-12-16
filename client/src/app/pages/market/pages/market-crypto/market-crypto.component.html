@@ -13,7 +13,7 @@
 			<app-generic-chart
 				(expandEmitter)="expand(data.documentKey)"
 				[heightPx]="chartHeight"
-				[series]="[{name: data.name,  data: data.data}]"
+				[series]="[{name: data.name,  data: data?.data}]"
 				[showExpandableButton]="true"
 				[showLegendLatestValue]="true"
 				[showLegend]="true"
