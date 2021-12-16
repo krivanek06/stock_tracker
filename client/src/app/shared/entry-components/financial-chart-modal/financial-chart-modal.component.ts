@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ModalController, NavParams } from '@ionic/angular';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SymbolIdentification } from '../../models';
 
 @Component({
@@ -9,19 +9,14 @@ import { SymbolIdentification } from '../../models';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FinancialChartModalComponent implements OnInit {
-	symbolIdentification!: SymbolIdentification;
-	logoUrl!: string;
-	isCrypto = false;
+	constructor(
+		private dialogRef: MatDialogRef<FinancialChartModalComponent>,
+		@Inject(MAT_DIALOG_DATA) public data: { symbolIdentification: SymbolIdentification; logoUrl: string; isCrypto: boolean }
+	) {}
 
-	constructor(private navParams: NavParams, private modalController: ModalController) {}
-
-	ngOnInit() {
-		this.symbolIdentification = this.navParams.get('symbolIdentification');
-		this.logoUrl = this.navParams.get('logoUrl');
-		this.isCrypto = this.navParams.get('isCrypto') || false;
-	}
+	ngOnInit() {}
 
 	dismissModal() {
-		this.modalController.dismiss();
+		this.dialogRef.close();
 	}
 }

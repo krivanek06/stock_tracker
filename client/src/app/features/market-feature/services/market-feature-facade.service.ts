@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { MatDialog } from '@angular/material/dialog';
 import { FinancialChartModalComponent, SymbolIdentification } from '@shared';
 import { MarketChartBuilderComponent } from '../entry-components';
 
@@ -7,27 +7,23 @@ import { MarketChartBuilderComponent } from '../entry-components';
 	providedIn: 'root',
 })
 export class MarketFeatureFacadeService {
-	constructor(private modalController: ModalController) {}
+	constructor(private dialog: MatDialog) {}
 
 	async showFinancialChart(symbolIdentification: SymbolIdentification, logoUrl: string | undefined, isCrypto: boolean) {
-		const modal = await this.modalController.create({
-			component: FinancialChartModalComponent,
-			componentProps: {
+		this.dialog.open(FinancialChartModalComponent, {
+			data: {
 				symbolIdentification,
 				logoUrl,
 				isCrypto,
 			},
-			cssClass: 'custom-modal',
+			panelClass: 'g-mat-dialog',
 		});
-		await modal.present();
 	}
 
 	async showMarketChartBuilder(documentKey: string) {
-		const modal = await this.modalController.create({
-			component: MarketChartBuilderComponent,
-			componentProps: { documentKey },
-			cssClass: 'custom-modal',
+		this.dialog.open(MarketChartBuilderComponent, {
+			data: { documentKey },
+			panelClass: 'custom-modal',
 		});
-		return await modal.present();
 	}
 }

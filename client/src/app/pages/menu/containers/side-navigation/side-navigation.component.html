@@ -47,7 +47,7 @@
 				<mat-list-item
 					(click)="clickedRouter(p)"
 					[disabled]="p.disabled"
-					[matTooltip]="p?.highlight ? p.highlightText : null"
+					[matTooltip]="p?.highlightText || '' "
 					[ngClass]="{'item-selected': selectedNavigation?.title === p.title}"
 				>
 					<!-- left icon -->
@@ -81,7 +81,7 @@
 				<mat-list-item
 					(click)="clickedRouter(p)"
 					[disabled]="p.disabled"
-					[matTooltip]="p?.highlight ? p.highlightText : null"
+					[matTooltip]="p.highlightText || ''"
 					[ngClass]="{'item-selected': selectedNavigation?.title === p.title}"
 				>
 					<!-- left icon -->

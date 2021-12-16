@@ -45,7 +45,7 @@
 					[closedPrice]="stockDetails.summary.previousClose"
 					[currentPrice]="stockDetails.summary.marketPrice"
 					[height]="400"
-					[logoUrl]="stockDetails.summary.logo_url"
+					[logoUrl]="stockDetails.summary.logo_url || undefined"
 					[name]="symbolIdentification.name"
 					[symbol]="symbolIdentification.symbol"
 					[financialChart]="symbolType === SymbolType.Stock || symbolType === SymbolType.Adr"

@@ -58,6 +58,7 @@ const MY_DATE_FORMATS = {
 		// AngularFireStorageModule,
 		MatDatepickerModule,
 		MatNativeDateModule,
+		// ReactiveFormsModule,
 		// MatTooltipModule,
 		// MatProgressBarModule,
 		// MatDialogModule,
@@ -82,6 +83,7 @@ const MY_DATE_FORMATS = {
 		}),
 		// ConfirmationPopOverModule,
 		// FinancialChartModalModule,
+		// NumberFormatterPipeModule,
 		// InlineInputPopUpModule,
 		// OptionPickerPopOverModule
 	],
