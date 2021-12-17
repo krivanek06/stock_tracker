@@ -23,7 +23,7 @@
 			[style.marginRight.px]="showIcons ? 10 : 0"
 			class="st-flex-row"
 		>
-			<span *ngIf="currentPrice > compareToPrice">+</span>
+			<span *ngIf="currentPrice > compareToPrice" class="st-price-up">+</span>
 			{{ ((currentPrice - compareToPrice) / compareToPrice) | percent: '1.2' }}
 			<ng-container *ngIf="showIcons">
 				<ion-icon *ngIf="currentPrice - compareToPrice >= 0" class="ion-hide-sm-down" name="trending-up-outline"></ion-icon>

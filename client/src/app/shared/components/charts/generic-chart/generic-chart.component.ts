@@ -3,7 +3,7 @@ import { Series } from '@core';
 import highcharts3D from 'highcharts/highcharts-3d';
 import * as Highcharts from 'highcharts/highstock';
 import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
-import { ChartType, GenericChartSeries } from '../../../models';
+import { ChartType, GenericChartSeries, GenericChartSeriesData } from '../../../models';
 import { stFormatLargeNumber } from '../../../utils';
 
 NoDataToDisplay(Highcharts);
@@ -111,11 +111,11 @@ export class GenericChartComponent implements OnInit, OnChanges {
 			return;
 		}
 
-		if (this.categories) {
+		if (this.categories.length > 0) {
 			this.initCategories();
 		}
 
-		if (this.timestamp) {
+		if (this.timestamp.length > 0) {
 			this.initTimestamp();
 		}
 
@@ -129,20 +129,20 @@ export class GenericChartComponent implements OnInit, OnChanges {
 				this.chartOptions.plotOptions.series.dataLabels.format = '{point.y:.1f}%';
 			}
 		} else {
-			if (this.chartType === ChartType.bar) {
-				return;
+			if (this.chartType !== ChartType.bar) {
+				this.chartOptions.tooltip = {
+					...this.chartOptions.tooltip,
+					pointFormatter: function () {
+						const value = stFormatLargeNumber(this.y);
+						return `<p><span style="color: ${this.color}; font-weight: bold">● ${this.series.name}: </span><span>${value}</span></p><br/>`;
+					},
+				};
 			}
-			this.chartOptions.tooltip = {
-				...this.chartOptions.tooltip,
-				pointFormatter: function () {
-					const value = stFormatLargeNumber(this.y);
-					return `<p><span style="color: ${this.color}; font-weight: bold">● ${this.series.name}: </span><span>${value}</span></p><br/>`;
-				},
-			};
 		}
 
 		if (this.showCategoryNameWithValue) {
 			const dollar = this.showCategoryNameWithValueDollar;
+			// tooltip
 			this.chartOptions.tooltip = {
 				...this.chartOptions.tooltip,
 				headerFormat: '',
@@ -151,6 +151,8 @@ export class GenericChartComponent implements OnInit, OnChanges {
 					return `<p><span style="color: ${this.color}; font-weight: bold">● ${this.name}: </span><span>${value}</span></p><br/>`;
 				},
 			};
+			const data = this.series[0].data as any as GenericChartSeriesData[];
+			this.chartOptions.xAxis.categories = data.map((d) => d.name);
 		}
 	}
 

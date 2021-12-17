@@ -1,33 +1,26 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {NavParams, PopoverController} from '@ionic/angular';
-import {IdNameContainer} from '../../models';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { IdNameContainer } from '../../models';
 
 @Component({
-    selector: 'app-option-picker-pop-over',
-    templateUrl: './option-picker-pop-over.component.html',
-    styleUrls: ['./option-picker-pop-over.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-option-picker-pop-over',
+	templateUrl: './option-picker-pop-over.component.html',
+	styleUrls: ['./option-picker-pop-over.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OptionPickerPopOverComponent implements OnInit {
-    title: string;
-    options: IdNameContainer[] = [];
+	constructor(
+		private dialogRef: MatDialogRef<OptionPickerPopOverComponent>,
+		@Inject(MAT_DIALOG_DATA) public data: { title: string; options: IdNameContainer[] }
+	) {}
 
-    constructor(private navParams: NavParams,
-                private popoverController: PopoverController) {
-        this.title = this.navParams.get('title');
-        this.options = this.navParams.get('options');
-    }
+	ngOnInit(): void {}
 
-    ngOnInit(): void {
+	dismissModal() {
+		this.dialogRef.close();
+	}
 
-    }
-
-    dismissModal() {
-        this.popoverController.dismiss();
-    }
-
-    addSymbolToWatchlist(id: string) {
-        this.popoverController.dismiss({id});
-    }
-
+	pickData(id: string) {
+		this.dialogRef.close(id);
+	}
 }

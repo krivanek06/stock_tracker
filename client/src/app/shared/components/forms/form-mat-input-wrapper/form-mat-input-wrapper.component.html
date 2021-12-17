@@ -42,10 +42,10 @@
 			>
 				<mat-select-trigger *ngIf="selectedInputSouce" class="flex">
 					<img *ngIf="selectedInputSouce?.image" [src]="selectedInputSouce?.image" alt="" class="mr-4" />
-					{{ selectedInputSouce.caption | translate }}
+					{{ selectedInputSouce.caption }}
 				</mat-select-trigger>
 				<mat-option *ngFor="let optionData of inputSource" [value]="optionData.value">
-					<div class="flex"><img *ngIf="optionData?.image" [src]="optionData.image" alt="" class="mr-4" /> {{ optionData.caption | translate }}</div>
+					<div class="flex"><img *ngIf="optionData?.image" [src]="optionData.image" alt="" class="mr-4" /> {{ optionData.caption }}</div>
 				</mat-option>
 			</mat-select>
 
@@ -58,7 +58,7 @@
 				[ngClass]="{'disabled-element': disabled}"
 			>
 				<input (keyup)="multiSelectKeyPress($event)" class="select-input" placeholder="Search" />
-				<mat-option *ngFor="let optionData of inputSource" [value]="optionData.value"> {{ optionData.caption | translate }} </mat-option>
+				<mat-option *ngFor="let optionData of inputSource" [value]="optionData.value"> {{ optionData.caption }} </mat-option>
 			</mat-select>
 
 			<!-- text, number, time, email -->
@@ -103,11 +103,11 @@
 					*ngSwitchCase="'CHECKBOX'"
 					[disableRipple]="disabled"
 					[formControl]="formInputControl"
-					[matTooltip]="hintText ? (hintText | translate) : null"
+					[matTooltip]="hintText ? hintText : ''"
 					[ngClass]="{'disabled-element': disabled}"
 					matTooltipClass="form-input-tooltip"
 				>
-					{{ inputCaption | translate }}
+					{{ inputCaption }}
 				</mat-checkbox>
 
 				<!-- slide toggle -->
@@ -118,7 +118,7 @@
 					[formControl]="formInputControl"
 					[ngClass]="{'disabled-element': disabled}"
 				>
-					{{ inputCaption | translate }}
+					{{ inputCaption }}
 				</mat-slide-toggle>
 
 				<!-- slider -->
@@ -148,18 +148,16 @@
 				<!-- radio button -->
 				<ng-container *ngSwitchCase="'RADIO'">
 					<!-- label -->
-					<mat-label class="font-bold"> {{ inputCaption | translate }}</mat-label>
+					<mat-label class="font-bold"> {{ inputCaption }}</mat-label>
 
 					<mat-radio-group
 						[formControl]="formInputControl"
-						[matTooltip]="hintText ? (hintText | translate) : null"
+						[matTooltip]="hintText ? hintText : ''"
 						[ngClass]="{'disabled-element': disabled}"
 						class="flex flex-col mt-4"
 						matTooltipClass="form-input-tooltip"
 					>
-						<mat-radio-button *ngFor="let optionData of inputSource" [value]="optionData.value">
-							{{ optionData.caption | translate }}
-						</mat-radio-button>
+						<mat-radio-button *ngFor="let optionData of inputSource" [value]="optionData.value"> {{ optionData.caption }} </mat-radio-button>
 					</mat-radio-group>
 				</ng-container>
 				<ng-container *ngTemplateOutlet="errorContainer"></ng-container>

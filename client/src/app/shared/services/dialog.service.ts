@@ -69,21 +69,19 @@ export class DialogService {
 	}
 
 	static async presentOptionsPopOver(title: string, options: IdNameContainer[]): Promise<string> {
-		if (!DialogService.popoverController) {
-			throw new Error('DialogService.popoverController not initialized');
+		if (!DialogService.matDialog) {
+			throw new Error('DialogService.matDialog not initialized');
 		}
-		const popOver = await this.popoverController.create({
-			component: OptionPickerPopOverComponent,
-			componentProps: {
+
+		const dialogRef = DialogService.matDialog.open(OptionPickerPopOverComponent, {
+			data: {
 				title,
 				options,
 			},
-			cssClass: 'custom-popover',
-			translucent: true,
+			panelClass: ['g-mat-dialog'],
 		});
-		await popOver.present();
 
-		const res = await popOver.onDidDismiss();
-		return res?.data?.id;
+		const result = (await dialogRef.afterClosed().toPromise()) as string;
+		return result;
 	}
 }

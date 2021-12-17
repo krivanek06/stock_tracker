@@ -9,7 +9,7 @@ import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingFeatureFacadeSer
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardPortfolioChangeComponent implements OnInit {
-	@Input() stPortfolioRiskCalculations!: StPortfolioRiskCalculations;
+	@Input() stPortfolioRiskCalculations?: StPortfolioRiskCalculations;
 	@Input() stPortfolioSnapshots!: StPortfolioSnapshot[];
 	@Input() portfolioCash!: number;
 	@Input() portfolioInvested!: number;

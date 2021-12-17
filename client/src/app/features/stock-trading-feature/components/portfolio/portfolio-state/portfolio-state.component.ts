@@ -22,6 +22,6 @@ export class PortfolioStateComponent implements OnInit {
 	}
 
 	get invested(): number {
-		return this.invested || 0;
+		return this.portfolioInvested || 0;
 	}
 }

@@ -8,14 +8,14 @@
 	>
 		<!-- started with -->
 		<ng-container *ngIf="tradingChangeWrapper.timeIntervalName === TIME_INTERVAL_ENUM.STARTED_WITH; else showOther">
-			<ion-text class="st-font-size-20 weekly-change"> {{ tradingChangeWrapper.historicalBalance | currency }} </ion-text>
+			<ion-text class="st-font-size-20 weekly-change g-color-white"> {{ tradingChangeWrapper.historicalBalance | currency }} </ion-text>
 		</ng-container>
 
 		<!-- portfolio change -->
 		<ng-template #showOther>
 			<ng-container *ngIf="tradingChangeWrapper.historicalBalance; else showNA">
 				<ng-container *ngIf="balance">
-					<ion-text class="st-font-size-20 weekly-change" [@marketValueChange]="balance">
+					<ion-text class="st-font-size-20 weekly-change g-color-white" [@marketValueChange]="balance">
 						{{ balance - tradingChangeWrapper.historicalBalance | currency }}
 					</ion-text>
 					<app-price-change-item
@@ -29,7 +29,7 @@
 			</ng-container>
 
 			<ng-template #showNA>
-				<ion-text class="st-font-size-20">N/A</ion-text>
+				<ion-text class="st-font-size-20 g-color-white">N/A</ion-text>
 			</ng-template>
 		</ng-template>
 	</div>
