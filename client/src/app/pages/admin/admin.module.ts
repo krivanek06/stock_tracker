@@ -5,7 +5,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { GenericCardModule, GenericChartModule, HeaderModule } from '@shared';
 import { TicketOverviewContainerModule } from '@ticketing-feature';
-import { MenuHeaderModule } from 'src/app/features/composed-components-feature';
 import { AdminPage } from './admin.page';
 import { UsersOverviewPage } from './users-overview/users-overview.page';
 
@@ -21,7 +20,6 @@ const routes: Routes = [
 		RouterModule.forChild(routes),
 		IonicModule,
 		HeaderModule,
-		MenuHeaderModule,
 		CommonModule,
 		GenericCardModule,
 		GenericChartModule,

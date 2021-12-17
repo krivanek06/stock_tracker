@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { GenericCardModule, GenericListModule, HeaderModule } from '@shared';
 import { WatchlistTableModule } from '@stock-watchlist-feature';
-import { MenuHeaderModule } from 'src/app/features/composed-components-feature';
 import { WatchlistPage } from './watchlist.page';
 
 const routes: Routes = [
@@ -15,16 +14,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-	imports: [
-		CommonModule,
-		RouterModule.forChild(routes),
-		IonicModule,
-		MenuHeaderModule,
-		HeaderModule,
-		GenericListModule,
-		GenericCardModule,
-		WatchlistTableModule,
-	],
+	imports: [CommonModule, RouterModule.forChild(routes), IonicModule, HeaderModule, GenericListModule, GenericCardModule, WatchlistTableModule],
 	declarations: [WatchlistPage],
 })
 export class WatchlistPageModule {}

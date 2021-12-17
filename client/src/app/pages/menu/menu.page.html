@@ -9,13 +9,13 @@
 		<app-side-navigation
 			[user]="user$ | async"
 			[authenticating]="authenticating$ | async"
-			[showMenuButton]="closeScreen$ | async"
 			(closeEmitter)="toggleMatDrawerExpandedView()"
 		></app-side-navigation>
 	</mat-drawer>
 
 	<mat-drawer-content>
 		<div class="content">
+			<app-menu-header (showMenuEmitter)="toggleMatDrawerExpandedView()" [showMenuButton]="(isOpen$ | async) === false"></app-menu-header>
 			<router-outlet></router-outlet>
 		</div>
 	</mat-drawer-content>

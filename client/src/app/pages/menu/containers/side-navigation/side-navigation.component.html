@@ -1,17 +1,3 @@
-<!-- <ion-item>
-	<ion-label class="ion-text-end">
-		<ion-button class="ion-hide-xl-up remove-color" fill="clear" (click)="dismissMenu()">
-			<ion-icon name="close-outline" class="remove-color"></ion-icon>
-			Close
-		</ion-button>
-	</ion-label>
-</ion-item> -->
-<div class="flex items-center gap-4" [ngClass]="{'pl-4': !showMenuButton}">
-	<button *ngIf="showMenuButton" mat-icon-button color="secondary" class="c-menu-icon" (click)="dismissMenu()">
-		<mat-icon>menu</mat-icon>
-	</button>
-</div>
-
 <!-- avatar -->
 <div class="navigation-avatar">
 	<!-- logged in user -->
@@ -104,7 +90,7 @@
 
 	<!-- logout -->
 	<div class="c-main-nav">
-		<mat-nav-list class="c-nav-list-not-expanded">
+		<mat-nav-list *ngIf="user; else loginButton" class="c-nav-list-not-expanded">
 			<mat-list-item (click)="logout()">
 				<mat-icon mat-list-icon class="st-icon"> logout </mat-icon>
 				<h4 mat-line class="g-color-white">LogOut</h4>
@@ -113,10 +99,12 @@
 
 		<!-- login -->
 		<ng-template #loginButton>
-			<mat-list-item (click)="showLoginModal()">
-				<mat-icon mat-list-icon class="st-icon"> login </mat-icon>
-				<h4 mat-line class="g-color-white">LogIn</h4>
-			</mat-list-item>
+			<mat-nav-list class="c-nav-list-not-expanded">
+				<mat-list-item (click)="showLoginModal()">
+					<mat-icon mat-list-icon class="st-icon"> login </mat-icon>
+					<h4 mat-line class="g-color-white">LogIn</h4>
+				</mat-list-item>
+			</mat-nav-list>
 		</ng-template>
 	</div>
 </div>

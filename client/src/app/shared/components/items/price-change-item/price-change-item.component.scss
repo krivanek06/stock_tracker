@@ -1,6 +1,7 @@
 @import 'variables';
 
 :host {
+	color: #{$st-var-font-2};
 	.c-sm-end {
 		@media (max-width: #{$st-var-sm-split}) {
 			justify-content: flex-end;

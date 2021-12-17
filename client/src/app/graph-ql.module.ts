@@ -24,7 +24,7 @@ const errorLink = onError(({ graphQLErrors, networkError, response }) => {
 	}
 	if (networkError) {
 		console.log(`[Network error]:`, networkError);
-		DialogService.showNotificationBar('A network error happend when executing the operation, probably bad request was send', 'error', 5000);
+		DialogService.showNotificationBar('A network error happened when executing the operation, probably bad request was send', 'error', 5000);
 	}
 });
 

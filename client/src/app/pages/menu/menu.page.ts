@@ -16,10 +16,10 @@ export class MenuPage implements OnInit, OnDestroy {
 
 	// showOverlay = false;
 
-	activeRoutes$!: Observable<string[]>;
+	// activeRoutes$!: Observable<string[]>;
 	// isExpanded = true;
 	closeScreen$!: Observable<boolean>;
-	isOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+	isOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
 	constructor(private userStorageService: UserStorageService, private breakpointObserver: BreakpointObserver) {}
 

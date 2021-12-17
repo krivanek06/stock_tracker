@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { AuthenticationService, componentDestroyed, LoginIUser, RegisterIUser, UserStorageService } from '@core';
-import { PopoverController } from '@ionic/angular';
 import { DialogService } from '@shared';
 import { filter, takeUntil } from 'rxjs/operators';
 import { LoginComponent, RegistrationComponent } from '../../components';
@@ -21,7 +21,7 @@ export class AuthenticationPopoverComponent implements OnInit, OnDestroy {
 	constructor(
 		private authenticationService: AuthenticationService,
 		private userStorageService: UserStorageService,
-		private popoverController: PopoverController
+		private matDialogRef: MatDialogRef<AuthenticationPopoverComponent>
 	) {}
 
 	ngOnDestroy(): void {}
@@ -35,15 +35,12 @@ export class AuthenticationPopoverComponent implements OnInit, OnDestroy {
 	}
 
 	async normalLogin(data: LoginIUser) {
-		try {
-			this.toggleSpinner();
-			await this.authenticationService.normalLogin(data);
-			this.toggleSpinner();
-		} catch (e: any) {
-			this.toggleSpinner();
+		this.toggleSpinner();
+		if (!(await this.authenticationService.normalLogin(data))) {
+			DialogService.showNotificationBar('Your email or password was invalid, please try again', 'error');
 			this.loginComp.loginForm.reset();
-			DialogService.showNotificationBar(e.message);
 		}
+		this.toggleSpinner();
 	}
 
 	async registration(registerIUser: RegisterIUser) {
@@ -80,7 +77,7 @@ export class AuthenticationPopoverComponent implements OnInit, OnDestroy {
 				takeUntil(componentDestroyed(this))
 			)
 			.subscribe(() => {
-				this.popoverController.dismiss();
+				this.matDialogRef.close();
 			});
 	}
 }

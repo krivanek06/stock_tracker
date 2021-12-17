@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { GraphqlQueryService, StfmCompanyQuote, StUserPublicData, UserStorageService } from '@core';
 import { IonSearchbar } from '@ionic/angular';
 import { WatchlistFeatureFacadeService } from '@stock-watchlist-feature';
@@ -11,6 +11,8 @@ import { Observable } from 'rxjs';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuHeaderComponent implements OnInit {
+	@Output() showMenuEmitter: EventEmitter<void> = new EventEmitter<void>();
+	@Input() showMenuButton!: boolean | null;
 	@ViewChild('mySearchbar') searchBar!: IonSearchbar;
 
 	searchCompanyQuotes$?: Observable<StfmCompanyQuote[]>;
@@ -40,6 +42,9 @@ export class MenuHeaderComponent implements OnInit {
 			this.searchCompanyQuotes$ = this.firebaseSearchService.queryStockQuotesByPrefix(event.detail.value);
 			this.loading = true;
 		}
+	}
+	showMenu(): void {
+		this.showMenuEmitter.emit();
 	}
 
 	toggleNotifications() {

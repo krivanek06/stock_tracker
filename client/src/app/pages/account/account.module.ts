@@ -6,7 +6,6 @@ import { IonicModule } from '@ionic/angular';
 import { GenericCardModule, HeaderModule } from '@shared';
 import { WatchlistModificationContainerModule } from '@stock-watchlist-feature';
 import { TicketFormContainerModule, TicketOverviewContainerModule } from '@ticketing-feature';
-import { MenuHeaderModule } from 'src/app/features/composed-components-feature';
 import { AccountPage } from './account.page';
 
 const routes: Routes = [
@@ -21,7 +20,6 @@ const routes: Routes = [
 		CommonModule,
 		RouterModule.forChild(routes),
 		HeaderModule,
-		MenuHeaderModule,
 		IonicModule,
 		UserAccountFormModule,
 		GenericCardModule,

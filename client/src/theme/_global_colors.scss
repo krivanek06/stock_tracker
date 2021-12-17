@@ -28,17 +28,32 @@
 	color: white !important;
 }
 
-/*
-  -----------
-  buttons
-  -----------
-*/
-.g-button-secondary {
-	background-color: #{$st-var-font-2} !important;
+/* WARNING */
+.g-color-warning {
+	color: #{$color-orange-1} !important;
+}
+
+.g-button-warning {
+	background-color: #{$color-orange-1} !important;
 	color: white !important;
 }
 
-.g-button-secondary-flat {
+.g-button-warning-flat {
 	background-color: white !important;
-	color: #{$st-var-font-2} !important;
+	color: #{$color-orange-1} !important;
+}
+
+// TAILWIND CUSTOM CLASSES
+@layer utilities {
+	@variants responsive {
+		.g-button-secondary {
+			background-color: #{$st-var-font-2} !important;
+			color: white !important;
+		}
+
+		.g-button-secondary-flat {
+			background-color: white !important;
+			color: #{$st-var-font-2} !important;
+		}
+	}
 }

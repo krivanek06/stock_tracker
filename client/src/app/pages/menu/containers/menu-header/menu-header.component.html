@@ -1,7 +1,9 @@
-<ion-header class="ion-no-border ion-padding">
-	<ion-menu-toggle>
-		<ion-menu-button style="font-size: 32px"></ion-menu-button>
-	</ion-menu-toggle>
+<div class="p-4 flex justify-between">
+	<div>
+		<button *ngIf="showMenuButton" mat-icon-button color="secondary" class="c-mat-menu-button" (click)="showMenu()">
+			<mat-icon>menu</mat-icon>
+		</button>
+	</div>
 
 	<div class="st-flex-end">
 		<!-- search -->
@@ -51,4 +53,4 @@
 			<ion-text *ngIf="isAuthenticating$ | async" class="login-text">Logging in</ion-text>
 		</ng-template>
 	</div>
-</ion-header>
+</div>

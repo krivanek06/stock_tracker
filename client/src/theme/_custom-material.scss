@@ -1,7 +1,6 @@
 @use '@angular/material' as mat;
 @use 'sass:map';
 
-
 @include mat.core();
 
 // COLOR PALETTE GENERATOR - http://mcg.mbitson.com/
@@ -124,3 +123,7 @@ $mat-theming-light: mat.define-light-theme(
 
 //@include angular-material-theme($mat-theming-light);
 @include mat.all-component-themes($mat-theming-light);
+
+// Apply the dark theme by default
+// @include mat.core-theme($mat-theming-light);
+// @include mat.button-theme($mat-theming-light);
