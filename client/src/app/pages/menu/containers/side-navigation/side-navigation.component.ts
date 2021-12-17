@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { NavigationEnd, Router } from '@angular/router';
 import { AuthenticationService, componentDestroyed, StUserPublicData, UserStorageService, User_Roles_Enum } from '@core';
-import { PopoverController } from '@ionic/angular';
 import { AuthenticationPopoverComponent } from '@login-feature';
 import { DialogService } from '@shared';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
@@ -23,9 +23,6 @@ interface MenuPageInterface {
 	styleUrls: ['./side-navigation.component.scss'],
 })
 export class SideNavigationComponent implements OnInit, OnDestroy {
-	@Output() closeEmitter: EventEmitter<void> = new EventEmitter<void>();
-
-	@Input() showMenuButton!: boolean | null;
 	@Input() user!: StUserPublicData | null;
 	@Input() authenticating!: boolean | null;
 
@@ -38,7 +35,7 @@ export class SideNavigationComponent implements OnInit, OnDestroy {
 	constructor(
 		private authenticationService: AuthenticationService,
 		private userStorageService: UserStorageService,
-		private popoverController: PopoverController,
+		private dialog: MatDialog,
 		private router: Router
 	) {}
 
@@ -51,15 +48,7 @@ export class SideNavigationComponent implements OnInit, OnDestroy {
 	ngOnDestroy(): void {}
 
 	clickedRouter(page: MenuPageInterface) {
-		// this.selectedNavigation = page;
-		// this.groupStorageService.setActiveGroupId(null);
-		// //this.router.navigateByUrl(page.url, { replaceUrl: true });
-		// this.navCtrl.navigateRoot(page.url, { animated: true, animationDirection: 'forward' });
 		this.router.navigateByUrl(page.url);
-	}
-
-	dismissMenu() {
-		this.closeEmitter.emit();
 	}
 
 	async logout() {
@@ -67,14 +56,8 @@ export class SideNavigationComponent implements OnInit, OnDestroy {
 		DialogService.showNotificationBar('You have been successfully logged out');
 	}
 
-	async showLoginModal() {
-		const modal = await this.popoverController.create({
-			component: AuthenticationPopoverComponent,
-			cssClass: 'custom-popover',
-			translucent: true,
-		});
-
-		return await modal.present();
+	showLoginModal() {
+		this.dialog.open(AuthenticationPopoverComponent, { panelClass: 'g-mat-dialog' });
 	}
 
 	private watchRouterUrlChange() {

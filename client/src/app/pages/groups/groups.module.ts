@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { HeaderModule } from '@shared';
-import { MenuHeaderModule } from 'src/app/features/composed-components-feature';
 import { GroupsComponent } from './groups.component';
 
 const routes: Routes = [
@@ -25,6 +24,6 @@ const routes: Routes = [
 
 @NgModule({
 	declarations: [GroupsComponent],
-	imports: [CommonModule, RouterModule.forChild(routes), IonicModule, HeaderModule, MenuHeaderModule],
+	imports: [CommonModule, RouterModule.forChild(routes), IonicModule, HeaderModule],
 })
 export class GroupsModule {}

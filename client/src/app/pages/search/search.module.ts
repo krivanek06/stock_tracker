@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { HeaderModule } from '@shared';
-import { MenuHeaderModule } from 'src/app/features/composed-components-feature';
 import { SEARCH_PAGE_ENUM } from './models/pages.model';
 import { SearchPage } from './search.page';
 
@@ -25,7 +24,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-	imports: [RouterModule.forChild(routes), CommonModule, IonicModule, HeaderModule, MenuHeaderModule],
+	imports: [RouterModule.forChild(routes), CommonModule, IonicModule, HeaderModule],
 	declarations: [SearchPage],
 })
 export class SearchPageModule {}

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { GraphqlWatchlistService, StStockWatchInputlistIdentifier, UserStorageService } from '@core';
-import { ModalController } from '@ionic/angular';
 import { DialogService, IdNameContainer, SymbolIdentification } from '@shared';
 import { SymbolLookupModalComponent } from '../entry-components'; // TODO circular dependency
 
@@ -12,19 +12,23 @@ export class WatchlistFeatureFacadeService {
 	constructor(
 		private graphqlWatchlistService: GraphqlWatchlistService,
 		private userStorageService: UserStorageService,
-		private modalController: ModalController,
+		private dialog: MatDialog,
 		private router: Router
 	) {}
 
 	async presentSymbolLookupModal(symbolIdentification: SymbolIdentification, showAddToWatchlistOption: boolean, watchlistId: string | null = null) {
-		const modal = await this.modalController.create({
-			component: SymbolLookupModalComponent,
-			componentProps: { symbolIdentification, showAddToWatchlistOption, watchlistId },
-			cssClass: 'custom-modal',
+		const dialogRef = this.dialog.open(SymbolLookupModalComponent, {
+			data: {
+				symbolIdentification,
+				showAddToWatchlistOption,
+				watchlistId,
+			},
+			maxWidth: '100vw',
+			minWidth: '60vw',
+			panelClass: 'g-mat-dialog-big',
 		});
-		await modal.present();
 
-		const dismiss = await modal.onDidDismiss();
+		const dismiss = await dialogRef.afterClosed().toPromise();
 		console.log('dismiss', dismiss);
 
 		if (dismiss.data?.redirect) {

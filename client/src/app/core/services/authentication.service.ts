@@ -49,9 +49,14 @@ export class AuthenticationService {
 		await this.signInUser(credentials);
 	}
 
-	async normalLogin(loginIUser: LoginIUser) {
-		const credentials = await signInWithEmailAndPassword(this.afAuth, loginIUser.email, loginIUser.password);
-		await this.signInUser(credentials);
+	async normalLogin(loginIUser: LoginIUser): Promise<boolean> {
+		try {
+			const credentials = await signInWithEmailAndPassword(this.afAuth, loginIUser.email, loginIUser.password);
+			await this.signInUser(credentials);
+			return true;
+		} catch (e: any) {
+			return false;
+		}
 	}
 
 	async logout(): Promise<void> {

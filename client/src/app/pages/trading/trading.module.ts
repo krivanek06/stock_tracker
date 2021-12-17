@@ -13,7 +13,6 @@ import {
 } from '@shared';
 import { DetailsStockSuggestionChangeModule, StockSearchModule } from '@stock-details-feature';
 import { HoldingsTableModule, PortfolioStateModule, TradeConfirmationPopOverModule, TradingBidAskModule } from '@stock-trading-feature';
-import { MenuHeaderModule } from 'src/app/features/composed-components-feature';
 import { TradingPage } from './trading.page';
 
 const routes: Routes = [
@@ -29,7 +28,6 @@ const routes: Routes = [
 		RouterModule.forChild(routes),
 		TradeConfirmationPopOverModule,
 		IonicModule,
-		MenuHeaderModule,
 		HeaderModule,
 		StockSearchModule,
 		PortfolioStateModule,

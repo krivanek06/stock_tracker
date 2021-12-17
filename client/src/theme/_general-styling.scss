@@ -971,6 +971,7 @@ mat-card {
 
 /* mat dialog */
 .g-mat-dialog .mat-dialog-container {
+	background: linear-gradient(126deg, #10255a 0%, #0c1d44 29%, #0c183e 44%, #061238 73%, #060e28 100%);
 	max-width: 90vw !important;
 	width: 90vw !important;
 
@@ -981,6 +982,29 @@ mat-card {
 	@screen xl {
 		width: 60vw !important;
 	}
+}
+.g-mat-dialog-big .mat-dialog-container {
+	background: linear-gradient(126deg, #10255a 0%, #0c1d44 29%, #0c183e 44%, #061238 73%, #060e28 100%);
+
+	width: 100% !important;
+	max-width: 100vw !important;
+	height: 100% !important;
+	max-height: 100% !important;
+	// max-height: 850px !important;
+	@screen lg {
+		width: 85% !important;
+		height: 90%;
+		margin: auto;
+	}
+}
+
+mat-dialog-content {
+	max-height: 100vh !important;
+}
+
+.modal-wrapper,
+ion-content {
+	background: linear-gradient(126deg, #10255a 0%, #0c1d44 29%, #0c183e 44%, #061238 73%, #060e28 100%);
 }
 
 .g-divider {

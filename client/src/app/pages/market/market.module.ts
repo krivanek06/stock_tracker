@@ -26,7 +26,6 @@ import {
 	HeaderModule,
 	PieChartWrapperModule,
 } from '@shared';
-import { MenuHeaderModule } from 'src/app/features/composed-components-feature';
 import { MarketPage } from './market.page';
 import { MarketCalendarComponent } from './pages/market-calendar/market-calendar.component';
 import { MarketCryptoComponent } from './pages/market-crypto/market-crypto.component';
@@ -51,7 +50,6 @@ const routes: Routes = [
 		MatExpansionModule,
 		IonicModule,
 		HeaderModule,
-		MenuHeaderModule,
 		MarketChartBuilderModule,
 		FinancialChartContainerModule,
 		GenericListModule,

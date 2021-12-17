@@ -34,9 +34,15 @@
 @import 'theme/custom-variables';
 @import 'theme/general-styling';
 @import 'theme/global_colors';
+@import 'theme/custom-material';
 
 * {
 	font-size: 14px;
+
+	ion-text,
+	span {
+		color: #{$st-var-font-2};
+	}
 
 	ion-icon {
 		font-size: 23px;

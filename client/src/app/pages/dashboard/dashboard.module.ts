@@ -7,7 +7,6 @@ import {
 	ComposedPortfolioChartsModule,
 	ComposedPortfolioHoldingsTableModule,
 	ComposedTransactionsModule,
-	MenuHeaderModule,
 } from '@composed-components-feature';
 import { IonicModule } from '@ionic/angular';
 import { HeaderModule } from '@shared';
@@ -28,7 +27,6 @@ const routes: Routes = [
 		RouterModule.forChild(routes),
 		IonicModule,
 		HeaderModule,
-		MenuHeaderModule,
 		MatIconModule,
 		PortfolioStateModule,
 		ComposedPortfolioChartsModule,
