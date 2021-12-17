@@ -47,7 +47,9 @@
 						[chartType]="ChartType.bar"
 						[heightPx]="chartHeight_35"
 						[isPercentage]="true"
+						[showCategoryNameWithValue]="true"
 						[series]="[{
+							colorByPoint: true,
                              data:[
                                 {name: 'Revenue ttm. yoy', y: stockDetails.metric?.revenueGrowthTTMYoy ? ((stockDetails.metric?.revenueGrowthTTMYoy || 1) / 100) : null},
                                 {name: 'Revenue qrt. yoy', y: stockDetails.metric?.revenueGrowthQuarterlyYoy ? ((stockDetails.metric?.revenueGrowthQuarterlyYoy || 1) / 100) : null},
@@ -85,6 +87,7 @@
 						[chartType]="ChartType.bar"
 						[heightPx]="310"
 						[isPercentage]="true"
+						[showCategoryNameWithValue]="true"
 						[series]="[{
                                 colorByPoint: true,
                                  data:[
@@ -128,6 +131,7 @@
 						[chartType]="ChartType.column"
 						[heightPx]="220"
 						[isPercentage]="true"
+						[showCategoryNameWithValue]="true"
 						[series]="[{
                                  colorByPoint: true,
                                  data:[

@@ -31,12 +31,12 @@ export class WatchlistFeatureFacadeService {
 		const dismiss = await dialogRef.afterClosed().toPromise();
 		console.log('dismiss', dismiss);
 
-		if (dismiss.data?.redirect) {
+		if (dismiss?.redirect) {
 			const symbol = symbolIdentification.symbol.split('.')[0]; // ex: MMM.DE => MMM
 			this.router.navigateByUrl(`/menu/search/stock-details/${symbol}`);
-		} else if (dismiss.data?.addSymbol) {
+		} else if (dismiss?.addSymbol) {
 			this.addSymbolToWatchlist(symbolIdentification.symbol);
-		} else if (dismiss.data?.removeSymbol && watchlistId) {
+		} else if (dismiss?.removeSymbol && watchlistId) {
 			this.removeStockFromWatchlist(symbolIdentification, watchlistId);
 		}
 	}

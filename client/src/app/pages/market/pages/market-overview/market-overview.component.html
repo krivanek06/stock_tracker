@@ -61,7 +61,7 @@
 		<app-generic-list [title]="'Treasury yield'"></app-generic-list>
 		<ion-row>
 			<ng-container *ngFor="let data of marketOverview.treasury_yield | slice: 3; let i = index">
-				<ion-col size="12" [sizeSm]="i == 2 ? 12 : 6" size-md="4">
+				<ion-col size="12" [sizeSm]="i === 2 ? 12 : 6" size-md="4">
 					<app-generic-chart
 						(expandEmitter)="expand(data.documentKey)"
 						[showExpandableButton]="true"
@@ -97,7 +97,7 @@
 		<app-generic-list [title]="'Inflation rate'"></app-generic-list>
 		<ion-row>
 			<ng-container *ngFor="let data of marketOverview.inflation_rate | slice: 0: 3; let i = index">
-				<ion-col size="12" [sizeSm]="i == 2 ? 12 : 6" size-md="4">
+				<ion-col size="12" [sizeSm]="i === 2 ? 12 : 6" size-md="4">
 					<app-generic-chart
 						(expandEmitter)="expand(data.documentKey)"
 						[showExpandableButton]="true"

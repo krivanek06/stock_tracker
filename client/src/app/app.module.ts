@@ -7,6 +7,8 @@ import { getStorage, provideStorage } from '@angular/fire/storage';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { IonicModule } from '@ionic/angular';
@@ -61,7 +63,8 @@ const MY_DATE_FORMATS = {
 		// ReactiveFormsModule,
 		// MatTooltipModule,
 		// MatProgressBarModule,
-		// MatDialogModule,
+		MatDialogModule,
+		MatProgressSpinnerModule,
 		// MatSnackBarModule,
 		IonicModule.forRoot(),
 		AppRoutingModule,

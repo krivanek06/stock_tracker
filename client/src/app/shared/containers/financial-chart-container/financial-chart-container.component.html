@@ -1,17 +1,17 @@
-<ion-item (click)="toggleFinancialChartView()" button class="ion-margin-bottom">
-	<ion-label class="st-fit-content"> <ion-img appDefaultImg [src]="logoUrl" alt="symbol image" class="st-symbol-image"></ion-img> </ion-label>
-
-	<!-- current price & price range by selector -->
-	<ion-label class="st-flex-space-between">
-		<div class="st-flex-col">
-			<ion-text class="st-title ion-hide-sm-down">{{ name }}</ion-text>
-			<ion-text class="st-title ion-hide-sm-up">{{ symbol }}</ion-text>
-			<ion-text class="st-font-4 st-font-size-13"> {{ priceRangeFrom | currency }} - {{ priceRangeTo | currency }} </ion-text>
+<ion-item (click)="toggleFinancialChartView()" button class="ion-margin-bottom p-4">
+	<ion-label class="flex justify-between">
+		<div class="flex">
+			<ion-img appDefaultImg [src]="logoUrl" alt="symbol image" class="st-symbol-image"></ion-img>
+			<div class="flex flex-col">
+				<ion-text class="st-title ion-hide-sm-down">{{ name }}</ion-text>
+				<ion-text class="st-title ion-hide-sm-up">{{ symbol }}</ion-text>
+				<ion-text class="st-font-4 st-font-size-13"> {{ priceRangeFrom | currency }} - {{ priceRangeTo | currency }} </ion-text>
+			</div>
 		</div>
 
-		<div [@marketValueChange]="currentPrice" class="st-flex-col">
+		<div [@marketValueChange]="currentPrice" class="flex flex-col">
 			<!-- current price & daily change -->
-			<div class="st-flex-row" style="align-self: flex-end">
+			<div class="flex gap-2">
 				<ion-text [@marketValueChange]="currentPrice" class="st-font-size-18" style="margin-right: 10px"> {{ currentPrice | currency }} </ion-text>
 				<ion-text *ngIf="currentPrice" class="st-font-size-13 st-font-5">{{ currentPrice - closedPrice | currency }}</ion-text>
 			</div>

@@ -100,7 +100,7 @@
 		<!-- login -->
 		<ng-template #loginButton>
 			<mat-nav-list class="c-nav-list-not-expanded">
-				<mat-list-item (click)="showLoginModal()">
+				<mat-list-item (click)="showLoginModal()" [disabled]="authenticating">
 					<mat-icon mat-list-icon class="st-icon"> login </mat-icon>
 					<h4 mat-line class="g-color-white">LogIn</h4>
 				</mat-list-item>

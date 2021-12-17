@@ -955,6 +955,10 @@ mat-card {
 	border-radius: 10px !important;
 }
 
+.highcharts-tooltip-container {
+	z-index: 999999 !important;
+}
+
 /* mat tooltip */
 .cdk-overlay-pane {
 	&.mat-tooltip-panel {
@@ -990,16 +994,19 @@ mat-card {
 	max-width: 100vw !important;
 	height: 100% !important;
 	max-height: 100% !important;
+	//overflow-y: hidden;
 	// max-height: 850px !important;
 	@screen lg {
 		width: 85% !important;
-		height: 90%;
+		max-height: 850px !important;
+		height: 90% !important;
 		margin: auto;
 	}
 }
 
 mat-dialog-content {
 	max-height: 100vh !important;
+	overflow-y: hidden !important;
 }
 
 .modal-wrapper,

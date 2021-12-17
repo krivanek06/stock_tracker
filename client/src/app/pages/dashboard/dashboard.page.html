@@ -16,7 +16,7 @@
 				[portfolioCash]="user.portfolio.portfolioCash"
 				[portfolioInvested]="portfolioInvested"
 				[stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots"
-				[stPortfolioRiskCalculations]="user.portfolioRisk"
+				[stPortfolioRiskCalculations]="user.portfolioRisk || undefined"
 			></app-dashboard-portfolio-change>
 
 			<!-- portfolio change charts -->
