@@ -16,6 +16,7 @@ import {
 	LeaveGroupGQL,
 	LeaveGroupMutation,
 	QueryStGroupByGroupIdGQL,
+	QueryStGroupByGroupIdWithoutHoldingGQL,
 	QueryStGroupByGroupNameGQL,
 	QueryStGroupMemberOverviewByIdGQL,
 	RemoveMemberFromGroupGQL,
@@ -24,6 +25,7 @@ import {
 	StGroupAllDataFragmentFragment,
 	StGroupAllDataFragmentFragmentDoc,
 	StGroupAllDataInput,
+	StGroupAllDataWithoutHoldingsFragment,
 	StGroupIdentificationDataFragment,
 	StGroupIdentificationDataFragmentDoc,
 	StGroupMemberOverviewFragment,
@@ -58,7 +60,8 @@ export class GraphqlGroupService {
 		private leaveGroupGQL: LeaveGroupGQL,
 		private queryStGroupMemberOverviewByIdGQL: QueryStGroupMemberOverviewByIdGQL,
 		private removeMemberFromGroupGQL: RemoveMemberFromGroupGQL,
-		private toggleWatchGroupGQL: ToggleWatchGroupGQL
+		private toggleWatchGroupGQL: ToggleWatchGroupGQL,
+		private queryStGroupByGroupIdWithoutHoldingGQL: QueryStGroupByGroupIdWithoutHoldingGQL
 	) {}
 
 	queryStGroupMemberOverviewById(userId: string): Observable<StGroupMemberOverviewFragment> {
@@ -75,6 +78,14 @@ export class GraphqlGroupService {
 				id,
 			})
 			.pipe(map((res) => res.data.querySTGroupByGroupId as StGroupAllData));
+	}
+
+	queryStGroupByGroupIdWithoutHolding(id: string): Observable<StGroupAllDataWithoutHoldingsFragment> {
+		return this.queryStGroupByGroupIdWithoutHoldingGQL
+			.fetch({
+				id,
+			})
+			.pipe(map((res) => res.data.querySTGroupByGroupId as StGroupAllDataWithoutHoldingsFragment));
 	}
 
 	queryGroupIdentificationDataByGroupName(groupName: string): Observable<StGroupIdentificationDataFragment[]> {

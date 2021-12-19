@@ -117,32 +117,23 @@ fragment STGroupAllDataWithoutHoldings on STGroupAllData {
 	}
 }
 
-fragment STGroupAllDataGroupMemberData on STGroupAllData {
+fragment STGroupAllDataGroupMemberHoldingsData on STGroupAllData {
 	id
 	name
 	groupMemberData {
 		id
-		members {
-			...STGroupUserFragment
-		}
 		holdings {
 			holding {
 				...STHoldingFragment
 			}
 			numberOfUsers
 		}
-		invitationSent {
-			...STGroupUserFragment
-		}
-		invitationReceived {
-			...STGroupUserFragment
-		}
 	}
 }
 
 fragment STGroupAllDataFragment on STGroupAllData {
 	...STGroupAllDataWithoutHoldings
-	...STGroupAllDataGroupMemberData
+	...STGroupAllDataGroupMemberHoldingsData
 }
 
 # --------------------------------------
@@ -160,9 +151,9 @@ query QuerySTGroupByGroupIdWithoutHolding($id: String!) {
 	}
 }
 
-query QuerySTGroupByGroupIdGroupMemberData($id: String!) {
+query QuerySTGroupAllDataGroupMemberHoldingsData($id: String!) {
 	querySTGroupByGroupId(id: $id) {
-		...STGroupAllDataGroupMemberData
+		...STGroupAllDataGroupMemberHoldingsData
 	}
 }
 
