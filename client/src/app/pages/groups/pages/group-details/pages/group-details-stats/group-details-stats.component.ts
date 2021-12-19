@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { GroupStorageService, StGroupAllData, StHolding } from '@core';
+import { GroupStorageService, StGroupAllData, StGroupHoldings, StHolding } from '@core';
 import { SymbolIdentification, WindowService } from '@shared';
 import { WatchlistFeatureFacadeService } from '@stock-watchlist-feature';
 import { Observable } from 'rxjs';
@@ -13,7 +13,8 @@ import { Observable } from 'rxjs';
 export class GroupDetailsStatsComponent implements OnInit {
 	groupAllData$!: Observable<StGroupAllData | null>;
 
-	holdings$!: Observable<StHolding[]>;
+	groupHoldings$!: Observable<StGroupHoldings[] | undefined>;
+	holdings$!: Observable<StHolding[] | undefined>;
 	chartHeight_32!: number;
 	chartHeightGroup_37!: number;
 	chartHeightGroup_55!: number;
@@ -22,7 +23,8 @@ export class GroupDetailsStatsComponent implements OnInit {
 
 	ngOnInit() {
 		this.groupAllData$ = this.groupStorageService.getActiveGroup();
-		this.holdings$ = this.groupStorageService.getActiveGroupHoldings();
+		this.groupHoldings$ = this.groupStorageService.getActiveGroupHoldings();
+		this.holdings$ = this.groupStorageService.getActiveGroupHoldingsOnlyHolding();
 
 		this.chartHeight_32 = WindowService.getWindowHeightPrctInPx(32);
 		this.chartHeightGroup_37 = WindowService.getWindowHeightPrctInPx(37);

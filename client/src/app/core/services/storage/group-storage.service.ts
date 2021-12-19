@@ -1,18 +1,34 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { QueryStGroupByGroupIdGQL, StGroupAllData, StHolding } from '../../graphql-schema';
+import {
+	QueryStGroupAllDataGroupMemberHoldingsDataGQL,
+	QueryStGroupByGroupIdWithoutHoldingGQL,
+	StGroupAllData,
+	StGroupAllDataGroupMemberHoldingsDataFragment,
+	StGroupAllDataWithoutHoldingsFragment,
+	StGroupHoldings,
+} from '../../graphql-schema';
+import { StHolding } from './../../graphql-schema/customGraphql.service';
 import { UserStorageService } from './user-storage.service';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class GroupStorageService {
-	private activeGroup$: BehaviorSubject<StGroupAllData | null> = new BehaviorSubject<StGroupAllData | null>(null);
+	private activeGroup$: BehaviorSubject<StGroupAllDataWithoutHoldingsFragment | null> =
+		new BehaviorSubject<StGroupAllDataWithoutHoldingsFragment | null>(null);
+	private activeGroupMemberHoldings$: BehaviorSubject<StGroupAllDataGroupMemberHoldingsDataFragment | null> =
+		new BehaviorSubject<StGroupAllDataGroupMemberHoldingsDataFragment | null>(null);
 	private activeGroupId$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
-	constructor(private userStorageService: UserStorageService, private queryStGroupByGroupIdGQL: QueryStGroupByGroupIdGQL) {
-		this.initGroupSubscription();
+	constructor(
+		private userStorageService: UserStorageService,
+		private queryStGroupByGroupIdWithoutHoldingGQL: QueryStGroupByGroupIdWithoutHoldingGQL,
+		private queryStGroupAllDataGroupMemberHoldingsDataGQL: QueryStGroupAllDataGroupMemberHoldingsDataGQL
+	) {
+		this.initActiveGroupSubscription();
+		this.initActiveGroupMemberHoldings();
 	}
 
 	get membersIds(): string[] {
@@ -31,7 +47,7 @@ export class GroupStorageService {
 		if (!this.activeGroup$.getValue()) {
 			throw new Error('trying to access activeGroup$ in GroupStorageService, but does not exists');
 		}
-		return this.activeGroup$.getValue() as StGroupAllData;
+		return { ...this.activeGroup$.getValue(), ...this.activeGroupMemberHoldings$.getValue() } as StGroupAllData;
 	}
 
 	get activeGroupId(): string {
@@ -46,15 +62,34 @@ export class GroupStorageService {
 	}
 
 	getActiveGroup(): Observable<StGroupAllData | null> {
-		return this.activeGroup$.asObservable();
+		return this.activeGroup$.asObservable() as Observable<StGroupAllData | null>;
 	}
 
-	getActiveGroupHoldings(): Observable<StHolding[]> {
-		return this.getActiveGroup().pipe(
+	getActiveGroupHoldings(): Observable<StGroupHoldings[] | undefined> {
+		return this.activeGroupMemberHoldings$.asObservable().pipe(
 			filter((groupData) => !!groupData?.groupMemberData?.holdings),
-			map((groupData) => groupData?.groupMemberData?.holdings?.map((h) => h?.holding as StHolding) || [])
+			map((groupData) => groupData?.groupMemberData?.holdings?.map((h) => h as StGroupHoldings))
 		);
 	}
+
+	getActiveGroupHoldingsOnlyHolding(): Observable<StHolding[] | undefined> {
+		return this.getActiveGroupHoldings().pipe(map((res) => res?.map((h) => h.holding)));
+	}
+
+	// getActiveGroup(): Observable<StGroupAllData | null> {
+	// 	return combineLatest([this.activeGroup$.asObservable(), this.activeGroupMemberHoldings$.asObservable()]).pipe(
+	// 		map(([activeGroup, holdings]) => {
+	// 			return { ...activeGroup, ...holdings } as StGroupAllData;
+	// 		})
+	// 	);
+	// }
+
+	// getActiveGroupHoldings(): Observable<StHolding[]> {
+	// 	return this.getActiveGroup().pipe(
+	// 		filter((groupData) => !!groupData?.groupMemberData?.holdings),
+	// 		map((groupData) => groupData?.groupMemberData?.holdings?.map((h) => h?.holding as StHolding) || [])
+	// 	);
+	// }
 
 	getActiveGroupNotNull(): Observable<StGroupAllData> {
 		return this.activeGroup$.asObservable().pipe(filter((res) => !!res)) as Observable<StGroupAllData>;
@@ -151,14 +186,14 @@ export class GroupStorageService {
 		);
 	}
 
-	private initGroupSubscription(): void {
+	private initActiveGroupSubscription(): void {
 		this.activeGroupId$
 			.pipe(
 				switchMap((groupid) => {
 					if (!groupid) {
 						return of(null);
 					}
-					return this.queryStGroupByGroupIdGQL
+					return this.queryStGroupByGroupIdWithoutHoldingGQL
 						.watch(
 							{
 								id: groupid,
@@ -170,6 +205,28 @@ export class GroupStorageService {
 						.valueChanges.pipe(map((res) => res.data.querySTGroupByGroupId));
 				})
 			)
-			.subscribe((groupData) => this.activeGroup$.next(groupData as StGroupAllData));
+			.subscribe((groupData) => this.activeGroup$.next(groupData as StGroupAllDataWithoutHoldingsFragment));
+	}
+
+	private initActiveGroupMemberHoldings(): void {
+		this.activeGroupId$
+			.pipe(
+				switchMap((groupid) => {
+					if (!groupid) {
+						return of(null);
+					}
+					return this.queryStGroupAllDataGroupMemberHoldingsDataGQL
+						.watch(
+							{
+								id: groupid,
+							},
+							{
+								fetchPolicy: 'network-only',
+							}
+						)
+						.valueChanges.pipe(map((res) => res.data.querySTGroupByGroupId));
+				})
+			)
+			.subscribe((groupData) => this.activeGroupMemberHoldings$.next(groupData as StGroupAllDataGroupMemberHoldingsDataFragment));
 	}
 }

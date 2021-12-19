@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ComposedPortfolioHoldingsTableModule } from '@composed-components-feature';
 import { IonicModule } from '@ionic/angular';
-import { GenericCardModule, GenericChartModule, GenericListModule, PieChartWrapperModule } from '@shared';
+import { GenericCardModule, GenericChartModule, GenericListModule, LoaderWrapperModule, PieChartWrapperModule } from '@shared';
 import {
 	HoldingsAllocationGroupChartModule,
 	HoldingsPackedBubleChartModule,
@@ -38,6 +38,7 @@ const routes: Routes = [
 		ComposedPortfolioHoldingsTableModule,
 		HoldingsPackedBubleChartModule,
 		RouterModule.forChild(routes),
+		LoaderWrapperModule,
 	],
 	exports: [GroupDetailsStatsComponent],
 })
