@@ -7,6 +7,7 @@ export const userTypeDefs = gql`
 		groupInvitationReceived: [STGroupAllData!]!
 		groupOwner: [STGroupAllData!]!
 		groupMember: [STGroupAllData!]!
+		groupWatched: [STGroupAllData!]!
 	}
 
 	type STUserIndetificationBase {

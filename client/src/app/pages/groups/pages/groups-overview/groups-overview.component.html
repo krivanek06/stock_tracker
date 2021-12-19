@@ -43,8 +43,26 @@
 	</ng-container>
 
 	<ng-template #showNoGroupsMessage>
-		<div class="st-empty-table">You are not part of any group or have not created your own</div>
+		<div class="st-empty-table g-color-secondary">You are not part of any group or have not created your own</div>
 	</ng-template>
+
+	<!-- watched groups -->
+	<ng-container *ngIf="user.groups.groupWatched.length > 0">
+		<mat-divider></mat-divider>
+		<ion-list-header>
+			<ion-label class="st-font-size-18 st-font-0"> Watched groups </ion-label>
+		</ion-list-header>
+
+		<app-generic-card *ngFor="let group of user.groups.groupWatched" additionalClasses="st-bottom-space">
+			<app-group-top-users-information
+				[groupAllData]="group"
+				[showVisitButton]="true"
+				[showStopWatchingGroup]="true"
+				(stopWatchingGroupEmitter)="stopWatchingGroup(group)"
+				(visitEmitter)="visitGroup(group)"
+			></app-group-top-users-information>
+		</app-generic-card>
+	</ng-container>
 
 	<!-- Invitations -->
 	<ng-container *ngIf="user.groups.groupInvitationReceived.length > 0 || user.groups.groupInvitationSent.length > 0">

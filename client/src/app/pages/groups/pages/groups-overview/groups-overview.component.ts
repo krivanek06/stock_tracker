@@ -39,4 +39,9 @@ export class GroupsOverviewComponent implements OnInit {
 	visitGroup(groupAllData: StGroupAllData) {
 		this.router.navigateByUrl(`/menu/groups/${groupAllData.id}`);
 	}
+
+	@Confirmable('Please confirm removing group from your watchlist')
+	stopWatchingGroup(groupAllData: StGroupAllData) {
+		this.groupFeatureFacadeService.toggleWatchGroup(groupAllData, false);
+	}
 }

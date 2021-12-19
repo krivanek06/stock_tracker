@@ -1,4 +1,4 @@
-<div class="ion-padding">
+<mat-dialog-content class="p-4">
 	<ion-toolbar>
 		<ion-buttons slot="end">
 			<ion-button color="danger" (click)="dismissModal()" fill="clear">
@@ -9,7 +9,7 @@
 	</ion-toolbar>
 
 	<!-- body -->
-	<div *ngIf="groupMemberOverview; else showLoader" class="ion-padding">
+	<div *ngIf="groupMemberOverview; else showLoader" class="p-4">
 		<!-- user identification -->
 		<div class="st-flex-space-between st-md-border-bottom">
 			<div class="c-image-container-with-other-data">
@@ -23,19 +23,20 @@
 							<span
 								class="st-font-size-20"
 								[ngClass]="{
-								'st-my-position-color': groupUser.currentPosition !== 1 && groupUser.currentPosition !== 2 && groupUser.currentPosition !== 3,
-								'st-first-position-color': groupUser.currentPosition === 1,
-								'st-second-position-color' :  groupUser.currentPosition === 2,
-								'st-third-position-color': groupUser.currentPosition === 3
+								'st-my-position-color': data.groupUser.currentPosition !== 1 && data.groupUser.currentPosition !== 2 && data.groupUser.currentPosition !== 3,
+								'st-first-position-color': data.groupUser.currentPosition === 1,
+								'st-second-position-color' :  data.groupUser.currentPosition === 2,
+								'st-third-position-color': data.groupUser.currentPosition === 3
 							}"
-								>#{{ groupUser.currentPosition }}</span
+								>#{{ data.groupUser.currentPosition }}</span
 							>
 						</ion-text>
 						<ion-text class="st-font-size-14 st-font-4">
-							Since: {{ (sinceGroupMemberChecked ? groupUser.startedPortfolio.date : groupMemberOverview.accountCreatedDate) | date: 'dd.MM.yyyy' }}
+							Since: {{ (sinceGroupMemberChecked ? data.groupUser.startedPortfolio.date : groupMemberOverview.accountCreatedDate) | date: 'dd.MM.yyyy'
+							}}
 						</ion-text>
 						<ion-text *ngIf="sinceGroupMemberChecked" class="st-font-size-14 st-font-4">
-							Joined group: {{ groupUser.startedPortfolio.date | relativeTime }}
+							Joined group: {{ data.groupUser.startedPortfolio.date | relativeTime }}
 						</ion-text>
 					</div>
 				</div>
@@ -141,4 +142,4 @@
 			<ion-spinner color="primary"></ion-spinner>
 		</div>
 	</ng-template>
-</div>
+</mat-dialog-content>

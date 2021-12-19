@@ -1,7 +1,9 @@
-<div class="p-4 max-w-xl">
-	<p class="text-base">{{ data.dialogTitle }}</p>
-	<div class="flex gap-4 max-w-md ml-auto mt-6">
-		<button mat-flat-button class="w-1/2" color="accent" (click)="confirm()">{{ data.confirmButton }}</button>
-		<button mat-flat-button *ngIf="data.cancelButton" class="w-1/2 bg-gray-500 text-white" (click)="cancel()">{{ data.cancelButton }}</button>
+<mat-dialog-content>
+	<div class="p-4 max-w-xl">
+		<p class="text-xl">{{ data.dialogTitle }}</p>
+		<div class="flex gap-4 max-w-md m-auto mt-6">
+			<button mat-flat-button class="w-1/2" color="accent" (click)="confirm()">{{ data.confirmButton }}</button>
+			<button mat-flat-button *ngIf="data.cancelButton" class="w-1/2 g-button-secondary" (click)="cancel()">{{ data.cancelButton }}</button>
+		</div>
 	</div>
-</div>
+</mat-dialog-content>

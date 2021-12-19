@@ -29,6 +29,7 @@ fragment STGroupIdentificationData on STGroupAllData {
 	isInfinite
 	isPrivate
 	isClosed
+	watchedByUsers
 	numberOfMembers
 	numberOfInvitationSent
 	numberOfInvitationReceived
@@ -63,6 +64,7 @@ fragment STGroupAllDataWithoutHoldings on STGroupAllData {
 	createdDate
 	startDate
 	endDate
+	watchedByUsers
 	isPrivate
 	isInfinite
 	isClosed
@@ -217,4 +219,8 @@ mutation ToggleUsersInvitationRequestToGroup($acceptUser: Boolean!, $userId: Str
 	toggleUsersInvitationRequestToGroup(acceptUser: $acceptUser, userId: $userId, groupId: $groupId) {
 		...STGroupUserFragment
 	}
+}
+
+mutation ToggleWatchGroup($groupId: String!) {
+	toggleWatchGroup(groupId: $groupId)
 }

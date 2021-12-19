@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
 	componentDestroyed,
 	GraphqlGroupService,
@@ -9,7 +10,6 @@ import {
 	StPortfolioSnapshotStarted,
 	StTransactionSnapshot,
 } from '@core';
-import { ModalController, NavParams } from '@ionic/angular';
 import { WindowService } from '@shared';
 import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingFeatureFacadeService } from '@stock-trading-feature';
 import { takeUntil } from 'rxjs/operators';
@@ -24,7 +24,6 @@ export class GroupMemberOverviewModalComponent implements OnInit, OnDestroy {
 	/* 
     both variable reference the same user
   */
-	groupUser!: StGroupUser;
 	groupMemberOverview?: StGroupMemberOverviewFragment;
 
 	sinceGroupMemberChecked: boolean = false;
@@ -41,20 +40,19 @@ export class GroupMemberOverviewModalComponent implements OnInit, OnDestroy {
 	chartHeight!: number;
 
 	constructor(
-		private modalController: ModalController,
-		private navParams: NavParams,
 		private tradingFeatureFacadeService: TradingFeatureFacadeService,
 		private graphqlGroupService: GraphqlGroupService,
-		private cd: ChangeDetectorRef
+		private cd: ChangeDetectorRef,
+		private dialogRef: MatDialogRef<GroupMemberOverviewModalComponent>,
+		@Inject(MAT_DIALOG_DATA) public data: { groupUser: StGroupUser }
 	) {}
 	ngOnDestroy(): void {}
 
 	ngOnInit(): void {
 		this.chartHeight = WindowService.getWindowHeightPrctInPx(35);
-		this.groupUser = this.navParams.get('groupUser');
 
 		this.graphqlGroupService
-			.queryStGroupMemberOverviewById(this.groupUser.id)
+			.queryStGroupMemberOverviewById(this.data.groupUser.id)
 			.pipe(takeUntil(componentDestroyed(this)))
 			.subscribe((groupMemberOverview) => {
 				this.groupMemberOverview = groupMemberOverview;
@@ -64,7 +62,7 @@ export class GroupMemberOverviewModalComponent implements OnInit, OnDestroy {
 	}
 
 	dismissModal() {
-		this.modalController.dismiss();
+		this.dialogRef.close();
 	}
 
 	toggleGroupMemberOverview(): void {
@@ -78,12 +76,12 @@ export class GroupMemberOverviewModalComponent implements OnInit, OnDestroy {
 	}
 
 	private initPropertiesSinceUserJoinedGroup(): void {
-		if (!this.groupUser || !this.groupMemberOverview) {
+		if (!this.data.groupUser || !this.groupMemberOverview) {
 			return;
 		}
-		const sinceGroupMemberTime = new Date(this.groupUser.sinceDate).getTime();
+		const sinceGroupMemberTime = new Date(this.data.groupUser.sinceDate).getTime();
 
-		this.startedBalance = this.groupUser.startedPortfolio.portfolioCash + this.groupUser.startedPortfolio.portfolioInvested;
+		this.startedBalance = this.data.groupUser.startedPortfolio.portfolioCash + this.data.groupUser.startedPortfolio.portfolioInvested;
 
 		this.stPortfolioSnapshots = this.groupMemberOverview.userHistoricalData.portfolioSnapshots.filter(
 			(snapshot) => new Date(snapshot.date).getTime() > sinceGroupMemberTime
@@ -101,17 +99,17 @@ export class GroupMemberOverviewModalComponent implements OnInit, OnDestroy {
 		this.stPortfolioSnapshotStarted = {
 			date: this.groupMemberOverview.accountCreatedDate,
 			numberOfExecutedBuyTransactions:
-				this.groupMemberOverview.portfolio.numberOfExecutedBuyTransactions - this.groupUser.startedPortfolio.numberOfExecutedBuyTransactions,
+				this.groupMemberOverview.portfolio.numberOfExecutedBuyTransactions - this.data.groupUser.startedPortfolio.numberOfExecutedBuyTransactions,
 			numberOfExecutedSellTransactions:
-				this.groupMemberOverview.portfolio.numberOfExecutedSellTransactions - this.groupUser.startedPortfolio.numberOfExecutedSellTransactions,
-			portfolioCash: this.groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioCash - this.groupUser.startedPortfolio.portfolioCash,
+				this.groupMemberOverview.portfolio.numberOfExecutedSellTransactions - this.data.groupUser.startedPortfolio.numberOfExecutedSellTransactions,
+			portfolioCash: this.groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioCash - this.data.groupUser.startedPortfolio.portfolioCash,
 			portfolioInvested:
-				this.groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioInvested - this.groupUser.startedPortfolio.portfolioInvested,
+				this.groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioInvested - this.data.groupUser.startedPortfolio.portfolioInvested,
 		};
 	}
 
 	private initPropertiesSinceUserCreatedItsAccount(): void {
-		if (!this.groupUser || !this.groupMemberOverview) {
+		if (!this.data.groupUser || !this.groupMemberOverview) {
 			return;
 		}
 		this.startedBalance = STARTING_PORTFOLIO;

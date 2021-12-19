@@ -109,9 +109,21 @@ export class GroupStorageService {
 		);
 	}
 
+	isUserWatchingGroupObs(): Observable<boolean> {
+		return combineLatest([this.getActiveGroup(), this.userStorageService.getUser()]).pipe(
+			map(([group, user]) => !!group && !!user && !!user.groups?.groupWatched?.map((g) => g?.id).includes(group.id))
+		);
+	}
+
 	hasUserAlreadySentInvitaitonIntoGroup(): Observable<boolean> {
 		return combineLatest([this.getActiveGroup(), this.userStorageService.getUser()]).pipe(
 			map(([group, user]) => !!group && !!user && !!user.groups?.groupInvitationSent?.map((g) => g?.id).includes(group.id))
+		);
+	}
+
+	canUserWatchGroup(): Observable<boolean> {
+		return combineLatest([this.isUserMemberObs(), this.isUserOwnerObs(), this.isUserWatchingGroupObs()]).pipe(
+			map(([isMember, isOwner, isUserWatching]) => !isUserWatching)
 		);
 	}
 

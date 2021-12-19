@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ControlContainer, FormControl } from '@angular/forms';
+import { MatDatepicker } from '@angular/material/datepicker';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSliderChange } from '@angular/material/slider';
 import { first } from 'rxjs/operators';
@@ -46,6 +47,8 @@ export class FormMatInputWrapperComponent implements OnInit, OnChanges {
     Only used when inputType === BUTTON
   */
 	@Input() buttonOffCaption: string | undefined;
+
+	@ViewChild('formFieldDatePicker') endDatePicker?: MatDatepicker<Date>;
 	selectedInputSouce: InputSource | undefined; // ONLY USED FOR inputType === SELECT
 
 	formInputControl!: FormControl;
@@ -125,5 +128,17 @@ export class FormMatInputWrapperComponent implements OnInit, OnChanges {
 
 	setSliderValue(event: MatSliderChange): void {
 		this.usedFormControl.patchValue(event.value);
+	}
+
+	datePickerOpen() {
+		if (!this.formInputControl.disabled && this.endDatePicker && this.inputType === 'DATEPICKER') {
+			this.endDatePicker.open();
+		}
+	}
+
+	clickedCheckBox() {
+		if (!this.formInputControl.disabled && this.inputType === 'CHECKBOX') {
+			this.formInputControl.patchValue(!this.formInputControl.value);
+		}
 	}
 }

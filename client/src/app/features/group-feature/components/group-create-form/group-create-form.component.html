@@ -1,26 +1,22 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
-	<ion-item-group class="c-uploader-wrapper">
-		<div>
-			<ion-item>
-				<!-- upload image -->
-				<app-uploader
-					#uploader
-					[maxHeight]="250"
-					[maxWidth]="315"
-					[filePath]="'groups'"
-					[defaultUrl]="imageUrl.value"
-					(uploadedFilesEmitter)="uploadedGroupImage($event)"
-				>
-				</app-uploader>
-			</ion-item>
-		</div>
+	<div class="flex flex-col md:flex-row gap-4 justify-center">
+		<app-uploader
+			#uploader
+			[maxHeight]="250"
+			[maxWidth]="315"
+			[filePath]="'groups'"
+			[defaultUrl]="imageUrl.value"
+			(uploadedFilesEmitter)="uploadedGroupImage($event)"
+		>
+		</app-uploader>
 
-		<div>
+		<div class="flex flex-col flex-1">
 			<!-- Group name -->
-			<app-form-mat-input-wrapper inputCaption="Group name" controlName="name"> </app-form-mat-input-wrapper>
+			<app-form-mat-input-wrapper class="w-full" inputCaption="Group name" controlName="name"> </app-form-mat-input-wrapper>
 
 			<!-- Description -->
 			<app-form-mat-input-wrapper
+				class="w-full"
 				inputCaption="Group description"
 				inputType="TEXTAREA"
 				controlName="description"
@@ -28,11 +24,12 @@
 			>
 			</app-form-mat-input-wrapper>
 		</div>
-	</ion-item-group>
+	</div>
 
-	<div class="st-flex-wrap-normal ion-justify-content-around ion-margin-bottom ion-margin-top">
+	<div class="flex flex-col gap-4 md:flex-row mt-6">
 		<!-- Private -->
 		<app-form-mat-input-wrapper
+			class="flex-1"
 			inputCaption="Private"
 			inputType="CHECKBOX"
 			controlName="isPrivate"
@@ -42,15 +39,17 @@
 
 		<!-- Infinite -->
 		<app-form-mat-input-wrapper
+			class="flex-1"
 			inputCaption="Infinite"
 			inputType="CHECKBOX"
 			controlName="isInfinite"
-			hintText="If checkeck the group will never be closed automatily. If uncheck, then please select a specific date as a group expiration date"
+			hintText="If checked the group will never be closed automatically. If uncheck, then please select a specific date as a group expiration date"
 		>
 		</app-form-mat-input-wrapper>
 
 		<!-- Infinite -->
 		<app-form-mat-input-wrapper
+			class="flex-1"
 			inputCaption="Add me as member"
 			inputType="CHECKBOX"
 			controlName="isOwnerAlsoMember"
@@ -59,35 +58,27 @@
 		</app-form-mat-input-wrapper>
 	</div>
 
-	<div class="st-flex st-gap">
+	<div class="flex flex-col md:flex-row gap-4 mt-6">
 		<!-- Start date -->
-		<mat-form-field
-			appearance="fill"
-			(click)="startDatePicker.open()"
-			matTooltip="Select a date when the group will officialy start, since which date the progress of the group will be monitored"
+		<app-form-mat-input-wrapper
+			class="flex-1"
+			inputCaption="Start date"
+			inputType="DATEPICKER"
+			controlName="startDate"
+			hintText="Select a date when the group will officially start, since which date the progress of the group will be monitored"
 		>
-			<mat-label>Start date</mat-label>
-			<input matInput [matDatepicker]="startDatePicker" formControlName="startDate" autocomplete="off" />
-			<mat-datepicker-toggle matSuffix [for]="startDatePicker">
-				<mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
-			</mat-datepicker-toggle>
-			<mat-datepicker #startDatePicker></mat-datepicker>
-		</mat-form-field>
+		</app-form-mat-input-wrapper>
 
 		<!-- End date -->
-		<mat-form-field
-			appearance="fill"
-			(click)="endDateOpen()"
-			[disableControl]="isInfinite.value"
-			[matTooltip]="isInfinite.value ? null : 'Select a date when the group performamnce monitoring should end. After this date a group report will be generated how well the group performed' "
+		<app-form-mat-input-wrapper
+			class="flex-1"
+			inputCaption="End date"
+			inputType="DATEPICKER"
+			controlName="endDate"
+			[disabled]="isInfinite.value"
+			[hintText]="isInfinite.value ? '' : 'Select a date when the group performance monitoring should end. After this date a group report will be generated how well the group performed' "
 		>
-			<mat-label>End date</mat-label>
-			<input matInput [matDatepicker]="endDatePicker" formControlName="endDate" autocomplete="off" />
-			<mat-datepicker-toggle matSuffix>
-				<mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
-			</mat-datepicker-toggle>
-			<mat-datepicker #endDatePicker></mat-datepicker>
-		</mat-form-field>
+		</app-form-mat-input-wrapper>
 	</div>
 
 	<!-- Errors -->
@@ -98,15 +89,13 @@
 	</ion-toolbar>
 
 	<!-- submit button -->
-	<ion-toolbar>
-		<ion-buttons slot="end">
-			<ion-button fill="solid" color="primary" type="submit" [disabled]="showError || dateStartError || dateEndError">
-				{{ editedGroup ? 'Edit group' : 'Create group' }}
-			</ion-button>
-		</ion-buttons>
-	</ion-toolbar>
+	<div class="mt-4 flex justify-end">
+		<button mat-flat-button color="primary" class="w-full md:w-auto" [disabled]="showError || dateStartError || dateEndError">
+			{{ editedGroup ? 'Edit group' : 'Create group' }}
+		</button>
+	</div>
 
-	<ng-container *ngIf="!editedGroup">
+	<div *ngIf="!editedGroup" class="mt-4">
 		<!-- invite members input -->
 		<ion-toolbar class="st-title"> Search users which you want to invite </ion-toolbar>
 		<app-user-account-search (clickedUserEmitter)="sendInvitation($event)"> </app-user-account-search>
@@ -123,5 +112,5 @@
 			>
 			</app-user-account-info-list>
 		</ion-item-group>
-	</ng-container>
+	</div>
 </form>

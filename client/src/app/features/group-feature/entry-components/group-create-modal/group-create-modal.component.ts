@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { StGroupAllData, StGroupAllDataInput, StUserIndetification, UserStorageService } from '@core';
-import { ModalController, NavParams } from '@ionic/angular';
 import { Confirmable } from '@shared';
 import { Observable } from 'rxjs';
 
@@ -11,23 +11,25 @@ import { Observable } from 'rxjs';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupCreateModalComponent implements OnInit {
-	editedGroup!: StGroupAllData;
 	user$!: Observable<StUserIndetification | null>;
 
-	constructor(private modalController: ModalController, private userStorageService: UserStorageService, private navParams: NavParams) {}
+	constructor(
+		private userStorageService: UserStorageService,
+		private dialogRef: MatDialogRef<GroupCreateModalComponent>,
+		@Inject(MAT_DIALOG_DATA) public data: { editedGroup: StGroupAllData }
+	) {}
 
 	ngOnInit() {
 		this.user$ = this.userStorageService.getUserIdentification();
-		this.editedGroup = this.navParams.get('editedGroup');
 	}
 
 	dismissModal() {
-		this.modalController.dismiss();
+		this.dialogRef.close();
 	}
 
 	submitGroup(groupAllDataInput: StGroupAllDataInput) {
-		if (this.editedGroup) {
-			groupAllDataInput.groupId = this.editedGroup.id;
+		if (this.data.editedGroup) {
+			groupAllDataInput.groupId = this.data.editedGroup.id;
 			this.editGroup(groupAllDataInput);
 		} else {
 			this.createGroup(groupAllDataInput);
@@ -36,11 +38,11 @@ export class GroupCreateModalComponent implements OnInit {
 
 	@Confirmable('Please confirm creating new group')
 	private createGroup(groupAllDataInput: StGroupAllDataInput) {
-		this.modalController.dismiss({ groupAllDataInput });
+		this.dialogRef.close({ groupAllDataInput });
 	}
 
 	@Confirmable('Please confirm editing group')
 	private editGroup(groupAllDataInput: StGroupAllDataInput) {
-		this.modalController.dismiss({ groupAllDataInput });
+		this.dialogRef.close({ groupAllDataInput });
 	}
 }

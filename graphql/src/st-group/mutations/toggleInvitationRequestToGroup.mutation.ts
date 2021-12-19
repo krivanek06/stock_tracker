@@ -24,12 +24,16 @@ export const toggleInvitationRequestToGroup = async (
 			throw new ApolloError(`Cannot send / cancel invitation, you are already a member in this group`);
 		}
 
-		if (sendInvitation && groupMembersDoc.invitationSent.map((x) => x.id).includes(requesterUserId)) {
-			throw new ApolloError(`You are already invited from this group, please refresh your site`);
-		}
-
-		if (sendInvitation && user.groups.groupInvitationSent.includes(groupId)) {
-			throw new ApolloError(`You have already sent your invitation into this group`);
+		if (sendInvitation) {
+			if (groupMembersDoc.invitationSent.map((x) => x.id).includes(requesterUserId)) {
+				throw new ApolloError(`You are already invited from this group, please refresh your site`);
+			}
+			if (user.groups.groupInvitationSent.includes(groupId)) {
+				throw new ApolloError(`You have already sent your invitation into this group`);
+			}
+			if (groupMembersDoc.members.length > 50) {
+				throw new ApolloError(`Group already has 50 members and cannot have more`);
+			}
 		}
 
 		if (!sendInvitation) {
@@ -39,7 +43,7 @@ export const toggleInvitationRequestToGroup = async (
 			// remove group id for user groupInvitationSent
 			await updateGroupInvitationSentForUser(user, groupId, false);
 
-			// decrese numberOfInvitationReceived
+			// decrease numberOfInvitationReceived
 			await updateNumberOfInvitationReceivedForGoup(groupId, false);
 		} else {
 			// sent invitation request to group

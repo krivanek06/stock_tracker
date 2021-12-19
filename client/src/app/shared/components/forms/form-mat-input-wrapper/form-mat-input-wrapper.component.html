@@ -12,6 +12,7 @@
 				'ion-text-center': inputType === 'SLIDER',
 				'highlight-mat-form-field': highlightField
 			  }"
+			(click)="datePickerOpen()"
 		>
 			<mat-label class="st-font-1">
 				{{ inputCaption }}
@@ -61,6 +62,15 @@
 				<mat-option *ngFor="let optionData of inputSource" [value]="optionData.value"> {{ optionData.caption }} </mat-option>
 			</mat-select>
 
+			<!-- datepicker -->
+			<ng-container *ngSwitchCase="'DATEPICKER'">
+				<input [readonly]="disabled" matInput [matDatepicker]="formFieldDatePicker" [formControl]="formInputControl" autocomplete="off" />
+				<!-- <mat-datepicker-toggle matSuffix [for]="formFieldDatePicker">
+					<mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+				</mat-datepicker-toggle> -->
+				<mat-datepicker #formFieldDatePicker [disabled]="disabled"></mat-datepicker>
+			</ng-container>
+
 			<!-- text, number, time, email -->
 			<input
 				#defaultElement
@@ -105,7 +115,9 @@
 					[formControl]="formInputControl"
 					[matTooltip]="hintText ? hintText : ''"
 					[ngClass]="{'disabled-element': disabled}"
+					color="primary"
 					matTooltipClass="form-input-tooltip"
+					(click)="clickedCheckBox()"
 				>
 					{{ inputCaption }}
 				</mat-checkbox>
