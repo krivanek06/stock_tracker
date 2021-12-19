@@ -13,6 +13,7 @@ export interface STGroupAllData {
     owner: STGroupUser;
     lastUpdateDate: string;
     lastEditedDate: string;
+    watchedByUsers: number;
     createdDate: string;
     currentAchievedRank: STRank;
     startDate: string;

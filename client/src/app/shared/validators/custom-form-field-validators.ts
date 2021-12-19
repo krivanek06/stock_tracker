@@ -48,6 +48,24 @@ export const maxLengthValidator = (maxLength: number): CustomInputValidatorFn =>
 	};
 };
 
+export const minLengthValidator = (maxLength: number): CustomInputValidatorFn => {
+	const minLengthValidatorFn = Validators.minLength(maxLength);
+
+	return (control: AbstractControl) => {
+		const maxLengthValidationErrors = minLengthValidatorFn(control);
+
+		if (maxLengthValidationErrors) {
+			return {
+				interval: {
+					errorText: `The given field must contain at least ${maxLength} characters`,
+				},
+			};
+		}
+
+		return null;
+	};
+};
+
 export const positiveNumberValidator: CustomInputValidatorFn = (control) => {
 	if (!control.value || isNaN(control.value)) {
 		return null;

@@ -53,6 +53,7 @@ export const createEmptySTGroupAllData = (): api.STGroupAllData => {
 		lastEditedDate: now,
 		currentAchievedRank: null,
 		description: null,
+		watchedByUsers: 0,
 		lastTransactions: [],
 		managers: [],
 		name: null,

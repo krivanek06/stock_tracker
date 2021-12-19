@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import {
 	GraphqlGroupService,
 	GroupStorageService,
@@ -9,7 +10,6 @@ import {
 	StUserIndentificationDataFragment,
 	UserStorageService,
 } from '@core';
-import { ModalController } from '@ionic/angular';
 import { DialogService } from '@shared';
 import { GroupCreateModalComponent, GroupMemberOverviewModalComponent } from '../entry-components';
 
@@ -18,42 +18,40 @@ import { GroupCreateModalComponent, GroupMemberOverviewModalComponent } from '..
 })
 export class GroupFeatureFacadeService {
 	constructor(
-		private modalController: ModalController,
+		private dialog: MatDialog,
 		private userStorageService: UserStorageService,
 		private groupStorageService: GroupStorageService,
 		private graphqlGroupService: GraphqlGroupService
 	) {}
 
 	async createGroup(editedGroup?: StGroupAllData): Promise<void> {
-		const modal = await this.modalController.create({
-			component: GroupCreateModalComponent,
-			componentProps: { editedGroup },
-			cssClass: 'custom-modal',
+		const dialogRef = this.dialog.open(GroupCreateModalComponent, {
+			data: { editedGroup },
+			panelClass: 'g-mat-dialog-big',
+			maxWidth: '100vw',
+			minWidth: '60vw',
 		});
-		await modal.present();
 
-		const dismiss = await modal.onDidDismiss();
-		const groupAllDataInput = dismiss?.data?.groupAllDataInput as StGroupAllDataInput;
+		const dismiss = await dialogRef.afterClosed().toPromise();
+		const groupAllDataInput = dismiss?.groupAllDataInput as StGroupAllDataInput;
 
 		if (!!groupAllDataInput) {
 			if (!editedGroup) {
 				await this.graphqlGroupService.createGroup(groupAllDataInput).toPromise();
-				await DialogService.showNotificationBar(`Group ${groupAllDataInput.name} has been created`);
+				DialogService.showNotificationBar(`Group ${groupAllDataInput.name} has been created`);
 			} else {
 				await this.graphqlGroupService.editGroup(groupAllDataInput).toPromise();
 				this.groupStorageService.setActiveGroupId(groupAllDataInput?.groupId || null);
-				await DialogService.showNotificationBar(`Group ${groupAllDataInput.name} has been edited`);
+				DialogService.showNotificationBar(`Group ${groupAllDataInput.name} has been edited`);
 			}
 		}
 	}
 
 	async showGroupMemberOverviewModal(groupUser: StGroupUser): Promise<void> {
-		const modal = await this.modalController.create({
-			component: GroupMemberOverviewModalComponent,
-			componentProps: { groupUser },
-			cssClass: 'custom-modal',
+		this.dialog.open(GroupMemberOverviewModalComponent, {
+			data: { groupUser },
+			panelClass: 'g-mat-dialog-big',
 		});
-		await modal.present();
 	}
 
 	/***
@@ -63,17 +61,17 @@ export class GroupFeatureFacadeService {
 	async answerReceivedGroupInvitation(stGroupPartialData: StGroupIdentificationDataFragment, accept: boolean): Promise<void> {
 		await this.graphqlGroupService.answerReceivedGroupInvitation(stGroupPartialData, accept).toPromise();
 		const result = accept ? 'accepted' : 'declined';
-		await DialogService.showNotificationBar(`You ${result} group ${stGroupPartialData.name}'s invitation`);
+		DialogService.showNotificationBar(`You ${result} group ${stGroupPartialData.name}'s invitation`);
 	}
 
 	async deleteGroup(): Promise<boolean> {
 		if (this.userStorageService.user.id !== this.groupStorageService.activeGroup.owner.id) {
-			await DialogService.showNotificationBar('Action terminated! Only the group owner can delete this group', 'error');
+			DialogService.showNotificationBar('Action terminated! Only the group owner can delete this group', 'error');
 			return false;
 		}
 
 		await this.graphqlGroupService.deleteGroup(this.groupStorageService.activeGroup).toPromise();
-		await DialogService.showNotificationBar(`Group ${this.groupStorageService.activeGroup.name} has been deleted`);
+		DialogService.showNotificationBar(`Group ${this.groupStorageService.activeGroup.name} has been deleted`);
 
 		return true;
 	}
@@ -86,9 +84,9 @@ export class GroupFeatureFacadeService {
 		await this.graphqlGroupService.toggleInvitationRequestToGroup(stGroupPartialData, sendInvitation).toPromise();
 
 		if (sendInvitation) {
-			await DialogService.showNotificationBar(`You have send your request to join group ${stGroupPartialData.name}`);
+			DialogService.showNotificationBar(`You have send your request to join group ${stGroupPartialData.name}`);
 		} else {
-			await DialogService.showNotificationBar(`You have declined your request to joining group ${stGroupPartialData.name}`);
+			DialogService.showNotificationBar(`You have declined your request to joining group ${stGroupPartialData.name}`);
 		}
 	}
 
@@ -141,19 +139,28 @@ export class GroupFeatureFacadeService {
 		await this.graphqlGroupService.toggleUsersInvitationRequestToGroup(groupUser.id, groupId, acceptUser).toPromise();
 
 		if (acceptUser) {
-			await DialogService.showNotificationBar(`You have successfully accpted user: ${groupUser.nickName} into group`);
+			DialogService.showNotificationBar(`You have successfully accpted user: ${groupUser.nickName} into group`);
 		} else {
-			await DialogService.showNotificationBar(`You have declined user: ${groupUser.nickName} request for joining into group`);
+			DialogService.showNotificationBar(`You have declined user: ${groupUser.nickName} request for joining into group`);
 		}
 	}
 
 	async leaveGroup(): Promise<void> {
 		await this.graphqlGroupService.leaveGroup(this.groupStorageService.activeGroup.id).toPromise();
-		await DialogService.showNotificationBar(`You left group ${this.groupStorageService.activeGroup.name}`);
+		DialogService.showNotificationBar(`You left group ${this.groupStorageService.activeGroup.name}`);
 	}
 
 	async removeMemberFromGroup({ id, name }: StGroupAllData, groupUser: StGroupUser): Promise<void> {
 		await this.graphqlGroupService.removeMemberFromGroup(id, groupUser).toPromise();
-		await DialogService.showNotificationBar(`You have successfully removed user ${groupUser.nickName} from group ${name}`);
+		DialogService.showNotificationBar(`You have successfully removed user ${groupUser.nickName} from group ${name}`);
+	}
+
+	async toggleWatchGroup({ id, name }: StGroupAllData, startWatching: boolean): Promise<void> {
+		await this.graphqlGroupService.toggleWatchGroup(id).toPromise();
+		if (startWatching) {
+			DialogService.showNotificationBar(`You have saved group ${name} into your watchlist`);
+		} else {
+			DialogService.showNotificationBar(`You have removed group ${name} from your watchlist`);
+		}
 	}
 }

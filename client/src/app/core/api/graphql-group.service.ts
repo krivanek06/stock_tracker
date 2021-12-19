@@ -25,6 +25,7 @@ import {
 	StGroupAllDataFragmentFragmentDoc,
 	StGroupAllDataInput,
 	StGroupIdentificationDataFragment,
+	StGroupIdentificationDataFragmentDoc,
 	StGroupMemberOverviewFragment,
 	StGroupUser,
 	StUserPublicData,
@@ -33,6 +34,8 @@ import {
 	ToggleInviteUserIntoGroupGQL,
 	ToggleInviteUserIntoGroupMutation,
 	ToggleUsersInvitationRequestToGroupGQL,
+	ToggleWatchGroupGQL,
+	ToggleWatchGroupMutation,
 } from '../graphql-schema';
 import { UserStorageService } from '../services';
 import { createSTGroupUser } from '../utils';
@@ -54,7 +57,8 @@ export class GraphqlGroupService {
 		private answerReceivedGroupInvitationGQL: AnswerReceivedGroupInvitationGQL,
 		private leaveGroupGQL: LeaveGroupGQL,
 		private queryStGroupMemberOverviewByIdGQL: QueryStGroupMemberOverviewByIdGQL,
-		private removeMemberFromGroupGQL: RemoveMemberFromGroupGQL
+		private removeMemberFromGroupGQL: RemoveMemberFromGroupGQL,
+		private toggleWatchGroupGQL: ToggleWatchGroupGQL
 	) {}
 
 	queryStGroupMemberOverviewById(userId: string): Observable<StGroupMemberOverviewFragment> {
@@ -486,6 +490,65 @@ export class GraphqlGroupService {
 							groupMemberData: {
 								...group.groupMemberData,
 								members: [...updatedMembers],
+							},
+						},
+					});
+				},
+			}
+		);
+	}
+
+	toggleWatchGroup(groupId: string): Observable<FetchResult<ToggleWatchGroupMutation>> {
+		return this.toggleWatchGroupGQL.mutate(
+			{
+				groupId,
+			},
+			{
+				update: (store: DataProxy, { data }) => {
+					const userId = this.userStorageService.user.id;
+					const user = store.readQuery<AuthenticateUserQuery>({
+						query: AuthenticateUserDocument,
+						variables: {
+							id: userId,
+						},
+					});
+
+					const group = store.readFragment<StGroupIdentificationDataFragment>({
+						id: `STGroupAllData:${groupId}`,
+						fragment: StGroupIdentificationDataFragmentDoc,
+						fragmentName: 'STGroupIdentificationData',
+					});
+
+					if (!user?.authenticateUser || !group) {
+						return;
+					}
+
+					const userWatchedGroupIds = user.authenticateUser.groups.groupWatched.map((g) => g.id);
+
+					// toggle
+					let groupWatched: StGroupIdentificationDataFragment[] = [];
+					if (userWatchedGroupIds.includes(groupId)) {
+						// user watching group => remove it
+						groupWatched = user.authenticateUser.groups.groupWatched.filter((g) => g.id !== groupId);
+					} else {
+						// user not watching group => add it
+						groupWatched = [...user.authenticateUser.groups.groupWatched, group];
+					}
+
+					// update user
+					store.writeQuery({
+						query: AuthenticateUserDocument,
+						variables: {
+							id: this.userStorageService.user.id,
+						},
+						data: {
+							...user,
+							authenticateUser: {
+								...user.authenticateUser,
+								groups: {
+									...user.authenticateUser.groups,
+									groupWatched,
+								},
 							},
 						},
 					});

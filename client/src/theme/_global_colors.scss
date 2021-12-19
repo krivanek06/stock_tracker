@@ -39,8 +39,21 @@
 }
 
 .g-button-warning-flat {
-	background-color: white !important;
+	background-color: transparent;
 	color: #{$color-orange-1} !important;
+	border: 1px solid !important;
+	&:hover {
+		background-color: #dc58262b;
+	}
+}
+
+.g-button-danger-flat {
+	background-color: transparent;
+	color: #{$st-red} !important;
+	border: 1px solid !important;
+	&:hover {
+		background-color: #d2141436;
+	}
 }
 
 // TAILWIND CUSTOM CLASSES

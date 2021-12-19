@@ -27,6 +27,7 @@ export const STGroupTypeDefs = gql`
 		lastEditedDate: String!
 		createdDate: String!
 		currentAchievedRanks: STRank
+		watchedByUsers: Float!
 		startDate: String!
 		endDate: String
 		isInfinite: Boolean!

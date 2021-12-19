@@ -76,6 +76,7 @@ export interface STUserGroupsIdentification {
     groupInvitationReceived: string[];
     groupOwner: string[];
     groupMember: string[];
+    groupWatched: string[];
 }
 
 
@@ -84,6 +85,7 @@ export interface STUserGroups {
     groupInvitationReceived: STGroupAllData[];
     groupOwner: STGroupAllData[];
     groupMember: STGroupAllData[];
+    groupWatched: STGroupAllData[];
 }
 
 export interface STUserResetedAccount {

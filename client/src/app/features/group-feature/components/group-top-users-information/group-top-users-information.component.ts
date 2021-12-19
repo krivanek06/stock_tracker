@@ -15,6 +15,8 @@ export class GroupTopUsersInformationComponent implements OnInit {
 	@Output() leaveEmitter: EventEmitter<any> = new EventEmitter<any>();
 	@Output() sendInvitationEmitter: EventEmitter<any> = new EventEmitter<any>();
 	@Output() removeInvitationEmitter: EventEmitter<any> = new EventEmitter<any>();
+	@Output() stopWatchingGroupEmitter: EventEmitter<any> = new EventEmitter<any>();
+	@Output() startWatchingGroupEmitter: EventEmitter<any> = new EventEmitter<any>();
 
 	@Input() groupAllData!: StGroupIdentificationDataFragment | StGroupAllData;
 	@Input() showVisitButton = false;
@@ -24,10 +26,20 @@ export class GroupTopUsersInformationComponent implements OnInit {
 	@Input() showLeaveButton = false;
 	@Input() showSendInvitationButton = false;
 	@Input() showRemoveInvitationButton = false;
+	@Input() showStopWatchingGroup = false;
+	@Input() showStartWatchingGroup: boolean | null = false;
 
 	constructor() {}
 
 	ngOnInit() {}
+
+	startWatchingGroup() {
+		this.startWatchingGroupEmitter.emit();
+	}
+
+	stopWatchingGroup() {
+		this.stopWatchingGroupEmitter.emit();
+	}
 
 	visit() {
 		this.visitEmitter.emit();

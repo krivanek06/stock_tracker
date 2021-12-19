@@ -159,6 +159,9 @@ query AuthenticateUser($id: String!) {
 			groupMember {
 				...STGroupIdentificationData
 			}
+			groupWatched {
+				...STGroupIdentificationData
+			}
 		}
 		activity
 		userHistoricalData {

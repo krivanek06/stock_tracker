@@ -7,3 +7,4 @@ export * from './removeMemberFromGroup.mutation';
 export * from './toggleInvitationRequestToGroup.mutation';
 export * from './toggleInviteUserIntoGroup.mutation';
 export * from './toggleUsersInvitationRequestToGroup.mutation';
+export * from './toggleWatchGroup.mutation';

@@ -55,6 +55,7 @@ export const createSTUserPublicData = (user: api.STUserAuthenticationInput): api
 			groupInvitationSent: [],
 			groupMember: [],
 			groupOwner: [],
+			groupWatched: [],
 		},
 		topTransactions: [],
 		holdings: [],

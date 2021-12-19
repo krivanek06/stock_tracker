@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {
 	ComposedPortfolioAllocationChartsModule,
@@ -48,6 +49,7 @@ import { GroupMemberOverviewModalComponent } from './group-member-overview-modal
 		ComposedTransactionsModule,
 		ComposedPortfolioAllocationChartsModule,
 		ComposedPortfolioHoldingsTableModule,
+		MatDialogModule,
 	],
 	exports: [GroupMemberOverviewModalComponent],
 })

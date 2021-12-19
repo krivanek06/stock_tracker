@@ -127,3 +127,6 @@ $mat-theming-light: mat.define-light-theme(
 // Apply the dark theme by default
 // @include mat.core-theme($mat-theming-light);
 // @include mat.button-theme($mat-theming-light);
+.mat-flat-button {
+	color: white !important;
+}

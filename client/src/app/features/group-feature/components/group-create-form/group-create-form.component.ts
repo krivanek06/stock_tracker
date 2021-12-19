@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDatepicker } from '@angular/material/datepicker';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { StGroupAllData, StGroupAllDataInput, StUserIndentificationDataFragment, StUserIndetification } from '@core';
-import { DialogService, UploadedFile, UploaderComponent } from '@shared';
+import { DialogService, maxLengthValidator, minLengthValidator, requiredValidator, UploadedFile, UploaderComponent } from '@shared';
 import * as moment from 'moment';
 import { combineLatest } from 'rxjs';
 import { createSTGroupAllDataInput } from '../../utils';
@@ -20,7 +19,6 @@ export class GroupCreateFormComponent implements OnInit {
 	@Input() editedGroup!: StGroupAllData;
 
 	@ViewChild('uploader') uploader!: UploaderComponent;
-	@ViewChild('endDatePicker') endDatePicker!: MatDatepicker<Date>;
 
 	invitationSent: StUserIndentificationDataFragment[] = [];
 	form!: FormGroup;
@@ -80,7 +78,8 @@ export class GroupCreateFormComponent implements OnInit {
 	sendInvitation(userPublicData: StUserIndentificationDataFragment) {
 		if (this.user.id === userPublicData.id) {
 			DialogService.showNotificationBar(
-				'You cannot invite yourself into the group. If you want to be part of the group, please check "Add me as member" '
+				'You cannot invite yourself into the group. If you want to be part of the group, please check "Add me as member" ',
+				'error'
 			);
 			return;
 		}
@@ -93,12 +92,6 @@ export class GroupCreateFormComponent implements OnInit {
 		this.invitationSent = this.invitationSent.filter((x) => x.id !== userPublicData.id);
 	}
 
-	endDateOpen() {
-		if (!this.isInfinite.value) {
-			this.endDatePicker.open();
-		}
-	}
-
 	private initForm() {
 		let isOwnerAlsoMember = false;
 		console.log('[this.editedGroup', this.editedGroup);
@@ -107,12 +100,12 @@ export class GroupCreateFormComponent implements OnInit {
 		}
 
 		this.form = this.fb.group({
-			name: [this.editedGroup?.name, [Validators.required]],
+			name: [this.editedGroup?.name, [requiredValidator, minLengthValidator(4), maxLengthValidator(20)]],
 			description: [this.editedGroup?.description],
 			imagePath: [this.editedGroup?.imagePath],
 			imageUrl: [this.editedGroup?.imageUrl],
-			startDate: [this.editedGroup?.startDate, [Validators.required]],
-			endDate: [this.editedGroup?.endDate, this.editedGroup?.isInfinite ? [] : [Validators.required]],
+			startDate: [this.editedGroup?.startDate, [requiredValidator]],
+			endDate: [this.editedGroup?.endDate, this.editedGroup?.isInfinite ? [] : [requiredValidator]],
 			isInfinite: [this.editedGroup?.isInfinite || false],
 			isPrivate: [this.editedGroup?.isPrivate || false],
 			isOwnerAlsoMember: [isOwnerAlsoMember],
@@ -135,10 +128,11 @@ export class GroupCreateFormComponent implements OnInit {
 		this.isPrivate.valueChanges.subscribe((res) => {
 			if (res) {
 				DialogService.showNotificationBar(
-					'After saving this form group will became private, so no one can request joining, group will became invite only'
+					'After saving this form group will became private, so no one can request joining, group will became invite only',
+					'notification'
 				);
 			} else {
-				DialogService.showNotificationBar('After saving this form group will became public, anyone can reuqest joining this group');
+				DialogService.showNotificationBar('After saving this form group will became public, anyone can request joining this group', 'notification');
 			}
 		});
 	}
@@ -149,9 +143,15 @@ export class GroupCreateFormComponent implements OnInit {
 		}
 		this.isOwnerAlsoMember.valueChanges.subscribe((isMember) => {
 			if (isMember) {
-				DialogService.showNotificationBar(`After saving this form, group owner: ${this.editedGroup.owner.nickName} will be member of this group`);
+				DialogService.showNotificationBar(
+					`After saving this form, group owner: ${this.editedGroup.owner.nickName} will be member of this group`,
+					'notification'
+				);
 			} else {
-				DialogService.showNotificationBar(`After saving this form, group owner: ${this.editedGroup.owner.nickName} will be removed from this group`);
+				DialogService.showNotificationBar(
+					`After saving this form, group owner: ${this.editedGroup.owner.nickName} will be removed from this group`,
+					'notification'
+				);
 			}
 		});
 	}
@@ -177,7 +177,7 @@ export class GroupCreateFormComponent implements OnInit {
 	private watchInfinityChange() {
 		this.isInfinite.valueChanges.subscribe((res) => {
 			if (!res) {
-				this.endDate.setValidators([Validators.required]);
+				this.endDate.setValidators([requiredValidator]);
 			} else {
 				this.endDate.patchValue(null);
 				this.endDate.clearValidators();

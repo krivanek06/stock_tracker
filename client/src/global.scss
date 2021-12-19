@@ -36,11 +36,12 @@
 @import 'theme/global_colors';
 @import 'theme/custom-material';
 
+// @import '@angular/material/prebuilt-themes/indigo-pink.css';
+
 * {
 	font-size: 14px;
 
-	ion-text,
-	span {
+	ion-text {
 		color: #{$st-var-font-2};
 	}
 

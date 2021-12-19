@@ -15,10 +15,15 @@ export const toggleInviteUserIntoGroup = async (inviteUser: boolean, userId: str
 		const newGroupUser = createSTGroupUser(userPublicData);
 
 		if (inviteUser) {
+			// invite someone
 			if (!!groupMembers.members.find((m) => m.id === userId)) {
 				throw new ApolloError(`User ${newGroupUser.nickName} is already invited into this group`);
 			}
+			if (groupMembers.members.length >= 50) {
+				throw new ApolloError(`Group already contains 50 members and cannot have more. Please remove somebody from the group`);
+			}
 		} else {
+			// remove existing invitation
 			if (!groupMembers.invitationSent.find((m) => m.id === userId)) {
 				throw new ApolloError(`Group invitaiton for user ${newGroupUser.nickName} has been already removed. Refresh your site`);
 			}

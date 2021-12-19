@@ -22,7 +22,9 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 	isOwner$!: Observable<boolean>;
 	isMember$!: Observable<boolean>;
 	isUserInvited$!: Observable<boolean>;
+	isUserWatchingGroup$!: Observable<boolean>;
 	canUserSendInvitation$!: Observable<boolean>;
+	canUserWatchGroup$!: Observable<boolean>;
 	hasUserAlreadySentInvitaitonIntoGroup$!: Observable<boolean>;
 
 	constructor(
@@ -41,8 +43,12 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 		this.isOwner$ = this.groupStorageService.isUserOwnerObs();
 		this.isMember$ = this.groupStorageService.isUserMemberObs();
 		this.isUserInvited$ = this.groupStorageService.isUserInvitedObs();
+		this.isUserWatchingGroup$ = this.groupStorageService.isUserWatchingGroupObs();
 		this.canUserSendInvitation$ = this.groupStorageService.canUserSendInvitationObs();
+		this.canUserWatchGroup$ = this.groupStorageService.canUserWatchGroup();
 		this.hasUserAlreadySentInvitaitonIntoGroup$ = this.groupStorageService.hasUserAlreadySentInvitaitonIntoGroup();
+
+		this.canUserWatchGroup$.subscribe((x) => console.log('can he', x));
 	}
 
 	changeDetailsPage(event: any) {
@@ -72,22 +78,30 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 	}
 
 	@Confirmable('Please confirm sending a request to join the group')
-	async sendInvitation() {
+	sendInvitation() {
 		this.groupFeatureFacadeService.toggleInvitationRequestToGroup(this.groupStorageService.activeGroup, true);
 	}
 
 	@Confirmable('Please confirm declining your request to joining the group')
-	async removeInvitation() {
+	removeInvitation() {
 		this.groupFeatureFacadeService.toggleInvitationRequestToGroup(this.groupStorageService.activeGroup, false);
 	}
 
 	@Confirmable('Please confirm your decision to join the group')
-	async acceptInvitation() {
+	acceptInvitation() {
 		this.groupFeatureFacadeService.answerReceivedGroupInvitation(this.groupStorageService.activeGroup, true);
 	}
 
 	@Confirmable('Please confirm your decision to decline invitation for joining the group')
-	async declineInvitation() {
+	declineInvitation() {
 		this.groupFeatureFacadeService.answerReceivedGroupInvitation(this.groupStorageService.activeGroup, false);
+	}
+
+	startWatchingGroup() {
+		this.groupFeatureFacadeService.toggleWatchGroup(this.groupStorageService.activeGroup, true);
+	}
+
+	stopWatchingGroup() {
+		this.groupFeatureFacadeService.toggleWatchGroup(this.groupStorageService.activeGroup, false);
 	}
 }

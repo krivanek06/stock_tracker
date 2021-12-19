@@ -373,7 +373,7 @@ export const stockDetailsTypeDefs = gql`
 		lastSplitFactor: String
 		logo_url: String
 		longBusinessSummary: String
-		marketCap: Float!
+		marketCap: Float
 		marketPrice: Float!
 		oneyTargetEst: Float
 		pERatioTTM: Float
@@ -383,7 +383,7 @@ export const stockDetailsTypeDefs = gql`
 		residance: SummaryResidance
 		sandPFiveTwoWeekChange: Float
 		sector: String
-		sharesOutstanding: Float!
+		sharesOutstanding: Float
 		shortRatio: Float
 		symbol: String!
 		targetEstOneyPercent: Float

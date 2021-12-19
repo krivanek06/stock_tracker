@@ -83,6 +83,7 @@ export enum InputTypeEnum {
 	TEXTAREA = 'TEXTAREA',
 	MULTISELECT = 'MULTISELECT',
 	BUTTON = 'BUTTON',
+	DATEPICKER = 'DATEPICKER',
 }
 
 export type InputType =
@@ -97,6 +98,7 @@ export type InputType =
 	| 'TEXT'
 	| 'NUMBER'
 	| 'EMAIL'
+	| 'DATEPICKER'
 	| 'PASSWORD';
 
 export interface InputSourceSliderConfig {

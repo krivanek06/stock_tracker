@@ -17,6 +17,8 @@ export class GroupBaseInformationComponent implements OnInit {
 	@Output() sendInvitationEmitter: EventEmitter<any> = new EventEmitter<any>();
 	@Output() removeInvitationEmitter: EventEmitter<any> = new EventEmitter<any>();
 	@Output() reloadEmitter: EventEmitter<any> = new EventEmitter<any>();
+	@Output() stopWatchingGroupEmitter: EventEmitter<any> = new EventEmitter<any>();
+	@Output() startWatchingGroupEmitter: EventEmitter<any> = new EventEmitter<any>();
 
 	@Input() groupIdentification!: StGroupIdentificationDataFragment | StGroupAllData;
 	@Input() showVisitButton: boolean | null = false;
@@ -29,10 +31,20 @@ export class GroupBaseInformationComponent implements OnInit {
 	@Input() showEditButton: boolean | null = false;
 	@Input() isGroupPrivate: boolean | null = false;
 	@Input() showReloadButton: boolean | null = false;
+	@Input() showStopWatchingGroup: boolean | null = false;
+	@Input() showStartWatchingGroup: boolean | null = false;
 
 	constructor() {}
 
 	ngOnInit() {}
+
+	startWatchingGroup() {
+		this.startWatchingGroupEmitter.emit();
+	}
+
+	stopWatchingGroup() {
+		this.stopWatchingGroupEmitter.emit();
+	}
 
 	visit() {
 		this.visitEmitter.emit();

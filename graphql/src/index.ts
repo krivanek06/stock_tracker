@@ -14,6 +14,7 @@ import {
 	leaveGroup,
 	removeMemberFromGroup,
 	toggleInvitationRequestToGroup,
+	toggleWatchGroup,
 } from './st-group';
 import { toggleInviteUserIntoGroup } from './st-group/mutations/toggleInviteUserIntoGroup.mutation';
 import { toggleUsersInvitationRequestToGroup } from './st-group/mutations/toggleUsersInvitationRequestToGroup.mutation';
@@ -126,6 +127,7 @@ const mainTypeDefs = gql`
 		toggleUsersInvitationRequestToGroup(acceptUser: Boolean!, userId: String!, groupId: String!): STGroupUser
 		leaveGroup(id: String!): Boolean
 		removeMemberFromGroup(groupId: String!, removingUserId: String!): Boolean
+		toggleWatchGroup(groupId: String!): Boolean
 
 		## watchlist
 		createStockWatchlist(identifier: STStockWatchInputlistIdentifier!): STStockWatchlist
@@ -205,6 +207,7 @@ const mainResolver = {
 		leaveGroup: async (_, args: { id: string }, context: Context) => await leaveGroup(args.id, context),
 		removeMemberFromGroup: async (_, args: { groupId: string; removingUserId: string }, context: Context) =>
 			await removeMemberFromGroup(args.groupId, args.removingUserId, context),
+		toggleWatchGroup: async (_, args: { groupId: string }, context: Context) => await toggleWatchGroup(args.groupId, context),
 
 		// WATCHLIST
 		createStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await createStockWatchlist(args.identifier),

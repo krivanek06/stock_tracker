@@ -1,10 +1,20 @@
 <div class="c-section-wrapper">
 	<div class="c-data-section-wrapper">
-		<div class="st-flex ion-margin-end">
-			<div class="st-small-right-space st-small-top-space">
+		<div class="flex gap-4">
+			<div class="flex flex-col gap-4">
+				<!-- image & follow button -->
+				<button *ngIf="showStopWatchingGroup" mat-button class="g-button-danger-flat c-watch-button" (click)="stopWatchingGroup()">
+					<mat-icon>star</mat-icon>
+					Watching group
+				</button>
+				<button *ngIf="showStartWatchingGroup" mat-button class="g-button-warning-flat c-watch-button" (click)="startWatchingGroup()">
+					<mat-icon>star_border</mat-icon>
+					Watch group
+				</button>
 				<ion-img class="c-group-image" [src]="groupIdentification.imageUrl" appDefaultImg></ion-img>
 			</div>
-			<div>
+			<div class="flex flex-col">
+				<!-- name & info -->
 				<ion-text class="st-font-size-24 st-font-purple" style="margin-bottom: 8px"> {{ groupIdentification.name }} </ion-text>
 				<div class="st-display-flex-center">
 					<ion-text class="st-font-1 st-small-right-space st-font-size-18">Owner:</ion-text>
@@ -12,6 +22,10 @@
 						<img appDefaultImg [src]="groupIdentification.owner.photoURL" alt="owner's image" />
 					</ion-avatar>
 					<ion-text>{{ groupIdentification.owner.nickName }}</ion-text>
+				</div>
+				<div class="flex gap-4">
+					<mat-icon color="primary">visibility</mat-icon>
+					<span class="g-color-secondary">Watch by {{ groupIdentification.watchedByUsers }} users </span>
 				</div>
 				<div class="st-display-flex-center">
 					<!-- public / private group -->
@@ -125,5 +139,6 @@
 			<ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
 			Visit
 		</ion-button>
+		<!-- <ion-button *ngIf="showStopWatchingGroup" fill="outline" color="danger" shape="round" (click)="stopWatchingGroup()">Stop watching</ion-button> -->
 	</ion-buttons>
 </div>
