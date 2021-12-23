@@ -29,7 +29,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
 	@Input() categories: string[] = [];
 	@Input() timestamp: number[] = [];
 	@Input() enable3D = false;
-	@Input() isPercentage = false;
+	@Input() isPercentage?: boolean = false;
 	@Input() showYAxis = true;
 	@Input() showXAxis = true;
 	@Input() sharedTooltip = true;
@@ -68,13 +68,21 @@ export class GenericChartComponent implements OnInit, OnChanges {
 		}
 		if (this.isPercentage) {
 			this.series = this.series.map((s) => {
-				return {
-					...s,
-					data: s.data.map((d: any) => {
-						return { ...d, y: d.y * 100 };
-					}),
-				};
+				if (!s || s.data.length === 0) {
+					return s;
+				}
+				if (Number.isNaN(Number(s.data[0]))) {
+					return {
+						...s,
+						data: s.data.map((d: any) => {
+							return { ...d, y: d.y * 100 };
+						}),
+					};
+				}
+				return { ...s, data: s.data.map(d => !!d && typeof d === 'number' ? d * 100 : d) };
+
 			});
+			console.log(this.series)
 		}
 
 		this.initChart();
@@ -124,6 +132,12 @@ export class GenericChartComponent implements OnInit, OnChanges {
 				...this.chartOptions.tooltip,
 				headerFormat: '',
 				pointFormat: '<span style="color:{point.color};">{point.name}</span>: <b>{point.y:.2f}%</b><br/>',
+				pointFormatter: function () {
+					console.log(this)
+					const value = stFormatLargeNumber(this.y);
+					const name = this.series.name; // this.point.name
+					return `<span style="color:${this.color};">${name}</span>: <b>${value}%</b><br/>`
+				}
 			};
 			if (this.showDataLabel) {
 				this.chartOptions.plotOptions.series.dataLabels.format = '{point.y:.1f}%';
@@ -142,13 +156,15 @@ export class GenericChartComponent implements OnInit, OnChanges {
 
 		if (this.showCategoryNameWithValue) {
 			const dollar = this.showCategoryNameWithValueDollar;
+			const isPercentage = this.isPercentage;
 			// tooltip
 			this.chartOptions.tooltip = {
 				...this.chartOptions.tooltip,
 				headerFormat: '',
 				pointFormatter: function () {
 					const value = stFormatLargeNumber(this.y, false, dollar);
-					return `<p><span style="color: ${this.color}; font-weight: bold">● ${this.name}: </span><span>${value}</span></p><br/>`;
+					const valueFormat = isPercentage ? `${value}%` : value;
+					return `<p><span style="color: ${this.color}; font-weight: bold">● ${this.name}: </span><span>${valueFormat}</span></p><br/>`;
 				},
 			};
 			const data = this.series[0].data as any as GenericChartSeriesData[];
@@ -179,8 +195,8 @@ export class GenericChartComponent implements OnInit, OnChanges {
 		this.chartOptions.xAxis.type = 'datetime';
 		this.chartOptions.xAxis.labels.rotation = -20;
 		/*this.chartOptions.xAxis.labels.formatter = function() {
-            return Highcharts.dateFormat('%d.%m.%Y', this.value);
-        }*/
+			return Highcharts.dateFormat('%d.%m.%Y', this.value);
+		}*/
 		this.chartOptions.xAxis.labels.format = '{value:%e %b %Y}';
 	}
 

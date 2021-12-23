@@ -1,4 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { StDetailsKeyMetricsFragment, SymbolStorageService } from '@core';
+import { WindowService } from '@shared';
+import { StockDetailsKeyMetricsDisplay } from '@stock-details-feature';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-stock-details-key-metrics',
@@ -7,10 +11,14 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StockDetailsKeyMetricsComponent implements OnInit {
-
-  constructor() { }
+  stockDetailsKeyMetrics$!: Observable<StDetailsKeyMetricsFragment | null>;
+  StockDetailsKeyMetricsDisplay = StockDetailsKeyMetricsDisplay;
+  chartHeight!: number;
+  constructor(private symbolStorageService: SymbolStorageService) { }
 
   ngOnInit(): void {
+    this.stockDetailsKeyMetrics$ = this.symbolStorageService.queryStockDetailsKeyMetrics();
+    this.chartHeight = WindowService.getWindowHeightPrctInPx(22);
   }
 
 }

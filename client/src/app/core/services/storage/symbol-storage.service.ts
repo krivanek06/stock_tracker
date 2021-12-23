@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
-	QueryStockDetailsGQL,
-	QueryStockFinancialReportsGQL,
+	QueryStockDetailsFinancialGrowthGQL, QueryStockDetailsFinancialRatiosGQL, QueryStockDetailsGQL, QueryStockDetailsKeyMetricsGQL, QueryStockFinancialReportsGQL,
 	QueryStockSummaryGQL,
-	StockDetails,
+	StDetailsFinancialGrowthFragment, StDetailsFinancialRatiosFragment, StDetailsKeyMetricsFragment, StockDetails,
 	StockDetailsFinancialReports,
-	Summary,
+	Summary
 } from '../../graphql-schema';
+import { Period } from '../../model';
 
 @Injectable({
 	providedIn: 'root',
@@ -19,8 +19,11 @@ export class SymbolStorageService {
 	constructor(
 		private queryStockDetailsGQL: QueryStockDetailsGQL,
 		private queryStockSummaryGQL: QueryStockSummaryGQL,
-		private queryStockFinancialReportsGQL: QueryStockFinancialReportsGQL
-	) {}
+		private queryStockFinancialReportsGQL: QueryStockFinancialReportsGQL,
+		private queryStockDetailsFinancialRatiosGQL: QueryStockDetailsFinancialRatiosGQL,
+		private queryStockDetailsFinancialGrowthGQL: QueryStockDetailsFinancialGrowthGQL,
+		private queryStockDetailsKeyMetricsGQL: QueryStockDetailsKeyMetricsGQL
+	) { }
 
 	get activeSymbol(): string | null {
 		return this.activeSymbol$.getValue();
@@ -43,6 +46,39 @@ export class SymbolStorageService {
 				symbol,
 			})
 			.pipe(map((res) => res.data.queryStockDetails as StockDetails));
+	}
+
+	queryStockDetailsFinancialGrowth(period: Period = 'quarter', allData = false): Observable<StDetailsFinancialGrowthFragment | null> {
+		if (!this.activeSymbol) {
+			return of(null);
+		}
+		return this.queryStockDetailsFinancialGrowthGQL.fetch({
+			symbol: this.activeSymbol,
+			period,
+			allData
+		}).pipe(map(res => res.data.queryStockDetailsFinancialGrowth as StDetailsFinancialGrowthFragment))
+	}
+
+	queryStockDetailsKeyMetrics(period: Period = 'quarter', allData = false): Observable<StDetailsKeyMetricsFragment | null> {
+		if (!this.activeSymbol) {
+			return of(null);
+		}
+		return this.queryStockDetailsKeyMetricsGQL.fetch({
+			symbol: this.activeSymbol,
+			period,
+			allData
+		}).pipe(map(res => res.data.queryStockDetailsKeyMetrics as StDetailsKeyMetricsFragment))
+	}
+
+	queryStockDetailsFinancialRatios(period: Period = 'quarter', allData = false): Observable<StDetailsFinancialRatiosFragment | null> {
+		if (!this.activeSymbol) {
+			return of(null);
+		}
+		return this.queryStockDetailsFinancialRatiosGQL.fetch({
+			symbol: this.activeSymbol,
+			period,
+			allData
+		}).pipe(map(res => res.data.queryStockDetailsFinancialRatios as StDetailsFinancialRatiosFragment))
 	}
 
 	reloadStockDetails(symbol = this.activeSymbol): Observable<any> {

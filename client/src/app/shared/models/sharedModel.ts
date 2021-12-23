@@ -44,7 +44,7 @@ export interface IdNameContainer {
 export interface GenericChartSeries {
 	type?: ChartType;
 	name?: string;
-	data: GenericChartSeriesData[] | number[] | number[][];
+	data: GenericChartSeriesData[] | (number | null | undefined)[] | number[][];
 	color?: string | any;
 	lineWidth?: number;
 	colorByPoint?: boolean;

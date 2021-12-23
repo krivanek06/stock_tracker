@@ -1,1 +1,13 @@
-<p>stock-details-financial-growth works!</p>
+<app-loader-wrapper>
+	<div class="c-grid" *ngIf="stockDetailsFinancialGrowth$ | async as stockDetailsFinancialGrowth">
+		<app-generic-card *ngFor="let data of StockDetailsFinancialGrowthDisplay" [title]="data.name">
+			<app-generic-chart
+				[categories]="stockDetailsFinancialGrowth.date"
+				[heightPx]="chartHeight"
+				[isPercentage]="data.isPercent"
+				[series]="stockDetailsFinancialGrowth[data.id] | convertToSeries: data.name "
+			>
+			</app-generic-chart>
+		</app-generic-card>
+	</div>
+</app-loader-wrapper>

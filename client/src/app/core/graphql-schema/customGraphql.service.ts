@@ -580,6 +580,9 @@ export type Query = {
   queryStMarketAllCategories?: Maybe<StMarketDatasetKeyCategories>;
   queryStMarketData?: Maybe<StMarketChartDataResultCombined>;
   queryStockDetails?: Maybe<StockDetails>;
+  queryStockDetailsFinancialGrowth?: Maybe<StDetailsFinancialGrowth>;
+  queryStockDetailsFinancialRatios?: Maybe<StDetailsFinancialRatios>;
+  queryStockDetailsKeyMetrics?: Maybe<StDetailsKeyMetrics>;
   queryStockFinancialReports?: Maybe<StockDetailsFinancialReports>;
   queryStockQuotesByPrefix: Array<Maybe<StfmCompanyQuote>>;
   queryStockScreener?: Maybe<StfmStockScreenerResultWrapper>;
@@ -618,6 +621,27 @@ export type QueryQueryStMarketDataArgs = {
 
 export type QueryQueryStockDetailsArgs = {
   reload?: InputMaybe<Scalars['Boolean']>;
+  symbol: Scalars['String'];
+};
+
+
+export type QueryQueryStockDetailsFinancialGrowthArgs = {
+  allData: Scalars['Boolean'];
+  period: Scalars['String'];
+  symbol: Scalars['String'];
+};
+
+
+export type QueryQueryStockDetailsFinancialRatiosArgs = {
+  allData: Scalars['Boolean'];
+  period: Scalars['String'];
+  symbol: Scalars['String'];
+};
+
+
+export type QueryQueryStockDetailsKeyMetricsArgs = {
+  allData: Scalars['Boolean'];
+  period: Scalars['String'];
   symbol: Scalars['String'];
 };
 
@@ -710,6 +734,169 @@ export type StAnalystEstimates = {
   numberAnalystEstimatedRevenue?: Maybe<Scalars['Float']>;
   numberAnalystsEstimatedEps?: Maybe<Scalars['Float']>;
   symbol?: Maybe<Scalars['String']>;
+};
+
+export type StDetailsFinancialGrowth = {
+  __typename?: 'STDetailsFinancialGrowth';
+  assetGrowth: Array<Maybe<Scalars['Float']>>;
+  bookValueperShareGrowth: Array<Maybe<Scalars['Float']>>;
+  date: Array<Scalars['String']>;
+  debtGrowth: Array<Maybe<Scalars['Float']>>;
+  dividendsperShareGrowth: Array<Maybe<Scalars['Float']>>;
+  ebitgrowth: Array<Maybe<Scalars['Float']>>;
+  epsdilutedGrowth: Array<Maybe<Scalars['Float']>>;
+  epsgrowth: Array<Maybe<Scalars['Float']>>;
+  fiveYDividendperShareGrowthPerShare: Array<Maybe<Scalars['Float']>>;
+  fiveYNetIncomeGrowthPerShare: Array<Maybe<Scalars['Float']>>;
+  fiveYOperatingCFGrowthPerShare: Array<Maybe<Scalars['Float']>>;
+  fiveYRevenueGrowthPerShare: Array<Maybe<Scalars['Float']>>;
+  fiveYShareholdersEquityGrowthPerShare: Array<Maybe<Scalars['Float']>>;
+  freeCashFlowGrowth: Array<Maybe<Scalars['Float']>>;
+  grossProfitGrowth: Array<Maybe<Scalars['Float']>>;
+  inventoryGrowth: Array<Maybe<Scalars['Float']>>;
+  netIncomeGrowth: Array<Maybe<Scalars['Float']>>;
+  operatingCashFlowGrowth: Array<Maybe<Scalars['Float']>>;
+  operatingIncomeGrowth: Array<Maybe<Scalars['Float']>>;
+  rdexpenseGrowth: Array<Maybe<Scalars['Float']>>;
+  receivablesGrowth: Array<Maybe<Scalars['Float']>>;
+  revenueGrowth: Array<Maybe<Scalars['Float']>>;
+  sgaexpensesGrowth: Array<Maybe<Scalars['Float']>>;
+  symbol?: Maybe<Scalars['String']>;
+  tenYDividendperShareGrowthPerShare: Array<Maybe<Scalars['Float']>>;
+  tenYNetIncomeGrowthPerShare: Array<Maybe<Scalars['Float']>>;
+  tenYOperatingCFGrowthPerShare: Array<Maybe<Scalars['Float']>>;
+  tenYRevenueGrowthPerShare: Array<Maybe<Scalars['Float']>>;
+  tenYShareholdersEquityGrowthPerShare: Array<Maybe<Scalars['Float']>>;
+  threeYDividendperShareGrowthPerShare: Array<Maybe<Scalars['Float']>>;
+  threeYNetIncomeGrowthPerShare: Array<Maybe<Scalars['Float']>>;
+  threeYOperatingCFGrowthPerShare: Array<Maybe<Scalars['Float']>>;
+  threeYRevenueGrowthPerShare: Array<Maybe<Scalars['Float']>>;
+  threeYShareholdersEquityGrowthPerShare: Array<Maybe<Scalars['Float']>>;
+  weightedAverageSharesDilutedGrowth: Array<Maybe<Scalars['Float']>>;
+  weightedAverageSharesGrowth: Array<Maybe<Scalars['Float']>>;
+};
+
+export type StDetailsFinancialRatios = {
+  __typename?: 'STDetailsFinancialRatios';
+  assetTurnover: Array<Maybe<Scalars['Float']>>;
+  capitalExpenditureCoverageRatio: Array<Maybe<Scalars['Float']>>;
+  cashConversionCycle: Array<Maybe<Scalars['Float']>>;
+  cashFlowCoverageRatios: Array<Maybe<Scalars['Float']>>;
+  cashFlowToDebtRatio: Array<Maybe<Scalars['Float']>>;
+  cashPerShare: Array<Maybe<Scalars['Float']>>;
+  cashRatio: Array<Maybe<Scalars['Float']>>;
+  companyEquityMultiplier: Array<Maybe<Scalars['Float']>>;
+  currentRatio: Array<Maybe<Scalars['Float']>>;
+  date: Array<Scalars['String']>;
+  daysOfInventoryOutstanding: Array<Maybe<Scalars['Float']>>;
+  daysOfPayablesOutstanding: Array<Maybe<Scalars['Float']>>;
+  daysOfSalesOutstanding: Array<Maybe<Scalars['Float']>>;
+  debtEquityRatio: Array<Maybe<Scalars['Float']>>;
+  debtRatio: Array<Maybe<Scalars['Float']>>;
+  dividendPaidAndCapexCoverageRatio: Array<Maybe<Scalars['Float']>>;
+  dividendPayoutRatio: Array<Maybe<Scalars['Float']>>;
+  dividendYield: Array<Maybe<Scalars['Float']>>;
+  ebitPerRevenue: Array<Maybe<Scalars['Float']>>;
+  ebtPerEbit: Array<Maybe<Scalars['Float']>>;
+  effectiveTaxRate: Array<Maybe<Scalars['Float']>>;
+  enterpriseValueMultiple: Array<Maybe<Scalars['Float']>>;
+  fixedAssetTurnover: Array<Maybe<Scalars['Float']>>;
+  freeCashFlowOperatingCashFlowRatio: Array<Maybe<Scalars['Float']>>;
+  freeCashFlowPerShare: Array<Maybe<Scalars['Float']>>;
+  grossProfitMargin: Array<Maybe<Scalars['Float']>>;
+  interestCoverage: Array<Maybe<Scalars['Float']>>;
+  inventoryTurnover: Array<Maybe<Scalars['Float']>>;
+  longTermDebtToCapitalization: Array<Maybe<Scalars['Float']>>;
+  netIncomePerEBT: Array<Maybe<Scalars['Float']>>;
+  netProfitMargin: Array<Maybe<Scalars['Float']>>;
+  operatingCashFlowPerShare: Array<Maybe<Scalars['Float']>>;
+  operatingCashFlowSalesRatio: Array<Maybe<Scalars['Float']>>;
+  operatingCycle: Array<Maybe<Scalars['Float']>>;
+  operatingProfitMargin: Array<Maybe<Scalars['Float']>>;
+  payablesTurnover: Array<Maybe<Scalars['Float']>>;
+  payoutRatio: Array<Maybe<Scalars['Float']>>;
+  pretaxProfitMargin: Array<Maybe<Scalars['Float']>>;
+  priceBookValueRatio: Array<Maybe<Scalars['Float']>>;
+  priceCashFlowRatio: Array<Maybe<Scalars['Float']>>;
+  priceEarningsRatio: Array<Maybe<Scalars['Float']>>;
+  priceEarningsToGrowthRatio: Array<Maybe<Scalars['Float']>>;
+  priceFairValue: Array<Maybe<Scalars['Float']>>;
+  priceSalesRatio: Array<Maybe<Scalars['Float']>>;
+  priceToBookRatio: Array<Maybe<Scalars['Float']>>;
+  priceToFreeCashFlowsRatio: Array<Maybe<Scalars['Float']>>;
+  priceToOperatingCashFlowsRatio: Array<Maybe<Scalars['Float']>>;
+  priceToSalesRatio: Array<Maybe<Scalars['Float']>>;
+  quickRatio: Array<Maybe<Scalars['Float']>>;
+  receivablesTurnover: Array<Maybe<Scalars['Float']>>;
+  returnOnAssets: Array<Maybe<Scalars['Float']>>;
+  returnOnCapitalEmployed: Array<Maybe<Scalars['Float']>>;
+  returnOnEquity: Array<Maybe<Scalars['Float']>>;
+  shortTermCoverageRatios: Array<Maybe<Scalars['Float']>>;
+  symbol?: Maybe<Scalars['String']>;
+  totalDebtToCapitalization: Array<Maybe<Scalars['Float']>>;
+};
+
+export type StDetailsKeyMetrics = {
+  __typename?: 'STDetailsKeyMetrics';
+  averageInventory: Array<Maybe<Scalars['Float']>>;
+  averagePayables: Array<Maybe<Scalars['Float']>>;
+  averageReceivables: Array<Maybe<Scalars['Float']>>;
+  bookValuePerShare: Array<Maybe<Scalars['Float']>>;
+  capexPerShare: Array<Maybe<Scalars['Float']>>;
+  capexToDepreciation: Array<Maybe<Scalars['Float']>>;
+  capexToOperatingCashFlow: Array<Maybe<Scalars['Float']>>;
+  capexToRevenue: Array<Maybe<Scalars['Float']>>;
+  cashPerShare: Array<Maybe<Scalars['Float']>>;
+  currentRatio: Array<Maybe<Scalars['Float']>>;
+  date: Array<Scalars['String']>;
+  daysOfInventoryOnHand: Array<Maybe<Scalars['Float']>>;
+  daysPayablesOutstanding: Array<Maybe<Scalars['Float']>>;
+  daysSalesOutstanding: Array<Maybe<Scalars['Float']>>;
+  debtToAssets: Array<Maybe<Scalars['Float']>>;
+  debtToEquity: Array<Maybe<Scalars['Float']>>;
+  dividendYield: Array<Maybe<Scalars['Float']>>;
+  earningsYield: Array<Maybe<Scalars['Float']>>;
+  enterpriseValue: Array<Maybe<Scalars['Float']>>;
+  enterpriseValueOverEBITDA: Array<Maybe<Scalars['Float']>>;
+  evToFreeCashFlow: Array<Maybe<Scalars['Float']>>;
+  evToOperatingCashFlow: Array<Maybe<Scalars['Float']>>;
+  evToSales: Array<Maybe<Scalars['Float']>>;
+  freeCashFlowPerShare: Array<Maybe<Scalars['Float']>>;
+  freeCashFlowYield: Array<Maybe<Scalars['Float']>>;
+  grahamNetNet: Array<Maybe<Scalars['Float']>>;
+  grahamNumber: Array<Maybe<Scalars['Float']>>;
+  incomeQuality: Array<Maybe<Scalars['Float']>>;
+  intangiblesToTotalAssets: Array<Maybe<Scalars['Float']>>;
+  interestCoverage: Array<Maybe<Scalars['Float']>>;
+  interestDebtPerShare: Array<Maybe<Scalars['Float']>>;
+  inventoryTurnover: Array<Maybe<Scalars['Float']>>;
+  investedCapital: Array<Maybe<Scalars['Float']>>;
+  marketCap: Array<Maybe<Scalars['Float']>>;
+  netCurrentAssetValue: Array<Maybe<Scalars['Float']>>;
+  netDebtToEBITDA: Array<Maybe<Scalars['Float']>>;
+  netIncomePerShare: Array<Maybe<Scalars['Float']>>;
+  operatingCashFlowPerShare: Array<Maybe<Scalars['Float']>>;
+  payablesTurnover: Array<Maybe<Scalars['Float']>>;
+  payoutRatio: Array<Maybe<Scalars['Float']>>;
+  pbRatio: Array<Maybe<Scalars['Float']>>;
+  peRatio: Array<Maybe<Scalars['Float']>>;
+  pfcfRatio: Array<Maybe<Scalars['Float']>>;
+  pocfratio: Array<Maybe<Scalars['Float']>>;
+  priceToSalesRatio: Array<Maybe<Scalars['Float']>>;
+  ptbRatio: Array<Maybe<Scalars['Float']>>;
+  receivablesTurnover: Array<Maybe<Scalars['Float']>>;
+  researchAndDdevelopementToRevenue: Array<Maybe<Scalars['Float']>>;
+  returnOnTangibleAssets: Array<Maybe<Scalars['Float']>>;
+  revenuePerShare: Array<Maybe<Scalars['Float']>>;
+  roe: Array<Maybe<Scalars['Float']>>;
+  roic: Array<Maybe<Scalars['Float']>>;
+  salesGeneralAndAdministrativeToRevenue: Array<Maybe<Scalars['Float']>>;
+  shareholdersEquityPerShare: Array<Maybe<Scalars['Float']>>;
+  stockBasedCompensationToRevenue: Array<Maybe<Scalars['Float']>>;
+  symbol: Scalars['String'];
+  tangibleAssetValue: Array<Maybe<Scalars['Float']>>;
+  tangibleBookValuePerShare: Array<Maybe<Scalars['Float']>>;
+  workingCapital: Array<Maybe<Scalars['Float']>>;
 };
 
 export type StDiscountedCashFlowFormula = {
@@ -2302,6 +2489,12 @@ export type EarningsFragmentFragment = { __typename?: 'Earnings', financialCurre
 
 export type HistoricalMetricsDataFragmentFragment = { __typename?: 'HistoricalMetricsData', name?: string | null | undefined, dates: Array<string>, data: Array<number> };
 
+export type StDetailsFinancialRatiosFragment = { __typename?: 'STDetailsFinancialRatios', symbol?: string | null | undefined, date: Array<string>, currentRatio: Array<number | null | undefined>, quickRatio: Array<number | null | undefined>, cashRatio: Array<number | null | undefined>, daysOfSalesOutstanding: Array<number | null | undefined>, daysOfInventoryOutstanding: Array<number | null | undefined>, operatingCycle: Array<number | null | undefined>, daysOfPayablesOutstanding: Array<number | null | undefined>, cashConversionCycle: Array<number | null | undefined>, grossProfitMargin: Array<number | null | undefined>, operatingProfitMargin: Array<number | null | undefined>, pretaxProfitMargin: Array<number | null | undefined>, netProfitMargin: Array<number | null | undefined>, effectiveTaxRate: Array<number | null | undefined>, returnOnAssets: Array<number | null | undefined>, returnOnEquity: Array<number | null | undefined>, returnOnCapitalEmployed: Array<number | null | undefined>, netIncomePerEBT: Array<number | null | undefined>, ebtPerEbit: Array<number | null | undefined>, ebitPerRevenue: Array<number | null | undefined>, debtRatio: Array<number | null | undefined>, debtEquityRatio: Array<number | null | undefined>, longTermDebtToCapitalization: Array<number | null | undefined>, totalDebtToCapitalization: Array<number | null | undefined>, interestCoverage: Array<number | null | undefined>, cashFlowToDebtRatio: Array<number | null | undefined>, companyEquityMultiplier: Array<number | null | undefined>, receivablesTurnover: Array<number | null | undefined>, payablesTurnover: Array<number | null | undefined>, inventoryTurnover: Array<number | null | undefined>, fixedAssetTurnover: Array<number | null | undefined>, assetTurnover: Array<number | null | undefined>, operatingCashFlowPerShare: Array<number | null | undefined>, freeCashFlowPerShare: Array<number | null | undefined>, cashPerShare: Array<number | null | undefined>, payoutRatio: Array<number | null | undefined>, operatingCashFlowSalesRatio: Array<number | null | undefined>, freeCashFlowOperatingCashFlowRatio: Array<number | null | undefined>, cashFlowCoverageRatios: Array<number | null | undefined>, shortTermCoverageRatios: Array<number | null | undefined>, capitalExpenditureCoverageRatio: Array<number | null | undefined>, dividendPaidAndCapexCoverageRatio: Array<number | null | undefined>, dividendPayoutRatio: Array<number | null | undefined>, priceBookValueRatio: Array<number | null | undefined>, priceToBookRatio: Array<number | null | undefined>, priceToSalesRatio: Array<number | null | undefined>, priceEarningsRatio: Array<number | null | undefined>, priceToFreeCashFlowsRatio: Array<number | null | undefined>, priceToOperatingCashFlowsRatio: Array<number | null | undefined>, priceCashFlowRatio: Array<number | null | undefined>, priceEarningsToGrowthRatio: Array<number | null | undefined>, priceSalesRatio: Array<number | null | undefined>, dividendYield: Array<number | null | undefined>, enterpriseValueMultiple: Array<number | null | undefined>, priceFairValue: Array<number | null | undefined> };
+
+export type StDetailsFinancialGrowthFragment = { __typename?: 'STDetailsFinancialGrowth', symbol?: string | null | undefined, date: Array<string>, revenueGrowth: Array<number | null | undefined>, grossProfitGrowth: Array<number | null | undefined>, ebitgrowth: Array<number | null | undefined>, operatingIncomeGrowth: Array<number | null | undefined>, netIncomeGrowth: Array<number | null | undefined>, epsgrowth: Array<number | null | undefined>, epsdilutedGrowth: Array<number | null | undefined>, weightedAverageSharesGrowth: Array<number | null | undefined>, weightedAverageSharesDilutedGrowth: Array<number | null | undefined>, dividendsperShareGrowth: Array<number | null | undefined>, operatingCashFlowGrowth: Array<number | null | undefined>, freeCashFlowGrowth: Array<number | null | undefined>, tenYRevenueGrowthPerShare: Array<number | null | undefined>, fiveYRevenueGrowthPerShare: Array<number | null | undefined>, threeYRevenueGrowthPerShare: Array<number | null | undefined>, tenYOperatingCFGrowthPerShare: Array<number | null | undefined>, fiveYOperatingCFGrowthPerShare: Array<number | null | undefined>, threeYOperatingCFGrowthPerShare: Array<number | null | undefined>, tenYNetIncomeGrowthPerShare: Array<number | null | undefined>, fiveYNetIncomeGrowthPerShare: Array<number | null | undefined>, threeYNetIncomeGrowthPerShare: Array<number | null | undefined>, tenYShareholdersEquityGrowthPerShare: Array<number | null | undefined>, fiveYShareholdersEquityGrowthPerShare: Array<number | null | undefined>, threeYShareholdersEquityGrowthPerShare: Array<number | null | undefined>, tenYDividendperShareGrowthPerShare: Array<number | null | undefined>, fiveYDividendperShareGrowthPerShare: Array<number | null | undefined>, threeYDividendperShareGrowthPerShare: Array<number | null | undefined>, receivablesGrowth: Array<number | null | undefined>, inventoryGrowth: Array<number | null | undefined>, assetGrowth: Array<number | null | undefined>, bookValueperShareGrowth: Array<number | null | undefined>, debtGrowth: Array<number | null | undefined>, rdexpenseGrowth: Array<number | null | undefined>, sgaexpensesGrowth: Array<number | null | undefined> };
+
+export type StDetailsKeyMetricsFragment = { __typename?: 'STDetailsKeyMetrics', symbol: string, date: Array<string>, revenuePerShare: Array<number | null | undefined>, netIncomePerShare: Array<number | null | undefined>, operatingCashFlowPerShare: Array<number | null | undefined>, freeCashFlowPerShare: Array<number | null | undefined>, cashPerShare: Array<number | null | undefined>, bookValuePerShare: Array<number | null | undefined>, tangibleBookValuePerShare: Array<number | null | undefined>, shareholdersEquityPerShare: Array<number | null | undefined>, interestDebtPerShare: Array<number | null | undefined>, marketCap: Array<number | null | undefined>, enterpriseValue: Array<number | null | undefined>, peRatio: Array<number | null | undefined>, priceToSalesRatio: Array<number | null | undefined>, pocfratio: Array<number | null | undefined>, pfcfRatio: Array<number | null | undefined>, pbRatio: Array<number | null | undefined>, ptbRatio: Array<number | null | undefined>, evToSales: Array<number | null | undefined>, enterpriseValueOverEBITDA: Array<number | null | undefined>, evToOperatingCashFlow: Array<number | null | undefined>, evToFreeCashFlow: Array<number | null | undefined>, earningsYield: Array<number | null | undefined>, freeCashFlowYield: Array<number | null | undefined>, debtToEquity: Array<number | null | undefined>, debtToAssets: Array<number | null | undefined>, netDebtToEBITDA: Array<number | null | undefined>, currentRatio: Array<number | null | undefined>, interestCoverage: Array<number | null | undefined>, incomeQuality: Array<number | null | undefined>, dividendYield: Array<number | null | undefined>, payoutRatio: Array<number | null | undefined>, salesGeneralAndAdministrativeToRevenue: Array<number | null | undefined>, researchAndDdevelopementToRevenue: Array<number | null | undefined>, intangiblesToTotalAssets: Array<number | null | undefined>, capexToOperatingCashFlow: Array<number | null | undefined>, capexToRevenue: Array<number | null | undefined>, capexToDepreciation: Array<number | null | undefined>, stockBasedCompensationToRevenue: Array<number | null | undefined>, grahamNumber: Array<number | null | undefined>, roic: Array<number | null | undefined>, returnOnTangibleAssets: Array<number | null | undefined>, grahamNetNet: Array<number | null | undefined>, workingCapital: Array<number | null | undefined>, tangibleAssetValue: Array<number | null | undefined>, netCurrentAssetValue: Array<number | null | undefined>, investedCapital: Array<number | null | undefined>, averageReceivables: Array<number | null | undefined>, averagePayables: Array<number | null | undefined>, averageInventory: Array<number | null | undefined>, daysSalesOutstanding: Array<number | null | undefined>, daysPayablesOutstanding: Array<number | null | undefined>, daysOfInventoryOnHand: Array<number | null | undefined>, receivablesTurnover: Array<number | null | undefined>, payablesTurnover: Array<number | null | undefined>, inventoryTurnover: Array<number | null | undefined>, roe: Array<number | null | undefined>, capexPerShare: Array<number | null | undefined> };
+
 export type QueryStockDetailsQueryVariables = Exact<{
   symbol: Scalars['String'];
   reload?: InputMaybe<Scalars['Boolean']>;
@@ -2331,6 +2524,33 @@ export type QueryStockQuotesByPrefixQueryVariables = Exact<{
 
 
 export type QueryStockQuotesByPrefixQuery = { __typename?: 'Query', queryStockQuotesByPrefix: Array<{ __typename?: 'STFMCompanyQuote', avgVolume?: number | null | undefined, change?: number | null | undefined, changesPercentage?: number | null | undefined, dayHigh?: number | null | undefined, dayLow?: number | null | undefined, earningsAnnouncement?: string | null | undefined, eps?: number | null | undefined, exchange?: string | null | undefined, marketCap?: number | null | undefined, name?: string | null | undefined, open?: number | null | undefined, pe?: number | null | undefined, previousClose?: number | null | undefined, price?: number | null | undefined, priceAvg200?: number | null | undefined, priceAvg50?: number | null | undefined, sharesOutstanding?: number | null | undefined, symbol?: string | null | undefined, timestamp?: number | null | undefined, volume?: number | null | undefined, yearHigh?: number | null | undefined, yearLow?: number | null | undefined, image?: string | null | undefined } | null | undefined> };
+
+export type QueryStockDetailsFinancialRatiosQueryVariables = Exact<{
+  symbol: Scalars['String'];
+  period: Scalars['String'];
+  allData: Scalars['Boolean'];
+}>;
+
+
+export type QueryStockDetailsFinancialRatiosQuery = { __typename?: 'Query', queryStockDetailsFinancialRatios?: { __typename?: 'STDetailsFinancialRatios', symbol?: string | null | undefined, date: Array<string>, currentRatio: Array<number | null | undefined>, quickRatio: Array<number | null | undefined>, cashRatio: Array<number | null | undefined>, daysOfSalesOutstanding: Array<number | null | undefined>, daysOfInventoryOutstanding: Array<number | null | undefined>, operatingCycle: Array<number | null | undefined>, daysOfPayablesOutstanding: Array<number | null | undefined>, cashConversionCycle: Array<number | null | undefined>, grossProfitMargin: Array<number | null | undefined>, operatingProfitMargin: Array<number | null | undefined>, pretaxProfitMargin: Array<number | null | undefined>, netProfitMargin: Array<number | null | undefined>, effectiveTaxRate: Array<number | null | undefined>, returnOnAssets: Array<number | null | undefined>, returnOnEquity: Array<number | null | undefined>, returnOnCapitalEmployed: Array<number | null | undefined>, netIncomePerEBT: Array<number | null | undefined>, ebtPerEbit: Array<number | null | undefined>, ebitPerRevenue: Array<number | null | undefined>, debtRatio: Array<number | null | undefined>, debtEquityRatio: Array<number | null | undefined>, longTermDebtToCapitalization: Array<number | null | undefined>, totalDebtToCapitalization: Array<number | null | undefined>, interestCoverage: Array<number | null | undefined>, cashFlowToDebtRatio: Array<number | null | undefined>, companyEquityMultiplier: Array<number | null | undefined>, receivablesTurnover: Array<number | null | undefined>, payablesTurnover: Array<number | null | undefined>, inventoryTurnover: Array<number | null | undefined>, fixedAssetTurnover: Array<number | null | undefined>, assetTurnover: Array<number | null | undefined>, operatingCashFlowPerShare: Array<number | null | undefined>, freeCashFlowPerShare: Array<number | null | undefined>, cashPerShare: Array<number | null | undefined>, payoutRatio: Array<number | null | undefined>, operatingCashFlowSalesRatio: Array<number | null | undefined>, freeCashFlowOperatingCashFlowRatio: Array<number | null | undefined>, cashFlowCoverageRatios: Array<number | null | undefined>, shortTermCoverageRatios: Array<number | null | undefined>, capitalExpenditureCoverageRatio: Array<number | null | undefined>, dividendPaidAndCapexCoverageRatio: Array<number | null | undefined>, dividendPayoutRatio: Array<number | null | undefined>, priceBookValueRatio: Array<number | null | undefined>, priceToBookRatio: Array<number | null | undefined>, priceToSalesRatio: Array<number | null | undefined>, priceEarningsRatio: Array<number | null | undefined>, priceToFreeCashFlowsRatio: Array<number | null | undefined>, priceToOperatingCashFlowsRatio: Array<number | null | undefined>, priceCashFlowRatio: Array<number | null | undefined>, priceEarningsToGrowthRatio: Array<number | null | undefined>, priceSalesRatio: Array<number | null | undefined>, dividendYield: Array<number | null | undefined>, enterpriseValueMultiple: Array<number | null | undefined>, priceFairValue: Array<number | null | undefined> } | null | undefined };
+
+export type QueryStockDetailsFinancialGrowthQueryVariables = Exact<{
+  symbol: Scalars['String'];
+  period: Scalars['String'];
+  allData: Scalars['Boolean'];
+}>;
+
+
+export type QueryStockDetailsFinancialGrowthQuery = { __typename?: 'Query', queryStockDetailsFinancialGrowth?: { __typename?: 'STDetailsFinancialGrowth', symbol?: string | null | undefined, date: Array<string>, revenueGrowth: Array<number | null | undefined>, grossProfitGrowth: Array<number | null | undefined>, ebitgrowth: Array<number | null | undefined>, operatingIncomeGrowth: Array<number | null | undefined>, netIncomeGrowth: Array<number | null | undefined>, epsgrowth: Array<number | null | undefined>, epsdilutedGrowth: Array<number | null | undefined>, weightedAverageSharesGrowth: Array<number | null | undefined>, weightedAverageSharesDilutedGrowth: Array<number | null | undefined>, dividendsperShareGrowth: Array<number | null | undefined>, operatingCashFlowGrowth: Array<number | null | undefined>, freeCashFlowGrowth: Array<number | null | undefined>, tenYRevenueGrowthPerShare: Array<number | null | undefined>, fiveYRevenueGrowthPerShare: Array<number | null | undefined>, threeYRevenueGrowthPerShare: Array<number | null | undefined>, tenYOperatingCFGrowthPerShare: Array<number | null | undefined>, fiveYOperatingCFGrowthPerShare: Array<number | null | undefined>, threeYOperatingCFGrowthPerShare: Array<number | null | undefined>, tenYNetIncomeGrowthPerShare: Array<number | null | undefined>, fiveYNetIncomeGrowthPerShare: Array<number | null | undefined>, threeYNetIncomeGrowthPerShare: Array<number | null | undefined>, tenYShareholdersEquityGrowthPerShare: Array<number | null | undefined>, fiveYShareholdersEquityGrowthPerShare: Array<number | null | undefined>, threeYShareholdersEquityGrowthPerShare: Array<number | null | undefined>, tenYDividendperShareGrowthPerShare: Array<number | null | undefined>, fiveYDividendperShareGrowthPerShare: Array<number | null | undefined>, threeYDividendperShareGrowthPerShare: Array<number | null | undefined>, receivablesGrowth: Array<number | null | undefined>, inventoryGrowth: Array<number | null | undefined>, assetGrowth: Array<number | null | undefined>, bookValueperShareGrowth: Array<number | null | undefined>, debtGrowth: Array<number | null | undefined>, rdexpenseGrowth: Array<number | null | undefined>, sgaexpensesGrowth: Array<number | null | undefined> } | null | undefined };
+
+export type QueryStockDetailsKeyMetricsQueryVariables = Exact<{
+  symbol: Scalars['String'];
+  period: Scalars['String'];
+  allData: Scalars['Boolean'];
+}>;
+
+
+export type QueryStockDetailsKeyMetricsQuery = { __typename?: 'Query', queryStockDetailsKeyMetrics?: { __typename?: 'STDetailsKeyMetrics', symbol: string, date: Array<string>, revenuePerShare: Array<number | null | undefined>, netIncomePerShare: Array<number | null | undefined>, operatingCashFlowPerShare: Array<number | null | undefined>, freeCashFlowPerShare: Array<number | null | undefined>, cashPerShare: Array<number | null | undefined>, bookValuePerShare: Array<number | null | undefined>, tangibleBookValuePerShare: Array<number | null | undefined>, shareholdersEquityPerShare: Array<number | null | undefined>, interestDebtPerShare: Array<number | null | undefined>, marketCap: Array<number | null | undefined>, enterpriseValue: Array<number | null | undefined>, peRatio: Array<number | null | undefined>, priceToSalesRatio: Array<number | null | undefined>, pocfratio: Array<number | null | undefined>, pfcfRatio: Array<number | null | undefined>, pbRatio: Array<number | null | undefined>, ptbRatio: Array<number | null | undefined>, evToSales: Array<number | null | undefined>, enterpriseValueOverEBITDA: Array<number | null | undefined>, evToOperatingCashFlow: Array<number | null | undefined>, evToFreeCashFlow: Array<number | null | undefined>, earningsYield: Array<number | null | undefined>, freeCashFlowYield: Array<number | null | undefined>, debtToEquity: Array<number | null | undefined>, debtToAssets: Array<number | null | undefined>, netDebtToEBITDA: Array<number | null | undefined>, currentRatio: Array<number | null | undefined>, interestCoverage: Array<number | null | undefined>, incomeQuality: Array<number | null | undefined>, dividendYield: Array<number | null | undefined>, payoutRatio: Array<number | null | undefined>, salesGeneralAndAdministrativeToRevenue: Array<number | null | undefined>, researchAndDdevelopementToRevenue: Array<number | null | undefined>, intangiblesToTotalAssets: Array<number | null | undefined>, capexToOperatingCashFlow: Array<number | null | undefined>, capexToRevenue: Array<number | null | undefined>, capexToDepreciation: Array<number | null | undefined>, stockBasedCompensationToRevenue: Array<number | null | undefined>, grahamNumber: Array<number | null | undefined>, roic: Array<number | null | undefined>, returnOnTangibleAssets: Array<number | null | undefined>, grahamNetNet: Array<number | null | undefined>, workingCapital: Array<number | null | undefined>, tangibleAssetValue: Array<number | null | undefined>, netCurrentAssetValue: Array<number | null | undefined>, investedCapital: Array<number | null | undefined>, averageReceivables: Array<number | null | undefined>, averagePayables: Array<number | null | undefined>, averageInventory: Array<number | null | undefined>, daysSalesOutstanding: Array<number | null | undefined>, daysPayablesOutstanding: Array<number | null | undefined>, daysOfInventoryOnHand: Array<number | null | undefined>, receivablesTurnover: Array<number | null | undefined>, payablesTurnover: Array<number | null | undefined>, inventoryTurnover: Array<number | null | undefined>, roe: Array<number | null | undefined>, capexPerShare: Array<number | null | undefined> } | null | undefined };
 
 export type SetForceReloadStockDetailsMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -3648,6 +3868,169 @@ export const HistoricalMetricsDataFragmentFragmentDoc = gql`
   data
 }
     `;
+export const StDetailsFinancialRatiosFragmentDoc = gql`
+    fragment STDetailsFinancialRatios on STDetailsFinancialRatios {
+  symbol
+  date
+  currentRatio
+  quickRatio
+  cashRatio
+  daysOfSalesOutstanding
+  daysOfInventoryOutstanding
+  operatingCycle
+  daysOfPayablesOutstanding
+  cashConversionCycle
+  grossProfitMargin
+  operatingProfitMargin
+  pretaxProfitMargin
+  netProfitMargin
+  effectiveTaxRate
+  returnOnAssets
+  returnOnEquity
+  returnOnCapitalEmployed
+  netIncomePerEBT
+  ebtPerEbit
+  ebitPerRevenue
+  debtRatio
+  debtEquityRatio
+  longTermDebtToCapitalization
+  totalDebtToCapitalization
+  interestCoverage
+  cashFlowToDebtRatio
+  companyEquityMultiplier
+  receivablesTurnover
+  payablesTurnover
+  inventoryTurnover
+  fixedAssetTurnover
+  assetTurnover
+  operatingCashFlowPerShare
+  freeCashFlowPerShare
+  cashPerShare
+  payoutRatio
+  operatingCashFlowSalesRatio
+  freeCashFlowOperatingCashFlowRatio
+  cashFlowCoverageRatios
+  shortTermCoverageRatios
+  capitalExpenditureCoverageRatio
+  dividendPaidAndCapexCoverageRatio
+  dividendPayoutRatio
+  priceBookValueRatio
+  priceToBookRatio
+  priceToSalesRatio
+  priceEarningsRatio
+  priceToFreeCashFlowsRatio
+  priceToOperatingCashFlowsRatio
+  priceCashFlowRatio
+  priceEarningsToGrowthRatio
+  priceSalesRatio
+  dividendYield
+  enterpriseValueMultiple
+  priceFairValue
+}
+    `;
+export const StDetailsFinancialGrowthFragmentDoc = gql`
+    fragment STDetailsFinancialGrowth on STDetailsFinancialGrowth {
+  symbol
+  date
+  revenueGrowth
+  grossProfitGrowth
+  ebitgrowth
+  operatingIncomeGrowth
+  netIncomeGrowth
+  epsgrowth
+  epsdilutedGrowth
+  weightedAverageSharesGrowth
+  weightedAverageSharesDilutedGrowth
+  dividendsperShareGrowth
+  operatingCashFlowGrowth
+  freeCashFlowGrowth
+  tenYRevenueGrowthPerShare
+  fiveYRevenueGrowthPerShare
+  threeYRevenueGrowthPerShare
+  tenYOperatingCFGrowthPerShare
+  fiveYOperatingCFGrowthPerShare
+  threeYOperatingCFGrowthPerShare
+  tenYNetIncomeGrowthPerShare
+  fiveYNetIncomeGrowthPerShare
+  threeYNetIncomeGrowthPerShare
+  tenYShareholdersEquityGrowthPerShare
+  fiveYShareholdersEquityGrowthPerShare
+  threeYShareholdersEquityGrowthPerShare
+  tenYDividendperShareGrowthPerShare
+  fiveYDividendperShareGrowthPerShare
+  threeYDividendperShareGrowthPerShare
+  receivablesGrowth
+  inventoryGrowth
+  assetGrowth
+  bookValueperShareGrowth
+  debtGrowth
+  rdexpenseGrowth
+  sgaexpensesGrowth
+}
+    `;
+export const StDetailsKeyMetricsFragmentDoc = gql`
+    fragment STDetailsKeyMetrics on STDetailsKeyMetrics {
+  symbol
+  date
+  revenuePerShare
+  netIncomePerShare
+  operatingCashFlowPerShare
+  freeCashFlowPerShare
+  cashPerShare
+  bookValuePerShare
+  tangibleBookValuePerShare
+  shareholdersEquityPerShare
+  interestDebtPerShare
+  marketCap
+  enterpriseValue
+  peRatio
+  priceToSalesRatio
+  pocfratio
+  pfcfRatio
+  pbRatio
+  ptbRatio
+  evToSales
+  enterpriseValueOverEBITDA
+  evToOperatingCashFlow
+  evToFreeCashFlow
+  earningsYield
+  freeCashFlowYield
+  debtToEquity
+  debtToAssets
+  netDebtToEBITDA
+  currentRatio
+  interestCoverage
+  incomeQuality
+  dividendYield
+  payoutRatio
+  salesGeneralAndAdministrativeToRevenue
+  researchAndDdevelopementToRevenue
+  intangiblesToTotalAssets
+  capexToOperatingCashFlow
+  capexToRevenue
+  capexToDepreciation
+  stockBasedCompensationToRevenue
+  grahamNumber
+  roic
+  returnOnTangibleAssets
+  grahamNetNet
+  workingCapital
+  tangibleAssetValue
+  netCurrentAssetValue
+  investedCapital
+  averageReceivables
+  averagePayables
+  averageInventory
+  daysSalesOutstanding
+  daysPayablesOutstanding
+  daysOfInventoryOnHand
+  receivablesTurnover
+  payablesTurnover
+  inventoryTurnover
+  roe
+  capexPerShare
+}
+    `;
 export const StUserIndentificationDataFragmentDoc = gql`
     fragment STUserIndentificationData on STUserPublicData {
   id
@@ -4778,6 +5161,68 @@ export const QueryStockQuotesByPrefixDocument = gql`
   })
   export class QueryStockQuotesByPrefixGQL extends Apollo.Query<QueryStockQuotesByPrefixQuery, QueryStockQuotesByPrefixQueryVariables> {
     document = QueryStockQuotesByPrefixDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const QueryStockDetailsFinancialRatiosDocument = gql`
+    query QueryStockDetailsFinancialRatios($symbol: String!, $period: String!, $allData: Boolean!) {
+  queryStockDetailsFinancialRatios(
+    symbol: $symbol
+    period: $period
+    allData: $allData
+  ) {
+    ...STDetailsFinancialRatios
+  }
+}
+    ${StDetailsFinancialRatiosFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class QueryStockDetailsFinancialRatiosGQL extends Apollo.Query<QueryStockDetailsFinancialRatiosQuery, QueryStockDetailsFinancialRatiosQueryVariables> {
+    document = QueryStockDetailsFinancialRatiosDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const QueryStockDetailsFinancialGrowthDocument = gql`
+    query QueryStockDetailsFinancialGrowth($symbol: String!, $period: String!, $allData: Boolean!) {
+  queryStockDetailsFinancialGrowth(
+    symbol: $symbol
+    period: $period
+    allData: $allData
+  ) {
+    ...STDetailsFinancialGrowth
+  }
+}
+    ${StDetailsFinancialGrowthFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class QueryStockDetailsFinancialGrowthGQL extends Apollo.Query<QueryStockDetailsFinancialGrowthQuery, QueryStockDetailsFinancialGrowthQueryVariables> {
+    document = QueryStockDetailsFinancialGrowthDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const QueryStockDetailsKeyMetricsDocument = gql`
+    query QueryStockDetailsKeyMetrics($symbol: String!, $period: String!, $allData: Boolean!) {
+  queryStockDetailsKeyMetrics(symbol: $symbol, period: $period, allData: $allData) {
+    ...STDetailsKeyMetrics
+  }
+}
+    ${StDetailsKeyMetricsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class QueryStockDetailsKeyMetricsGQL extends Apollo.Query<QueryStockDetailsKeyMetricsQuery, QueryStockDetailsKeyMetricsQueryVariables> {
+    document = QueryStockDetailsKeyMetricsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -1,1 +1,13 @@
-<p>stock-details-key-metrics works!</p>
+<app-loader-wrapper>
+	<div class="c-grid" *ngIf="stockDetailsKeyMetrics$ | async as stockDetailsKeyMetrics">
+		<app-generic-card *ngFor="let data of StockDetailsKeyMetricsDisplay" [title]="data.name">
+			<app-generic-chart
+				[categories]="stockDetailsKeyMetrics.date"
+				[heightPx]="chartHeight"
+				[isPercentage]="data.isPercent"
+				[series]="stockDetailsKeyMetrics[data.id] | convertToSeries: data.name "
+			>
+			</app-generic-chart>
+		</app-generic-card>
+	</div>
+</app-loader-wrapper>
