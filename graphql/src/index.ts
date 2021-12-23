@@ -14,7 +14,7 @@ import {
 	leaveGroup,
 	removeMemberFromGroup,
 	toggleInvitationRequestToGroup,
-	toggleWatchGroup,
+	toggleWatchGroup
 } from './st-group';
 import { toggleInviteUserIntoGroup } from './st-group/mutations/toggleInviteUserIntoGroup.mutation';
 import { toggleUsersInvitationRequestToGroup } from './st-group/mutations/toggleUsersInvitationRequestToGroup.mutation';
@@ -26,7 +26,7 @@ import {
 	queryMarketDailyOverview,
 	queryStMarketAllCategories,
 	queryStMarketData,
-	querySTMarketHistoryOverview,
+	querySTMarketHistoryOverview
 } from './st-market/st-market.query';
 import { STMarketSharedTypeDefs } from './st-market/st-market.typedefs';
 import { STPortfolioTypeDefs } from './st-portfolio/st-portfolio.typedef';
@@ -40,11 +40,14 @@ import { STEarningsValuationFormulaTypeDefs } from './st-stock-calculations/st-e
 import { STFreeCashFlowFormulaTypeDefs } from './st-stock-calculations/st-free-cash-flow-formula.typedef';
 import {
 	queryStockDetails,
+	queryStockDetailsFinancialGrowth,
+	queryStockDetailsFinancialRatios,
+	queryStockDetailsKeyMetrics,
 	queryStockFinancialReports,
 	queryStockQuotesByPrefix,
 	queryStockSummary,
 	setForceReloadStockDetails,
-	stockDetailsTypeDefs,
+	stockDetailsTypeDefs
 } from './st-stocks';
 import { querySymbolHistoricalPrices } from './st-stocks/st-stocks-query/queryStockHistoricalPrice';
 import { performTransaction } from './st-transaction/st-transaction.mutation';
@@ -62,7 +65,7 @@ import {
 	createStockWatchlist,
 	deleteWatchlist,
 	removeStockFromStockWatchlist,
-	renameStockWatchlist,
+	renameStockWatchlist
 } from './watchlist/watchlist.mutation';
 import { stStockWatchlistResolvers } from './watchlist/watchlist.resolver';
 import { watchlistTypeDefs } from './watchlist/watchlist.typedefs';
@@ -95,6 +98,9 @@ const mainTypeDefs = gql`
 		queryStockQuotesByPrefix(symbolPrefix: String!): [STFMCompanyQuote]!
 		queryStockFinancialReports(symbol: String!): StockDetailsFinancialReports
 		querySymbolHistoricalPrices(symbol: String!, period: String!): SymbolHistoricalPrices
+		queryStockDetailsFinancialRatios(symbol: String!, period: String!, allData: Boolean! ): STDetailsFinancialRatios
+		queryStockDetailsFinancialGrowth(symbol: String!, period: String!, allData: Boolean! ): STDetailsFinancialGrowth
+		queryStockDetailsKeyMetrics(symbol: String!, period: String!, allData: Boolean! ): STDetailsKeyMetrics
 
 		# market data
 		querySTMarketHistoryOverview: STMarketOverviewPartialData
@@ -169,6 +175,12 @@ const mainResolver = {
 		queryStockFinancialReports: async (_: null, args: { symbol: string }) => await queryStockFinancialReports(args.symbol),
 		querySymbolHistoricalPrices: async (_: null, args: { symbol: string; period: string }) =>
 			await querySymbolHistoricalPrices(args.symbol, args.period),
+		queryStockDetailsFinancialRatios: async (_: null, args: { symbol: string, period: 'quarter' | 'year', allData: boolean }) =>
+			await queryStockDetailsFinancialRatios(args.symbol, args.period, args.allData),
+		queryStockDetailsFinancialGrowth: async (_: null, args: { symbol: string, period: 'quarter' | 'year', allData: boolean }) =>
+			await queryStockDetailsFinancialGrowth(args.symbol, args.period, args.allData),
+		queryStockDetailsKeyMetrics: async (_: null, args: { symbol: string, period: 'quarter' | 'year', allData: boolean }) =>
+			await queryStockDetailsKeyMetrics(args.symbol, args.period, args.allData),
 
 		// market data
 		querySTMarketHistoryOverview: async (_: null, args: null) => await querySTMarketHistoryOverview(),

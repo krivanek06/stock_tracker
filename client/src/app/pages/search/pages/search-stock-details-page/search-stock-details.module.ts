@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { SEARCH_PAGE_STOCK_DETAILS_ENUM } from '../../models/pages.model';
 import { SearchStockDetailsPage } from './search-stock-details-page.component';
 
 const routes: Routes = [
@@ -11,20 +12,32 @@ const routes: Routes = [
 		children: [
 			{
 				path: '',
-				redirectTo: 'statistics',
+				redirectTo: SEARCH_PAGE_STOCK_DETAILS_ENUM.STATISTICS,
 				pathMatch: 'full',
 			},
 			{
-				path: 'statistics',
+				path: SEARCH_PAGE_STOCK_DETAILS_ENUM.STATISTICS,
 				loadChildren: () => import('./pages/stock-details-statistic/stock-details-statistic.module').then((m) => m.StockDetailsStatisticModule),
 			},
 			{
-				path: 'financials',
+				path: SEARCH_PAGE_STOCK_DETAILS_ENUM.FINANCIALS,
 				loadChildren: () => import('./pages/stock-details-financial/stock-details-financial.module').then((m) => m.StockDetailsFinancialModule),
 			},
 			{
-				path: 'valuation',
+				path: SEARCH_PAGE_STOCK_DETAILS_ENUM.VALUATION,
 				loadChildren: () => import('./pages/stock-details-valuation/stock-details-valuation.module').then((m) => m.StockDetailsValuationModule),
+			},
+			{
+				path: SEARCH_PAGE_STOCK_DETAILS_ENUM.KEY_METRICS,
+				loadChildren: () => import('./pages/stock-details-key-metrics/stock-details-key-metrics.module').then((m) => m.StockDetailsKeyMetricsModule),
+			},
+			{
+				path: SEARCH_PAGE_STOCK_DETAILS_ENUM.FiNANCIAL_RATIOS,
+				loadChildren: () => import('./pages/stock-details-financial-ratios/stock-details-financial-ratios.module').then((m) => m.StockDetailsFinancialRatiosModule),
+			},
+			{
+				path: SEARCH_PAGE_STOCK_DETAILS_ENUM.FINANCIAL_GROWTH,
+				loadChildren: () => import('./pages/stock-details-financial-growth/stock-details-financial-growth.module').then((m) => m.StockDetailsFinancialGrowthModule),
 			},
 		],
 	},
@@ -34,4 +47,4 @@ const routes: Routes = [
 	declarations: [SearchStockDetailsPage],
 	imports: [RouterModule.forChild(routes), CommonModule, IonicModule],
 })
-export class SearchStockDetailsModule {}
+export class SearchStockDetailsModule { }
