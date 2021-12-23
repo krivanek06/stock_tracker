@@ -368,7 +368,7 @@ export interface STSummary {
   dividendDate: string;
   ePSTTM: number;
   beta: number;
-	countryFullName: string;
+  countryFullName: string;
   earningsDate: string;
   exDividendDate: string;
   exchangeName: string;
@@ -557,6 +557,181 @@ export interface STMetric {
   yearToDatePriceReturnDaily: number;
 }
 
+
+
+export interface STDetailsEnterpriseValue {
+  symbol: string;
+  date: string[];
+  stockPrice: number[];
+  numberOfShares: number[];
+  marketCapitalization: number[];
+  minusCashAndCashEquivalents: number[];
+  addTotalDebt: number[];
+  enterpriseValue: number[];
+}
+
+export interface STDetailsKeyMetrics {
+  symbol: string;
+  date: string[];
+  period: string;
+  revenuePerShare?: number[];
+  netIncomePerShare?: number[];
+  operatingCashFlowPerShare?: number[];
+  freeCashFlowPerShare?: number[];
+  cashPerShare?: number[];
+  bookValuePerShare?: number[];
+  tangibleBookValuePerShare?: number[];
+  shareholdersEquityPerShare?: number[];
+  interestDebtPerShare?: number[];
+  marketCap?: number[];
+  enterpriseValue?: number[];
+  peRatio?: number[];
+  priceToSalesRatio?: number[];
+  pocfratio?: number[];
+  pfcfRatio?: number[];
+  pbRatio?: number[];
+  ptbRatio?: number[];
+  evToSales?: number[];
+  enterpriseValueOverEBITDA?: number[];
+  evToOperatingCashFlow?: number[];
+  evToFreeCashFlow?: number[];
+  earningsYield?: number[];
+  freeCashFlowYield?: number[];
+  debtToEquity?: number[];
+  debtToAssets?: number[];
+  netDebtToEBITDA?: number[];
+  currentRatio?: number[];
+  interestCoverage?: number[];
+  incomeQuality?: number[];
+  dividendYield?: number[];
+  payoutRatio?: number[];
+  salesGeneralAndAdministrativeToRevenue?: number[];
+  researchAndDdevelopementToRevenue?: number[];
+  intangiblesToTotalAssets?: number[];
+  capexToOperatingCashFlow?: number[];
+  capexToRevenue?: number[];
+  capexToDepreciation?: number[];
+  stockBasedCompensationToRevenue?: number[];
+  grahamnumber?: number[];
+  roic?: number[];
+  returnOnTangibleAssets?: number[];
+  grahamNetNet?: number[];
+  workingCapital?: number[];
+  tangibleAssetValue?: number[];
+  netCurrentAssetValue?: number[];
+  investedCapital?: number[];
+  averageReceivables?: number[];
+  averagePayables?: number[];
+  averageInventory?: number[];
+  daysSalesOutstanding: number[];
+  daysPayablesOutstanding?: number[];
+  daysOfInventoryOnHand?: number[];
+  receivablesTurnover?: number[];
+  payablesTurnover?: number[];
+  inventoryTurnover?: number[];
+  roe?: number[];
+  capexPerShare?: number[];
+}
+
+export interface STDetailsFinancialGrowth {
+  symbol: string;
+  date: string[];
+  period: string;
+  revenueGrowth: number[];
+  grossProfitGrowth: number[];
+  ebitgrowth: number[];
+  operatingIncomeGrowth: number[];
+  netIncomeGrowth: number[];
+  epsgrowth: number[];
+  epsdilutedGrowth: number[];
+  weightedAverageSharesGrowth: number[];
+  weightedAverageSharesDilutedGrowth: number[];
+  dividendsperShareGrowth: number[];
+  operatingCashFlowGrowth: number[];
+  freeCashFlowGrowth: number[];
+  tenYRevenueGrowthPerShare: number[];
+  fiveYRevenueGrowthPerShare: number[];
+  threeYRevenueGrowthPerShare: number[];
+  tenYOperatingCFGrowthPerShare: number[];
+  fiveYOperatingCFGrowthPerShare: number[];
+  threeYOperatingCFGrowthPerShare: number[];
+  tenYNetIncomeGrowthPerShare: number[];
+  fiveYNetIncomeGrowthPerShare: number[];
+  threeYNetIncomeGrowthPerShare: number[];
+  tenYShareholdersEquityGrowthPerShare: number[];
+  fiveYShareholdersEquityGrowthPerShare: number[];
+  threeYShareholdersEquityGrowthPerShare: number[];
+  tenYDividendperShareGrowthPerShare: number[];
+  fiveYDividendperShareGrowthPerShare: number[];
+  threeYDividendperShareGrowthPerShare: number[];
+  receivablesGrowth: number[];
+  inventoryGrowth: number[];
+  assetGrowth: number[];
+  bookValueperShareGrowth: number[];
+  debtGrowth: number[];
+  rdexpenseGrowth: number[];
+  sgaexpensesGrowth: number[];
+}
+export interface STDetailsFinancialRatios {
+  symbol: string;
+  date: string[];
+  period: string;
+  currentRatio?: number[];
+  quickRatio?: number[];
+  cashRatio?: number[];
+  daysOfSalesOutstanding?: number[];
+  daysOfInventoryOutstanding?: number[];
+  operatingCycle?: number[];
+  daysOfPayablesOutstanding?: number[];
+  cashConversionCycle?: number[];
+  grossProfitMargin?: number[];
+  operatingProfitMargin?: number[];
+  pretaxProfitMargin?: number[];
+  netProfitMargin?: number[];
+  effectiveTaxRate?: number[];
+  returnOnAssets?: number[];
+  returnOnEquity?: number[];
+  returnOnCapitalEmployed?: number[];
+  netIncomePerEBT?: number[];
+  ebtPerEbit?: number[];
+  ebitPerRevenue?: number[];
+  debtRatio?: number[];
+  debtEquityRatio?: number[];
+  longTermDebtToCapitalization?: number[];
+  totalDebtToCapitalization?: number[];
+  interestCoverage?: number[];
+  cashFlowToDebtRatio?: number[];
+  companyEquityMultiplier?: number[];
+  receivablesTurnover?: number[];
+  payablesTurnover?: number[];
+  inventoryTurnover?: number[];
+  fixedAssetTurnover?: number[];
+  assetTurnover?: number[];
+  operatingCashFlowPerShare?: number[];
+  freeCashFlowPerShare?: number[];
+  cashPerShare?: number[];
+  payoutRatio?: number[];
+  operatingCashFlowSalesRatio?: number[];
+  freeCashFlowOperatingCashFlowRatio?: number[];
+  cashFlowCoverageRatios?: number[];
+  shortTermCoverageRatios?: number[];
+  capitalExpenditureCoverageRatio?: number[];
+  dividendPaidAndCapexCoverageRatio?: number[];
+  dividendPayoutRatio?: number[];
+  priceBookValueRatio?: number[];
+  priceToBookRatio?: number[];
+  priceToSalesRatio?: number[];
+  priceEarningsRatio?: number[];
+  priceToFreeCashFlowsRatio?: number[];
+  priceToOperatingCashFlowsRatio?: number[];
+  priceCashFlowRatio?: number[];
+  priceEarningsToGrowthRatio?: number[];
+  priceSalesRatio?: number[];
+  dividendYield?: number[];
+  enterpriseValueMultiple?: number[];
+  priceFairValue?: number[];
+}
+
 export const ST_STOCK_DATA_COLLECTION = "stock_data";
 export const ST_STOCK_DATA_COLLECTION_MORE_INFORMATION = "more_information";
 export const ST_STOCK_DATA_DOCUMENT_FINACIAL_REPORTS = "financial_reports";
@@ -564,3 +739,16 @@ export const ST_STOCK_DATA_DOCUMENT_FINACIAL_REPORTS = "financial_reports";
 // Shared data
 export const ST_STOCK_DATA_SHARED_DOCUMENT = "shared_document";
 export const ST_STOCK_DATA_DOCUMENT_SEARCH_SYMBOL = "search_symbol";
+
+
+export enum STOCK_DETAILS_MORE_INFORMATION {
+  FINANCIAL_REPORTS = 'financial_reports',
+  FINANCIAL_RATIOS_YEARLY = 'financial_ratios_yearly',
+  FINANCIAL_RATIOS_QUARTERLY = 'financial_ratios_quarterly',
+  FINANCIAL_GROWTH_YEARLY = 'financial_growth_yearly',
+  FINANCIAL_GROWTH_QUARTERLY = 'financial_growth_quarterly',
+  ENTERPRISE_VALUE_YEARLY = 'enterprise_value_yearly',
+  ENTERPRISE_VALUE_QUARTERLY = 'enterprise_value_quarterly',
+  KEY_METRICS_YEARLY = 'key_metrics_yearly',
+  KEY_METRICS_QUARTERLY = 'key_metrics_quarterly'
+}

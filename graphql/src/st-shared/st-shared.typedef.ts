@@ -44,7 +44,4 @@ export const STSharedTypeDefs = gql`
     input STInputFielChange {
         inputFiel: String!
     }
-
-    
-
 `;

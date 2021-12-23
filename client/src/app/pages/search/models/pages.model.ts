@@ -12,6 +12,9 @@ export enum SEARCH_PAGE_STOCK_DETAILS_ENUM {
 	FINANCIALS = 'financials',
 	STRATEGIES = 'strategies',
 	VALUATION = 'valuation',
+	KEY_METRICS = 'key-metrics',
+	FiNANCIAL_RATIOS = 'financial-ratios',
+	FINANCIAL_GROWTH = 'financial-growth'
 }
 
 export enum STATEMENT_TYPE {
@@ -23,6 +26,9 @@ export enum STATEMENT_TYPE {
 export const STOCK_SEARCH_DETAILS_PAGES: NameValueContainer[] = [
 	{ name: 'Statistics', value: SEARCH_PAGE_STOCK_DETAILS_ENUM.STATISTICS },
 	{ name: 'Financials', value: SEARCH_PAGE_STOCK_DETAILS_ENUM.FINANCIALS },
+	{ name: 'Key metrics', value: SEARCH_PAGE_STOCK_DETAILS_ENUM.KEY_METRICS },
+	{ name: 'Financial ratios', value: SEARCH_PAGE_STOCK_DETAILS_ENUM.FiNANCIAL_RATIOS },
+	{ name: 'Financial growth', value: SEARCH_PAGE_STOCK_DETAILS_ENUM.FINANCIAL_GROWTH },
 	{ name: 'Valuation', value: SEARCH_PAGE_STOCK_DETAILS_ENUM.VALUATION },
 ];
 
