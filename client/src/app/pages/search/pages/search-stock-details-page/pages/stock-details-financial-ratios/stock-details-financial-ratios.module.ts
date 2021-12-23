@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SharedModule } from '@shared';
+import { ConvertToSeriesModule, GenericCardModule, GenericChartModule, SharedModule } from '@shared';
 import { StockDetailsFinancialRatiosComponent } from './stock-details-financial-ratios.component';
 
 
@@ -19,6 +19,10 @@ const routes: Routes = [
   imports: [
     CommonModule,
     SharedModule,
+    GenericCardModule,
+    GenericChartModule,
+    ConvertToSeriesModule,
+
     RouterModule.forChild(routes)
   ]
 })

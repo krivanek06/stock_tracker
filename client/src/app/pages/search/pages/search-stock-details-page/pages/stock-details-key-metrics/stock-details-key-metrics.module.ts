@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SharedModule } from '@shared';
+import { ConvertToSeriesModule, GenericCardModule, GenericChartModule, SharedModule } from '@shared';
 import { StockDetailsKeyMetricsComponent } from './stock-details-key-metrics.component';
 
 const routes: Routes = [
@@ -18,7 +18,10 @@ const routes: Routes = [
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    GenericCardModule,
+    GenericChartModule,
+    ConvertToSeriesModule,
   ]
 })
 export class StockDetailsKeyMetricsModule { }

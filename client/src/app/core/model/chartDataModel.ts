@@ -20,3 +20,4 @@ export interface MarketSymbolResult {
     v: number; // volume
 }
 
+export type Period = 'quarter' | 'year';

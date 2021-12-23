@@ -1,1 +1,13 @@
-<p>stock-details-financial-ratios works!</p>
+<app-loader-wrapper>
+	<div class="c-grid" *ngIf="stockDetailsFinancialRatios$ | async as stockDetailsFinancialRatios">
+		<app-generic-card *ngFor="let data of StockDetailsFinancialRatiosDisplay" [title]="data.name">
+			<app-generic-chart
+				[categories]="stockDetailsFinancialRatios.date"
+				[heightPx]="chartHeight"
+				[isPercentage]="data.isPercent"
+				[series]="stockDetailsFinancialRatios[data.id] | convertToSeries: data.name "
+			>
+			</app-generic-chart>
+		</app-generic-card>
+	</div>
+</app-loader-wrapper>

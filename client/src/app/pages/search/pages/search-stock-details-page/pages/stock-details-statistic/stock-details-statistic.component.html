@@ -345,7 +345,7 @@
 		</ion-row>
 
 		<!-- historical metrics -->
-		<ng-container *ngIf="stockDetails.historicalMetrics as metrics">
+		<!-- <ng-container *ngIf="stockDetails.historicalMetrics as metrics">
 			<app-generic-list [applyMarginTop]="true" title="Yearly metrics"></app-generic-list>
 			<ion-row>
 				<ng-container *ngFor="let key of metrics | objNgFor; let i = index; let last=last">
@@ -366,7 +366,7 @@
 					</ion-col>
 				</ng-container>
 			</ion-row>
-		</ng-container>
+		</ng-container> -->
 
 		<!-- news -->
 		<ng-container *ngIf="stockDetails.companyOutlook.stockNews as stockNews">

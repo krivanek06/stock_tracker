@@ -1,4 +1,5 @@
 export * from './chart-key-value-formatter-pipe/chart-key-value-formatter-pipe.module';
+export * from './convert-to-series/convert-to-series.module';
 export * from './holdings-total-invested-pipe/holdings-total-invested-pipe.module';
 export * from './increase-prct-pipe/increase-prct-pipe.module';
 export * from './number-formatter-pipe/number-formatter-pipe.module';

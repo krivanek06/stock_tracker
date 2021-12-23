@@ -1,4 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { StDetailsFinancialGrowthFragment, SymbolStorageService } from '@core';
+import { WindowService } from '@shared';
+import { StockDetailsFinancialGrowthDisplay } from '@stock-details-feature';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-stock-details-financial-growth',
@@ -7,10 +11,16 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StockDetailsFinancialGrowthComponent implements OnInit {
+  stockDetailsFinancialGrowth$!: Observable<StDetailsFinancialGrowthFragment | null>;
 
-  constructor() { }
+  StockDetailsFinancialGrowthDisplay = StockDetailsFinancialGrowthDisplay;
+  chartHeight!: number;
+
+  constructor(private symbolStorageService: SymbolStorageService) { }
 
   ngOnInit(): void {
+    this.stockDetailsFinancialGrowth$ = this.symbolStorageService.queryStockDetailsFinancialGrowth();
+    this.chartHeight = WindowService.getWindowHeightPrctInPx(22);
   }
 
 }

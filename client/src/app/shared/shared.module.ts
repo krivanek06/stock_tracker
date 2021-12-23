@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FormMatInputWrapperModule, NotificationBarModule } from './components';
+import { FormMatInputWrapperModule, LoaderWrapperModule, NotificationBarModule } from './components';
 import { DefaultImgDirectiveModule } from './directives';
 import { MatModuleModule } from './mat-module.module';
 import { NumberFormatterPipeModule } from './pipes';
@@ -15,6 +15,7 @@ import { NumberFormatterPipeModule } from './pipes';
 		NotificationBarModule,
 		NumberFormatterPipeModule,
 		FormMatInputWrapperModule,
+		LoaderWrapperModule
 	],
 	exports: [
 		CommonModule,
@@ -24,6 +25,7 @@ import { NumberFormatterPipeModule } from './pipes';
 		NotificationBarModule,
 		NumberFormatterPipeModule,
 		FormMatInputWrapperModule,
+		LoaderWrapperModule
 	],
 })
-export class SharedModule {}
+export class SharedModule { }
