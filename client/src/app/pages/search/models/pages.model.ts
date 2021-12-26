@@ -1,3 +1,4 @@
+import { PeriodEnum } from '@core';
 import { NameValueContainer } from '@shared';
 
 export enum SEARCH_PAGE_ENUM {
@@ -22,6 +23,11 @@ export enum STATEMENT_TYPE {
 	INCOME_STATEMENT = 'Income statement',
 	CASH_FLOW = 'Cash flow',
 }
+
+export const PERIOD_TYPE: NameValueContainer[] = [
+	{ name: 'Quarterly', value: PeriodEnum.QUARTERLY },
+	{ name: 'Yearly', value: PeriodEnum.YEARLY }
+];
 
 export const STOCK_SEARCH_DETAILS_PAGES: NameValueContainer[] = [
 	{ name: 'Statistics', value: SEARCH_PAGE_STOCK_DETAILS_ENUM.STATISTICS },

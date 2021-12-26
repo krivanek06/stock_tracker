@@ -1,29 +1,14 @@
-<!-- RADIO BUTTON balance sheet / cash flow / financial statement -->
-<ion-item style="margin-bottom: 16px">
-	<ion-label class="st-font-size-18 st-font-white ion-hide-md-down" style="max-width: 200px"> {{ activeStatement }} </ion-label>
-	<ion-label>
-		<ion-list>
-			<ion-radio-group (ionChange)="changeActiveStatement($event)" [value]="activeStatement">
-				<ion-item *ngFor="let data of STOCK_SEARCH_DETAILS_FINANCIAL_PAGES" [ngClass]="{'ion-activatable-focus': activeStatement === data.value }">
-					<ion-label>{{ data.name }}</ion-label>
-					<ion-radio [value]="data.value"></ion-radio>
-				</ion-item>
-			</ion-radio-group>
-		</ion-list>
-	</ion-label>
-</ion-item>
+<div class="g-sub-navigation">
+	<span>{{ activeStatement }}</span>
+	<ion-radio-group (ionChange)="changeActiveStatement($event)" [value]="activeStatement">
+		<ion-item *ngFor="let data of STOCK_SEARCH_DETAILS_FINANCIAL_PAGES" [ngClass]="{'ion-activatable-focus': activeStatement === data.value }">
+			<ion-label>{{ data.name }}</ion-label>
+			<ion-radio [value]="data.value"></ion-radio>
+		</ion-item>
+	</ion-radio-group>
+</div>
 
-<!-- active statement -->
-<ion-item class="ion-hide-md-up">
-	<ion-label class="st-font-size-18 st-font-white ion-text-center"> {{ activeStatement }} </ion-label>
-</ion-item>
-
-<ng-container *ngIf="stockDetails$ | async as details">
-	<!-- financial tables -->
-	<app-financial-statements-container [activeStatement]="activeStatement" [stockDetails]="details"> </app-financial-statements-container>
-
-	<!-- other reports preview
-    <app-financial-reports-container
-            [stockDetails]="details">
-    </app-financial-reports-container>  -->
-</ng-container>
+<app-loader-wrapper>
+	<app-financial-statements-container *ngIf="stockDetails$ | async as details" [activeStatement]="activeStatement" [stockDetails]="details">
+	</app-financial-statements-container>
+</app-loader-wrapper>

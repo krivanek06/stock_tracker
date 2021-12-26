@@ -130,10 +130,9 @@ export class GenericChartComponent implements OnInit, OnChanges {
 		if (this.isPercentage) {
 			this.chartOptions.tooltip = {
 				...this.chartOptions.tooltip,
-				headerFormat: '',
+				//headerFormat: '',
 				pointFormat: '<span style="color:{point.color};">{point.name}</span>: <b>{point.y:.2f}%</b><br/>',
 				pointFormatter: function () {
-					console.log(this)
 					const value = stFormatLargeNumber(this.y);
 					const name = this.series.name; // this.point.name
 					return `<span style="color:${this.color};">${name}</span>: <b>${value}%</b><br/>`
