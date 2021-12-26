@@ -5,7 +5,7 @@
 			<ion-icon *ngIf="!ticket.isOpen" name="cloud-done" class="st-price-up"></ion-icon>
 			<ion-text class="st-small-left-space">{{ ticket.name }}</ion-text>
 		</mat-panel-title>
-		<mat-panel-description class="ion-align-items-center st-gap ion-hide-md-down">
+		<mat-panel-description class="ion-align-items-center st-gap ion-hide-md-down text-white">
 			<ion-avatar>
 				<ion-img appDefaultImg [src]="ticket.createdBy.photoURL"></ion-img>
 			</ion-avatar>
@@ -20,7 +20,7 @@
 		<!-- comments -->
 		<div *ngFor="let comment of ticket.comments" class="st-top-padding st-border-top">
 			<ng-container *ngIf="comment !== editingComment; else showEditingForm">
-				<div class="st-flex ion-align-items-center st-gap">
+				<div class="st-flex ion-align-items-center st-gap text-white">
 					<!-- comment base info -->
 					<ion-avatar class="st-left-space">
 						<ion-img appDefaultImg [src]="comment.createdBy.photoURL"></ion-img>
@@ -29,7 +29,7 @@
 					<span>|</span>
 					<span>{{ comment.createdAt | relativeTime }}</span>
 					<!-- edit button -->
-					<ion-buttons *ngIf="user.id === comment.createdBy.id && ticket.isOpen" class="st-flex-1 ion-justify-content-end">
+					<ion-buttons *ngIf="user?.id === comment.createdBy.id && ticket.isOpen" class="st-flex-1 ion-justify-content-end">
 						<ion-button (click)="editComment(comment)" class="st-transparent-background st-clickable" color="warning">
 							<ion-icon class="st-clickable" name="pencil" slot="icon-only"></ion-icon>
 						</ion-button>
@@ -54,7 +54,7 @@
 			<ion-button *ngIf="ticket.isOpen" type="button" color="primary" fill="solid" shape="round" (click)="answerComment()"> Answer </ion-button>
 			<ion-button *ngIf="isAdmin && ticket.isOpen" type="button" color="warning" fill="solid" shape="round" (click)="close()"> Close </ion-button>
 			<ion-button
-				*ngIf="(user.id === ticket.createdBy.id && !ticket.isOpen) || isAdmin"
+				*ngIf="(user?.id === ticket.createdBy.id && !ticket.isOpen) || isAdmin"
 				type="button"
 				color="danger"
 				fill="solid"

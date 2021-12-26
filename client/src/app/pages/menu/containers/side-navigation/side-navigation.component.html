@@ -43,9 +43,9 @@
 					<h4
 						mat-line
 						[ngClass]="{
-                    'g-color-white ': selectedNavigation?.title !== p.title,
-                    'st-icon': selectedNavigation?.title === p.title
-                }"
+							'g-color-white ': selectedNavigation?.title !== p.title,
+							'st-icon': selectedNavigation?.title === p.title
+						}"
 					>
 						{{ p.title | titlecase }}
 					</h4>
@@ -67,8 +67,8 @@
 				<mat-list-item
 					(click)="clickedRouter(p)"
 					[disabled]="p.disabled"
-					[matTooltip]="p.highlightText || ''"
-					[ngClass]="{'item-selected': selectedNavigation?.title === p.title}"
+					[matTooltip]="p?.highlight ? (p.highlightText || '') : ''"
+					[ngClass]="{'item-selected': selectedNavigation?.title === p.title, 'active-finhub-api-item-highlight ': p?.highlight}"
 				>
 					<!-- left icon -->
 					<mat-icon mat-list-icon class="st-icon"> {{ p.icon }} </mat-icon>
@@ -77,9 +77,9 @@
 					<h4
 						mat-line
 						[ngClass]="{
-                    'g-color-white ': selectedNavigation?.title !== p.title,
-                    'st-icon': selectedNavigation?.title === p.title
-                }"
+							'g-color-white ': selectedNavigation?.title !== p.title,
+							'st-icon': selectedNavigation?.title === p.title
+						}"
 					>
 						{{ p.title | titlecase }}
 					</h4>

@@ -2,13 +2,13 @@
 
 :host {
 	.active-finhub-api-item-highlight {
-		--color: #d8b406;
+		color: #d8b406;
 		background-color: #231f0a;
 
-		ion-icon {
+		mat-icon {
 			color: #d8b406;
 		}
-		ion-label {
+		h4 {
 			color: #d8b406;
 		}
 	}
