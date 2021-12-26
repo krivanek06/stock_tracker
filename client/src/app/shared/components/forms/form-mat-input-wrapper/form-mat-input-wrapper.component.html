@@ -117,7 +117,7 @@
 					[ngClass]="{'disabled-element': disabled}"
 					color="primary"
 					matTooltipClass="form-input-tooltip"
-					(click)="clickedCheckBox()"
+					[checked]="formInputControl.value"
 				>
 					{{ inputCaption }}
 				</mat-checkbox>

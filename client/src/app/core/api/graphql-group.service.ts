@@ -30,6 +30,7 @@ import {
 	StGroupIdentificationDataFragmentDoc,
 	StGroupMemberOverviewFragment,
 	StGroupUser,
+	StUserIndentificationDataFragment,
 	StUserPublicData,
 	ToggleInvitationRequestToGroupGQL,
 	ToggleInvitationRequestToGroupMutation,
@@ -37,7 +38,7 @@ import {
 	ToggleInviteUserIntoGroupMutation,
 	ToggleUsersInvitationRequestToGroupGQL,
 	ToggleWatchGroupGQL,
-	ToggleWatchGroupMutation,
+	ToggleWatchGroupMutation
 } from '../graphql-schema';
 import { UserStorageService } from '../services';
 import { createSTGroupUser } from '../utils';
@@ -62,7 +63,7 @@ export class GraphqlGroupService {
 		private removeMemberFromGroupGQL: RemoveMemberFromGroupGQL,
 		private toggleWatchGroupGQL: ToggleWatchGroupGQL,
 		private queryStGroupByGroupIdWithoutHoldingGQL: QueryStGroupByGroupIdWithoutHoldingGQL
-	) {}
+	) { }
 
 	queryStGroupMemberOverviewById(userId: string): Observable<StGroupMemberOverviewFragment> {
 		return this.queryStGroupMemberOverviewByIdGQL
@@ -248,14 +249,40 @@ export class GraphqlGroupService {
 		@param  groupId - id of group where user is invited
 		@param  inviteUser - invite or remove invitation if false
 	*/
-	toggleInviteUserIntoGroup(userId: string, groupId: string, inviteUser: boolean): Observable<FetchResult<ToggleInviteUserIntoGroupMutation>> {
+	toggleInviteUserIntoGroup(userIdentification: StUserIndentificationDataFragment | StGroupUser, groupId: string, inviteUser: boolean): Observable<FetchResult<ToggleInviteUserIntoGroupMutation>> {
 		return this.toggleInviteUserIntoGroupGQL.mutate(
 			{
-				userId,
+				userId: userIdentification.id,
 				inviteUser,
 				groupId,
 			},
 			{
+				optimisticResponse: {
+					__typename: 'Mutation',
+					toggleInviteUserIntoGroup: {
+						__typename: 'STGroupUser',
+						accountCreatedDate: userIdentification.accountCreatedDate,
+						nickName: userIdentification.nickName,
+						sinceDate: new Date().toISOString(),
+						startedPortfolio: {
+							date: new Date().toISOString(),
+							numberOfExecutedBuyTransactions: userIdentification.portfolio.numberOfExecutedBuyTransactions,
+							numberOfExecutedSellTransactions: userIdentification.portfolio.numberOfExecutedSellTransactions,
+							__typename: 'STPortfolioSnapshotStarted',
+							portfolioCash: userIdentification.portfolio.portfolioCash,
+							portfolioInvested: userIdentification.portfolio.lastPortfolioSnapshot.portfolioInvested,
+							transactionFees: userIdentification.portfolio.transactionFees
+						},
+						id: userIdentification.id,
+						photoURL: userIdentification.photoURL || '',
+						portfolio: {
+							...userIdentification.portfolio
+						},
+						currentPosition: null,
+						locale: null,
+						previousPosition: null
+					}
+				},
 				update: (store: DataProxy, { data }) => {
 					const toggleInviteUserIntoGroup = data?.toggleInviteUserIntoGroup as StGroupUser;
 					// load group from storage
@@ -272,7 +299,7 @@ export class GraphqlGroupService {
 					// add or remove user from inviteUser array
 					const newInvitationSent = inviteUser
 						? [...group.groupMemberData.invitationSent, toggleInviteUserIntoGroup]
-						: group.groupMemberData.invitationSent.filter((invited) => invited.id !== userId);
+						: group.groupMemberData.invitationSent.filter((invited) => invited.id !== userIdentification.id);
 
 					// update cache
 					store.writeFragment({
@@ -509,12 +536,16 @@ export class GraphqlGroupService {
 		);
 	}
 
-	toggleWatchGroup(groupId: string): Observable<FetchResult<ToggleWatchGroupMutation>> {
+	toggleWatchGroup(groupId: string, startWatching: boolean): Observable<FetchResult<ToggleWatchGroupMutation>> {
 		return this.toggleWatchGroupGQL.mutate(
 			{
 				groupId,
 			},
 			{
+				optimisticResponse: {
+					__typename: 'Mutation',
+					toggleWatchGroup: startWatching
+				},
 				update: (store: DataProxy, { data }) => {
 					const userId = this.userStorageService.user.id;
 					const user = store.readQuery<AuthenticateUserQuery>({

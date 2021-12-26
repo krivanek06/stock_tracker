@@ -7,7 +7,7 @@ import {
 	StGroupAllData,
 	StGroupAllDataGroupMemberHoldingsDataFragment,
 	StGroupAllDataWithoutHoldingsFragment,
-	StGroupHoldings,
+	StGroupHoldings
 } from '../../graphql-schema';
 import { StHolding } from './../../graphql-schema/customGraphql.service';
 import { UserStorageService } from './user-storage.service';
@@ -47,7 +47,7 @@ export class GroupStorageService {
 		if (!this.activeGroup$.getValue()) {
 			throw new Error('trying to access activeGroup$ in GroupStorageService, but does not exists');
 		}
-		return { ...this.activeGroup$.getValue(), ...this.activeGroupMemberHoldings$.getValue() } as StGroupAllData;
+		return { ...this.activeGroup$.getValue(), groupMemberData: { ...this.activeGroup$.getValue()?.groupMemberData, ...this.activeGroupMemberHoldings$.getValue() } } as StGroupAllData;
 	}
 
 	get activeGroupId(): string {
@@ -75,21 +75,6 @@ export class GroupStorageService {
 	getActiveGroupHoldingsOnlyHolding(): Observable<StHolding[] | undefined> {
 		return this.getActiveGroupHoldings().pipe(map((res) => res?.map((h) => h.holding)));
 	}
-
-	// getActiveGroup(): Observable<StGroupAllData | null> {
-	// 	return combineLatest([this.activeGroup$.asObservable(), this.activeGroupMemberHoldings$.asObservable()]).pipe(
-	// 		map(([activeGroup, holdings]) => {
-	// 			return { ...activeGroup, ...holdings } as StGroupAllData;
-	// 		})
-	// 	);
-	// }
-
-	// getActiveGroupHoldings(): Observable<StHolding[]> {
-	// 	return this.getActiveGroup().pipe(
-	// 		filter((groupData) => !!groupData?.groupMemberData?.holdings),
-	// 		map((groupData) => groupData?.groupMemberData?.holdings?.map((h) => h?.holding as StHolding) || [])
-	// 	);
-	// }
 
 	getActiveGroupNotNull(): Observable<StGroupAllData> {
 		return this.activeGroup$.asObservable().pipe(filter((res) => !!res)) as Observable<StGroupAllData>;

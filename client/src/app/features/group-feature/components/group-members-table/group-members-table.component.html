@@ -1,5 +1,5 @@
 <div class="st-flex-row-sm-col st-gap">
-	<ion-title class="st-font-size-18 st-font-0"> Members: {{ groupAllData.numberOfMembers}} </ion-title>
+	<ion-title class="st-font-size-18 st-font-0"> Members: {{ groupAllData.numberOfMembers}} / 50</ion-title>
 
 	<!-- select sorting group members -->
 	<ion-buttons slot="end" style="flex: 1">
@@ -16,7 +16,7 @@
 </div>
 
 <!-- print users in table -->
-<div class="st-flex-wrap" style="gap: 10px">
+<div class="st-flex-wrap gap-2">
 	<ion-card
 		class="c-member-card"
 		*ngFor="let groupUser of groupAllData.groupMemberData.members | groupMemberSort: groupMemberSort.value; let i = index"

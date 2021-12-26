@@ -90,7 +90,12 @@
 
 	<!-- submit button -->
 	<div class="mt-4 flex justify-end">
-		<button mat-flat-button color="primary" class="w-full md:w-auto" [disabled]="showError || dateStartError || dateEndError">
+		<button
+			mat-flat-button
+			color="primary"
+			class="w-full md:w-auto"
+			[disabled]="showError || dateStartError || dateEndError || invitationSent.length > 50"
+		>
 			{{ editedGroup ? 'Edit group' : 'Create group' }}
 		</button>
 	</div>
@@ -101,7 +106,7 @@
 		<app-user-account-search (clickedUserEmitter)="sendInvitation($event)"> </app-user-account-search>
 
 		<!-- listed users -->
-		<ion-toolbar class="ion-margin-top st-title"> Send invitation </ion-toolbar>
+		<ion-toolbar class="ion-margin-top st-title"> Send invitation: {{ invitationSent.length }} / 50</ion-toolbar>
 		<ion-item-group class="st-flex-wrap-normal">
 			<app-user-account-info-list
 				*ngFor="let user of invitationSent"

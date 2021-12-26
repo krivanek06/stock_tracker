@@ -1,7 +1,7 @@
 <div class="c-section-wrapper">
-	<div class="c-data-section-wrapper">
-		<div class="flex gap-4">
-			<div class="flex flex-col gap-4">
+	<div class="flex flex-col md:flex-row md:mb-8 gap-6">
+		<div class="flex flex-col xs:flex-row gap-4 xs:gap-8">
+			<div class="flex flex-col gap-4 items-center">
 				<!-- image & follow button -->
 				<button *ngIf="showStopWatchingGroup" mat-button class="g-button-danger-flat c-watch-button" (click)="stopWatchingGroup()">
 					<mat-icon>star</mat-icon>
@@ -48,8 +48,8 @@
 		</div>
 
 		<!-- data section -->
-		<div class="st-flex-row-sm-col">
-			<div class="st-flex-col st-sm-border-bottom-with-space st-right-space">
+		<div class="flex flex-col md:flex-row gap-4">
+			<div class="st-md-border-bottom mr-4 pb-4">
 				<div>
 					<ion-text class="st-font-1 st-small-right-space">Created:</ion-text>
 					<ion-text>{{ groupIdentification.createdDate | date: 'dd.MM.YYYY' }}</ion-text>
@@ -73,7 +73,7 @@
 			</div>
 
 			<!-- data section -->
-			<div class="st-flex-col st-sm-border-bottom-with-space">
+			<div class="st-md-border-bottom mr-4 pb-4">
 				<div>
 					<ion-text class="st-font-1 st-small-right-space">Total transactions:</ion-text>
 					<ion-text>
