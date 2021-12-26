@@ -14,23 +14,24 @@
 			<ion-text class="st-price-up st-font-size-18">Buy</ion-text>
 			or
 			<ion-text class="st-price-down st-font-size-18">Sell</ion-text>
-			operation on {{ symbol }} stock
+			operation on {{ data.symbol }} stock
 		</ion-label>
 	</ion-item>
 
 	<!-- bid / ask -->
 	<div class="st-width-100">
-		<app-trading-bid-ask [bidPrice]="price - price * 0.005" [askPrice]="price + price * 0.005"></app-trading-bid-ask>
+		<app-trading-bid-ask [bidPrice]="data.price - data.price * 0.005" [askPrice]="data.price + data.price * 0.005"></app-trading-bid-ask>
 	</div>
 
 	<!-- estimated price -->
 	<div class="ion-padding st-flex-col">
-		<ion-text class="st-font-1 st-font-size-16">Estimated price / share: {{ price | currency }}</ion-text>
+		<ion-text class="st-font-1 st-font-size-16">Estimated price / share: {{ data.price | currency }}</ion-text>
 		<div class="st-flex-col st-top-space">
-			<ion-text *ngIf="holding" class="st-font-2 st-font-size-16">
-				Owned: {{ ( holding.units * holding.breakEvenPrice) | currency }} ({{holding.breakEvenPrice | currency}} * {{ holding.units }})
+			<ion-text *ngIf="data.holding" class="st-font-2 st-font-size-16">
+				Owned: {{ ( data.holding.units * data.holding.breakEvenPrice) | currency }} ({{data.holding.breakEvenPrice | currency}} * {{
+				data.holding.units }})
 			</ion-text>
-			<ion-text class="st-font-2 st-font-size-16 ion-text-center">Cash: {{ portoflioCash | currency }}</ion-text>
+			<ion-text class="st-font-2 st-font-size-16 ion-text-center">Cash: {{ data.portoflioCash | currency }}</ion-text>
 		</div>
 	</div>
 
@@ -38,11 +39,22 @@
 		<!-- amount -->
 		<app-form-mat-input-wrapper inputCaption="Number of units" controlName="units" inputType="NUMBER"></app-form-mat-input-wrapper>
 
-		<div class="st-flex-row ion-justify-content-between">
+		<div class="flex justify-end mb-4 gap-4">
+			<ion-item>
+				<ion-label color="accent">Buy all</ion-label>
+				<ion-checkbox class="ion-margin-end" formControlName="buyAll" slot="start"></ion-checkbox>
+			</ion-item>
+			<ion-item>
+				<ion-label color="warn">Sell all</ion-label>
+				<ion-checkbox class="ion-margin-end" formControlName="sellAll" slot="start"></ion-checkbox>
+			</ion-item>
+		</div>
+
+		<div class="flex justify-between items-center">
 			<!-- estimated price -->
 			<ion-item>
 				<ion-label>
-					<ion-text>Total price: {{ (price * units.value) | currency }}</ion-text>
+					<ion-text>Total price: {{ (data.price * units.value) | currency }}</ion-text>
 				</ion-label>
 			</ion-item>
 
@@ -55,7 +67,7 @@
 
 		<!-- fees -->
 		<ion-item>
-			<ion-label class="st-font-5"> Fees: {{ (price * 0.0025 * units.value) | currency }} (0.25% from price) </ion-label>
+			<ion-label class="st-font-5"> Fees: {{ (data.price * 0.0025 * units.value) | currency }} (0.25% from price) </ion-label>
 		</ion-item>
 
 		<!-- buttons -->
@@ -63,7 +75,7 @@
 			<ion-button
 				class="st-button"
 				(click)="submit(STTransactionOperationEnum.Buy)"
-				[disabled]="form.invalid"
+				[disabled]="form.invalid || sellAll.value"
 				fill="outline"
 				color="success"
 				shape="round"
@@ -74,7 +86,7 @@
 			<ion-button
 				class="st-button"
 				(click)="submit(STTransactionOperationEnum.Sell)"
-				[disabled]="form.invalid"
+				[disabled]="form.invalid || buyAll.value"
 				fill="outline"
 				color="danger"
 				shape="round"

@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { StHolding, StTransactionInput, StTransactionOperationEnum } from '@core';
-import { NavParams, PopoverController } from '@ionic/angular';
 import { positiveNumberValidator, requiredValidator, wholeNumberValidator } from '@shared';
 
 @Component({
@@ -14,14 +14,10 @@ export class TradeConfirmationPopOverComponent implements OnInit {
 	STTransactionOperationEnum = StTransactionOperationEnum;
 	form!: FormGroup;
 
-	// received properties
-	symbol!: string;
-	symbolLogoUrl!: string;
-	price!: number;
-	holding!: StHolding;
-	portoflioCash!: number;
-
-	constructor(private popoverController: PopoverController, private navParams: NavParams, private fb: FormBuilder) {}
+	constructor(private fb: FormBuilder,
+		private dialogRef: MatDialogRef<TradeConfirmationPopOverComponent>,
+		@Inject(MAT_DIALOG_DATA) public data: { symbol: string; symbolLogoUrl: string; price: number, holding: StHolding, portoflioCash: number }
+	) { }
 
 	get units(): AbstractControl {
 		return this.form.get('units') as AbstractControl;
@@ -31,37 +27,61 @@ export class TradeConfirmationPopOverComponent implements OnInit {
 		return this.form.get('confirmation') as AbstractControl;
 	}
 
-	ngOnInit() {
-		this.symbol = this.navParams.get('symbol');
-		this.symbolLogoUrl = this.navParams.get('symbolLogoUrl');
-		this.price = Number(this.navParams.get('price'));
-		this.holding = this.navParams.get('holding');
-		this.portoflioCash = this.navParams.get('portoflioCash');
+	get sellAll(): AbstractControl {
+		return this.form.get('sellAll') as AbstractControl
+	}
 
+	get buyAll(): AbstractControl {
+		return this.form.get('buyAll') as AbstractControl
+	}
+
+	ngOnInit() {
 		this.initForm();
+		this.watchForm();
 	}
 
 	submit(operation: StTransactionOperationEnum) {
 		this.form.markAllAsTouched();
 		if (!this.form.invalid) {
 			const data: StTransactionInput = {
-				symbol: this.symbol,
-				symbol_logo_url: this.symbolLogoUrl,
+				symbol: this.data.symbol,
+				symbol_logo_url: this.data.symbolLogoUrl,
 				units: Number(this.units.value),
 				operation,
 			};
-			this.popoverController.dismiss({ data });
+			this.dialogRef.close(data);
 		}
 	}
 
 	dismiss() {
-		this.popoverController.dismiss(null);
+		this.dialogRef.close();
 	}
 
 	private initForm() {
 		this.form = this.fb.group({
 			units: [null, [requiredValidator, positiveNumberValidator, wholeNumberValidator]],
 			confirmation: [false, [Validators.required, Validators.requiredTrue]],
+			sellAll: [false],
+			buyAll: [false],
 		});
+	}
+
+	private watchForm(): void {
+		this.sellAll.valueChanges.subscribe(res => {
+			if (!res) {
+				return;
+			}
+			this.buyAll.patchValue(null);
+			this.units.patchValue(this.data.holding.units);
+		});
+
+		this.buyAll.valueChanges.subscribe(res => {
+			if (!res) {
+				return;
+			}
+			this.sellAll.patchValue(null);
+			const total = Math.floor(this.data.portoflioCash / this.data.price);
+			this.units.patchValue(total);
+		})
 	}
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { GraphqlTradingService, STARTING_PORTFOLIO, StPortfolioSnapshot, StTransactionInput, Summary, UserStorageService } from '@core';
-import { PopoverController } from '@ionic/angular';
 import { DialogService, zipArrays } from '@shared';
 import * as moment from 'moment';
 import { TradeConfirmationPopOverComponent } from '../entry-components';
@@ -11,10 +11,10 @@ import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM } from '../models';
 })
 export class TradingFeatureFacadeService {
 	constructor(
-		private popoverController: PopoverController,
+		private dialog: MatDialog,
 		private graphqlTradingService: GraphqlTradingService,
 		private userStorageService: UserStorageService
-	) {}
+	) { }
 
 	async performTransaction(summary: Summary | null): Promise<void> {
 		if (!summary) {
@@ -23,11 +23,9 @@ export class TradingFeatureFacadeService {
 		const holding = this.userStorageService.user.holdings.find((h) => h.symbol === summary.symbol);
 		const portoflioCash = this.userStorageService.user.portfolio.portfolioCash;
 
-		const popover = await this.popoverController.create({
-			component: TradeConfirmationPopOverComponent,
-			cssClass: 'custom-popover',
-			translucent: true,
-			componentProps: {
+		const dialogRef = this.dialog.open(TradeConfirmationPopOverComponent, {
+			panelClass: 'g-mat-dialog',
+			data: {
 				symbol: summary.symbol,
 				price: summary.marketPrice,
 				symbolLogoUrl: summary.logo_url,
@@ -36,10 +34,7 @@ export class TradingFeatureFacadeService {
 			},
 		});
 
-		await popover.present();
-		const res = await popover.onDidDismiss();
-		const data = res?.data?.data as StTransactionInput;
-
+		const data = await dialogRef.afterClosed().toPromise() as StTransactionInput;
 		if (!!data) {
 			DialogService.showNotificationBar(`Your order has been submitted to ${data.operation} symbol: ${data.symbol}`, 'notification');
 			await this.graphqlTradingService.performTransaction(data).toPromise();
