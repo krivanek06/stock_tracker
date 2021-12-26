@@ -16,8 +16,8 @@ export class TickerOverviewComponent implements OnInit {
 	@Output() deleteTicketEmitter: EventEmitter<any> = new EventEmitter<any>();
 
 	@Input() ticket!: StTicket;
-	@Input() isAdmin = false;
-	@Input() user!: StUserPublicData;
+	@Input() isAdmin: boolean | null = false;
+	@Input() user!: StUserPublicData | null;
 
 	editingComment: StTicketComment | null = null;
 	form!: FormGroup;
@@ -25,7 +25,7 @@ export class TickerOverviewComponent implements OnInit {
 
 	@ViewChild(FormGroupDirective) formDirective!: NgForm;
 
-	constructor(private fb: FormBuilder) {}
+	constructor(private fb: FormBuilder) { }
 
 	get comment(): AbstractControl {
 		return this.form.get('comment') as AbstractControl;
