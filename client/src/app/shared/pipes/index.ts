@@ -3,6 +3,7 @@ export * from './convert-to-series/convert-to-series.module';
 export * from './holdings-total-invested-pipe/holdings-total-invested-pipe.module';
 export * from './increase-prct-pipe/increase-prct-pipe.module';
 export * from './number-formatter-pipe/number-formatter-pipe.module';
+export * from './obj-array-last-value-pipe/obj-array-last-value-pipe.module';
 export * from './obj-ng-for-pipe/obj-ng-for-pipe.module';
 export * from './object-key-pipe/object-key-pipe.module';
 export * from './relative-time-pipe/relative-time-pipe.module';

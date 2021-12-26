@@ -1,6 +1,19 @@
+<div class="g-sub-navigation">
+	<span>Financial ratios: {{ activeStatement }}</span>
+	<ion-radio-group (ionChange)="changeActiveStatement($event)" [value]="activeStatement">
+		<ion-item *ngFor="let data of PERIOD_TYPE" [ngClass]="{'ion-activatable-focus': activeStatement === data.value }">
+			<ion-label>{{ data.name }}</ion-label>
+			<ion-radio [value]="data.value"></ion-radio>
+		</ion-item>
+	</ion-radio-group>
+</div>
+
 <app-loader-wrapper>
 	<div class="c-grid" *ngIf="stockDetailsFinancialRatios$ | async as stockDetailsFinancialRatios">
-		<app-generic-card *ngFor="let data of StockDetailsFinancialRatiosDisplay" [title]="data.name">
+		<app-generic-card
+			*ngFor="let data of StockDetailsFinancialRatiosDisplay"
+			[title]="data.name + ': ' + (stockDetailsFinancialRatios| objArrayLastValue: data.id: true: data.isPercent) "
+		>
 			<app-generic-chart
 				[categories]="stockDetailsFinancialRatios.date"
 				[heightPx]="chartHeight"
