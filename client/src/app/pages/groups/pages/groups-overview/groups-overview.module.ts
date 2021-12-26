@@ -5,7 +5,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule, Routes } from '@angular/router';
 import { GroupCreateModalModule, GroupTopUsersInformationModule } from '@group-feature';
 import { IonicModule } from '@ionic/angular';
-import { GenericCardModule } from '@shared';
+import { GenericCardModule, SharedModule } from '@shared';
 import { GroupsOverviewComponent } from './groups-overview.component';
 
 const routes: Routes = [
@@ -26,6 +26,7 @@ const routes: Routes = [
 		RouterModule.forChild(routes),
 		MatDividerModule,
 		GroupCreateModalModule,
+		SharedModule,
 	],
 })
-export class GroupsOverviewModule {}
+export class GroupsOverviewModule { }

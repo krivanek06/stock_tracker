@@ -14,9 +14,9 @@ export class GroupDetailsOverviewInvitationsContainerComponent implements OnInit
 
 	displayUsers: StUserIndentificationDataFragment[] = [];
 
-	constructor(private groupFeatureFacadeService: GroupFeatureFacadeService) {}
+	constructor(private groupFeatureFacadeService: GroupFeatureFacadeService) { }
 
-	ngOnInit() {}
+	ngOnInit() { }
 
 	@Confirmable('Please confirm sending invitation for the selected user')
 	inviteUser(userIdentification: StUserIndentificationDataFragment) {
@@ -24,7 +24,7 @@ export class GroupDetailsOverviewInvitationsContainerComponent implements OnInit
 	}
 
 	@Confirmable('Please confirm removing invitation for the selected user')
-	removeInvitation(groupUser: StGroupUser) {
+	removeInvitation(groupUser: StUserIndentificationDataFragment | StGroupUser) {
 		this.groupFeatureFacadeService.toggleInviteUserIntoGroup(groupUser, this.groupAllData.id, false);
 	}
 

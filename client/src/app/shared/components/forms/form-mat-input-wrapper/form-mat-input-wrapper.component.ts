@@ -44,7 +44,7 @@ export class FormMatInputWrapperComponent implements OnInit, OnChanges {
 	@Input() sliderLabelShowDollarSign = false;
 
 	/*
-    Only used when inputType === BUTTON
+	Only used when inputType === BUTTON
   */
 	@Input() buttonOffCaption: string | undefined;
 
@@ -54,7 +54,7 @@ export class FormMatInputWrapperComponent implements OnInit, OnChanges {
 	formInputControl!: FormControl;
 	private copyInputSource: InputSource[] = []; // storing original inputSource when filtering in inputType === MULTISELECT
 
-	constructor(private controlContainer: ControlContainer) {}
+	constructor(private controlContainer: ControlContainer) { }
 
 	get chipInputControl(): FormControl {
 		return this.formInputControl.get('trueFormInput') as FormControl;
@@ -136,9 +136,4 @@ export class FormMatInputWrapperComponent implements OnInit, OnChanges {
 		}
 	}
 
-	clickedCheckBox() {
-		if (!this.formInputControl.disabled && this.inputType === 'CHECKBOX') {
-			this.formInputControl.patchValue(!this.formInputControl.value);
-		}
-	}
 }

@@ -8,7 +8,7 @@ import {
 	StGroupIdentificationDataFragment,
 	StGroupUser,
 	StUserIndentificationDataFragment,
-	UserStorageService,
+	UserStorageService
 } from '@core';
 import { DialogService } from '@shared';
 import { GroupCreateModalComponent, GroupMemberOverviewModalComponent } from '../entry-components';
@@ -22,7 +22,7 @@ export class GroupFeatureFacadeService {
 		private userStorageService: UserStorageService,
 		private groupStorageService: GroupStorageService,
 		private graphqlGroupService: GraphqlGroupService
-	) {}
+	) { }
 
 	async createGroup(editedGroup?: StGroupAllData): Promise<void> {
 		const dialogRef = this.dialog.open(GroupCreateModalComponent, {
@@ -37,6 +37,7 @@ export class GroupFeatureFacadeService {
 
 		if (!!groupAllDataInput) {
 			if (!editedGroup) {
+				DialogService.showNotificationBar(`Your request to create group ${groupAllDataInput.name} has been sent`, 'notification');
 				await this.graphqlGroupService.createGroup(groupAllDataInput).toPromise();
 				DialogService.showNotificationBar(`Group ${groupAllDataInput.name} has been created`);
 			} else {
@@ -96,37 +97,38 @@ export class GroupFeatureFacadeService {
 		@param  groupId - id of group where user is invited
 		@param  inviteUser - invite or remove invitation if false
 	*/
-	async toggleInviteUserIntoGroup(groupUser: StGroupUser | StUserIndentificationDataFragment, groupId: string, inviteUser: boolean): Promise<void> {
+	async toggleInviteUserIntoGroup(groupUser: StUserIndentificationDataFragment | StGroupUser, groupId: string, inviteUser: boolean): Promise<void> {
 		// remove invitation for user
 		if (!inviteUser) {
-			await this.graphqlGroupService.toggleInviteUserIntoGroup(groupUser.id, groupId, inviteUser).toPromise();
-			await DialogService.showNotificationBar(`Group invitation for user: ${groupUser.nickName} has been removed`);
+			await this.graphqlGroupService.toggleInviteUserIntoGroup(groupUser, groupId, inviteUser).toPromise();
+			DialogService.showNotificationBar(`Group invitation for user: ${groupUser.nickName} has been removed`);
 			return;
 		}
 		// check if user already a member or received invitation
 		if (this.groupStorageService.membersIds.includes(groupUser.id)) {
-			await DialogService.showNotificationBar(`User: ${groupUser.nickName} is already a member of this group`, 'error');
+			DialogService.showNotificationBar(`User: ${groupUser.nickName} is already a member of this group`, 'error');
 			return;
 		}
 		// do not allow double invitaiton
 		if (this.groupStorageService.sentInvitationIds.includes(groupUser.id)) {
-			await DialogService.showNotificationBar(`You have already sent an invitation for user: ${groupUser.nickName}`, 'error');
+			DialogService.showNotificationBar(`You have already sent an invitation for user: ${groupUser.nickName}`, 'error');
 			return;
 		}
 		// user sent invitaiton to group
 		if (this.groupStorageService.invitationReceivedIds.includes(groupUser.id)) {
-			await DialogService.showNotificationBar(`User: ${groupUser.nickName} already sent an invitation for this group, please accept his`, 'error');
+			DialogService.showNotificationBar(`User: ${groupUser.nickName} already sent an invitation for this group, please accept his`, 'error');
 			return;
 		}
 		// cannot invite yourself into group
 		if (this.groupStorageService.activeGroup.owner.id === groupUser.id) {
-			await DialogService.showNotificationBar(`Sorry man, you cannot invite yourself. Check the 'join group' button`, 'error');
+			DialogService.showNotificationBar(`Sorry man, you cannot invite yourself. Check the 'join group' button`, 'error');
 			return;
 		}
 
 		// send invitation for user
-		await this.graphqlGroupService.toggleInviteUserIntoGroup(groupUser.id, groupId, inviteUser).toPromise();
-		await DialogService.showNotificationBar(`Group invitation to user: ${groupUser.nickName} has been send`);
+		//DialogService.showConfirmDialog(`Sending invitation for ${groupUser.nickName}`);
+		await this.graphqlGroupService.toggleInviteUserIntoGroup(groupUser, groupId, inviteUser).toPromise();
+		DialogService.showNotificationBar(`Group invitation to user: ${groupUser.nickName} has been send`);
 	}
 
 	/***
@@ -156,7 +158,7 @@ export class GroupFeatureFacadeService {
 	}
 
 	async toggleWatchGroup({ id, name }: StGroupAllData, startWatching: boolean): Promise<void> {
-		await this.graphqlGroupService.toggleWatchGroup(id).toPromise();
+		await this.graphqlGroupService.toggleWatchGroup(id, startWatching).toPromise();
 		if (startWatching) {
 			DialogService.showNotificationBar(`You have saved group ${name} into your watchlist`);
 		} else {

@@ -40,13 +40,9 @@
 		}
 	}
 
-	// disabled state
-	// .disabled-mat-form-field {
-	// 	.mat-form-field-flex {
-	// 		opacity: 0.6;
-	// 		background-color: #2a3753;
-	// 	}
-	// }
+	.mat-select-value {
+		color: white;
+	}
 
 	.filterer-chips-autocomplete-panel {
 		mat-option.mat-option {

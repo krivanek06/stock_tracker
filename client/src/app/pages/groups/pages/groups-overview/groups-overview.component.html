@@ -1,20 +1,16 @@
 <!-- Group create button -->
-<ion-toolbar>
-	<ion-buttons slot="end">
-		<span [matTooltip]="(hasRoleCreateGroup$ | async) ? '' : 'You do not have sufficient role to create groups'">
-			<ion-button
-				[disabled]="(hasRoleCreateGroup$ | async) === false"
-				(click)="createGroup()"
-				class="ion-float-end"
-				fill="outline"
-				color="primary"
-				shape="round"
-			>
-				Create group
-			</ion-button>
-		</span>
-	</ion-buttons>
-</ion-toolbar>
+<div class="flex justify-end p-2">
+	<button
+		mat-flat-button
+		color="primary"
+		[disabled]="(hasRoleCreateGroup$ | async) === false"
+		[matTooltip]="(hasRoleCreateGroup$ | async) ? 'aaa' : 'You do not have sufficient role to create groups'"
+		(click)="createGroup()"
+		class="w-full md:w-auto"
+	>
+		Create group
+	</button>
+</div>
 
 <ng-container *ngIf="user$ | async as user">
 	<!-- My groups -->
