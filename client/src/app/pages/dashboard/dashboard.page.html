@@ -1,47 +1,34 @@
-<!-- header -->
-<app-header pageIcon="grid" pageName="Dashboard"></app-header>
+<!-- portfolio state -->
+<app-portfolio-state [portfolioCash]="user.portfolio.portfolioCash" [portfolioInvested]="portfolioInvested"> </app-portfolio-state>
 
-<ion-grid>
-	<ion-row class="ion-justify-content-center">
-		<ion-col size="12" size-lg="11" size-xl="10" style="overflow: visible">
-			<!-- portfolio state -->
-			<ion-row class="ion-justify-content-center">
-				<ion-col size="12">
-					<app-portfolio-state [portfolioCash]="user.portfolio.portfolioCash" [portfolioInvested]="portfolioInvested"> </app-portfolio-state>
-				</ion-col>
-			</ion-row>
+<!-- portfolio change  weekly / monthly etc. -->
+<app-dashboard-portfolio-change
+	[portfolioCash]="user.portfolio.portfolioCash"
+	[portfolioInvested]="portfolioInvested"
+	[stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots"
+	[stPortfolioRiskCalculations]="user.portfolioRisk || undefined"
+></app-dashboard-portfolio-change>
 
-			<!-- portfolio change  weekly / monthly etc. -->
-			<app-dashboard-portfolio-change
-				[portfolioCash]="user.portfolio.portfolioCash"
-				[portfolioInvested]="portfolioInvested"
-				[stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots"
-				[stPortfolioRiskCalculations]="user.portfolioRisk || undefined"
-			></app-dashboard-portfolio-change>
+<!-- portfolio change charts -->
+<app-composed-portfolio-charts [stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots"></app-composed-portfolio-charts>
 
-			<!-- portfolio change charts -->
-			<app-composed-portfolio-charts [stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots"></app-composed-portfolio-charts>
+<!-- holdings table -->
+<app-composed-portfolio-holdings-table
+	[holdings]="clonedHoldings"
+	[totalPortfolio]="portfolioInvested + user.portfolio.portfolioCash"
+></app-composed-portfolio-holdings-table>
 
-			<!-- holdings table -->
-			<app-composed-portfolio-holdings-table
-				[holdings]="clonedHoldings"
-				[totalPortfolio]="portfolioInvested + user.portfolio.portfolioCash"
-			></app-composed-portfolio-holdings-table>
+<!-- holdings pie charts -->
+<app-composed-portfolio-allocation-charts
+	[portfolioInvested]="portfolioInvested"
+	[portfolioCash]="user.portfolio.portfolioCash"
+	[holdings]="user.holdings"
+></app-composed-portfolio-allocation-charts>
 
-			<!-- holdings pie charts -->
-			<app-composed-portfolio-allocation-charts
-				[portfolioInvested]="portfolioInvested"
-				[portfolioCash]="user.portfolio.portfolioCash"
-				[holdings]="user.holdings"
-			></app-composed-portfolio-allocation-charts>
-
-			<!-- transactions table -->
-			<app-composed-transactions
-				[stTransactionSnapshots]="user.userHistoricalData.transactionSnapshots"
-				[portfolioWrapper]="user.portfolio"
-				[transactions]="user.transactionsSnippets"
-				[topTransactions]="user.topTransactions"
-			></app-composed-transactions>
-		</ion-col>
-	</ion-row>
-</ion-grid>
+<!-- transactions table -->
+<app-composed-transactions
+	[stTransactionSnapshots]="user.userHistoricalData.transactionSnapshots"
+	[portfolioWrapper]="user.portfolio"
+	[transactions]="user.transactionsSnippets"
+	[topTransactions]="user.topTransactions"
+></app-composed-transactions>

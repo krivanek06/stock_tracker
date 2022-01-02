@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { GenericCardModule, GenericChartModule, HeaderModule } from '@shared';
+import { GenericCardModule, GenericChartModule } from '@shared';
 import { TicketOverviewContainerModule } from '@ticketing-feature';
 import { AdminPage } from './admin.page';
 
@@ -28,7 +28,6 @@ const routes: Routes = [
 	imports: [
 		RouterModule.forChild(routes),
 		IonicModule,
-		HeaderModule,
 		CommonModule,
 		GenericCardModule,
 		GenericChartModule,

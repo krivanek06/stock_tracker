@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { GenericCardModule, GenericChartModule, HeaderModule, SharedModule } from '@shared';
+import { GenericCardModule, GenericChartModule, SharedModule } from '@shared';
 import { TicketOverviewContainerModule } from '@ticketing-feature';
 import { UsersOverviewPage } from './users-overview.page';
 
@@ -20,7 +20,6 @@ const routes: Routes = [
 	imports: [
 		CommonModule,
 		IonicModule,
-		HeaderModule,
 		CommonModule,
 		GenericCardModule,
 		GenericChartModule,

@@ -23,7 +23,6 @@ import {
 	GenericChartModule,
 	GenericExtensionPanelModule,
 	GenericListModule,
-	HeaderModule,
 	PieChartWrapperModule,
 } from '@shared';
 import { MarketPage } from './market.page';
@@ -49,7 +48,6 @@ const routes: Routes = [
 		RouterModule.forChild(routes),
 		MatExpansionModule,
 		IonicModule,
-		HeaderModule,
 		MarketChartBuilderModule,
 		FinancialChartContainerModule,
 		GenericListModule,
