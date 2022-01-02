@@ -120,6 +120,68 @@ fragment StUserPublicDataSearch on STUserPublicData {
 	}
 }
 
+fragment StUserPrivateData on STUserPrivateData {
+	tradingEnabledDate
+	finnhubKey
+	roles
+	email
+	displayName
+	providerId
+	status
+	nicknameLastChange
+}
+
+fragment StUserDataAdmin on STUserPublicData {
+	...STUserIndentificationData
+	portfolioRisk {
+		...STPortfolioRiskCalculationsFragment
+	}
+	rank {
+		...STRankFragment
+	}
+	transactionsSnippets {
+		...STTransactionFragment
+	}
+	topTransactions {
+		...STTransactionFragment
+	}
+	holdings {
+		...STHoldingInfoFragment
+	}
+	stockWatchlist {
+		...STStockWatchlistIntoFragment
+	}
+	groups {
+		groupInvitationSent {
+			...STGroupIdentificationData
+		}
+		groupInvitationReceived {
+			...STGroupIdentificationData
+		}
+		groupOwner {
+			...STGroupIdentificationData
+		}
+		groupMember {
+			...STGroupIdentificationData
+		}
+		groupWatched {
+			...STGroupIdentificationData
+		}
+	}
+	userHistoricalData {
+		userLogs {
+			...STLogsFragment
+		}
+		resetedAccount {
+			date
+			portfolioTotal
+		}
+	}
+	userPrivateData {
+		...StUserPrivateData
+	}
+}
+
 query AuthenticateUser($id: String!) {
 	authenticateUser(id: $id) {
 		id
@@ -183,14 +245,7 @@ query AuthenticateUser($id: String!) {
 			}
 		}
 		userPrivateData {
-			tradingEnabledDate
-			finnhubKey
-			roles
-			email
-			displayName
-			providerId
-			status
-			nicknameLastChange
+			...StUserPrivateData
 			tickets {
 				...STTicketFragment
 			}
@@ -216,6 +271,12 @@ query QueryStGroupMemberOverviewById($id: String!) {
 query QueryStUserPublicDataSearchById($id: String!) {
 	queryUserPublicDataById(id: $id) {
 		...StUserPublicDataSearch
+	}
+}
+
+query QueryStUserAdminInformationById($id: String!) {
+	queryUserPublicDataById(id: $id) {
+		...StUserDataAdmin
 	}
 }
 

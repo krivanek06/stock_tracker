@@ -6,12 +6,21 @@ import { IonicModule } from '@ionic/angular';
 import { GenericCardModule, GenericChartModule, HeaderModule } from '@shared';
 import { TicketOverviewContainerModule } from '@ticketing-feature';
 import { AdminPage } from './admin.page';
-import { UsersOverviewPage } from './users-overview/users-overview.page';
 
 const routes: Routes = [
 	{
 		path: '',
 		component: AdminPage,
+		children: [
+			{
+				path: '',
+				redirectTo: 'users',
+			},
+			{
+				path: 'users',
+				loadChildren: () => import('./users-overview/users-overview.module').then((m) => m.UsersOverviewModule),
+			},
+		],
 	},
 ];
 
@@ -26,6 +35,6 @@ const routes: Routes = [
 		UserIdentificationInfoModule,
 		TicketOverviewContainerModule,
 	],
-	declarations: [AdminPage, UsersOverviewPage],
+	declarations: [AdminPage],
 })
 export class AdminPageModule {}

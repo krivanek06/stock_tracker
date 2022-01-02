@@ -19,3 +19,7 @@ query QueryAdminMainInformations {
 		...STAdminMainInformationsFragment
 	}
 }
+
+mutation AdminToggleUserRoles($userId: String!, $role: String!) {
+	adminToggleUserRoles(userId: $userId, role: $role)
+}

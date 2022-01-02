@@ -1,7 +1,11 @@
-fragment STHoldingFragment on STHolding {
+fragment STHoldingInfoFragment on STHolding {
 	symbol
 	breakEvenPrice
 	units
+}
+
+fragment STHoldingFragment on STHolding {
+	...STHoldingInfoFragment
 	summary {
 		...StockSummaryFragment
 	}

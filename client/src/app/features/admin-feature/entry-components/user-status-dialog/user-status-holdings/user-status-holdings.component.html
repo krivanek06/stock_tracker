@@ -1,0 +1,4 @@
+<div class="text-white text-2xl text-center md:text-left py-2">Holdings: {{ holdingInfoFragment.length }}</div>
+<div class="flex flex-wrap gap-2">
+	<div class="c-wrapper" *ngFor="let h of holdingInfoFragment">{{ h.symbol }}</div>
+</div>

@@ -1,4 +1,4 @@
-<mat-dialog-content class="p-4" *ngIf="stockDetails$ | async as stockDetails; else showOnlyChart">
+<mat-dialog-content *ngIf="stockDetails$ | async as stockDetails; else showOnlyChart">
 	<ion-grid>
 		<ion-row>
 			<ion-col size="6">

@@ -50,6 +50,7 @@ export class GraphqlWatchlistService {
 						summaries: [],
 						date: '',
 						userId: '',
+						symbols: [],
 					},
 				},
 				update: (store: DataProxy, { data }) => {

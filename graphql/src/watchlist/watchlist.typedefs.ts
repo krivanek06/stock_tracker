@@ -7,6 +7,7 @@ export const watchlistTypeDefs = gql`
 		name: String!
 		date: String
 		userId: String!
+		symbols: [String!]!
 		summaries: [Summary!]!
 	}
 

@@ -7,7 +7,15 @@
 		class="st-flex-row st-font-size-14"
 	>
 		<span *ngIf="increaseBy > 0">+</span>
-		<ion-text class="st-small-right-space"> {{ applyNumberFormatter ? (increaseBy | numberFormatter) : increaseBy }} </ion-text>
+		<ion-text
+			class="st-small-right-space"
+			[ngClass]="{
+			'st-price-up': increaseBy > 0,
+			'st-price-down': increaseBy < 0
+			 }"
+		>
+			{{ applyNumberFormatter ? (increaseBy | numberFormatter) : increaseBy }}
+		</ion-text>
 
 		<!-- positive / negative icon -->
 		<ion-icon *ngIf="increaseBy > 0" name="caret-up"></ion-icon>
