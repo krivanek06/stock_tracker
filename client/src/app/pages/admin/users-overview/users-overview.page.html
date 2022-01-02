@@ -1,48 +1,39 @@
-<ion-grid *ngIf="adminMainInformations">
+<ng-container *ngIf="adminMainInformations">
 	<!-- main buttons -->
-	<ion-row>
-		<ion-col size="12">
-			<ion-buttons class="c-main-buttons">
-				<ion-button fill="outline" color="danger" shape="round" (click)="forceReloadAllSymbols()"> Force reload symbols </ion-button>
-			</ion-buttons>
-		</ion-col>
-	</ion-row>
+	<div class="flex gap-4 pb-2">
+		<button mat-flat-button color="accent" (click)="forceReloadAllSymbols()">Force reload symbols</button>
+	</div>
 
-	<ion-list>
-		<ion-item>
-			<ion-label class="st-font-size-18 st-font-1"> Total users {{ adminMainInformations.usersRegistrated }} </ion-label>
-			<!-- <ion-label class="st-font-size-18 st-font-1"> Active users {{ adminMainInformations.usersActive }} </ion-label> -->
-		</ion-item>
-	</ion-list>
+	<!-- application data -->
+	<div class="st-border-bottom pb-4">
+		<app-application-informations [adminMainInformations]="adminMainInformations"></app-application-informations>
+	</div>
+
+	<!-- search user -->
+	<div class="st-border-bottom pb-4">
+		<div class="text-xl text-white ml-2">Search user data</div>
+		<app-user-account-search [clearOnClick]="true" (clickedUserEmitter)="clickedUser($event)"></app-user-account-search>
+	</div>
 
 	<!-- user registration chart -->
-	<ion-row>
-		<ion-col size="12">
-			<app-generic-card [title]="'User registration'">
-				<app-generic-chart [heightPx]="chartHeight" [series]="[{name: 'Registered users', data: data }]"> </app-generic-chart>
-			</app-generic-card>
-		</ion-col>
-	</ion-row>
+	<app-generic-card [title]="'User registration'">
+		<app-generic-chart [heightPx]="chartHeight" [series]="[{name: 'Registered users', data: data }]"> </app-generic-chart>
+	</app-generic-card>
 
 	<!-- latest registered users -->
-	<ion-row>
-		<ion-col size="12">
-			<app-generic-card [title]="'Latest registered users'">
-				<div class="st-flex-wrap">
-					<app-user-identification-info
-						*ngFor="let stUserIndetification of adminMainInformations.usersRegistrationSnippets"
-						[stUserIndetification]="stUserIndetification"
-					>
-					</app-user-identification-info>
-				</div>
-			</app-generic-card>
-		</ion-col>
-	</ion-row>
+	<app-generic-card title="Latest registered users">
+		<div class="flex flex-wrap">
+			<app-user-identification-info
+				*ngFor="let stUserIndetification of adminMainInformations.usersRegistrationSnippets"
+				[stUserIndetification]="stUserIndetification"
+			>
+			</app-user-identification-info>
+		</div>
+	</app-generic-card>
 
-	<ion-row class="st-top-space">
-		<ion-col size="12">
-			<div class="st-title st-bottom-space">Open tickets</div>
-			<app-ticket-overview-container [tickets]="adminMainInformations.tickets"></app-ticket-overview-container>
-		</ion-col>
-	</ion-row>
-</ion-grid>
+	<!-- tickets -->
+	<div>
+		<div class="text-xl mb-4 text-white">Open tickets</div>
+		<app-ticket-overview-container [tickets]="adminMainInformations.tickets"></app-ticket-overview-container>
+	</div>
+</ng-container>

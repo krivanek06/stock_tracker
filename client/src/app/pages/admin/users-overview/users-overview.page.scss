@@ -1,12 +1,9 @@
-@import 'variables';
+@import 'custom-variables';
 
 :host {
-	.c-main-buttons {
-		padding: 16px 8px;
-		& > * {
-			@media (max-width: #{$st-var-md-split}) {
-				width: 100%;
-			}
-		}
+	@apply flex flex-col gap-8;
+
+	button {
+		@apply w-full md:w-auto;
 	}
 }

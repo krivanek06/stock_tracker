@@ -49,7 +49,7 @@ export const userTypeDefs = gql`
 		id: String
 		finnhubKey: String
 		tradingEnabledDate: String
-		roles: [String]!
+		roles: [String!]!
 		tickets: [STTicket!]!
 		email: String!
 		displayName: String!

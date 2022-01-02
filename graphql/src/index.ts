@@ -4,6 +4,7 @@ import * as api from 'stock-tracker-common-interfaces';
 import { STFinancialModelingAPITypeDefs } from './api/financial-modeling/st-financal-modeling-api.typedefs';
 import { queryStockScreener } from './api/financial-modeling/st-financial-modeling.api';
 import { IS_PRODUCTION } from './environment';
+import { adminToggleUserRoles } from './st-admin';
 import { queryAdminMainInformations } from './st-admin/st-admin.query';
 import { STAdminTypeDefs } from './st-admin/st-admin.typeDefs';
 import {
@@ -14,7 +15,7 @@ import {
 	leaveGroup,
 	removeMemberFromGroup,
 	toggleInvitationRequestToGroup,
-	toggleWatchGroup
+	toggleWatchGroup,
 } from './st-group';
 import { toggleInviteUserIntoGroup } from './st-group/mutations/toggleInviteUserIntoGroup.mutation';
 import { toggleUsersInvitationRequestToGroup } from './st-group/mutations/toggleUsersInvitationRequestToGroup.mutation';
@@ -26,7 +27,7 @@ import {
 	queryMarketDailyOverview,
 	queryStMarketAllCategories,
 	queryStMarketData,
-	querySTMarketHistoryOverview
+	querySTMarketHistoryOverview,
 } from './st-market/st-market.query';
 import { STMarketSharedTypeDefs } from './st-market/st-market.typedefs';
 import { STPortfolioTypeDefs } from './st-portfolio/st-portfolio.typedef';
@@ -47,7 +48,7 @@ import {
 	queryStockQuotesByPrefix,
 	queryStockSummary,
 	setForceReloadStockDetails,
-	stockDetailsTypeDefs
+	stockDetailsTypeDefs,
 } from './st-stocks';
 import { querySymbolHistoricalPrices } from './st-stocks/st-stocks-query/queryStockHistoricalPrice';
 import { performTransaction } from './st-transaction/st-transaction.mutation';
@@ -65,7 +66,7 @@ import {
 	createStockWatchlist,
 	deleteWatchlist,
 	removeStockFromStockWatchlist,
-	renameStockWatchlist
+	renameStockWatchlist,
 } from './watchlist/watchlist.mutation';
 import { stStockWatchlistResolvers } from './watchlist/watchlist.resolver';
 import { watchlistTypeDefs } from './watchlist/watchlist.typedefs';
@@ -98,9 +99,9 @@ const mainTypeDefs = gql`
 		queryStockQuotesByPrefix(symbolPrefix: String!): [STFMCompanyQuote]!
 		queryStockFinancialReports(symbol: String!): StockDetailsFinancialReports
 		querySymbolHistoricalPrices(symbol: String!, period: String!): SymbolHistoricalPrices
-		queryStockDetailsFinancialRatios(symbol: String!, period: String!, allData: Boolean! ): STDetailsFinancialRatios
-		queryStockDetailsFinancialGrowth(symbol: String!, period: String!, allData: Boolean! ): STDetailsFinancialGrowth
-		queryStockDetailsKeyMetrics(symbol: String!, period: String!, allData: Boolean! ): STDetailsKeyMetrics
+		queryStockDetailsFinancialRatios(symbol: String!, period: String!, allData: Boolean!): STDetailsFinancialRatios
+		queryStockDetailsFinancialGrowth(symbol: String!, period: String!, allData: Boolean!): STDetailsFinancialGrowth
+		queryStockDetailsKeyMetrics(symbol: String!, period: String!, allData: Boolean!): STDetailsKeyMetrics
 
 		# market data
 		querySTMarketHistoryOverview: STMarketOverviewPartialData
@@ -154,6 +155,9 @@ const mainTypeDefs = gql`
 		commentTicketEdit(commentEditValues: STTicketCommentEditValues!): String
 		closeTicket(ticketId: String!): Boolean
 		deleteTicket(ticketId: String!): Boolean
+
+		# ADMIN
+		adminToggleUserRoles(userId: String!, role: String!): Boolean
 	}
 `;
 
@@ -175,11 +179,11 @@ const mainResolver = {
 		queryStockFinancialReports: async (_: null, args: { symbol: string }) => await queryStockFinancialReports(args.symbol),
 		querySymbolHistoricalPrices: async (_: null, args: { symbol: string; period: string }) =>
 			await querySymbolHistoricalPrices(args.symbol, args.period),
-		queryStockDetailsFinancialRatios: async (_: null, args: { symbol: string, period: 'quarter' | 'year', allData: boolean }) =>
+		queryStockDetailsFinancialRatios: async (_: null, args: { symbol: string; period: 'quarter' | 'year'; allData: boolean }) =>
 			await queryStockDetailsFinancialRatios(args.symbol, args.period, args.allData),
-		queryStockDetailsFinancialGrowth: async (_: null, args: { symbol: string, period: 'quarter' | 'year', allData: boolean }) =>
+		queryStockDetailsFinancialGrowth: async (_: null, args: { symbol: string; period: 'quarter' | 'year'; allData: boolean }) =>
 			await queryStockDetailsFinancialGrowth(args.symbol, args.period, args.allData),
-		queryStockDetailsKeyMetrics: async (_: null, args: { symbol: string, period: 'quarter' | 'year', allData: boolean }) =>
+		queryStockDetailsKeyMetrics: async (_: null, args: { symbol: string; period: 'quarter' | 'year'; allData: boolean }) =>
 			await queryStockDetailsKeyMetrics(args.symbol, args.period, args.allData),
 
 		// market data
@@ -245,6 +249,9 @@ const mainResolver = {
 			await commentTicketEdit(args.commentEditValues, context.requesterUserId),
 		closeTicket: async (_, args: { ticketId: string }) => await closeTicket(args.ticketId),
 		deleteTicket: async (_, args: { ticketId: string }) => await deleteTicket(args.ticketId),
+
+		// ADMIN
+		adminToggleUserRoles: async (_, args: { userId: string; role: string }) => await adminToggleUserRoles(args.userId, args.role),
 	},
 };
 

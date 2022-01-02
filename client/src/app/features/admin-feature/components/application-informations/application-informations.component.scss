@@ -1,0 +1,8 @@
+@import 'custom-variables';
+
+:host {
+	color: #{$st-var-font-2} !important;
+	span {
+		@apply text-lg;
+	}
+}

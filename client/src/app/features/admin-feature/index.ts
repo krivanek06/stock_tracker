@@ -1,3 +1,3 @@
-export * from './admin-feature.module';
-// export * from './components';
+export * from './components';
+export * from './entry-components';
 export * from './services';
