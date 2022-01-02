@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { HeaderModule } from '@shared';
 import { SEARCH_PAGE_ENUM } from './models/pages.model';
 import { SearchPage } from './search.page';
 
@@ -24,7 +23,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-	imports: [RouterModule.forChild(routes), CommonModule, IonicModule, HeaderModule],
+	imports: [RouterModule.forChild(routes), CommonModule, IonicModule],
 	declarations: [SearchPage],
 })
 export class SearchPageModule {}

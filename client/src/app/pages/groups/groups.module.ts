@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { HeaderModule } from '@shared';
 import { GroupsComponent } from './groups.component';
 
 const routes: Routes = [
@@ -24,6 +23,6 @@ const routes: Routes = [
 
 @NgModule({
 	declarations: [GroupsComponent],
-	imports: [CommonModule, RouterModule.forChild(routes), IonicModule, HeaderModule],
+	imports: [CommonModule, RouterModule.forChild(routes), IonicModule],
 })
 export class GroupsModule {}

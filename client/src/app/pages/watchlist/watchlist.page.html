@@ -1,31 +1,18 @@
-<!-- header -->
-<app-header pageIcon="stats-chart" pageName="Watchlist"></app-header>
+<ng-container *ngIf="stockWatchlists.length > 0; else noWatchlsit">
+	<div *ngFor="let watchlist of stockWatchlists" style="margin-bottom: 22px">
+		<app-generic-list [additionalInfo]="'Created at ' + (watchlist.date |  date: 'dd/MM/yyyy') " [iconTitle]="'pie-chart'" [title]="watchlist.name">
+		</app-generic-list>
+		<app-generic-card>
+			<app-watchlist-table (itemClickedEmitter)="showChartForSymbol($event, watchlist.id)" [watchlist]="watchlist"> </app-watchlist-table>
+		</app-generic-card>
+	</div>
+</ng-container>
 
-<ion-grid>
-	<ion-row class="ion-justify-content-center">
-		<ion-col size="12" size-lg="11" size-xl="10" style="overflow: visible">
-			<ng-container *ngIf="stockWatchlists.length > 0; else noWatchlsit">
-				<div *ngFor="let watchlist of stockWatchlists" style="margin-bottom: 22px">
-					<app-generic-list
-						[additionalInfo]="'Created at ' + (watchlist.date |  date: 'dd/MM/yyyy') "
-						[iconTitle]="'pie-chart'"
-						[title]="watchlist.name"
-					>
-					</app-generic-list>
-					<app-generic-card>
-						<app-watchlist-table (itemClickedEmitter)="showChartForSymbol($event, watchlist.id)" [watchlist]="watchlist"> </app-watchlist-table>
-					</app-generic-card>
-				</div>
-			</ng-container>
-
-			<!-- no watchlist -->
-			<ng-template #noWatchlsit>
-				<div class="st-no-result-container">
-					<ion-text>You have not created a watchlist yet</ion-text>
-					<ion-text>Click on the button below to create your first watchlist and start monitor stocks</ion-text>
-					<ion-button fill="outline" color="primary" shape="round" (click)="createWatchlist()">Create watchlist</ion-button>
-				</div>
-			</ng-template>
-		</ion-col>
-	</ion-row>
-</ion-grid>
+<!-- no watchlist -->
+<ng-template #noWatchlsit>
+	<div class="st-no-result-container">
+		<ion-text>You have not created a watchlist yet</ion-text>
+		<ion-text>Click on the button below to create your first watchlist and start monitor stocks</ion-text>
+		<ion-button fill="outline" color="primary" shape="round" (click)="createWatchlist()">Create watchlist</ion-button>
+	</div>
+</ng-template>

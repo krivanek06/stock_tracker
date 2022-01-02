@@ -7,7 +7,6 @@ import {
 	GenericCardModule,
 	GenericChartModule,
 	GenericListModule,
-	HeaderModule,
 	PieChartWrapperModule,
 	StockSummaryContainerModule,
 } from '@shared';
@@ -28,7 +27,6 @@ const routes: Routes = [
 		RouterModule.forChild(routes),
 		TradeConfirmationPopOverModule,
 		IonicModule,
-		HeaderModule,
 		StockSearchModule,
 		PortfolioStateModule,
 		TradingBidAskModule,

@@ -1,21 +1,12 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NavigationEnd, Router } from '@angular/router';
 import { AuthenticationService, componentDestroyed, StUserPublicData, UserStorageService, User_Roles_Enum } from '@core';
 import { AuthenticationPopoverComponent } from '@login-feature';
 import { DialogService } from '@shared';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
+import { MenuPageInfoInterface, MenuPageInterface } from '../../menu.model';
 import { environment } from './../../../../../environments/environment.prod';
-
-interface MenuPageInterface {
-	title: string;
-	url: string;
-	icon: string;
-	disabled: boolean;
-	hidden: boolean;
-	highlight?: boolean;
-	highlightText?: string;
-}
 
 @Component({
 	selector: 'app-side-navigation',
@@ -23,6 +14,7 @@ interface MenuPageInterface {
 	styleUrls: ['./side-navigation.component.scss'],
 })
 export class SideNavigationComponent implements OnInit, OnDestroy {
+	@Output() clickedNavigationEmitter: EventEmitter<MenuPageInfoInterface> = new EventEmitter<MenuPageInfoInterface>();
 	@Input() user!: StUserPublicData | null;
 	@Input() authenticating!: boolean | null;
 
@@ -41,13 +33,20 @@ export class SideNavigationComponent implements OnInit, OnDestroy {
 
 	ngOnInit(): void {
 		this.initPages();
-		this.selectedNavigation = this.mainPages.find((s) => s.title.toLowerCase() === 'market');
 		this.watchRouterUrlChange();
+
+		const urls = this.router.url.split('/'); // ['', 'menu', 'search']
+		if (urls.length >= 3) {
+			const currentUrl = urls[2];
+			this.selectedNavigation = this.mainPages.find((s) => s.title.toLowerCase() === currentUrl);
+			this.clickedNavigationEmitter.emit(this.selectedNavigation);
+		}
 	}
 
 	ngOnDestroy(): void {}
 
 	clickedRouter(page: MenuPageInterface) {
+		this.clickedNavigationEmitter.emit(page);
 		this.router.navigateByUrl(page.url);
 	}
 
@@ -77,6 +76,7 @@ export class SideNavigationComponent implements OnInit, OnDestroy {
 						page = this.otherPages.find((s) => s.title.toLowerCase() === path.toLowerCase());
 					}
 					this.selectedNavigation = page;
+					this.clickedNavigationEmitter.emit(page);
 				}
 			});
 	}

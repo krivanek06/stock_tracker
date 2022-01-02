@@ -8,8 +8,6 @@ import {
 	ComposedPortfolioHoldingsTableModule,
 	ComposedTransactionsModule,
 } from '@composed-components-feature';
-import { IonicModule } from '@ionic/angular';
-import { HeaderModule } from '@shared';
 import { PortfolioChangeModule, PortfolioStateModule } from '@stock-trading-feature';
 import { DashboardPortfolioChangeComponent } from './containers';
 import { DashboardPage } from './dashboard.page';
@@ -25,8 +23,6 @@ const routes: Routes = [
 	imports: [
 		CommonModule,
 		RouterModule.forChild(routes),
-		IonicModule,
-		HeaderModule,
 		MatIconModule,
 		PortfolioStateModule,
 		ComposedPortfolioChartsModule,

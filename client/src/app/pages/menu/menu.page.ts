@@ -4,6 +4,7 @@ import { StUserPublicData, UserStorageService } from '@core';
 import { BREAK_POINTS } from '@shared';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { MenuPageInfoInterface } from './menu.model';
 
 @Component({
 	selector: 'app-menu',
@@ -13,13 +14,9 @@ import { map } from 'rxjs/operators';
 export class MenuPage implements OnInit, OnDestroy {
 	user$!: Observable<StUserPublicData>;
 	authenticating$!: Observable<boolean>;
-
-	// showOverlay = false;
-
-	// activeRoutes$!: Observable<string[]>;
-	// isExpanded = true;
 	closeScreen$!: Observable<boolean>;
 	isOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+	activePage?: MenuPageInfoInterface;
 
 	constructor(private userStorageService: UserStorageService, private breakpointObserver: BreakpointObserver) {}
 
@@ -42,5 +39,10 @@ export class MenuPage implements OnInit, OnDestroy {
 
 	toggleMatDrawerExpandedView(): void {
 		this.isOpen$.next(!this.isOpen$.value);
+	}
+
+	changeHeaderInfo(page: MenuPageInfoInterface): void {
+		console.log(page);
+		this.activePage = page;
 	}
 }
