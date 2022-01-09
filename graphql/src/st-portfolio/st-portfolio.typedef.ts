@@ -13,6 +13,23 @@ export const STPortfolioTypeDefs = gql`
 		date: String!
 	}
 
+	type STPortfolioChangeData {
+		portfolioIncreaseNumber: Float!
+		portfolioIncreasePrct: Float!
+	}
+
+	type STPortfolioChange {
+		day_1_change: STPortfolioChangeData
+		week_1_change: STPortfolioChangeData
+		week_2_change: STPortfolioChangeData
+		week_3_change: STPortfolioChangeData
+		month_1_change: STPortfolioChangeData
+		month_2_change: STPortfolioChangeData
+		month_3_change: STPortfolioChangeData
+		month_6_change: STPortfolioChangeData
+		year_1_change: STPortfolioChangeData
+	}
+
 	type STPortfolioWrapper {
 		portfolioCash: Float!
 		numberOfExecutedBuyTransactions: Float!
@@ -22,6 +39,7 @@ export const STPortfolioTypeDefs = gql`
 		lastPortfolioSnapshot: STPortfolioSnapshot!
 		lastTransactionSnapshot: STTransactionSnapshot!
 		transactionFees: Float
+		portfolioChange: STPortfolioChange!
 	}
 
 	type STPortfolioRiskCalculations {

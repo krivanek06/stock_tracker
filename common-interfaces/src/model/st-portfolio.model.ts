@@ -29,6 +29,24 @@ export interface STPortfolioSnapshotStarted extends STPortfolioSnapshot {
     transactionFees: number;
 }
 
+export interface STPortfolioChangeData {
+
+    portfolioIncreaseNumber: number;
+    portfolioIncreasePrct: number;
+}
+
+export interface STPortfolioChange {
+    day_1_change?: STPortfolioChangeData;
+    week_1_change?: STPortfolioChangeData;
+    week_2_change?: STPortfolioChangeData;
+    week_3_change?: STPortfolioChangeData;
+    month_1_change?: STPortfolioChangeData;
+    month_2_change?: STPortfolioChangeData;
+    month_3_change?: STPortfolioChangeData;
+    month_6_change?: STPortfolioChangeData;
+    year_1_change?: STPortfolioChangeData;
+}
+
 
 export interface STPortfolioWrapper {
     portfolioCash: number;
@@ -39,4 +57,5 @@ export interface STPortfolioWrapper {
     numberOfExecutedSellTransactions: number;
     transactionFees: number;
     lastTransactionSnapshot: STTransactionSnapshot;
+    portfolioChange: STPortfolioChange;
 }
