@@ -7,6 +7,7 @@ export * from './obj-array-last-value-pipe/obj-array-last-value-pipe.module';
 export * from './obj-ng-for-pipe/obj-ng-for-pipe.module';
 export * from './object-key-pipe/object-key-pipe.module';
 export * from './relative-time-pipe/relative-time-pipe.module';
+export * from './replace-char/replace-char-pipe.module';
 export * from './reverse-array-pipe/reverse-array-pipe.module';
 export * from './split-key-to-titlecase-pipe/split-key-to-titlecase-pipe.module';
 export * from './split-pipe/split-pipe.module';

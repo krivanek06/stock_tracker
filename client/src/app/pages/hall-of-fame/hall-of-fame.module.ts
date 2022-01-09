@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { RankingPage } from './ranking.page';
+import { HallOfFamePage } from './hall-of-fame.page';
 
 const routes: Routes = [
 	{
 		path: '',
-		component: RankingPage,
+		component: HallOfFamePage,
 	},
 ];
 
 @NgModule({
 	imports: [RouterModule.forChild(routes), IonicModule],
-	declarations: [RankingPage],
+	declarations: [HallOfFamePage],
 })
-export class RankingPageModule {}
+export class HallOfFamePageModule {}

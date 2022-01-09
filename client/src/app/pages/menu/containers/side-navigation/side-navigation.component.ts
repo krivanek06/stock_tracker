@@ -151,13 +151,13 @@ export class SideNavigationComponent implements OnInit, OnDestroy {
 						disabled: !user || !user.userPrivateData.finnhubKey,
 						hidden: false,
 					},
-					/*{
-                    title: 'Ranking',
-                    url: '/menu/ranking',
-                    icon: 'medal-outline',
-                    disabled: false,
-                    hidden: false
-                },*/
+					{
+						title: 'Hall-of-fame',
+						url: '/menu/hall-of-fame',
+						icon: 'military_tech',
+						disabled: false,
+						hidden: false,
+					},
 					{
 						title: 'Admin',
 						url: '/menu/admin',
