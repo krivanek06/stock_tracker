@@ -26,6 +26,17 @@ export const createEmptySTGroupAllData = (groupId: string): api.STGroupAllData =
 			highestPortfolio: null,
 		},
 		portfolio: {
+			portfolioChange: {
+				day_1_change: null,
+				week_1_change: null,
+				week_2_change: null,
+				week_3_change: null,
+				month_1_change: null,
+				month_2_change: null,
+				month_3_change: null,
+				month_6_change: null,
+				year_1_change: null,
+			},
 			lastPortfolioSnapshot: {
 				portfolioCash: 0,
 				portfolioInvested: 0,
@@ -91,14 +102,7 @@ export const createSTGroupUser = (userPublic: api.STUserPublicData): api.STGroup
 	const groupUser: api.STGroupUser = {
 		...convertSTUserPublicDataToSTUserIndentification(userPublic),
 		portfolio: {
-			lastPortfolioSnapshot: userPublic.portfolio.lastPortfolioSnapshot,
-			lastTransactionSnapshot: userPublic.portfolio.lastTransactionSnapshot,
-			numberOfExecutedBuyTransactions: userPublic.portfolio.numberOfExecutedBuyTransactions,
-			numberOfExecutedSellTransactions: userPublic.portfolio.numberOfExecutedSellTransactions,
-			lastPortfolioIncreaseNumber: userPublic.portfolio.lastPortfolioIncreaseNumber,
-			lastPortfolioIncreasePrct: userPublic.portfolio.lastPortfolioIncreasePrct,
-			portfolioCash: userPublic.portfolio.portfolioCash,
-			transactionFees: userPublic.portfolio.transactionFees,
+			...userPublic.portfolio,
 		},
 		startedPortfolio: {
 			numberOfExecutedSellTransactions: userPublic.portfolio.numberOfExecutedSellTransactions,

@@ -126,6 +126,19 @@ const updateGroupHistoricalData = async () => {
 						...createEmptyRank(),
 					},
 					watchedByUsers: watchedByUsersNumber,
+					portfolio: {
+						portfolioChange: {
+							day_1_change: null,
+							week_1_change: null,
+							week_2_change: null,
+							week_3_change: null,
+							month_1_change: null,
+							month_2_change: null,
+							month_3_change: null,
+							month_6_change: null,
+							year_1_change: null,
+						},
+					},
 				},
 				{ merge: true }
 			);
@@ -187,6 +200,19 @@ const updateUsersData = async () => {
 					transactionsSnippets,
 					groups: {
 						groupWatched,
+					},
+					portfolio: {
+						portfolioChange: {
+							day_1_change: null,
+							week_1_change: null,
+							week_2_change: null,
+							week_3_change: null,
+							month_1_change: null,
+							month_2_change: null,
+							month_3_change: null,
+							month_6_change: null,
+							year_1_change: null,
+						},
 					},
 				},
 				{ merge: true }

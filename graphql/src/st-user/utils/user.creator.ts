@@ -32,23 +32,7 @@ export const createSTUserPublicData = (user: api.STUserAuthenticationInput): api
 		transactionsSnippets: [],
 		portfolioRisk: null,
 		portfolio: {
-			lastPortfolioSnapshot: {
-				portfolioCash: 0,
-				portfolioInvested: 0,
-				date: getCurrentIOSDate(),
-			},
-			lastTransactionSnapshot: {
-				transactionsBuy: 0,
-				transactionsSell: 0,
-				transactionFees: 0,
-				date: getCurrentIOSDate(),
-			},
-			lastPortfolioIncreaseNumber: null,
-			lastPortfolioIncreasePrct: null,
-			numberOfExecutedBuyTransactions: 0,
-			numberOfExecutedSellTransactions: 0,
-			portfolioCash: 0,
-			transactionFees: 0,
+			...createNewPortfolio(0),
 		},
 		groups: {
 			groupInvitationReceived: [],
@@ -78,8 +62,19 @@ export const createSTUserHistoricalData = (userId: string): api.STUserHistorical
 	return historicalData;
 };
 
-export const createNewPortfolio = (): api.STPortfolioWrapper => {
+export const createNewPortfolio = (cashAmount = 100000): api.STPortfolioWrapper => {
 	return {
+		portfolioChange: {
+			day_1_change: null,
+			week_1_change: null,
+			week_2_change: null,
+			week_3_change: null,
+			month_1_change: null,
+			month_2_change: null,
+			month_3_change: null,
+			month_6_change: null,
+			year_1_change: null,
+		},
 		lastPortfolioSnapshot: {
 			portfolioCash: 100000,
 			portfolioInvested: 0,

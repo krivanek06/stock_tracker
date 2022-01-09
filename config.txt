@@ -39,3 +39,9 @@
 
 ########## Functions
 firebase deploy --only functions --project prod
+
+
+
+########### Migrating on version 1.
+run 'database-adjustment.ts' on production DB
+run 'updateGroupStats' function on all groups

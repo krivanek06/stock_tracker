@@ -60,8 +60,8 @@ export interface STGroupHistoricalData {
 
 export interface STGroupUser extends STUserIndentificationWithPortfolio {
     startedPortfolio: STPortfolioSnapshotStarted;
-    currentPosition: number;  // position in highest balance
-    previousPosition: number; // position in highest balance
+    currentPosition?: number;  // position in highest balance
+    previousPosition?: number; // position in highest balance
     sinceDate: string;
 }
 

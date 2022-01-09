@@ -16,6 +16,10 @@ export const createSTGroupUser = (userPublic: StUserPublicData): StGroupUser => 
 			lastPortfolioIncreaseNumber: userPublic.portfolio.lastPortfolioIncreaseNumber,
 			lastPortfolioIncreasePrct: userPublic.portfolio.lastPortfolioIncreasePrct,
 			portfolioCash: userPublic.portfolio.portfolioCash,
+			transactionFees: userPublic.portfolio.transactionFees,
+			portfolioChange: {
+				...userPublic.portfolio.portfolioChange,
+			},
 		},
 		startedPortfolio: {
 			date: new Date().toISOString(),

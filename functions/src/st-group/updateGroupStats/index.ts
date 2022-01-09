@@ -3,6 +3,7 @@ import * as functions from 'firebase-functions';
 import { uniqBy as _uniqBy } from 'lodash';
 import * as moment from 'moment';
 import * as api from 'stock-tracker-common-interfaces';
+import { convertSTUserPublicDataToSTUserGroup } from '../../util';
 /* 
     For each existing group update:
         - portfolio
@@ -11,7 +12,7 @@ import * as api from 'stock-tracker-common-interfaces';
         - last transaction > max 30
         more_information.members
             - members portfolio
-            - member current & previous positions based on potfolio balance
+            - member current & previous positions based on portfolio balance
             - group holdings - what stock and how many users hold it
         more_information.historical_data
             - portfolio for each member
@@ -20,12 +21,12 @@ import * as api from 'stock-tracker-common-interfaces';
 */
 // functions.https.onRequest(async () => {
 // functions.pubsub.topic('updateGroupStats').onPublish(async () => {
-export const updateGroupStats = functions.pubsub.topic('updateGroupStats').onPublish(async () => {
+export const updateGroupStats = functions.https.onRequest(async () => {
 	const startTime = new Date().getTime();
 	console.log(`Started updating at ${admin.firestore.Timestamp.now().toDate()}`);
 
 	// get every groups
-	const groupDocs = await getOpenGroups();
+	const groupDocs = await getOpenGroups(true);
 	for await (const groupDoc of groupDocs) {
 		try {
 			console.log(`Start updating group: ${groupDoc.id}`);
@@ -33,7 +34,9 @@ export const updateGroupStats = functions.pubsub.topic('updateGroupStats').onPub
 			// load data for group
 			const groupAllData = groupDoc.data() as api.STGroupAllData;
 			const groupMembersDoc = await loadGroupMembersDoc(groupDoc.id);
-			const groupMembersPublicData = await loadUserPublicDataForGroupDoc(groupMembersDoc);
+			const groupMembersPublicData = await loadUserPublicDataForGroupDoc(groupMembersDoc.members);
+			const groupInvitationSentPublicData = await loadUserPublicDataForGroupDoc(groupMembersDoc.invitationSent);
+			const groupInvitationReceivedPublicData = await loadUserPublicDataForGroupDoc(groupMembersDoc.invitationReceived);
 			console.log(`Loaded group data for: ${groupAllData.name}`);
 
 			// calculate current data
@@ -44,7 +47,14 @@ export const updateGroupStats = functions.pubsub.topic('updateGroupStats').onPub
 
 			// update data in firestore
 			await updateGroupDocument(groupDoc.id, groupAllData, currentGroupPortfolio, groupMembersPublicData);
-			await updategroupMembersDocument(groupDoc.id, currentGroupHoldings, groupMembersDoc.members, groupMembersPublicData);
+			await updategroupMembersDocument(
+				groupDoc.id,
+				currentGroupHoldings,
+				groupMembersDoc.members,
+				groupMembersPublicData,
+				groupInvitationSentPublicData,
+				groupInvitationReceivedPublicData
+			);
 			await updateGroupHistoricalDataDocument(groupDoc.id, currentGroupPortfolio);
 
 			console.log(`Ended updating group: ${groupAllData.name}`);
@@ -76,7 +86,11 @@ const closeOpenButEndedGroups = async (): Promise<void> => {
 	}
 };
 
-const getOpenGroups = async (): Promise<functions.firestore.QueryDocumentSnapshot[]> => {
+const getOpenGroups = async (getAll = false): Promise<functions.firestore.QueryDocumentSnapshot[]> => {
+	if (getAll) {
+		const allGroups = await admin.firestore().collection(api.ST_GROUP_COLLECTION_GROUPS).get();
+		return allGroups.docs;
+	}
 	const infiniteGroups = await admin.firestore().collection(api.ST_GROUP_COLLECTION_GROUPS).where('isInfinite', '==', true).get();
 	const notEndedGroups = await admin.firestore().collection(api.ST_GROUP_COLLECTION_GROUPS).where('endDate', '>', new Date().toISOString()).get();
 
@@ -273,7 +287,9 @@ const updategroupMembersDocument = async (
 	groupId: string,
 	groupHoldings: api.STGroupHoldings[],
 	groupMember: api.STGroupUser[],
-	groupMembersCurrentData: api.STUserPublicData[]
+	groupMembersCurrentData: api.STUserPublicData[],
+	groupInvitationSentPublicData: api.STUserPublicData[],
+	groupInvitationReceivedPublicDat: api.STUserPublicData[]
 ) => {
 	// update member portfolio & currect / previous position
 	const groupMemberWithUpdatedPortfolio = groupMember
@@ -293,6 +309,9 @@ const updategroupMembersDocument = async (
 			return { ...member, previousPosition: member.currentPosition, currentPosition: index + 1 } as api.STGroupUser;
 		});
 
+	const invitationSent = groupInvitationSentPublicData.map((u) => convertSTUserPublicDataToSTUserGroup(u));
+	const invitationReceived = groupInvitationReceivedPublicDat.map((u) => convertSTUserPublicDataToSTUserGroup(u));
+
 	await admin
 		.firestore()
 		.collection(api.ST_GROUP_COLLECTION_GROUPS)
@@ -303,6 +322,8 @@ const updategroupMembersDocument = async (
 			{
 				holdings: groupHoldings,
 				members: groupMemberWithUpdatedPortfolio,
+				invitationSent,
+				invitationReceived,
 			},
 			{ merge: true }
 		);
@@ -323,8 +344,8 @@ const loadGroupMembersDoc = async (groupId: string): Promise<api.STGroupMembersD
 };
 
 // load api
-const loadUserPublicDataForGroupDoc = async (groupMemberDoc: api.STGroupMembersDocument): Promise<api.STUserPublicData[]> => {
-	const userIdsRefs = groupMemberDoc.members.map((m) => m.id).map((id) => admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(id));
+const loadUserPublicDataForGroupDoc = async (usersArray: api.STGroupUser[]): Promise<api.STUserPublicData[]> => {
+	const userIdsRefs = usersArray.map((m) => m.id).map((id) => admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(id));
 	if (userIdsRefs.length === 0) {
 		return [];
 	}
