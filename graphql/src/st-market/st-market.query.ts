@@ -2,8 +2,8 @@ import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as moment from 'moment';
 import * as api from 'stock-tracker-common-interfaces';
+import { getEtfCountryWeight, getEtfHolders, getEtfSectorWeight } from '../api';
 import { stockDataAPI } from '../environment';
-import { getEtfCountryWeight, getEtfHolders, getEtfSectorWeight } from './../api';
 import { convertToSTMarketChartDataResultCombined } from './st-market.functions';
 
 export const querySTMarketHistoryOverview = async (): Promise<api.STMarketHistoryOverview> => {
@@ -111,6 +111,16 @@ export const queryEtfDocument = async (etfName: string): Promise<api.STMarketEtf
 		await admin.firestore().collection('etfs').doc(etfName).set(newEtfDate);
 
 		return newEtfDate;
+	} catch (error) {
+		throw new ApolloError(error);
+	}
+};
+
+export const queryHallOfFame = async (): Promise<api.STHallOfFame> => {
+	try {
+		const hallOfFameDoc = await admin.firestore().collection('public').doc(api.ST_PUBLIC_DOC.HALL_OF_FAME).get();
+		const hallOfFameData = hallOfFameDoc.data() as api.STHallOfFame;
+		return hallOfFameData;
 	} catch (error) {
 		throw new ApolloError(error);
 	}

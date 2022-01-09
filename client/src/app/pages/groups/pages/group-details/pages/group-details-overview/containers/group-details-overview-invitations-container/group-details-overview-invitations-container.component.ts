@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { StGroupAllData, StGroupUser, StUserIndentificationDataFragment } from '@core';
+import { StGroupAllData, StGroupUser, StUserIdentificationDataFragment } from '@core';
 import { GroupFeatureFacadeService } from '@group-feature';
 import { Confirmable, DialogService } from '@shared';
 
@@ -12,19 +12,19 @@ import { Confirmable, DialogService } from '@shared';
 export class GroupDetailsOverviewInvitationsContainerComponent implements OnInit {
 	@Input() groupAllData!: StGroupAllData;
 
-	displayUsers: StUserIndentificationDataFragment[] = [];
+	displayUsers: StUserIdentificationDataFragment[] = [];
 
-	constructor(private groupFeatureFacadeService: GroupFeatureFacadeService) { }
+	constructor(private groupFeatureFacadeService: GroupFeatureFacadeService) {}
 
-	ngOnInit() { }
+	ngOnInit() {}
 
 	@Confirmable('Please confirm sending invitation for the selected user')
-	inviteUser(userIdentification: StUserIndentificationDataFragment) {
+	inviteUser(userIdentification: StUserIdentificationDataFragment) {
 		this.groupFeatureFacadeService.toggleInviteUserIntoGroup(userIdentification, this.groupAllData.id, true);
 	}
 
 	@Confirmable('Please confirm removing invitation for the selected user')
-	removeInvitation(groupUser: StUserIndentificationDataFragment | StGroupUser) {
+	removeInvitation(groupUser: StUserIdentificationDataFragment | StGroupUser) {
 		this.groupFeatureFacadeService.toggleInviteUserIntoGroup(groupUser, this.groupAllData.id, false);
 	}
 
@@ -34,7 +34,7 @@ export class GroupDetailsOverviewInvitationsContainerComponent implements OnInit
 		this.groupFeatureFacadeService.toggleUsersInvitationRequestToGroup(groupUser, this.groupAllData.id, isUserAccepted);
 	}
 
-	displaySearchedUsers(users: StUserIndentificationDataFragment[]) {
+	displaySearchedUsers(users: StUserIdentificationDataFragment[]) {
 		this.displayUsers = users;
 	}
 }

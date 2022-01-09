@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { StUserIndetificationBase } from '@core';
+import { StUserIdentificationBase } from '@core';
 
 @Component({
 	selector: 'app-user-identification-info',
@@ -10,7 +10,7 @@ import { StUserIndetificationBase } from '@core';
 export class UserIdentificationInfoComponent implements OnInit {
 	@Output() clickedEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-	@Input() stUserIndetification!: StUserIndetificationBase;
+	@Input() stUserIdentification!: StUserIdentificationBase;
 	@Input() clickable = false;
 
 	constructor() {}

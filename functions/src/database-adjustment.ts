@@ -6,16 +6,50 @@ import * as api from 'stock-tracker-common-interfaces';
 
 export const databaseAdjustment = functions.https.onRequest(async () => {
 	try {
-		await updateUsersHistoricalData();
+		await updateUsersData();
 		await updateGroupHistoricalData();
+		await updateHallOfFame();
 	} catch (error) {
 		console.log(error);
 	}
 });
 
+const updateHallOfFame = async () => {
+	const hallOfFameDoc = await admin.firestore().collection('public').doc(api.ST_PUBLIC_DOC.HALL_OF_FAME).get();
+	const hallOfFameData = hallOfFameDoc.data() as api.STHallOfFame;
+
+	// if exists, return
+	if (!!hallOfFameData) {
+		return;
+	}
+
+	const hallOfFameNewData: api.STHallOfFame = {
+		users: {
+			total: 0,
+			highestPortfolio: [],
+			weeklyBestGainsPrct: [],
+			weeklyWorstGainsPrct: [],
+			lastUpdateDate: new Date().toISOString().toString(),
+		},
+		groups: {
+			total: 0,
+			highestPortfolio: [],
+			weeklyBestGainsPrct: [],
+			weeklyWorstGainsPrct: [],
+			lastUpdateDate: new Date().toISOString().toString(),
+		},
+	};
+
+	await admin.firestore().collection('public').doc(api.ST_PUBLIC_DOC.HALL_OF_FAME).set(hallOfFameNewData);
+
+	console.log('updated hall of fame');
+};
+
 // 1. remove transactionSnapshots for each users where transactionFees does not exists
 // 2. remove topTransactions and lastTransactions where  transactionFees does not exists
 // 3. add watchedByUserIds: []
+// 4. add ID field for group & users historical data, also for groupAllData
+// 5. add empty rank
 
 const updateGroupHistoricalData = async () => {
 	console.log('Start updating groups historical data');
@@ -40,6 +74,7 @@ const updateGroupHistoricalData = async () => {
 
 			await groupHistoricalDoc.ref.set(
 				{
+					id: ref.id,
 					transactionSnapshots,
 				},
 				{ merge: true }
@@ -50,7 +85,10 @@ const updateGroupHistoricalData = async () => {
 			const userPublicData = (await ref.get()).data() as api.STGroupAllData;
 			const topTransactions = userPublicData.topTransactions.filter((trans) => trans.transactionFees !== undefined);
 			const lastTransactions = userPublicData.lastTransactions.filter((trans) => trans.transactionFees !== undefined);
+
+			// UPDATE GROUPS
 			await ref.update({
+				topMembers: [],
 				topTransactions,
 				lastTransactions,
 			});
@@ -83,6 +121,10 @@ const updateGroupHistoricalData = async () => {
 			const watchedByUsersNumber = groupAllData.watchedByUsers || 0;
 			await groupAllDataDoc.ref.set(
 				{
+					id: ref.id,
+					rank: {
+						...createEmptyRank(),
+					},
 					watchedByUsers: watchedByUsersNumber,
 				},
 				{ merge: true }
@@ -98,8 +140,9 @@ const updateGroupHistoricalData = async () => {
 // 1. remove transactionSnapshots for each users where transactionFees does not exists
 // 2. remove topTransactions and lastTransactions where  transactionFees does not exists
 // 3. add watchedGroupsIds: []
+// 4. add empty rank
 
-const updateUsersHistoricalData = async () => {
+const updateUsersData = async () => {
 	console.log('Start updating users historical data');
 	const usersDoc = await admin.firestore().collection('users').get();
 	const refs = usersDoc.docs.map((d) => d.ref);
@@ -122,6 +165,7 @@ const updateUsersHistoricalData = async () => {
 
 			await userHistoricalDoc.ref.set(
 				{
+					id: ref.id,
 					transactionSnapshots,
 				},
 				{ merge: true }
@@ -136,6 +180,9 @@ const updateUsersHistoricalData = async () => {
 
 			await ref.set(
 				{
+					rank: {
+						...createEmptyRank(),
+					},
 					topTransactions,
 					transactionsSnippets,
 					groups: {
@@ -154,4 +201,10 @@ const updateUsersHistoricalData = async () => {
 		}
 	}
 	console.log('Ended updating user historical data');
+};
+
+const createEmptyRank = (): api.STRank => {
+	return {
+		highestPortfolio: null,
+	};
 };

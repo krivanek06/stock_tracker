@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { GraphqlAdminService, StUserDataAdminFragment, StUserIndentificationDataFragment } from '@core';
+import { GraphqlAdminService, StUserDataAdminFragment, StUserIdentificationDataFragment } from '@core';
 import { DialogService } from '@shared';
 import { Observable } from 'rxjs';
 
@@ -15,7 +15,7 @@ export class UserStatusDialogComponent implements OnInit {
 
 	constructor(
 		private dialogRef: MatDialogRef<UserStatusDialogComponent>,
-		@Inject(MAT_DIALOG_DATA) public data: { userIdentification: StUserIndentificationDataFragment },
+		@Inject(MAT_DIALOG_DATA) public data: { userIdentification: StUserIdentificationDataFragment },
 		private graphqlAdminService: GraphqlAdminService
 	) {}
 

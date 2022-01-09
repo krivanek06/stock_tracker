@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { StGroupAllData, StGroupAllDataInput, StUserIndetification, UserStorageService } from '@core';
+import { StGroupAllData, StGroupAllDataInput, StUserIdentification, UserStorageService } from '@core';
 import { Confirmable } from '@shared';
 import { Observable } from 'rxjs';
 
@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupCreateModalComponent implements OnInit {
-	user$!: Observable<StUserIndetification | null>;
+	user$!: Observable<StUserIdentification | null>;
 
 	constructor(
 		private userStorageService: UserStorageService,

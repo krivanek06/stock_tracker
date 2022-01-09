@@ -24,7 +24,7 @@
 		[showSendInvitationButton]="canUserSendInvitation$ | async"
 		[showStartWatchingGroup]="isUserWatchingGroup$ | async"
 		[isGroupPrivate]="groupData.isPrivate"
-		[showRemoveInvitationButton]="hasUserAlreadySentInvitaitonIntoGroup$ | async"
+		[showRemoveInvitationButton]="hasUserAlreadySentInvitationIntoGroup$ | async"
 		[showLeaveButton]="(isMember$ | async) && (isOwner$ | async) === false"
 		[showDeleteButton]="isOwner$ | async"
 		[showAcceptButton]="isUserInvited$ | async"

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
-import { GraphqlUserService, StUserIndentificationDataFragment } from '@core';
+import { GraphqlUserService, StUserIdentificationDataFragment } from '@core';
 import { of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
@@ -10,7 +10,7 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 	styleUrls: ['./user-account-search-form.component.scss'],
 })
 export class UserAccountSearchFormComponent implements OnInit {
-	@Output() searchedUsersEmitter: EventEmitter<StUserIndentificationDataFragment[]> = new EventEmitter();
+	@Output() searchedUsersEmitter: EventEmitter<StUserIdentificationDataFragment[]> = new EventEmitter();
 	form!: FormGroup;
 
 	constructor(private fb: FormBuilder, private graphqlUserService: GraphqlUserService) {}

@@ -25,7 +25,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 	isUserWatchingGroup$!: Observable<boolean>;
 	canUserSendInvitation$!: Observable<boolean>;
 	canUserWatchGroup$!: Observable<boolean>;
-	hasUserAlreadySentInvitaitonIntoGroup$!: Observable<boolean>;
+	hasUserAlreadySentInvitationIntoGroup$!: Observable<boolean>;
 
 	constructor(
 		private groupStorageService: GroupStorageService,
@@ -46,7 +46,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 		this.isUserWatchingGroup$ = this.groupStorageService.isUserWatchingGroupObs();
 		this.canUserSendInvitation$ = this.groupStorageService.canUserSendInvitationObs();
 		this.canUserWatchGroup$ = this.groupStorageService.canUserWatchGroup();
-		this.hasUserAlreadySentInvitaitonIntoGroup$ = this.groupStorageService.hasUserAlreadySentInvitaitonIntoGroup();
+		this.hasUserAlreadySentInvitationIntoGroup$ = this.groupStorageService.hasUserAlreadySentInvitationIntoGroup();
 
 		this.canUserWatchGroup$.subscribe((x) => console.log('can he', x));
 	}

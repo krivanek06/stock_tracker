@@ -33,7 +33,7 @@ export interface STUserIndentificationWithPortfolio extends STUserIndentificatio
 }
 
 export interface STUserPublicData extends STUserIndentificationWithPortfolio {
-    rank?: STRank; // weekly update
+    rank: STRank; // weekly update
     transactionsSnippets: STTransaction[]; // last N
     topTransactions: STTransaction[]; 
     lastSignInDate: string;
@@ -44,6 +44,7 @@ export interface STUserPublicData extends STUserIndentificationWithPortfolio {
 }
 
 export interface STUserHistoricalData {
+    id: string;
     portfolioSnapshots: STPortfolioSnapshot[];
     transactionSnapshots: STTransactionSnapshot[];
     resetedAccount: STUserResetedAccount[];
@@ -110,7 +111,7 @@ export interface STUserEditDataInput {
     photoURL: string;
 }
 
-export interface STUserIndetificationInformationInput {
+export interface STUserIdentificationInformationInput {
     uid: string;
     nickName: string;
     locale?: string;

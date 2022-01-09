@@ -9,7 +9,7 @@ export const registerUser = async (user: api.STUserAuthenticationInput): Promise
 	try {
 		const newUserPrivateData = createSTUserPrivateData(user);
 		const newUserPublicData = createSTUserPublicData(user);
-		const newUserHistoricalData = createSTUserHistoricalData();
+		const newUserHistoricalData = createSTUserHistoricalData(user.uid);
 		const newUserIdentification = convertSTUserPublicDataToSTUserIndentification(newUserPublicData);
 
 		// save public data

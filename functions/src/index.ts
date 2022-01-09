@@ -6,6 +6,7 @@ import { updateGroupStats } from './st-group/updateGroupStats';
 import { updateMarketDailyOverview } from './st-market/updateMarketDailyOverview';
 import { updateMarketHistoricalOverview } from './st-market/updateMarketHistoricalOverview';
 import { createUserPortfolioSnapshot } from './st-portfolio/createUserPortfolioSnapshot';
+import { calculateHallOfFame } from './st-public/hall-of-fame';
 import { updateStocksSummary } from './st-stock/updateStocksSummary';
 
 const serviceAccount = IS_PRODUCTION ? require('../firebase_key_prod.json') : require('../firebase_key.json');
@@ -21,6 +22,7 @@ export const functionUpdateMarketHistoricalOverview = updateMarketHistoricalOver
 export const functionCreateUserPortfolioSnapshot = createUserPortfolioSnapshot;
 export const functionUpdateGroupStats = updateGroupStats;
 export const functionUpdateStocksSummary = updateStocksSummary;
+export const functionCalculateHallOfFame = calculateHallOfFame;
 
 // test
 export const functionDatabaseAdjustment = databaseAdjustment;

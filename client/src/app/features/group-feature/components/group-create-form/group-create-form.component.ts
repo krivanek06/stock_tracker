@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
-import { StGroupAllData, StGroupAllDataInput, StUserIndentificationDataFragment, StUserIndetification } from '@core';
+import { StGroupAllData, StGroupAllDataInput, StUserIdentification, StUserIdentificationDataFragment } from '@core';
 import { DialogService, maxLengthValidator, minLengthValidator, requiredValidator, UploadedFile, UploaderComponent } from '@shared';
 import * as moment from 'moment';
 import { combineLatest } from 'rxjs';
@@ -15,12 +15,12 @@ import { createSTGroupAllDataInput } from '../../utils';
 export class GroupCreateFormComponent implements OnInit {
 	@Output() createGroupEmitter: EventEmitter<StGroupAllDataInput> = new EventEmitter<StGroupAllDataInput>();
 
-	@Input() user!: StUserIndetification;
+	@Input() user!: StUserIdentification;
 	@Input() editedGroup!: StGroupAllData;
 
 	@ViewChild('uploader') uploader!: UploaderComponent;
 
-	invitationSent: StUserIndentificationDataFragment[] = [];
+	invitationSent: StUserIdentificationDataFragment[] = [];
 	form!: FormGroup;
 	showError = false;
 	dateStartError = false;
@@ -75,7 +75,7 @@ export class GroupCreateFormComponent implements OnInit {
 		this.imageUrl.patchValue(files[0].downloadURL);
 	}
 
-	sendInvitation(userPublicData: StUserIndentificationDataFragment) {
+	sendInvitation(userPublicData: StUserIdentificationDataFragment) {
 		if (this.user.id === userPublicData.id) {
 			DialogService.showNotificationBar(
 				'You cannot invite yourself into the group. If you want to be part of the group, please check "Add me as member" ',
@@ -88,7 +88,7 @@ export class GroupCreateFormComponent implements OnInit {
 		}
 	}
 
-	invitationRemove(userPublicData: StUserIndentificationDataFragment) {
+	invitationRemove(userPublicData: StUserIdentification) {
 		this.invitationSent = this.invitationSent.filter((x) => x.id !== userPublicData.id);
 	}
 

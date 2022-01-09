@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { StUserIndentificationDataFragment, StUserPrivateDataFragment } from '@core';
+import { StUserIdentificationDataFragment, StUserPrivateDataFragment } from '@core';
 
 @Component({
 	selector: 'app-user-status-basic-info',
@@ -8,7 +8,7 @@ import { StUserIndentificationDataFragment, StUserPrivateDataFragment } from '@c
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserStatusBasicInfoComponent implements OnInit {
-	@Input() userIndentification!: StUserIndentificationDataFragment;
+	@Input() userIndentification!: StUserIdentificationDataFragment;
 	@Input() userPrivateData!: StUserPrivateDataFragment;
 
 	constructor() {}

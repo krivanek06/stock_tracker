@@ -24,12 +24,14 @@ import { stGroupResolvers } from './st-group/st-group.resolver';
 import { STGroupTypeDefs } from './st-group/st-group.typedefs';
 import {
 	queryEtfDocument,
+	queryHallOfFame,
 	queryMarketDailyOverview,
 	queryStMarketAllCategories,
 	queryStMarketData,
 	querySTMarketHistoryOverview,
-} from './st-market/st-market.query';
-import { STMarketSharedTypeDefs } from './st-market/st-market.typedefs';
+	SThallOfFameTypeDefs,
+	STMarketSharedTypeDefs,
+} from './st-market';
 import { STPortfolioTypeDefs } from './st-portfolio/st-portfolio.typedef';
 import { STRankTypeDefs } from './st-rank/st-rank.typedef';
 import { Context } from './st-shared/st-shared.interface';
@@ -103,13 +105,15 @@ const mainTypeDefs = gql`
 		queryStockDetailsFinancialGrowth(symbol: String!, period: String!, allData: Boolean!): STDetailsFinancialGrowth
 		queryStockDetailsKeyMetrics(symbol: String!, period: String!, allData: Boolean!): STDetailsKeyMetrics
 
-		# market data
+		# public
 		querySTMarketHistoryOverview: STMarketOverviewPartialData
 		queryStMarketAllCategories: STMarketDatasetKeyCategories
 		queryMarketDailyOverview: STMarketDailyOverview
 		queryStMarketData(key: String!): STMarketChartDataResultCombined
 		queryEtfDocument(etfName: String!): STMarketEtfDocument
 		queryStockScreener(stockScreenerInput: STFMStockScreenerInput!, offset: Int!, limit: Int!): STFMStockScreenerResultWrapper
+		queryHallOfFame: STHallOfFame
+
 		# admin
 		queryAdminMainInformations: STAdminMainInformations
 
@@ -162,6 +166,12 @@ const mainTypeDefs = gql`
 `;
 
 const mainResolver = {
+	// removing warning: missing a "__resolveType" resolver. Pass false into "resolverValidationOptions.requireResolversForResolveType" to disable this warning.
+	STGroupIdentificationInterface: {
+		__resolveType() {
+			return null;
+		},
+	},
 	Query: {
 		// USER
 		authenticateUser: async (_: null, args: { id: string }) => await authenticateUser(args.id),
@@ -186,7 +196,7 @@ const mainResolver = {
 		queryStockDetailsKeyMetrics: async (_: null, args: { symbol: string; period: 'quarter' | 'year'; allData: boolean }) =>
 			await queryStockDetailsKeyMetrics(args.symbol, args.period, args.allData),
 
-		// market data
+		// public
 		querySTMarketHistoryOverview: async (_: null, args: null) => await querySTMarketHistoryOverview(),
 		queryMarketDailyOverview: async (_: null, args: null) => await queryMarketDailyOverview(),
 		queryStMarketAllCategories: async (_: null, args: null) => await queryStMarketAllCategories(),
@@ -194,6 +204,7 @@ const mainResolver = {
 		queryEtfDocument: async (_: null, args: { etfName: string }) => await queryEtfDocument(args.etfName),
 		queryStockScreener: async (_: null, args: { stockScreenerInput: api.STFMStockScreener; offset: number; limit: number }) =>
 			await queryStockScreener(args.stockScreenerInput, args.offset, args.limit),
+		queryHallOfFame: async () => await queryHallOfFame(),
 
 		// admin
 		queryAdminMainInformations: async (_: null, args: null) => await queryAdminMainInformations(),
@@ -284,6 +295,7 @@ const server = new ApolloServer({
 		STFreeCashFlowFormulaTypeDefs,
 		STFinancialModelingAPITypeDefs,
 		STTicketsTypeDefs,
+		SThallOfFameTypeDefs,
 	],
 	resolvers,
 	introspection: true,

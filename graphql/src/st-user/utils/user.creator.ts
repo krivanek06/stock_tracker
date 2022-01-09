@@ -59,13 +59,16 @@ export const createSTUserPublicData = (user: api.STUserAuthenticationInput): api
 		},
 		topTransactions: [],
 		holdings: [],
-		rank: null,
+		rank: {
+			highestPortfolio: null,
+		},
 	};
 	return stUserPublicData;
 };
 
-export const createSTUserHistoricalData = (): api.STUserHistoricalData => {
+export const createSTUserHistoricalData = (userId: string): api.STUserHistoricalData => {
 	const historicalData: api.STUserHistoricalData = {
+		id: userId,
 		portfolioSnapshots: [],
 		transactionSnapshots: [],
 		resetedAccount: [],

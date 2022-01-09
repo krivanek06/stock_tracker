@@ -7,7 +7,10 @@ import { createEmptySTGroupHistoricalData, createSTGroupUser, initGroupFromInput
 
 export const createGroup = async (groupInput: api.STGroupAllDataInput, { requesterUserId }: Context): Promise<api.STGroupAllData> => {
 	try {
-		const group = await createGroupObject(groupInput, requesterUserId);
+		const ref = admin.firestore().collection('groups').doc();
+		const newId = ref.id;
+
+		const group = await createGroupObject(newId, groupInput, requesterUserId);
 
 		// persist public & private data
 		const result = await admin.firestore().collection(api.ST_GROUP_COLLECTION_GROUPS).add(group);
@@ -29,8 +32,8 @@ export const createGroup = async (groupInput: api.STGroupAllDataInput, { request
 	}
 };
 
-const createGroupObject = async (groupInput: api.STGroupAllDataInput, requesterUserId: string): Promise<api.STGroupAllData> => {
-	const group = initGroupFromInput(groupInput);
+const createGroupObject = async (groupId: string, groupInput: api.STGroupAllDataInput, requesterUserId: string): Promise<api.STGroupAllData> => {
+	const group = initGroupFromInput(groupId, groupInput);
 
 	group.owner = createSTGroupUser(await queryUserPublicDataById(requesterUserId));
 
@@ -60,7 +63,7 @@ const createHistoricalDataCollection = async (groupId: string): Promise<void> =>
 		.doc(groupId)
 		.collection(api.ST_GROUP_COLLECTION_MORE_INFORMATION)
 		.doc(api.ST_GROUP_COLLECTION_HISTORICAL_DATA)
-		.set(createEmptySTGroupHistoricalData());
+		.set(createEmptySTGroupHistoricalData(groupId));
 };
 
 const createMemberDataCollection = async (groupInput: api.STGroupAllDataInput, group: api.STGroupAllData): Promise<void> => {

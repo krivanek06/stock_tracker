@@ -16,7 +16,53 @@ export const STGroupTypeDefs = gql`
 		sinceDate: String!
 	}
 
-	type STGroupAllData {
+	interface STGroupIdentificationInterface {
+		id: String!
+		name: String!
+		description: String
+		imagePath: String
+		imageUrl: String
+		owner: STGroupUser!
+		startDate: String!
+		endDate: String
+		isInfinite: Boolean!
+		isPrivate: Boolean!
+		rank: STRank!
+		isClosed: Boolean
+		numberOfMembers: Float!
+		createdDate: String!
+		portfolio: STPortfolioWrapper!
+		startedPortfolio: STPortfolioSnapshotStarted!
+		topMembers: [STGroupUser!]!
+		lastUpdateDate: String!
+		lastEditedDate: String!
+		watchedByUsers: Float!
+	}
+
+	type STGroupIdentification implements STGroupIdentificationInterface {
+		id: String!
+		name: String!
+		description: String
+		imagePath: String
+		imageUrl: String
+		owner: STGroupUser!
+		startDate: String!
+		endDate: String
+		isInfinite: Boolean!
+		isPrivate: Boolean!
+		rank: STRank!
+		isClosed: Boolean
+		numberOfMembers: Float!
+		createdDate: String!
+		portfolio: STPortfolioWrapper!
+		startedPortfolio: STPortfolioSnapshotStarted!
+		topMembers: [STGroupUser!]!
+		lastUpdateDate: String!
+		lastEditedDate: String!
+		watchedByUsers: Float!
+	}
+
+	type STGroupAllData implements STGroupIdentificationInterface {
 		id: String!
 		name: String!
 		description: String
@@ -26,7 +72,7 @@ export const STGroupTypeDefs = gql`
 		lastUpdateDate: String!
 		lastEditedDate: String!
 		createdDate: String!
-		currentAchievedRanks: STRank
+		rank: STRank!
 		watchedByUsers: Float!
 		startDate: String!
 		endDate: String
@@ -41,9 +87,9 @@ export const STGroupTypeDefs = gql`
 		topTransactions: [STTransaction!]!
 		lastTransactions: [STTransaction!]!
 		managers: [STGroupUser!]!
+		topMembers: [STGroupUser!]!
 		groupHistoricalData: STGroupHistoricalData!
 		groupMemberData: STGroupMemberData!
-		topMembers: [STGroupUser!]!
 	}
 
 	type STGroupMemberData {
