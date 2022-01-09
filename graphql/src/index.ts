@@ -22,6 +22,7 @@ import { toggleUsersInvitationRequestToGroup } from './st-group/mutations/toggle
 import { querySTGroupByGroupId, querySTGroupByGroupName } from './st-group/st-group.query';
 import { stGroupResolvers } from './st-group/st-group.resolver';
 import { STGroupTypeDefs } from './st-group/st-group.typedefs';
+import { STPortfolioTypeDefs } from './st-portfolio/st-portfolio.typedef';
 import {
 	queryEtfDocument,
 	queryHallOfFame,
@@ -31,8 +32,7 @@ import {
 	querySTMarketHistoryOverview,
 	SThallOfFameTypeDefs,
 	STMarketSharedTypeDefs,
-} from './st-market';
-import { STPortfolioTypeDefs } from './st-portfolio/st-portfolio.typedef';
+} from './st-public';
 import { STRankTypeDefs } from './st-rank/st-rank.typedef';
 import { Context } from './st-shared/st-shared.interface';
 import { STSharedTypeDefs } from './st-shared/st-shared.typedef';
@@ -112,7 +112,7 @@ const mainTypeDefs = gql`
 		queryStMarketData(key: String!): STMarketChartDataResultCombined
 		queryEtfDocument(etfName: String!): STMarketEtfDocument
 		queryStockScreener(stockScreenerInput: STFMStockScreenerInput!, offset: Int!, limit: Int!): STFMStockScreenerResultWrapper
-		queryHallOfFame: STHallOfFame
+		queryHallOfFame: STHallOfFame!
 
 		# admin
 		queryAdminMainInformations: STAdminMainInformations

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
 	QueryEtfDocumentGQL,
+	QueryHallOfFameGQL,
 	QueryMarketDailyOverviewGQL,
 	QueryStMarketAllCategoriesGQL,
 	QueryStMarketDataGQL,
@@ -13,6 +14,7 @@ import {
 	StfmCompanyQuote,
 	StfmStockScreenerInput,
 	StfmStockScreenerResultWrapper,
+	StHallOfFame,
 	StMarketChartDataResultCombined,
 	StMarketDailyOverview,
 	StMarketDatasetKeyCategory,
@@ -20,6 +22,7 @@ import {
 	StMarketOverviewPartialData,
 	SymbolHistoricalPrices,
 } from '../graphql-schema';
+import {} from './../graphql-schema/customGraphql.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -33,8 +36,13 @@ export class GraphqlQueryService {
 		private queryStMarketAllCategoriesGQL: QueryStMarketAllCategoriesGQL,
 		private querySymbolHistoricalPricesGQL: QuerySymbolHistoricalPricesGQL,
 		private queryEtfDocumentGQL: QueryEtfDocumentGQL,
-		private queryStockScreenerGQL: QueryStockScreenerGQL
+		private queryStockScreenerGQL: QueryStockScreenerGQL,
+		private queryHallOfFameGQL: QueryHallOfFameGQL
 	) {}
+
+	queryHallOfFame(): Observable<StHallOfFame> {
+		return this.queryHallOfFameGQL.fetch().pipe(map((res) => res.data.queryHallOfFame));
+	}
 
 	querySymbolHistoricalPrices(symbol: string, period: string = '1d'): Observable<SymbolHistoricalPrices> {
 		return this.querySymbolHistoricalPricesGQL

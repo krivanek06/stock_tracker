@@ -6,7 +6,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { IonicModule } from '@ionic/angular';
-import { StockInfoIdentificationItemModule } from '@shared';
+import { ReplaceCharPipeModule, StockInfoIdentificationItemModule } from '@shared';
 import { MenuHeaderComponent } from './containers/menu-header/menu-header.component';
 import { SideNavigationComponent } from './containers/side-navigation/side-navigation.component';
 import { MenuPageRoutingModule } from './menu-routing.module';
@@ -23,6 +23,7 @@ import { MenuPage } from './menu.page';
 		MatIconModule,
 		MatListModule,
 		StockInfoIdentificationItemModule,
+		ReplaceCharPipeModule,
 	],
 })
 export class MenuPageModule {}

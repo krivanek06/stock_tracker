@@ -81,7 +81,7 @@
 							'st-icon': selectedNavigation?.title === p.title
 						}"
 					>
-						{{ p.title | titlecase }}
+						{{ p.title | titlecase | replaceChar: '-': ' ' }}
 					</h4>
 				</mat-list-item>
 			</mat-nav-list>

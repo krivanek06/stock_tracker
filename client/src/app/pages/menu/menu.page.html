@@ -17,9 +17,9 @@
 	<mat-drawer-content>
 		<div class="content">
 			<app-menu-header (showMenuEmitter)="toggleMatDrawerExpandedView()" [showMenuButton]="(isOpen$ | async) === false"></app-menu-header>
-			<div class="py-4 mb-2 flex items-center gap-4">
-				<mat-icon color="primary" class="c-page-icon">{{activePage?.icon}}</mat-icon>
-				<span class="g-color-primary text-3xl">{{activePage?.title}}</span>
+			<div *ngIf="activePage" class="py-4 mb-2 flex items-center gap-4">
+				<mat-icon color="primary" class="c-page-icon">{{activePage.icon}}</mat-icon>
+				<span class="g-color-primary text-3xl">{{activePage.title | replaceChar: '-': ' ' }}</span>
 			</div>
 
 			<router-outlet></router-outlet>
