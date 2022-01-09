@@ -43,3 +43,21 @@ export const getUserPortfolioSnapshotsAsBalance = async (user: api.STUserPublicD
 		})
 		.map((snapshot) => snapshot.portfolioInvested + snapshot.portfolioCash);
 };
+
+export const getGroupsHistoricalData = async ({ id }: api.STGroupIdentification): Promise<api.STGroupHistoricalData> => {
+	const doc = await admin
+		.firestore()
+		.collection('groups')
+		.doc(id)
+		.collection(api.ST_GROUP_COLLECTION_MORE_INFORMATION)
+		.doc(api.ST_GROUP_COLLECTION_HISTORICAL_DATA)
+		.get();
+
+	const data = doc.data() as api.STGroupHistoricalData;
+	return data;
+};
+
+export const getAllGroups = async (): Promise<api.STGroupAllData[]> => {
+	const docs = await admin.firestore().collection('groups').get();
+	return docs.docs.map((d) => d.data() as api.STGroupAllData);
+};

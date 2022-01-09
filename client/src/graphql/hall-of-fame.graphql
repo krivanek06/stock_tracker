@@ -1,0 +1,38 @@
+fragment STHallOfFameUsers on STHallOfFameUsers {
+	total
+	lastUpdateDate
+	highestPortfolio {
+		...StUserIdentificationPortfolioFragment
+	}
+	weeklyBestGainsPrct {
+		...StUserIdentificationPortfolioFragment
+	}
+	weeklyWorstGainsPrct {
+		...StUserIdentificationPortfolioFragment
+	}
+}
+
+fragment STHallOfFameGroups on STHallOfFameGroups {
+	total
+	lastUpdateDate
+	highestPortfolio {
+		...STGroupIdentificationData
+	}
+	weeklyBestGainsPrct {
+		...STGroupIdentificationData
+	}
+	weeklyWorstGainsPrct {
+		...STGroupIdentificationData
+	}
+}
+
+query QueryHallOfFame {
+	queryHallOfFame {
+		users {
+			...STHallOfFameUsers
+		}
+		groups {
+			...STHallOfFameGroups
+		}
+	}
+}

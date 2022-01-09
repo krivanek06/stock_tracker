@@ -42,7 +42,11 @@ export function createDefaultApollo(httpLink: HttpLink): ApolloClientOptions<any
 	return {
 		connectToDevTools: !environment.production,
 		assumeImmutableResults: true,
-		cache: new InMemoryCache({}),
+		cache: new InMemoryCache({
+			possibleTypes: {
+				STGroupIdentificationInterface: ['STGroupAllData', 'STGroupIdentification'],
+			},
+		}),
 		link: ApolloLink.from([
 			basicContext,
 			errorLink,

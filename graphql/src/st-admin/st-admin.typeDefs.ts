@@ -6,7 +6,7 @@ export const STAdminTypeDefs = gql`
 		lastStockDetailsReload: String
 		usersRegistrated: Float!
 		usersActive: Float!
-		usersRegistrationSnippets: [STUserIndetificationBase!]!
+		usersRegistrationSnippets: [STUserIdentificationBase!]!
 		usersWeeklyRegistrated: [STSeriesNumber!]!
 		tickets: [STTicket!]!
 	}

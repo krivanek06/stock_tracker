@@ -20,6 +20,7 @@ export class GroupsOverviewComponent implements OnInit {
 	ngOnInit() {
 		this.user$ = this.userStorageService.getUser();
 		this.hasRoleCreateGroup$ = this.userStorageService.hasRoleCreateGroup();
+		this.user$.subscribe((x) => console.log('user', x));
 	}
 
 	createGroup() {

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { StGroupAllData, StGroupIdentificationDataFragment } from '@core';
+import { StGroupIdentificationInterface } from '@core';
 
 @Component({
 	selector: 'app-group-top-users-information',
@@ -18,7 +18,7 @@ export class GroupTopUsersInformationComponent implements OnInit {
 	@Output() stopWatchingGroupEmitter: EventEmitter<any> = new EventEmitter<any>();
 	@Output() startWatchingGroupEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-	@Input() groupAllData!: StGroupIdentificationDataFragment | StGroupAllData;
+	@Input() groupAllData!: StGroupIdentificationInterface;
 	@Input() showVisitButton = false;
 	@Input() showAcceptButton = false;
 	@Input() showDeclineButton = false;
@@ -31,7 +31,9 @@ export class GroupTopUsersInformationComponent implements OnInit {
 
 	constructor() {}
 
-	ngOnInit() {}
+	ngOnInit() {
+		console.log(this.groupAllData);
+	}
 
 	startWatchingGroup() {
 		this.startWatchingGroupEmitter.emit();

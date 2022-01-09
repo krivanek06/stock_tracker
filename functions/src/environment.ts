@@ -10,4 +10,4 @@ export const stockDataAPI = IS_PRODUCTION ? 'https://serverflask-j6sqew4pvq-lm.a
 
 // sudo firebase setup:emulators:firestore
 // sudo npm install -g firebase-tools
-// sudo firebase emulators:start
+// sudo firebase emulators:start --only functions

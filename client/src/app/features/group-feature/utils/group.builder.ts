@@ -1,7 +1,7 @@
-import { StGroupAllDataInput, StUserIndentificationDataFragment } from '@core';
+import { StGroupAllDataInput, StUserIdentificationDataFragment } from '@core';
 import { GroupForm } from '../model';
 
-export const createSTGroupAllDataInput = (form: GroupForm, invitationSent: StUserIndentificationDataFragment[]): StGroupAllDataInput => {
+export const createSTGroupAllDataInput = (form: GroupForm, invitationSent: StUserIdentificationDataFragment[]): StGroupAllDataInput => {
 	return {
 		name: form.name,
 		description: form.description,

@@ -3,7 +3,7 @@ fragment STAdminMainInformationsFragment on STAdminMainInformations {
 	usersRegistrated
 	usersActive
 	usersRegistrationSnippets {
-		...StUserIndetificationBaseFragment
+		...StUserIdentificationBaseFragment
 	}
 	usersWeeklyRegistrated {
 		data

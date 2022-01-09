@@ -16,7 +16,7 @@ export const STTransactionTypeDefs = gql`
 
 	type STTransaction {
 		transactionId: String
-		user: STUserIndetification
+		user: STUserIdentification
 		symbol: String!
 		symbol_logo_url: String!
 		price: Float!

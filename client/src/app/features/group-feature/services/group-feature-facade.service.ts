@@ -7,8 +7,8 @@ import {
 	StGroupAllDataInput,
 	StGroupIdentificationDataFragment,
 	StGroupUser,
-	StUserIndentificationDataFragment,
-	UserStorageService
+	StUserIdentificationDataFragment,
+	UserStorageService,
 } from '@core';
 import { DialogService } from '@shared';
 import { GroupCreateModalComponent, GroupMemberOverviewModalComponent } from '../entry-components';
@@ -22,7 +22,7 @@ export class GroupFeatureFacadeService {
 		private userStorageService: UserStorageService,
 		private groupStorageService: GroupStorageService,
 		private graphqlGroupService: GraphqlGroupService
-	) { }
+	) {}
 
 	async createGroup(editedGroup?: StGroupAllData): Promise<void> {
 		const dialogRef = this.dialog.open(GroupCreateModalComponent, {
@@ -97,7 +97,7 @@ export class GroupFeatureFacadeService {
 		@param  groupId - id of group where user is invited
 		@param  inviteUser - invite or remove invitation if false
 	*/
-	async toggleInviteUserIntoGroup(groupUser: StUserIndentificationDataFragment | StGroupUser, groupId: string, inviteUser: boolean): Promise<void> {
+	async toggleInviteUserIntoGroup(groupUser: StUserIdentificationDataFragment | StGroupUser, groupId: string, inviteUser: boolean): Promise<void> {
 		// remove invitation for user
 		if (!inviteUser) {
 			await this.graphqlGroupService.toggleInviteUserIntoGroup(groupUser, groupId, inviteUser).toPromise();
@@ -137,7 +137,7 @@ export class GroupFeatureFacadeService {
 		@param  groupId - id of group where user is invited
 		@param  acceptUser - acceptUser or remove invitationReceived if false
 	*/
-	async toggleUsersInvitationRequestToGroup(groupUser: StGroupUser | StUserIndentificationDataFragment, groupId: string, acceptUser: boolean) {
+	async toggleUsersInvitationRequestToGroup(groupUser: StGroupUser | StUserIdentificationDataFragment, groupId: string, acceptUser: boolean) {
 		await this.graphqlGroupService.toggleUsersInvitationRequestToGroup(groupUser.id, groupId, acceptUser).toPromise();
 
 		if (acceptUser) {

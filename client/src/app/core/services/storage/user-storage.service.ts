@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { Maybe, StStockWatchlistFragmentFragment, StUserIndetification, StUserPublicData, User_Roles_Enum } from '../../graphql-schema';
+import { StStockWatchlistFragmentFragment, StUserIdentification, StUserPublicData, User_Roles_Enum } from '../../graphql-schema';
 
 @Injectable({
 	providedIn: 'root',
@@ -20,15 +20,18 @@ export class UserStorageService {
 		return this.user$.getValue() as StUserPublicData;
 	}
 
-	get userIdentification(): StUserIndetification {
+	get userIdentification(): StUserIdentification {
 		const user = this.user;
 		return {
+			portfolio: {
+				...user.portfolio,
+			},
 			id: user.id,
 			accountCreatedDate: user.accountCreatedDate,
 			nickName: user.nickName,
 			photoURL: user.photoURL || '',
 			locale: user.locale,
-			__typename: 'STUserIndetification',
+			__typename: 'STUserIdentification',
 		};
 	}
 
@@ -36,19 +39,22 @@ export class UserStorageService {
 		return this.authenticating$.getValue();
 	}
 
-	getUserIdentification(): Observable<StUserIndetification | null> {
+	getUserIdentification(): Observable<StUserIdentification | null> {
 		return this.getUser().pipe(
 			map((user) => {
 				if (!user) {
 					return null;
 				}
 				return {
+					__typename: 'STUserIdentification',
 					id: user.id,
 					accountCreatedDate: user.accountCreatedDate,
 					nickName: user.nickName,
 					photoURL: user.photoURL || '',
 					locale: user.locale,
-					__typename: 'STUserIndetification',
+					portfolio: {
+						...user.portfolio,
+					},
 				};
 			})
 		);
@@ -82,7 +88,7 @@ export class UserStorageService {
 		return this.getUser().pipe(map((user) => user?.userPrivateData?.roles.includes(User_Roles_Enum.RoleGroupCreate)));
 	}
 
-	getUserWatchlists(): Observable<Array<Maybe<{ __typename?: 'STStockWatchlist' } & StStockWatchlistFragmentFragment>> | null> {
-		return this.getUser().pipe(map((u) => u?.stockWatchlist));
+	getUserWatchlists(): Observable<StStockWatchlistFragmentFragment[]> {
+		return this.getUser().pipe(map((u) => u?.stockWatchlist as StStockWatchlistFragmentFragment[]));
 	}
 }

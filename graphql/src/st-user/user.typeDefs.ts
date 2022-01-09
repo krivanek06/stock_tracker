@@ -10,19 +10,20 @@ export const userTypeDefs = gql`
 		groupWatched: [STGroupAllData!]!
 	}
 
-	type STUserIndetificationBase {
+	type STUserIdentificationBase {
 		nickName: String!
 		locale: String
 		photoURL: String!
 		accountCreatedDate: String!
 	}
 
-	type STUserIndetification {
+	type STUserIdentification {
 		id: String!
 		nickName: String!
 		locale: String
 		photoURL: String!
 		accountCreatedDate: String!
+		portfolio: STPortfolioWrapper!
 	}
 
 	type STUserPublicData {
@@ -90,7 +91,7 @@ export const userTypeDefs = gql`
 		photoURL: String
 	}
 
-	input STUserIndetificationInformationInput {
+	input STUserIdentificationInformationInput {
 		id: String!
 		nickName: String!
 		locale: String

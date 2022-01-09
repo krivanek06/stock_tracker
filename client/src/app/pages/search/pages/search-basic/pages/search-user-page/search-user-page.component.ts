@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { GraphqlUserService, StPortfolioSnapshot, StUserIndentificationDataFragment, StUserPublicDataSearchFragment } from '@core';
+import { GraphqlUserService, StPortfolioSnapshot, StUserIdentificationDataFragment, StUserPublicDataSearchFragment } from '@core';
 import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingFeatureFacadeService } from '@stock-trading-feature';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
@@ -30,7 +30,7 @@ export class SearchUserPageComponent implements OnInit {
 
 	ngOnInit() {}
 
-	showUserInformation(userPartialInformation: StUserIndentificationDataFragment) {
+	showUserInformation(userPartialInformation: StUserIdentificationDataFragment) {
 		this.isLoading = true;
 		this.isSearchEmpty = false;
 

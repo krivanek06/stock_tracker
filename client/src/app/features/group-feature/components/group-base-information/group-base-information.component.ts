@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { StGroupAllData, StGroupIdentificationDataFragment } from '@core';
+import { StGroupIdentificationInterface } from '@core';
 
 @Component({
 	selector: 'app-group-base-information',
@@ -20,7 +20,7 @@ export class GroupBaseInformationComponent implements OnInit {
 	@Output() stopWatchingGroupEmitter: EventEmitter<any> = new EventEmitter<any>();
 	@Output() startWatchingGroupEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-	@Input() groupIdentification!: StGroupIdentificationDataFragment | StGroupAllData;
+	@Input() groupIdentification!: StGroupIdentificationInterface;
 	@Input() showVisitButton: boolean | null = false;
 	@Input() showAcceptButton: boolean | null = false;
 	@Input() showDeclineButton: boolean | null = false;

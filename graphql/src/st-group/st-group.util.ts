@@ -2,9 +2,9 @@ import * as api from 'stock-tracker-common-interfaces';
 import { getCurrentIOSDate } from '../st-shared/st-shared.functions';
 import { convertSTUserPublicDataToSTUserIndentification } from '../st-user/utils/user.convertor';
 
-export const initGroupFromInput = (groupInput: api.STGroupAllDataInput): api.STGroupAllData => {
+export const initGroupFromInput = (groupId: string, groupInput: api.STGroupAllDataInput): api.STGroupAllData => {
 	const newGroup: api.STGroupAllData = {
-		...createEmptySTGroupAllData(),
+		...createEmptySTGroupAllData(groupId),
 		name: groupInput.name,
 		description: groupInput.description,
 		imagePath: groupInput.imagePath,
@@ -18,9 +18,13 @@ export const initGroupFromInput = (groupInput: api.STGroupAllDataInput): api.STG
 	return newGroup;
 };
 
-export const createEmptySTGroupAllData = (): api.STGroupAllData => {
+export const createEmptySTGroupAllData = (groupId: string): api.STGroupAllData => {
 	const now = getCurrentIOSDate();
 	const group: api.STGroupAllData = {
+		id: groupId,
+		rank: {
+			highestPortfolio: null,
+		},
 		portfolio: {
 			lastPortfolioSnapshot: {
 				portfolioCash: 0,
@@ -51,7 +55,6 @@ export const createEmptySTGroupAllData = (): api.STGroupAllData => {
 		createdDate: now,
 		lastUpdateDate: now,
 		lastEditedDate: now,
-		currentAchievedRank: null,
 		description: null,
 		watchedByUsers: 0,
 		lastTransactions: [],
@@ -69,12 +72,14 @@ export const createEmptySTGroupAllData = (): api.STGroupAllData => {
 		numberOfMembers: 0,
 		numberOfInvitationReceived: 0,
 		numberOfInvitationSent: 0,
+		topMembers: [],
 	};
 	return group;
 };
 
-export const createEmptySTGroupHistoricalData = (): api.STGroupHistoricalData => {
+export const createEmptySTGroupHistoricalData = (groupId: string): api.STGroupHistoricalData => {
 	return {
+		id: groupId,
 		bestAchievedRanks: [],
 		groupLogs: [],
 		portfolioSnapshots: [],

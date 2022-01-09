@@ -100,9 +100,9 @@
 					<ion-text class="st-font-1 st-small-right-space">Members:</ion-text>
 					<ion-text>{{ groupIdentification.numberOfMembers }}</ion-text>
 				</div>
-				<div>
+				<div *ngIf="groupIdentification?.lastUpdateDate">
 					<ion-text class="st-font-1 st-small-right-space">Last update:</ion-text>
-					<ion-text>{{ groupIdentification.lastUpdateDate | date: 'dd.MM.YYYY' }}</ion-text>
+					<ion-text>{{ groupIdentification?.lastUpdateDate | date: 'dd.MM.YYYY' }}</ion-text>
 				</div>
 			</div>
 		</div>

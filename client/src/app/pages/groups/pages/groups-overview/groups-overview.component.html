@@ -4,7 +4,7 @@
 		mat-flat-button
 		color="primary"
 		[disabled]="(hasRoleCreateGroup$ | async) === false"
-		[matTooltip]="(hasRoleCreateGroup$ | async) ? 'aaa' : 'You do not have sufficient role to create groups'"
+		[matTooltip]="(hasRoleCreateGroup$ | async) ? '' : 'You do not have sufficient role to create groups'"
 		(click)="createGroup()"
 		class="w-full md:w-auto"
 	>

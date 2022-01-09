@@ -15,7 +15,7 @@ fragment STGroupUserFragment on STGroupUser {
 	sinceDate
 }
 
-fragment STGroupIdentificationData on STGroupAllData {
+fragment STGroupIdentificationData on STGroupIdentificationInterface {
 	id
 	name
 	description
@@ -29,10 +29,7 @@ fragment STGroupIdentificationData on STGroupAllData {
 	isInfinite
 	isPrivate
 	isClosed
-	watchedByUsers
 	numberOfMembers
-	numberOfInvitationSent
-	numberOfInvitationReceived
 	portfolio {
 		...STPortfolioWrapperFragment
 	}
@@ -42,12 +39,13 @@ fragment STGroupIdentificationData on STGroupAllData {
 	topMembers {
 		...STGroupUserFragment
 	}
-	lastUpdateDate
-	lastEditedDate
 	createdDate
-	currentAchievedRanks {
+	rank {
 		...STRankFragment
 	}
+	watchedByUsers
+	lastUpdateDate
+	lastEditedDate
 }
 
 fragment STGroupAllDataWithoutHoldings on STGroupAllData {
@@ -92,7 +90,7 @@ fragment STGroupAllDataWithoutHoldings on STGroupAllData {
 			...STGroupUserFragment
 		}
 	}
-	currentAchievedRanks {
+	rank {
 		...STRankFragment
 	}
 	topTransactions {
