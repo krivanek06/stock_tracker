@@ -19,6 +19,7 @@ export const STPortfolioTypeDefs = gql`
 	}
 
 	type STPortfolioChange {
+		from_beginning_change: STPortfolioChangeData
 		day_1_change: STPortfolioChangeData
 		week_1_change: STPortfolioChangeData
 		week_2_change: STPortfolioChangeData

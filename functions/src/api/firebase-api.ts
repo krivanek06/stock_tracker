@@ -61,3 +61,17 @@ export const getAllGroups = async (): Promise<api.STGroupAllData[]> => {
 	const docs = await admin.firestore().collection('groups').get();
 	return docs.docs.map((d) => d.data() as api.STGroupAllData);
 };
+
+export const savePortfolioChange = async (entity: 'users' | 'groups', id: string, portfolioChange: api.STPortfolioChange | null): Promise<void> => {
+	if (!portfolioChange) {
+		return;
+	}
+	await admin.firestore().collection(entity).doc(id).set(
+		{
+			portfolio: {
+				portfolioChange,
+			},
+		},
+		{ merge: true }
+	);
+};

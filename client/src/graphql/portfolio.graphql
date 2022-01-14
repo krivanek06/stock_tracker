@@ -42,6 +42,9 @@ fragment STPortfolioChange on STPortfolioChange {
 	year_1_change {
 		...STPortfolioChangeData
 	}
+	from_beginning_change {
+		...STPortfolioChangeData
+	}
 }
 
 fragment STPortfolioWrapperFragment on STPortfolioWrapper {

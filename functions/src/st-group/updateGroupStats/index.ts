@@ -3,13 +3,15 @@ import * as functions from 'firebase-functions';
 import { uniqBy as _uniqBy } from 'lodash';
 import * as moment from 'moment';
 import * as api from 'stock-tracker-common-interfaces';
-import { convertSTUserPublicDataToSTUserGroup } from '../../util';
+import { getGroupsHistoricalData, savePortfolioChange } from '../../api';
+import { calculatePortfolioChange, convertSTUserPublicDataToSTUserGroup } from '../../util';
 /* 
     For each existing group update:
         - portfolio
 		- close if endDate is in past
         - top transactions > max 30
         - last transaction > max 30
+		- portfolioChange
         more_information.members
             - members portfolio
             - member current & previous positions based on portfolio balance
@@ -47,6 +49,7 @@ export const updateGroupStats = functions.https.onRequest(async () => {
 
 			// update data in firestore
 			await updateGroupDocument(groupDoc.id, groupAllData, currentGroupPortfolio, groupMembersPublicData);
+			console.log('updated main document');
 			await updategroupMembersDocument(
 				groupDoc.id,
 				currentGroupHoldings,
@@ -55,7 +58,16 @@ export const updateGroupStats = functions.https.onRequest(async () => {
 				groupInvitationSentPublicData,
 				groupInvitationReceivedPublicData
 			);
+			console.log('updated members');
 			await updateGroupHistoricalDataDocument(groupDoc.id, currentGroupPortfolio);
+			console.log('updated historical data');
+
+			const groupHistoricalData = await getGroupsHistoricalData(groupAllData);
+			const groupHistoricalPortfolioSnapshots = groupHistoricalData.portfolioSnapshots;
+			const portfolioChange = calculatePortfolioChange(groupHistoricalPortfolioSnapshots);
+			console.log('constructed portfolio change');
+			await savePortfolioChange('groups', groupAllData.id, portfolioChange);
+			console.log('saved portfolio change');
 
 			console.log(`Ended updating group: ${groupAllData.name}`);
 			console.log('========================');
