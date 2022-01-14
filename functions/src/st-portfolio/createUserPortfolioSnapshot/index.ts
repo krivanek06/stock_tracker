@@ -1,17 +1,33 @@
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import * as api from 'stock-tracker-common-interfaces';
-import { getAllUserWithExistingHoldingsFirebase, getPortfolioRiskCustomRest, getStockSummaryFirebase } from '../../api';
+import {
+	getAllUserWithExistingHoldingsFirebase,
+	getPortfolioRiskCustomRest,
+	getStockSummaryFirebase,
+	getUserHistoricalData,
+	savePortfolioChange,
+} from '../../api';
+import { calculatePortfolioChange } from '../../util';
 
 interface SymbolPriceMap {
 	price: number;
 	beta: number;
 }
 
+/* 
+For each user who already performed a transaction calculate
+- portfolioChange
+- portfolio
+- portfolioRisk
+- historical.portfolioSnapshots
+
+*/
 const symbolPriceMap: Map<string, SymbolPriceMap> = new Map<string, SymbolPriceMap>();
 
 // functions.https.onRequest(async () => {
-export const createUserPortfolioSnapshot = functions.pubsub.topic('createUserPortfolioSnapshot').onPublish(async () => {
+// functions.pubsub.topic('createUserPortfolioSnapshot').onPublish(async () => {
+export const createUserPortfolioSnapshot = functions.https.onRequest(async () => {
 	const start = admin.firestore.Timestamp.now();
 	console.log(`Started updating at ${start.toDate()}`);
 
@@ -27,12 +43,25 @@ export const createUserPortfolioSnapshot = functions.pubsub.topic('createUserPor
 			// not cached holdings => query live price for symbols
 			const unsavedSymbols = user.holdings.map((h) => h.symbol).filter((symbol) => !symbolPriceMap.has(symbol));
 			await cacheDataForUnsavedSymbols(unsavedSymbols);
+			console.log('caching data for symbols completed');
 
 			// construct portfolio snapshot and save it into DB
-			await savePortfolioSnapShot(user, constructPortfolioSnapshot(user));
+			const portfolioSnapshot = constructPortfolioSnapshot(user);
+			console.log('constructed portfolio snapshot');
+			await savePortfolioSnapShot(user, portfolioSnapshot);
+			console.log('saved portfolio snapshot');
+
+			// calculate portfolio change
+			const userHistoricalData = await getUserHistoricalData(user);
+			const userHistoricalPortfolioSnapshots = userHistoricalData.portfolioSnapshots;
+			const portfolioChange = calculatePortfolioChange(userHistoricalPortfolioSnapshots);
+			console.log('constructed portfolio change');
+			await savePortfolioChange('users', user.id, portfolioChange);
+			console.log('saved portfolio change');
 
 			// calculate & save portfolio metrics
 			const portfolioRisk = await getPortfolioRisk(user, counter === total);
+			console.log('calculated portfolio risk');
 			await savePortfolioRisk(user, portfolioRisk);
 
 			counter += 1;
@@ -60,8 +89,8 @@ const savePortfolioSnapShot = async ({ id, portfolio }: api.STUserPublicData, po
 		.firestore()
 		.collection('users')
 		.doc(id)
-		.collection('more_information')
-		.doc('historical_data')
+		.collection(api.ST_USER_COLLECTION_MORE_INFORMATION)
+		.doc(api.ST_USER_DOCUMENT_HISTORICAL_DATA)
 		.set(
 			{
 				portfolioSnapshots: admin.firestore.FieldValue.arrayUnion(portfolioSnapshot),

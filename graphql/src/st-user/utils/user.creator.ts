@@ -65,6 +65,7 @@ export const createSTUserHistoricalData = (userId: string): api.STUserHistorical
 export const createNewPortfolio = (cashAmount = 100000): api.STPortfolioWrapper => {
 	return {
 		portfolioChange: {
+			from_beginning_change: null,
 			day_1_change: null,
 			week_1_change: null,
 			week_2_change: null,

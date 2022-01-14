@@ -36,15 +36,16 @@ export interface STPortfolioChangeData {
 }
 
 export interface STPortfolioChange {
-    day_1_change?: STPortfolioChangeData;
-    week_1_change?: STPortfolioChangeData;
-    week_2_change?: STPortfolioChangeData;
-    week_3_change?: STPortfolioChangeData;
-    month_1_change?: STPortfolioChangeData;
-    month_2_change?: STPortfolioChangeData;
-    month_3_change?: STPortfolioChangeData;
-    month_6_change?: STPortfolioChangeData;
-    year_1_change?: STPortfolioChangeData;
+    from_beginning_change: STPortfolioChangeData | null;
+    day_1_change: STPortfolioChangeData | null;
+    week_1_change: STPortfolioChangeData | null;
+    week_2_change: STPortfolioChangeData | null;
+    week_3_change: STPortfolioChangeData | null;
+    month_1_change: STPortfolioChangeData | null;
+    month_2_change: STPortfolioChangeData | null;
+    month_3_change: STPortfolioChangeData | null;
+    month_6_change: STPortfolioChangeData | null;
+    year_1_change: STPortfolioChangeData | null;
 }
 
 
@@ -59,3 +60,5 @@ export interface STPortfolioWrapper {
     lastTransactionSnapshot: STTransactionSnapshot;
     portfolioChange: STPortfolioChange;
 }
+
+export const STARTING_PORTFOLIO = 100000;

@@ -128,6 +128,7 @@ const updateGroupHistoricalData = async () => {
 					watchedByUsers: watchedByUsersNumber,
 					portfolio: {
 						portfolioChange: {
+							from_beginning_change: null,
 							day_1_change: null,
 							week_1_change: null,
 							week_2_change: null,
@@ -203,6 +204,7 @@ const updateUsersData = async () => {
 					},
 					portfolio: {
 						portfolioChange: {
+							from_beginning_change: null,
 							day_1_change: null,
 							week_1_change: null,
 							week_2_change: null,
