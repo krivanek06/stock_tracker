@@ -75,3 +75,10 @@ export const savePortfolioChange = async (entity: 'users' | 'groups', id: string
 		{ merge: true }
 	);
 };
+
+export const getEntityByHighestPortfolio = async <T extends api.STPortfolioEntity>(entityKey: 'users' | 'groups'): Promise<T[]> => {
+	const doc = await admin.firestore().collection(entityKey).orderBy(`portfolio.lastPortfolioBalance`, 'desc').get();
+
+	const data = doc.docs.map((d) => d.data() as T);
+	return data;
+};

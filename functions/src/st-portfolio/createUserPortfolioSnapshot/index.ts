@@ -112,6 +112,7 @@ const savePortfolioSnapShot = async ({ id, portfolio }: api.STUserPublicData, po
 		.set(
 			{
 				portfolio: {
+					lastPortfolioBalance: currentBalance,
 					lastPortfolioSnapshot: portfolioSnapshot,
 					lastPortfolioIncreaseNumber:
 						!isNaN(lastPortfolioIncreaseNumber) && previousBalance !== 0 ? Number(lastPortfolioIncreaseNumber.toFixed(2)) : 0,

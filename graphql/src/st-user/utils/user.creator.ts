@@ -76,6 +76,7 @@ export const createNewPortfolio = (cashAmount = 100000): api.STPortfolioWrapper 
 			month_6_change: null,
 			year_1_change: null,
 		},
+		lastPortfolioBalance: 100000,
 		lastPortfolioSnapshot: {
 			portfolioCash: 100000,
 			portfolioInvested: 0,

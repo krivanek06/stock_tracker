@@ -2,10 +2,10 @@ import { gql } from 'apollo-server';
 
 export const STPortfolioTypeDefs = gql`
 	# type
-	type STPortfolio {
-		portfolioInvested: Float!
-		portfolioCash: Float!
-	}
+	# type STPortfolio {
+	# 	portfolioInvested: Float!
+	# 	portfolioCash: Float!
+	# }
 
 	type STPortfolioSnapshot {
 		portfolioInvested: Float!
@@ -35,12 +35,13 @@ export const STPortfolioTypeDefs = gql`
 		portfolioCash: Float!
 		numberOfExecutedBuyTransactions: Float!
 		numberOfExecutedSellTransactions: Float!
-		lastPortfolioIncreaseNumber: Float
-		lastPortfolioIncreasePrct: Float
+		lastPortfolioIncreaseNumber: Float!
+		lastPortfolioIncreasePrct: Float!
 		lastPortfolioSnapshot: STPortfolioSnapshot!
 		lastTransactionSnapshot: STTransactionSnapshot!
-		transactionFees: Float
+		transactionFees: Float!
 		portfolioChange: STPortfolioChange!
+		lastPortfolioBalance: Float!
 	}
 
 	type STPortfolioRiskCalculations {
@@ -61,6 +62,7 @@ export const STPortfolioTypeDefs = gql`
 		date: String!
 		numberOfExecutedBuyTransactions: Float!
 		numberOfExecutedSellTransactions: Float!
-		transactionFees: Float
+		transactionFees: Float!
+		lastPortfolioBalance: Float!
 	}
 `;

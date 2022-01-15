@@ -3,6 +3,11 @@ import * as functions from 'firebase-functions';
 import * as api from 'stock-tracker-common-interfaces';
 
 // 1. remove transactionSnapshots for each users where transactionFees does not exists
+// 2. remove topTransactions and lastTransactions where  transactionFees does not exists
+// 3. add watchedByUserIds: []
+// 4. add ID field for group & users historical data, also for groupAllData
+// 5. add empty rank
+// 6. update startedPortfolio.lastPortfolioBalance (groups),  portfolio.lastPortfolioBalance (users & groups)
 
 export const databaseAdjustment = functions.https.onRequest(async () => {
 	try {
@@ -15,27 +20,29 @@ export const databaseAdjustment = functions.https.onRequest(async () => {
 });
 
 const updateHallOfFame = async () => {
-	const hallOfFameDoc = await admin.firestore().collection('public').doc(api.ST_PUBLIC_DOC.HALL_OF_FAME).get();
-	const hallOfFameData = hallOfFameDoc.data() as api.STHallOfFame;
-
-	// if exists, return
-	if (!!hallOfFameData) {
-		return;
-	}
+	console.log('updating hall of fame');
 
 	const hallOfFameNewData: api.STHallOfFame = {
 		users: {
 			total: 0,
 			highestPortfolio: [],
-			weeklyBestGainsPrct: [],
-			weeklyWorstGainsPrct: [],
+			bestGainers: {
+				...getEmptySTHallOfFameEntityGains<any>(),
+			},
+			wortGainers: {
+				...getEmptySTHallOfFameEntityGains<any>(),
+			},
 			lastUpdateDate: new Date().toISOString().toString(),
 		},
 		groups: {
 			total: 0,
 			highestPortfolio: [],
-			weeklyBestGainsPrct: [],
-			weeklyWorstGainsPrct: [],
+			bestGainers: {
+				...getEmptySTHallOfFameEntityGains<any>(),
+			},
+			wortGainers: {
+				...getEmptySTHallOfFameEntityGains<any>(),
+			},
 			lastUpdateDate: new Date().toISOString().toString(),
 		},
 	};
@@ -44,12 +51,6 @@ const updateHallOfFame = async () => {
 
 	console.log('updated hall of fame');
 };
-
-// 1. remove transactionSnapshots for each users where transactionFees does not exists
-// 2. remove topTransactions and lastTransactions where  transactionFees does not exists
-// 3. add watchedByUserIds: []
-// 4. add ID field for group & users historical data, also for groupAllData
-// 5. add empty rank
 
 const updateGroupHistoricalData = async () => {
 	console.log('Start updating groups historical data');
@@ -126,7 +127,12 @@ const updateGroupHistoricalData = async () => {
 						...createEmptyRank(),
 					},
 					watchedByUsers: watchedByUsersNumber,
+					startedPortfolio: {
+						lastPortfolioBalance: groupAllData.startedPortfolio.portfolioCash + groupAllData.startedPortfolio.portfolioInvested,
+					},
 					portfolio: {
+						lastPortfolioBalance:
+							groupAllData.portfolio.lastPortfolioSnapshot.portfolioInvested + groupAllData.portfolio.lastPortfolioSnapshot.portfolioCash,
 						portfolioChange: {
 							from_beginning_change: null,
 							day_1_change: null,
@@ -203,6 +209,8 @@ const updateUsersData = async () => {
 						groupWatched,
 					},
 					portfolio: {
+						lastPortfolioBalance:
+							userPublicData.portfolio.lastPortfolioSnapshot.portfolioCash + userPublicData.portfolio.lastPortfolioSnapshot.portfolioInvested,
 						portfolioChange: {
 							from_beginning_change: null,
 							day_1_change: null,
@@ -234,5 +242,28 @@ const updateUsersData = async () => {
 const createEmptyRank = (): api.STRank => {
 	return {
 		highestPortfolio: null,
+	};
+};
+
+const getEmptySTHallOfFameEntityGains = <T extends api.STPortfolioEntity>(): api.STHallOfFameEntityGains<T> => {
+	return {
+		day_1_change_number: [],
+		day_1_change_prct: [],
+		week_1_change_number: [],
+		week_1_change_prct: [],
+		week_2_change_number: [],
+		week_2_change_prct: [],
+		week_3_change_number: [],
+		week_3_change_prct: [],
+		month_1_change_number: [],
+		month_1_change_prct: [],
+		month_2_change_number: [],
+		month_2_change_prct: [],
+		month_3_change_number: [],
+		month_3_change_prct: [],
+		month_6_change_number: [],
+		month_6_change_prct: [],
+		year_1_change_number: [],
+		year_1_change_prct: [],
 	};
 };

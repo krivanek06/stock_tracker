@@ -1,14 +1,128 @@
+fragment STHallOfFameEntityGainsGroups on STHallOfFameEntityGainsGroups {
+	day_1_change_prct {
+		...STGroupIdentificationData
+	}
+	day_1_change_number {
+		...STGroupIdentificationData
+	}
+	week_1_change_prct {
+		...STGroupIdentificationData
+	}
+	week_1_change_number {
+		...STGroupIdentificationData
+	}
+	week_2_change_prct {
+		...STGroupIdentificationData
+	}
+	week_2_change_number {
+		...STGroupIdentificationData
+	}
+	week_3_change_prct {
+		...STGroupIdentificationData
+	}
+	week_3_change_number {
+		...STGroupIdentificationData
+	}
+	month_1_change_prct {
+		...STGroupIdentificationData
+	}
+	month_1_change_number {
+		...STGroupIdentificationData
+	}
+	month_2_change_prct {
+		...STGroupIdentificationData
+	}
+	month_2_change_number {
+		...STGroupIdentificationData
+	}
+	month_3_change_prct {
+		...STGroupIdentificationData
+	}
+	month_3_change_number {
+		...STGroupIdentificationData
+	}
+	month_6_change_prct {
+		...STGroupIdentificationData
+	}
+	month_6_change_number {
+		...STGroupIdentificationData
+	}
+	year_1_change_prct {
+		...STGroupIdentificationData
+	}
+	year_1_change_number {
+		...STGroupIdentificationData
+	}
+}
+
+fragment STHallOfFameEntityGainsUsers on STHallOfFameEntityGainsUsers {
+	day_1_change_prct {
+		...StUserIdentificationPortfolioFragment
+	}
+	day_1_change_number {
+		...StUserIdentificationPortfolioFragment
+	}
+	week_1_change_prct {
+		...StUserIdentificationPortfolioFragment
+	}
+	week_1_change_number {
+		...StUserIdentificationPortfolioFragment
+	}
+	week_2_change_prct {
+		...StUserIdentificationPortfolioFragment
+	}
+	week_2_change_number {
+		...StUserIdentificationPortfolioFragment
+	}
+	week_3_change_prct {
+		...StUserIdentificationPortfolioFragment
+	}
+	week_3_change_number {
+		...StUserIdentificationPortfolioFragment
+	}
+	month_1_change_prct {
+		...StUserIdentificationPortfolioFragment
+	}
+	month_1_change_number {
+		...StUserIdentificationPortfolioFragment
+	}
+	month_2_change_prct {
+		...StUserIdentificationPortfolioFragment
+	}
+	month_2_change_number {
+		...StUserIdentificationPortfolioFragment
+	}
+	month_3_change_prct {
+		...StUserIdentificationPortfolioFragment
+	}
+	month_3_change_number {
+		...StUserIdentificationPortfolioFragment
+	}
+	month_6_change_prct {
+		...StUserIdentificationPortfolioFragment
+	}
+	month_6_change_number {
+		...StUserIdentificationPortfolioFragment
+	}
+	year_1_change_prct {
+		...StUserIdentificationPortfolioFragment
+	}
+	year_1_change_number {
+		...StUserIdentificationPortfolioFragment
+	}
+}
+
 fragment STHallOfFameUsers on STHallOfFameUsers {
 	total
 	lastUpdateDate
 	highestPortfolio {
 		...StUserIdentificationPortfolioFragment
 	}
-	weeklyBestGainsPrct {
-		...StUserIdentificationPortfolioFragment
+	bestGainers {
+		...STHallOfFameEntityGainsUsers
 	}
-	weeklyWorstGainsPrct {
-		...StUserIdentificationPortfolioFragment
+	wortGainers {
+		...STHallOfFameEntityGainsUsers
 	}
 }
 
@@ -18,11 +132,11 @@ fragment STHallOfFameGroups on STHallOfFameGroups {
 	highestPortfolio {
 		...STGroupIdentificationData
 	}
-	weeklyBestGainsPrct {
-		...STGroupIdentificationData
+	bestGainers {
+		...STHallOfFameEntityGainsGroups
 	}
-	weeklyWorstGainsPrct {
-		...STGroupIdentificationData
+	wortGainers {
+		...STHallOfFameEntityGainsGroups
 	}
 }
 

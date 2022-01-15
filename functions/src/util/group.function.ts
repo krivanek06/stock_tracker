@@ -1,6 +1,9 @@
 import * as api from 'stock-tracker-common-interfaces';
 
-export const convertSTGroupAllDataTOSTGroupIndentification = (group: api.STGroupAllData): api.STGroupIdentification => {
+export const convertSTGroupAllDataTOSTGroupIndentification = (group?: api.STGroupAllData | null): api.STGroupIdentification | null => {
+	if (!group) {
+		return null;
+	}
 	const identification: api.STGroupIdentification = {
 		id: group.id,
 		description: group.description,

@@ -12,11 +12,12 @@ export const convertSTUserPublicDataToSTUserIndentification = (publicData: api.S
 };
 
 export const convertSTUserPublicDataToSTUserIndentificationWithPortfolio = (
-	publicData?: api.STUserIndentificationWithPortfolio
+	publicData?: api.STUserIndentificationWithPortfolio | null
 ): api.STUserIndentificationWithPortfolio | null => {
 	if (!publicData) {
 		return null;
 	}
+
 	const identification: api.STUserIndentificationWithPortfolio = {
 		...convertSTUserPublicDataToSTUserIndentification(publicData),
 		portfolio: {
@@ -34,6 +35,7 @@ export const convertSTUserPublicDataToSTUserGroup = (userPublicData: api.STUserP
 		photoURL: userPublicData.photoURL,
 		id: userPublicData.id,
 		startedPortfolio: {
+			lastPortfolioBalance: userPublicData.portfolio.lastPortfolioBalance,
 			transactionFees: userPublicData.portfolio.transactionFees,
 			numberOfExecutedBuyTransactions: userPublicData.portfolio.numberOfExecutedBuyTransactions,
 			numberOfExecutedSellTransactions: userPublicData.portfolio.numberOfExecutedSellTransactions,

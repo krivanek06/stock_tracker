@@ -3,7 +3,7 @@ import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
 import { Context } from '../../st-shared/st-shared.interface';
 import { queryUserPublicDataById } from '../../st-user/user.query';
-import { createEmptySTGroupHistoricalData, createSTGroupUser, initGroupFromInput } from '../st-group.util';
+import { createEmptySTGroupHistoricalData, createSTGroupUser, increaseGroupPortfolio, initGroupFromInput } from '../st-group.util';
 
 export const createGroup = async (groupInput: api.STGroupAllDataInput, { requesterUserId }: Context): Promise<api.STGroupAllData> => {
 	try {
@@ -39,18 +39,7 @@ const createGroupObject = async (groupId: string, groupInput: api.STGroupAllData
 
 	// if owner wants to be a member
 	if (groupInput.isOwnerAlsoMember) {
-		group.startedPortfolio.portfolioCash = group.owner.portfolio.lastPortfolioSnapshot?.portfolioCash ?? 0;
-		group.startedPortfolio.portfolioInvested = group.owner.portfolio.lastPortfolioSnapshot?.portfolioInvested ?? 0;
-		group.startedPortfolio.numberOfExecutedSellTransactions = group.owner.portfolio.numberOfExecutedSellTransactions;
-		group.startedPortfolio.numberOfExecutedBuyTransactions = group.owner.portfolio.numberOfExecutedBuyTransactions;
-		group.startedPortfolio.transactionFees = group.owner.portfolio.transactionFees;
-
-		group.portfolio.lastPortfolioSnapshot.portfolioCash = group.owner.portfolio.lastPortfolioSnapshot.portfolioCash;
-		group.portfolio.lastPortfolioSnapshot.portfolioInvested = group.owner.portfolio.lastPortfolioSnapshot.portfolioInvested;
-		group.portfolio.numberOfExecutedSellTransactions = group.owner.portfolio.numberOfExecutedSellTransactions;
-		group.portfolio.numberOfExecutedBuyTransactions = group.owner.portfolio.numberOfExecutedBuyTransactions;
-		group.portfolio.transactionFees = group.owner.portfolio.transactionFees;
-		group.numberOfMembers = 1;
+		increaseGroupPortfolio(group, group.owner.portfolio);
 	}
 
 	return group;

@@ -1,5 +1,5 @@
 import { STGroupAllData } from './st-group.model';
-import { STPortfolioRiskCalculations, STPortfolioSnapshot, STPortfolioWrapper } from './st-portfolio.model';
+import { STPortfolioEntity, STPortfolioRiskCalculations, STPortfolioSnapshot } from './st-portfolio.model';
 import { STRank } from './st-rank.model';
 import { STGeographic, STLog } from './st-share.model';
 import { STHolding, STTransaction, STTransactionSnapshot } from './st-transaction.model';
@@ -25,11 +25,9 @@ export interface STUserIndentificationBase {
 
 export interface STUserIndentification extends STUserIndentificationBase {
     id: string;
-  
 }
 
-export interface STUserIndentificationWithPortfolio extends STUserIndentification {
-   portfolio: STPortfolioWrapper;
+export interface STUserIndentificationWithPortfolio extends STUserIndentification, STPortfolioEntity {
 }
 
 export interface STUserPublicData extends STUserIndentificationWithPortfolio {

@@ -126,6 +126,7 @@ const createGroupPortfolioSnapshot = (
 					portfolioCash: acc.portfolioCash + cur.portfolioCash,
 					numberOfExecutedBuyTransactions: acc.numberOfExecutedBuyTransactions + cur.numberOfExecutedBuyTransactions,
 					numberOfExecutedSellTransactions: acc.numberOfExecutedSellTransactions + cur.numberOfExecutedSellTransactions,
+					lastPortfolioBalance: acc.lastPortfolioBalance + cur.lastPortfolioBalance,
 					lastPortfolioSnapshot: {
 						portfolioCash: acc.portfolioCash + cur.portfolioCash,
 						portfolioInvested: acc.lastPortfolioSnapshot.portfolioInvested + cur.lastPortfolioSnapshot.portfolioInvested,
@@ -158,6 +159,7 @@ const createGroupPortfolioSnapshot = (
 				numberOfExecutedBuyTransactions: 0,
 				numberOfExecutedSellTransactions: 0,
 				transactionFees: 0,
+				lastPortfolioBalance: 0,
 				lastTransactionSnapshot: {
 					transactionsBuy: 0,
 					transactionsSell: 0,
