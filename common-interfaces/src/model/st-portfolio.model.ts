@@ -1,11 +1,8 @@
 import { STTransactionSnapshot } from "./st-transaction.model";
 
-export interface STPortfolio {
+export interface STPortfolioSnapshot {
     portfolioInvested: number;
     portfolioCash: number;
-}
-
-export interface STPortfolioSnapshot extends STPortfolio {
     date: string; 
 }
 
@@ -27,6 +24,7 @@ export interface STPortfolioSnapshotStarted extends STPortfolioSnapshot {
     numberOfExecutedBuyTransactions: number;
     numberOfExecutedSellTransactions: number;
     transactionFees: number;
+    lastPortfolioBalance: number;
 }
 
 export interface STPortfolioChangeData {
@@ -50,6 +48,7 @@ export interface STPortfolioChange {
 
 
 export interface STPortfolioWrapper {
+    lastPortfolioBalance: number;
     portfolioCash: number;
     lastPortfolioSnapshot: STPortfolioSnapshot;
     lastPortfolioIncreaseNumber: number;
@@ -60,5 +59,12 @@ export interface STPortfolioWrapper {
     lastTransactionSnapshot: STTransactionSnapshot;
     portfolioChange: STPortfolioChange;
 }
+
+export interface STPortfolioEntity {
+    id: string;
+    portfolio: STPortfolioWrapper;
+}
+
+export type STPortfolioEntityType = 'users' | 'groups';
 
 export const STARTING_PORTFOLIO = 100000;

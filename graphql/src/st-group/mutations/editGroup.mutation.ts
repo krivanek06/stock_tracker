@@ -32,7 +32,7 @@ export const editGroup = async (groupInput: api.STGroupAllDataInput): Promise<bo
 		else if (groupInput.isOwnerAlsoMember && !wasOwnerAlsoMember) {
 			const userPublicData = await queryUserPublicDataById(group.owner.id);
 			const newGroupUser = createSTGroupUser(userPublicData);
-			await acceptUser(groupInput.groupId, group, newGroupUser);
+			await acceptUser(groupInput.groupId, group, userPublicData);
 			await addUserAsMember(true, newGroupUser, groupMembersDoc);
 		}
 

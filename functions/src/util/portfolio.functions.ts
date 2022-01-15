@@ -35,6 +35,13 @@ export const getPortfolioChangeDataNumber = (
 	};
 };
 
+export const calculatePortfolioIncreasePrct = (latestPortfolio: api.STPortfolioSnapshot, weekSoonerPortfolio: api.STPortfolioSnapshot): number => {
+	const previousBalance = weekSoonerPortfolio.portfolioCash + weekSoonerPortfolio.portfolioInvested;
+	const currentBalance = latestPortfolio.portfolioCash + latestPortfolio.portfolioInvested;
+	const lastPortfolioIncreasePrct = Number((currentBalance - previousBalance) / previousBalance);
+	return lastPortfolioIncreasePrct;
+};
+
 export const calculatePortfolioChange = (portfolioSnapshots: api.STPortfolioSnapshot[]): api.STPortfolioChange | null => {
 	try {
 		if (portfolioSnapshots.length < 2) {

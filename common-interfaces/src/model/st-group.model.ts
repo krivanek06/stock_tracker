@@ -1,11 +1,11 @@
-import { STPortfolioSnapshot, STPortfolioSnapshotStarted, STPortfolioWrapper } from './st-portfolio.model';
+import { STPortfolioEntity, STPortfolioSnapshot, STPortfolioSnapshotStarted, STPortfolioWrapper } from './st-portfolio.model';
 import { STRank } from './st-rank.model';
 import { STLog } from './st-share.model';
 import { STHolding, STTransaction, STTransactionSnapshot } from './st-transaction.model';
 import { STUserIndentificationWithPortfolio } from './st-user.model';
 
-export interface STGroupIdentification {
-    id: string;
+export interface STGroupIdentification extends STPortfolioEntity {
+    
     name: string;
     description?: string;
     imagePath?: string

@@ -2,7 +2,7 @@ import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import * as moment from 'moment';
 import * as api from 'stock-tracker-common-interfaces';
-import { getAllGroups, getAllUserWithExistingHoldingsFirebase, getGroupsHistoricalData, getUserHistoricalData } from '../../api';
+import { getEntityByHighestPortfolio } from '../../api';
 import { convertSTGroupAllDataTOSTGroupIndentification, convertSTUserPublicDataToSTUserIndentificationWithPortfolio } from '../../util';
 
 /* 
@@ -19,10 +19,7 @@ Weekly portfolio
 
 */
 
-type EntityWithPortfolio = api.STUserPublicData | api.STGroupAllData;
-type EntityWithPortfolioHistoricalData = api.STUserHistoricalData | api.STGroupHistoricalData;
-
-// TODO test ME !!!!!
+type EntityIdentification = api.STUserIndentificationWithPortfolio | api.STGroupIdentification;
 
 // functions.pubsub.topic('updateStocksSummary').onPublish(async () => {
 export const calculateHallOfFame = functions.https.onRequest(async (): Promise<void> => {
@@ -30,59 +27,42 @@ export const calculateHallOfFame = functions.https.onRequest(async (): Promise<v
 	console.log(`Started updating at ${admin.firestore.Timestamp.now().toDate()}`);
 
 	try {
-		// get users
-		console.log('Getting users & sorting by highest portfolio');
-		const users = await getAllUserWithExistingHoldingsFirebase();
-		console.log(`Received users: ${users.length}`);
-		const usersHighestPortfolio = orderByHighestPortfolio<api.STUserPublicData>(users);
-
-		// get groups
-		console.log('Getting groups & sorting by highest portfolio');
-		const groups = await getAllGroups();
-		console.log(`Received groups: ${groups.length}`);
-		const groupsHighestPortfolio = orderByHighestPortfolio<api.STGroupAllData>(groups);
+		// get users & groups
+		console.log('Getting users & groups');
+		const usersByHighestPortfolio = await getEntityByHighestPortfolio<api.STUserPublicData>('users');
+		const groupsByHighestPortfolio = await getEntityByHighestPortfolio<api.STGroupAllData>('groups');
+		console.log(`Received users: ${usersByHighestPortfolio.length}, groups: ${groupsByHighestPortfolio.length}`);
 
 		// update users & groups
 		console.log('Updating users & groups');
-		await updateHighestPortfolioOrder(usersHighestPortfolio, 'users');
+		await updateHighestPortfolioOrder(usersByHighestPortfolio, 'users');
 		console.log('Updated users');
-		await updateHighestPortfolioOrder(groupsHighestPortfolio, 'groups');
+		await updateHighestPortfolioOrder(groupsByHighestPortfolio, 'groups');
 		console.log('Updated groups');
 
-		// get hall of fame
+		// get hall of fame users
 		console.log('Calculate hall of fame for users');
-		const [userHighestPortfolio, userWeeklyBestGainsPrct, userWeeklyWorstGainsPrct] = await entitiesGetSTHallOfFameUsers<
-			api.STUserPublicData,
-			Promise<api.STUserHistoricalData>
-		>(usersHighestPortfolio, getUserHistoricalData);
+		const topUsersByHighestPortfolio = usersByHighestPortfolio.slice(0, 9);
+		const usersHallOfFame = await getEntityHallOfFame(
+			usersByHighestPortfolio.length,
+			topUsersByHighestPortfolio,
+			'users',
+			convertSTUserPublicDataToSTUserIndentificationWithPortfolio
+		);
+		console.log('Calculate hall of fame for users, received: usersHallOfFame');
+		await updateHallOfFameEntity('users', usersHallOfFame);
 
+		// hall of fame groups
 		console.log('Calculate hall of fame for groups');
-		const [groupHighestPortfolio, groupWeeklyBestGainsPrct, groupWeeklyWorstGainsPrct] = await entitiesGetSTHallOfFameUsers<
-			api.STGroupAllData,
-			Promise<api.STGroupHistoricalData>
-		>(groupsHighestPortfolio, getGroupsHistoricalData);
-
-		// get only 15 result of each
-		console.log('Convert hall of fame entities to identification');
-		const usersSTHallOfFameUsers: api.STHallOfFameUsers = {
-			total: users.length,
-			lastUpdateDate: new Date().toISOString().toString(),
-			highestPortfolio: userHighestPortfolio.map((u) => convertSTUserPublicDataToSTUserIndentificationWithPortfolio(u)),
-			weeklyBestGainsPrct: userWeeklyBestGainsPrct.map((u) => convertSTUserPublicDataToSTUserIndentificationWithPortfolio(u)),
-			weeklyWorstGainsPrct: userWeeklyWorstGainsPrct.map((u) => convertSTUserPublicDataToSTUserIndentificationWithPortfolio(u)),
-		} as api.STHallOfFameUsers;
-
-		const groupsSTHallOfFameUsers: api.STHallOfFameGroups = {
-			total: groups.length,
-			lastUpdateDate: new Date().toISOString().toString(),
-			highestPortfolio: groupHighestPortfolio.map((u) => convertSTGroupAllDataTOSTGroupIndentification(u)),
-			weeklyBestGainsPrct: groupWeeklyBestGainsPrct.map((u) => convertSTGroupAllDataTOSTGroupIndentification(u)),
-			weeklyWorstGainsPrct: groupWeeklyWorstGainsPrct.map((u) => convertSTGroupAllDataTOSTGroupIndentification(u)),
-		} as api.STHallOfFameGroups;
-
-		console.log('update hall of fame database');
-		await updateHallOfFameEntity('users', usersSTHallOfFameUsers);
-		await updateHallOfFameEntity('groups', groupsSTHallOfFameUsers);
+		const topGroupsByHighestPortfolio = groupsByHighestPortfolio.slice(0, 9);
+		const groupsHallOfFame = await getEntityHallOfFame(
+			groupsByHighestPortfolio.length,
+			topGroupsByHighestPortfolio,
+			'groups',
+			convertSTGroupAllDataTOSTGroupIndentification
+		);
+		console.log('Calculate hall of fame for groups, received: groupsHallOfFame');
+		await updateHallOfFameEntity('groups', groupsHallOfFame);
 	} catch (error) {
 		console.log(`Error executing calculateHallOfFame', error:`, error);
 		console.log('========================');
@@ -91,23 +71,133 @@ export const calculateHallOfFame = functions.https.onRequest(async (): Promise<v
 });
 
 // ----------------------------------------
-// USERS
+
 /* 
-    return Desc. order by highest portfolio
+	for users or groups returns 'STHallOfFameEntity'
 */
-const orderByHighestPortfolio = <T extends EntityWithPortfolio>(entity: T[]): T[] => {
-	return entity.sort(
-		(a, b) =>
-			b.portfolio.lastPortfolioSnapshot.portfolioInvested +
-			b.portfolio.lastPortfolioSnapshot.portfolioCash -
-			(a.portfolio.lastPortfolioSnapshot.portfolioInvested + a.portfolio.lastPortfolioSnapshot.portfolioCash)
-	);
+const getEntityHallOfFame = async <T extends EntityIdentification>(
+	totalEntities: number,
+	entitiesHighestPortfolio: api.STPortfolioEntity[],
+	collection: api.STPortfolioEntityType,
+	identificationFunction: (entity?: T | null) => api.STPortfolioEntity | null
+): Promise<api.STHallOfFameEntity<api.STPortfolioEntity>> => {
+	const bestGainers = await getSTHallOfFameEntityGains(collection, 'desc', identificationFunction);
+	const wortGainers = await getSTHallOfFameEntityGains(collection, 'asc', identificationFunction);
+	return {
+		bestGainers,
+		wortGainers,
+		total: totalEntities,
+		highestPortfolio: entitiesHighestPortfolio,
+		lastUpdateDate: new Date().toISOString().toString(),
+	};
 };
 
 /* 
+	For users or groups return STHallOfFameEntityGains,
+	return best or worts entities based on 'order'
+
+*/
+const getSTHallOfFameEntityGains = async <T extends EntityIdentification>(
+	collection: api.STPortfolioEntityType,
+	order: 'asc' | 'desc',
+	identificationFunction: (entity?: T | null) => api.STPortfolioEntity | null
+): Promise<api.STHallOfFameEntityGains<api.STPortfolioEntity>> => {
+	const day_1_change_prct = await getEntityIdentification<T>(collection, 'day_1_change', 'portfolioIncreasePrct', order, identificationFunction);
+	const day_1_change_number = await getEntityIdentification<T>(collection, 'day_1_change', 'portfolioIncreaseNumber', order, identificationFunction);
+
+	const week_1_change_prct = await getEntityIdentification<T>(collection, 'week_1_change', 'portfolioIncreasePrct', order, identificationFunction);
+	const week_1_change_number = await getEntityIdentification<T>(
+		collection,
+		'week_1_change',
+		'portfolioIncreaseNumber',
+		order,
+		identificationFunction
+	);
+	const week_2_change_prct = await getEntityIdentification<T>(collection, 'week_2_change', 'portfolioIncreasePrct', order, identificationFunction);
+	const week_2_change_number = await getEntityIdentification<T>(
+		collection,
+		'week_2_change',
+		'portfolioIncreaseNumber',
+		order,
+		identificationFunction
+	);
+	const week_3_change_prct = await getEntityIdentification<T>(collection, 'week_3_change', 'portfolioIncreasePrct', order, identificationFunction);
+	const week_3_change_number = await getEntityIdentification<T>(
+		collection,
+		'week_3_change',
+		'portfolioIncreaseNumber',
+		order,
+		identificationFunction
+	);
+
+	const month_1_change_prct = await getEntityIdentification<T>(collection, 'month_1_change', 'portfolioIncreasePrct', order, identificationFunction);
+	const month_1_change_number = await getEntityIdentification<T>(
+		collection,
+		'month_1_change',
+		'portfolioIncreaseNumber',
+		order,
+		identificationFunction
+	);
+	const month_2_change_prct = await getEntityIdentification<T>(collection, 'month_2_change', 'portfolioIncreasePrct', order, identificationFunction);
+	const month_2_change_number = await getEntityIdentification<T>(
+		collection,
+		'month_2_change',
+		'portfolioIncreaseNumber',
+		order,
+		identificationFunction
+	);
+	const month_3_change_prct = await getEntityIdentification<T>(collection, 'month_3_change', 'portfolioIncreasePrct', order, identificationFunction);
+	const month_3_change_number = await getEntityIdentification<T>(
+		collection,
+		'month_3_change',
+		'portfolioIncreaseNumber',
+		order,
+		identificationFunction
+	);
+	const month_6_change_prct = await getEntityIdentification<T>(collection, 'month_6_change', 'portfolioIncreasePrct', order, identificationFunction);
+	const month_6_change_number = await getEntityIdentification<T>(
+		collection,
+		'month_6_change',
+		'portfolioIncreaseNumber',
+		order,
+		identificationFunction
+	);
+
+	const year_1_change_prct = await getEntityIdentification<T>(collection, 'year_1_change', 'portfolioIncreasePrct', order, identificationFunction);
+	const year_1_change_number = await getEntityIdentification<T>(
+		collection,
+		'year_1_change',
+		'portfolioIncreaseNumber',
+		order,
+		identificationFunction
+	);
+
+	return {
+		day_1_change_number,
+		day_1_change_prct,
+		week_1_change_number,
+		week_1_change_prct,
+		week_2_change_number,
+		week_2_change_prct,
+		week_3_change_number,
+		week_3_change_prct,
+		month_1_change_number,
+		month_1_change_prct,
+		month_2_change_number,
+		month_2_change_prct,
+		month_3_change_number,
+		month_3_change_prct,
+		month_6_change_number,
+		month_6_change_prct,
+		year_1_change_number,
+		year_1_change_prct,
+	};
+};
+
+/*
     for each user update its order is users collection
 */
-const updateHighestPortfolioOrder = async (entities: EntityWithPortfolio[], collection: 'users' | 'groups'): Promise<void> => {
+const updateHighestPortfolioOrder = async (entities: api.STPortfolioEntity[], collection: api.STPortfolioEntityType): Promise<void> => {
 	const total = entities.length;
 	for (let i = 0; i < total; i++) {
 		const entity = entities[i];
@@ -135,50 +225,11 @@ const updateHighestPortfolioOrder = async (entities: EntityWithPortfolio[], coll
 		}
 	}
 };
-// const usersUpdateWeeklyGains = async (): Promise<void> => {};
-
-/* 
-    return order [Highest portfolio, biggest weekly gains, biggest weekly losses]
-    to save into hall of fame
-*/
-const entitiesGetSTHallOfFameUsers = async <T extends EntityWithPortfolio, K extends Promise<EntityWithPortfolioHistoricalData>>(
-	entities: T[],
-	historicalDataFunction: (entity: T) => K
-): Promise<[T[], T[], T[]]> => {
-	const entitiesHistoricalDataRefs = entities.map((u) => historicalDataFunction(u));
-	const entitiesHistoricalData = await Promise.all(entitiesHistoricalDataRefs);
-
-	// get only those where one week progress can be counted
-	const entitiesHistoricalDataUseful = entitiesHistoricalData.filter((data) => data.portfolioSnapshots.length >= 7);
-
-	// order them
-	const calculatePortfolioIncreasePrct = (latestPortfolio: api.STPortfolioSnapshot, weekSoonerPortfolio: api.STPortfolioSnapshot): number => {
-		const previousBalance = weekSoonerPortfolio.portfolioCash + weekSoonerPortfolio.portfolioInvested;
-		const currentBalance = latestPortfolio.portfolioCash + latestPortfolio.portfolioInvested;
-		const lastPortfolioIncreasePrct = Number((currentBalance - previousBalance) / previousBalance);
-		return lastPortfolioIncreasePrct;
-	};
-	const entitiesBiggestWeeklyGains = entitiesHistoricalDataUseful.sort(
-		(a, b) =>
-			calculatePortfolioIncreasePrct(b.portfolioSnapshots[0], b.portfolioSnapshots[6]) -
-			calculatePortfolioIncreasePrct(a.portfolioSnapshots[0], a.portfolioSnapshots[6])
-	);
-
-	// get data
-	const highestPortfolio = entities.slice(0, 15);
-	const weeklyBestGainsPrct = entitiesBiggestWeeklyGains.slice(0, 15).map((u) => entities.find((user) => user.id === u.id)) as T[];
-	const weeklyWorstGainsPrct = entitiesBiggestWeeklyGains
-		.reverse()
-		.slice(0, 15)
-		.map((u) => entities.find((user) => user.id === u.id)) as T[];
-
-	return [highestPortfolio, weeklyBestGainsPrct, weeklyWorstGainsPrct];
-};
 
 // Hall of fame
-const updateHallOfFameEntity = async <STHallOfFameKey extends keyof api.STHallOfFame>(
+const updateHallOfFameEntity = async <STHallOfFameKey extends keyof api.STHallOfFame, T extends api.STPortfolioEntity>(
 	key: STHallOfFameKey,
-	data: api.STHallOfFameUsers | api.STHallOfFameGroups
+	data: api.STHallOfFameEntity<T>
 ): Promise<void> => {
 	await admin
 		.firestore()
@@ -190,4 +241,25 @@ const updateHallOfFameEntity = async <STHallOfFameKey extends keyof api.STHallOf
 			},
 			{ merge: true }
 		);
+};
+
+/* 
+	for users or groups return top 5 by portfolio change (prct or number)
+*/
+const getEntityIdentification = async <T extends EntityIdentification>(
+	entityKey: 'users' | 'groups',
+	portfolioChangeKey: keyof api.STPortfolioChange,
+	portfolioChangeDataKey: keyof api.STPortfolioChangeData,
+	order: 'desc' | 'asc',
+	identificationFunction: (entity?: T | null) => api.STPortfolioEntity | null
+): Promise<api.STPortfolioEntity[]> => {
+	const doc = await admin
+		.firestore()
+		.collection(entityKey)
+		.orderBy(`portfolio.portfolioChange.${portfolioChangeKey}.${portfolioChangeDataKey}`, order)
+		.limit(5)
+		.get();
+
+	const data = doc.docs.map((d) => identificationFunction(d.data() as T) as api.STPortfolioEntity);
+	return data;
 };
