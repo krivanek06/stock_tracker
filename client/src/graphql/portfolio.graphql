@@ -58,6 +58,7 @@ fragment STPortfolioWrapperFragment on STPortfolioWrapper {
 	portfolioChange {
 		...STPortfolioChange
 	}
+	lastPortfolioBalance
 }
 
 fragment STPortfolioSnapshotStartedFragment on STPortfolioSnapshotStarted {
@@ -67,6 +68,7 @@ fragment STPortfolioSnapshotStartedFragment on STPortfolioSnapshotStarted {
 	numberOfExecutedBuyTransactions
 	numberOfExecutedSellTransactions
 	transactionFees
+	lastPortfolioBalance
 }
 
 fragment STPortfolioRiskCalculationsFragment on STPortfolioRiskCalculations {

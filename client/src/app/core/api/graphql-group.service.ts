@@ -276,6 +276,7 @@ export class GraphqlGroupService {
 							portfolioCash: userIdentification.portfolio.portfolioCash,
 							portfolioInvested: userIdentification.portfolio.lastPortfolioSnapshot.portfolioInvested,
 							transactionFees: userIdentification.portfolio.transactionFees,
+							lastPortfolioBalance: userIdentification.portfolio.lastPortfolioBalance,
 						},
 						id: userIdentification.id,
 						photoURL: userIdentification.photoURL || '',
