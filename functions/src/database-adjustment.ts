@@ -127,6 +127,11 @@ const updateGroupHistoricalData = async () => {
 						...createEmptyRank(),
 					},
 					watchedByUsers: watchedByUsersNumber,
+					owner: {
+						startedPortfolio: {
+							lastPortfolioBalance: groupAllData.startedPortfolio.portfolioCash + groupAllData.startedPortfolio.portfolioInvested,
+						},
+					},
 					startedPortfolio: {
 						lastPortfolioBalance: groupAllData.startedPortfolio.portfolioCash + groupAllData.startedPortfolio.portfolioInvested,
 					},

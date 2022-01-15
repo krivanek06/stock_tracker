@@ -105,6 +105,8 @@ export class GroupMemberOverviewModalComponent implements OnInit, OnDestroy {
 			portfolioCash: this.groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioCash - this.data.groupUser.startedPortfolio.portfolioCash,
 			portfolioInvested:
 				this.groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioInvested - this.data.groupUser.startedPortfolio.portfolioInvested,
+			lastPortfolioBalance: this.groupMemberOverview.portfolio.lastPortfolioBalance - this.data.groupUser.startedPortfolio.lastPortfolioBalance,
+			transactionFees: this.groupMemberOverview.portfolio.transactionFees - this.data.groupUser.startedPortfolio.transactionFees,
 		};
 	}
 
@@ -129,6 +131,8 @@ export class GroupMemberOverviewModalComponent implements OnInit, OnDestroy {
 			numberOfExecutedSellTransactions: this.groupMemberOverview.portfolio.numberOfExecutedSellTransactions,
 			portfolioCash: this.groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioCash,
 			portfolioInvested: this.groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioInvested,
+			lastPortfolioBalance: this.groupMemberOverview.portfolio.lastPortfolioBalance,
+			transactionFees: this.groupMemberOverview.portfolio.transactionFees,
 		};
 	}
 }
