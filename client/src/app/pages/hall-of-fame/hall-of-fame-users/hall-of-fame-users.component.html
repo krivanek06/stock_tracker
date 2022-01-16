@@ -1,6 +1,6 @@
 <div class="flex items-center gap-2">
 	<mat-icon class="st-icon">auto_graph</mat-icon>
-	<span class="text-white text-2xl">Top Highest portfolio members</span>
+	<span class="text-white text-2xl">Top highest portfolio members</span>
 </div>
 <h3 class="g-color-secondary text-lg">Application total users: {{ (hallOfFameUser$ | async)?.total }}</h3>
 
@@ -34,7 +34,7 @@
 	<div>
 		<div class="flex items-center gap-2">
 			<mat-icon class="st-icon">person_pin</mat-icon>
-			<span class="text-white text-2xl">Top members by period</span>
+			<span class="text-white text-2xl">Top {{ subsectionName }}</span>
 		</div>
 		<h3 class="g-color-secondary text-lg mb-0">Members who achieved high percentage increase or observed substantial portfolio decrease</h3>
 		<h3 class="g-color-secondary text-lg">Last evaluation date: {{ (hallOfFameUser$ | async)?.lastUpdateDate | date: 'dd.MM.YYYY' }}</h3>

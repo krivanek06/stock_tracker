@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { GraphqlQueryService, StHallOfFameUsersFragment, StUserPublicData, UserStorageService } from '@core';
-import { map, Observable } from 'rxjs';
+import { GraphqlQueryService, StUserPublicData, UserStorageService } from '@core';
+import { HallOfFameBase } from '@hall-of-fame';
+import { Observable } from 'rxjs';
 import { HallOfFameUserSubPages } from '../hall-of-fame.model';
 
 @Component({
@@ -10,19 +11,24 @@ import { HallOfFameUserSubPages } from '../hall-of-fame.model';
 	styleUrls: ['./hall-of-fame-users.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HallOfFameUsersComponent implements OnInit {
+export class HallOfFameUsersComponent extends HallOfFameBase implements OnInit {
 	HallOfFameUserSubPages = HallOfFameUserSubPages;
-	hallOfFameUser$!: Observable<StHallOfFameUsersFragment>;
 	userPublicData$!: Observable<StUserPublicData>;
 
-	constructor(private graphqlQueryService: GraphqlQueryService, private userStorageService: UserStorageService, private router: Router) {}
+	subsectionName: string = 'Best Users';
+
+	constructor(graphqlQueryService: GraphqlQueryService, private userStorageService: UserStorageService, private router: Router) {
+		super(graphqlQueryService);
+	}
 
 	ngOnInit(): void {
+		super.ngOnInit();
 		this.userPublicData$ = this.userStorageService.getUser();
-		this.hallOfFameUser$ = this.graphqlQueryService.queryHallOfFame().pipe(map((res) => res.users));
 	}
 
 	segmentChanged(data: any) {
-		this.router.navigateByUrl(`menu/hall-of-fame/users/${data.detail.value}`);
+		const value = data.detail.value;
+		this.subsectionName = HallOfFameUserSubPages.find((p) => p.value === value)?.name as string;
+		this.router.navigateByUrl(`menu/hall-of-fame/users/${value}`);
 	}
 }

@@ -1,16 +1,19 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { GraphqlQueryService } from '@core';
+import { HallOfFameBase } from '@hall-of-fame';
 
 @Component({
-  selector: 'app-hall-of-fame-groups-best',
-  templateUrl: './hall-of-fame-groups-best.component.html',
-  styleUrls: ['./hall-of-fame-groups-best.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-hall-of-fame-groups-best',
+	templateUrl: './hall-of-fame-groups-best.component.html',
+	styleUrls: ['./hall-of-fame-groups-best.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HallOfFameGroupsBestComponent implements OnInit {
+export class HallOfFameGroupsBestComponent extends HallOfFameBase implements OnInit {
+	constructor(graphqlQueryService: GraphqlQueryService) {
+		super(graphqlQueryService);
+	}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+	ngOnInit(): void {
+		super.ngOnInit();
+	}
 }
