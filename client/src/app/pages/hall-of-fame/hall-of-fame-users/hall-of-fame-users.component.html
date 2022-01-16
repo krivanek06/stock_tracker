@@ -7,22 +7,24 @@
 <!-- highest portfolio -->
 <ng-container *ngIf="hallOfFameUser$ | async as hallOfFameUser">
 	<div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 st-border-bottom-with-space">
-		<app-user-account-info-list
+		<app-position-card
 			*ngFor="let bestUsers of hallOfFameUser.highestPortfolio; let i = index"
 			class="flex-1 2xl:flex-0"
-			[stUserPublicData]="bestUsers"
 			[positionNumber]="i + 1"
 			[myPosition]="(userPublicData$ | async)?.rank?.highestPortfolio?.rankHighestPortfolioPlace"
-		></app-user-account-info-list>
+		>
+			<app-user-account-info-list [stUserPublicData]="bestUsers"></app-user-account-info-list>
+		</app-position-card>
 
 		<!-- my position -->
 		<ng-container *ngIf="userPublicData$ | async as userPublicData">
-			<app-user-account-info-list
+			<app-position-card
 				*ngIf="userPublicData.rank?.highestPortfolio?.rankHighestPortfolioPlace > 9"
-				class="flex-1 2xl:flex-0"
-				[stUserPublicData]="userPublicData"
 				[positionNumber]="userPublicData.rank?.highestPortfolio?.rankHighestPortfolioPlace"
-			></app-user-account-info-list>
+				class="flex-1 2xl:flex-0"
+			>
+				<app-user-account-info-list [stUserPublicData]="userPublicData"></app-user-account-info-list>
+			</app-position-card>
 		</ng-container>
 	</div>
 </ng-container>

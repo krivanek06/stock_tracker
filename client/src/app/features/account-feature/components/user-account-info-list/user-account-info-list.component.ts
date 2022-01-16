@@ -22,14 +22,6 @@ export class UserAccountInfoListComponent implements OnInit {
 	*/
 	@Input() portfolioChangeKey?: keyof StPortfolioChange;
 
-	/* 
-		properties to show user in card and adding #$ place 
-	*/
-	@Input() showInCard = false;
-	@Input() cardBackgroundColor = '';
-	@Input() positionNumber?: number;
-	@Input() myPosition?: number;
-
 	portfolioChange?: StPortfolioChangeData | null;
 
 	constructor() {}
