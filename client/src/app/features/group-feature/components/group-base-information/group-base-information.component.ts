@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { StGroupIdentificationInterface } from '@core';
+import { StGroupIdentificationInterface, StPortfolioChange, StPortfolioChangeData } from '@core';
 
 @Component({
 	selector: 'app-group-base-information',
@@ -34,9 +34,22 @@ export class GroupBaseInformationComponent implements OnInit {
 	@Input() showStopWatchingGroup: boolean | null = false;
 	@Input() showStartWatchingGroup: boolean | null = false;
 
+	/* 
+		used to tell what portfolio change to display, 
+		may be daily, weekly, monthly change
+	*/
+	@Input() portfolioChangeKey?: keyof StPortfolioChange;
+
+	portfolioChange?: StPortfolioChangeData | null;
+
 	constructor() {}
 
-	ngOnInit() {}
+	ngOnInit() {
+		const portfolioChange = this.portfolioChangeKey
+			? (this.groupIdentification.portfolio.portfolioChange[this.portfolioChangeKey] as StPortfolioChangeData)
+			: null;
+		this.portfolioChange = portfolioChange ?? this.groupIdentification.portfolio.portfolioChange.day_1_change;
+	}
 
 	startWatchingGroup() {
 		this.startWatchingGroupEmitter.emit();

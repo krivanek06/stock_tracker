@@ -68,3 +68,8 @@ export const HallOfFameUserSubPages: NameValueContainer[] = [
 	{ name: 'Best users', value: 'best-users' },
 	{ name: 'Worst users', value: 'worst-users' },
 ];
+
+export const HallOfFameGroupsSubPages: NameValueContainer[] = [
+	{ name: 'Best groups', value: 'best-groups' },
+	{ name: 'Worst groups', value: 'worst-groups' },
+];

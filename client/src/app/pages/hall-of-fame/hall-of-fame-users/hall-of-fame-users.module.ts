@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { SharedModule } from '@shared';
+import { PositionCardModule, SharedModule } from '@shared';
 import { HallOfFameUsersComponent } from './hall-of-fame-users.component';
 
 const routes: Routes = [
@@ -30,6 +30,6 @@ const routes: Routes = [
 
 @NgModule({
 	declarations: [HallOfFameUsersComponent],
-	imports: [CommonModule, SharedModule, RouterModule.forChild(routes), IonicModule, UserAccountInfoListModule],
+	imports: [CommonModule, SharedModule, RouterModule.forChild(routes), IonicModule, UserAccountInfoListModule, PositionCardModule],
 })
 export class HallOfFameUsersModule {}
