@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserDisplayModule } from '../components/user-display/user-display.module';
+import { UserDisplayModule } from '@hall-of-fame';
 import { HallOfFameUsersWorstComponent } from './hall-of-fame-users-worst.component';
 
 const routes: Routes = [

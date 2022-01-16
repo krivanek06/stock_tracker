@@ -1,4 +1,4 @@
-<ion-toolbar>
+<ion-toolbar class="mb-4 md:mb-0">
 	<ion-segment (ionChange)="segmentChanged($event)" [value]="hallOfFamePages[0].value" color="primary" scrollable slot="end">
 		<ion-segment-button *ngFor="let data of hallOfFamePages" [value]="data.value">
 			<ion-label>{{ data.name }}</ion-label>

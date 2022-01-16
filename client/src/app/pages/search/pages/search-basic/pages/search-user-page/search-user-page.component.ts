@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { GraphqlUserService, StPortfolioSnapshot, StUserIdentificationDataFragment, StUserPublicDataSearchFragment } from '@core';
-import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingFeatureFacadeService } from '@stock-trading-feature';
+import { GraphqlUserService, StUserIdentificationDataFragment, StUserPublicDataSearchFragment } from '@core';
+import { TradingFeatureFacadeService } from '@stock-trading-feature';
 import { Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-search-user-page',
@@ -12,21 +12,21 @@ import { first, map } from 'rxjs/operators';
 })
 export class SearchUserPageComponent implements OnInit {
 	userPublicDataSearchFragment$!: Observable<StUserPublicDataSearchFragment | null | undefined> | null;
-	tradingChangeWrapper: PortfolioHistoricalWrapper[] = [];
+	//tradingChangeWrapper: PortfolioHistoricalWrapper[] = [];
 	isLoading = false;
 	isSearchEmpty = true;
 	constructor(private graphqlUserService: GraphqlUserService, private tradingFeatureFacadeService: TradingFeatureFacadeService) {}
 
-	get balance$(): Observable<number> | undefined {
-		return this.userPublicDataSearchFragment$?.pipe(
-			map((user) => {
-				const invested = user?.portfolio?.lastPortfolioSnapshot?.portfolioInvested || 0;
-				const portfolioCash = user?.portfolio?.lastPortfolioSnapshot?.portfolioCash || 0;
+	// get balance$(): Observable<number> | undefined {
+	// 	return this.userPublicDataSearchFragment$?.pipe(
+	// 		map((user) => {
+	// 			const invested = user?.portfolio?.lastPortfolioSnapshot?.portfolioInvested || 0;
+	// 			const portfolioCash = user?.portfolio?.lastPortfolioSnapshot?.portfolioCash || 0;
 
-				return invested + portfolioCash;
-			})
-		);
-	}
+	// 			return invested + portfolioCash;
+	// 		})
+	// 	);
+	// }
 
 	ngOnInit() {}
 
@@ -38,12 +38,12 @@ export class SearchUserPageComponent implements OnInit {
 
 		this.userPublicDataSearchFragment$.pipe(first()).subscribe((userPublicData) => {
 			this.isLoading = false;
-			if (userPublicData) {
-				this.tradingChangeWrapper = this.tradingFeatureFacadeService.createPortfolioHistoricalWrappers(
-					userPublicData.userHistoricalData.portfolioSnapshots as StPortfolioSnapshot[],
-					[TIME_INTERVAL_ENUM.DAILY, TIME_INTERVAL_ENUM.WEEKLY, TIME_INTERVAL_ENUM.MONTHLY, TIME_INTERVAL_ENUM.FROM_BEGINNING]
-				);
-			}
+			// if (userPublicData) {
+			// 	this.tradingChangeWrapper = this.tradingFeatureFacadeService.createPortfolioHistoricalWrappers(
+			// 		userPublicData.userHistoricalData.portfolioSnapshots as StPortfolioSnapshot[],
+			// 		[TIME_INTERVAL_ENUM.DAILY, TIME_INTERVAL_ENUM.WEEKLY, TIME_INTERVAL_ENUM.MONTHLY, TIME_INTERVAL_ENUM.FROM_BEGINNING]
+			// 	);
+			// }
 		});
 	}
 

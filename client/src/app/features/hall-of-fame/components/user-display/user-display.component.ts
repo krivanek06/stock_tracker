@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { StPortfolioChange, StUserIdentificationPortfolioFragmentFragment } from '@core';
-import { HallOfFameColors } from '../../../hall-of-fame.model';
+import { HallOfFameColors } from '../../../../pages/hall-of-fame/hall-of-fame.model';
 
 @Component({
 	selector: 'app-user-display',

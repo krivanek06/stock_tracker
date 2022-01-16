@@ -64,77 +64,7 @@
 		</div>
 
 		<!-- portfolio state overview -->
-		<ion-grid>
-			<ion-row>
-				<ion-col size="12" size-sm="6" size-lg="4" class="st-sm-border-bottom">
-					<!-- portfolio current state -->
-					<app-portfolio-state
-						portfolioState="PARTIAL"
-						[startedBalance]="startedBalance"
-						[portfolioCash]="groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioCash"
-						[portfolioInvested]="groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioInvested"
-					></app-portfolio-state>
-				</ion-col>
-				<ion-col size-lg="5" class="c-portfolio-change ion-hide-lg-down">
-					<!-- portfolio change -->
-					<app-portfolio-change
-						*ngFor="let tradingChange of tradingChangeWrapper"
-						[inlinePriceWithIncrease]="false"
-						[tradingChangeWrapper]="tradingChange"
-						[balance]="groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioInvested + groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioCash"
-					></app-portfolio-change>
-				</ion-col>
-				<ion-col size="12" size-sm="6" size-lg="3" class="st-sm-border-bottom">
-					<!-- portfolio increase chart -->
-					<div class="c-portfolio-chart">
-						<app-portfolio-increase-chart
-							[heightPx]="200"
-							[stStartedPortfoliobalance]="startedBalance"
-							[portfolioInvested]="groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioInvested"
-							[portfolioCash]="groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioCash"
-						></app-portfolio-increase-chart>
-					</div>
-				</ion-col>
-			</ion-row>
-
-			<!-- portfolio change -->
-			<ion-row class="ion-hide-lg-up st-sm-border-bottom">
-				<ion-col class="c-portfolio-change">
-					<app-portfolio-change
-						*ngFor="let tradingChange of tradingChangeWrapper"
-						[inlinePriceWithIncrease]="false"
-						[tradingChangeWrapper]="tradingChange"
-						[balance]="groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioInvested + groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioCash"
-					></app-portfolio-change>
-				</ion-col>
-			</ion-row>
-
-			<!-- portfolio change charts -->
-			<app-composed-portfolio-charts [stPortfolioSnapshots]="stPortfolioSnapshots"></app-composed-portfolio-charts>
-
-			<!-- holdings table -->
-			<app-composed-portfolio-holdings-table
-				[clickable]="false"
-				[holdings]="groupMemberOverview.holdings"
-				[totalPortfolio]="groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioInvested + groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioCash"
-			>
-			</app-composed-portfolio-holdings-table>
-
-			<!-- holdings pie charts -->
-			<app-composed-portfolio-allocation-charts
-				[portfolioInvested]="groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioInvested"
-				[portfolioCash]="groupMemberOverview.portfolio.lastPortfolioSnapshot.portfolioCash"
-				[holdings]="groupMemberOverview.holdings"
-			></app-composed-portfolio-allocation-charts>
-
-			<!-- transactions table -->
-			<app-composed-transactions
-				[stTransactionSnapshots]="groupMemberOverview.userHistoricalData.transactionSnapshots"
-				[portfolioWrapper]="groupMemberOverview.portfolio"
-				[transactions]="groupMemberOverview.transactionsSnippets"
-				[topTransactions]="groupMemberOverview.topTransactions"
-			></app-composed-transactions>
-		</ion-grid>
+		<app-composed-searched-user-data [userData]="groupMemberOverview" [showHeaderInformation]="false"></app-composed-searched-user-data>
 	</div>
 
 	<ng-template #showLoader>
