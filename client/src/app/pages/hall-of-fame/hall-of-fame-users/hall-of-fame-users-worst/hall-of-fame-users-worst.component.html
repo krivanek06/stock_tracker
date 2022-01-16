@@ -1,0 +1,50 @@
+<div *ngIf="hallOfFameUser$ | async as hallOfFameUser" class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-y-6 gap-x-4">
+	<app-user-display
+		title="Worst daily gainers"
+		portfolioChangeKey="day_1_change"
+		[userIdentifications]="hallOfFameUser.wortGainers.day_1_change_prct"
+		[colorIndex]="0"
+	></app-user-display>
+	<app-user-display
+		title="Worst 1 week gainers"
+		portfolioChangeKey="week_1_change"
+		[userIdentifications]="hallOfFameUser.wortGainers.week_1_change_prct"
+		[colorIndex]="1"
+	></app-user-display>
+	<app-user-display
+		title="Worst 2 week gainers"
+		portfolioChangeKey="week_2_change"
+		[userIdentifications]="hallOfFameUser.wortGainers.week_2_change_prct"
+		[colorIndex]="2"
+	></app-user-display>
+	<app-user-display
+		title="Worst 3 week gainers"
+		portfolioChangeKey="week_3_change"
+		[userIdentifications]="hallOfFameUser.wortGainers.week_3_change_prct"
+		[colorIndex]="3"
+	></app-user-display>
+	<app-user-display
+		title="Worst 1 month gainers"
+		portfolioChangeKey="month_1_change"
+		[userIdentifications]="hallOfFameUser.wortGainers.month_1_change_prct"
+		[colorIndex]="4"
+	></app-user-display>
+	<app-user-display
+		title="Worst 2 month gainers"
+		portfolioChangeKey="month_2_change"
+		[userIdentifications]="hallOfFameUser.wortGainers.month_2_change_prct"
+		[colorIndex]="5"
+	></app-user-display>
+	<app-user-display
+		title="Worst 3 month gainers"
+		portfolioChangeKey="month_3_change"
+		[userIdentifications]="hallOfFameUser.wortGainers.month_3_change_prct"
+		[colorIndex]="6"
+	></app-user-display>
+	<app-user-display
+		title="Worst 6 month gainers"
+		portfolioChangeKey="month_6_change"
+		[userIdentifications]="hallOfFameUser.wortGainers.month_6_change_prct"
+		[colorIndex]="6"
+	></app-user-display>
+</div>

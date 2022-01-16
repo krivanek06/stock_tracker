@@ -23,6 +23,7 @@ module.exports = {
 		},
 		flex: {
 			...defaultTheme.flex,
+			0: '0 0 0%',
 			0.5: '0.5 0.5 0%',
 			2: '2 2 0%',
 			3: '3 3 0%',

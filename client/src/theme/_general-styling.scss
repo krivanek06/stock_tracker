@@ -845,21 +845,6 @@ ion-skeleton-text {
 	}
 }
 
-.st-first-position-color {
-	color: #d8bc17;
-}
-.st-second-position-color {
-	color: #b9b9b9;
-}
-
-.st-third-position -color {
-	color: #ea7a2b;
-}
-
-.st-my-position-color {
-	color: #c36778;
-}
-
 .st-no-result-container {
 	display: flex;
 	flex-flow: column;
@@ -1051,4 +1036,34 @@ ion-content {
 
 .g-flex-md-gap-4 {
 	@apply flex flex-col md:flex-row gap-4;
+}
+
+.g-first-position {
+	background-color: #f31903;
+}
+.g-second-position {
+	background-color: #afafaf;
+}
+
+.g-third-position {
+	background-color: #cd7f32;
+}
+
+.g-my-position {
+	background-color: #824150;
+}
+
+.g-first-position-color {
+	color: #cf212a;
+}
+.g-second-position-color {
+	color: #d3d3d3;
+}
+
+.g-third-position-color {
+	color: #ea7a2b;
+}
+
+.g-my-position-color {
+	color: #c36778;
 }

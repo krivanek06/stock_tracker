@@ -23,20 +23,20 @@
 		button
 		(click)="clickedMember(groupUser)"
 		[ngClass]="{
-                 'my-position': groupUser.id === user?.id && i !== 0 && i !== 1 && i !== 2,
-                  'first-position': i === 0,
-                  'second-position': i === 1,
-                  'third-position': i === 2
+                 'g-my-position': groupUser.id === user?.id && i !== 0 && i !== 1 && i !== 2,
+                  'g-first-position': i === 0,
+                  'g-second-position': i === 1,
+                  'g-third-position': i === 2
                 }"
 	>
 		<app-group-user-base-information
 			[showIncreasePosition]="groupMemberSort.value === GroupMemberSortValuesEnum.highest_portfolio"
 			[groupUserPosition]="i + 1"
 			[showPortfolioSinceMember]="showPortfolioSinceMember"
-			[useClassStyling]="groupUser.id === user?.id && i !== 0 && i !== 1 && i !== 2 ? 'st-my-position-color' :
-                                   i === 0 ? 'st-first-position-color' :
-                                   i === 1 ? 'st-second-position-color' :
-                                   i === 2 ? 'st-third-position-color' : ''"
+			[useClassStyling]="groupUser.id === user?.id && i !== 0 && i !== 1 && i !== 2 ? 'g-my-position-color' :
+                                   i === 0 ? 'g-first-position-color' :
+                                   i === 1 ? 'g-second-position-color' :
+                                   i === 2 ? 'g-third-position-color' : ''"
 			[groupUser]="groupUser"
 		>
 		</app-group-user-base-information>

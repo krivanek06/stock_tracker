@@ -1,4 +1,4 @@
-<span *ngIf="!price && showNAIfPriceZero; else showItem">N/A</span>
+<span *ngIf="!price && showNAIfPriceZero; else showItem" class="st-font-0">N/A</span>
 
 <ng-template #showItem>
 	<div
@@ -12,7 +12,7 @@
 		<!-- price - position left -->
 		<ion-text *ngIf="price && pricePosition === 'left'" class="st-small-right-space">
 			<ion-text *ngIf="priceText" class="st-small-right-space">{{ priceText }}</ion-text>
-			<ion-text>{{ price | numberFormatter: false : showDollarSignOnPrice}}</ion-text>
+			<ion-text class="st-font-0">{{ price | numberFormatter: false : showDollarSignOnPrice}}</ion-text>
 		</ion-text>
 
 		<!-- percentage -->
@@ -45,6 +45,7 @@
 		<ion-text *ngIf="price && (pricePosition === 'right' || pricePosition === 'bottom')" class="st-small-left-space">
 			<ion-text *ngIf="priceText" class="st-small-right-space">{{ priceText }}</ion-text>
 			<ion-text
+				class="st-font-0"
 				[ngClass]="{
                       'st-font-4':  pricePosition === 'bottom',
                       'st-font-size-12':  pricePosition === 'bottom'

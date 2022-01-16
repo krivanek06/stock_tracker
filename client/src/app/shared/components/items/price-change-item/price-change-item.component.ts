@@ -7,8 +7,8 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PriceChangeItemComponent implements OnInit {
-	@Input() price!: number;
-	@Input() priceChange: number | null = null;
+	@Input() price?: number;
+	@Input() priceChange?: number | null = null;
 	@Input() pricePosition: 'left' | 'right' | 'bottom' = 'right';
 	@Input() priceText?: string;
 	@Input() showIcon = true;
