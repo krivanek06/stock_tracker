@@ -22,7 +22,6 @@ import {
 	StMarketOverviewPartialData,
 	SymbolHistoricalPrices,
 } from '../graphql-schema';
-import {} from './../graphql-schema/customGraphql.service';
 
 @Injectable({
 	providedIn: 'root',

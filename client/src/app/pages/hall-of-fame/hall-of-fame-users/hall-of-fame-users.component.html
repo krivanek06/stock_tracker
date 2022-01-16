@@ -1,0 +1,51 @@
+<div class="flex items-center gap-2">
+	<mat-icon class="st-icon">auto_graph</mat-icon>
+	<span class="text-white text-2xl">Top Highest portfolio members</span>
+</div>
+<h3 class="g-color-secondary text-lg">Application total users: {{ (hallOfFameUser$ | async)?.total }}</h3>
+
+<!-- highest portfolio -->
+<ng-container *ngIf="hallOfFameUser$ | async as hallOfFameUser">
+	<div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 st-border-bottom-with-space">
+		<app-user-account-info-list
+			*ngFor="let bestUsers of hallOfFameUser.highestPortfolio; let i = index"
+			class="flex-1 2xl:flex-0"
+			[stUserPublicData]="bestUsers"
+			[positionNumber]="i + 1"
+			[myPosition]="(userPublicData$ | async)?.rank?.highestPortfolio?.rankHighestPortfolioPlace"
+		></app-user-account-info-list>
+
+		<!-- my position -->
+		<ng-container *ngIf="userPublicData$ | async as userPublicData">
+			<app-user-account-info-list
+				*ngIf="userPublicData.rank?.highestPortfolio?.rankHighestPortfolioPlace > 9"
+				class="flex-1 2xl:flex-0"
+				[stUserPublicData]="userPublicData"
+				[positionNumber]="userPublicData.rank?.highestPortfolio?.rankHighestPortfolioPlace"
+			></app-user-account-info-list>
+		</ng-container>
+	</div>
+</ng-container>
+
+<div class="flex flex-col md:flex-row justify-between">
+	<!-- Users -->
+	<div>
+		<div class="flex items-center gap-2">
+			<mat-icon class="st-icon">person_pin</mat-icon>
+			<span class="text-white text-2xl">Top members by period</span>
+		</div>
+		<h3 class="g-color-secondary text-lg mb-0">Members who achieved high percentage increase or observed substantial portfolio decrease</h3>
+		<h3 class="g-color-secondary text-lg">Last evaluation date: {{ (hallOfFameUser$ | async)?.lastUpdateDate | date: 'dd.MM.YYYY' }}</h3>
+	</div>
+	<!-- sub pages -->
+	<div class="mb-6 mt-2 md:mt-0">
+		<ion-segment (ionChange)="segmentChanged($event)" [value]="HallOfFameUserSubPages[0].value" color="primary" scrollable slot="end">
+			<ion-segment-button *ngFor="let data of HallOfFameUserSubPages" [value]="data.value">
+				<ion-label>{{ data.name }}</ion-label>
+			</ion-segment-button>
+		</ion-segment>
+	</div>
+</div>
+
+<!-- best & worst users sub pages -->
+<router-outlet></router-outlet>

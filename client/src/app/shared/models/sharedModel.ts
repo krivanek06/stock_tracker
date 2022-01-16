@@ -107,6 +107,6 @@ export interface InputSourceSliderConfig {
 	max: number;
 }
 
-export type PositionColors = 'st-first-position-color' | 'st-second-position-color' | 'st-third-position-color' | 'st-my-position-color' | '';
+export type PositionColors = 'g-first-position-color' | 'g-second-position-color' | 'g-third-position-color' | 'g-my-position-color' | '';
 
 export const HistoricalPricePeriods = ['1min', '5min', '15min', '30min', '1hour', '4hour', '1y', '5y', 'all'];

@@ -98,22 +98,30 @@ const updateGroupHistoricalData = async () => {
 
 			// ==========================================
 			// group members DOCS
-			// const groupMemberDoc = await admin
-			// 	.firestore()
-			// 	.collection('groups')
-			// 	.doc(ref.id)
-			// 	.collection(api.ST_USER_COLLECTION_MORE_INFORMATION)
-			// 	.doc(api.ST_GROUP_COLLECTION_MEMBERS)
-			// 	.get();
+			const groupMemberDoc = await admin
+				.firestore()
+				.collection('groups')
+				.doc(ref.id)
+				.collection(api.ST_USER_COLLECTION_MORE_INFORMATION)
+				.doc(api.ST_GROUP_COLLECTION_MEMBERS)
+				.get();
 
-			// const mamberData = groupMemberDoc.data() as api.STGroupMembersDocument;
-			// const watchedByUser = mamberData.watchedByUser || [];
-			// await groupMemberDoc.ref.set(
-			// 	{
-			// 		watchedByUser,
-			// 	},
-			// 	{ merge: true }
-			// );
+			const groupMemberData = groupMemberDoc.data() as api.STGroupMembersDocument;
+			const members = groupMemberData.members.map((m) => {
+				return {
+					...m,
+					startedPortfolio: {
+						...m.startedPortfolio,
+						lastPortfolioBalance: m.startedPortfolio.portfolioCash + m.startedPortfolio.portfolioInvested,
+					},
+				} as api.STGroupUser;
+			});
+			await groupMemberDoc.ref.set(
+				{
+					members,
+				},
+				{ merge: true }
+			);
 
 			// ==========================================
 			// update groups

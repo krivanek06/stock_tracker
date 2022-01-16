@@ -1,0 +1,13 @@
+<ng-container *ngIf="userIdentifications && userIdentifications.length > 0">
+	<div class="text-xl mb-2" [style.color]="HallOfFameColors[colorIndex].titleColor">{{ title }}</div>
+	<div class="flex flex-col gap-2">
+		<app-user-account-info-list
+			*ngFor="let user of userIdentifications"
+			class="flex-1 2xl:flex-0"
+			[cardBackgroundColor]="HallOfFameColors[colorIndex].cardBackgroundColor"
+			[showInCard]="true"
+			[stUserPublicData]="user"
+			[portfolioChangeKey]="portfolioChangeKey"
+		></app-user-account-info-list>
+	</div>
+</ng-container>
