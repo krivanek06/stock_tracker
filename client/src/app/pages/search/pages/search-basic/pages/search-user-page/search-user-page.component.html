@@ -11,7 +11,10 @@
 
 <!-- result of user -->
 <ng-container *ngIf="userPublicDataSearchFragment$ | async as userData; else showLoader">
-	<app-composed-searched-user-data [userData]="userData" (clearEmitter)="clearResult()"></app-composed-searched-user-data>
+	<ion-buttons>
+		<ion-button fill="outline" color="danger" shape="round" (click)="clearResult()">Clear</ion-button>
+	</ion-buttons>
+	<app-composed-searched-user-data [userData]="userData"></app-composed-searched-user-data>
 </ng-container>
 
 <!-- loader -->

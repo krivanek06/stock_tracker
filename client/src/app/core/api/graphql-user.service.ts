@@ -25,11 +25,11 @@ export class GraphqlUserService {
 			.pipe(map((x) => x.data.queryUserPublicDataByUsername.map((k) => k as StUserIdentificationDataFragment)));
 	}
 
-	queryStUserPublicDataSearch(userId: string): Observable<StUserPublicDataSearchFragment | null | undefined> {
+	queryStUserPublicDataSearch(userId: string): Observable<StUserPublicDataSearchFragment> {
 		return this.queryStUserPublicDataSearchByIdGQL
 			.fetch({
 				id: userId,
 			})
-			.pipe(map((res) => res.data.queryUserPublicDataById));
+			.pipe(map((res) => res.data.queryUserPublicDataById as StUserPublicDataSearchFragment));
 	}
 }

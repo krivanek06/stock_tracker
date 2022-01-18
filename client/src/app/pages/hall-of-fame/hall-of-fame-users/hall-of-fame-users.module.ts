@@ -1,4 +1,4 @@
-import { UserAccountInfoListModule } from '@account-feature';
+import { AccountOverviewDialogModule, UserAccountInfoListModule } from '@account-feature';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -30,6 +30,14 @@ const routes: Routes = [
 
 @NgModule({
 	declarations: [HallOfFameUsersComponent],
-	imports: [CommonModule, SharedModule, RouterModule.forChild(routes), IonicModule, UserAccountInfoListModule, PositionCardModule],
+	imports: [
+		CommonModule,
+		SharedModule,
+		RouterModule.forChild(routes),
+		IonicModule,
+		UserAccountInfoListModule,
+		PositionCardModule,
+		AccountOverviewDialogModule,
+	],
 })
 export class HallOfFameUsersModule {}

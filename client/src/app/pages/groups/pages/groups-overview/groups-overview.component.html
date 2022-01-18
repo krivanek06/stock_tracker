@@ -20,22 +20,26 @@
 
 	<ng-container *ngIf="user.groups.groupOwner.length > 0 || user.groups.groupMember.length > 0; else showNoGroupsMessage">
 		<!-- owner of groups -->
-		<app-generic-card *ngFor="let group of user.groups.groupOwner" additionalClasses="st-bottom-space">
-			<app-group-top-users-information
-				[groupAllData]="group"
-				[showVisitButton]="true"
-				(visitEmitter)="visitGroup(group)"
-			></app-group-top-users-information>
-		</app-generic-card>
+		<div class="c-group-wrapper st-bottom-space">
+			<app-generic-card *ngFor="let group of user.groups.groupOwner">
+				<app-group-top-users-information
+					[groupAllData]="group"
+					[showVisitButton]="true"
+					(visitEmitter)="visitGroup(group)"
+				></app-group-top-users-information>
+			</app-generic-card>
+		</div>
 
 		<!-- member fo groups -->
-		<app-generic-card *ngFor="let group of user.groups.groupMember" additionalClasses="st-bottom-space">
-			<app-group-top-users-information
-				[groupAllData]="group"
-				[showVisitButton]="true"
-				(visitEmitter)="visitGroup(group)"
-			></app-group-top-users-information>
-		</app-generic-card>
+		<div class="c-group-wrapper st-bottom-space">
+			<app-generic-card *ngFor="let group of user.groups.groupMember">
+				<app-group-top-users-information
+					[groupAllData]="group"
+					[showVisitButton]="true"
+					(visitEmitter)="visitGroup(group)"
+				></app-group-top-users-information>
+			</app-generic-card>
+		</div>
 	</ng-container>
 
 	<ng-template #showNoGroupsMessage>
@@ -49,15 +53,17 @@
 			<ion-label class="st-font-size-18 st-font-0"> Watched groups </ion-label>
 		</ion-list-header>
 
-		<app-generic-card *ngFor="let group of user.groups.groupWatched" additionalClasses="st-bottom-space">
-			<app-group-top-users-information
-				[groupAllData]="group"
-				[showVisitButton]="true"
-				[showStopWatchingGroup]="true"
-				(stopWatchingGroupEmitter)="stopWatchingGroup(group)"
-				(visitEmitter)="visitGroup(group)"
-			></app-group-top-users-information>
-		</app-generic-card>
+		<div class="c-group-wrapper st-bottom-space">
+			<app-generic-card *ngFor="let group of user.groups.groupWatched">
+				<app-group-top-users-information
+					[groupAllData]="group"
+					[showVisitButton]="true"
+					[showStopWatchingGroup]="true"
+					(stopWatchingGroupEmitter)="stopWatchingGroup(group)"
+					(visitEmitter)="visitGroup(group)"
+				></app-group-top-users-information>
+			</app-generic-card>
+		</div>
 	</ng-container>
 
 	<!-- Invitations -->
@@ -67,29 +73,33 @@
 		</ion-list-header>
 
 		<!-- Received invitations -->
-		<app-generic-card *ngFor="let group of user.groups.groupInvitationReceived" additionalClasses="st-bottom-space">
-			<app-group-top-users-information
-				[groupAllData]="group"
-				[showVisitButton]="true"
-				[showAcceptButton]="true"
-				[showDeclineButton]="true"
-				(visitEmitter)="visitGroup(group)"
-				(acceptEmitter)="acceptInvitation(group)"
-				(declineEmitter)="declineInvitation(group)"
-			>
-			</app-group-top-users-information>
-		</app-generic-card>
+		<div class="c-group-wrapper st-bottom-space">
+			<app-generic-card *ngFor="let group of user.groups.groupInvitationReceived">
+				<app-group-top-users-information
+					[groupAllData]="group"
+					[showVisitButton]="true"
+					[showAcceptButton]="true"
+					[showDeclineButton]="true"
+					(visitEmitter)="visitGroup(group)"
+					(acceptEmitter)="acceptInvitation(group)"
+					(declineEmitter)="declineInvitation(group)"
+				>
+				</app-group-top-users-information>
+			</app-generic-card>
+		</div>
 
 		<!-- Sent invitations -->
-		<app-generic-card *ngFor="let group of user.groups.groupInvitationSent" additionalClasses="st-bottom-space">
-			<app-group-top-users-information
-				[groupAllData]="group"
-				[showVisitButton]="true"
-				[showDeclineButton]="true"
-				(visitEmitter)="visitGroup(group)"
-				(declineEmitter)="declineInvitation(group)"
-			>
-			</app-group-top-users-information>
-		</app-generic-card>
+		<div class="c-group-wrapper st-bottom-space">
+			<app-generic-card *ngFor="let group of user.groups.groupInvitationSent">
+				<app-group-top-users-information
+					[groupAllData]="group"
+					[showVisitButton]="true"
+					[showDeclineButton]="true"
+					(visitEmitter)="visitGroup(group)"
+					(declineEmitter)="declineInvitation(group)"
+				>
+				</app-group-top-users-information>
+			</app-generic-card>
+		</div>
 	</ng-container>
 </ng-container>

@@ -11,6 +11,7 @@
 			*ngFor="let bestUsers of hallOfFameUser.highestPortfolio; let i = index"
 			class="flex-1 2xl:flex-0"
 			[positionNumber]="i + 1"
+			(clickedEmitter)="showUser(bestUsers)"
 			[myPosition]="(userPublicData$ | async)?.rank?.highestPortfolio?.rankHighestPortfolioPlace"
 		>
 			<app-user-account-info-list [stUserPublicData]="bestUsers"></app-user-account-info-list>

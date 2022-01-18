@@ -13,7 +13,11 @@
 			[positionNumber]="i + 1"
 			[isButton]="false"
 		>
-			<app-group-top-users-information [groupAllData]="group" [showVisitButton]="true"></app-group-top-users-information>
+			<app-group-top-users-information
+				[groupAllData]="group"
+				[showVisitButton]="true"
+				(visitEmitter)="visitGroup(group)"
+			></app-group-top-users-information>
 		</app-position-card>
 	</div>
 </ng-container>

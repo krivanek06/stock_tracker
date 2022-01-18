@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HallOfFamePages } from './hall-of-fame.model';
+import { HallOfFamePages } from '@hall-of-fame';
 
 @Component({
 	selector: 'app-hall-of-fame',

@@ -4,8 +4,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ComposedSearchedUserDataModule } from '@composed-components-feature';
 import { IonicModule } from '@ionic/angular';
-import { DefaultImgDirectiveModule, GenericCardModule, GenericListModule, PieChartWrapperModule, RelativeTimePipeModule } from '@shared';
-import { PortfolioStateModule } from '@stock-trading-feature';
+import { DefaultImgDirectiveModule, RelativeTimePipeModule } from '@shared';
 import { GroupMemberOverviewModalComponent } from './group-member-overview-modal.component';
 
 @NgModule({
@@ -15,24 +14,7 @@ import { GroupMemberOverviewModalComponent } from './group-member-overview-modal
 		IonicModule,
 		DefaultImgDirectiveModule,
 		RelativeTimePipeModule,
-		PortfolioStateModule,
 		MatTooltipModule,
-		// PortfolioChangeModule,
-		// PortfolioIncreaseChartModule,
-		// PortfolioGrowthChartModule,
-		// PortfolioChangeChartModule,
-		// HoldingsTableModule,
-		GenericListModule,
-		GenericCardModule,
-		PieChartWrapperModule,
-		// HoldingsToPortfolioChartSeriesPipeModule,
-		// HoldingsToSectorChartSeriesPipeModule,
-		// TransactionsTableModule,
-		// TransactionsChartModule,
-		// ComposedPortfolioChartsModule,
-		// ComposedTransactionsModule,
-		// ComposedPortfolioAllocationChartsModule,
-		// ComposedPortfolioHoldingsTableModule,
 		ComposedSearchedUserDataModule,
 		MatDialogModule,
 	],
