@@ -5,6 +5,7 @@
 			*ngFor="let user of userIdentifications"
 			[cardBackgroundColor]="HallOfFameColors[colorIndex].cardBackgroundColor"
 			[showInCard]="true"
+			(clickedEmitter)="showUser(user)"
 			class="flex-1 2xl:flex-0"
 		>
 			<app-user-account-info-list [stUserPublicData]="user" [portfolioChangeKey]="portfolioChangeKey"></app-user-account-info-list>

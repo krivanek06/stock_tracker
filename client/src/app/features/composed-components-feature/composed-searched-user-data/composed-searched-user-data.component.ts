@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { StGroupMemberOverviewFragment, StPortfolioSnapshot, StUserPublicDataSearchFragment } from '@core';
 import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingFeatureFacadeService } from '@stock-trading-feature';
 
@@ -9,10 +9,8 @@ import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingFeatureFacadeSer
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ComposedSearchedUserDataComponent implements OnInit {
-	@Output() clearEmitter: EventEmitter<void> = new EventEmitter<void>();
 	@Input() userData!: StUserPublicDataSearchFragment | StGroupMemberOverviewFragment;
 	@Input() showHeaderInformation = true;
-
 	tradingChangeWrapper: PortfolioHistoricalWrapper[] = [];
 
 	constructor(private tradingFeatureFacadeService: TradingFeatureFacadeService) {}
@@ -22,9 +20,5 @@ export class ComposedSearchedUserDataComponent implements OnInit {
 			this.userData.userHistoricalData.portfolioSnapshots as StPortfolioSnapshot[],
 			[TIME_INTERVAL_ENUM.DAILY, TIME_INTERVAL_ENUM.WEEKLY, TIME_INTERVAL_ENUM.MONTHLY, TIME_INTERVAL_ENUM.FROM_BEGINNING]
 		);
-	}
-
-	clearResult(): void {
-		this.clearEmitter.emit();
 	}
 }

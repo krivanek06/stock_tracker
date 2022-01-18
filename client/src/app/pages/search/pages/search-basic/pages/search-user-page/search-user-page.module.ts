@@ -1,6 +1,7 @@
 import { UserAccountSearchModule } from '@account-feature';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { RouterModule, Routes } from '@angular/router';
 import { ComposedSearchedUserDataModule } from '@composed-components-feature';
 import { IonicModule } from '@ionic/angular';
@@ -15,6 +16,6 @@ const routes: Routes = [
 
 @NgModule({
 	declarations: [SearchUserPageComponent],
-	imports: [CommonModule, RouterModule.forChild(routes), IonicModule, UserAccountSearchModule, ComposedSearchedUserDataModule],
+	imports: [CommonModule, RouterModule.forChild(routes), IonicModule, UserAccountSearchModule, ComposedSearchedUserDataModule, MatButtonModule],
 })
 export class SearchUserPageModule {}

@@ -1,0 +1,22 @@
+<mat-dialog-content>
+	<ion-toolbar>
+		<ion-buttons slot="end">
+			<ion-button color="danger" (click)="dismissModal()" fill="clear">
+				<ion-icon name="close-outline"></ion-icon>
+				Close
+			</ion-button>
+		</ion-buttons>
+	</ion-toolbar>
+
+	<!-- body -->
+	<div *ngIf="searchedUser$ | async as searchedUser; else showLoader" class="p-4">
+		<app-composed-searched-user-data [userData]="searchedUser"></app-composed-searched-user-data>
+	</div>
+
+	<!-- spinner -->
+	<ng-template #showLoader>
+		<div class="spinner-container">
+			<ion-spinner color="primary"></ion-spinner>
+		</div>
+	</ng-template>
+</mat-dialog-content>

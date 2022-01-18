@@ -1,0 +1,25 @@
+:host {
+	ion-buttons {
+		@apply w-full md:w-auto justify-end;
+		margin-top: -22px;
+		margin-bottom: 22px;
+
+		@screen md {
+			margin-top: -55px;
+			margin-bottom: 0;
+		}
+
+		@screen lg {
+			padding-right: 4%;
+			margin-bottom: 0;
+		}
+
+		ion-button {
+			min-width: 165px;
+			width: 100%;
+			@screen md {
+				width: auto;
+			}
+		}
+	}
+}

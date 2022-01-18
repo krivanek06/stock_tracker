@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GraphqlQueryService } from '@core';
 import { HallOfFameBase } from '@hall-of-fame';
-import { HallOfFameGroupsSubPages } from '../hall-of-fame.model';
+import { HallOfFameGroupsSubPages } from '../../../features/hall-of-fame/models/hall-of-fame.model';
+import { StGroupIdentificationDataFragment } from './../../../core/graphql-schema/customGraphql.service';
 
 @Component({
 	selector: 'app-hall-of-fame-groups',
@@ -26,5 +27,10 @@ export class HallOfFameGroupsComponent extends HallOfFameBase implements OnInit 
 		const value = data.detail.value;
 		this.subsectionName = HallOfFameGroupsSubPages.find((p) => p.value === value)?.name as string;
 		this.router.navigateByUrl(`menu/hall-of-fame/groups/${value}`);
+	}
+
+	visitGroup({ id }: StGroupIdentificationDataFragment): void {
+		console.log('visit', id);
+		this.router.navigateByUrl(`menu/groups/${id}`);
 	}
 }

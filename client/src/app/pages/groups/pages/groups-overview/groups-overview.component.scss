@@ -1,0 +1,10 @@
+:host {
+	app-group-top-users-information {
+		max-width: 33%;
+		flex: 1;
+	}
+
+	.c-group-wrapper {
+		@apply grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4;
+	}
+}

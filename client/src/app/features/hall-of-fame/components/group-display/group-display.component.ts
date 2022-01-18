@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StGroupIdentificationDataFragment, StPortfolioChange } from '@core';
-import { HallOfFameColors } from 'src/app/pages/hall-of-fame/hall-of-fame.model';
+import { HallOfFameColors } from 'src/app/features/hall-of-fame/models/hall-of-fame.model';
 
 @Component({
 	selector: 'app-group-display',
@@ -21,7 +21,6 @@ export class GroupDisplayComponent implements OnInit {
 	ngOnInit(): void {}
 
 	visitGroup({ id }: StGroupIdentificationDataFragment): void {
-		console.log('visit', id);
 		this.router.navigateByUrl(`menu/groups/${id}`);
 	}
 }
