@@ -16,6 +16,9 @@ export const STPortfolioTypeDefs = gql`
 	type STPortfolioChangeData {
 		portfolioIncreaseNumber: Float!
 		portfolioIncreasePrct: Float!
+		portfolioInvested: Float!
+		portfolioCash: Float!
+		portfolioBalance: Float!
 	}
 
 	type STPortfolioChange {

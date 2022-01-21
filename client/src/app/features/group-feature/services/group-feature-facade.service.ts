@@ -11,7 +11,7 @@ import {
 	UserStorageService,
 } from '@core';
 import { DialogService } from '@shared';
-import { GroupCreateModalComponent, GroupMemberOverviewModalComponent } from '../entry-components';
+import { GroupCreateModalComponent } from '../entry-components';
 
 @Injectable({
 	providedIn: 'root',
@@ -46,13 +46,6 @@ export class GroupFeatureFacadeService {
 				DialogService.showNotificationBar(`Group ${groupAllDataInput.name} has been edited`);
 			}
 		}
-	}
-
-	async showGroupMemberOverviewModal(groupUser: StGroupUser): Promise<void> {
-		this.dialog.open(GroupMemberOverviewModalComponent, {
-			data: { groupUser },
-			panelClass: 'g-mat-dialog-big',
-		});
 	}
 
 	/***

@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { StGroupMemberOverviewFragment, StPortfolioSnapshot, StUserPublicDataSearchFragment } from '@core';
-import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingFeatureFacadeService } from '@stock-trading-feature';
+import { StGroupMemberOverviewFragment, StUserPublicDataSearchFragment } from '@core';
+import { GenericChartSeries, WindowService } from '@shared';
+import { PortfolioChangeItemsToDisplay, TradingFeatureFacadeService } from '@stock-trading-feature';
+import { Observable } from 'rxjs';
 
 @Component({
 	selector: 'app-composed-searched-user-data',
@@ -11,14 +13,18 @@ import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM, TradingFeatureFacadeSer
 export class ComposedSearchedUserDataComponent implements OnInit {
 	@Input() userData!: StUserPublicDataSearchFragment | StGroupMemberOverviewFragment;
 	@Input() showHeaderInformation = true;
-	tradingChangeWrapper: PortfolioHistoricalWrapper[] = [];
+
+	portfolioChartHeight!: number;
+	portfolioComparisonSeries!: Observable<GenericChartSeries[]>;
+
+	PortfolioChangeItemsToDisplay = PortfolioChangeItemsToDisplay;
 
 	constructor(private tradingFeatureFacadeService: TradingFeatureFacadeService) {}
 
 	ngOnInit(): void {
-		this.tradingChangeWrapper = this.tradingFeatureFacadeService.createPortfolioHistoricalWrappers(
-			this.userData.userHistoricalData.portfolioSnapshots as StPortfolioSnapshot[],
-			[TIME_INTERVAL_ENUM.DAILY, TIME_INTERVAL_ENUM.WEEKLY, TIME_INTERVAL_ENUM.MONTHLY, TIME_INTERVAL_ENUM.FROM_BEGINNING]
+		this.portfolioChartHeight = WindowService.getWindowHeightPrctInPx(34);
+		this.portfolioComparisonSeries = this.tradingFeatureFacadeService.comparePortfolioWithIndexes(
+			this.userData.userHistoricalData.portfolioSnapshots
 		);
 	}
 }

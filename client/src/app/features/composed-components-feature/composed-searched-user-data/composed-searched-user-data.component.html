@@ -1,97 +1,77 @@
-<!-- user identification -->
-<div *ngIf="showHeaderInformation" class="st-flex-space-between st-md-border-bottom">
-	<div class="c-image-container-with-other-data">
-		<!-- user imag / name / since -->
-		<div class="c-image-container st-sm-border-bottom">
-			<ion-img class="c-image" appDefaultImg [src]="userData.photoURL"></ion-img>
-			<div class="st-flex-col">
-				<ion-text class="st-font-size-18 st-font-0">{{ userData.nickName }}</ion-text>
-				<ion-text class="st-font-size-14 st-font-4"> Since: {{ userData.accountCreatedDate | date: 'dd.MM.yyyy' }} </ion-text>
-			</div>
-		</div>
-		<!-- other user related data -->
-		<div class="st-flex-col st-sm-border-bottom">
-			<ion-text class="st-font-size-16"
-				>Executed transactions: {{ userData.portfolio.numberOfExecutedBuyTransactions +
-				userData.portfolio.numberOfExecutedSellTransactions}}</ion-text
-			>
-			<ion-text class="st-font-size-16">
+<div class="flex flex-col lg:flex-row gap-8">
+	<!-- user imag / name / since -->
+	<div class="flex items-center gap-6 st-sm-border-bottom">
+		<img class="c-image" appDefaultImg [src]="userData.photoURL" />
+		<div class="flex flex-col">
+			<span class="g-highlighted-text g-color-white">{{ userData.nickName }}</span>
+			<span class="g-color-secondary"> Since: {{ userData.accountCreatedDate | date: 'dd.MM.yyyy' }} </span>
+			<span class="g-color-secondary">
+				Executed transactions: {{ userData.portfolio.numberOfExecutedBuyTransactions + userData.portfolio.numberOfExecutedSellTransactions}}
+			</span>
+			<span class="g-color-secondary">
 				Executed <span class="st-price-up">BUY</span> transactions: {{ userData.portfolio.numberOfExecutedBuyTransactions }}
-			</ion-text>
-			<ion-text class="st-font-size-16">
+			</span>
+			<span class="g-color-secondary">
 				Executed <span class="st-price-down">SELL</span> transactions: {{ userData.portfolio.numberOfExecutedSellTransactions }}
-			</ion-text>
+			</span>
+		</div>
+	</div>
+	<div class="flex flex-col sm:flex-row">
+		<!-- portfolio current state -->
+		<app-portfolio-state
+			class="flex-1"
+			portfolioState="PARTIAL"
+			[portfolioCash]="userData.portfolio.lastPortfolioSnapshot?.portfolioCash"
+			[portfolioInvested]="userData.portfolio.lastPortfolioSnapshot?.portfolioInvested"
+		></app-portfolio-state>
+
+		<!-- portfolio increase chart -->
+		<div class="c-portfolio-chart flex-1">
+			<app-portfolio-increase-chart
+				[heightPx]="210"
+				[portfolioInvested]="userData.portfolio.lastPortfolioSnapshot?.portfolioInvested"
+				[portfolioCash]="userData.portfolio.lastPortfolioSnapshot?.portfolioCash"
+			></app-portfolio-increase-chart>
 		</div>
 	</div>
 </div>
 
-<!-- portfolio state overview -->
-<ion-grid>
-	<ion-row>
-		<ion-col size="12" size-sm="6" size-lg="4" class="st-sm-border-bottom">
-			<!-- portfolio current state -->
-			<app-portfolio-state
-				portfolioState="PARTIAL"
-				[portfolioCash]="userData.portfolio.lastPortfolioSnapshot?.portfolioCash"
-				[portfolioInvested]="userData.portfolio.lastPortfolioSnapshot?.portfolioInvested"
-			></app-portfolio-state>
-		</ion-col>
-		<ion-col size-lg="5" class="c-portfolio-change ion-hide-lg-down">
-			<!-- LG up - portfolio change -->
-			<app-portfolio-change
-				*ngFor="let tradingChange of tradingChangeWrapper"
-				[inlinePriceWithIncrease]="false"
-				[tradingChangeWrapper]="tradingChange"
-				[balance]="userData.portfolio.lastPortfolioBalance"
-			></app-portfolio-change>
-		</ion-col>
-		<ion-col size="12" size-sm="6" size-lg="3" class="st-sm-border-bottom">
-			<!-- portfolio increase chart -->
-			<div class="c-portfolio-chart">
-				<app-portfolio-increase-chart
-					[heightPx]="200"
-					[portfolioInvested]="userData.portfolio.lastPortfolioSnapshot?.portfolioInvested"
-					[portfolioCash]="userData.portfolio.lastPortfolioSnapshot?.portfolioCash"
-				></app-portfolio-increase-chart>
-			</div>
-		</ion-col>
-	</ion-row>
+<div class="grid grid-cols-1 2xl:grid-cols-2">
+	<!-- portfolio growth chart -->
+	<app-portfolio-growth-chart [heightPx]="portfolioChartHeight" [stPortfolioSnapshots]="userData.userHistoricalData.portfolioSnapshots">
+	</app-portfolio-growth-chart>
 
-	<!-- LG down screen -  portfolio change -->
-	<ion-row class="ion-hide-lg-up st-sm-border-bottom">
-		<ion-col class="c-portfolio-change">
-			<app-portfolio-change
-				*ngFor="let tradingChange of tradingChangeWrapper"
-				[inlinePriceWithIncrease]="false"
-				[tradingChangeWrapper]="tradingChange"
-				[balance]="userData.portfolio.lastPortfolioSnapshot.portfolioInvested + userData.portfolio.lastPortfolioSnapshot.portfolioCash"
-			></app-portfolio-change>
-		</ion-col>
-	</ion-row>
+	<!-- portfolio change chart -->
+	<app-portfolio-change-chart [heightPx]="portfolioChartHeight" [stPortfolioSnapshots]="userData.userHistoricalData.portfolioSnapshots">
+	</app-portfolio-change-chart>
+</div>
 
-	<!-- portfolio change charts -->
-	<app-composed-portfolio-charts [stPortfolioSnapshots]="userData.userHistoricalData.portfolioSnapshots"></app-composed-portfolio-charts>
+<!-- portfolio comparison -->
+<app-series-comparison-chart
+	*ngIf="portfolioComparisonSeries | async as portfolioComparisonSeries"
+	title="Portfolio comparison"
+	[series]="portfolioComparisonSeries[0].data.length > 0 ? portfolioComparisonSeries : []"
+></app-series-comparison-chart>
 
-	<!-- holdings table -->
-	<app-composed-portfolio-holdings-table
-		[clickable]="false"
-		[holdings]="userData.holdings"
-		[totalPortfolio]="userData.portfolio.lastPortfolioSnapshot.portfolioInvested + userData.portfolio.lastPortfolioSnapshot.portfolioCash"
-	></app-composed-portfolio-holdings-table>
+<!-- holdings table -->
+<app-composed-portfolio-holdings-table
+	[clickable]="false"
+	[holdings]="userData.holdings"
+	[totalPortfolio]="userData.portfolio.lastPortfolioSnapshot.portfolioInvested + userData.portfolio.lastPortfolioSnapshot.portfolioCash"
+></app-composed-portfolio-holdings-table>
 
-	<!-- holdings pie charts -->
-	<app-composed-portfolio-allocation-charts
-		[portfolioInvested]="userData.portfolio.lastPortfolioSnapshot.portfolioInvested"
-		[portfolioCash]="userData.portfolio.lastPortfolioSnapshot.portfolioCash"
-		[holdings]="userData.holdings"
-	></app-composed-portfolio-allocation-charts>
+<!-- holdings pie charts -->
+<app-composed-portfolio-allocation-charts
+	[portfolioInvested]="userData.portfolio.lastPortfolioSnapshot.portfolioInvested"
+	[portfolioCash]="userData.portfolio.lastPortfolioSnapshot.portfolioCash"
+	[holdings]="userData.holdings"
+></app-composed-portfolio-allocation-charts>
 
-	<!-- transactions -->
-	<app-composed-transactions
-		[transactions]="userData.transactionsSnippets"
-		[portfolioWrapper]="userData.portfolio"
-		[stTransactionSnapshots]="userData.userHistoricalData.transactionSnapshots"
-		[topTransactions]="userData.topTransactions"
-	>
-	</app-composed-transactions>
-</ion-grid>
+<!-- transactions -->
+<app-composed-transactions
+	[transactions]="userData.transactionsSnippets"
+	[portfolioWrapper]="userData.portfolio"
+	[stTransactionSnapshots]="userData.userHistoricalData.transactionSnapshots"
+	[topTransactions]="userData.topTransactions"
+>
+</app-composed-transactions>

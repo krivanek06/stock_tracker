@@ -1,0 +1,31 @@
+<ng-container *ngIf="groupAllData$ | async as groupData">
+	<div class="flex flex-col md:flex-row flex-wrap gap-2 p-4 justify-around st-border-top md:items-baseline">
+		<!-- portfolio change -->
+		<ng-container *ngFor="let data of PortfolioChangeItemsToDisplay">
+			<app-portfolio-change
+				*ngIf="groupData.portfolio.portfolioChange[data.key] as change"
+				[title]="data.displayName"
+				[inlinePriceWithIncrease]="false"
+				[portfolioChange]="change"
+			></app-portfolio-change>
+		</ng-container>
+
+		<!-- started portfolio balance -->
+		<app-title-value-item title="Started with" [value]="groupData.startedPortfolio.lastPortfolioBalance"></app-title-value-item>
+	</div>
+
+	<!-- transaction summary -->
+	<div class="px-4 py-8 st-border-bottom st-border-top">
+		<app-transactions-summary [portfolioWrapper]="groupData.portfolio" [startedPortfolio]="groupData.startedPortfolio"></app-transactions-summary>
+	</div>
+
+	<!-- invitations -->
+	<app-group-details-overview-invitations-container *ngIf="isUserOwner$ | async" [groupAllData]="groupData">
+	</app-group-details-overview-invitations-container>
+
+	<!-- members -->
+	<app-group-details-overview-members-container [user]="user$ | async" [groupAllData]="groupData"> </app-group-details-overview-members-container>
+
+	<!-- transactions -->
+	<app-group-details-overview-transactions-container [groupAllData]="groupData"> </app-group-details-overview-transactions-container>
+</ng-container>

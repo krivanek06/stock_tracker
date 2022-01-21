@@ -49,7 +49,6 @@ const routes: Routes = [
 			},
 			{
 				path: 'groups',
-				canActivate: [AuthGuard, TradingGuard],
 				loadChildren: () => import('../groups/groups.module').then((m) => m.GroupsModule),
 			},
 			{

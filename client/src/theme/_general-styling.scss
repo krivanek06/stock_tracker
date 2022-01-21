@@ -704,13 +704,13 @@ ion-skeleton-text {
 	}
 }
 
-.st-flex-space-between-sm-down {
-	@media (max-width: #{$st-var-sm-split}) {
-		display: flex;
-		justify-content: space-between;
-		width: 100%;
-	}
-}
+// .st-flex-space-between-sm-down {
+// 	@media (max-width: #{$st-var-sm-split}) {
+// 		display: flex;
+// 		justify-content: space-between;
+// 		width: 100%;
+// 	}
+// }
 
 .st-flex-space-between-md-down {
 	@media (max-width: #{$st-var-md-split}) {
@@ -1053,17 +1053,15 @@ ion-content {
 	background-color: #824150;
 }
 
-.g-first-position-color {
-	color: #cf212a;
-}
-.g-second-position-color {
-	color: #d7d00d;
+.g-highlighted-text {
+	@apply text-lg md:text-xl xl:text-2xl;
 }
 
-.g-third-position-color {
-	color: #ea7a2b;
+button {
+	min-width: 135px;
+	padding: 4px;
 }
 
-.g-my-position-color {
-	color: #c36778;
+mat-toolbar {
+	background-color: transparent !important;
 }

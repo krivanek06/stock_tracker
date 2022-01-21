@@ -2,12 +2,42 @@
 <app-portfolio-state [portfolioCash]="user.portfolio.portfolioCash" [portfolioInvested]="portfolioInvested"> </app-portfolio-state>
 
 <!-- portfolio change  weekly / monthly etc. -->
-<app-dashboard-portfolio-change
-	[portfolioCash]="user.portfolio.portfolioCash"
-	[portfolioInvested]="portfolioInvested"
-	[stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots"
-	[stPortfolioRiskCalculations]="user.portfolioRisk || undefined"
-></app-dashboard-portfolio-change>
+<div class="w-full md:w-11/12 st-border-bottom p-4 m-auto">
+	<h2 class="flex items-center gap-3">
+		<mat-icon class="st-icon"> currency_exchange </mat-icon>
+		<span class="g-color-white g-highlighted-text">Portfolio change</span>
+	</h2>
+	<div class="flex flex-col md:flex-row flex-wrap gap-2 justify-around">
+		<ng-container *ngFor="let data of PortfolioChangeItemsToDisplay">
+			<app-portfolio-change
+				*ngIf="user.portfolio.portfolioChange[data.key] as change"
+				[title]="data.displayName"
+				[inlinePriceWithIncrease]="false"
+				[portfolioChange]="change"
+				[currentBalance]="user.portfolio.portfolioCash + portfolioInvested"
+			></app-portfolio-change>
+		</ng-container>
+	</div>
+</div>
+
+<!-- portfolio risk -->
+<div class="w-full md:w-11/12 st-border-bottom p-4 m-auto mb-6">
+	<h2 class="flex items-center gap-3">
+		<mat-icon class="st-icon"> plagiarism </mat-icon>
+		<span class="g-color-white g-highlighted-text"> Portfolio risk</span>
+	</h2>
+	<div class="flex flex-col sm:flex-row flex-wrap gap-2 justify-around">
+		<app-title-value-item title="Alpha" flexRowOn="sm" [value]="user.portfolioRisk?.portfolioAlpha"></app-title-value-item>
+		<app-title-value-item title="Beta" flexRowOn="sm" [value]="user.portfolioRisk?.portfolioBeta"></app-title-value-item>
+		<app-title-value-item title="Sharp ratio" flexRowOn="sm" [value]="user.portfolioRisk?.portfolioSharpRatio"></app-title-value-item>
+		<app-title-value-item
+			title="Volatility"
+			flexRowOn="sm"
+			[value]="user.portfolioRisk?.portfolioAnnualVolatilityPrct"
+			[isPercent]="true"
+		></app-title-value-item>
+	</div>
+</div>
 
 <!-- portfolio change charts -->
 <app-composed-portfolio-charts [stPortfolioSnapshots]="user.userHistoricalData.portfolioSnapshots"></app-composed-portfolio-charts>
