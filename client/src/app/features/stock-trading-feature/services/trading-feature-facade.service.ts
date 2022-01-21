@@ -1,8 +1,17 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { GraphqlTradingService, STARTING_PORTFOLIO, StPortfolioSnapshot, StTransactionInput, Summary, UserStorageService } from '@core';
-import { DialogService, zipArrays } from '@shared';
+import {
+	GraphqlQueryService,
+	GraphqlTradingService,
+	STARTING_PORTFOLIO,
+	StPortfolioSnapshot,
+	StTransactionInput,
+	Summary,
+	UserStorageService,
+} from '@core';
+import { ChartType, DialogService, GenericChartSeries, LodashService, zipArrays } from '@shared';
 import * as moment from 'moment';
+import { map, Observable } from 'rxjs';
 import { TradeConfirmationPopOverComponent } from '../entry-components';
 import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM } from '../models';
 
@@ -13,8 +22,9 @@ export class TradingFeatureFacadeService {
 	constructor(
 		private dialog: MatDialog,
 		private graphqlTradingService: GraphqlTradingService,
-		private userStorageService: UserStorageService
-	) { }
+		private userStorageService: UserStorageService,
+		private graphqlQueryService: GraphqlQueryService
+	) {}
 
 	async performTransaction(summary: Summary | null): Promise<void> {
 		if (!summary) {
@@ -34,7 +44,7 @@ export class TradingFeatureFacadeService {
 			},
 		});
 
-		const data = await dialogRef.afterClosed().toPromise() as StTransactionInput;
+		const data = (await dialogRef.afterClosed().toPromise()) as StTransactionInput;
 		if (!!data) {
 			DialogService.showNotificationBar(`Your order has been submitted to ${data.operation} symbol: ${data.symbol}`, 'notification');
 			await this.graphqlTradingService.performTransaction(data).toPromise();
@@ -92,5 +102,51 @@ export class TradingFeatureFacadeService {
 					(!!wrapper.historicalBalance && requiredTimeIntervals.includes(wrapper.timeIntervalName)) ||
 					(requiredTimeIntervals.includes(wrapper.timeIntervalName) && alwaysDisplayTimeIntervals.includes(wrapper.timeIntervalName))
 			);
+	}
+
+	comparePortfolioWithIndexes(stPortfolioSnapshots: StPortfolioSnapshot[]): Observable<GenericChartSeries[]> {
+		return this.graphqlQueryService.querySymbolHistoricalPrices('^GSPC', '1y').pipe(
+			map((res) => {
+				// acceptedTimestamps has older values, because exclude weekends, but this.stPortfolioSnapshots has weekends
+				const acceptedTimestamps = LodashService.takeRight(
+					res.price.map((p) => moment(p[0])),
+					stPortfolioSnapshots.length
+				);
+				// get only data on balance where day is same as fot S&P 500, exclude weekends
+				const portfolioBalance = stPortfolioSnapshots
+					.filter((value) => {
+						const momentTImestamp = moment(value.date);
+						return acceptedTimestamps.some((t) => t.isSame(momentTImestamp, 'day'));
+					})
+					.map((x) => x.portfolioCash + x.portfolioInvested);
+
+				// shrink acceptedTimestamps to same length as portfolioBalance
+				const portfolioTimestamps = LodashService.takeRight(
+					acceptedTimestamps.map((t) => t.valueOf()),
+					portfolioBalance.length
+				);
+
+				// chart options
+				return [
+					{
+						type: ChartType.line,
+						name: 'My portfolio',
+						data: LodashService.zipArrays(portfolioTimestamps, portfolioBalance) as number[][],
+						color: '#22aad9',
+						lineWidth: 3,
+					},
+					{
+						type: ChartType.line,
+						name: 'S&P 500',
+						color: '#e34c1a',
+						lineWidth: 3,
+						data: LodashService.takeRight(
+							res.price.map((x) => [x[0], x[4]]),
+							portfolioBalance.length
+						) as number[][],
+					},
+				];
+			})
+		);
 	}
 }

@@ -1,20 +1,19 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { marketValueChange } from '@shared';
-import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM } from '../../../models';
+import { StPortfolioChangeData } from '@core';
 
 @Component({
 	selector: 'app-portfolio-change',
 	templateUrl: './portfolio-change.component.html',
 	styleUrls: ['./portfolio-change.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	animations: [marketValueChange],
 })
 export class PortfolioChangeComponent implements OnInit {
-	@Input() balance?: number | null;
-	@Input() tradingChangeWrapper!: PortfolioHistoricalWrapper;
-	@Input() inlinePriceWithIncrease = true;
+	@Input() title!: string;
+	@Input() portfolioChange!: StPortfolioChangeData;
+	@Input() currentBalance?: number | null;
 
-	TIME_INTERVAL_ENUM = TIME_INTERVAL_ENUM;
+	// whether balanceChangePrct should be under (false) or next to (true) balanceChange
+	@Input() inlinePriceWithIncrease = true;
 
 	constructor() {}
 

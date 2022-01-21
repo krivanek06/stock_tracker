@@ -12,11 +12,11 @@ const routes: Routes = [
 		children: [
 			{
 				path: '',
-				loadChildren: () => import('./pages/search-basic/search-basic.module').then((m) => m.SearchBasicModule),
+				loadChildren: () => import('./search-basic/search-basic.module').then((m) => m.SearchBasicModule),
 			},
 			{
 				path: `${SEARCH_PAGE_ENUM.STOCK_DETAILS}/:symbol`,
-				loadChildren: () => import('./pages/search-stock-details-page/search-stock-details.module').then((m) => m.SearchStockDetailsModule),
+				loadChildren: () => import('./search-stock-details-page/search-stock-details.module').then((m) => m.SearchStockDetailsModule),
 			},
 		],
 	},

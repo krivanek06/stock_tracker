@@ -28,7 +28,9 @@ export interface STPortfolioSnapshotStarted extends STPortfolioSnapshot {
 }
 
 export interface STPortfolioChangeData {
-
+    portfolioInvested: number;
+    portfolioCash: number;
+    portfolioBalance: number;
     portfolioIncreaseNumber: number;
     portfolioIncreasePrct: number;
 }

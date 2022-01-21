@@ -7,6 +7,9 @@ fragment STPortfolioSnapshotFragment on STPortfolioSnapshot {
 fragment STPortfolioChangeData on STPortfolioChangeData {
 	portfolioIncreaseNumber
 	portfolioIncreasePrct
+	portfolioInvested
+	portfolioCash
+	portfolioBalance
 }
 
 fragment STPortfolioChange on STPortfolioChange {

@@ -12,7 +12,7 @@ export class GroupMembersTableComponent implements OnInit {
 	@Output() clickedUserEmitter: EventEmitter<StGroupUser> = new EventEmitter();
 
 	@Input() groupAllData!: StGroupAllData;
-	@Input() user!: StUserPublicData;
+	@Input() user?: StUserPublicData | null;
 	form!: FormGroup;
 
 	GROUP_MEMBERS_SORT_INPUT_SOURCE = GROUP_MEMBERS_SORT_INPUT_SOURCE;

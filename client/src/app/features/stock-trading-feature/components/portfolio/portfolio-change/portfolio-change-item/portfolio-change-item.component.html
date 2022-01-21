@@ -1,0 +1,8 @@
+<div class="flex flex-row justify-between p-1 md:p-4 md:flex-col">
+	<div class="g-highlighted-text tracking-wide g-color-secondary">{{ title }}</div>
+	<div class="g-highlighted-text g-color-white flex flex-col xs:flex-row md:flex-col gap-x-2" [ngClass]="{'md:flex-row': inlinePriceWithIncrease}">
+		<span class="g-highlighted-text g-color-white" [@marketValueChange]="balanceChange"> {{ balanceChange | currency }} </span>
+		<app-price-change-item *ngIf="balanceChangePrct" [isPercent]="true" [applyEndOnSmDown]="true" [priceChange]="balanceChangePrct">
+		</app-price-change-item>
+	</div>
+</div>

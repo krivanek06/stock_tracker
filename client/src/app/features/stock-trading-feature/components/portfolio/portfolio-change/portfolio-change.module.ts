@@ -1,18 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {PortfolioChangeComponent} from "./portfolio-change.component";
-import {IonicModule} from "@ionic/angular";
-import {PriceChangeItemModule} from "@shared";
-
-
+import { NgModule } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
+import { PriceChangeItemModule } from '@shared';
+import { PortfolioChangeComponent } from './portfolio-change.component';
+import { PortfolioChangeItemComponent } from './portfolio-change-item/portfolio-change-item.component';
 
 @NgModule({
-  declarations: [PortfolioChangeComponent],
-  imports: [
-    CommonModule,
-    IonicModule,
-    PriceChangeItemModule
-  ],
-  exports: [PortfolioChangeComponent]
+	declarations: [PortfolioChangeComponent, PortfolioChangeItemComponent],
+	imports: [CommonModule, IonicModule, PriceChangeItemModule],
+	exports: [PortfolioChangeComponent],
 })
-export class PortfolioChangeModule { }
+export class PortfolioChangeModule {}

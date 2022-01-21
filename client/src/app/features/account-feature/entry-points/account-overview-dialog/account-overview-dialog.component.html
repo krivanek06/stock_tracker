@@ -1,22 +1,15 @@
 <mat-dialog-content>
-	<ion-toolbar>
-		<ion-buttons slot="end">
-			<ion-button color="danger" (click)="dismissModal()" fill="clear">
-				<ion-icon name="close-outline"></ion-icon>
-				Close
-			</ion-button>
-		</ion-buttons>
-	</ion-toolbar>
+	<mat-toolbar class="justify-end">
+		<button mat-button color="warn" (click)="dismissModal()">
+			<mat-icon>close</mat-icon>
+			Close
+		</button>
+	</mat-toolbar>
 
 	<!-- body -->
-	<div *ngIf="searchedUser$ | async as searchedUser; else showLoader" class="p-4">
-		<app-composed-searched-user-data [userData]="searchedUser"></app-composed-searched-user-data>
-	</div>
-
-	<!-- spinner -->
-	<ng-template #showLoader>
-		<div class="spinner-container">
-			<ion-spinner color="primary"></ion-spinner>
+	<app-loader-wrapper>
+		<div *ngIf="searchedUser$ | async as searchedUser" class="p-4">
+			<app-composed-searched-user-data [userData]="searchedUser"></app-composed-searched-user-data>
 		</div>
-	</ng-template>
+	</app-loader-wrapper>
 </mat-dialog-content>

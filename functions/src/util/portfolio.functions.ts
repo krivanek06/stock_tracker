@@ -9,27 +9,22 @@ export const sumUpPortfolio = (portfolioSnapshot?: api.STPortfolioSnapshot | nul
 };
 
 export const getPortfolioChangeData = (
-	currentSnapshot?: api.STPortfolioSnapshot | null,
+	currentSnapshot: api.STPortfolioSnapshot,
 	historicalSnapshot?: api.STPortfolioSnapshot | null
 ): api.STPortfolioChangeData | null => {
-	const currentSnapshotSum = sumUpPortfolio(currentSnapshot);
-	const historicalSnapshotSum = sumUpPortfolio(historicalSnapshot);
-
-	return getPortfolioChangeDataNumber(currentSnapshotSum, historicalSnapshotSum);
-};
-
-export const getPortfolioChangeDataNumber = (
-	currentSnapshotSum?: number | null,
-	historicalSnapshotSum?: number | null
-): api.STPortfolioChangeData | null => {
-	if (!currentSnapshotSum || !historicalSnapshotSum) {
+	if (!historicalSnapshot) {
 		return null;
 	}
+	const currentSnapshotSum = currentSnapshot.portfolioInvested + currentSnapshot.portfolioCash;
+	const historicalSnapshotSum = historicalSnapshot.portfolioCash + historicalSnapshot.portfolioInvested;
 
 	const portfolioIncreaseNumber = Number(currentSnapshotSum - historicalSnapshotSum);
 	const lastPortfolioIncreasePrct = Number((currentSnapshotSum - historicalSnapshotSum) / historicalSnapshotSum);
 
 	return {
+		portfolioBalance: historicalSnapshotSum,
+		portfolioCash: historicalSnapshot.portfolioCash,
+		portfolioInvested: historicalSnapshot.portfolioInvested,
 		portfolioIncreaseNumber: !isNaN(portfolioIncreaseNumber) && historicalSnapshotSum !== 0 ? Number(portfolioIncreaseNumber.toFixed(2)) : 0,
 		portfolioIncreasePrct: !isNaN(lastPortfolioIncreasePrct) && historicalSnapshotSum !== 0 ? Number(lastPortfolioIncreasePrct.toFixed(4)) : 0,
 	};
@@ -71,7 +66,11 @@ export const calculatePortfolioChange = (portfolioSnapshots: api.STPortfolioSnap
 		const month_3_change = getPortfolioChangeData(current, month_3_portfolio);
 		const month_6_change = getPortfolioChangeData(current, month_6_portfolio);
 		const year_1_change = getPortfolioChangeData(current, year_1_portfolio);
-		const from_beginning_change = getPortfolioChangeDataNumber(sumUpPortfolio(current), from_beginning_portfolio);
+		const from_beginning_change = getPortfolioChangeData(current, {
+			portfolioInvested: 0,
+			portfolioCash: from_beginning_portfolio,
+			date: new Date().toDateString(),
+		});
 
 		return {
 			day_1_change,

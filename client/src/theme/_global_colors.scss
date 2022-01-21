@@ -25,7 +25,7 @@
 }
 
 .g-color-white {
-	color: white !important;
+	color: white;
 }
 
 /* WARNING */
@@ -54,6 +54,21 @@
 	&:hover {
 		background-color: #d2141436;
 	}
+}
+
+.g-first-position-color {
+	color: #cf212a;
+}
+.g-second-position-color {
+	color: #d7d00d;
+}
+
+.g-third-position-color {
+	color: #ea7a2b;
+}
+
+.g-my-position-color {
+	color: #c36778;
 }
 
 // TAILWIND CUSTOM CLASSES

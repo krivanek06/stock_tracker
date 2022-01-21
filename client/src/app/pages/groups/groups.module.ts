@@ -11,11 +11,11 @@ const routes: Routes = [
 		children: [
 			{
 				path: '',
-				loadChildren: () => import('./pages/groups-overview/groups-overview.module').then((m) => m.GroupsOverviewModule),
+				loadChildren: () => import('./groups-overview/groups-overview.module').then((m) => m.GroupsOverviewModule),
 			},
 			{
 				path: ':groupId',
-				loadChildren: () => import('./pages/group-details/group-details.module').then((m) => m.GroupDetailsModule),
+				loadChildren: () => import('./group-details/group-details.module').then((m) => m.GroupDetailsModule),
 			},
 		],
 	},
