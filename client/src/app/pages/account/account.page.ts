@@ -1,8 +1,11 @@
 import { AccountFeatureFacadeService } from '@account-feature';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { StUserEditDataInput, StUserPublicData, UserStorageService } from '@core';
 import { Confirmable } from '@shared';
+import { WatchlistManagerModalComponent } from '@stock-watchlist-feature';
 import { Observable } from 'rxjs';
+import { TicketFormDialogComponent } from 'src/app/features/util-feature/ticketing-feature/entry-points';
 
 @Component({
 	selector: 'app-account',
@@ -12,7 +15,11 @@ import { Observable } from 'rxjs';
 })
 export class AccountPage implements OnInit {
 	user$!: Observable<StUserPublicData>;
-	constructor(private userStorageService: UserStorageService, private userAccountService: AccountFeatureFacadeService) {}
+	constructor(
+		private userStorageService: UserStorageService,
+		private userAccountService: AccountFeatureFacadeService,
+		private matDialog: MatDialog
+	) {}
 
 	ngOnInit() {
 		this.user$ = this.userStorageService.getUser();
@@ -27,5 +34,13 @@ export class AccountPage implements OnInit {
 	editUser(editDataInput: StUserEditDataInput) {
 		console.log('editing', editDataInput);
 		this.userAccountService.editUser(editDataInput);
+	}
+
+	onManageWatchlists(): void {
+		this.matDialog.open(WatchlistManagerModalComponent);
+	}
+
+	onRaiseTicket(): void {
+		this.matDialog.open(TicketFormDialogComponent);
 	}
 }

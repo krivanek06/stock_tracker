@@ -1,11 +1,18 @@
-import { UserAccountFormModule, UserAccountNotActivatedMessageModule, UserAccountResetedInfoModule } from '@account-feature';
+import {
+	UserAccountButtonsModule,
+	UserAccountFormModule,
+	UserAccountNotActivatedMessageModule,
+	UserAccountResetedInfoModule,
+} from '@account-feature';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterModule, Routes } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
 import { GenericCardModule } from '@shared';
-import { WatchlistModificationContainerModule } from '@stock-watchlist-feature';
-import { TicketFormContainerModule, TicketOverviewContainerModule } from '@ticketing-feature';
+import { WatchlistManagerModalModule } from '@stock-watchlist-feature';
+import { TicketOverviewContainerModule } from '@ticketing-feature';
+import { TicketFormDialogModule } from 'src/app/features/util-feature/ticketing-feature/entry-points';
 import { AccountPage } from './account.page';
 
 const routes: Routes = [
@@ -19,14 +26,16 @@ const routes: Routes = [
 	imports: [
 		CommonModule,
 		RouterModule.forChild(routes),
-		IonicModule,
 		UserAccountFormModule,
 		GenericCardModule,
 		UserAccountResetedInfoModule,
-		WatchlistModificationContainerModule,
 		UserAccountNotActivatedMessageModule,
-		TicketFormContainerModule,
+		TicketFormDialogModule,
 		TicketOverviewContainerModule,
+		UserAccountButtonsModule,
+		WatchlistManagerModalModule,
+		MatDialogModule,
+		MatIconModule,
 	],
 	declarations: [AccountPage],
 })

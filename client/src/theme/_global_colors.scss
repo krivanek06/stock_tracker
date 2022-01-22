@@ -75,13 +75,19 @@
 @layer utilities {
 	@variants responsive {
 		.g-button-secondary {
-			background-color: #{$st-var-font-2} !important;
+			background-color: #{$st-var-font-3} !important;
 			color: white !important;
+			&:hover {
+				background-color: #{$st-var-font-2} !important;
+			}
 		}
 
 		.g-button-secondary-flat {
 			background-color: white !important;
-			color: #{$st-var-font-2} !important;
+			color: #{$st-var-font-3} !important;
+			&:hover {
+				color: #{$st-var-font-2} !important;
+			}
 		}
 	}
 }

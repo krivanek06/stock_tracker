@@ -2002,7 +2002,6 @@ export type StStockSuggestion = {
 export type StStockWatchInputlistIdentifier = {
   additionalData?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  userId: Scalars['String'];
 };
 
 export type StStockWatchlist = {

@@ -1,19 +1,16 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { PopoverController } from '@ionic/angular';
 import { ConfirmDialogComponent, InlineInputPopUpComponent, OptionPickerPopOverComponent } from '../entry-components';
 import { IdNameContainer } from '../models';
 import { NotificationProgressComponent } from './../components';
 
 @Injectable()
 export class DialogService {
-	private static popoverController: PopoverController;
 	private static snackBar: MatSnackBar;
 	private static matDialog: MatDialog;
 
-	constructor(private popoverController: PopoverController, private snackBar: MatSnackBar, private dialog: MatDialog) {
-		DialogService.popoverController = popoverController;
+	constructor(private snackBar: MatSnackBar, private dialog: MatDialog) {
 		DialogService.snackBar = snackBar;
 		DialogService.matDialog = dialog;
 	}
@@ -52,20 +49,19 @@ export class DialogService {
 		});
 	}
 
-	static async presentInlineInputPopOver(inputLabel: string): Promise<string> {
-		if (!DialogService.popoverController) {
-			throw new Error('DialogService.popoverController not initialized');
+	static async presentInlineInputPopOver(inputLabel: string): Promise<string | undefined> {
+		if (!DialogService.matDialog) {
+			throw new Error('DialogService.matDialog not initialized');
 		}
-		const popover = await DialogService.popoverController.create({
-			component: InlineInputPopUpComponent,
-			cssClass: 'custom-popover',
-			translucent: true,
-			componentProps: { inputLabel },
+
+		const dialogRef = DialogService.matDialog.open(InlineInputPopUpComponent, {
+			data: {
+				inputLabel,
+			},
 		});
 
-		await popover.present();
-		const res = await popover.onDidDismiss();
-		return res?.data?.inputData;
+		const result = (await dialogRef.afterClosed().toPromise()) as string | undefined;
+		return result;
 	}
 
 	static async presentOptionsPopOver(title: string, options: IdNameContainer[]): Promise<string> {

@@ -101,6 +101,13 @@
 		margin-bottom: 4px;
 	}
 
+	input {
+		color: white;
+		&:disabled {
+			color: #{$st-var-font-4};
+		}
+	}
+
 	mat-error {
 		color: #{$st-red};
 		font-size: 12px;

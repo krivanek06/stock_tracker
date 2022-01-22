@@ -1,26 +1,34 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { StStockWatchInputlistIdentifier, StStockWatchlist, UserStorageService } from '@core';
 import { Confirmable } from '@shared';
+import { map, Observable } from 'rxjs';
 import { WatchlistFeatureFacadeService } from '../../services';
 
 @Component({
-	selector: 'app-watchlist-modification-container',
-	templateUrl: './watchlist-modification-container.component.html',
-	styleUrls: ['./watchlist-modification-container.component.scss'],
+	selector: 'app-watchlist-manager-modal',
+	templateUrl: './watchlist-manager-modal.component.html',
+	styleUrls: ['./watchlist-manager-modal.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WatchlistModificationContainerComponent implements OnInit {
-	@Input() watchlists: StStockWatchlist[] = [];
+export class WatchlistManagerModalComponent implements OnInit {
+	watchlists$!: Observable<StStockWatchlist[]>;
 
-	constructor(private userStorageService: UserStorageService, private watchlistService: WatchlistFeatureFacadeService) {}
+	constructor(
+		private watchlistService: WatchlistFeatureFacadeService,
 
-	ngOnInit() {}
+		private dialogRef: MatDialogRef<WatchlistManagerModalComponent>,
+		private userStorageService: UserStorageService
+	) {}
+
+	ngOnInit() {
+		this.watchlists$ = this.userStorageService.getUser().pipe(map((user) => user.stockWatchlist));
+	}
 
 	@Confirmable('Please confirm renaming watchlist')
 	changeName(watchlistNewName: string, watchlist: StStockWatchlist) {
 		const input: StStockWatchInputlistIdentifier = {
 			id: watchlist.id,
-			userId: this.userStorageService.user.id,
 			additionalData: watchlistNewName,
 		};
 		this.watchlistService.renameWatchlist(input);
@@ -30,7 +38,6 @@ export class WatchlistModificationContainerComponent implements OnInit {
 	deleteWatchlist(watchlist: StStockWatchlist) {
 		const input: StStockWatchInputlistIdentifier = {
 			id: watchlist.id,
-			userId: this.userStorageService.user.id,
 			additionalData: watchlist.name,
 		};
 		this.watchlistService.deleteWatchlist(input);
@@ -38,5 +45,9 @@ export class WatchlistModificationContainerComponent implements OnInit {
 
 	createWatchlist() {
 		this.watchlistService.createWatchlist();
+	}
+
+	closeDialog(): void {
+		this.dialogRef.close();
 	}
 }

@@ -71,7 +71,7 @@ export class WatchlistFeatureFacadeService {
 
 		if (watchlistId) {
 			await this.graphqlWatchlistService.addSymbolToWatchlist(watchlistId, symbol).toPromise();
-			await DialogService.showNotificationBar(`Symbol ${symbol} has been added into watchlist ${watchlistName}`);
+			DialogService.showNotificationBar(`Symbol ${symbol} has been added into watchlist ${watchlistName}`);
 		}
 	}
 
