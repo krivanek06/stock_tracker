@@ -28,6 +28,9 @@ module.exports = {
 			2: '2 2 0%',
 			3: '3 3 0%',
 		},
+		// gridColumn: {
+		// 	'span-2': 'span 2 / span 2',
+		// },
 		extend: {
 			colors: {
 				primary: '#25aedd',

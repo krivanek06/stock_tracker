@@ -15,7 +15,6 @@ export const watchlistTypeDefs = gql`
 	##### INTPUS
 
 	input STStockWatchInputlistIdentifier {
-		userId: String!
 		id: String
 		additionalData: String
 	}

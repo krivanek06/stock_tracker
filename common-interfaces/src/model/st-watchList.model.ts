@@ -1,15 +1,15 @@
-export interface StockWatchlistCommonData {
+
+
+export interface STStockWatchlist  {
   userId: string;
   id?: string; // documentID for stockWatchlist
-}
-
-export interface STStockWatchlist extends StockWatchlistCommonData {
   name: string;
   symbols: string[];
   date: string;
 }
 
-export interface STStockWatchlistIdentifier extends StockWatchlistCommonData {
+export interface STStockWatchlistIdentifier  {
+  id?: string; // documentID for stockWatchlist
   additionalData: string;
 }
 

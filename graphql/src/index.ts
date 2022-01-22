@@ -237,12 +237,16 @@ const mainResolver = {
 		toggleWatchGroup: async (_, args: { groupId: string }, context: Context) => await toggleWatchGroup(args.groupId, context),
 
 		// WATCHLIST
-		createStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await createStockWatchlist(args.identifier),
-		renameStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await renameStockWatchlist(args.identifier),
-		deleteWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await deleteWatchlist(args.identifier),
-		addStockIntoStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await addStockIntoStockWatchlist(args.identifier),
-		removeStockFromStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) =>
-			await removeStockFromStockWatchlist(args.identifier),
+		createStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }, context: Context) =>
+			await createStockWatchlist(args.identifier, context),
+		renameStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }, context: Context) =>
+			await renameStockWatchlist(args.identifier, context),
+		deleteWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }, context: Context) =>
+			await deleteWatchlist(args.identifier, context),
+		addStockIntoStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }, context: Context) =>
+			await addStockIntoStockWatchlist(args.identifier, context),
+		removeStockFromStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }, context: Context) =>
+			await removeStockFromStockWatchlist(args.identifier, context),
 
 		// trading
 		performTransaction: async (_, args: { transactionInput: api.STTransactionInput }, { requesterUserId }: Context) =>

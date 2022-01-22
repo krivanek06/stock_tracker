@@ -65,9 +65,6 @@
 			<!-- datepicker -->
 			<ng-container *ngSwitchCase="'DATEPICKER'">
 				<input [readonly]="disabled" matInput [matDatepicker]="formFieldDatePicker" [formControl]="formInputControl" autocomplete="off" />
-				<!-- <mat-datepicker-toggle matSuffix [for]="formFieldDatePicker">
-					<mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
-				</mat-datepicker-toggle> -->
 				<mat-datepicker #formFieldDatePicker [disabled]="disabled"></mat-datepicker>
 			</ng-container>
 

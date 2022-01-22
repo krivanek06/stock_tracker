@@ -36,7 +36,6 @@ export class GraphqlWatchlistService {
 		return this.createStockWatchlistGQL.mutate(
 			{
 				identifier: {
-					userId: this.userStorageService.user.id,
 					additionalData: watchlistName,
 				},
 			},
@@ -93,7 +92,6 @@ export class GraphqlWatchlistService {
 			{
 				identifier: {
 					id: watchlistId,
-					userId: this.userStorageService.user.id,
 					additionalData: newWatchlistName,
 				},
 			},
@@ -126,7 +124,6 @@ export class GraphqlWatchlistService {
 			{
 				identifier: {
 					id: watchlistId,
-					userId: this.userStorageService.user.id,
 					additionalData: undefined,
 				},
 			},
@@ -175,7 +172,6 @@ export class GraphqlWatchlistService {
 			{
 				identifier: {
 					id: watchlistId,
-					userId: this.userStorageService.user.id,
 					additionalData: symbol,
 				},
 			},
@@ -215,7 +211,6 @@ export class GraphqlWatchlistService {
 			{
 				identifier: {
 					id: watchListId,
-					userId: this.userStorageService.user.id,
 					additionalData: symbol,
 				},
 			},

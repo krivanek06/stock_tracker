@@ -945,9 +945,9 @@ mat-card {
 	}
 }
 
-button {
-	@apply w-full md:w-auto;
-}
+// button {
+// 	@apply w-full md:w-auto;
+// }
 
 // this affects all mat-buttons
 
@@ -962,6 +962,10 @@ button {
 }
 
 /* mat dialog */
+mat-dialog-container {
+	max-width: 90vw !important;
+}
+
 .g-mat-dialog .mat-dialog-container {
 	background: linear-gradient(126deg, #10255a 0%, #0c1d44 29%, #0c183e 44%, #061238 73%, #060e28 100%);
 	max-width: 90vw !important;
@@ -1055,11 +1059,6 @@ ion-content {
 
 .g-highlighted-text {
 	@apply text-lg md:text-xl xl:text-2xl;
-}
-
-button {
-	min-width: 135px;
-	padding: 4px;
 }
 
 mat-toolbar {
