@@ -1,18 +1,26 @@
 <!-- initial subpage picker -->
-<ion-segment color="primary" scrollable (ionChange)="segmentChanged($event)" [value]="segment">
-	<ion-segment-button *ngFor="let path of MARKET_PAGE_PATH" [value]="path.value">
-		<ion-label>{{ path.name }}</ion-label>
-	</ion-segment-button>
-</ion-segment>
+<div class="hidden lg:flex justify-end gap-2">
+	<button
+		*ngFor="let path of MARKET_PAGE_PATH"
+		mat-button
+		(click)="changePath(path)"
+		class="g-button-secondary-flat"
+		[ngClass]="{'g-button-active': path.value === selectedPath}"
+	>
+		{{ path.name}}
+	</button>
+</div>
+
+<mat-form-field appearance="outline" class="block lg:hidden g-button-secondary-flat p-2">
+	<mat-label class="st-font-1"> Select path</mat-label>
+
+	<!-- select -->
+	<mat-select (selectionChange)="selectOption($event)">
+		<mat-option *ngFor="let optionData of MARKET_PAGE_PATH" [value]="optionData"> {{ optionData.name }} </mat-option>
+	</mat-select>
+</mat-form-field>
 
 <!-- sub pages -->
-<!-- <router-outlet></router-outlet> -->
-<ng-container [ngSwitch]="segment">
-	<app-market-top-stocks *ngSwitchCase="MARKET_PAGE_ENUM.topStocks"></app-market-top-stocks>
-	<app-market-overview *ngSwitchCase="MARKET_PAGE_ENUM.overview"></app-market-overview>
-	<app-market-other *ngSwitchCase="MARKET_PAGE_ENUM.other"></app-market-other>
-	<app-market-news *ngSwitchCase="MARKET_PAGE_ENUM.news"></app-market-news>
-	<app-market-etf *ngSwitchCase="MARKET_PAGE_ENUM.etf"></app-market-etf>
-	<app-market-crypto *ngSwitchCase="MARKET_PAGE_ENUM.crypto"></app-market-crypto>
-	<app-market-calendar *ngSwitchCase="MARKET_PAGE_ENUM.calendar"></app-market-calendar>
-</ng-container>
+<div class="mt-6">
+	<router-outlet></router-outlet>
+</div>

@@ -6,39 +6,33 @@
 
 	<!-- exchange PE -->
 	<app-generic-extension-panel title="Sector NYSE PE">
-		<ion-grid>
-			<ion-row>
-				<!-- exchange industry pe -->
-				<ion-col size="12" size-lg="6">
-					<app-generic-chart
-						[chartType]="ChartType.bar"
-						[heightPx]="chartHeight"
-						[series]="[{
-                             colorByPoint: true,
-                             data: dailyOverview.exchange.exchangeIndustryPE | chartKeyValueFormatter: 'industry' : 'pe'
-                            }]"
-						[showDataLabel]="true"
-						chartTitle="Exchange industry PE"
-					>
-					</app-generic-chart>
-				</ion-col>
+		<div class="grid grid-cols-1 lg:grid-cols-2">
+			<!-- exchange industry pe -->
+			<app-generic-chart
+				[chartType]="ChartType.bar"
+				[heightPx]="chartHeight"
+				[series]="[{
+				 colorByPoint: true,
+				 data: dailyOverview.exchange.exchangeIndustryPE | chartKeyValueFormatter: 'industry' : 'pe'
+				}]"
+				[showDataLabel]="true"
+				chartTitle="Exchange industry PE"
+			>
+			</app-generic-chart>
 
-				<!-- exchange sector pe -->
-				<ion-col size="12" size-lg="6">
-					<app-generic-chart
-						[chartType]="ChartType.bar"
-						[heightPx]="chartHeight"
-						[series]="[{
-                                    colorByPoint: true,
-                                    data: dailyOverview.exchange.exchangeSectorPE | chartKeyValueFormatter: 'sector' : 'pe'
-                                }]"
-						[showDataLabel]="true"
-						chartTitle="Exchange sector PE"
-					>
-					</app-generic-chart>
-				</ion-col>
-			</ion-row>
-		</ion-grid>
+			<!-- exchange sector pe -->
+			<app-generic-chart
+				[chartType]="ChartType.bar"
+				[heightPx]="chartHeight"
+				[series]="[{
+									colorByPoint: true,
+									data: dailyOverview.exchange.exchangeSectorPE | chartKeyValueFormatter: 'sector' : 'pe'
+								}]"
+				[showDataLabel]="true"
+				chartTitle="Exchange sector PE"
+			>
+			</app-generic-chart>
+		</div>
 	</app-generic-extension-panel>
 
 	<!-- Mutual funds -->

@@ -1,0 +1,23 @@
+<!-- bitcoin chart -->
+<app-financial-chart-container [height]="400" [isCrypto]="true" [name]="'Bitcoin - USD'" [symbol]="'BTCUSD'"> </app-financial-chart-container>
+
+<!-- crypto charts -->
+<app-generic-list [applyMarginTop]="true" [title]="'Bitcoin stats'"></app-generic-list>
+<div *ngIf="marketOverview$ | async as marketOverview" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+	<app-generic-chart
+		*ngFor="let data of marketOverview.bitcoin"
+		(expandEmitter)="expand(data.documentKey)"
+		[heightPx]="chartHeight"
+		[series]="[{name: data.name,  data: data?.data}]"
+		[showExpandableButton]="true"
+		[showLegendLatestValue]="true"
+		[showLegend]="true"
+	>
+	</app-generic-chart>
+</div>
+
+<!-- crypto table -->
+<app-generic-list [applyMarginTop]="true" [title]="'Top crypto'"></app-generic-list>
+<app-generic-card [secondaryText]="'last updated at ' + (lastUpdateTopStocks | date: 'dd.MM.YYYY - HH:mm')">
+	<app-market-top-table-crypto (itemClickedEmitter)="showSummary($event)" [topTableCryptoData]="topCrypto"> </app-market-top-table-crypto>
+</app-generic-card>

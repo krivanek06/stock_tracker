@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { componentDestroyed, FinnhubWebsocketService, GraphqlQueryService, StMarketOverviewPartialData, StMarketTopTableCryptoData } from '@core';
-import { MarketFeatureFacadeService } from '@market-feature';
+import { MarketCryptoDialogComponent, MarketFeatureFacadeService } from '@market-feature';
 import { ComponentScreenUpdateBaseDirective, LodashService, SymbolIdentification, WindowService } from '@shared';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -20,6 +21,7 @@ export class MarketCryptoComponent extends ComponentScreenUpdateBaseDirective im
 	constructor(
 		private graphqlQueryService: GraphqlQueryService,
 		private marketPageFacadeService: MarketFeatureFacadeService,
+		private dialog: MatDialog,
 		public finnhubWebsocketService: FinnhubWebsocketService,
 		public cdr: ChangeDetectorRef
 	) {
@@ -37,9 +39,15 @@ export class MarketCryptoComponent extends ComponentScreenUpdateBaseDirective im
 		super.ngOnDestroy();
 	}
 
-	async showSummary(data: StMarketTopTableCryptoData) {
+	showSummary(data: StMarketTopTableCryptoData): void {
 		const symbolIdentification: SymbolIdentification = { symbol: data.symbol, name: data.shortName };
-		await this.marketPageFacadeService.showFinancialChart(symbolIdentification, data.coinImageUrl || undefined, true);
+		this.dialog.open(MarketCryptoDialogComponent, {
+			data: {
+				symbolIdentification,
+				logoUrl: data.coinImageUrl,
+			},
+			panelClass: 'g-mat-dialog-big',
+		});
 	}
 
 	async expand(documentKey: string) {

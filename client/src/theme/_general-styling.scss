@@ -1061,6 +1061,11 @@ ion-content {
 	@apply text-lg md:text-xl xl:text-2xl;
 }
 
+.g-button-active {
+	color: #{$st-var-blue-1} !important;
+	border-bottom: 1px solid #{$st-var-blue-1} !important;
+}
+
 mat-toolbar {
 	background-color: transparent !important;
 }

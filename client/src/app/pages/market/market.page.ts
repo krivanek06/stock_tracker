@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { MARKET_PAGE_ENUM, MARKET_PAGE_PATH } from './model/market.model';
+import { MatSelectChange } from '@angular/material/select';
+import { Router } from '@angular/router';
+import { NameValueContainer } from '@shared';
+import { MARKET_PAGE_PATH } from './market.model';
 
 @Component({
 	selector: 'app-market',
@@ -9,14 +12,19 @@ import { MARKET_PAGE_ENUM, MARKET_PAGE_PATH } from './model/market.model';
 })
 export class MarketPage implements OnInit {
 	MARKET_PAGE_PATH = MARKET_PAGE_PATH;
-	MARKET_PAGE_ENUM = MARKET_PAGE_ENUM;
-	segment = MARKET_PAGE_PATH[0].value;
+	selectedPath = MARKET_PAGE_PATH[0].value;
 
-	constructor() {}
+	constructor(private router: Router) {}
 
 	ngOnInit() {}
 
-	segmentChanged(event: any) {
-		this.segment = event.detail.value;
+	changePath(path: NameValueContainer): void {
+		this.selectedPath = path.value;
+		this.router.navigateByUrl(`menu/market/${path.value}`);
+	}
+
+	selectOption(event: MatSelectChange): void {
+		const path = event.source.value as NameValueContainer;
+		this.changePath(path);
 	}
 }
