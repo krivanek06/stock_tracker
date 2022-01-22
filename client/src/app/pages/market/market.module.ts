@@ -1,80 +1,54 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatExpansionModule } from '@angular/material/expansion';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 import { RouterModule, Routes } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
-import {
-	MarketCalendarDividendPayoutModule,
-	MarketCalendarEarningsModule,
-	MarketCalendarEconomicModule,
-	MarketCalendarIpoModule,
-	MarketCalendarSplitHistoryModule,
-	MarketChartBuilderModule,
-	MarketCompanyQuotesTableModule,
-	MarketOverviewPreloadGuard,
-	MarketSectorHeatMapModule,
-	MarketStockNewsModule,
-	MarketTopTableCryptoModule,
-} from '@market-feature';
-import {
-	ChartKeyValueFormatterPipeModule,
-	FinancialChartContainerModule,
-	GenericCardModule,
-	GenericChartModule,
-	GenericExtensionPanelModule,
-	GenericListModule,
-	PieChartWrapperModule,
-} from '@shared';
+import { MARKET_PAGE_ENUM } from './market.model';
 import { MarketPage } from './market.page';
-import { MarketCalendarComponent } from './pages/market-calendar/market-calendar.component';
-import { MarketCryptoComponent } from './pages/market-crypto/market-crypto.component';
-import { MarketEtfComponent } from './pages/market-etf/market-etf.component';
-import { MarketNewsComponent } from './pages/market-news/market-news.component';
-import { MarketOtherComponent } from './pages/market-other/market-other.component';
-import { MarketOverviewComponent } from './pages/market-overview/market-overview.component';
-import { MarketTopStocksComponent } from './pages/market-top-stocks/market-top-stocks.component';
 
 const routes: Routes = [
 	{
 		path: '',
 		component: MarketPage,
-		resolve: [MarketOverviewPreloadGuard],
+		children: [
+			{
+				path: '',
+				redirectTo: MARKET_PAGE_ENUM.topStocks,
+			},
+			{
+				path: MARKET_PAGE_ENUM.topStocks,
+				loadChildren: () => import('./market-top-stocks/market-top-stocks.module').then((m) => m.MarketTopStocksModule),
+			},
+			{
+				path: MARKET_PAGE_ENUM.overview,
+				loadChildren: () => import('./market-overview/market-overview.module').then((m) => m.MarketOverviewModule),
+			},
+			{
+				path: MARKET_PAGE_ENUM.other,
+				loadChildren: () => import('./market-other/market-other.module').then((m) => m.MarketOtherModule),
+			},
+			{
+				path: MARKET_PAGE_ENUM.news,
+				loadChildren: () => import('./market-news/market-news.module').then((m) => m.MarketNewsModule),
+			},
+			{
+				path: MARKET_PAGE_ENUM.etf,
+				loadChildren: () => import('./market-etf/market-etf.module').then((m) => m.MarketEtfModule),
+			},
+			{
+				path: MARKET_PAGE_ENUM.crypto,
+				loadChildren: () => import('./market-crypto/market-crypto.module').then((m) => m.MarketCryptoModule),
+			},
+			{
+				path: MARKET_PAGE_ENUM.calendar,
+				loadChildren: () => import('./market-calendar/market-calendar.module').then((m) => m.MarketCalendarModule),
+			},
+		],
 	},
 ];
 
 @NgModule({
-	imports: [
-		CommonModule,
-		RouterModule.forChild(routes),
-		MatExpansionModule,
-		IonicModule,
-		MarketChartBuilderModule,
-		FinancialChartContainerModule,
-		GenericListModule,
-		GenericChartModule,
-		GenericExtensionPanelModule,
-		MarketSectorHeatMapModule,
-		ChartKeyValueFormatterPipeModule,
-		MarketCompanyQuotesTableModule,
-		MarketStockNewsModule,
-		PieChartWrapperModule,
-		MarketTopTableCryptoModule,
-		MarketCalendarEconomicModule,
-		MarketCalendarEarningsModule,
-		MarketCalendarIpoModule,
-		MarketCalendarSplitHistoryModule,
-		MarketCalendarDividendPayoutModule,
-		GenericCardModule,
-	],
-	declarations: [
-		MarketPage,
-		MarketTopStocksComponent,
-		MarketOverviewComponent,
-		MarketOtherComponent,
-		MarketNewsComponent,
-		MarketEtfComponent,
-		MarketCryptoComponent,
-		MarketCalendarComponent,
-	],
+	imports: [CommonModule, RouterModule.forChild(routes), MatButtonModule, MatSelectModule],
+	declarations: [MarketPage],
 })
 export class MarketPageModule {}

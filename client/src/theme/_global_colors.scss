@@ -83,10 +83,10 @@
 		}
 
 		.g-button-secondary-flat {
-			background-color: white !important;
-			color: #{$st-var-font-3} !important;
+			background: transparent !important;
+			color: #{$st-var-font-1} !important;
 			&:hover {
-				color: #{$st-var-font-2} !important;
+				background: rgb(173 173 173 / 18%) !important;
 			}
 		}
 	}

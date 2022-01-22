@@ -12,7 +12,6 @@ import { Observable } from 'rxjs';
 })
 export class MarketOverviewComponent implements OnInit {
 	marketOverview$!: Observable<StMarketOverviewPartialData>;
-
 	chartHeight!: number;
 	chartHeightMain!: number;
 
