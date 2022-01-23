@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { GraphqlTicketService, StTicket, StTicketCommentEditValues, StUserPublicData, UserStorageService } from '@core';
+import { GraphqlTicketService, StTicketCommentEditValues, StTicketFragmentFragment, StUserPublicData, UserStorageService } from '@core';
 import { DialogService } from '@shared';
 import { Observable } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TicketOverviewContainerComponent implements OnInit {
-	@Input() tickets: StTicket[] = [];
+	@Input() tickets: StTicketFragmentFragment[] = [];
 
 	user$!: Observable<StUserPublicData>;
 	isAdmin$!: Observable<boolean>;
@@ -22,11 +22,11 @@ export class TicketOverviewContainerComponent implements OnInit {
 		this.isAdmin$ = this.userStorageService.isAdmin();
 	}
 
-	async closeTicket(ticket: StTicket) {
+	async closeTicket(ticket: StTicketFragmentFragment) {
 		await this.graphqlTicketService.closeTicket(ticket).toPromise();
 		DialogService.showNotificationBar(`Ticket ${ticket.id} has been closed`);
 	}
-	async deleteTicket(ticket: StTicket) {
+	async deleteTicket(ticket: StTicketFragmentFragment) {
 		await this.graphqlTicketService.deleteTicket(ticket).toPromise();
 		DialogService.showNotificationBar(`Ticket ${ticket.id} has been deleted`);
 	}
@@ -36,7 +36,7 @@ export class TicketOverviewContainerComponent implements OnInit {
 		DialogService.showNotificationBar(`Comment has been edited`);
 	}
 
-	async submitComment(ticket: StTicket, comment: string) {
+	async submitComment(ticket: StTicketFragmentFragment, comment: string) {
 		await this.graphqlTicketService.commentTicket(ticket, comment).toPromise();
 		DialogService.showNotificationBar(`Comment was added to ticket ${ticket.id}`);
 	}

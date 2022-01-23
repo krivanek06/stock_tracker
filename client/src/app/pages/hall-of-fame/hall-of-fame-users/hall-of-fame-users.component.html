@@ -5,8 +5,8 @@
 <h3 class="g-color-secondary text-lg">Application total users: {{ (hallOfFameUser$ | async)?.total }}</h3>
 
 <!-- highest portfolio -->
-<ng-container *ngIf="hallOfFameUser$ | async as hallOfFameUser">
-	<div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 st-border-bottom-with-space">
+<app-loader-wrapper>
+	<div *ngIf="hallOfFameUser$ | async as hallOfFameUser" class="flex flex-col sm:flex-row sm:flex-wrap gap-3 st-border-bottom-with-space">
 		<app-position-card
 			*ngFor="let bestUsers of hallOfFameUser.highestPortfolio; let i = index"
 			class="flex-1 2xl:flex-0"
@@ -28,7 +28,7 @@
 			</app-position-card>
 		</ng-container>
 	</div>
-</ng-container>
+</app-loader-wrapper>
 
 <div class="flex flex-col md:flex-row justify-between">
 	<!-- Users -->

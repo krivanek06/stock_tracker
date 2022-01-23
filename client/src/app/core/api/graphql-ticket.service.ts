@@ -76,7 +76,7 @@ export class GraphqlTicketService {
 		);
 	}
 
-	deleteTicket(ticket: StTicket): Observable<FetchResult<CommentTicketMutation>> {
+	deleteTicket(ticket: StTicketFragmentFragment): Observable<FetchResult<CommentTicketMutation>> {
 		return this.deleteTicketGQL.mutate(
 			{
 				ticketId: ticket.id,
@@ -93,7 +93,7 @@ export class GraphqlTicketService {
 		);
 	}
 
-	commentTicket({ id }: StTicket, comment: string): Observable<FetchResult<CommentTicketMutation>> {
+	commentTicket({ id }: StTicketFragmentFragment, comment: string): Observable<FetchResult<CommentTicketMutation>> {
 		return this.commentTicketGQL.mutate(
 			{
 				ticketId: id,
@@ -160,7 +160,7 @@ export class GraphqlTicketService {
 		);
 	}
 
-	closeTicket({ id }: StTicket): Observable<FetchResult<CloseTicketMutation>> {
+	closeTicket({ id }: StTicketFragmentFragment): Observable<FetchResult<CloseTicketMutation>> {
 		return this.closeTicketGQL.mutate(
 			{
 				ticketId: id,

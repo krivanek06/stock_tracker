@@ -1,19 +1,21 @@
 <mat-expansion-panel>
 	<mat-expansion-panel-header>
-		<mat-panel-title class="ion-align-items-center c-ticket-name">
+		<!-- title -->
+		<mat-panel-title class="flex gap-2 items-center c-ticket-name">
 			<ion-icon *ngIf="ticket.isOpen" name="open" class="st-color-openge-1"></ion-icon>
 			<ion-icon *ngIf="!ticket.isOpen" name="cloud-done" class="st-price-up"></ion-icon>
-			<ion-text class="st-small-left-space">{{ ticket.name }}</ion-text>
+			<ion-text class="g-color-white">{{ ticket.name }}</ion-text>
 		</mat-panel-title>
-		<mat-panel-description class="ion-align-items-center st-gap ion-hide-md-down text-white">
+		<!-- metadata -->
+		<mat-panel-description class="hidden xs:flex gap-2 items-center g-color-secondary">
 			<ion-avatar>
 				<ion-img appDefaultImg [src]="ticket.createdBy.photoURL"></ion-img>
 			</ion-avatar>
 			<span>{{ ticket.createdBy.nickName }}</span>
-			<span>|</span>
-			<span>{{ ticket.type }}</span>
-			<span>|</span>
-			<span>{{ ticket.createdAt | relativeTime }}</span>
+			<span class="hidden md:block">|</span>
+			<span class="hidden md:block">{{ ticket.type }}</span>
+			<span class="hidden sm:block">|</span>
+			<span class="hidden sm:block">{{ ticket.createdAt | relativeTime }}</span>
 		</mat-panel-description>
 	</mat-expansion-panel-header>
 	<ng-template matExpansionPanelContent>
