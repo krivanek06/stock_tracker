@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { GroupTopUsersInformationModule } from '@group-feature';
 import { IonicModule } from '@ionic/angular';
-import { PositionCardModule, SharedModule } from '@shared';
+import { LoaderWrapperModule, PositionCardModule, SharedModule } from '@shared';
 import { HallOfFameGroupsComponent } from './hall-of-fame-groups.component';
 
 const routes: Routes = [
@@ -30,6 +30,14 @@ const routes: Routes = [
 
 @NgModule({
 	declarations: [HallOfFameGroupsComponent],
-	imports: [CommonModule, SharedModule, RouterModule.forChild(routes), IonicModule, GroupTopUsersInformationModule, PositionCardModule],
+	imports: [
+		CommonModule,
+		SharedModule,
+		RouterModule.forChild(routes),
+		IonicModule,
+		GroupTopUsersInformationModule,
+		PositionCardModule,
+		LoaderWrapperModule,
+	],
 })
 export class HallOfFameGroupsModule {}

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
-import { StTicket, StTicketComment, StTicketCommentEditValues, StUserPublicData } from '@core';
+import { StTicketComment, StTicketCommentEditValues, StTicketFragmentFragment, StUserPublicData } from '@core';
 import { Confirmable, requiredValidator } from '@shared';
 
 @Component({
@@ -15,7 +15,7 @@ export class TickerOverviewComponent implements OnInit {
 	@Output() closeTicketEmitter: EventEmitter<any> = new EventEmitter<any>();
 	@Output() deleteTicketEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-	@Input() ticket!: StTicket;
+	@Input() ticket!: StTicketFragmentFragment;
 	@Input() isAdmin: boolean | null = false;
 	@Input() user!: StUserPublicData | null;
 
@@ -25,7 +25,7 @@ export class TickerOverviewComponent implements OnInit {
 
 	@ViewChild(FormGroupDirective) formDirective!: NgForm;
 
-	constructor(private fb: FormBuilder) { }
+	constructor(private fb: FormBuilder) {}
 
 	get comment(): AbstractControl {
 		return this.form.get('comment') as AbstractControl;

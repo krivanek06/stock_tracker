@@ -33,8 +33,5 @@
 
 	.c-ticket-name {
 		max-width: 40%;
-		@media (max-width: #{$st-var-md-split}) {
-			max-width: 100%;
-		}
 	}
 }

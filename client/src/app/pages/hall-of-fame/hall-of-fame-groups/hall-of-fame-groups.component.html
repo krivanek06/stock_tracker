@@ -5,8 +5,8 @@
 <h3 class="g-color-secondary text-lg">Application total groups: {{ (hallOfFameGroups$ | async)?.total }}</h3>
 
 <!-- highest portfolio -->
-<ng-container *ngIf="hallOfFameGroups$ | async as hallOfFameGroup">
-	<div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 st-border-bottom-with-space">
+<app-loader-wrapper>
+	<div *ngIf="hallOfFameGroups$ | async as hallOfFameGroup" class="flex flex-col sm:flex-row sm:flex-wrap gap-3 st-border-bottom-with-space">
 		<app-position-card
 			*ngFor="let group of hallOfFameGroup.highestPortfolio; let i = index"
 			class="flex-1"
@@ -20,7 +20,7 @@
 			></app-group-top-users-information>
 		</app-position-card>
 	</div>
-</ng-container>
+</app-loader-wrapper>
 
 <div class="flex flex-col md:flex-row justify-between">
 	<div>
