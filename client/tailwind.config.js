@@ -4,7 +4,7 @@ const colors = require('tailwindcss/colors');
 module.exports = {
 	prefix: '',
 	important: true, // to overwride angular material
-	content: ['./src/**/*.{html,ts,scss}'],
+	purge: ['./src/**/*.{html,ts,scss}'],
 	darkMode: 'class', // or 'media' or 'class'
 	corePlugins: {
 		preflight: false,

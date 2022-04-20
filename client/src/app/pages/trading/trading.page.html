@@ -9,7 +9,8 @@
 	</ion-col>
 	<ion-col size="12" size-lg="3" class="ion-hide-lg-down">
 		<!-- bid / ask -->
-		<app-trading-bid-ask [bidPrice]="selectedSummary?.marketPrice - 0.03" [askPrice]="selectedSummary?.marketPrice + 0.03"></app-trading-bid-ask>
+		<app-trading-bid-ask *ngIf="selectedSummary?.marketPrice as marketPrice" [bidPrice]="marketPrice - 0.03" [askPrice]="marketPrice + 0.03">
+		</app-trading-bid-ask>
 	</ion-col>
 	<ion-col size="12" size-lg="4" size-md="5" class="ion-hide-sm-down">
 		<!-- portfolio chart -->
@@ -90,7 +91,7 @@
 			<app-holdings-table
 				(itemClickedEmitter)="changeSymbol($event)"
 				[holdings]="clonedHoldings"
-				[totalPortfolio]="user?.portfolio?.portfolioCash + portfolioInvested"
+				[totalPortfolio]="(user?.portfolio?.portfolioCash || 0) + portfolioInvested"
 			>
 			</app-holdings-table>
 		</app-generic-card>

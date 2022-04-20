@@ -344,28 +344,28 @@ export const STFinancialModelingAPITypeDefs = gql`
 	}
 
 	type STFMCompanyQuote {
-		avgVolume: Float
-		change: Float
-		changesPercentage: Float
+		avgVolume: Float!
+		change: Float!
+		changesPercentage: Float!
 		dayHigh: Float
 		dayLow: Float
 		earningsAnnouncement: String
 		eps: Float
-		exchange: String
+		exchange: String!
 		marketCap: Float
-		name: String
-		open: Float
+		name: String!
+		open: Float!
 		pe: Float
 		previousClose: Float
 		price: Float
 		priceAvg200: Float
 		priceAvg50: Float
 		sharesOutstanding: Float
-		symbol: String
-		timestamp: Float
-		volume: Float
-		yearHigh: Float
-		yearLow: Float
+		symbol: String!
+		timestamp: Float!
+		volume: Float!
+		yearHigh: Float!
+		yearLow: Float!
 		image: String
 	}
 
@@ -447,26 +447,26 @@ export const STFinancialModelingAPITypeDefs = gql`
 	type STFMStockScreenerResult {
 		symbol: String!
 		companyName: String!
-		marketCap: Float!
+		marketCap: Float
 		sector: String
 		industry: String
 		beta: Float
-		price: Float
+		price: Float!
 		lastAnnualDividend: Float
 		volume: Float!
-		exchange: String
+		exchange: String!
 		exchangeShortName: String
 		country: String
 		isEtf: Boolean
 		isActivelyTrading: Boolean
-		companyQuote: STFMCompanyQuote
+		companyQuote: STFMCompanyQuote!
 	}
 
 	type STFMStockScreenerResultWrapper {
-		result: [STFMStockScreenerResult]
-		found: Float
-		offset: Float
-		limit: Float
+		result: [STFMStockScreenerResult!]!
+		found: Float!
+		offset: Float!
+		limit: Float!
 	}
 
 	type STFMSocialSentiment {

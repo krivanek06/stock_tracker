@@ -5,7 +5,7 @@
 			<app-market-search-form (searchFormChangeEmitter)="changedFormResult($event)"></app-market-search-form>
 		</ion-col>
 		<ion-col size="12" size-lg="3">
-			<app-market-search-form-result [stockScreener]="stockScreener"></app-market-search-form-result>
+			<app-market-search-form-result [stockScreener]="stockScreener$ | async"></app-market-search-form-result>
 			<div class="ion-margin-top">
 				<ion-button (click)="filterResult()" color="primary" fill="solid">Filter</ion-button>
 			</div>
@@ -15,14 +15,16 @@
 
 <!-- table results -->
 <div class="mt-4">
-	<app-generic-card [title]="'Stock screener results: ' + stockScreenerResult?.found">
+	<app-generic-card [title]="'Stock screener results: ' + ((stockScreenerResult$ | async)?.found || 0)">
 		<app-market-search-table
 			(itemClickedEmitter)="showSummarySymbol($event)"
-			[stockScreenerResults]="stockScreenerResult?.result"
+			[stockScreenerResults]="(stockScreenerResult$ | async)?.result"
 		></app-market-search-table>
 
-		<ion-infinite-scroll threshold="250px" (ionInfinite)="loadData($event, limit)">
-			<app-list-skeleton [itemLength]="limit"></app-list-skeleton>
-		</ion-infinite-scroll>
+		<ion-content class="min-h-[400px]">
+			<ion-infinite-scroll threshold="250px" (ionInfinite)="changeOffset($event, limit)">
+				<app-list-skeleton [itemLength]="limit"></app-list-skeleton>
+			</ion-infinite-scroll>
+		</ion-content>
 	</app-generic-card>
 </div>

@@ -41,13 +41,14 @@
 		}
 	},
 	"angularCompilerOptions": {
-		"enableIvy": false,
+		"enableIvy": true,
 		"fullTemplateTypeCheck": true,
 		"strictInputTypes": true,
 		"strictInjectionParameters": true,
 		"enableI18nLegacyMessageIdFormat": false,
 		"strictInputAccessModifiers": true,
-		"strictTemplates": true
+		"strictTemplates": true,
+		"preserveWhitespaces": true
 	},
 	"exclude": ["node_modules"]
 }

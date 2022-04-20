@@ -16,7 +16,7 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseD
 	@Input() currentPrice!: number | undefined;
 	@Input() closedPrice!: number;
 	@Input() symbol!: string;
-	@Input() logoUrl?: string;
+	@Input() logoUrl?: string | null = null;
 	@Input() name?: string;
 	@Input() height = 300;
 	@Input() showYAxis = true;
