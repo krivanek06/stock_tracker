@@ -2,16 +2,15 @@
 <div class="hidden lg:flex justify-end gap-2">
 	<button
 		*ngFor="let path of MARKET_PAGE_PATH"
-		mat-button
+		mat-stroked-button
 		(click)="changePath(path)"
-		class="g-button-secondary-flat"
 		[ngClass]="{'g-button-active': path.value === selectedPath}"
 	>
 		{{ path.name}}
 	</button>
 </div>
 
-<mat-form-field appearance="outline" class="block lg:hidden g-button-secondary-flat p-2">
+<mat-form-field appearance="outline" class="block lg:hidden p-2">
 	<mat-label class="st-font-1"> Select path</mat-label>
 
 	<!-- select -->

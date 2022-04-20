@@ -1,16 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ListSkeletonComponent} from "./list-skeleton.component";
-import {IonicModule} from "@ionic/angular";
-
-
+import { NgModule } from '@angular/core';
+import { ListSkeletonComponent } from './list-skeleton.component';
 
 @NgModule({
-  declarations: [ListSkeletonComponent],
-  imports: [
-    CommonModule,
-    IonicModule
-  ],
-  exports: [ListSkeletonComponent]
+	declarations: [ListSkeletonComponent],
+	imports: [CommonModule],
+	exports: [ListSkeletonComponent],
 })
-export class ListSkeletonModule { }
+export class ListSkeletonModule {}

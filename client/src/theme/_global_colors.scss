@@ -1,60 +1,61 @@
-@import 'custom-variables';
+@use 'custom-variables' as variables;
+@tailwind utilities;
 
-.g-color-success {
-	color: #{$st-var-price-up} !important;
-}
+// .g-color-success {
+// 	color: #{$st-var-price-up} !important;
+// }
 
-.g-background-color-success {
-	background-color: #{$st-var-price-up} !important;
-}
+// .g-background-color-success {
+// 	background-color: #{$st-var-price-up} !important;
+// }
 
-.g-color-secondary {
-	color: #{$st-var-font-2} !important;
-}
+// .g-color-secondary {
+// 	color: #{$st-var-font-2} !important;
+// }
 
-.g-background-color-secondary {
-	background-color: #{$st-var-font-2} !important;
-}
+// .g-background-color-secondary {
+// 	background-color: #{$st-var-font-2} !important;
+// }
 
-.g-color-primary {
-	color: #{$st-var-blue-1} !important;
-}
+// .g-color-primary {
+// 	color: #{$st-var-blue-1} !important;
+// }
 
-.g-background-color-primary {
-	background-color: #{$st-var-blue-1} !important;
-}
+// .g-background-color-primary {
+// 	background-color: #{$st-var-blue-1} !important;
+// }
 
-.g-color-white {
-	color: white;
-}
+// .g-color-white {
+// 	color: white;
+// }
 
-/* WARNING */
-.g-color-warning {
-	color: #{$color-orange-1} !important;
-}
+// /* WARNING */
+// .g-color-warning {
+// 	color: #{$color-orange-1} !important;
+// }
 
-.g-button-warning {
-	background-color: #{$color-orange-1} !important;
-	color: white !important;
-}
+// .g-button-warning {
+// 	background-color: #{$color-orange-1} !important;
+// 	color: white !important;
+// }
 
-.g-button-warning-flat {
-	background-color: transparent;
-	color: #{$color-orange-1} !important;
-	border: 1px solid !important;
-	&:hover {
-		background-color: #dc58262b;
-	}
-}
+// .g-button-warning-flat {
+// 	background-color: transparent;
+// 	color: #{$color-orange-1} !important;
+// 	border: 1px solid !important;
+// 	&:hover {
+// 		background-color: #dc58262b;
+// 	}
+// }
 
-.g-button-danger-flat {
-	background-color: transparent;
-	color: #{$st-red} !important;
-	border: 1px solid !important;
-	&:hover {
-		background-color: #d2141436;
-	}
-}
+// .g-button-danger-flat {
+// 	background-color: transparent;
+// 	color: #{$st-red} !important;
+// 	border: 1px solid !important;
+// 	&:hover {
+// 		background-color: #d2141436;
+// 	}
+// }
 
 .g-first-position-color {
 	color: #cf212a;
@@ -75,19 +76,99 @@
 @layer utilities {
 	@variants responsive {
 		.g-button-secondary {
-			background-color: #{$st-var-font-3} !important;
+			background-color: #{variables.$st-var-font-3} !important;
 			color: white !important;
 			&:hover {
-				background-color: #{$st-var-font-2} !important;
+				background-color: #{variables.$st-var-font-2} !important;
 			}
 		}
 
 		.g-button-secondary-flat {
 			background: transparent !important;
-			color: #{$st-var-font-1} !important;
+			color: #{variables.$st-var-font-1} !important;
 			&:hover {
 				background: rgb(173 173 173 / 18%) !important;
 			}
+		}
+	}
+}
+
+/* primary */
+.g-color-primary {
+	color: variables.$color-primary-500 !important;
+}
+
+.g-background-primary {
+	background-color: variables.$color-primary-500 !important;
+}
+
+/* success */
+.g-color-success {
+	color: variables.$color-success-500 !important;
+}
+
+.g-background-color-success {
+	background-color: variables.$color-success-500 !important;
+}
+
+/* secondary */
+.g-color-secondary {
+	color: variables.$color-gray-300 !important;
+}
+
+.g-background-color-secondary {
+	background-color: variables.$color-gray-300 !important;
+}
+
+/* white */
+.g-color-white {
+	color: variables.$color-white-1 !important;
+}
+
+/* WARNING */
+.g-color-warning {
+	color: variables.$color-warn-500 !important;
+}
+
+.g-background-color-warning {
+	background-color: variables.$color-warn-500 !important;
+}
+
+.g-button-warning {
+	background-color: variables.$color-warn-500 !important;
+	color: variables.$color-white-1 !important;
+}
+
+.g-button-warning-flat {
+	background-color: variables.$color-white-1 !important;
+	color: variables.$color-warn-500 !important;
+}
+
+/* DANGER */
+.g-color-danger {
+	color: variables.$color-danger-500 !important;
+}
+
+.g-background-color-danger {
+	background-color: variables.$color-danger-500 !important;
+}
+
+// TAILWIND CUSTOM CLASSES
+@layer utilities {
+	@variants responsive {
+		.g-button-secondary {
+			background-color: variables.$color-gray-300 !important;
+			color: variables.$color-white-1 !important;
+		}
+
+		.g-button-secondary-flat {
+			background-color: variables.$color-white-1 !important;
+			color: variables.$color-gray-300 !important;
+		}
+
+		.g-button-transparent {
+			background-color: transparent;
+			color: variables.$color-gray-300 !important;
 		}
 	}
 }

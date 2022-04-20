@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import {
 	DefaultImgDirectiveModule,
 	ListSkeletonModule,
@@ -15,13 +16,14 @@ import { MarketCompanyQuotesTableComponent } from './market-company-quotes-table
 	declarations: [MarketCompanyQuotesTableComponent],
 	imports: [
 		CommonModule,
-		IonicModule,
 		TableHighLowRangeModule,
 		PriceChangeItemModule,
 		PriceCompareItemModule,
 		NumberFormatterPipeModule,
 		ListSkeletonModule,
 		DefaultImgDirectiveModule,
+		MatTableModule,
+		MatTooltipModule,
 	],
 	exports: [MarketCompanyQuotesTableComponent],
 })
