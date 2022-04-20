@@ -37,20 +37,20 @@ export const STFinancialModelingAPITypeDefs = gql`
 	}
 
 	type STFMInsideTrade {
-		acquistionOrDisposition: String
-		companyCik: String
-		formType: String
-		link: String
-		price: Float
-		reportingCik: String
-		reportingName: String
-		securitiesOwned: Float
-		securitiesTransacted: Float
-		securityName: String
-		symbol: String
-		transactionDate: String
-		transactionType: String
-		typeOfOwner: String
+		acquistionOrDisposition: String!
+		companyCik: String!
+		formType: String!
+		link: String!
+		price: Float!
+		reportingCik: String!
+		reportingName: String!
+		securitiesOwned: Float!
+		securitiesTransacted: Float!
+		securityName: String!
+		symbol: String!
+		transactionDate: String!
+		transactionType: String!
+		typeOfOwner: String!
 	}
 
 	type STFMKeyExecutive {
@@ -134,23 +134,23 @@ export const STFinancialModelingAPITypeDefs = gql`
 	}
 
 	type STFMRating {
-		date: String
-		rating: String
-		ratingDetailsDCFRecommendation: String
-		ratingDetailsDCFScore: Float
-		ratingDetailsDERecommendation: String
-		ratingDetailsDEScore: Float
-		ratingDetailsPBRecommendation: String
-		ratingDetailsPBScore: Float
-		ratingDetailsPERecommendation: String
-		ratingDetailsPEScore: Float
-		ratingDetailsROARecommendation: String
-		ratingDetailsROAScore: Float
-		ratingDetailsROERecommendation: String
-		ratingDetailsROEScore: Float
-		ratingRecommendation: String
-		ratingScore: Float
-		symbol: String
+		date: String!
+		rating: String!
+		ratingDetailsDCFRecommendation: String!
+		ratingDetailsDCFScore: Float!
+		ratingDetailsDERecommendation: String!
+		ratingDetailsDEScore: Float!
+		ratingDetailsPBRecommendation: String!
+		ratingDetailsPBScore: Float!
+		ratingDetailsPERecommendation: String!
+		ratingDetailsPEScore: Float!
+		ratingDetailsROARecommendation: String!
+		ratingDetailsROAScore: Float!
+		ratingDetailsROERecommendation: String!
+		ratingDetailsROEScore: Float!
+		ratingRecommendation: String!
+		ratingScore: Float!
+		symbol: String!
 	}
 
 	type STFMRatios {

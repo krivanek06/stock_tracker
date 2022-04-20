@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { StUserGroups } from '@core';
+import { StUserGroupsFragment } from '@core';
 
 @Component({
 	selector: 'app-user-status-groups',
@@ -8,7 +8,7 @@ import { StUserGroups } from '@core';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserStatusGroupsComponent implements OnInit {
-	@Input() groups!: StUserGroups;
+	@Input() groups!: StUserGroupsFragment;
 
 	constructor() {}
 

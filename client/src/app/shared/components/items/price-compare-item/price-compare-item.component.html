@@ -1,5 +1,5 @@
-<ion-label [ngClass]="{ 'st-flex-row-important': inlineDisplay}" style="display: flex; flex-flow: column">
-	<!-- left price -->
+<!-- <ion-label [ngClass]="{ 'st-flex-row-important': inlineDisplay}" style="display: flex; flex-flow: column">
+	
 	<ion-text
 		*ngIf="showPrice && pricePosition === 'left' "
 		[@marketValueChange]="currentPrice"
@@ -12,7 +12,7 @@
 		{{ getDiff | numberFormatter: false : showDollarSign }}
 	</ion-text>
 
-	<!-- percentage -->
+	
 	<ng-container *ngIf="currentPrice && compareToPrice; else showNA">
 		<ion-text
 			[ngClass]="{
@@ -32,12 +32,12 @@
 		</ion-text>
 	</ng-container>
 
-	<!-- N/A -->
+
 	<ng-template #showNA>
 		<ion-text class="st-font-2">N/A</ion-text>
 	</ng-template>
 
-	<!-- right price -->
+	
 	<ion-text
 		*ngIf="showPrice && pricePosition === 'right' "
 		[@marketValueChange]="currentPrice"
@@ -49,4 +49,11 @@
 	>
 		{{ getDiff | numberFormatter: false : showDollarSign }}
 	</ion-text>
-</ion-label>
+</ion-label> -->
+<app-price-change-item
+	[price]="getDiff"
+	[priceChange]="getDiffPrct"
+	[showIcon]="showIcons"
+	[pricePosition]="pricePosition"
+	[showDollarSignOnPrice]="showDollarSign"
+></app-price-change-item>

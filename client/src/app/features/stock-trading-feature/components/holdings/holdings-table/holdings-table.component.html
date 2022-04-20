@@ -63,7 +63,7 @@
 
 			<!-- portfolio % -->
 			<ion-label class="ion-hide-md-down st-data-label">
-				{{ (holding.summary.marketPrice * holding.units / totalPortfolio | percent: '1.2-2') }}
+				<ng-container *ngIf="totalPortfolio"> {{ (holding.summary.marketPrice * holding.units / totalPortfolio | percent: '1.2-2') }} </ng-container>
 			</ion-label>
 
 			<!-- beta -->

@@ -48,6 +48,8 @@ export interface GenericChartSeries {
 	color?: string | any;
 	lineWidth?: number;
 	colorByPoint?: boolean;
+	innerSize?: string;
+	minPointSize?: number;
 }
 
 export interface GenericChartSeriesData {

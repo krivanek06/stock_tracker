@@ -15,8 +15,7 @@ export class PriceCompareItemComponent implements OnInit {
 	@Input() showIcons = true;
 	@Input() showPrice = true;
 	@Input() showDollarSign = false;
-
-	@Input() pricePosition: 'left' | 'right' = 'right';
+	@Input() pricePosition: 'left' | 'right' | 'bottom' = 'bottom';
 
 	constructor() {}
 
@@ -27,5 +26,12 @@ export class PriceCompareItemComponent implements OnInit {
 			return null;
 		}
 		return this.currentPrice - this.compareToPrice;
+	}
+
+	get getDiffPrct(): number | null {
+		if (!this.currentPrice || !this.compareToPrice) {
+			return null;
+		}
+		return (this.currentPrice - this.compareToPrice) / this.compareToPrice;
 	}
 }

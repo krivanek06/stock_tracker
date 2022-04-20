@@ -1,22 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {PriceCompareItemComponent} from "./price-compare-item.component";
-import {NumberFormatterPipeModule} from "../../../pipes";
-import {IonicModule} from "@ionic/angular";
-
-
+import { NgModule } from '@angular/core';
+import { NumberFormatterPipeModule } from '../../../pipes';
+import { PriceChangeItemModule } from '../price-change-item/price-change-item.module';
+import { PriceCompareItemComponent } from './price-compare-item.component';
 
 @NgModule({
-  declarations: [
-    PriceCompareItemComponent
-  ],
-  imports: [
-    CommonModule,
-    NumberFormatterPipeModule,
-    IonicModule
-  ],
-  exports: [
-    PriceCompareItemComponent
-  ]
+	declarations: [PriceCompareItemComponent],
+	imports: [CommonModule, NumberFormatterPipeModule, PriceChangeItemModule],
+	exports: [PriceCompareItemComponent],
 })
-export class PriceCompareItemModule { }
+export class PriceCompareItemModule {}

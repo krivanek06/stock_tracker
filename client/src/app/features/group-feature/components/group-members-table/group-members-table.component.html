@@ -31,7 +31,6 @@
 	>
 		<app-group-user-base-information
 			[showIncreasePosition]="groupMemberSort.value === GroupMemberSortValuesEnum.highest_portfolio"
-			[groupUserPosition]="i + 1"
 			[showPortfolioSinceMember]="showPortfolioSinceMember"
 			[useClassStyling]="groupUser.id === user?.id && i !== 0 && i !== 1 && i !== 2 ? 'g-my-position-color' :
                                    i === 0 ? 'g-first-position-color' :

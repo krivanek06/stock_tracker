@@ -11,7 +11,7 @@ interface RecommendationColor {
 })
 export class RecommendationDirective implements OnChanges {
 	@Input() recommendationKey?: string | null = null;
-	@Input() recommendationMean?: number | null = null;
+	@Input() recommendationMean?: number | string | null = null;
 	private recommendationColors: RecommendationColor[] = [];
 
 	constructor(private elRef: ElementRef, private renderer: Renderer2) {}

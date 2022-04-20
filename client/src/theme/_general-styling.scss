@@ -1069,3 +1069,21 @@ ion-content {
 mat-toolbar {
 	background-color: transparent !important;
 }
+
+// ---------------
+
+table:not(mat-datepicker-content table, mat-calendar table) {
+	// min-height: 55vh;
+	width: 100%;
+
+	.mat-row:hover {
+		background-color: #f3f3f3;
+	}
+	tbody {
+		tr {
+			td {
+				padding: 4px !important;
+			}
+		}
+	}
+}

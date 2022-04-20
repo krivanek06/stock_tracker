@@ -22,13 +22,14 @@
 
 <!-- holdings - value chart -->
 <app-generic-chart
+	*ngIf=" etfHolders$ | async as etfHolders"
 	chartTitle="ETF share number holdings"
 	[chartType]="ChartType.column"
 	[heightPx]="chartHeight"
 	[showCategoryNameWithValue]="true"
 	[series]="[{
 					colorByPoint: true,
-					data: (etfHolders$ | async)
+					data: etfHolders
 				}]"
 >
 </app-generic-chart>
