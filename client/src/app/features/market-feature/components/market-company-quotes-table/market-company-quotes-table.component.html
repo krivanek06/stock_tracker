@@ -1,81 +1,82 @@
-<ion-list *ngIf="stfmCompanyQuotes?.length > 0; else showSkeleton">
-	<!-- table header -->
-	<ion-item class="ion-no-padding ion-hide-sm-down st-font-1-bold">
-		<ion-label>Symbol</ion-label>
-		<ion-label>Price</ion-label>
-		<ion-label>Daily +/-</ion-label>
-		<ion-label>Volume +/-</ion-label>
-		<ion-label class="ion-hide-xl-down">Market cap.</ion-label>
-		<ion-label class="ion-hide-md-down">PE ratio</ion-label>
-		<ion-label class="ion-hide-lg-down">52 week range</ion-label>
-	</ion-item>
-
-	<!-- table body -->
-	<ng-container *ngFor="let data of stfmCompanyQuotes | slice: 0: 15">
-		<ion-item (click)="itemClicked(data.symbol, data.name)" button class="st-data-item-wrapper ion-hide-sm-down">
-			<!-- logo + symbol name -->
-			<ion-label class="st-display-flex-center">
-				<ion-img *ngIf="showImage" [src]="data.image" appDefaultImg class="st-symbol-image"></ion-img>
-				<ion-text class="st-font-4">{{ data.symbol }}</ion-text>
-			</ion-label>
-
-			<!-- current price -->
-			<ion-label [@marketValueChange]="data.price"> {{ data.price | currency }} </ion-label>
-
-			<!-- daily change -->
-			<ion-label>
-				<app-price-compare-item [compareToPrice]="data.previousClose" [currentPrice]="data.price"> </app-price-compare-item>
-			</ion-label>
-
-			<!-- volume change -->
-			<ion-label>
-				<app-price-change-item [isPercent]="true" [priceChange]="(data.volume - data.avgVolume) / data.avgVolume" [showIcon]="false">
-				</app-price-change-item>
-			</ion-label>
-
-			<!-- Market cap -->
-			<ion-label class="ion-hide-xl-down"> {{ data.marketCap | numberFormatter }} </ion-label>
-
-			<!-- PE -->
-			<ion-label class="ion-hide-md-down"> {{ data.pe ? (data.pe | number: '1.2-2') : 'N/A' }} </ion-label>
-
-			<!-- recommendation date
-            <ion-label class="st-data-label">
-                <ion-text [recommendationKey]="data.recommendationKey"
-                          [recommendationMean]="data.recommendationMean"
-                          appRecommendation>
-                </ion-text>
-            </ion-label>-->
-
-			<!-- 52 week range -->
-			<ion-label class="ion-hide-lg-down">
-				<div style="width: 90%">
-					<app-table-high-low-range [max]="data.yearHigh" [min]="data.yearLow" [value]="data.price"> </app-table-high-low-range>
+<table mat-table [dataSource]="dataSource" matSort class="w-full">
+	<ng-container matColumnDef="symbol">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Symbol</th>
+		<td mat-cell *matCellDef="let row">
+			<div class="flex items-center">
+				<img *ngIf="showImage" [src]="row.image" appDefaultImg class="st-symbol-image" />
+				<div class="flex flex-col">
+					<span>{{ row.symbol }}</span>
+					<span class="table-cell sm:hidden text-sm text-gray-500">{{ row.name }}</span>
 				</div>
-			</ion-label>
-		</ion-item>
-
-		<!-- SMALL SCREEN -->
-		<ion-item (click)="itemClicked(data.symbol,data.name)" button class="st-data-item-wrapper ion-hide-sm-up st-sm-table-item">
-			<!-- LOGO + SYMBOL -->
-			<ion-label class="st-display-flex-center">
-				<ion-img [src]="data.image" appDefaultImg class="st-symbol-image"></ion-img>
-				<div class="st-flex-col">
-					<ion-text>{{ data.symbol }}</ion-text>
-					<ion-text class="st-hide-xs-down st-font-size-12 st-font-5">{{ data.name }}</ion-text>
-				</div>
-			</ion-label>
-
-			<!-- daily change + price -->
-			<ion-label class="st-flex-end st-flex-col">
-				<ion-text [@marketValueChange]="data.price" class="st-font-1-normal st-font-size-16"> {{ data.price | currency }} </ion-text>
-				<app-price-compare-item [compareToPrice]="data.previousClose" [currentPrice]="data.price" [inlineDisplay]="true"> </app-price-compare-item>
-			</ion-label>
-		</ion-item>
+			</div>
+		</td>
 	</ng-container>
-</ion-list>
 
-<!-- loading screen -->
-<ng-template #showSkeleton>
-	<app-list-skeleton [itemLength]="skeletonLength"></app-list-skeleton>
-</ng-template>
+	<!-- price -->
+	<ng-container matColumnDef="price">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Price</th>
+		<td mat-cell *matCellDef="let row">
+			<div class="flex flex-col">
+				<span [@marketValueChange]="row.price" class="text-right sm:text-left text-gray-200 sm:text-gray-400"> {{ row.price | currency }} </span>
+				<app-price-compare-item
+					class="table-cell sm:hidden"
+					[compareToPrice]="row.previousClose"
+					[currentPrice]="row.price"
+					[inlineDisplay]="true"
+					[showDollarSign]="true"
+					pricePosition="right"
+				>
+				</app-price-compare-item>
+			</div>
+		</td>
+	</ng-container>
+
+	<!-- daily -->
+	<ng-container matColumnDef="daily">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Daily +/-</th>
+		<td mat-cell *matCellDef="let row" class="hidden sm:table-cell">
+			<app-price-compare-item [compareToPrice]="row.previousClose" [currentPrice]="row.price" [showDollarSign]="true"> </app-price-compare-item>
+		</td>
+	</ng-container>
+
+	<!-- volume -->
+	<ng-container matColumnDef="volume">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Volume +/-</th>
+		<td mat-cell *matCellDef="let row" class="hidden sm:table-cell">
+			<app-price-change-item [isPercent]="true" [priceChange]="(row.volume - row.avgVolume) / row.avgVolume" [showIcon]="false">
+			</app-price-change-item>
+		</td>
+	</ng-container>
+
+	<!-- market cap -->
+	<ng-container matColumnDef="marketCap">
+		<th mat-header-cell *matHeaderCellDef class="hidden md:table-cell">Market cap.</th>
+		<td mat-cell *matCellDef="let row" class="hidden md:table-cell">{{ row.marketCap | numberFormatter }}</td>
+	</ng-container>
+
+	<!-- PE -->
+	<ng-container matColumnDef="peRatio">
+		<th mat-header-cell *matHeaderCellDef class="hidden md:table-cell">PE ratio</th>
+		<td mat-cell *matCellDef="let row" class="hidden md:table-cell">{{ row.pe ? (row.pe | number: '1.2-2') : 'N/A' }}</td>
+	</ng-container>
+
+	<!-- 52 week -->
+	<ng-container matColumnDef="52WeekRange">
+		<th mat-header-cell *matHeaderCellDef class="hidden lg:table-cell">52 week range</th>
+		<td mat-cell *matCellDef="let row" class="hidden lg:table-cell">
+			<div style="width: 90%">
+				<app-table-high-low-range [max]="row.yearHigh" [min]="row.yearLow" [value]="row.price"> </app-table-high-low-range>
+			</div>
+		</td>
+	</ng-container>
+
+	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+	<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+	<!-- Row shown when there is no matching data. -->
+	<tr class="mat-row" *matNoDataRow>
+		<td class="mat-cell" colspan="7">
+			<app-list-skeleton [itemLength]="skeletonLength"></app-list-skeleton>
+		</td>
+	</tr>
+</table>

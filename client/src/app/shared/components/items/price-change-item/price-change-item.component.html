@@ -2,7 +2,7 @@
 
 <ng-template #showItem>
 	<div
-		class="flex"
+		class="flex gap-x-2"
 		[ngClass]="{
 		'c-xs-end': applyEndOnXsDown,
 		'c-sm-end': applyEndOnSmDown,
@@ -44,10 +44,9 @@
 		<!-- price - position right -->
 		<div
 			*ngIf="price && (pricePosition === 'right' || pricePosition === 'bottom')"
-			class="st-font-0"
+			class="text-gray-500"
 			[ngClass]="{
-			  'st-font-4':  pricePosition === 'bottom',
-			  'text-xs':  pricePosition === 'bottom'
+			  'text-sm':  pricePosition === 'bottom'
 			 }"
 		>
 			<!-- <span *ngIf="priceText" class="st-small-right-space">{{ priceText }}</span> -->

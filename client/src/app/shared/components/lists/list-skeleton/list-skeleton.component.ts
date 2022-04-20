@@ -8,7 +8,6 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 })
 export class ListSkeletonComponent implements OnInit {
 	@Input() itemLength!: number;
-	@Input() skeletonHeight: number = 24;
 
 	constructor() {}
 
