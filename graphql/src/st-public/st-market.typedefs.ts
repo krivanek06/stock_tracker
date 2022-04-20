@@ -64,8 +64,8 @@ export const STMarketSharedTypeDefs = gql`
 		circulatingSupply: Float
 		coinImageUrl: String
 		currency: String
-		fiftyTwoWeekHigh: Float
-		fiftyTwoWeekLow: Float
+		fiftyTwoWeekHigh: Float!
+		fiftyTwoWeekLow: Float!
 		marketCap: Float!
 		quoteType: String
 		regularMarketChange: Float!

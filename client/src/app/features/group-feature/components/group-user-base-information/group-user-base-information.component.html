@@ -37,7 +37,7 @@
 			</div>
 		</div>
 
-		<!-- Starrted portfolio -->
+		<!-- Started portfolio -->
 		<div class="st-display-flex-center">
 			<ion-text class="st-font-1-normal st-small-right-space" [ngClass]="{'st-font-white': !!useClassStyling}">Started portfolio: </ion-text>
 			<ion-text class="st-small-right-space" [ngClass]="[useClassStyling]">
@@ -53,12 +53,10 @@
 	</div>
 
 	<!-- Position -->
-	<div class="st-display-flex-center current-position-number-container" *ngIf="groupUserPosition || groupUser.currentPosition">
-		<div class="current-position-number" [ngClass]="[!useClassStyling ? 'st-font-purple': '', useClassStyling]">
-			#{{ groupUserPosition || groupUser.currentPosition }}
-		</div>
+	<div class="st-display-flex-center current-position-number-container" *ngIf="groupUser.currentPosition">
+		<div class="current-position-number" [ngClass]="[!useClassStyling ? 'st-font-purple': '', useClassStyling]">#{{ groupUser.currentPosition }}</div>
 		<app-position-change-item
-			*ngIf="(groupUser.previousPosition || groupUser.currentPosition ) - groupUser.currentPosition !== 0 && showIncreasePosition"
+			*ngIf="groupUser.previousPosition && groupUser.previousPosition - groupUser.currentPosition !== 0 && showIncreasePosition"
 			[increaseBy]="groupUser.previousPosition - groupUser.currentPosition"
 		>
 		</app-position-change-item>

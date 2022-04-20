@@ -15,7 +15,7 @@ import { createSTGroupAllDataInput } from '../../utils';
 export class GroupCreateFormComponent implements OnInit {
 	@Output() createGroupEmitter: EventEmitter<StGroupAllDataInput> = new EventEmitter<StGroupAllDataInput>();
 
-	@Input() user!: StUserIdentification;
+	@Input() user: StUserIdentification | null = null;
 	@Input() editedGroup!: StGroupAllData;
 
 	@ViewChild('uploader') uploader!: UploaderComponent;
@@ -76,7 +76,7 @@ export class GroupCreateFormComponent implements OnInit {
 	}
 
 	sendInvitation(userPublicData: StUserIdentificationDataFragment) {
-		if (this.user.id === userPublicData.id) {
+		if (this.user && this.user.id === userPublicData.id) {
 			DialogService.showNotificationBar(
 				'You cannot invite yourself into the group. If you want to be part of the group, please check "Add me as member" ',
 				'error'
@@ -88,7 +88,7 @@ export class GroupCreateFormComponent implements OnInit {
 		}
 	}
 
-	invitationRemove(userPublicData: StUserIdentification) {
+	invitationRemove(userPublicData: StUserIdentificationDataFragment) {
 		this.invitationSent = this.invitationSent.filter((x) => x.id !== userPublicData.id);
 	}
 

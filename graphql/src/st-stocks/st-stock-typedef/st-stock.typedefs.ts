@@ -310,9 +310,9 @@ export const stockDetailsTypeDefs = gql`
 	}
 
 	type PageViews {
-		longTermTrend: String
-		midTermTrend: String
-		shortTermTrend: String
+		longTermTrend: String!
+		midTermTrend: String!
+		shortTermTrend: String!
 	}
 
 	type SummaryProfile {
@@ -332,9 +332,9 @@ export const stockDetailsTypeDefs = gql`
 	}
 
 	type UpgradeDowngradeHistory {
-		action: String
-		epochGradeDate: Float
-		firm: String
+		action: String!
+		epochGradeDate: Float!
+		firm: String!
 		fromGrade: String
 		toGrade: String
 	}
@@ -389,9 +389,9 @@ export const stockDetailsTypeDefs = gql`
 		targetEstOneyPercent: Float
 		volume: Float!
 		website: String
-		weekRangeFiveTwoMax: Float
-		weekRangeFiveTwoMin: Float
-		yearToDatePrice: Float
+		weekRangeFiveTwoMax: Float!
+		weekRangeFiveTwoMin: Float!
+		yearToDatePrice: Float!
 		yearToDatePriceReturn: Float
 		isActivelyTrading: Boolean
 	}

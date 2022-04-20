@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 export class TableHighLowRangeComponent implements OnInit {
 	@Input() min!: number;
 	@Input() max!: number;
-	@Input() value!: number;
+	@Input() value?: number | null;
 
 	constructor() {}
 

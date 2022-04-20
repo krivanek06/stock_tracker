@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableIncreasingItemComponent implements OnInit {
-	@Input() data: number[] = [];
+	@Input() data?: number[] | null = [];
 	@Input() name!: string;
 
 	constructor() {}

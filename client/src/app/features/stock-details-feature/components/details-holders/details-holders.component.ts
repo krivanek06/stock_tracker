@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 export class DetailsHoldersComponent implements OnInit {
 	@Input() holders: any[] = []; // StfmHolder[] | StfmHolderWithWeight[]
 	@Input() currentSharePrice!: number;
-	@Input() outstandingShares!: number;
+	@Input() outstandingShares?: number | null;
 	@Input() showWeight!: boolean;
 
 	constructor() {}

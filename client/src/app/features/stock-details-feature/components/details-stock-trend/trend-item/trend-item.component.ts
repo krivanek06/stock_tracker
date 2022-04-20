@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrendItemComponent implements OnInit {
-	@Input() trend!: string;
+	@Input() trend?: string;
 	@Input() trendTitle!: string;
 	@Input() additionalClasses!: string;
 

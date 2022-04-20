@@ -33,7 +33,7 @@ export const userTypeDefs = gql`
 		photoURL: String
 		accountCreatedDate: String!
 		lastSignInDate: String!
-		rank: STRank
+		rank: STRank!
 		holdings: [STHolding!]!
 		transactionsSnippets: [STTransaction!]!
 		topTransactions: [STTransaction!]!

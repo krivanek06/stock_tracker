@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Series } from '@core';
+import { Series, StMarketChartDataResultCombined } from '@core';
 import highcharts3D from 'highcharts/highcharts-3d';
 import * as Highcharts from 'highcharts/highstock';
 import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
@@ -18,7 +18,7 @@ highcharts3D(Highcharts);
 export class GenericChartComponent implements OnInit, OnChanges {
 	@Output() expandEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-	@Input() series!: GenericChartSeries[] | Series[]; // y-axis
+	@Input() series!: GenericChartSeries[] | Series[] | StMarketChartDataResultCombined[]; // y-axis
 	@Input() heightPx = 400;
 	@Input() chartType: ChartType = ChartType.line;
 	@Input() chartTitle = '';
@@ -79,10 +79,9 @@ export class GenericChartComponent implements OnInit, OnChanges {
 						}),
 					};
 				}
-				return { ...s, data: s.data.map(d => !!d && typeof d === 'number' ? d * 100 : d) };
-
-			});
-			console.log(this.series)
+				return { ...s, data: s.data.map((d) => (!!d && typeof d === 'number' ? d * 100 : d)) };
+			}) as Series[];
+			console.log(this.series);
 		}
 
 		this.initChart();
@@ -135,8 +134,8 @@ export class GenericChartComponent implements OnInit, OnChanges {
 				pointFormatter: function () {
 					const value = stFormatLargeNumber(this.y);
 					const name = this.series.name; // this.point.name
-					return `<span style="color:${this.color};">${name}</span>: <b>${value}%</b><br/>`
-				}
+					return `<span style="color:${this.color};">${name}</span>: <b>${value}%</b><br/>`;
+				},
 			};
 			if (this.showDataLabel) {
 				this.chartOptions.plotOptions.series.dataLabels.format = '{point.y:.1f}%';

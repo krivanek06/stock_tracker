@@ -7,6 +7,7 @@
 <!-- highest portfolio -->
 <app-loader-wrapper>
 	<div *ngIf="hallOfFameUser$ | async as hallOfFameUser" class="flex flex-col sm:flex-row sm:flex-wrap gap-3 st-border-bottom-with-space">
+		<!-- best users -->
 		<app-position-card
 			*ngFor="let bestUsers of hallOfFameUser.highestPortfolio; let i = index"
 			class="flex-1 2xl:flex-0"
@@ -17,15 +18,17 @@
 			<app-user-account-info-list [stUserPublicData]="bestUsers"></app-user-account-info-list>
 		</app-position-card>
 
-		<!-- my position -->
+		<!-- my position, show only if my rank is above 9 -->
 		<ng-container *ngIf="userPublicData$ | async as userPublicData">
-			<app-position-card
-				*ngIf="userPublicData.rank?.highestPortfolio?.rankHighestPortfolioPlace > 9"
-				[positionNumber]="userPublicData.rank?.highestPortfolio?.rankHighestPortfolioPlace"
-				class="flex-1 2xl:flex-0"
-			>
-				<app-user-account-info-list [stUserPublicData]="userPublicData"></app-user-account-info-list>
-			</app-position-card>
+			<ng-container *ngIf="userPublicData.rank?.highestPortfolio?.rankHighestPortfolioPlace as myRank">
+				<app-position-card
+					*ngIf="myRank > 9"
+					[positionNumber]="userPublicData.rank?.highestPortfolio?.rankHighestPortfolioPlace"
+					class="flex-1 2xl:flex-0"
+				>
+					<app-user-account-info-list [stUserPublicData]="userPublicData"></app-user-account-info-list>
+				</app-position-card>
+			</ng-container>
 		</ng-container>
 	</div>
 </app-loader-wrapper>

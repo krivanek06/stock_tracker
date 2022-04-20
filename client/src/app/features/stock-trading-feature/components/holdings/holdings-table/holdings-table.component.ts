@@ -13,7 +13,7 @@ export class HoldingsTableComponent implements OnInit {
 	@Output() itemClickedEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
 
 	@Input() holdings: StHolding[] = [];
-	@Input() totalPortfolio!: number;
+	@Input() totalPortfolio?: number;
 	@Input() clickable = true;
 
 	showDailyChange = true;

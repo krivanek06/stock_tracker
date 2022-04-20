@@ -142,6 +142,24 @@ fragment StUserPrivateData on STUserPrivateData {
 	nicknameLastChange
 }
 
+fragment STUserGroups on STUserGroups {
+	groupInvitationSent {
+		...STGroupIdentificationData
+	}
+	groupInvitationReceived {
+		...STGroupIdentificationData
+	}
+	groupOwner {
+		...STGroupIdentificationData
+	}
+	groupMember {
+		...STGroupIdentificationData
+	}
+	groupWatched {
+		...STGroupIdentificationData
+	}
+}
+
 fragment StUserDataAdmin on STUserPublicData {
 	...StUserIdentificationData
 	portfolioRisk {
@@ -163,21 +181,7 @@ fragment StUserDataAdmin on STUserPublicData {
 		...STStockWatchlistIntoFragment
 	}
 	groups {
-		groupInvitationSent {
-			...STGroupIdentificationData
-		}
-		groupInvitationReceived {
-			...STGroupIdentificationData
-		}
-		groupOwner {
-			...STGroupIdentificationData
-		}
-		groupMember {
-			...STGroupIdentificationData
-		}
-		groupWatched {
-			...STGroupIdentificationData
-		}
+		...STUserGroups
 	}
 	userHistoricalData {
 		userLogs {

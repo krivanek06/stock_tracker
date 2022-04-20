@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
-import { StTicketComment, StTicketCommentEditValues, StTicketFragmentFragment, StUserPublicData } from '@core';
+import { StTicketCommentEditValues, StTicketCommentFragmentFragment, StTicketFragmentFragment, StUserPublicData } from '@core';
 import { Confirmable, requiredValidator } from '@shared';
 
 @Component({
@@ -19,7 +19,7 @@ export class TickerOverviewComponent implements OnInit {
 	@Input() isAdmin: boolean | null = false;
 	@Input() user!: StUserPublicData | null;
 
-	editingComment: StTicketComment | null = null;
+	editingComment: StTicketCommentFragmentFragment | null = null;
 	form!: FormGroup;
 	answering = false;
 
@@ -53,7 +53,7 @@ export class TickerOverviewComponent implements OnInit {
 		this.editingComment = null;
 	}
 
-	editComment(comment: StTicketComment) {
+	editComment(comment: StTicketCommentFragmentFragment) {
 		this.editingComment = comment;
 		this.form = this.fb.group({
 			comment: [comment.comment, [requiredValidator]],

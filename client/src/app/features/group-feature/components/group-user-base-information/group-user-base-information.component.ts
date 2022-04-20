@@ -13,7 +13,7 @@ export class GroupUserBaseInformationComponent implements OnInit {
 	@Input() useClassStyling: PositionColors = ''; // makes font colorfull - used on top three members
 	@Input() showIncreasePosition: boolean = false;
 	@Input() showPortfolioSinceMember = false;
-	@Input() groupUserPosition: number | null = null;
+	//@Input() groupUserPosition: number | null = null;
 	@Input() clickable: boolean = false;
 
 	constructor() {}
