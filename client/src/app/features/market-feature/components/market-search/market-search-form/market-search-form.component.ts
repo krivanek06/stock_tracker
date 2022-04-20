@@ -98,6 +98,7 @@ export class MarketSearchFormComponent implements OnInit {
 		this.initForm();
 		this.searchFormChangeEmitter.emit(this.formatToStfmStockScreenerInput());
 		this.form.valueChanges.subscribe(() => this.searchFormChangeEmitter.emit(this.formatToStfmStockScreenerInput()));
+		this.searchFormChangeEmitter.emit(this.formatToStfmStockScreenerInput());
 	}
 
 	private initForm(): void {

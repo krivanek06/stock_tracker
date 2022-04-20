@@ -351,13 +351,13 @@ export const stockDetailsTypeDefs = gql`
 		avgVolume: Float!
 		ceo: String
 		companyName: String!
-		currency: String
+		currency: String!
 		dividendDate: String
 		ePSTTM: Float
 		earningsDate: String
 		exDividendDate: String
 		exchangeName: String
-		beta: String
+		beta: Float
 		countryFullName: String
 		fiveTwoWeekRange: String
 		forwardDividendRate: Float
@@ -612,7 +612,7 @@ export const stockDetailsTypeDefs = gql`
 		priceFairValue: [Float]!
 	}
 
-	type  STDetailsFinancialGrowth {
+	type STDetailsFinancialGrowth {
 		symbol: String
 		date: [String!]!
 		revenueGrowth: [Float]!

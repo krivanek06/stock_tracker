@@ -37,10 +37,8 @@
 			</ion-label>
 
 			<!-- other -->
-			<ion-label>{{ result.marketCap ? (result.marketCap | numberFormatter) : 'N/A' }}</ion-label>
-			<ion-label class="ion-hide-md-down"
-				>{{ result.companyQuote?.sharesOutstanding ? (result.companyQuote.sharesOutstanding | numberFormatter) : 'N/A' }}</ion-label
-			>
+			<ion-label>{{ result.marketCap | numberFormatter}}</ion-label>
+			<ion-label class="ion-hide-md-down">{{ result.companyQuote?.sharesOutstanding | numberFormatter }}</ion-label>
 			<ion-label class="ion-hide-md-down">{{ result.companyQuote?.pe ? (result.companyQuote?.pe | number:'1.2-2') : 'N/A'}}</ion-label>
 			<ion-label class="ion-hide-md-down">{{ result.companyQuote?.eps ? (result.companyQuote?.eps | number:'1.2-2') : 'N/A' }}</ion-label>
 			<ion-label class="ion-hide-xl-down">{{ result.beta ? (result.beta | number:'1.2-2') : 'N/A' }}</ion-label>
@@ -54,7 +52,7 @@
 			<!-- 52 week range -->
 			<ion-label class="st-data-label st-hide-xxl-down">
 				<div style="width: 90%">
-					<app-table-high-low-range [max]="result.companyQuote?.yearHigh" [min]="result.companyQuote?.yearLow" [value]="result.price">
+					<app-table-high-low-range [max]="result.companyQuote.yearHigh" [min]="result.companyQuote.yearLow" [value]="result.price">
 					</app-table-high-low-range>
 				</div>
 			</ion-label>

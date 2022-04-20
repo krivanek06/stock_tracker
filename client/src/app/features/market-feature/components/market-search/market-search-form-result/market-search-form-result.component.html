@@ -77,13 +77,13 @@
 	</div>
 
 	<!-- exchange -->
-	<div *ngIf="stockScreener.isEtf == false || stockScreener.isEtf == true">
+	<div *ngIf="stockScreener.isEtf !== undefined">
 		<ion-label>Only ETF:</ion-label>
 		<ion-label>{{ stockScreener.isEtf }}</ion-label>
 	</div>
 
 	<!-- actively trading -->
-	<div *ngIf="stockScreener.isActivelyTrading == false || stockScreener.isActivelyTrading == true">
+	<div *ngIf="stockScreener.isActivelyTrading !== undefined">
 		<ion-label>Only actively trading:</ion-label>
 		<ion-label>{{ stockScreener.isActivelyTrading }}</ion-label>
 	</div>

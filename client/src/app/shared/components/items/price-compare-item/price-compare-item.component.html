@@ -9,7 +9,7 @@
                   }"
 		class="st-font-5 st-small-right-space"
 	>
-		{{ currentPrice - compareToPrice | numberFormatter: false : showDollarSign }}
+		{{ getDiff | numberFormatter: false : showDollarSign }}
 	</ion-text>
 
 	<!-- percentage -->
@@ -47,6 +47,6 @@
                   }"
 		class="st-font-5 st-small-left-space"
 	>
-		{{ currentPrice - compareToPrice | numberFormatter: false : showDollarSign }}
+		{{ getDiff | numberFormatter: false : showDollarSign }}
 	</ion-text>
 </ion-label>

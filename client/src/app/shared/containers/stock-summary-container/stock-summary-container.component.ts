@@ -13,7 +13,7 @@ import { ComponentScreenUpdateBaseDirective } from '../../directives';
 })
 export class StockSummaryContainerComponent extends ComponentScreenUpdateBaseDirective implements OnInit, OnDestroy {
 	@Input() summary!: Summary;
-	currentPrice: number | undefined;
+	currentPrice?: number | null = null;
 
 	constructor(public finnhubWebsocketService: FinnhubWebsocketService, public cd: ChangeDetectorRef) {
 		super(cd, finnhubWebsocketService, 'StockSummaryContainerComponent');

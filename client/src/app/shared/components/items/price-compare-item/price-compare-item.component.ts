@@ -9,8 +9,8 @@ import { marketValueChange } from '../../../animations';
 	animations: [marketValueChange],
 })
 export class PriceCompareItemComponent implements OnInit {
-	@Input() currentPrice!: number;
-	@Input() compareToPrice!: number;
+	@Input() currentPrice?: number | null = null;
+	@Input() compareToPrice?: number | null = null;
 	@Input() inlineDisplay = false;
 	@Input() showIcons = true;
 	@Input() showPrice = true;
@@ -21,4 +21,11 @@ export class PriceCompareItemComponent implements OnInit {
 	constructor() {}
 
 	ngOnInit() {}
+
+	get getDiff(): number | null {
+		if (!this.currentPrice || !this.compareToPrice) {
+			return null;
+		}
+		return this.currentPrice - this.compareToPrice;
+	}
 }
