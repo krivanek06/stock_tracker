@@ -87,13 +87,11 @@ ion-spinner {
 }
 
 .st-main-color-turquoise-background {
-	background-color: #{$st-main-color-turquoise} !important;
-	--background: #{$st-main-color-turquoise} !important;
+	background: #{$st-main-color-turquoise} !important;
 }
 
 .st-main-color-turquoise-background-linear {
-	background-color: #{$st-main-color-turquoise-background-linear} !important;
-	--background: #{$st-main-color-turquoise-background-linear} !important;
+	background: #{$st-main-color-turquoise-background-linear} !important;
 }
 
 // PURPLE
@@ -102,13 +100,11 @@ ion-spinner {
 }
 
 .st-main-color-purple-background {
-	background-color: #{$st-main-color-purple} !important;
-	--background: #{$st-main-color-purple} !important;
+	background: #{$st-main-color-purple} !important;
 }
 
 .st-main-color-purple-background-linear {
-	background-color: #{$st-main-color-purple-background-linear} !important;
-	--background: #{$st-main-color-purple-background-linear} !important;
+	background: #{$st-main-color-purple-background-linear} !important;
 }
 
 // ORANGE
@@ -117,13 +113,11 @@ ion-spinner {
 }
 
 .st-main-color-orange-background {
-	background-color: #{$st-main-color-orange} !important;
-	--background: #{$st-main-color-orange} !important;
+	background: #{$st-main-color-orange} !important;
 }
 
 .st-main-color-orange-background-linear {
-	background-color: #{$st-main-color-orange-background-linear} !important;
-	--background: #{$st-main-color-orange-background-linear} !important;
+	background: #{$st-main-color-orange-background-linear} !important;
 }
 
 // OTHER
@@ -687,11 +681,11 @@ ion-skeleton-text {
 	min-width: 36px;
 	margin-right: 12px !important;
 
-	@media (max-width: #{$st-var-sm-split}) {
-		max-width: 30px;
-		min-width: 30px;
-		margin-right: 10px !important;
-	}
+	// @media (max-width: #{$st-var-sm-split}) {
+	// 	max-width: 30px;
+	// 	min-width: 30px;
+	// 	margin-right: 10px !important;
+	// }
 }
 
 // -------------------------------------

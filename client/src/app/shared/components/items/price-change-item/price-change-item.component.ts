@@ -18,6 +18,8 @@ export class PriceChangeItemComponent implements OnInit {
 	@Input() applyEndOnSmDown = false;
 	@Input() applyEndOnXsDown = false;
 
+	@Input() classText: string = 'text-base';
+
 	constructor() {}
 
 	ngOnInit() {

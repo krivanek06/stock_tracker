@@ -1,0 +1,10 @@
+:host {
+	.mat-column-symbol {
+		width: 60%;
+
+		@screen sm {
+			width: auto;
+			max-width: 80px;
+		}
+	}
+}

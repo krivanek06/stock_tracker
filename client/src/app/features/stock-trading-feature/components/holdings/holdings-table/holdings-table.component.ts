@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { StHolding } from '@core';
 import { marketValueChange, SymbolIdentification } from '@shared';
 
@@ -9,7 +10,7 @@ import { marketValueChange, SymbolIdentification } from '@shared';
 	animations: [marketValueChange],
 	//changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HoldingsTableComponent implements OnInit {
+export class HoldingsTableComponent implements OnInit, OnChanges {
 	@Output() itemClickedEmitter: EventEmitter<SymbolIdentification> = new EventEmitter<SymbolIdentification>();
 
 	@Input() holdings: StHolding[] = [];
@@ -18,9 +19,19 @@ export class HoldingsTableComponent implements OnInit {
 
 	showDailyChange = true;
 
+	displayedColumns: string[] = ['symbol', 'price', 'bep', 'daily', 'total', 'value', 'units', 'portfolio', 'beta', 'Recommend'];
+	dataSource!: MatTableDataSource<StHolding>;
+
 	constructor() {}
 
 	ngOnInit() {}
+
+	ngOnChanges(changes: SimpleChanges): void {
+		if (this.holdings) {
+			const sorted = this.holdings.slice().sort((a, b) => (b.summary.marketPrice * b.units > a.summary.marketPrice * a.units ? 1 : -1));
+			this.dataSource = new MatTableDataSource(sorted);
+		}
+	}
 
 	itemClicked(holding: StHolding) {
 		if (!this.clickable) {
@@ -35,9 +46,5 @@ export class HoldingsTableComponent implements OnInit {
 
 	identify(index: any, item: StHolding) {
 		return item.symbol;
-	}
-
-	sortByValue() {
-		return this.holdings.slice().sort((a, b) => (b.summary.marketPrice * b.units > a.summary.marketPrice * a.units ? 1 : -1));
 	}
 }

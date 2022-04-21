@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { StTransaction, StTransactionOperationEnum } from '@core';
 
 @Component({
@@ -7,7 +8,7 @@ import { StTransaction, StTransactionOperationEnum } from '@core';
 	styleUrls: ['./transactions-table.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TransactionsTableComponent implements OnInit {
+export class TransactionsTableComponent implements OnInit, OnChanges {
 	@Input() transactions: StTransaction[] = [];
 	@Input() showUser = false;
 	@Input() applyLastChildStyle = false;
@@ -17,7 +18,20 @@ export class TransactionsTableComponent implements OnInit {
 
 	StTransactionOperationEnum = StTransactionOperationEnum;
 
+	displayedColumns: string[] = ['symbol', 'return', 'value', 'fees'];
+	dataSource!: MatTableDataSource<StTransaction>;
+
 	constructor() {}
 
-	ngOnInit() {}
+	ngOnInit() {
+		if (this.showUser) {
+			this.displayedColumns = ['symbol', 'user', 'return', 'value', 'fees'];
+		}
+	}
+
+	ngOnChanges(changes: SimpleChanges): void {
+		if (this.transactions) {
+			this.dataSource = new MatTableDataSource(this.transactions);
+		}
+	}
 }

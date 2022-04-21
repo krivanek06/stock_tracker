@@ -1,28 +1,30 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {WatchlistTableComponent} from "./watchlist-table.component";
-import {IonicModule} from "@ionic/angular";
+import { NgModule } from '@angular/core';
+import { MatTableModule } from '@angular/material/table';
 import {
-  NumberFormatterPipeModule,
-  PriceCompareItemModule,
-  RecommendationDirectiveModule,
-  TableHighLowRangeModule,
-  DefaultImgDirectiveModule
-} from "@shared";
-
-
+	DefaultImgDirectiveModule,
+	ListSkeletonModule,
+	NumberFormatterPipeModule,
+	PriceChangeItemModule,
+	PriceCompareItemModule,
+	RecommendationDirectiveModule,
+	TableHighLowRangeModule,
+} from '@shared';
+import { WatchlistTableComponent } from './watchlist-table.component';
 
 @NgModule({
-  declarations: [WatchlistTableComponent],
-  imports: [
-    CommonModule,
-    IonicModule,
-    DefaultImgDirectiveModule,
-    PriceCompareItemModule,
-    NumberFormatterPipeModule,
-    TableHighLowRangeModule,
-    RecommendationDirectiveModule
-  ],
-  exports: [WatchlistTableComponent]
+	declarations: [WatchlistTableComponent],
+	imports: [
+		CommonModule,
+		MatTableModule,
+		DefaultImgDirectiveModule,
+		PriceCompareItemModule,
+		NumberFormatterPipeModule,
+		TableHighLowRangeModule,
+		RecommendationDirectiveModule,
+		ListSkeletonModule,
+		PriceChangeItemModule,
+	],
+	exports: [WatchlistTableComponent],
 })
-export class WatchlistTableModule { }
+export class WatchlistTableModule {}

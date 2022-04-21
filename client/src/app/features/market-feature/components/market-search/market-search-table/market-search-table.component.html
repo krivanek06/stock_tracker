@@ -86,13 +86,7 @@
 
 				<ion-label class="st-flex-end">
 					<!-- price change -->
-					<app-price-compare-item
-						[showDollarSign]="true"
-						[inlineDisplay]="true"
-						[compareToPrice]="result.companyQuote?.previousClose"
-						[currentPrice]="result.price"
-					>
-					</app-price-compare-item>
+					<app-price-compare-item [compareToPrice]="result.companyQuote?.previousClose" [currentPrice]="result.price"> </app-price-compare-item>
 				</ion-label>
 			</ion-item>
 

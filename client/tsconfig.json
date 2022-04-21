@@ -21,7 +21,7 @@
 			"@core": ["src/app/core/index"],
 			"@api": ["src/app/api/index"],
 			"@providers": ["src/app/providers/index"],
-			"@environment": ["src/environments/*"],
+			"@environment": ["src/environments/index"],
 			"@shared": ["src/app/shared/index"],
 			"@login-feature": ["src/app/features/login-feature/index"],
 			"@account-feature": ["src/app/features/account-feature/index"],

@@ -1,19 +1,19 @@
-<ion-card [class]="cardClasses" [style.min-width.px]="minWidth">
+<mat-card [class]="cardClasses" [style.min-width.px]="minWidth" class="relative overflow-hidden">
 	<!-- header -->
-	<ion-card-header>
-		<ion-card-title>
+	<mat-card-header>
+		<mat-card-title class="flex items-center gap-2">
 			<div [class]="'title-dot ' + titleDotColor"></div>
-			<ion-text [class]="'st-font-size-22 c-letter-spacing ' + titleColor">{{ title }}</ion-text>
-		</ion-card-title>
-	</ion-card-header>
+			<span [class]="'st-font-size-22 c-letter-spacing ' + titleColor">{{ title }}</span>
+		</mat-card-title>
+	</mat-card-header>
 
 	<!-- body -->
-	<ion-card-content>
+	<mat-card-content>
 		<ng-content></ng-content>
-	</ion-card-content>
+	</mat-card-content>
 
 	<!-- circle for fancy styling -->
 	<div class="fancy-circle left-circle"></div>
 	<div class="fancy-circle upper-circle"></div>
 	<div class="fancy-circle lower-circle"></div>
-</ion-card>
+</mat-card>
