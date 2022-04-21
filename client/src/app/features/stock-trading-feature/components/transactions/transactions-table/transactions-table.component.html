@@ -1,111 +1,78 @@
-<ion-list class="ion-hide-sm-down">
-	<!-- table header -->
-	<ion-item class="st-font-1-bold">
-		<ion-label [ngClass]="{'st-flex-1-25': !showUser}">Symbol</ion-label>
-		<ion-label *ngIf="showUser" class="st-flex-1-25">User</ion-label>
-		<ion-label>Return</ion-label>
-		<ion-label>Value</ion-label>
-		<ion-label class="st-flex-0-75" [ngClass]="{'ion-hide-md-down': showUser}">Fees</ion-label>
-		<ion-label *ngIf="showPrice" class="st-hide-xxl-down">Price</ion-label>
-		<ion-label *ngIf="showUnits" class="st-hide-xxl-down">Units</ion-label>
-		<ion-label [ngClass]="{'ion-hide-md-down': showUser}">Date</ion-label>
-	</ion-item>
-
-	<!-- table body -->
-	<ng-container *ngIf="transactions.length > 0; else showNoTransactionText">
-		<ion-item *ngFor="let transaction of transactions" class="st-table-item-no-margin">
-			<ion-label class="st-display-flex-center" [ngClass]="{'st-flex-1-25': !showUser}">
-				<ion-img appDefaultImg [src]="transaction.symbol_logo_url" class="st-symbol-image"></ion-img>
-				<div class="st-flex-col">
-					<!-- symbol name -->
-					<ion-text class="st-font-4">{{ transaction.symbol }}</ion-text>
-					<!-- Action -->
-					<ion-text
-						[ngClass]="{
-                    'st-price-up': transaction.operation === StTransactionOperationEnum.Buy,
-                    'st-price-down': transaction.operation === StTransactionOperationEnum.Sell}"
-						class="st-font-size-13"
-					>
-						{{ transaction.operation }}
-					</ion-text>
-				</div>
-			</ion-label>
-
-			<!-- image -->
-			<ion-label *ngIf="showUser" class="st-display-flex-center st-flex-1-25">
-				<ion-img [src]="transaction.user?.photoURL" appDefaultImg class="st-symbol-image"></ion-img>
-				<ion-text class="st-font-2">{{ transaction.user?.nickName}}</ion-text>
-			</ion-label>
-
-			<!-- Return -->
-			<ion-label>
-				<app-price-change-item
-					*ngIf="transaction.operation === StTransactionOperationEnum.Sell"
-					[priceChange]="transaction.returnChange"
-					[price]="transaction.return"
-					[showDollarSignOnPrice]="true"
-					pricePosition="bottom"
-				>
-				</app-price-change-item>
-			</ion-label>
-
-			<!-- Value -->
-			<ion-label class="st-flex-col">
-				<ion-text>{{ (transaction.price * transaction.units) | currency }}</ion-text>
-				<ion-text class="st-font-size-12 st-font-5"> {{ transaction.price | currency }} * {{ transaction.units }} </ion-text>
-			</ion-label>
-
-			<!-- fees -->
-			<ion-label class="st-flex-0-75" [ngClass]="{'ion-hide-md-down': showUser}">{{ transaction.transactionFees | currency}}</ion-label>
-
-			<!-- price -->
-			<ion-label *ngIf="showPrice" class="st-hide-xxl-down"> {{ transaction.price | currency }} </ion-label>
-
-			<!-- units -->
-			<ion-label *ngIf="showUnits" class="st-hide-xxl-down"> {{ transaction.units }} </ion-label>
-
-			<!-- Date -->
-			<ion-label [ngClass]="{'ion-hide-md-down': showUser}">
-				<ion-text>{{ transaction.date | date: 'dd.MM.yyyy' }}</ion-text>
-			</ion-label>
-		</ion-item>
-	</ng-container>
-</ion-list>
-
-<!-- SMALL SCREEN -->
-<ion-list class="ion-hide-sm-up">
-	<ng-container *ngIf="transactions.length > 0; else showNoTransactionText">
-		<ion-item *ngFor="let transaction of transactions" class="st-data-item-wrapper sm-table-item">
-			<!-- LOGO + SYMBOL + TRANSACTION TIME -->
-			<ion-label class="st-display-flex-center st-data-label st-fit-content">
-				<ion-img [src]="transaction.symbol_logo_url" class="st-symbol-image"></ion-img>
-				<div class="st-flex-col">
-					<div>
-						<!-- symbol name -->
-						<ion-text style="margin-right: 10px">{{ transaction.symbol }}</ion-text>
-						<!-- Action -->
-						<ion-text
-							[ngClass]="{
-                        'st-price-up': transaction.operation === StTransactionOperationEnum.Buy,
-                        'st-price-down': transaction.operation === StTransactionOperationEnum.Sell}"
-							class="st-font-size-13"
-						>
-							{{ transaction.operation }}
-						</ion-text>
+<table mat-table [dataSource]="dataSource" matSort class="w-full">
+	<!-- image & name -->
+	<ng-container matColumnDef="symbol">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Symbol</th>
+		<td mat-cell *matCellDef="let row">
+			<div class="flex flex-col gap-1">
+				<!-- logo + symbol -->
+				<div class="flex items-center">
+					<img [src]="row.symbol_logo_url" appDefaultImg class="st-symbol-image" />
+					<div class="flex flex-col">
+						<!-- symbol + operation -->
+						<div class="flex flex-row gap-x-2">
+							<span class="g-color-white">{{ row.symbol }}</span>
+							<span
+								[ngClass]="{
+									'g-color-success': row.operation === StTransactionOperationEnum.Buy,
+									'g-color-danger': row.operation === StTransactionOperationEnum.Sell}"
+							>
+								{{ row.operation }}
+							</span>
+						</div>
+						<!-- date -->
+						<div class="text-gray-500">{{ row.date | date: 'dd.MM.yyyy HH:mm' }}</div>
 					</div>
-					<ion-text class="st-font-5 st-font-size-12"> {{ transaction.date | date: 'dd.MM.yyyy HH:mm' }} </ion-text>
 				</div>
-			</ion-label>
-
-			<!-- Value -->
-			<ion-label class="st-flex-col st-data-label st-flex-end">
-				<ion-text>{{ (transaction.price * transaction.units) | currency }}</ion-text>
-				<ion-text class="st-font-size-12 st-font-5"> {{ transaction.price | currency }}* {{ transaction.units }} </ion-text>
-			</ion-label>
-		</ion-item>
+			</div>
+		</td>
 	</ng-container>
-</ion-list>
 
-<ng-template #showNoTransactionText>
-	<div class="st-empty-table">You have not performed any Buy or Sell operation</div>
-</ng-template>
+	<!-- user -->
+	<ng-container matColumnDef="user">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">User</th>
+		<td mat-cell *matCellDef="let row" class="hidden sm:table-cell">
+			<ion-img [src]="row.user?.photoURL" appDefaultImg class="st-symbol-image"></ion-img>
+			<span>{{ row.user?.nickName}}</span>
+		</td>
+	</ng-container>
+
+	<!-- return -->
+	<ng-container matColumnDef="return">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Return</th>
+		<td mat-cell *matCellDef="let row" class="hidden sm:table-cell">
+			<app-price-change-item
+				*ngIf="row.operation === StTransactionOperationEnum.Sell"
+				[priceChange]="row.returnChange"
+				[price]="row.return"
+				[showDollarSignOnPrice]="true"
+				pricePosition="bottom"
+			>
+			</app-price-change-item>
+		</td>
+	</ng-container>
+
+	<!-- value -->
+	<ng-container matColumnDef="value">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Value</th>
+		<td mat-cell *matCellDef="let row">
+			<div class="text-right sm:text-left">{{ (row.price * row.units) | currency }}</div>
+			<div class="text-right sm:text-left text-gray-500 text-sm">{{ row.price | currency }} * {{ row.units }}</div>
+		</td>
+	</ng-container>
+
+	<!-- fees -->
+	<ng-container matColumnDef="fees">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Fees</th>
+		<td mat-cell *matCellDef="let row" class="hidden sm:table-cell">{{ row.transactionFees | currency}}</td>
+	</ng-container>
+
+	<tr mat-header-row *matHeaderRowDef="displayedColumns" class="hidden sm:contents"></tr>
+	<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+	<!-- Row shown when there is no matching data. -->
+	<tr class="mat-row" *matNoDataRow>
+		<td class="mat-cell" colspan="10">
+			<app-list-skeleton [itemLength]="10"></app-list-skeleton>
+		</td>
+	</tr>
+</table>

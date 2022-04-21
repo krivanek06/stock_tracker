@@ -11,10 +11,9 @@ import { marketValueChange } from '../../../animations';
 export class PriceCompareItemComponent implements OnInit {
 	@Input() currentPrice?: number | null = null;
 	@Input() compareToPrice?: number | null = null;
-	@Input() inlineDisplay = false;
 	@Input() showIcons = true;
 	@Input() showPrice = true;
-	@Input() showDollarSign = false;
+	@Input() showDollarSign = true;
 	@Input() pricePosition: 'left' | 'right' | 'bottom' = 'bottom';
 
 	constructor() {}

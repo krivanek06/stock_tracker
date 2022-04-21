@@ -1,62 +1,6 @@
 @use 'custom-variables' as variables;
 @tailwind utilities;
 
-// .g-color-success {
-// 	color: #{$st-var-price-up} !important;
-// }
-
-// .g-background-color-success {
-// 	background-color: #{$st-var-price-up} !important;
-// }
-
-// .g-color-secondary {
-// 	color: #{$st-var-font-2} !important;
-// }
-
-// .g-background-color-secondary {
-// 	background-color: #{$st-var-font-2} !important;
-// }
-
-// .g-color-primary {
-// 	color: #{$st-var-blue-1} !important;
-// }
-
-// .g-background-color-primary {
-// 	background-color: #{$st-var-blue-1} !important;
-// }
-
-// .g-color-white {
-// 	color: white;
-// }
-
-// /* WARNING */
-// .g-color-warning {
-// 	color: #{$color-orange-1} !important;
-// }
-
-// .g-button-warning {
-// 	background-color: #{$color-orange-1} !important;
-// 	color: white !important;
-// }
-
-// .g-button-warning-flat {
-// 	background-color: transparent;
-// 	color: #{$color-orange-1} !important;
-// 	border: 1px solid !important;
-// 	&:hover {
-// 		background-color: #dc58262b;
-// 	}
-// }
-
-// .g-button-danger-flat {
-// 	background-color: transparent;
-// 	color: #{$st-red} !important;
-// 	border: 1px solid !important;
-// 	&:hover {
-// 		background-color: #d2141436;
-// 	}
-// }
-
 .g-first-position-color {
 	color: #cf212a;
 }

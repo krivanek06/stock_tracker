@@ -9,6 +9,7 @@ import {
 	signInWithPopup,
 	UserCredential,
 } from '@angular/fire/auth';
+import { environment } from '@environment';
 import { Apollo } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { filter, first, map, takeUntil } from 'rxjs/operators';
@@ -75,6 +76,19 @@ export class AuthenticationService {
 		}
 		console.log(`Init user ${userId}`);
 
+		// caching user for faster load time on develop
+		if (!environment.production) {
+			console.log('DEVELOP: loading user from localstorage');
+			const userJson = localStorage.getItem('DEV_USER');
+			if (userJson) {
+				const parsedUser = JSON.parse(userJson);
+				console.log('DEVELOP: loaded user from localstorage', parsedUser);
+				this.userStorageService.setUser(parsedUser as StUserPublicData);
+				this.userStorageService.setIsAuthenticating(false);
+				return;
+			}
+		}
+
 		// user already logged in - init skeleton till he is loaded
 		const authStateChange = new Observable((observer: any) => onAuthStateChanged(this.afAuth, observer));
 		authStateChange.subscribe((u) => {
@@ -107,6 +121,11 @@ export class AuthenticationService {
 				console.log('useruser', user);
 				this.userStorageService.setUser(user as StUserPublicData);
 				this.userStorageService.setIsAuthenticating(false);
+
+				if (!environment.production) {
+					console.log('DEVELOP: persisting user into localstorage');
+					localStorage.setItem('DEV_USER', JSON.stringify(user));
+				}
 			});
 	}
 

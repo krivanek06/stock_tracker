@@ -59,8 +59,7 @@
 					<ion-text [@marketValueChange]="data.regularMarketPrice" class="st-font-1-normal st-font-size-16">
 						{{ data.regularMarketPrice | currency }}
 					</ion-text>
-					<app-price-compare-item [compareToPrice]="data.regularMarketClosed" [currentPrice]="data.regularMarketPrice" [inlineDisplay]="true">
-					</app-price-compare-item>
+					<app-price-compare-item [compareToPrice]="data.regularMarketClosed" [currentPrice]="data.regularMarketPrice"> </app-price-compare-item>
 				</ion-label>
 			</ion-item>
 		</ng-container>
