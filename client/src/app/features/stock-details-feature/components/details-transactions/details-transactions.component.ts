@@ -1,19 +1,26 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {StfmInsideTrade} from '@core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { StfmInsideTrade } from '@core';
 
 @Component({
-    selector: 'app-details-transactions',
-    templateUrl: './details-transactions.component.html',
-    styleUrls: ['./details-transactions.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-details-transactions',
+	templateUrl: './details-transactions.component.html',
+	styleUrls: ['./details-transactions.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DetailsTransactionsComponent implements OnInit {
-    @Input() insiderTrades: StfmInsideTrade[] = [];
+export class DetailsTransactionsComponent implements OnInit, OnChanges {
+	@Input() insiderTrades: StfmInsideTrade[] = [];
 
-    constructor() {
-    }
+	displayedColumns: string[] = ['person', 'securities', 'value', 'transacted', 'type', 'unitPrice', 'totalPrice', 'date'];
+	dataSource!: MatTableDataSource<StfmInsideTrade>;
 
-    ngOnInit() {
-    }
+	constructor() {}
 
+	ngOnInit() {}
+
+	ngOnChanges(changes: SimpleChanges): void {
+		if (this.insiderTrades && this.insiderTrades.length > 0) {
+			this.dataSource = new MatTableDataSource(this.insiderTrades);
+		}
+	}
 }

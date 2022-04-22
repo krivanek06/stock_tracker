@@ -1,11 +1,11 @@
-<!-- content of component -->
-<div class="wrapper">
+<ng-container>
+	<!-- content of component -->
 	<ng-content></ng-content>
-</div>
 
-<!-- show spinner -->
-<div class="default">
-	<div class="c-spinner-container" [style.min-height.px]="minHeightPx">
-		<ion-spinner color="primary"></ion-spinner>
+	<!-- show spinner -->
+	<div class="default relative" [style.min-height.px]="loaderHeightPx">
+		<div class="panel-loading" [ngClass]="{'bg-transparent': transparentBackground}">
+			<mat-spinner [diameter]="80"></mat-spinner>
+		</div>
 	</div>
-</div>
+</ng-container>

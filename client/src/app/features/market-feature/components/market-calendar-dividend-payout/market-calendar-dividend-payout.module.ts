@@ -1,16 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MarketCalendarDividendPayoutComponent} from "./market-calendar-dividend-payout.component";
-import {IonicModule} from "@ionic/angular";
-
-
+import { NgModule } from '@angular/core';
+import { MatTableModule } from '@angular/material/table';
+import { ListSkeletonModule } from '@shared';
+import { MarketCalendarDividendPayoutComponent } from './market-calendar-dividend-payout.component';
 
 @NgModule({
-  declarations: [MarketCalendarDividendPayoutComponent],
-  imports: [
-    CommonModule,
-    IonicModule
-  ],
-  exports: [MarketCalendarDividendPayoutComponent]
+	declarations: [MarketCalendarDividendPayoutComponent],
+	imports: [CommonModule, MatTableModule, ListSkeletonModule],
+	exports: [MarketCalendarDividendPayoutComponent],
 })
-export class MarketCalendarDividendPayoutModule { }
+export class MarketCalendarDividendPayoutModule {}

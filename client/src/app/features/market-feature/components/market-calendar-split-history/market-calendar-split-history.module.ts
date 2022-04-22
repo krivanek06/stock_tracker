@@ -1,16 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MarketCalendarSplitHistoryComponent} from "./market-calendar-split-history.component";
-import {IonicModule} from "@ionic/angular";
-
-
+import { NgModule } from '@angular/core';
+import { MarketCalendarSplitHistoryComponent } from './market-calendar-split-history.component';
 
 @NgModule({
-  declarations: [MarketCalendarSplitHistoryComponent],
-  imports: [
-    CommonModule,
-    IonicModule
-  ],
-  exports: [MarketCalendarSplitHistoryComponent]
+	declarations: [MarketCalendarSplitHistoryComponent],
+	imports: [CommonModule],
+	exports: [MarketCalendarSplitHistoryComponent],
 })
-export class MarketCalendarSplitHistoryModule { }
+export class MarketCalendarSplitHistoryModule {}

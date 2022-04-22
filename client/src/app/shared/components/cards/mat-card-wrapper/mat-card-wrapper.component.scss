@@ -1,0 +1,9 @@
+:host {
+	.c-overflow-scroll {
+		overflow: scroll;
+	}
+
+	mat-card-content {
+		height: inherit;
+	}
+}

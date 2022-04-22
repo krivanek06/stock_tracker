@@ -1,45 +1,49 @@
-<ion-row class="ion-justify-content-center ion-margin-top">
-	<ion-col size="12" size-lg="4" size-md="7">
-		<!-- portfolio state -->
-		<app-portfolio-state
-			[portfolioCash]="user?.portfolio?.portfolioCash"
-			[portfolioInvested]="portfolioInvested"
-			portfolioState="PARTIAL"
-		></app-portfolio-state>
-	</ion-col>
-	<ion-col size="12" size-lg="3" class="ion-hide-lg-down">
-		<!-- bid / ask -->
-		<app-trading-bid-ask *ngIf="selectedSummary?.marketPrice as marketPrice" [bidPrice]="marketPrice - 0.03" [askPrice]="marketPrice + 0.03">
-		</app-trading-bid-ask>
-	</ion-col>
-	<ion-col size="12" size-lg="4" size-md="5" class="ion-hide-sm-down">
-		<!-- portfolio chart -->
-		<div class="c-chart-container">
-			<app-pie-chart-wrapper
-				*ngIf="user?.portfolio as portfolio"
-				[heightPx]="280"
-				chartTitle="Portfolio allocation"
-				[data]="[
-									  {name: 'Invested', color: '#5e00df', y: 100 / (portfolioInvested + portfolio.portfolioCash) * portfolioInvested, sliced: true},
-									  {name: 'Cash', color: '#c7481a', y: 100 / (portfolioInvested + portfolio.portfolioCash) * portfolio.portfolioCash}
-								  ]"
-			></app-pie-chart-wrapper>
-		</div>
-	</ion-col>
-</ion-row>
+<div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+	<!-- portfolio state -->
+	<app-portfolio-state
+		[portfolioCash]="user?.portfolio?.portfolioCash"
+		[portfolioInvested]="portfolioInvested"
+		portfolioState="PARTIAL"
+	></app-portfolio-state>
+
+	<!-- bid / ask -->
+	<app-trading-bid-ask
+		*ngIf="selectedSummary?.marketPrice as marketPrice"
+		class="hidden lg:table-cell"
+		[bidPrice]="marketPrice - 0.03"
+		[askPrice]="marketPrice + 0.03"
+	>
+	</app-trading-bid-ask>
+
+	<!-- portfolio chart -->
+	<div class="hidden xs:flex -mt-4 md:-mt-8 justify-center">
+		<app-pie-chart-wrapper
+			*ngIf="user?.portfolio as portfolio"
+			[heightPx]="280"
+			chartTitle="Portfolio allocation"
+			[data]="[
+					{name: 'Invested', color: '#5e00df', y: 100 / (portfolioInvested + portfolio.portfolioCash) * portfolioInvested, sliced: true},
+					{name: 'Cash', color: '#c7481a', y: 100 / (portfolioInvested + portfolio.portfolioCash) * portfolio.portfolioCash}
+				]"
+		></app-pie-chart-wrapper>
+	</div>
+</div>
 
 <!-- search symbol -->
-<ion-row>
-	<ion-col size="12" class="c-search-stock-wrapper st-sm-border-bottom">
-		<app-stock-search (clickedSymbolEmitter)="loadSummary($event)" [clearOnClick]="true"> </app-stock-search>
-	</ion-col>
-</ion-row>
+<div>
+	<app-stock-search (clickedSymbolEmitter)="loadSummary($event)" [clearOnClick]="true"> </app-stock-search>
+</div>
 
-<ng-container *ngIf="selectedSummary; else showLoader">
-	<ion-row class="ion-justify-content-center">
-		<!-- financial chart -->
-		<ion-col size="12" [sizeLg]="isStock ? 8 : 12">
+<!-- chart -->
+<app-loader-wrapper>
+	<ng-container *ngIf="selectedSummary">
+		<div class="grid grid-cols-3 gap-2">
+			<!-- financial chart -->
 			<app-financial-chart-container
+				[ngClass]="{
+				'col-span-3': !isStock,
+				'col-span-2': isStock
+			}"
 				[closedPrice]="selectedSummary.previousClose"
 				[currentPrice]="selectedSummary.marketPrice"
 				[height]="460"
@@ -48,83 +52,44 @@
 				[symbol]="selectedSummary.symbol"
 			>
 			</app-financial-chart-container>
-		</ion-col>
-		<!-- summary -->
-		<ion-col *ngIf="isStock" size="12" size-lg="4" class="st-overflow-hide">
-			<app-generic-list [iconTitle]="'barcode-outline'" [title]="'Summary'"></app-generic-list>
-			<app-generic-card additionalClasses="st-height-100">
-				<!-- symbol summary -->
-				<app-stock-summary-container [summary]="selectedSummary"></app-stock-summary-container>
-			</app-generic-card>
-		</ion-col>
-	</ion-row>
 
-	<!-- buttons -->
-	<ion-toolbar>
-		<ion-buttons class="c-buttons">
-			<ion-button *ngIf="isStock" (click)="showDetails()" shape="round" color="primary" fill="solid"> Details </ion-button>
-			<ion-button (click)="tradeSymbol()" shape="round" color="warning" fill="solid"> Trade </ion-button>
-		</ion-buttons>
-	</ion-toolbar>
-</ng-container>
+			<!-- summary -->
+			<div *ngIf="isStock">
+				<app-generic-list [iconTitle]="'barcode-outline'" [title]="'Summary'"></app-generic-list>
+				<app-mat-card-wrapper additionalClasses="st-height-100">
+					<app-stock-summary-container [summary]="selectedSummary"></app-stock-summary-container>
+				</app-mat-card-wrapper>
+			</div>
+		</div>
 
-<!-- loading spinner -->
-<ng-template #showLoader>
-	<div class="spinner-container">
-		<ion-spinner color="primary"></ion-spinner>
-	</div>
-</ng-template>
+		<!-- buttons -->
+		<div class="p-2 flex flex-col md:flex-row justify-end gap-2">
+			<button mat-flat-button *ngIf="isStock" color="primary" class="w-full md:w-auto min-w-[120px]" (click)="showDetails()">Details</button>
+			<button mat-flat-button class="g-button-warning w-full md:w-auto min-w-[120px]" (click)="tradeSymbol()">Trade</button>
+		</div>
+	</ng-container>
+</app-loader-wrapper>
 
 <!-- holdings -->
-<ion-row>
-	<ion-col size="12">
-		<ion-list-header>
-			<ion-icon class="st-icon-title" name="pricetags"></ion-icon>
-
-			<ion-label>
-				<ion-text class="st-font-size-18 st-font-0 st-right-space">Holdings</ion-text>
-				<ion-text class="st-font-size-18 st-font-3">[{{clonedHoldings.length}}/45] </ion-text>
-			</ion-label>
-		</ion-list-header>
-
-		<app-generic-card>
-			<app-holdings-table
-				(itemClickedEmitter)="changeSymbol($event)"
-				[holdings]="clonedHoldings"
-				[totalPortfolio]="(user?.portfolio?.portfolioCash || 0) + portfolioInvested"
-			>
-			</app-holdings-table>
-		</app-generic-card>
-	</ion-col>
-</ion-row>
+<div class="flex gap-2 mb-2 mt-6">
+	<mat-icon color="primary">book</mat-icon>
+	<span class="text-xl g-color-white">Holdings</span>
+	<span class="text-xl text-gray-500">[{{clonedHoldings.length}}/45] </span>
+</div>
+<app-mat-card-wrapper>
+	<app-holdings-table
+		(itemClickedEmitter)="changeSymbol($event)"
+		[holdings]="clonedHoldings"
+		[totalPortfolio]="(user?.portfolio?.portfolioCash || 0) + portfolioInvested"
+	>
+	</app-holdings-table>
+</app-mat-card-wrapper>
 
 <!-- suggestion -->
-<ion-row>
-	<ion-col size="12">
-		<ion-list-header>
-			<ion-label style="margin-left: 8px">
-				<ion-text class="st-title">Suggestions</ion-text>
-			</ion-label>
-		</ion-list-header>
-		<ion-row>
-			<ion-col *ngFor="let suggestion of suggestions" size="12" size-lg="4" size-sm="6" size-xl="3">
-				<!-- suggestion in card with ripple effect -->
-				<app-generic-card (click)="changeSummary(suggestion.summary)" [additionalClasses]="'st-height-100 ion-activatable'">
-					<app-details-stock-suggestion-change [suggestionMarketPrice]="suggestion.summary.marketPrice" [suggestion]="suggestion">
-					</app-details-stock-suggestion-change>
-
-					<!-- ripple effect on click -->
-					<ion-ripple-effect></ion-ripple-effect>
-				</app-generic-card>
-			</ion-col>
-		</ion-row>
-	</ion-col>
-</ion-row>
-
-<ng-template #portfolioState>
-	<app-portfolio-state
-		[portfolioCash]="user?.portfolio?.portfolioCash"
-		[portfolioInvested]="portfolioInvested"
-		portfolioState="PARTIAL"
-	></app-portfolio-state>
-</ng-template>
+<div class="text-xl g-color-white mb-2 mt-6">Suggestions</div>
+<div class="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+	<app-mat-card-wrapper *ngFor="let suggestion of suggestions" (click)="changeSummary(suggestion.summary)" [clickable]="true">
+		<app-details-stock-suggestion-change [suggestionMarketPrice]="suggestion.summary.marketPrice" [suggestion]="suggestion">
+		</app-details-stock-suggestion-change>
+	</app-mat-card-wrapper>
+</div>

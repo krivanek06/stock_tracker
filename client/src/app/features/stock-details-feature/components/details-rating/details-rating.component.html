@@ -1,56 +1,50 @@
-<ion-list>
-	<ion-item class="st-table-item-font-1">
-		<ion-label>Discounted cash flow</ion-label>
-		<ion-label class="st-flex-end">
-			<ion-text [recommendationKey]="rating.ratingDetailsDCFRecommendation" [recommendationMean]="rating.ratingDetailsDCFScore" appRecommendation>
-			</ion-text>
-		</ion-label>
-	</ion-item>
+<div class="g-data-item-wrapper">
+	<div>
+		<div>Discounted cash flow</div>
+		<div>
+			<span [recommendationKey]="rating.ratingDetailsDCFRecommendation" [recommendationMean]="rating.ratingDetailsDCFScore" appRecommendation> </span>
+		</div>
+	</div>
 
-	<ion-item class="st-table-item-font-1">
-		<ion-label>Debt to equity</ion-label>
-		<ion-label class="st-flex-end">
-			<ion-text [recommendationKey]="rating.ratingDetailsDERecommendation" [recommendationMean]="rating.ratingDetailsDEScore" appRecommendation>
-			</ion-text>
-		</ion-label>
-	</ion-item>
+	<div>
+		<div>Debt to equity</div>
+		<div>
+			<span [recommendationKey]="rating.ratingDetailsDERecommendation" [recommendationMean]="rating.ratingDetailsDEScore" appRecommendation> </span>
+		</div>
+	</div>
 
-	<ion-item class="st-table-item-font-1">
-		<ion-label>Price to earnings</ion-label>
-		<ion-label class="st-flex-end">
-			<ion-text [recommendationKey]="rating.ratingDetailsPERecommendation" [recommendationMean]="rating.ratingDetailsPEScore" appRecommendation>
-			</ion-text>
-		</ion-label>
-	</ion-item>
+	<div>
+		<div>Price to earnings</div>
+		<div>
+			<span [recommendationKey]="rating.ratingDetailsPERecommendation" [recommendationMean]="rating.ratingDetailsPEScore" appRecommendation> </span>
+		</div>
+	</div>
 
-	<ion-item class="st-table-item-font-1">
-		<ion-label>Price to book</ion-label>
-		<ion-label class="st-flex-end">
-			<ion-text [recommendationKey]="rating.ratingDetailsPBRecommendation" [recommendationMean]="rating.ratingDetailsPBScore" appRecommendation>
-			</ion-text>
-		</ion-label>
-	</ion-item>
+	<div>
+		<div>Price to book</div>
+		<div>
+			<span [recommendationKey]="rating.ratingDetailsPBRecommendation" [recommendationMean]="rating.ratingDetailsPBScore" appRecommendation> </span>
+		</div>
+	</div>
 
-	<ion-item class="st-table-item-font-1">
-		<ion-label>Return on equity</ion-label>
-		<ion-label class="st-flex-end">
-			<ion-text [recommendationKey]="rating.ratingDetailsROERecommendation" [recommendationMean]="rating.ratingDetailsROEScore" appRecommendation>
-			</ion-text>
-		</ion-label>
-	</ion-item>
+	<div>
+		<div>Return on equity</div>
+		<div>
+			<span [recommendationKey]="rating.ratingDetailsROERecommendation" [recommendationMean]="rating.ratingDetailsROEScore" appRecommendation> </span>
+		</div>
+	</div>
 
-	<ion-item class="st-table-item-font-1">
-		<ion-label>Return on assets</ion-label>
-		<ion-label class="st-flex-end">
-			<ion-text [recommendationKey]="rating.ratingDetailsROARecommendation" [recommendationMean]="rating.ratingDetailsROAScore" appRecommendation>
-			</ion-text>
-		</ion-label>
-	</ion-item>
+	<div>
+		<div>Return on assets</div>
+		<div>
+			<span [recommendationKey]="rating.ratingDetailsROARecommendation" [recommendationMean]="rating.ratingDetailsROAScore" appRecommendation> </span>
+		</div>
+	</div>
 
-	<ion-item>
-		<ion-label class="st-font-1">Total</ion-label>
-		<ion-label class="st-flex-end">
-			<ion-text [recommendationKey]="rating.ratingRecommendation" [recommendationMean]="rating.rating" appRecommendation> </ion-text>
-		</ion-label>
-	</ion-item>
-</ion-list>
+	<div>
+		<div>Total</div>
+		<div>
+			<span [recommendationKey]="rating.ratingRecommendation" [recommendationMean]="rating.rating" appRecommendation> </span>
+		</div>
+	</div>
+</div>

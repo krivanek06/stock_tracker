@@ -7,7 +7,9 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoaderWrapperComponent implements OnInit {
-	@Input() minHeightPx = 400;
+	@Input() transparentBackground = true;
+
+	@Input() loaderHeightPx = 300;
 
 	constructor() {}
 

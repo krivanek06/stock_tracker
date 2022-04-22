@@ -1,18 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {DetailsGradingHistoryComponent} from "./details-grading-history.component";
-import {IonicModule} from "@ionic/angular";
-import {RelativeTimePipeModule} from "@shared";
-
-
+import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { ListSkeletonModule, RelativeTimePipeModule } from '@shared';
+import { DetailsGradingHistoryComponent } from './details-grading-history.component';
 
 @NgModule({
-  declarations: [DetailsGradingHistoryComponent],
-  imports: [
-    CommonModule,
-    IonicModule,
-    RelativeTimePipeModule
-  ],
-  exports: [DetailsGradingHistoryComponent]
+	declarations: [DetailsGradingHistoryComponent],
+	imports: [CommonModule, MatTableModule, RelativeTimePipeModule, ListSkeletonModule, MatIconModule],
+	exports: [DetailsGradingHistoryComponent],
 })
-export class DetailsGradingHistoryModule { }
+export class DetailsGradingHistoryModule {}

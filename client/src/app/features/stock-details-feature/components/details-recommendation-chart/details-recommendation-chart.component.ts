@@ -13,6 +13,7 @@ import * as Highcharts from 'highcharts/highstock';
 })
 export class DetailsRecommendationChartComponent implements OnInit, OnChanges {
 	@Input() recommendations?: Recommendations[] | Maybe<Recommendations[]>;
+	@Input() heightPx = 350;
 
 	Highcharts: typeof Highcharts = Highcharts;
 	chart: any;

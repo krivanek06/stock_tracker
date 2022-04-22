@@ -1,57 +1,57 @@
-<ion-list *ngIf="stockDetails as details">
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Current ratio</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.metric?.currentRatioQuarterly | numberFormatter }} </ion-label>
-	</ion-item>
+<div *ngIf="stockDetails as details" class="g-data-item-wrapper">
+	<div>
+		<div>Current ratio</div>
+		<div>{{ details.metric?.currentRatioQuarterly | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Quick ratio</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.metric?.quickRatioQuarterly | numberFormatter }} </ion-label>
-	</ion-item>
+	<div>
+		<div>Quick ratio</div>
+		<div>{{ details.metric?.quickRatioQuarterly | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Short ratio</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.companyData?.defaultKeyStatistics?.shortRatio | numberFormatter }} </ion-label>
-	</ion-item>
+	<div>
+		<div>Short ratio</div>
+		<div>{{ details.companyData?.defaultKeyStatistics?.shortRatio | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper" *ngIf="details.companyData as dk">
-		<ion-label class="st-data-label-parent">Floating shares</ion-label>
-		<ion-label class="st-data-label st-flex-end">
+	<div *ngIf="details.companyData as dk">
+		<div>Floating shares</div>
+		<div>
 			{{ dk?.defaultKeyStatistics?.floatShares | numberFormatter }} ({{dk?.defaultKeyStatistics?.floatShares ? (floatSharesPrct | percent: '1.2-2') :
 			''}})
-		</ion-label>
-	</ion-item>
+		</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper" *ngIf="details.companyData as dk">
-		<ion-label class="st-data-label-parent">Shorted shares</ion-label>
-		<ion-label class="st-data-label st-flex-end">
+	<div *ngIf="details.companyData as dk">
+		<div>Shorted shares</div>
+		<div>
 			{{ dk?.defaultKeyStatistics?.sharesShort | numberFormatter }} ({{dk?.defaultKeyStatistics?.sharesShort ? (sharesShortPrct | percent: '1.2-2') :
 			''}})
-		</ion-label>
-	</ion-item>
+		</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">OCF to revenue ttm.</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.metric?.freeOperatingCashFlowrevenueTTM | numberFormatter }} </ion-label>
-	</ion-item>
+	<div>
+		<div>OCF to revenue ttm.</div>
+		<div>{{ details.metric?.freeOperatingCashFlowrevenueTTM | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Long term Debt/Equity</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.metric?.longTermDebtequityQuarterly | numberFormatter }} </ion-label>
-	</ion-item>
+	<div>
+		<div>Long term Debt/Equity</div>
+		<div>{{ details.metric?.longTermDebtequityQuarterly | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Total Debt/Equity</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.metric?.totalDebttotalEquityQuarterly | numberFormatter }} </ion-label>
-	</ion-item>
+	<div>
+		<div>Total Debt/Equity</div>
+		<div>{{ details.metric?.totalDebttotalEquityQuarterly | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Net Income/Common</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.companyData?.defaultKeyStatistics?.netIncomeToCommon | numberFormatter }} </ion-label>
-	</ion-item>
+	<div>
+		<div>Net Income/Common</div>
+		<div>{{ details.companyData?.defaultKeyStatistics?.netIncomeToCommon | numberFormatter }}</div>
+	</div>
 
-	<ion-item>
-		<ion-label class="st-data-label-parent">Net fiscal year end</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.companyData?.defaultKeyStatistics?.nextFiscalYearEnd | numberFormatter }} </ion-label>
-	</ion-item>
-</ion-list>
+	<div>
+		<div>Net fiscal year end</div>
+		<div>{{ details.companyData?.defaultKeyStatistics?.nextFiscalYearEnd | numberFormatter }}</div>
+	</div>
+</div>
