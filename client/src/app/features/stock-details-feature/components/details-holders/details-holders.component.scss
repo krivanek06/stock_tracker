@@ -1,0 +1,10 @@
+:host {
+	.mat-column-name {
+		width: 55%;
+		margin-right: 8px;
+		@screen sm {
+			width: auto;
+			margin-right: 0;
+		}
+	}
+}

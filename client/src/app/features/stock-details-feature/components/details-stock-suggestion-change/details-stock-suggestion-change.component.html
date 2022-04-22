@@ -1,34 +1,28 @@
-<ion-list>
-	<ion-item style="margin-top: 3px; margin-bottom: 3px">
-		<!-- image -->
-		<ion-label>
-			<ion-img [src]="suggestion.summary.logo_url" appDefaultImg class="st-symbol-image"></ion-img>
-		</ion-label>
-		<!-- daily change -->
-		<ion-label class="st-flex-end">
-			<app-price-compare-item [compareToPrice]="suggestion.summary.previousClose" [currentPrice]="suggestionMarketPrice" [showIcons]="false">
-			</app-price-compare-item>
-		</ion-label>
-	</ion-item>
+<div class="p-2 flex gap-4 mb-2 items-center">
+	<img appDefaultImg [src]="suggestion.summary.logo_url" alt="symbol image" class="st-symbol-image" />
+	<div class="flex flex-col">
+		<!-- symbol name + price -->
+		<div class="flex gap-4">
+			<span class="g-color-white">{{ suggestion.summary.symbol }}</span>
+			<span>|</span>
+			<span [@marketValueChange]="suggestionMarketPrice" class="text-right text-lg g-color-white"> {{ suggestionMarketPrice | currency }} </span>
+		</div>
+		<!-- price change -->
+		<app-price-compare-item
+			[currentPrice]="suggestionMarketPrice"
+			[compareToPrice]="suggestion.summary.previousClose"
+			pricePosition="right"
+		></app-price-compare-item>
+	</div>
+</div>
 
-	<!-- symbol + market price -->
-	<ion-item>
-		<ion-label>{{ suggestion.summary.symbol }}</ion-label>
-		<ion-label [@marketValueChange]="suggestionMarketPrice" class="st-flex-end"> {{ suggestionMarketPrice | currency }} </ion-label>
-	</ion-item>
-
-	<!-- chart -->
-	<ion-item>
-		<ion-label>
-			<app-generic-chart
-				[chartType]="ChartType.areaChange"
-				[heightPx]="65"
-				[series]="[{name: suggestion.summary.symbol,  data: suggestion.historicalData}]"
-				[showTooltip]="false"
-				[showXAxis]="false"
-				[showYAxis]="false"
-			>
-			</app-generic-chart>
-		</ion-label>
-	</ion-item>
-</ion-list>
+<!-- chart -->
+<app-generic-chart
+	[chartType]="ChartType.areaChange"
+	[heightPx]="65"
+	[series]="[{name: suggestion.summary.symbol,  data: suggestion.historicalData}]"
+	[showTooltip]="false"
+	[showXAxis]="false"
+	[showYAxis]="false"
+>
+</app-generic-chart>

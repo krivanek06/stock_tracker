@@ -1,9 +1,10 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { StfmCompanyQuote, StockDetails, SymbolStorageService, UserStorageService } from '@core';
-import { ChartType, DialogService, WindowService } from '@shared';
+import { BREAK_POINTS, ChartType, DialogService, WindowService } from '@shared';
 import { WatchlistFeatureFacadeService } from '@stock-watchlist-feature';
 import { Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-stock-details-statistic',
@@ -20,10 +21,13 @@ export class StockDetailsStatisticComponent implements OnInit {
 	chartHeight_27!: number;
 	chartHeight_35!: number;
 
+	isXLDownScreen$!: Observable<boolean>;
+
 	constructor(
 		private symbolStorageService: SymbolStorageService,
 		private userStorageService: UserStorageService,
-		private watchlistFeatureFacadeService: WatchlistFeatureFacadeService
+		private watchlistFeatureFacadeService: WatchlistFeatureFacadeService,
+		private breakpointObserver: BreakpointObserver
 	) {}
 
 	ngOnInit(): void {
@@ -32,6 +36,7 @@ export class StockDetailsStatisticComponent implements OnInit {
 		this.chartHeight_20 = WindowService.getWindowHeightPrctInPx(20);
 		this.chartHeight_27 = WindowService.getWindowHeightPrctInPx(27);
 		this.chartHeight_35 = WindowService.getWindowHeightPrctInPx(35);
+		this.isXLDownScreen$ = this.breakpointObserver.observe([BREAK_POINTS.XL_DOWN]).pipe(map((x) => x.matches));
 	}
 
 	reloadStockDetails() {

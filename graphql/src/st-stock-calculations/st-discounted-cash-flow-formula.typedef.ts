@@ -25,7 +25,7 @@ export const STDiscountedCashFlowFormulaTypeDefs = gql`
 		netIncomeMargins: [Float!]!
 		netIncome: [Float!]!
 		revenue: [Float!]!
-		revenueGrowthRates: [Float!]!
+		revenueGrowthRates: [Float]!
 		historicalYears: [String!]!
 	}
 

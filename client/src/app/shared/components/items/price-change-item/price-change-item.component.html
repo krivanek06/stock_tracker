@@ -4,24 +4,22 @@
 	<div
 		class="flex gap-x-2"
 		[ngClass]="{
-		'c-xs-end': applyEndOnXsDown,
-		'c-sm-end': applyEndOnSmDown,
         'flex-col': pricePosition === 'bottom'
        }"
 	>
 		<!-- price - position left -->
-		<ng-container *ngIf="price && pricePosition === 'left'">
+		<ng-container *ngIf="showPrice && price && pricePosition === 'left'">
 			<!-- <span *ngIf="priceText" class="st-small-right-space">{{ priceText }}</span> -->
-			<span class="text-gray-200">{{ price | numberFormatter: false : showDollarSignOnPrice}}</span>
+			<span [class]="classText">{{ price | numberFormatter: false : showDollarSignOnPrice}}</span>
 		</ng-container>
 
 		<!-- percentage -->
 		<div
 			*ngIf="priceChange; else showNA"
 			[ngClass]="{
-                    'g-color-success': priceChange && priceChange > 0,
-                    'g-color-danger': priceChange && priceChange < 0
-                     }"
+				'g-color-success': priceChange && priceChange > 0,
+				'g-color-danger': priceChange && priceChange < 0
+			}"
 			[class]="'flex items-center ' + classText"
 		>
 			<!-- percentage -->
@@ -30,8 +28,8 @@
 			<ng-container *ngIf="isPercent">{{ priceChange | percent: '1.2-2' }}</ng-container>
 
 			<!-- positive / negative icon -->
-			<ion-icon *ngIf="showIcon && priceChange > 0" class="ion-hide-sm-down" name="trending-up-outline"></ion-icon>
-			<ion-icon *ngIf="showIcon && priceChange < 0" class="ion-hide-sm-down" name="trending-down-outline"></ion-icon>
+			<mat-icon *ngIf="showIcon && priceChange > 0" color="accent">trending_up</mat-icon>
+			<mat-icon *ngIf="showIcon && priceChange < 0" color="warn">trending_down</mat-icon>
 		</div>
 
 		<!-- N/A -->
@@ -40,7 +38,7 @@
 		</ng-template>
 
 		<!-- price - position right -->
-		<div *ngIf="price && (pricePosition === 'right' || pricePosition === 'bottom')" [class]="'text-gray-500 ' + classText">
+		<div *ngIf="showPrice && price && (pricePosition === 'right' || pricePosition === 'bottom')" [class]="classText">
 			<!-- <span *ngIf="priceText" class="st-small-right-space">{{ priceText }}</span> -->
 			{{ price | numberFormatter: false : showDollarSignOnPrice }}
 		</div>

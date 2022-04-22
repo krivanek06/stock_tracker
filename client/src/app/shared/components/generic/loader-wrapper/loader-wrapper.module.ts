@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoaderWrapperComponent } from './loader-wrapper.component';
 
 @NgModule({
 	declarations: [LoaderWrapperComponent],
-	imports: [CommonModule, IonicModule],
+	imports: [CommonModule, MatProgressSpinnerModule],
 	exports: [LoaderWrapperComponent],
 })
 export class LoaderWrapperModule {}

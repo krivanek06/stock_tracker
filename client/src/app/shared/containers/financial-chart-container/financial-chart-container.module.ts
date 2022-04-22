@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
-import { FinancialChartModule, PriceChangeItemModule } from '../../components';
+import { MatButtonModule } from '@angular/material/button';
+import { LoaderWrapperModule, PriceCompareItemModule } from '@shared';
+import { FinancialChartModule } from '../../components';
 import { DefaultImgDirectiveModule } from '../../directives';
 import { FinancialChartContainerComponent } from './financial-chart-container.component';
 
 @NgModule({
 	declarations: [FinancialChartContainerComponent],
-	imports: [CommonModule, IonicModule, PriceChangeItemModule, FinancialChartModule, DefaultImgDirectiveModule],
+	imports: [CommonModule, MatButtonModule, PriceCompareItemModule, FinancialChartModule, DefaultImgDirectiveModule, LoaderWrapperModule],
 	exports: [FinancialChartContainerComponent],
 })
 export class FinancialChartContainerModule {}

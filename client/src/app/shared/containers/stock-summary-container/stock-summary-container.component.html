@@ -1,100 +1,95 @@
-<ion-list>
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-font-1">Name</ion-label>
-		<ion-label class="st-data-label st-flex-end st-width-70"> {{ summary.companyName }}</ion-label>
-	</ion-item>
+<div class="g-data-item-wrapper">
+	<div>
+		<div>Name</div>
+		<div>{{ summary.companyName }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Ceo</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ summary.ceo }}</ion-label>
-	</ion-item>
+	<div>
+		<div>Ceo</div>
+		<div>{{ summary.ceo }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Market cap.</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ summary.marketCap | numberFormatter }}</ion-label>
-	</ion-item>
+	<div>
+		<div>Market cap.</div>
+		<div>{{ summary.marketCap | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">PE</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ summary.pERatioTTM | numberFormatter}}</ion-label>
-	</ion-item>
+	<div>
+		<div>PE</div>
+		<div>{{ summary.pERatioTTM | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Forward PE</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ summary.forwardPE | numberFormatter}}</ion-label>
-	</ion-item>
+	<div>
+		<div>Forward PE</div>
+		<div>{{ summary.forwardPE | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">EPS</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ summary.ePSTTM | currency }}</ion-label>
-	</ion-item>
+	<div>
+		<div>EPS</div>
+		<div>{{ summary.ePSTTM | currency }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Forward EPS</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ summary.forwardEPS | numberFormatter }}</ion-label>
-	</ion-item>
+	<div>
+		<div>Forward EPS</div>
+		<div>{{ summary.forwardEPS | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Price</ion-label>
-		<ion-label class="st-flex-row st-flex-end">
+	<div>
+		<div>Price</div>
+		<div class="flex gap-2 items-center">
 			<app-price-compare-item [compareToPrice]="summary.previousClose" [currentPrice]="currentPrice" [showPrice]="false"> </app-price-compare-item>
-			<ion-text *ngIf="currentPrice" [@marketValueChange]="currentPrice" class="st-data-label" style="margin-left: 10px">
-				{{ currentPrice | currency: summary.currency }}
-			</ion-text>
-		</ion-label>
-	</ion-item>
+			<span *ngIf="currentPrice" [@marketValueChange]="currentPrice" class="st-data-label"> {{ currentPrice | currency: summary.currency }} </span>
+		</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">1y target</ion-label>
-		<ion-label class="st-flex-end st-display-flex-center">
+	<div>
+		<div>1y target</div>
+		<div class="flex gap-2 items-center">
 			<app-price-compare-item [compareToPrice]="summary.oneyTargetEst" [currentPrice]="currentPrice" [showPrice]="false"> </app-price-compare-item>
-			<ion-text class="st-data-label st-small-left-space">
+			<span *ngIf="currentPrice" [@marketValueChange]="currentPrice" class="st-data-label">
 				{{ summary.oneyTargetEst ? (summary.oneyTargetEst | currency: summary.currency) : "N/A" }}
-			</ion-text>
-		</ion-label>
-	</ion-item>
+			</span>
+		</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">1y change</ion-label>
-		<ion-label class="st-flex-end">
+	<div>
+		<div>1y change</div>
+		<div class="flex gap-2 items-center">
 			<app-price-change-item
 				[priceChange]="summary.yearToDatePriceReturn"
 				[price]="summary.yearToDatePrice"
 				[showDollarSignOnPrice]="true"
 				[showIcon]="true"
 				[isPercent]="true"
+				classText="text-gray-400 text-base"
 			></app-price-change-item>
-		</ion-label>
-	</ion-item>
+		</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">S&P500 1y change</ion-label>
-		<ion-label class="st-flex-end">
-			<app-price-change-item [isPercent]="true" [priceChange]="summary.sandPFiveTwoWeekChange"> </app-price-change-item>
-		</ion-label>
-	</ion-item>
+	<div>
+		<div>S&P500 1y change</div>
+		<app-price-change-item [isPercent]="true" [priceChange]="summary.sandPFiveTwoWeekChange"> </app-price-change-item>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Sector</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ summary.sector }}</ion-label>
-	</ion-item>
+	<div>
+		<div>Sector</div>
+		<div>{{ summary.sector }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Shared outstanding</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ summary.sharesOutstanding | numberFormatter }}</ion-label>
-	</ion-item>
+	<div>
+		<div>Shared outstanding</div>
+		<div>{{ summary.sharesOutstanding | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Recommend</ion-label>
-		<ion-label class="st-data-label st-flex-end">
-			<ion-text [recommendationKey]="summary.recommendationKey" [recommendationMean]="summary.recommendationMean" appRecommendation> </ion-text>
-		</ion-label>
-	</ion-item>
+	<div>
+		<div>Recommend</div>
+		<div [recommendationKey]="summary.recommendationKey" [recommendationMean]="summary.recommendationMean" appRecommendation></div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Earnings date</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ summary.earningsDate | date: 'dd.MM.YYYY'}} </ion-label>
-	</ion-item>
+	<div>
+		<div>Earnings date</div>
+		<div>{{ summary.earningsDate | date: 'dd.MM.YYYY'}}</div>
+	</div>
 
 	<!--<ion-item>
         <ion-label class="st-data-label-parent">Employees</ion-label>
@@ -125,4 +120,4 @@
             {{ summary.residance.country }}
         </ion-label>
     </ion-item> -->
-</ion-list>
+</div>

@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { StfmStockDividend } from '@core';
 
 @Component({
@@ -7,11 +8,18 @@ import { StfmStockDividend } from '@core';
 	styleUrls: ['./market-calendar-dividend-payout.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MarketCalendarDividendPayoutComponent implements OnInit {
+export class MarketCalendarDividendPayoutComponent implements OnInit, OnChanges {
 	@Input() dividendPayouts: StfmStockDividend[] = [];
-	@Input() viewType: '1' | '2' = '1';
+	displayedColumns: string[] = ['paid', 'declaration', 'payment'];
+	dataSource!: MatTableDataSource<StfmStockDividend>;
 
 	constructor() {}
 
 	ngOnInit() {}
+
+	ngOnChanges(changes: SimpleChanges): void {
+		if (this.dividendPayouts && this.dividendPayouts.length > 0) {
+			this.dataSource = new MatTableDataSource(this.dividendPayouts);
+		}
+	}
 }

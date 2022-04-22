@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule, Routes } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
 import { MarketCalendarDividendPayoutModule, MarketCalendarSplitHistoryModule, MarketStockNewsModule } from '@market-feature';
 import {
 	FinancialChartContainerModule,
@@ -10,6 +12,7 @@ import {
 	GenericChartModule,
 	GenericListModule,
 	LoaderWrapperModule,
+	MatCardWrapperModule,
 	ObjectKeyPipeModule,
 	ObjNgForPipeModule,
 	SplitKeyToTitlecasePipeModule,
@@ -46,7 +49,6 @@ const routes: Routes = [
 	imports: [
 		CommonModule,
 		RouterModule.forChild(routes),
-		IonicModule,
 		FinancialChartContainerModule,
 		GenericCardModule,
 		StockSummaryContainerModule,
@@ -75,6 +77,10 @@ const routes: Routes = [
 		MarketStockNewsModule,
 		LoaderWrapperModule,
 		ObjectKeyPipeModule,
+		MatButtonModule,
+		MatIconModule,
+		MatCardWrapperModule,
+		MatTooltipModule,
 	],
 })
 export class StockDetailsStatisticModule {}

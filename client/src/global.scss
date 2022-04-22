@@ -33,10 +33,10 @@
 // custom
 @import 'theme/custom-variables';
 @import 'theme/general-styling';
-@import 'theme/global_colors';
 @import 'theme/custom-material';
 @import 'theme/additional_classes';
 @import 'theme/input_styles';
+@import 'theme/global_colors';
 
 // @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
@@ -44,7 +44,7 @@
 	font-size: 14px;
 
 	ion-text {
-		color: #{$st-var-font-2};
+		color: #{$color-gray-400};
 	}
 
 	ion-icon {

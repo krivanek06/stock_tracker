@@ -15,10 +15,9 @@ export class PriceChangeItemComponent implements OnInit {
 	@Input() isPercent = false;
 	@Input() showNAIfPriceZero = false;
 	@Input() showDollarSignOnPrice = false;
-	@Input() applyEndOnSmDown = false;
-	@Input() applyEndOnXsDown = false;
+	@Input() showPrice = true;
 
-	@Input() classText: string = 'text-base';
+	@Input() classText: string = 'text-gray-500 text-base';
 
 	constructor() {}
 

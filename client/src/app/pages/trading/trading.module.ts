@@ -1,12 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterModule, Routes } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
 import {
 	FinancialChartContainerModule,
 	GenericCardModule,
 	GenericChartModule,
 	GenericListModule,
+	LoaderWrapperModule,
+	MatCardWrapperModule,
 	PieChartWrapperModule,
 	StockSummaryContainerModule,
 } from '@shared';
@@ -26,7 +29,6 @@ const routes: Routes = [
 		CommonModule,
 		RouterModule.forChild(routes),
 		TradeConfirmationPopOverModule,
-		IonicModule,
 		StockSearchModule,
 		PortfolioStateModule,
 		TradingBidAskModule,
@@ -38,6 +40,10 @@ const routes: Routes = [
 		GenericChartModule,
 		DetailsStockSuggestionChangeModule,
 		PieChartWrapperModule,
+		MatButtonModule,
+		LoaderWrapperModule,
+		MatIconModule,
+		MatCardWrapperModule,
 	],
 	declarations: [TradingPage],
 })

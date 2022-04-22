@@ -1,30 +1,51 @@
-<ion-list>
-	<!-- table header -->
-	<ion-item class="st-font-1-bold">
-		<ion-label class="ion-margin-end st-flex-1-5">Name</ion-label>
-		<ion-label>Value</ion-label>
-		<ion-label>Held shares</ion-label>
-		<ion-label *ngIf="holders.length > 0 && $any(holders[0])?.weightPercent" class="ion-hide-sm-down"> Weight </ion-label>
-		<ion-label class="ion-hide-sm-down">Change</ion-label>
-	</ion-item>
+<table mat-table [dataSource]="dataSource" class="w-full">
+	<!-- name -->
+	<ng-container matColumnDef="name">
+		<th mat-header-cell *matHeaderCellDef>Name</th>
+		<td mat-cell *matCellDef="let row" class="text-gray-200">{{ row.holder }}</td>
+	</ng-container>
 
-	<!-- body -->
-	<ion-item *ngFor="let holder of holders" class="st-data-item-wrapper">
-		<ion-label class="ion-margin-end st-font-5 st-flex-1-5">{{ holder.holder }}</ion-label>
-		<ion-label>{{ holder.shares * currentSharePrice | numberFormatter}}</ion-label>
-		<ion-label>{{ holder.shares | numberFormatter }}</ion-label>
-		<ion-label *ngIf="showWeight" class="ion-hide-sm-down"> {{ $any(holder)?.weightPercent }}% </ion-label>
-		<ion-label class="ion-hide-sm-down">
-			<app-position-change-item *ngIf="holder.change" [applyNumberFormatter]="true" [increaseBy]="holder.change"> </app-position-change-item>
-		</ion-label>
-	</ion-item>
+	<!-- value -->
+	<ng-container matColumnDef="value">
+		<th mat-header-cell *matHeaderCellDef>Value</th>
+		<td mat-cell *matCellDef="let row">{{ row.shares * currentSharePrice | numberFormatter}}</td>
+	</ng-container>
 
-	<!-- sum up % held -->
-	<ion-item *ngIf="currentSharePrice && outstandingShares" style="margin-top: 8px">
-		<ion-label>
-			<ion-text class="st-font-5">Held together:</ion-text>
-			{{ (1 / outstandingShares * (holders | sumUp:'shares')) | percent: '1.2'}} (${{ (holders | sumUp: 'shares') * currentSharePrice |
-			numberFormatter}})
-		</ion-label>
-	</ion-item>
-</ion-list>
+	<!-- Held shares -->
+	<ng-container matColumnDef="heldShares">
+		<th mat-header-cell *matHeaderCellDef>Shares</th>
+		<td mat-cell *matCellDef="let row">{{ row.shares | numberFormatter }}</td>
+	</ng-container>
+
+	<!-- Weight -->
+	<ng-container matColumnDef="weight">
+		<th mat-header-cell *matHeaderCellDef class="hidden md:table-cell">Weight</th>
+		<td mat-cell *matCellDef="let row" class="hidden md:table-cell">{{ $any(row)?.weightPercent }}%</td>
+	</ng-container>
+
+	<!-- change -->
+	<ng-container matColumnDef="change">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Change</th>
+		<td mat-cell *matCellDef="let row" class="hidden sm:table-cell">
+			<app-position-change-item *ngIf="row.change" [applyNumberFormatter]="true" [increaseBy]="row.change"> </app-position-change-item>
+		</td>
+	</ng-container>
+
+	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+	<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+	<!-- Row shown when there is no matching data. -->
+	<tr class="mat-row" *matNoDataRow>
+		<td class="mat-cell" colspan="10">
+			<app-list-skeleton [itemLength]="10"></app-list-skeleton>
+		</td>
+	</tr>
+</table>
+
+<div *ngIf="currentSharePrice && outstandingShares" class="flex gap-2 mt-4 text-gray-400">
+	<span>Held together:</span>
+	<span>
+		{{ (1 / outstandingShares * (holders | sumUp:'shares')) | percent: '1.2'}} (${{ (holders | sumUp: 'shares') * currentSharePrice |
+		numberFormatter}})</span
+	>
+</div>

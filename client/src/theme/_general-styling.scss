@@ -263,7 +263,7 @@ ion-spinner {
 // ---------------------------------------------
 // - DATA LABELS
 .st-data-label-parent {
-	color: #{$st-var-font-1} !important; // !important
+	color: #{$color-gray-200} !important; // !important
 	font-size: 14px !important;
 	// min-width: 65%;
 	max-width: fit-content;
@@ -678,7 +678,7 @@ ion-skeleton-text {
 
 .st-symbol-image {
 	max-width: 36px;
-	min-width: 36px;
+	min-height: 36px;
 	margin-right: 12px !important;
 
 	// @media (max-width: #{$st-var-sm-split}) {
@@ -1068,6 +1068,58 @@ button {
 	color: #{$color-gray-300} !important;
 }
 
+mat-card {
+	background: linear-gradient(126deg, rgb(5 13 42 / 39%) 0%, rgb(6 15 47 / 60%) 35%, rgb(6 17 52 / 0.7) 100%) !important;
+	background-clip: padding-box !important;
+	backdrop-filter: blur(25px) !important;
+	border: 2px solid transparent !important;
+	color: #{$color-gray-400} !important;
+}
+
+.g-clickable {
+	transition: All 0.3s ease-out !important;
+	cursor: pointer;
+
+	&:hover {
+		background: #5a5a5a38 !important;
+		transform: scale(0.96);
+	}
+}
+
+.g-data-item-wrapper {
+	> * {
+		border-bottom: 1px solid #66666633 !important;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding-top: 8px !important;
+		padding-bottom: 8px !important;
+		padding-left: 16px !important;
+		padding-right: 16px !important;
+
+		:first-child {
+			@apply text-gray-200;
+		}
+
+		:not(:first-child) {
+			@apply text-gray-400 text-right;
+		}
+	}
+}
+
+.g-data-item {
+	@apply px-4 py-3;
+	border-bottom: 1px solid #66666633 !important;
+
+	> :first-child {
+		@apply text-gray-200 col-span-2;
+	}
+
+	:not(:first-child) {
+		@apply text-gray-400;
+	}
+}
+
 // ---------------
 
 table:not(mat-datepicker-content table, mat-calendar table) {
@@ -1075,17 +1127,17 @@ table:not(mat-datepicker-content table, mat-calendar table) {
 	width: 100%;
 	background: transparent !important;
 
-	.mat-row {
-		transition: All 0.3s ease-out;
-		cursor: pointer;
+	// .mat-row {
+	// 	transition: All 0.3s ease-out;
+	// 	cursor: pointer;
 
-		&:hover {
-			background-color: #52576880;
-		}
-		&:active {
-			background-color: #41569980;
-		}
-	}
+	// 	&:hover {
+	// 		background-color: #52576880;
+	// 	}
+	// 	&:active {
+	// 		background-color: #41569980;
+	// 	}
+	// }
 
 	thead {
 		tr {
