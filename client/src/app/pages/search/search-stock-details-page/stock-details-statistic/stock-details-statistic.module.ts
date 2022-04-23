@@ -16,7 +16,6 @@ import {
 	ObjectKeyPipeModule,
 	ObjNgForPipeModule,
 	SplitKeyToTitlecasePipeModule,
-	StockSummaryContainerModule,
 } from '@shared';
 import {
 	DetailsDividendModule,
@@ -31,6 +30,7 @@ import {
 	DetailsRatingModule,
 	DetailsRecommendationChartModule,
 	DetailsStockPeersModule,
+	DetailsStockSummaryModule,
 	DetailsStockTrendModule,
 	DetailsTransactionsModule,
 	DetailsValuationModule,
@@ -51,7 +51,7 @@ const routes: Routes = [
 		RouterModule.forChild(routes),
 		FinancialChartContainerModule,
 		GenericCardModule,
-		StockSummaryContainerModule,
+		DetailsStockSummaryModule,
 		DetailsValuationModule,
 		DetailsFinancialStrengthModule,
 		GenericChartModule,

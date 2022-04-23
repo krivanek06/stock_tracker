@@ -1,108 +1,58 @@
-<mat-dialog-content *ngIf="stockDetails$ | async as stockDetails; else showOnlyChart">
-	<ion-grid>
-		<ion-row>
-			<ion-col size="6">
-				<ng-container *ngIf="data.showAddToWatchlistOption && (user$ | async)">
-					<!-- add to watchlist button -->
-					<ion-button
-						(click)="addSymbolToWatchlist()"
-						*ngIf="!isSymbolInWatchlist"
-						class="ion-float-left"
-						fill="clear"
-						matTooltip="Save symbol into your watchlist"
-					>
-						<ion-icon class="st-font-main-color-orange" name="star-outline" style="margin-right: 5px"></ion-icon>
-						<ion-text class="st-font-1">Save symbol</ion-text>
-					</ion-button>
+<mat-dialog-content>
+	<!-- buttons -->
+	<div class="py-4 flex justify-between">
+		<div>
+			<ng-container *ngIf="data.showAddToWatchlistOption && (user$ | async)">
+				<button mat-button *ngIf="!isSymbolInWatchlist" (click)="addSymbolToWatchlist()">
+					<mat-icon class="g-color-warning">grade</mat-icon>
+					Save symbol
+				</button>
+				<button mat-button *ngIf="isSymbolInWatchlist" (click)="removeSymbolFromWatchlist()">
+					<mat-icon class="g-color-danger">star</mat-icon>
+					Remove symbol
+				</button>
+			</ng-container>
+		</div>
+		<button mat-button class="g-color-danger" (click)="dismissModal()">
+			<mat-icon>close</mat-icon>
+			Close
+		</button>
+	</div>
 
-					<!-- remove from  watchlist button -->
-					<ion-button
-						(click)="removeSymbolFromWatchlist()"
-						*ngIf="isSymbolInWatchlist"
-						class="ion-float-left"
-						fill="clear"
-						matTooltip="Remove symbol into your watchlist"
-					>
-						<ion-icon class="st-font-main-color-orange watchlist-not-added" name="star" style="margin-right: 5px"></ion-icon>
-						<ion-text class="st-font-1 watchlist-not-added">Remove symbol</ion-text>
-					</ion-button>
-				</ng-container>
-			</ion-col>
-
-			<ion-col size="6">
-				<!-- close modal button -->
-				<ion-button (click)="dismissModal()" class="ion-float-right" color="danger" fill="clear">
-					<ion-icon name="close-outline"></ion-icon>
-					Close
-				</ion-button>
-			</ion-col>
-		</ion-row>
-
-		<ion-row class="ion-justify-content-center" *ngIf="symbolType$ | async as symbolType">
-			<!-- financial chart -->
-			<ion-col class="st-md-border-bottom" size="12" [sizeMd]="symbolType === SymbolType.Stock || symbolType === SymbolType.Adr ? '7' : '12'">
+	<!-- content -->
+	<app-loader-wrapper>
+		<ng-container *ngIf="stockDetails$ | async as stockDetails">
+			<div class="grid grid-cols-1 lg:grid-cols-3 gap-4" *ngIf="symbolType$ | async as symbolType">
+				<!-- chart -->
 				<app-financial-chart-container
 					[closedPrice]="stockDetails.summary.previousClose"
 					[currentPrice]="stockDetails.summary.marketPrice"
-					[height]="400"
+					[height]="450"
 					[logoUrl]="stockDetails.summary.logo_url || undefined"
 					[name]="data.symbolIdentification.name"
 					[symbol]="data.symbolIdentification.symbol"
 					[financialChart]="symbolType === SymbolType.Stock || symbolType === SymbolType.Adr"
+					class="col-span-1"
+					[ngClass]="{
+				'lg:col-span-2': symbolType === SymbolType.Stock || symbolType === SymbolType.Adr,
+				'lg:col-span-3': !(symbolType === SymbolType.Stock || symbolType === SymbolType.Adr)
+			}"
 				>
 				</app-financial-chart-container>
-			</ion-col>
 
-			<ion-col *ngIf="symbolType === SymbolType.Stock || symbolType === SymbolType.Adr" class="st-md-border-bottom ion-padding" size="12" size-md="5">
-				<!-- summary -->
-				<ion-list-header>
-					<app-generic-list class="st-flex-1" [iconTitle]="'barcode-outline'" [title]="'Summary: ' + stockDetails.id"> </app-generic-list>
-					<ion-button (click)="reloadStockDetails()" *ngIf="isAdmin$ | async">
-						<ion-icon class="st-icon-title" name="refresh-circle"></ion-icon>
-						Reload data
-					</ion-button>
-				</ion-list-header>
-				<app-stock-summary-container [summary]="stockDetails.summary"> </app-stock-summary-container>
+				<div>
+					<!-- summary -->
+					<app-details-stock-summary [isAdmin]="isAdmin$ | async" [summary]="stockDetails.summary"> </app-details-stock-summary>
+					<!-- details buttons -->
+					<div class="p-6 flex justify-end">
+						<button mat-flat-button color="primary" class="w-full md:w-auto min-w-[160px]" (click)="redirectToDetails()">Details</button>
+					</div>
+				</div>
+			</div>
 
-				<!-- button-->
-				<ion-buttons class="st-buttons-container st-justify-center">
-					<ion-button (click)="redirectToDetails()" class="st-button" color="primary" fill="solid" shape="round"> Show details </ion-button>
-				</ion-buttons>
-			</ion-col>
-		</ion-row>
-
-		<div *ngIf="showSpinner" class="spinner-container">
-			<ion-spinner color="primary"></ion-spinner>
-		</div>
-
-		<!-- long business summary -->
-		<div class="py-2 px-6">
-			<app-generic-list title="About company"></app-generic-list>
-			<ion-text class="st-font-3"> {{ stockDetails.summary.longBusinessSummary }} </ion-text>
-		</div>
-	</ion-grid>
+			<!-- description -->
+			<div class="g-color-white text-xl px-4">About company</div>
+			<div class="p-4 text-gray-400">{{ stockDetails.summary.longBusinessSummary }}</div>
+		</ng-container>
+	</app-loader-wrapper>
 </mat-dialog-content>
-
-<ng-template #showOnlyChart>
-	<div class="p-4">
-		<ion-toolbar>
-			<ion-button (click)="dismissModal()" slot="end" color="danger" fill="clear">
-				<ion-icon name="close-outline"></ion-icon>
-				Close
-			</ion-button>
-		</ion-toolbar>
-		<!-- loader while no data -->
-
-		<div *ngIf="showSpinner" class="spinner-container">
-			<ion-spinner color="primary"></ion-spinner>
-		</div>
-
-		<!-- financial chart -->
-		<ion-row *ngIf="!showSpinner" class="ion-justify-content-center">
-			<ion-col size="12">
-				<app-financial-chart-container [height]="450" [name]="data.symbolIdentification.name" [symbol]="data.symbolIdentification.symbol">
-				</app-financial-chart-container>
-			</ion-col>
-		</ion-row>
-	</div>
-</ng-template>

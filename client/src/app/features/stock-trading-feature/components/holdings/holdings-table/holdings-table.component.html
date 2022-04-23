@@ -1,7 +1,7 @@
 <div class="flex justify-end sm:hidden p-2">
 	<button mat-stroked-button class="g-color-primary" (click)="toggleDailyChange()">{{ showDailyChange ? 'Daily +/-' : 'Unrealized +/-'}}</button>
 </div>
-<table mat-table [dataSource]="dataSource" matSort class="w-full" [trackBy]="identify">
+<table mat-table [dataSource]="dataSource" matSort class="w-full g-clickable-table" [trackBy]="identify">
 	<!-- image & name -->
 	<ng-container matColumnDef="symbol">
 		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Symbol</th>

@@ -54,12 +54,9 @@
 			</app-financial-chart-container>
 
 			<!-- summary -->
-			<div *ngIf="isStock">
-				<app-generic-list [iconTitle]="'barcode-outline'" [title]="'Summary'"></app-generic-list>
-				<app-mat-card-wrapper additionalClasses="st-height-100">
-					<app-stock-summary-container [summary]="selectedSummary"></app-stock-summary-container>
-				</app-mat-card-wrapper>
-			</div>
+			<app-mat-card-wrapper *ngIf="isStock" additionalClasses="st-height-100">
+				<app-details-stock-summary [summary]="selectedSummary"></app-details-stock-summary>
+			</app-mat-card-wrapper>
 		</div>
 
 		<!-- buttons -->

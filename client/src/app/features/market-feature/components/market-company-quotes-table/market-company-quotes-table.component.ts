@@ -24,7 +24,7 @@ export class MarketCompanyQuotesTableComponent implements OnInit, OnChanges {
 
 	ngOnInit() {}
 
-	itemClicked(symbol: string, name: string) {
+	itemClicked({ symbol, name }: StfmCompanyQuote) {
 		this.itemClickedEmitter.emit({ symbol, name });
 	}
 

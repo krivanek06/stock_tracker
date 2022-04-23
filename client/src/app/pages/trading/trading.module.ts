@@ -11,9 +11,8 @@ import {
 	LoaderWrapperModule,
 	MatCardWrapperModule,
 	PieChartWrapperModule,
-	StockSummaryContainerModule,
 } from '@shared';
-import { DetailsStockSuggestionChangeModule, StockSearchModule } from '@stock-details-feature';
+import { DetailsStockSuggestionChangeModule, DetailsStockSummaryModule, StockSearchModule } from '@stock-details-feature';
 import { HoldingsTableModule, PortfolioStateModule, TradeConfirmationPopOverModule, TradingBidAskModule } from '@stock-trading-feature';
 import { TradingPage } from './trading.page';
 
@@ -35,7 +34,7 @@ const routes: Routes = [
 		FinancialChartContainerModule,
 		GenericListModule,
 		GenericCardModule,
-		StockSummaryContainerModule,
+		DetailsStockSummaryModule,
 		HoldingsTableModule,
 		GenericChartModule,
 		DetailsStockSuggestionChangeModule,

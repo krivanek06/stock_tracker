@@ -6,7 +6,7 @@
 				class="col-span-2"
 				[closedPrice]="stockDetails.summary.previousClose"
 				[currentPrice]="stockDetails.summary.marketPrice"
-				[height]="450"
+				[height]="460"
 				[logoUrl]="stockDetails.summary.logo_url || ''"
 				[name]="stockDetails.summary.companyName"
 				[symbol]="stockDetails.summary.symbol"
@@ -15,25 +15,8 @@
 
 			<div class="overflow-hidden">
 				<!-- summary -->
-				<div class="flex justify-between items-center mb-2">
-					<div class="flex items-center gap-4">
-						<mat-icon color="primary" class="text-4xl h-8">qr_code</mat-icon>
-						<span class="g-color-white text-xl">{{ 'Summary: ' + stockDetails.id }}</span>
-					</div>
-					<button
-						*ngIf="isAdmin$ | async"
-						(click)="reloadStockDetails()"
-						mat-button
-						class="g-color-primary"
-						type="button"
-						matTooltip="Reload data into firebase for this symbol"
-					>
-						<mat-icon>refresh</mat-icon>
-						Reload data
-					</button>
-				</div>
 				<app-mat-card-wrapper>
-					<app-stock-summary-container [summary]="stockDetails.summary"> </app-stock-summary-container>
+					<app-details-stock-summary [isAdmin]="isAdmin$ | async" [summary]="stockDetails.summary"> </app-details-stock-summary>
 				</app-mat-card-wrapper>
 			</div>
 		</div>
