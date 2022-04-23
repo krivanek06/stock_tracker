@@ -42,6 +42,7 @@ import { STDividendDiscountedFormulaTypeDefs } from './st-stock-calculations/st-
 import { STEarningsValuationFormulaTypeDefs } from './st-stock-calculations/st-earnings-valuation-formula.typedef';
 import { STFreeCashFlowFormulaTypeDefs } from './st-stock-calculations/st-free-cash-flow-formula.typedef';
 import {
+	queryEtfDetails,
 	queryStockDetails,
 	queryStockDetailsFinancialGrowth,
 	queryStockDetailsFinancialRatios,
@@ -97,6 +98,7 @@ const mainTypeDefs = gql`
 
 		# details
 		queryStockDetails(symbol: String!, reload: Boolean): StockDetails
+		queryEtfDetails(symbol: String!, reload: Boolean): EtfDetails
 		queryStockSummary(symbol: String!, allowReload: Boolean): Summary
 		queryStockQuotesByPrefix(symbolPrefix: String!): [STFMCompanyQuote]!
 		queryStockFinancialReports(symbol: String!): StockDetailsFinancialReports
@@ -184,6 +186,7 @@ const mainResolver = {
 
 		// stock details
 		queryStockDetails: async (_: null, args: { symbol: string; reload: boolean }) => await queryStockDetails(args.symbol, args.reload),
+		queryEtfDetails: async (_: null, args: { symbol: string; reload: boolean }) => await queryEtfDetails(args.symbol, args.reload),
 		queryStockSummary: async (_: null, args: { symbol: string; allowReload?: boolean }) => await queryStockSummary(args.symbol, args.allowReload),
 		queryStockQuotesByPrefix: async (_: null, args: { symbolPrefix: string }) => await queryStockQuotesByPrefix(args.symbolPrefix),
 		queryStockFinancialReports: async (_: null, args: { symbol: string }) => await queryStockFinancialReports(args.symbol),

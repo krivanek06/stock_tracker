@@ -7,7 +7,7 @@ import {
 } from "./st-stock-calculations";
 
 export interface StockDetailsWrapper {
-  details: StockDetails;
+  details: StockDetails | EtfDetails;
   forceReload?: boolean;
   detailsLastUpdate: string;
   summaryLastUpdate: string;
@@ -25,6 +25,15 @@ export enum SymbolType {
   ETF = 'ETF',
   FUND = 'FUND',
   ADR = 'ADR'
+}
+
+
+export type AssetDetails = StockDetails | EtfDetails;
+
+export interface EtfDetails {
+  id: string;
+  summary: STSummary;
+  calculations: STStockDetailsCalculations;
 }
 
 export interface StockDetails {

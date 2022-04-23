@@ -24,6 +24,7 @@ export enum BREAK_POINTS {
 export interface SymbolIdentification {
 	symbol: string;
 	name: string;
+	isEtf?: boolean | null;
 }
 
 export interface UploadedFile {

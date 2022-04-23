@@ -18,7 +18,7 @@ export class MarketSearchTableComponent implements OnInit {
 	ngOnInit() {}
 
 	itemClicked(result: StfmStockScreenerResult) {
-		this.itemClickedEmitter.emit({ symbol: result.symbol, name: result.companyName });
+		this.itemClickedEmitter.emit({ symbol: result.symbol, name: result.companyName, isEtf: result.isEtf });
 	}
 
 	identify(index: number, item: StfmStockScreenerResult): string {

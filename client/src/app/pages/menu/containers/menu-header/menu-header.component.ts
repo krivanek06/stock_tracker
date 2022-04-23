@@ -51,10 +51,13 @@ export class MenuHeaderComponent implements OnInit {
 		this.showNotifications = !this.showNotifications;
 	}
 
-	async clickedSummary(symbol: string, name: string) {
+	async clickedSummary(companyQuote: StfmCompanyQuote) {
+		console.log(companyQuote);
+		const { symbol, name } = companyQuote;
+		const isEtf = companyQuote.exchange === 'ETF';
 		this.searchCompanyQuotes$ = undefined;
 		this.searchBar.value = null;
 
-		this.watchlistFeatureFacadeService.presentSymbolLookupModal({ symbol, name }, true);
+		this.watchlistFeatureFacadeService.presentSymbolLookupModal({ symbol, name, isEtf }, true);
 	}
 }

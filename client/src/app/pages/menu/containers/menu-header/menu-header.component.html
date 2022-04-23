@@ -15,7 +15,7 @@
 				<!-- searched symbol results -->
 				<ng-container *ngIf="searchCompanyQuotes$ | async as searchCompanyQuotes; else skeletons">
 					<app-stock-info-identification-item
-						(click)="clickedSummary(companyQuote.symbol, companyQuote.name)"
+						(click)="clickedSummary(companyQuote)"
 						*ngFor="let companyQuote of (searchCompanyQuotes | slice: 0: 5)"
 						[companyQuote]="companyQuote"
 					>
