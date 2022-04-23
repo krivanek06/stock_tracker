@@ -20,6 +20,12 @@ export const stockDetailsTypeDefs = gql`
 		ADR
 	}
 
+	type EtfDetails {
+		id: String!
+		summary: Summary!
+		calculations: STStockDetailsCalculations
+	}
+
 	type StockDetails {
 		id: String!
 		recommendation: [Recommendations!]!

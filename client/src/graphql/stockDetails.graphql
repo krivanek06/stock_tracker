@@ -550,8 +550,59 @@ fragment STDetailsKeyMetrics on STDetailsKeyMetrics {
 	capexPerShare
 }
 
+fragment STStockDetailsCalculations on STStockDetailsCalculations {
+	symbol
+	date
+	alpha
+	beta
+	sharpRatio
+	volatility {
+		benchmarkYearlyReturnPrct
+		meanPrice
+		stdDailyPrct
+		stdDailyPrice
+		stdYearlyPrct
+		stdYearlyPrice
+		symbolYearlyPriceReturnPrct
+		volatilityPrct
+		date
+	}
+	CAPM {
+		beta
+		Rf
+		Rm
+		result
+	}
+	WACC {
+		CAPM {
+			beta
+			Rf
+			Rm
+			result
+		}
+		Rd
+		Re
+		Wd
+		We
+		result
+		taxRate
+	}
+}
+
 # -----------------------------------------
 # QUERY
+
+query QueryEtfDetails($symbol: String!) {
+	queryEtfDetails(symbol: $symbol) {
+		id
+		summary {
+			...StockSummaryFragment
+		}
+		calculations {
+			...STStockDetailsCalculations
+		}
+	}
+}
 
 query QueryStockDetails($symbol: String!, $reload: Boolean) {
 	queryStockDetails(symbol: $symbol, reload: $reload) {
@@ -654,42 +705,7 @@ query QueryStockDetails($symbol: String!, $reload: Boolean) {
 			}
 		}
 		calculations {
-			symbol
-			date
-			alpha
-			beta
-			sharpRatio
-			volatility {
-				benchmarkYearlyReturnPrct
-				meanPrice
-				stdDailyPrct
-				stdDailyPrice
-				stdYearlyPrct
-				stdYearlyPrice
-				symbolYearlyPriceReturnPrct
-				volatilityPrct
-				date
-			}
-			CAPM {
-				beta
-				Rf
-				Rm
-				result
-			}
-			WACC {
-				CAPM {
-					beta
-					Rf
-					Rm
-					result
-				}
-				Rd
-				Re
-				Wd
-				We
-				result
-				taxRate
-			}
+			...STStockDetailsCalculations
 		}
 		socialSentiment {
 			...STFMSocialSentimentFragment

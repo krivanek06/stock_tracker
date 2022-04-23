@@ -22,7 +22,7 @@
 	<!-- content -->
 	<app-loader-wrapper>
 		<ng-container *ngIf="stockDetails$ | async as stockDetails">
-			<div class="grid grid-cols-1 lg:grid-cols-3 gap-4" *ngIf="symbolType$ | async as symbolType">
+			<div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
 				<!-- chart -->
 				<app-financial-chart-container
 					[closedPrice]="stockDetails.summary.previousClose"
@@ -31,18 +31,15 @@
 					[logoUrl]="stockDetails.summary.logo_url || undefined"
 					[name]="data.symbolIdentification.name"
 					[symbol]="data.symbolIdentification.symbol"
-					[financialChart]="symbolType === SymbolType.Stock || symbolType === SymbolType.Adr"
-					class="col-span-1"
-					[ngClass]="{
-				'lg:col-span-2': symbolType === SymbolType.Stock || symbolType === SymbolType.Adr,
-				'lg:col-span-3': !(symbolType === SymbolType.Stock || symbolType === SymbolType.Adr)
-			}"
+					[financialChart]="true"
+					class="col-span-1 lg:col-span-2"
 				>
 				</app-financial-chart-container>
 
 				<div>
 					<!-- summary -->
-					<app-details-stock-summary [isAdmin]="isAdmin$ | async" [summary]="stockDetails.summary"> </app-details-stock-summary>
+					<app-details-stock-summary (onReloadClickEmitter)="reloadStockDetails()" [isAdmin]="isAdmin$ | async" [summary]="stockDetails.summary">
+					</app-details-stock-summary>
 					<!-- details buttons -->
 					<div class="p-6 flex justify-end">
 						<button mat-flat-button color="primary" class="w-full md:w-auto min-w-[160px]" (click)="redirectToDetails()">Details</button>

@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { GraphqlWatchlistService, StStockWatchInputlistIdentifier, UserStorageService } from '@core';
 import { DialogService, IdNameContainer, SymbolIdentification } from '@shared';
-import { SymbolLookupModalComponent } from '../entry-components'; // TODO circular dependency
+import { EtfLookupModalComponent, SymbolLookupModalComponent } from '../entry-components'; // TODO circular dependency
 
 @Injectable({
 	providedIn: 'root',
@@ -16,20 +16,19 @@ export class WatchlistFeatureFacadeService {
 		private router: Router
 	) {}
 
-	async presentSymbolLookupModal(symbolIdentification: SymbolIdentification, showAddToWatchlistOption: boolean, watchlistId: string | null = null) {
-		const dialogRef = this.dialog.open(SymbolLookupModalComponent, {
-			data: {
-				symbolIdentification,
-				showAddToWatchlistOption,
-				watchlistId,
-			},
-			maxWidth: '100vw',
-			minWidth: '60vw',
-			panelClass: 'g-mat-dialog-big',
-		});
+	async presentSymbolLookupModal(
+		symbolIdentification: SymbolIdentification,
+		showAddToWatchlistOption: boolean,
+		watchlistId: string | null = null
+	): Promise<void> {
+		let dismiss = null;
 
-		const dismiss = await dialogRef.afterClosed().toPromise();
-		console.log('dismiss', dismiss);
+		// show adequate dialog
+		if (symbolIdentification.isEtf) {
+			dismiss = await this.presentEtfLookupModal(symbolIdentification, showAddToWatchlistOption, watchlistId);
+		} else {
+			dismiss = await this.presentStockLookupModal(symbolIdentification, showAddToWatchlistOption, watchlistId);
+		}
 
 		if (dismiss?.redirect) {
 			const symbol = symbolIdentification.symbol.split('.')[0]; // ex: MMM.DE => MMM
@@ -107,5 +106,45 @@ export class WatchlistFeatureFacadeService {
 		}
 		await this.graphqlWatchlistService.renameStockWatchlist(input.id, input.additionalData).toPromise();
 		DialogService.showNotificationBar('Watchlist has been renamed');
+	}
+
+	private async presentEtfLookupModal(
+		symbolIdentification: SymbolIdentification,
+		showAddToWatchlistOption: boolean,
+		watchlistId: string | null = null
+	): Promise<any> {
+		const dialogRef = this.dialog.open(EtfLookupModalComponent, {
+			data: {
+				symbolIdentification,
+				showAddToWatchlistOption,
+				watchlistId,
+			},
+			maxWidth: '100vw',
+			minWidth: '60vw',
+			panelClass: 'g-mat-dialog-big',
+		});
+
+		const dismiss = await dialogRef.afterClosed().toPromise();
+		return dismiss;
+	}
+
+	private async presentStockLookupModal(
+		symbolIdentification: SymbolIdentification,
+		showAddToWatchlistOption: boolean,
+		watchlistId: string | null = null
+	): Promise<any> {
+		const dialogRef = this.dialog.open(SymbolLookupModalComponent, {
+			data: {
+				symbolIdentification,
+				showAddToWatchlistOption,
+				watchlistId,
+			},
+			maxWidth: '100vw',
+			minWidth: '60vw',
+			panelClass: 'g-mat-dialog-big',
+		});
+
+		const dismiss = await dialogRef.afterClosed().toPromise();
+		return dismiss;
 	}
 }

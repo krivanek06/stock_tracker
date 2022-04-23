@@ -157,6 +157,13 @@ export type EsgScores = {
   totalEsg?: Maybe<Scalars['Float']>;
 };
 
+export type EtfDetails = {
+  __typename?: 'EtfDetails';
+  calculations?: Maybe<StStockDetailsCalculations>;
+  id: Scalars['String'];
+  summary: Summary;
+};
+
 export type FinancialData = {
   __typename?: 'FinancialData';
   currentPrice?: Maybe<Scalars['Float']>;
@@ -579,6 +586,7 @@ export type Query = {
   __typename?: 'Query';
   authenticateUser?: Maybe<StUserPublicData>;
   queryAdminMainInformations?: Maybe<StAdminMainInformations>;
+  queryEtfDetails?: Maybe<EtfDetails>;
   queryEtfDocument?: Maybe<StMarketEtfDocument>;
   queryHallOfFame: StHallOfFame;
   queryMarketDailyOverview?: Maybe<StMarketDailyOverview>;
@@ -604,6 +612,12 @@ export type Query = {
 
 export type QueryAuthenticateUserArgs = {
   id: Scalars['String'];
+};
+
+
+export type QueryQueryEtfDetailsArgs = {
+  reload?: InputMaybe<Scalars['Boolean']>;
+  symbol: Scalars['String'];
 };
 
 
@@ -2670,6 +2684,15 @@ export type StDetailsFinancialGrowthFragment = { __typename?: 'STDetailsFinancia
 
 export type StDetailsKeyMetricsFragment = { __typename?: 'STDetailsKeyMetrics', symbol: string, date: Array<string>, revenuePerShare: Array<number | null>, netIncomePerShare: Array<number | null>, operatingCashFlowPerShare: Array<number | null>, freeCashFlowPerShare: Array<number | null>, cashPerShare: Array<number | null>, bookValuePerShare: Array<number | null>, tangibleBookValuePerShare: Array<number | null>, shareholdersEquityPerShare: Array<number | null>, interestDebtPerShare: Array<number | null>, marketCap: Array<number | null>, enterpriseValue: Array<number | null>, peRatio: Array<number | null>, priceToSalesRatio: Array<number | null>, pocfratio: Array<number | null>, pfcfRatio: Array<number | null>, pbRatio: Array<number | null>, ptbRatio: Array<number | null>, evToSales: Array<number | null>, enterpriseValueOverEBITDA: Array<number | null>, evToOperatingCashFlow: Array<number | null>, evToFreeCashFlow: Array<number | null>, earningsYield: Array<number | null>, freeCashFlowYield: Array<number | null>, debtToEquity: Array<number | null>, debtToAssets: Array<number | null>, netDebtToEBITDA: Array<number | null>, currentRatio: Array<number | null>, interestCoverage: Array<number | null>, incomeQuality: Array<number | null>, dividendYield: Array<number | null>, payoutRatio: Array<number | null>, salesGeneralAndAdministrativeToRevenue: Array<number | null>, researchAndDdevelopementToRevenue: Array<number | null>, intangiblesToTotalAssets: Array<number | null>, capexToOperatingCashFlow: Array<number | null>, capexToRevenue: Array<number | null>, capexToDepreciation: Array<number | null>, stockBasedCompensationToRevenue: Array<number | null>, grahamNumber: Array<number | null>, roic: Array<number | null>, returnOnTangibleAssets: Array<number | null>, grahamNetNet: Array<number | null>, workingCapital: Array<number | null>, tangibleAssetValue: Array<number | null>, netCurrentAssetValue: Array<number | null>, investedCapital: Array<number | null>, averageReceivables: Array<number | null>, averagePayables: Array<number | null>, averageInventory: Array<number | null>, daysSalesOutstanding: Array<number | null>, daysPayablesOutstanding: Array<number | null>, daysOfInventoryOnHand: Array<number | null>, receivablesTurnover: Array<number | null>, payablesTurnover: Array<number | null>, inventoryTurnover: Array<number | null>, roe: Array<number | null>, capexPerShare: Array<number | null> };
 
+export type StStockDetailsCalculationsFragment = { __typename?: 'STStockDetailsCalculations', symbol?: string | null, date?: string | null, alpha?: number | null, beta?: number | null, sharpRatio?: number | null, volatility?: { __typename?: 'STStockRiskCalculationsVolatility', benchmarkYearlyReturnPrct?: number | null, meanPrice?: number | null, stdDailyPrct?: number | null, stdDailyPrice?: number | null, stdYearlyPrct?: number | null, stdYearlyPrice?: number | null, symbolYearlyPriceReturnPrct?: number | null, volatilityPrct?: number | null, date?: string | null } | null, CAPM?: { __typename?: 'CAPM', beta?: number | null, Rf?: number | null, Rm?: number | null, result?: number | null } | null, WACC?: { __typename?: 'WACC', Rd?: number | null, Re?: number | null, Wd?: number | null, We?: number | null, result?: number | null, taxRate?: number | null, CAPM?: { __typename?: 'CAPM', beta?: number | null, Rf?: number | null, Rm?: number | null, result?: number | null } | null } | null };
+
+export type QueryEtfDetailsQueryVariables = Exact<{
+  symbol: Scalars['String'];
+}>;
+
+
+export type QueryEtfDetailsQuery = { __typename?: 'Query', queryEtfDetails?: { __typename?: 'EtfDetails', id: string, summary: { __typename?: 'Summary', avgVolume: number, ceo?: string | null, companyName: string, currency: string, dividendDate?: string | null, ePSTTM?: number | null, earningsDate?: string | null, exDividendDate?: string | null, exchangeName?: string | null, fiveTwoWeekRange?: string | null, forwardDividendRate?: number | null, forwardDividendYield?: number | null, forwardEPS?: number | null, forwardPE?: number | null, fullTimeEmployees?: string | null, id: string, symbolType?: SymbolType | null, industry?: string | null, ipoDate?: string | null, beta?: number | null, countryFullName?: string | null, lastSplitDate?: string | null, lastSplitFactor?: string | null, logo_url?: string | null, longBusinessSummary?: string | null, marketCap?: number | null, marketPrice: number, oneyTargetEst?: number | null, pERatioTTM?: number | null, previousClose: number, recommendationKey?: string | null, recommendationMean?: number | null, sandPFiveTwoWeekChange?: number | null, sector?: string | null, sharesOutstanding?: number | null, shortRatio?: number | null, symbol: string, targetEstOneyPercent?: number | null, volume: number, website?: string | null, weekRangeFiveTwoMax: number, weekRangeFiveTwoMin: number, yearToDatePrice: number, yearToDatePriceReturn?: number | null, isActivelyTrading?: boolean | null, residance?: { __typename?: 'SummaryResidance', city?: string | null, state?: string | null, country?: string | null, addressOne?: string | null, zip?: string | null } | null }, calculations?: { __typename?: 'STStockDetailsCalculations', symbol?: string | null, date?: string | null, alpha?: number | null, beta?: number | null, sharpRatio?: number | null, volatility?: { __typename?: 'STStockRiskCalculationsVolatility', benchmarkYearlyReturnPrct?: number | null, meanPrice?: number | null, stdDailyPrct?: number | null, stdDailyPrice?: number | null, stdYearlyPrct?: number | null, stdYearlyPrice?: number | null, symbolYearlyPriceReturnPrct?: number | null, volatilityPrct?: number | null, date?: string | null } | null, CAPM?: { __typename?: 'CAPM', beta?: number | null, Rf?: number | null, Rm?: number | null, result?: number | null } | null, WACC?: { __typename?: 'WACC', Rd?: number | null, Re?: number | null, Wd?: number | null, We?: number | null, result?: number | null, taxRate?: number | null, CAPM?: { __typename?: 'CAPM', beta?: number | null, Rf?: number | null, Rm?: number | null, result?: number | null } | null } | null } | null } | null };
+
 export type QueryStockDetailsQueryVariables = Exact<{
   symbol: Scalars['String'];
   reload?: InputMaybe<Scalars['Boolean']>;
@@ -4474,6 +4497,46 @@ export const StDetailsKeyMetricsFragmentDoc = gql`
   capexPerShare
 }
     `;
+export const StStockDetailsCalculationsFragmentDoc = gql`
+    fragment STStockDetailsCalculations on STStockDetailsCalculations {
+  symbol
+  date
+  alpha
+  beta
+  sharpRatio
+  volatility {
+    benchmarkYearlyReturnPrct
+    meanPrice
+    stdDailyPrct
+    stdDailyPrice
+    stdYearlyPrct
+    stdYearlyPrice
+    symbolYearlyPriceReturnPrct
+    volatilityPrct
+    date
+  }
+  CAPM {
+    beta
+    Rf
+    Rm
+    result
+  }
+  WACC {
+    CAPM {
+      beta
+      Rf
+      Rm
+      result
+    }
+    Rd
+    Re
+    Wd
+    We
+    result
+    taxRate
+  }
+}
+    `;
 export const StTransactionFragmentFragmentDoc = gql`
     fragment STTransactionFragment on STTransaction {
   transactionId
@@ -5330,6 +5393,31 @@ export const QueryStockScreenerDocument = gql`
       super(apollo);
     }
   }
+export const QueryEtfDetailsDocument = gql`
+    query QueryEtfDetails($symbol: String!) {
+  queryEtfDetails(symbol: $symbol) {
+    id
+    summary {
+      ...StockSummaryFragment
+    }
+    calculations {
+      ...STStockDetailsCalculations
+    }
+  }
+}
+    ${StockSummaryFragmentFragmentDoc}
+${StStockDetailsCalculationsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class QueryEtfDetailsGQL extends Apollo.Query<QueryEtfDetailsQuery, QueryEtfDetailsQueryVariables> {
+    override document = QueryEtfDetailsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const QueryStockDetailsDocument = gql`
     query QueryStockDetails($symbol: String!, $reload: Boolean) {
   queryStockDetails(symbol: $symbol, reload: $reload) {
@@ -5432,42 +5520,7 @@ export const QueryStockDetailsDocument = gql`
       }
     }
     calculations {
-      symbol
-      date
-      alpha
-      beta
-      sharpRatio
-      volatility {
-        benchmarkYearlyReturnPrct
-        meanPrice
-        stdDailyPrct
-        stdDailyPrice
-        stdYearlyPrct
-        stdYearlyPrice
-        symbolYearlyPriceReturnPrct
-        volatilityPrct
-        date
-      }
-      CAPM {
-        beta
-        Rf
-        Rm
-        result
-      }
-      WACC {
-        CAPM {
-          beta
-          Rf
-          Rm
-          result
-        }
-        Rd
-        Re
-        Wd
-        We
-        result
-        taxRate
-      }
+      ...STStockDetailsCalculations
     }
     socialSentiment {
       ...STFMSocialSentimentFragment
@@ -5607,6 +5660,7 @@ ${StockSummaryFragmentFragmentDoc}
 ${MetricFragmentFragmentDoc}
 ${DividensFragmentFragmentDoc}
 ${HistoricalMetricsDataFragmentFragmentDoc}
+${StStockDetailsCalculationsFragmentDoc}
 ${StfmSocialSentimentFragmentFragmentDoc}
 ${StAnalystEstimatesFragmentFragmentDoc}
 ${FinancialReportFragmentFragmentDoc}

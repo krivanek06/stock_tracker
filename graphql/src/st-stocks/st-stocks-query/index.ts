@@ -1,3 +1,4 @@
+export * from './queryEtfDetails';
 export * from './queryStockDetails';
 export * from './queryStockDetailsChartData';
 export * from './queryStockFinancialReports';

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
+	EtfDetails,
+	QueryEtfDetailsGQL,
 	QueryEtfDocumentGQL,
 	QueryHallOfFameGQL,
 	QueryMarketDailyOverviewGQL,
@@ -36,7 +38,8 @@ export class GraphqlQueryService {
 		private querySymbolHistoricalPricesGQL: QuerySymbolHistoricalPricesGQL,
 		private queryEtfDocumentGQL: QueryEtfDocumentGQL,
 		private queryStockScreenerGQL: QueryStockScreenerGQL,
-		private queryHallOfFameGQL: QueryHallOfFameGQL
+		private queryHallOfFameGQL: QueryHallOfFameGQL,
+		private queryEtfDetailsGQL: QueryEtfDetailsGQL
 	) {}
 
 	queryHallOfFame(): Observable<StHallOfFame> {
@@ -93,6 +96,14 @@ export class GraphqlQueryService {
 				etfName,
 			})
 			.pipe(map((res) => res.data.queryEtfDocument as StMarketEtfDocument));
+	}
+
+	queryEtfDetails(symbol: string): Observable<EtfDetails> {
+		return this.queryEtfDetailsGQL
+			.fetch({
+				symbol,
+			})
+			.pipe(map((res) => res.data.queryEtfDetails as EtfDetails));
 	}
 
 	queryStMarketData(key: string): Observable<StMarketChartDataResultCombined> {
