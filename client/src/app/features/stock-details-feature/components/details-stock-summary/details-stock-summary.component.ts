@@ -1,18 +1,19 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { componentDestroyed, FinnhubWebsocketService, Summary } from '@core';
+import { ComponentScreenUpdateBaseDirective, marketValueChange } from '@shared';
 import { filter, takeUntil } from 'rxjs/operators';
-import { marketValueChange } from '../../animations';
-import { ComponentScreenUpdateBaseDirective } from '../../directives';
 
 @Component({
-	selector: 'app-stock-summary-container',
-	templateUrl: './stock-summary-container.component.html',
-	styleUrls: ['./stock-summary-container.component.scss'],
+	selector: 'app-details-stock-summary',
+	templateUrl: './details-stock-summary.component.html',
+	styleUrls: ['./details-stock-summary.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	animations: [marketValueChange],
 })
-export class StockSummaryContainerComponent extends ComponentScreenUpdateBaseDirective implements OnInit, OnDestroy {
+export class DetailsStockSummaryComponent extends ComponentScreenUpdateBaseDirective implements OnInit, OnDestroy {
+	@Output() onReloadClickEmitter: EventEmitter<void> = new EventEmitter<void>();
 	@Input() summary!: Summary;
+	@Input() isAdmin: boolean | null = false;
 	currentPrice?: number | null = null;
 
 	constructor(public finnhubWebsocketService: FinnhubWebsocketService, public cd: ChangeDetectorRef) {
@@ -27,6 +28,10 @@ export class StockSummaryContainerComponent extends ComponentScreenUpdateBaseDir
 
 	ngOnDestroy() {
 		super.ngOnDestroy();
+	}
+
+	onReloadClick(): void {
+		this.onReloadClickEmitter.emit();
 	}
 
 	private initWebsocketConnection() {

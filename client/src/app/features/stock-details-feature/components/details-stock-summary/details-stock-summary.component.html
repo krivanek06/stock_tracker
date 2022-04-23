@@ -1,3 +1,14 @@
+<div class="flex justify-between items-center mb-2">
+	<div class="flex items-end gap-4">
+		<mat-icon color="primary" class="text-4xl h-8">qr_code</mat-icon>
+		<span class="g-color-white text-xl">{{ 'Summary: ' + summary.id }}</span>
+	</div>
+	<button *ngIf="isAdmin" (click)="onReloadClick()" mat-button class="g-color-primary" matTooltip="Reload data into firebase for this symbol">
+		<mat-icon>refresh</mat-icon>
+		Reload data
+	</button>
+</div>
+
 <div class="g-data-item-wrapper">
 	<div>
 		<div>Name</div>
