@@ -48,7 +48,11 @@ export class DetailsEarningsChartComponent implements OnInit, OnChanges {
 					},
 				];
 			}
-			this.estimatedEarnings = [...this.earnings.quarterly.map((data) => data.estimate), this.earnings.currentQuarterEstimate];
+			this.estimatedEarnings = [...this.earnings.quarterly.map((data) => data.estimate)];
+
+			if (this.earnings.currentQuarterEstimate) {
+				this.estimatedEarnings = [...this.estimatedEarnings, this.earnings.currentQuarterEstimate];
+			}
 		}
 
 		this.initChart();

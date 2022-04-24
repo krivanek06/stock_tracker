@@ -121,6 +121,7 @@
 								}
 							],
 							"optimization": true,
+							"sourceMap": true,
 							"outputHashing": "all",
 							"aot": true,
 							"extractLicenses": true,

@@ -7,12 +7,12 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PriceChangeItemComponent implements OnInit {
-	@Input() price?: number | null = null;
+	@Input() price?: string | number | null = null;
 	@Input() priceChange?: number | null = null;
-	@Input() pricePosition: 'left' | 'right' | 'bottom' = 'right';
+	@Input() pricePosition: 'left' | 'right' | 'bottom' | 'top' = 'right';
 	//@Input() priceText?: string;
 	@Input() showIcon = true;
-	@Input() isPercent = false;
+	@Input() isPercent?: boolean = false;
 	@Input() showNAIfPriceZero = false;
 	@Input() showDollarSignOnPrice = false;
 	@Input() showPrice = true;

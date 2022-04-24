@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { StfmBalanceSheetFragmentFragment } from '@core';
+import { BalanceSheetDataContainer } from './../../models';
 
 @Component({
 	selector: 'app-details-statement-sheet',
@@ -6,17 +8,29 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 	styleUrls: ['./details-statement-sheet.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DetailsStatementSheetComponent implements OnInit {
+export class DetailsStatementSheetComponent implements OnInit, OnChanges {
 	@Input() sheetTitle!: string;
-	@Input() sheets: any[] = []; // StfmBalanceSheet[] | StfmIncomeStatement[] | StfmCashFlow[]
+	//@Input() sheets?: StockDetailsSheetType[] | null = []; // StfmBalanceSheet[] | StfmIncomeStatement[] | StfmCashFlow[]
+	@Input() balanceSheet?: StfmBalanceSheetFragmentFragment[] | null = [];
 
-	sliderConfig = {
-		spaceBetween: 12,
-		centeredSlides: true,
-		slidesPerView: 1.15,
-	};
+	// displayedColumns: string[] = ['symbol', 'price', 'daily', 'yearly', 'volume', 'marketCap', 'peRatio', 'recommend', '52WeekRange'];
+	// dataSource!: MatTableDataSource<StockDetailsSheetType>;
+
+	// sliderConfig = {
+	// 	spaceBetween: 12,
+	// 	centeredSlides: true,
+	// 	slidesPerView: 1.15,
+	// };
+
+	BalanceSheetDataContainer = BalanceSheetDataContainer;
 
 	constructor() {}
 
 	ngOnInit() {}
+
+	ngOnChanges(changes: SimpleChanges): void {
+		// if(changes?.['balanceSheet']?.currentValue){
+		// 	this.dataSource = new MatTableDataSource(this.balanceSheet || []);
+		// }
+	}
 }

@@ -31,9 +31,9 @@ export const STFinancialModelingAPITypeDefs = gql`
 	}
 
 	type STFMFinancials {
-		balance: [STFMBalanceSheet]!
-		cash: [STFMCashFlow]!
-		income: [STFMIncomeStatement]!
+		balance: [STFMBalanceSheet!]!
+		cash: [STFMCashFlow!]!
+		income: [STFMIncomeStatement!]!
 	}
 
 	type STFMInsideTrade {
@@ -297,6 +297,7 @@ export const STFinancialModelingAPITypeDefs = gql`
 		acceptedDate: String
 		accountPayables: Float
 		accumulatedOtherComprehensiveIncomeLoss: Float
+		capitalLeaseObligations: Float
 		cashAndCashEquivalents: Float
 		cashAndShortTermInvestments: Float
 		commonStock: Float
@@ -313,6 +314,9 @@ export const STFinancialModelingAPITypeDefs = gql`
 		link: String
 		longTermDebt: Float
 		longTermInvestments: Float
+		minorityInterest: Float
+		totalEquity: Float
+		totalLiabilitiesAndTotalEquity: Float
 		netDebt: Float
 		netReceivables: Float
 		otherAssets: Float

@@ -14,6 +14,7 @@ export class StockDetailsFinancialComponent implements OnInit {
 
 	activeStatement = STATEMENT_TYPE.BALANCE_SHEET;
 	STOCK_SEARCH_DETAILS_FINANCIAL_PAGES = STOCK_SEARCH_DETAILS_FINANCIAL_PAGES;
+	STATEMENT_TYPE = STATEMENT_TYPE;
 
 	constructor(private symbolStorageService: SymbolStorageService) {}
 

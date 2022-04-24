@@ -210,9 +210,9 @@ export const stockDetailsTypeDefs = gql`
 	}
 
 	type EarningsChart {
-		currentQuarterEstimate: Float!
-		currentQuarterEstimateDate: String!
-		currentQuarterEstimateYear: Float!
+		currentQuarterEstimate: Float
+		currentQuarterEstimateDate: String
+		currentQuarterEstimateYear: Float
 		earningsDate: [Float!]!
 		quarterly: [EarningsChartData!]!
 	}

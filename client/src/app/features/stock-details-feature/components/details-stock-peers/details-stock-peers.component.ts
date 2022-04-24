@@ -21,7 +21,7 @@ export class DetailsStockPeersComponent implements OnInit, OnChanges {
 	ngOnInit() {}
 
 	ngOnChanges(changes: SimpleChanges): void {
-		if (this.sectorPeers && this.sectorPeers.length > 0) {
+		if (changes?.['sectorPeers']?.currentValue) {
 			this.dataSource = new MatTableDataSource(this.sectorPeers);
 		}
 	}
