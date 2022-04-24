@@ -1,0 +1,31 @@
+<!-- start -->
+<span class="c-bubble hidden xs:flex" [ngClass]="{'c-disabled': currentPage === 0}" (click)="onPageChange(0)">
+	<mat-icon>skip_previous</mat-icon>
+</span>
+
+<!-- previous -->
+<span class="c-bubble" [ngClass]="{'c-disabled': currentPage === 0}" (click)="onPageChange(currentPage - 1)">
+	<mat-icon>navigate_before</mat-icon>
+</span>
+
+<!-- bubbles with number 1,2,3.... -->
+<span
+	*ngFor="let bubbleIndex of renderingBubblesHelper | slice: previousSliceIndex : currentPage + 3"
+	class="c-bubble xs:flex"
+	[ngClass]="{
+        'c-bubble__active': bubbleIndex === currentPage
+    }"
+	(click)="onPageChange(bubbleIndex)"
+>
+	{{ bubbleIndex + 1}}
+</span>
+
+<!-- next -->
+<span class="c-bubble" [ngClass]="{'c-disabled': currentPage >= renderingBubbles -1}" (click)="onPageChange(currentPage + 1)">
+	<mat-icon>navigate_next</mat-icon>
+</span>
+
+<!-- end -->
+<span class="c-bubble hidden xs:flex" [ngClass]="{'c-disabled': currentPage >= renderingBubbles - 1}" (click)="onPageChange(renderingBubbles - 1)">
+	<mat-icon>skip_next</mat-icon>
+</span>

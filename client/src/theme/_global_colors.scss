@@ -69,6 +69,10 @@
 	color: variables.$color-white-1;
 }
 
+.g-color-white-important {
+	color: variables.$color-white-1 !important;
+}
+
 /* WARNING */
 .g-color-warning {
 	color: variables.$color-warn-500 !important;
@@ -95,6 +99,12 @@
 
 .g-background-color-danger {
 	background-color: variables.$color-danger-500 !important;
+}
+
+/* transparent */
+
+.g-background-color-transparent {
+	background-color: #223162 !important;
 }
 
 // TAILWIND CUSTOM CLASSES

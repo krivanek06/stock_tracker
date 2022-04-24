@@ -1,30 +1,40 @@
-<!-- filter -->
-<app-generic-extension-panel title="Filter symbols">
-	<ion-row>
-		<ion-col size="12" size-lg="9">
-			<app-market-search-form (searchFormChangeEmitter)="changedFormResult($event)"></app-market-search-form>
-		</ion-col>
-		<ion-col size="12" size-lg="3">
+<app-mat-card-wrapper title="Filter symbols">
+	<div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+		<!-- filter -->
+		<app-market-search-form class="col-span-1 lg:col-span-2" (searchFormChangeEmitter)="changedFormResult($event)"></app-market-search-form>
+
+		<!-- filter result -->
+		<div>
 			<app-market-search-form-result [stockScreener]="stockScreener$ | async"></app-market-search-form-result>
-			<div class="ion-margin-top">
-				<ion-button (click)="filterResult()" color="primary" fill="solid">Filter</ion-button>
+			<div class="mt-4">
+				<button mat-flat-button color="primary" type="button" class="w-full" (click)="filterResult()">Filter</button>
 			</div>
-		</ion-col>
-	</ion-row>
-</app-generic-extension-panel>
+		</div>
+	</div>
+</app-mat-card-wrapper>
 
 <!-- table results -->
 <div class="mt-4">
-	<app-generic-card [title]="'Stock screener results: ' + ((stockScreenerResult$ | async)?.found || 0)">
+	<app-mat-card-wrapper [title]="'Stock screener results: ' + ((stockScreenerResult$ | async)?.found || 0)">
 		<app-market-search-table
 			(itemClickedEmitter)="showSummarySymbol($event)"
 			[stockScreenerResults]="(stockScreenerResult$ | async)?.result"
 		></app-market-search-table>
 
-		<ion-content class="min-h-[400px]">
-			<ion-infinite-scroll threshold="250px" (ionInfinite)="changeOffset($event, limit)">
-				<app-list-skeleton [itemLength]="limit"></app-list-skeleton>
-			</ion-infinite-scroll>
-		</ion-content>
-	</app-generic-card>
+		<!-- skeleton loader when fetching more -->
+		<app-list-skeleton *ngIf="showLoader$ | async" [itemLength]="25"></app-list-skeleton>
+
+		<div *ngIf="canShowMore" class="mt-4 flex justify-end">
+			<button
+				mat-flat-button
+				color="primary"
+				type="button"
+				class="min-w-[150px] w-full md:w-auto"
+				matTooltip="Load more ticker symbols"
+				(click)="onLoadMore()"
+			>
+				Show more
+			</button>
+		</div>
+	</app-mat-card-wrapper>
 </div>
