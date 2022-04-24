@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { StfmStockScreenerInput } from '@core';
 import {
-	marketSearchActivelyTradedInputSource,
 	marketSearchCountriesInputSource,
 	marketSearchEtfInputSource,
 	marketSearchExchangesInputSource,
+	marketSearchFormConfig,
 	marketSearchIndustriesInputSource,
 	marketSearchSectorsInputSource,
 } from '../../../models';
@@ -24,7 +24,7 @@ export class MarketSearchFormComponent implements OnInit {
 	marketSearchCountriesInputSource = marketSearchCountriesInputSource;
 	marketSearchExchangesInputSource = marketSearchExchangesInputSource;
 	marketSearchEtfInputSource = marketSearchEtfInputSource;
-	marketSearchActivelyTradedInputSource = marketSearchActivelyTradedInputSource;
+	marketSearchFormConfig = marketSearchFormConfig;
 
 	form!: FormGroup;
 

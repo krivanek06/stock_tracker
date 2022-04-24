@@ -9,11 +9,9 @@
 		[disabled]="disabled.value"
 		[hintText]="hintText"
 		[inputCaption]="inputCaption"
-		[highlightField]="highlightField"
+		[inputTypeSliderConfig]="inputTypeSliderConfig"
 		[inputSource]="inputSource"
-		[inputType]="allowChangeInput ? changeInputTo : inputType"
-		[sliderLabelShowDollarSign]="sliderLabelShowDollarSign"
-		[inputTypeSliderConfig]="sliderConfig"
+		[inputType]="allowChangeInput && !!changeInputTo ? changeInputTo : inputType"
 	></app-form-mat-input-wrapper>
 
 	<div class="st-display-flex-center" [ngClass]='{"has-erros": formInputControl.touched && formInputControl.invalid }'>

@@ -14,15 +14,10 @@ export class FormMatInputLockWrapperComponent implements OnInit {
 	@Input() inputCaption!: string;
 	@Input() hintText!: string;
 	@Input() inputSource: InputSource[] = []; // data which are displayed in Select.options
-	@Input() highlightField!: boolean;
+	@Input() inputTypeSliderConfig!: InputSourceSliderConfig;
 
-	@Input() sliderMaxValue!: number;
-	@Input() sliderMinValue!: number;
-	@Input() sliderStepValue!: number;
-	@Input() sliderLabelShowDollarSign: boolean = false;
-
-	@Input() showChangeInput!: boolean;
-	@Input() changeInputTo!: InputType;
+	@Input() showChangeInput: boolean = false;
+	@Input() changeInputTo?: InputType;
 
 	allowChangeInput = true;
 
@@ -36,10 +31,6 @@ export class FormMatInputLockWrapperComponent implements OnInit {
 
 	get disabled(): AbstractControl {
 		return this.form.get('disabled') as AbstractControl;
-	}
-
-	get sliderConfig(): InputSourceSliderConfig {
-		return { step: this.sliderStepValue, min: this.sliderMaxValue, max: this.sliderMaxValue };
 	}
 
 	ngOnInit() {

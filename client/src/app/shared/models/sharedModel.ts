@@ -77,32 +77,46 @@ export enum InputTypeEnum {
 	NUMBER = 'NUMBER',
 	EMAIL = 'EMAIL',
 	PASSWORD = 'PASSWORD',
-	FILTER_FROM_LIST = 'FILTER_FROM_LIST',
 	CHECKBOX = 'CHECKBOX',
 	RADIO = 'RADIO',
 	SLIDE_TOGGLE = 'SLIDE_TOGGLE',
 	TIME = 'TIME',
 	SELECT = 'SELECT',
+	SELECTSEARCH = 'SELECTSEARCH',
 	TEXTAREA = 'TEXTAREA',
 	MULTISELECT = 'MULTISELECT',
 	BUTTON = 'BUTTON',
+	CHIPSELECT = 'CHIPSELECT',
+	SLIDER = 'SLIDER',
 	DATEPICKER = 'DATEPICKER',
 }
 
 export type InputType =
-	| 'CHECKBOX'
-	| 'RADIO'
-	| 'TEXTAREA'
-	| 'SLIDE_TOGGLE'
-	| 'SELECT'
-	| 'MULTISELECT'
-	| 'CHIPSELECT'
-	| 'SLIDER'
 	| 'TEXT'
 	| 'NUMBER'
+	| 'PASSWORD'
+	| 'SLIDER'
 	| 'EMAIL'
+	| 'CHECKBOX'
+	| 'RADIO'
+	| 'SLIDE_TOGGLE'
 	| 'DATEPICKER'
-	| 'PASSWORD';
+	| 'BUTTON'
+	| 'SELECT'
+	| 'SELECTSEARCH'
+	| 'MULTISELECT'
+	| 'TEXTAREA'
+	| 'BUTTON';
+
+export interface InputSourceSliderConfig {
+	step: number;
+	min: number;
+	max: number;
+	inputSource?: InputSource[];
+	displayValue?: unknown;
+	value?: number; // used internally by the component
+	thumbNailFormatter?: (index: number) => string | number;
+}
 
 export interface InputSourceSliderConfig {
 	step: number;

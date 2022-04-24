@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
@@ -15,6 +16,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { IonicModule } from '@ionic/angular';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DialogServiceModule } from '@shared';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -44,11 +47,24 @@ const MY_DATE_FORMATS = {
 	},
 };
 
+export const HttpLoaderFactory = (http: HttpClient): TranslateHttpLoader => {
+	return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
+};
+
 @NgModule({
 	declarations: [AppComponent],
 	imports: [
 		CommonModule,
 		BrowserAnimationsModule,
+		HttpClientModule,
+		TranslateModule.forRoot({
+			loader: {
+				provide: TranslateLoader,
+				useFactory: HttpLoaderFactory,
+				deps: [HttpClient],
+			},
+			defaultLanguage: 'en',
+		}),
 		// ReactiveFormsModule,
 		// FormsModule,
 		GraphQlModule,
