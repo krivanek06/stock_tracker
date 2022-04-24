@@ -1,16 +1,7 @@
 <!-- balance sheet -->
-<ng-container *ngIf="activeStatement === STATEMENT_TYPE.BALANCE_SHEET">
-	<div class="table-space">
-		<app-details-statement-sheet [sheets]="stockDetails.companyOutlook.financialsQuarter?.balance || []" sheetTitle="Balance sheet quarterly">
-		</app-details-statement-sheet>
-	</div>
-
-	<app-details-statement-sheet [sheets]="stockDetails.companyOutlook.financialsAnnual?.balance || []" sheetTitle="Balance sheet yearly">
-	</app-details-statement-sheet>
-</ng-container>
 
 <!-- income statement -->
-<ng-container *ngIf="activeStatement === STATEMENT_TYPE.INCOME_STATEMENT">
+<!-- <ng-container *ngIf="activeStatement === STATEMENT_TYPE.INCOME_STATEMENT">
 	<div class="table-space">
 		<app-details-statement-sheet [sheets]="stockDetails.companyOutlook.financialsQuarter?.income || []" sheetTitle="Income statement quarterly">
 		</app-details-statement-sheet>
@@ -18,10 +9,10 @@
 
 	<app-details-statement-sheet [sheets]="stockDetails.companyOutlook.financialsAnnual?.income || []" sheetTitle="Income statement yearly">
 	</app-details-statement-sheet>
-</ng-container>
+</ng-container> -->
 
 <!-- cash flow -->
-<ng-container *ngIf="activeStatement === STATEMENT_TYPE.CASH_FLOW">
+<!-- <ng-container *ngIf="activeStatement === STATEMENT_TYPE.CASH_FLOW">
 	<div class="table-space">
 		<app-details-statement-sheet [sheets]="stockDetails.companyOutlook.financialsQuarter?.cash || []" sheetTitle="Cash flow quarterly">
 		</app-details-statement-sheet>
@@ -29,4 +20,4 @@
 
 	<app-details-statement-sheet [sheets]="stockDetails.companyOutlook.financialsAnnual?.cash || []" sheetTitle="Cash flow yearly">
 	</app-details-statement-sheet>
-</ng-container>
+</ng-container> -->

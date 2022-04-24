@@ -21,7 +21,7 @@
 			</div>
 		</div>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
 			<!-- financial strength -->
 			<app-mat-card-wrapper title="Financial strength">
 				<app-details-financial-strength [stockDetails]="stockDetails"> </app-details-financial-strength>
@@ -31,16 +31,15 @@
 			<app-mat-card-wrapper title="Valuation">
 				<app-details-valuation [stockDetails]="stockDetails"> </app-details-valuation>
 			</app-mat-card-wrapper>
-		</div>
 
-		<!-- financial yearly graph -->
-		<app-mat-card-wrapper title="Financial yearly growth">
-			<app-generic-chart
-				[chartType]="ChartType.bar"
-				[heightPx]="chartHeight_35"
-				[isPercentage]="true"
-				[showCategoryNameWithValue]="true"
-				[series]="[{
+			<!-- financial yearly graph -->
+			<app-mat-card-wrapper title="Financial yearly growth" class="col-span-1 md:col-span-2 lg:col-span-1 2xl:col-span-2">
+				<app-generic-chart
+					[chartType]="ChartType.bar"
+					[heightPx]="chartHeight_35"
+					[isPercentage]="true"
+					[showCategoryNameWithValue]="true"
+					[series]="[{
 					colorByPoint: true,
 					 data:[
 						{name: 'Revenue ttm. yoy', y: stockDetails.metric?.revenueGrowthTTMYoy ? ((stockDetails.metric?.revenueGrowthTTMYoy || 1) / 100) : null},
@@ -55,12 +54,13 @@
 						{name: 'Dividend rate 5y',  y: stockDetails.dividends?.dividendGrowthRateFiveY ? ((stockDetails.dividends?.dividendGrowthRateFiveY || 1) / 100) : null}
 					  ]
 				  }]"
-				[showDataLabel]="true"
-			>
-			</app-generic-chart>
-		</app-mat-card-wrapper>
+					[showDataLabel]="true"
+				>
+				</app-generic-chart>
+			</app-mat-card-wrapper>
+		</div>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
 			<!-- financial ratio -->
 			<app-mat-card-wrapper title="Financial ratio">
 				<app-details-financial-strength-ratio [stockDetails]="stockDetails"></app-details-financial-strength-ratio>
@@ -72,7 +72,7 @@
 			</app-mat-card-wrapper>
 
 			<!-- margin graph -->
-			<app-mat-card-wrapper title="Margin" class="col-span-1 md:col-span-2 lg:col-span-1">
+			<app-mat-card-wrapper title="Margin" class="col-span-1 md:col-span-2 lg:col-span-1 2xl:col-span-2">
 				<app-generic-chart
 					[chartType]="ChartType.bar"
 					[heightPx]="340"
@@ -141,7 +141,7 @@
 				<!-- split history -->
 				<app-mat-card-wrapper title="Split history">
 					<app-market-calendar-split-history
-						*ngIf="stockDetails.companyOutlook.splitHistory"
+						*ngIf="stockDetails.companyOutlook.splitHistory.length > 0"
 						[splitHistories]="stockDetails.companyOutlook.splitHistory"
 					>
 					</app-market-calendar-split-history>
@@ -292,8 +292,7 @@
 
 			<!-- peers -->
 			<app-mat-card-wrapper title="Sector peers" class="col-span-1 lg:col-span-2">
-				<app-details-stock-peers *ngIf="stockDetails.sectorPeers as peers" (clickedPeerEmitter)="showPeerSummary($event)" [sectorPeers]="peers">
-				</app-details-stock-peers>
+				<app-details-stock-peers (clickedPeerEmitter)="showPeerSummary($event)" [sectorPeers]="stockDetails.sectorPeers"> </app-details-stock-peers>
 			</app-mat-card-wrapper>
 		</div>
 

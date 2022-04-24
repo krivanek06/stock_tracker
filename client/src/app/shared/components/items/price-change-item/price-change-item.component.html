@@ -4,11 +4,11 @@
 	<div
 		class="flex gap-x-2"
 		[ngClass]="{
-        'flex-col': pricePosition === 'bottom'
+        'flex-col': pricePosition === 'bottom' || pricePosition === 'top'
        }"
 	>
 		<!-- price - position left -->
-		<ng-container *ngIf="showPrice && price && pricePosition === 'left'">
+		<ng-container *ngIf="showPrice && price && (pricePosition === 'left' || pricePosition === 'top')">
 			<!-- <span *ngIf="priceText" class="st-small-right-space">{{ priceText }}</span> -->
 			<span [class]="classText">{{ price | numberFormatter: false : showDollarSignOnPrice}}</span>
 		</ng-container>

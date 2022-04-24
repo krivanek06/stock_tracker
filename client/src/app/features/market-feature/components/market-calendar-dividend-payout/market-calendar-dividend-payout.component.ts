@@ -18,7 +18,7 @@ export class MarketCalendarDividendPayoutComponent implements OnInit, OnChanges 
 	ngOnInit() {}
 
 	ngOnChanges(changes: SimpleChanges): void {
-		if (this.dividendPayouts && this.dividendPayouts.length > 0) {
+		if (changes?.['dividendPayouts']?.currentValue) {
 			this.dataSource = new MatTableDataSource(this.dividendPayouts);
 		}
 	}

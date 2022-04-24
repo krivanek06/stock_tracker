@@ -17,7 +17,7 @@ export class MarketCompanyQuotesTableComponent implements OnInit, OnChanges {
 	@Input() skeletonLength = 10;
 	@Input() showImage: boolean = true;
 
-	displayedColumns: string[] = ['symbol', 'price', 'daily', 'volume', 'marketCap', 'peRatio', '52WeekRange'];
+	displayedColumns: string[] = ['symbol', 'price', 'daily', 'volume', 'marketCap', 'shares', 'peRatio', '52WeekRange'];
 	dataSource!: MatTableDataSource<StfmCompanyQuote>;
 
 	constructor() {}
