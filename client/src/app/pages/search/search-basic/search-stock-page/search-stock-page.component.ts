@@ -46,6 +46,7 @@ export class SearchStockPageComponent implements OnInit, OnDestroy {
 	}
 
 	filterResult() {
+		this.showLoader$.next(true);
 		this.resetScreenerResults();
 		this.offset$.next(0);
 	}
