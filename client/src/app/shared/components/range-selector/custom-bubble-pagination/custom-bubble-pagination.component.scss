@@ -1,0 +1,39 @@
+@use 'variables' as variables;
+
+:host {
+	display: flex;
+	gap: 8px;
+
+	.c-bubble {
+		background-color: variables.$color-gray-200;
+		border-radius: 50%;
+		width: 34px;
+		height: 34px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: black;
+		cursor: pointer;
+		transition: 0.3s;
+
+		&:hover {
+			background-color: variables.$color-primary-500;
+			color: white;
+		}
+
+		&__active {
+			background-color: variables.$color-primary-500;
+			color: white;
+		}
+	}
+
+	.c-disabled {
+		cursor: default;
+		opacity: 0.5;
+		pointer-events: none;
+		color: #7c7c7c;
+		&:hover {
+			background-color: variables.$color-gray-200 !important;
+		}
+	}
+}

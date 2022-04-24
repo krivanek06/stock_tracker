@@ -8,7 +8,7 @@ import { StfmStockScreenerInput } from '@core';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MarketSearchFormResultComponent implements OnInit {
-	@Input() stockScreener?: StfmStockScreenerInput | null = null;
+	@Input() stockScreener?: StfmStockScreenerInput | null;
 
 	constructor() {}
 

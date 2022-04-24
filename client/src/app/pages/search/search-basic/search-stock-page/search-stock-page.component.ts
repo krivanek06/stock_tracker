@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { componentDestroyed, GraphqlQueryService, StfmStockScreenerInput, StfmStockScreenerResultWrapper, waitFor } from '@core';
-import { IonInfiniteScroll } from '@ionic/angular';
 import { SymbolIdentification } from '@shared';
 import { WatchlistFeatureFacadeService } from '@stock-watchlist-feature';
-import { BehaviorSubject, Subject, switchMap, tap, withLatestFrom } from 'rxjs';
+import { BehaviorSubject, Subject, switchMap, withLatestFrom } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -13,13 +12,11 @@ import { takeUntil } from 'rxjs/operators';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchStockPageComponent implements OnInit, OnDestroy {
+	showLoader$: Subject<boolean> = new Subject<boolean>();
 	stockScreener$: Subject<StfmStockScreenerInput> = new Subject<StfmStockScreenerInput>();
-
-	limit = 50;
 	stockScreenerResult$: BehaviorSubject<StfmStockScreenerResultWrapper> = new BehaviorSubject<StfmStockScreenerResultWrapper>(
 		{} as StfmStockScreenerResultWrapper
 	);
-	@ViewChild(IonInfiniteScroll) infiniteScroll!: IonInfiniteScroll;
 	private offset$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
 	constructor(
@@ -28,18 +25,20 @@ export class SearchStockPageComponent implements OnInit, OnDestroy {
 		private cd: ChangeDetectorRef
 	) {}
 
+	get canShowMore(): boolean {
+		return this.stockScreenerResult$.value.found > this.stockScreenerResult$.value.result.length;
+	}
+
 	ngOnInit() {
 		this.resetScreenerResults();
-		//this.loadScreenerResultsFromMarketDailyOverview();
-		//this.listenOnOffsetChange();
-		this.toggleInfiniteScroll();
+		this.listenOnOffsetChange();
 	}
 
 	ngOnDestroy(): void {}
 	changedFormResult(stockScreener: StfmStockScreenerInput) {
-		//this.stockScreener = stockScreener;
 		console.log('stockScreener', stockScreener);
 		this.stockScreener$.next(stockScreener);
+		this.cd.detectChanges();
 	}
 
 	showSummarySymbol(symbolIdentification: SymbolIdentification) {
@@ -47,80 +46,28 @@ export class SearchStockPageComponent implements OnInit, OnDestroy {
 	}
 
 	filterResult() {
-		//this.offset = 0;
 		this.resetScreenerResults();
-		this.toggleInfiniteScroll();
 		this.offset$.next(0);
-
-		//this.loadData(null, 0);
 	}
 
-	changeOffset(event: any, offset: number): void {
-		//this.offset = this.offset + offset;
-		this.offset$.next(this.offset$.value + offset);
-		console.log('load', this.offset$, event);
-		// this.graphqlQueryService.queryStockScreener(this.stockScreener as StfmStockScreenerInput, this.offset, this.limit).subscribe((res) => {
-		// 	console.log(res);
-		// 	this.stockScreenerResult = this.stockScreenerResult
-		// 		? { ...this.stockScreenerResult, result: [...(this.stockScreenerResult.result || []), ...(res.result || [])] }
-		// 		: res;
-		// 	this.cd.detectChanges();
-
-		// 	if (event) {
-		// 		event.target.complete();
-		// 	}
-
-		// 	if (this.offset + this.limit > (this.stockScreenerResult.found || 0)) {
-		// 		this.toggleInfiniteScroll();
-		// 	}
-		// });
-	}
-
-	toggleInfiniteScroll(): void {
-		this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
+	onLoadMore(): void {
+		this.showLoader$.next(true);
+		this.offset$.next(this.offset$.value + 25);
 	}
 
 	private listenOnOffsetChange(): void {
 		this.offset$
 			.pipe(
-				tap((offset) => {
-					console.log('offset change', offset);
-				}),
 				waitFor(this.stockScreener$),
 				withLatestFrom(this.stockScreener$),
-				tap((offset) => {
-					console.log('offset  2222', offset);
-				}),
-				switchMap(([offset, stockScreener]) =>
-					this.graphqlQueryService.queryStockScreener(stockScreener as StfmStockScreenerInput, offset, this.limit)
-				),
+				switchMap(([offset, stockScreener]) => this.graphqlQueryService.queryStockScreener(stockScreener as StfmStockScreenerInput, offset, 50)),
 				takeUntil(componentDestroyed(this))
 			)
 			.subscribe((res) => {
 				console.log(res);
-				this.stockScreenerResult$.next({ ...this.stockScreenerResult$.value, ...res });
-				if (this.offset$.value + this.limit > res.found) {
-					this.toggleInfiniteScroll();
-				}
+				this.showLoader$.next(false);
+				this.stockScreenerResult$.next({ ...res, result: [...this.stockScreenerResult$.value.result, ...res.result] });
 			});
-		// this.offset$
-		// 	.pipe(
-		// 		tap((offset) => {
-		// 			console.log('offset change', offset);
-		// 		}),
-		// 		waitFor(this.stockScreener$),
-		// 		tap((offset) => {
-		// 			console.log('offset change 2222', offset);
-		// 		}),
-		// 		switchMap((offset) => this.graphqlQueryService.queryStockScreener(this.stockScreener as StfmStockScreenerInput, offset, this.limit)),
-		// 		takeUntil(componentDestroyed(this))
-		// 	)
-		// 	.subscribe((res) => {
-		// 		this.stockScreenerResult$.next({ ...this.stockScreenerResult$.value, ...res });
-		// 		if (this.offset$.value + this.limit > res.found) {
-		// 			this.toggleInfiniteScroll();
-		// 		}
-		// 	});
 	}
 
 	private resetScreenerResults(): void {
@@ -131,25 +78,4 @@ export class SearchStockPageComponent implements OnInit, OnDestroy {
 			result: [],
 		});
 	}
-
-	// private loadScreenerResultsFromMarketDailyOverview(): void {
-	// 	this.graphqlQueryService
-	// 		.queryMarketDailyOverview()
-	// 		.pipe(
-	// 			map((res) => {
-	// 				return {
-	// 					result: res.stockScreener,
-	// 					limit: this.limit,
-	// 					offset: 0,
-	// 					__typename: 'STFMStockScreenerResultWrapper',
-	// 				} as StfmStockScreenerResultWrapper;
-	// 			})
-	// 		)
-	// 		.subscribe((res) => {
-	// 			this.stockScreenerResult$.next({ ...this.stockScreenerResult$.value, ...res });
-	// 			//this.stockScreenerResult = res;
-	// 			this.toggleInfiniteScroll();
-	// 			//this.cd.detectChanges();
-	// 		});
-	// }
 }

@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule, Routes } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
 import { MarketSearchModule } from '@market-feature';
-import { GenericCardModule, GenericExtensionPanelModule, ListSkeletonModule } from '@shared';
+import { GenericExtensionPanelModule, ListSkeletonModule, MatCardWrapperModule } from '@shared';
 import { SearchStockPageComponent } from './search-stock-page.component';
 
 const routes: Routes = [
@@ -17,10 +18,11 @@ const routes: Routes = [
 	declarations: [SearchStockPageComponent],
 	imports: [
 		CommonModule,
-		IonicModule,
-		GenericCardModule,
+		MatTooltipModule,
+		MatCardWrapperModule,
 		MarketSearchModule,
 		ListSkeletonModule,
+		MatButtonModule,
 		GenericExtensionPanelModule,
 		RouterModule.forChild(routes),
 	],
