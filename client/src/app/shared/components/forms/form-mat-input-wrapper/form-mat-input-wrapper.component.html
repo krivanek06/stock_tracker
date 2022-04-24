@@ -7,67 +7,71 @@
 		<mat-form-field
 			*ngIf="!['CHECKBOX', 'RADIO', 'SLIDE_TOGGLE', 'SLIDER' ,'BUTTON'].includes(inputType); else fieldWhichCannotBeInFormField"
 			appearance="outline"
-			[ngClass]="{
-				'disabled-mat-form-field': disabled,
-				'ion-text-center': inputType === 'SLIDER',
-				'highlight-mat-form-field': highlightField
-			  }"
-			(click)="datePickerOpen()"
 		>
-			<mat-label class="st-font-1">
-				{{ inputCaption }}
-				<span *ngIf="inputType === 'SLIDER'" class="st-font-4">
-					: {{ usedFormControl.value | numberFormatter: false: sliderLabelShowDollarSign }}
-				</span>
-			</mat-label>
+			<!-- label -->
+			<mat-label> {{ inputCaption | translate }}</mat-label>
 
 			<!-- textarea -->
 			<textarea
 				#textAreaElement
 				*ngSwitchCase="'TEXTAREA'"
 				[formControl]="formInputControl"
-				cdkAutosizeMaxRows="8"
-				cdkAutosizeMinRows="4"
+				cdkAutosizeMaxRows="7"
+				cdkAutosizeMinRows="3"
 				cdkTextareaAutosize
 				matInput
 			>
 			</textarea>
 
-			<!-- select -->
-			<mat-select
-				*ngSwitchCase="'SELECT'"
-				[disableRipple]="disabled"
-				[formControl]="formInputControl"
-				[ngClass]="{'disabled-element': disabled}"
-				(selectionChange)="selectOption($event)"
-			>
-				<mat-select-trigger *ngIf="selectedInputSouce" class="flex">
-					<img *ngIf="selectedInputSouce?.image" [src]="selectedInputSouce?.image" alt="" class="mr-4" />
-					{{ selectedInputSouce.caption }}
-				</mat-select-trigger>
-				<mat-option *ngFor="let optionData of inputSource" [value]="optionData.value">
-					<div class="flex"><img *ngIf="optionData?.image" [src]="optionData.image" alt="" class="mr-4" /> {{ optionData.caption }}</div>
-				</mat-option>
-			</mat-select>
-
-			<!-- multi select -->
-			<mat-select
-				*ngSwitchCase="'MULTISELECT'"
-				[disableRipple]="disabled"
-				[formControl]="formInputControl"
-				[multiple]="true"
-				[ngClass]="{'disabled-element': disabled}"
-			>
-				<input (keyup)="multiSelectKeyPress($event)" class="select-input" placeholder="Search" />
-				<mat-option *ngFor="let optionData of inputSource" [value]="optionData.value"> {{ optionData.caption }} </mat-option>
-			</mat-select>
-
-			<!-- datepicker -->
-			<ng-container *ngSwitchCase="'DATEPICKER'">
-				<input [readonly]="disabled" matInput [matDatepicker]="formFieldDatePicker" [formControl]="formInputControl" autocomplete="off" />
-				<mat-datepicker #formFieldDatePicker [disabled]="disabled"></mat-datepicker>
+			<!-- select & multiselect and search select-->
+			<ng-container *ngSwitchCase="'SELECT'">
+				<ng-container *ngTemplateOutlet="selectTemplate"></ng-container>
+			</ng-container>
+			<ng-container *ngSwitchCase="'SELECTSEARCH'">
+				<ng-container *ngTemplateOutlet="selectTemplate"></ng-container>
+			</ng-container>
+			<ng-container *ngSwitchCase="'MULTISELECT'">
+				<ng-container *ngTemplateOutlet="selectTemplate"></ng-container>
 			</ng-container>
 
+			<ng-template #selectTemplate>
+				<mat-select
+					[disableRipple]="disabled"
+					[formControl]="formInputControl"
+					[ngClass]="{'disabled-element': disabled}"
+					(selectionChange)="selectOption($event)"
+					[multiple]="inputType === InputType.MULTISELECT"
+					(openedChange)="matSearchSelectInput?.nativeElement?.focus()"
+					(closed)="closedSearchSelect()"
+				>
+					<mat-select-trigger *ngIf="selectedInputSource" class="flex">
+						<img *ngIf="selectedInputSource?.image" [src]="selectedInputSource?.image" alt="" class="mr-4" />
+						{{ selectedInputSource.caption | translate }}
+					</mat-select-trigger>
+					<input
+						*ngIf="inputType === InputType.SELECTSEARCH || inputType === InputType.MULTISELECT"
+						#matSearchSelectInput
+						(keyup)="multiSelectKeyPress($event)"
+						class="select-input"
+						placeholder="Search"
+						tabindex="0"
+					/>
+					<mat-option *ngFor="let optionData of inputSource" [value]="optionData.value">
+						<div class="flex">
+							<img *ngIf="optionData?.image" [src]="optionData.image" alt="" class="mr-4" /> {{ optionData.caption | translate }}
+						</div>
+					</mat-option>
+				</mat-select>
+			</ng-template>
+
+			<!-- date picker -->
+			<ng-container *ngSwitchCase="'DATEPICKER'">
+				<div class="flex items-center">
+					<input matInput [matDatepicker]="picker" [formControl]="formInputControl" />
+					<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+					<mat-datepicker #picker></mat-datepicker>
+				</div>
+			</ng-container>
 			<!-- text, number, time, email -->
 			<input
 				#defaultElement
@@ -83,9 +87,7 @@
 			<mat-error *ngFor="let inputError of usedFormControl.errors | keyvalue" [id]="''"> {{ inputError.value.errorText }} </mat-error>
 
 			<!-- hint -->
-			<mat-icon *ngIf="hintText" [matTooltip]="hintText" class="helper-text-tooltip-icon" matSuffix matTooltipClass="form-input-tooltip">
-				help_outline
-			</mat-icon>
+			<mat-icon *ngIf="hintText" [matTooltip]="hintText | translate" class="helper-text-tooltip-icon" matSuffix> help_outline </mat-icon>
 
 			<!-- postfix close icon -->
 			<button *ngIf="showCloseIcon && inputType === 'TEXT' " matSuffix mat-icon-button aria-label="Clear" (click)="resetValue()">
@@ -100,9 +102,11 @@
 		<ng-template #fieldWhichCannotBeInFormField>
 			<div class="not-form-field-inputs">
 				<!-- button -->
-				<div *ngSwitchCase="'BUTTON'" class="w-full">
-					<button *ngIf="!!formInputControl.value" mat-flat-button color="accent" class="w-full" (click)="toggleButton()">{{ inputCaption }}</button>
-					<button *ngIf="!formInputControl.value" mat-flat-button color="warn" class="w-full" (click)="toggleButton()">{{buttonOffCaption}}</button>
+				<div *ngSwitchCase="'BUTTON'" class="w-full mb-2" [matTooltip]="hintText || ''">
+					<button mat-flat-button [color]="formInputControl.value ? 'accent' : 'warn'" class="w-full" (click)="toggleButton()" type="button">
+						<mat-icon *ngIf="prefixIcon">{{ prefixIcon }}</mat-icon>
+						{{ (!!formInputControl.value ? inputCaption : inputCaptionOff ) | translate }}
+					</button>
 				</div>
 
 				<!-- checkbox -->
@@ -110,13 +114,10 @@
 					*ngSwitchCase="'CHECKBOX'"
 					[disableRipple]="disabled"
 					[formControl]="formInputControl"
-					[matTooltip]="hintText ? hintText : ''"
+					[matTooltip]="hintText ? (hintText | translate) : null"
 					[ngClass]="{'disabled-element': disabled}"
-					color="primary"
-					matTooltipClass="form-input-tooltip"
-					[checked]="formInputControl.value"
 				>
-					{{ inputCaption }}
+					{{ (!!formInputControl.value || !inputCaptionOff ? inputCaption : inputCaptionOff) | translate }}
 				</mat-checkbox>
 
 				<!-- slide toggle -->
@@ -127,28 +128,28 @@
 					[formControl]="formInputControl"
 					[ngClass]="{'disabled-element': disabled}"
 				>
-					{{ inputCaption }}
+					{{ (!!formInputControl.value || !inputCaptionOff ? inputCaption : inputCaptionOff) | translate }}
 				</mat-slide-toggle>
 
 				<!-- slider -->
 				<div *ngSwitchCase="'SLIDER'" class="flex flex-col items-center">
 					<div class="flex items-center gap-4">
 						<!-- hint -->
-						<mat-icon *ngIf="hintText" [matTooltip]="hintText" class="helper-text-tooltip-icon" matSuffix matTooltipClass="form-input-tooltip">
-							help_outline
-						</mat-icon>
-						<span>{{ inputCaption }}: {{ formInputControl.value }}</span>
+						<mat-icon *ngIf="hintText" [matTooltip]="hintText | translate" class="helper-text-tooltip-icon" matSuffix> help_outline </mat-icon>
+						<span *ngIf="inputCaption">{{ inputCaption | translate }}: {{ inputTypeSliderConfig.displayValue }}</span>
 					</div>
 
 					<mat-slider
-						class="w-full -mt-3"
+						class="w-full"
+						[class.c-slider-always-visible]="!inputCaption"
 						thumbLabel
 						tickInterval="1"
 						color="primary"
-						[value]="formInputControl.value"
+						[value]="inputTypeSliderConfig.value"
 						[step]="inputTypeSliderConfig.step"
 						[min]="inputTypeSliderConfig.min"
 						[max]="inputTypeSliderConfig.max"
+						[displayWith]="inputTypeSliderConfig.thumbNailFormatter ? inputTypeSliderConfig.thumbNailFormatter : DEFAULT_THUMBNAIL_FORMATTER"
 						aria-label="units"
 						(change)="setSliderValue($event)"
 					></mat-slider>
@@ -157,27 +158,24 @@
 				<!-- radio button -->
 				<ng-container *ngSwitchCase="'RADIO'">
 					<!-- label -->
-					<mat-label class="font-bold"> {{ inputCaption }}</mat-label>
+					<mat-label class="font-bold"> {{ inputCaption | translate }}</mat-label>
 
 					<mat-radio-group
 						[formControl]="formInputControl"
-						[matTooltip]="hintText ? hintText : ''"
+						[matTooltip]="hintText ? (hintText | translate) : null"
 						[ngClass]="{'disabled-element': disabled}"
 						class="flex flex-col mt-4"
-						matTooltipClass="form-input-tooltip"
 					>
-						<mat-radio-button *ngFor="let optionData of inputSource" [value]="optionData.value"> {{ optionData.caption }} </mat-radio-button>
+						<mat-radio-button *ngFor="let optionData of inputSource" [value]="optionData.value">
+							{{ optionData.caption | translate }}
+						</mat-radio-button>
 					</mat-radio-group>
 				</ng-container>
-				<ng-container *ngTemplateOutlet="errorContainer"></ng-container>
+				<!-- errors -->
+				<ng-container *ngIf="shouldBeErrorsShowed">
+					<mat-error *ngFor="let inputError of usedFormControl.errors | keyvalue" [id]="''"> {{ inputError.value.errorText }} </mat-error>
+				</ng-container>
 			</div>
 		</ng-template>
 	</ng-container>
 </fieldset>
-
-<!-- errors -->
-<ng-template #errorContainer>
-	<ng-container *ngIf="shouldBeErrorsShowed">
-		<mat-error *ngFor="let inputError of usedFormControl.errors | keyvalue" [id]="''"> {{ inputError.value.errorText }} </mat-error>
-	</ng-container>
-</ng-template>

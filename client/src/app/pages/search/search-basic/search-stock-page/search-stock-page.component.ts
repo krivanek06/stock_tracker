@@ -12,7 +12,7 @@ import { takeUntil } from 'rxjs/operators';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchStockPageComponent implements OnInit, OnDestroy {
-	showLoader$: Subject<boolean> = new Subject<boolean>();
+	showLoader$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 	stockScreener$: Subject<StfmStockScreenerInput> = new Subject<StfmStockScreenerInput>();
 	stockScreenerResult$: BehaviorSubject<StfmStockScreenerResultWrapper> = new BehaviorSubject<StfmStockScreenerResultWrapper>(
 		{} as StfmStockScreenerResultWrapper

@@ -43,29 +43,6 @@ fieldset {
 	color: white !important;
 }
 
-.filterer-chips-autocomplete-panel {
-	mat-option.mat-option {
-		height: auto !important;
-		padding: 8px 16px !important;
-		line-height: normal !important;
-
-		.mat-option-text {
-			.suggestion-country-flag {
-				width: 19px !important;
-				margin-right: 5px !important;
-				margin-top: -2px !important;
-			}
-		}
-	}
-}
-
-.form-input-tooltip {
-	font-size: 14px !important;
-	margin: 3px !important;
-	padding: 8px !important;
-	position: relative !important;
-}
-
 .errors-showed {
 	margin-bottom: 6px !important;
 }

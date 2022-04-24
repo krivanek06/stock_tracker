@@ -2,10 +2,7 @@
 	<!-- form control -->
 	<app-form-mat-input-lock-wrapper
 		[showChangeInput]="true"
-		[sliderLabelShowDollarSign]="true"
-		[sliderMaxValue]="2000"
-		[sliderMinValue]="1"
-		[sliderStepValue]="1"
+		[inputTypeSliderConfig]="marketSearchFormConfig.price"
 		changeInputTo="NUMBER"
 		controlName="priceMoreThan"
 		inputCaption="Price more than"
@@ -15,10 +12,7 @@
 	<!-- form control -->
 	<app-form-mat-input-lock-wrapper
 		[showChangeInput]="true"
-		[sliderLabelShowDollarSign]="true"
-		[sliderMaxValue]="2000"
-		[sliderMinValue]="1"
-		[sliderStepValue]="1"
+		[inputTypeSliderConfig]="marketSearchFormConfig.price"
 		changeInputTo="NUMBER"
 		controlName="priceLowerThan"
 		inputCaption="Price lower than"
@@ -28,9 +22,7 @@
 	<!-- form control -->
 	<app-form-mat-input-lock-wrapper
 		[showChangeInput]="true"
-		[sliderMaxValue]="1000000000000"
-		[sliderMinValue]="1000000"
-		[sliderStepValue]="1000000"
+		[inputTypeSliderConfig]="marketSearchFormConfig.marketCap"
 		changeInputTo="NUMBER"
 		controlName="marketCapMoreThan"
 		inputCaption="Market cap. more than"
@@ -40,9 +32,7 @@
 	<!-- form control -->
 	<app-form-mat-input-lock-wrapper
 		[showChangeInput]="true"
-		[sliderMaxValue]="500000000000"
-		[sliderMinValue]="1000000"
-		[sliderStepValue]="1000000"
+		[inputTypeSliderConfig]="marketSearchFormConfig.marketCap"
 		changeInputTo="NUMBER"
 		controlName="marketCapLowerThan"
 		inputCaption="Market cap. lower than"
@@ -52,9 +42,7 @@
 	<!-- form control -->
 	<app-form-mat-input-lock-wrapper
 		[showChangeInput]="true"
-		[sliderMaxValue]="50000000"
-		[sliderMinValue]="100000"
-		[sliderStepValue]="100000"
+		[inputTypeSliderConfig]="marketSearchFormConfig.volume"
 		changeInputTo="NUMBER"
 		controlName="volumeMoreThan"
 		inputCaption="Volume more than"
@@ -64,9 +52,7 @@
 	<!-- form control -->
 	<app-form-mat-input-lock-wrapper
 		[showChangeInput]="true"
-		[sliderMaxValue]="50000000"
-		[sliderMinValue]="100000"
-		[sliderStepValue]="100000"
+		[inputTypeSliderConfig]="marketSearchFormConfig.volume"
 		changeInputTo="NUMBER"
 		controlName="volumeLowerThan"
 		inputCaption="Volume lower than"
@@ -76,9 +62,7 @@
 	<!-- form control -->
 	<app-form-mat-input-lock-wrapper
 		[showChangeInput]="true"
-		[sliderMaxValue]="2"
-		[sliderMinValue]="0.1"
-		[sliderStepValue]="0.1"
+		[inputTypeSliderConfig]="marketSearchFormConfig.beta"
 		changeInputTo="NUMBER"
 		controlName="betaMoreThan"
 		inputCaption="Beta more than"
@@ -88,9 +72,7 @@
 	<!-- form control -->
 	<app-form-mat-input-lock-wrapper
 		[showChangeInput]="true"
-		[sliderMaxValue]="2"
-		[sliderMinValue]="0.1"
-		[sliderStepValue]="0.1"
+		[inputTypeSliderConfig]="marketSearchFormConfig.beta"
 		changeInputTo="NUMBER"
 		controlName="betaLowerThan"
 		inputCaption="Beta lower than"
@@ -100,10 +82,7 @@
 	<!-- form control -->
 	<app-form-mat-input-lock-wrapper
 		[showChangeInput]="true"
-		[sliderLabelShowDollarSign]="true"
-		[sliderMaxValue]="2"
-		[sliderMinValue]="0.01"
-		[sliderStepValue]="0.01"
+		[inputTypeSliderConfig]="marketSearchFormConfig.dividend"
 		changeInputTo="NUMBER"
 		controlName="dividendMoreThan"
 		inputCaption="Dividend more than"
@@ -113,10 +92,7 @@
 	<!-- form control -->
 	<app-form-mat-input-lock-wrapper
 		[showChangeInput]="true"
-		[sliderLabelShowDollarSign]="true"
-		[sliderMaxValue]="2"
-		[sliderMinValue]="0.01"
-		[sliderStepValue]="0.01"
+		[inputTypeSliderConfig]="marketSearchFormConfig.dividend"
 		changeInputTo="NUMBER"
 		controlName="dividendLowerThan"
 		inputCaption="Dividend lower than"
@@ -134,7 +110,6 @@
 	<!-- form control -->
 	<app-form-mat-input-lock-wrapper
 		[inputSource]="marketSearchIndustriesInputSource"
-		[sliderLabelShowDollarSign]="true"
 		controlName="industry"
 		inputCaption="Industry filter"
 		inputType="SELECT"
@@ -143,7 +118,6 @@
 	<!-- form control -->
 	<app-form-mat-input-lock-wrapper
 		[inputSource]="marketSearchExchangesInputSource"
-		[sliderLabelShowDollarSign]="true"
 		controlName="exchange"
 		inputCaption="Exchange filter"
 		inputType="SELECT"
@@ -169,7 +143,6 @@
 	<!-- form control -->
 	<app-form-mat-input-lock-wrapper
 		[inputSource]="marketSearchCountriesInputSource"
-		[sliderLabelShowDollarSign]="true"
 		controlName="country"
 		inputCaption="Country filter"
 		inputType="SELECT"

@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import {
 	DefaultImgDirectiveModule,
 	FormMatInputLockWrapperModule,
+	FormMatInputWrapperModule,
 	ListSkeletonModule,
 	NumberFormatterPipeModule,
 	PriceChangeItemModule,
@@ -29,6 +30,7 @@ import { MarketSearchTableComponent } from './market-search-table/market-search-
 		ListSkeletonModule,
 		MatIconModule,
 		FormMatInputLockWrapperModule,
+		FormMatInputWrapperModule,
 		ReactiveFormsModule,
 		SplitPipeModule,
 		DefaultImgDirectiveModule,

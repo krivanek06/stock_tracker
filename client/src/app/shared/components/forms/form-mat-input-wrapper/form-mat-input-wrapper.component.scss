@@ -1,0 +1,138 @@
+@use 'custom-variables' as variables;
+
+:host ::ng-deep {
+	.disabled-element {
+		opacity: 0.55;
+		cursor: default;
+	}
+
+	fieldset {
+		clear: both;
+
+		&:disabled {
+			cursor: not-allowed;
+			pointer-events: none;
+
+			mat-form-field .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-outline {
+				background: #e3e3e3;
+				border-radius: 8px;
+			}
+
+			div div button {
+				background: #e3e3e3;
+				color: variables.$color-gray-500;
+			}
+		}
+	}
+
+	.errors-showed {
+		margin-bottom: 6px;
+	}
+
+	mat-form-field.mat-form-field {
+		width: 100%;
+		margin-bottom: 4px;
+
+		.mat-form-field-wrapper {
+			padding-bottom: 0;
+
+			.mat-form-field-subscript-wrapper {
+				position: relative;
+			}
+		}
+
+		.mat-form-field-flex {
+			.mat-form-field-suffix {
+				.helper-text-tooltip-icon {
+					font-size: 18px;
+					cursor: pointer;
+					margin-left: 6px;
+				}
+			}
+		}
+	}
+
+	.not-form-field-inputs {
+		margin-bottom: 4px;
+	}
+
+	.mat-radio-group {
+		display: flex;
+		flex-direction: column;
+
+		.mat-radio-button {
+			.mat-radio-label {
+				margin-bottom: 7px;
+
+				.mat-radio-container {
+					.mat-radio-inner-circle {
+						background-color: variables.$color-success-500;
+					}
+
+					.mat-radio-outer-circle {
+						border-color: rgba(0, 0, 0, 0.4);
+					}
+				}
+
+				.mat-radio-label-content {
+					font-weight: normal;
+					letter-spacing: 0.3px;
+				}
+			}
+
+			&.mat-radio-checked {
+				.mat-radio-label {
+					.mat-radio-container {
+						.mat-radio-outer-circle {
+							border-color: variables.$color-success-500;
+						}
+					}
+				}
+			}
+		}
+
+		&.input-radio-group {
+			.mat-radio-button:last-child {
+				.mat-radio-label {
+					margin-bottom: 2px;
+				}
+			}
+		}
+	}
+
+	.c-slider-always-visible {
+		.mat-slider-thumb-label {
+			transform: rotate(45deg) !important;
+			border-radius: 50% 50% 0 !important;
+		}
+
+		.mat-slider-thumb {
+			transform: scale(0) !important;
+		}
+
+		.mat-slider-thumb-label-text {
+			opacity: 1 !important;
+		}
+
+		margin-top: 1rem;
+	}
+}
+
+.select-input {
+	width: 100%;
+	height: 30px;
+	padding: 17px;
+	border: 1px solid gainsboro;
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+	background-color: variables.$color-primary-500 !important; /*inner circle color change*/
+}
+
+::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+	border-color: variables.$color-primary-500 !important; /*outer ring color change*/
+}
+
+::ng-deep .mat-form-field-label {
+	color: variables.$color-secondary-400 !important;
+}
