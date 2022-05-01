@@ -8,11 +8,72 @@ export interface SheetDataContainer<T extends StockDetailsSheetType> {
 	isPercent?: boolean;
 }
 
-// TODO
-export const IncomeStatementSheetDataContainer: SheetDataContainer<StfmIncomeStatementFragmentFragment>[] = [];
+export const IncomeStatementSheetDataContainer: SheetDataContainer<StfmIncomeStatementFragmentFragment>[] = [
+	{ name: 'Revenue', data: 'revenue' },
 
-// TODO
-export const CashFlowSheetDataContainer: SheetDataContainer<StfmCashFlowFragmentFragment>[] = [];
+	// income
+	{ name: 'Gross profit', data: 'grossProfit' },
+	{ name: 'Gross profit ratio', data: 'grossProfitRatio' },
+	{ name: 'Income before tax', data: 'incomeBeforeTax' },
+	{ name: 'Income before tax ratio', data: 'incomeBeforeTaxRatio' },
+	{ name: 'Income tax expense', data: 'incomeTaxExpense' },
+	{ name: 'Income interest', data: 'interestIncome' },
+	{ name: 'Income (net)', data: 'netIncome' },
+	{ name: 'Income (net) ratio', data: 'netIncomeRatio' },
+	{ name: 'Income operating', data: 'operatingIncome' },
+	{ name: 'Income operating ratio', data: 'operatingIncomeRatio' },
+
+	// cost
+	{ name: 'Cost of revenue', data: 'costOfRevenue' },
+	{ name: 'Cost and expenses', data: 'costAndExpenses' },
+	{ name: 'General and administrative expenses', data: 'generalAndAdministrativeExpenses' },
+	{ name: 'Interest expense', data: 'interestExpense' },
+	{ name: 'Operating expenses', data: 'operatingExpenses' },
+	{ name: 'Research and development expenses', data: 'researchAndDevelopmentExpenses' },
+	{ name: 'Other expenses', data: 'otherExpenses' },
+	{ name: 'Other income expense', data: 'totalOtherIncomeExpensesNet' },
+	{ name: 'Selling and marketing expenses', data: 'sellingAndMarketingExpenses' },
+	{ name: 'Selling general and administrative expenses', data: 'sellingGeneralAndAdministrativeExpenses' },
+	{ name: 'Depreciation and amortization', data: 'depreciationAndAmortization' },
+
+	// other
+	{ name: 'EBITDA', data: 'ebitda' },
+	{ name: 'EBITDA ratio', data: 'ebitdaratio' },
+	{ name: 'EPS', data: 'eps' },
+	{ name: 'EPS diluted', data: 'epsdiluted' },
+	{ name: 'Shares outstanding', data: 'weightedAverageShsOut' },
+];
+
+export const CashFlowSheetDataContainer: SheetDataContainer<StfmCashFlowFragmentFragment>[] = [
+	{ name: 'Accounts payables', data: 'accountsPayables' },
+	{ name: 'Accounts receivables', data: 'accountsReceivables' },
+	{ name: 'Acquisitions', data: 'acquisitionsNet' },
+	{ name: 'Operating activities', data: 'netCashProvidedByOperatingActivities' },
+	{ name: 'Investing activities', data: 'netCashUsedForInvestingActivites' },
+	{ name: 'Investing activities (other)', data: 'otherInvestingActivites' },
+	{ name: 'Financing activities', data: 'netCashUsedProvidedByFinancingActivities' },
+	{ name: 'Financial activities (other)', data: 'otherFinancingActivites' },
+	{ name: 'Change in cash', data: 'netChangeInCash' },
+	{ name: 'Net income', data: 'netIncome' },
+	{ name: 'Free cash flow', data: 'freeCashFlow' },
+	{ name: 'Cash at beginning', data: 'cashAtBeginningOfPeriod' },
+	{ name: 'Cash at end', data: 'cashAtEndOfPeriod' },
+	{ name: 'Stock based compensation', data: 'stockBasedCompensation' },
+	{ name: 'Common stock issued', data: 'commonStockIssued' },
+	{ name: 'Common stock repurchased', data: 'commonStockRepurchased' },
+	{ name: 'Capital expenditure', data: 'capitalExpenditure' },
+	{ name: 'Working capital (change)', data: 'changeInWorkingCapital' },
+	{ name: 'Working capital (other)', data: 'otherWorkingCapital' },
+	{ name: 'Debt repayment', data: 'debtRepayment' },
+	{ name: 'Deferred income tax', data: 'deferredIncomeTax' },
+	{ name: 'Depreciation and amortization', data: 'depreciationAndAmortization' },
+	{ name: 'Dividends paid', data: 'dividendsPaid' },
+	{ name: 'Inventory', data: 'inventory' },
+	{ name: 'Sales maturities of investments', data: 'salesMaturitiesOfInvestments' },
+	{ name: 'Purchases of investments', data: 'purchasesOfInvestments' },
+	{ name: 'Investments in property plant and equipment', data: 'investmentsInPropertyPlantAndEquipment' },
+	{ name: 'Non cash items (other)', data: 'otherNonCashItems' },
+];
 
 export const BalanceSheetDataContainer: SheetDataContainer<StfmBalanceSheetFragmentFragment>[] = [
 	{ name: 'Account payables', data: 'accountPayables' },
@@ -55,10 +116,12 @@ export const BalanceSheetDataContainer: SheetDataContainer<StfmBalanceSheetFragm
 	{ name: 'Other total stockholders equity', data: 'othertotalStockholdersEquity' },
 	{ name: 'Property plant equipment net', data: 'propertyPlantEquipmentNet' },
 
+	// tax
 	{ name: 'Tax assets', data: 'taxAssets' },
 	{ name: 'Tax payables', data: 'taxPayables' },
 	{ name: 'Retained earnings', data: 'retainedEarnings' },
 
+	// other
 	{ name: 'Common stock', data: 'commonStock' },
 	{ name: 'Minority interest', data: 'minorityInterest' },
 	{ name: 'Net receivables', data: 'netReceivables' },

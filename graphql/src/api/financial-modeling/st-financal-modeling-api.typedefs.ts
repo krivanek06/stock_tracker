@@ -215,7 +215,7 @@ export const STFinancialModelingAPITypeDefs = gql`
 	}
 
 	type STFMIncomeStatement {
-		acceptedDate: String
+		acceptedDate: String!
 		costAndExpenses: Float
 		costOfRevenue: Float
 		date: String
@@ -232,6 +232,7 @@ export const STFinancialModelingAPITypeDefs = gql`
 		incomeBeforeTax: Float
 		incomeBeforeTaxRatio: Float
 		incomeTaxExpense: Float
+		interestIncome: Float
 		interestExpense: Float
 		link: String
 		netIncome: Float
@@ -240,7 +241,7 @@ export const STFinancialModelingAPITypeDefs = gql`
 		operatingIncome: Float
 		operatingIncomeRatio: Float
 		otherExpenses: Float
-		period: String
+		period: String!
 		reportedCurrency: String
 		researchAndDevelopmentExpenses: Float
 		revenue: Float
@@ -253,7 +254,7 @@ export const STFinancialModelingAPITypeDefs = gql`
 	}
 
 	type STFMCashFlow {
-		acceptedDate: String
+		acceptedDate: String!
 		accountsPayables: Float
 		accountsReceivables: Float
 		acquisitionsNet: Float
@@ -285,7 +286,7 @@ export const STFinancialModelingAPITypeDefs = gql`
 		otherInvestingActivites: Float
 		otherNonCashItems: Float
 		otherWorkingCapital: Float
-		period: String
+		period: String!
 		purchasesOfInvestments: Float
 		reportedCurrency: String
 		salesMaturitiesOfInvestments: Float
@@ -294,7 +295,7 @@ export const STFinancialModelingAPITypeDefs = gql`
 	}
 
 	type STFMBalanceSheet {
-		acceptedDate: String
+		acceptedDate: String!
 		accountPayables: Float
 		accumulatedOtherComprehensiveIncomeLoss: Float
 		capitalLeaseObligations: Float
@@ -326,7 +327,7 @@ export const STFinancialModelingAPITypeDefs = gql`
 		otherNonCurrentAssets: Float
 		otherNonCurrentLiabilities: Float
 		othertotalStockholdersEquity: Float
-		period: String
+		period: String!
 		propertyPlantEquipmentNet: Float
 		reportedCurrency: String
 		retainedEarnings: Float

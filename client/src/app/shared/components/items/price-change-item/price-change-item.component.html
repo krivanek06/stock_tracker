@@ -15,7 +15,7 @@
 
 		<!-- percentage -->
 		<div
-			*ngIf="priceChange; else showNA"
+			*ngIf="priceChange"
 			[ngClass]="{
 				'g-color-success': priceChange && priceChange > 0,
 				'g-color-danger': priceChange && priceChange < 0
@@ -33,9 +33,9 @@
 		</div>
 
 		<!-- N/A -->
-		<ng-template #showNA>
+		<!-- <ng-template #showNA>
 			<span>N/A</span>
-		</ng-template>
+		</ng-template> -->
 
 		<!-- price - position right -->
 		<div *ngIf="showPrice && price && (pricePosition === 'right' || pricePosition === 'bottom')" [class]="classText">

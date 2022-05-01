@@ -142,3 +142,29 @@ mat-checkbox {
 	padding-left: 16px !important;
 	width: 100% !important;
 }
+
+.mat-tab-label {
+	color: white;
+}
+
+.mat-tab-label-container {
+	display: flex;
+	flex-grow: 1;
+	overflow: hidden;
+	z-index: 1;
+	overflow-x: scroll !important;
+}
+
+a {
+	color: white !important;
+}
+
+.mat-tab-body-wrapper {
+	margin-top: 12px !important;
+}
+
+mat-tab-header {
+	button {
+		display: none !important;
+	}
+}

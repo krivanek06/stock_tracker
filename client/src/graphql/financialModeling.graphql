@@ -127,6 +127,7 @@ fragment STFMIncomeStatementFragment on STFMIncomeStatement {
 	incomeBeforeTaxRatio
 	incomeTaxExpense
 	interestExpense
+	interestIncome
 	link
 	netIncome
 	netIncomeRatio
