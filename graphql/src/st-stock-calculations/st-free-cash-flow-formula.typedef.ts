@@ -4,7 +4,7 @@ export const STFreeCashFlowFormulaTypeDefs = gql`
 		avgFcf: Float!
 		estimatedIntrinsicMarketCap: Float!
 		estimatedIntrinsicValue: Float!
-		historicalYears: [String!]
+		historicalYears: [String!]!
 		minimumRateReturn: Float!
 		capitalExpenditures: [Float!]!
 		operatingActivities: [Float!]!

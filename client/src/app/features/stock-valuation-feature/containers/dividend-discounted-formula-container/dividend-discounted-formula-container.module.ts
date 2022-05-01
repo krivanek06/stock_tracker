@@ -1,18 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {DividendDiscountedFormulaContainerComponent} from "./dividend-discounted-formula-container.component";
-import {IonicModule} from "@ionic/angular";
-import {GenericCardModule} from "@shared";
-
-
+import { NgModule } from '@angular/core';
+import { MatCardWrapperModule } from '@shared';
+import { DividendDiscountedFormulaContainerComponent } from './dividend-discounted-formula-container.component';
 
 @NgModule({
-  declarations: [DividendDiscountedFormulaContainerComponent],
-  imports: [
-    CommonModule,
-    IonicModule,
-    GenericCardModule
-  ],
-  exports: [DividendDiscountedFormulaContainerComponent]
+	declarations: [DividendDiscountedFormulaContainerComponent],
+	imports: [CommonModule, MatCardWrapperModule],
+	exports: [DividendDiscountedFormulaContainerComponent],
 })
-export class DividendDiscountedFormulaContainerModule { }
+export class DividendDiscountedFormulaContainerModule {}

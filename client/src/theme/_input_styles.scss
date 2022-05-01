@@ -163,8 +163,16 @@ a {
 	margin-top: 12px !important;
 }
 
+.mat-grid-tile-content {
+	justify-content: start !important;
+}
+
 mat-tab-header {
 	button {
 		display: none !important;
 	}
+}
+
+mat-divider {
+	background: #{$st-light-blue-border};
 }
