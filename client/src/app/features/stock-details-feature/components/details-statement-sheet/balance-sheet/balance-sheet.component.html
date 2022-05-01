@@ -1,0 +1,49 @@
+<app-mat-card-wrapper [title]="sheetTitle" class="hidden md:table">
+	<!-- balance sheet -->
+	<ng-container>
+		<!-- dates to display -->
+		<div class="grid grid-cols-6">
+			<div></div>
+			<div *ngFor="let data of balanceSheet; let i = index;" class="pl-3">{{ data.period }} {{ data.acceptedDate | date: 'YYYY' }}</div>
+		</div>
+
+		<!-- rows to display -->
+		<div *ngFor="let data of BalanceSheetDataContainer" class="grid grid-cols-6 g-data-item-wrapper">
+			<div>{{ data.name }}</div>
+			<!-- actual data to display -->
+			<div *ngFor="let _ of [].constructor(balanceSheet.length); let i = index; let last = last">
+				<app-price-change-item
+					[isPercent]="data.isPercent"
+					[priceChange]="last ? null : balanceSheet[i][data.data] | increasePrct:  balanceSheet[i+1][data.data]"
+					[price]="balanceSheet[i][data.data]"
+					[pricePosition]="pricePositionBreakPoint? 'top' : 'left'"
+					[showNAIfPriceZero]="true"
+				>
+				</app-price-change-item>
+			</div>
+		</div>
+	</ng-container>
+</app-mat-card-wrapper>
+
+<!-- small screen, SLIDING CARDS -->
+<mat-tab-group class="flex md:hidden" dynamicHeight mat-stretch-tabs color="primary">
+	<mat-tab *ngFor="let data of balanceSheet; let i = index; let last = last" [label]="data.period + ' ' + ( data.acceptedDate | date: 'YYYY' )">
+		<app-mat-card-wrapper [title]="sheetTitle + ': ' + data.period + ' ' + ( data.acceptedDate | date: 'YYYY' )">
+			<div *ngFor="let dataContainer of BalanceSheetDataContainer" class="g-data-item-wrapper">
+				<div class="flex justify-between gap-4">
+					<div class="text-gray-200 flex-1">{{ dataContainer.name }}</div>
+					<div class="flex-1 flex justify-end">
+						<app-price-change-item
+							[isPercent]="dataContainer.isPercent"
+							[priceChange]="last ? null : balanceSheet[i][dataContainer.data] | increasePrct:  balanceSheet[i+1][dataContainer.data]"
+							[price]="balanceSheet[i][dataContainer.data]"
+							[pricePosition]="pricePositionBreakPointMobile ? 'top' : 'left'"
+							[showNAIfPriceZero]="true"
+						>
+						</app-price-change-item>
+					</div>
+				</div>
+			</div>
+		</app-mat-card-wrapper>
+	</mat-tab>
+</mat-tab-group>

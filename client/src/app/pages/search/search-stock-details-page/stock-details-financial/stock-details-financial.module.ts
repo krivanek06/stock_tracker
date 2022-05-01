@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { SharedModule } from '@shared';
 import { DetailsStatementSheetModule } from '@stock-details-feature';
-import { FinancialStatementsContainerComponent } from './containers';
 import { StockDetailsFinancialComponent } from './stock-details-financial.component';
 
 const routes: Routes = [
@@ -15,7 +14,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-	declarations: [StockDetailsFinancialComponent, FinancialStatementsContainerComponent],
+	declarations: [StockDetailsFinancialComponent],
 	imports: [CommonModule, RouterModule.forChild(routes), IonicModule, DetailsStatementSheetModule, SharedModule],
 })
 export class StockDetailsFinancialModule {}

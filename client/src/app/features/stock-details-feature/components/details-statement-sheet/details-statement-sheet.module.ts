@@ -1,6 +1,8 @@
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 import { IonicModule } from '@ionic/angular';
 import {
 	GenericCardModule,
@@ -11,10 +13,11 @@ import {
 	SplitKeyToTitlecasePipeModule,
 	TypeofPipeModule,
 } from '@shared';
-import { DetailsStatementSheetComponent } from './details-statement-sheet.component';
-
+import { BalanceSheetComponent } from './balance-sheet/balance-sheet.component';
+import { CashFlowComponent } from './cash-flow/cash-flow.component';
+import { IncomeStatementComponent } from './income-statement/income-statement.component';
 @NgModule({
-	declarations: [DetailsStatementSheetComponent],
+	declarations: [BalanceSheetComponent, IncomeStatementComponent, CashFlowComponent],
 	imports: [
 		CommonModule,
 		TypeofPipeModule,
@@ -26,7 +29,9 @@ import { DetailsStatementSheetComponent } from './details-statement-sheet.compon
 		SplitKeyToTitlecasePipeModule,
 		MatTableModule,
 		MatCardWrapperModule,
+		MatTabsModule,
+		ScrollingModule,
 	],
-	exports: [DetailsStatementSheetComponent],
+	exports: [BalanceSheetComponent, IncomeStatementComponent, CashFlowComponent],
 })
 export class DetailsStatementSheetModule {}

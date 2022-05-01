@@ -9,18 +9,64 @@
 </div>
 
 <app-loader-wrapper>
-	<!-- <app-financial-statements-container *ngIf="stockDetails$ | async as details" [activeStatement]="activeStatement" [stockDetails]="details">
-
-	</app-financial-statements-container> -->
-
 	<div *ngIf="stockDetails$ | async as details" class="flex flex-col gap-6">
-		<!-- balance sheet -->
-		<ng-container *ngIf="activeStatement === STATEMENT_TYPE.BALANCE_SHEET">
-			<app-details-statement-sheet [balanceSheet]="details.companyOutlook.financialsQuarter?.balance || []" sheetTitle="Balance sheet quarterly">
-			</app-details-statement-sheet>
+		<ng-container [ngSwitch]="activeStatement">
+			<!-- balance sheet -->
+			<ng-container *ngSwitchCase="STATEMENT_TYPE.BALANCE_SHEET">
+				<app-balance-sheet
+					sheetTitle="Balance sheet quarterly"
+					[balanceSheet]="details.companyOutlook.financialsQuarter?.balance || []"
+					[pricePositionBreakPoint]="pricePositionBreakPoint$ | async"
+					[pricePositionBreakPointMobile]="pricePositionBreakPointMobile$ | async"
+				>
+				</app-balance-sheet>
 
-			<app-details-statement-sheet [balanceSheet]="details.companyOutlook.financialsAnnual?.balance || []" sheetTitle="Balance sheet yearly">
-			</app-details-statement-sheet>
+				<app-balance-sheet
+					sheetTitle="Balance sheet yearly"
+					[balanceSheet]="details.companyOutlook.financialsAnnual?.balance || []"
+					[pricePositionBreakPoint]="pricePositionBreakPoint$ | async"
+					[pricePositionBreakPointMobile]="pricePositionBreakPointMobile$ | async"
+				>
+				</app-balance-sheet>
+			</ng-container>
+
+			<!-- cash flow -->
+			<ng-container *ngSwitchCase="STATEMENT_TYPE.CASH_FLOW">
+				<app-cash-flow
+					sheetTitle="Cash flow quarterly"
+					[cashFlow]="details.companyOutlook.financialsQuarter?.cash || []"
+					[pricePositionBreakPoint]="pricePositionBreakPoint$ | async"
+					[pricePositionBreakPointMobile]="pricePositionBreakPointMobile$ | async"
+				>
+				</app-cash-flow>
+
+				<app-cash-flow
+					sheetTitle="Cash flow yearly"
+					[cashFlow]="details.companyOutlook.financialsAnnual?.cash || []"
+					[pricePositionBreakPoint]="pricePositionBreakPoint$ | async"
+					[pricePositionBreakPointMobile]="pricePositionBreakPointMobile$ | async"
+				>
+				</app-cash-flow>
+			</ng-container>
+
+			<!-- income statement -->
+			<ng-container *ngSwitchCase="STATEMENT_TYPE.INCOME_STATEMENT">
+				<app-income-statement
+					sheetTitle="Income statement quarterly"
+					[incomeStatement]="details.companyOutlook.financialsQuarter?.income || []"
+					[pricePositionBreakPoint]="pricePositionBreakPoint$ | async"
+					[pricePositionBreakPointMobile]="pricePositionBreakPointMobile$ | async"
+				>
+				</app-income-statement>
+
+				<app-income-statement
+					sheetTitle="Income statement yearly"
+					[incomeStatement]="details.companyOutlook.financialsAnnual?.income || []"
+					[pricePositionBreakPoint]="pricePositionBreakPoint$ | async"
+					[pricePositionBreakPointMobile]="pricePositionBreakPointMobile$ | async"
+				>
+				</app-income-statement>
+			</ng-container>
 		</ng-container>
 	</div>
 </app-loader-wrapper>
