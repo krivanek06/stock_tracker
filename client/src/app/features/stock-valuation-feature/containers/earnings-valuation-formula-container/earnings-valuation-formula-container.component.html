@@ -1,73 +1,58 @@
-<app-generic-card title="Earnings valuation">
-	<ion-grid *ngIf="earningsFormula$ | async as formula">
-		<ion-row>
-			<!-- variables -->
-			<ion-col offset-md="0.5" size="12" size-md="4">
-				<ion-list>
-					<ion-list-header class="ion-margin-bottom">
-						<ion-label class="ion-text-center"> Variables </ion-label>
-					</ion-list-header>
+<app-mat-card-wrapper title="Earnings valuation">
+	<div *ngIf="earningsFormula$ | async as formula" class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
+		<!-- left side -->
+		<div>
+			<div class="p-4 g-color-white text-center">Variables</div>
 
-					<app-range-rating-slider
-						(valueEmitter)="growthRate5yChange($event)"
-						name="Growth rate up to 5y"
-						[value]="formula.variable.growthRateNext5y"
-						[isPercent]="true"
-					>
-					</app-range-rating-slider>
+			<app-range-rating-slider
+				name="Growth rate up to 5y"
+				(valueEmitter)="growthRate5yChange($event)"
+				[value]="formula.variable.growthRateNext5y"
+				[isPercent]="true"
+			>
+			</app-range-rating-slider>
 
-					<app-range-rating-slider
-						(valueEmitter)="growthRate10yChange($event)"
-						name="Growth rate from 5y to 10y"
-						[value]="formula.variable.growthRateFrom5yTo10y"
-						[isPercent]="true"
-					>
-					</app-range-rating-slider>
+			<app-range-rating-slider
+				name="Growth rate from 5y to 10y"
+				(valueEmitter)="growthRate10yChange($event)"
+				[value]="formula.variable.growthRateFrom5yTo10y"
+				[isPercent]="true"
+			>
+			</app-range-rating-slider>
 
-					<app-range-rating-slider
-						(valueEmitter)="minimumReturnChange($event)"
-						name="Minimum return"
-						[value]="formula.variable.minimumRateReturn"
-						[isPercent]="true"
-					>
-					</app-range-rating-slider>
+			<app-range-rating-slider
+				name="Minimum return"
+				(valueEmitter)="minimumReturnChange($event)"
+				[value]="formula.variable.minimumRateReturn"
+				[isPercent]="true"
+			>
+			</app-range-rating-slider>
 
-					<app-range-rating-slider
-						(valueEmitter)="terminalMultipleChange($event)"
-						name="Terminal multiple"
-						[value]="formula.variable.terminalMultiple"
-						[step]="0.1"
-					>
-					</app-range-rating-slider>
+			<app-range-rating-slider
+				name="Terminal multiple"
+				(valueEmitter)="terminalMultipleChange($event)"
+				[value]="formula.variable.terminalMultiple"
+				[step]="0.1"
+			>
+			</app-range-rating-slider>
+		</div>
 
-					<ion-item>
-						<ion-label class="ion-padding">
-							<ion-button expand="full" shape="round" fill="outline" (click)="resetVariables()"> Reset </ion-button>
-						</ion-label>
-					</ion-item>
-				</ion-list>
-			</ion-col>
+		<!-- right side -->
+		<div class="grid grid-cols-3 gap-2">
+			<!-- headers -->
+			<div></div>
+			<div class="g-color-white">Discounted PV</div>
+			<div class="g-color-white">Estimated EPS</div>
 
-			<!-- formula -->
-			<ion-col offset-md="1" size="12" size-md="6.5">
-				<ion-list>
-					<ion-item>
-						<ion-label></ion-label>
-						<ion-label class="st-font-0">Discounted PV</ion-label>
-						<ion-label class="st-font-0">Estimated EPS</ion-label>
-					</ion-item>
+			<!-- data -->
+			<ng-container *ngFor="let data of formula.dates; let i = index">
+				<div class="g-color-white">{{ formula.dates[i] }}</div>
+				<div>{{ formula.estimatedDiscountedPV[i] | number : '1.2-2'}}</div>
+				<div>{{ formula.estimatedEarnings[i] | number : '1.2-2'}}</div>
+			</ng-container>
 
-					<ion-item *ngFor="let data of formula.dates; let i = index">
-						<ion-label class="st-font-0">{{ formula.dates[i] }}</ion-label>
-						<ion-label>{{ formula.estimatedDiscountedPV[i] | number : '1.2-2'}}</ion-label>
-						<ion-label>{{ formula.estimatedEarnings[i] | number : '1.2-2'}}</ion-label>
-					</ion-item>
-
-					<ion-item>
-						<ion-label> Intrinsic value: <ion-text class="st-font-0">{{ formula.estimatedIntrinsicValue | currency}}</ion-text> </ion-label>
-					</ion-item>
-				</ion-list>
-			</ion-col>
-		</ion-row>
-	</ion-grid>
-</app-generic-card>
+			<!-- intrinsic -->
+			<div class="col-span-3">Intrinsic value: <span class="g-color-white">{{ formula.estimatedIntrinsicValue | currency}}</span></div>
+		</div>
+	</div>
+</app-mat-card-wrapper>
