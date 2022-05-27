@@ -1,12 +1,16 @@
 @use 'custom-variables' as variables;
 
 :host {
-	// .default:not(:only-child) {
+	.default:not(:only-child) {
+		display: none;
+	}
+
+	// .wrapper:not(:empty) + .default {
 	// 	display: none;
 	// }
 
-	.wrapper:not(:empty) + .default {
-		display: none;
+	.default {
+		position: relative;
 	}
 
 	.panel-loading {

@@ -29,6 +29,8 @@ export class SymbolLookupModalComponent extends AssetSummaryModalBase<SymbolLook
 		super.ngOnInit();
 		this.stockDetails$ = this.symbolStorageService.getStockDetails(this.data.symbolIdentification.symbol);
 		this.checkIfDetailsExists();
+
+		this.stockDetails$.subscribe(console.log);
 	}
 
 	redirectToDetails() {
