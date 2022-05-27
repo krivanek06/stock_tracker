@@ -1,10 +1,10 @@
 <mat-dialog-content>
-	<mat-toolbar class="justify-end">
-		<button mat-button color="warn" (click)="dismissModal()">
+	<div class="p-4 flex justify-end">
+		<button mat-button color="warn" type="button" (click)="dismissModal()">
 			<mat-icon>close</mat-icon>
 			Close
 		</button>
-	</mat-toolbar>
+	</div>
 
 	<!-- body -->
 	<app-loader-wrapper>
