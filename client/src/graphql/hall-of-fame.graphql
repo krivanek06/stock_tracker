@@ -41,18 +41,6 @@ fragment STHallOfFameEntityGainsGroups on STHallOfFameEntityGainsGroups {
 	month_3_change_number {
 		...STGroupIdentificationData
 	}
-	month_6_change_prct {
-		...STGroupIdentificationData
-	}
-	month_6_change_number {
-		...STGroupIdentificationData
-	}
-	year_1_change_prct {
-		...STGroupIdentificationData
-	}
-	year_1_change_number {
-		...STGroupIdentificationData
-	}
 }
 
 fragment STHallOfFameEntityGainsUsers on STHallOfFameEntityGainsUsers {
@@ -96,18 +84,6 @@ fragment STHallOfFameEntityGainsUsers on STHallOfFameEntityGainsUsers {
 		...StUserIdentificationPortfolioFragment
 	}
 	month_3_change_number {
-		...StUserIdentificationPortfolioFragment
-	}
-	month_6_change_prct {
-		...StUserIdentificationPortfolioFragment
-	}
-	month_6_change_number {
-		...StUserIdentificationPortfolioFragment
-	}
-	year_1_change_prct {
-		...StUserIdentificationPortfolioFragment
-	}
-	year_1_change_number {
 		...StUserIdentificationPortfolioFragment
 	}
 }

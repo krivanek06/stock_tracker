@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Directive, OnDestroy, OnInit, ViewRef } from '@angular/core';
 import { componentDestroyed, FinnhubWebsocketService } from '@core';
 import { first, takeUntil } from 'rxjs/operators';
-import { DialogService } from '../../services';
 
 @Directive()
 export abstract class ComponentScreenUpdateBaseDirective implements OnInit, OnDestroy {
@@ -23,23 +22,14 @@ export abstract class ComponentScreenUpdateBaseDirective implements OnInit, OnDe
 			.isConnectionInitializedObs()
 			.pipe(first((x) => !!x))
 			.subscribe(() => {
-				if (this.componentName) {
-					DialogService.showNotificationBar('Wait for server connection to receive live data', 'notification', 5000);
-				}
+				console.log('connected to finnhub');
 			});
 
 		// show message that we are connected on finnhub
-		this.finnhubWebsocketService
-			.doesSubscriptionForComponentExists(this.componentName)
-			.pipe(
-				first((x) => !!x),
-				takeUntil(componentDestroyed(this))
-			)
-			.subscribe(() => {
-				if (this.componentName) {
-					DialogService.showNotificationBar('Connection initialized');
-				}
-			});
+		this.finnhubWebsocketService.doesSubscriptionForComponentExists(this.componentName).pipe(
+			first((x) => !!x),
+			takeUntil(componentDestroyed(this))
+		);
 	}
 
 	ngOnInit(): void {

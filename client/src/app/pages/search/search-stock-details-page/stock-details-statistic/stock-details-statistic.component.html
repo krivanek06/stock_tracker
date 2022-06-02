@@ -247,7 +247,9 @@
 					<div *ngIf="upgradeDowngradeHistory.length > 0" class="mb-4">
 						<app-details-grading-history [history]="upgradeDowngradeHistory | slice: 0: 11"> </app-details-grading-history>
 					</div>
-					<app-details-stock-trend *ngIf="stockDetails?.companyData?.pageViews as trend" [trend]="trend"> </app-details-stock-trend>
+					<div class="w-full m-auto md:w-10/12 lg:w-full">
+						<app-details-stock-trend *ngIf="stockDetails?.companyData?.pageViews as trend" [trend]="trend"> </app-details-stock-trend>
+					</div>
 				</ng-container>
 			</app-mat-card-wrapper>
 		</div>

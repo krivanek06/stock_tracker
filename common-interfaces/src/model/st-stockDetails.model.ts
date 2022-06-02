@@ -8,6 +8,7 @@ import {
 
 export interface StockDetailsWrapper {
   details: StockDetails | EtfDetails;
+  summary: STSummary;
   forceReload?: boolean;
   detailsLastUpdate: string;
   summaryLastUpdate: string;
@@ -759,5 +760,6 @@ export enum STOCK_DETAILS_MORE_INFORMATION {
   ENTERPRISE_VALUE_YEARLY = 'enterprise_value_yearly',
   ENTERPRISE_VALUE_QUARTERLY = 'enterprise_value_quarterly',
   KEY_METRICS_YEARLY = 'key_metrics_yearly',
-  KEY_METRICS_QUARTERLY = 'key_metrics_quarterly'
+  KEY_METRICS_QUARTERLY = 'key_metrics_quarterly',
+  DETAILS = 'details'
 }

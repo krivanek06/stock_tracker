@@ -21,14 +21,14 @@
 
 	<!-- content -->
 	<app-loader-wrapper>
-		<ng-container *ngIf="stockDetails$ | async as stockDetails">
+		<ng-container *ngIf="stockSummary$ | async as summary">
 			<div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
 				<!-- chart -->
 				<app-financial-chart-container
-					[closedPrice]="stockDetails.summary.previousClose"
-					[currentPrice]="stockDetails.summary.marketPrice"
+					[closedPrice]="summary.previousClose"
+					[currentPrice]="summary.marketPrice"
 					[height]="450"
-					[logoUrl]="stockDetails.summary.logo_url || undefined"
+					[logoUrl]="summary.logo_url || undefined"
 					[name]="data.symbolIdentification.name"
 					[symbol]="data.symbolIdentification.symbol"
 					[financialChart]="true"
@@ -38,7 +38,7 @@
 
 				<div>
 					<!-- summary -->
-					<app-details-stock-summary (onReloadClickEmitter)="reloadStockDetails()" [isAdmin]="isAdmin$ | async" [summary]="stockDetails.summary">
+					<app-details-stock-summary (onReloadClickEmitter)="reloadStockDetails()" [isAdmin]="isAdmin$ | async" [summary]="summary">
 					</app-details-stock-summary>
 					<!-- details buttons -->
 					<div class="p-6 flex justify-end">
@@ -49,7 +49,7 @@
 
 			<!-- description -->
 			<div class="g-color-white text-xl px-4">About company</div>
-			<div class="p-4 text-gray-400">{{ stockDetails.summary.longBusinessSummary }}</div>
+			<div class="p-4 text-gray-400">{{ summary.longBusinessSummary }}</div>
 		</ng-container>
 	</app-loader-wrapper>
 </mat-dialog-content>

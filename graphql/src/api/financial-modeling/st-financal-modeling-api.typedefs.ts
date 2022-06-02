@@ -41,7 +41,7 @@ export const STFinancialModelingAPITypeDefs = gql`
 		companyCik: String!
 		formType: String!
 		link: String!
-		price: Float!
+		price: Float
 		reportingCik: String!
 		reportingName: String!
 		securitiesOwned: Float!

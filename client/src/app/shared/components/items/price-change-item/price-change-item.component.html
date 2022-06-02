@@ -1,4 +1,4 @@
-<span *ngIf="!price && showNAIfPriceZero; else showItem" class="st-font-0">N/A</span>
+<span *ngIf="!price && showNAIfPriceZero; else showItem" class="text-gray-400">N/A</span>
 
 <ng-template #showItem>
 	<div
@@ -9,7 +9,6 @@
 	>
 		<!-- price - position left -->
 		<ng-container *ngIf="showPrice && price && (pricePosition === 'left' || pricePosition === 'top')">
-			<!-- <span *ngIf="priceText" class="st-small-right-space">{{ priceText }}</span> -->
 			<span [class]="classText">{{ price | numberFormatter: false : showDollarSignOnPrice}}</span>
 		</ng-container>
 
@@ -33,13 +32,10 @@
 		</div>
 
 		<!-- N/A -->
-		<!-- <ng-template #showNA>
-			<span>N/A</span>
-		</ng-template> -->
+		<!-- <span *ngIf="!priceChange && !price">N/A</span> -->
 
 		<!-- price - position right -->
 		<div *ngIf="showPrice && price && (pricePosition === 'right' || pricePosition === 'bottom')" [class]="classText">
-			<!-- <span *ngIf="priceText" class="st-small-right-space">{{ priceText }}</span> -->
 			{{ price | numberFormatter: false : showDollarSignOnPrice }}
 		</div>
 	</div>

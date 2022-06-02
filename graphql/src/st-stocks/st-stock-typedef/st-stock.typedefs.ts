@@ -29,7 +29,7 @@ export const stockDetailsTypeDefs = gql`
 	type StockDetails {
 		id: String!
 		recommendation: [Recommendations!]!
-		companyData: CompanyData!
+		companyData: CompanyData
 		summary: Summary!
 		metric: Metric
 		dividends: Dividens
