@@ -9,6 +9,7 @@ import {
 	PriceCompareItemModule,
 	RecommendationDirectiveModule,
 	TableHighLowRangeModule,
+	TruncateModule,
 } from '@shared';
 import { WatchlistTableComponent } from './watchlist-table.component';
 
@@ -24,6 +25,7 @@ import { WatchlistTableComponent } from './watchlist-table.component';
 		RecommendationDirectiveModule,
 		ListSkeletonModule,
 		PriceChangeItemModule,
+		TruncateModule,
 	],
 	exports: [WatchlistTableComponent],
 })
