@@ -3,19 +3,17 @@ import * as admin from 'firebase-admin';
 import * as moment from 'moment';
 import * as api from 'stock-tracker-common-interfaces';
 import { stockDataAPI } from '../../environment';
-import { getCurrentIOSDate } from '../../st-shared/st-shared.functions';
-import { getStockDetailsFromApi, saveDataIntoFirestore } from './functions';
+import { getStockDetailsFromApi, getStockDetailsFromFirestore, saveDataIntoFirestore } from './functions';
 
 // check if details already exists in firestore, else fetch from api and save
 export const queryStockDetails = async (symbol: string, reload = false): Promise<api.StockDetails> => {
 	try {
 		const upperSymbol = symbol.toUpperCase();
-		const stockDetailsDocs = await admin.firestore().collection(`${api.ST_STOCK_DATA_COLLECTION}`).doc(upperSymbol).get();
-		const data = stockDetailsDocs.data() as api.StockDetailsWrapper | undefined;
+		const data = await getStockDetailsFromFirestore(symbol);
 
 		// remove stock details collection
 		// await removeAllStockFromFirestore();
-		// console.log('delete')
+		// console.log('delete');
 
 		// delete previous data
 		if (reload || data?.forceReload) {
@@ -99,16 +97,15 @@ const getAndSaveStockNewsFromApi = async (symbol: string, data: api.StockDetails
 	// save details
 	admin
 		.firestore()
-		.collection(`${api.ST_STOCK_DATA_COLLECTION}`)
+		.collection(api.ST_STOCK_DATA_COLLECTION)
 		.doc(symbol)
+		.collection(api.ST_STOCK_DATA_COLLECTION_MORE_INFORMATION)
+		.doc(api.STOCK_DETAILS_MORE_INFORMATION.DETAILS)
 		.set(
 			{
-				details: {
-					companyOutlook: {
-						stockNews: response,
-					},
+				companyOutlook: {
+					stockNews: response,
 				},
-				newsLastUpdate: getCurrentIOSDate(),
 			},
 			{ merge: true }
 		);

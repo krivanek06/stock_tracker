@@ -8,16 +8,55 @@ import * as api from 'stock-tracker-common-interfaces';
 // 4. add ID field for group & users historical data, also for groupAllData
 // 5. add empty rank
 // 6. update startedPortfolio.lastPortfolioBalance (groups),  portfolio.lastPortfolioBalance (users & groups)
+// 7. decompose stock_data details into details collection
 
-export const databaseAdjustment = functions.https.onRequest(async () => {
-	try {
-		await updateUsersData();
-		await updateGroupHistoricalData();
-		await updateHallOfFame();
-	} catch (error) {
-		console.log(error);
+export const databaseAdjustment = functions
+	.runWith({
+		memory: '4GB',
+		timeoutSeconds: 540,
+	})
+	.https.onRequest(async () => {
+		try {
+			await updateUsersData();
+			await updateGroupHistoricalData();
+			await updateHallOfFame();
+			// todo run this one multiple times
+			await updateDecomposeStockDetails();
+		} catch (error) {
+			console.log(error);
+		}
+	});
+
+// works - but need to run multiple times - slow
+const updateDecomposeStockDetails = async (): Promise<void> => {
+	console.log('Start: UpdateDecomposeStockDetails');
+	const stockDataDocs = await admin.firestore().collection('stock_data').where('details', '!=', null).limit(30).get();
+	const refs = stockDataDocs.docs.map((d) => d.ref);
+	//console.log(`Got: ${stockDataDocs..length} results`);
+	console.log('Loop');
+	for await (const ref of refs) {
+		try {
+			const document = await ref.get();
+			const data = document.data() as api.StockDetailsWrapper;
+			console.log(`Updating ${ref.id}`);
+
+			// add details into sub collection
+			await ref.collection(api.ST_STOCK_DATA_COLLECTION_MORE_INFORMATION).doc(api.STOCK_DETAILS_MORE_INFORMATION.DETAILS).set(data.details);
+
+			// remove details from DB
+			await ref.update({
+				id: data.details.id,
+				summary: data.details.summary,
+				detailsLastUpdate: new Date(),
+				details: admin.firestore.FieldValue.delete(),
+			});
+		} catch (e) {
+			console.log(`Removing ${ref.id}`);
+			await ref.delete();
+		}
 	}
-});
+	console.log('End: UpdateDecomposeStockDetails');
+};
 
 const updateHallOfFame = async () => {
 	console.log('updating hall of fame');
@@ -194,6 +233,7 @@ const updateUsersData = async () => {
 
 			const data = userHistoricalDoc.data() as api.STUserHistoricalData;
 
+			// removed if transaction fees not exist
 			const transactionSnapshots = data.transactionSnapshots.filter((t) => !!t.transactionFees);
 
 			await userHistoricalDoc.ref.set(
@@ -233,8 +273,6 @@ const updateUsersData = async () => {
 							month_1_change: null,
 							month_2_change: null,
 							month_3_change: null,
-							month_6_change: null,
-							year_1_change: null,
 						},
 					},
 				},
@@ -274,9 +312,5 @@ const getEmptySTHallOfFameEntityGains = <T extends api.STPortfolioEntity>(): api
 		month_2_change_prct: [],
 		month_3_change_number: [],
 		month_3_change_prct: [],
-		month_6_change_number: [],
-		month_6_change_prct: [],
-		year_1_change_number: [],
-		year_1_change_prct: [],
 	};
 };

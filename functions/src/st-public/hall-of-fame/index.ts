@@ -154,23 +154,6 @@ const getSTHallOfFameEntityGains = async <T extends EntityIdentification>(
 		order,
 		identificationFunction
 	);
-	const month_6_change_prct = await getEntityIdentification<T>(collection, 'month_6_change', 'portfolioIncreasePrct', order, identificationFunction);
-	const month_6_change_number = await getEntityIdentification<T>(
-		collection,
-		'month_6_change',
-		'portfolioIncreaseNumber',
-		order,
-		identificationFunction
-	);
-
-	const year_1_change_prct = await getEntityIdentification<T>(collection, 'year_1_change', 'portfolioIncreasePrct', order, identificationFunction);
-	const year_1_change_number = await getEntityIdentification<T>(
-		collection,
-		'year_1_change',
-		'portfolioIncreaseNumber',
-		order,
-		identificationFunction
-	);
 
 	return {
 		day_1_change_number,
@@ -187,10 +170,6 @@ const getSTHallOfFameEntityGains = async <T extends EntityIdentification>(
 		month_2_change_prct,
 		month_3_change_number,
 		month_3_change_prct,
-		month_6_change_number,
-		month_6_change_prct,
-		year_1_change_number,
-		year_1_change_prct,
 	};
 };
 

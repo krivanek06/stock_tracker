@@ -1,5 +1,5 @@
 <div class="flex justify-between items-center mb-2">
-	<div class="flex items-end gap-4">
+	<div class="flex items-center gap-4">
 		<mat-icon color="primary" class="text-4xl h-8">qr_code</mat-icon>
 		<span class="g-color-white text-xl">{{ 'Summary: ' + summary.id }}</span>
 	</div>
@@ -70,6 +70,7 @@
 				[priceChange]="summary.yearToDatePriceReturn"
 				[price]="summary.yearToDatePrice"
 				[showDollarSignOnPrice]="true"
+				[showNAIfPriceZero]="!summary.yearToDatePriceReturn"
 				[showIcon]="true"
 				[isPercent]="true"
 				classText="text-gray-400 text-base"
@@ -79,7 +80,8 @@
 
 	<div>
 		<div>S&P500 1y change</div>
-		<app-price-change-item [isPercent]="true" [priceChange]="summary.sandPFiveTwoWeekChange"> </app-price-change-item>
+		<app-price-change-item [showNAIfPriceZero]="!summary.sandPFiveTwoWeekChange" [isPercent]="true" [priceChange]="summary.sandPFiveTwoWeekChange">
+		</app-price-change-item>
 	</div>
 
 	<div>

@@ -2,13 +2,12 @@ import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as moment from 'moment';
 import * as api from 'stock-tracker-common-interfaces';
-import { getStockDetailsFromApi, saveDataIntoFirestore } from './functions';
+import { getStockDetailsFromApi, getStockDetailsFromFirestore, saveDataIntoFirestore } from './functions';
 
 export const queryEtfDetails = async (symbol: string, reload: boolean = false): Promise<api.EtfDetails> => {
 	try {
 		const upperSymbol = symbol.toUpperCase();
-		const stockDetailsDocs = await admin.firestore().collection(`${api.ST_STOCK_DATA_COLLECTION}`).doc(upperSymbol).get();
-		const data = stockDetailsDocs.data() as api.StockDetailsWrapper | undefined;
+		const data = await getStockDetailsFromFirestore(symbol);
 
 		// delete previous data
 		if (reload || data?.forceReload) {
@@ -18,7 +17,7 @@ export const queryEtfDetails = async (symbol: string, reload: boolean = false): 
 
 		// first fetch or older than 10 days
 		if (!data || reload || data?.forceReload || !data.detailsLastUpdate || Math.abs(moment(data.detailsLastUpdate).diff(new Date(), 'days')) > 10) {
-			console.log(`Query all stock details for symbol: ${upperSymbol}`);
+			console.log(`Query all stock details for symbol: ${symbol}`);
 			const details = (await getStockDetailsFromApi(upperSymbol)) as api.EtfDetails;
 
 			// no summary was found - insufficient data

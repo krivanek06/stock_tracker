@@ -36,7 +36,7 @@ export const queryStockSummary = async (symbol: string, allowReload: boolean = f
 		// 	await persistStockSummary(upperSymbol, wrapper.details.summary);
 		// }
 
-		return wrapper.details?.summary;
+		return wrapper?.summary;
 	} catch (error) {
 		throw new ApolloError(error);
 	}

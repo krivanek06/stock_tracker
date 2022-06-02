@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { StockDetails, SymbolStorageService, UserStorageService } from '@core';
+import { Summary, SymbolStorageService, UserStorageService } from '@core';
 import { DialogService, SymbolIdentification } from '@shared';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { AssetSummaryModalBase } from '../asset-summary-modal-base.directive';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SymbolLookupModalComponent extends AssetSummaryModalBase<SymbolLookupModalComponent> implements OnInit {
-	stockDetails$!: Observable<StockDetails | null>;
+	stockSummary$!: Observable<Summary | null>;
 
 	constructor(
 		private symbolStorageService: SymbolStorageService,
@@ -27,10 +27,8 @@ export class SymbolLookupModalComponent extends AssetSummaryModalBase<SymbolLook
 
 	ngOnInit() {
 		super.ngOnInit();
-		this.stockDetails$ = this.symbolStorageService.getStockDetails(this.data.symbolIdentification.symbol);
-		this.checkIfDetailsExists();
-
-		this.stockDetails$.subscribe(console.log);
+		this.stockSummary$ = this.symbolStorageService.getStockSummary(this.data.symbolIdentification.symbol);
+		this.stockSummary$.subscribe(console.log);
 	}
 
 	redirectToDetails() {
@@ -38,17 +36,9 @@ export class SymbolLookupModalComponent extends AssetSummaryModalBase<SymbolLook
 	}
 
 	reloadStockDetails() {
-		this.stockDetails$ = this.symbolStorageService.reloadStockDetails(this.data.symbolIdentification.symbol);
-		this.stockDetails$
+		this.stockSummary$ = this.symbolStorageService.reloadStockDetails(this.data.symbolIdentification.symbol);
+		this.stockSummary$
 			.pipe(first())
 			.subscribe(() => DialogService.showNotificationBar(`Data for symbol ${this.data.symbolIdentification.symbol} has been reloaded`));
-	}
-
-	private checkIfDetailsExists() {
-		this.stockDetails$.pipe(first()).subscribe((details) => {
-			if (!details) {
-				DialogService.showNotificationBar(`Could not find details for symbol ${this.data.symbolIdentification.symbol}`, 'error');
-			}
-		});
 	}
 }

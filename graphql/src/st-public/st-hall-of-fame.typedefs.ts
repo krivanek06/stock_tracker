@@ -37,10 +37,6 @@ export const SThallOfFameTypeDefs = gql`
 		month_2_change_number: [STGroupIdentification!]!
 		month_3_change_prct: [STGroupIdentification!]!
 		month_3_change_number: [STGroupIdentification!]!
-		month_6_change_prct: [STGroupIdentification!]!
-		month_6_change_number: [STGroupIdentification!]!
-		year_1_change_prct: [STGroupIdentification!]!
-		year_1_change_number: [STGroupIdentification!]!
 	}
 
 	type STHallOfFameEntityGainsUsers {
@@ -58,9 +54,5 @@ export const SThallOfFameTypeDefs = gql`
 		month_2_change_number: [STUserIdentification!]!
 		month_3_change_prct: [STUserIdentification!]!
 		month_3_change_number: [STUserIdentification!]!
-		month_6_change_prct: [STUserIdentification!]!
-		month_6_change_number: [STUserIdentification!]!
-		year_1_change_prct: [STUserIdentification!]!
-		year_1_change_number: [STUserIdentification!]!
 	}
 `;

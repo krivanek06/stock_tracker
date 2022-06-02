@@ -18,11 +18,6 @@ export interface STHallOfFameEntityGains<T> {
     month_2_change_number: T[];
     month_3_change_prct: T[];
     month_3_change_number: T[];
-    month_6_change_prct: T[];
-    month_6_change_number: T[];
-    // yearly
-    year_1_change_prct: T[];
-    year_1_change_number: T[];
 }
 
 export interface STHallOfFameEntity<T> {
