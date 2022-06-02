@@ -1,23 +1,9 @@
 <!-- initial subpage picker -->
-<div class="hidden lg:flex justify-end gap-2">
-	<button
-		*ngFor="let path of MARKET_PAGE_PATH"
-		mat-stroked-button
-		(click)="changePath(path)"
-		[ngClass]="{'g-button-active': path.value === selectedPath}"
-	>
-		{{ path.name}}
-	</button>
+<div class="flex flex-row overflow-x-scroll">
+	<nav mat-tab-nav-bar color="primary">
+		<a *ngFor="let data of MARKET_PAGE_PATH" mat-tab-link routerLinkActive="g-button-active" [routerLink]="data.value">{{ data.name }}</a>
+	</nav>
 </div>
-
-<mat-form-field appearance="outline" class="block lg:hidden p-2">
-	<mat-label class="st-font-1"> Select path</mat-label>
-
-	<!-- select -->
-	<mat-select (selectionChange)="selectOption($event)">
-		<mat-option *ngFor="let optionData of MARKET_PAGE_PATH" [value]="optionData"> {{ optionData.name }} </mat-option>
-	</mat-select>
-</mat-form-field>
 
 <!-- sub pages -->
 <div class="mt-6">

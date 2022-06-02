@@ -10,7 +10,7 @@ export enum MARKET_PAGE_ENUM {
 	other = 'other',
 }
 
-export const MARKET_PAGE_PATH: NameValueContainer[] = [
+export const MARKET_PAGE_PATH: NameValueContainer<string>[] = [
 	{ name: 'stocks', value: MARKET_PAGE_ENUM.topStocks },
 	{ name: 'overview', value: MARKET_PAGE_ENUM.overview },
 	{ name: 'crypto', value: MARKET_PAGE_ENUM.crypto },

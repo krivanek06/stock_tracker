@@ -9,6 +9,7 @@ import {
 	PriceChangeItemModule,
 	PriceCompareItemModule,
 	TableHighLowRangeModule,
+	TruncateModule,
 } from '@shared';
 import { MarketCompanyQuotesTableComponent } from './market-company-quotes-table.component';
 
@@ -24,6 +25,7 @@ import { MarketCompanyQuotesTableComponent } from './market-company-quotes-table
 		DefaultImgDirectiveModule,
 		MatTableModule,
 		MatTooltipModule,
+		TruncateModule,
 	],
 	exports: [MarketCompanyQuotesTableComponent],
 })

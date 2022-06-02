@@ -1,16 +1,11 @@
 <!-- subpage segments -->
-<ion-segment (ionChange)="segmentChanged($event)" [value]="STOCK_SEARCH_DETAILS_PAGES[0].value" color="primary" scrollable>
-	<ion-segment-button *ngFor="let data of STOCK_SEARCH_DETAILS_PAGES" [value]="data.value">
-		<ion-label>{{ data.name }}</ion-label>
-	</ion-segment-button>
-</ion-segment>
+<div class="flex flex-row overflow-x-scroll">
+	<nav mat-tab-nav-bar color="primary">
+		<a *ngFor="let data of STOCK_SEARCH_DETAILS_PAGES" mat-tab-link [routerLink]="data.value">{{ data.name }}</a>
+	</nav>
+</div>
 
 <!-- sub pages -->
 <div class="mt-4">
 	<router-outlet></router-outlet>
-</div>
-
-<!-- spinner -->
-<div *ngIf="showSpinner" class="spinner-container">
-	<ion-spinner color="primary"></ion-spinner>
 </div>

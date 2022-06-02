@@ -32,9 +32,9 @@ export interface UploadedFile {
 	path: string;
 }
 
-export interface NameValueContainer {
+export interface NameValueContainer<T extends string | number = string | number> {
 	name: string;
-	value: string | number;
+	value: T;
 }
 
 export interface IdNameContainer {

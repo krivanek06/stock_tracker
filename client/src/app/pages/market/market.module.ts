@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule, Routes } from '@angular/router';
 import { MARKET_PAGE_ENUM } from './market.model';
 import { MarketPage } from './market.page';
@@ -48,7 +49,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-	imports: [CommonModule, RouterModule.forChild(routes), MatButtonModule, MatSelectModule],
+	imports: [CommonModule, RouterModule.forChild(routes), MatButtonModule, MatSelectModule, MatTabsModule],
 	declarations: [MarketPage],
 })
 export class MarketPageModule {}
