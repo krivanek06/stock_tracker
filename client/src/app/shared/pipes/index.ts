@@ -12,4 +12,5 @@ export * from './reverse-array-pipe/reverse-array-pipe.module';
 export * from './split-key-to-titlecase-pipe/split-key-to-titlecase-pipe.module';
 export * from './split-pipe/split-pipe.module';
 export * from './sum-up-pipe/sum-up-pipe.module';
+export * from './truncate/truncate.module';
 export * from './typeof-pipe/typeof-pipe.module';

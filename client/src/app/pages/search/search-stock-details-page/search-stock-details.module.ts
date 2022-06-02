@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule, Routes } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
 import { SEARCH_PAGE_STOCK_DETAILS_ENUM } from '../models/pages.model';
 import { SearchStockDetailsPage } from './search-stock-details-page.component';
 
@@ -47,6 +47,6 @@ const routes: Routes = [
 
 @NgModule({
 	declarations: [SearchStockDetailsPage],
-	imports: [RouterModule.forChild(routes), CommonModule, IonicModule],
+	imports: [RouterModule.forChild(routes), CommonModule, MatTabsModule],
 })
 export class SearchStockDetailsModule {}

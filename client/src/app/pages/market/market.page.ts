@@ -19,7 +19,7 @@ export class MarketPage implements OnInit {
 	ngOnInit() {}
 
 	changePath(path: NameValueContainer): void {
-		this.selectedPath = path.value;
+		//this.selectedPath = path.value;
 		this.router.navigateByUrl(`menu/market/${path.value}`);
 	}
 

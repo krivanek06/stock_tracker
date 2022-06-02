@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { componentDestroyed, SymbolStorageService } from '@core';
 import { takeUntil } from 'rxjs/operators';
@@ -12,7 +13,6 @@ import { SEARCH_PAGE_ENUM, STOCK_SEARCH_DETAILS_PAGES } from '../models/pages.mo
 })
 export class SearchStockDetailsPage implements OnInit, OnDestroy {
 	STOCK_SEARCH_DETAILS_PAGES = STOCK_SEARCH_DETAILS_PAGES;
-	showSpinner = true;
 
 	constructor(private stockDetailsService: SymbolStorageService, private route: ActivatedRoute, private router: Router) {}
 
@@ -24,12 +24,14 @@ export class SearchStockDetailsPage implements OnInit, OnDestroy {
 			.pipe(takeUntil(componentDestroyed(this)))
 			.subscribe((res) => {
 				console.log('loaded stock details', res);
-				this.showSpinner = false;
-				console.log('show spinner', this.showSpinner);
 			});
 	}
 
 	ngOnDestroy() {}
+
+	onTabChange(event: MatTabChangeEvent) {
+		console.log(event);
+	}
 
 	segmentChanged(data: any) {
 		this.router.navigateByUrl(`menu/search/${SEARCH_PAGE_ENUM.STOCK_DETAILS}/${this.stockDetailsService.activeSymbol}/${data.detail.value}`);
