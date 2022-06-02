@@ -1,18 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MarketCalendarEconomicComponent} from "./market-calendar-economic.component";
-import {IonicModule} from "@ionic/angular";
-import {PriceChangeItemModule} from "@shared";
-
-
+import { NgModule } from '@angular/core';
+import { MatTableModule } from '@angular/material/table';
+import { ListSkeletonModule, PriceChangeItemModule } from '@shared';
+import { MarketCalendarEconomicComponent } from './market-calendar-economic.component';
 
 @NgModule({
-  declarations: [MarketCalendarEconomicComponent],
-  imports: [
-    CommonModule,
-    IonicModule,
-    PriceChangeItemModule
-  ],
-  exports: [MarketCalendarEconomicComponent]
+	declarations: [MarketCalendarEconomicComponent],
+	imports: [CommonModule, MatTableModule, PriceChangeItemModule, ListSkeletonModule],
+	exports: [MarketCalendarEconomicComponent],
 })
-export class MarketCalendarEconomicModule { }
+export class MarketCalendarEconomicModule {}

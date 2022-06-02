@@ -6,7 +6,7 @@
 				<img [src]="row.logo_url" appDefaultImg class="st-symbol-image" />
 				<div class="flex flex-col">
 					<span class="g-color-white">{{ row.symbol }}</span>
-					<span class="table-cell sm:hidden text-sm text-gray-500">{{ row.companyName }}</span>
+					<span class="table-cell sm:hidden text-sm text-gray-500">{{ row.companyName | truncate: 25}}</span>
 				</div>
 			</div>
 		</td>

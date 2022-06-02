@@ -1,49 +1,72 @@
-<ion-list class="ion-hide-sm-down">
-	<ion-item class="st-font-1-bold">
-		<ion-label class="ion-margin-end">Event</ion-label>
-		<ion-label class="ion-hide-lg-down">Country</ion-label>
-		<ion-label>Actual</ion-label>
-		<ion-label>Previous</ion-label>
-		<ion-label>Change</ion-label>
-		<ion-label class="ion-hide-md-down">Estimated</ion-label>
-		<ion-label class="ion-hide-md-down">Date</ion-label>
-	</ion-item>
+<table mat-table [dataSource]="dataSource" matSort class="w-full">
+	<!-- event -->
+	<ng-container matColumnDef="event">
+		<th mat-header-cell *matHeaderCellDef>Event</th>
+		<td mat-cell *matCellDef="let row">
+			<div>{{ row.event }}</div>
+			<div class="flex justify-start sm:hidden">Country: {{ row.country }}</div>
+		</td>
+	</ng-container>
 
-	<ion-item *ngFor="let calendar of calendarEconomic" class="st-data-item-wrapper">
-		<ion-label class="st-font-4 ion-margin-end">{{ calendar.event }}</ion-label>
-		<ion-label class="ion-hide-lg-down">{{ calendar.country }}</ion-label>
-		<ion-label>{{ calendar.actual ? (calendar.actual | currency) : 'N/A' }}</ion-label>
-		<ion-label>{{ calendar.previous ? (calendar.previous | currency) : 'N/A' }}</ion-label>
-		<ion-label>
+	<!-- country -->
+	<ng-container matColumnDef="country">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Country</th>
+		<td mat-cell *matCellDef="let row" class="hidden sm:table-cell">{{ row.country }}</td>
+	</ng-container>
+
+	<!-- actual -->
+	<ng-container matColumnDef="actual">
+		<th mat-header-cell *matHeaderCellDef>Actual</th>
+		<td mat-cell *matCellDef="let row">
+			<div class="flex flex-row gap-2 justify-end sm:justify-start">
+				<span class="text-gray-200 sm:text-gray-400">{{ row.actual ? (row.actual | currency) : 'N/A' }}</span>
+				<span class="sm:hidden">
+					<app-price-change-item [priceChange]="row.changePercentage"> </app-price-change-item>
+				</span>
+			</div>
+		</td>
+	</ng-container>
+
+	<!-- previous -->
+	<ng-container matColumnDef="previous">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Previous</th>
+		<td mat-cell *matCellDef="let row" class="hidden sm:table-cell">{{ row.previous ? (row.previous | currency) : 'N/A' }}</td>
+	</ng-container>
+
+	<!-- change -->
+	<ng-container matColumnDef="change">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Change</th>
+		<td mat-cell *matCellDef="let row" class="hidden sm:table-cell">
 			<app-price-change-item
-				[priceChange]="calendar.changePercentage"
-				[price]="calendar.change"
+				[priceChange]="row.changePercentage"
+				[price]="row.change"
 				[showDollarSignOnPrice]="true"
 				[showNAIfPriceZero]="true"
 				pricePosition="bottom"
 			>
 			</app-price-change-item>
-		</ion-label>
-		<ion-label class="ion-hide-md-down">{{ calendar.estimate ? (calendar.estimate | currency) : 'N/A' }}</ion-label>
-		<ion-label class="ion-hide-md-down">{{ calendar.date | date : 'dd.MM.YYYY' }}</ion-label>
-	</ion-item>
-</ion-list>
+		</td>
+	</ng-container>
 
-<!-- SMALL SCREEN -->
-<ion-list class="ion-hide-sm-up">
-	<ion-item class="st-font-1-bold">
-		<ion-label> Event</ion-label>
-		<ion-label class="st-flex-end"> Actual </ion-label>
-	</ion-item>
+	<!-- estimated -->
+	<ng-container matColumnDef="estimated">
+		<th mat-header-cell *matHeaderCellDef class="hidden md:table-cell">Estimated</th>
+		<td mat-cell *matCellDef="let row" class="hidden md:table-cell">{{ row.estimate ? (row.estimate | currency) : 'N/A' }}</td>
+	</ng-container>
 
-	<ion-item *ngFor="let calendar of calendarEconomic" class="st-data-item-wrapper">
-		<!-- event name -->
-		<ion-label class="st-width-70"> {{ calendar.event }} </ion-label>
+	<!-- date -->
+	<ng-container matColumnDef="date">
+		<th mat-header-cell *matHeaderCellDef class="hidden md:table-cell">Date</th>
+		<td mat-cell *matCellDef="let row" class="hidden md:table-cell">{{ row.date | date : 'dd.MM.YYYY' }}</td>
+	</ng-container>
 
-		<!-- price -->
-		<ion-label class="st-flex-end st-flex-col">
-			<ion-text class="st-font-1-normal st-font-size-16"> {{ calendar.actual | currency }} </ion-text>
-			<app-price-change-item [priceChange]="calendar.changePercentage"> </app-price-change-item>
-		</ion-label>
-	</ion-item>
-</ion-list>
+	<tr mat-header-row *matHeaderRowDef="displayedColumns" class="hidden sm:contents"></tr>
+	<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+	<!-- Row shown when there is no matching data. -->
+	<tr class="mat-row" *matNoDataRow>
+		<td class="mat-cell" colspan="7">
+			<app-list-skeleton [itemLength]="10"></app-list-skeleton>
+		</td>
+	</tr>
+</table>
