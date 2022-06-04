@@ -37,10 +37,25 @@ export const calculatePortfolioIncreasePrct = (latestPortfolio: api.STPortfolioS
 	return lastPortfolioIncreasePrct;
 };
 
-export const calculatePortfolioChange = (portfolioSnapshots: api.STPortfolioSnapshot[]): api.STPortfolioChange | null => {
+export const calculatePortfolioChange = (portfolioSnapshots: api.STPortfolioSnapshot[]): api.STPortfolioChange => {
+	const dummyData = () => {
+		return {
+			day_1_change: null,
+			week_1_change: null,
+			week_2_change: null,
+			week_3_change: null,
+			month_1_change: null,
+			month_2_change: null,
+			month_3_change: null,
+			month_6_change: null,
+			year_1_change: null,
+			from_beginning_change: null,
+		};
+	};
+
 	try {
 		if (portfolioSnapshots.length < 2) {
-			return null;
+			return dummyData();
 		}
 		const today: moment.Moment = moment();
 		const reverseSnapshots = [...portfolioSnapshots].reverse();
@@ -85,6 +100,6 @@ export const calculatePortfolioChange = (portfolioSnapshots: api.STPortfolioSnap
 			from_beginning_change,
 		};
 	} catch (e) {
-		return null;
+		return dummyData();
 	}
 };

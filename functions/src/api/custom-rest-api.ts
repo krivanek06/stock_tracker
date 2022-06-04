@@ -6,7 +6,6 @@ const fetch = require('node-fetch');
 export const getPortfolioRiskCustomRest = async (
 	symbols: string[],
 	weights: number[],
-	symbolsBeta: number[],
 	clearCache = false
 ): Promise<api.STPortfolioRiskCalculations> => {
 	const result = await fetch(`${stockDataAPI}/calculator/calculate_portfolio_risk`, {
@@ -14,7 +13,6 @@ export const getPortfolioRiskCustomRest = async (
 		body: JSON.stringify({
 			symbols,
 			weights,
-			symbolsBeta,
 			clearCache,
 		}),
 		headers: { 'Content-Type': 'application/json' },

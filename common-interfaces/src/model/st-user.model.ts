@@ -38,7 +38,7 @@ export interface STUserPublicData extends STUserIndentificationWithPortfolio {
     holdings: STHolding[]; // only open transactions
     groups: STUserGroupsIdentification;
     activity: USER_ACTIVITY;
-    portfolioRisk: STPortfolioRiskCalculations;
+    portfolioRisk?: STPortfolioRiskCalculations;
 }
 
 export interface STUserHistoricalData {

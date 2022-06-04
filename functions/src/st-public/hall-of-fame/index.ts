@@ -22,7 +22,8 @@ Weekly portfolio
 type EntityIdentification = api.STUserIndentificationWithPortfolio | api.STGroupIdentification;
 
 // functions.pubsub.topic('updateStocksSummary').onPublish(async () => {
-export const calculateHallOfFame = functions.https.onRequest(async (): Promise<void> => {
+//  functions.https.onRequest(async (): Promise<void> => {
+export const calculateHallOfFame = functions.pubsub.topic('calculateHallOfFame').onPublish(async () => {
 	const startTime = new Date().getTime();
 	console.log(`Started updating at ${admin.firestore.Timestamp.now().toDate()}`);
 
