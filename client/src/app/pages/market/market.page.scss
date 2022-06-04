@@ -1,5 +1,5 @@
-:host {
-	button {
-		min-width: 125px;
+::-webkit-scrollbar {
+	@screen lg {
+		width: 0; /* Remove scrollbar space */
 	}
 }
