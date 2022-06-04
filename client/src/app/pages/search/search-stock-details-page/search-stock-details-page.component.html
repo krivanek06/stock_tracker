@@ -1,7 +1,7 @@
 <!-- subpage segments -->
-<div class="flex flex-row overflow-x-scroll">
+<div class="flex flex-row overflow-x-scroll lg:justify-end">
 	<nav mat-tab-nav-bar color="primary">
-		<a *ngFor="let data of STOCK_SEARCH_DETAILS_PAGES" mat-tab-link [routerLink]="data.value">{{ data.name }}</a>
+		<a *ngFor="let data of STOCK_SEARCH_DETAILS_PAGES" mat-tab-link routerLinkActive="g-button-active" [routerLink]="data.value">{{ data.name }}</a>
 	</nav>
 </div>
 

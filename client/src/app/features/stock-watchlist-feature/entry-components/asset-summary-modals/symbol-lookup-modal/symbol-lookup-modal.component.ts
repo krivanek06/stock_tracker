@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Summary, SymbolStorageService, UserStorageService } from '@core';
 import { DialogService, SymbolIdentification } from '@shared';
@@ -10,7 +10,7 @@ import { AssetSummaryModalBase } from '../asset-summary-modal-base.directive';
 	selector: 'app-symbol-lookup-modal',
 	templateUrl: './symbol-lookup-modal.component.html',
 	styleUrls: ['./symbol-lookup-modal.component.scss'],
-	changeDetection: ChangeDetectionStrategy.OnPush,
+	//changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SymbolLookupModalComponent extends AssetSummaryModalBase<SymbolLookupModalComponent> implements OnInit {
 	stockSummary$!: Observable<Summary | null>;
