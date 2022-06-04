@@ -2,7 +2,7 @@ import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as moment from 'moment';
 import * as api from 'stock-tracker-common-interfaces';
-import { stockDataAPI } from '../../environment';
+import { getNews } from '../../api';
 import { getStockDetailsFromApi, getStockDetailsFromFirestore, saveDataIntoFirestore } from './functions';
 
 // check if details already exists in firestore, else fetch from api and save
@@ -91,8 +91,7 @@ const modifyFinancialReports = (financialReports: api.STFinancialReport[]): api.
 };
 
 const getAndSaveStockNewsFromApi = async (symbol: string, data: api.StockDetailsWrapper): Promise<api.STFMStockNew[]> => {
-	const resolverPromise = await global.fetch(`${stockDataAPI}/fundamentals/stock_news?symbol=${symbol}`);
-	const response = (await resolverPromise.json())['data'] as api.STFMStockNew[];
+	const response = (await getNews(symbol)) as api.STFMStockNew[];
 
 	// save details
 	admin

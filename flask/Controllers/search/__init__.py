@@ -1,12 +1,10 @@
 from json import dumps
 
 # from flask_cors import CORS
-from ExternalAPI.EconomicNewsApi import EconomicNewsApi
 from ExternalAPI.FinancialModelingApi import FinancialModelingApi
 from ExternalAPI.FinhubApi import FinhubApi
 from ExternalAPI.QuandlApi import QuandlApi
-from ExternalAPI.YahooFinance.YahooFinanceTopSymbolsApi import \
-    YahooFinanceTopSymbolsApi
+from ExternalAPI.YahooFinanceApi import YahooFinanceApi
 from flask import Flask, Response, request
 from flask_json import FlaskJSON, JsonError, json_response
 from Services.QuandlService import QuandlService
@@ -42,6 +40,6 @@ def getAllCategories():
 @app.route('/top_crypto')
 def get_top_crypto():
     try:
-        return json_response(top_crypto=YahooFinanceTopSymbolsApi().get_top_crypto())
+        return json_response(top_crypto=YahooFinanceApi().get_top_crypto())
     except Exception as e:
         raise JsonError(status=500, error=ERROR_MESSAGE + 'get_top_crypto(), message: ' + str(e))
