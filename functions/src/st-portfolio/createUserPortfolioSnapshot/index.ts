@@ -22,6 +22,11 @@ For each user who already performed a transaction calculate
 - portfolioRisk
 - historical.portfolioSnapshots
 
+
+TODO
+- getting prices for assets may be too old
+- do not have more than 3 month of data
+
 */
 const symbolPriceMap: Map<string, SymbolPriceMap> = new Map<string, SymbolPriceMap>();
 

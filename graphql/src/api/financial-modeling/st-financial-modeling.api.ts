@@ -103,9 +103,10 @@ export const getTopLosersStocks = async (): Promise<api.STFMTopStocks[]> => {
 	}
 };
 
-export const getNews = async (): Promise<api.STFMStockNew[]> => {
+export const getNews = async (symbol?: string): Promise<api.STFMStockNew[]> => {
 	try {
-		const promise = await fetch(`${financialModelingAPI}/api/v3/stock_news?limit=50&apikey=${financialModelingAPIKey}`);
+		const tickerParam = symbol ? `&tickers=${symbol}` : '';
+		const promise = await fetch(`${financialModelingAPI}/api/v3/stock_news?limit=50${tickerParam}&apikey=${financialModelingAPIKey}`);
 		const respose = (await promise.json()) as api.STFMStockNew[];
 		return respose;
 	} catch {
@@ -312,7 +313,6 @@ export const searchSymbolsByPrefix = async (prefix: string): Promise<api.STFMCom
 	}
 };
 
-
 export const getFinancialRatios = async (symbol: string, period: 'quarter' | 'year' = 'quarter', limit: number = 30): Promise<api.STFMRatios[]> => {
 	try {
 		const promise = await fetch(`${financialModelingAPI}/api/v3/ratios/${symbol}?period=${period}&limit=${limit}&apikey=${financialModelingAPIKey}`);
@@ -322,37 +322,51 @@ export const getFinancialRatios = async (symbol: string, period: 'quarter' | 'ye
 	} catch {
 		return [];
 	}
-}
+};
 
-export const getEnterpriseValues = async (symbol: string, period: 'quarter' | 'year' = 'quarter', limit: number = 30): Promise<api.STFMEnterpriseValue[]> => {
+export const getEnterpriseValues = async (
+	symbol: string,
+	period: 'quarter' | 'year' = 'quarter',
+	limit: number = 30
+): Promise<api.STFMEnterpriseValue[]> => {
 	try {
-		const promise = await fetch(`${financialModelingAPI}/api/v3/enterprise-values/${symbol}?period=${period}&limit=${limit}&apikey=${financialModelingAPIKey}`);
+		const promise = await fetch(
+			`${financialModelingAPI}/api/v3/enterprise-values/${symbol}?period=${period}&limit=${limit}&apikey=${financialModelingAPIKey}`
+		);
 		const respose = (await promise.json()) as api.STFMEnterpriseValue[];
 
 		return respose;
 	} catch {
 		return [];
 	}
-}
+};
 
 export const getKeyMetrics = async (symbol: string, period: 'quarter' | 'year' = 'quarter', limit: number = 30): Promise<api.STFMKeyMetrics[]> => {
 	try {
-		const promise = await fetch(`${financialModelingAPI}/api/v3/key-metrics/${symbol}?period=${period}&limit=${limit}&apikey=${financialModelingAPIKey}`);
+		const promise = await fetch(
+			`${financialModelingAPI}/api/v3/key-metrics/${symbol}?period=${period}&limit=${limit}&apikey=${financialModelingAPIKey}`
+		);
 		const respose = (await promise.json()) as api.STFMKeyMetrics[];
 
 		return respose;
 	} catch {
 		return [];
 	}
-}
+};
 
-export const getFinancialGrowth = async (symbol: string, period: 'quarter' | 'year' = 'quarter', limit: number = 30): Promise<api.STFMFinancialGrowth[]> => {
+export const getFinancialGrowth = async (
+	symbol: string,
+	period: 'quarter' | 'year' = 'quarter',
+	limit: number = 30
+): Promise<api.STFMFinancialGrowth[]> => {
 	try {
-		const promise = await fetch(`${financialModelingAPI}/api/v3/financial-growth/${symbol}?period=${period}&limit=${limit}&apikey=${financialModelingAPIKey}`);
+		const promise = await fetch(
+			`${financialModelingAPI}/api/v3/financial-growth/${symbol}?period=${period}&limit=${limit}&apikey=${financialModelingAPIKey}`
+		);
 		const respose = (await promise.json()) as api.STFMFinancialGrowth[];
 
 		return respose;
 	} catch {
 		return [];
 	}
-}
+};
