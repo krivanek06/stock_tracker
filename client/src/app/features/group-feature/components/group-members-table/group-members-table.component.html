@@ -16,11 +16,10 @@
 </div>
 
 <!-- print users in table -->
-<div class="st-flex-wrap gap-2">
-	<ion-card
-		class="c-member-card"
+<div class="flex flex-wrap gap-4">
+	<mat-card
+		[appClickableDirective]="true"
 		*ngFor="let groupUser of groupAllData.groupMemberData.members | groupMemberSort: groupMemberSort.value; let i = index"
-		button
 		(click)="clickedMember(groupUser)"
 		[ngClass]="{
                  'g-my-position': groupUser.id === user?.id && i !== 0 && i !== 1 && i !== 2,
@@ -29,15 +28,17 @@
                   'g-third-position': i === 2
                 }"
 	>
-		<app-group-user-base-information
-			[showIncreasePosition]="groupMemberSort.value === GroupMemberSortValuesEnum.highest_portfolio"
-			[showPortfolioSinceMember]="showPortfolioSinceMember"
-			[useClassStyling]="groupUser.id === user?.id && i !== 0 && i !== 1 && i !== 2 ? 'g-my-position-color' :
+		<mat-card-content>
+			<app-group-user-base-information
+				[showIncreasePosition]="groupMemberSort.value === GroupMemberSortValuesEnum.highest_portfolio"
+				[showPortfolioSinceMember]="showPortfolioSinceMember"
+				[useClassStyling]="groupUser.id === user?.id && i !== 0 && i !== 1 && i !== 2 ? 'g-my-position-color' :
                                    i === 0 ? 'g-first-position-color' :
                                    i === 1 ? 'g-second-position-color' :
                                    i === 2 ? 'g-third-position-color' : ''"
-			[groupUser]="groupUser"
-		>
-		</app-group-user-base-information>
-	</ion-card>
+				[groupUser]="groupUser"
+			>
+			</app-group-user-base-information>
+		</mat-card-content>
+	</mat-card>
 </div>

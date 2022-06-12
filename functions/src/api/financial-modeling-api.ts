@@ -58,14 +58,14 @@ export const getHistoricalDailyPricesAPI = async (
 	}
 };
 
-export const getLivePriceAPI = async (symbols: string[]): Promise<api.STFMLivePrice[]> => {
+export const getLivePriceAPI = async (symbols: string[]): Promise<api.STFMLivePrice[] | null> => {
 	try {
 		const formattedSymbols = symbols.join(',');
 		const promise = await fetch(`${financialModelingAPI}/api/v3/quote-short/${formattedSymbols}?apikey=${financialModelingAPIKey}`);
 		const respose = (await promise.json()) as api.STFMLivePrice[];
 		return respose;
 	} catch {
-		return null as any;
+		return null;
 	}
 };
 

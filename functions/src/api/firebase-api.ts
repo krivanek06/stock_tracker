@@ -23,7 +23,18 @@ export const getUserPublicDataByUserId = async (userId: string): Promise<api.STU
 export const getAllUserWithExistingHoldingsFirebase = async (): Promise<api.STUserPublicData[]> => {
 	// cannot use holdings for filtering because when somebody had increase 90% and sold everythin,
 	// then he would not be filtered out
-	const usersWithHoldings = await admin.firestore().collection('users').where('portfolio.numberOfExecutedBuyTransactions', '>', 0).get();
+
+	// midnight current day
+	const timeLimit = new Date();
+	timeLimit.setHours(0, 0, 0, 0);
+
+	const usersWithHoldings = await admin
+		.firestore()
+		.collection('users')
+		//.where('portfolio.numberOfExecutedBuyTransactions', '>', 0)
+		.where('lastPortfolioUpdateDate', '<=', timeLimit.toISOString())
+		.limit(50)
+		.get();
 	return usersWithHoldings.docs.map((d) => d.data() as api.STUserPublicData);
 };
 

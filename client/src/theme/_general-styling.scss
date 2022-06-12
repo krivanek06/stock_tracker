@@ -526,6 +526,10 @@ ion-spinner {
 	flex-flow: row !important;
 }
 
+.g-display-flex-center {
+	@apply flex items-center flex-row;
+}
+
 // PRICE CHANGE
 .st-price-up {
 	color: #{$st-var-price-up} !important;
@@ -677,8 +681,7 @@ ion-skeleton-text {
 }
 
 .st-symbol-image {
-	max-width: 36px;
-	min-height: 36px;
+	width: 34px;
 	margin-right: 12px !important;
 
 	// @media (max-width: #{$st-var-sm-split}) {

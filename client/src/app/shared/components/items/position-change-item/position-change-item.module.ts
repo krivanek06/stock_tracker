@@ -1,22 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {PositionChangeItemComponent} from "./position-change-item.component";
-import {IonicModule} from "@ionic/angular";
-import {NumberFormatterPipeModule} from "../../../pipes";
-
-
+import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { NumberFormatterPipeModule } from '../../../pipes';
+import { PositionChangeItemComponent } from './position-change-item.component';
 
 @NgModule({
-  declarations: [
-    PositionChangeItemComponent
-  ],
-  imports: [
-    CommonModule,
-    IonicModule,
-    NumberFormatterPipeModule
-  ],
-  exports: [
-    PositionChangeItemComponent
-  ]
+	declarations: [PositionChangeItemComponent],
+	imports: [CommonModule, MatIconModule, NumberFormatterPipeModule],
+	exports: [PositionChangeItemComponent],
 })
-export class PositionChangeItemModule { }
+export class PositionChangeItemModule {}

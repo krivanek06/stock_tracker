@@ -1,4 +1,4 @@
-import { StPortfolioChangeFragment } from '@core';
+import { StPortfolioChangeData, StPortfolioChangeFragment } from '@core';
 
 type PortfolioChangeItemsKey = Omit<StPortfolioChangeFragment, '__typename'>;
 export interface PortfolioChangeItems {
@@ -16,3 +16,11 @@ export const PortfolioChangeItemsToDisplay: PortfolioChangeItems[] = [
 	{ displayName: '3 Months', key: 'month_3_change' },
 	{ displayName: '6 Months', key: 'month_6_change' },
 ];
+
+export const STARTED_PORTFOLIO: StPortfolioChangeData = {
+	portfolioBalance: 100000,
+	portfolioCash: 100000,
+	portfolioIncreaseNumber: 0,
+	portfolioIncreasePrct: 0,
+	portfolioInvested: 0,
+};

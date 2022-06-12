@@ -50,9 +50,9 @@
 			<ion-text class="text-2xl st-main-color-turquois">Balance</ion-text>
 		</div>
 		<!-- sum + change -->
-		<div class="flex flex-row gap-4">
-			<div class="text-xl g-color-white">{{ (cashOnHand + invested) | numberFormatter}}</div>
-			<app-price-compare-item [compareToPrice]="startedBalance" [currentPrice]="invested + cashOnHand" pricePosition="bottom">
+		<div class="flex flex-col gap-1">
+			<div class="text-xl g-color-white text-right">{{ (cashOnHand + invested) | numberFormatter}}</div>
+			<app-price-compare-item [compareToPrice]="startedBalance" [currentPrice]="invested + cashOnHand" pricePosition="right">
 			</app-price-compare-item>
 		</div>
 	</div>

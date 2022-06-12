@@ -1,12 +1,9 @@
 :host {
 	.c-info-with-position-container {
+		margin-right: 32px;
 		& > * {
 			margin-bottom: 4px;
 		}
-	}
-	.c-main-container {
-		position: relative;
-		padding: 10px;
 	}
 
 	ion-img {
@@ -20,15 +17,7 @@
 		max-width: 350px;
 	}
 
-	.current-position-number-container {
-		height: 100%;
-		align-items: baseline !important;
-		flex: 1;
-		justify-content: flex-end;
-
-		.current-position-number {
-			margin-right: 8px;
-			font-size: 20px;
-		}
+	.c-wrapper-flex {
+		@apply flex flex-row items-center gap-2;
 	}
 }
