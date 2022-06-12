@@ -6,7 +6,7 @@ export const createSTGroupUser = (userPublic: StUserPublicData): StGroupUser => 
 		accountCreatedDate: userPublic.accountCreatedDate,
 		locale: userPublic.locale,
 		nickName: userPublic.nickName,
-		photoURL: userPublic.photoURL,
+		photoURL: userPublic.photoURL || '',
 		id: userPublic.id,
 		portfolio: {
 			lastPortfolioSnapshot: userPublic.portfolio.lastPortfolioSnapshot,
@@ -16,6 +16,11 @@ export const createSTGroupUser = (userPublic: StUserPublicData): StGroupUser => 
 			lastPortfolioIncreaseNumber: userPublic.portfolio.lastPortfolioIncreaseNumber,
 			lastPortfolioIncreasePrct: userPublic.portfolio.lastPortfolioIncreasePrct,
 			portfolioCash: userPublic.portfolio.portfolioCash,
+			transactionFees: userPublic.portfolio.transactionFees,
+			portfolioChange: {
+				...userPublic.portfolio.portfolioChange,
+			},
+			lastPortfolioBalance: userPublic.portfolio.lastPortfolioBalance,
 		},
 		startedPortfolio: {
 			date: new Date().toISOString(),
@@ -23,6 +28,8 @@ export const createSTGroupUser = (userPublic: StUserPublicData): StGroupUser => 
 			portfolioCash: userPublic.portfolio.portfolioCash,
 			numberOfExecutedBuyTransactions: userPublic.portfolio.numberOfExecutedBuyTransactions,
 			numberOfExecutedSellTransactions: userPublic.portfolio.numberOfExecutedSellTransactions,
+			lastPortfolioBalance: userPublic.portfolio.lastPortfolioBalance,
+			transactionFees: userPublic.portfolio.transactionFees,
 		},
 
 		previousPosition: null,

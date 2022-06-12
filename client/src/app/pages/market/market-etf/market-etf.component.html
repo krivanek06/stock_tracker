@@ -1,0 +1,41 @@
+<app-financial-chart-container [height]="chartHeight" [name]="'ETF: SPY'" [symbol]="'SPY'"> </app-financial-chart-container>
+
+<div class="grid grid-cols-1 lg:grid-cols-2" *ngIf="etfDocument$ | async as etfDocument">
+	<!-- etf sector weight -->
+	<app-pie-chart-wrapper
+		*ngIf="etfDocument.etfSectorWeight"
+		[data]="etfDocument.etfSectorWeight | chartKeyValueFormatter: 'sector' : 'weightPercentage'"
+		[heightPx]="chartHeighrPie"
+		chartTitle="ETF sector allocation"
+	>
+	</app-pie-chart-wrapper>
+
+	<!-- etf country weight -->
+	<app-pie-chart-wrapper
+		*ngIf="etfDocument.etfCountryWeight"
+		[data]="etfDocument.etfCountryWeight | chartKeyValueFormatter: 'country' : 'weightPercentage'"
+		[heightPx]="chartHeighrPie"
+		chartTitle="ETF country allocation"
+	>
+	</app-pie-chart-wrapper>
+</div>
+
+<!-- holdings - value chart -->
+<app-generic-chart
+	*ngIf=" etfHolders$ | async as etfHolders"
+	chartTitle="ETF share number holdings"
+	[chartType]="ChartType.column"
+	[heightPx]="chartHeight"
+	[showCategoryNameWithValue]="true"
+	[series]="[{
+					colorByPoint: true,
+					data: etfHolders
+				}]"
+>
+</app-generic-chart>
+
+<!-- table of different etfs -->
+<app-generic-extension-panel title="ETF list">
+	<app-market-company-quotes-table (itemClickedEmitter)="etfClicked($event)" [stfmCompanyQuotes]="(marketDailyOverview$ | async)?.etfs">
+	</app-market-company-quotes-table>
+</app-generic-extension-panel>

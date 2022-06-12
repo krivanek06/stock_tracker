@@ -1,18 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {DetailsEsgScoreComponent} from "./details-esg-score.component";
-import {IonicModule} from "@ionic/angular";
-import {PriceCompareItemModule} from "@shared";
-
-
+import { NgModule } from '@angular/core';
+import { PriceCompareItemModule } from '@shared';
+import { DetailsEsgScoreComponent } from './details-esg-score.component';
 
 @NgModule({
-  declarations: [DetailsEsgScoreComponent],
-  imports: [
-    CommonModule,
-    IonicModule,
-    PriceCompareItemModule
-  ],
-  exports: [DetailsEsgScoreComponent]
+	declarations: [DetailsEsgScoreComponent],
+	imports: [CommonModule, PriceCompareItemModule],
+	exports: [DetailsEsgScoreComponent],
 })
-export class DetailsEsgScoreModule { }
+export class DetailsEsgScoreModule {}

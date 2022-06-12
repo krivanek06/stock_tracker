@@ -1,47 +1,48 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {StGroupAllData, StGroupAllDataInput, StUserIndetification, UserStorageService} from '@core';
-import {ModalController, NavParams} from '@ionic/angular';
-import {ConfirmableWithCheckbox} from '@shared';
-import {Observable} from 'rxjs';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { StGroupAllData, StGroupAllDataInput, StUserIdentification, UserStorageService } from '@core';
+import { Confirmable } from '@shared';
+import { Observable } from 'rxjs';
 
 @Component({
-    selector: 'app-group-create-modal',
-    templateUrl: './group-create-modal.component.html',
-    styleUrls: ['./group-create-modal.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+	selector: 'app-group-create-modal',
+	templateUrl: './group-create-modal.component.html',
+	styleUrls: ['./group-create-modal.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupCreateModalComponent implements OnInit {
-    editedGroup: StGroupAllData;
-    user$: Observable<StUserIndetification>;
+	user$!: Observable<StUserIdentification | null>;
 
-    constructor(private modalController: ModalController, private userStorageService: UserStorageService, private navParams: NavParams) {
-    }
+	constructor(
+		private userStorageService: UserStorageService,
+		private dialogRef: MatDialogRef<GroupCreateModalComponent>,
+		@Inject(MAT_DIALOG_DATA) public data: { editedGroup: StGroupAllData }
+	) {}
 
-    ngOnInit() {
-        this.user$ = this.userStorageService.getUserIdentification();
-        this.editedGroup = this.navParams.get('editedGroup');
-    }
+	ngOnInit() {
+		this.user$ = this.userStorageService.getUserIdentification();
+	}
 
-    dismissModal() {
-        this.modalController.dismiss();
-    }
+	dismissModal() {
+		this.dialogRef.close();
+	}
 
-    submitGroup(groupAllDataInput: StGroupAllDataInput) {
-        if (this.editedGroup) {
-            groupAllDataInput.groupId = this.editedGroup.id;
-            this.editGroup(groupAllDataInput);
-        } else {
-            this.createGroup(groupAllDataInput);
-        }
-    }
+	submitGroup(groupAllDataInput: StGroupAllDataInput) {
+		if (this.data.editedGroup) {
+			groupAllDataInput.groupId = this.data.editedGroup.id;
+			this.editGroup(groupAllDataInput);
+		} else {
+			this.createGroup(groupAllDataInput);
+		}
+	}
 
-    @ConfirmableWithCheckbox('Please confirm creating new group', 'confirm')
-    private createGroup(groupAllDataInput: StGroupAllDataInput) {
-        this.modalController.dismiss({groupAllDataInput});
-    }
+	@Confirmable('Please confirm creating new group')
+	private createGroup(groupAllDataInput: StGroupAllDataInput) {
+		this.dialogRef.close({ groupAllDataInput });
+	}
 
-    @ConfirmableWithCheckbox('Please confirm editing group', 'confirm')
-    private editGroup(groupAllDataInput: StGroupAllDataInput) {
-        this.modalController.dismiss({groupAllDataInput});
-    }
+	@Confirmable('Please confirm editing group')
+	private editGroup(groupAllDataInput: StGroupAllDataInput) {
+		this.dialogRef.close({ groupAllDataInput });
+	}
 }

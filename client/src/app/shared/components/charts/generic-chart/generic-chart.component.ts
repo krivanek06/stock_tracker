@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { ChartSeriesData } from '@core';
+import { Series, StMarketChartDataResultCombined } from '@core';
 import highcharts3D from 'highcharts/highcharts-3d';
 import * as Highcharts from 'highcharts/highstock';
 import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
-import { ChartType } from '../../../models';
+import { ChartType, GenericChartSeries, GenericChartSeriesData } from '../../../models';
 import { stFormatLargeNumber } from '../../../utils';
 
 NoDataToDisplay(Highcharts);
@@ -18,24 +18,24 @@ highcharts3D(Highcharts);
 export class GenericChartComponent implements OnInit, OnChanges {
 	@Output() expandEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-	@Input() series: any[]; // y-axis
+	@Input() series!: GenericChartSeries[] | Series[] | StMarketChartDataResultCombined[]; // y-axis
 	@Input() heightPx = 400;
 	@Input() chartType: ChartType = ChartType.line;
-	@Input() chartTitle: string;
+	@Input() chartTitle = '';
 	@Input() chartTitlePosition = 'left';
 	@Input() showTimelineSlider = false;
 	@Input() showTooltip = true;
 	@Input() showDataLabel = false;
-	@Input() categories: string[];
-	@Input() timestamp: number[];
+	@Input() categories: string[] = [];
+	@Input() timestamp: number[] = [];
 	@Input() enable3D = false;
-	@Input() isPercentage = false;
+	@Input() isPercentage?: boolean = false;
 	@Input() showYAxis = true;
 	@Input() showXAxis = true;
 	@Input() sharedTooltip = true;
 	@Input() additionalStyle: string = '';
-	@Input() showCategoryNameWithValue: boolean;
-	@Input() showCategoryNameWithValueDollar: boolean;
+	@Input() showCategoryNameWithValue = false;
+	@Input() showCategoryNameWithValueDollar = false;
 
 	// legend
 	@Input() showLegend = false;
@@ -50,14 +50,14 @@ export class GenericChartComponent implements OnInit, OnChanges {
 	@Input() addFancyColoring = false;
 
 	Highcharts: typeof Highcharts = Highcharts;
-	chart;
+	chart: any;
 	updateFromInput = true;
-	chartCallback;
+	chartCallback: any;
 	chartOptions: any = {}; //  : Highcharts.Options
 	constructor() {
 		const self = this;
 
-		this.chartCallback = (chart) => {
+		this.chartCallback = (chart: any) => {
 			self.chart = chart; // new Highcharts.Chart(this.chartOptions); //chart;
 		};
 	}
@@ -68,13 +68,20 @@ export class GenericChartComponent implements OnInit, OnChanges {
 		}
 		if (this.isPercentage) {
 			this.series = this.series.map((s) => {
-				return {
-					...s,
-					data: s.data.map((d) => {
-						return { ...d, y: d.y * 100 };
-					}),
-				};
-			});
+				if (!s || s.data.length === 0) {
+					return s;
+				}
+				if (Number.isNaN(Number(s.data[0]))) {
+					return {
+						...s,
+						data: s.data.map((d: any) => {
+							return { ...d, y: d.y * 100 };
+						}),
+					};
+				}
+				return { ...s, data: s.data.map((d) => (!!d && typeof d === 'number' ? d * 100 : d)) };
+			}) as Series[];
+			console.log(this.series);
 		}
 
 		this.initChart();
@@ -111,46 +118,55 @@ export class GenericChartComponent implements OnInit, OnChanges {
 			return;
 		}
 
-		if (this.categories) {
+		if (this.categories.length > 0) {
 			this.initCategories();
 		}
 
-		if (this.timestamp) {
+		if (this.timestamp.length > 0) {
 			this.initTimestamp();
 		}
 
 		if (this.isPercentage) {
 			this.chartOptions.tooltip = {
 				...this.chartOptions.tooltip,
-				headerFormat: '',
+				//headerFormat: '',
 				pointFormat: '<span style="color:{point.color};">{point.name}</span>: <b>{point.y:.2f}%</b><br/>',
+				pointFormatter: function () {
+					const value = stFormatLargeNumber(this.y);
+					const name = this.series.name; // this.point.name
+					return `<span style="color:${this.color};">${name}</span>: <b>${value}%</b><br/>`;
+				},
 			};
 			if (this.showDataLabel) {
 				this.chartOptions.plotOptions.series.dataLabels.format = '{point.y:.1f}%';
 			}
 		} else {
-			if (this.chartType === ChartType.bar) {
-				return;
+			if (this.chartType !== ChartType.bar) {
+				this.chartOptions.tooltip = {
+					...this.chartOptions.tooltip,
+					pointFormatter: function () {
+						const value = stFormatLargeNumber(this.y);
+						return `<p><span style="color: ${this.color}; font-weight: bold">● ${this.series.name}: </span><span>${value}</span></p><br/>`;
+					},
+				};
 			}
-			this.chartOptions.tooltip = {
-				...this.chartOptions.tooltip,
-				pointFormatter: function () {
-					const value = stFormatLargeNumber(this.y);
-					return `<p><span style="color: ${this.color}; font-weight: bold">● ${this.series.name}: </span><span>${value}</span></p><br/>`;
-				},
-			};
 		}
 
 		if (this.showCategoryNameWithValue) {
 			const dollar = this.showCategoryNameWithValueDollar;
+			const isPercentage = this.isPercentage;
+			// tooltip
 			this.chartOptions.tooltip = {
 				...this.chartOptions.tooltip,
 				headerFormat: '',
 				pointFormatter: function () {
 					const value = stFormatLargeNumber(this.y, false, dollar);
-					return `<p><span style="color: ${this.color}; font-weight: bold">● ${this.name}: </span><span>${value}</span></p><br/>`;
+					const valueFormat = isPercentage ? `${value}%` : value;
+					return `<p><span style="color: ${this.color}; font-weight: bold">● ${this.name}: </span><span>${valueFormat}</span></p><br/>`;
 				},
 			};
+			const data = this.series[0].data as any as GenericChartSeriesData[];
+			this.chartOptions.xAxis.categories = data.map((d) => d.name);
 		}
 	}
 
@@ -177,8 +193,8 @@ export class GenericChartComponent implements OnInit, OnChanges {
 		this.chartOptions.xAxis.type = 'datetime';
 		this.chartOptions.xAxis.labels.rotation = -20;
 		/*this.chartOptions.xAxis.labels.formatter = function() {
-            return Highcharts.dateFormat('%d.%m.%Y', this.value);
-        }*/
+			return Highcharts.dateFormat('%d.%m.%Y', this.value);
+		}*/
 		this.chartOptions.xAxis.labels.format = '{value:%e %b %Y}';
 	}
 
@@ -321,7 +337,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
 					},
 					enableMouseTracking: this.showTooltip,
 					events: {
-						legendItemClick: (e) => {
+						legendItemClick: (e: any) => {
 							if (!this.enableLegendTogging) {
 								e.preventDefault(); // prevent toggling series visibility
 							}
@@ -377,7 +393,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
 							value: 4,
 						},
 					},
-					colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+					colors: Highcharts.map(Highcharts.getOptions().colors as any[], function (color: any) {
 						return {
 							radialGradient: {
 								cx: 0.5,
@@ -443,17 +459,17 @@ export class GenericChartComponent implements OnInit, OnChanges {
 	private fancyColoring() {
 		let count = 0;
 		this.series = this.series.map((s) => {
-			const data: ChartSeriesData = {
+			const data: GenericChartSeries = {
 				name: s.name,
 				data: s.data,
 				color: {
 					linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
 					stops: [
-						[0, Highcharts.getOptions().colors[(count % 5) + 2]], // '#25aedd'
-						[1, Highcharts.getOptions().colors[count % 10]],
+						[0, (Highcharts.getOptions().colors as any[])[(count % 5) + 2]], // '#25aedd'
+						[1, (Highcharts.getOptions().colors as any[])[count % 10]],
 					],
 				},
-			};
+			} as GenericChartSeries;
 			count += 1;
 			return data;
 		});

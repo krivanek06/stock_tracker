@@ -1,19 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterModule, Routes } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
 import {
 	FinancialChartContainerModule,
 	GenericCardModule,
 	GenericChartModule,
 	GenericListModule,
-	HeaderModule,
+	LoaderWrapperModule,
+	MatCardWrapperModule,
 	PieChartWrapperModule,
-	StockSummaryContainerModule,
 } from '@shared';
-import { DetailsStockSuggestionChangeModule, StockSearchModule } from '@stock-details-feature';
+import { DetailsStockSuggestionChangeModule, DetailsStockSummaryModule, StockSearchModule } from '@stock-details-feature';
 import { HoldingsTableModule, PortfolioStateModule, TradeConfirmationPopOverModule, TradingBidAskModule } from '@stock-trading-feature';
-import { MenuHeaderModule } from 'src/app/features/composed-components-feature';
 import { TradingPage } from './trading.page';
 
 const routes: Routes = [
@@ -28,20 +28,21 @@ const routes: Routes = [
 		CommonModule,
 		RouterModule.forChild(routes),
 		TradeConfirmationPopOverModule,
-		IonicModule,
-		MenuHeaderModule,
-		HeaderModule,
 		StockSearchModule,
 		PortfolioStateModule,
 		TradingBidAskModule,
 		FinancialChartContainerModule,
 		GenericListModule,
 		GenericCardModule,
-		StockSummaryContainerModule,
+		DetailsStockSummaryModule,
 		HoldingsTableModule,
 		GenericChartModule,
 		DetailsStockSuggestionChangeModule,
 		PieChartWrapperModule,
+		MatButtonModule,
+		LoaderWrapperModule,
+		MatIconModule,
+		MatCardWrapperModule,
 	],
 	declarations: [TradingPage],
 })

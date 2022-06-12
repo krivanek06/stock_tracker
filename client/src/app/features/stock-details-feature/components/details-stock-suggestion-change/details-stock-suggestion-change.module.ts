@@ -1,20 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {DetailsStockSuggestionChangeComponent} from "./details-stock-suggestion-change.component";
-import {IonicModule} from "@ionic/angular";
-import {DefaultImgDirectiveModule, GenericChartModule, PriceCompareItemModule} from "@shared";
-
-
+import { NgModule } from '@angular/core';
+import { DefaultImgDirectiveModule, GenericChartModule, MatCardWrapperModule, PriceCompareItemModule } from '@shared';
+import { DetailsStockSuggestionChangeComponent } from './details-stock-suggestion-change.component';
 
 @NgModule({
-  declarations: [DetailsStockSuggestionChangeComponent],
-  imports: [
-    CommonModule,
-    IonicModule,
-    PriceCompareItemModule,
-    GenericChartModule,
-    DefaultImgDirectiveModule
-  ],
-  exports: [DetailsStockSuggestionChangeComponent]
+	declarations: [DetailsStockSuggestionChangeComponent],
+	imports: [CommonModule, MatCardWrapperModule, PriceCompareItemModule, GenericChartModule, DefaultImgDirectiveModule],
+	exports: [DetailsStockSuggestionChangeComponent],
 })
-export class DetailsStockSuggestionChangeModule { }
+export class DetailsStockSuggestionChangeModule {}

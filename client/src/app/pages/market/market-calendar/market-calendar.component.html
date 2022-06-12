@@ -1,0 +1,32 @@
+<mat-accordion *ngIf="dailyOverview$ | async as dailyOverview" [multi]="true">
+	<!-- economic -->
+	<app-generic-extension-panel title="Calendar Economic">
+		<app-market-calendar-economic [calendarEconomic]="dailyOverview.calendar.calendarEconomic"> </app-market-calendar-economic>
+	</app-generic-extension-panel>
+
+	<!-- earnings -->
+	<app-generic-extension-panel title="Calendar Earnings">
+		<app-market-calendar-earnings [calendarEarnings]="dailyOverview.calendar.calendarEarnings"> </app-market-calendar-earnings>
+	</app-generic-extension-panel>
+
+	<!-- ipo -->
+	<app-generic-extension-panel title="Calendar Ipo">
+		<app-market-calendar-ipo [calendarIpos]="dailyOverview.calendar.calendarIpo"> </app-market-calendar-ipo>
+	</app-generic-extension-panel>
+
+	<div class="grid grid-cols-1 lg:grid-cols-2">
+		<!-- split history -->
+		<app-generic-extension-panel title="Calendar stock splits">
+			<app-market-calendar-split-history
+				*ngIf="dailyOverview.calendar.calendarSplit.length > 0"
+				[splitHistories]="dailyOverview.calendar.calendarSplit"
+			>
+			</app-market-calendar-split-history>
+		</app-generic-extension-panel>
+
+		<!-- dividend history -->
+		<app-generic-extension-panel title="Calendar dividends">
+			<app-market-calendar-dividend-payout [dividendPayouts]="dailyOverview.calendar.calendarDividend"> </app-market-calendar-dividend-payout>
+		</app-generic-extension-panel>
+	</div>
+</mat-accordion>

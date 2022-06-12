@@ -1,25 +1,32 @@
 {
+	"include": ["src/*.ts", "src/**/*.d.ts"],
 	"compileOnSave": false,
+	"allowSyntheticDefaultImports": true,
 	"compilerOptions": {
 		"baseUrl": "./",
 		"outDir": "./dist/out-tsc",
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"strictPropertyInitialization": true,
 		"sourceMap": true,
 		"declaration": false,
 		"downlevelIteration": true,
-		"emitDecoratorMetadata": false,
+		"allowJs": true,
+		"allowSyntheticDefaultImports": true,
 		"experimentalDecorators": true,
-		"module": "esnext",
 		"moduleResolution": "node",
 		"importHelpers": true,
-		"target": "ES6",
-		"allowJs": true,
+		"target": "es2017",
+		"module": "es2020",
 		"lib": ["es2018", "dom", "esnext.asynciterable"],
-		"allowSyntheticDefaultImports": true,
+		"types": ["node", "jest"],
 		"paths": {
 			"@core": ["src/app/core/index"],
 			"@api": ["src/app/api/index"],
 			"@providers": ["src/app/providers/index"],
-			"@environment": ["src/environments/*"],
+			"@environment": ["src/environments/index"],
 			"@shared": ["src/app/shared/index"],
 			"@login-feature": ["src/app/features/login-feature/index"],
 			"@account-feature": ["src/app/features/account-feature/index"],
@@ -34,14 +41,18 @@
 			"@pages-shared": ["src/app/pages/composed-components-feature/index"],
 			"@admin-feature": ["src/app/features/admin-feature/index"],
 			"@ticketing-feature": ["src/app/features/util-feature/ticketing-feature"],
-			"@composed-components-feature": ["src/app/features/composed-components-feature"]
+			"@composed-components-feature": ["src/app/features/composed-components-feature"],
+			"@hall-of-fame": ["src/app/features/hall-of-fame"]
 		}
 	},
 	"angularCompilerOptions": {
 		"enableIvy": true,
 		"fullTemplateTypeCheck": true,
 		"strictInputTypes": true,
-		"strictInjectionParameters": true
+		"strictInjectionParameters": true,
+		"strictInputAccessModifiers": true,
+		"strictTemplates": true,
+		"preserveWhitespaces": true
 	},
 	"exclude": ["node_modules"]
 }

@@ -9,8 +9,8 @@ export const stockDetailsTypeDefs = gql`
 
 	type StockDetailsFinancialReports {
 		id: String!
-		allFinancialReportsQuarterly: [FinancialReport]
-		allFinancialReportsYearly: [FinancialReport]
+		allFinancialReportsQuarterly: [FinancialReport!]!
+		allFinancialReportsYearly: [FinancialReport!]!
 	}
 
 	enum SymbolType {
@@ -20,24 +20,30 @@ export const stockDetailsTypeDefs = gql`
 		ADR
 	}
 
+	type EtfDetails {
+		id: String!
+		summary: Summary!
+		calculations: STStockDetailsCalculations
+	}
+
 	type StockDetails {
 		id: String!
-		recommendation: [Recommendations]
+		recommendation: [Recommendations!]!
 		companyData: CompanyData
 		summary: Summary!
 		metric: Metric
 		dividends: Dividens
 		historicalMetrics: HistoricalMetrics
 		calculations: STStockDetailsCalculations
-		calculatedPredictions: STStockDetailsCalculatedPredictions
-		allFinancialReportsQuarterly: [FinancialReport]
-		allFinancialReportsYearly: [FinancialReport]
-		institutionalHolders: [STFMHolder]
-		mutualFundHolders: [STFMHolderWithWeight]
-		companyOutlook: STFMCompanyOutlook
-		sectorPeers: [STFMCompanyQuote]
+		calculatedPredictions: STStockDetailsCalculatedPredictions!
+		allFinancialReportsQuarterly: [FinancialReport!]!
+		allFinancialReportsYearly: [FinancialReport!]!
+		institutionalHolders: [STFMHolder!]!
+		mutualFundHolders: [STFMHolderWithWeight!]!
+		companyOutlook: STFMCompanyOutlook!
+		sectorPeers: [STFMCompanyQuote!]!
 		socialSentiment: STFMSocialSentiment
-		analystEstimatesYearly: [STAnalystEstimates]
+		analystEstimates: [STAnalystEstimates!]!
 	}
 
 	type FinancialReport {
@@ -55,9 +61,9 @@ export const stockDetailsTypeDefs = gql`
 	}
 
 	type FinancialReportStatement {
-		bs: [FinancialReportStatementData]
-		cf: [FinancialReportStatementData]
-		ic: [FinancialReportStatementData]
+		bs: [FinancialReportStatementData]!
+		cf: [FinancialReportStatementData]!
+		ic: [FinancialReportStatementData]!
 	}
 
 	type FinancialReportStatementData {
@@ -121,8 +127,8 @@ export const stockDetailsTypeDefs = gql`
 
 	type HistoricalMetricsData {
 		name: String
-		dates: [String]
-		data: [Float]
+		dates: [String!]!
+		data: [Float!]!
 	}
 
 	type CompanyData {
@@ -131,7 +137,7 @@ export const stockDetailsTypeDefs = gql`
 		esgScores: EsgScores
 		financialData: FinancialData
 		pageViews: PageViews
-		upgradeDowngradeHistory: [UpgradeDowngradeHistory]
+		upgradeDowngradeHistory: [UpgradeDowngradeHistory!]!
 	}
 
 	type Recommendations {
@@ -181,7 +187,7 @@ export const stockDetailsTypeDefs = gql`
 		## priceToSalesTrailingOneTwoMonths": null,
 		profitMargins: Float ## *100
 		## revenueQuarterlyGrowth": null,
-		sharesOutstanding: Float
+		sharesOutstanding: Float!
 		## sharesPercentSharesOut": 0.0055,
 		sharesPercentSharesOut: Float
 		sharesShort: Float
@@ -198,23 +204,23 @@ export const stockDetailsTypeDefs = gql`
 	}
 
 	type Earnings {
-		earningsChart: EarningsChart
-		financialCurrency: String
-		financialsChart: FinancialsChart
+		earningsChart: EarningsChart!
+		financialCurrency: String!
+		financialsChart: FinancialsChart!
 	}
 
 	type EarningsChart {
 		currentQuarterEstimate: Float
 		currentQuarterEstimateDate: String
 		currentQuarterEstimateYear: Float
-		earningsDate: [Float]
-		quarterly: [EarningsChartData]
+		earningsDate: [Float!]!
+		quarterly: [EarningsChartData!]!
 	}
 
 	type EarningsChartData {
 		actual: Float
-		date: String
-		estimate: Float
+		date: String!
+		estimate: Float!
 	}
 
 	type FinancialsChart {
@@ -223,12 +229,12 @@ export const stockDetailsTypeDefs = gql`
 	}
 
 	type FinancialsChartData {
-		categories: [String]
-		series: [Series]
+		categories: [String!]!
+		series: [Series!]!
 	}
 
 	type Series {
-		data: [Float]
+		data: [Float]!
 		name: String
 	}
 
@@ -310,9 +316,9 @@ export const stockDetailsTypeDefs = gql`
 	}
 
 	type PageViews {
-		longTermTrend: String
-		midTermTrend: String
-		shortTermTrend: String
+		longTermTrend: String!
+		midTermTrend: String!
+		shortTermTrend: String!
 	}
 
 	type SummaryProfile {
@@ -332,9 +338,9 @@ export const stockDetailsTypeDefs = gql`
 	}
 
 	type UpgradeDowngradeHistory {
-		action: String
-		epochGradeDate: Float
-		firm: String
+		action: String!
+		epochGradeDate: Float!
+		firm: String!
 		fromGrade: String
 		toGrade: String
 	}
@@ -348,16 +354,16 @@ export const stockDetailsTypeDefs = gql`
 	}
 
 	type Summary {
-		avgVolume: Float
+		avgVolume: Float!
 		ceo: String
-		companyName: String
-		currency: String
+		companyName: String!
+		currency: String!
 		dividendDate: String
 		ePSTTM: Float
 		earningsDate: String
 		exDividendDate: String
 		exchangeName: String
-		beta: String
+		beta: Float
 		countryFullName: String
 		fiveTwoWeekRange: String
 		forwardDividendRate: Float
@@ -365,7 +371,7 @@ export const stockDetailsTypeDefs = gql`
 		forwardEPS: Float
 		forwardPE: Float
 		fullTimeEmployees: String
-		id: String
+		id: String!
 		symbolType: SymbolType
 		industry: String
 		ipoDate: String
@@ -374,10 +380,10 @@ export const stockDetailsTypeDefs = gql`
 		logo_url: String
 		longBusinessSummary: String
 		marketCap: Float
-		marketPrice: Float
+		marketPrice: Float!
 		oneyTargetEst: Float
 		pERatioTTM: Float
-		previousClose: Float
+		previousClose: Float!
 		recommendationKey: String
 		recommendationMean: Float
 		residance: SummaryResidance
@@ -385,13 +391,13 @@ export const stockDetailsTypeDefs = gql`
 		sector: String
 		sharesOutstanding: Float
 		shortRatio: Float
-		symbol: String
+		symbol: String!
 		targetEstOneyPercent: Float
-		volume: Float
+		volume: Float!
 		website: String
-		weekRangeFiveTwoMax: Float
-		weekRangeFiveTwoMin: Float
-		yearToDatePrice: Float
+		weekRangeFiveTwoMax: Float!
+		weekRangeFiveTwoMin: Float!
+		yearToDatePrice: Float!
 		yearToDatePriceReturn: Float
 		isActivelyTrading: Boolean
 	}
@@ -546,10 +552,170 @@ export const stockDetailsTypeDefs = gql`
 	}
 
 	type SymbolHistoricalPrices {
-		livePrice: Float
+		livePrice: Float!
+		symbol: String!
+		period: String!
+		price: [[Float!]!]!
+		volume: [[Float!]!]!
+	}
+
+	type STDetailsFinancialRatios {
 		symbol: String
-		period: String
-		price: [[Float]]
-		volume: [[Float]]
+		date: [String!]!
+		currentRatio: [Float]!
+		quickRatio: [Float]!
+		cashRatio: [Float]!
+		daysOfSalesOutstanding: [Float]!
+		daysOfInventoryOutstanding: [Float]!
+		operatingCycle: [Float]!
+		daysOfPayablesOutstanding: [Float]!
+		cashConversionCycle: [Float]!
+		grossProfitMargin: [Float]!
+		operatingProfitMargin: [Float]!
+		pretaxProfitMargin: [Float]!
+		netProfitMargin: [Float]!
+		effectiveTaxRate: [Float]!
+		returnOnAssets: [Float]!
+		returnOnEquity: [Float]!
+		returnOnCapitalEmployed: [Float]!
+		netIncomePerEBT: [Float]!
+		ebtPerEbit: [Float]!
+		ebitPerRevenue: [Float]!
+		debtRatio: [Float]!
+		debtEquityRatio: [Float]!
+		longTermDebtToCapitalization: [Float]!
+		totalDebtToCapitalization: [Float]!
+		interestCoverage: [Float]!
+		cashFlowToDebtRatio: [Float]!
+		companyEquityMultiplier: [Float]!
+		receivablesTurnover: [Float]!
+		payablesTurnover: [Float]!
+		inventoryTurnover: [Float]!
+		fixedAssetTurnover: [Float]!
+		assetTurnover: [Float]!
+		operatingCashFlowPerShare: [Float]!
+		freeCashFlowPerShare: [Float]!
+		cashPerShare: [Float]!
+		payoutRatio: [Float]!
+		operatingCashFlowSalesRatio: [Float]!
+		freeCashFlowOperatingCashFlowRatio: [Float]!
+		cashFlowCoverageRatios: [Float]!
+		shortTermCoverageRatios: [Float]!
+		capitalExpenditureCoverageRatio: [Float]!
+		dividendPaidAndCapexCoverageRatio: [Float]!
+		dividendPayoutRatio: [Float]!
+		priceBookValueRatio: [Float]!
+		priceToBookRatio: [Float]!
+		priceToSalesRatio: [Float]!
+		priceEarningsRatio: [Float]!
+		priceToFreeCashFlowsRatio: [Float]!
+		priceToOperatingCashFlowsRatio: [Float]!
+		priceCashFlowRatio: [Float]!
+		priceEarningsToGrowthRatio: [Float]!
+		priceSalesRatio: [Float]!
+		dividendYield: [Float]!
+		enterpriseValueMultiple: [Float]!
+		priceFairValue: [Float]!
+	}
+
+	type STDetailsFinancialGrowth {
+		symbol: String
+		date: [String!]!
+		revenueGrowth: [Float]!
+		grossProfitGrowth: [Float]!
+		ebitgrowth: [Float]!
+		operatingIncomeGrowth: [Float]!
+		netIncomeGrowth: [Float]!
+		epsgrowth: [Float]!
+		epsdilutedGrowth: [Float]!
+		weightedAverageSharesGrowth: [Float]!
+		weightedAverageSharesDilutedGrowth: [Float]!
+		dividendsperShareGrowth: [Float]!
+		operatingCashFlowGrowth: [Float]!
+		freeCashFlowGrowth: [Float]!
+		tenYRevenueGrowthPerShare: [Float]!
+		fiveYRevenueGrowthPerShare: [Float]!
+		threeYRevenueGrowthPerShare: [Float]!
+		tenYOperatingCFGrowthPerShare: [Float]!
+		fiveYOperatingCFGrowthPerShare: [Float]!
+		threeYOperatingCFGrowthPerShare: [Float]!
+		tenYNetIncomeGrowthPerShare: [Float]!
+		fiveYNetIncomeGrowthPerShare: [Float]!
+		threeYNetIncomeGrowthPerShare: [Float]!
+		tenYShareholdersEquityGrowthPerShare: [Float]!
+		fiveYShareholdersEquityGrowthPerShare: [Float]!
+		threeYShareholdersEquityGrowthPerShare: [Float]!
+		tenYDividendperShareGrowthPerShare: [Float]!
+		fiveYDividendperShareGrowthPerShare: [Float]!
+		threeYDividendperShareGrowthPerShare: [Float]!
+		receivablesGrowth: [Float]!
+		inventoryGrowth: [Float]!
+		assetGrowth: [Float]!
+		bookValueperShareGrowth: [Float]!
+		debtGrowth: [Float]!
+		rdexpenseGrowth: [Float]!
+		sgaexpensesGrowth: [Float]!
+	}
+
+	type STDetailsKeyMetrics {
+		symbol: String!
+		date: [String!]!
+		revenuePerShare: [Float]!
+		netIncomePerShare: [Float]!
+		operatingCashFlowPerShare: [Float]!
+		freeCashFlowPerShare: [Float]!
+		cashPerShare: [Float]!
+		bookValuePerShare: [Float]!
+		tangibleBookValuePerShare: [Float]!
+		shareholdersEquityPerShare: [Float]!
+		interestDebtPerShare: [Float]!
+		marketCap: [Float]!
+		enterpriseValue: [Float]!
+		peRatio: [Float]!
+		priceToSalesRatio: [Float]!
+		pocfratio: [Float]!
+		pfcfRatio: [Float]!
+		pbRatio: [Float]!
+		ptbRatio: [Float]!
+		evToSales: [Float]!
+		enterpriseValueOverEBITDA: [Float]!
+		evToOperatingCashFlow: [Float]!
+		evToFreeCashFlow: [Float]!
+		earningsYield: [Float]!
+		freeCashFlowYield: [Float]!
+		debtToEquity: [Float]!
+		debtToAssets: [Float]!
+		netDebtToEBITDA: [Float]!
+		currentRatio: [Float]!
+		interestCoverage: [Float]!
+		incomeQuality: [Float]!
+		dividendYield: [Float]!
+		payoutRatio: [Float]!
+		salesGeneralAndAdministrativeToRevenue: [Float]!
+		researchAndDdevelopementToRevenue: [Float]!
+		intangiblesToTotalAssets: [Float]!
+		capexToOperatingCashFlow: [Float]!
+		capexToRevenue: [Float]!
+		capexToDepreciation: [Float]!
+		stockBasedCompensationToRevenue: [Float]!
+		grahamNumber: [Float]!
+		roic: [Float]!
+		returnOnTangibleAssets: [Float]!
+		grahamNetNet: [Float]!
+		workingCapital: [Float]!
+		tangibleAssetValue: [Float]!
+		netCurrentAssetValue: [Float]!
+		investedCapital: [Float]!
+		averageReceivables: [Float]!
+		averagePayables: [Float]!
+		averageInventory: [Float]!
+		daysSalesOutstanding: [Float]!
+		daysPayablesOutstanding: [Float]!
+		daysOfInventoryOnHand: [Float]!
+		receivablesTurnover: [Float]!
+		payablesTurnover: [Float]!
+		inventoryTurnover: [Float]!
+		roe: [Float]!
+		capexPerShare: [Float]!
 	}
 `;

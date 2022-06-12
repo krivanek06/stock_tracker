@@ -1,3 +1,4 @@
+<!-- contact -->
 <div *ngIf="stUserPublicData" class="user-info-item">
 	<div
 		(click)="clickedPerson()"
@@ -5,24 +6,31 @@
                 'ion-activatable': clickable,
                 'width-100': clickable
             }"
-		class="st-flex-wrap"
-		style="padding: 6px"
+		class="flex p-2"
 	>
 		<ion-img appDefaultImg [src]="stUserPublicData.photoURL"></ion-img>
-		<div class="ion-margin-start" style="display: grid">
-			<ion-text class="st-font-0 st-font-size-16">{{ stUserPublicData.nickName }}</ion-text>
+		<div class="ml-2">
+			<span class="text-white text-lg">{{ stUserPublicData.nickName }}</span>
 
 			<!-- portfolio state -->
-			<div class="st-flex-wrap ion-align-items-center">
-				<ion-text class="st-font-5 st-small-right-space">Portfolio:</ion-text>
-				<ion-text class="st-font-2 st-small-right-space">
-					{{ stUserPublicData.portfolio.lastPortfolioSnapshot ? (stUserPublicData.portfolio.lastPortfolioSnapshot.portfolioInvested +
-					stUserPublicData.portfolio.lastPortfolioSnapshot.portfolioCash | currency) : 'N/A' }}
-				</ion-text>
-				<app-price-change-item [isPercent]="true" [priceChange]="stUserPublicData.portfolio.lastPortfolioIncreasePrct"> </app-price-change-item>
+			<div class="flex items-center gap-2">
+				<span class="st-font-2 text-base">Portfolio:</span>
+				<span class="st-font-0 text-base"> {{ stUserPublicData.portfolio.lastPortfolioBalance | currency }} </span>
+			</div>
+			<!-- portfolio change -->
+			<div class="flex items-center gap-2">
+				<span class="st-font-2 text-base">Change:</span>
+				<app-price-change-item
+					pricePosition="left"
+					[isPercent]="true"
+					[showDollarSignOnPrice]="true"
+					[priceChange]="portfolioChange?.portfolioIncreasePrct"
+					[price]="portfolioChange?.portfolioIncreaseNumber"
+				>
+				</app-price-change-item>
 			</div>
 
-			<ion-text class="st-font-size-12 st-font-5"> Since: {{ stUserPublicData.accountCreatedDate | date: 'dd.MM.yyyy' }} </ion-text>
+			<ion-text class="st-font-5"> Since: {{ stUserPublicData.accountCreatedDate | date: 'dd.MM.yyyy' }} </ion-text>
 		</div>
 	</div>
 

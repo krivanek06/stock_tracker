@@ -10,6 +10,11 @@ const routes: Routes = [
 		component: MenuPage,
 		children: [
 			{
+				path: '',
+				redirectTo: 'dashboard',
+				pathMatch: 'full',
+			},
+			{
 				path: 'dashboard',
 				canActivate: [AuthGuard],
 				loadChildren: () => import('../dashboard/dashboard.module').then((m) => m.DashboardPageModule),
@@ -29,9 +34,8 @@ const routes: Routes = [
 				loadChildren: () => import('../market/market.module').then((m) => m.MarketPageModule),
 			},
 			{
-				path: 'ranking',
-				canActivate: [AuthGuard],
-				loadChildren: () => import('../ranking/ranking.module').then((m) => m.RankingPageModule),
+				path: 'hall-of-fame',
+				loadChildren: () => import('../hall-of-fame/hall-of-fame.module').then((m) => m.HallOfFamePageModule),
 			},
 			{
 				path: 'about',
@@ -45,7 +49,6 @@ const routes: Routes = [
 			},
 			{
 				path: 'groups',
-				canActivate: [AuthGuard, TradingGuard],
 				loadChildren: () => import('../groups/groups.module').then((m) => m.GroupsModule),
 			},
 			{
@@ -56,11 +59,6 @@ const routes: Routes = [
 			{
 				path: 'search',
 				loadChildren: () => import('../search/search.module').then((m) => m.SearchPageModule),
-			},
-			{
-				path: '',
-				redirectTo: 'dashboard',
-				pathMatch: 'full',
 			},
 		],
 	},

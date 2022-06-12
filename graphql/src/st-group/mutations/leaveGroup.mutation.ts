@@ -2,6 +2,7 @@ import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
 import { queryUserPublicDataById } from '../../st-user/user.query';
+import { decreaseGroupPortfolio } from '../st-group.util';
 import { Context } from './../../st-shared/st-shared.interface';
 import { querySTGroupByGroupId, querySTGroupMemberDataByGroupId } from './../st-group.query';
 
@@ -18,26 +19,11 @@ export const leaveGroup = async (groupId: string, { requesterUserId }: Context):
 
 		// remove starting balance when leaving group
 		if (!!person) {
-			// adjest starting portfolios
-			group.startedPortfolio.portfolioCash -= person.startedPortfolio.portfolioCash;
-			group.startedPortfolio.portfolioInvested -= person.startedPortfolio.portfolioInvested;
-			group.startedPortfolio.numberOfExecutedSellTransactions -= person.startedPortfolio.numberOfExecutedSellTransactions;
-			group.startedPortfolio.numberOfExecutedBuyTransactions -= person.startedPortfolio.numberOfExecutedBuyTransactions;
-			group.startedPortfolio.transactionFees -= person.startedPortfolio.transactionFees;
-
-			// adjust portfolio
-			group.portfolio.lastPortfolioSnapshot.portfolioCash -= person.portfolio.lastPortfolioSnapshot.portfolioCash;
-			group.portfolio.lastPortfolioSnapshot.portfolioInvested -= person.portfolio.lastPortfolioSnapshot.portfolioInvested;
-			group.portfolio.numberOfExecutedSellTransactions -= person.portfolio.numberOfExecutedSellTransactions;
-			group.portfolio.numberOfExecutedBuyTransactions -= person.portfolio.numberOfExecutedBuyTransactions;
-			group.portfolio.transactionFees -= person.portfolio.transactionFees;
-
-			// adjust members
-			group.numberOfMembers -= 1;
+			decreaseGroupPortfolio(group, person.portfolio);
 		}
 
 		// save group data
-		await updateGroupDatae(requesterUserId, group);
+		await updateGroupDate(requesterUserId, group);
 
 		// save group members data
 		await updateGroupMemberDoc(requesterUserId, groupMembersDoc);
@@ -51,7 +37,7 @@ export const leaveGroup = async (groupId: string, { requesterUserId }: Context):
 	}
 };
 
-const updateGroupDatae = async (requesterUserId: string, group: api.STGroupAllData) => {
+const updateGroupDate = async (requesterUserId: string, group: api.STGroupAllData) => {
 	const filteredManagers = group.managers.filter((x) => x.id !== requesterUserId);
 
 	await admin

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FetchResult } from '@apollo/client';
-import { DataProxy } from '@apollo/client/cache/core/types/DataProxy';
+import { DataProxy, FetchResult } from '@apollo/client/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
@@ -16,29 +15,33 @@ import {
 	EditGroupMutation,
 	LeaveGroupGQL,
 	LeaveGroupMutation,
-	RemoveMemberFromGroupGQL,
-	StGroupAllData,
-	StGroupAllDataInput,
-	StGroupIdentificationDataFragment,
-	ToggleInvitationRequestToGroupGQL,
-	ToggleInvitationRequestToGroupMutation,
-} from '../graphql-schema';
-import { UserStorageService } from '../services';
-import { createSTGroupUser } from '../utils';
-import {
 	QueryStGroupByGroupIdGQL,
+	QueryStGroupByGroupIdWithoutHoldingGQL,
 	QueryStGroupByGroupNameGQL,
 	QueryStGroupMemberOverviewByIdGQL,
+	RemoveMemberFromGroupGQL,
 	RemoveMemberFromGroupMutation,
+	StGroupAllData,
 	StGroupAllDataFragmentFragment,
 	StGroupAllDataFragmentFragmentDoc,
+	StGroupAllDataInput,
+	StGroupAllDataWithoutHoldingsFragment,
+	StGroupIdentificationDataFragment,
+	StGroupIdentificationDataFragmentDoc,
 	StGroupMemberOverviewFragment,
 	StGroupUser,
+	StUserIdentificationDataFragment,
 	StUserPublicData,
+	ToggleInvitationRequestToGroupGQL,
+	ToggleInvitationRequestToGroupMutation,
 	ToggleInviteUserIntoGroupGQL,
 	ToggleInviteUserIntoGroupMutation,
 	ToggleUsersInvitationRequestToGroupGQL,
-} from './../graphql-schema/customGraphql.service';
+	ToggleWatchGroupGQL,
+	ToggleWatchGroupMutation,
+} from '../graphql-schema';
+import { UserStorageService } from '../services';
+import { createSTGroupUser } from '../utils';
 
 @Injectable({
 	providedIn: 'root',
@@ -57,7 +60,9 @@ export class GraphqlGroupService {
 		private answerReceivedGroupInvitationGQL: AnswerReceivedGroupInvitationGQL,
 		private leaveGroupGQL: LeaveGroupGQL,
 		private queryStGroupMemberOverviewByIdGQL: QueryStGroupMemberOverviewByIdGQL,
-		private removeMemberFromGroupGQL: RemoveMemberFromGroupGQL
+		private removeMemberFromGroupGQL: RemoveMemberFromGroupGQL,
+		private toggleWatchGroupGQL: ToggleWatchGroupGQL,
+		private queryStGroupByGroupIdWithoutHoldingGQL: QueryStGroupByGroupIdWithoutHoldingGQL
 	) {}
 
 	queryStGroupMemberOverviewById(userId: string): Observable<StGroupMemberOverviewFragment> {
@@ -65,7 +70,7 @@ export class GraphqlGroupService {
 			.fetch({
 				id: userId,
 			})
-			.pipe(map((res) => res.data.queryUserPublicDataById));
+			.pipe(map((res) => res.data.queryUserPublicDataById as StGroupMemberOverviewFragment));
 	}
 
 	queryGroupAllDataByGroupId(id: string): Observable<StGroupAllData> {
@@ -76,12 +81,20 @@ export class GraphqlGroupService {
 			.pipe(map((res) => res.data.querySTGroupByGroupId as StGroupAllData));
 	}
 
+	queryStGroupByGroupIdWithoutHolding(id: string): Observable<StGroupAllDataWithoutHoldingsFragment> {
+		return this.queryStGroupByGroupIdWithoutHoldingGQL
+			.fetch({
+				id,
+			})
+			.pipe(map((res) => res.data.querySTGroupByGroupId as StGroupAllDataWithoutHoldingsFragment));
+	}
+
 	queryGroupIdentificationDataByGroupName(groupName: string): Observable<StGroupIdentificationDataFragment[]> {
 		return this.queryStGroupByGroupNameGQL
 			.fetch({
 				groupName,
 			})
-			.pipe(map((x) => x.data.querySTGroupByGroupName));
+			.pipe(map((x) => x.data.querySTGroupByGroupName as StGroupIdentificationDataFragment[]));
 	}
 
 	createGroup(groupInput: StGroupAllDataInput): Observable<FetchResult<CreateGroupMutation>> {
@@ -90,13 +103,19 @@ export class GraphqlGroupService {
 				groupInput,
 			},
 			{
-				update: (store: DataProxy, { data: { createGroup } }) => {
+				update: (store: DataProxy, { data }) => {
+					const createGroup = data?.createGroup as StGroupAllData;
+
 					const user = store.readQuery<AuthenticateUserQuery>({
 						query: AuthenticateUserDocument,
 						variables: {
 							id: this.userStorageService.user.id,
 						},
 					});
+
+					if (!user?.authenticateUser) {
+						return;
+					}
 
 					// update cache
 					store.writeQuery({
@@ -136,13 +155,17 @@ export class GraphqlGroupService {
 					__typename: 'Mutation',
 					deleteGroup: true,
 				},
-				update: (store: DataProxy, { data: { deleteGroup } }) => {
+				update: (store: DataProxy, { data }) => {
 					const user = store.readQuery<AuthenticateUserQuery>({
 						query: AuthenticateUserDocument,
 						variables: {
 							id: this.userStorageService.user.id,
 						},
 					});
+
+					if (!user?.authenticateUser) {
+						return;
+					}
 
 					const groupOwner = user.authenticateUser.groups.groupOwner.filter((x) => x.id !== id);
 					const groupMember = user.authenticateUser.groups.groupMember.filter((x) => x.id !== id);
@@ -184,13 +207,18 @@ export class GraphqlGroupService {
 				acceptUser,
 			},
 			{
-				update: (store: DataProxy, { data: { toggleUsersInvitationRequestToGroup } }) => {
+				update: (store: DataProxy, { data }) => {
+					const toggleUsersInvitationRequestToGroup = data?.toggleUsersInvitationRequestToGroup as StGroupUser;
 					// load group from storage
 					const group = store.readFragment<StGroupAllDataFragmentFragment>({
 						id: `STGroupAllData:${groupId}`,
 						fragment: StGroupAllDataFragmentFragmentDoc,
 						fragmentName: 'STGroupAllDataFragment',
 					});
+
+					if (!group) {
+						return;
+					}
 
 					// update cache
 					store.writeFragment({
@@ -221,15 +249,47 @@ export class GraphqlGroupService {
 		@param  groupId - id of group where user is invited
 		@param  inviteUser - invite or remove invitation if false
 	*/
-	toggleInviteUserIntoGroup(userId: string, groupId: string, inviteUser: boolean): Observable<FetchResult<ToggleInviteUserIntoGroupMutation>> {
+	toggleInviteUserIntoGroup(
+		userIdentification: StUserIdentificationDataFragment | StGroupUser,
+		groupId: string,
+		inviteUser: boolean
+	): Observable<FetchResult<ToggleInviteUserIntoGroupMutation>> {
 		return this.toggleInviteUserIntoGroupGQL.mutate(
 			{
-				userId,
+				userId: userIdentification.id,
 				inviteUser,
 				groupId,
 			},
 			{
-				update: (store: DataProxy, { data: { toggleInviteUserIntoGroup } }) => {
+				optimisticResponse: {
+					__typename: 'Mutation',
+					toggleInviteUserIntoGroup: {
+						__typename: 'STGroupUser',
+						accountCreatedDate: userIdentification.accountCreatedDate,
+						nickName: userIdentification.nickName,
+						sinceDate: new Date().toISOString(),
+						startedPortfolio: {
+							date: new Date().toISOString(),
+							numberOfExecutedBuyTransactions: userIdentification.portfolio.numberOfExecutedBuyTransactions,
+							numberOfExecutedSellTransactions: userIdentification.portfolio.numberOfExecutedSellTransactions,
+							__typename: 'STPortfolioSnapshotStarted',
+							portfolioCash: userIdentification.portfolio.portfolioCash,
+							portfolioInvested: userIdentification.portfolio.lastPortfolioSnapshot.portfolioInvested,
+							transactionFees: userIdentification.portfolio.transactionFees,
+							lastPortfolioBalance: userIdentification.portfolio.lastPortfolioBalance,
+						},
+						id: userIdentification.id,
+						photoURL: userIdentification.photoURL || '',
+						portfolio: {
+							...userIdentification.portfolio,
+						},
+						currentPosition: null,
+						locale: null,
+						previousPosition: null,
+					},
+				},
+				update: (store: DataProxy, { data }) => {
+					const toggleInviteUserIntoGroup = data?.toggleInviteUserIntoGroup as StGroupUser;
 					// load group from storage
 					const group = store.readFragment<StGroupAllDataFragmentFragment>({
 						id: `STGroupAllData:${groupId}`,
@@ -237,10 +297,14 @@ export class GraphqlGroupService {
 						fragmentName: 'STGroupAllDataFragment',
 					});
 
+					if (!group) {
+						return;
+					}
+
 					// add or remove user from inviteUser array
 					const newInvitationSent = inviteUser
 						? [...group.groupMemberData.invitationSent, toggleInviteUserIntoGroup]
-						: group.groupMemberData.invitationSent.filter((invited) => invited.id !== userId);
+						: group.groupMemberData.invitationSent.filter((invited) => invited.id !== userIdentification.id);
 
 					// update cache
 					store.writeFragment({
@@ -275,13 +339,18 @@ export class GraphqlGroupService {
 				sendInvitation: sendInvitation,
 			},
 			{
-				update: (store: DataProxy, { data: { toggleInvitationRequestToGroup } }) => {
+				update: (store: DataProxy, { data }) => {
+					const toggleInvitationRequestToGroup = data?.toggleInvitationRequestToGroup as StGroupAllData;
 					const user = store.readQuery<AuthenticateUserQuery>({
 						query: AuthenticateUserDocument,
 						variables: {
 							id: this.userStorageService.user.id,
 						},
 					});
+
+					if (!user?.authenticateUser) {
+						return;
+					}
 
 					let groupInvitationSent;
 					if (sendInvitation) {
@@ -329,13 +398,18 @@ export class GraphqlGroupService {
 				accept,
 			},
 			{
-				update: (store: DataProxy, { data: { answerReceivedGroupInvitation } }) => {
+				update: (store: DataProxy, { data }) => {
+					const answerReceivedGroupInvitation = data?.answerReceivedGroupInvitation as StGroupAllData;
 					const user = store.readQuery<AuthenticateUserQuery>({
 						query: AuthenticateUserDocument,
 						variables: {
 							id: this.userStorageService.user.id,
 						},
 					});
+
+					if (!user?.authenticateUser) {
+						return;
+					}
 
 					// remove invitation
 					const groups = user.authenticateUser.groups;
@@ -413,12 +487,16 @@ export class GraphqlGroupService {
 				removingUserId: groupUser.id,
 			},
 			{
-				update: (store: DataProxy, { data: { removeMemberFromGroup } }) => {
+				update: (store: DataProxy, { data }) => {
 					const group = store.readFragment<StGroupAllDataFragmentFragment>({
 						id: `STGroupAllData:${groupId}`,
 						fragment: StGroupAllDataFragmentFragmentDoc,
 						fragmentName: 'STGroupAllDataFragment',
 					});
+
+					if (!group) {
+						return;
+					}
 
 					const updatedMembers = group.groupMemberData.members.filter((m) => m.id !== groupUser.id);
 
@@ -463,19 +541,86 @@ export class GraphqlGroupService {
 		);
 	}
 
+	toggleWatchGroup(groupId: string, startWatching: boolean): Observable<FetchResult<ToggleWatchGroupMutation>> {
+		return this.toggleWatchGroupGQL.mutate(
+			{
+				groupId,
+			},
+			{
+				optimisticResponse: {
+					__typename: 'Mutation',
+					toggleWatchGroup: startWatching,
+				},
+				update: (store: DataProxy, { data }) => {
+					const userId = this.userStorageService.user.id;
+					const user = store.readQuery<AuthenticateUserQuery>({
+						query: AuthenticateUserDocument,
+						variables: {
+							id: userId,
+						},
+					});
+
+					const group = store.readFragment<StGroupIdentificationDataFragment>({
+						id: `STGroupAllData:${groupId}`,
+						fragment: StGroupIdentificationDataFragmentDoc,
+						fragmentName: 'STGroupIdentificationData',
+					});
+
+					if (!user?.authenticateUser || !group) {
+						return;
+					}
+
+					const userWatchedGroupIds = user.authenticateUser.groups.groupWatched.map((g) => g.id);
+
+					// toggle
+					let groupWatched: StGroupIdentificationDataFragment[] = [];
+					if (userWatchedGroupIds.includes(groupId)) {
+						// user watching group => remove it
+						groupWatched = user.authenticateUser.groups.groupWatched.filter((g) => g.id !== groupId);
+					} else {
+						// user not watching group => add it
+						groupWatched = [...user.authenticateUser.groups.groupWatched, group];
+					}
+
+					// update user
+					store.writeQuery({
+						query: AuthenticateUserDocument,
+						variables: {
+							id: this.userStorageService.user.id,
+						},
+						data: {
+							...user,
+							authenticateUser: {
+								...user.authenticateUser,
+								groups: {
+									...user.authenticateUser.groups,
+									groupWatched,
+								},
+							},
+						},
+					});
+				},
+			}
+		);
+	}
+
 	leaveGroup(id: string): Observable<FetchResult<LeaveGroupMutation>> {
 		return this.leaveGroupGQL.mutate(
 			{
 				id,
 			},
 			{
-				update: (store: DataProxy, { data: { leaveGroup } }) => {
+				update: (store: DataProxy, { data }) => {
 					const user = store.readQuery<AuthenticateUserQuery>({
 						query: AuthenticateUserDocument,
 						variables: {
 							id: this.userStorageService.user.id,
 						},
 					});
+
+					if (!user?.authenticateUser) {
+						return;
+					}
 
 					// remove user as group member
 					this.updateMembersInGroup(store, id, this.userStorageService.user, false);

@@ -1,0 +1,89 @@
+@import 'src/theme/custom-variables';
+
+:host {
+	.c-mat-menu-button {
+		color: #{$st-var-font-2};
+		transform: scale(1.3);
+	}
+
+	ion-header {
+		@media (max-width: #{$st-var-lg-split}) {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
+
+	ion-skeleton-text {
+		line-height: 30px;
+	}
+
+	ion-searchbar {
+		--background: transparent;
+		--color: #{$st-var-font-4};
+		--box-shadow: none;
+		--icon-color: #{$st-var-blue-1};
+		--placeholder-opacity: 0.9;
+		padding: 0;
+	}
+
+	.ion-search-chip {
+		background-color: #{$st-var-blue-3};
+
+		@media (max-width: #{$st-var-sm-split}) {
+			width: 82%;
+		}
+	}
+
+	.search-results {
+		background-color: #{$background-blue};
+		position: absolute;
+		right: 10px;
+		top: 32px;
+		border-radius: 8px;
+		min-width: 280px;
+		z-index: 1000;
+	}
+
+	.notification-result {
+		background-color: #05052f;
+		position: absolute;
+		right: 0;
+		top: 36px;
+		width: 250px;
+		border-radius: 8px;
+	}
+
+	.login-text {
+		padding: 7px;
+		margin-right: 34px;
+		margin-left: 20px;
+		font-size: 18px;
+		color: #25aedd;
+
+		&:after {
+			overflow: hidden;
+			display: inline-block;
+			vertical-align: bottom;
+			-webkit-animation: ellipsis steps(8, end) 1500ms infinite;
+			animation: ellipsis steps(8, end) 1500ms infinite;
+			content: '\2026'; /* ascii code for the ellipsis character */
+			width: 0;
+			position: absolute;
+		}
+
+		@keyframes ellipsis {
+			to {
+				width: 40px;
+			}
+		}
+
+		@-webkit-keyframes ellipsis {
+			to {
+				width: 40px;
+			}
+		}
+	}
+}

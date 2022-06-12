@@ -1,3 +1,36 @@
-.wrapper:not(:empty) + .default {
-	display: none;
+@use 'custom-variables' as variables;
+
+:host {
+	.default:not(:only-child) {
+		display: none;
+	}
+
+	// .wrapper:not(:empty) + .default {
+	// 	display: none;
+	// }
+
+	.default {
+		position: relative;
+	}
+
+	.panel-loading {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		background-color: rgb(224 224 224 / 70%);
+		z-index: 1000;
+
+		.mat-progress-spinner,
+		.mat-spinner {
+			circle {
+				stroke: variables.$color-primary-500;
+			}
+		}
+	}
 }

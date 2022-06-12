@@ -3,7 +3,7 @@ from threading import Thread
 
 from ExternalAPI.FinancialModelingApi import FinancialModelingApi
 from ExternalAPI.FinhubApi import FinhubApi
-from ExternalAPI.YahooFinance import YahooFinanceRequesterApi
+from ExternalAPI.YahooFinanceApi import YahooFinanceApi
 from pytz import UTC
 
 utc = UTC
@@ -11,12 +11,9 @@ utc = UTC
 
 class FundamentalServiceDataFetcher:
     def __init__(self):
-        self.yRequester = YahooFinanceRequesterApi.YahooFinanceRequesterApi()
+        self.yRequester = YahooFinanceApi()
         self.finhub = FinhubApi()
         self.financialModeling = FinancialModelingApi()
-
-    def fetchStockNews(self, symbol: str):
-        return self.financialModeling.getStockNews([symbol])
 
     def fetchStockDetails(self, symbol):
         return self.__fetchStockDetails(symbol)

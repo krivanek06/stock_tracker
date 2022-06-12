@@ -16,15 +16,15 @@ export class HoldingsPackedBubleChartComponent implements OnInit {
 	@Input() heightPx = 350;
 
 	Highcharts: typeof Highcharts = Highcharts;
-	chart;
+	chart: any;
 	updateFromInput = true;
-	chartCallback;
+	chartCallback: any;
 	chartOptions: any = {}; //  : Highcharts.Options
 
 	constructor() {
 		const self = this;
 
-		this.chartCallback = (chart) => {
+		this.chartCallback = (chart: any) => {
 			self.chart = chart;
 		};
 	}
@@ -100,8 +100,9 @@ export class HoldingsPackedBubleChartComponent implements OnInit {
 				useHTML: true,
 				x: 30,
 				labelFormatter: function () {
-					const spans = this.userOptions.data
-						.map((d) => {
+					const that = this as any;
+					const spans = that.userOptions.data
+						.map((d: any) => {
 							return `<span style="color: ${d.color}; margin-right: 16px; font-size: 12px">● ${d.name}</span>`;
 						})
 						.join(' ');
@@ -119,9 +120,10 @@ export class HoldingsPackedBubleChartComponent implements OnInit {
 				shared: true,
 				headerFormat: '<p style="color:#909592; font-size: 13px; font-weight: bold;">{series.name}</p><br/>',
 				pointFormatter: function () {
-					const color = this.series.color;
-					const label = this.name;
-					const value = '$' + stFormatLargeNumber(this.y);
+					const that = this as any;
+					const color = that.series.color;
+					const label = that.name;
+					const value = '$' + stFormatLargeNumber(that.y);
 					return `<span style="font-weight: bold; color: ${color}">● ${label}: </span><span>${value} </span><br/>`;
 				},
 			},

@@ -1,26 +1,20 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {DetailsStockPeersComponent} from "./details-stock-peers.component";
-import {IonicModule} from "@ionic/angular";
-import {
-  DefaultImgDirectiveModule,
-  NumberFormatterPipeModule,
-  PriceChangeItemModule,
-  TableHighLowRangeModule
-} from "@shared";
-
-
+import { NgModule } from '@angular/core';
+import { MatTableModule } from '@angular/material/table';
+import { DefaultImgDirectiveModule, ListSkeletonModule, NumberFormatterPipeModule, PriceCompareItemModule, TableHighLowRangeModule } from '@shared';
+import { DetailsStockPeersComponent } from './details-stock-peers.component';
 
 @NgModule({
-  declarations: [DetailsStockPeersComponent],
-  imports: [
-    CommonModule,
-    IonicModule,
-    PriceChangeItemModule,
-    DefaultImgDirectiveModule,
-    NumberFormatterPipeModule,
-    TableHighLowRangeModule
-  ],
-  exports: [DetailsStockPeersComponent]
+	declarations: [DetailsStockPeersComponent],
+	imports: [
+		CommonModule,
+		MatTableModule,
+		PriceCompareItemModule,
+		DefaultImgDirectiveModule,
+		NumberFormatterPipeModule,
+		TableHighLowRangeModule,
+		ListSkeletonModule,
+	],
+	exports: [DetailsStockPeersComponent],
 })
-export class DetailsStockPeersModule { }
+export class DetailsStockPeersModule {}

@@ -5,11 +5,11 @@ import { filter, takeUntil } from 'rxjs/operators';
 
 @Directive()
 export abstract class TradingScreenUpdateBaseDirective implements OnInit, OnDestroy {
-	user: StUserPublicData;
-	selectedSummary: Summary;
+	user!: StUserPublicData;
+	selectedSummary: Summary | null = null;
 
 	clonedHoldings: StHolding[] = [];
-	portfolioInvested: number;
+	portfolioInvested!: number;
 
 	private interval: any;
 
@@ -41,14 +41,14 @@ export abstract class TradingScreenUpdateBaseDirective implements OnInit, OnDest
 				takeUntil(componentDestroyed(this))
 			)
 			.subscribe((user) => {
-				this.clonedHoldings = LodashService.cloneDeep(user.holdings);
+				this.clonedHoldings = LodashService.cloneDeep(user.holdings) as StHolding[];
 				this.calculateTotalPortfolio();
 
 				this.user = user;
 
 				// select first summary in holdings
 				if (!this.selectedSummary) {
-					this.selectedSummary = user.holdings.length > 0 ? LodashService.cloneDeep(user.holdings[0].summary) : undefined;
+					this.selectedSummary = user.holdings.length > 0 ? (LodashService.cloneDeep(user.holdings[0]?.summary) as Summary) : null;
 				}
 			});
 	}
@@ -62,7 +62,7 @@ export abstract class TradingScreenUpdateBaseDirective implements OnInit, OnDest
 			.pipe(takeUntil(componentDestroyed(this)))
 			.subscribe((res) => {
 				const transaction = this.clonedHoldings.find((s) => s.symbol === res.s);
-				if (transaction) {
+				if (transaction && transaction.summary) {
 					transaction.summary.marketPrice = res.p;
 				}
 			});
@@ -80,6 +80,6 @@ export abstract class TradingScreenUpdateBaseDirective implements OnInit, OnDest
 	}
 
 	private calculateTotalPortfolio() {
-		this.portfolioInvested = this.clonedHoldings.map((h) => h.summary.marketPrice * h.units).reduce((a, b) => a + b, 0);
+		this.portfolioInvested = this.clonedHoldings.map((h) => (h?.summary?.marketPrice || 0) * h.units).reduce((a, b) => a + b, 0);
 	}
 }

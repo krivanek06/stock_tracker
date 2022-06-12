@@ -1,0 +1,311 @@
+<app-loader-wrapper>
+	<div *ngIf="stockDetails$ | async as stockDetails" class="flex flex-col gap-2">
+		<div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+			<!-- stock chart -->
+			<app-financial-chart-container
+				class="col-span-2"
+				[closedPrice]="stockDetails.summary.previousClose"
+				[currentPrice]="stockDetails.summary.marketPrice"
+				[height]="460"
+				[logoUrl]="stockDetails.summary.logo_url || ''"
+				[name]="stockDetails.summary.companyName"
+				[symbol]="stockDetails.summary.symbol"
+			>
+			</app-financial-chart-container>
+
+			<div class="overflow-hidden">
+				<!-- summary -->
+				<app-mat-card-wrapper>
+					<app-details-stock-summary [isAdmin]="isAdmin$ | async" [summary]="stockDetails.summary"> </app-details-stock-summary>
+				</app-mat-card-wrapper>
+			</div>
+		</div>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+			<!-- financial strength -->
+			<app-mat-card-wrapper title="Financial strength">
+				<app-details-financial-strength [stockDetails]="stockDetails"> </app-details-financial-strength>
+			</app-mat-card-wrapper>
+
+			<!-- valuation -->
+			<app-mat-card-wrapper title="Valuation">
+				<app-details-valuation [stockDetails]="stockDetails"> </app-details-valuation>
+			</app-mat-card-wrapper>
+
+			<!-- financial yearly graph -->
+			<app-mat-card-wrapper title="Financial yearly growth" class="col-span-1 md:col-span-2 lg:col-span-1 2xl:col-span-2">
+				<app-generic-chart
+					[chartType]="ChartType.bar"
+					[heightPx]="chartHeight_35"
+					[isPercentage]="true"
+					[showCategoryNameWithValue]="true"
+					[series]="[{
+					colorByPoint: true,
+					 data:[
+						{name: 'Revenue ttm. yoy', y: stockDetails.metric?.revenueGrowthTTMYoy ? ((stockDetails.metric?.revenueGrowthTTMYoy || 1) / 100) : null},
+						{name: 'Revenue qrt. yoy', y: stockDetails.metric?.revenueGrowthQuarterlyYoy ? ((stockDetails.metric?.revenueGrowthQuarterlyYoy || 1) / 100) : null},
+						{name: 'Revenue 5y', y: stockDetails.metric?.revenueGrowthFiveY ? ((stockDetails.metric?.revenueGrowthFiveY || 1) / 100) : null},
+						{name: 'EPS qrt. yoy', y: stockDetails.metric?.epsGrowthQuarterlyYoy ? ((stockDetails.metric?.epsGrowthQuarterlyYoy || 1) / 100) : null},
+						{name: 'EPS ttm yoy', y: stockDetails.metric?.epsGrowthTTMYoy ? ((stockDetails.metric?.epsGrowthTTMYoy || 1) / 100) : null},
+						{name: 'Capital spending yoy', y: stockDetails.metric?.capitalSpendingGrowthFiveY ? ((stockDetails.metric?.capitalSpendingGrowthFiveY || 1) / 100) : null},
+						{name: 'BV per share 5y', y: stockDetails.metric?.bookValueShareGrowthFiveY ? ((stockDetails.metric?.bookValueShareGrowthFiveY || 1) / 100) : null},
+						{name: 'Assets turnover ttm', y: stockDetails.metric?.assetTurnoverTTM ? ((stockDetails.metric?.assetTurnoverTTM || 1) / 100) : null},
+						{name: 'Inventory turnover ttm',  y: stockDetails.metric?.inventoryTurnoverTTM ? ((stockDetails.metric?.inventoryTurnoverTTM || 1) / 100) : null},
+						{name: 'Dividend rate 5y',  y: stockDetails.dividends?.dividendGrowthRateFiveY ? ((stockDetails.dividends?.dividendGrowthRateFiveY || 1) / 100) : null}
+					  ]
+				  }]"
+					[showDataLabel]="true"
+				>
+				</app-generic-chart>
+			</app-mat-card-wrapper>
+		</div>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+			<!-- financial ratio -->
+			<app-mat-card-wrapper title="Financial ratio">
+				<app-details-financial-strength-ratio [stockDetails]="stockDetails"></app-details-financial-strength-ratio>
+			</app-mat-card-wrapper>
+
+			<!-- financial per share -->
+			<app-mat-card-wrapper title="Financial per share">
+				<app-details-per-share [stockDetails]="stockDetails"></app-details-per-share>
+			</app-mat-card-wrapper>
+
+			<!-- margin graph -->
+			<app-mat-card-wrapper title="Margin" class="col-span-1 md:col-span-2 lg:col-span-1 2xl:col-span-2">
+				<app-generic-chart
+					[chartType]="ChartType.bar"
+					[heightPx]="340"
+					[isPercentage]="true"
+					[showCategoryNameWithValue]="true"
+					[series]="[{
+							colorByPoint: true,
+							 data:[
+							 {name: 'Gross margin ttm.', y: stockDetails.companyData?.financialData?.grossMargins},
+							 {name: 'Net growth margin 5y', y: stockDetails.metric?.netMarginGrowthFiveY  ? (stockDetails.metric?.netMarginGrowthFiveY || 1) / 100 : null},
+							 {name: 'Net profit margin ttm.', y: stockDetails.companyData?.financialData?.profitMargins},
+							 {name: 'Operating margin ttm.', y: stockDetails.metric?.operatingMarginTTM  ? (stockDetails.metric?.operatingMarginTTM || 1) / 100 : null},
+							 {name: 'Pretax margin ttm.', y: stockDetails.metric?.pretaxMarginTTM ? (stockDetails.metric?.pretaxMarginTTM || 1 ) / 100 : null},
+							 {name: 'EBITDA margin ttm.', y: stockDetails.companyData?.financialData?.ebitdaMargins}
+						  ]
+					  }]"
+					[showDataLabel]="true"
+				>
+				</app-generic-chart>
+			</app-mat-card-wrapper>
+		</div>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+			<!-- dividends -->
+			<app-mat-card-wrapper title="Dividend">
+				<app-details-dividend *ngIf="stockDetails.dividends as  dividends" [dividends]="dividends"> </app-details-dividend>
+			</app-mat-card-wrapper>
+
+			<!-- dividend payouts -->
+			<app-mat-card-wrapper title="Dividend payouts">
+				<app-market-calendar-dividend-payout *ngIf="stockDetails.companyOutlook.stockDividend as stockDividend" [dividendPayouts]="stockDividend">
+				</app-market-calendar-dividend-payout>
+			</app-mat-card-wrapper>
+
+			<!-- Effectiveness -->
+			<app-mat-card-wrapper title="Effectiveness" class="col-span-1 md:col-span-2 lg:col-span-1">
+				<app-generic-chart
+					*ngIf="stockDetails.companyData?.financialData?.returnOnAssets ||
+								   stockDetails.companyData?.financialData?.returnOnEquity ||
+								   stockDetails.metric?.roiTTM"
+					[chartType]="ChartType.column"
+					[heightPx]="240"
+					[isPercentage]="true"
+					[showCategoryNameWithValue]="true"
+					[series]="[{
+							colorByPoint: true,
+							data:[
+								{name: 'ROA', y: stockDetails.companyData?.financialData?.returnOnAssets},
+								{name: 'ROE', y: stockDetails.companyData?.financialData?.returnOnEquity},
+								{name: 'ROI ', y: stockDetails.metric?.roiTTM  ? (stockDetails.metric?.roiTTM || 1) / 100 : null}
+							]
+						  }]"
+					[showDataLabel]="true"
+				>
+				</app-generic-chart>
+			</app-mat-card-wrapper>
+		</div>
+
+		<div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+			<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-2">
+				<!-- rating -->
+				<app-mat-card-wrapper title="Rating">
+					<app-details-rating *ngIf="stockDetails.companyOutlook.rating" [rating]="stockDetails.companyOutlook.rating"> </app-details-rating>
+				</app-mat-card-wrapper>
+
+				<!-- split history -->
+				<app-mat-card-wrapper title="Split history">
+					<app-market-calendar-split-history
+						*ngIf="stockDetails.companyOutlook.splitHistory.length > 0"
+						[splitHistories]="stockDetails.companyOutlook.splitHistory"
+					>
+					</app-market-calendar-split-history>
+				</app-mat-card-wrapper>
+			</div>
+
+			<!-- recommendation chart -->
+			<app-mat-card-wrapper title="Recommendation">
+				<app-details-recommendation-chart
+					*ngIf="stockDetails.recommendation && stockDetails.recommendation.length > 0"
+					[recommendations]="stockDetails.recommendation"
+					[heightPx]="(isXLDownScreen$ | async ) ? 375 : 550"
+				>
+				</app-details-recommendation-chart>
+			</app-mat-card-wrapper>
+		</div>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+			<!-- Financial yearly -->
+			<app-mat-card-wrapper title="Financial yearly">
+				<ng-container *ngIf="stockDetails.companyData?.earnings?.financialsChart as fc">
+					<ng-container *ngIf="fc?.quarterly?.categories as categories">
+						<app-generic-chart
+							*ngIf="categories.length > 0"
+							[categories]="categories"
+							[chartType]="ChartType.column"
+							[heightPx]="chartHeight_27"
+							[series]="fc.yearly?.series || []"
+						>
+						</app-generic-chart>
+					</ng-container>
+				</ng-container>
+			</app-mat-card-wrapper>
+
+			<!-- Financial quarterly -->
+			<app-mat-card-wrapper title="Financial quarterly">
+				<ng-container *ngIf="stockDetails.companyData?.earnings?.financialsChart as fc">
+					<ng-container *ngIf="fc?.quarterly?.categories as categories">
+						<app-generic-chart
+							*ngIf="categories.length > 0"
+							[categories]="categories"
+							[chartType]="ChartType.column"
+							[heightPx]="chartHeight_27"
+							[series]="fc.quarterly?.series || []"
+						>
+						</app-generic-chart>
+					</ng-container>
+				</ng-container>
+			</app-mat-card-wrapper>
+
+			<!-- earnings -->
+			<app-mat-card-wrapper title="Earnings" class="col-span-1 md:col-span-2 lg:col-span-1">
+				<ng-container *ngIf="stockDetails.companyData?.earnings?.earningsChart as earnings">
+					<app-details-earnings-chart *ngIf="earnings.quarterly.length > 0" [earnings]="earnings" [height]="chartHeight_27">
+					</app-details-earnings-chart>
+				</ng-container>
+			</app-mat-card-wrapper>
+		</div>
+
+		<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+			<div class="grid grid-cols-1 gap-2">
+				<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+					<!--  Current price to 1y target -->
+					<app-mat-card-wrapper title="Price to 1y target">
+						<app-gauge-chart
+							*ngIf="stockDetails.summary.oneyTargetEst"
+							[currentPoint]="stockDetails.summary.marketPrice"
+							[displayValue]="stockDetails.summary.targetEstOneyPercent | percent: '1.2'"
+							[endingPoint]="stockDetails.summary.oneyTargetEst"
+							[height]="140"
+							[startingPoint]="0"
+							[tooltipName]="'Target'"
+							[tooltipValue]="'$' + stockDetails.summary.oneyTargetEst + ' (' + (stockDetails.summary.targetEstOneyPercent | percent: '1.2') + ')'"
+						>
+						</app-gauge-chart>
+					</app-mat-card-wrapper>
+
+					<!--  Cash to Debt -->
+					<app-mat-card-wrapper title="Cash to Debt">
+						<ng-container *ngIf="stockDetails?.companyData?.financialData as fd">
+							<app-gauge-chart
+								*ngIf="fd.totalCash && fd.totalDebt"
+								[currentPoint]="fd.totalCash"
+								[displayValue]=" 1 / fd.totalDebt * fd.totalCash | percent: '1.2'"
+								[endingPoint]="fd.totalDebt"
+								[height]="140"
+								[startingPoint]="0"
+								[tooltipName]="'Cash to Debt'"
+							>
+							</app-gauge-chart>
+						</ng-container>
+					</app-mat-card-wrapper>
+				</div>
+				<!-- ESG score -->
+				<app-mat-card-wrapper title="ESG risk rating">
+					<app-details-esg-score *ngIf="stockDetails?.companyData?.esgScores as score" [esgScore]="score"> </app-details-esg-score>
+				</app-mat-card-wrapper>
+			</div>
+
+			<!--  grading history -->
+			<app-mat-card-wrapper title="Stock grading">
+				<ng-container *ngIf="stockDetails.companyData?.upgradeDowngradeHistory as upgradeDowngradeHistory">
+					<div *ngIf="upgradeDowngradeHistory.length > 0" class="mb-4">
+						<app-details-grading-history [history]="upgradeDowngradeHistory | slice: 0: 11"> </app-details-grading-history>
+					</div>
+					<div class="w-full m-auto md:w-10/12 lg:w-full">
+						<app-details-stock-trend *ngIf="stockDetails?.companyData?.pageViews as trend" [trend]="trend"> </app-details-stock-trend>
+					</div>
+				</ng-container>
+			</app-mat-card-wrapper>
+		</div>
+
+		<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+			<!-- Institutional holders -->
+			<app-mat-card-wrapper title="Institutional holders">
+				<app-details-holders
+					*ngIf="stockDetails.institutionalHolders.length > 0"
+					[currentSharePrice]="stockDetails.summary.previousClose"
+					[holders]="stockDetails.institutionalHolders"
+					[outstandingShares]="stockDetails.summary.sharesOutstanding"
+				>
+				</app-details-holders>
+			</app-mat-card-wrapper>
+
+			<!-- Mutual fund holders -->
+			<app-mat-card-wrapper title="Mutual fund holders">
+				<app-details-holders
+					*ngIf="stockDetails.mutualFundHolders.length > 0"
+					[currentSharePrice]="stockDetails.summary.previousClose"
+					[holders]="stockDetails.mutualFundHolders"
+					[outstandingShares]="stockDetails.summary.sharesOutstanding"
+					[showWeight]="true"
+				>
+				</app-details-holders>
+			</app-mat-card-wrapper>
+		</div>
+
+		<!-- insider transactions -->
+		<app-mat-card-wrapper title="Insider transactions">
+			<ng-container *ngIf="stockDetails.companyOutlook.insideTrades as insideTrades ">
+				<app-details-transactions *ngIf="insideTrades.length > 0" [insiderTrades]="insideTrades"> </app-details-transactions>
+			</ng-container>
+		</app-mat-card-wrapper>
+
+		<div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+			<!-- key executives -->
+			<app-mat-card-wrapper *ngIf="stockDetails.companyOutlook.keyExecutives as keyExecutives" title="Key executives">
+				<app-details-key-executives *ngIf="keyExecutives.length > 0" [keyExecutives]="keyExecutives | slice: 0 : 8"> </app-details-key-executives>
+			</app-mat-card-wrapper>
+
+			<!-- peers -->
+			<app-mat-card-wrapper title="Sector peers" class="col-span-1 lg:col-span-2">
+				<app-details-stock-peers (clickedPeerEmitter)="showPeerSummary($event)" [sectorPeers]="stockDetails.sectorPeers"> </app-details-stock-peers>
+			</app-mat-card-wrapper>
+		</div>
+
+		<!-- news -->
+		<div *ngIf="stockDetails.companyOutlook.stockNews as stockNews" class="mt-6">
+			<ng-container *ngIf="stockNews.length > 0">
+				<div class="g-color-white text-xl">News</div>
+				<div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4">
+					<app-market-stock-news *ngFor="let article of stockDetails.companyOutlook.stockNews" [stockArticle]="article"> </app-market-stock-news>
+				</div>
+			</ng-container>
+		</div>
+	</div>
+</app-loader-wrapper>

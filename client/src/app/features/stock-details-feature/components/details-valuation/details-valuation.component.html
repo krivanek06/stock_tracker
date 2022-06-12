@@ -1,46 +1,46 @@
-<ion-list *ngIf="stockDetails as details">
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">PE</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.summary.pERatioTTM | numberFormatter }} </ion-label>
-	</ion-item>
+<div *ngIf="stockDetails as details" class="g-data-item-wrapper">
+	<div>
+		<div>PE</div>
+		<div>{{ details.summary.pERatioTTM| numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Forward PE</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.companyData?.defaultKeyStatistics?.forwardPE | numberFormatter }} </ion-label>
-	</ion-item>
+	<div>
+		<div>Forward PE</div>
+		<div>{{ details.companyData?.defaultKeyStatistics?.forwardPE | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">PEG</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.companyData?.defaultKeyStatistics?.pegRatio| numberFormatter }} </ion-label>
-	</ion-item>
+	<div>
+		<div>PEG</div>
+		<div>{{ details.companyData?.defaultKeyStatistics?.pegRatio| numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Price to book</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.companyData?.defaultKeyStatistics?.priceToBook| numberFormatter }} </ion-label>
-	</ion-item>
+	<div>
+		<div>Price to book</div>
+		<div>{{ details.companyData?.defaultKeyStatistics?.priceToBook| numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Trailing EPS</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.companyData?.defaultKeyStatistics?.trailingEps | numberFormatter }} </ion-label>
-	</ion-item>
+	<div>
+		<div>Trailing EPS</div>
+		<div>{{ details.companyData?.defaultKeyStatistics?.trailingEps | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Evaluation to FCF ttm.</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.metric.currentEvfreeCashFlowTTM | numberFormatter }} </ion-label>
-	</ion-item>
+	<div>
+		<div>Evaluation to FCF ttm.</div>
+		<div>{{ details.metric?.currentEvfreeCashFlowTTM | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Price to sale</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.metric.psTTM | numberFormatter }} </ion-label>
-	</ion-item>
+	<div>
+		<div>Price to sale</div>
+		<div>{{ details.metric?.psTTM | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Enterprise to revenue</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.companyData?.defaultKeyStatistics?.enterpriseToRevenue | numberFormatter }} </ion-label>
-	</ion-item>
+	<div>
+		<div>Enterprise to revenue</div>
+		<div>{{ details.companyData?.defaultKeyStatistics?.enterpriseToRevenue | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Enterprise to EBITDA</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.companyData?.defaultKeyStatistics?.enterpriseToEbitda | numberFormatter }} </ion-label>
-	</ion-item>
-</ion-list>
+	<div>
+		<div>Enterprise to EBITDA</div>
+		<div>{{ details.companyData?.defaultKeyStatistics?.enterpriseToEbitda | numberFormatter }}</div>
+	</div>
+</div>

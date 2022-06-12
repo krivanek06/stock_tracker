@@ -1,0 +1,40 @@
+<app-mat-card-wrapper title="Filter symbols">
+	<div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+		<!-- filter -->
+		<app-market-search-form class="col-span-1 lg:col-span-2" (searchFormChangeEmitter)="changedFormResult($event)"></app-market-search-form>
+
+		<!-- filter result -->
+		<div>
+			<app-market-search-form-result [stockScreener]="stockScreener$ | async"></app-market-search-form-result>
+			<div class="mt-4">
+				<button mat-flat-button color="primary" type="button" class="w-full" (click)="filterResult()">Filter</button>
+			</div>
+		</div>
+	</div>
+</app-mat-card-wrapper>
+
+<!-- table results -->
+<div class="mt-4">
+	<app-mat-card-wrapper [title]="'Stock screener results: ' + ((stockScreenerResult$ | async)?.found || 0)">
+		<app-market-search-table
+			(itemClickedEmitter)="showSummarySymbol($event)"
+			[stockScreenerResults]="(stockScreenerResult$ | async)?.result"
+		></app-market-search-table>
+
+		<!-- skeleton loader when fetching more -->
+		<app-list-skeleton *ngIf="showLoader$ | async" [itemLength]="25"></app-list-skeleton>
+
+		<div *ngIf="canShowMore" class="mt-4 flex justify-end">
+			<button
+				mat-flat-button
+				color="primary"
+				type="button"
+				class="min-w-[150px] w-full md:w-auto"
+				matTooltip="Load more ticker symbols"
+				(click)="onLoadMore()"
+			>
+				Show more
+			</button>
+		</div>
+	</app-mat-card-wrapper>
+</div>

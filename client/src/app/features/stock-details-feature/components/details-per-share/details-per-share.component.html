@@ -1,46 +1,46 @@
-<ion-list *ngIf="stockDetails as details">
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Revenue per share ttm.</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.metric.revenuePerShareTTM | numberFormatter}} </ion-label>
-	</ion-item>
+<div *ngIf="stockDetails as details" class="g-data-item-wrapper">
+	<div>
+		<div>Revenue per share ttm.</div>
+		<div>{{ details.metric?.revenuePerShareTTM | numberFormatter}}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">BV per share qrt.</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.metric.bookValuePerShareQuarterly | numberFormatter }} </ion-label>
-	</ion-item>
+	<div>
+		<div>BV per share qrt.</div>
+		<div>{{ details.metric?.bookValuePerShareQuarterly | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">BV per share ann.</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.metric.bookValuePerShareAnnual | numberFormatter }} </ion-label>
-	</ion-item>
+	<div>
+		<div>BV per share ann.</div>
+		<div>{{ details.metric?.bookValuePerShareAnnual | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">TBV per share qrt.</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.metric.tangibleBookValuePerShareQuarterly | numberFormatter }} </ion-label>
-	</ion-item>
+	<div>
+		<div>TBV per share qrt.</div>
+		<div>{{ details.metric?.tangibleBookValuePerShareQuarterly | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">TBV per share ann.</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.metric.tangibleBookValuePerShareAnnual | numberFormatter }} </ion-label>
-	</ion-item>
+	<div>
+		<div>TBV per share ann.</div>
+		<div>{{ details.metric?.tangibleBookValuePerShareAnnual | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Cash per share qrt.</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.metric.cashPerSharePerShareQuarterly | numberFormatter }} </ion-label>
-	</ion-item>
+	<div>
+		<div>Cash per share qrt.</div>
+		<div>{{ details.metric?.cashPerSharePerShareQuarterly | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">CF per share ttm.</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.metric.cashFlowPerShareTTM | numberFormatter }} </ion-label>
-	</ion-item>
+	<div>
+		<div>CF per share ttm.</div>
+		<div>{{ details.metric?.cashFlowPerShareTTM | numberFormatter }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">FCF per share ttm.</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.metric.freeCashFlowPerShareTTM | numberFormatter }} </ion-label>
-	</ion-item>
+	<div>
+		<div>FCF per share ttm.</div>
+		<div>{{ details.metric?.freeCashFlowPerShareTTM | numberFormatter }}</div>
+	</div>
 
-	<ion-item>
-		<ion-label class="st-data-label-parent">EBITDA per share ttm.</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ details.metric.ebitdPerShareTTM | numberFormatter }} </ion-label>
-	</ion-item>
-</ion-list>
+	<div>
+		<div>EBITDA per share ttm.</div>
+		<div>{{ details.metric?.ebitdPerShareTTM | numberFormatter }}</div>
+	</div>
+</div>

@@ -1,116 +1,141 @@
-<app-generic-card title="Discounted cash flow valuation">
-    <ng-container *ngIf="discountedCashFlowFormula$ | async as formula">
-        <ion-list>
-            <ion-list-header>
-                <ion-label>
-                    Historical data
-                </ion-label>
-            </ion-list-header>
+<app-mat-card-wrapper title="Discounted cash flow valuation">
+	<ng-container *ngIf="discountedCashFlowFormula$ | async as formula">
+		<!-- historical -->
+		<div class="text-xl p-4 g-color-white">Historical data</div>
+		<mat-grid-list [cols]="formula.historical.historicalYears.length + 1" rowHeight="55px" class="mb-2">
+			<!-- years -->
+			<mat-grid-tile></mat-grid-tile>
+			<mat-grid-tile *ngFor="let year of formula.historical.historicalYears" class="g-color-white text-base">{{ year }}</mat-grid-tile>
 
-            <ion-item>
-                <ion-label class="st-table-main-label"></ion-label>
-                <ion-label *ngFor="let year of formula.historical.historicalYears" class="st-font-0">{{ year }}</ion-label>
-            </ion-item>
+			<!-- revenue -->
+			<mat-grid-tile class="text-lg g-color-white">Revenue</mat-grid-tile>
+			<ng-container *ngIf="formula.historical.revenue as prices">
+				<mat-grid-tile *ngFor="let data of prices; let i = index; let first = first">
+					<div class="text-center">
+						<div>{{ data | numberFormatter}}</div>
+						<app-price-compare-item [currentPrice]="data" [compareToPrice]="first ? null : prices[i - 1]" [showPrice]="false">
+						</app-price-compare-item>
+					</div>
+				</mat-grid-tile>
+			</ng-container>
 
-            <app-table-increasing-item
-                    name="Revenue"
-                    [data]="formula.historical.revenue">
-            </app-table-increasing-item>
+			<!-- net income -->
+			<mat-grid-tile class="text-lg g-color-white">Income</mat-grid-tile>
+			<ng-container *ngIf="formula.historical.netIncome as prices">
+				<mat-grid-tile *ngFor="let data of prices; let i = index; let first = first">
+					<div class="text-center">
+						<div>{{ data | numberFormatter}}</div>
+						<app-price-compare-item [currentPrice]="data" [compareToPrice]="first ? null : prices[i - 1]" [showPrice]="false">
+						</app-price-compare-item>
+					</div>
+				</mat-grid-tile>
+			</ng-container>
 
-            <app-table-increasing-item
-                    name="Income"
-                    [data]="formula.historical.netIncome">
-            </app-table-increasing-item>
+			<!-- margins -->
+			<mat-grid-tile class="text-lg g-color-white">Income margin</mat-grid-tile>
+			<ng-container *ngIf="formula.historical.netIncomeMargins as prices">
+				<mat-grid-tile *ngFor="let data of prices; let i = index; let first = first">
+					<div class="text-center">
+						<div>{{ data | numberFormatter: true}}</div>
+					</div>
+				</mat-grid-tile>
+			</ng-container>
 
-            <app-table-increasing-item
-                    name="Income margin"
-                    [data]="formula.historical.netIncomeMargins">
-            </app-table-increasing-item>
+			<!-- Free cash flow -->
+			<mat-grid-tile class="text-lg g-color-white">Free cash flow</mat-grid-tile>
+			<ng-container *ngIf="formula.historical.freeCashFlows as prices">
+				<mat-grid-tile *ngFor="let data of prices; let i = index; let first = first">
+					<div class="text-center">
+						<div>{{ data | numberFormatter}}</div>
+						<app-price-compare-item [currentPrice]="data" [compareToPrice]="first ? null : prices[i - 1]" [showPrice]="false">
+						</app-price-compare-item>
+					</div>
+				</mat-grid-tile>
+			</ng-container>
+		</mat-grid-list>
 
-            <app-table-increasing-item
-                    name="Free cash flow"
-                    [data]="formula.historical.freeCashFlows">
-            </app-table-increasing-item>
-        </ion-list>
+		<mat-divider></mat-divider>
 
-        <ion-list>
-            <ion-list-header>
-                <ion-label>
-                    Future estimation
-                </ion-label>
-            </ion-list-header>
+		<!-- future estimation -->
+		<div class="text-xl p-4 g-color-white mb-2 mt-4">Future estimation</div>
+		<div class="p-4 flex justify-around">
+			<div>Revenue rate: {{ formula.estimatedRevenueGrowthRate | percent: '1.2' }}</div>
+			<div>Income margin: {{ formula.estimatedNetIncomeMargin | percent: '1.2' }}</div>
+			<div>Free cash flow rate: {{ formula.estimatedFreeCashFlowRate | percent: '1.2' }}</div>
+		</div>
 
-            <ion-item-group class="st-flex-space-evenly st-small-vertical-padding">
-                <ion-item>
-                    <ion-label>Revenue rate:</ion-label>
-                    <ion-label class="st-data-label-end">{{ formula.estimatedRevenueGrowthRate | percent: '1.2'  }}</ion-label>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Income margin:</ion-label>
-                    <ion-label class="st-data-label-end">{{ formula.estimatedNetIncomeMargin | percent: '1.2'  }}</ion-label>
-                </ion-item>
-                <ion-item>
-                    <ion-label>FCF / Income:</ion-label>
-                    <ion-label class="st-data-label-end">{{ formula.estimatedFreeCashFlowRate | percent: '1.2'  }}</ion-label>
-                </ion-item>
-            </ion-item-group>
-        </ion-list>
+		<!-- future estimation -->
+		<mat-grid-list [cols]="formula.years.length + 1" rowHeight="50px" class="mb-2">
+			<!-- years -->
+			<mat-grid-tile></mat-grid-tile>
+			<mat-grid-tile *ngFor="let year of formula.years" class="g-color-white text-base">{{ year }}</mat-grid-tile>
 
-        <ion-list>
-            <ion-item>
-                <ion-label class="st-table-main-label"></ion-label>
-                <ion-label *ngFor="let year of formula.years" class="st-font-1-bold">{{ year }}</ion-label>
-            </ion-item>
+			<!-- revenue -->
+			<mat-grid-tile class="text-lg g-color-white">Revenue (estimated)</mat-grid-tile>
+			<ng-container *ngIf="formula.estimatedRevenues as prices">
+				<mat-grid-tile *ngFor="let data of prices; let i = index; let first = first">
+					<div class="text-center">
+						<div>{{ data | numberFormatter}}</div>
+						<app-price-compare-item [currentPrice]="data" [compareToPrice]="first ? null : prices[i - 1]" [showPrice]="false">
+						</app-price-compare-item>
+					</div>
+				</mat-grid-tile>
+			</ng-container>
 
-            <ion-item>
-                <ion-label class="st-table-main-label">Revenue</ion-label>
-                <ion-label *ngFor="let data of formula.estimatedRevenues"> {{ data | numberFormatter }}</ion-label>
-            </ion-item>
+			<!-- net income -->
+			<mat-grid-tile class="text-lg g-color-white">Income (estimated)</mat-grid-tile>
+			<ng-container *ngIf="formula.estimatedNetIncomes as prices">
+				<mat-grid-tile *ngFor="let data of prices; let i = index; let first = first">
+					<div class="text-center">
+						<div>{{ data | numberFormatter}}</div>
+						<app-price-compare-item [currentPrice]="data" [compareToPrice]="first ? null : prices[i - 1]" [showPrice]="false">
+						</app-price-compare-item>
+					</div>
+				</mat-grid-tile>
+			</ng-container>
 
-            <ion-item>
-                <ion-label class="st-table-main-label">Income</ion-label>
-                <ion-label *ngFor="let data of formula.estimatedNetIncomes"> {{ data | numberFormatter }}</ion-label>
-            </ion-item>
+			<!-- Free cash flow -->
+			<mat-grid-tile class="text-lg g-color-white">Free cash flow (estimated)</mat-grid-tile>
+			<ng-container *ngIf="formula.estimatedFreeCashFlows as prices">
+				<mat-grid-tile *ngFor="let data of prices; let i = index; let first = first">
+					<div class="text-center">
+						<div>{{ data | numberFormatter}}</div>
+						<app-price-compare-item [currentPrice]="data" [compareToPrice]="first ? null : prices[i - 1]" [showPrice]="false">
+						</app-price-compare-item>
+					</div>
+				</mat-grid-tile>
+			</ng-container>
 
-            <ion-item>
-                <ion-label class="st-table-main-label">Free cash flow</ion-label>
-                <ion-label *ngFor="let data of formula.estimatedFreeCashFlows"> {{ data | numberFormatter }}</ion-label>
-            </ion-item>
+			<!-- discounted factor -->
+			<mat-grid-tile class="text-lg g-color-white">Discounted factor (estimated)</mat-grid-tile>
+			<ng-container *ngIf="formula.estimatedDiscountedFactors as prices">
+				<mat-grid-tile *ngFor="let data of prices; let i = index; let first = first">
+					<div class="text-center">
+						<div>{{ data | numberFormatter: true}}</div>
+					</div>
+				</mat-grid-tile>
+			</ng-container>
 
-            <ion-item>
-                <ion-label class="st-table-main-label">Discounted factor</ion-label>
-                <ion-label *ngFor="let data of formula.estimatedDiscountedFactors"> {{ data | numberFormatter }}</ion-label>
-            </ion-item>
+			<!-- PV of future cash flow -->
+			<mat-grid-tile class="text-lg g-color-white">PV of future CF (estimated)</mat-grid-tile>
+			<ng-container *ngIf="formula.estimatedPresentValueOfFutureCashFlows as prices">
+				<mat-grid-tile *ngFor="let data of prices; let i = index; let first = first">
+					<div class="text-center">
+						<div>{{ data | numberFormatter}}</div>
+					</div>
+				</mat-grid-tile>
+			</ng-container>
+		</mat-grid-list>
 
-            <ion-item>
-                <ion-label class="st-table-main-label">PV of future cash flow</ion-label>
-                <ion-label *ngFor="let data of formula.estimatedPresentValueOfFutureCashFlows">
-                    {{ data | numberFormatter }}
-                </ion-label>
-            </ion-item>
-        </ion-list>
+		<mat-divider></mat-divider>
 
-        <ion-list>
-            <ion-item-group class="st-flex-space-evenly st-small-vertical-padding">
-                <ion-item>
-                    <ion-label>Terminal value:</ion-label>
-                    <ion-label class="st-data-label-end">{{ formula.estimatedTerminalValue | numberFormatter }}</ion-label>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Discounted TV:</ion-label>
-                    <ion-label
-                            class="st-data-label-end">{{ formula.estimatedDiscountedTerminalValue | numberFormatter }}</ion-label>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Company value:</ion-label>
-                    <ion-label class="st-data-label-end">{{ formula.estimatedCompanyTodayValue | numberFormatter  }}</ion-label>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Intrinsic value:</ion-label>
-                    <ion-label class="st-font-0 st-data-label-end">{{ formula.estimatedIntrinsicValue | currency  }}</ion-label>
-                </ion-item>
-            </ion-item-group>
-        </ion-list>
-
-    </ng-container>
-</app-generic-card>
+		<!-- calculation -->
+		<div class="text-xl p-4 g-color-white mb-2">Calculation</div>
+		<div class="p-4 flex justify-around">
+			<div>Terminal value: {{ formula.estimatedTerminalValue | numberFormatter}}</div>
+			<div>Discounted TV: {{ formula.estimatedDiscountedTerminalValue | numberFormatter }}</div>
+			<div>Company value: {{ formula.estimatedCompanyTodayValue | numberFormatter }}</div>
+			<div>Intrinsic value: <span class="g-color-white">{{ formula.estimatedIntrinsicValue | numberFormatter: false : true}}</span></div>
+		</div>
+	</ng-container>
+</app-mat-card-wrapper>

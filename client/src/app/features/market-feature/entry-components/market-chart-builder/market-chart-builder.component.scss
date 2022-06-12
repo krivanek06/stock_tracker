@@ -37,11 +37,20 @@
 		}
 	}
 
-	.c-spinner-container {
+	ion-skeleton-text {
+		height: 400px;
+	}
+
+	// .c-spinner-container {
+	// 	position: absolute;
+	// 	top: 25%;
+	// 	width: 100%;
+	// 	justify-content: center;
+	// 	display: flex;
+	// }
+	mat-spinner {
 		position: absolute;
-		top: 25%;
-		width: 100%;
-		justify-content: center;
-		display: flex;
+		left: 48%;
+		top: 35%;
 	}
 }

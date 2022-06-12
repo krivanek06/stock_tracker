@@ -1,16 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {DetailsKeyExecutivesComponent} from "./details-key-executives.component";
-import {IonicModule} from "@ionic/angular";
-
-
+import { NgModule } from '@angular/core';
+import { DetailsKeyExecutivesComponent } from './details-key-executives.component';
 
 @NgModule({
-  declarations: [DetailsKeyExecutivesComponent],
-  imports: [
-    CommonModule,
-    IonicModule
-  ],
-  exports: [DetailsKeyExecutivesComponent]
+	declarations: [DetailsKeyExecutivesComponent],
+	imports: [CommonModule],
+	exports: [DetailsKeyExecutivesComponent],
 })
-export class DetailsKeyExecutivesModule { }
+export class DetailsKeyExecutivesModule {}

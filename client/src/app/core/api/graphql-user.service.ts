@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import {
 	QueryStUserPublicDataSearchByIdGQL,
 	QueryUserIdentificationByUsernameGQL,
-	StUserIndentificationDataFragment,
+	StUserIdentificationDataFragment,
 	StUserPublicDataSearchFragment,
 } from '../graphql-schema';
 
@@ -17,12 +17,12 @@ export class GraphqlUserService {
 		private queryStUserPublicDataSearchByIdGQL: QueryStUserPublicDataSearchByIdGQL
 	) {}
 
-	queryUserIdentificationByUsername(usernamePrefix: string): Observable<StUserIndentificationDataFragment[]> {
+	queryUserIdentificationByUsername(usernamePrefix: string): Observable<StUserIdentificationDataFragment[]> {
 		return this.queryUserIndentificationByUsernameGQL
 			.fetch({
 				usernamePrefix,
 			})
-			.pipe(map((x) => x.data.queryUserPublicDataByUsername));
+			.pipe(map((x) => x.data.queryUserPublicDataByUsername.map((k) => k as StUserIdentificationDataFragment)));
 	}
 
 	queryStUserPublicDataSearch(userId: string): Observable<StUserPublicDataSearchFragment> {
@@ -30,6 +30,6 @@ export class GraphqlUserService {
 			.fetch({
 				id: userId,
 			})
-			.pipe(map((res) => res.data.queryUserPublicDataById));
+			.pipe(map((res) => res.data.queryUserPublicDataById as StUserPublicDataSearchFragment));
 	}
 }

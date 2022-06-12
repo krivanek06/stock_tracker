@@ -1,7 +1,7 @@
 <div class="c-wrapper">
 	<div class="c-wrapper-item st-padding-item" *ngFor="let summary of transactionSummary">
 		<div class="st-font-size-20" [style.color]="summary.color">{{ summary.name }}</div>
-		<div class="st-font-size-20">
+		<div class="st-font-size-20 st-font-2">
 			<ng-container *ngIf="!summary.isCurrency"> {{ summary.value | number:'1.0-0'}} </ng-container>
 			<ng-container *ngIf="summary.isCurrency"> {{ summary.value | currency }} </ng-container>
 		</div>

@@ -1,152 +1,108 @@
-<!-- big screen -->
-<ion-list class="ion-hide-sm-down">
-	<ion-item class="st-font-1-bold">
-		<!-- table header -->
-		<ion-label>Symbol</ion-label>
-		<ion-label>Price</ion-label>
-		<ion-label>Bep.</ion-label>
-		<ion-label>Daily +/-</ion-label>
-		<ion-label>Total +/-</ion-label>
-		<ion-label>Value</ion-label>
-		<ion-label class="st-hide-xxl-down">Units</ion-label>
-		<ion-label class="ion-hide-md-down">Portfolio %</ion-label>
-		<ion-label class="st-hide-xxl-down">Beta</ion-label>
-		<ion-label class="ion-hide-lg-down">Recommend</ion-label>
-	</ion-item>
+<div class="flex justify-end sm:hidden p-2">
+	<button mat-stroked-button class="g-color-primary" (click)="toggleDailyChange()">{{ showDailyChange ? 'Daily +/-' : 'Unrealized +/-'}}</button>
+</div>
+<table mat-table [dataSource]="dataSource" matSort class="w-full g-clickable-table" [trackBy]="identify">
+	<!-- image & name -->
+	<ng-container matColumnDef="symbol">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Symbol</th>
+		<td mat-cell *matCellDef="let row">
+			<!-- logo + symbol -->
+			<div class="flex items-center">
+				<img [src]="row.summary.logo_url" appDefaultImg class="st-symbol-image" />
+				<div class="flex flex-col">
+					<span class="g-color-white">{{ row.symbol }}</span>
+					<span class="text-base text-gray-500 table-cell sm:hidden">
+						<span [@marketValueChange]="row.summary.marketPrice" class="text-gray-500 text-base">{{ row.summary.marketPrice | currency }}</span> * {{
+						row.units }} | {{ row.breakEvenPrice | currency }}
+					</span>
+				</div>
+			</div>
+		</td>
+	</ng-container>
 
-	<!-- table body -->
-	<ng-container *ngIf="holdings.length > 0; else showNoHoldingsText">
-		<ion-item
-			*ngFor="let holding of sortByValue(); trackBy:identify"
-			(click)="itemClicked(holding)"
-			class="st-data-item-wrapper ion-hide-sm-down"
-			[ngClass]="{'ion-activatable': clickable}"
-		>
-			<!-- stock name -->
-			<ion-label class="st-display-flex-center">
-				<ion-img appDefaultImg [src]="holding.summary.logo_url" class="st-symbol-image"></ion-img>
-				<ion-text class="ion-hide-md-down st-font-4">{{ holding.summary.symbol }}</ion-text>
-			</ion-label>
+	<!-- price -->
+	<ng-container matColumnDef="price">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Price</th>
+		<td mat-cell *matCellDef="let row" [@marketValueChange]="row.summary.marketPrice" class="hidden sm:table-cell">
+			{{ row.summary.marketPrice | currency }}
+		</td>
+	</ng-container>
 
-			<!-- current price -->
-			<ion-label class="st-data-label" [@marketValueChange]="holding.summary.marketPrice"> {{ holding.summary.marketPrice | currency }} </ion-label>
+	<!-- BEP. -->
+	<ng-container matColumnDef="bep">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Bep.</th>
+		<td mat-cell *matCellDef="let row" class="hidden sm:table-cell">{{ row.breakEvenPrice | currency }}</td>
+	</ng-container>
 
-			<!-- BEP -->
-			<ion-label class="st-data-label"> {{ holding.breakEvenPrice | currency }} </ion-label>
+	<!-- daily change. -->
+	<ng-container matColumnDef="daily">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Daily +/-</th>
+		<td mat-cell *matCellDef="let row" class="hidden sm:table-cell">
+			<app-price-compare-item [currentPrice]="row.summary.marketPrice * row.units" [compareToPrice]="row.summary.previousClose * row.units">
+			</app-price-compare-item>
+		</td>
+	</ng-container>
 
-			<!-- daily change -->
-			<ion-label>
+	<!-- total change -->
+	<ng-container matColumnDef="total">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Total +/-</th>
+		<td mat-cell *matCellDef="let row" class="hidden sm:table-cell">
+			<app-price-compare-item [currentPrice]="row.summary.marketPrice * row.units" [compareToPrice]="row.breakEvenPrice * row.units">
+			</app-price-compare-item>
+		</td>
+	</ng-container>
+
+	<!-- value -->
+	<ng-container matColumnDef="value">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Value</th>
+		<td mat-cell *matCellDef="let row">
+			<div [@marketValueChange]="row.summary.marketPrice" class="text-right sm:text-left">{{ (row.summary.marketPrice * row.units) | currency }}</div>
+			<div class="text-gray-500 text-sm hidden sm:table-cell">{{ row.summary.marketPrice | currency }} * {{ row.units }}</div>
+			<!-- daily / total change on small screen -->
+			<div class="flex justify-end sm:hidden">
 				<app-price-compare-item
-					[currentPrice]="holding.summary.marketPrice * holding.units"
-					[compareToPrice]="holding.summary.previousClose * holding.units"
+					pricePosition="right"
+					[currentPrice]="row.summary.marketPrice * row.units"
+					[compareToPrice]="showDailyChange ? (row.summary.previousClose * row.units) : (row.breakEvenPrice * row.units)"
 				>
 				</app-price-compare-item>
-			</ion-label>
-
-			<!-- total change -->
-			<ion-label>
-				<app-price-compare-item
-					[currentPrice]="holding.summary.marketPrice * holding.units"
-					[compareToPrice]="holding.breakEvenPrice * holding.units"
-				>
-				</app-price-compare-item>
-			</ion-label>
-
-			<!-- Value -->
-			<ion-label class="st-data-label st-flex-col">
-				<ion-text [@marketValueChange]="holding.summary.marketPrice"> {{ (holding.summary.marketPrice * holding.units) | currency }} </ion-text>
-				<ion-text class="st-font-size-12 st-font-5"> {{ holding.summary.marketPrice | currency }} * {{ holding.units }} </ion-text>
-			</ion-label>
-
-			<!-- units -->
-			<ion-label class="st-hide-xxl-down"> {{ holding.units }} </ion-label>
-
-			<!-- portfolio % -->
-			<ion-label class="ion-hide-md-down st-data-label">
-				{{ (holding.summary.marketPrice * holding.units / totalPortfolio | percent: '1.2-2') }}
-			</ion-label>
-
-			<!-- beta -->
-			<ion-label class="st-hide-xxl-down"> {{ holding.summary.beta ? ( holding.summary.beta | number: '1.2-2') : 'N/A' }} </ion-label>
-
-			<!-- recommendation date -->
-			<ion-label class="ion-hide-lg-down st-data-label">
-				<ion-text appRecommendation [recommendationKey]="holding.summary.recommendationKey" [recommendationMean]="holding.summary.recommendationMean">
-				</ion-text>
-			</ion-label>
-
-			<!-- ripple effect on click -->
-			<ion-ripple-effect></ion-ripple-effect>
-		</ion-item>
+			</div>
+		</td>
 	</ng-container>
-</ion-list>
 
-<!-- Small screen -->
-<ion-list class="ion-hide-sm-up">
-	<ion-item>
-		<ion-label class="st-flex-end">
-			<ion-button fill="clear" class="st-icon" *ngIf="showDailyChange" (click)="toggleDailyChange()"> Daily +/- </ion-button>
-			<ion-button fill="clear" class="st-icon" *ngIf="!showDailyChange" (click)="toggleDailyChange()"> Unrealised +/- </ion-button>
-		</ion-label>
-	</ion-item>
-
-	<ng-container *ngIf="holdings.length > 0; else showNoHoldingsText">
-		<ion-item-group
-			*ngFor="let holding of holdings; trackBy:identify"
-			class="st-data-item-wrapper"
-			(click)="itemClicked(holding)"
-			[ngClass]="{'ion-activatable': clickable}"
-		>
-			<ion-item>
-				<!-- LOGO + SYMBOL -->
-				<ion-label class="st-display-flex-center st-fit-content">
-					<ion-img appDefaultImg [src]="holding.summary.logo_url" class="st-symbol-image"></ion-img>
-					<div class="st-flex-col">
-						<ion-text>{{ holding.summary.symbol }}</ion-text>
-						<ion-text class="st-hide-xs-down st-font-size-12">{{ holding.summary.companyName }}</ion-text>
-					</div>
-				</ion-label>
-
-				<!-- Value -->
-				<ion-label class="st-font-1-normal st-font-size-16 st-flex-end" [@marketValueChange]="holding.summary.marketPrice">
-					{{ (holding.summary.marketPrice * holding.units) | currency }}
-				</ion-label>
-			</ion-item>
-
-			<ion-item>
-				<!-- units -->
-				<ion-label class="st-font-5 st-font-size-14 st-fit-content">
-					<span [@marketValueChange]="holding.summary.marketPrice">{{ holding.summary.marketPrice | currency }}</span> * {{ holding.units }} | {{
-					holding.breakEvenPrice | currency }}
-				</ion-label>
-
-				<ion-label class="st-flex-end">
-					<!-- daily change -->
-					<app-price-compare-item
-						*ngIf="showDailyChange"
-						[currentPrice]="holding.summary.marketPrice * holding.units"
-						[inlineDisplay]="true"
-						[compareToPrice]="holding.summary.previousClose * holding.units"
-					>
-					</app-price-compare-item>
-
-					<!-- total change -->
-					<app-price-compare-item
-						*ngIf="!showDailyChange"
-						[inlineDisplay]="true"
-						[currentPrice]="holding.summary.marketPrice * holding.units"
-						[compareToPrice]="holding.breakEvenPrice * holding.units"
-					>
-					</app-price-compare-item>
-				</ion-label>
-			</ion-item>
-
-			<!-- ripple effect on click -->
-			<ion-ripple-effect></ion-ripple-effect>
-		</ion-item-group>
+	<!-- units -->
+	<ng-container matColumnDef="units">
+		<th mat-header-cell *matHeaderCellDef class="hidden lg:table-cell">Units</th>
+		<td mat-cell *matCellDef="let row" class="hidden lg:table-cell">{{ row.units }}</td>
 	</ng-container>
-</ion-list>
 
-<ng-template #showNoHoldingsText>
-	<div class="st-empty-table">You currently do not hold any symbols</div>
-</ng-template>
+	<!-- portfolio % -->
+	<ng-container matColumnDef="portfolio">
+		<th mat-header-cell *matHeaderCellDef class="hidden md:table-cell">Portfolio %</th>
+		<td mat-cell *matCellDef="let row" class="hidden md:table-cell">
+			{{ totalPortfolio ? ((row.summary.marketPrice * row.units / totalPortfolio | percent: '1.2-2')) : 'N/A' }}
+		</td>
+	</ng-container>
+
+	<!-- beta -->
+	<ng-container matColumnDef="beta">
+		<th mat-header-cell *matHeaderCellDef class="hidden xl:table-cell">Beta</th>
+		<td mat-cell *matCellDef="let row" class="hidden xl:table-cell">{{ row.summary.beta ? ( row.summary.beta | number: '1.2-2') : 'N/A' }}</td>
+	</ng-container>
+
+	<!-- recommendation -->
+	<ng-container matColumnDef="Recommend">
+		<th mat-header-cell *matHeaderCellDef class="hidden lg:table-cell">Recommend</th>
+		<td mat-cell *matCellDef="let row" class="hidden lg:table-cell">
+			<span appRecommendation [recommendationKey]="row.summary.recommendationKey" [recommendationMean]="row.summary.recommendationMean"> </span>
+		</td>
+	</ng-container>
+
+	<tr mat-header-row *matHeaderRowDef="displayedColumns" class="hidden sm:contents"></tr>
+	<tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="itemClicked(row)"></tr>
+
+	<!-- Row shown when there is no matching data. -->
+	<tr class="mat-row" *matNoDataRow>
+		<td class="mat-cell text-center" colspan="10">No holdings to be found</td>
+	</tr>
+</table>

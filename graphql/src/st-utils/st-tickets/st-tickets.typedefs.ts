@@ -6,15 +6,15 @@ export const STTicketsTypeDefs = gql`
 		id: String!
 		name: String!
 		type: STTicketTypes!
-		createdBy: STUserIndetification!
+		createdBy: STUserIdentification!
 		createdAt: String!
 		isOpen: Boolean!
-		comments: [STTicketComment]!
+		comments: [STTicketComment!]!
 	}
 
 	type STTicketComment {
 		id: String!
-		createdBy: STUserIndetification!
+		createdBy: STUserIdentification!
 		comment: String!
 		createdAt: String!
 	}

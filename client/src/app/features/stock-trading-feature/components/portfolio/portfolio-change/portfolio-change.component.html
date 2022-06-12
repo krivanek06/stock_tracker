@@ -1,34 +1,19 @@
-<div class="st-flex-space-between-sm-down st-padding">
-	<div class="st-font-size-20 st-letter-spacing-1">{{ tradingChangeWrapper.timeIntervalName }}</div>
-	<div
-		class="st-font-size-20 st-font-white"
-		[ngClass]="{
-		'st-flex-row-sm-col': inlinePriceWithIncrease,
-		'st-flex-col': !inlinePriceWithIncrease}"
-	>
-		<!-- started with -->
-		<ng-container *ngIf="tradingChangeWrapper.timeIntervalName === TIME_INTERVAL_ENUM.STARTED_WITH; else showOther">
-			<ion-text class="st-font-size-20 weekly-change"> {{ tradingChangeWrapper.historicalBalance | currency }} </ion-text>
-		</ng-container>
+<!-- if currentBalance is present when calculate things, generating real time update -->
+<ng-container *ngIf="currentBalance; else showWithoutBalance">
+	<app-portfolio-change-item
+		[title]="title"
+		[inlinePriceWithIncrease]="inlinePriceWithIncrease"
+		[balanceChange]="currentBalance - (portfolioChange.portfolioBalance)"
+		[balanceChangePrct]="(currentBalance - (portfolioChange.portfolioBalance)) / portfolioChange.portfolioBalance"
+	></app-portfolio-change-item>
+</ng-container>
 
-		<!-- portfolio change -->
-		<ng-template #showOther>
-			<ng-container *ngIf="tradingChangeWrapper.historicalBalance; else showNA">
-				<ion-text class="st-font-size-20 weekly-change" [@marketValueChange]="balance">
-					{{ balance - tradingChangeWrapper.historicalBalance | currency }}
-				</ion-text>
-				<app-price-change-item
-					*ngIf="balance - tradingChangeWrapper.historicalBalance !== 0"
-					[isPercent]="true"
-					[applyEndOnSmDown]="true"
-					[priceChange]="(balance - tradingChangeWrapper.historicalBalance) / tradingChangeWrapper.historicalBalance"
-				>
-				</app-price-change-item>
-			</ng-container>
-
-			<ng-template #showNA>
-				<ion-text class="st-font-size-20">N/A</ion-text>
-			</ng-template>
-		</ng-template>
-	</div>
-</div>
+<!-- without real time -->
+<ng-template #showWithoutBalance>
+	<app-portfolio-change-item
+		[title]="title"
+		[inlinePriceWithIncrease]="inlinePriceWithIncrease"
+		[balanceChange]="portfolioChange.portfolioIncreaseNumber"
+		[balanceChangePrct]="portfolioChange.portfolioIncreasePrct"
+	></app-portfolio-change-item>
+</ng-template>

@@ -2,6 +2,7 @@ import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
 import { queryUserPublicDataById } from '../../st-user/user.query';
+import { increaseGroupPortfolio } from '../st-group.util';
 import { Context } from './../../st-shared/st-shared.interface';
 import { querySTGroupByGroupId, querySTGroupMemberDataByGroupId } from './../st-group.query';
 import { createSTGroupUser } from './../st-group.util';
@@ -28,7 +29,7 @@ export const answerReceivedGroupInvitation = async (groupId: string, accept: boo
 		const newGroupUser = createSTGroupUser(user);
 
 		// update group
-		await updateGroupData(accept, group, newGroupUser);
+		await updateGroupData(accept, group, user);
 		await updateGroupMemberData(accept, groupMembers, newGroupUser);
 
 		// remove invitation from user
@@ -72,25 +73,9 @@ const updateGroupMemberData = async (accept: boolean, groupMembers: api.STGroupM
 		);
 };
 
-const updateGroupData = async (accept: boolean, group: api.STGroupAllData, newGroupUser: api.STGroupUser): Promise<void> => {
+const updateGroupData = async (accept: boolean, group: api.STGroupAllData, user: api.STUserPublicData): Promise<void> => {
 	if (accept) {
-		// update started portfolio
-		group.startedPortfolio.portfolioCash += newGroupUser.startedPortfolio.portfolioCash;
-		group.startedPortfolio.portfolioInvested += newGroupUser.startedPortfolio.portfolioInvested;
-		group.startedPortfolio.numberOfExecutedSellTransactions += newGroupUser.startedPortfolio.numberOfExecutedSellTransactions;
-		group.startedPortfolio.numberOfExecutedBuyTransactions += newGroupUser.startedPortfolio.numberOfExecutedBuyTransactions;
-		group.startedPortfolio.transactionFees += newGroupUser.startedPortfolio.transactionFees;
-
-		// update portfolio
-		group.portfolio.portfolioCash += newGroupUser.startedPortfolio.portfolioCash;
-		group.portfolio.lastPortfolioSnapshot.portfolioCash += newGroupUser.startedPortfolio.portfolioCash;
-		group.portfolio.lastPortfolioSnapshot.portfolioInvested += newGroupUser.startedPortfolio.portfolioInvested;
-		group.portfolio.numberOfExecutedSellTransactions += newGroupUser.startedPortfolio.numberOfExecutedSellTransactions;
-		group.portfolio.numberOfExecutedBuyTransactions += newGroupUser.startedPortfolio.numberOfExecutedBuyTransactions;
-		group.portfolio.transactionFees += newGroupUser.startedPortfolio.transactionFees;
-
-		// update memvers
-		group.numberOfMembers += 1;
+		increaseGroupPortfolio(group, user.portfolio);
 	}
 
 	await admin

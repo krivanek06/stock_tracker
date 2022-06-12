@@ -1,48 +1,47 @@
-import {Component} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import { Component } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-    selector: 'app-form-lock-input',
-    templateUrl: './form-lock-input.component.html',
-    styleUrls: ['./form-lock-input.component.scss'],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: FormLockInputComponent,
-            multi: true,
-        },
-    ],
+	selector: 'app-form-lock-input',
+	templateUrl: './form-lock-input.component.html',
+	styleUrls: ['./form-lock-input.component.scss'],
+	providers: [
+		{
+			provide: NG_VALUE_ACCESSOR,
+			useExisting: FormLockInputComponent,
+			multi: true,
+		},
+	],
 })
 export class FormLockInputComponent implements ControlValueAccessor {
-    value = false;
+	value = false;
 
-    disabled = false;
-    onTouched: () => void;
-    onChange: (value: boolean) => void = () => {
-    };
+	disabled = false;
+	onTouched!: () => void;
+	onChange: (value: boolean) => void = () => {};
 
-    writeValue(obj: boolean): void {
-        this.value = obj;
-    }
+	writeValue(obj: boolean): void {
+		this.value = obj;
+	}
 
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
+	registerOnChange(fn: any): void {
+		this.onChange = fn;
+	}
 
-    registerOnTouched(fn: any): void {
-        this.onTouched = fn;
-    }
+	registerOnTouched(fn: any): void {
+		this.onTouched = fn;
+	}
 
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
-    }
+	setDisabledState?(isDisabled: boolean): void {
+		this.disabled = isDisabled;
+	}
 
-    setValue() {
-        if (this.disabled) {
-            return;
-        }
-        this.value = !this.value;
-        this.onChange(this.value);
-        // this.onTouched();
-    }
+	setValue() {
+		if (this.disabled) {
+			return;
+		}
+		this.value = !this.value;
+		this.onChange(this.value);
+		// this.onTouched();
+	}
 }

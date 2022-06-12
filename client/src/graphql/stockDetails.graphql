@@ -390,8 +390,219 @@ fragment historicalMetricsDataFragment on HistoricalMetricsData {
 	data
 }
 
+fragment STDetailsFinancialRatios on STDetailsFinancialRatios {
+	symbol
+	date
+	currentRatio
+	quickRatio
+	cashRatio
+	daysOfSalesOutstanding
+	daysOfInventoryOutstanding
+	operatingCycle
+	daysOfPayablesOutstanding
+	cashConversionCycle
+	grossProfitMargin
+	operatingProfitMargin
+	pretaxProfitMargin
+	netProfitMargin
+	effectiveTaxRate
+	returnOnAssets
+	returnOnEquity
+	returnOnCapitalEmployed
+	netIncomePerEBT
+	ebtPerEbit
+	ebitPerRevenue
+	debtRatio
+	debtEquityRatio
+	longTermDebtToCapitalization
+	totalDebtToCapitalization
+	interestCoverage
+	cashFlowToDebtRatio
+	companyEquityMultiplier
+	receivablesTurnover
+	payablesTurnover
+	inventoryTurnover
+	fixedAssetTurnover
+	assetTurnover
+	operatingCashFlowPerShare
+	freeCashFlowPerShare
+	cashPerShare
+	payoutRatio
+	operatingCashFlowSalesRatio
+	freeCashFlowOperatingCashFlowRatio
+	cashFlowCoverageRatios
+	shortTermCoverageRatios
+	capitalExpenditureCoverageRatio
+	dividendPaidAndCapexCoverageRatio
+	dividendPayoutRatio
+	priceBookValueRatio
+	priceToBookRatio
+	priceToSalesRatio
+	priceEarningsRatio
+	priceToFreeCashFlowsRatio
+	priceToOperatingCashFlowsRatio
+	priceCashFlowRatio
+	priceEarningsToGrowthRatio
+	priceSalesRatio
+	dividendYield
+	enterpriseValueMultiple
+	priceFairValue
+}
+
+fragment STDetailsFinancialGrowth on STDetailsFinancialGrowth {
+	symbol
+	date
+	revenueGrowth
+	grossProfitGrowth
+	ebitgrowth
+	operatingIncomeGrowth
+	netIncomeGrowth
+	epsgrowth
+	epsdilutedGrowth
+	weightedAverageSharesGrowth
+	weightedAverageSharesDilutedGrowth
+	dividendsperShareGrowth
+	operatingCashFlowGrowth
+	freeCashFlowGrowth
+	tenYRevenueGrowthPerShare
+	fiveYRevenueGrowthPerShare
+	threeYRevenueGrowthPerShare
+	tenYOperatingCFGrowthPerShare
+	fiveYOperatingCFGrowthPerShare
+	threeYOperatingCFGrowthPerShare
+	tenYNetIncomeGrowthPerShare
+	fiveYNetIncomeGrowthPerShare
+	threeYNetIncomeGrowthPerShare
+	tenYShareholdersEquityGrowthPerShare
+	fiveYShareholdersEquityGrowthPerShare
+	threeYShareholdersEquityGrowthPerShare
+	tenYDividendperShareGrowthPerShare
+	fiveYDividendperShareGrowthPerShare
+	threeYDividendperShareGrowthPerShare
+	receivablesGrowth
+	inventoryGrowth
+	assetGrowth
+	bookValueperShareGrowth
+	debtGrowth
+	rdexpenseGrowth
+	sgaexpensesGrowth
+}
+
+fragment STDetailsKeyMetrics on STDetailsKeyMetrics {
+	symbol
+	date
+	revenuePerShare
+	netIncomePerShare
+	operatingCashFlowPerShare
+	freeCashFlowPerShare
+	cashPerShare
+	bookValuePerShare
+	tangibleBookValuePerShare
+	shareholdersEquityPerShare
+	interestDebtPerShare
+	marketCap
+	enterpriseValue
+	peRatio
+	priceToSalesRatio
+	pocfratio
+	pfcfRatio
+	pbRatio
+	ptbRatio
+	evToSales
+	enterpriseValueOverEBITDA
+	evToOperatingCashFlow
+	evToFreeCashFlow
+	earningsYield
+	freeCashFlowYield
+	debtToEquity
+	debtToAssets
+	netDebtToEBITDA
+	currentRatio
+	interestCoverage
+	incomeQuality
+	dividendYield
+	payoutRatio
+	salesGeneralAndAdministrativeToRevenue
+	researchAndDdevelopementToRevenue
+	intangiblesToTotalAssets
+	capexToOperatingCashFlow
+	capexToRevenue
+	capexToDepreciation
+	stockBasedCompensationToRevenue
+	grahamNumber
+	roic
+	returnOnTangibleAssets
+	grahamNetNet
+	workingCapital
+	tangibleAssetValue
+	netCurrentAssetValue
+	investedCapital
+	averageReceivables
+	averagePayables
+	averageInventory
+	daysSalesOutstanding
+	daysPayablesOutstanding
+	daysOfInventoryOnHand
+	receivablesTurnover
+	payablesTurnover
+	inventoryTurnover
+	roe
+	capexPerShare
+}
+
+fragment STStockDetailsCalculations on STStockDetailsCalculations {
+	symbol
+	date
+	alpha
+	beta
+	sharpRatio
+	volatility {
+		benchmarkYearlyReturnPrct
+		meanPrice
+		stdDailyPrct
+		stdDailyPrice
+		stdYearlyPrct
+		stdYearlyPrice
+		symbolYearlyPriceReturnPrct
+		volatilityPrct
+		date
+	}
+	CAPM {
+		beta
+		Rf
+		Rm
+		result
+	}
+	WACC {
+		CAPM {
+			beta
+			Rf
+			Rm
+			result
+		}
+		Rd
+		Re
+		Wd
+		We
+		result
+		taxRate
+	}
+}
+
 # -----------------------------------------
 # QUERY
+
+query QueryEtfDetails($symbol: String!) {
+	queryEtfDetails(symbol: $symbol) {
+		id
+		summary {
+			...StockSummaryFragment
+		}
+		calculations {
+			...STStockDetailsCalculations
+		}
+	}
+}
 
 query QueryStockDetails($symbol: String!, $reload: Boolean) {
 	queryStockDetails(symbol: $symbol, reload: $reload) {
@@ -494,47 +705,12 @@ query QueryStockDetails($symbol: String!, $reload: Boolean) {
 			}
 		}
 		calculations {
-			symbol
-			date
-			alpha
-			beta
-			sharpRatio
-			volatility {
-				benchmarkYearlyReturnPrct
-				meanPrice
-				stdDailyPrct
-				stdDailyPrice
-				stdYearlyPrct
-				stdYearlyPrice
-				symbolYearlyPriceReturnPrct
-				volatilityPrct
-				date
-			}
-			CAPM {
-				beta
-				Rf
-				Rm
-				result
-			}
-			WACC {
-				CAPM {
-					beta
-					Rf
-					Rm
-					result
-				}
-				Rd
-				Re
-				Wd
-				We
-				result
-				taxRate
-			}
+			...STStockDetailsCalculations
 		}
 		socialSentiment {
 			...STFMSocialSentimentFragment
 		}
-		analystEstimatesYearly {
+		analystEstimates {
 			...STAnalystEstimatesFragment
 		}
 		calculatedPredictions {
@@ -682,6 +858,24 @@ query QueryStockSummary($symbol: String!, $allowReload: Boolean = true) {
 query QueryStockQuotesByPrefix($symbolPrefix: String!) {
 	queryStockQuotesByPrefix(symbolPrefix: $symbolPrefix) {
 		...STFMCompanyQuoteFragment
+	}
+}
+
+query QueryStockDetailsFinancialRatios($symbol: String!, $period: String!, $allData: Boolean!) {
+	queryStockDetailsFinancialRatios(symbol: $symbol, period: $period, allData: $allData) {
+		...STDetailsFinancialRatios
+	}
+}
+
+query QueryStockDetailsFinancialGrowth($symbol: String!, $period: String!, $allData: Boolean!) {
+	queryStockDetailsFinancialGrowth(symbol: $symbol, period: $period, allData: $allData) {
+		...STDetailsFinancialGrowth
+	}
+}
+
+query QueryStockDetailsKeyMetrics($symbol: String!, $period: String!, $allData: Boolean!) {
+	queryStockDetailsKeyMetrics(symbol: $symbol, period: $period, allData: $allData) {
+		...STDetailsKeyMetrics
 	}
 }
 

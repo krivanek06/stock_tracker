@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { GraphqlQueryService, StfmCompanyQuote } from '@core';
 import { Observable, of } from 'rxjs';
 import { debounceTime, switchMap, tap } from 'rxjs/operators';
@@ -14,12 +14,16 @@ export class StockSearchComponent implements OnInit {
 	@Output() clickedSymbolEmitter: EventEmitter<StfmCompanyQuote> = new EventEmitter<StfmCompanyQuote>();
 
 	@Input() clearOnClick = false;
-	@ViewChild('insideElement') insideElement;
-	searchedCompanyQuotes$: Observable<StfmCompanyQuote[]>;
-	form: FormGroup;
-	loading: boolean;
+	@ViewChild('insideElement') insideElement!: ElementRef;
+	searchedCompanyQuotes$!: Observable<StfmCompanyQuote[] | null>;
+	form!: FormGroup;
+	loading = false;
 
 	constructor(private fb: FormBuilder, private firebaseSearchService: GraphqlQueryService) {}
+
+	get symbol(): AbstractControl {
+		return this.form.get('symbol') as AbstractControl;
+	}
 
 	ngOnInit() {
 		this.initForm();
@@ -30,15 +34,15 @@ export class StockSearchComponent implements OnInit {
 		this.clickedSymbolEmitter.emit(companyQuote);
 
 		if (this.clearOnClick) {
-			this.form.get('symbol').patchValue(null);
+			this.symbol.patchValue(null);
 		}
 	}
 
 	@HostListener('document:click', ['$event.target'])
-	clickOutside(targetElement) {
+	clickOutside(targetElement: any) {
 		const clickedInside = this.insideElement.nativeElement.contains(targetElement);
 		if (!clickedInside) {
-			this.form.get('symbol').patchValue(null);
+			this.symbol.patchValue(null);
 		}
 	}
 	private initForm() {
@@ -48,7 +52,7 @@ export class StockSearchComponent implements OnInit {
 	}
 
 	private watchForm() {
-		this.searchedCompanyQuotes$ = this.form.get('symbol').valueChanges.pipe(
+		this.searchedCompanyQuotes$ = this.symbol.valueChanges.pipe(
 			tap((res: string) => (this.loading = res?.length > 0)),
 			debounceTime(600),
 			switchMap((res: string) => {

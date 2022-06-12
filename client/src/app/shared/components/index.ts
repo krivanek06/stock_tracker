@@ -5,4 +5,5 @@ export * from './generic';
 export * from './image-manipulation';
 export * from './items';
 export * from './lists';
+export * from './notification-bar';
 export * from './range-selector';

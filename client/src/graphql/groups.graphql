@@ -15,7 +15,7 @@ fragment STGroupUserFragment on STGroupUser {
 	sinceDate
 }
 
-fragment STGroupIdentificationData on STGroupAllData {
+fragment STGroupIdentificationData on STGroupIdentificationInterface {
 	id
 	name
 	description
@@ -30,8 +30,6 @@ fragment STGroupIdentificationData on STGroupAllData {
 	isPrivate
 	isClosed
 	numberOfMembers
-	numberOfInvitationSent
-	numberOfInvitationReceived
 	portfolio {
 		...STPortfolioWrapperFragment
 	}
@@ -41,14 +39,16 @@ fragment STGroupIdentificationData on STGroupAllData {
 	topMembers {
 		...STGroupUserFragment
 	}
-	lastUpdateDate
-	lastEditedDate
 	createdDate
-	currentAchievedRanks {
+	rank {
 		...STRankFragment
 	}
+	watchedByUsers
+	lastUpdateDate
+	lastEditedDate
 }
-fragment STGroupAllDataFragment on STGroupAllData {
+
+fragment STGroupAllDataWithoutHoldings on STGroupAllData {
 	id
 	name
 	description
@@ -62,6 +62,7 @@ fragment STGroupAllDataFragment on STGroupAllData {
 	createdDate
 	startDate
 	endDate
+	watchedByUsers
 	isPrivate
 	isInfinite
 	isClosed
@@ -82,12 +83,6 @@ fragment STGroupAllDataFragment on STGroupAllData {
 		members {
 			...STGroupUserFragment
 		}
-		holdings {
-			holding {
-				...STHoldingFragment
-			}
-			numberOfUsers
-		}
 		invitationSent {
 			...STGroupUserFragment
 		}
@@ -95,7 +90,7 @@ fragment STGroupAllDataFragment on STGroupAllData {
 			...STGroupUserFragment
 		}
 	}
-	currentAchievedRanks {
+	rank {
 		...STRankFragment
 	}
 	topTransactions {
@@ -120,12 +115,43 @@ fragment STGroupAllDataFragment on STGroupAllData {
 	}
 }
 
+fragment STGroupAllDataGroupMemberHoldingsData on STGroupAllData {
+	id
+	name
+	groupMemberData {
+		id
+		holdings {
+			holding {
+				...STHoldingFragment
+			}
+			numberOfUsers
+		}
+	}
+}
+
+fragment STGroupAllDataFragment on STGroupAllData {
+	...STGroupAllDataWithoutHoldings
+	...STGroupAllDataGroupMemberHoldingsData
+}
+
 # --------------------------------------
 # QUERY
 
 query QuerySTGroupByGroupId($id: String!) {
 	querySTGroupByGroupId(id: $id) {
 		...STGroupAllDataFragment
+	}
+}
+
+query QuerySTGroupByGroupIdWithoutHolding($id: String!) {
+	querySTGroupByGroupId(id: $id) {
+		...STGroupAllDataWithoutHoldings
+	}
+}
+
+query QuerySTGroupAllDataGroupMemberHoldingsData($id: String!) {
+	querySTGroupByGroupId(id: $id) {
+		...STGroupAllDataGroupMemberHoldingsData
 	}
 }
 
@@ -182,4 +208,8 @@ mutation ToggleUsersInvitationRequestToGroup($acceptUser: Boolean!, $userId: Str
 	toggleUsersInvitationRequestToGroup(acceptUser: $acceptUser, userId: $userId, groupId: $groupId) {
 		...STGroupUserFragment
 	}
+}
+
+mutation ToggleWatchGroup($groupId: String!) {
+	toggleWatchGroup(groupId: $groupId)
 }

@@ -1,23 +1,15 @@
-<ion-item-group class="st-flex-row-md-justify-center">
-	<form [formGroup]="form">
-		<ion-item class="form-item">
-			<ion-label position="floating"> {{ label }} </ion-label>
-			<ion-input [value]="name" formControlName="name" type="text"></ion-input>
-		</ion-item>
-	</form>
+<form [formGroup]="form" class="flex gap-2">
+	<app-form-mat-input-wrapper class="flex-1" controlName="name" [inputCaption]="label"></app-form-mat-input-wrapper>
 
-	<ion-buttons>
-		<!-- accept -->
-		<ion-button (click)="accept()" *ngIf="editing" class="st-transparent-background st-clickable" color="success">
-			<ion-icon class="st-clickable" name="checkmark-circle" slot="icon-only"></ion-icon>
-		</ion-button>
-		<!-- modify -->
-		<ion-button (click)="modify()" class="st-transparent-background st-clickable" color="warning">
-			<ion-icon class="st-clickable" name="pencil" slot="icon-only"></ion-icon>
-		</ion-button>
-		<!-- delete -->
-		<ion-button (click)="remove()" *ngIf="editing" class="st-transparent-background st-clickable" color="danger">
-			<ion-icon class="st-clickable" name="trash-bin" slot="icon-only"></ion-icon>
-		</ion-button>
-	</ion-buttons>
-</ion-item-group>
+	<div class="flex gap-1 pt-1">
+		<button *ngIf="editing" mat-icon-button color="accent" (click)="accept()" matTooltip="Confirm editing">
+			<mat-icon>check_circle</mat-icon>
+		</button>
+		<button mat-icon-button class="g-color-warning" (click)="modify()" [matTooltip]="editing ? 'Cancel editing' : 'Edit input'">
+			<mat-icon>edit</mat-icon>
+		</button>
+		<button *ngIf="editing" mat-icon-button color="warn" (click)="remove()" [matTooltip]="'Delete this ' + label">
+			<mat-icon>delete</mat-icon>
+		</button>
+	</div>
+</form>

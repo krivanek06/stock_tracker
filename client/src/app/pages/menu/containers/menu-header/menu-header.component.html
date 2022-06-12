@@ -1,0 +1,56 @@
+<div class="py-4 flex justify-between">
+	<div>
+		<button *ngIf="showMenuButton" mat-icon-button color="secondary" class="c-mat-menu-button" (click)="showMenu()">
+			<mat-icon>menu</mat-icon>
+		</button>
+	</div>
+
+	<div class="st-flex-end">
+		<!-- search -->
+		<ion-item-group class="st-flex-end" style="position: relative">
+			<ion-chip class="ion-search-chip">
+				<ion-searchbar #mySearchbar (ionChange)="searchSymbol($event)" debounce="500" placeholder="Search symbol"> </ion-searchbar>
+			</ion-chip>
+			<ion-item-group class="search-results">
+				<!-- searched symbol results -->
+				<ng-container *ngIf="searchCompanyQuotes$ | async as searchCompanyQuotes; else skeletons">
+					<app-stock-info-identification-item
+						(click)="clickedSummary(companyQuote)"
+						*ngFor="let companyQuote of (searchCompanyQuotes | slice: 0: 5)"
+						[companyQuote]="companyQuote"
+					>
+					</app-stock-info-identification-item>
+				</ng-container>
+
+				<!-- show skeleton text when loading -->
+				<ng-template #skeletons>
+					<ng-container *ngIf="loading">
+						<ion-item *ngFor="let empty of [].constructor(5)">
+							<ion-label>
+								<ion-skeleton-text animated></ion-skeleton-text>
+							</ion-label>
+						</ion-item>
+					</ng-container>
+				</ng-template>
+			</ion-item-group>
+		</ion-item-group>
+
+		<!-- notifications -->
+		<ion-item-group *ngIf="user$ | async as user; else showLogin" class="st-flex-end" style="position: relative">
+			<ion-button (click)="toggleNotifications()" fill="clear" slot="end" class="ion-hide-sm-down">
+				<ion-icon name="notifications"></ion-icon>
+				<!--<ion-label>3</ion-label>-->
+			</ion-button>
+			<ion-item-group *ngIf="showNotifications" class="notification-result">
+				<ion-item>
+					<ion-label> No notification has been found </ion-label>
+				</ion-item>
+			</ion-item-group>
+		</ion-item-group>
+
+		<!-- logging in -->
+		<ng-template #showLogin>
+			<ion-text *ngIf="isAuthenticating$ | async" class="login-text">Logging in</ion-text>
+		</ng-template>
+	</div>
+</div>

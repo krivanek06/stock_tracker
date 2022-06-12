@@ -1,8 +1,9 @@
-@import 'variables';
-
 :host {
-	.c-chip {
-		margin-left: -16px;
-		border: 1px solid #{$st-light-blue-border};
+	.mat-column-industry {
+		width: 150px;
+	}
+
+	.mat-column-52WeekRange {
+		width: 140px;
 	}
 }

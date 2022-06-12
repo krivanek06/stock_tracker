@@ -1,0 +1,18 @@
+<ng-container *ngIf="groups && groups.length > 0">
+	<div class="text-xl mb-2" [style.color]="HallOfFameColors[colorIndex].titleColor">{{ title }}</div>
+	<div class="flex flex-col gap-2">
+		<app-position-card
+			*ngFor="let group of groups"
+			[cardBackgroundColor]="HallOfFameColors[colorIndex].cardBackgroundColor"
+			[showInCard]="true"
+			[isButton]="false"
+			class="flex-1 2xl:flex-0"
+		>
+			<app-group-top-users-information
+				(visitEmitter)="visitGroup(group)"
+				[groupAllData]="group"
+				[showVisitButton]="true"
+			></app-group-top-users-information>
+		</app-position-card>
+	</div>
+</ng-container>

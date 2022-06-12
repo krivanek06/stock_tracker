@@ -1,47 +1,48 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { FinnhubWebsocketService, GraphqlWatchlistService, StStockWatchInputlistIdentifier, UserStorageService } from '@core';
-import { ModalController, PopoverController } from '@ionic/angular';
+import { GraphqlWatchlistService, StStockWatchInputlistIdentifier, UserStorageService } from '@core';
 import { DialogService, IdNameContainer, SymbolIdentification } from '@shared';
-import { SymbolLookupModalComponent } from '../entry-components'; // TODO circular dependency
+import { EtfLookupModalComponent, SymbolLookupModalComponent } from '../entry-components'; // TODO circular dependency
 
 @Injectable({
 	providedIn: 'root',
 })
 export class WatchlistFeatureFacadeService {
 	constructor(
-		private finnhubWebsocketService: FinnhubWebsocketService,
 		private graphqlWatchlistService: GraphqlWatchlistService,
 		private userStorageService: UserStorageService,
-		private modalController: ModalController,
-		private popoverController: PopoverController,
+		private dialog: MatDialog,
 		private router: Router
 	) {}
 
-	async presentSymbolLookupModal(symbolIdentification: SymbolIdentification, showAddToWatchlistOption: boolean, watchlistId: string = null) {
-		const modal = await this.modalController.create({
-			component: SymbolLookupModalComponent,
-			componentProps: { symbolIdentification, showAddToWatchlistOption, watchlistId },
-			cssClass: 'custom-modal',
-		});
-		await modal.present();
+	async presentSymbolLookupModal(
+		symbolIdentification: SymbolIdentification,
+		showAddToWatchlistOption: boolean,
+		watchlistId: string | null = null
+	): Promise<void> {
+		let dismiss = null;
 
-		const dismiss = await modal.onDidDismiss();
-		console.log('dismiss', dismiss);
+		// show adequate dialog
+		if (symbolIdentification.isEtf) {
+			dismiss = await this.presentEtfLookupModal(symbolIdentification, showAddToWatchlistOption, watchlistId);
+		} else {
+			dismiss = await this.presentStockLookupModal(symbolIdentification, showAddToWatchlistOption, watchlistId);
+		}
 
-		if (dismiss.data?.redirect) {
+		if (dismiss?.redirect) {
 			const symbol = symbolIdentification.symbol.split('.')[0]; // ex: MMM.DE => MMM
 			this.router.navigateByUrl(`/menu/search/stock-details/${symbol}`);
-		} else if (dismiss.data?.addSymbol) {
+		} else if (dismiss?.addSymbol) {
 			this.addSymbolToWatchlist(symbolIdentification.symbol);
-		} else if (dismiss.data?.removeSymbol) {
+		} else if (dismiss?.removeSymbol && watchlistId) {
 			this.removeStockFromWatchlist(symbolIdentification, watchlistId);
 		}
 	}
 
 	async addSymbolToWatchlist(symbol: string): Promise<void> {
 		if (this.userStorageService.user.stockWatchlist.length === 0) {
-			const confirmation = await DialogService.presentAlertConfirm(`You have not created your watchlist yet. Do you with to create one ?`);
+			const confirmation = await DialogService.showConfirmDialog(`You have not created your watchlist yet. Do you with to create one ?`);
 			if (confirmation) {
 				await this.createWatchlist();
 			} else {
@@ -51,8 +52,8 @@ export class WatchlistFeatureFacadeService {
 
 		const watchlists = this.userStorageService.user.stockWatchlist;
 
-		let watchlistId;
-		let watchlistName;
+		let watchlistId: string;
+		let watchlistName: string;
 
 		if (watchlists.length === 1) {
 			// default, only 1 watchlist
@@ -64,12 +65,12 @@ export class WatchlistFeatureFacadeService {
 				return { name: `${watchlist.name}  [ ${watchlist?.summaries.length} ]`, id: watchlist.id } as IdNameContainer;
 			});
 			watchlistId = await DialogService.presentOptionsPopOver('Select watchlist', options);
-			watchlistName = watchlists.find((watchlist) => watchlist.id === watchlistId)?.name;
+			watchlistName = watchlists.find((watchlist) => watchlist.id === watchlistId)?.name || '';
 		}
 
 		if (watchlistId) {
 			await this.graphqlWatchlistService.addSymbolToWatchlist(watchlistId, symbol).toPromise();
-			await DialogService.presentToast(`Symbol ${symbol} has been added into watchlist ${watchlistName}`);
+			DialogService.showNotificationBar(`Symbol ${symbol} has been added into watchlist ${watchlistName}`);
 		}
 	}
 
@@ -78,23 +79,72 @@ export class WatchlistFeatureFacadeService {
 
 		if (name) {
 			await this.graphqlWatchlistService.createWatchList(name).toPromise();
-			DialogService.presentToast(`Watchlist ${name} has been created`);
+			DialogService.showNotificationBar(`Watchlist ${name} has been created`);
 		}
 	}
 
 	async removeStockFromWatchlist(data: SymbolIdentification, documentId: string) {
-		const watchlistName = this.userStorageService.user.stockWatchlist.find((s) => s.id === documentId).name;
-		await this.graphqlWatchlistService.removeStockFromWatchlist(documentId, data.symbol).toPromise();
-		await DialogService.presentToast(`Symbol deleted from watchlist: ${watchlistName}`);
+		const userWatlist = this.userStorageService.user?.stockWatchlist || [];
+		if (userWatlist) {
+			const watchlistName = userWatlist.find((s) => s.id === documentId)?.name;
+			await this.graphqlWatchlistService.removeStockFromWatchlist(documentId, data.symbol).toPromise();
+			DialogService.showNotificationBar(`Symbol deleted from watchlist: ${watchlistName}`);
+		}
 	}
 
 	async deleteWatchlist(input: StStockWatchInputlistIdentifier) {
+		if (!input.id) {
+			return;
+		}
 		await this.graphqlWatchlistService.deleteUserWatchlist(input.id).toPromise();
-		await DialogService.presentToast(`Watchlist ${input.additionalData} has been removed`);
+		DialogService.showNotificationBar(`Watchlist ${input.additionalData} has been removed`);
 	}
 
 	async renameWatchlist(input: StStockWatchInputlistIdentifier) {
+		if (!input.id || !input.additionalData) {
+			return;
+		}
 		await this.graphqlWatchlistService.renameStockWatchlist(input.id, input.additionalData).toPromise();
-		await DialogService.presentToast('Watchlist has been renamed');
+		DialogService.showNotificationBar('Watchlist has been renamed');
+	}
+
+	private async presentEtfLookupModal(
+		symbolIdentification: SymbolIdentification,
+		showAddToWatchlistOption: boolean,
+		watchlistId: string | null = null
+	): Promise<any> {
+		const dialogRef = this.dialog.open(EtfLookupModalComponent, {
+			data: {
+				symbolIdentification,
+				showAddToWatchlistOption,
+				watchlistId,
+			},
+			maxWidth: '100vw',
+			minWidth: '60vw',
+			panelClass: 'g-mat-dialog-big',
+		});
+
+		const dismiss = await dialogRef.afterClosed().toPromise();
+		return dismiss;
+	}
+
+	private async presentStockLookupModal(
+		symbolIdentification: SymbolIdentification,
+		showAddToWatchlistOption: boolean,
+		watchlistId: string | null = null
+	): Promise<any> {
+		const dialogRef = this.dialog.open(SymbolLookupModalComponent, {
+			data: {
+				symbolIdentification,
+				showAddToWatchlistOption,
+				watchlistId,
+			},
+			maxWidth: '100vw',
+			minWidth: '60vw',
+			panelClass: 'g-mat-dialog-big',
+		});
+
+		const dismiss = await dialogRef.afterClosed().toPromise();
+		return dismiss;
 	}
 }

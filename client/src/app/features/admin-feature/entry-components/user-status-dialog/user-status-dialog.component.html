@@ -1,0 +1,43 @@
+<mat-dialog-content>
+	<app-loader-wrapper>
+		<div class="p-4 flex justify-end">
+			<button mat-button color="warn" type="button" (click)="closeDialog()">
+				<mat-icon>close</mat-icon>
+				close
+			</button>
+		</div>
+		<div *ngIf="userDataAdmin$ | async as userDataAdmin" class="flex flex-col gap-2 md:gap-8">
+			<!-- buttons -->
+			<div class="g-flex-md-gap-4 st-border-bottom-with-space">
+				<button mat-flat-button color="primary" (click)="showPortfolio()">Show portfolio</button>
+				<button mat-flat-button color="warn" (click)="resetPassword()">Reset password</button>
+				<button mat-flat-button color="warn" (click)="resetAccount()">Reset account</button>
+				<button mat-flat-button color="warn" (click)="blockAccess()">Block access</button>
+			</div>
+
+			<!-- user information -->
+			<div class="st-border-bottom-with-space">
+				<app-user-status-basic-info
+					[userIndentification]="data.userIdentification"
+					[userPrivateData]="userDataAdmin.userPrivateData"
+				></app-user-status-basic-info>
+			</div>
+
+			<!-- user other info -->
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+				<!-- groups -->
+				<app-user-status-groups [groups]="userDataAdmin.groups"></app-user-status-groups>
+				<!-- ROLES -->
+				<app-user-status-roles
+					[userRoles]="userDataAdmin.userPrivateData.roles"
+					(addRoleEmitter)="addRole($event)"
+					(removeRoleEmitter)="removeRole($event)"
+				></app-user-status-roles>
+				<!-- holdings -->
+				<app-user-status-holdings [holdingInfoFragment]="userDataAdmin.holdings"></app-user-status-holdings>
+				<!-- watchlist -->
+				<app-user-status-watchlist [stockWatchlist]="userDataAdmin.stockWatchlist"></app-user-status-watchlist>
+			</div>
+		</div>
+	</app-loader-wrapper>
+</mat-dialog-content>

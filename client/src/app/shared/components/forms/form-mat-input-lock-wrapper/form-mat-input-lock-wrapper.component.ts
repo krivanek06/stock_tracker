@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, ControlContainer, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { InputSource, InputType } from '../../../models';
+import { InputSource, InputSourceSliderConfig, InputType } from '../../../models';
 
 @Component({
 	selector: 'app-form-mat-input-lock-wrapper',
@@ -9,29 +9,21 @@ import { InputSource, InputType } from '../../../models';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormMatInputLockWrapperComponent implements OnInit {
-	@Input() controlName: string;
-	@Input() inputType: InputType;
-	@Input() inputCaption: string;
-	@Input() hintText: string;
+	@Input() controlName!: string;
+	@Input() inputType!: InputType;
+	@Input() inputCaption!: string;
+	@Input() hintText!: string;
 	@Input() inputSource: InputSource[] = []; // data which are displayed in Select.options
-	@Input() highlightField: boolean;
+	@Input() inputTypeSliderConfig!: InputSourceSliderConfig;
 
-	@Input() chipMaxAllowed = 999; // only used when inputType === MULTISELECT
-	@Input() chipSelectedValues: InputSource[] = []; // used display selected values when inputType === CHIPSELECT
+	@Input() showChangeInput: boolean = false;
+	@Input() changeInputTo?: InputType;
 
-	@Input() sliderMaxValue: number;
-	@Input() sliderMinValue: number;
-	@Input() sliderStepValue: number;
-	@Input() sliderLabelShowDollarSign: boolean = false;
+	allowChangeInput = true;
 
-	@Input() showChangeInput: boolean;
-	@Input() changeInputTo: InputType;
+	form!: FormGroup;
 
-	allowChangeInput: boolean;
-
-	form: FormGroup;
-
-	formInputControl: FormControl;
+	formInputControl!: FormControl;
 
 	private originalValue: unknown;
 
@@ -42,7 +34,7 @@ export class FormMatInputLockWrapperComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.formInputControl = this.controlContainer.control.get(this.controlName) as FormControl;
+		this.formInputControl = this.controlContainer.control?.get(this.controlName) as FormControl;
 		this.originalValue = this.formInputControl.value;
 
 		this.form = this.fb.group({

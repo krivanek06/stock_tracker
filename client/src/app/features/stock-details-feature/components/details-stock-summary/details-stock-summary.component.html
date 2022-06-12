@@ -1,0 +1,136 @@
+<div class="flex justify-between items-center mb-2">
+	<div class="flex items-center gap-4">
+		<mat-icon color="primary" class="text-4xl h-8">qr_code</mat-icon>
+		<span class="g-color-white text-xl">{{ 'Summary: ' + summary.id }}</span>
+	</div>
+	<button *ngIf="isAdmin" (click)="onReloadClick()" mat-button class="g-color-primary" matTooltip="Reload data into firebase for this symbol">
+		<mat-icon>refresh</mat-icon>
+		Reload data
+	</button>
+</div>
+
+<div class="g-data-item-wrapper">
+	<div>
+		<div>Name</div>
+		<div>{{ summary.companyName }}</div>
+	</div>
+
+	<div>
+		<div>Ceo</div>
+		<div>{{ summary.ceo ?? 'N/A' }}</div>
+	</div>
+
+	<div>
+		<div>Market cap.</div>
+		<div>{{ summary.marketCap | numberFormatter }}</div>
+	</div>
+
+	<div>
+		<div>PE</div>
+		<div>{{ summary.pERatioTTM | numberFormatter }}</div>
+	</div>
+
+	<div>
+		<div>Forward PE</div>
+		<div>{{ summary.forwardPE | numberFormatter }}</div>
+	</div>
+
+	<div>
+		<div>EPS</div>
+		<div>{{ summary.ePSTTM | currency }}</div>
+	</div>
+
+	<div>
+		<div>Forward EPS</div>
+		<div>{{ summary.forwardEPS | numberFormatter }}</div>
+	</div>
+
+	<div>
+		<div>Price</div>
+		<div class="flex gap-2 items-center">
+			<app-price-compare-item [compareToPrice]="summary.previousClose" [currentPrice]="currentPrice" [showPrice]="false"> </app-price-compare-item>
+			<span *ngIf="currentPrice" [@marketValueChange]="currentPrice" class="st-data-label"> {{ currentPrice | currency: summary.currency }} </span>
+		</div>
+	</div>
+
+	<div>
+		<div>1y target</div>
+		<div class="flex gap-2 items-center">
+			<app-price-compare-item [compareToPrice]="summary.oneyTargetEst" [currentPrice]="currentPrice" [showPrice]="false"> </app-price-compare-item>
+			<span *ngIf="currentPrice" [@marketValueChange]="currentPrice" class="st-data-label">
+				{{ summary.oneyTargetEst ? (summary.oneyTargetEst | currency: summary.currency) : "N/A" }}
+			</span>
+		</div>
+	</div>
+
+	<div>
+		<div>1y change</div>
+		<div class="flex gap-2 items-center">
+			<app-price-change-item
+				[priceChange]="summary.yearToDatePriceReturn"
+				[price]="summary.yearToDatePrice"
+				[showDollarSignOnPrice]="true"
+				[showNAIfPriceZero]="!summary.yearToDatePriceReturn"
+				[showIcon]="true"
+				[isPercent]="true"
+				classText="text-gray-400 text-base"
+			></app-price-change-item>
+		</div>
+	</div>
+
+	<div>
+		<div>S&P500 1y change</div>
+		<app-price-change-item [showNAIfPriceZero]="!summary.sandPFiveTwoWeekChange" [isPercent]="true" [priceChange]="summary.sandPFiveTwoWeekChange">
+		</app-price-change-item>
+	</div>
+
+	<div>
+		<div>Sector</div>
+		<div>{{ summary.sector }}</div>
+	</div>
+
+	<div>
+		<div>Shared outstanding</div>
+		<div>{{ summary.sharesOutstanding | numberFormatter }}</div>
+	</div>
+
+	<div>
+		<div>Recommend</div>
+		<div [recommendationKey]="summary.recommendationKey" [recommendationMean]="summary.recommendationMean" appRecommendation></div>
+	</div>
+
+	<div>
+		<div>Earnings date</div>
+		<div>{{ summary.earningsDate | date: 'dd.MM.YYYY'}}</div>
+	</div>
+
+	<!--<ion-item>
+        <ion-label class="st-data-label-parent">Employees</ion-label>
+        <ion-label class="st-data-label st-flex-end">
+            {{ summary.fullTimeEmployees | numberFormatter }}
+        </ion-label>
+    </ion-item> -->
+
+	<!--<ion-item *ngIf="summary.lastSplitDate">
+        <ion-label position="fixed" class="fixedLabel">Last split</ion-label>
+        <ion-label> {{ summary.lastSplitDate * 1000 | date: 'dd.MM.yyyy'}}
+            ({{ summary.lastSplitFactor }})
+        </ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Employee income & revenue</ion-label>
+        <ion-label> {{ summary.netIncomeEmployeeAnnual | numberFormatter}}
+            ({{ summary.revenueEmployeeAnnual | numberFormatter }})
+        </ion-label>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="fixed" class="fixedLabel">Residence</ion-label>
+        <ion-label>
+            {{ summary.residance.city }},
+            <span *ngIf="summary.residance.state"> {{ summary.residance.state }}, </span>
+            {{ summary.residance.country }}
+        </ion-label>
+    </ion-item> -->
+</div>

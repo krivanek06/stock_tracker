@@ -1,15 +1,6 @@
 import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
-import { Context } from './../st-shared/st-shared.interface';
-
-/**
- * Return top 3 members from each group and 4th member will be user who makes query ifhe is part of the group
- */
-const resolveTopMembers = async (stGroupAllData: api.STGroupAllData, { requesterUserId }: Context) => {
-	console.log('requesterUserId', requesterUserId);
-	return [];
-};
 
 const resolveGroupHistoricalData = async ({ id }: api.STGroupAllData): Promise<api.STGroupHistoricalData> => {
 	try {
@@ -46,7 +37,6 @@ const resolveGroupMembersData = async ({ id }: api.STGroupAllData): Promise<api.
 
 export const stGroupResolvers = {
 	STGroupAllData: {
-		topMembers: async (stGroupAllData: api.STGroupAllData, _, context: Context) => await resolveTopMembers(stGroupAllData, context),
 		groupHistoricalData: async (stGroupAllData: api.STGroupAllData) => await resolveGroupHistoricalData(stGroupAllData),
 		groupMemberData: async (stGroupAllData: api.STGroupAllData) => await resolveGroupMembersData(stGroupAllData),
 	},

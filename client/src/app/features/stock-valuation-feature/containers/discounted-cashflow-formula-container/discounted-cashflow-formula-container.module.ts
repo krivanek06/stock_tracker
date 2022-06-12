@@ -1,20 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {DiscountedCashflowFormulaContainerComponent} from "./discounted-cashflow-formula-container.component";
-import {IonicModule} from "@ionic/angular";
-import {GenericCardModule, NumberFormatterPipeModule, TableIncreasingItemModule} from "@shared";
-
-
-
+import { NgModule } from '@angular/core';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardWrapperModule, NumberFormatterPipeModule, PriceCompareItemModule } from '@shared';
+import { DiscountedCashflowFormulaContainerComponent } from './discounted-cashflow-formula-container.component';
 @NgModule({
-  declarations: [DiscountedCashflowFormulaContainerComponent],
-  imports: [
-    CommonModule,
-    IonicModule,
-    GenericCardModule,
-    TableIncreasingItemModule,
-    NumberFormatterPipeModule
-  ],
-  exports: [DiscountedCashflowFormulaContainerComponent]
+	declarations: [DiscountedCashflowFormulaContainerComponent],
+	imports: [CommonModule, NumberFormatterPipeModule, MatCardWrapperModule, PriceCompareItemModule, MatGridListModule, MatDividerModule],
+	exports: [DiscountedCashflowFormulaContainerComponent],
 })
-export class DiscountedCashflowFormulaContainerModule { }
+export class DiscountedCashflowFormulaContainerModule {}

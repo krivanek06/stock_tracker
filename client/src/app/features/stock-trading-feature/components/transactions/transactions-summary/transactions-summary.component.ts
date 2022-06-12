@@ -15,8 +15,8 @@ interface TransactionSummary {
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransactionsSummaryComponent implements OnInit {
-	@Input() portfolioWrapper: StPortfolioWrapper;
-	@Input() startedPortfolio: StPortfolioSnapshotStarted;
+	@Input() portfolioWrapper!: StPortfolioWrapper;
+	@Input() startedPortfolio!: StPortfolioSnapshotStarted;
 	transactionSummary: TransactionSummary[] = [];
 
 	constructor() {}
@@ -50,7 +50,7 @@ export class TransactionsSummaryComponent implements OnInit {
 		const feesTransaction: TransactionSummary = {
 			color: '#7cb5ec',
 			name: 'Transactions fees',
-			value: this.portfolioWrapper.transactionFees,
+			value: this.portfolioWrapper?.transactionFees || 0,
 			isCurrency: true,
 		};
 

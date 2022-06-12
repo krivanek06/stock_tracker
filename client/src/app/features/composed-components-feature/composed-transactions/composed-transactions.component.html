@@ -1,26 +1,27 @@
-<!-- transactions table -->
-<app-generic-list [iconTitle]="'reader'" [title]="'Transactions'"></app-generic-list>
-<ion-row>
-	<ion-col size="12" size-lg="5.9">
-		<app-generic-card title="Last transactions" additionalStyles="height: 100%; min-height: 300px">
-			<app-transactions-table [transactions]="transactions  | slice:0:10"> </app-transactions-table>
-		</app-generic-card>
-	</ion-col>
-	<ion-col size="12" size-lg="5.9" push-lg="0.2">
-		<app-generic-card title="Top transactions" additionalStyles="height: 100%; min-height: 300px">
-			<app-transactions-table [transactions]="topTransactions | slice:0:10"> </app-transactions-table>
-		</app-generic-card>
-	</ion-col>
-</ion-row>
+<!-- title -->
+<div class="p-4 flex flex-row gap-2 items-center">
+	<mat-icon color="primary">chrome_reader_mode</mat-icon>
+	<span class="text-xl g-color-white"> Transactions</span>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2">
+	<!-- last transactions -->
+	<app-mat-card-wrapper title="Last transactions" additionalStyles="height: 100%; min-height: 300px">
+		<app-transactions-table [transactions]="transactions  | slice:0:10"> </app-transactions-table>
+	</app-mat-card-wrapper>
+
+	<!-- top transactions -->
+	<app-mat-card-wrapper title="Top transactions" additionalStyles="height: 100%; min-height: 300px">
+		<app-transactions-table [transactions]="topTransactions | slice:0:10"> </app-transactions-table>
+	</app-mat-card-wrapper>
+</div>
 
 <!-- transaction summary -->
-<div class="ion-padding ion-margin-top">
+<div class="p-4">
 	<app-transactions-summary [portfolioWrapper]="portfolioWrapper" [startedPortfolio]="startedPortfolio"></app-transactions-summary>
 </div>
 
 <!-- transactions chart -->
-<ion-row>
-	<ion-col class="ion-padding" size="12">
-		<app-transactions-chart [heightPx]="transactionHeight" [stTransactionSnapshots]="stTransactionSnapshots"> </app-transactions-chart>
-	</ion-col>
-</ion-row>
+<div class="p-4">
+	<app-transactions-chart [heightPx]="transactionHeight" [stTransactionSnapshots]="stTransactionSnapshots"> </app-transactions-chart>
+</div>

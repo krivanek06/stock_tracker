@@ -1,19 +1,11 @@
 {
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "./out-tsc/app",
-    "types": [],
-    "skipLibCheck": true
-  },
-  "files": [
-    "src/main.ts",
-    "src/polyfills.ts",
-    "src/zone-flags.ts"
-  ],
-  "include": [
-    "src/**/*.d.ts"
-  ],
-  "exclude": [
-    "src/**/*.spec.ts"
-  ]
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"outDir": "./out-tsc/app",
+		"types": [],
+		"skipLibCheck": true
+	},
+	"files": ["src/main.ts", "src/polyfills.ts"],
+	"include": ["src/**/*.d.ts"],
+	"exclude": ["src/**/*.spec.ts"]
 }

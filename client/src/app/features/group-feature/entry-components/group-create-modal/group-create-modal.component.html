@@ -1,4 +1,4 @@
-<ion-content class="ion-padding">
+<mat-dialog-content>
 	<ion-toolbar>
 		<ion-buttons slot="end">
 			<ion-button color="danger" (click)="dismissModal()" fill="clear">
@@ -9,10 +9,11 @@
 	</ion-toolbar>
 
 	<!-- body -->
-	<div class="ion-padding">
-		<ion-text class="st-title">{{ editedGroup ? 'Edit group' : 'Create group' }}</ion-text>
-		<div class="ion-margin-top">
-			<app-group-create-form [user]="user$ | async" [editedGroup]="editedGroup" (createGroupEmitter)="submitGroup($event)"> </app-group-create-form>
+	<div class="py-4 px-6">
+		<span class="g-color-white text-2xl">{{ data.editedGroup ? 'Edit group' : 'Create group' }}</span>
+		<div class="mt-6">
+			<app-group-create-form [user]="user$ | async" [editedGroup]="data.editedGroup" (createGroupEmitter)="submitGroup($event)">
+			</app-group-create-form>
 		</div>
 	</div>
-</ion-content>
+</mat-dialog-content>

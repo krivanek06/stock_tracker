@@ -10,9 +10,6 @@ class FundamentalService:
     def __init__(self):
         pass
 
-    def getStockNews(self, symbol):
-        return FundamentalServiceDataFetcher().fetchStockNews(symbol)
-
     def getStockDetails(self, symbol):
         fetcher = FundamentalServiceDataFetcher()
         data = fetcher.fetchStockDetails(symbol)

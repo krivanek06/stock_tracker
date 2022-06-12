@@ -31,40 +31,29 @@ export const createSTUserPublicData = (user: api.STUserAuthenticationInput): api
 		lastSignInDate: getCurrentIOSDate(),
 		transactionsSnippets: [],
 		portfolioRisk: null,
+		lastPortfolioUpdateDate: null,
 		portfolio: {
-			lastPortfolioSnapshot: {
-				portfolioCash: 0,
-				portfolioInvested: 0,
-				date: getCurrentIOSDate(),
-			},
-			lastTransactionSnapshot: {
-				transactionsBuy: 0,
-				transactionsSell: 0,
-				transactionFees: 0,
-				date: getCurrentIOSDate(),
-			},
-			lastPortfolioIncreaseNumber: null,
-			lastPortfolioIncreasePrct: null,
-			numberOfExecutedBuyTransactions: 0,
-			numberOfExecutedSellTransactions: 0,
-			portfolioCash: 0,
-			transactionFees: 0,
+			...createNewPortfolio(0),
 		},
 		groups: {
 			groupInvitationReceived: [],
 			groupInvitationSent: [],
 			groupMember: [],
 			groupOwner: [],
+			groupWatched: [],
 		},
 		topTransactions: [],
 		holdings: [],
-		rank: null,
+		rank: {
+			highestPortfolio: null,
+		},
 	};
 	return stUserPublicData;
 };
 
-export const createSTUserHistoricalData = (): api.STUserHistoricalData => {
+export const createSTUserHistoricalData = (userId: string): api.STUserHistoricalData => {
 	const historicalData: api.STUserHistoricalData = {
+		id: userId,
 		portfolioSnapshots: [],
 		transactionSnapshots: [],
 		resetedAccount: [],
@@ -74,8 +63,21 @@ export const createSTUserHistoricalData = (): api.STUserHistoricalData => {
 	return historicalData;
 };
 
-export const createNewPortfolio = (): api.STPortfolioWrapper => {
+export const createNewPortfolio = (cashAmount = 100000): api.STPortfolioWrapper => {
 	return {
+		portfolioChange: {
+			from_beginning_change: null,
+			day_1_change: null,
+			week_1_change: null,
+			week_2_change: null,
+			week_3_change: null,
+			month_1_change: null,
+			month_2_change: null,
+			month_3_change: null,
+			month_6_change: null,
+			year_1_change: null,
+		},
+		lastPortfolioBalance: 100000,
 		lastPortfolioSnapshot: {
 			portfolioCash: 100000,
 			portfolioInvested: 0,

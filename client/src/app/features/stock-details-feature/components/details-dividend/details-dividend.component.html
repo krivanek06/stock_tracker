@@ -1,37 +1,31 @@
-<ion-list>
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Yield</ion-label>
-		<ion-label class="st-data-label st-flex-end">
-			{{ dividends.dividendsPerShareTTM | numberFormatter }} ({{ dividends.currentDividendYieldTTM | number: '1.2-2' }}%)
-		</ion-label>
-	</ion-item>
+<div class="g-data-item-wrapper">
+	<div>
+		<div>Yield</div>
+		<div>{{ dividends.dividendsPerShareTTM | numberFormatter }} ({{ dividends.currentDividendYieldTTM | number: '1.2-2' }}%)</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Yield ttm.</ion-label>
-		<ion-label class="st-data-label st-flex-end">
-			{{ dividends.trailingAnnualDividendRate | number: '1.2-2'}} ( {{ dividends.trailingAnnualDividendYield | percent: '1.2-2'}} )
-		</ion-label>
-	</ion-item>
+	<div>
+		<div>Yield ttm.</div>
+		<div>{{ dividends.trailingAnnualDividendRate | number: '1.2-2'}} ( {{ dividends.trailingAnnualDividendYield | percent: '1.2-2'}} )</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Forward yield</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ dividends.forwardDividendYield | percent: '1.2-2' }} </ion-label>
-	</ion-item>
+	<div>
+		<div>Forward yield</div>
+		<div>{{ dividends.forwardDividendYield | percent: '1.2-2' }}</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">5y yield & growth</ion-label>
-		<ion-label class="st-data-label st-flex-end">
-			{{ dividends.dividendPerShareFiveY | numberFormatter }} ({{ dividends.dividendYieldFiveY | number: '1.2-2' }}%)
-		</ion-label>
-	</ion-item>
+	<div>
+		<div>5y yield & growth</div>
+		<div>{{ dividends.dividendPerShareFiveY | numberFormatter }} ({{ dividends.dividendYieldFiveY | number: '1.2-2' }}%)</div>
+	</div>
 
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-data-label-parent">Payout ratio</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ dividends.dividendPayoutRatioTTM | number: '1.2-2' }}% </ion-label>
-	</ion-item>
+	<div>
+		<div>Payout ratio</div>
+		<div>{{ dividends.dividendPayoutRatioTTM | number: '1.2-2' }}%</div>
+	</div>
 
-	<ion-item>
-		<ion-label class="st-data-label-parent">Ex dividend date</ion-label>
-		<ion-label class="st-data-label st-flex-end"> {{ dividends.exDividendDate | date: 'dd.MM.YYYY' }} </ion-label>
-	</ion-item>
-</ion-list>
+	<div>
+		<div>Ex dividend date</div>
+		<div>{{ dividends.exDividendDate | date: 'dd.MM.YYYY' }}</div>
+	</div>
+</div>

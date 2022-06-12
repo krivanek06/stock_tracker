@@ -1,25 +1,8 @@
-@import 'variables';
-
 :host {
-	.first-position {
-		background-color: #ffd700;
-	}
-	.second-position {
-		background-color: #afafaf;
-	}
-
-	.third-position {
-		background-color: #cd7f32;
-	}
-
-	.my-position {
-		background-color: #824150;
-	}
-
-	.c-member-card {
-		max-width: fit-content;
-		@media (max-width: #{$st-var-lg-split}) {
-			max-width: none;
+	mat-card {
+		padding: 12px 4px 0px 4px;
+		mat-card-content {
+			margin-top: 0px !important;
 		}
 	}
 }

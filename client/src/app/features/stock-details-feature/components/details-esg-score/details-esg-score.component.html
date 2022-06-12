@@ -1,34 +1,33 @@
-<ion-list *ngIf="esgScore">
-	<!-- table header -->
-	<ion-item class="st-font-1-bold">
-		<ion-label class="st-data-label-first-main">Name</ion-label>
-		<ion-label>score</ion-label>
-		<ion-label>Peer avg.</ion-label>
-	</ion-item>
+<div *ngIf="esgScore">
+	<div class="g-data-item grid grid-cols-4">
+		<div>Name</div>
+		<div>Score</div>
+		<div>Peer avg.</div>
+	</div>
 
 	<!-- total esg -->
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-font-5 st-data-label-first-main">Total ESG score</ion-label>
-		<ion-label class="st-flex-row-important">
-			<ion-text class="st-small-right-space">{{ esgScore.totalEsg }}</ion-text>
+	<div class="g-data-item grid grid-cols-4">
+		<div>Total ESG score</div>
+		<div class="flex gap-2">
+			<div>{{ esgScore.totalEsg }}</div>
 			<app-price-compare-item
 				*ngIf="esgScore?.peerEsgScorePerformance?.avg"
-				class="ion-hide-sm-down"
+				class="hidden sm:table-cell"
 				[showIcons]="false"
 				[showPrice]="false"
 				[currentPrice]="esgScore?.totalEsg"
 				[compareToPrice]="esgScore?.peerEsgScorePerformance?.avg"
 			>
 			</app-price-compare-item>
-		</ion-label>
-		<ion-label>{{ esgScore?.peerEsgScorePerformance?.avg | number: '1.2-2'}}</ion-label>
-	</ion-item>
+		</div>
+		<div>{{ esgScore?.peerEsgScorePerformance?.avg | number: '1.2-2'}}</div>
+	</div>
 
 	<!-- Governance -->
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-font-5 st-data-label-first-main">Governance</ion-label>
-		<ion-label class="st-flex-row-important">
-			<ion-text class="st-small-right-space">{{ esgScore.governanceScore }}</ion-text>
+	<div class="g-data-item grid grid-cols-4">
+		<div>Governance</div>
+		<div class="flex gap-2">
+			<div>{{ esgScore.governanceScore }}</div>
 			<app-price-compare-item
 				*ngIf="esgScore?.peerGovernancePerformance?.avg"
 				class="ion-hide-sm-down"
@@ -38,15 +37,15 @@
 				[compareToPrice]="esgScore?.peerGovernancePerformance?.avg"
 			>
 			</app-price-compare-item>
-		</ion-label>
-		<ion-label>{{ esgScore?.peerGovernancePerformance?.avg | number: '1.2-2'}}</ion-label>
-	</ion-item>
+		</div>
+		<div>{{ esgScore?.peerGovernancePerformance?.avg | number: '1.2-2'}}</div>
+	</div>
 
 	<!-- Environment -->
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-font-5 st-data-label-first-main">Environment</ion-label>
-		<ion-label class="st-flex-row-important">
-			<ion-text class="st-small-right-space">{{ esgScore.environmentScore }}</ion-text>
+	<div class="g-data-item grid grid-cols-4">
+		<div>Environment</div>
+		<div class="flex gap-2">
+			<div>{{ esgScore.environmentScore }}</div>
 			<app-price-compare-item
 				*ngIf="esgScore?.peerEnvironmentPerformance?.avg"
 				class="ion-hide-sm-down"
@@ -56,15 +55,15 @@
 				[compareToPrice]="esgScore?.peerEnvironmentPerformance?.avg"
 			>
 			</app-price-compare-item>
-		</ion-label>
-		<ion-label>{{ esgScore?.peerEnvironmentPerformance?.avg | number: '1.2-2'}}</ion-label>
-	</ion-item>
+		</div>
+		<div>{{ esgScore?.peerEnvironmentPerformance?.avg | number: '1.2-2'}}</div>
+	</div>
 
 	<!-- Social -->
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-font-5 st-data-label-first-main">Social</ion-label>
-		<ion-label class="st-flex-row-important">
-			<ion-text class="st-small-right-space">{{ esgScore.socialScore }}</ion-text>
+	<div class="g-data-item grid grid-cols-4">
+		<div>Social</div>
+		<div class="flex gap-2">
+			<div>{{ esgScore.socialScore }}</div>
 			<app-price-compare-item
 				*ngIf="esgScore?.peerSocialPerformance?.avg"
 				class="ion-hide-sm-down"
@@ -74,15 +73,15 @@
 				[compareToPrice]="esgScore?.peerSocialPerformance?.avg"
 			>
 			</app-price-compare-item>
-		</ion-label>
-		<ion-label>{{ esgScore?.peerSocialPerformance?.avg | number: '1.2-2'}}</ion-label>
-	</ion-item>
+		</div>
+		<div>{{ esgScore?.peerSocialPerformance?.avg | number: '1.2-2'}}</div>
+	</div>
 
 	<!-- Controversy -->
-	<ion-item class="st-data-item-wrapper">
-		<ion-label class="st-font-5 st-data-label-first-main">Controversy</ion-label>
-		<ion-label class="st-flex-row-important">
-			<ion-text class="st-small-right-space">{{ esgScore.highestControversy }}</ion-text>
+	<div class="g-data-item grid grid-cols-4">
+		<div>Controversy</div>
+		<div class="flex gap-2">
+			<div>{{ esgScore.highestControversy }}</div>
 			<app-price-compare-item
 				*ngIf="esgScore?.peerHighestControversyPerformance?.avg"
 				class="ion-hide-sm-down"
@@ -92,23 +91,23 @@
 				[compareToPrice]="esgScore?.peerHighestControversyPerformance?.avg"
 			>
 			</app-price-compare-item>
-		</ion-label>
-		<ion-label>{{ esgScore?.peerHighestControversyPerformance?.avg | number: '1.2-2'}}</ion-label>
-	</ion-item>
+		</div>
+		<div>{{ esgScore?.peerHighestControversyPerformance?.avg | number: '1.2-2'}}</div>
+	</div>
 
 	<!-- final result -->
-	<ion-item class="ion-hide-sm-down">
-		<ion-label class="st-data-label-first-main">
-			<ion-text class="st-font-5 st-small-right-space">Group:</ion-text>
-			<ion-text>{{ esgScore.peerGroup }}</ion-text>
-		</ion-label>
-		<ion-label>
-			<ion-text class="st-font-5 st-small-right-space">Peers:</ion-text>
-			<ion-text>{{ esgScore.peerCount }}</ion-text>
-		</ion-label>
-		<ion-label>
-			<ion-text class="st-font-5 st-small-right-space">Percentile:</ion-text>
-			<ion-text>{{ esgScore.percentile }}</ion-text>
-		</ion-label>
-	</ion-item>
-</ion-list>
+	<div class="g-data-item grid grid-cols-4">
+		<div class="flex flex-col sm:flex-row gap-2">
+			<span>Group:</span>
+			<span>{{ esgScore.peerGroup }}</span>
+		</div>
+		<div class="flex flex-col sm:flex-row gap-2">
+			<span>Peers:</span>
+			<span>{{ esgScore.peerCount }}</span>
+		</div>
+		<div class="flex flex-col sm:flex-row gap-2">
+			<span>Percentile:</span>
+			<span>{{ esgScore.percentile }}%</span>
+		</div>
+	</div>
+</div>

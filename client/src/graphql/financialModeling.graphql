@@ -17,6 +17,7 @@ fragment STFMBalanceSheetFragment on STFMBalanceSheet {
 	acceptedDate
 	accountPayables
 	accumulatedOtherComprehensiveIncomeLoss
+	capitalLeaseObligations
 	cashAndCashEquivalents
 	cashAndShortTermInvestments
 	commonStock
@@ -33,6 +34,7 @@ fragment STFMBalanceSheetFragment on STFMBalanceSheet {
 	link
 	longTermDebt
 	longTermInvestments
+	minorityInterest
 	netDebt
 	netReceivables
 	otherAssets
@@ -42,6 +44,8 @@ fragment STFMBalanceSheetFragment on STFMBalanceSheet {
 	otherNonCurrentAssets
 	otherNonCurrentLiabilities
 	othertotalStockholdersEquity
+	totalEquity
+	totalLiabilitiesAndTotalEquity
 	period
 	propertyPlantEquipmentNet
 	reportedCurrency
@@ -123,6 +127,7 @@ fragment STFMIncomeStatementFragment on STFMIncomeStatement {
 	incomeBeforeTaxRatio
 	incomeTaxExpense
 	interestExpense
+	interestIncome
 	link
 	netIncome
 	netIncomeRatio

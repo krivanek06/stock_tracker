@@ -1,24 +1,25 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {GroupMembersTableComponent} from "./group-members-table.component";
-import {IonicModule} from "@ionic/angular";
-import {FormMatInputWrapperModule} from "@shared";
-import {ReactiveFormsModule} from "@angular/forms";
-import {GroupMemberSortModule} from "../../pipes";
-import {GroupUserBaseInformationModule} from "../group-user-base-information/group-user-base-information.module";
-
-
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { IonicModule } from '@ionic/angular';
+import { ClickableDirectiveModule, FormMatInputWrapperModule } from '@shared';
+import { GroupMemberSortModule } from '../../pipes';
+import { GroupUserBaseInformationModule } from '../group-user-base-information/group-user-base-information.module';
+import { GroupMembersTableComponent } from './group-members-table.component';
 
 @NgModule({
-  declarations: [GroupMembersTableComponent],
-  imports: [
-    CommonModule,
-    IonicModule,
-    FormMatInputWrapperModule,
-    ReactiveFormsModule,
-    GroupMemberSortModule,
-    GroupUserBaseInformationModule
-  ],
-  exports: [GroupMembersTableComponent]
+	declarations: [GroupMembersTableComponent],
+	imports: [
+		CommonModule,
+		ClickableDirectiveModule,
+		MatCardModule,
+		FormMatInputWrapperModule,
+		ReactiveFormsModule,
+		GroupMemberSortModule,
+		GroupUserBaseInformationModule,
+		IonicModule,
+	],
+	exports: [GroupMembersTableComponent],
 })
-export class GroupMembersTableModule { }
+export class GroupMembersTableModule {}

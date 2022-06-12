@@ -1,13 +1,13 @@
-
-schema:
-  - http://localhost:4000/graphql/
-
-documents:
-  - src/**/*.graphql
-
+overwrite: true
 generates:
-  ./src/app/core/graphql-schema/customGraphql.service.ts:
+  ./src/app/core/graphql-schema/customGraphql.service.ts: # where to generate file
+    schema:
+      - http://localhost:4000/graphql/ # where the server lives
+    documents:
+      - src/**/*.graphql
     plugins:
       - typescript
       - typescript-operations
       - typescript-apollo-angular
+    config:
+      addExplicitOverride: true # used to disable lint rule: ts(4114) (override)

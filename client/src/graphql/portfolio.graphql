@@ -1,12 +1,48 @@
-fragment STPortfolioFragment on STPortfolio {
-	portfolioInvested
-	portfolioCash
-}
-
 fragment STPortfolioSnapshotFragment on STPortfolioSnapshot {
 	portfolioInvested
 	portfolioCash
 	date
+}
+
+fragment STPortfolioChangeData on STPortfolioChangeData {
+	portfolioIncreaseNumber
+	portfolioIncreasePrct
+	portfolioInvested
+	portfolioCash
+	portfolioBalance
+}
+
+fragment STPortfolioChange on STPortfolioChange {
+	day_1_change {
+		...STPortfolioChangeData
+	}
+	week_1_change {
+		...STPortfolioChangeData
+	}
+	week_2_change {
+		...STPortfolioChangeData
+	}
+	week_3_change {
+		...STPortfolioChangeData
+	}
+	month_1_change {
+		...STPortfolioChangeData
+	}
+	month_2_change {
+		...STPortfolioChangeData
+	}
+	month_3_change {
+		...STPortfolioChangeData
+	}
+	month_6_change {
+		...STPortfolioChangeData
+	}
+	year_1_change {
+		...STPortfolioChangeData
+	}
+	from_beginning_change {
+		...STPortfolioChangeData
+	}
 }
 
 fragment STPortfolioWrapperFragment on STPortfolioWrapper {
@@ -22,6 +58,10 @@ fragment STPortfolioWrapperFragment on STPortfolioWrapper {
 		...STTransactionSnapshotFragment
 	}
 	transactionFees
+	portfolioChange {
+		...STPortfolioChange
+	}
+	lastPortfolioBalance
 }
 
 fragment STPortfolioSnapshotStartedFragment on STPortfolioSnapshotStarted {
@@ -31,6 +71,7 @@ fragment STPortfolioSnapshotStartedFragment on STPortfolioSnapshotStarted {
 	numberOfExecutedBuyTransactions
 	numberOfExecutedSellTransactions
 	transactionFees
+	lastPortfolioBalance
 }
 
 fragment STPortfolioRiskCalculationsFragment on STPortfolioRiskCalculations {

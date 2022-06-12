@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DataProxy } from '@apollo/client/cache/core/types/DataProxy';
-import { FetchResult } from '@apollo/client/core';
+import { DataProxy, FetchResult } from '@apollo/client/core';
 import { Observable } from 'rxjs';
 import {
 	AddStockIntoWatchlistGQL,
@@ -13,8 +12,10 @@ import {
 	RemoveStockFromWatchlistGQL,
 	RemoveStockFromWatchlistMutation,
 	RenameStockWatchlistGQL,
+	StStockWatchlist,
 	StStockWatchlistFragmentFragment,
 	StStockWatchlistFragmentFragmentDoc,
+	Summary,
 } from '../graphql-schema';
 import { UserStorageService } from '../services';
 
@@ -35,7 +36,6 @@ export class GraphqlWatchlistService {
 		return this.createStockWatchlistGQL.mutate(
 			{
 				identifier: {
-					userId: this.userStorageService.user.id,
 					additionalData: watchlistName,
 				},
 			},
@@ -49,16 +49,24 @@ export class GraphqlWatchlistService {
 						summaries: [],
 						date: '',
 						userId: '',
+						symbols: [],
 					},
 				},
-				update: (store: DataProxy, { data: { createStockWatchlist } }) => {
+				update: (store: DataProxy, { data }) => {
+					const createStockWatchlist = data?.createStockWatchlist as StStockWatchlist;
 					// fetch user's watchlist array from cache
-					const data = store.readQuery<AuthenticateUserQuery>({
+					const cache = store.readQuery<AuthenticateUserQuery>({
 						query: AuthenticateUserDocument,
 						variables: {
 							id: this.userStorageService.user.id,
 						},
 					});
+
+					const user = cache?.authenticateUser;
+
+					if (!user) {
+						return;
+					}
 
 					// update cache
 					store.writeQuery({
@@ -67,10 +75,10 @@ export class GraphqlWatchlistService {
 							id: this.userStorageService.user.id,
 						},
 						data: {
-							...data,
+							...cache,
 							authenticateUser: {
-								...data.authenticateUser,
-								stockWatchlist: [...data.authenticateUser.stockWatchlist, createStockWatchlist],
+								...user,
+								stockWatchlist: [...user.stockWatchlist, createStockWatchlist],
 							},
 						},
 					});
@@ -84,7 +92,6 @@ export class GraphqlWatchlistService {
 			{
 				identifier: {
 					id: watchlistId,
-					userId: this.userStorageService.user.id,
 					additionalData: newWatchlistName,
 				},
 			},
@@ -93,7 +100,7 @@ export class GraphqlWatchlistService {
 					__typename: 'Mutation',
 					renameStockWatchlist: true,
 				},
-				update: (store: DataProxy, { data: { renameStockWatchlist } }) => {
+				update: (store: DataProxy, { data }) => {
 					const watchlist = store.readFragment<StStockWatchlistFragmentFragment>({
 						id: `STStockWatchlist:${watchlistId}`,
 						fragment: StStockWatchlistFragmentFragmentDoc,
@@ -117,7 +124,6 @@ export class GraphqlWatchlistService {
 			{
 				identifier: {
 					id: watchlistId,
-					userId: this.userStorageService.user.id,
 					additionalData: undefined,
 				},
 			},
@@ -126,14 +132,21 @@ export class GraphqlWatchlistService {
 					__typename: 'Mutation',
 					deleteWatchlist: true,
 				},
-				update: (store: DataProxy, { data: { deleteWatchlist } }) => {
-					const data = store.readQuery<AuthenticateUserQuery>({
+				update: (store: DataProxy, { data }) => {
+					const cache = store.readQuery<AuthenticateUserQuery>({
 						query: AuthenticateUserDocument,
 						variables: {
 							id: this.userStorageService.user.id,
 						},
 					});
-					const updatedWatchlist = data.authenticateUser.stockWatchlist.filter((x) => x.id !== watchlistId);
+
+					const user = cache?.authenticateUser;
+
+					if (!user) {
+						return;
+					}
+
+					const updatedWatchlist = user.stockWatchlist.filter((x) => x.id !== watchlistId);
 
 					// update watchlist inside cache
 					store.writeQuery({
@@ -142,9 +155,9 @@ export class GraphqlWatchlistService {
 							id: this.userStorageService.user.id,
 						},
 						data: {
-							...data,
+							...cache,
 							authenticateUser: {
-								...data.authenticateUser,
+								...user,
 								stockWatchlist: [...updatedWatchlist],
 							},
 						},
@@ -159,7 +172,6 @@ export class GraphqlWatchlistService {
 			{
 				identifier: {
 					id: watchlistId,
-					userId: this.userStorageService.user.id,
 					additionalData: symbol,
 				},
 			},
@@ -168,12 +180,16 @@ export class GraphqlWatchlistService {
 					__typename: 'Mutation',
 					removeStockFromStockWatchlist: true,
 				},
-				update: (store: DataProxy, { data: { removeStockFromStockWatchlist } }) => {
+				update: (store: DataProxy, { data }) => {
 					const watchlist = store.readFragment<StStockWatchlistFragmentFragment>({
 						id: `STStockWatchlist:${watchlistId}`,
 						fragment: StStockWatchlistFragmentFragmentDoc,
 						fragmentName: 'STStockWatchlistFragment',
 					});
+
+					if (!watchlist) {
+						return;
+					}
 
 					// update watchlist with stock information
 					const updatedSummary = watchlist.summaries.filter((x) => x.symbol !== symbol);
@@ -195,17 +211,22 @@ export class GraphqlWatchlistService {
 			{
 				identifier: {
 					id: watchListId,
-					userId: this.userStorageService.user.id,
 					additionalData: symbol,
 				},
 			},
 			{
-				update: (store: DataProxy, { data: { addStockIntoStockWatchlist } }) => {
+				update: (store: DataProxy, { data }) => {
+					const addStockIntoStockWatchlist = data?.addStockIntoStockWatchlist as Summary;
+
 					const watchlist = store.readFragment<StStockWatchlistFragmentFragment>({
 						id: `STStockWatchlist:${watchListId}`,
 						fragment: StStockWatchlistFragmentFragmentDoc,
 						fragmentName: 'STStockWatchlistFragment',
 					});
+
+					if (!watchlist) {
+						return;
+					}
 
 					// update watchlist with stock information
 					const updatedSummary = [...watchlist.summaries, addStockIntoStockWatchlist];

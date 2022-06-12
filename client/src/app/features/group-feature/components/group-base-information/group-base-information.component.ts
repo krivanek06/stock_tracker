@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { StGroupAllData, StGroupIdentificationDataFragment } from '@core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { StPortfolioChange, StPortfolioChangeData } from '@core';
+import { GroupButtonsBaseDirective } from '../../classes';
 
 @Component({
 	selector: 'app-group-base-information',
@@ -7,69 +8,23 @@ import { StGroupAllData, StGroupIdentificationDataFragment } from '@core';
 	styleUrls: ['./group-base-information.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GroupBaseInformationComponent implements OnInit {
-	@Output() acceptEmitter: EventEmitter<any> = new EventEmitter<any>();
-	@Output() declineEmitter: EventEmitter<any> = new EventEmitter<any>();
-	@Output() visitEmitter: EventEmitter<any> = new EventEmitter<any>();
-	@Output() deleteEmitter: EventEmitter<any> = new EventEmitter<any>();
-	@Output() leaveEmitter: EventEmitter<any> = new EventEmitter<any>();
-	@Output() editEmitter: EventEmitter<any> = new EventEmitter<any>();
-	@Output() sendInvitationEmitter: EventEmitter<any> = new EventEmitter<any>();
-	@Output() removeInvitationEmitter: EventEmitter<any> = new EventEmitter<any>();
-	@Output() reloadEmitter: EventEmitter<any> = new EventEmitter<any>();
+export class GroupBaseInformationComponent extends GroupButtonsBaseDirective implements OnInit {
+	/* 
+		used to tell what portfolio change to display, 
+		may be daily, weekly, monthly change
+	*/
+	@Input() portfolioChangeKey?: keyof StPortfolioChange;
 
-	@Input() groupIdentification: StGroupIdentificationDataFragment | StGroupAllData;
-	@Input() showVisitButton: boolean;
-	@Input() showAcceptButton: boolean;
-	@Input() showDeclineButton: boolean;
-	@Input() showDeleteButton: boolean;
-	@Input() showLeaveButton: boolean;
-	@Input() showSendInvitationButton: boolean;
-	@Input() showRemoveInvitationButton: boolean;
-	@Input() showEditButton: boolean;
-	@Input() isGroupPrivate: boolean = false;
-	@Input() showReloadButton = false;
+	portfolioChange?: StPortfolioChangeData | null;
 
-	constructor() {}
-
-	ngOnInit() {}
-
-	visit() {
-		this.visitEmitter.emit();
+	constructor() {
+		super();
 	}
 
-	accept() {
-		this.acceptEmitter.emit();
-	}
-
-	decline() {
-		this.declineEmitter.emit();
-	}
-
-	delete() {
-		this.deleteEmitter.emit();
-	}
-
-	leave() {
-		this.leaveEmitter.emit();
-	}
-
-	edit() {
-		this.editEmitter.emit();
-	}
-
-	sendInvitation() {
-		if (this.isGroupPrivate) {
-			return;
-		}
-		this.sendInvitationEmitter.emit();
-	}
-
-	removeInvitation() {
-		this.removeInvitationEmitter.emit();
-	}
-
-	reload() {
-		this.reloadEmitter.emit();
+	ngOnInit() {
+		const portfolioChange = this.portfolioChangeKey
+			? (this.groupIdentification.portfolio.portfolioChange[this.portfolioChangeKey] as StPortfolioChangeData)
+			: null;
+		this.portfolioChange = portfolioChange ?? this.groupIdentification.portfolio.portfolioChange.day_1_change;
 	}
 }

@@ -1,18 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {DetailsValuationComponent} from "./details-valuation.component";
-import {IonicModule} from "@ionic/angular";
-import {NumberFormatterPipeModule} from "@shared";
-
-
+import { NgModule } from '@angular/core';
+import { NumberFormatterPipeModule } from '@shared';
+import { DetailsValuationComponent } from './details-valuation.component';
 
 @NgModule({
-  declarations: [DetailsValuationComponent],
-  imports: [
-    CommonModule,
-    IonicModule,
-    NumberFormatterPipeModule
-  ],
-  exports: [DetailsValuationComponent]
+	declarations: [DetailsValuationComponent],
+	imports: [CommonModule, NumberFormatterPipeModule],
+	exports: [DetailsValuationComponent],
 })
-export class DetailsValuationModule { }
+export class DetailsValuationModule {}

@@ -44,6 +44,8 @@ $st-main-color-orange-background-linear: linear-gradient(135deg, rgba(157, 82, 5
 
 $st-var-purple: '#758dc7';
 
+$st-main-background: linear-gradient(126deg, #10255a 0%, #0c1d44 29%, #0c183e 44%, #061238 73%, #060e28 100%);
+
 // BUTTONS
 $st-var-create-1: '#0d326d'; // create button
 $st-var-remove-1: '#711205'; // delete button
@@ -60,3 +62,70 @@ $st-var-xxl-split: '1600px';
 $st-var-xxxl-split: '1800px';
 
 $st-ionic-label-min-height: '30px';
+
+// ----------------
+$color-white-1: hsl(0, 0%, 100%);
+
+$color-gray-100: #f3f4f6;
+$color-gray-200: #e5e7eb;
+$color-gray-300: #d1d5db;
+$color-gray-400: #9ca3af;
+$color-gray-500: #6b7280;
+$color-gray-600: #4b5563;
+$color-gray-700: #374151;
+
+$color-primary-50: #e5f5fb;
+$color-primary-100: #bee7f5;
+$color-primary-200: #92d7ee;
+$color-primary-300: #66c6e7;
+$color-primary-400: #46bae2;
+$color-primary-500: #25aedd;
+$color-primary-600: #21a7d9;
+$color-primary-700: #1b9dd4;
+$color-primary-800: #1694cf;
+$color-primary-900: #0d84c7;
+
+$color-secondary-50: #efeff0;
+$color-secondary-100: #d7d7db;
+$color-secondary-200: #bcbdc3;
+$color-secondary-300: #a1a2aa;
+$color-secondary-400: #8d8e98;
+$color-secondary-500: #797a86;
+$color-secondary-600: #71727e;
+$color-secondary-700: #666773;
+$color-secondary-800: #5c5d69;
+$color-secondary-900: #494a56;
+
+$color-danger-50: #fae3e3;
+$color-danger-100: #f2b9b9;
+$color-danger-200: #e98a8a;
+$color-danger-300: #e05b5b;
+$color-danger-400: #d93737;
+$color-danger-500: #d21414;
+$color-danger-600: #cd1212;
+$color-danger-700: #c70e0e;
+$color-danger-800: #c10b0b;
+$color-danger-900: #b60606;
+
+$color-warn-50: #fff1ec;
+$color-warn-100: #ffdccf;
+$color-warn-200: #ffc5b0;
+$color-warn-300: #ffad90;
+$color-warn-400: #ff9c78;
+$color-warn-500: #ff8a60;
+$color-warn-600: #ff8258;
+$color-warn-700: #ff774e;
+$color-warn-800: #ff6d44;
+$color-warn-900: #ff5a33;
+$color-warn-1000: #f05942;
+
+$color-success-50: #eaf5ea;
+$color-success-100: #c9e7cb;
+$color-success-200: #a6d7a8;
+$color-success-300: #82c785;
+$color-success-400: #67bb6a;
+$color-success-500: #4caf50;
+$color-success-600: #45a849;
+$color-success-700: #3c9f40;
+$color-success-800: #339637;
+$color-success-900: #248627;

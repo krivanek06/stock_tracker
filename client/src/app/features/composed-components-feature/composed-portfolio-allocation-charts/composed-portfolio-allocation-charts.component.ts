@@ -10,12 +10,12 @@ import { ChartType, WindowService } from '@shared';
 })
 export class ComposedPortfolioAllocationChartsComponent implements OnInit {
 	@Input() holdings: StHolding[] = [];
-	@Input() portfolioCash: number;
-	@Input() portfolioInvested: number;
+	@Input() portfolioCash?: number;
+	@Input() portfolioInvested?: number;
 	@Input() portfolioChartHeightPrct: number = 32;
 	ChartType = ChartType;
 
-	portfolioChartHeight: number;
+	portfolioChartHeight!: number;
 
 	constructor() {}
 

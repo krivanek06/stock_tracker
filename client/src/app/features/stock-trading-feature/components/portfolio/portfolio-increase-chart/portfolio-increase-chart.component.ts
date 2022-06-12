@@ -14,23 +14,23 @@ highcharts3D(Highcharts);
 })
 export class PortfolioIncreaseChartComponent implements OnInit, OnChanges {
 	@Input() stStartedPortfoliobalance: number = STARTING_PORTFOLIO;
-	@Input() portfolioInvested: number;
-	@Input() portfolioCash: number;
+	@Input() portfolioInvested?: number = 0;
+	@Input() portfolioCash?: number = 0;
 	@Input() heightPx = 350;
 
 	Highcharts: typeof Highcharts = Highcharts;
-	chart;
+	chart: any;
 	updateFromInput = true;
-	chartCallback;
+	chartCallback: any;
 	chartOptions: any = {}; //  : Highcharts.Options
 
-	private data = [];
-	private displayTitle: string;
+	private data: any[][] = [];
+	private displayTitle = '';
 
 	constructor() {
 		const self = this;
 
-		this.chartCallback = (chart) => {
+		this.chartCallback = (chart: any) => {
 			self.chart = chart;
 		};
 	}
@@ -43,6 +43,9 @@ export class PortfolioIncreaseChartComponent implements OnInit, OnChanges {
 	}
 
 	private calculateIncrease() {
+		if (!this.portfolioCash || !this.portfolioInvested) {
+			return;
+		}
 		const currentBalance = this.portfolioCash + this.portfolioInvested;
 		//this.increase = roundNumber(100 * (this.balance - STARTING_PORTFOLIO) / STARTING_PORTFOLIO);
 		const increase = currentBalance - this.stStartedPortfoliobalance;
@@ -107,9 +110,10 @@ export class PortfolioIncreaseChartComponent implements OnInit, OnChanges {
 				valueDecimals: 2,
 				headerFormat: null,
 				pointFormatter: function () {
-					const name = this.name;
-					const value = stFormatLargeNumber(this.y);
-					return `<span style="font-weight: bold; color: ${this.color}">● ${name}: </span><span>$${value} </span><br/>`;
+					const that = this as any;
+					const name = that.name;
+					const value = stFormatLargeNumber(that.y);
+					return `<span style="font-weight: bold; color: ${that.color}">● ${name}: </span><span>$${value} </span><br/>`;
 				},
 			},
 			title: {

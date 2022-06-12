@@ -1,6 +1,13 @@
 :host {
-  .sm-table-item {
-    padding-top: 6px;
-    padding-bottom: 6px;
-  }
+	.mat-column-symbol {
+		width: 50%;
+
+		@screen xs {
+			width: auto;
+		}
+
+		@screen md {
+			width: 225px;
+		}
+	}
 }

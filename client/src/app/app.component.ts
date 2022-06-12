@@ -3,6 +3,7 @@ import { ResolveEnd, ResolveStart, Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import { ThemeService } from '@core';
 import { DialogService } from '@shared';
+import { Apollo } from 'apollo-angular';
 import { merge, Observable } from 'rxjs';
 import { filter, mapTo } from 'rxjs/operators';
 
@@ -13,9 +14,9 @@ import { filter, mapTo } from 'rxjs/operators';
 	styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
-	isLoading$: Observable<boolean>;
-	private _showLoaderEvents$: Observable<boolean>;
-	private _hideLoaderEvents$: Observable<boolean>;
+	isLoading$!: Observable<boolean>;
+	private _showLoaderEvents$!: Observable<boolean>;
+	private _hideLoaderEvents$!: Observable<boolean>;
 
 	constructor(
 		// private platform: Platform,
@@ -72,7 +73,7 @@ export class AppComponent implements OnInit {
 		this.applicationRef.tick = function () {
 			const windowPerfomance = window.performance;
 			const before = windowPerfomance.now();
-			const retValue = originalTick.apply(this, arguments);
+			const retValue = originalTick.apply(this, []);
 			const after = windowPerfomance.now();
 			const runTime = after - before;
 			window.console.log('CHANGE DETECTION TIME', runTime);

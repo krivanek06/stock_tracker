@@ -1,4 +1,4 @@
-<ion-content class="ion-padding">
+<mat-dialog-content>
 	<ion-item>
 		<ion-label class="st-flex-end">
 			<ion-button color="danger" (click)="dismissModal()" fill="clear">
@@ -11,6 +11,7 @@
 	<!-- chart -->
 	<div [ngClass]='{"st-opacity-02": loading}'>
 		<app-generic-chart
+			*ngIf="series.length > 0; else showSkeleton"
 			[sharedTooltip]="false"
 			[showTimelineSlider]="true"
 			[enableLegendTogging]="true"
@@ -19,11 +20,13 @@
 			[series]="series"
 		>
 		</app-generic-chart>
+
+		<ng-template #showSkeleton>
+			<ion-skeleton-text animated></ion-skeleton-text>
+		</ng-template>
 	</div>
 
-	<div *ngIf="loading" class="c-spinner-container">
-		<ion-spinner color="primary"></ion-spinner>
-	</div>
+	<mat-spinner *ngIf="loading" class="primary"></mat-spinner>
 
 	<!-- chart data names -->
 	<div class="category-container">
@@ -40,4 +43,4 @@
 			</ion-text>
 		</div>
 	</div>
-</ion-content>
+</mat-dialog-content>

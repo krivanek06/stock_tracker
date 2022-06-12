@@ -1,0 +1,40 @@
+<div class="c-container">
+	<img appDefaultImg [src]="userIndentification.photoURL" class="m-auto col-span-1 md:col-span-2" />
+
+	<div class="c-container-child c-information-col">
+		<div><span>ID:</span> <span>{{ userIndentification.id }}</span></div>
+		<div><span>Display name:</span> <span>{{ userPrivateData.displayName }}</span></div>
+		<div><span>Email:</span> <span>{{ userPrivateData.email }}</span></div>
+		<div><span>Nickname:</span> <span>{{ userIndentification.nickName }}</span></div>
+	</div>
+
+	<div class="c-container-child c-information-col">
+		<div><span>Finnhub key:</span> <span>{{ userPrivateData.finnhubKey }}</span></div>
+		<div><span>Last singIn:</span> <span>{{ userIndentification.lastSignInDate | date: 'dd.MM.YYYY'}}</span></div>
+		<div><span>Account created:</span> <span>{{ userIndentification.accountCreatedDate | date: 'dd.MM.YYYY'}}</span></div>
+	</div>
+
+	<div class="c-container-child c-information-col">
+		<div>
+			<span>Balance:</span>
+			<span
+				>{{ (userIndentification.portfolio.lastPortfolioSnapshot.portfolioCash +
+				userIndentification.portfolio.lastPortfolioSnapshot.portfolioInvested) | currency }}</span
+			>
+		</div>
+		<div><span>Invested:</span> <span>{{ userIndentification.portfolio.lastPortfolioSnapshot.portfolioInvested | currency }}</span></div>
+		<div><span>Cash:</span> <span>{{ userIndentification.portfolio.lastPortfolioSnapshot.portfolioCash | currency }}</span></div>
+	</div>
+
+	<div class="c-container-child c-information-col">
+		<div>
+			<span>Total transactions:</span>
+			<span
+				>{{ userIndentification.portfolio.numberOfExecutedBuyTransactions + userIndentification.portfolio.numberOfExecutedSellTransactions }}</span
+			>
+		</div>
+		<div><span>Buy transactions:</span> <span>{{ userIndentification.portfolio.numberOfExecutedBuyTransactions }}</span></div>
+		<div><span>Sell transactions:</span> <span>{{ userIndentification.portfolio.numberOfExecutedSellTransactions }}</span></div>
+		<div><span>Fees:</span> <span>{{ userIndentification.portfolio.transactionFees | currency }}</span></div>
+	</div>
+</div>

@@ -20,3 +20,8 @@ export interface MarketSymbolResult {
     v: number; // volume
 }
 
+export type Period = 'quarter' | 'year';
+export enum PeriodEnum {
+    QUARTERLY = 'quarter',
+    YEARLY = 'year'
+}

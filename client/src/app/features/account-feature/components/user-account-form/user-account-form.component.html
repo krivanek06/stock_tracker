@@ -26,11 +26,8 @@
 	<app-form-mat-input-lock-wrapper inputCaption="NickName" controlName="nickName"> </app-form-mat-input-lock-wrapper>
 
 	<!-- finnhubKey -->
-	<app-form-mat-input-lock-wrapper
-		inputCaption="Finnhub key"
-		controlName="finnhubKey"
-		[highlightField]="!finnhubKey.value"
-	></app-form-mat-input-lock-wrapper>
+	<!-- TODO [highlightField]="!finnhubKey.value" -->
+	<app-form-mat-input-lock-wrapper inputCaption="Finnhub key" controlName="finnhubKey"></app-form-mat-input-lock-wrapper>
 
 	<!-- messages -->
 	<ng-container *ngIf="finhubValidity$ | async as finhubValidity">

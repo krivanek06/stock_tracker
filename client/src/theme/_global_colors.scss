@@ -1,0 +1,128 @@
+@use 'custom-variables' as variables;
+@tailwind utilities;
+
+.g-first-position-color {
+	color: #cf212a;
+}
+.g-second-position-color {
+	color: #d7d00d;
+}
+
+.g-third-position-color {
+	color: #ea7a2b;
+}
+
+.g-my-position-color {
+	color: #c36778;
+}
+
+// TAILWIND CUSTOM CLASSES
+@layer utilities {
+	@variants responsive {
+		.g-button-secondary {
+			background-color: #{variables.$st-var-font-3} !important;
+			color: white !important;
+			&:hover {
+				background-color: #{variables.$st-var-font-2} !important;
+			}
+		}
+
+		.g-button-secondary-flat {
+			background: transparent !important;
+			color: #{variables.$st-var-font-1} !important;
+			&:hover {
+				background: rgb(173 173 173 / 18%) !important;
+			}
+		}
+	}
+}
+
+/* primary */
+.g-color-primary {
+	color: variables.$color-primary-500 !important;
+}
+
+.g-background-primary {
+	background-color: variables.$color-primary-500 !important;
+}
+
+/* success */
+.g-color-success {
+	color: variables.$color-success-500 !important;
+}
+
+.g-background-color-success {
+	background-color: variables.$color-success-500 !important;
+}
+
+/* secondary */
+.g-color-secondary {
+	color: variables.$color-gray-300 !important;
+}
+
+.g-background-color-secondary {
+	background-color: variables.$color-gray-300 !important;
+}
+
+/* white */
+.g-color-white {
+	color: variables.$color-white-1;
+}
+
+.g-color-white-important {
+	color: variables.$color-white-1 !important;
+}
+
+/* WARNING */
+.g-color-warning {
+	color: variables.$color-warn-500 !important;
+}
+
+.g-background-color-warning {
+	background-color: variables.$color-warn-500 !important;
+}
+
+.g-button-warning {
+	background-color: variables.$color-warn-500 !important;
+	color: variables.$color-white-1 !important;
+}
+
+.g-button-warning-flat {
+	background-color: transparent !important;
+	color: variables.$color-warn-500 !important;
+}
+
+/* DANGER */
+.g-color-danger {
+	color: variables.$color-danger-500 !important;
+}
+
+.g-background-color-danger {
+	background-color: variables.$color-danger-500 !important;
+}
+
+/* transparent */
+
+.g-background-color-transparent {
+	background-color: #223162 !important;
+}
+
+// TAILWIND CUSTOM CLASSES
+@layer utilities {
+	@variants responsive {
+		.g-button-secondary {
+			background-color: variables.$color-gray-300 !important;
+			color: variables.$color-white-1 !important;
+		}
+
+		.g-button-secondary-flat {
+			background-color: variables.$color-white-1 !important;
+			color: variables.$color-gray-300 !important;
+		}
+
+		.g-button-transparent {
+			background-color: transparent;
+			color: variables.$color-gray-300 !important;
+		}
+	}
+}

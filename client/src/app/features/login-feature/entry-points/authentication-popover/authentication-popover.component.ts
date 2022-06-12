@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { AuthenticationService, componentDestroyed, LoginIUser, RegisterIUser, UserStorageService } from '@core';
-import { PopoverController } from '@ionic/angular';
 import { DialogService } from '@shared';
 import { filter, takeUntil } from 'rxjs/operators';
 import { LoginComponent, RegistrationComponent } from '../../components';
@@ -12,8 +12,8 @@ import { LoginComponent, RegistrationComponent } from '../../components';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthenticationPopoverComponent implements OnInit, OnDestroy {
-	@ViewChild('loginComp') loginComp: LoginComponent;
-	@ViewChild('registrationComp') registrationComp: RegistrationComponent;
+	@ViewChild('loginComp') loginComp!: LoginComponent;
+	@ViewChild('registrationComp') registrationComp!: RegistrationComponent;
 
 	segmentValue = 'login';
 	showSpinner = false;
@@ -21,7 +21,7 @@ export class AuthenticationPopoverComponent implements OnInit, OnDestroy {
 	constructor(
 		private authenticationService: AuthenticationService,
 		private userStorageService: UserStorageService,
-		private popoverController: PopoverController
+		private matDialogRef: MatDialogRef<AuthenticationPopoverComponent>
 	) {}
 
 	ngOnDestroy(): void {}
@@ -30,20 +30,17 @@ export class AuthenticationPopoverComponent implements OnInit, OnDestroy {
 		this.monitorUserLogInState();
 	}
 
-	segmentChanged(event: CustomEvent) {
+	segmentChanged(event: any) {
 		this.segmentValue = event.detail.value;
 	}
 
 	async normalLogin(data: LoginIUser) {
-		try {
-			this.toggleSpinner();
-			await this.authenticationService.normalLogin(data);
-			this.toggleSpinner();
-		} catch (e) {
-			this.toggleSpinner();
+		this.toggleSpinner();
+		if (!(await this.authenticationService.normalLogin(data))) {
+			DialogService.showNotificationBar('Your email or password was invalid, please try again', 'error');
 			this.loginComp.loginForm.reset();
-			DialogService.presentToast(e.message);
 		}
+		this.toggleSpinner();
 	}
 
 	async registration(registerIUser: RegisterIUser) {
@@ -52,10 +49,10 @@ export class AuthenticationPopoverComponent implements OnInit, OnDestroy {
 			await this.authenticationService.normalRegistration(registerIUser);
 			this.toggleSpinner();
 			// this.router.navigate(['/menu/dashboard']);
-		} catch (e) {
+		} catch (e: any) {
 			this.toggleSpinner();
 			this.registrationComp.registrationForm.reset();
-			DialogService.presentToast(e.message);
+			DialogService.showNotificationBar(e.message);
 		}
 	}
 
@@ -80,7 +77,7 @@ export class AuthenticationPopoverComponent implements OnInit, OnDestroy {
 				takeUntil(componentDestroyed(this))
 			)
 			.subscribe(() => {
-				this.popoverController.dismiss();
+				this.matDialogRef.close();
 			});
 	}
 }

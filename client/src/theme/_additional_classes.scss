@@ -1,0 +1,30 @@
+.g-sub-navigation {
+	@apply p-4 flex flex-col-reverse lg:flex-row justify-between items-center gap-4 mb-4;
+
+	span {
+		@apply text-center text-xl min-w-max text-white;
+	}
+
+	ion-radio-group {
+		display: block;
+		width: 90%;
+		margin: auto;
+		gap: 8px;
+
+		@screen lg {
+			justify-content: flex-end;
+			display: flex;
+			align-items: center;
+		}
+
+		ion-item {
+			min-width: 200px;
+			border: 1px solid#ffffff26;
+			border-radius: 6px;
+
+			ion-radio {
+				margin-left: 16px;
+			}
+		}
+	}
+}

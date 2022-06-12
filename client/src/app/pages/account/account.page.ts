@@ -1,8 +1,11 @@
 import { AccountFeatureFacadeService } from '@account-feature';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { StUserEditDataInput, StUserPublicData, UserStorageService } from '@core';
-import { ConfirmableWithCheckbox } from '@shared';
+import { Confirmable } from '@shared';
+import { WatchlistManagerModalComponent } from '@stock-watchlist-feature';
 import { Observable } from 'rxjs';
+import { TicketFormDialogComponent } from 'src/app/features/util-feature/ticketing-feature/entry-points';
 
 @Component({
 	selector: 'app-account',
@@ -11,21 +14,33 @@ import { Observable } from 'rxjs';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountPage implements OnInit {
-	user$: Observable<StUserPublicData>;
-	constructor(private userStorageService: UserStorageService, private userAccountService: AccountFeatureFacadeService) {}
+	user$!: Observable<StUserPublicData>;
+	constructor(
+		private userStorageService: UserStorageService,
+		private userAccountService: AccountFeatureFacadeService,
+		private matDialog: MatDialog
+	) {}
 
 	ngOnInit() {
 		this.user$ = this.userStorageService.getUser();
 	}
 
-	@ConfirmableWithCheckbox('Please confirm reseting account. You will start again with 100 000$ portfolio. All your holdings will be lost.')
+	@Confirmable('Please confirm reseting account. You will start again with 100 000$ portfolio. All your holdings will be lost.')
 	resetAccount() {
 		this.userAccountService.resetUserAccount();
 	}
 
-	@ConfirmableWithCheckbox('Please confirm editing account information', 'confirm')
+	@Confirmable('Please confirm editing account information')
 	editUser(editDataInput: StUserEditDataInput) {
 		console.log('editing', editDataInput);
 		this.userAccountService.editUser(editDataInput);
+	}
+
+	onManageWatchlists(): void {
+		this.matDialog.open(WatchlistManagerModalComponent);
+	}
+
+	onRaiseTicket(): void {
+		this.matDialog.open(TicketFormDialogComponent);
 	}
 }

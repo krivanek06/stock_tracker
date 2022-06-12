@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
-import { StTicket, StTicketComment, StTicketCommentEditValues, StUserPublicData } from '@core';
-import { ConfirmableWithCheckbox, requiredValidator } from '@shared';
+import { StTicketCommentEditValues, StTicketCommentFragmentFragment, StTicketFragmentFragment, StUserPublicData } from '@core';
+import { Confirmable, requiredValidator } from '@shared';
 
 @Component({
 	selector: 'app-ticker-overview',
@@ -15,20 +15,20 @@ export class TickerOverviewComponent implements OnInit {
 	@Output() closeTicketEmitter: EventEmitter<any> = new EventEmitter<any>();
 	@Output() deleteTicketEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-	@Input() ticket: StTicket;
-	@Input() isAdmin: boolean;
-	@Input() user: StUserPublicData;
+	@Input() ticket!: StTicketFragmentFragment;
+	@Input() isAdmin: boolean | null = false;
+	@Input() user!: StUserPublicData | null;
 
-	editingComment: StTicketComment;
-	answering: boolean;
-	form: FormGroup;
+	editingComment: StTicketCommentFragmentFragment | null = null;
+	form!: FormGroup;
+	answering = false;
 
-	@ViewChild(FormGroupDirective) formDirective: NgForm;
+	@ViewChild(FormGroupDirective) formDirective!: NgForm;
 
 	constructor(private fb: FormBuilder) {}
 
 	get comment(): AbstractControl {
-		return this.form.get('comment');
+		return this.form.get('comment') as AbstractControl;
 	}
 
 	ngOnInit(): void {
@@ -53,24 +53,24 @@ export class TickerOverviewComponent implements OnInit {
 		this.editingComment = null;
 	}
 
-	editComment(comment: StTicketComment) {
+	editComment(comment: StTicketCommentFragmentFragment) {
 		this.editingComment = comment;
 		this.form = this.fb.group({
 			comment: [comment.comment, [requiredValidator]],
 		});
 	}
 
-	@ConfirmableWithCheckbox('Confirm closing ticket', 'confirm')
+	@Confirmable('Confirm closing ticket')
 	close() {
 		this.closeTicketEmitter.emit();
 	}
 
-	@ConfirmableWithCheckbox('Confirm deleting ticket', 'confirm')
+	@Confirmable('Confirm deleting ticket')
 	delete() {
 		this.deleteTicketEmitter.emit();
 	}
 
-	@ConfirmableWithCheckbox('Confirm submitting comment', 'confirm')
+	@Confirmable('Confirm submitting comment')
 	private submitForm() {
 		if (this.editingComment) {
 			this.editCommentEmitter.emit({ ticketId: this.ticket.id, commentId: this.editingComment.id, newComment: this.comment.value });

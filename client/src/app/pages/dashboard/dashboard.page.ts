@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { SubscriptionWebsocketService, UserStorageService } from '@core';
 import { WindowService } from '@shared';
-import { TradingScreenUpdateBaseDirective } from '@stock-trading-feature';
+import { PortfolioChangeItemsToDisplay, STARTED_PORTFOLIO, TradingScreenUpdateBaseDirective } from '@stock-trading-feature';
 
 @Component({
 	selector: 'app-dashboard',
@@ -10,7 +10,9 @@ import { TradingScreenUpdateBaseDirective } from '@stock-trading-feature';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardPage extends TradingScreenUpdateBaseDirective implements OnInit, OnDestroy {
-	transactionHeight: number;
+	transactionHeight!: number;
+	PortfolioChangeItemsToDisplay = PortfolioChangeItemsToDisplay;
+	STARTED_PORTFOLIO = STARTED_PORTFOLIO;
 
 	constructor(
 		public userStorageService: UserStorageService,
