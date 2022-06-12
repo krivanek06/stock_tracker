@@ -1,0 +1,55 @@
+<mat-dialog-content>
+	<!-- buttons -->
+	<div class="py-4 flex justify-between">
+		<div>
+			<ng-container *ngIf="data.showAddToWatchlistOption && (user$ | async)">
+				<button mat-button *ngIf="!isSymbolInWatchlist" (click)="addSymbolToWatchlist()">
+					<mat-icon class="g-color-warning">grade</mat-icon>
+					Save symbol
+				</button>
+				<button mat-button *ngIf="isSymbolInWatchlist" (click)="removeSymbolFromWatchlist()">
+					<mat-icon class="g-color-danger">star</mat-icon>
+					Remove symbol
+				</button>
+			</ng-container>
+		</div>
+		<button mat-button class="g-color-danger" (click)="dismissModal()">
+			<mat-icon>close</mat-icon>
+			Close
+		</button>
+	</div>
+
+	<!-- content -->
+	<app-loader-wrapper>
+		<ng-container *ngIf="stockSummary$ | async as summary">
+			<div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+				<!-- chart -->
+				<app-financial-chart-container
+					[closedPrice]="summary.previousClose"
+					[currentPrice]="summary.marketPrice"
+					[height]="450"
+					[logoUrl]="summary.logo_url || undefined"
+					[name]="data.symbolIdentification.name"
+					[symbol]="data.symbolIdentification.symbol"
+					[financialChart]="true"
+					class="col-span-1 lg:col-span-2"
+				>
+				</app-financial-chart-container>
+
+				<div>
+					<!-- summary -->
+					<app-details-stock-summary (onReloadClickEmitter)="reloadStockDetails()" [isAdmin]="isAdmin$ | async" [summary]="summary">
+					</app-details-stock-summary>
+					<!-- details buttons -->
+					<div class="p-6 flex justify-end">
+						<button mat-flat-button color="primary" class="w-full md:w-auto min-w-[160px]" (click)="redirectToDetails()">Details</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- description -->
+			<div class="g-color-white text-xl px-4">About company</div>
+			<div class="p-4 text-gray-400">{{ summary.longBusinessSummary }}</div>
+		</ng-container>
+	</app-loader-wrapper>
+</mat-dialog-content>

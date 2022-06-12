@@ -3,11 +3,14 @@ import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
 import { Context } from '../../st-shared/st-shared.interface';
 import { queryUserPublicDataById } from '../../st-user/user.query';
-import { createEmptySTGroupHistoricalData, createSTGroupUser, initGroupFromInput } from '../st-group.util';
+import { createEmptySTGroupHistoricalData, createSTGroupUser, increaseGroupPortfolio, initGroupFromInput } from '../st-group.util';
 
 export const createGroup = async (groupInput: api.STGroupAllDataInput, { requesterUserId }: Context): Promise<api.STGroupAllData> => {
 	try {
-		const group = await createGroupObject(groupInput, requesterUserId);
+		const ref = admin.firestore().collection('groups').doc();
+		const newId = ref.id;
+
+		const group = await createGroupObject(newId, groupInput, requesterUserId);
 
 		// persist public & private data
 		const result = await admin.firestore().collection(api.ST_GROUP_COLLECTION_GROUPS).add(group);
@@ -29,25 +32,14 @@ export const createGroup = async (groupInput: api.STGroupAllDataInput, { request
 	}
 };
 
-const createGroupObject = async (groupInput: api.STGroupAllDataInput, requesterUserId: string): Promise<api.STGroupAllData> => {
-	const group = initGroupFromInput(groupInput);
+const createGroupObject = async (groupId: string, groupInput: api.STGroupAllDataInput, requesterUserId: string): Promise<api.STGroupAllData> => {
+	const group = initGroupFromInput(groupId, groupInput);
 
 	group.owner = createSTGroupUser(await queryUserPublicDataById(requesterUserId));
 
 	// if owner wants to be a member
 	if (groupInput.isOwnerAlsoMember) {
-		group.startedPortfolio.portfolioCash = group.owner.portfolio.lastPortfolioSnapshot?.portfolioCash ?? 0;
-		group.startedPortfolio.portfolioInvested = group.owner.portfolio.lastPortfolioSnapshot?.portfolioInvested ?? 0;
-		group.startedPortfolio.numberOfExecutedSellTransactions = group.owner.portfolio.numberOfExecutedSellTransactions;
-		group.startedPortfolio.numberOfExecutedBuyTransactions = group.owner.portfolio.numberOfExecutedBuyTransactions;
-		group.startedPortfolio.transactionFees = group.owner.portfolio.transactionFees;
-
-		group.portfolio.lastPortfolioSnapshot.portfolioCash = group.owner.portfolio.lastPortfolioSnapshot.portfolioCash;
-		group.portfolio.lastPortfolioSnapshot.portfolioInvested = group.owner.portfolio.lastPortfolioSnapshot.portfolioInvested;
-		group.portfolio.numberOfExecutedSellTransactions = group.owner.portfolio.numberOfExecutedSellTransactions;
-		group.portfolio.numberOfExecutedBuyTransactions = group.owner.portfolio.numberOfExecutedBuyTransactions;
-		group.portfolio.transactionFees = group.owner.portfolio.transactionFees;
-		group.numberOfMembers = 1;
+		increaseGroupPortfolio(group, group.owner.portfolio);
 	}
 
 	return group;
@@ -60,7 +52,7 @@ const createHistoricalDataCollection = async (groupId: string): Promise<void> =>
 		.doc(groupId)
 		.collection(api.ST_GROUP_COLLECTION_MORE_INFORMATION)
 		.doc(api.ST_GROUP_COLLECTION_HISTORICAL_DATA)
-		.set(createEmptySTGroupHistoricalData());
+		.set(createEmptySTGroupHistoricalData(groupId));
 };
 
 const createMemberDataCollection = async (groupInput: api.STGroupAllDataInput, group: api.STGroupAllData): Promise<void> => {

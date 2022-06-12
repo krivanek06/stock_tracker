@@ -1,5 +1,5 @@
 <!-- base information -->
-<div class="c-base-information-container" [ngClass]="{'st-border-bottom': groupAllData.topMembers.length > 0}">
+<div class="p-2" [ngClass]="{'st-border-bottom': groupAllData.topMembers.length > 0}">
 	<app-group-base-information
 		(visitEmitter)="visit()"
 		(acceptEmitter)="accept()"
@@ -8,11 +8,15 @@
 		(leaveEmitter)="leave()"
 		(sendInvitationEmitter)="sendInvitation()"
 		(removeInvitationEmitter)="removeInvitation()"
+		(stopWatchingGroupEmitter)="stopWatchingGroup()"
+		(startWatchingGroupEmitter)="startWatchingGroup()"
 		[showLeaveButton]="showLeaveButton"
 		[showDeleteButton]="showDeleteButton"
 		[showVisitButton]="showVisitButton"
+		[showStopWatchingGroup]="showStopWatchingGroup"
 		[showAcceptButton]="showAcceptButton"
 		[showDeclineButton]="showDeclineButton"
+		[showStartWatchingGroup]="showStartWatchingGroup"
 		[showSendInvitationButton]="showSendInvitationButton"
 		[showRemoveInvitationButton]="showRemoveInvitationButton"
 		[groupIdentification]="groupAllData"

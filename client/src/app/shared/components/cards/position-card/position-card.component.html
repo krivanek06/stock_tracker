@@ -1,0 +1,30 @@
+<ion-card
+	(click)="clicked()"
+	[button]="isButton"
+	[style.background-color]="cardBackgroundColor"
+	[ngClass]="{
+		'g-my-position': positionNumber !== undefined && positionNumber === myPosition && positionNumber !== 1 && positionNumber !== 2 && positionNumber !== 3,
+		'g-first-position': positionNumber === 1,
+		'g-second-position': positionNumber === 2,
+		'g-third-position': positionNumber === 3
+	}"
+>
+	<div class="flex gap-5 p-3 justify-between">
+		<ng-content></ng-content>
+
+		<!-- Position -->
+		<span
+			*ngIf="positionNumber"
+			class="pt-2 text-2xl"
+			[ngClass]="{
+                    'st-font-purple': positionNumber !== 1 && positionNumber !== 2 && positionNumber !== 3,
+                    'g-first-position-color': positionNumber === 1,
+                    'g-second-position-color': positionNumber === 2,
+                    'g-third-position-color': positionNumber === 3
+                }"
+			>#{{ positionNumber }}</span
+		>
+	</div>
+
+	<ion-ripple-effect></ion-ripple-effect>
+</ion-card>

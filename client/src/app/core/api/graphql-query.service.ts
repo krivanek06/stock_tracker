@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
+	EtfDetails,
+	QueryEtfDetailsGQL,
 	QueryEtfDocumentGQL,
+	QueryHallOfFameGQL,
 	QueryMarketDailyOverviewGQL,
 	QueryStMarketAllCategoriesGQL,
 	QueryStMarketDataGQL,
@@ -13,6 +16,7 @@ import {
 	StfmCompanyQuote,
 	StfmStockScreenerInput,
 	StfmStockScreenerResultWrapper,
+	StHallOfFame,
 	StMarketChartDataResultCombined,
 	StMarketDailyOverview,
 	StMarketDatasetKeyCategory,
@@ -33,8 +37,14 @@ export class GraphqlQueryService {
 		private queryStMarketAllCategoriesGQL: QueryStMarketAllCategoriesGQL,
 		private querySymbolHistoricalPricesGQL: QuerySymbolHistoricalPricesGQL,
 		private queryEtfDocumentGQL: QueryEtfDocumentGQL,
-		private queryStockScreenerGQL: QueryStockScreenerGQL
+		private queryStockScreenerGQL: QueryStockScreenerGQL,
+		private queryHallOfFameGQL: QueryHallOfFameGQL,
+		private queryEtfDetailsGQL: QueryEtfDetailsGQL
 	) {}
+
+	queryHallOfFame(): Observable<StHallOfFame> {
+		return this.queryHallOfFameGQL.fetch().pipe(map((res) => res.data.queryHallOfFame));
+	}
 
 	querySymbolHistoricalPrices(symbol: string, period: string = '1d'): Observable<SymbolHistoricalPrices> {
 		return this.querySymbolHistoricalPricesGQL
@@ -44,7 +54,7 @@ export class GraphqlQueryService {
 					fetchPolicy: 'network-only',
 				}
 			)
-			.pipe(map((x) => x.data.querySymbolHistoricalPrices));
+			.pipe(map((x) => x.data.querySymbolHistoricalPrices as SymbolHistoricalPrices));
 	}
 
 	queryStockQuotesByPrefix(symbolPrefix: string): Observable<StfmCompanyQuote[]> {
@@ -52,17 +62,17 @@ export class GraphqlQueryService {
 			.fetch({
 				symbolPrefix,
 			})
-			.pipe(map((x) => x.data.queryStockQuotesByPrefix));
+			.pipe(map((x) => x.data.queryStockQuotesByPrefix as StfmCompanyQuote[]));
 	}
 	queryMarketDailyOverview(): Observable<StMarketDailyOverview> {
 		const interval = 1000 * 60 * 11; // 11 minutes;
 		return this.queryMarketDailyOverviewGQL
-			.watch(null, { pollInterval: interval, fetchPolicy: 'network-only' })
-			.valueChanges.pipe(map((x) => x.data.queryMarketDailyOverview));
+			.watch({}, { pollInterval: interval, fetchPolicy: 'network-only' })
+			.valueChanges.pipe(map((x) => x.data.queryMarketDailyOverview as StMarketDailyOverview));
 	}
 
 	queryStMarketHistoryOverview(): Observable<StMarketOverviewPartialData> {
-		return this.queryStMarketHistoryOverviewGQL.fetch().pipe(map((x) => x.data.querySTMarketHistoryOverview));
+		return this.queryStMarketHistoryOverviewGQL.fetch().pipe(map((x) => x.data.querySTMarketHistoryOverview as StMarketOverviewPartialData));
 	}
 
 	queryStockScreener(stockScreenerInput: StfmStockScreenerInput, offset: number, limit: number): Observable<StfmStockScreenerResultWrapper> {
@@ -77,7 +87,7 @@ export class GraphqlQueryService {
 					fetchPolicy: 'network-only',
 				}
 			)
-			.pipe(map((res) => res.data.queryStockScreener));
+			.pipe(map((res) => res.data.queryStockScreener as StfmStockScreenerResultWrapper));
 	}
 
 	queryEtfDocument(etfName: string): Observable<StMarketEtfDocument> {
@@ -85,7 +95,15 @@ export class GraphqlQueryService {
 			.fetch({
 				etfName,
 			})
-			.pipe(map((res) => res.data.queryEtfDocument));
+			.pipe(map((res) => res.data.queryEtfDocument as StMarketEtfDocument));
+	}
+
+	queryEtfDetails(symbol: string): Observable<EtfDetails> {
+		return this.queryEtfDetailsGQL
+			.fetch({
+				symbol,
+			})
+			.pipe(map((res) => res.data.queryEtfDetails as EtfDetails));
 	}
 
 	queryStMarketData(key: string): Observable<StMarketChartDataResultCombined> {
@@ -93,10 +111,10 @@ export class GraphqlQueryService {
 			.fetch({
 				key,
 			})
-			.pipe(map((x) => x.data.queryStMarketData));
+			.pipe(map((x) => x.data.queryStMarketData as StMarketChartDataResultCombined));
 	}
 
 	queryStMarketAllCategories(): Observable<StMarketDatasetKeyCategory[]> {
-		return this.queryStMarketAllCategoriesGQL.fetch().pipe(map((x) => x.data.queryStMarketAllCategories.categories));
+		return this.queryStMarketAllCategoriesGQL.fetch().pipe(map((x) => x.data.queryStMarketAllCategories?.categories as StMarketDatasetKeyCategory[]));
 	}
 }

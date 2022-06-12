@@ -1,7 +1,5 @@
-<ion-list>
-    <ion-item *ngFor="let _ of [].constructor(itemLength)" [style.height.px]="skeletonHeight">
-        <ion-label>
-            <ion-skeleton-text animated></ion-skeleton-text>
-        </ion-label>
-    </ion-item>
-</ion-list>
+<div class="w-full">
+	<div class="animate-pulse h-[40px]" *ngFor="let _ of [].constructor(itemLength)">
+		<div class="flex-1 p-5 w-full bg-slate-600"></div>
+	</div>
+</div>

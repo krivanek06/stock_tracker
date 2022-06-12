@@ -1,30 +1,35 @@
-import { STPortfolioSnapshot, STPortfolioSnapshotStarted, STPortfolioWrapper } from './st-portfolio.model';
+import { STPortfolioEntity, STPortfolioSnapshot, STPortfolioSnapshotStarted, STPortfolioWrapper } from './st-portfolio.model';
 import { STRank } from './st-rank.model';
 import { STLog } from './st-share.model';
 import { STHolding, STTransaction, STTransactionSnapshot } from './st-transaction.model';
 import { STUserIndentificationWithPortfolio } from './st-user.model';
 
-export interface STGroupAllData {
-    id?: string;
+export interface STGroupIdentification extends STPortfolioEntity {
+    
     name: string;
-    description: string;
+    description?: string;
     imagePath?: string
     imageUrl?: string
     owner: STGroupUser;
-    lastUpdateDate: string;
-    lastEditedDate: string;
-    createdDate: string;
-    currentAchievedRank: STRank;
     startDate: string;
     endDate: string;
     isInfinite: boolean;
     isPrivate: boolean; // if true then group is invite only
     isClosed: boolean; // true only if isInfinite === false && endDate < today
     numberOfMembers: number;
-    numberOfInvitationReceived: number;
-    numberOfInvitationSent: number; 
     portfolio: STPortfolioWrapper; // total group portfolio
     startedPortfolio: STPortfolioSnapshotStarted; // accumulation of user's portfolio when they joined group
+    topMembers: STGroupUser[];
+    createdDate: string;
+    rank: STRank;
+    lastUpdateDate: string;
+    lastEditedDate: string;
+    watchedByUsers: number;
+}
+
+export interface STGroupAllData extends STGroupIdentification {
+    numberOfInvitationReceived: number;
+    numberOfInvitationSent: number; 
     topTransactions: STTransaction[]; // only sold stock, top profit desc
     lastTransactions: STTransaction[]; // last 20 transactions
     managers: STGroupUser[];
@@ -45,6 +50,7 @@ export interface STGroupHoldings {
 }
 
 export interface STGroupHistoricalData {
+    id: string;
     portfolioSnapshots: STPortfolioSnapshot[];
     transactionSnapshots: STTransactionSnapshot[];
     bestAchievedRanks: STRank[];
@@ -54,8 +60,8 @@ export interface STGroupHistoricalData {
 
 export interface STGroupUser extends STUserIndentificationWithPortfolio {
     startedPortfolio: STPortfolioSnapshotStarted;
-    currentPosition: number;  // position in highest balance
-    previousPosition: number; // position in highest balance
+    currentPosition?: number;  // position in highest balance
+    previousPosition?: number; // position in highest balance
     sinceDate: string;
 }
 

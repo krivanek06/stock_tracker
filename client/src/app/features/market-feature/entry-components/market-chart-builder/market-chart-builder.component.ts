@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { componentDestroyed, GraphqlQueryService, StMarketChartDataResultCombined, StMarketDatasetKeyCategory } from '@core';
-import { ModalController, NavParams } from '@ionic/angular';
 import { LodashService } from '@shared';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -11,23 +11,27 @@ import { takeUntil } from 'rxjs/operators';
 	styleUrls: ['./market-chart-builder.component.scss'],
 })
 export class MarketChartBuilderComponent implements OnInit, OnDestroy {
-	categories$: Observable<StMarketDatasetKeyCategory[]>;
+	categories$!: Observable<StMarketDatasetKeyCategory[]>;
 
 	activeDocumentKeys: string[] = [];
 	series: StMarketChartDataResultCombined[] = [];
 	loading: boolean = false;
 
-	constructor(private navParams: NavParams, private modalController: ModalController, private graphqlQueryService: GraphqlQueryService) {}
+	constructor(
+		private dialogRef: MatDialogRef<MarketChartBuilderComponent>,
+		@Inject(MAT_DIALOG_DATA) public data: { documentKey: string },
+		private graphqlQueryService: GraphqlQueryService
+	) {}
 
 	ngOnInit() {
-		this.queryData(this.navParams.get('documentKey'));
+		this.queryData(this.data.documentKey);
 		this.categories$ = this.graphqlQueryService.queryStMarketAllCategories();
 	}
 
 	ngOnDestroy() {}
 
 	dismissModal() {
-		this.modalController.dismiss();
+		this.dialogRef.close();
 	}
 
 	queryData(key: string) {

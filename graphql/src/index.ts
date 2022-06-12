@@ -4,6 +4,7 @@ import * as api from 'stock-tracker-common-interfaces';
 import { STFinancialModelingAPITypeDefs } from './api/financial-modeling/st-financal-modeling-api.typedefs';
 import { queryStockScreener } from './api/financial-modeling/st-financial-modeling.api';
 import { IS_PRODUCTION } from './environment';
+import { adminToggleUserRoles } from './st-admin';
 import { queryAdminMainInformations } from './st-admin/st-admin.query';
 import { STAdminTypeDefs } from './st-admin/st-admin.typeDefs';
 import {
@@ -14,21 +15,24 @@ import {
 	leaveGroup,
 	removeMemberFromGroup,
 	toggleInvitationRequestToGroup,
+	toggleWatchGroup,
 } from './st-group';
 import { toggleInviteUserIntoGroup } from './st-group/mutations/toggleInviteUserIntoGroup.mutation';
 import { toggleUsersInvitationRequestToGroup } from './st-group/mutations/toggleUsersInvitationRequestToGroup.mutation';
 import { querySTGroupByGroupId, querySTGroupByGroupName } from './st-group/st-group.query';
 import { stGroupResolvers } from './st-group/st-group.resolver';
 import { STGroupTypeDefs } from './st-group/st-group.typedefs';
+import { STPortfolioTypeDefs } from './st-portfolio/st-portfolio.typedef';
 import {
 	queryEtfDocument,
+	queryHallOfFame,
 	queryMarketDailyOverview,
 	queryStMarketAllCategories,
 	queryStMarketData,
 	querySTMarketHistoryOverview,
-} from './st-market/st-market.query';
-import { STMarketSharedTypeDefs } from './st-market/st-market.typedefs';
-import { STPortfolioTypeDefs } from './st-portfolio/st-portfolio.typedef';
+	SThallOfFameTypeDefs,
+	STMarketSharedTypeDefs,
+} from './st-public';
 import { STRankTypeDefs } from './st-rank/st-rank.typedef';
 import { Context } from './st-shared/st-shared.interface';
 import { STSharedTypeDefs } from './st-shared/st-shared.typedef';
@@ -38,7 +42,11 @@ import { STDividendDiscountedFormulaTypeDefs } from './st-stock-calculations/st-
 import { STEarningsValuationFormulaTypeDefs } from './st-stock-calculations/st-earnings-valuation-formula.typedef';
 import { STFreeCashFlowFormulaTypeDefs } from './st-stock-calculations/st-free-cash-flow-formula.typedef';
 import {
+	queryEtfDetails,
 	queryStockDetails,
+	queryStockDetailsFinancialGrowth,
+	queryStockDetailsFinancialRatios,
+	queryStockDetailsKeyMetrics,
 	queryStockFinancialReports,
 	queryStockQuotesByPrefix,
 	queryStockSummary,
@@ -90,18 +98,24 @@ const mainTypeDefs = gql`
 
 		# details
 		queryStockDetails(symbol: String!, reload: Boolean): StockDetails
+		queryEtfDetails(symbol: String!, reload: Boolean): EtfDetails
 		queryStockSummary(symbol: String!, allowReload: Boolean): Summary
 		queryStockQuotesByPrefix(symbolPrefix: String!): [STFMCompanyQuote]!
 		queryStockFinancialReports(symbol: String!): StockDetailsFinancialReports
 		querySymbolHistoricalPrices(symbol: String!, period: String!): SymbolHistoricalPrices
+		queryStockDetailsFinancialRatios(symbol: String!, period: String!, allData: Boolean!): STDetailsFinancialRatios
+		queryStockDetailsFinancialGrowth(symbol: String!, period: String!, allData: Boolean!): STDetailsFinancialGrowth
+		queryStockDetailsKeyMetrics(symbol: String!, period: String!, allData: Boolean!): STDetailsKeyMetrics
 
-		# market data
+		# public
 		querySTMarketHistoryOverview: STMarketOverviewPartialData
 		queryStMarketAllCategories: STMarketDatasetKeyCategories
 		queryMarketDailyOverview: STMarketDailyOverview
 		queryStMarketData(key: String!): STMarketChartDataResultCombined
 		queryEtfDocument(etfName: String!): STMarketEtfDocument
 		queryStockScreener(stockScreenerInput: STFMStockScreenerInput!, offset: Int!, limit: Int!): STFMStockScreenerResultWrapper
+		queryHallOfFame: STHallOfFame!
+
 		# admin
 		queryAdminMainInformations: STAdminMainInformations
 
@@ -126,6 +140,7 @@ const mainTypeDefs = gql`
 		toggleUsersInvitationRequestToGroup(acceptUser: Boolean!, userId: String!, groupId: String!): STGroupUser
 		leaveGroup(id: String!): Boolean
 		removeMemberFromGroup(groupId: String!, removingUserId: String!): Boolean
+		toggleWatchGroup(groupId: String!): Boolean
 
 		## watchlist
 		createStockWatchlist(identifier: STStockWatchInputlistIdentifier!): STStockWatchlist
@@ -146,10 +161,19 @@ const mainTypeDefs = gql`
 		commentTicketEdit(commentEditValues: STTicketCommentEditValues!): String
 		closeTicket(ticketId: String!): Boolean
 		deleteTicket(ticketId: String!): Boolean
+
+		# ADMIN
+		adminToggleUserRoles(userId: String!, role: String!): Boolean
 	}
 `;
 
 const mainResolver = {
+	// removing warning: missing a "__resolveType" resolver. Pass false into "resolverValidationOptions.requireResolversForResolveType" to disable this warning.
+	STGroupIdentificationInterface: {
+		__resolveType() {
+			return null;
+		},
+	},
 	Query: {
 		// USER
 		authenticateUser: async (_: null, args: { id: string }) => await authenticateUser(args.id),
@@ -162,13 +186,20 @@ const mainResolver = {
 
 		// stock details
 		queryStockDetails: async (_: null, args: { symbol: string; reload: boolean }) => await queryStockDetails(args.symbol, args.reload),
+		queryEtfDetails: async (_: null, args: { symbol: string; reload: boolean }) => await queryEtfDetails(args.symbol, args.reload),
 		queryStockSummary: async (_: null, args: { symbol: string; allowReload?: boolean }) => await queryStockSummary(args.symbol, args.allowReload),
 		queryStockQuotesByPrefix: async (_: null, args: { symbolPrefix: string }) => await queryStockQuotesByPrefix(args.symbolPrefix),
 		queryStockFinancialReports: async (_: null, args: { symbol: string }) => await queryStockFinancialReports(args.symbol),
 		querySymbolHistoricalPrices: async (_: null, args: { symbol: string; period: string }) =>
 			await querySymbolHistoricalPrices(args.symbol, args.period),
+		queryStockDetailsFinancialRatios: async (_: null, args: { symbol: string; period: 'quarter' | 'year'; allData: boolean }) =>
+			await queryStockDetailsFinancialRatios(args.symbol, args.period, args.allData),
+		queryStockDetailsFinancialGrowth: async (_: null, args: { symbol: string; period: 'quarter' | 'year'; allData: boolean }) =>
+			await queryStockDetailsFinancialGrowth(args.symbol, args.period, args.allData),
+		queryStockDetailsKeyMetrics: async (_: null, args: { symbol: string; period: 'quarter' | 'year'; allData: boolean }) =>
+			await queryStockDetailsKeyMetrics(args.symbol, args.period, args.allData),
 
-		// market data
+		// public
 		querySTMarketHistoryOverview: async (_: null, args: null) => await querySTMarketHistoryOverview(),
 		queryMarketDailyOverview: async (_: null, args: null) => await queryMarketDailyOverview(),
 		queryStMarketAllCategories: async (_: null, args: null) => await queryStMarketAllCategories(),
@@ -176,6 +207,7 @@ const mainResolver = {
 		queryEtfDocument: async (_: null, args: { etfName: string }) => await queryEtfDocument(args.etfName),
 		queryStockScreener: async (_: null, args: { stockScreenerInput: api.STFMStockScreener; offset: number; limit: number }) =>
 			await queryStockScreener(args.stockScreenerInput, args.offset, args.limit),
+		queryHallOfFame: async () => await queryHallOfFame(),
 
 		// admin
 		queryAdminMainInformations: async (_: null, args: null) => await queryAdminMainInformations(),
@@ -205,14 +237,19 @@ const mainResolver = {
 		leaveGroup: async (_, args: { id: string }, context: Context) => await leaveGroup(args.id, context),
 		removeMemberFromGroup: async (_, args: { groupId: string; removingUserId: string }, context: Context) =>
 			await removeMemberFromGroup(args.groupId, args.removingUserId, context),
+		toggleWatchGroup: async (_, args: { groupId: string }, context: Context) => await toggleWatchGroup(args.groupId, context),
 
 		// WATCHLIST
-		createStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await createStockWatchlist(args.identifier),
-		renameStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await renameStockWatchlist(args.identifier),
-		deleteWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await deleteWatchlist(args.identifier),
-		addStockIntoStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) => await addStockIntoStockWatchlist(args.identifier),
-		removeStockFromStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }) =>
-			await removeStockFromStockWatchlist(args.identifier),
+		createStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }, context: Context) =>
+			await createStockWatchlist(args.identifier, context),
+		renameStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }, context: Context) =>
+			await renameStockWatchlist(args.identifier, context),
+		deleteWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }, context: Context) =>
+			await deleteWatchlist(args.identifier, context),
+		addStockIntoStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }, context: Context) =>
+			await addStockIntoStockWatchlist(args.identifier, context),
+		removeStockFromStockWatchlist: async (_, args: { identifier: api.STStockWatchlistIdentifier }, context: Context) =>
+			await removeStockFromStockWatchlist(args.identifier, context),
 
 		// trading
 		performTransaction: async (_, args: { transactionInput: api.STTransactionInput }, { requesterUserId }: Context) =>
@@ -230,6 +267,9 @@ const mainResolver = {
 			await commentTicketEdit(args.commentEditValues, context.requesterUserId),
 		closeTicket: async (_, args: { ticketId: string }) => await closeTicket(args.ticketId),
 		deleteTicket: async (_, args: { ticketId: string }) => await deleteTicket(args.ticketId),
+
+		// ADMIN
+		adminToggleUserRoles: async (_, args: { userId: string; role: string }) => await adminToggleUserRoles(args.userId, args.role),
 	},
 };
 
@@ -262,6 +302,7 @@ const server = new ApolloServer({
 		STFreeCashFlowFormulaTypeDefs,
 		STFinancialModelingAPITypeDefs,
 		STTicketsTypeDefs,
+		SThallOfFameTypeDefs,
 	],
 	resolvers,
 	introspection: true,

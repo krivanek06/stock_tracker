@@ -1,24 +1,23 @@
-<ion-item class="st-flex c-main-container" [ngClass]="{'max-w': !showIncreasePosition}" [button]="clickable">
+<div class="flex items-center gap-2 relative p-4" [ngClass]="{'max-w': !showIncreasePosition}" [appClickableDirective]="clickable">
 	<!-- Image -->
-	<div class="ion-align-self-baseline st-small-right-space">
-		<ion-avatar>
-			<ion-img [src]="groupUser.photoURL" appDefaultImg></ion-img>
-		</ion-avatar>
-	</div>
+	<ion-avatar>
+		<ion-img [src]="groupUser.photoURL" appDefaultImg></ion-img>
+	</ion-avatar>
+
 	<div class="c-info-with-position-container">
 		<!-- Name -->
-		<div class="st-display-flex-center">
-			<ion-text class="st-font-1-normal st-small-right-space" [ngClass]="{'st-font-white': !!useClassStyling}"> Name: </ion-text>
+		<div class="c-wrapper-flex">
+			<ion-text class="st-font-1-normal" [ngClass]="{'st-font-white': !!useClassStyling}"> Name: </ion-text>
 			<ion-text [ngClass]="[useClassStyling]">{{ groupUser.nickName }}</ion-text>
 		</div>
 
 		<!-- Portfolio -->
-		<div class="st-display-flex-center">
-			<ion-text class="st-font-1-normal st-small-right-space" [ngClass]="{'st-font-white': !!useClassStyling}"> Portfolio: </ion-text>
-			<div class="st-display-flex-center">
-				<ion-text class="st-small-right-space" [ngClass]="[useClassStyling]">
+		<div class="c-wrapper-flex">
+			<ion-text class="st-font-1-normal" [ngClass]="{'st-font-white': !!useClassStyling}"> Portfolio: </ion-text>
+			<div class="c-wrapper-flex">
+				<span [ngClass]="[useClassStyling]">
 					{{ (groupUser.portfolio.portfolioCash + ( groupUser.portfolio.lastPortfolioSnapshot?.portfolioInvested || 0) ) | numberFormatter}}
-				</ion-text>
+				</span>
 				<!-- last portfolio increase -->
 				<app-price-change-item
 					*ngIf="!showPortfolioSinceMember && groupUser.portfolio.lastPortfolioIncreasePrct"
@@ -37,30 +36,28 @@
 			</div>
 		</div>
 
-		<!-- Starrted portfolio -->
-		<div class="st-display-flex-center">
-			<ion-text class="st-font-1-normal st-small-right-space" [ngClass]="{'st-font-white': !!useClassStyling}">Started portfolio: </ion-text>
-			<ion-text class="st-small-right-space" [ngClass]="[useClassStyling]">
+		<!-- Started portfolio -->
+		<div class="c-wrapper-flex">
+			<span class="st-font-1-normal" [ngClass]="{'st-font-white': !!useClassStyling}">Started portfolio: </span>
+			<span [ngClass]="[useClassStyling]">
 				{{ (groupUser.startedPortfolio.portfolioCash + groupUser.startedPortfolio.portfolioInvested ) | numberFormatter}}
-			</ion-text>
+			</span>
 		</div>
 
 		<!-- Since date -->
-		<div class="st-display-flex-center">
-			<ion-text class="st-font-1-normal st-small-right-space" [ngClass]="{'st-font-white': !!useClassStyling}"> Since: </ion-text>
-			<ion-text [ngClass]="[useClassStyling]">{{ groupUser.sinceDate | date: 'dd.MM.YYYY' }}</ion-text>
+		<div class="c-wrapper-flex">
+			<span class="st-font-1-normal" [ngClass]="{'st-font-white': !!useClassStyling}"> Since: </span>
+			<span [ngClass]="[useClassStyling]">{{ groupUser.sinceDate | date: 'dd.MM.YYYY' }}</span>
 		</div>
 	</div>
 
 	<!-- Position -->
-	<div class="st-display-flex-center current-position-number-container" *ngIf="groupUserPosition || groupUser.currentPosition">
-		<div class="current-position-number" [ngClass]="[!useClassStyling ? 'st-font-purple': '', useClassStyling]">
-			#{{ groupUserPosition || groupUser.currentPosition }}
-		</div>
+	<div class="absolute right-3 top-3 ml-3" *ngIf="groupUser.currentPosition">
+		<div class="text-xl" [ngClass]="[!useClassStyling ? 'st-font-purple': '', useClassStyling]">#{{ groupUser.currentPosition }}</div>
 		<app-position-change-item
-			*ngIf="(groupUser.previousPosition || groupUser.currentPosition ) - groupUser.currentPosition !== 0 && showIncreasePosition"
+			*ngIf="groupUser.previousPosition && groupUser.previousPosition - groupUser.currentPosition !== 0 && showIncreasePosition"
 			[increaseBy]="groupUser.previousPosition - groupUser.currentPosition"
 		>
 		</app-position-change-item>
 	</div>
-</ion-item>
+</div>

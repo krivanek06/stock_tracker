@@ -1,4 +1,6 @@
-<ion-icon *ngIf="showExpandableButton" name="expand-outline" class="expand-icon" (click)="expand()"></ion-icon>
+<button mat-icon-button *ngIf="showExpandableButton" class="g-color-secondary expand-icon" (click)="expand()" matTooltip="Expand chart">
+	<mat-icon>open_with</mat-icon>
+</button>
 
 <!--  [constructorType]=" showTimelineSlider ? 'stockChart' :'' " -->
 <highcharts-chart

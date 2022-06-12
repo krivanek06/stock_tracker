@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, Input, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
 import { stToTitleCase } from '../../utils';
 
 interface RecommendationColor {
@@ -9,26 +9,29 @@ interface RecommendationColor {
 @Directive({
 	selector: '[appRecommendation]',
 })
-export class RecommendationDirective implements OnInit {
-	@Input() recommendationKey: string;
-	@Input() recommendationMean;
-	private recommendationColors: RecommendationColor[];
+export class RecommendationDirective implements OnChanges {
+	@Input() recommendationKey?: string | null = null;
+	@Input() recommendationMean?: number | string | null = null;
+	private recommendationColors: RecommendationColor[] = [];
 
 	constructor(private elRef: ElementRef, private renderer: Renderer2) {}
 
-	ngOnInit(): void {
+	ngOnChanges(changes: SimpleChanges): void {
 		if (!this.recommendationKey) {
 			this.elRef.nativeElement.innerText = 'N/A';
-			return;
+		} else {
+			this.recommendationKey = stToTitleCase(this.recommendationKey);
+			this.initRecommendationColors();
+			this.renderRecommendation(this.recommendationKey);
 		}
-		this.initRecommendationColors();
-		this.recommendationKey = stToTitleCase(this.recommendationKey);
-		const recommendation = this.recommendationColors.find((s) => s.value === this.recommendationKey);
+	}
 
+	private renderRecommendation(recommendationKey: string): void {
+		const recommendation = this.recommendationColors.find((s) => s.value === this.recommendationKey);
 		if (recommendation) {
 			// recommendation name
 			const spanRecommendationName = this.renderer.createElement('span');
-			const recommendationName = this.renderer.createText(this.recommendationKey);
+			const recommendationName = this.renderer.createText(recommendationKey);
 			this.renderer.appendChild(spanRecommendationName, recommendationName);
 			this.renderer.setStyle(spanRecommendationName, 'color', recommendation.color);
 

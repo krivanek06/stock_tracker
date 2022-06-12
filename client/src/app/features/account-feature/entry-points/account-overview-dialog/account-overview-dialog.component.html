@@ -1,0 +1,15 @@
+<mat-dialog-content>
+	<div class="p-4 flex justify-end">
+		<button mat-button color="warn" type="button" (click)="dismissModal()">
+			<mat-icon>close</mat-icon>
+			Close
+		</button>
+	</div>
+
+	<!-- body -->
+	<app-loader-wrapper>
+		<div *ngIf="searchedUser$ | async as searchedUser" class="p-4">
+			<app-composed-searched-user-data [userData]="searchedUser"></app-composed-searched-user-data>
+		</div>
+	</app-loader-wrapper>
+</mat-dialog-content>

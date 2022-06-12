@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { StGroupAllData, StGroupIdentificationDataFragment } from '@core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { StGroupIdentificationInterface } from '@core';
+import { GroupButtonsBaseDirective } from '../../classes';
 
 @Component({
 	selector: 'app-group-top-users-information',
@@ -7,52 +8,14 @@ import { StGroupAllData, StGroupIdentificationDataFragment } from '@core';
 	styleUrls: ['./group-top-users-information.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GroupTopUsersInformationComponent implements OnInit {
-	@Output() acceptEmitter: EventEmitter<any> = new EventEmitter<any>();
-	@Output() declineEmitter: EventEmitter<any> = new EventEmitter<any>();
-	@Output() visitEmitter: EventEmitter<any> = new EventEmitter<any>();
-	@Output() deleteEmitter: EventEmitter<any> = new EventEmitter<any>();
-	@Output() leaveEmitter: EventEmitter<any> = new EventEmitter<any>();
-	@Output() sendInvitationEmitter: EventEmitter<any> = new EventEmitter<any>();
-	@Output() removeInvitationEmitter: EventEmitter<any> = new EventEmitter<any>();
+export class GroupTopUsersInformationComponent extends GroupButtonsBaseDirective implements OnInit {
+	@Input() groupAllData!: StGroupIdentificationInterface;
 
-	@Input() groupAllData: StGroupIdentificationDataFragment | StGroupAllData;
-	@Input() showVisitButton: boolean;
-	@Input() showAcceptButton: boolean;
-	@Input() showDeclineButton: boolean;
-	@Input() showDeleteButton: boolean;
-	@Input() showLeaveButton: boolean;
-	@Input() showSendInvitationButton: boolean;
-	@Input() showRemoveInvitationButton: boolean;
-
-	constructor() {}
-
-	ngOnInit() {}
-
-	visit() {
-		this.visitEmitter.emit();
+	constructor() {
+		super();
 	}
 
-	accept() {
-		this.acceptEmitter.emit();
-	}
-
-	decline() {
-		this.declineEmitter.emit();
-	}
-
-	delete() {
-		this.deleteEmitter.emit();
-	}
-
-	leave() {
-		this.leaveEmitter.emit();
-	}
-	sendInvitation() {
-		this.sendInvitationEmitter.emit();
-	}
-
-	removeInvitation() {
-		this.removeInvitationEmitter.emit();
+	ngOnInit() {
+		console.log(this.groupAllData);
 	}
 }

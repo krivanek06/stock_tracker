@@ -25,15 +25,9 @@ class FundamentalServiceFormatter:
         self._formatHistoricalMetrics()
         self._formatMutualFundHolders()
         self._formatInstitutionalHolder()
+        self._formatCompanyOutlook()
         self.data['recommendation'].reverse()
         self.data['analystEstimates'].reverse()
-
-
-        if self.data['companyOutlook'].get('rating') is not None:
-            self.data['companyOutlook']['rating'] = self.data['companyOutlook']['rating'][0] if len(self.data['companyOutlook']['rating']) > 0 else None
-            self.data['companyOutlook']['ratios'] = self.data['companyOutlook']['ratios'][0] if len(self.data['companyOutlook']['ratios'][0]) > 0 else None
-        else:
-            self.data['companyOutlook']['rating'] = []
 
         # change: nan, infinity -> null
         self.data = characterModificationUtil.check_value_correction(self.data)
@@ -45,6 +39,14 @@ class FundamentalServiceFormatter:
     def _notStockRemoveUnusedData(self):
         self.data.pop('companyOutlook', None)
         self.data.pop('companyQuote', None)
+
+    def _formatCompanyOutlook(self):
+        outlook = self.data['companyOutlook']
+        outlook['splitHistory'] =  outlook['splitHistory'] if outlook.get('splitHistory') is not None else []
+        outlook['stockDividend'] =  outlook['stockDividend'] if outlook.get('stockDividend') is not None else []
+        outlook['stockNews'] =  outlook['stockNews'] if outlook.get('stockNews') is not None else []
+        outlook['rating'] = outlook['rating'][0] if len(outlook['rating']) > 0 else None
+        outlook['ratios'] = outlook['ratios'][0] if len(outlook['ratios']) > 0 else None
 
     def _formatInstitutionalHolder(self):
         self.data['institutionalHolders'] = sorted(self.data['institutionalHolders'], key=lambda k: k['shares'], reverse=True)[0:15]
@@ -147,7 +149,7 @@ class FundamentalServiceFormatter:
                 'volume': companyOutlook['metrics'].get('volume'),
                 'currency': profile.get('currency'),
                 'industry': profile.get('industry'),
-                'logo_url': profile.get('image'),
+                'logo_url': profile.get('image', ''),
                 'ceo': profile.get('ceo'),
                 'fullTimeEmployees': profile.get('fullTimeEmployees'),
                 'ipoDate': profile.get('ipoDate'),

@@ -1,17 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {DetailsStockTrendComponent} from "./details-stock-trend.component";
-import {TrendItemComponent} from "./trend-item/trend-item.component";
-import {IonicModule} from "@ionic/angular";
-
-
+import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { DetailsStockTrendComponent } from './details-stock-trend.component';
 
 @NgModule({
-  declarations: [DetailsStockTrendComponent, TrendItemComponent],
-  imports: [
-    CommonModule,
-    IonicModule
-  ],
-  exports: [DetailsStockTrendComponent]
+	declarations: [DetailsStockTrendComponent],
+	imports: [CommonModule, MatIconModule],
+	exports: [DetailsStockTrendComponent],
 })
-export class DetailsStockTrendModule { }
+export class DetailsStockTrendModule {}

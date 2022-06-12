@@ -1,0 +1,21 @@
+:host {
+	.mat-column-symbol {
+		width: 50%;
+		@screen sm {
+			width: auto;
+			max-width: 80px;
+		}
+	}
+
+	.mat-column-price {
+		@apply flex justify-end;
+
+		@screen sm {
+			@apply table-cell;
+		}
+	}
+
+	.mat-column-52WeekRange {
+		width: 140px;
+	}
+}

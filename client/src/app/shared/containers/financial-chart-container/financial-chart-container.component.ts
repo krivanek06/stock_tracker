@@ -13,11 +13,11 @@ import { HistoricalPricePeriods } from '../../models';
 	animations: [marketValueChange],
 })
 export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseDirective implements OnInit, OnDestroy, OnChanges {
-	@Input() currentPrice: number;
-	@Input() closedPrice: number;
-	@Input() symbol: string;
-	@Input() logoUrl: string;
-	@Input() name: string;
+	@Input() currentPrice!: number | undefined;
+	@Input() closedPrice!: number;
+	@Input() symbol!: string;
+	@Input() logoUrl?: string | null = null;
+	@Input() name?: string;
 	@Input() height = 300;
 	@Input() showYAxis = true;
 	@Input() isCrypto = false;
@@ -29,8 +29,8 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseD
 	volume: number[][] = [];
 	price: number[][] = []; // [open, high, low, close]
 	selectedRange = '4hour';
-	priceRangeFrom: number;
-	priceRangeTo: number;
+	priceRangeFrom: number | undefined;
+	priceRangeTo: number | undefined;
 	noDataFound = false;
 
 	constructor(
@@ -102,13 +102,13 @@ export class FinancialChartContainerComponent extends ComponentScreenUpdateBaseD
 			.querySymbolHistoricalPrices(this.symbol, this.selectedRange)
 			.pipe(takeUntil(componentDestroyed(this)))
 			.subscribe((res) => {
-				if (res.price.length === 0) {
+				if (res.price?.length === 0) {
 					this.noDataFound = true;
 					return;
 				}
-				this.currentPrice = res.livePrice;
-				this.volume = [...res.volume]; // needed copy because used to get error for read only
-				this.price = [...res.price]; // needed copy because used to get error for read only
+				this.currentPrice = res.livePrice || undefined;
+				this.volume = [...(res?.volume || [])] as number[][]; // needed copy because used to get error for read only
+				this.price = [...(res?.price || [])] as number[][]; // needed copy because used to get error for read only
 				this.priceRangeFrom = this.price[0][4];
 				this.priceRangeTo = this.price[this.price.length - 1][4];
 

@@ -1,7 +1,7 @@
 fragment STTicketCommentFragment on STTicketComment {
 	id
 	createdBy {
-		...StUserIndetificationFragment
+		...StUserIdentificationFragment
 	}
 	comment
 	createdAt
@@ -12,7 +12,7 @@ fragment STTicketFragment on STTicket {
 	name
 	type
 	createdBy {
-		...StUserIndetificationFragment
+		...StUserIdentificationFragment
 	}
 	createdAt
 	isOpen

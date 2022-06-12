@@ -1,7 +1,17 @@
 :host {
-  ion-item-group {
-    padding-top: 3px;
-    margin-bottom: 3px;
-  }
-}
+	.mat-column-symbol {
+		width: 50%;
 
+		@screen xs {
+			width: 60%;
+		}
+		@screen sm {
+			width: auto;
+			max-width: 80px;
+		}
+	}
+
+	.mat-column-units {
+		min-width: 50px;
+	}
+}

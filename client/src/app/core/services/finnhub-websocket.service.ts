@@ -15,9 +15,9 @@ interface SubscribedSymbols {
 	providedIn: 'root',
 })
 export class FinnhubWebsocketService {
-	private subscribedSymbols$: BehaviorSubject<SubscribedSymbols[]> = new BehaviorSubject([]);
+	private subscribedSymbols$: BehaviorSubject<SubscribedSymbols[]> = new BehaviorSubject<SubscribedSymbols[]>([]);
 	private endpoint = 'wss://ws.finnhub.io?token=';
-	private myWebSocket: WebSocketSubject<any>;
+	private myWebSocket?: WebSocketSubject<any>;
 	private isConnectionInitialized$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
 	constructor(private userStorageService: UserStorageService) {
@@ -32,7 +32,7 @@ export class FinnhubWebsocketService {
 		return this.subscribedSymbols$.value;
 	}
 
-	doesSubscriptionForComponentExists(componentName: string): Observable<boolean> {
+	doesSubscriptionForComponentExists(componentName: string): Observable<boolean | undefined> {
 		return this.subscribedSymbols$.asObservable().pipe(
 			map((subscribedSymbols) => {
 				const component = subscribedSymbols.find((subscribedSymbol) => subscribedSymbol.componentName === componentName);
@@ -63,9 +63,14 @@ export class FinnhubWebsocketService {
 		);
 	}
 
-	async createSubscribeForSymbol(componentName: string, symbol: string, isCrypto: boolean = false): Promise<void> {
+	async createSubscribeForSymbol(componentName: string | undefined, symbol: string | undefined | null, isCrypto: boolean = false): Promise<void> {
 		if (!this.isConnectionInitialized$.value || !this.myWebSocket) {
 			console.log('Websocket createSubscribeForSymbol return, no connection initialized');
+			return;
+		}
+
+		if (!symbol || !componentName) {
+			console.log('Websocket createSubscribeForSymbol symbol or componentName is missing');
 			return;
 		}
 
@@ -87,6 +92,11 @@ export class FinnhubWebsocketService {
 				const component = subscribedSymbols.find((s) => s.componentName === componentName);
 				if (component && this.checkIfSubscribed(symbol)) {
 					console.log(`Sending subscription for: ${symbol}`);
+
+					if (!this.myWebSocket) {
+						console.log('Websocket closeConnection return, no connection initialized');
+						return;
+					}
 					this.myWebSocket.next({ type: 'subscribe', symbol });
 
 					component.subscriptionExists = true;
@@ -95,7 +105,10 @@ export class FinnhubWebsocketService {
 			});
 	}
 
-	closeConnection(componentName: string) {
+	closeConnection(componentName: string | undefined) {
+		if (!componentName) {
+			return;
+		}
 		console.log(`Closing connection for component ${componentName}`);
 		const data = this.subscribedSymbols.find((x) => x.componentName === componentName);
 		if (!!data) {
@@ -140,7 +153,10 @@ export class FinnhubWebsocketService {
 	/**
 	 * Return true if subscription exists
 	 */
-	private checkIfSubscribed(symbol: string): boolean {
+	private checkIfSubscribed(symbol: string | undefined | null): boolean {
+		if (!symbol) {
+			return false;
+		}
 		return this.subscribedSymbols
 			.map((s) => s.symbols)
 			.reduce((acc, val) => acc.concat(val), [])

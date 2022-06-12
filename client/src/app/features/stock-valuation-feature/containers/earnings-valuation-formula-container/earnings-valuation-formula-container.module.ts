@@ -1,19 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {EarningsValuationFormulaContainerComponent} from "./earnings-valuation-formula-container.component";
-import {GenericCardModule, RangeRatingSliderModule} from "@shared";
-import {IonicModule} from "@ionic/angular";
-
-
+import { NgModule } from '@angular/core';
+import { MatCardWrapperModule, RangeRatingSliderModule } from '@shared';
+import { EarningsValuationFormulaContainerComponent } from './earnings-valuation-formula-container.component';
 
 @NgModule({
-  declarations: [EarningsValuationFormulaContainerComponent],
-  imports: [
-    CommonModule,
-    RangeRatingSliderModule,
-    IonicModule,
-    GenericCardModule
-  ],
-  exports: [EarningsValuationFormulaContainerComponent]
+	declarations: [EarningsValuationFormulaContainerComponent],
+	imports: [CommonModule, RangeRatingSliderModule, MatCardWrapperModule],
+	exports: [EarningsValuationFormulaContainerComponent],
 })
-export class EarningsValuationFormulaContainerModule { }
+export class EarningsValuationFormulaContainerModule {}

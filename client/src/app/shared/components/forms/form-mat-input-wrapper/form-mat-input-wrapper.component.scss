@@ -1,50 +1,28 @@
-@import 'variables';
+@use 'custom-variables' as variables;
 
 :host ::ng-deep {
-	.icon-prefix {
-		color: white;
-		margin-right: 10px;
-	}
 	.disabled-element {
 		opacity: 0.55;
 		cursor: default;
 	}
 
-	.highlight-mat-form-field {
-		.mat-form-field-flex {
-			background-color: #444212 !important;
-		}
-	}
+	fieldset {
+		clear: both;
 
-	// disabled state
-	.disabled-mat-form-field {
-		.mat-form-field-flex {
-			opacity: 0.6;
-			background-color: #2a3753;
-		}
-	}
+		&:disabled {
+			cursor: not-allowed;
+			pointer-events: none;
 
-	.filterer-chips-autocomplete-panel {
-		mat-option.mat-option {
-			height: auto;
-			padding: 8px 16px;
-			line-height: normal;
+			mat-form-field .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-outline {
+				background: #e3e3e3;
+				border-radius: 8px;
+			}
 
-			.mat-option-text {
-				.suggestion-country-flag {
-					width: 19px;
-					margin-right: 5px;
-					margin-top: -2px;
-				}
+			div div button {
+				background: #e3e3e3;
+				color: variables.$color-gray-500;
 			}
 		}
-	}
-
-	.form-input-tooltip {
-		font-size: 14px;
-		margin: 3px !important;
-		padding: 8px !important;
-		position: relative;
 	}
 
 	.errors-showed {
@@ -53,10 +31,8 @@
 
 	mat-form-field.mat-form-field {
 		width: 100%;
+		margin-bottom: 4px;
 
-		/*.mat-form-field-wrapper {
-      padding-bottom: 0;
-    }*/
 		.mat-form-field-wrapper {
 			padding-bottom: 0;
 
@@ -80,46 +56,66 @@
 		margin-bottom: 4px;
 	}
 
-	mat-error {
-		color: #{$st-red};
-		font-size: 12px;
-	}
-
-	.mat-form-field-infix {
+	.mat-radio-group {
 		display: flex;
-		align-items: center;
-	}
+		flex-direction: column;
 
-	mat-slider {
-		width: 100%;
-		height: 30px;
-	}
+		.mat-radio-button {
+			.mat-radio-label {
+				margin-bottom: 7px;
 
-	.mat-slider-wrapper {
-		.mat-slider-thumb-container {
-			.mat-slider-thumb-label {
-				width: 52px;
-				height: 52px;
-				top: -62px;
-				right: -25px;
-				background-color: #020b27;
+				.mat-radio-container {
+					.mat-radio-inner-circle {
+						background-color: variables.$color-success-500;
+					}
 
-				.mat-slider-thumb-label-text {
-					color: white;
+					.mat-radio-outer-circle {
+						border-color: rgba(0, 0, 0, 0.4);
+					}
+				}
+
+				.mat-radio-label-content {
+					font-weight: normal;
+					letter-spacing: 0.3px;
+				}
+			}
+
+			&.mat-radio-checked {
+				.mat-radio-label {
+					.mat-radio-container {
+						.mat-radio-outer-circle {
+							border-color: variables.$color-success-500;
+						}
+					}
+				}
+			}
+		}
+
+		&.input-radio-group {
+			.mat-radio-button:last-child {
+				.mat-radio-label {
+					margin-bottom: 2px;
 				}
 			}
 		}
 	}
 
-	mat-error,
-	.input-error-text {
-		color: red;
-		font-size: 12px;
-	}
-}
+	.c-slider-always-visible {
+		.mat-slider-thumb-label {
+			transform: rotate(45deg) !important;
+			border-radius: 50% 50% 0 !important;
+		}
 
-fieldset {
-	border: 0;
+		.mat-slider-thumb {
+			transform: scale(0) !important;
+		}
+
+		.mat-slider-thumb-label-text {
+			opacity: 1 !important;
+		}
+
+		margin-top: 1rem;
+	}
 }
 
 .select-input {
@@ -129,8 +125,14 @@ fieldset {
 	border: 1px solid gainsboro;
 }
 
-.slider-container {
-	display: flex;
-	align-items: baseline;
-	width: 100%;
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+	background-color: variables.$color-primary-500 !important; /*inner circle color change*/
+}
+
+::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+	border-color: variables.$color-primary-500 !important; /*outer ring color change*/
+}
+
+::ng-deep .mat-form-field-label {
+	color: variables.$color-secondary-400 !important;
 }

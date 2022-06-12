@@ -1,0 +1,37 @@
+<mat-dialog-content>
+	<!-- buttons -->
+	<div class="py-4 flex justify-between">
+		<div>
+			<ng-container *ngIf="data.showAddToWatchlistOption && (user$ | async)">
+				<button mat-button *ngIf="!isSymbolInWatchlist" (click)="addSymbolToWatchlist()">
+					<mat-icon class="g-color-warning">grade</mat-icon>
+					Save symbol
+				</button>
+				<button mat-button *ngIf="isSymbolInWatchlist" (click)="removeSymbolFromWatchlist()">
+					<mat-icon class="g-color-danger">star</mat-icon>
+					Remove symbol
+				</button>
+			</ng-container>
+		</div>
+		<button mat-button class="g-color-danger" (click)="dismissModal()">
+			<mat-icon>close</mat-icon>
+			Close
+		</button>
+	</div>
+
+	<!-- content -->
+	<app-loader-wrapper>
+		<ng-container *ngIf="etfDetails$ | async as stockDetails">
+			<app-financial-chart-container
+				[closedPrice]="stockDetails.summary.previousClose"
+				[currentPrice]="stockDetails.summary.marketPrice"
+				[height]="450"
+				[logoUrl]="stockDetails.summary.logo_url || undefined"
+				[name]="data.symbolIdentification.name"
+				[symbol]="data.symbolIdentification.symbol"
+				[financialChart]="true"
+			>
+			</app-financial-chart-container>
+		</ng-container>
+	</app-loader-wrapper>
+</mat-dialog-content>

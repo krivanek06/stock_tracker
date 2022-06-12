@@ -1,0 +1,12 @@
+<mat-toolbar class="justify-end">
+	<button mat-button color="warn" (click)="closeDialog()">
+		<mat-icon>close</mat-icon>
+		Close
+	</button>
+</mat-toolbar>
+<div class="st-font-1 g-highlighted-text w-10/12 m-auto text-center">
+	Your ticket will be sent to the administrator of the application and will start working on it as soon as possible
+</div>
+<div class="p-4">
+	<app-ticket-form (submitFormEmitter)="submitForm($event)"></app-ticket-form>
+</div>

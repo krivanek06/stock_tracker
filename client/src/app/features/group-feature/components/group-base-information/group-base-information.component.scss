@@ -1,30 +1,21 @@
 @import 'variables';
 
 :host {
-	.c-section-wrapper {
-		display: flex;
-		justify-content: space-between;
-		flex-flow: row;
-		@media (max-width: #{$st-var-lg-split}) {
-			flex-flow: column;
-
-			.c-data-section-wrapper {
-				margin-bottom: 30px;
-			}
-		}
-
-		@media (max-width: #{$st-var-md-split}) {
-			.c-data-section-wrapper {
-				margin-bottom: 0;
-			}
-		}
-	}
-
 	.c-group-image {
-		max-width: 100px;
-		max-height: 100px;
 		min-width: 100px;
 		min-height: 100px;
+		@screen xs {
+			max-width: 160px;
+			max-height: 160px;
+		}
+	}
+	.c-watch-button {
+		//max-width: 160px;
+		min-width: 160px;
+		width: 100%;
+		@screen xs {
+			width: auto;
+		}
 	}
 
 	.c-content-container {
@@ -42,14 +33,14 @@
 		}
 
 		& > * {
-			margin-right: 25px;
-			padding-right: 16px;
-			border-right: 1px solid;
+			margin-right: 0;
+			padding-right: 0;
+			border-right: 0;
 
-			@media (max-width: #{$st-var-md-split}) {
-				margin-right: 0;
-				padding-right: 0;
-				border-right: 0;
+			@screen md {
+				margin-right: 25px;
+				padding-right: 16px;
+				border-right: 1px solid #{$st-light-blue-border};
 			}
 		}
 
@@ -60,27 +51,10 @@
 	}
 
 	ion-buttons {
-		margin-top: -12px;
-		display: block;
-		text-align: end;
-		align-items: baseline;
-
-		@media (max-width: #{$st-var-xxl-split}) {
-			display: grid;
+		& > * {
+			flex: 1;
 		}
-
-		@media (max-width: #{$st-var-md-split}) {
-			margin-top: 8px;
-		}
-
-		span ion-button,
-		ion-button {
-			min-width: 150px;
-			margin: 5px;
-			@media (max-width: #{$st-var-lg-split}) {
-				width: 100%;
-			}
-		}
+		margin-bottom: 16px;
 	}
 
 	.c-owner-image {

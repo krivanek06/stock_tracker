@@ -1,32 +1,43 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StUserIndentificationDataFragment} from '@core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { StPortfolioChange, StPortfolioChangeData, StUserIdentificationDataFragment, StUserIdentificationPortfolioFragmentFragment } from '@core';
 
 @Component({
-    selector: 'app-user-account-info-list',
-    templateUrl: './user-account-info-list.component.html',
-    styleUrls: ['./user-account-info-list.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-user-account-info-list',
+	templateUrl: './user-account-info-list.component.html',
+	styleUrls: ['./user-account-info-list.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserAccountInfoListComponent implements OnInit {
-    @Output() deleteEmitter: EventEmitter<any> = new EventEmitter<any>();
-    @Output() clickedEmitter: EventEmitter<any> = new EventEmitter<any>();
+	@Output() deleteEmitter: EventEmitter<any> = new EventEmitter<any>();
+	@Output() clickedEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-    @Input() stUserPublicData: StUserIndentificationDataFragment;
-    @Input() clickable = false;
-    @Input() showDeleteButton = false;
-    @Input() fullWith = false;
+	@Input() stUserPublicData!: StUserIdentificationDataFragment | StUserIdentificationPortfolioFragmentFragment;
+	@Input() clickable = false;
+	@Input() showDeleteButton = false;
+	@Input() fullWith = false;
 
-    constructor() {
-    }
+	/* 
+		used to tell what portfolio change to display, 
+		may be daily, weekly, monthly change
+	*/
+	@Input() portfolioChangeKey?: keyof StPortfolioChange;
 
-    ngOnInit() {
-    }
+	portfolioChange?: StPortfolioChangeData | null;
 
-    deletePerson() {
-        this.deleteEmitter.emit();
-    }
+	constructor() {}
 
-    clickedPerson() {
-        this.clickedEmitter.emit();
-    }
+	ngOnInit() {
+		const portfolioChange = this.portfolioChangeKey
+			? (this.stUserPublicData.portfolio.portfolioChange[this.portfolioChangeKey] as StPortfolioChangeData)
+			: null;
+		this.portfolioChange = portfolioChange ?? this.stUserPublicData.portfolio.portfolioChange.day_1_change;
+	}
+
+	deletePerson() {
+		this.deleteEmitter.emit();
+	}
+
+	clickedPerson() {
+		this.clickedEmitter.emit();
+	}
 }

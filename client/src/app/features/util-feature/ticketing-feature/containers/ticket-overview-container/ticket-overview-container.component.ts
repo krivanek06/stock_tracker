@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { GraphqlTicketService, StTicket, StTicketCommentEditValues, StUserPublicData, UserStorageService } from '@core';
+import { GraphqlTicketService, StTicketCommentEditValues, StTicketFragmentFragment, StUserPublicData, UserStorageService } from '@core';
 import { DialogService } from '@shared';
 import { Observable } from 'rxjs';
 
@@ -10,10 +10,10 @@ import { Observable } from 'rxjs';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TicketOverviewContainerComponent implements OnInit {
-	@Input() tickets: StTicket[] = [];
+	@Input() tickets: StTicketFragmentFragment[] = [];
 
-	user$: Observable<StUserPublicData>;
-	isAdmin$: Observable<boolean>;
+	user$!: Observable<StUserPublicData>;
+	isAdmin$!: Observable<boolean>;
 
 	constructor(private graphqlTicketService: GraphqlTicketService, private userStorageService: UserStorageService) {}
 
@@ -22,22 +22,22 @@ export class TicketOverviewContainerComponent implements OnInit {
 		this.isAdmin$ = this.userStorageService.isAdmin();
 	}
 
-	async closeTicket(ticket: StTicket) {
+	async closeTicket(ticket: StTicketFragmentFragment) {
 		await this.graphqlTicketService.closeTicket(ticket).toPromise();
-		DialogService.presentToast(`Ticket ${ticket.id} has been closed`);
+		DialogService.showNotificationBar(`Ticket ${ticket.id} has been closed`);
 	}
-	async deleteTicket(ticket: StTicket) {
+	async deleteTicket(ticket: StTicketFragmentFragment) {
 		await this.graphqlTicketService.deleteTicket(ticket).toPromise();
-		DialogService.presentToast(`Ticket ${ticket.id} has been deleted`);
+		DialogService.showNotificationBar(`Ticket ${ticket.id} has been deleted`);
 	}
 
 	async editComment(commentEditValues: StTicketCommentEditValues) {
 		await this.graphqlTicketService.commentTicketEdit(commentEditValues).toPromise();
-		DialogService.presentToast(`Comment has been edited`);
+		DialogService.showNotificationBar(`Comment has been edited`);
 	}
 
-	async submitComment(ticket: StTicket, comment: string) {
+	async submitComment(ticket: StTicketFragmentFragment, comment: string) {
 		await this.graphqlTicketService.commentTicket(ticket, comment).toPromise();
-		DialogService.presentToast(`Comment was added to ticket ${ticket.id}`);
+		DialogService.showNotificationBar(`Comment was added to ticket ${ticket.id}`);
 	}
 }

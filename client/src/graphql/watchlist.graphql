@@ -1,17 +1,19 @@
 ## FRAGMENTS
 ##---------------------------
 # Write your query or mutation here
-
-
+fragment STStockWatchlistIntoFragment on STStockWatchlist {
+	id
+	name
+	date
+	userId
+	symbols
+}
 
 fragment STStockWatchlistFragment on STStockWatchlist {
-  id
-  name
-  date
-  userId
-  summaries {
-    ...StockSummaryFragment
-  }
+	...STStockWatchlistIntoFragment
+	summaries {
+		...StockSummaryFragment
+	}
 }
 
 ## QUERY
@@ -25,26 +27,25 @@ fragment STStockWatchlistFragment on STStockWatchlist {
 ## MUTATION
 ##---------------------------
 mutation CreateStockWatchlist($identifier: STStockWatchInputlistIdentifier!) {
-  createStockWatchlist(identifier: $identifier){
-    ...STStockWatchlistFragment
-  }
+	createStockWatchlist(identifier: $identifier) {
+		...STStockWatchlistFragment
+	}
 }
 
 mutation AddStockIntoWatchlist($identifier: STStockWatchInputlistIdentifier!) {
-  addStockIntoStockWatchlist(identifier: $identifier) {
-    ...StockSummaryFragment
-  }
+	addStockIntoStockWatchlist(identifier: $identifier) {
+		...StockSummaryFragment
+	}
 }
 
 mutation RemoveStockFromWatchlist($identifier: STStockWatchInputlistIdentifier!) {
-  removeStockFromStockWatchlist(identifier: $identifier)
+	removeStockFromStockWatchlist(identifier: $identifier)
 }
 
-
 mutation DeleteUserWatchlist($identifier: STStockWatchInputlistIdentifier!) {
-  deleteWatchlist(identifier: $identifier)
+	deleteWatchlist(identifier: $identifier)
 }
 
 mutation RenameStockWatchlist($identifier: STStockWatchInputlistIdentifier!) {
-  renameStockWatchlist(identifier: $identifier)
+	renameStockWatchlist(identifier: $identifier)
 }

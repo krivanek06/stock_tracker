@@ -9,6 +9,7 @@ import {
 	signInWithPopup,
 	UserCredential,
 } from '@angular/fire/auth';
+import { environment } from '@environment';
 import { Apollo } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { filter, first, map, takeUntil } from 'rxjs/operators';
@@ -35,7 +36,7 @@ export class AuthenticationService {
 				first(),
 				filter((x) => !!x)
 			)
-			.subscribe((user) => this.initUserIfExists(user.uid));
+			.subscribe((user) => this.initUserIfExists(user?.uid));
 	}
 
 	async googleSignIn(): Promise<void> {
@@ -49,9 +50,14 @@ export class AuthenticationService {
 		await this.signInUser(credentials);
 	}
 
-	async normalLogin(loginIUser: LoginIUser) {
-		const credentials = await signInWithEmailAndPassword(this.afAuth, loginIUser.email, loginIUser.password);
-		await this.signInUser(credentials);
+	async normalLogin(loginIUser: LoginIUser): Promise<boolean> {
+		try {
+			const credentials = await signInWithEmailAndPassword(this.afAuth, loginIUser.email, loginIUser.password);
+			await this.signInUser(credentials);
+			return true;
+		} catch (e: any) {
+			return false;
+		}
 	}
 
 	async logout(): Promise<void> {
@@ -64,8 +70,24 @@ export class AuthenticationService {
 		await this.afAuth.signOut();
 	}
 
-	private initUserIfExists(userId: string) {
+	private initUserIfExists(userId: string | null | undefined) {
+		if (!userId) {
+			return;
+		}
 		console.log(`Init user ${userId}`);
+
+		// caching user for faster load time on develop
+		if (!environment.production) {
+			console.log('DEVELOP: loading user from localstorage');
+			const userJson = localStorage.getItem('DEV_USER');
+			if (userJson) {
+				const parsedUser = JSON.parse(userJson);
+				console.log('DEVELOP: loaded user from localstorage', parsedUser);
+				this.userStorageService.setUser(parsedUser as StUserPublicData);
+				this.userStorageService.setIsAuthenticating(false);
+				return;
+			}
+		}
 
 		// user already logged in - init skeleton till he is loaded
 		const authStateChange = new Observable((observer: any) => onAuthStateChanged(this.afAuth, observer));
@@ -99,6 +121,11 @@ export class AuthenticationService {
 				console.log('useruser', user);
 				this.userStorageService.setUser(user as StUserPublicData);
 				this.userStorageService.setIsAuthenticating(false);
+
+				if (!environment.production) {
+					console.log('DEVELOP: persisting user into localstorage');
+					localStorage.setItem('DEV_USER', JSON.stringify(user));
+				}
 			});
 	}
 
@@ -107,7 +134,7 @@ export class AuthenticationService {
 
 		if (isNewUser) {
 			const stUserAuthenticationInput: StUserAuthenticationInput = {
-				displayName: credential.user.displayName || credential.user.email.split('@')[0],
+				displayName: credential.user.displayName || credential.user?.email?.split('@')[0],
 				email: credential.user.email,
 				uid: credential.user.uid,
 				photoURL: credential.user.photoURL,

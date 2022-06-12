@@ -10,7 +10,7 @@
 	</ion-item>
 
 	<!-- data -->
-	<ng-container *ngIf="topTableCryptoData?.length > 0; else showSkeleton">
+	<ng-container *ngIf="topTableCryptoData && topTableCryptoData.length > 0; else showSkeleton">
 		<ng-container *ngFor="let data of topTableCryptoData | slice: 0: 25">
 			<!-- BIG SCREEN -->
 			<ion-item (click)="itemClicked(data)" button class="st-data-item-wrapper ion-hide-sm-down">
@@ -59,8 +59,7 @@
 					<ion-text [@marketValueChange]="data.regularMarketPrice" class="st-font-1-normal st-font-size-16">
 						{{ data.regularMarketPrice | currency }}
 					</ion-text>
-					<app-price-compare-item [compareToPrice]="data.regularMarketClosed" [currentPrice]="data.regularMarketPrice" [inlineDisplay]="true">
-					</app-price-compare-item>
+					<app-price-compare-item [compareToPrice]="data.regularMarketClosed" [currentPrice]="data.regularMarketPrice"> </app-price-compare-item>
 				</ion-label>
 			</ion-item>
 		</ng-container>

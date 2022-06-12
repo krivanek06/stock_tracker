@@ -1,36 +1,29 @@
-<!-- view 1 -->
-<ion-list *ngIf="viewType === '1' ">
-	<ion-item>
-		<ion-label class="st-font-4 st-small-right-space">Paid</ion-label>
-		<ion-label class="st-font-4">Declaration</ion-label>
-		<ion-label class="st-font-4">Payment</ion-label>
-	</ion-item>
+<table mat-table [dataSource]="dataSource" class="w-full">
+	<!-- paid -->
+	<ng-container matColumnDef="paid">
+		<th mat-header-cell *matHeaderCellDef>Paid</th>
+		<td mat-cell *matCellDef="let row">{{ row.adjDividend | currency }}</td>
+	</ng-container>
 
-	<ion-item *ngFor="let dividendPayout of dividendPayouts" class="st-table-item-font-1">
-		<ion-label>{{ dividendPayout.adjDividend | currency }}</ion-label>
-		<ion-label>{{ dividendPayout.declarationDate | date: 'dd.MM.YYYY' }}</ion-label>
-		<ion-label>{{ dividendPayout.paymentDate | date: 'dd.MM.YYYY' }}</ion-label>
-	</ion-item>
+	<!-- Declaration -->
+	<ng-container matColumnDef="declaration">
+		<th mat-header-cell *matHeaderCellDef>Declaration</th>
+		<td mat-cell *matCellDef="let row">{{ row.declarationDate | date: 'dd.MM.YYYY' }}</td>
+	</ng-container>
 
-	<!--<ion-item>
-        <ion-label class="st-font-1">Total</ion-label>
-        <ion-label>{{ dividendPayouts | sumUp: 'adjDividend' | currency }}</ion-label>
-    </ion-item>-->
-</ion-list>
+	<!-- payment -->
+	<ng-container matColumnDef="payment">
+		<th mat-header-cell *matHeaderCellDef>Payment</th>
+		<td mat-cell *matCellDef="let row">{{ row.paymentDate | date: 'dd.MM.YYYY' }}</td>
+	</ng-container>
 
-<!-- view 2 -->
-<ion-list *ngIf="viewType === '2' ">
-	<ion-item class="st-font-1-bold">
-		<ion-label>Symbol</ion-label>
-		<ion-label>Paid</ion-label>
-		<ion-label>Declaration</ion-label>
-		<ion-label>Payment</ion-label>
-	</ion-item>
+	<tr mat-header-row *matHeaderRowDef="displayedColumns" class="hidden sm:contents"></tr>
+	<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
-	<ion-item *ngFor="let dividendPayout of dividendPayouts" class="st-table-item-font-1">
-		<ion-label class="st-font-4">{{ dividendPayout.symbol | currency }}</ion-label>
-		<ion-label>{{ dividendPayout.adjDividend | currency }}</ion-label>
-		<ion-label>{{ dividendPayout.declarationDate | date: 'dd.MM.YYYY' }}</ion-label>
-		<ion-label>{{ dividendPayout.paymentDate | date: 'dd.MM.YYYY' }}</ion-label>
-	</ion-item>
-</ion-list>
+	<!-- Row shown when there is no matching data. -->
+	<tr class="mat-row" *matNoDataRow>
+		<td class="mat-cell" colspan="3">
+			<div class="min-h-[200px] g-color-secondary grid place-content-center">No data has been found</div>
+		</td>
+	</tr>
+</table>

@@ -11,11 +11,11 @@ import { BREAK_POINTS, ChartType, GenericChartSeriesData } from '../../../models
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PieChartWrapperComponent implements OnInit {
-	@Input() heightPx: number;
-	@Input() chartTitle: string;
-	@Input() data: GenericChartSeriesData[];
+	@Input() heightPx!: number;
+	@Input() chartTitle!: string;
+	@Input() data: GenericChartSeriesData[] = [];
 
-	breakpointSmDown$: Observable<BreakpointState>;
+	breakpointSmDown$!: Observable<BreakpointState>;
 	ChartType = ChartType;
 
 	constructor(private breakpointObserver: BreakpointObserver) {}

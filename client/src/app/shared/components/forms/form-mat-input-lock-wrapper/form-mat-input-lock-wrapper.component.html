@@ -5,19 +5,13 @@
 }"
 >
 	<app-form-mat-input-wrapper
-		[chipMaxAllowed]="chipMaxAllowed"
-		[chipSelectedValues]="chipSelectedValues"
 		[controlName]="controlName"
 		[disabled]="disabled.value"
 		[hintText]="hintText"
 		[inputCaption]="inputCaption"
-		[highlightField]="highlightField"
+		[inputTypeSliderConfig]="inputTypeSliderConfig"
 		[inputSource]="inputSource"
-		[inputType]="allowChangeInput ? changeInputTo : inputType"
-		[sliderLabelShowDollarSign]="sliderLabelShowDollarSign"
-		[sliderMaxValue]="sliderMaxValue"
-		[sliderMinValue]="sliderMinValue"
-		[sliderStepValue]="sliderStepValue"
+		[inputType]="allowChangeInput && !!changeInputTo ? changeInputTo : inputType"
 	></app-form-mat-input-wrapper>
 
 	<div class="st-display-flex-center" [ngClass]='{"has-erros": formInputControl.touched && formInputControl.invalid }'>
@@ -37,7 +31,7 @@
 			[matTooltip]="'Change input type to: ' + changeInputTo"
 			mat-icon-button
 		>
-			<mat-icon [ngClass]="{'st-icon': !disabled.value}">keyboard</mat-icon>
+			<mat-icon [ngClass]="{'g-color-primary': !disabled.value}">keyboard</mat-icon>
 		</button>
 	</div>
 </div>

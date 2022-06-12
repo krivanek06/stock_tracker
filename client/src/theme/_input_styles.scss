@@ -1,0 +1,178 @@
+@import 'variables';
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+	color: rgb(175, 175, 175) !important;
+}
+
+.icon-prefix {
+	color: white !important;
+	margin-right: 10px !important;
+}
+.disabled-element {
+	opacity: 0.55 !important;
+	cursor: default !important;
+}
+
+fieldset {
+	clear: both !important;
+	border: 0 !important;
+
+	&:disabled {
+		cursor: not-allowed !important;
+		pointer-events: none !important;
+
+		mat-form-field .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-outline {
+			background: #444d66 !important;
+			border-radius: 8px !important;
+		}
+
+		div div button {
+			background: #444d66 !important;
+			color: #838383 !important;
+		}
+	}
+}
+
+.highlight-mat-form-field {
+	.mat-form-field-flex {
+		background-color: #444212 !important;
+	}
+}
+
+.mat-select-value {
+	color: white !important;
+}
+
+.errors-showed {
+	margin-bottom: 6px !important;
+}
+
+mat-form-field.mat-form-field {
+	width: 100% !important;
+	background: transparent !important;
+
+	/*.mat-form-field-wrapper {
+      padding-bottom: 0;
+    }*/
+	.mat-form-field-wrapper {
+		padding-bottom: 0 !important;
+
+		.mat-form-field-subscript-wrapper {
+			position: relative !important;
+		}
+	}
+
+	.mat-form-field-flex {
+		.mat-form-field-suffix {
+			.helper-text-tooltip-icon {
+				font-size: 18px !important;
+				cursor: pointer !important;
+				margin-left: 6px !important;
+			}
+		}
+	}
+}
+
+.not-form-field-inputs {
+	margin-bottom: 4px !important;
+}
+
+input {
+	color: white !important;
+	&:disabled {
+		color: #{$st-var-font-4} !important;
+	}
+}
+
+mat-error {
+	color: #{$st-red} !important;
+	font-size: 12px !important;
+}
+
+.mat-form-field-infix {
+	display: flex !important;
+	align-items: center !important;
+}
+
+mat-slider {
+	width: 100% !important;
+	height: 30px !important;
+}
+
+.mat-slider-wrapper {
+	.mat-slider-thumb-container {
+		.mat-slider-thumb-label {
+			width: 52px !important;
+			height: 52px !important;
+			top: -62px !important;
+			right: -25px !important;
+			background-color: #020b27 !important;
+
+			.mat-slider-thumb-label-text {
+				color: white !important;
+			}
+		}
+	}
+}
+
+mat-error,
+.input-error-text {
+	color: red !important;
+	font-size: 12px !important;
+}
+
+.select-input {
+	width: 100% !important;
+	height: 30px !important;
+	padding: 17px !important;
+	border: 1px solid gainsboro !important;
+}
+
+.slider-container {
+	display: flex !important;
+	align-items: baseline !important;
+	width: 100% !important;
+}
+
+mat-checkbox {
+	background: #fefefe2e !important;
+	padding: 8px !important;
+	border-radius: 8px !important;
+	padding-right: 16px !important;
+	padding-left: 16px !important;
+	width: 100% !important;
+}
+
+.mat-tab-label {
+	color: white;
+}
+
+.mat-tab-label-container {
+	display: flex;
+	flex-grow: 1;
+	overflow: hidden;
+	z-index: 1;
+	overflow-x: scroll !important;
+}
+
+a {
+	color: white !important;
+}
+
+.mat-tab-body-wrapper {
+	margin-top: 12px !important;
+}
+
+.mat-grid-tile-content {
+	justify-content: start !important;
+}
+
+mat-tab-header {
+	button {
+		display: none !important;
+	}
+}
+
+mat-divider {
+	background: #{$st-light-blue-border};
+}

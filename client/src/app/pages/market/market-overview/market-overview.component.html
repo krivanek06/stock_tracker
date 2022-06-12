@@ -1,0 +1,93 @@
+<app-financial-chart-container [name]="'S&P 500'" [height]="385" [symbol]="'^GSPC'"> </app-financial-chart-container>
+
+<ng-container *ngIf="marketOverview$ | async as marketOverview">
+	<!-- SP 500 stats -->
+	<app-generic-list [title]="'S&P 500 stats'"></app-generic-list>
+	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+		<app-generic-chart
+			*ngFor="let data of marketOverview.sp500 | slice:0: 12"
+			(expandEmitter)="expand(data.documentKey)"
+			[showExpandableButton]="true"
+			[addFancyColoring]="true"
+			[showLegend]="true"
+			[showLegendLatestValue]="true"
+			[heightPx]="chartHeightMain"
+			[series]="[data]"
+		>
+		</app-generic-chart>
+	</div>
+
+	<!-- investor sentiment -->
+	<app-generic-list [title]="'Investor sentiment'"></app-generic-list>
+
+	<app-generic-chart
+		(expandEmitter)="expand(marketOverview.investor_sentiment[0].documentKey)"
+		[showExpandableButton]="true"
+		[showLegend]="true"
+		[showLegendLatestValue]="true"
+		[heightPx]="chartHeightMain"
+		[series]="marketOverview.investor_sentiment"
+	>
+	</app-generic-chart>
+
+	<!-- misery index -->
+	<app-generic-list [title]="'Misery index'"></app-generic-list>
+	<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+		<app-generic-chart
+			*ngFor="let data of marketOverview.misery_index"
+			(expandEmitter)="expand(data.documentKey)"
+			[showExpandableButton]="true"
+			[showLegend]="true"
+			[showLegendLatestValue]="true"
+			[heightPx]="chartHeight"
+			[series]="[data]"
+		>
+		</app-generic-chart>
+	</div>
+
+	<!-- Treasury yield -->
+	<app-generic-list [title]="'Treasury yield'"></app-generic-list>
+	<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+		<app-generic-chart
+			r
+			*ngFor="let data of marketOverview.treasury_yield | slice: 3;"
+			(expandEmitter)="expand(data.documentKey)"
+			[showExpandableButton]="true"
+			[showLegend]="true"
+			[showLegendLatestValue]="true"
+			[heightPx]="chartHeight"
+			[series]="[data]"
+		>
+		</app-generic-chart>
+	</div>
+
+	<!-- Corporate bond market -->
+	<app-generic-list [title]="'Corporate bond market'"></app-generic-list>
+	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+		<app-generic-chart
+			*ngFor="let data of marketOverview.bonds | slice: 0: 4"
+			(expandEmitter)="expand(data.documentKey)"
+			[showExpandableButton]="true"
+			[showLegend]="true"
+			[showLegendLatestValue]="true"
+			[heightPx]="chartHeight"
+			[series]="[data]"
+		>
+		</app-generic-chart>
+	</div>
+
+	<!-- Inflation rate -->
+	<app-generic-list [title]="'Inflation rate'"></app-generic-list>
+	<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+		<app-generic-chart
+			*ngFor="let data of marketOverview.inflation_rate | slice: 0: 3;"
+			(expandEmitter)="expand(data.documentKey)"
+			[showExpandableButton]="true"
+			[showLegend]="true"
+			[showLegendLatestValue]="true"
+			[heightPx]="chartHeight"
+			[series]="[data]"
+		>
+		</app-generic-chart>
+	</div>
+</ng-container>

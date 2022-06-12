@@ -9,34 +9,37 @@ export const environment = {
 	//graphql: 'http://127.0.0.1:5001/graphql',
 
 	// local
-	graphql: 'http://localhost:4000/graphql',
+	// graphql: 'http://localhost:4000/graphql',
 
-	// GCP
+	// GCP - test
 	// graphql: 'https://servergraphql-eqvqg22pdq-lz.a.run.app/graphql',
+
+	// GCP - prod
+	graphql: 'https://servergraphql-j6sqew4pvq-lm.a.run.app',
 
 	// TEST
 	// finnhubKEY: 'brsrc5vrh5r9dg9d77pg',
-	firebase: {
-		apiKey: 'AIzaSyCcIdEPY2ke4Z0SuM69PJrUT5SUlW1nE_U',
-		authDomain: 'stocktrackertest-e51fc.firebaseapp.com',
-		databaseURL: 'https://stocktrackertest-e51fc.firebaseio.com',
-		projectId: 'stocktrackertest-e51fc',
-		storageBucket: 'stocktrackertest-e51fc.appspot.com',
-		messagingSenderId: '514791811531',
-		appId: '1:514791811531:web:c865792582281fc865ae4e',
-		measurementId: 'G-73NKLPNQ5G',
-	},
+	// firebase: {
+	// 	apiKey: 'AIzaSyCcIdEPY2ke4Z0SuM69PJrUT5SUlW1nE_U',
+	// 	authDomain: 'stocktrackertest-e51fc.firebaseapp.com',
+	// 	databaseURL: 'https://stocktrackertest-e51fc.firebaseio.com',
+	// 	projectId: 'stocktrackertest-e51fc',
+	// 	storageBucket: 'stocktrackertest-e51fc.appspot.com',
+	// 	messagingSenderId: '514791811531',
+	// 	appId: '1:514791811531:web:c865792582281fc865ae4e',
+	// 	measurementId: 'G-73NKLPNQ5G',
+	// },
 
 	// PROD
-	// firebase: {
-	// 	apiKey: 'AIzaSyBrI9eMFHdjytB-f57QxVjtruKJZdDBm48',
-	// 	authDomain: 'stock-tracker-prod.firebaseapp.com',
-	// 	projectId: 'stock-tracker-prod',
-	// 	storageBucket: 'stock-tracker-prod.appspot.com',
-	// 	messagingSenderId: '465302188869',
-	// 	appId: '1:465302188869:web:0bc51824750a5cadc4042c',
-	// 	measurementId: 'G-C20ZWXSJZ2',
-	// },
+	firebase: {
+		apiKey: 'AIzaSyBrI9eMFHdjytB-f57QxVjtruKJZdDBm48',
+		authDomain: 'stock-tracker-prod.firebaseapp.com',
+		projectId: 'stock-tracker-prod',
+		storageBucket: 'stock-tracker-prod.appspot.com',
+		messagingSenderId: '465302188869',
+		appId: '1:465302188869:web:0bc51824750a5cadc4042c',
+		measurementId: 'G-C20ZWXSJZ2',
+	},
 
 	version: '0.9.8.2',
 };
@@ -48,4 +51,4 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.

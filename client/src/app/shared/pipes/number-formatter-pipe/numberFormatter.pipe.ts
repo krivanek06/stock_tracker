@@ -1,14 +1,11 @@
-import {Pipe, PipeTransform} from '@angular/core';
-import {stFormatLargeNumber} from '../../utils';
+import { Pipe, PipeTransform } from '@angular/core';
+import { stFormatLargeNumber } from '../../utils';
 
 @Pipe({
-    name: 'numberFormatter'
+	name: 'numberFormatter',
 })
 export class NumberFormatterPipe implements PipeTransform {
-
-    transform(value: number, isPercent: boolean = false, showDollarSign: boolean = false): string {
-        return stFormatLargeNumber(value, isPercent, showDollarSign);
-    }
+	transform(value?: string | number | null, isPercent: boolean = false, showDollarSign: boolean = false): string {
+		return stFormatLargeNumber(value, isPercent, showDollarSign);
+	}
 }
-
-

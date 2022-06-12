@@ -1,20 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {DetailsHoldersComponent} from "./details-holders.component";
-import {NumberFormatterPipeModule, PositionChangeItemModule, SumUpPipeModule} from "@shared";
-import {IonicModule} from "@ionic/angular";
-
-
+import { NgModule } from '@angular/core';
+import { MatTableModule } from '@angular/material/table';
+import { ListSkeletonModule, NumberFormatterPipeModule, PositionChangeItemModule, SumUpPipeModule } from '@shared';
+import { DetailsHoldersComponent } from './details-holders.component';
 
 @NgModule({
-  declarations: [DetailsHoldersComponent],
-  imports: [
-    CommonModule,
-    NumberFormatterPipeModule,
-    IonicModule,
-    PositionChangeItemModule,
-    SumUpPipeModule
-  ],
-  exports: [DetailsHoldersComponent]
+	declarations: [DetailsHoldersComponent],
+	imports: [CommonModule, NumberFormatterPipeModule, MatTableModule, PositionChangeItemModule, SumUpPipeModule, ListSkeletonModule],
+	exports: [DetailsHoldersComponent],
 })
-export class DetailsHoldersModule { }
+export class DetailsHoldersModule {}

@@ -1,9 +1,9 @@
 <form [formGroup]="loginForm" (ngSubmit)="login()">
 	<!-- email -->
-	<app-form-mat-input-wrapper inputCaption="Enter email" controlName="email" icon="person"> </app-form-mat-input-wrapper>
+	<app-form-mat-input-wrapper inputCaption="Enter email" controlName="email" icon="person" inputType="EMAIL"> </app-form-mat-input-wrapper>
 
 	<!-- password -->
-	<app-form-mat-input-wrapper inputCaption="Enter password" controlName="password" icon="lock" inputType="password"> </app-form-mat-input-wrapper>
+	<app-form-mat-input-wrapper inputCaption="Enter password" controlName="password" icon="lock" inputType="PASSWORD"> </app-form-mat-input-wrapper>
 
 	<ion-button type="submit" color="primary" shape="full" expand="block" type="submit" shape="round">Log In</ion-button>
 </form>

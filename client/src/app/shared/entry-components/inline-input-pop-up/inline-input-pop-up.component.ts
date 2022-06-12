@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NavParams, PopoverController } from '@ionic/angular';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { maxLengthValidator, minLengthValidator, requiredValidator } from '../../validators';
 
 @Component({
 	selector: 'app-inline-input-pop-up',
@@ -9,35 +10,37 @@ import { NavParams, PopoverController } from '@ionic/angular';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InlineInputPopUpComponent implements OnInit {
-	inputLabel: string;
-	form: FormGroup;
+	form!: FormGroup;
 
-	constructor(private popoverController: PopoverController, private navParams: NavParams, private fb: FormBuilder) {
-		this.inputLabel = this.navParams.get('inputLabel');
+	constructor(
+		private dialogRef: MatDialogRef<InlineInputPopUpComponent>,
+		@Inject(MAT_DIALOG_DATA) public data: { inputLabel: string },
+		private fb: FormBuilder
+	) {}
+
+	get inputData(): AbstractControl {
+		return this.form.get('inputData') as AbstractControl;
 	}
 
 	ngOnInit() {
 		this.initForm();
+		console.log('addsa');
 	}
 
 	submit() {
 		this.form.markAllAsTouched();
 		if (!this.form.invalid) {
-			this.popoverController.dismiss({ inputData: this.inputData.value });
+			this.dialogRef.close(this.inputData.value);
 		}
 	}
 
 	dismiss() {
-		this.popoverController.dismiss(null);
+		this.dialogRef.close();
 	}
 
 	private initForm() {
 		this.form = this.fb.group({
-			inputData: [null, [Validators.required, Validators.maxLength(150)]],
+			inputData: [null, [requiredValidator, maxLengthValidator(50), minLengthValidator(4)]],
 		});
-	}
-
-	get inputData(): AbstractControl {
-		return this.form.get('inputData');
 	}
 }

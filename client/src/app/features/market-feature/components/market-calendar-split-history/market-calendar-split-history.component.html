@@ -1,22 +1,6 @@
-<!-- view 1 -->
-<ion-list *ngIf="viewType === '1'">
-	<ion-item *ngFor="let splitHistory of splitHistories" class="st-table-item-font-1">
-		<ion-label>{{ splitHistory.date | date: 'MMMM d, y' }}</ion-label>
-		<ion-label class="st-flex-end">{{ splitHistory.numerator }} / {{ splitHistory.denominator }}</ion-label>
-	</ion-item>
-</ion-list>
-
-<!-- view 2 -->
-<ion-list *ngIf="viewType === '2'">
-	<ion-item class="st-font-1-bold">
-		<ion-label>Symbol</ion-label>
-		<ion-label>Ratio</ion-label>
-		<ion-label>Date</ion-label>
-	</ion-item>
-
-	<ion-item *ngFor="let calendar of splitHistories" class="st-data-item-wrapper">
-		<ion-label class="st-font-4">{{ calendar.symbol }}</ion-label>
-		<ion-label>{{ calendar.numerator }} / {{ calendar.denominator }}</ion-label>
-		<ion-label>{{ calendar.date | date : 'dd.MM.YYYY' }}</ion-label>
-	</ion-item>
-</ion-list>
+<div class="g-data-item-wrapper">
+	<div *ngFor="let splitHistory of splitHistories">
+		<div>{{ splitHistory.date | date: 'MMMM d, y' }}</div>
+		<div>{{ splitHistory.numerator }} / {{ splitHistory.denominator }}</div>
+	</div>
+</div>

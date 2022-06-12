@@ -1,26 +1,23 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StfmCompanyQuote} from '@core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { StfmCompanyQuote } from '@core';
 
 @Component({
-    selector: 'app-stock-info-identification-item',
-    templateUrl: './stock-info-identification-item.component.html',
-    styleUrls: ['./stock-info-identification-item.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-stock-info-identification-item',
+	templateUrl: './stock-info-identification-item.component.html',
+	styleUrls: ['./stock-info-identification-item.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StockInfoIdentificationItemComponent implements OnInit {
-    @Output() clickedEmitter: EventEmitter<any> = new EventEmitter<any>();
+	@Output() clickedEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-    @Input() companyQuote: StfmCompanyQuote;
-    @Input() showAdditionalData: boolean;
+	@Input() companyQuote!: StfmCompanyQuote;
+	@Input() showAdditionalData = false;
 
-    constructor() {
-    }
+	constructor() {}
 
-    ngOnInit() {
-    }
+	ngOnInit() {}
 
-    clickedSymbol() {
-        this.clickedEmitter.emit();
-    }
-
+	clickedSymbol() {
+		this.clickedEmitter.emit();
+	}
 }

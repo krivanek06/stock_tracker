@@ -1,24 +1,12 @@
-<app-generic-card title="Dividend discounted valuation">
-    <ng-container *ngIf="dividendDiscountedFormula$ | async as formula">
-        <ion-list>
-            <ion-item-group class="st-flex-space-evenly st-small-vertical-padding">
-                <ion-item>
-                    <ion-label>Dividend growth rate:</ion-label>
-                    <ion-label class="st-data-label-end">{{ formula.dividendGrowthRate | percent: '1.2'  }}</ion-label>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Dividend per share:</ion-label>
-                    <ion-label class="st-data-label-end">{{ formula.dividendsPerShareTTM }}</ion-label>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Minimum return:</ion-label>
-                    <ion-label class="st-data-label-end">{{ formula.minimumRateReturn | percent: '1.2'  }}</ion-label>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Intrinsic value:</ion-label>
-                    <ion-label class="st-data-label-end st-font-0">{{ formula.estimatedIntrinsicValue | currency }}</ion-label>
-                </ion-item>
-            </ion-item-group>
-        </ion-list>
-    </ng-container>
-</app-generic-card>
+<app-mat-card-wrapper title="Dividend discounted valuation">
+	<ng-container *ngIf="dividendDiscountedFormula$ | async as formula">
+		<!-- calculation -->
+		<div class="text-xl p-4 g-color-white mb-2">Calculation</div>
+		<div class="p-4 flex justify-around">
+			<div>Dividend growth rate:: {{ formula.dividendGrowthRate | percent: '1.2' }}</div>
+			<div>Dividend per share: {{ formula.dividendsPerShareTTM }}</div>
+			<div>Minimum return: {{ formula.minimumRateReturn | percent: '1.2' }}</div>
+			<div>Intrinsic value: <span class="g-color-white">{{ formula.estimatedIntrinsicValue | currency }}</span></div>
+		</div>
+	</ng-container>
+</app-mat-card-wrapper>

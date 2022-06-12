@@ -2,6 +2,7 @@ import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
 import { queryUserPublicDataById } from '../../st-user/user.query';
+import { increaseGroupPortfolio } from '../st-group.util';
 import { querySTGroupByGroupId, querySTGroupMemberDataByGroupId } from './../st-group.query';
 import { createSTGroupUser } from './../st-group.util';
 
@@ -20,9 +21,8 @@ export const toggleUsersInvitationRequestToGroup = async (accept: boolean, userI
 			throw new ApolloError(`No longer exists a request from user ${userPublicData.nickName} to join this group`);
 		}
 
-		// decrese users who sent invitation into groups
 		if (accept) {
-			await acceptUser(groupId, groupData, newGroupUser);
+			await acceptUser(groupId, groupData, userPublicData);
 		} else {
 			await denyUser(groupId);
 		}
@@ -88,21 +88,8 @@ const denyUser = async (groupId: string): Promise<void> => {
 		);
 };
 
-export const acceptUser = async (groupId: string, groupData: api.STGroupAllData, newGroupUser: api.STGroupUser): Promise<void> => {
-	// update group starting portfolio
-	groupData.startedPortfolio.portfolioCash += newGroupUser.startedPortfolio.portfolioCash;
-	groupData.startedPortfolio.portfolioInvested += newGroupUser.startedPortfolio.portfolioInvested;
-	groupData.startedPortfolio.numberOfExecutedSellTransactions += newGroupUser.startedPortfolio.numberOfExecutedSellTransactions;
-	groupData.startedPortfolio.numberOfExecutedBuyTransactions += newGroupUser.startedPortfolio.numberOfExecutedBuyTransactions;
-	groupData.startedPortfolio.transactionFees += newGroupUser.startedPortfolio.transactionFees;
-
-	// update group portfolio
-	groupData.portfolio.portfolioCash += newGroupUser.startedPortfolio.portfolioCash;
-	groupData.portfolio.lastPortfolioSnapshot.portfolioInvested += newGroupUser.startedPortfolio.portfolioInvested;
-	groupData.portfolio.lastPortfolioSnapshot.portfolioCash += newGroupUser.startedPortfolio.portfolioCash;
-	groupData.portfolio.numberOfExecutedSellTransactions += newGroupUser.startedPortfolio.numberOfExecutedSellTransactions;
-	groupData.portfolio.numberOfExecutedBuyTransactions += newGroupUser.startedPortfolio.numberOfExecutedBuyTransactions;
-	groupData.portfolio.transactionFees += newGroupUser.startedPortfolio.transactionFees;
+export const acceptUser = async (groupId: string, groupData: api.STGroupAllData, userPublicData: api.STUserPublicData): Promise<void> => {
+	increaseGroupPortfolio(groupData, userPublicData.portfolio);
 
 	await admin
 		.firestore()

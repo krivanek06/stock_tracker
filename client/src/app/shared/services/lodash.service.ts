@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import cloneDeep from 'lodash/cloneDeep';
 import flatten from 'lodash/flatten';
+import isEqual from 'lodash/isEqual';
 import takeRight from 'lodash/takeRight';
 import zip from 'lodash/zip';
 
@@ -21,5 +22,9 @@ export class LodashService {
 
 	static zipArrays<T>(...arrays: Array<T[] | null | undefined>): Array<Array<T | undefined>> {
 		return zip(...arrays);
+	}
+
+	static isEqual(value: any, other: any): boolean {
+		return isEqual(value, other);
 	}
 }

@@ -24,7 +24,7 @@ export class SubscriptionWebsocketService {
 		return this.userStorageService.getUser().pipe(
 			filter((x) => !!x),
 			first(),
-			tap((user) => user.holdings.forEach((h) => this.finnhubWebsocket.createSubscribeForSymbol(this.HOLDINGS, h.symbol))),
+			tap((user) => user.holdings.forEach((h) => this.finnhubWebsocket.createSubscribeForSymbol(this.HOLDINGS, h?.symbol))),
 			switchMap(() => this.finnhubWebsocket.getSubscribedSymbolsResult())
 		);
 	}
@@ -35,7 +35,10 @@ export class SubscriptionWebsocketService {
 
 	initSubscriptionWatchlist(): Observable<MarketSymbolResult> {
 		const userWatchlist = this.userStorageService.user.stockWatchlist;
-		const distinctStocks = [...new Set([].concat(...userWatchlist.map((w) => w.summaries.map((x) => x.symbol))))] as string[];
+		const symbols = userWatchlist
+			.map((w) => w?.summaries?.map((x) => x?.symbol as string))
+			.reduce((accumulator, value) => (accumulator || []).concat(value || []), []) as string[];
+		const distinctStocks = [...new Set(...symbols)] as string[];
 
 		distinctStocks.forEach((stock) => this.finnhubWebsocket.createSubscribeForSymbol(this.WATCHLIST, stock));
 
@@ -47,8 +50,10 @@ export class SubscriptionWebsocketService {
 			.fetch()
 			.pipe(map((x) => x.data.queryMarketDailyOverview))
 			.pipe(
-				map((x) => x.stockSuggestions),
-				tap((suggestions) => suggestions.forEach((s) => this.finnhubWebsocket.createSubscribeForSymbol(this.MARKER_SUGGESTIONS, s.summary.symbol))),
+				map((x) => x?.stockSuggestions),
+				tap((suggestions) =>
+					suggestions?.forEach((s) => this.finnhubWebsocket.createSubscribeForSymbol(this.MARKER_SUGGESTIONS, s?.summary?.symbol))
+				),
 				switchMap(() => this.finnhubWebsocket.getSubscribedSymbolsResult())
 			);
 	}

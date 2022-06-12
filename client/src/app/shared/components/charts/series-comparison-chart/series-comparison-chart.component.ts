@@ -11,20 +11,20 @@ NoDataToDisplay(Highcharts);
 	styleUrls: ['./series-comparison-chart.component.scss'],
 })
 export class SeriesComparisonChartComponent implements OnInit {
-	@Input() series: GenericChartSeries[];
+	@Input() series: GenericChartSeries[] = [];
 	@Input() heightPx = 400;
 	@Input() title: string = 'Chart comparison';
 	@Input() additionalStyle: string = '';
 
 	Highcharts: typeof Highcharts = Highcharts;
-	chart;
+	chart: any;
 	updateFromInput = true;
-	chartCallback;
+	chartCallback: any;
 	chartOptions: any = {}; //  : Highcharts.Options
 	constructor() {
 		const self = this;
 
-		this.chartCallback = (chart) => {
+		this.chartCallback = (chart: any) => {
 			self.chart = chart; // new Highcharts.Chart(this.chartOptions); //chart;
 		};
 	}
@@ -61,7 +61,8 @@ export class SeriesComparisonChartComponent implements OnInit {
 				visible: true,
 				labels: {
 					formatter: function () {
-						return (this.value > 0 ? ' + ' : '') + this.value + '%';
+						const value = (this as any).value as number;
+						return (value > 0 ? ' + ' : '') + value + '%';
 					},
 					style: {
 						font: '10px Trebuchet MS, Verdana, sans-serif',
@@ -126,7 +127,9 @@ export class SeriesComparisonChartComponent implements OnInit {
 					color: '#282828',
 				},
 				labelFormatter: function () {
-					return `<span style="color: ${this.color};">${this.name}</span>`;
+					const color = (this as any).color as string;
+					const name = (this as any).name as string;
+					return `<span style="color: ${color};">${name}</span>`;
 				},
 			},
 			plotOptions: {

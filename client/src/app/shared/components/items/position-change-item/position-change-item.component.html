@@ -1,16 +1,16 @@
-<ion-label>
-	<ion-text
+<div class="flex items-center gap-1">
+	<div
+		class="text-lg"
 		[ngClass]="{
-                    'st-price-up': increaseBy > 0,
-                    'st-price-down': increaseBy < 0
-                     }"
-		class="st-flex-row st-font-size-14"
+			'st-price-up': increaseBy > 0,
+			'st-price-down': increaseBy < 0
+			 }"
 	>
 		<span *ngIf="increaseBy > 0">+</span>
-		<ion-text class="st-small-right-space"> {{ applyNumberFormatter ? (increaseBy | numberFormatter) : increaseBy }} </ion-text>
+		<span>{{ applyNumberFormatter ? (increaseBy | numberFormatter) : increaseBy }}</span>
+	</div>
 
-		<!-- positive / negative icon -->
-		<ion-icon *ngIf="increaseBy > 0" name="caret-up"></ion-icon>
-		<ion-icon *ngIf="increaseBy < 0" name="caret-down"></ion-icon>
-	</ion-text>
-</ion-label>
+	<!-- positive / negative icon -->
+	<mat-icon *ngIf="increaseBy > 0" color="accent">trending_up</mat-icon>
+	<mat-icon *ngIf="increaseBy < 0" color="warn">trending_down</mat-icon>
+</div>

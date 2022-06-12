@@ -1,11 +1,16 @@
-<!-- content of component -->
-<div class="wrapper">
-	<ng-content></ng-content>
-</div>
+<div class="default" [style.min-height.px]="loaderHeightPx">
+	<div class="spinners">
+		<!-- placeholder if defined -->
+		<ng-container *ngIf="showPlaceholder">
+			<ng-content select="[placeholder]"></ng-content>
+		</ng-container>
 
-<!-- show spinner -->
-<div class="default">
-	<div class="spinner-container">
-		<ion-spinner color="primary"></ion-spinner>
+		<!-- spinner -->
+		<div *ngIf="!showPlaceholder" class="panel-loading" [ngClass]="{'bg-transparent': transparentBackground}">
+			<mat-spinner [diameter]="80"></mat-spinner>
+		</div>
 	</div>
 </div>
+
+<!-- content of component -->
+<ng-content></ng-content>

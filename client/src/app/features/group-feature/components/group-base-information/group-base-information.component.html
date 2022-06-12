@@ -1,129 +1,159 @@
-<div class="c-section-wrapper">
-	<div class="c-data-section-wrapper">
-		<div class="st-flex ion-margin-end">
-			<div class="st-small-right-space st-small-top-space">
-				<ion-img class="c-group-image" [src]="groupIdentification.imageUrl" appDefaultImg></ion-img>
-			</div>
-			<div>
-				<ion-text class="st-font-size-24 st-font-purple" style="margin-bottom: 8px"> {{ groupIdentification.name }} </ion-text>
-				<div class="st-display-flex-center">
-					<ion-text class="st-font-1 st-small-right-space st-font-size-18">Owner:</ion-text>
-					<ion-avatar class="c-owner-image">
-						<img appDefaultImg [src]="groupIdentification.owner.photoURL" alt="owner's image" />
-					</ion-avatar>
-					<ion-text>{{ groupIdentification.owner.nickName }}</ion-text>
-				</div>
-				<div class="st-display-flex-center">
-					<!-- public / private group -->
-					<div *ngIf="!groupIdentification.isPrivate" class="st-price-up st-display-flex-center">
-						<ion-icon name="lock-open"></ion-icon>
-						<ion-text class="st-font-size-18 st-small-left-space">Public</ion-text>
-					</div>
-					<div *ngIf="groupIdentification.isPrivate" class="st-price-down st-display-flex-center">
-						<ion-icon name="lock-closed"></ion-icon>
-						<ion-text class="st-font-size-18 st-small-left-space">Private</ion-text>
-					</div>
-					<!-- border -->
-					<div class="st-left-space st-left-padding st-border-left-normal">
-						<!-- open / closed group -->
-						<ion-text *ngIf="!groupIdentification.isClosed" class="st-font-size-18 st-price-up">Open</ion-text>
-						<ion-text *ngIf="groupIdentification.isClosed" class="st-font-size-18 st-price-down">Closed</ion-text>
-					</div>
-				</div>
-			</div>
+<!-- buttons -->
+<ion-buttons
+	*ngIf="showAcceptButton || showDeclineButton || showDeleteButton || showLeaveButton || showVisitButton || sendInvitation || removeInvitation || showReloadButton"
+>
+	<ion-button *ngIf="showReloadButton" fill="outline" color="primary" shape="round" (click)="reload()">
+		<ion-icon class="st-icon-title" name="refresh-circle"></ion-icon>
+		Reload
+	</ion-button>
+	<ion-button *ngIf="showAcceptButton" fill="outline" color="success" shape="round" (click)="accept()">Accept</ion-button>
+	<ion-button *ngIf="showDeclineButton" fill="outline" color="danger" shape="round" (click)="decline()">Decline</ion-button>
+	<span *ngIf="showSendInvitationButton" [matTooltip]="isGroupPrivate ? 'Group is private, you can be only invited' : '' ">
+		<ion-button *ngIf="showSendInvitationButton" fill="outline" color="primary" shape="round" (click)="sendInvitation()" [disabled]="isGroupPrivate">
+			Send invitation
+		</ion-button>
+	</span>
+	<ion-button *ngIf="showRemoveInvitationButton" fill="outline" color="danger" shape="round" (click)="removeInvitation()"
+		>Remove invitation</ion-button
+	>
+	<ion-button *ngIf="showEditButton" fill="outline" color="warning" shape="round" (click)="edit()">Edit</ion-button>
+	<ion-button *ngIf="showLeaveButton" fill="outline" color="danger" shape="round" (click)="leave()">Leave</ion-button>
+	<ion-button *ngIf="showDeleteButton" fill="outline" color="danger" shape="round" (click)="delete()">Delete</ion-button>
+	<ion-button *ngIf="showVisitButton" fill="outline" color="warning" shape="round" (click)="visit()">
+		<ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+		Visit
+	</ion-button>
+	<!-- <ion-button *ngIf="showStopWatchingGroup" fill="outline" color="danger" shape="round" (click)="stopWatchingGroup()">Stop watching</ion-button> -->
+</ion-buttons>
+
+<!-- groups data -->
+<div class="flex flex-col gap-6">
+	<div class="flex flex-col xs:flex-row gap-4 xs:gap-8">
+		<div class="flex flex-col gap-4 items-center">
+			<!-- image & follow button -->
+			<button *ngIf="showStopWatchingGroup" mat-button class="g-button-danger-flat c-watch-button" (click)="stopWatchingGroup()">
+				<mat-icon>star</mat-icon>
+				Watching group
+			</button>
+			<button *ngIf="showStartWatchingGroup" mat-button class="g-button-warning-flat c-watch-button" (click)="startWatchingGroup()">
+				<mat-icon>star_border</mat-icon>
+				Watch group
+			</button>
+			<ion-img class="c-group-image" [src]="groupIdentification.imageUrl" appDefaultImg></ion-img>
 		</div>
-
-		<!-- data section -->
-		<div class="st-flex-row-sm-col">
-			<div class="st-flex-col st-sm-border-bottom-with-space st-right-space">
-				<div>
-					<ion-text class="st-font-1 st-small-right-space">Created:</ion-text>
-					<ion-text>{{ groupIdentification.createdDate | date: 'dd.MM.YYYY' }}</ion-text>
-				</div>
-				<div>
-					<ion-text class="st-font-1 st-small-right-space">Start:</ion-text>
-					<ion-text>{{ groupIdentification.startDate | date: 'dd.MM.YYYY' }}</ion-text>
-				</div>
-				<div>
-					<ion-text class="st-font-1 st-small-right-space">End:</ion-text>
-					<ion-text>{{ groupIdentification.isInfinite ? 'Never' : (groupIdentification.endDate | date: 'dd.MM.YYYY') }}</ion-text>
-				</div>
-				<div>
-					<ion-text class="st-font-1 st-small-right-space">Open:</ion-text>
-					<ion-text *ngIf="!groupIdentification.isClosed">{{ groupIdentification.startDate | relativeTime }}</ion-text>
-				</div>
-				<div *ngIf="!groupIdentification.isClosed && !groupIdentification.isInfinite ">
-					<ion-text class="st-font-1 st-small-right-space">Closed in:</ion-text>
-					<ion-text> {{ groupIdentification.endDate | relativeTime: true }} </ion-text>
-				</div>
+		<div class="flex flex-col">
+			<!-- name & info -->
+			<ion-text class="st-font-size-24 st-font-purple" style="margin-bottom: 8px"> {{ groupIdentification.name }} </ion-text>
+			<div class="st-display-flex-center">
+				<ion-text class="st-font-1 st-small-right-space st-font-size-18">Owner:</ion-text>
+				<ion-avatar class="c-owner-image">
+					<img appDefaultImg [src]="groupIdentification.owner.photoURL" alt="owner's image" />
+				</ion-avatar>
+				<ion-text>{{ groupIdentification.owner.nickName }}</ion-text>
 			</div>
-
-			<!-- data section -->
-			<div class="st-flex-col st-sm-border-bottom-with-space">
-				<div>
-					<ion-text class="st-font-1 st-small-right-space">Total transactions:</ion-text>
-					<ion-text>
-						{{ ( groupIdentification.portfolio.numberOfExecutedBuyTransactions + groupIdentification.portfolio.numberOfExecutedSellTransactions) -
-						groupIdentification.startedPortfolio.numberOfExecutedBuyTransactions -
-						groupIdentification.startedPortfolio.numberOfExecutedSellTransactions }}
-					</ion-text>
+			<div class="flex gap-4">
+				<mat-icon color="primary">visibility</mat-icon>
+				<span class="g-color-secondary">Watch by {{ groupIdentification.watchedByUsers }} users </span>
+			</div>
+			<div class="st-display-flex-center">
+				<!-- public / private group -->
+				<div *ngIf="!groupIdentification.isPrivate" class="st-price-up st-display-flex-center">
+					<ion-icon name="lock-open"></ion-icon>
+					<ion-text class="st-font-size-18 st-small-left-space">Public</ion-text>
 				</div>
-				<div>
-					<ion-text class="st-font-1 st-small-right-space">Buy transactions:</ion-text>
-					<ion-text
-						>{{ groupIdentification.portfolio.numberOfExecutedBuyTransactions -
-						groupIdentification.startedPortfolio.numberOfExecutedBuyTransactions}}</ion-text
-					>
+				<div *ngIf="groupIdentification.isPrivate" class="st-price-down st-display-flex-center">
+					<ion-icon name="lock-closed"></ion-icon>
+					<ion-text class="st-font-size-18 st-small-left-space">Private</ion-text>
 				</div>
-				<div>
-					<ion-text class="st-font-1 st-small-right-space">Sell transactions:</ion-text>
-					<ion-text
-						>{{ groupIdentification.portfolio.numberOfExecutedSellTransactions -
-						groupIdentification.startedPortfolio.numberOfExecutedSellTransactions}}</ion-text
-					>
-				</div>
-				<div>
-					<ion-text class="st-font-1 st-small-right-space">Members:</ion-text>
-					<ion-text>{{ groupIdentification.numberOfMembers }}</ion-text>
-				</div>
-				<div>
-					<ion-text class="st-font-1 st-small-right-space">Last update:</ion-text>
-					<ion-text>{{ groupIdentification.lastUpdateDate | date: 'dd.MM.YYYY' }}</ion-text>
+				<!-- border -->
+				<div class="st-left-space st-left-padding st-border-left-normal">
+					<!-- open / closed group -->
+					<ion-text *ngIf="!groupIdentification.isClosed" class="st-font-size-18 st-price-up">Open</ion-text>
+					<ion-text *ngIf="groupIdentification.isClosed" class="st-font-size-18 st-price-down">Closed</ion-text>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- buttons -->
-	<ion-buttons
-		*ngIf="showAcceptButton || showDeclineButton || showDeleteButton || showLeaveButton || showVisitButton || sendInvitation || removeInvitation || showReloadButton"
-	>
-		<ion-button *ngIf="showReloadButton" fill="outline" color="primary" shape="round" (click)="reload()">
-			<ion-icon class="st-icon-title" name="refresh-circle"></ion-icon>
-			Reload
-		</ion-button>
-		<ion-button *ngIf="showAcceptButton" fill="outline" color="success" shape="round" (click)="accept()">Accept</ion-button>
-		<ion-button *ngIf="showDeclineButton" fill="outline" color="danger" shape="round" (click)="decline()">Decline</ion-button>
-		<span *ngIf="showSendInvitationButton" [matTooltip]="isGroupPrivate ? 'Group is private, you can be only invited' : null ">
-			<ion-button
-				*ngIf="showSendInvitationButton"
-				fill="outline"
-				color="primary"
-				shape="round"
-				(click)="sendInvitation()"
-				[disabled]="isGroupPrivate"
-			>
-				Send invitation
-			</ion-button>
-		</span>
-		<ion-button *ngIf="showRemoveInvitationButton" fill="outline" color="danger" shape="round" (click)="removeInvitation()"
-			>Remove invitation</ion-button
-		>
-		<ion-button *ngIf="showEditButton" fill="outline" color="warning" shape="round" (click)="edit()">Edit</ion-button>
-		<ion-button *ngIf="showLeaveButton" fill="outline" color="danger" shape="round" (click)="leave()">Leave</ion-button>
-		<ion-button *ngIf="showDeleteButton" fill="outline" color="danger" shape="round" (click)="delete()">Delete</ion-button>
-		<ion-button *ngIf="showVisitButton" fill="outline" color="warning" shape="round" (click)="visit()">
-			<ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
-			Visit
-		</ion-button>
-	</ion-buttons>
+
+	<!-- data section -->
+	<div class="flex flex-wrap gap-5">
+		<!-- data section -->
+		<div>
+			<div>
+				<ion-text class="st-font-1 st-small-right-space">Created:</ion-text>
+				<ion-text>{{ groupIdentification.createdDate | date: 'dd.MM.YYYY' }}</ion-text>
+			</div>
+			<div>
+				<ion-text class="st-font-1 st-small-right-space">Start:</ion-text>
+				<ion-text>{{ groupIdentification.startDate | date: 'dd.MM.YYYY' }}</ion-text>
+			</div>
+			<div>
+				<ion-text class="st-font-1 st-small-right-space">End:</ion-text>
+				<ion-text>{{ groupIdentification.isInfinite ? 'Never' : (groupIdentification.endDate | date: 'dd.MM.YYYY') }}</ion-text>
+			</div>
+			<div>
+				<ion-text class="st-font-1 st-small-right-space">Open:</ion-text>
+				<ion-text *ngIf="!groupIdentification.isClosed">{{ groupIdentification.startDate | relativeTime }}</ion-text>
+			</div>
+			<div *ngIf="!groupIdentification.isClosed && !groupIdentification.isInfinite ">
+				<ion-text class="st-font-1 st-small-right-space">Closed in:</ion-text>
+				<ion-text> {{ groupIdentification?.endDate | relativeTime: true }} </ion-text>
+			</div>
+		</div>
+
+		<!-- data section -->
+		<div>
+			<div>
+				<ion-text class="st-font-1 st-small-right-space">Members:</ion-text>
+				<ion-text>{{ groupIdentification.numberOfMembers }}</ion-text>
+			</div>
+			<!-- portfolio state -->
+			<div class="flex items-center gap-2">
+				<span class="st-font-2 text-base">Portfolio:</span>
+				<span class="st-font-0 text-base"> {{ groupIdentification.portfolio.lastPortfolioBalance | currency }} </span>
+			</div>
+			<!-- portfolio change -->
+			<div class="flex items-center gap-2">
+				<span class="st-font-2 text-base">Change:</span>
+				<app-price-change-item
+					pricePosition="left"
+					[isPercent]="true"
+					[showDollarSignOnPrice]="true"
+					[priceChange]="portfolioChange?.portfolioIncreasePrct"
+					[price]="portfolioChange?.portfolioIncreaseNumber"
+				>
+				</app-price-change-item>
+			</div>
+		</div>
+
+		<!-- data section -->
+		<div>
+			<div>
+				<ion-text class="st-font-1 st-small-right-space">Total transactions:</ion-text>
+				<ion-text>
+					{{ ( groupIdentification.portfolio.numberOfExecutedBuyTransactions + groupIdentification.portfolio.numberOfExecutedSellTransactions) -
+					groupIdentification.startedPortfolio.numberOfExecutedBuyTransactions - groupIdentification.startedPortfolio.numberOfExecutedSellTransactions
+					}}
+				</ion-text>
+			</div>
+			<div>
+				<ion-text class="st-font-1 st-small-right-space">Buy transactions:</ion-text>
+				<ion-text
+					>{{ groupIdentification.portfolio.numberOfExecutedBuyTransactions -
+					groupIdentification.startedPortfolio.numberOfExecutedBuyTransactions}}</ion-text
+				>
+			</div>
+			<div>
+				<ion-text class="st-font-1 st-small-right-space">Sell transactions:</ion-text>
+				<ion-text
+					>{{ groupIdentification.portfolio.numberOfExecutedSellTransactions -
+					groupIdentification.startedPortfolio.numberOfExecutedSellTransactions}}</ion-text
+				>
+			</div>
+			<div *ngIf="groupIdentification?.lastUpdateDate">
+				<ion-text class="st-font-1 st-small-right-space">Last update:</ion-text>
+				<ion-text>{{ groupIdentification?.lastUpdateDate | date: 'dd.MM.YYYY' }}</ion-text>
+			</div>
+		</div>
+	</div>
 </div>

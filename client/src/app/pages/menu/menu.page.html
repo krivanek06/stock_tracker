@@ -1,122 +1,28 @@
-<ion-split-pane contentId="main-content" when="xl">
-	<ion-menu
-		menuId="main"
-		contentId="main-content"
-		style="border: none"
-		type="overlay"
-		(ionDidOpen)="applyOverlay(true)"
-		(ionDidClose)="applyOverlay(false)"
-		(ionWillOpen)="applyOverlay(true)"
-		(ionWillClose)="applyOverlay(false)"
+<mat-drawer-container autosize>
+	<mat-drawer
+		[mode]="!!(closeScreen$! | async) ? 'over' : 'side' "
+		[opened]="isOpen$ | async"
+		class="c-required-width"
+		role="navigation"
+		(closed)="toggleMatDrawerExpandedView()"
 	>
-		<ion-content>
-			<ion-item>
-				<ion-label class="ion-text-end">
-					<ion-button class="ion-hide-xl-up remove-color" fill="clear" (click)="dismissMenu()">
-						<ion-icon name="close-outline" class="remove-color"></ion-icon>
-						Close
-					</ion-button>
-				</ion-label>
-			</ion-item>
-			<!-- avatar -->
-			<div class="navigation-avatar">
-				<!-- logged in user -->
-				<ng-container *ngIf="user$ | async as user; else noUser">
-					<ion-avatar>
-						<ion-img [src]="user.photoURL"></ion-img>
-					</ion-avatar>
-					<ion-label class="navigation-avatar-name st-font-1"> {{ user.userPrivateData.displayName }} </ion-label>
-					<ion-label class="navigation-avatar-name st-font-4 st-font-size-12"> ({{ user.nickName }}) </ion-label>
-				</ng-container>
+		<app-side-navigation
+			[user]="user$ | async"
+			[authenticating]="authenticating$ | async"
+			(clickedNavigationEmitter)="changeHeaderInfo($event)"
+			(closeEmitter)="toggleMatDrawerExpandedView()"
+		></app-side-navigation>
+	</mat-drawer>
 
-				<!-- no logged in user -->
-				<ng-template #noUser>
-					<ion-thumbnail>
-						<ion-skeleton-text [animated]="authenticating$ | async"></ion-skeleton-text>
-					</ion-thumbnail>
-					<ion-label>
-						<ion-skeleton-text [animated]="authenticating$ | async" style="width: 80%"></ion-skeleton-text>
-					</ion-label>
-					<ion-label>
-						<ion-skeleton-text [animated]="authenticating$ | async" style="width: 60%"></ion-skeleton-text>
-					</ion-label>
-				</ng-template>
+	<mat-drawer-content>
+		<div class="content">
+			<app-menu-header (showMenuEmitter)="toggleMatDrawerExpandedView()" [showMenuButton]="(isOpen$ | async) === false"></app-menu-header>
+			<div *ngIf="activePage" class="py-4 mb-2 flex items-center gap-4">
+				<mat-icon color="primary" class="c-page-icon">{{activePage.icon}}</mat-icon>
+				<span class="g-color-white text-3xl">{{activePage.title | replaceChar: '-': ' ' }}</span>
 			</div>
 
-			<!-- navigation main 		[routerLink]="[p.url]" routerDirection="root" -->
-			<ion-list>
-				<ion-text class="page-section">Main section</ion-text>
-				<ion-menu-toggle auto-hide="false" *ngFor="let p of mainPages">
-					<ng-container *ngIf="!p.hidden">
-						<div *ngIf="selectedNavigation?.title === p.title" class="navigation-rectangle-selected"></div>
-						<ion-item
-							button
-							(click)="clickedRouter(p)"
-							[disabled]="p.disabled"
-							class="navigation"
-							lines="none"
-							detail="false"
-							[class.selected]="selectedNavigation?.title === p.title"
-						>
-							<ion-icon slot="start" [ios]="p.icon + '-outline'" [name]="p.icon"></ion-icon>
-							<ion-label class="ion-margin-start">{{ p.title }}</ion-label>
-						</ion-item>
-					</ng-container>
-				</ion-menu-toggle>
-			</ion-list>
-
-			<!-- navigation other -->
-			<ion-list>
-				<ion-text class="page-section">Other</ion-text>
-				<ion-menu-toggle auto-hide="false" *ngFor="let p of otherPages">
-					<ng-container *ngIf="!p.hidden">
-						<div *ngIf="selectedNavigation?.title === p.title" class="navigation-rectangle-selected"></div>
-						<ion-item
-							button
-							(click)="clickedRouter(p)"
-							[ngClass]="{
-                                'active-finhub-api-item-highlight ': p?.highlight
-                            }"
-							[matTooltip]="p?.highlight ? p.highlightText : null"
-							class="navigation"
-							[disabled]="p.disabled"
-							lines="none"
-							detail="false"
-							[class.selected]="selectedNavigation?.title === p.title"
-						>
-							<ion-icon slot="start" [ios]="p.icon + '-outline'" [name]="p.icon"></ion-icon>
-							<ion-label class="ion-margin-start">{{ p.title }}</ion-label>
-						</ion-item>
-					</ng-container>
-				</ion-menu-toggle>
-
-				<!-- logout -->
-				<ion-menu-toggle auto-hide="false" *ngIf="user$ | async; else loginButton">
-					<ion-item (click)="logout()" class="navigation" routerLink="/menu/market">
-						<ion-icon name="log-out-outline"></ion-icon>
-						<ion-label class="ion-margin-start">LogOut</ion-label>
-					</ion-item>
-				</ion-menu-toggle>
-
-				<!-- login -->
-				<ng-template #loginButton>
-					<ion-menu-toggle auto-hide="false">
-						<ion-item button (click)="showLoginModal()" class="navigation">
-							<ion-icon name="log-in-outline"></ion-icon>
-							<ion-label class="ion-margin-start">LogIn</ion-label>
-						</ion-item>
-					</ion-menu-toggle>
-				</ng-template>
-			</ion-list>
-
-			<!-- version -->
-			<ion-text class="c-version">Version: {{ version }}</ion-text>
-		</ion-content>
-	</ion-menu>
-
-	<!-- overlay -->
-	<div *ngIf="showOverlay" class="custom-overflow-div" (click)="closeOverlay()"></div>
-
-	<!-- routing -->
-	<ion-router-outlet class="ion-page" id="main-content" [ngClass]="{'custom-overlay': showOverlay}"> </ion-router-outlet>
-</ion-split-pane>
+			<router-outlet></router-outlet>
+		</div>
+	</mat-drawer-content>
+</mat-drawer-container>

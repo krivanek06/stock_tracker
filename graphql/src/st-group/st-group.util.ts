@@ -2,9 +2,9 @@ import * as api from 'stock-tracker-common-interfaces';
 import { getCurrentIOSDate } from '../st-shared/st-shared.functions';
 import { convertSTUserPublicDataToSTUserIndentification } from '../st-user/utils/user.convertor';
 
-export const initGroupFromInput = (groupInput: api.STGroupAllDataInput): api.STGroupAllData => {
+export const initGroupFromInput = (groupId: string, groupInput: api.STGroupAllDataInput): api.STGroupAllData => {
 	const newGroup: api.STGroupAllData = {
-		...createEmptySTGroupAllData(),
+		...createEmptySTGroupAllData(groupId),
 		name: groupInput.name,
 		description: groupInput.description,
 		imagePath: groupInput.imagePath,
@@ -18,10 +18,27 @@ export const initGroupFromInput = (groupInput: api.STGroupAllDataInput): api.STG
 	return newGroup;
 };
 
-export const createEmptySTGroupAllData = (): api.STGroupAllData => {
+export const createEmptySTGroupAllData = (groupId: string): api.STGroupAllData => {
 	const now = getCurrentIOSDate();
 	const group: api.STGroupAllData = {
+		id: groupId,
+		rank: {
+			highestPortfolio: null,
+		},
 		portfolio: {
+			lastPortfolioBalance: 0,
+			portfolioChange: {
+				from_beginning_change: null,
+				day_1_change: null,
+				week_1_change: null,
+				week_2_change: null,
+				week_3_change: null,
+				month_1_change: null,
+				month_2_change: null,
+				month_3_change: null,
+				month_6_change: null,
+				year_1_change: null,
+			},
 			lastPortfolioSnapshot: {
 				portfolioCash: 0,
 				portfolioInvested: 0,
@@ -41,6 +58,7 @@ export const createEmptySTGroupAllData = (): api.STGroupAllData => {
 			transactionFees: 0,
 		},
 		startedPortfolio: {
+			lastPortfolioBalance: 0,
 			portfolioCash: 0,
 			portfolioInvested: 0,
 			numberOfExecutedBuyTransactions: 0,
@@ -51,8 +69,8 @@ export const createEmptySTGroupAllData = (): api.STGroupAllData => {
 		createdDate: now,
 		lastUpdateDate: now,
 		lastEditedDate: now,
-		currentAchievedRank: null,
 		description: null,
+		watchedByUsers: 0,
 		lastTransactions: [],
 		managers: [],
 		name: null,
@@ -68,12 +86,14 @@ export const createEmptySTGroupAllData = (): api.STGroupAllData => {
 		numberOfMembers: 0,
 		numberOfInvitationReceived: 0,
 		numberOfInvitationSent: 0,
+		topMembers: [],
 	};
 	return group;
 };
 
-export const createEmptySTGroupHistoricalData = (): api.STGroupHistoricalData => {
+export const createEmptySTGroupHistoricalData = (groupId: string): api.STGroupHistoricalData => {
 	return {
+		id: groupId,
 		bestAchievedRanks: [],
 		groupLogs: [],
 		portfolioSnapshots: [],
@@ -85,16 +105,10 @@ export const createSTGroupUser = (userPublic: api.STUserPublicData): api.STGroup
 	const groupUser: api.STGroupUser = {
 		...convertSTUserPublicDataToSTUserIndentification(userPublic),
 		portfolio: {
-			lastPortfolioSnapshot: userPublic.portfolio.lastPortfolioSnapshot,
-			lastTransactionSnapshot: userPublic.portfolio.lastTransactionSnapshot,
-			numberOfExecutedBuyTransactions: userPublic.portfolio.numberOfExecutedBuyTransactions,
-			numberOfExecutedSellTransactions: userPublic.portfolio.numberOfExecutedSellTransactions,
-			lastPortfolioIncreaseNumber: userPublic.portfolio.lastPortfolioIncreaseNumber,
-			lastPortfolioIncreasePrct: userPublic.portfolio.lastPortfolioIncreasePrct,
-			portfolioCash: userPublic.portfolio.portfolioCash,
-			transactionFees: userPublic.portfolio.transactionFees,
+			...userPublic.portfolio,
 		},
 		startedPortfolio: {
+			lastPortfolioBalance: userPublic.portfolio.lastPortfolioBalance,
 			numberOfExecutedSellTransactions: userPublic.portfolio.numberOfExecutedSellTransactions,
 			numberOfExecutedBuyTransactions: userPublic.portfolio.numberOfExecutedBuyTransactions,
 			portfolioCash: userPublic.portfolio.lastPortfolioSnapshot.portfolioCash,
@@ -117,4 +131,38 @@ export const createSTGroupUser = (userPublic: api.STUserPublicData): api.STGroup
 	}
 
 	return groupUser;
+};
+
+export const increaseGroupPortfolio = (group: api.STGroupAllData, addedPortfolio: api.STPortfolioWrapper) => {
+	group.startedPortfolio.portfolioCash += addedPortfolio.lastPortfolioSnapshot?.portfolioCash ?? 0;
+	group.startedPortfolio.portfolioInvested += addedPortfolio.lastPortfolioSnapshot?.portfolioInvested ?? 0;
+	group.startedPortfolio.lastPortfolioBalance += addedPortfolio.lastPortfolioBalance ?? 0;
+	group.startedPortfolio.numberOfExecutedSellTransactions += addedPortfolio.numberOfExecutedSellTransactions;
+	group.startedPortfolio.numberOfExecutedBuyTransactions += addedPortfolio.numberOfExecutedBuyTransactions;
+	group.startedPortfolio.transactionFees += addedPortfolio.transactionFees;
+
+	group.portfolio.lastPortfolioSnapshot.portfolioCash += addedPortfolio.lastPortfolioSnapshot.portfolioCash;
+	group.portfolio.lastPortfolioSnapshot.portfolioInvested += addedPortfolio.lastPortfolioSnapshot.portfolioInvested;
+	group.portfolio.lastPortfolioBalance += addedPortfolio.lastPortfolioBalance;
+	group.portfolio.numberOfExecutedSellTransactions += addedPortfolio.numberOfExecutedSellTransactions;
+	group.portfolio.numberOfExecutedBuyTransactions += addedPortfolio.numberOfExecutedBuyTransactions;
+	group.portfolio.transactionFees += addedPortfolio.transactionFees;
+	group.numberOfMembers += 1;
+};
+
+export const decreaseGroupPortfolio = (group: api.STGroupAllData, addedPortfolio: api.STPortfolioWrapper) => {
+	group.startedPortfolio.portfolioCash -= addedPortfolio.lastPortfolioSnapshot?.portfolioCash ?? 0;
+	group.startedPortfolio.portfolioInvested -= addedPortfolio.lastPortfolioSnapshot?.portfolioInvested ?? 0;
+	group.startedPortfolio.lastPortfolioBalance -= addedPortfolio.lastPortfolioBalance ?? 0;
+	group.startedPortfolio.numberOfExecutedSellTransactions -= addedPortfolio.numberOfExecutedSellTransactions;
+	group.startedPortfolio.numberOfExecutedBuyTransactions -= addedPortfolio.numberOfExecutedBuyTransactions;
+	group.startedPortfolio.transactionFees -= addedPortfolio.transactionFees;
+
+	group.portfolio.lastPortfolioSnapshot.portfolioCash -= addedPortfolio.lastPortfolioSnapshot.portfolioCash;
+	group.portfolio.lastPortfolioSnapshot.portfolioInvested -= addedPortfolio.lastPortfolioSnapshot.portfolioInvested;
+	group.portfolio.lastPortfolioBalance -= addedPortfolio.lastPortfolioBalance;
+	group.portfolio.numberOfExecutedSellTransactions -= addedPortfolio.numberOfExecutedSellTransactions;
+	group.portfolio.numberOfExecutedBuyTransactions -= addedPortfolio.numberOfExecutedBuyTransactions;
+	group.portfolio.transactionFees -= addedPortfolio.transactionFees;
+	group.numberOfMembers -= 1;
 };

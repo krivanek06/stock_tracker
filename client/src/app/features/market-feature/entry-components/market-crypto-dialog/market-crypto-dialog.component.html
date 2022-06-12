@@ -1,0 +1,20 @@
+<mat-dialog-content>
+	<mat-toolbar class="justify-end">
+		<button mat-button color="warn" (click)="closeDialog()">
+			<mat-icon>close</mat-icon>
+			Close
+		</button>
+	</mat-toolbar>
+
+	<!-- chart -->
+	<div class="p-4">
+		<app-financial-chart-container
+			[isCrypto]="true"
+			[logoUrl]="data.logoUrl"
+			[name]="data.symbolIdentification.name"
+			[height]="410"
+			[symbol]="data.symbolIdentification.symbol"
+		>
+		</app-financial-chart-container>
+	</div>
+</mat-dialog-content>

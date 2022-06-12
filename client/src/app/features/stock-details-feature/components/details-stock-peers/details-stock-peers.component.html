@@ -1,42 +1,60 @@
-<ion-list>
-	<!-- table header -->
-	<ion-item class="st-font-1-bold st-hide-xs-down">
-		<ion-label>Symbol</ion-label>
-		<ion-label>Price</ion-label>
-		<ion-label>Market cap.</ion-label>
-		<ion-label class="ion-hide-sm-down">PE ratio</ion-label>
-		<ion-label class="ion-hide-md-down">52 week range</ion-label>
-	</ion-item>
-
-	<!-- table body-->
-	<ion-item (click)="itemClicked(peer)" *ngFor="let peer of sectorPeers" button class="st-data-item-wrapper">
-		<!-- logo + symbol name -->
-		<ion-label class="st-display-flex-center st-font-4">
-			<ion-img [src]="peer.image" appDefaultImg class="st-symbol-image"></ion-img>
-			<ion-text>{{ peer.symbol }}</ion-text>
-		</ion-label>
-
-		<!-- price -->
-		<ion-label>
-			<app-price-change-item
-				[applyEndOnXsDown]="true"
-				[isPercent]="false"
-				[priceChange]="peer.changesPercentage"
-				[price]="peer.price"
-				pricePosition="left"
-			>
-			</app-price-change-item>
-		</ion-label>
-
-		<!-- market cap -->
-		<ion-label class="st-hide-xs-down">{{ peer.marketCap | numberFormatter }}</ion-label>
-		<!-- PE  -->
-		<ion-label class="ion-hide-sm-down">{{ peer.pe ? (peer.pe | number: '1.2-2') : 'N/A' }}</ion-label>
-		<!-- 52 week change -->
-		<ion-label class="ion-hide-md-down">
-			<div style="width: 90%">
-				<app-table-high-low-range [max]="peer.yearHigh" [min]="peer.yearLow" [value]="peer.price"> </app-table-high-low-range>
+<table mat-table [dataSource]="dataSource" class="w-full g-clickable-table">
+	<ng-container matColumnDef="symbol">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Symbol</th>
+		<td mat-cell *matCellDef="let row">
+			<div class="flex items-center">
+				<img [src]="row.image" appDefaultImg class="st-symbol-image" />
+				<div class="flex flex-col">
+					<span class="g-color-white">{{ row.symbol }}</span>
+					<span class="table-cell sm:hidden text-sm text-gray-500">{{ row.name }}</span>
+				</div>
 			</div>
-		</ion-label>
-	</ion-item>
-</ion-list>
+		</td>
+	</ng-container>
+
+	<!-- price -->
+	<ng-container matColumnDef="price">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Price</th>
+		<td mat-cell *matCellDef="let row">
+			<div class="flex flex-col">
+				<span [@marketValueChange]="row.price" class="text-right sm:text-left text-gray-200 sm:text-gray-400"> {{ row.price | currency }} </span>
+				<div class="flex justify-end sm:justify-start">
+					<app-price-compare-item class="table-cell sm:hidden" [compareToPrice]="row.previousClose" [currentPrice]="row.price" pricePosition="right">
+					</app-price-compare-item>
+				</div>
+			</div>
+		</td>
+	</ng-container>
+
+	<!-- market cap -->
+	<ng-container matColumnDef="marketCap">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Market cap.</th>
+		<td mat-cell *matCellDef="let row" class="hidden sm:table-cell">{{ row.marketCap | numberFormatter }}</td>
+	</ng-container>
+
+	<!-- PE -->
+	<ng-container matColumnDef="peRatio">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">PE ratio</th>
+		<td mat-cell *matCellDef="let row" class="hidden sm:table-cell">{{ row.pe ? (row.pe | number: '1.2-2') : 'N/A' }}</td>
+	</ng-container>
+
+	<!-- 52 week -->
+	<ng-container matColumnDef="52WeekRange">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">52 week range</th>
+		<td mat-cell *matCellDef="let row" class="hidden sm:table-cell">
+			<div style="width: 90%">
+				<app-table-high-low-range [max]="row.yearHigh" [min]="row.yearLow" [value]="row.price"> </app-table-high-low-range>
+			</div>
+		</td>
+	</ng-container>
+
+	<tr mat-header-row *matHeaderRowDef="displayedColumns" class="hidden sm:contents"></tr>
+	<tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="itemClicked(row)"></tr>
+
+	<!-- Row shown when there is no matching data. -->
+	<tr class="mat-row" *matNoDataRow>
+		<td class="mat-cell" colspan="7">
+			<div class="min-h-[200px] g-color-secondary grid place-content-center">No data has been found</div>
+		</td>
+	</tr>
+</table>

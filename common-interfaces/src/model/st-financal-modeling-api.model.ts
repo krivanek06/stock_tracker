@@ -468,45 +468,45 @@ export interface STFMExchangeIndustryPE {
 }
 
 export interface STFMCalendarEarnings {
-  date:             Date;
-  symbol:           string;
-  eps:              number;
-  epsEstimated:     number;
-  time:             string;
-  revenue:          number;
+  date: Date;
+  symbol: string;
+  eps: number;
+  epsEstimated: number;
+  time: string;
+  revenue: number;
   revenueEstimated: number;
 }
 
 export interface STFMCalendarIpo {
-  date:       Date;
-  company:    string;
-  symbol:     string;
-  exchange:   string;
-  actions:    string;
-  shares:     number;
+  date: Date;
+  company: string;
+  symbol: string;
+  exchange: string;
+  actions: string;
+  shares: number;
   priceRange: string;
-  marketCap:  number;
+  marketCap: number;
 }
 
 export interface STFMCalendarEconomic {
-  event:            string;
-  date:             Date;
-  country:          string;
-  actual:           number;
-  previous:         number;
-  change:           number;
+  event: string;
+  date: Date;
+  country: string;
+  actual: number;
+  previous: number;
+  change: number;
   changePercentage: number;
-  estimate:         number;
+  estimate: number;
 }
 
 export interface STFMEtfHolder {
-  asset:            string;
-  sharesNumber:     number;
+  asset: string;
+  sharesNumber: number;
   weightPercentage: number;
 }
 
 export interface STFMEtfSectorWeight {
-  sector:           string;
+  sector: string;
   weightPercentage: string;
 }
 
@@ -516,7 +516,7 @@ export interface STFMEtfCountryWeight {
 }
 
 export interface STFMSectorPerformance {
-  sector:            string;
+  sector: string;
   changesPercentage: string;
 }
 
@@ -565,4 +565,177 @@ export interface STFMSymbolearch {
   currency: string;
   stockExchange: string;
   exchangeShortName: string;
+}
+
+export interface STFMEnterpriseValue {
+  symbol: string;
+  date: string;
+  stockPrice: number;
+  numberOfShares: number;
+  marketCapitalization: number;
+  minusCashAndCashEquivalents: number;
+  addTotalDebt: number;
+  enterpriseValue: number;
+}
+
+export interface STFMKeyMetrics {
+  symbol: string;
+  date: string;
+  period: string;
+  revenuePerShare?: number;
+  netIncomePerShare?: number;
+  operatingCashFlowPerShare?: number;
+  freeCashFlowPerShare?: number;
+  cashPerShare?: number;
+  bookValuePerShare?: number;
+  tangibleBookValuePerShare?: number;
+  shareholdersEquityPerShare?: number;
+  interestDebtPerShare?: number;
+  marketCap?: number;
+  enterpriseValue?: number;
+  peRatio?: number;
+  priceToSalesRatio?: number;
+  pocfratio?: number;
+  pfcfRatio?: number;
+  pbRatio?: number;
+  ptbRatio?: number;
+  evToSales?: number;
+  enterpriseValueOverEBITDA?: number;
+  evToOperatingCashFlow?: number;
+  evToFreeCashFlow?: number;
+  earningsYield?: number;
+  freeCashFlowYield?: number;
+  debtToEquity?: number;
+  debtToAssets?: number;
+  netDebtToEBITDA?: number;
+  currentRatio?: number;
+  interestCoverage?: number;
+  incomeQuality?: number;
+  dividendYield?: number;
+  payoutRatio?: number;
+  salesGeneralAndAdministrativeToRevenue?: number;
+  researchAndDdevelopementToRevenue?: number;
+  intangiblesToTotalAssets?: number;
+  capexToOperatingCashFlow?: number;
+  capexToRevenue?: number;
+  capexToDepreciation?: number;
+  stockBasedCompensationToRevenue?: number;
+  grahamNumber?: number;
+  roic?: number;
+  returnOnTangibleAssets?: number;
+  grahamNetNet?: number;
+  workingCapital?: number;
+  tangibleAssetValue?: number;
+  netCurrentAssetValue?: number;
+  investedCapital?: number;
+  averageReceivables?: number;
+  averagePayables?: number;
+  averageInventory?: number;
+  daysSalesOutstanding: number;
+  daysPayablesOutstanding?: number;
+  daysOfInventoryOnHand?: number;
+  receivablesTurnover?: number;
+  payablesTurnover?: number;
+  inventoryTurnover?: number;
+  roe?: number;
+  capexPerShare?: number;
+}
+
+export interface STFMFinancialGrowth {
+  symbol: string;
+  date: string;
+  period: string;
+  revenueGrowth: number;
+  grossProfitGrowth: number;
+  ebitgrowth: number;
+  operatingIncomeGrowth: number;
+  netIncomeGrowth: number;
+  epsgrowth: number;
+  epsdilutedGrowth: number;
+  weightedAverageSharesGrowth: number;
+  weightedAverageSharesDilutedGrowth: number;
+  dividendsperShareGrowth: number;
+  operatingCashFlowGrowth: number;
+  freeCashFlowGrowth: number;
+  tenYRevenueGrowthPerShare: number;
+  fiveYRevenueGrowthPerShare: number;
+  threeYRevenueGrowthPerShare: number;
+  tenYOperatingCFGrowthPerShare: number;
+  fiveYOperatingCFGrowthPerShare: number;
+  threeYOperatingCFGrowthPerShare: number;
+  tenYNetIncomeGrowthPerShare: number;
+  fiveYNetIncomeGrowthPerShare: number;
+  threeYNetIncomeGrowthPerShare: number;
+  tenYShareholdersEquityGrowthPerShare: number;
+  fiveYShareholdersEquityGrowthPerShare: number;
+  threeYShareholdersEquityGrowthPerShare: number;
+  tenYDividendperShareGrowthPerShare: number;
+  fiveYDividendperShareGrowthPerShare: number;
+  threeYDividendperShareGrowthPerShare: number;
+  receivablesGrowth: number;
+  inventoryGrowth: number;
+  assetGrowth: number;
+  bookValueperShareGrowth: number;
+  debtGrowth: number;
+  rdexpenseGrowth: number;
+  sgaexpensesGrowth: number;
+}
+export interface STFMRatios {
+  symbol: string;
+  date: string;
+  period: string;
+  currentRatio?: number;
+  quickRatio?: number;
+  cashRatio?: number;
+  daysOfSalesOutstanding?: number;
+  daysOfInventoryOutstanding?: number;
+  operatingCycle?: number;
+  daysOfPayablesOutstanding?: number;
+  cashConversionCycle?: number;
+  grossProfitMargin?: number;
+  operatingProfitMargin?: number;
+  pretaxProfitMargin?: number;
+  netProfitMargin?: number;
+  effectiveTaxRate?: number;
+  returnOnAssets?: number;
+  returnOnEquity?: number;
+  returnOnCapitalEmployed?: number;
+  netIncomePerEBT?: number;
+  ebtPerEbit?: number;
+  ebitPerRevenue?: number;
+  debtRatio?: number;
+  debtEquityRatio?: number;
+  longTermDebtToCapitalization?: number;
+  totalDebtToCapitalization?: number;
+  interestCoverage?: number;
+  cashFlowToDebtRatio?: number;
+  companyEquityMultiplier?: number;
+  receivablesTurnover?: number;
+  payablesTurnover?: number;
+  inventoryTurnover?: number;
+  fixedAssetTurnover?: number;
+  assetTurnover?: number;
+  operatingCashFlowPerShare?: number;
+  freeCashFlowPerShare?: number;
+  cashPerShare?: number;
+  payoutRatio?: number;
+  operatingCashFlowSalesRatio?: number;
+  freeCashFlowOperatingCashFlowRatio?: number;
+  cashFlowCoverageRatios?: number;
+  shortTermCoverageRatios?: number;
+  capitalExpenditureCoverageRatio?: number;
+  dividendPaidAndCapexCoverageRatio?: number;
+  dividendPayoutRatio?: number;
+  priceBookValueRatio?: number;
+  priceToBookRatio?: number;
+  priceToSalesRatio?: number;
+  priceEarningsRatio?: number;
+  priceToFreeCashFlowsRatio?: number;
+  priceToOperatingCashFlowsRatio?: number;
+  priceCashFlowRatio?: number;
+  priceEarningsToGrowthRatio?: number;
+  priceSalesRatio?: number;
+  dividendYield?: number;
+  enterpriseValueMultiple?: number;
+  priceFairValue?: number;
 }

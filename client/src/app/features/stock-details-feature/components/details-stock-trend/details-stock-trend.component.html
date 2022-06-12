@@ -1,16 +1,34 @@
-<ion-item>
-	<!-- Short term -->
-	<ion-label>
-		<app-trend-item [trend]="trend.shortTermTrend" [trendTitle]="'2W - 6W'"> </app-trend-item>
-	</ion-label>
+<div class="p-4 flex justify-between">
+	<!-- short -->
+	<div>
+		<div class="text-gray-200">Short term</div>
+		<div class="flex gap-2">
+			<span class="text-gray-500">2W - 6W</span>
+			<ng-container *ngTemplateOutlet="trendView; context: {$implicit: trend.shortTermTrend}"></ng-container>
+		</div>
+	</div>
 
-	<!-- Mid term -->
-	<ion-label>
-		<app-trend-item [trend]="trend.midTermTrend" [trendTitle]="'6W - 9M'" [additionalClasses]="'ion-justify-content-center'"> </app-trend-item>
-	</ion-label>
+	<!-- mid -->
+	<div>
+		<div class="text-gray-200">Mid term</div>
+		<div class="flex gap-2">
+			<span class="text-gray-500">6W - 9M</span>
+			<ng-container *ngTemplateOutlet="trendView; context: {$implicit: trend.midTermTrend}"></ng-container>
+		</div>
+	</div>
 
-	<!-- Long term -->
-	<ion-label>
-		<app-trend-item [trend]="trend.midTermTrend" [trendTitle]="'9M+'" [additionalClasses]="'ion-justify-content-end'"> </app-trend-item>
-	</ion-label>
-</ion-item>
+	<!-- long -->
+	<div>
+		<div class="text-gray-200">Long term</div>
+		<div class="flex gap-2">
+			<span class="text-gray-500">9M+</span>
+			<ng-container *ngTemplateOutlet="trendView; context: {$implicit: trend.longTermTrend}"></ng-container>
+		</div>
+	</div>
+</div>
+
+<ng-template #trendView let-trend>
+	<mat-icon *ngIf="trend === 'UP'" color="accent">trending_up</mat-icon>
+	<mat-icon *ngIf="trend === 'NEUTRAL'" class="g-color-secondary">trending_up</mat-icon>
+	<mat-icon *ngIf="trend === 'DOWN'" color="warn">trending_down</mat-icon>
+</ng-template>

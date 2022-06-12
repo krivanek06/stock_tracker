@@ -1,4 +1,4 @@
-<ion-content class="ion-padding">
+<div class="ion-padding">
 	<!-- segments to show login or registration -->
 	<ion-segment [value]="segmentValue" (ionChange)="segmentChanged($event)">
 		<ion-segment-button value="login" layout="icon-start">
@@ -30,4 +30,4 @@
 	<div class="c-spinner-container" *ngIf="showSpinner">
 		<ion-spinner color="primary"></ion-spinner>
 	</div>
-</ion-content>
+</div>

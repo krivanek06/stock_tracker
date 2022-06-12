@@ -1,88 +1,81 @@
-<!-- balance + invested + cash -->
-<ion-grid *ngIf="portfolioState === 'CARD' ">
-	<ion-row class="ion-justify-content-center">
-		<!-- balance -->
-		<ion-col size="12" size-lg="5" size-sm="12" class="c-padding">
-			<app-generic-fancy-card
-				[cardClasses]="'st-width-100 st-main-color-turquoise-background-linear'"
-				[titleColor]="'st-main-color-turquois'"
-				[titleDotColor]="'st-main-color-turquoise-background'"
-				[title]="'Balance'"
+<div *ngIf="portfolioState === 'CARD' " class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+	<!-- balance -->
+	<app-generic-fancy-card
+		class="col-span-1 sm:col-span-2 lg:col-span-1"
+		cardClasses="st-width-100 st-main-color-turquoise-background-linear"
+		titleColor="st-main-color-turquois"
+		titleDotColor="st-main-color-turquoise-background"
+		title="Balance"
+	>
+		<div class="flex justify-between">
+			<div class="g-color-white text-2xl" [@marketValueChange]=" (cashOnHand + invested)">{{ (cashOnHand + invested) | currency }}</div>
+			<app-price-change-item
+				classText="text-xl"
+				[showDollarSignOnPrice]="true"
+				[priceChange]="((cashOnHand + invested) - startedBalance) / startedBalance * 100"
+				[price]="(cashOnHand + invested) - startedBalance"
 			>
-				<ion-item class="st-flex-row">
-					<ion-label class="st-font-size-24 st-font-white"> {{ (portfolioCash + portfolioInvested) | currency }} </ion-label>
-					<ion-label class="st-fit-content">
-						<app-price-change-item
-							[showDollarSignOnPrice]="true"
-							[priceChange]="((portfolioCash + portfolioInvested) - startedBalance) / startedBalance * 100"
-							[price]="(portfolioCash + portfolioInvested) - startedBalance"
-						>
-						</app-price-change-item>
-					</ion-label>
-				</ion-item>
-			</app-generic-fancy-card>
-		</ion-col>
+			</app-price-change-item>
+		</div>
+	</app-generic-fancy-card>
 
-		<!-- invested -->
-		<ion-col size="12" size-lg="3.5" size-sm="6" class="c-padding">
-			<app-generic-fancy-card
-				[cardClasses]="'st-width-100 st-main-color-purple-background-linear'"
-				[titleColor]="'st-font-main-color-purple'"
-				[titleDotColor]="'st-main-color-purple-background'"
-				[title]="'Invested'"
-			>
-				<ion-item>
-					<ion-label class="st-font-size-24 st-font-white portfolio-sum"> {{ portfolioInvested | currency }} </ion-label>
-				</ion-item>
-			</app-generic-fancy-card>
-		</ion-col>
+	<!-- invested -->
+	<app-generic-fancy-card
+		cardClasses="st-width-100 st-main-color-purple-background-linear"
+		titleColor="st-font-main-color-purple"
+		titleDotColor="st-main-color-purple-background"
+		title="Invested"
+	>
+		<div class="text-2xl g-color-white">{{ portfolioInvested | currency }}</div>
+	</app-generic-fancy-card>
 
-		<!-- cash -->
-		<ion-col size="12" size-lg="3.5" size-sm="6" class="c-padding">
-			<app-generic-fancy-card
-				[cardClasses]="'st-width-100 st-main-color-orange-background-linear'"
-				[titleColor]="'st-font-main-color-orange'"
-				[titleDotColor]="'st-main-color-orange-background'"
-				[title]="'Cash'"
-			>
-				<ion-item>
-					<ion-label class="st-font-size-24 st-font-white portfolio-sum"> {{ portfolioCash | currency }} </ion-label>
-				</ion-item>
-			</app-generic-fancy-card>
-		</ion-col>
-	</ion-row>
-</ion-grid>
+	<!-- cash -->
+	<app-generic-fancy-card
+		cardClasses="st-width-100 st-main-color-orange-background-linear"
+		titleColor="st-font-main-color-orange"
+		titleDotColor="st-main-color-orange-background"
+		title="Cash"
+	>
+		<div class="text-2xl g-color-white">{{ portfolioCash | currency }}</div>
+	</app-generic-fancy-card>
+</div>
 
 <!-- state 2. -->
-<ion-list *ngIf="portfolioState === 'PARTIAL' ">
+<div *ngIf="portfolioState === 'PARTIAL' ">
 	<!-- Balance -->
-	<div class="st-flex st-flex-space-between-md-down ion-padding">
-		<ion-label class="st-flex-row-important portfolioStateParent">
+	<div class="p-4 flex justify-between">
+		<!-- dot + name -->
+		<div class="flex items-center gap-1">
 			<div class="portfolioStateParentDot st-main-color-turquoise-background"></div>
-			<ion-text class="st-font-size-18 st-main-color-turquois">Balance</ion-text>
-		</ion-label>
-		<ion-label class="st-flex-row-sm-col ion-align-items-center">
-			<ion-text class="st-small-right-space st-font-0 st-font-size-18"> {{ (portfolioCash + portfolioInvested) | numberFormatter}} </ion-text>
-			<app-price-compare-item [compareToPrice]="startedBalance" [currentPrice]="portfolioInvested + portfolioCash" [showPrice]="false">
+			<ion-text class="text-2xl st-main-color-turquois">Balance</ion-text>
+		</div>
+		<!-- sum + change -->
+		<div class="flex flex-col gap-1">
+			<div class="text-xl g-color-white text-right">{{ (cashOnHand + invested) | numberFormatter}}</div>
+			<app-price-compare-item [compareToPrice]="startedBalance" [currentPrice]="invested + cashOnHand" pricePosition="right">
 			</app-price-compare-item>
-		</ion-label>
+		</div>
 	</div>
 
 	<!-- Invested -->
-	<div class="st-flex st-flex-space-between-md-down ion-padding">
-		<ion-label class="st-flex-row-important portfolioStateParent">
+	<div class="p-4 flex justify-between">
+		<!-- dot + name -->
+		<div class="flex items-center gap-1">
 			<div class="portfolioStateParentDot st-main-color-purple-background"></div>
-			<ion-text class="st-font-size-18 st-font-main-color-purple">Invested</ion-text>
-		</ion-label>
-		<ion-label class="st-font-1 st-font-size-16">{{ portfolioInvested | currency }}</ion-label>
+			<ion-text class="text-2xl st-font-main-color-purple">Invested</ion-text>
+		</div>
+		<!-- sum -->
+		<div class="text-xl g-color-white">{{ portfolioInvested | currency }}</div>
 	</div>
 
 	<!-- Cash -->
-	<div class="st-flex st-flex-space-between-md-down ion-padding">
-		<ion-label class="st-flex-row-important portfolioStateParent">
+	<div class="p-4 flex justify-between">
+		<!-- dot + name -->
+		<div class="flex items-center gap-1">
 			<div class="portfolioStateParentDot st-main-color-orange-background"></div>
-			<ion-text class="st-font-size-18 st-font-main-color-orange">Cash</ion-text>
-		</ion-label>
-		<ion-label class="st-font-1 st-font-size-16">{{ portfolioCash | currency }}</ion-label>
+			<ion-text class="text-2xl st-font-main-color-orange">Cash</ion-text>
+		</div>
+		<!-- sum -->
+		<div class="text-xl g-color-white">{{ portfolioCash | currency }}</div>
 	</div>
-</ion-list>
+</div>

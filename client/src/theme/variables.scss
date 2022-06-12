@@ -270,6 +270,7 @@
 	}
 
 	ion-list {
+		background: transparent;
 		ion-list-header {
 			color: #{$st-var-font-0};
 
@@ -395,6 +396,8 @@
 
 		ion-segment {
 			ion-segment-button {
+				min-width: 175px;
+
 				--color: #{$st-var-font-2};
 				//max-width: 195px;
 				//max-height: fit-content;

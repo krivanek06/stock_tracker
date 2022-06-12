@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { DataProxy } from '@apollo/client';
-import { FetchResult } from '@apollo/client/core';
+import { DataProxy, FetchResult } from '@apollo/client/core';
 import { Observable } from 'rxjs';
-import { StTicketCreateValues } from '../graphql-schema';
 import { UserStorageService } from '../services';
 import {
 	AuthenticateUserDocument,
@@ -17,10 +15,12 @@ import {
 	CreateTicketMutation,
 	DeleteTicketGQL,
 	StTicket,
+	StTicketComment,
 	StTicketCommentEditValues,
+	StTicketCreateValues,
 	StTicketFragmentFragment,
 	StTicketFragmentFragmentDoc,
-} from './../graphql-schema/customGraphql.service';
+} from './../graphql-schema';
 
 @Injectable({
 	providedIn: 'root',
@@ -41,13 +41,18 @@ export class GraphqlTicketService {
 				ticketValuse,
 			},
 			{
-				update: (store: DataProxy, { data: { createTicket } }) => {
+				update: (store: DataProxy, { data }) => {
+					const createTicket = data?.createTicket as StTicket;
 					const user = store.readQuery<AuthenticateUserQuery>({
 						query: AuthenticateUserDocument,
 						variables: {
 							id: this.userStorageService.user.id,
 						},
 					});
+
+					if (!user?.authenticateUser) {
+						return;
+					}
 
 					// update cashe
 					store.writeQuery({
@@ -71,7 +76,7 @@ export class GraphqlTicketService {
 		);
 	}
 
-	deleteTicket(ticket: StTicket): Observable<FetchResult<CommentTicketMutation>> {
+	deleteTicket(ticket: StTicketFragmentFragment): Observable<FetchResult<CommentTicketMutation>> {
 		return this.deleteTicketGQL.mutate(
 			{
 				ticketId: ticket.id,
@@ -88,14 +93,15 @@ export class GraphqlTicketService {
 		);
 	}
 
-	commentTicket({ id }: StTicket, comment: string): Observable<FetchResult<CommentTicketMutation>> {
+	commentTicket({ id }: StTicketFragmentFragment, comment: string): Observable<FetchResult<CommentTicketMutation>> {
 		return this.commentTicketGQL.mutate(
 			{
 				ticketId: id,
 				comment: comment,
 			},
 			{
-				update: (store: DataProxy, { data: { commentTicket } }) => {
+				update: (store: DataProxy, { data }) => {
+					const commentTicket = data?.commentTicket as StTicketComment;
 					const ticket = store.readFragment<StTicketFragmentFragment>({
 						id: `STTicket:${id}`,
 						fragment: StTicketFragmentFragmentDoc,
@@ -111,7 +117,7 @@ export class GraphqlTicketService {
 						fragmentName: 'STTicketFragment',
 						data: {
 							...ticket,
-							comments: [...ticket.comments, commentTicket],
+							comments: [...(ticket?.comments || []), commentTicket],
 						},
 					});
 				},
@@ -130,6 +136,10 @@ export class GraphqlTicketService {
 						fragment: StTicketFragmentFragmentDoc,
 						fragmentName: 'STTicketFragment',
 					});
+
+					if (!ticket) {
+						return;
+					}
 
 					// update comment in array
 					const comments = ticket.comments.map((el) => {
@@ -150,13 +160,13 @@ export class GraphqlTicketService {
 		);
 	}
 
-	closeTicket({ id }: StTicket): Observable<FetchResult<CloseTicketMutation>> {
+	closeTicket({ id }: StTicketFragmentFragment): Observable<FetchResult<CloseTicketMutation>> {
 		return this.closeTicketGQL.mutate(
 			{
 				ticketId: id,
 			},
 			{
-				update: (store: DataProxy, { data: { closeTicket } }) => {
+				update: (store: DataProxy, { data }) => {
 					const ticket = store.readFragment<StTicketFragmentFragment>({
 						id: `STTicket:${id}`,
 						fragment: StTicketFragmentFragmentDoc,

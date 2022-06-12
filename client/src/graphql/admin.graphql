@@ -3,7 +3,7 @@ fragment STAdminMainInformationsFragment on STAdminMainInformations {
 	usersRegistrated
 	usersActive
 	usersRegistrationSnippets {
-		...StUserIndetificationBaseFragment
+		...StUserIdentificationBaseFragment
 	}
 	usersWeeklyRegistrated {
 		data
@@ -18,4 +18,8 @@ query QueryAdminMainInformations {
 	queryAdminMainInformations {
 		...STAdminMainInformationsFragment
 	}
+}
+
+mutation AdminToggleUserRoles($userId: String!, $role: String!) {
+	adminToggleUserRoles(userId: $userId, role: $role)
 }

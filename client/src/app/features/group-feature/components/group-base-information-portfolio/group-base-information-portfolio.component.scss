@@ -1,0 +1,7 @@
+:host {
+	@apply flex flex-col md:flex-row;
+	gap: 16px;
+	@screen md {
+		gap: 5%;
+	}
+}

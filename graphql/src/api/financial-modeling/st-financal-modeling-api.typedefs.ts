@@ -17,40 +17,40 @@ export const STFinancialModelingAPITypeDefs = gql`
 	}
 
 	type STFMCompanyOutlook {
-		financialsAnnual: STFMFinancials
-		financialsQuarter: STFMFinancials
-		insideTrades: [STFMInsideTrade]
-		keyExecutives: [STFMKeyExecutive]
-		metrics: STFMMetrics
-		profile: STFMProfile
+		financialsAnnual: STFMFinancials!
+		financialsQuarter: STFMFinancials!
+		insideTrades: [STFMInsideTrade!]!
+		keyExecutives: [STFMKeyExecutive!]!
+		metrics: STFMMetrics!
+		profile: STFMProfile!
 		rating: STFMRating
 		ratios: STFMRatios
-		splitHistory: [STFMSplitHistory]
-		stockDividend: [STFMStockDividend]
-		stockNews: [STFMStockNew]
+		splitHistory: [STFMSplitHistory!]!
+		stockDividend: [STFMStockDividend!]!
+		stockNews: [STFMStockNew!]!
 	}
 
 	type STFMFinancials {
-		balance: [STFMBalanceSheet]
-		cash: [STFMCashFlow]
-		income: [STFMIncomeStatement]
+		balance: [STFMBalanceSheet!]!
+		cash: [STFMCashFlow!]!
+		income: [STFMIncomeStatement!]!
 	}
 
 	type STFMInsideTrade {
-		acquistionOrDisposition: String
-		companyCik: String
-		formType: String
-		link: String
+		acquistionOrDisposition: String!
+		companyCik: String!
+		formType: String!
+		link: String!
 		price: Float
-		reportingCik: String
-		reportingName: String
-		securitiesOwned: Float
-		securitiesTransacted: Float
-		securityName: String
-		symbol: String
-		transactionDate: String
-		transactionType: String
-		typeOfOwner: String
+		reportingCik: String!
+		reportingName: String!
+		securitiesOwned: Float!
+		securitiesTransacted: Float!
+		securityName: String!
+		symbol: String!
+		transactionDate: String!
+		transactionType: String!
+		typeOfOwner: String!
 	}
 
 	type STFMKeyExecutive {
@@ -134,23 +134,23 @@ export const STFinancialModelingAPITypeDefs = gql`
 	}
 
 	type STFMRating {
-		date: String
-		rating: String
-		ratingDetailsDCFRecommendation: String
-		ratingDetailsDCFScore: Float
-		ratingDetailsDERecommendation: String
-		ratingDetailsDEScore: Float
-		ratingDetailsPBRecommendation: String
-		ratingDetailsPBScore: Float
-		ratingDetailsPERecommendation: String
-		ratingDetailsPEScore: Float
-		ratingDetailsROARecommendation: String
-		ratingDetailsROAScore: Float
-		ratingDetailsROERecommendation: String
-		ratingDetailsROEScore: Float
-		ratingRecommendation: String
-		ratingScore: Float
-		symbol: String
+		date: String!
+		rating: String!
+		ratingDetailsDCFRecommendation: String!
+		ratingDetailsDCFScore: Float!
+		ratingDetailsDERecommendation: String!
+		ratingDetailsDEScore: Float!
+		ratingDetailsPBRecommendation: String!
+		ratingDetailsPBScore: Float!
+		ratingDetailsPERecommendation: String!
+		ratingDetailsPEScore: Float!
+		ratingDetailsROARecommendation: String!
+		ratingDetailsROAScore: Float!
+		ratingDetailsROERecommendation: String!
+		ratingDetailsROEScore: Float!
+		ratingRecommendation: String!
+		ratingScore: Float!
+		symbol: String!
 	}
 
 	type STFMRatios {
@@ -215,7 +215,7 @@ export const STFinancialModelingAPITypeDefs = gql`
 	}
 
 	type STFMIncomeStatement {
-		acceptedDate: String
+		acceptedDate: String!
 		costAndExpenses: Float
 		costOfRevenue: Float
 		date: String
@@ -232,6 +232,7 @@ export const STFinancialModelingAPITypeDefs = gql`
 		incomeBeforeTax: Float
 		incomeBeforeTaxRatio: Float
 		incomeTaxExpense: Float
+		interestIncome: Float
 		interestExpense: Float
 		link: String
 		netIncome: Float
@@ -240,7 +241,7 @@ export const STFinancialModelingAPITypeDefs = gql`
 		operatingIncome: Float
 		operatingIncomeRatio: Float
 		otherExpenses: Float
-		period: String
+		period: String!
 		reportedCurrency: String
 		researchAndDevelopmentExpenses: Float
 		revenue: Float
@@ -253,7 +254,7 @@ export const STFinancialModelingAPITypeDefs = gql`
 	}
 
 	type STFMCashFlow {
-		acceptedDate: String
+		acceptedDate: String!
 		accountsPayables: Float
 		accountsReceivables: Float
 		acquisitionsNet: Float
@@ -285,7 +286,7 @@ export const STFinancialModelingAPITypeDefs = gql`
 		otherInvestingActivites: Float
 		otherNonCashItems: Float
 		otherWorkingCapital: Float
-		period: String
+		period: String!
 		purchasesOfInvestments: Float
 		reportedCurrency: String
 		salesMaturitiesOfInvestments: Float
@@ -294,9 +295,10 @@ export const STFinancialModelingAPITypeDefs = gql`
 	}
 
 	type STFMBalanceSheet {
-		acceptedDate: String
+		acceptedDate: String!
 		accountPayables: Float
 		accumulatedOtherComprehensiveIncomeLoss: Float
+		capitalLeaseObligations: Float
 		cashAndCashEquivalents: Float
 		cashAndShortTermInvestments: Float
 		commonStock: Float
@@ -313,6 +315,9 @@ export const STFinancialModelingAPITypeDefs = gql`
 		link: String
 		longTermDebt: Float
 		longTermInvestments: Float
+		minorityInterest: Float
+		totalEquity: Float
+		totalLiabilitiesAndTotalEquity: Float
 		netDebt: Float
 		netReceivables: Float
 		otherAssets: Float
@@ -322,7 +327,7 @@ export const STFinancialModelingAPITypeDefs = gql`
 		otherNonCurrentAssets: Float
 		otherNonCurrentLiabilities: Float
 		othertotalStockholdersEquity: Float
-		period: String
+		period: String!
 		propertyPlantEquipmentNet: Float
 		reportedCurrency: String
 		retainedEarnings: Float
@@ -344,28 +349,28 @@ export const STFinancialModelingAPITypeDefs = gql`
 	}
 
 	type STFMCompanyQuote {
-		avgVolume: Float
-		change: Float
-		changesPercentage: Float
+		avgVolume: Float!
+		change: Float!
+		changesPercentage: Float!
 		dayHigh: Float
 		dayLow: Float
 		earningsAnnouncement: String
 		eps: Float
-		exchange: String
+		exchange: String!
 		marketCap: Float
-		name: String
-		open: Float
+		name: String!
+		open: Float!
 		pe: Float
 		previousClose: Float
 		price: Float
 		priceAvg200: Float
 		priceAvg50: Float
 		sharesOutstanding: Float
-		symbol: String
-		timestamp: Float
-		volume: Float
-		yearHigh: Float
-		yearLow: Float
+		symbol: String!
+		timestamp: Float!
+		volume: Float!
+		yearHigh: Float!
+		yearLow: Float!
 		image: String
 	}
 
@@ -445,28 +450,28 @@ export const STFinancialModelingAPITypeDefs = gql`
 	}
 
 	type STFMStockScreenerResult {
-		symbol: String
-		companyName: String
+		symbol: String!
+		companyName: String!
 		marketCap: Float
 		sector: String
 		industry: String
 		beta: Float
-		price: Float
+		price: Float!
 		lastAnnualDividend: Float
-		volume: Float
-		exchange: String
+		volume: Float!
+		exchange: String!
 		exchangeShortName: String
 		country: String
 		isEtf: Boolean
 		isActivelyTrading: Boolean
-		companyQuote: STFMCompanyQuote
+		companyQuote: STFMCompanyQuote!
 	}
 
 	type STFMStockScreenerResultWrapper {
-		result: [STFMStockScreenerResult]
-		found: Float
-		offset: Float
-		limit: Float
+		result: [STFMStockScreenerResult!]!
+		found: Float!
+		offset: Float!
+		limit: Float!
 	}
 
 	type STFMSocialSentiment {

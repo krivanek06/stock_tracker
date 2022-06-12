@@ -1,90 +1,44 @@
-<ion-content class="ion-padding">
-	<!-- menu page header -->
-	<app-menu-header></app-menu-header>
+<div class="mt-10 md:mt-0">
+	<app-user-account-buttons (manageWatchlistEmitter)="onManageWatchlists()" (raiseTicketEmitter)="onRaiseTicket()"></app-user-account-buttons>
+</div>
 
-	<!-- header -->
-	<app-header pageIcon="person" pageName="Account management"></app-header>
+<div *ngIf="user$ | async as user" class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-12">
+	<!-- account form -->
+	<app-generic-card class="col-span-2" [additionalClasses]="'st-height-100'" [title]="'Account Information'">
+		<app-user-account-form (submitClickedEmitter)="editUser($event)" [user]="user"> </app-user-account-form>
+	</app-generic-card>
 
-	<ion-grid>
-		<ion-row class="ion-justify-content-center">
-			<ion-col size="12" size-lg="11" size-xl="10" style="overflow: visible">
-				<ng-container *ngIf="user$ | async as user">
-					<ion-row class="ion-justify-content-center">
-						<!-- account form -->
-						<ion-col size="12" size-lg="8" size-md="7">
-							<app-generic-card [additionalClasses]="'st-height-100'" [title]="'Account Information'">
-								<app-user-account-form (submitClickedEmitter)="editUser($event)" [user]="user"> </app-user-account-form>
-							</app-generic-card>
-						</ion-col>
-						<ion-col size="12" size-lg="4" size-md="5">
-							<ion-row>
-								<!-- assigned roles -->
-								<ion-col size="12">
-									<app-generic-card title="Assigned roles" class="ion-margin-bottom">
-										<ion-item-group *ngIf="user.userPrivateData.roles.length > 0">
-											<ion-item class="st-display-flex-center st-font-size-14" *ngFor="let name of user.userPrivateData.roles">
-												<ion-label class="ion-text-center st-font-3"> {{ name }} </ion-label>
-											</ion-item>
-										</ion-item-group>
-									</app-generic-card>
-								</ion-col>
+	<div class="grid col-span-1 gap-4">
+		<!-- assigned roles -->
+		<app-generic-card title="Assigned roles" class="ion-margin-bottom" *ngIf="user.userPrivateData.roles.length > 0">
+			<div class="p-2 text-center" *ngFor="let name of user.userPrivateData.roles">{{ name }}</div>
+		</app-generic-card>
 
-								<!-- reseted account -->
-								<ion-col size="12" *ngIf="user.userPrivateData.finnhubKey">
-									<app-generic-card title="Account resets">
-										<app-user-account-reseted-info
-											(resetAccountEmitter)="resetAccount()"
-											[resetedAccountInfo]="user.userHistoricalData.resetedAccount"
-											[showResetButton]="!!user.userPrivateData.finnhubKey"
-										>
-										</app-user-account-reseted-info>
-									</app-generic-card>
-								</ion-col>
+		<!-- reseted account -->
+		<app-generic-card title="Account resets">
+			<app-user-account-reseted-info
+				*ngIf="user.userPrivateData.finnhubKey"
+				(resetAccountEmitter)="resetAccount()"
+				[resetedAccountInfo]="user.userHistoricalData.resetedAccount"
+				[showResetButton]="!!user.userPrivateData.finnhubKey"
+			>
+			</app-user-account-reseted-info>
+		</app-generic-card>
 
-								<!-- account not activated message -->
-								<ion-col size="12" *ngIf="!user.userPrivateData.finnhubKey">
-									<app-user-account-not-activated-message></app-user-account-not-activated-message>
-								</ion-col>
-							</ion-row>
-						</ion-col>
-					</ion-row>
+		<!-- account not activated message -->
+		<ng-container *ngIf="!user.userPrivateData.finnhubKey">
+			<app-user-account-not-activated-message></app-user-account-not-activated-message>
+		</ng-container>
+	</div>
+</div>
 
-					<!-- ranks
-						<ion-row class="st-width-90-center">
-				
-						</ion-row>  -->
-
-					<!-- wachlists -->
-					<ion-row class="ion-justify-content-center">
-						<ion-col size="12" size-lg="8" size-md="7">
-							<app-generic-card [title]="'Watchlist modification'">
-								<app-watchlist-modification-container [watchlists]="user.stockWatchlist"> </app-watchlist-modification-container>
-							</app-generic-card>
-						</ion-col>
-						<ion-col size="12" size-lg="4" size-md="5">
-							<!-- empty for UI purpose -->
-						</ion-col>
-					</ion-row>
-
-					<ion-row>
-						<ion-col size="12" size-md="6">
-							<app-generic-card title="Send ticket">
-								<app-ticket-form-container></app-ticket-form-container>
-							</app-generic-card>
-						</ion-col>
-						<ion-col size="12" size-md="6">
-							<app-generic-card title="Latest notifications"> </app-generic-card>
-						</ion-col>
-					</ion-row>
-
-					<ion-row class="ion-margin-top" *ngIf="user.userPrivateData.tickets.length > 0">
-						<ion-col size="12">
-							<div class="st-title st-bottom-space">My tickets</div>
-							<app-ticket-overview-container [tickets]="user.userPrivateData.tickets"></app-ticket-overview-container>
-						</ion-col>
-					</ion-row>
-				</ng-container>
-			</ion-col>
-		</ion-row>
-	</ion-grid>
-</ion-content>
+<div *ngIf="user$ | async as user" class="grid grid-cols-3">
+	<div class="col-span-2">
+		<!-- tickets -->
+		<h2 class="flex items-center gap-3">
+			<mat-icon class="st-icon"> send </mat-icon>
+			<span class="g-color-white g-highlighted-text">My tickets</span>
+		</h2>
+		<app-ticket-overview-container [tickets]="user.userPrivateData.tickets"></app-ticket-overview-container>
+	</div>
+</div>

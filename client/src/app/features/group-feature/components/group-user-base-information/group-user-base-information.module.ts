@@ -1,27 +1,28 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {GroupUserBaseInformationComponent} from "./group-user-base-information.component";
-import {IonicModule} from "@ionic/angular";
+import { NgModule } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
 import {
-  DefaultImgDirectiveModule,
-  NumberFormatterPipeModule, PositionChangeItemModule,
-  PriceChangeItemModule,
-  PriceCompareItemModule
-} from "@shared";
-
-
+	ClickableDirectiveModule,
+	DefaultImgDirectiveModule,
+	NumberFormatterPipeModule,
+	PositionChangeItemModule,
+	PriceChangeItemModule,
+	PriceCompareItemModule,
+} from '@shared';
+import { GroupUserBaseInformationComponent } from './group-user-base-information.component';
 
 @NgModule({
-  declarations: [GroupUserBaseInformationComponent],
-  imports: [
-    CommonModule,
-    IonicModule,
-    DefaultImgDirectiveModule,
-    NumberFormatterPipeModule,
-    PriceChangeItemModule,
-    PriceCompareItemModule,
-    PositionChangeItemModule
-  ],
-  exports: [GroupUserBaseInformationComponent]
+	declarations: [GroupUserBaseInformationComponent],
+	imports: [
+		CommonModule,
+		IonicModule,
+		DefaultImgDirectiveModule,
+		NumberFormatterPipeModule,
+		PriceChangeItemModule,
+		PriceCompareItemModule,
+		PositionChangeItemModule,
+		ClickableDirectiveModule,
+	],
+	exports: [GroupUserBaseInformationComponent],
 })
-export class GroupUserBaseInformationModule { }
+export class GroupUserBaseInformationModule {}

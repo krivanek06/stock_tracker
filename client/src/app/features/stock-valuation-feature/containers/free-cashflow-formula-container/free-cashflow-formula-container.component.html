@@ -1,71 +1,34 @@
-<app-generic-card title="Free cash flow valuation">
-    <ng-container *ngIf="freeCashFlowFormula$ | async as formula">
-        <!-- formula -->
-        <ion-list>
-            <ion-item>
-                <ion-label class="st-table-main-label"></ion-label>
-                <ion-label *ngFor="let year of formula.historicalYears" class="st-font-0">{{ year }}</ion-label>
-            </ion-item>
+<app-mat-card-wrapper title="Free cash flow valuation">
+	<ng-container *ngIf="freeCashFlowFormula$ | async as formula">
+		<!-- historical -->
+		<div class="text-xl p-4 g-color-white">Historical data</div>
+		<mat-grid-list [cols]="formula.historicalYears.length + 1" rowHeight="55px" class="mb-2">
+			<!-- years -->
+			<mat-grid-tile></mat-grid-tile>
+			<mat-grid-tile *ngFor="let year of formula.historicalYears" class="g-color-white text-base">{{ year }}</mat-grid-tile>
 
-            <!--<app-table-increasing-item
-                    [data]="formula.operatingActivities"
-                    name="Operating activities">
-            </app-table-increasing-item>
+			<!-- free cash flow -->
+			<mat-grid-tile class="text-lg g-color-white">Free cash flow</mat-grid-tile>
+			<ng-container *ngIf="formula.freeCashFlows as prices">
+				<mat-grid-tile *ngFor="let data of prices; let i = index; let first = first">
+					<div class="text-center">
+						<div>{{ data | numberFormatter}}</div>
+						<app-price-compare-item [currentPrice]="data" [compareToPrice]="first ? null : prices[i - 1]" [showPrice]="false">
+						</app-price-compare-item>
+					</div>
+				</mat-grid-tile>
+			</ng-container>
+		</mat-grid-list>
 
-            <app-table-increasing-item
-                    [data]="formula.capitalExpenditures"
-                    name="Capital expenditures">
-            </app-table-increasing-item>-->
+		<mat-divider></mat-divider>
 
-            <!-- <app-table-increasing-item
-                     name="Net borrowings"
-                     [data]="formula.netBorrowings">
-             </app-table-increasing-item>-->
-
-            <app-table-increasing-item
-                    [data]="formula.freeCashFlows"
-                    name="Free cash flow">
-            </app-table-increasing-item>
-
-        </ion-list>
-
-        <ion-list>
-            <ion-item-group class="st-flex-space-evenly st-small-vertical-padding">
-                <ion-item>
-                    <ion-label>Avg. free cash flow:</ion-label>
-                    <ion-label class="st-data-label-end">{{ formula.avgFcf | numberFormatter  }}</ion-label>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Minimum return:</ion-label>
-                    <ion-label class="st-data-label-end">{{ formula.minimumRateReturn | percent: '1.2-2'  }}</ion-label>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Market Cap.:</ion-label>
-                    <ion-label
-                            class="st-data-label-end">{{ formula.estimatedIntrinsicMarketCap | numberFormatter  }}</ion-label>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Intrinsic value:</ion-label>
-                    <ion-label
-                            class="st-font-0 st-data-label-end">{{ formula.estimatedIntrinsicValue | currency  }}</ion-label>
-                </ion-item>
-            </ion-item-group>
-        </ion-list>
-
-
-        <!-- checkbox for net borrowings
-       <ion-list>
-            <ion-item>
-                <ion-label>
-                    Free cash flow is calculated as total cash from operating activities minus capital expenditure. If you wish to add net borrowings into the
-                    equation, mark the checkbox.
-                </ion-label>
-            </ion-item>
-            <ion-item>
-                <ion-label class="st-font-0" style="padding: 16px">Add net borrowings</ion-label>
-                <ion-checkbox slot="end" style="margin-right: 16px" (ionChange)="changedCheckedValue($event)"></ion-checkbox>
-            </ion-item>
-        </ion-list>
-          -->
-    </ng-container>
-</app-generic-card>
+		<!-- calculation -->
+		<div class="text-xl p-4 g-color-white mb-2">Calculation</div>
+		<div class="p-4 flex justify-around">
+			<div>Avg. free cash flow:: {{ formula.avgFcf | numberFormatter}}</div>
+			<div>Minimum return: {{ formula.minimumRateReturn | percent: '1.2-2' }}</div>
+			<div>Market Cap.: {{ formula.estimatedIntrinsicMarketCap | numberFormatter }}</div>
+			<div>Intrinsic value: <span class="g-color-white">{{ formula.estimatedIntrinsicValue | numberFormatter: false : true}}</span></div>
+		</div>
+	</ng-container>
+</app-mat-card-wrapper>

@@ -1,109 +1,111 @@
-<!-- SM up screen -->
-<ion-list class="ion-hide-sm-down">
-	<ion-item class="st-font-1-bold">
-		<ion-label>Symbol</ion-label>
-		<ion-label>Price</ion-label>
-		<ion-label>Price +/-</ion-label>
-		<ion-label>Volume +/-</ion-label>
-		<ion-label>Market cap.</ion-label>
-		<ion-label class="ion-hide-md-down">Shares</ion-label>
-		<ion-label class="ion-hide-md-down">PE</ion-label>
-		<ion-label class="ion-hide-md-down">EPS</ion-label>
-		<ion-label class="ion-hide-xl-down">Beta</ion-label>
-		<ion-label class="ion-hide-lg-down">Industry</ion-label>
-		<ion-label class="st-hide-xxl-down">52 week range</ion-label>
-	</ion-item>
-
-	<ng-container *ngIf="stockScreenerResults; else showSkeleton">
-		<ion-item (click)="itemClicked(result)" *ngFor="let result of stockScreenerResults; trackBy:identify " button class="st-data-item-wrapper">
-			<!-- logo + symbol name -->
-			<ion-label class="st-display-flex-center">
-				<ion-img [src]="result.companyQuote?.image" appDefaultImg class="st-symbol-image"></ion-img>
-				<ion-text class="st-font-4">{{ result.symbol }}</ion-text>
-			</ion-label>
-
-			<!-- current price -->
-			<ion-label>{{ result.price | currency }}</ion-label>
-
-			<!-- price change -->
-			<ion-label>
-				<app-price-compare-item [compareToPrice]="result.companyQuote?.previousClose" [currentPrice]="result.price"> </app-price-compare-item>
-			</ion-label>
-
-			<!-- volume change -->
-			<ion-label>
-				<app-price-compare-item [compareToPrice]="result.companyQuote?.avgVolume" [currentPrice]="result.companyQuote?.volume">
-				</app-price-compare-item>
-			</ion-label>
-
-			<!-- other -->
-			<ion-label>{{ result.marketCap ? (result.marketCap | numberFormatter) : 'N/A' }}</ion-label>
-			<ion-label class="ion-hide-md-down"
-				>{{ result.companyQuote?.sharesOutstanding ? (result.companyQuote.sharesOutstanding | numberFormatter) : 'N/A' }}</ion-label
-			>
-			<ion-label class="ion-hide-md-down">{{ result.companyQuote?.pe ? (result.companyQuote?.pe | number:'1.2-2') : 'N/A'}}</ion-label>
-			<ion-label class="ion-hide-md-down">{{ result.companyQuote?.eps ? (result.companyQuote?.eps | number:'1.2-2') : 'N/A' }}</ion-label>
-			<ion-label class="ion-hide-xl-down">{{ result.beta ? (result.beta | number:'1.2-2') : 'N/A' }}</ion-label>
-			<ion-label class="ion-hide-lg-down" style="overflow: visible">
-				<ion-chip color="primary" outline class="st-width-90-center c-chip">
-					<ion-label color="white" class="ion-text-center st-width-100">
-						{{ result.industry ? (result.industry | split: ['—', ' ', '&']) : result.exchange | split: ['—', '_'] }}
-					</ion-label>
-				</ion-chip>
-			</ion-label>
-			<!-- 52 week range -->
-			<ion-label class="st-data-label st-hide-xxl-down">
-				<div style="width: 90%">
-					<app-table-high-low-range [max]="result.companyQuote?.yearHigh" [min]="result.companyQuote?.yearLow" [value]="result.price">
-					</app-table-high-low-range>
+<table mat-table [dataSource]="dataSource" matSort class="w-full g-clickable-table" [trackBy]="identify">
+	<ng-container matColumnDef="symbol">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Symbol</th>
+		<td mat-cell *matCellDef="let row">
+			<div class="flex items-center">
+				<img [src]="row.companyQuote?.image" appDefaultImg class="st-symbol-image" />
+				<div class="flex flex-col">
+					<span class="g-color-white">{{ row.symbol }}</span>
+					<span class="table-cell sm:hidden text-sm text-gray-500">{{ row.companyName }}</span>
 				</div>
-			</ion-label>
-		</ion-item>
+			</div>
+		</td>
 	</ng-container>
-</ion-list>
 
-<!-- Small screen -->
-<ion-list class="ion-hide-sm-up">
-	<ng-container *ngIf="stockScreenerResults; else showSkeleton">
-		<ion-item-group (click)="itemClicked(result)" *ngFor="let result of stockScreenerResults" class="ion-activatable st-data-item-wrapper">
-			<ion-item>
-				<!-- LOGO + SYMBOL -->
-				<ion-label class="st-display-flex-center st-fit-content">
-					<ion-img [src]="result.companyQuote?.image" appDefaultImg class="st-symbol-image"></ion-img>
-					<div class="st-flex-col">
-						<ion-text>{{ result.symbol }}</ion-text>
-						<ion-text class="st-font-size-12">{{ result.companyName }} </ion-text>
-					</div>
-				</ion-label>
-
-				<!-- price -->
-				<ion-label class="st-font-1-normal st-font-size-16 st-flex-end"> {{ result.price | currency }} </ion-label>
-			</ion-item>
-
-			<ion-item>
-				<!-- market cap -->
-				<ion-label class="st-font-5 st-font-size-14 st-fit-content">
-					Market cap.: {{ result.marketCap ? (result.marketCap | numberFormatter) : 'N/A' }}
-				</ion-label>
-
-				<ion-label class="st-flex-end">
-					<!-- price change -->
-					<app-price-compare-item
-						[showDollarSign]="true"
-						[inlineDisplay]="true"
-						[compareToPrice]="result.companyQuote?.previousClose"
-						[currentPrice]="result.price"
-					>
+	<!-- price -->
+	<ng-container matColumnDef="price">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Price</th>
+		<td mat-cell *matCellDef="let row">
+			<div class="flex flex-col">
+				<span [@marketValueChange]="row.marketPrice" class="text-right sm:text-left text-gray-200 sm:text-gray-400">
+					{{ row.price | currency }}
+				</span>
+				<!-- small screen -->
+				<div class="flex justify-end sm:hidden">
+					<app-price-compare-item [compareToPrice]="row.companyQuote?.previousClose" [currentPrice]="row.price" pricePosition="right">
 					</app-price-compare-item>
-				</ion-label>
-			</ion-item>
-
-			<!-- ripple effect on click -->
-			<ion-ripple-effect></ion-ripple-effect>
-		</ion-item-group>
+				</div>
+			</div>
+		</td>
 	</ng-container>
-</ion-list>
 
-<ng-template #showSkeleton>
-	<app-list-skeleton [itemLength]="15"></app-list-skeleton>
-</ng-template>
+	<!-- daily -->
+	<ng-container matColumnDef="daily">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Daily +/-</th>
+		<td mat-cell *matCellDef="let row" class="hidden sm:table-cell">
+			<app-price-compare-item [compareToPrice]="row.companyQuote?.previousClose" [currentPrice]="row.price"> </app-price-compare-item>
+		</td>
+	</ng-container>
+
+	<!-- volume -->
+	<ng-container matColumnDef="volume">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Volume +/-</th>
+		<td mat-cell *matCellDef="let row" class="hidden sm:table-cell">
+			<app-price-compare-item [compareToPrice]="row.companyQuote?.avgVolume" [currentPrice]="row.companyQuote?.volume"> </app-price-compare-item>
+		</td>
+	</ng-container>
+
+	<!-- market cap -->
+	<ng-container matColumnDef="marketCap">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Market cap.</th>
+		<td mat-cell *matCellDef="let row" class="hidden sm:table-cell">{{ row.marketCap | numberFormatter }}</td>
+	</ng-container>
+
+	<!-- shares -->
+	<ng-container matColumnDef="shares">
+		<th mat-header-cell *matHeaderCellDef class="hidden md:table-cell">Shares</th>
+		<td mat-cell *matCellDef="let row" class="hidden md:table-cell">{{ row.companyQuote?.sharesOutstanding | numberFormatter }}</td>
+	</ng-container>
+
+	<!-- PE -->
+	<ng-container matColumnDef="peRatio">
+		<th mat-header-cell *matHeaderCellDef class="hidden md:table-cell">PE</th>
+		<td mat-cell *matCellDef="let row" class="hidden md:table-cell">{{ row.companyQuote?.pe ? (row.companyQuote?.pe | number:'1.2-2') : 'N/A'}}</td>
+	</ng-container>
+
+	<!-- EPS -->
+	<ng-container matColumnDef="eps">
+		<th mat-header-cell *matHeaderCellDef class="hidden lg:table-cell">EPS</th>
+		<td mat-cell *matCellDef="let row" class="hidden lg:table-cell">
+			{{ row.companyQuote?.eps ? (row.companyQuote?.eps | number:'1.2-2') : 'N/A' }}
+		</td>
+	</ng-container>
+
+	<!-- beta -->
+	<ng-container matColumnDef="beta">
+		<th mat-header-cell *matHeaderCellDef class="hidden xl:table-cell">Beta</th>
+		<td mat-cell *matCellDef="let row" class="hidden xl:table-cell">{{ row.beta ? (row.beta | number:'1.2-2') : 'N/A' }}</td>
+	</ng-container>
+
+	<!-- industry -->
+	<ng-container matColumnDef="industry">
+		<th mat-header-cell *matHeaderCellDef class="hidden lg:table-cell text-center">Industry</th>
+		<td mat-cell *matCellDef="let row" class="hidden lg:table-cell">
+			<mat-chip-list class="flex justify-center">
+				<mat-chip class="g-color-primary g-background-color-transparent text-center text-xs">
+					{{ row.industry ? (row.industry | split: ['—', ' ', '&']) : row.exchange | split: ['—', '_'] }}
+				</mat-chip>
+			</mat-chip-list>
+		</td>
+	</ng-container>
+
+	<!-- 52 week -->
+	<ng-container matColumnDef="52WeekRange">
+		<th mat-header-cell *matHeaderCellDef class="hidden xl:table-cell">52 week range</th>
+		<td mat-cell *matCellDef="let row" class="hidden xl:table-cell">
+			<div style="width: 90%">
+				<app-table-high-low-range [max]="row.companyQuote.yearHigh" [min]="row.companyQuote.yearLow" [value]="row.price"> </app-table-high-low-range>
+			</div>
+		</td>
+	</ng-container>
+
+	<tr mat-header-row *matHeaderRowDef="displayedColumns" class="hidden sm:contents"></tr>
+	<tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="itemClicked(row)"></tr>
+
+	<!-- Row shown when there is no matching data. -->
+	<!-- <tr class="mat-row" *matNoDataRow>
+		<td class="mat-cell" colspan="11">
+			<app-list-skeleton [itemLength]="20"></app-list-skeleton>
+		</td>
+	</tr> -->
+</table>

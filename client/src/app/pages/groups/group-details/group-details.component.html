@@ -1,0 +1,50 @@
+<!-- navigation -->
+<ion-toolbar>
+	<ion-segment color="primary" slot="end" scrollable [value]="GROUPS_PAGES_DETAILS_PATH[0].value" (ionChange)="changeDetailsPage($event)">
+		<ion-segment-button *ngFor="let path of GROUPS_PAGES_DETAILS_PATH" [value]="path.value">
+			<ion-label>{{ path.name }}</ion-label>
+		</ion-segment-button>
+	</ion-segment>
+</ion-toolbar>
+
+<div class="mt-6 p-2">
+	<app-group-base-information-portfolio
+		*ngIf="groupData$ | async as groupData; else showLoader"
+		[groupIdentification]="groupData"
+		(leaveEmitter)="leaveGroup()"
+		(deleteEmitter)="deleteGroup()"
+		(acceptEmitter)="acceptInvitation()"
+		(declineEmitter)="declineInvitation()"
+		(editEmitter)="editGroup(groupData)"
+		(sendInvitationEmitter)="sendInvitation()"
+		(removeInvitationEmitter)="removeInvitation()"
+		(reloadEmitter)="reloadGroup()"
+		(startWatchingGroupEmitter)="startWatchingGroup()"
+		(stopWatchingGroupEmitter)="stopWatchingGroup()"
+		[showSendInvitationButton]="canUserSendInvitation$ | async"
+		[showStartWatchingGroup]="isUserWatchingGroup$ | async"
+		[isGroupPrivate]="groupData.isPrivate"
+		[showRemoveInvitationButton]="hasUserAlreadySentInvitationIntoGroup$ | async"
+		[showLeaveButton]="(isMember$ | async) && (isOwner$ | async) === false"
+		[showDeleteButton]="isOwner$ | async"
+		[showAcceptButton]="isUserInvited$ | async"
+		[showDeclineButton]="isUserInvited$ | async"
+		[showEditButton]="isOwner$ | async"
+		[showStartWatchingGroup]="canUserWatchGroup$ | async"
+		[showStopWatchingGroup]="(canUserWatchGroup$ | async) === false"
+		[showReloadButton]="true"
+	>
+	</app-group-base-information-portfolio>
+</div>
+
+<!-- routing -->
+<div class="mt-4">
+	<router-outlet></router-outlet>
+</div>
+
+<!-- loader -->
+<ng-template #showLoader>
+	<div class="spinner-container" style="min-height: 50vh">
+		<ion-spinner color="primary"></ion-spinner>
+	</div>
+</ng-template>

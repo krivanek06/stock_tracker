@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { GraphqlUserService, StUserIndentificationDataFragment } from '@core';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { GraphqlUserService, StUserIdentificationDataFragment } from '@core';
 import { of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
@@ -10,10 +10,14 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 	styleUrls: ['./user-account-search-form.component.scss'],
 })
 export class UserAccountSearchFormComponent implements OnInit {
-	@Output() searchedUsersEmitter: EventEmitter<StUserIndentificationDataFragment[]> = new EventEmitter();
-	form: FormGroup;
+	@Output() searchedUsersEmitter: EventEmitter<StUserIdentificationDataFragment[]> = new EventEmitter();
+	form!: FormGroup;
 
 	constructor(private fb: FormBuilder, private graphqlUserService: GraphqlUserService) {}
+
+	get username(): AbstractControl {
+		return this.form.get('username') as AbstractControl;
+	}
 
 	ngOnInit(): void {
 		this.form = this.fb.group({
@@ -23,9 +27,8 @@ export class UserAccountSearchFormComponent implements OnInit {
 	}
 
 	private watchForm() {
-		this.form
-			.get('username')
-			.valueChanges.pipe(
+		this.username.valueChanges
+			.pipe(
 				debounceTime(500),
 				distinctUntilChanged(),
 				switchMap((res: string) => {
@@ -35,6 +38,6 @@ export class UserAccountSearchFormComponent implements OnInit {
 					return this.graphqlUserService.queryUserIdentificationByUsername(res);
 				})
 			)
-			.subscribe((users) => this.searchedUsersEmitter.emit(users));
+			.subscribe((users) => this.searchedUsersEmitter.emit(users || []));
 	}
 }

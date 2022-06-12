@@ -12,8 +12,8 @@ import { map } from 'rxjs/operators';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MarketStockNewsComponent implements OnInit {
-	@Input() stockArticle: StfmStockNew;
-	isSMDownScreen$: Observable<boolean>;
+	@Input() stockArticle: StfmStockNew | null = null;
+	isSMDownScreen$!: Observable<boolean>;
 
 	constructor(private breakpointObserver: BreakpointObserver) {}
 

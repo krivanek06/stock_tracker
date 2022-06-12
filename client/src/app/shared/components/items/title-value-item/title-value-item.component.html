@@ -1,0 +1,10 @@
+<div
+	class="p-1 flex flex-row justify-between"
+	[ngClass]="{
+	'md:flex-col': flexRowOn === 'md',
+	'sm:flex-col': flexRowOn === 'sm'
+}"
+>
+	<div class="g-highlighted-text tracking-wider st-font-2">{{ title }}</div>
+	<div class="g-highlighted-text st-font-white">{{ value | numberFormatter : isPercent: showDollarSign }}</div>
+</div>

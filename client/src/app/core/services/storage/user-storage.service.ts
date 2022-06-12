@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { Maybe, StStockWatchlistFragmentFragment, StUserIndetification, StUserPublicData, User_Roles_Enum } from '../../graphql-schema';
+import { StStockWatchlistFragmentFragment, StUserIdentification, StUserPublicData, User_Roles_Enum } from '../../graphql-schema';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class UserStorageService {
-	private user$: BehaviorSubject<StUserPublicData> = new BehaviorSubject<StUserPublicData>(null);
+	private user$: BehaviorSubject<StUserPublicData | null> = new BehaviorSubject<StUserPublicData | null>(null);
 	private authenticating$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
 	constructor() {}
@@ -17,18 +17,21 @@ export class UserStorageService {
 			throw new Error('trying to access StUserPublicData, but does not exists');
 		}
 
-		return this.user$.getValue();
+		return this.user$.getValue() as StUserPublicData;
 	}
 
-	get userIdentification(): StUserIndetification {
+	get userIdentification(): StUserIdentification {
 		const user = this.user;
 		return {
+			portfolio: {
+				...user.portfolio,
+			},
 			id: user.id,
 			accountCreatedDate: user.accountCreatedDate,
 			nickName: user.nickName,
-			photoURL: user.photoURL,
+			photoURL: user.photoURL || '',
 			locale: user.locale,
-			__typename: 'STUserIndetification',
+			__typename: 'STUserIdentification',
 		};
 	}
 
@@ -36,33 +39,36 @@ export class UserStorageService {
 		return this.authenticating$.getValue();
 	}
 
-	getUserIdentification(): Observable<StUserIndetification> {
+	getUserIdentification(): Observable<StUserIdentification | null> {
 		return this.getUser().pipe(
 			map((user) => {
 				if (!user) {
 					return null;
 				}
 				return {
+					__typename: 'STUserIdentification',
 					id: user.id,
 					accountCreatedDate: user.accountCreatedDate,
 					nickName: user.nickName,
-					photoURL: user.photoURL,
+					photoURL: user.photoURL || '',
 					locale: user.locale,
-					__typename: 'STUserIndetification',
+					portfolio: {
+						...user.portfolio,
+					},
 				};
 			})
 		);
 	}
 
 	getUser(): Observable<StUserPublicData> {
-		return this.user$.asObservable();
+		return this.user$.asObservable() as Observable<StUserPublicData>;
 	}
 
 	getUserNotNull(): Observable<StUserPublicData> {
 		return this.getUser().pipe(filter((user) => !!user));
 	}
 
-	setUser(user: StUserPublicData) {
+	setUser(user: StUserPublicData | null) {
 		this.user$.next(user);
 	}
 
@@ -82,7 +88,7 @@ export class UserStorageService {
 		return this.getUser().pipe(map((user) => user?.userPrivateData?.roles.includes(User_Roles_Enum.RoleGroupCreate)));
 	}
 
-	getUserWatchlists(): Observable<Array<Maybe<{ __typename?: 'STStockWatchlist' } & StStockWatchlistFragmentFragment>> | null> {
-		return this.getUser().pipe(map((u) => u?.stockWatchlist));
+	getUserWatchlists(): Observable<StStockWatchlistFragmentFragment[]> {
+		return this.getUser().pipe(map((u) => u?.stockWatchlist as StStockWatchlistFragmentFragment[]));
 	}
 }

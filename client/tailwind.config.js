@@ -1,24 +1,36 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
+const colors = require('tailwindcss/colors');
 
 module.exports = {
 	prefix: '',
 	important: true, // to overwride angular material
-	purge: {
-		enabled: process.env.NODE_ENV === 'production',
-		content: ['./src/**/*.{html,ts}'],
-	},
+	content: ['./src/**/*.{html,ts,scss}'],
 	darkMode: 'class', // or 'media' or 'class'
+	corePlugins: {
+		preflight: false,
+	},
 	theme: {
+		fontFamily: {
+			sans: ['sans-serif', 'Poppins'],
+			serif: ['sans-serif', 'Poppins'],
+		},
+		backgroundColor: (theme) => ({
+			...colors,
+		}),
 		screens: {
 			xs: '475px',
 			...defaultTheme.screens,
 		},
 		flex: {
 			...defaultTheme.flex,
+			0: '0 0 0%',
 			0.5: '0.5 0.5 0%',
 			2: '2 2 0%',
 			3: '3 3 0%',
 		},
+		// gridColumn: {
+		// 	'span-2': 'span 2 / span 2',
+		// },
 		extend: {
 			colors: {
 				primary: '#25aedd',
@@ -27,11 +39,12 @@ module.exports = {
 
 				danger: '#E84E40',
 				success: '#53C432',
+				'primary-secondary': '#d7edff',
 			},
 		},
 	},
 	variants: {
 		extend: {},
 	},
-	plugins: [require('@tailwindcss/typography')],
+	plugins: [require('@tailwindcss/typography')], //
 };

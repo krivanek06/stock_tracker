@@ -1,0 +1,25 @@
+<!-- search container -->
+<ion-list class="ion-margin-vertical">
+	<app-user-account-search
+		[showNoUserFoundTest]="isSearchEmpty"
+		[fullWith]="true"
+		[clearOnClick]="true"
+		(clickedUserEmitter)="showUserInformation($event)"
+	>
+	</app-user-account-search>
+</ion-list>
+
+<!-- result of user -->
+<ng-container *ngIf="userPublicDataSearchFragment$ | async as userData; else showLoader">
+	<ion-buttons>
+		<ion-button fill="outline" color="danger" shape="round" (click)="clearResult()">Clear</ion-button>
+	</ion-buttons>
+	<app-composed-searched-user-data [userData]="userData"></app-composed-searched-user-data>
+</ng-container>
+
+<!-- loader -->
+<ng-template #showLoader>
+	<div *ngIf="isLoading" class="spinner-container">
+		<ion-spinner color="primary"></ion-spinner>
+	</div>
+</ng-template>

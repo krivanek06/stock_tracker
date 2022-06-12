@@ -1,5 +1,5 @@
 <div class="st-flex-row-sm-col st-gap">
-	<ion-title class="st-font-size-18 st-font-0"> Members: {{ groupAllData.numberOfMembers}} </ion-title>
+	<ion-title class="st-font-size-18 st-font-0"> Members: {{ groupAllData.numberOfMembers}} / 50</ion-title>
 
 	<!-- select sorting group members -->
 	<ion-buttons slot="end" style="flex: 1">
@@ -16,29 +16,29 @@
 </div>
 
 <!-- print users in table -->
-<div class="st-flex-wrap" style="gap: 10px">
-	<ion-card
-		class="c-member-card"
+<div class="flex flex-wrap gap-4">
+	<mat-card
+		[appClickableDirective]="true"
 		*ngFor="let groupUser of groupAllData.groupMemberData.members | groupMemberSort: groupMemberSort.value; let i = index"
-		button
 		(click)="clickedMember(groupUser)"
 		[ngClass]="{
-                 'my-position': groupUser.id === user?.id && i !== 0 && i !== 1 && i !== 2,
-                  'first-position': i === 0,
-                  'second-position': i === 1,
-                  'third-position': i === 2
+                 'g-my-position': groupUser.id === user?.id && i !== 0 && i !== 1 && i !== 2,
+                  'g-first-position': i === 0,
+                  'g-second-position': i === 1,
+                  'g-third-position': i === 2
                 }"
 	>
-		<app-group-user-base-information
-			[showIncreasePosition]="groupMemberSort.value === GroupMemberSortValuesEnum.highest_portfolio"
-			[groupUserPosition]="i + 1"
-			[showPortfolioSinceMember]="showPortfolioSinceMember"
-			[useClassStyling]="groupUser.id === user?.id && i !== 0 && i !== 1 && i !== 2 ? 'st-my-position-color' :
-                                   i === 0 ? 'st-first-position-color' :
-                                   i === 1 ? 'st-second-position-color' :
-                                   i === 2 ? 'st-third-position-color' : ''"
-			[groupUser]="groupUser"
-		>
-		</app-group-user-base-information>
-	</ion-card>
+		<mat-card-content>
+			<app-group-user-base-information
+				[showIncreasePosition]="groupMemberSort.value === GroupMemberSortValuesEnum.highest_portfolio"
+				[showPortfolioSinceMember]="showPortfolioSinceMember"
+				[useClassStyling]="groupUser.id === user?.id && i !== 0 && i !== 1 && i !== 2 ? 'g-my-position-color' :
+                                   i === 0 ? 'g-first-position-color' :
+                                   i === 1 ? 'g-second-position-color' :
+                                   i === 2 ? 'g-third-position-color' : ''"
+				[groupUser]="groupUser"
+			>
+			</app-group-user-base-information>
+		</mat-card-content>
+	</mat-card>
 </div>

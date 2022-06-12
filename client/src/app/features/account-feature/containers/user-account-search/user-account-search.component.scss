@@ -1,15 +1,15 @@
 @import 'variables';
 
 :host {
-	.form-position {
+	form {
 		margin-bottom: 8px;
-		margin-left: 8px;
-		width: 45%;
-		@media (max-width: #{$st-var-md-split}) {
+		width: 100%;
+
+		@screen md {
 			width: 65%;
 		}
-		@media (max-width: #{$st-var-sm-split}) {
-			width: 95%;
+		@screen lg {
+			width: 45%;
 		}
 	}
 

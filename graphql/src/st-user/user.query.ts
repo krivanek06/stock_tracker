@@ -1,6 +1,7 @@
 import { ApolloError, ValidationError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
+import { getCurrentIOSDate } from './../st-shared/st-shared.functions';
 import { convertSTUserPublicDataToSTUserIndentification, convertSTUserPublicDataToSTUserIndentificationBase } from './utils/user.convertor';
 
 export const authenticateUser = async (uid: string) => {
@@ -10,15 +11,16 @@ export const authenticateUser = async (uid: string) => {
 
 		console.log(`Singing in ${user?.nickName}`);
 
-		return user || new ValidationError('User ID not found');
+		//return user || new ValidationError('User ID not found');
 
 		// update lastSignIn
-		/*admin.firestore()
-            .collection(`${api.ST_USER_COLLECTION_USER}`)
-            .doc(uid)
-            .update({lastSignInDate: getCurrentIOSDate()});*/
+		await admin
+			.firestore()
+			.collection(`${api.ST_USER_COLLECTION_USER}`)
+			.doc(uid)
+			.update(<api.STUserPublicData>{ lastSignInDate: getCurrentIOSDate() });
 
-		return user;
+		return user || new ValidationError('User ID not found');
 	} catch (error) {
 		throw new ApolloError(error);
 	}

@@ -1,18 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {DetailsFinancialStrengthRatioComponent} from "./details-financial-strength-ratio.component";
-import {NumberFormatterPipeModule} from "@shared";
-import {IonicModule} from "@ionic/angular";
-
-
+import { NgModule } from '@angular/core';
+import { NumberFormatterPipeModule } from '@shared';
+import { DetailsFinancialStrengthRatioComponent } from './details-financial-strength-ratio.component';
 
 @NgModule({
-  declarations: [DetailsFinancialStrengthRatioComponent],
-  imports: [
-    CommonModule,
-    NumberFormatterPipeModule,
-    IonicModule
-  ],
-  exports: [DetailsFinancialStrengthRatioComponent]
+	declarations: [DetailsFinancialStrengthRatioComponent],
+	imports: [CommonModule, NumberFormatterPipeModule],
+	exports: [DetailsFinancialStrengthRatioComponent],
 })
-export class DetailsFinancialStrengthRatioModule { }
+export class DetailsFinancialStrengthRatioModule {}

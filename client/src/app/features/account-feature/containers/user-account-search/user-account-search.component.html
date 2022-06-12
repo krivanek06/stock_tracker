@@ -1,8 +1,6 @@
-<ion-list class="form-position">
-	<form [formGroup]="form">
-		<app-form-mat-input-wrapper inputCaption="Enter username" controlName="username"></app-form-mat-input-wrapper>
-	</form>
-</ion-list>
+<form [formGroup]="form">
+	<app-form-mat-input-wrapper inputCaption="Enter username" controlName="username"></app-form-mat-input-wrapper>
+</form>
 
 <!-- listed users -->
 <ng-container *ngIf="searchedUsers$ | async as searchedUsers; else noUserFound">

@@ -9,14 +9,14 @@ import { WindowService } from '@shared';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ComposedTransactionsComponent implements OnInit {
-	@Input() portfolioWrapper: StPortfolioWrapper;
-	@Input() startedPortfolio: StPortfolioSnapshotStarted;
+	@Input() portfolioWrapper!: StPortfolioWrapper;
+	@Input() startedPortfolio!: StPortfolioSnapshotStarted;
 	@Input() transactions: StTransaction[] = [];
 	@Input() topTransactions: StTransaction[] = [];
-	@Input() stTransactionSnapshots: StTransactionSnapshot[];
+	@Input() stTransactionSnapshots: StTransactionSnapshot[] = [];
 	@Input() transactionHeightPrct: number = 45;
 
-	transactionHeight: number;
+	transactionHeight!: number;
 
 	constructor() {}
 

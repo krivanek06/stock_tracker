@@ -1,0 +1,26 @@
+<mat-toolbar class="justify-end">
+	<button mat-button color="warn" (click)="closeDialog()">
+		<mat-icon>close</mat-icon>
+		Close
+	</button>
+</mat-toolbar>
+<div class="st-font-1 p-2 g-highlighted-text">You can manage (create, rename, remove) your wachlist in this sections</div>
+
+<div class="p-4">
+	<app-inline-modification-form
+		*ngFor="let watchlist of watchlists$ | async"
+		(acceptEmitter)="changeName($event, watchlist)"
+		(removeEmitter)="deleteWatchlist(watchlist)"
+		[data]="watchlist.name"
+		label="Watchlist"
+	>
+	</app-inline-modification-form>
+</div>
+
+<!-- create button -->
+<mat-toolbar class="justify-center mt-4">
+	<button mat-flat-button color="primary" (click)="createWatchlist()">
+		<mat-icon>add</mat-icon>
+		Create watchlist
+	</button>
+</mat-toolbar>

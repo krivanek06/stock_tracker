@@ -13,7 +13,7 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 # CLOUD RUN CONFIG
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 app:app
+CMD exec gunicorn --bind :$PORT --workers 2 --threads 8 --timeout 0 app:app
 
 # Local - docker compose - uWSGI - uncomment uWSGI in requirements txt
 # CMD ["uwsgi", "app.ini"]
