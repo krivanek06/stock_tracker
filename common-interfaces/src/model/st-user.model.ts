@@ -35,6 +35,7 @@ export interface STUserPublicData extends STUserIndentificationWithPortfolio {
     transactionsSnippets: STTransaction[]; // last N
     topTransactions: STTransaction[]; 
     lastSignInDate: string;
+    lastPortfolioUpdateDate: string;
     holdings: STHolding[]; // only open transactions
     groups: STUserGroupsIdentification;
     activity: USER_ACTIVITY;

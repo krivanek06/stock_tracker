@@ -28,7 +28,7 @@ def calculateMetrics():
 @app.route('/calculate_portfolio_risk', methods = ['POST'])
 def calculatePortfolioMetrics():
     try:
-        data = request.json
+        data = request.get_json(force=True)
         symbols = data.get('symbols')
         weights = [float(x) for x in data.get('weights', [])]
         symbolsBeta = [float(x) for x in data.get('symbolsBeta', [])]

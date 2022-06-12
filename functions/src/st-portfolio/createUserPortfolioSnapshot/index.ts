@@ -9,7 +9,7 @@ import {
 	updateUserHistoricalData,
 	updateUsersCollection,
 } from '../../api';
-import { calculatePortfolioChange } from '../../util';
+import { calculatePortfolioChange, customSleep } from '../../util';
 /* 
 For each user who already performed a transaction calculate
 - portfolioChange
@@ -30,6 +30,7 @@ export const createUserPortfolioSnapshot = functions.pubsub.topic('createUserPor
 	const usersWithHoldings = await getAllUserWithExistingHoldingsFirebase();
 	const total = usersWithHoldings.length;
 	console.log('users with holdings: ', total);
+	console.log(`Starting distinct symbols: ${symbolPriceMap.size}`);
 
 	let counter = 1;
 	for await (const user of usersWithHoldings) {
@@ -39,8 +40,6 @@ export const createUserPortfolioSnapshot = functions.pubsub.topic('createUserPor
 			const unsavedSymbols = user.holdings.map((h) => h.symbol).filter((symbol) => !symbolPriceMap.has(symbol));
 			await cacheDataForUnsavedSymbols(unsavedSymbols);
 
-			console.log('loading data from DB');
-
 			// construct portfolio snapshot and save it into DB
 			const portfolioSnapshot = constructPortfolioSnapshot(user);
 			const portfolioWrapper = await getPortfolioWrapper(user, portfolioSnapshot);
@@ -48,14 +47,16 @@ export const createUserPortfolioSnapshot = functions.pubsub.topic('createUserPor
 			const portfolioRisk = await getPortfolioRisk(user, counter === total);
 			const portfolioChange = calculatePortfolioChange(userHistoricalData.portfolioSnapshots);
 
-			console.log('updating data in DB');
-
 			// update user historical data
 			await updateUserHistoricalData(user, { portfolioSnapshots: [...userHistoricalData.portfolioSnapshots.slice(-100), portfolioSnapshot] });
 
 			// update user main data
 
-			await updateUsersCollection(user, { portfolioRisk, portfolio: { ...portfolioWrapper, portfolioChange } } as api.STUserPublicData);
+			await updateUsersCollection(user, {
+				portfolioRisk,
+				portfolio: { ...portfolioWrapper, portfolioChange },
+				lastPortfolioUpdateDate: new Date().toISOString(),
+			} as api.STUserPublicData);
 
 			counter += 1;
 		} catch (error) {
@@ -70,9 +71,22 @@ export const createUserPortfolioSnapshot = functions.pubsub.topic('createUserPor
 
 const cacheDataForUnsavedSymbols = async (unsavedSymbols: string[]) => {
 	const prices = await getLivePriceAPI(unsavedSymbols);
-	prices.forEach((p) => {
-		symbolPriceMap.set(p.symbol, p.price);
-	});
+	if (!prices) {
+		console.error(`Trying to fetch ${unsavedSymbols}, but failed`);
+		return;
+	}
+
+	// sleep to not hit API all the time
+	await customSleep(1000);
+
+	try {
+		for (const p of prices) {
+			symbolPriceMap.set(p?.symbol, p?.price);
+		}
+	} catch (e) {
+		console.error(e);
+		console.log(`Unloaded symbols: `, unsavedSymbols);
+	}
 };
 const getPortfolioWrapper = async (user: api.STUserPublicData, portfolioSnapshot: api.STPortfolioSnapshot) => {
 	const previousBalance = user.portfolio.lastPortfolioSnapshot.portfolioCash + user.portfolio.lastPortfolioSnapshot.portfolioInvested;

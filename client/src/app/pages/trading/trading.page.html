@@ -37,13 +37,14 @@
 <!-- chart -->
 <app-loader-wrapper>
 	<ng-container *ngIf="selectedSummary">
-		<div class="grid grid-cols-3 gap-2">
+		<div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
 			<!-- financial chart -->
 			<app-financial-chart-container
+				class="col-span-1"
 				[ngClass]="{
-				'col-span-3': !isStock,
-				'col-span-2': isStock
-			}"
+					'lg:col-span-3': !isStock,
+					'lg:col-span-2': isStock
+				}"
 				[closedPrice]="selectedSummary.previousClose"
 				[currentPrice]="selectedSummary.marketPrice"
 				[height]="460"
