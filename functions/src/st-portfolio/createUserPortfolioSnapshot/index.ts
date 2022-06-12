@@ -2,10 +2,10 @@ import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import * as api from 'stock-tracker-common-interfaces';
 import {
-	getAllUserWithExistingHoldingsFirebase,
 	getLivePriceAPI,
 	getPortfolioRiskCustomRest,
 	getUserHistoricalData,
+	getUsersToUpdatePortfolio,
 	updateUserHistoricalData,
 	updateUsersCollection,
 } from '../../api';
@@ -27,7 +27,10 @@ export const createUserPortfolioSnapshot = functions.pubsub.topic('createUserPor
 	console.log(`Started updating at ${start.toDate()}`);
 
 	// load users who has non empty holdings
-	const usersWithHoldings = await getAllUserWithExistingHoldingsFirebase();
+	const yesterday = new Date();
+	yesterday.setHours(12, 0, 0, 0); // today noon
+	console.log('date: ', yesterday.toISOString());
+	const usersWithHoldings = await getUsersToUpdatePortfolio(yesterday.toISOString());
 	const total = usersWithHoldings.length;
 	console.log('users with holdings: ', total);
 	console.log(`Starting distinct symbols: ${symbolPriceMap.size}`);
