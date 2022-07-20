@@ -464,7 +464,7 @@ export const STFinancialModelingAPITypeDefs = gql`
 		country: String
 		isEtf: Boolean
 		isActivelyTrading: Boolean
-		companyQuote: STFMCompanyQuote!
+		companyQuote: STFMCompanyQuote
 	}
 
 	type STFMStockScreenerResultWrapper {

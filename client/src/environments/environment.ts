@@ -9,13 +9,13 @@ export const environment = {
 	//graphql: 'http://127.0.0.1:5001/graphql',
 
 	// local
-	// graphql: 'http://localhost:4000/graphql',
+	graphql: 'http://localhost:4000/graphql',
 
 	// GCP - test
 	// graphql: 'https://servergraphql-eqvqg22pdq-lz.a.run.app/graphql',
 
 	// GCP - prod
-	graphql: 'https://servergraphql-j6sqew4pvq-lm.a.run.app',
+	// graphql: 'https://servergraphql-j6sqew4pvq-lm.a.run.app',
 
 	// TEST
 	// finnhubKEY: 'brsrc5vrh5r9dg9d77pg',
