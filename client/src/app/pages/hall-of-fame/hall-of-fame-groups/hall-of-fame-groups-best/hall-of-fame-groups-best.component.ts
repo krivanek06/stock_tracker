@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { GraphqlQueryService } from '@core';
-import { HallOfFameBase } from '@hall-of-fame';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { StHallOfFameGroupsFragment } from '@core';
 
 @Component({
 	selector: 'app-hall-of-fame-groups-best',
@@ -8,12 +7,10 @@ import { HallOfFameBase } from '@hall-of-fame';
 	styleUrls: ['./hall-of-fame-groups-best.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HallOfFameGroupsBestComponent extends HallOfFameBase implements OnInit {
-	constructor(graphqlQueryService: GraphqlQueryService) {
-		super(graphqlQueryService);
-	}
+export class HallOfFameGroupsBestComponent implements OnInit {
+	@Input() hallOfFameGroups!: StHallOfFameGroupsFragment;
 
-	ngOnInit(): void {
-		super.ngOnInit();
-	}
+	constructor() {}
+
+	ngOnInit(): void {}
 }

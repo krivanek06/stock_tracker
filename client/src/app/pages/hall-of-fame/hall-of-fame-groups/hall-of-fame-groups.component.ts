@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { GraphqlQueryService } from '@core';
-import { HallOfFameBase } from '@hall-of-fame';
-import { HallOfFameGroupsSubPages } from '../../../features/hall-of-fame/models/hall-of-fame.model';
+import { GraphqlQueryService, StHallOfFameGroupsFragment } from '@core';
+import { map, Observable } from 'rxjs';
 import { StGroupIdentificationDataFragment } from './../../../core/graphql-schema/customGraphql.service';
 
 @Component({
@@ -11,22 +10,13 @@ import { StGroupIdentificationDataFragment } from './../../../core/graphql-schem
 	styleUrls: ['./hall-of-fame-groups.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HallOfFameGroupsComponent extends HallOfFameBase implements OnInit {
-	HallOfFameGroupsSubPages = HallOfFameGroupsSubPages;
-	subsectionName = 'Best Groups';
+export class HallOfFameGroupsComponent implements OnInit {
+	hallOfFameGroups$!: Observable<StHallOfFameGroupsFragment>;
 
-	constructor(graphqlQueryService: GraphqlQueryService, private router: Router) {
-		super(graphqlQueryService);
-	}
+	constructor(private router: Router, private graphqlQueryService: GraphqlQueryService) {}
 
 	ngOnInit(): void {
-		super.ngOnInit();
-	}
-
-	segmentChanged(data: any) {
-		const value = data.detail.value;
-		this.subsectionName = HallOfFameGroupsSubPages.find((p) => p.value === value)?.name as string;
-		this.router.navigateByUrl(`menu/hall-of-fame/groups/${value}`);
+		this.hallOfFameGroups$ = this.graphqlQueryService.queryHallOfFame().pipe(map((res) => res.groups));
 	}
 
 	visitGroup({ id }: StGroupIdentificationDataFragment): void {

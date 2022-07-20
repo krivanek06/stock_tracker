@@ -1,30 +1,18 @@
 import { AccountOverviewDialogModule, UserAccountInfoListModule } from '@account-feature';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatDividerModule } from '@angular/material/divider';
 import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { LoaderWrapperModule, PositionCardModule, SharedModule } from '@shared';
+import { HallOfFameUsersBestModule } from './hall-of-fame-users-best/hall-of-fame-users-best.module';
+import { HallOfFameUsersWorstModule } from './hall-of-fame-users-worst/hall-of-fame-users-worst.module';
 import { HallOfFameUsersComponent } from './hall-of-fame-users.component';
 
 const routes: Routes = [
 	{
 		path: '',
 		component: HallOfFameUsersComponent,
-		children: [
-			{
-				path: '',
-				redirectTo: 'best-users',
-				pathMatch: 'full',
-			},
-			{
-				path: 'best-users',
-				loadChildren: () => import('./hall-of-fame-users-best/hall-of-fame-users-best.module').then((m) => m.HallOfFameUsersBestModule),
-			},
-			{
-				path: 'worst-users',
-				loadChildren: () => import('./hall-of-fame-users-worst/hall-of-fame-users-worst.module').then((m) => m.HallOfFameUsersWorstModule),
-			},
-		],
 	},
 ];
 
@@ -39,6 +27,9 @@ const routes: Routes = [
 		PositionCardModule,
 		AccountOverviewDialogModule,
 		LoaderWrapperModule,
+		HallOfFameUsersWorstModule,
+		HallOfFameUsersBestModule,
+		MatDividerModule,
 	],
 })
 export class HallOfFameUsersModule {}

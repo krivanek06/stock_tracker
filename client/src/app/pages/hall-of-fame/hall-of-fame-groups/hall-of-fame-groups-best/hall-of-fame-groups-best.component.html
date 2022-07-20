@@ -1,46 +1,26 @@
-<app-loader-wrapper>
-	<div *ngIf="hallOfFameGroups$ | async as hallOfFameGroups" class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-y-6 gap-x-4">
-		<app-group-display
-			title="Best daily gainers"
-			portfolioChangeKey="day_1_change"
-			[groups]="hallOfFameGroups.bestGainers.day_1_change_prct"
-			[colorIndex]="0"
-		></app-group-display>
-		<app-group-display
-			title="Best 1 week gainers"
-			portfolioChangeKey="week_1_change"
-			[groups]="hallOfFameGroups.bestGainers.week_1_change_prct"
-			[colorIndex]="1"
-		></app-group-display>
-		<app-group-display
-			title="Best 2 week gainers"
-			portfolioChangeKey="week_2_change"
-			[groups]="hallOfFameGroups.bestGainers.week_2_change_prct"
-			[colorIndex]="2"
-		></app-group-display>
-		<app-group-display
-			title="Best 3 week gainers"
-			portfolioChangeKey="week_3_change"
-			[groups]="hallOfFameGroups.bestGainers.week_3_change_prct"
-			[colorIndex]="3"
-		></app-group-display>
-		<app-group-display
-			title="Best 1 month gainers"
-			portfolioChangeKey="month_1_change"
-			[groups]="hallOfFameGroups.bestGainers.month_1_change_prct"
-			[colorIndex]="4"
-		></app-group-display>
-		<app-group-display
-			title="Best 2 month gainers"
-			portfolioChangeKey="month_2_change"
-			[groups]="hallOfFameGroups.bestGainers.month_2_change_prct"
-			[colorIndex]="5"
-		></app-group-display>
-		<app-group-display
-			title="Best 3 month gainers"
-			portfolioChangeKey="month_3_change"
-			[groups]="hallOfFameGroups.bestGainers.month_3_change_prct"
-			[colorIndex]="6"
-		></app-group-display>
-	</div>
-</app-loader-wrapper>
+<div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-y-6 gap-x-4">
+	<app-group-display
+		title="Best daily gainers"
+		portfolioChangeKey="day_1_change"
+		[groups]="hallOfFameGroups.bestGainers.day_1_change_prct"
+		[colorIndex]="0"
+	></app-group-display>
+	<app-group-display
+		title="Best 1 week gainers"
+		portfolioChangeKey="week_1_change"
+		[groups]="hallOfFameGroups.bestGainers.week_1_change_prct"
+		[colorIndex]="1"
+	></app-group-display>
+	<app-group-display
+		title="Best 2 week gainers"
+		portfolioChangeKey="week_2_change"
+		[groups]="hallOfFameGroups.bestGainers.week_2_change_prct"
+		[colorIndex]="2"
+	></app-group-display>
+	<app-group-display
+		title="Best 3 week gainers"
+		portfolioChangeKey="week_3_change"
+		[groups]="hallOfFameGroups.bestGainers.week_3_change_prct"
+		[colorIndex]="3"
+	></app-group-display>
+</div>
