@@ -1072,7 +1072,7 @@ ion-content {
 }
 
 .g-highlighted-text {
-	@apply text-lg md:text-xl xl:text-2xl;
+	@apply text-lg md:text-xl 2xl:text-2xl;
 }
 
 .g-button-active {
