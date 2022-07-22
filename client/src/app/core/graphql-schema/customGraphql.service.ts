@@ -2106,7 +2106,6 @@ export type StUserAuthenticationInput = {
 
 export type StUserEditDataInput = {
   finnhubKey?: InputMaybe<Scalars['String']>;
-  nickName?: InputMaybe<Scalars['String']>;
   photoURL?: InputMaybe<Scalars['String']>;
   userId?: InputMaybe<Scalars['String']>;
 };

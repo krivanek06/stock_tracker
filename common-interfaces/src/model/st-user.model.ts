@@ -106,7 +106,6 @@ export interface STUserAuthenticationInput {
 export interface STUserEditDataInput {
     userId: string;         // TODO REMOVE LATER WHEN USER_ID WILL BE IN TOKEN
     finnhubKey: string;
-    nickName: string;
     photoURL: string;
 }
 
