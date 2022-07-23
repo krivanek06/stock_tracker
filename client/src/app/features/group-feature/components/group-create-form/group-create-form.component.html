@@ -66,6 +66,7 @@
 			inputType="DATEPICKER"
 			controlName="startDate"
 			hintText="Select a date when the group will officially start, since which date the progress of the group will be monitored"
+			[inputTypeDateTimePickerConfig]="inputTypeDateTimePickerConfig"
 		>
 		</app-form-mat-input-wrapper>
 
@@ -75,6 +76,7 @@
 			inputCaption="End date"
 			inputType="DATEPICKER"
 			controlName="endDate"
+			[inputTypeDateTimePickerConfig]="inputTypeDateTimePickerConfig"
 			[disabled]="isInfinite.value"
 			[hintText]="isInfinite.value ? '' : 'Select a date when the group performance monitoring should end. After this date a group report will be generated how well the group performed' "
 		>
@@ -94,7 +96,7 @@
 			mat-flat-button
 			color="primary"
 			class="w-full md:w-auto"
-			[disabled]="showError || dateStartError || dateEndError || invitationSent.length > 50"
+			[disabled]="showError || dateStartError || dateEndError || invitationSent.length > 40"
 		>
 			{{ editedGroup ? 'Edit group' : 'Create group' }}
 		</button>
@@ -106,7 +108,10 @@
 		<app-user-account-search (clickedUserEmitter)="sendInvitation($event)"> </app-user-account-search>
 
 		<!-- listed users -->
-		<ion-toolbar class="ion-margin-top st-title"> Send invitation: {{ invitationSent.length }} / 50</ion-toolbar>
+		<ion-toolbar class="ion-margin-top st-title"> Send invitation: {{ invitationSent.length }} / 40</ion-toolbar>
+		<div class="w-full p-4 bg-slate-600 g-color-white text-center text-base rounded-lg">
+			The maximum number of members in one group can be 40 people
+		</div>
 		<ion-item-group class="st-flex-wrap-normal">
 			<app-user-account-info-list
 				*ngFor="let user of invitationSent"

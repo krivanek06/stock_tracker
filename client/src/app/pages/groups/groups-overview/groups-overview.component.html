@@ -1,44 +1,44 @@
 <!-- Group create button -->
 <div class="flex justify-end p-2">
-	<button
-		mat-flat-button
-		[disabled]="(hasRoleCreateGroup$ | async) === false"
-		[matTooltip]="(hasRoleCreateGroup$ | async) ? '' : 'You do not have sufficient role to create groups'"
-		(click)="createGroup()"
-		class="w-full md:w-auto g-button-primary"
-	>
-		Create group
-	</button>
+	<button mat-flat-button (click)="createGroup()" class="w-full md:w-auto g-button-primary">Create group</button>
 </div>
 
 <ng-container *ngIf="user$ | async as user">
 	<!-- My groups -->
-	<ion-list-header>
-		<ion-label class="st-font-size-18 st-font-0"> My groups </ion-label>
-	</ion-list-header>
 
 	<ng-container *ngIf="user.groups.groupOwner.length > 0 || user.groups.groupMember.length > 0; else showNoGroupsMessage">
 		<!-- owner of groups -->
-		<div class="c-group-wrapper st-bottom-space">
-			<app-generic-card *ngFor="let group of user.groups.groupOwner">
-				<app-group-top-users-information
-					[groupAllData]="group"
-					[showVisitButton]="true"
-					(visitEmitter)="visitGroup(group)"
-				></app-group-top-users-information>
-			</app-generic-card>
-		</div>
+		<ng-container *ngIf="user.groups.groupOwner.length > 0">
+			<ion-list-header>
+				<ion-label class="st-font-size-18 st-font-0">Owner of </ion-label>
+			</ion-list-header>
+			<div class="c-group-wrapper st-bottom-space">
+				<app-generic-card *ngFor="let group of user.groups.groupOwner">
+					<app-group-top-users-information
+						[groupAllData]="group"
+						[showVisitButton]="true"
+						(visitEmitter)="visitGroup(group)"
+					></app-group-top-users-information>
+				</app-generic-card>
+			</div>
+		</ng-container>
 
-		<!-- member fo groups -->
-		<div class="c-group-wrapper st-bottom-space">
-			<app-generic-card *ngFor="let group of user.groups.groupMember">
-				<app-group-top-users-information
-					[groupAllData]="group"
-					[showVisitButton]="true"
-					(visitEmitter)="visitGroup(group)"
-				></app-group-top-users-information>
-			</app-generic-card>
-		</div>
+		<!-- member of groups -->
+		<ng-container *ngIf="user.groups.groupMember.length > 0">
+			<ion-list-header>
+				<ion-label class="st-font-size-18 st-font-0"> Member of </ion-label>
+			</ion-list-header>
+
+			<div class="c-group-wrapper st-bottom-space">
+				<app-generic-card *ngFor="let group of user.groups.groupMember">
+					<app-group-top-users-information
+						[groupAllData]="group"
+						[showVisitButton]="true"
+						(visitEmitter)="visitGroup(group)"
+					></app-group-top-users-information>
+				</app-generic-card>
+			</div>
+		</ng-container>
 	</ng-container>
 
 	<ng-template #showNoGroupsMessage>

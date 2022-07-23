@@ -6,7 +6,7 @@
 	<ion-row>
 		<ion-col class="ion-margin-bottom">
 			<!-- top transactions -->
-			<app-generic-card title="Top transactions">
+			<app-mat-card-wrapper title="Top transactions">
 				<app-transactions-table
 					*ngIf="groupAllData.topTransactions.length > 0"
 					[applyLastChildStyle]="true"
@@ -16,14 +16,14 @@
 					[transactions]="groupAllData.topTransactions"
 				>
 				</app-transactions-table>
-			</app-generic-card>
+			</app-mat-card-wrapper>
 		</ion-col>
 	</ion-row>
 
 	<ion-row>
 		<ion-col size="12" class="ion-margin-bottom">
 			<!-- recent transactions -->
-			<app-generic-card title="Recent transactions">
+			<app-mat-card-wrapper title="Recent transactions">
 				<app-transactions-table
 					*ngIf="groupAllData.lastTransactions.length > 0"
 					[applyLastChildStyle]="true"
@@ -33,13 +33,13 @@
 					[transactions]="groupAllData.lastTransactions"
 				>
 				</app-transactions-table>
-			</app-generic-card>
+			</app-mat-card-wrapper>
 		</ion-col>
 	</ion-row>
 </ion-grid>
 
 <!-- transaction records -->
-<app-generic-card class="ion-margin-top" *ngIf="groupAllData.groupHistoricalData.transactionSnapshots.length > 0">
+<app-mat-card-wrapper class="ion-margin-top" *ngIf="groupAllData.groupHistoricalData.transactionSnapshots.length > 0">
 	<app-transactions-chart [heightPx]="transactionHeight" [stTransactionSnapshots]="groupAllData.groupHistoricalData.transactionSnapshots">
 	</app-transactions-chart>
-</app-generic-card>
+</app-mat-card-wrapper>

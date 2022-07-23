@@ -925,22 +925,22 @@ mat-expansion-panel-header {
 	min-height: 60px;
 }
 
-mat-card {
-	padding: 22px;
-	mat-card-header {
-		.mat-card-header-text {
-			margin: 0;
-		}
+// mat-card {
+// 	padding: 22px;
+// 	mat-card-header {
+// 		.mat-card-header-text {
+// 			margin: 0;
+// 		}
 
-		mat-card-subtitle {
-			margin-top: 16px;
-		}
-	}
+// 		mat-card-subtitle {
+// 			margin-top: 16px;
+// 		}
+// 	}
 
-	mat-card-content {
-		margin-top: 16px !important;
-	}
-}
+// 	mat-card-content {
+// 		margin-top: 16px !important;
+// 	}
+// }
 
 // button {
 // 	@apply w-full md:w-auto;
@@ -1086,14 +1086,6 @@ mat-toolbar {
 
 button {
 	color: #{$color-gray-300} !important;
-}
-
-mat-card {
-	background: linear-gradient(126deg, rgb(5 13 42 / 39%) 0%, rgb(6 15 47 / 60%) 35%, rgb(6 17 52 / 0.7) 100%) !important;
-	background-clip: padding-box !important;
-	backdrop-filter: blur(25px) !important;
-	border: 2px solid transparent !important;
-	color: #{$color-gray-400} !important;
 }
 
 .g-clickable {

@@ -7,6 +7,9 @@ import { createEmptySTGroupHistoricalData, createSTGroupUser, increaseGroupPortf
 
 export const createGroup = async (groupInput: api.STGroupAllDataInput, { requesterUserId }: Context): Promise<api.STGroupAllData> => {
 	try {
+		if (groupInput.invitationSent.length > 40) {
+			throw new Error('Maximum allowed number of users in one group is 40');
+		}
 		const ref = admin.firestore().collection('groups').doc();
 		const newId = ref.id;
 

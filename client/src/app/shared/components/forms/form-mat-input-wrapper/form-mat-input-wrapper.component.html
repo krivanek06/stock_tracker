@@ -66,12 +66,13 @@
 
 			<!-- date picker -->
 			<ng-container *ngSwitchCase="'DATEPICKER'">
-				<div class="flex items-center">
-					<input matInput [matDatepicker]="picker" [formControl]="formInputControl" />
+				<div class="flex items-center relative -top-[12px]">
+					<input [min]="inputTypeDateTimePickerConfig?.minDate" matInput [matDatepicker]="picker" [formControl]="formInputControl" />
 					<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 					<mat-datepicker #picker></mat-datepicker>
 				</div>
 			</ng-container>
+
 			<!-- text, number, time, email -->
 			<input
 				#defaultElement
@@ -114,6 +115,7 @@
 					*ngSwitchCase="'CHECKBOX'"
 					[disableRipple]="disabled"
 					[formControl]="formInputControl"
+					color="primary"
 					[matTooltip]="hintText ? (hintText | translate) : null"
 					[ngClass]="{'disabled-element': disabled}"
 				>

@@ -4,7 +4,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { MatSliderChange } from '@angular/material/slider';
 import { first } from 'rxjs/operators';
 import { Required } from '../../../decorators';
-import { InputSource, InputSourceSliderConfig, InputType, InputTypeEnum } from '../../../models';
+import { InputSource, InputSourceSliderConfig, InputType, InputTypeDateTimePickerConfig, InputTypeEnum } from '../../../models';
 
 @Component({
 	selector: 'app-form-mat-input-wrapper',
@@ -53,6 +53,12 @@ export class FormMatInputWrapperComponent implements OnInit, OnChanges {
 		used only when when inputType === SLIDER
 	  */
 	@Input() inputTypeSliderConfig!: InputSourceSliderConfig;
+
+	/* 
+		used when inputType === DATEPICKER
+	*/
+	@Input() inputTypeDateTimePickerConfig?: InputTypeDateTimePickerConfig;
+
 	@ViewChild('matSearchSelectInput') matSearchSelectInput?: ElementRef<HTMLInputElement>;
 
 	/*

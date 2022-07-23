@@ -37,6 +37,7 @@
 @import 'theme/additional_classes';
 @import 'theme/input_styles';
 @import 'theme/global_colors';
+@import 'theme/material/material-overwrite';
 
 // @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
@@ -51,9 +52,9 @@
 		font-size: 23px;
 	}
 
-	ion-col {
-		@media (max-width: #{$st-var-sm-split}) {
-			margin-bottom: 10px !important;
-		}
-	}
+	// ion-col {
+	// 	@media (max-width: #{$st-var-sm-split}) {
+	// 		margin-bottom: 10px !important;
+	// 	}
+	// }
 }
