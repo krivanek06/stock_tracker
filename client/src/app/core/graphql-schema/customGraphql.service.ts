@@ -2317,7 +2317,7 @@ export type SymbolHistoricalPrices = {
   period: Scalars['String'];
   price: Array<Array<Scalars['Float']>>;
   symbol: Scalars['String'];
-  volume: Array<Array<Scalars['Float']>>;
+  volume?: Maybe<Array<Maybe<Array<Maybe<Scalars['Float']>>>>>;
 };
 
 export enum SymbolType {
@@ -2590,7 +2590,7 @@ export type QuerySymbolHistoricalPricesQueryVariables = Exact<{
 }>;
 
 
-export type QuerySymbolHistoricalPricesQuery = { __typename?: 'Query', querySymbolHistoricalPrices?: { __typename?: 'SymbolHistoricalPrices', livePrice: number, symbol: string, period: string, price: Array<Array<number>>, volume: Array<Array<number>> } | null };
+export type QuerySymbolHistoricalPricesQuery = { __typename?: 'Query', querySymbolHistoricalPrices?: { __typename?: 'SymbolHistoricalPrices', livePrice: number, symbol: string, period: string, price: Array<Array<number>>, volume?: Array<Array<number | null> | null> | null } | null };
 
 export type QueryMarketDailyOverviewQueryVariables = Exact<{ [key: string]: never; }>;
 

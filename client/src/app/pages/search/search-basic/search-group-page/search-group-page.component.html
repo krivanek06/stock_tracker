@@ -6,11 +6,11 @@
 
 <!-- listed symbols -->
 <ng-container *ngIf="searchedGroups$ | async as searchedGroup; else noWatchlsit">
-	<div *ngFor="let group of searchedGroup" class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-y-6 gap-x-4">
-		<app-generic-card>
+	<div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-y-6 gap-x-4">
+		<app-mat-card-wrapper *ngFor="let group of searchedGroup">
 			<app-group-top-users-information [showVisitButton]="true" (visitEmitter)="visit(group)" [groupAllData]="group">
 			</app-group-top-users-information>
-		</app-generic-card>
+		</app-mat-card-wrapper>
 	</div>
 </ng-container>
 

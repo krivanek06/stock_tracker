@@ -1,3 +1,4 @@
+import { DeactivatedAccountModule } from '@account-feature';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -31,6 +32,7 @@ const routes: Routes = [
 		ComposedPortfolioHoldingsTableModule,
 		PortfolioChangeModule,
 		TitleValueItemModule,
+		DeactivatedAccountModule,
 	],
 	declarations: [DashboardPage],
 })

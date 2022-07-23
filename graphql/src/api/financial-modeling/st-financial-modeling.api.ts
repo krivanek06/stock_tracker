@@ -23,14 +23,15 @@ export const getHistoricalPricesAPI = async (symbol: string, timeInterval: strin
 // example: https://financialmodelingprep.com/api/v3/historical-price-full/AAPL?from=2018-03-12&to=2019-03-12&apikey=795742ba1ec2f519ffa9ea50967d2240
 export const getHistoricalDailyPricesAPI = async (symbol: string, timeInterval: string): Promise<api.STFMHistoricalDailyPrices[]> => {
 	try {
-		if (!['1y', '5y', 'all'].includes(timeInterval)) {
+		if (!['1y', '5y', 'all', '6m'].includes(timeInterval)) {
 			return new Promise([] as any);
 		}
 
 		const startTimeInterval = (timeInterval === 'all' ? '100y' : timeInterval).slice(0, -1); // remove 'y'
 
 		const today = moment().format('YYYY-MM-DD');
-		const start = moment().subtract(Number(startTimeInterval), 'years').format('YYYY-MM-DD');
+		const unit = ['6m'].includes(timeInterval) ? 'months' : 'years';
+		const start = moment().subtract(Number(startTimeInterval), unit).format('YYYY-MM-DD');
 
 		const promise = await fetch(
 			`${financialModelingAPI}/api/v3/historical-price-full/${symbol}?from=${start}&to=${today}&apikey=${financialModelingAPIKey}`

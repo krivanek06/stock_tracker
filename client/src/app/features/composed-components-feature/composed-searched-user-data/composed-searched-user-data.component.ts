@@ -12,7 +12,6 @@ import { Observable } from 'rxjs';
 })
 export class ComposedSearchedUserDataComponent implements OnInit {
 	@Input() userData!: StUserPublicDataSearchFragment | StGroupMemberOverviewFragment;
-	@Input() showHeaderInformation = true;
 
 	portfolioChartHeight!: number;
 	portfolioComparisonSeries!: Observable<GenericChartSeries[]>;

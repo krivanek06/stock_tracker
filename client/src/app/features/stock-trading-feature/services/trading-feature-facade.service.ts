@@ -105,7 +105,7 @@ export class TradingFeatureFacadeService {
 	}
 
 	comparePortfolioWithIndexes(stPortfolioSnapshots: StPortfolioSnapshot[]): Observable<GenericChartSeries[]> {
-		return this.graphqlQueryService.querySymbolHistoricalPrices('^GSPC', '1y').pipe(
+		return this.graphqlQueryService.querySymbolHistoricalPrices('^GSPC', '6m').pipe(
 			map((res) => {
 				// acceptedTimestamps has older values, because exclude weekends, but this.stPortfolioSnapshots has weekends
 				const acceptedTimestamps = LodashService.takeRight(

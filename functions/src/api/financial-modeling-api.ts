@@ -32,7 +32,7 @@ export const getHistoricalDailyPricesAPI = async (
 		let start: string | null = null;
 
 		if (timeInterval) {
-			if (!['1y', '5y', 'all'].includes(timeInterval)) {
+			if (!['1y', '5y', 'all', '6m'].includes(timeInterval)) {
 				return new Promise([] as any);
 			}
 

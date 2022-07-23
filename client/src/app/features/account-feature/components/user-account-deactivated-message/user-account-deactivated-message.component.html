@@ -1,0 +1,7 @@
+<div
+	*ngIf="!isMoreThanThreshHoldDays"
+	class="p-4 lg:p-6 text-center w-full md:w-11/12 mx-auto mt-2 mb-4 g-background-color-danger g-color-white rounded-lg text-lg"
+>
+	Due to more than 14 days of inactivity, this account has been deactivated, <br />
+	meaning no portfolio statistics were calculated, since {{ lastSignInDate | date: 'dd.MM.YYYY' }}
+</div>
