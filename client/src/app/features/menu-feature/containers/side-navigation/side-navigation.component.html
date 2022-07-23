@@ -1,23 +1,21 @@
 <!-- avatar -->
 <div class="navigation-avatar">
 	<!-- logged in user -->
-	<ng-container *ngIf="user; else noUser">
+	<div *ngIf="user; else noUser" class="flex items-center gap-4 ml-5">
 		<img class="user-avatar" [src]="user.photoURL" />
-		<ion-label class="navigation-avatar-name st-font-1"> {{ user.userPrivateData.displayName }} </ion-label>
-		<ion-label class="navigation-avatar-name st-font-4 st-font-size-12"> ({{ user.nickName }}) </ion-label>
-	</ng-container>
+		<span class="text-lg g-color-secondary"> {{ user.userPrivateData.displayName }}</span>
+	</div>
 
 	<!-- no logged in user -->
 	<ng-template #noUser>
-		<ion-thumbnail>
-			<ion-skeleton-text [animated]="authenticating"></ion-skeleton-text>
-		</ion-thumbnail>
-		<ion-label>
-			<ion-skeleton-text [animated]="authenticating" style="width: 80%"></ion-skeleton-text>
-		</ion-label>
-		<ion-label>
-			<ion-skeleton-text [animated]="authenticating" style="width: 60%"></ion-skeleton-text>
-		</ion-label>
+		<div class="flex items-center gap-2 ml-6">
+			<ion-thumbnail>
+				<ion-skeleton-text [animated]="authenticating"></ion-skeleton-text>
+			</ion-thumbnail>
+			<ion-label>
+				<ion-skeleton-text [animated]="authenticating" class="w-[100px]"></ion-skeleton-text>
+			</ion-label>
+		</div>
 	</ng-template>
 </div>
 
