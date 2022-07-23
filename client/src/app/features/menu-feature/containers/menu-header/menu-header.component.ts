@@ -18,7 +18,6 @@ export class MenuHeaderComponent implements OnInit {
 	searchCompanyQuotes$?: Observable<StfmCompanyQuote[]>;
 
 	loading = false;
-	showNotifications = false;
 
 	user$!: Observable<StUserPublicData>;
 	isAuthenticating$!: Observable<boolean>;
@@ -45,10 +44,6 @@ export class MenuHeaderComponent implements OnInit {
 	}
 	showMenu(): void {
 		this.showMenuEmitter.emit();
-	}
-
-	toggleNotifications() {
-		this.showNotifications = !this.showNotifications;
 	}
 
 	async clickedSummary(companyQuote: StfmCompanyQuote) {

@@ -5,8 +5,7 @@ import { AuthenticationService, componentDestroyed, StUserPublicData, UserStorag
 import { AuthenticationPopoverComponent } from '@login-feature';
 import { DialogService } from '@shared';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
-import { MenuPageInfoInterface, MenuPageInterface } from '../../menu.model';
-import { environment } from './../../../../../environments/environment.prod';
+import { MenuPageInfoInterface, MenuPageInterface } from '../../model';
 
 @Component({
 	selector: 'app-side-navigation',
@@ -21,8 +20,6 @@ export class SideNavigationComponent implements OnInit, OnDestroy {
 	selectedNavigation?: MenuPageInterface;
 	mainPages: MenuPageInterface[] = [];
 	otherPages: MenuPageInterface[] = [];
-
-	version = environment.version;
 
 	constructor(
 		private authenticationService: AuthenticationService,
