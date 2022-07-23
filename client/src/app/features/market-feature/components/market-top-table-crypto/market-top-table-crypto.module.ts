@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatTableModule } from '@angular/material/table';
 import { IonicModule } from '@ionic/angular';
 import {
 	DefaultImgDirectiveModule,
@@ -22,6 +23,7 @@ import { MarketTopTableCryptoComponent } from './market-top-table-crypto.compone
 		TableHighLowRangeModule,
 		DefaultImgDirectiveModule,
 		ListSkeletonModule,
+		MatTableModule,
 	],
 	exports: [MarketTopTableCryptoComponent],
 })
