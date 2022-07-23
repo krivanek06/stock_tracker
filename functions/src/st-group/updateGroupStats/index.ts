@@ -70,6 +70,7 @@ export const updateGroupStats = functions.pubsub.topic('updateGroupStats').onPub
 			await updateGroupsCollection(groupAllData, {
 				lastTransactions: uniqueLastTransactions,
 				topTransactions: topTransactionsUnique,
+				numberOfMembersActive: groupMembersPublicData.length,
 				portfolio: {
 					...currentGroupPortfolio,
 					portfolioChange,
