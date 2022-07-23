@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { IonicModule } from '@ionic/angular';
-import { ClickableDirectiveModule, FormMatInputWrapperModule } from '@shared';
+import { ClickableDirectiveModule, FormMatInputWrapperModule, IsTimeMoreThanModule } from '@shared';
 import { GroupMemberSortModule } from '../../pipes';
 import { GroupUserBaseInformationModule } from '../group-user-base-information/group-user-base-information.module';
 import { GroupMembersTableComponent } from './group-members-table.component';
@@ -19,6 +19,7 @@ import { GroupMembersTableComponent } from './group-members-table.component';
 		GroupMemberSortModule,
 		GroupUserBaseInformationModule,
 		IonicModule,
+		IsTimeMoreThanModule,
 	],
 	exports: [GroupMembersTableComponent],
 })

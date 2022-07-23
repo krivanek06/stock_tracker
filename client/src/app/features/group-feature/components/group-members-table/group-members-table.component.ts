@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { StGroupAllData, StGroupUser, StUserPublicData } from '@core';
+import { MomentService } from '@shared';
 import { GroupMemberSortValuesEnum, GROUP_MEMBERS_SORT_INPUT_SOURCE } from './../../model';
 
 @Component({
@@ -32,7 +33,9 @@ export class GroupMembersTableComponent implements OnInit {
 	}
 
 	clickedMember(groupUser: StGroupUser) {
-		this.clickedUserEmitter.emit(groupUser);
+		if (MomentService.isMoreThan(groupUser.portfolio.lastPortfolioSnapshot.date, 14)) {
+			this.clickedUserEmitter.emit(groupUser);
+		}
 	}
 
 	private initForm(): void {

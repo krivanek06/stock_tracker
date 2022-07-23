@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { IonicModule } from '@ionic/angular';
 import {
 	ClickableDirectiveModule,
@@ -22,6 +24,8 @@ import { GroupUserBaseInformationComponent } from './group-user-base-information
 		PriceCompareItemModule,
 		PositionChangeItemModule,
 		ClickableDirectiveModule,
+		MatIconModule,
+		MatTooltipModule,
 	],
 	exports: [GroupUserBaseInformationComponent],
 })

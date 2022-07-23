@@ -18,14 +18,15 @@
 <!-- print users in table -->
 <div class="flex flex-wrap gap-4">
 	<mat-card
-		[appClickableDirective]="true"
 		*ngFor="let groupUser of groupAllData.groupMemberData.members | groupMemberSort: groupMemberSort.value; let i = index"
+		[appClickableDirective]="groupUser.portfolio.lastPortfolioSnapshot.date | isTimeMoreThan: 14"
 		(click)="clickedMember(groupUser)"
 		[ngClass]="{
                  'g-my-position': groupUser.id === user?.id && i !== 0 && i !== 1 && i !== 2,
                   'g-first-position': i === 0,
                   'g-second-position': i === 1,
-                  'g-third-position': i === 2
+                  'g-third-position': i === 2,
+				  'c-inactive-account': !(groupUser.portfolio.lastPortfolioSnapshot.date | isTimeMoreThan: 14)
                 }"
 	>
 		<mat-card-content>

@@ -2,6 +2,7 @@ export * from './chart-key-value-formatter-pipe/chart-key-value-formatter-pipe.m
 export * from './convert-to-series/convert-to-series.module';
 export * from './holdings-total-invested-pipe/holdings-total-invested-pipe.module';
 export * from './increase-prct-pipe/increase-prct-pipe.module';
+export * from './is-time-more-than/is-time-more-than.module';
 export * from './number-formatter-pipe/number-formatter-pipe.module';
 export * from './obj-array-last-value-pipe/obj-array-last-value-pipe.module';
 export * from './obj-ng-for-pipe/obj-ng-for-pipe.module';
