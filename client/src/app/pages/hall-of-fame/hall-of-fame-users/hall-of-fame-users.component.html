@@ -33,25 +33,53 @@
 	</div>
 </app-loader-wrapper>
 
+<!-- highest groups -->
+<div class="flex items-center gap-2">
+	<mat-icon class="st-icon">auto_graph</mat-icon>
+	<span class="text-white text-2xl">Top highest portfolio groups</span>
+</div>
+<h3 class="g-color-secondary text-lg">Application total groups: {{ (hallOfFameGroups$ | async)?.total }}</h3>
+
+<!-- highest portfolio -->
+<app-loader-wrapper>
+	<div *ngIf="hallOfFameGroups$ | async as hallOfFameGroup" class="flex flex-col sm:flex-row sm:flex-wrap gap-3 st-border-bottom-with-space">
+		<app-position-card
+			*ngFor="let group of hallOfFameGroup.highestPortfolio; let i = index"
+			class="flex-1"
+			[positionNumber]="i + 1"
+			[isButton]="false"
+		>
+			<app-group-top-users-information
+				[groupAllData]="group"
+				[showVisitButton]="true"
+				(visitEmitter)="visitGroup(group)"
+			></app-group-top-users-information>
+		</app-position-card>
+	</div>
+</app-loader-wrapper>
+
+<!-- top users title -->
 <div class="flex flex-col md:flex-row justify-between">
-	<!-- Users -->
 	<div>
 		<div class="flex items-center gap-2">
 			<mat-icon class="st-icon">person_pin</mat-icon>
-			<span class="text-white text-2xl">Top {{ subsectionName }}</span>
+			<span class="text-white text-2xl">Top Users</span>
 		</div>
 		<h3 class="g-color-secondary text-lg mb-0">Members who achieved high percentage increase or observed substantial portfolio decrease</h3>
 		<h3 class="g-color-secondary text-lg">Last evaluation date: {{ (hallOfFameUser$ | async)?.lastUpdateDate | date: 'dd.MM.YYYY' }}</h3>
 	</div>
-	<!-- sub pages -->
-	<div class="mb-6 mt-2 md:mt-0">
-		<ion-segment (ionChange)="segmentChanged($event)" [value]="HallOfFameUserSubPages[0].value" color="primary" scrollable slot="end">
-			<ion-segment-button *ngFor="let data of HallOfFameUserSubPages" [value]="data.value">
-				<ion-label>{{ data.name }}</ion-label>
-			</ion-segment-button>
-		</ion-segment>
-	</div>
 </div>
 
 <!-- best & worst users sub pages -->
-<router-outlet></router-outlet>
+<app-loader-wrapper>
+	<ng-container *ngIf="hallOfFameUser$ | async as hallOfFameUser">
+		<app-hall-of-fame-users-best [hallOfFameUser]="hallOfFameUser"></app-hall-of-fame-users-best>
+
+		<!-- divider -->
+		<div class="my-8">
+			<mat-divider></mat-divider>
+		</div>
+
+		<app-hall-of-fame-users-worst [hallOfFameUser]="hallOfFameUser"></app-hall-of-fame-users-worst>
+	</ng-container>
+</app-loader-wrapper>

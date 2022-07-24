@@ -30,6 +30,7 @@ export const STGroupTypeDefs = gql`
 		rank: STRank!
 		isClosed: Boolean
 		numberOfMembers: Float!
+		numberOfMembersActive: Float
 		createdDate: String!
 		portfolio: STPortfolioWrapper!
 		startedPortfolio: STPortfolioSnapshotStarted!
@@ -53,6 +54,7 @@ export const STGroupTypeDefs = gql`
 		rank: STRank!
 		isClosed: Boolean
 		numberOfMembers: Float!
+		numberOfMembersActive: Float
 		createdDate: String!
 		portfolio: STPortfolioWrapper!
 		startedPortfolio: STPortfolioSnapshotStarted!
@@ -82,6 +84,7 @@ export const STGroupTypeDefs = gql`
 		portfolio: STPortfolioWrapper!
 		startedPortfolio: STPortfolioSnapshotStarted!
 		numberOfMembers: Float!
+		numberOfMembersActive: Float
 		numberOfInvitationReceived: Float!
 		numberOfInvitationSent: Float!
 		topTransactions: [STTransaction!]!

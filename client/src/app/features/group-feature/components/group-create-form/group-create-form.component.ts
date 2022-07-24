@@ -1,7 +1,15 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { StGroupAllData, StGroupAllDataInput, StUserIdentification, StUserIdentificationDataFragment } from '@core';
-import { DialogService, maxLengthValidator, minLengthValidator, requiredValidator, UploadedFile, UploaderComponent } from '@shared';
+import {
+	DialogService,
+	InputTypeDateTimePickerConfig,
+	maxLengthValidator,
+	minLengthValidator,
+	requiredValidator,
+	UploadedFile,
+	UploaderComponent,
+} from '@shared';
 import * as moment from 'moment';
 import { combineLatest } from 'rxjs';
 import { createSTGroupAllDataInput } from '../../utils';
@@ -25,6 +33,10 @@ export class GroupCreateFormComponent implements OnInit {
 	showError = false;
 	dateStartError = false;
 	dateEndError = false;
+
+	inputTypeDateTimePickerConfig: InputTypeDateTimePickerConfig = {
+		minDate: new Date(),
+	};
 
 	constructor(private fb: FormBuilder) {}
 
@@ -100,7 +112,7 @@ export class GroupCreateFormComponent implements OnInit {
 		}
 
 		this.form = this.fb.group({
-			name: [this.editedGroup?.name, [requiredValidator, minLengthValidator(4), maxLengthValidator(20)]],
+			name: [this.editedGroup?.name, [requiredValidator, minLengthValidator(6), maxLengthValidator(20)]],
 			description: [this.editedGroup?.description],
 			imagePath: [this.editedGroup?.imagePath],
 			imageUrl: [this.editedGroup?.imageUrl],

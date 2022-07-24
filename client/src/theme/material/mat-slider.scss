@@ -1,0 +1,22 @@
+@use 'variables' as variables;
+
+mat-slider {
+	.mat-slider-wrapper {
+		background-color: variables.$color-primary-100 !important;
+	}
+	.mat-slider-track-wrapper,
+	.mat-slider-track-background,
+	.mat-slider-track-fill {
+		height: 4px !important;
+		border-radius: 2px;
+	}
+
+	.mat-slider-thumb {
+		bottom: -11px !important;
+		background-color: variables.$color-primary-500 !important;
+	}
+
+	.mat-slider-thumb-label {
+		background-color: variables.$color-primary-500 !important;
+	}
+}

@@ -151,9 +151,9 @@ export const marketSearchFormConfig: { [key: string]: InputSourceSliderConfig } 
 		thumbNailFormatter: (value: number) => stFormatLargeNumber(value, false, true),
 	},
 	marketCap: {
-		max: 1000000000000,
+		max: 500000000000,
 		min: 1000000,
-		step: 1000000,
+		step: 100000,
 		thumbNailFormatter: (value: number) => stFormatLargeNumber(value, false, true),
 	},
 

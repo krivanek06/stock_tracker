@@ -1,4 +1,8 @@
-<div class="flex items-center gap-2 relative p-4" [ngClass]="{'max-w': !showIncreasePosition}" [appClickableDirective]="clickable">
+<div
+	class="flex items-center gap-2 relative p-4"
+	[ngClass]="{'max-w': !showIncreasePosition}"
+	[appClickableDirective]="clickable && !isAccountInactive"
+>
 	<!-- Image -->
 	<ion-avatar>
 		<ion-img [src]="groupUser.photoURL" appDefaultImg></ion-img>
@@ -53,6 +57,13 @@
 
 	<!-- Position -->
 	<div class="absolute right-3 top-3 ml-3" *ngIf="groupUser.currentPosition">
+		<mat-icon
+			*ngIf="isAccountInactive"
+			class="g-color-danger z-20"
+			[matTooltip]="'Due to more than 14 days of inactivity, this account has been deactivated, meaning user is no longer included in the group statistics since ' +  (groupUser.portfolio.lastPortfolioSnapshot.date| date: 'dd.MM.YYYY'  || 'N/A')"
+		>
+			not_interested
+		</mat-icon>
 		<div class="text-xl" [ngClass]="[!useClassStyling ? 'st-font-purple': '', useClassStyling]">#{{ groupUser.currentPosition }}</div>
 		<app-position-change-item
 			*ngIf="groupUser.previousPosition && groupUser.previousPosition - groupUser.currentPosition !== 0 && showIncreasePosition"

@@ -1,3 +1,6 @@
+<!-- deactivated message -->
+<app-user-account-deactivated-message [lastSignInDate]="user.lastSignInDate"></app-user-account-deactivated-message>
+
 <!-- portfolio state -->
 <app-portfolio-state [portfolioCash]="user.portfolio.portfolioCash" [portfolioInvested]="portfolioInvested"> </app-portfolio-state>
 
@@ -38,7 +41,12 @@
 	<div class="flex flex-col sm:flex-row flex-wrap gap-2 justify-around">
 		<app-title-value-item title="Alpha" flexRowOn="sm" [value]="user.portfolioRisk?.portfolioAlpha"></app-title-value-item>
 		<app-title-value-item title="Beta" flexRowOn="sm" [value]="user.portfolioRisk?.portfolioBeta"></app-title-value-item>
-		<app-title-value-item title="Sharp ratio" flexRowOn="sm" [value]="user.portfolioRisk?.portfolioSharpRatio"></app-title-value-item>
+		<app-title-value-item
+			title="Sharp ratio"
+			flexRowOn="sm"
+			[value]="user.portfolioRisk?.portfolioSharpRatio"
+			[isPercent]="true"
+		></app-title-value-item>
 		<app-title-value-item
 			title="Volatility"
 			flexRowOn="sm"

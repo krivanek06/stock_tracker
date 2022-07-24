@@ -1,10 +1,10 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { StUserPublicData, UserStorageService } from '@core';
+import { MenuPageInfoInterface } from '@menu-feature';
 import { BREAK_POINTS } from '@shared';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { MenuPageInfoInterface } from './menu.model';
 
 @Component({
 	selector: 'app-menu',

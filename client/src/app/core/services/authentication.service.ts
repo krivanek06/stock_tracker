@@ -77,16 +77,13 @@ export class AuthenticationService {
 		console.log(`Init user ${userId}`);
 
 		// caching user for faster load time on develop
-		if (!environment.production) {
-			console.log('DEVELOP: loading user from localstorage');
-			const userJson = localStorage.getItem('DEV_USER');
-			if (userJson) {
-				const parsedUser = JSON.parse(userJson);
-				console.log('DEVELOP: loaded user from localstorage', parsedUser);
-				this.userStorageService.setUser(parsedUser as StUserPublicData);
-				this.userStorageService.setIsAuthenticating(false);
-				return;
-			}
+		console.log('DEVELOP: loading user from localstorage');
+		const userJson = localStorage.getItem('DEV_USER');
+		if (userJson) {
+			const parsedUser = JSON.parse(userJson);
+			console.log('DEVELOP: loaded user from localstorage', parsedUser);
+			this.userStorageService.setUser(parsedUser as StUserPublicData);
+			this.userStorageService.setIsAuthenticating(false);
 		}
 
 		// user already logged in - init skeleton till he is loaded

@@ -10,21 +10,24 @@ import { HttpLink } from 'apollo-angular/http';
 import { environment } from '../environments/environment';
 
 const errorLink = onError(({ graphQLErrors, networkError, response }) => {
-	if (graphQLErrors) {
-		if (graphQLErrors[0].message === 'Internal Server Error') {
-			DialogService.showNotificationBar('An error happened on the server, we will be fixing it soon', 'error', 5000);
+	// React only on graphql errors
+	if (graphQLErrors && graphQLErrors.length > 0) {
+		if ((graphQLErrors[0] as any)?.statusCode === 400) {
+			// user bad request error from server
+			const message = Array.isArray(graphQLErrors[0].message) ? graphQLErrors[0].message[0] : graphQLErrors[0].message;
+			DialogService.showNotificationBar(message, 'error', 5000);
 		} else {
-			DialogService.showNotificationBar(graphQLErrors[0].message, 'error', 5000);
+			// server error with status 500 (do not display text)
+			DialogService.showNotificationBar('An error happened on the server, we will be fixing it soon', 'error', 5000);
 		}
 
-		graphQLErrors.forEach((e) => {
-			console.log(e);
-		});
+		// log errors in console
+		graphQLErrors.forEach((e) => console.log(e));
 		graphQLErrors.map(({ message, locations, path }) => console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`));
 	}
 	if (networkError) {
 		console.log(`[Network error]:`, networkError);
-		DialogService.showNotificationBar('A network error happened when executing the operation, probably bad request was send', 'error', 5000);
+		DialogService.showNotificationBar('A network error occurred while executing the operation. Try refreshing the page.', 'error', 5000);
 	}
 });
 

@@ -2,48 +2,55 @@
 	<ion-title class="st-font-size-18 st-font-0"> Invitations </ion-title>
 </ion-toolbar>
 
-<ion-card>
-	<!-- invite members -->
-	<ion-card-header class="ion-margin-bottom c-search-header">
-		<ion-card-subtitle> Invite members </ion-card-subtitle>
-
-		<app-user-account-search-form (searchedUsersEmitter)="displaySearchedUsers($event)"></app-user-account-search-form>
-	</ion-card-header>
-	<ion-card-content class="st-flex-wrap" *ngIf="displayUsers && displayUsers.length > 0">
+<!-- invite members -->
+<mat-card>
+	<mat-card-header class="p-1">
+		<mat-card-title class="flex items-center gap-2 font-bold">
+			<h2 class="text-base g-color-primary mb-0">Invite members</h2>
+		</mat-card-title>
+	</mat-card-header>
+	<mat-divider></mat-divider>
+	<mat-card-content>
+		<!-- search -->
+		<div class="block md:flex justify-end p-1 mt-1">
+			<app-user-account-search-form (searchedUsersEmitter)="displaySearchedUsers($event)"></app-user-account-search-form>
+		</div>
 		<!-- listed users -->
-		<app-user-account-info-list *ngFor="let user of displayUsers" (clickedEmitter)="inviteUser(user)" [clickable]="true" [stUserPublicData]="user">
-		</app-user-account-info-list>
-	</ion-card-content>
-
-	<!-- sent invitations -->
-	<ng-container *ngIf="groupAllData.groupMemberData.invitationSent.length > 0">
-		<ion-card-header>
-			<ion-card-subtitle> Sent invitations </ion-card-subtitle>
-		</ion-card-header>
-		<ion-card-content class="st-flex-wrap">
-			<app-group-user-base-information
-				*ngFor="let groupUser of groupAllData.groupMemberData.invitationSent"
-				(click)="removeInvitation(groupUser)"
+		<div class="flex flex-wrap gap-4">
+			<app-user-account-info-list
+				*ngFor="let user of displayUsers"
+				(clickedEmitter)="inviteUser(user)"
 				[clickable]="true"
-				[groupUser]="groupUser"
+				[stUserPublicData]="user"
+				class="min-w-[250px]"
 			>
-			</app-group-user-base-information>
-		</ion-card-content>
-	</ng-container>
+			</app-user-account-info-list>
+		</div>
+	</mat-card-content>
+</mat-card>
 
-	<!-- received invitations -->
-	<ng-container *ngIf="groupAllData.groupMemberData.invitationReceived.length > 0">
-		<ion-card-header class="st-border-top">
-			<ion-card-subtitle> Received members </ion-card-subtitle>
-		</ion-card-header>
-		<ion-card-content class="st-flex-wrap">
-			<app-group-user-base-information
-				*ngFor="let groupUser of groupAllData.groupMemberData.invitationReceived"
-				(click)="receivedInvitation(groupUser)"
-				[clickable]="true"
-				[groupUser]="groupUser"
-			>
-			</app-group-user-base-information>
-		</ion-card-content>
-	</ng-container>
-</ion-card>
+<!-- send invitations -->
+<app-mat-card-wrapper *ngIf="groupAllData.groupMemberData.invitationSent.length > 0" title="Sent invitations">
+	<div class="flex flex-wrap gap-4">
+		<app-group-user-base-information
+			*ngFor="let groupUser of groupAllData.groupMemberData.invitationSent"
+			(click)="removeInvitation(groupUser)"
+			[clickable]="true"
+			[groupUser]="groupUser"
+		>
+		</app-group-user-base-information>
+	</div>
+</app-mat-card-wrapper>
+
+<!-- received invitations -->
+<app-mat-card-wrapper *ngIf="groupAllData.groupMemberData.invitationReceived.length > 0" title="Received invitations">
+	<div class="flex flex-wrap gap-4">
+		<app-group-user-base-information
+			*ngFor="let groupUser of groupAllData.groupMemberData.invitationReceived"
+			(click)="removeInvitation(groupUser)"
+			[clickable]="true"
+			[groupUser]="groupUser"
+		>
+		</app-group-user-base-information>
+	</div>
+</app-mat-card-wrapper>

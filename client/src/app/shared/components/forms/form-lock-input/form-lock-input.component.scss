@@ -1,18 +1,18 @@
-@import "custom-variables";
+@use 'custom-variables' as variables;
 
 :host {
-  display: flex;
-  cursor: pointer;
-  align-items: center;
-  margin-top: 1rem;
+	display: flex;
+	cursor: pointer;
+	align-items: center;
+	margin-top: 1rem;
 }
 
 .disabled-control {
-  opacity: 0.5;
-  color: #{$st-red};
+	opacity: 0.65;
+	color: variables.$color-danger-500;
 }
 
 .enabled-control {
-  opacity: 0.5;
-  color: #{$price-up-lighter};
+	opacity: 0.65;
+	color: variables.$color-success-500;
 }

@@ -1,6 +1,5 @@
 //import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import { databaseAdjustment } from './database-adjustment';
 import { IS_PRODUCTION } from './environment';
 import { updateGroupStats } from './st-group/updateGroupStats';
 import { updateMarketDailyOverview } from './st-market/updateMarketDailyOverview';
@@ -21,6 +20,3 @@ export const functionUpdateMarketHistoricalOverview = updateMarketHistoricalOver
 export const functionCreateUserPortfolioSnapshot = createUserPortfolioSnapshot;
 export const functionUpdateGroupStats = updateGroupStats;
 export const functionCalculateHallOfFame = calculateHallOfFame;
-
-// test
-export const functionDatabaseAdjustment = databaseAdjustment;

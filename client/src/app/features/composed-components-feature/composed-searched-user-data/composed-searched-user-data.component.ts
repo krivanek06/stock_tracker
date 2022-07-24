@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { StGroupMemberOverviewFragment, StUserPublicDataSearchFragment } from '@core';
 import { GenericChartSeries, WindowService } from '@shared';
-import { PortfolioChangeItemsToDisplay, TradingFeatureFacadeService } from '@stock-trading-feature';
+import { TradingFeatureFacadeService } from '@stock-trading-feature';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -12,12 +12,9 @@ import { Observable } from 'rxjs';
 })
 export class ComposedSearchedUserDataComponent implements OnInit {
 	@Input() userData!: StUserPublicDataSearchFragment | StGroupMemberOverviewFragment;
-	@Input() showHeaderInformation = true;
 
 	portfolioChartHeight!: number;
 	portfolioComparisonSeries!: Observable<GenericChartSeries[]>;
-
-	PortfolioChangeItemsToDisplay = PortfolioChangeItemsToDisplay;
 
 	constructor(private tradingFeatureFacadeService: TradingFeatureFacadeService) {}
 

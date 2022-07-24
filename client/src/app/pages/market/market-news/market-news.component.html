@@ -1,3 +1,3 @@
-<div class="columns-1 sm:columns-2 lg:columns-3 2xl:columns-4">
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4">
 	<app-market-stock-news *ngFor="let article of stockNews$ | async" [stockArticle]="article"> </app-market-stock-news>
 </div>

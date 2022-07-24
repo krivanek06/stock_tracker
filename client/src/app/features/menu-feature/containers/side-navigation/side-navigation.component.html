@@ -1,0 +1,108 @@
+<!-- avatar -->
+<div class="navigation-avatar">
+	<!-- logged in user -->
+	<div *ngIf="user; else noUser" class="flex items-center gap-4 ml-5">
+		<img class="user-avatar" [src]="user.photoURL" />
+		<span class="text-lg g-color-secondary"> {{ user.userPrivateData.displayName }}</span>
+	</div>
+
+	<!-- no logged in user -->
+	<ng-template #noUser>
+		<div class="flex items-center gap-2 ml-6">
+			<ion-thumbnail>
+				<ion-skeleton-text [animated]="authenticating"></ion-skeleton-text>
+			</ion-thumbnail>
+			<ion-label>
+				<ion-skeleton-text [animated]="authenticating" class="w-[100px]"></ion-skeleton-text>
+			</ion-label>
+		</div>
+	</ng-template>
+</div>
+
+<!-- navigation -->
+<div>
+	<ion-text class="page-section">Main section</ion-text>
+	<div *ngFor="let p of mainPages" class="c-main-nav">
+		<ng-container *ngIf="!p.hidden">
+			<div *ngIf="selectedNavigation?.title === p.title" class="navigation-rectangle-selected"></div>
+
+			<mat-nav-list class="c-nav-list-not-expanded">
+				<!-- main page -->
+				<mat-list-item
+					(click)="clickedRouter(p)"
+					[disabled]="p.disabled"
+					[matTooltip]="p?.highlightText || '' "
+					[ngClass]="{'item-selected': selectedNavigation?.title === p.title}"
+				>
+					<!-- left icon -->
+					<mat-icon mat-list-icon class="st-icon"> {{ p.icon }} </mat-icon>
+
+					<!-- navigation label -->
+					<h4
+						mat-line
+						[ngClass]="{
+							'g-color-white ': selectedNavigation?.title !== p.title,
+							'st-icon': selectedNavigation?.title === p.title
+						}"
+					>
+						{{ p.title | titlecase }}
+					</h4>
+				</mat-list-item>
+			</mat-nav-list>
+		</ng-container>
+	</div>
+</div>
+
+<!-- navigation other -->
+<div class="mt-4 mb-7">
+	<ion-text class="page-section">Other</ion-text>
+	<div *ngFor="let p of otherPages" class="c-main-nav">
+		<ng-container *ngIf="!p.hidden">
+			<div *ngIf="selectedNavigation?.title === p.title" class="navigation-rectangle-selected"></div>
+
+			<mat-nav-list class="c-nav-list-not-expanded">
+				<!-- main page -->
+				<mat-list-item
+					(click)="clickedRouter(p)"
+					[disabled]="p.disabled"
+					[matTooltip]="p?.highlight ? (p.highlightText || '') : ''"
+					[ngClass]="{'item-selected': selectedNavigation?.title === p.title, 'active-finhub-api-item-highlight ': p?.highlight}"
+				>
+					<!-- left icon -->
+					<mat-icon mat-list-icon class="st-icon"> {{ p.icon }} </mat-icon>
+
+					<!-- navigation label -->
+					<h4
+						mat-line
+						[ngClass]="{
+							'g-color-white ': selectedNavigation?.title !== p.title,
+							'st-icon': selectedNavigation?.title === p.title
+						}"
+					>
+						{{ p.title | titlecase | replaceChar: '-': ' ' }}
+					</h4>
+				</mat-list-item>
+			</mat-nav-list>
+		</ng-container>
+	</div>
+
+	<!-- logout -->
+	<div class="c-main-nav ml-1">
+		<mat-nav-list *ngIf="user; else loginButton" class="c-nav-list-not-expanded">
+			<mat-list-item (click)="logout()">
+				<mat-icon mat-list-icon class="st-icon"> logout </mat-icon>
+				<h4 mat-line class="g-color-white">LogOut</h4>
+			</mat-list-item>
+		</mat-nav-list>
+
+		<!-- login -->
+		<ng-template #loginButton>
+			<mat-nav-list class="c-nav-list-not-expanded">
+				<mat-list-item (click)="showLoginModal()" [disabled]="authenticating">
+					<mat-icon mat-list-icon class="st-icon"> login </mat-icon>
+					<h4 mat-line class="g-color-white">LogIn</h4>
+				</mat-list-item>
+			</mat-nav-list>
+		</ng-template>
+	</div>
+</div>

@@ -1,52 +1,56 @@
-<form [formGroup]="form">
-	<!-- group image -->
-	<ion-item-group class="c-uploader-wrapper">
-		<div class="st-flex-1">
-			<app-uploader
-				#uploader
-				(uploadedFilesEmitter)="uploadedImage($event)"
-				[defaultUrl]="photoURL.value"
-				[fileName]="user.id"
-				[filePath]="'users'"
-				[showInput]="true"
-			>
-			</app-uploader>
-		</div>
-
-		<div>
-			<!-- display name -->
-			<app-form-mat-input-wrapper inputCaption="Display name" controlName="displayName" [disabled]="true"> </app-form-mat-input-wrapper>
-
-			<!-- email -->
-			<app-form-mat-input-wrapper inputCaption="Email" inputType="EMAIL" controlName="email" [disabled]="true"> </app-form-mat-input-wrapper>
-		</div>
-	</ion-item-group>
-
-	<!-- nickName -->
-	<app-form-mat-input-lock-wrapper inputCaption="NickName" controlName="nickName"> </app-form-mat-input-lock-wrapper>
-
-	<!-- finnhubKey -->
-	<!-- TODO [highlightField]="!finnhubKey.value" -->
-	<app-form-mat-input-lock-wrapper inputCaption="Finnhub key" controlName="finnhubKey"></app-form-mat-input-lock-wrapper>
-
-	<!-- messages -->
-	<ng-container *ngIf="finhubValidity$ | async as finhubValidity">
-		<div class="st-normal-message" *ngIf="finhubValidity === 'PENDING' ">Checking your API key validity</div>
-		<div class="st-error-message" *ngIf="finhubValidity === 'INVALID' ">Your API key is invalid</div>
-	</ng-container>
-
-	<!-- submit button -->
-	<ion-buttons class="st-buttons-container">
-		<ion-button
-			[disabled]="(!nickName.disabled && nickName.invalid) || (!finnhubKey.disabled && (finhubValidity$ | async) !== 'VALID') "
-			(click)="submit()"
-			*ngIf="formWasEdited"
-			class="st-button st-width-full-md-screen"
-			color="primary"
-			shape="round"
-			fill="solid"
+<form [formGroup]="form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+	<div class="st-flex-1">
+		<app-uploader
+			#uploader
+			(uploadedFilesEmitter)="uploadedImage($event)"
+			[defaultUrl]="photoURL.value"
+			[fileName]="user.id"
+			[filePath]="'users'"
+			[showInput]="!isUserPhotoEdited"
 		>
-			Save
-		</ion-button>
-	</ion-buttons>
+		</app-uploader>
+
+		<!-- edit image buttons -->
+		<div *ngIf="isUserPhotoEdited" class="flex flex-col gap-4">
+			<button mat-flat-button class="g-button-primary flex-1" (click)="submit()" matTooltip="Save your image">Save</button>
+			<button mat-flat-button class="g-button-secondary flex-1" (click)="onImageCancel()">Cancel</button>
+		</div>
+	</div>
+
+	<div>
+		<!-- display name -->
+		<app-form-mat-input-wrapper inputCaption="Display name" controlName="displayName" [disabled]="true"> </app-form-mat-input-wrapper>
+
+		<!-- email -->
+		<app-form-mat-input-wrapper inputCaption="Email" inputType="EMAIL" controlName="email" [disabled]="true"> </app-form-mat-input-wrapper>
+
+		<!-- finnhub key -->
+		<app-form-mat-input-wrapper inputCaption="Finnhub key" controlName="finnhubKey" [disabled]="!isFinnhubKeyEdited"> </app-form-mat-input-wrapper>
+
+		<!-- edit button -->
+		<button
+			*ngIf="!isFinnhubKeyEdited"
+			mat-stroked-button
+			class="g-button-warning w-full"
+			matTooltip="Click in you want to edit you private finnhub key"
+			(click)="onEditForm()"
+		>
+			Edit finnhub key
+		</button>
+		<button
+			*ngIf="isFinnhubKeyEdited && (finhubValidity$ | async) === 'VALID'"
+			mat-stroked-button
+			class="g-button-primary w-full"
+			matTooltip="Save your private finnhub key"
+			(click)="submit()"
+		>
+			Save finnhub key
+		</button>
+	</div>
 </form>
+
+<!-- messages -->
+<div *ngIf="finhubValidity$ | async as finhubValidity" class="mt-6">
+	<div class="st-normal-message" *ngIf="finhubValidity === 'PENDING' ">Checking your API key validity</div>
+	<div class="st-error-message" *ngIf="finhubValidity === 'INVALID' ">Your API key is invalid, cannot save the form</div>
+</div>

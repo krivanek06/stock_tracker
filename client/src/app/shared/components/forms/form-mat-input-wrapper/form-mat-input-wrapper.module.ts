@@ -14,6 +14,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
+import { NumberFormatterPipeModule } from './../../../pipes';
 import { FormMatInputWrapperComponent } from './form-mat-input-wrapper.component';
 @NgModule({
 	declarations: [FormMatInputWrapperComponent],
@@ -33,6 +34,7 @@ import { FormMatInputWrapperComponent } from './form-mat-input-wrapper.component
 		FormsModule,
 		MatSliderModule,
 		MatButtonModule,
+		NumberFormatterPipeModule,
 		MatDatepickerModule,
 	],
 	exports: [FormMatInputWrapperComponent],

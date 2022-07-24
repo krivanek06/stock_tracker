@@ -20,9 +20,8 @@ import {
 	getSectorPerformance,
 	getTopGainersStocks,
 	getTopLosersStocks,
-	queryStockScreener,
 } from '../../api';
-import { stockDataAPI } from './../../environment';
+import { stockDataAPI } from '../../environment';
 import { LodashFuntions } from './../../util/lodash.functions';
 
 const fetch = require('node-fetch');
@@ -37,7 +36,7 @@ export const updateMarketDailyOverview = functions.pubsub.topic('updateMarketDai
 	console.log('Fetched top stocks');
 	let newOverview = await fetchTopStock();
 
-	if (moment(new Date()).diff(moment(oldOverview.lastUpdate), 'hours') > 0) {
+	if (!oldOverview || !oldOverview?.lastUpdate || moment(new Date()).diff(moment(oldOverview.lastUpdate), 'hours') > 12) {
 		console.log('Fetched overview rest data');
 		const newOverviewRestData = await fetchDailyOverviewFromApi();
 
@@ -53,7 +52,7 @@ export const updateMarketDailyOverview = functions.pubsub.topic('updateMarketDai
 	console.log(`Completed updating at ${admin.firestore.Timestamp.now().toDate()}`);
 });
 
-const getDailyOverview = async (): Promise<api.STMarketDailyOverview> => {
+const getDailyOverview = async (): Promise<api.STMarketDailyOverview | undefined> => {
 	const doc = await admin.firestore().collection(api.ST_SHARED_ENUM.ST_COLLECTION).doc(api.ST_SHARED_ENUM.MARKET_DAILY_OVERVIEW).get();
 	return doc.data() as api.STMarketDailyOverview;
 };
@@ -117,13 +116,6 @@ const fetchDailyOverviewFromApi = async (): Promise<Partial<api.STMarketDailyOve
 	const calendarDividend = (await getCalendarDividend()).slice(0, 20);
 	const calendarEconomic = (await getCalendarEconomic()).slice(0, 20);
 
-	const stockScreener = await queryStockScreener({
-		marketCapMoreThan: 166840000000,
-		priceMoreThan: 15,
-		betaMoreThan: 0.5,
-		volumeMoreThan: 10000000,
-	});
-
 	const result: Partial<api.STMarketDailyOverview> = {
 		id: 'STMarketDailyOverview',
 		commodities,
@@ -144,7 +136,6 @@ const fetchDailyOverviewFromApi = async (): Promise<Partial<api.STMarketDailyOve
 			calendarSplit,
 		},
 		sectorPerformance,
-		stockScreener,
 		lastUpdate: admin.firestore.Timestamp.now().toDate().toISOString(),
 	};
 
@@ -155,15 +146,15 @@ const fetchSuggestions = async (): Promise<api.STStockSuggestion[]> => {
 	const randomDetailDocs = await admin
 		.firestore()
 		.collection('stock_data')
-		.where('summaryLastUpdate', '>=', '')
+		.where('summaryLastUpdate', '!=', null)
 		.orderBy('summaryLastUpdate', 'desc')
 		.limit(8)
 		.get();
 
 	const randomSummaries = randomDetailDocs.docs
 		.map((d) => d.data() as api.StockDetailsWrapper)
-		.filter((d) => !!d.details)
-		.map((d) => d.details.summary);
+		.filter((d) => !!d.summary)
+		.map((d) => d.summary);
 
 	const suggestions: api.STStockSuggestion[] = [];
 	for await (const summary of randomSummaries) {

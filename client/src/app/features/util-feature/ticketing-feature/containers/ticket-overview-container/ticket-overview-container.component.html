@@ -9,3 +9,7 @@
 		[isAdmin]="isAdmin$ | async"
 	></app-ticker-overview>
 </div>
+
+<div *ngIf="!tickets || tickets.length === 0" class="p-4 text-center bg-slate-600 g-color-white text-lg">
+	You currently do not have any open tickets
+</div>

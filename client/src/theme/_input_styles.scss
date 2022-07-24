@@ -1,4 +1,4 @@
-@import 'variables';
+@use 'variables' as variables;
 
 .mat-form-field-appearance-outline .mat-form-field-outline {
 	color: rgb(175, 175, 175) !important;
@@ -89,10 +89,10 @@ mat-error {
 	font-size: 12px !important;
 }
 
-.mat-form-field-infix {
-	display: flex !important;
-	align-items: center !important;
-}
+// .mat-form-field-infix {
+// 	display: flex !important;
+// 	align-items: center !important;
+// }
 
 mat-slider {
 	width: 100% !important;
@@ -175,4 +175,9 @@ mat-tab-header {
 
 mat-divider {
 	background: #{$st-light-blue-border};
+}
+
+.mat-button-disabled {
+	background-color: variables.$color-gray-500 !important;
+	opacity: 0.65 !important;
 }

@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule, Routes } from '@angular/router';
-import { GenericCardModule } from '@shared';
+import { GenericCardModule, MatCardWrapperModule } from '@shared';
 import { WatchlistManagerModalModule } from '@stock-watchlist-feature';
 import { TicketOverviewContainerModule } from '@ticketing-feature';
 import { TicketFormDialogModule } from 'src/app/features/util-feature/ticketing-feature/entry-points';
@@ -36,6 +36,7 @@ const routes: Routes = [
 		WatchlistManagerModalModule,
 		MatDialogModule,
 		MatIconModule,
+		MatCardWrapperModule,
 	],
 	declarations: [AccountPage],
 })

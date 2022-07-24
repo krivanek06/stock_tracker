@@ -16,27 +16,6 @@
 	color: #c36778;
 }
 
-// TAILWIND CUSTOM CLASSES
-@layer utilities {
-	@variants responsive {
-		.g-button-secondary {
-			background-color: #{variables.$st-var-font-3} !important;
-			color: white !important;
-			&:hover {
-				background-color: #{variables.$st-var-font-2} !important;
-			}
-		}
-
-		.g-button-secondary-flat {
-			background: transparent !important;
-			color: #{variables.$st-var-font-1} !important;
-			&:hover {
-				background: rgb(173 173 173 / 18%) !important;
-			}
-		}
-	}
-}
-
 /* primary */
 .g-color-primary {
 	color: variables.$color-primary-500 !important;
@@ -57,11 +36,11 @@
 
 /* secondary */
 .g-color-secondary {
-	color: variables.$color-gray-300 !important;
+	color: variables.$color-gray-400 !important;
 }
 
 .g-background-color-secondary {
-	background-color: variables.$color-gray-300 !important;
+	background-color: variables.$color-gray-400 !important;
 }
 
 /* white */
@@ -101,6 +80,11 @@
 	background-color: variables.$color-danger-500 !important;
 }
 
+.g-button-danger {
+	background-color: variables.$color-danger-500 !important;
+	color: variables.$color-white-1 !important;
+}
+
 /* transparent */
 
 .g-background-color-transparent {
@@ -110,19 +94,24 @@
 // TAILWIND CUSTOM CLASSES
 @layer utilities {
 	@variants responsive {
+		.g-button-primary {
+			background-color: variables.$color-primary-500 !important;
+			color: variables.$color-white-1 !important;
+		}
+
 		.g-button-secondary {
-			background-color: variables.$color-gray-300 !important;
+			background-color: variables.$color-gray-400 !important;
 			color: variables.$color-white-1 !important;
 		}
 
 		.g-button-secondary-flat {
 			background-color: variables.$color-white-1 !important;
-			color: variables.$color-gray-300 !important;
+			color: variables.$color-gray-400 !important;
 		}
 
 		.g-button-transparent {
 			background-color: transparent;
-			color: variables.$color-gray-300 !important;
+			color: variables.$color-gray-400 !important;
 		}
 	}
 }

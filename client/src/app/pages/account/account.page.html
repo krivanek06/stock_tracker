@@ -4,18 +4,18 @@
 
 <div *ngIf="user$ | async as user" class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-12">
 	<!-- account form -->
-	<app-generic-card class="col-span-2" [additionalClasses]="'st-height-100'" [title]="'Account Information'">
+	<app-mat-card-wrapper class="col-span-2" title="Account Information">
 		<app-user-account-form (submitClickedEmitter)="editUser($event)" [user]="user"> </app-user-account-form>
-	</app-generic-card>
+	</app-mat-card-wrapper>
 
 	<div class="grid col-span-1 gap-4">
 		<!-- assigned roles -->
-		<app-generic-card title="Assigned roles" class="ion-margin-bottom" *ngIf="user.userPrivateData.roles.length > 0">
+		<app-mat-card-wrapper title="Assigned roles" class="ion-margin-bottom" *ngIf="user.userPrivateData.roles.length > 0">
 			<div class="p-2 text-center" *ngFor="let name of user.userPrivateData.roles">{{ name }}</div>
-		</app-generic-card>
+		</app-mat-card-wrapper>
 
 		<!-- reseted account -->
-		<app-generic-card title="Account resets">
+		<app-mat-card-wrapper title="Account resets">
 			<app-user-account-reseted-info
 				*ngIf="user.userPrivateData.finnhubKey"
 				(resetAccountEmitter)="resetAccount()"
@@ -23,7 +23,7 @@
 				[showResetButton]="!!user.userPrivateData.finnhubKey"
 			>
 			</app-user-account-reseted-info>
-		</app-generic-card>
+		</app-mat-card-wrapper>
 
 		<!-- account not activated message -->
 		<ng-container *ngIf="!user.userPrivateData.finnhubKey">
@@ -32,13 +32,11 @@
 	</div>
 </div>
 
-<div *ngIf="user$ | async as user" class="grid grid-cols-3">
-	<div class="col-span-2">
-		<!-- tickets -->
-		<h2 class="flex items-center gap-3">
-			<mat-icon class="st-icon"> send </mat-icon>
-			<span class="g-color-white g-highlighted-text">My tickets</span>
-		</h2>
-		<app-ticket-overview-container [tickets]="user.userPrivateData.tickets"></app-ticket-overview-container>
-	</div>
-</div>
+<ng-container *ngIf="user$ | async as user">
+	<!-- tickets -->
+	<h2 class="flex items-center gap-3">
+		<mat-icon class="st-icon"> send </mat-icon>
+		<span class="g-color-white g-highlighted-text">My tickets</span>
+	</h2>
+	<app-ticket-overview-container [tickets]="user.userPrivateData.tickets"></app-ticket-overview-container>
+</ng-container>

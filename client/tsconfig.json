@@ -42,7 +42,8 @@
 			"@admin-feature": ["src/app/features/admin-feature/index"],
 			"@ticketing-feature": ["src/app/features/util-feature/ticketing-feature"],
 			"@composed-components-feature": ["src/app/features/composed-components-feature"],
-			"@hall-of-fame": ["src/app/features/hall-of-fame"]
+			"@hall-of-fame": ["src/app/features/hall-of-fame"],
+			"@menu-feature": ["src/app/features/menu-feature"]
 		}
 	},
 	"angularCompilerOptions": {

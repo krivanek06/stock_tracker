@@ -30,6 +30,7 @@ fragment STGroupIdentificationData on STGroupIdentificationInterface {
 	isPrivate
 	isClosed
 	numberOfMembers
+	numberOfMembersActive
 	portfolio {
 		...STPortfolioWrapperFragment
 	}
@@ -67,6 +68,7 @@ fragment STGroupAllDataWithoutHoldings on STGroupAllData {
 	isInfinite
 	isClosed
 	numberOfMembers
+	numberOfMembersActive
 	numberOfInvitationSent
 	numberOfInvitationReceived
 	portfolio {

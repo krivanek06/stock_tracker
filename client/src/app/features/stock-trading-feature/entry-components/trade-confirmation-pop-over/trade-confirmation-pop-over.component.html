@@ -9,14 +9,14 @@
 
 <div class="st-flex-col ion-align-items-center">
 	<!-- text -->
-	<ion-item>
-		<ion-label class="st-title">
-			<ion-text class="st-price-up st-font-size-18">Buy</ion-text>
+	<div class="p-4">
+		<div class="text-lg text-center">
+			<span class="st-price-up st-font-size-18">Buy</span>
 			or
-			<ion-text class="st-price-down st-font-size-18">Sell</ion-text>
-			operation on {{ data.symbol }} stock
-		</ion-label>
-	</ion-item>
+			<span class="st-price-down st-font-size-18">Sell</span>
+		</div>
+		<div class="text-lg">operation on {{ data.symbol }} stock</div>
+	</div>
 
 	<!-- bid / ask -->
 	<div class="st-width-100">
