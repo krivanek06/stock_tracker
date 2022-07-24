@@ -8,7 +8,14 @@
 		<ion-label> {{ info.portfolioTotal | currency}} </ion-label>
 	</ion-item>
 
-	<ion-buttons *ngIf="showResetButton" class="st-buttons-container">
-		<ion-button (click)="resetAccount()" class="st-button" color="danger" fill="solid" shape="round"> Reset account </ion-button>
-	</ion-buttons>
+	<div *ngIf="showResetButton" class="st-buttons-container">
+		<button
+			mat-flat-button
+			class="g-button-danger w-full"
+			matTooltip="Click if you want to reset your portfolio account history"
+			(click)="resetAccount()"
+		>
+			Reset account
+		</button>
+	</div>
 </ion-item-group>

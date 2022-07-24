@@ -26,7 +26,6 @@ export class GraphqlAccountService {
 				editInput: {
 					userId: editInput.userId,
 					photoURL: editInput.photoURL,
-					nickName: editInput.nickName,
 					finnhubKey: editInput.finnhubKey,
 				},
 			},
@@ -60,7 +59,6 @@ export class GraphqlAccountService {
 							authenticateUser: {
 								...cache.authenticateUser,
 								photoURL: editInput.photoURL,
-								nickName: editInput.nickName,
 								userPrivateData: {
 									...cache.authenticateUser.userPrivateData,
 									finnhubKey: editInput.finnhubKey,

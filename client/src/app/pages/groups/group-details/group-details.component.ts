@@ -73,6 +73,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 	async deleteGroup() {
 		if (await this.groupFeatureFacadeService.deleteGroup()) {
 			this.groupStorageService.setActiveGroupId(null);
+			this.router.navigateByUrl('menu/groups');
 		}
 	}
 

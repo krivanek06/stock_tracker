@@ -40,7 +40,7 @@ export const updateGroupStats = functions.pubsub.topic('updateGroupStats').onPub
 	const groupAllDataArray = await getOpenGroups(true);
 	for await (const groupAllData of groupAllDataArray) {
 		try {
-			console.log(`Loading data for group: ${groupAllData.id}`);
+			console.log(`Loading data for group ${groupAllData.name} [${groupAllData.id}]`);
 
 			// load data for group
 			const groupMembersDoc = await getGroupMemberCollection(groupAllData.id);
@@ -53,6 +53,8 @@ export const updateGroupStats = functions.pubsub.topic('updateGroupStats').onPub
 			// calculate current data
 			console.log('modifying data');
 			const currentGroupHoldings = createGroupHoldings(groupMembersPublicData);
+			console.log(`create group holdings for [${groupMembersPublicData.length}/${groupAllData.numberOfMembers}]`);
+
 			const currentGroupPortfolio = createGroupPortfolioSnapshot(groupMembersPublicData, groupAllData.portfolio.lastPortfolioSnapshot);
 			const portfolioChange = calculatePortfolioChange(groupHistoricalData.portfolioSnapshots);
 			const groupMemberWithUpdatedPortfolio = constructGroupMembers(groupMembersDoc.members, groupMembersPublicData);
@@ -68,6 +70,7 @@ export const updateGroupStats = functions.pubsub.topic('updateGroupStats').onPub
 			await updateGroupsCollection(groupAllData, {
 				lastTransactions: uniqueLastTransactions,
 				topTransactions: topTransactionsUnique,
+				numberOfMembersActive: groupMembersPublicData.length,
 				portfolio: {
 					...currentGroupPortfolio,
 					portfolioChange,
@@ -285,8 +288,11 @@ const loadUserPublicDataForGroupDoc = async (usersArray: api.STGroupUser[]): Pro
 		return [];
 	}
 
+	const lastSignInDateBreak = moment().startOf('day').subtract(14, 'days');
 	const unsavedUserPublicDataDocs = await admin.firestore().getAll(...userIdsRefs);
-	return unsavedUserPublicDataDocs.map((userDoc) => {
-		return { ...userDoc.data(), id: userDoc.id } as api.STUserPublicData;
-	});
+	return unsavedUserPublicDataDocs
+		.map((userDoc) => {
+			return { ...userDoc.data(), id: userDoc.id } as api.STUserPublicData;
+		})
+		.filter((user) => user.lastSignInDate > lastSignInDateBreak.toISOString());
 };

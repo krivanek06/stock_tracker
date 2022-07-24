@@ -1,6 +1,9 @@
-<div class="flex flex-col lg:flex-row gap-8">
+<!-- deactivated message if exists -->
+<app-user-account-deactivated-message [lastSignInDate]="userData.lastSignInDate"></app-user-account-deactivated-message>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 	<!-- user imag / name / since -->
-	<div class="flex items-center gap-6 st-sm-border-bottom">
+	<div class="flex items-center gap-6 st-sm-border-bottom col-span-1 sm:col-span-2 lg:col-span-1">
 		<img class="c-image" appDefaultImg [src]="userData.photoURL" />
 		<div class="flex flex-col">
 			<span class="g-highlighted-text g-color-white">{{ userData.nickName }}</span>
@@ -16,27 +19,26 @@
 			</span>
 		</div>
 	</div>
-	<div class="flex flex-col sm:flex-row">
-		<!-- portfolio current state -->
-		<app-portfolio-state
-			class="flex-1"
-			portfolioState="PARTIAL"
-			[portfolioCash]="userData.portfolio.lastPortfolioSnapshot?.portfolioCash"
-			[portfolioInvested]="userData.portfolio.lastPortfolioSnapshot?.portfolioInvested"
-		></app-portfolio-state>
 
-		<!-- portfolio increase chart -->
-		<div class="c-portfolio-chart flex-1">
-			<app-portfolio-increase-chart
-				[heightPx]="210"
-				[portfolioInvested]="userData.portfolio.lastPortfolioSnapshot?.portfolioInvested"
-				[portfolioCash]="userData.portfolio.lastPortfolioSnapshot?.portfolioCash"
-			></app-portfolio-increase-chart>
-		</div>
+	<!-- portfolio current state -->
+	<app-portfolio-state
+		class="flex-1"
+		portfolioState="PARTIAL"
+		[portfolioCash]="userData.portfolio.lastPortfolioSnapshot?.portfolioCash"
+		[portfolioInvested]="userData.portfolio.lastPortfolioSnapshot?.portfolioInvested"
+	></app-portfolio-state>
+
+	<!-- portfolio increase chart -->
+	<div class="c-portfolio-chart flex-1">
+		<app-portfolio-increase-chart
+			[heightPx]="210"
+			[portfolioInvested]="userData.portfolio.lastPortfolioSnapshot?.portfolioInvested"
+			[portfolioCash]="userData.portfolio.lastPortfolioSnapshot?.portfolioCash"
+		></app-portfolio-increase-chart>
 	</div>
 </div>
 
-<div class="grid grid-cols-1 2xl:grid-cols-2">
+<div class="grid gap-4 grid-cols-1 2xl:grid-cols-2">
 	<!-- portfolio growth chart -->
 	<app-portfolio-growth-chart [heightPx]="portfolioChartHeight" [stPortfolioSnapshots]="userData.userHistoricalData.portfolioSnapshots">
 	</app-portfolio-growth-chart>

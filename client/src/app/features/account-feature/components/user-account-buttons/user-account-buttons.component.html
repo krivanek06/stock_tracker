@@ -1,9 +1,9 @@
 <mat-toolbar class="flex justify-end gap-4 flex-col md:flex-row">
-	<button mat-flat-button class="g-button-secondary" (click)="onRaiseTicket()">
+	<button mat-button class="g-button-primary" matTooltip="Raise a ticket that will be send to the administrator" (click)="onRaiseTicket()">
 		<mat-icon>send</mat-icon>
 		Raise a ticket
 	</button>
-	<button mat-flat-button class="g-button-secondary" (click)="onManageWatchlist()">
+	<button mat-button class="g-button-primary" matTooltip="Create or remove a watchlist" (click)="onManageWatchlist()">
 		<mat-icon>settings</mat-icon>
 		Manage watchlists
 	</button>

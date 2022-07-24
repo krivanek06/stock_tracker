@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { GroupTopUsersInformationModule } from '@group-feature';
 import { IonicModule } from '@ionic/angular';
-import { FormMatInputWrapperModule, GenericCardModule } from '@shared';
+import { FormMatInputWrapperModule, GenericCardModule, MatCardWrapperModule } from '@shared';
 import { SearchGroupPageComponent } from './search-group-page.component';
 
 const routes: Routes = [
@@ -24,6 +24,7 @@ const routes: Routes = [
 		FormMatInputWrapperModule,
 		GroupTopUsersInformationModule,
 		ReactiveFormsModule,
+		MatCardWrapperModule,
 	],
 })
 export class SearchGroupPageModule {}

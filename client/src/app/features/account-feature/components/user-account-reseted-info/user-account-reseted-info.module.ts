@@ -1,16 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {UserAccountResetedInfoComponent} from "./user-account-reseted-info.component";
-import {IonicModule} from "@ionic/angular";
-
-
+import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { IonicModule } from '@ionic/angular';
+import { UserAccountResetedInfoComponent } from './user-account-reseted-info.component';
 
 @NgModule({
-  declarations: [UserAccountResetedInfoComponent],
-  imports: [
-    CommonModule,
-    IonicModule
-  ],
-  exports: [UserAccountResetedInfoComponent]
+	declarations: [UserAccountResetedInfoComponent],
+	imports: [CommonModule, IonicModule, MatButtonModule, MatTooltipModule],
+	exports: [UserAccountResetedInfoComponent],
 })
-export class UserAccountResetedInfoModule { }
+export class UserAccountResetedInfoModule {}

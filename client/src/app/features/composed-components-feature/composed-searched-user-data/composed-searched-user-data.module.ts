@@ -1,3 +1,4 @@
+import { DeactivatedAccountModule } from '@account-feature';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { DefaultImgDirectiveModule, SeriesComparisonChartModule } from '@shared';
@@ -30,6 +31,7 @@ import { ComposedSearchedUserDataComponent } from './composed-searched-user-data
 		PortfolioGrowthChartModule,
 		PortfolioChangeChartModule,
 		SeriesComparisonChartModule,
+		DeactivatedAccountModule,
 	],
 	exports: [ComposedSearchedUserDataComponent],
 })

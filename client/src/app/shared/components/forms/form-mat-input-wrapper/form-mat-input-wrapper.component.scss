@@ -14,15 +14,22 @@
 			pointer-events: none;
 
 			mat-form-field .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-outline {
-				background: #e3e3e3;
+				background: variables.$color-gray-100;
 				border-radius: 8px;
 			}
 
 			div div button {
-				background: #e3e3e3;
+				background: variables.$color-gray-100;
 				color: variables.$color-gray-500;
 			}
 		}
+	}
+
+	.form-input-tooltip {
+		font-size: 14px;
+		margin: 3px !important;
+		padding: 8px !important;
+		position: relative;
 	}
 
 	.errors-showed {
@@ -45,8 +52,12 @@
 			.mat-form-field-suffix {
 				.helper-text-tooltip-icon {
 					font-size: 18px;
+					line-height: 18px;
 					cursor: pointer;
 					margin-left: 6px;
+					width: 18px;
+					height: 18px;
+					color: variables.$color-gray-500;
 				}
 			}
 		}
@@ -66,7 +77,7 @@
 
 				.mat-radio-container {
 					.mat-radio-inner-circle {
-						background-color: variables.$color-success-500;
+						background-color: variables.$color-primary-500;
 					}
 
 					.mat-radio-outer-circle {
@@ -75,6 +86,7 @@
 				}
 
 				.mat-radio-label-content {
+					white-space: pre-wrap;
 					font-weight: normal;
 					letter-spacing: 0.3px;
 				}
@@ -84,7 +96,7 @@
 				.mat-radio-label {
 					.mat-radio-container {
 						.mat-radio-outer-circle {
-							border-color: variables.$color-success-500;
+							border-color: variables.$color-primary-500;
 						}
 					}
 				}
@@ -100,21 +112,25 @@
 		}
 	}
 
-	.c-slider-always-visible {
-		.mat-slider-thumb-label {
-			transform: rotate(45deg) !important;
-			border-radius: 50% 50% 0 !important;
-		}
+	::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+		background-color: variables.$color-primary-500 !important; /*inner circle color change*/
+	}
 
-		.mat-slider-thumb {
-			transform: scale(0) !important;
-		}
+	::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+		border-color: variables.$color-primary-500 !important; /*outer ring color change*/
+	}
 
-		.mat-slider-thumb-label-text {
-			opacity: 1 !important;
-		}
+	::ng-deep .mat-form-field-suffix {
+		align-self: center;
+	}
 
-		margin-top: 1rem;
+	svg.mat-datepicker-toggle-default-icon {
+		display: block;
+		width: 100%;
+	}
+
+	.mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick {
+		color: variables.$color-danger-500 !important;
 	}
 }
 
@@ -122,17 +138,5 @@
 	width: 100%;
 	height: 30px;
 	padding: 17px;
-	border: 1px solid gainsboro;
-}
-
-::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
-	background-color: variables.$color-primary-500 !important; /*inner circle color change*/
-}
-
-::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
-	border-color: variables.$color-primary-500 !important; /*outer ring color change*/
-}
-
-::ng-deep .mat-form-field-label {
-	color: variables.$color-secondary-400 !important;
+	border: 1px solid variables.$color-gray-100;
 }

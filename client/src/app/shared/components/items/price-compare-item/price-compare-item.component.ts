@@ -14,6 +14,7 @@ export class PriceCompareItemComponent implements OnInit {
 	@Input() showIcons = true;
 	@Input() showPrice = true;
 	@Input() showDollarSign = true;
+	@Input() showNAIfPriceZero = false;
 	@Input() pricePosition: 'left' | 'right' | 'bottom' = 'bottom';
 	@Input() classText: string = 'text-gray-500 text-base';
 

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { StGroupUser } from '@core';
-import { PositionColors } from '@shared';
+import { MomentService, PositionColors } from '@shared';
 
 @Component({
 	selector: 'app-group-user-base-information',
@@ -13,8 +13,11 @@ export class GroupUserBaseInformationComponent implements OnInit {
 	@Input() useClassStyling: PositionColors = ''; // makes font colorfull - used on top three members
 	@Input() showIncreasePosition: boolean = false;
 	@Input() showPortfolioSinceMember = false;
-	//@Input() groupUserPosition: number | null = null;
 	@Input() clickable: boolean = false;
+
+	get isAccountInactive(): boolean {
+		return !MomentService.isMoreThan(this.groupUser.portfolio.lastPortfolioSnapshot.date, 14);
+	}
 
 	constructor() {}
 

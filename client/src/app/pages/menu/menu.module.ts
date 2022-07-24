@@ -1,18 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { IonicModule } from '@ionic/angular';
-import { ReplaceCharPipeModule, StockInfoIdentificationItemModule } from '@shared';
-import { MenuHeaderComponent } from './containers/menu-header/menu-header.component';
-import { SideNavigationComponent } from './containers/side-navigation/side-navigation.component';
+import { MenuCreatorCreditsModule, MenuHeaderModule, SideNavigationModule } from '@menu-feature';
+import { ReplaceCharPipeModule } from '@shared';
 import { MenuPageRoutingModule } from './menu-routing.module';
 import { MenuPage } from './menu.page';
 @NgModule({
-	declarations: [MenuPage, SideNavigationComponent, MenuHeaderComponent],
+	declarations: [MenuPage],
 	imports: [
 		CommonModule,
 		MenuPageRoutingModule,
@@ -21,9 +20,11 @@ import { MenuPage } from './menu.page';
 		MatSidenavModule,
 		MatButtonModule,
 		MatIconModule,
-		MatListModule,
-		StockInfoIdentificationItemModule,
+		SideNavigationModule,
+		MenuHeaderModule,
 		ReplaceCharPipeModule,
+		MenuCreatorCreditsModule,
+		MatDividerModule,
 	],
 })
 export class MenuPageModule {}

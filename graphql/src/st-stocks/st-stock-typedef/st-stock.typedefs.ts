@@ -556,7 +556,7 @@ export const stockDetailsTypeDefs = gql`
 		symbol: String!
 		period: String!
 		price: [[Float!]!]!
-		volume: [[Float!]!]!
+		volume: [[Float]]
 	}
 
 	type STDetailsFinancialRatios {

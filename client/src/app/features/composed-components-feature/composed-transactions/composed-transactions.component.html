@@ -4,7 +4,7 @@
 	<span class="text-xl g-color-white"> Transactions</span>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2">
+<div class="grid gap-4 grid-cols-1 lg:grid-cols-2">
 	<!-- last transactions -->
 	<app-mat-card-wrapper title="Last transactions" additionalStyles="height: 100%; min-height: 300px">
 		<app-transactions-table [transactions]="transactions  | slice:0:10"> </app-transactions-table>

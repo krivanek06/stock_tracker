@@ -2,8 +2,8 @@ import { ApolloError } from 'apollo-server';
 import * as admin from 'firebase-admin';
 import * as api from 'stock-tracker-common-interfaces';
 import { getCurrentIOSDate } from '../../st-shared/st-shared.functions';
-import { queryUserPublicDataById, queryUserPublicDataByUsername } from '../user.query';
 import { resolveUserPrivateData } from '../user.resolver';
+import { queryUserPublicDataById } from './../user.query';
 
 export const editUser = async (editInput: api.STUserEditDataInput): Promise<boolean> => {
 	try {
@@ -22,16 +22,8 @@ export const editUser = async (editInput: api.STUserEditDataInput): Promise<bool
 			await initUserPortfolio(userPublicData);
 		}
 
-		// update nickname or photo
-		if (userPublicData.nickName !== editInput.nickName || userPublicData.photoURL !== editInput.photoURL) {
-			const similarUserNames = await queryUserPublicDataByUsername(editInput.nickName);
-			const existsSameName = similarUserNames.find((u) => u.nickName.toLocaleLowerCase() === editInput.nickName.toLowerCase());
-
-			// somebody else already has this nickname
-			if (existsSameName && existsSameName.id !== editInput.userId) {
-				throw new ApolloError(`User with name ${editInput.nickName} aleady exists`);
-			}
-
+		// update photo
+		if (userPublicData.photoURL !== editInput.photoURL) {
 			await updateUserPublicData(editInput, userPublicData);
 			await updateUserPublicDataInGroups(editInput, userPublicData);
 		}
@@ -55,7 +47,6 @@ const updateGroupMemberStats = async (editInput: api.STUserEditDataInput, groupI
 	// update nickname & photo for gorup member
 	const groupMember = groupMemberDoc.members.find((m) => m.id === editInput.userId);
 	if (groupMember) {
-		groupMember.nickName = editInput.nickName;
 		groupMember.photoURL = editInput.photoURL;
 
 		groupMemberRef.set(
@@ -79,7 +70,6 @@ const updateUserPublicDataInGroups = async (editInput: api.STUserEditDataInput, 
 		const groupDoc = (await groupRef.get()).data() as api.STGroupAllData;
 
 		groupDoc.owner.photoURL = editInput.photoURL;
-		groupDoc.owner.nickName = editInput.nickName;
 
 		groupRef.set(
 			{
@@ -114,7 +104,6 @@ const initUserPortfolio = async ({ id }: api.STUserPublicData): Promise<void> =>
 const updateUserPublicData = async (editInput: api.STUserEditDataInput, userPublicData: api.STUserPublicData): Promise<void> => {
 	admin.firestore().collection(api.ST_USER_COLLECTION_USER).doc(userPublicData.id).set(
 		{
-			nickName: editInput.nickName,
 			photoURL: editInput.photoURL,
 		},
 		{ merge: true }

@@ -18,7 +18,6 @@ export const STMarketSharedTypeDefs = gql`
 		sectorPerformance: [STFMSectorPerformance!]!
 		lastUpdate: String!
 		lastUpdateTopStocks: String!
-		stockScreener: [STFMStockScreenerResult!]!
 	}
 
 	type STMarketExchange {

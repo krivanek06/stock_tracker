@@ -1,72 +1,71 @@
-<ion-list>
-	<!-- table header -->
-	<ion-item class="ion-hide-sm-down st-font-1-bold">
-		<ion-label class="symbol-md-space">Symbol</ion-label>
-		<ion-label>Price</ion-label>
-		<ion-label>Daily +/-</ion-label>
-		<ion-label class="ion-hide-lg-down">Supply</ion-label>
-		<ion-label>Market cap.</ion-label>
-		<ion-label class="ion-hide-md-down">52 week range</ion-label>
-	</ion-item>
-
-	<!-- data -->
-	<ng-container *ngIf="topTableCryptoData && topTableCryptoData.length > 0; else showSkeleton">
-		<ng-container *ngFor="let data of topTableCryptoData | slice: 0: 25">
-			<!-- BIG SCREEN -->
-			<ion-item (click)="itemClicked(data)" button class="st-data-item-wrapper ion-hide-sm-down">
-				<!-- logo + symbol name -->
-				<ion-label class="st-display-flex-center st-data-label symbol-md-space">
-					<ion-img [src]="data.coinImageUrl" appDefaultImg class="st-symbol-image"></ion-img>
-					<ion-text class="st-font-4">{{ data.symbol | split: '-'}}</ion-text>
-				</ion-label>
-
-				<!-- current price -->
-				<ion-label [@marketValueChange]="data.regularMarketPrice" class="st-data-label"> {{ data.regularMarketPrice | currency }} </ion-label>
-
-				<!-- daily change -->
-				<ion-label>
-					<app-price-compare-item [compareToPrice]="data.regularMarketClosed" [currentPrice]="data.regularMarketPrice"> </app-price-compare-item>
-				</ion-label>
-
-				<!-- Supply -->
-				<ion-label class="st-data-label ion-hide-lg-down"> {{ data.circulatingSupply | numberFormatter }} </ion-label>
-
-				<!-- Market cap -->
-				<ion-label class="st-data-label"> {{ data.marketCap | numberFormatter }} </ion-label>
-
-				<!-- 52 week range -->
-				<ion-label class="st-data-label ion-hide-md-down">
-					<div style="width: 90%">
-						<app-table-high-low-range [max]="data.fiftyTwoWeekHigh" [min]="data.fiftyTwoWeekLow" [value]="data.regularMarketPrice">
-						</app-table-high-low-range>
-					</div>
-				</ion-label>
-			</ion-item>
-
-			<!-- SMALL SCREEN -->
-			<ion-item (click)="itemClicked(data)" button class="st-data-item-wrapper ion-hide-sm-up st-sm-table-item">
-				<!-- LOGO + SYMBOL -->
-				<ion-label class="st-display-flex-center">
-					<ion-img [src]="data.coinImageUrl" appDefaultImg class="st-symbol-image"></ion-img>
-					<div class="st-flex-col">
-						<ion-text>{{ data.symbol }}</ion-text>
-						<ion-text class="st-hide-xs-down st-font-size-12 st-font-5">{{ data.shortName }}</ion-text>
-					</div>
-				</ion-label>
-
-				<!-- daily change + price -->
-				<ion-label class="st-flex-end st-flex-col">
-					<ion-text [@marketValueChange]="data.regularMarketPrice" class="st-font-1-normal st-font-size-16">
-						{{ data.regularMarketPrice | currency }}
-					</ion-text>
-					<app-price-compare-item [compareToPrice]="data.regularMarketClosed" [currentPrice]="data.regularMarketPrice"> </app-price-compare-item>
-				</ion-label>
-			</ion-item>
-		</ng-container>
+<table mat-table [dataSource]="dataSource" matSort class="w-full g-clickable-table">
+	<ng-container matColumnDef="symbol">
+		<th mat-header-cell *matHeaderCellDef class="hidden xs:table-cell">Symbol</th>
+		<td mat-cell *matCellDef="let row">
+			<div class="flex items-center gap-1">
+				<img [src]="row.coinImageUrl" appDefaultImg class="st-symbol-image" />
+				<span class="g-color-white">{{ row.symbol | split: '-'}}</span>
+			</div>
+		</td>
 	</ng-container>
 
-	<!-- skeleton -->
-	<ng-template #showSkeleton>
-		<app-list-skeleton [itemLength]="25"></app-list-skeleton>
-	</ng-template>
-</ion-list>
+	<!-- price & small screen -->
+	<ng-container matColumnDef="price">
+		<th mat-header-cell *matHeaderCellDef class="hidden xs:table-cell">Price</th>
+		<td mat-cell *matCellDef="let row">
+			<div class="flex flex-col">
+				<span [@marketValueChange]="row.regularMarketPrice" class="text-right xs:text-left text-gray-200 xs:text-gray-400">
+					{{ row.regularMarketPrice | currency }}
+				</span>
+				<app-price-compare-item
+					class="table-cell xs:hidden"
+					[compareToPrice]="row.regularMarketClosed"
+					[currentPrice]="row.regularMarketPrice"
+					pricePosition="right"
+				>
+				</app-price-compare-item>
+			</div>
+		</td>
+	</ng-container>
+
+	<!-- daily change -->
+	<ng-container matColumnDef="dailyChange">
+		<th mat-header-cell *matHeaderCellDef class="hidden xs:table-cell">Daily +/-</th>
+		<td mat-cell *matCellDef="let row" class="hidden xs:table-cell">
+			<app-price-compare-item [compareToPrice]="row.regularMarketClosed" [currentPrice]="row.regularMarketPrice"> </app-price-compare-item>
+		</td>
+	</ng-container>
+
+	<!-- supply -->
+	<ng-container matColumnDef="supply">
+		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Supply</th>
+		<td mat-cell *matCellDef="let row" class="hidden sm:table-cell">{{ row.circulatingSupply | numberFormatter }}</td>
+	</ng-container>
+
+	<!-- market cap -->
+	<ng-container matColumnDef="marketCap">
+		<th mat-header-cell *matHeaderCellDef class="hidden xs:table-cell">Market cap.</th>
+		<td mat-cell *matCellDef="let row" class="hidden xs:table-cell">{{ row.marketCap | numberFormatter }}</td>
+	</ng-container>
+
+	<!-- 52 week change -->
+	<ng-container matColumnDef="52WeekRange">
+		<th mat-header-cell *matHeaderCellDef class="hidden md:table-cell">52 Week range</th>
+		<td mat-cell *matCellDef="let row" class="hidden md:table-cell">
+			<div style="width: 90%">
+				<app-table-high-low-range [max]="row.fiftyTwoWeekHigh" [min]="row.fiftyTwoWeekLow" [value]="row.regularMarketPrice">
+				</app-table-high-low-range>
+			</div>
+		</td>
+	</ng-container>
+
+	<tr mat-header-row *matHeaderRowDef="displayedColumns" class="hidden xs:contents"></tr>
+	<tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="itemClicked(row)"></tr>
+
+	<!-- Row shown when there is no matching data. -->
+	<tr class="mat-row" *matNoDataRow>
+		<td class="mat-cell" colspan="8">
+			<app-list-skeleton [itemLength]="20"></app-list-skeleton>
+		</td>
+	</tr>
+</table>

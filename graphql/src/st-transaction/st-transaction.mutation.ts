@@ -45,8 +45,8 @@ const performTransactionAction = async (
 		}
 
 		const userAlreadyOwnsSymbol = !!user.holdings.find((h) => h.symbol === transaction.symbol);
-		if (!userAlreadyOwnsSymbol && user.holdings.length >= 45) {
-			throw new ApolloError('You can only hold 45 distinct symbols. Operation was not realized');
+		if (!userAlreadyOwnsSymbol && user.holdings.length >= 35) {
+			throw new ApolloError('You can only hold 35 distinct symbols. Operation was not realized');
 		}
 
 		newUserHoldings = addTransactionToUserHolding(user, transaction);

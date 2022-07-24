@@ -1,11 +1,13 @@
 import { UserAccountInfoListModule, UserAccountSearchFormModule } from '@account-feature';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
 import { RouterModule, Routes } from '@angular/router';
 import { GroupMembersTableModule, GroupUserBaseInformationModule } from '@group-feature';
 import { IonicModule } from '@ionic/angular';
-import { FormMatInputWrapperModule, GenericCardModule, TitleValueItemModule } from '@shared';
+import { FormMatInputWrapperModule, GenericCardModule, MatCardWrapperModule, TitleValueItemModule } from '@shared';
 import {
 	PortfolioChangeModule,
 	PortfolioIncreaseChartModule,
@@ -38,6 +40,9 @@ const routes: Routes = [
 	imports: [
 		CommonModule,
 		FormMatInputWrapperModule,
+		MatCardWrapperModule,
+		MatCardModule,
+		MatDividerModule,
 		IonicModule,
 		UserAccountSearchFormModule,
 		UserAccountInfoListModule,

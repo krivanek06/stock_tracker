@@ -38,6 +38,9 @@ export class UserAccountFormComponent implements OnInit, OnChanges {
 
 	finhubValidity$!: Observable<string>;
 
+	isFinnhubKeyEdited = false;
+	isUserPhotoEdited = false;
+
 	constructor(private fb: FormBuilder, private asyncValidatorFinhubKeyValidity: AsyncValidatorFinhubKeyValidity, private cd: ChangeDetectorRef) {}
 
 	get finnhubKey(): AbstractControl {
@@ -50,14 +53,6 @@ export class UserAccountFormComponent implements OnInit, OnChanges {
 
 	get photoURL(): AbstractControl {
 		return this.form.get('photoURL') as AbstractControl;
-	}
-
-	get formWasEdited(): boolean {
-		return (
-			this.user.userPrivateData.finnhubKey !== this.finnhubKey.value ||
-			this.user.nickName !== this.nickName.value ||
-			this.user.photoURL !== this.photoURL.value
-		);
 	}
 
 	ngOnInit() {
@@ -85,14 +80,31 @@ export class UserAccountFormComponent implements OnInit, OnChanges {
 		}
 	}
 
+	onEditForm(): void {
+		this.isFinnhubKeyEdited = !this.isFinnhubKeyEdited;
+		if (this.isFinnhubKeyEdited) {
+			this.finnhubKey.enable();
+		} else {
+			this.finnhubKey.disable();
+		}
+	}
+
 	uploadedImage(files: UploadedFile[]) {
 		this.photoURL.patchValue(files[0].downloadURL);
+		this.isUserPhotoEdited = true;
+	}
+
+	onImageCancel(): void {
+		this.photoURL.patchValue(this.user.photoURL);
+		this.isUserPhotoEdited = false;
 	}
 
 	cancel() {
 		this.uploader.clearImages();
 		this.photoURL.disable();
 		this.formWrappers.forEach((form) => form.resetForm(true));
+		this.isUserPhotoEdited = false;
+		this.isFinnhubKeyEdited = false;
 	}
 
 	private initForm() {
@@ -107,7 +119,6 @@ export class UserAccountFormComponent implements OnInit, OnChanges {
 					updateOn: 'blur',
 				},
 			],
-			nickName: [{ value: this.user.nickName, disabled: true }, [requiredValidator, maxLengthValidator(30)]],
 			photoURL: [{ value: this.user.photoURL, disabled: true }, [requiredValidator]],
 		});
 	}

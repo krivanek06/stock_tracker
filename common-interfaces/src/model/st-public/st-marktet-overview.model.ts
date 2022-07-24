@@ -1,6 +1,6 @@
 import {
   STFMCalendarEarnings, STFMCalendarEconomic, STFMCalendarIpo, STFMCompanyQuote, STFMEtfCountryWeight, STFMEtfHolder, STFMEtfSectorWeight, STFMExchangeIndustryPE,
-  STFMExchangeSectorPE, STFMSectorPerformance, STFMSplitHistory, STFMStockDividend, STFMStockNew, STFMStockScreenerResult
+  STFMExchangeSectorPE, STFMSectorPerformance, STFMSplitHistory, STFMStockDividend, STFMStockNew
 } from "../st-financal-modeling-api.model";
 import { STSummary } from "../st-stockDetails.model";
 
@@ -18,7 +18,6 @@ export interface STMarketDailyOverview {
   commodities: STFMCompanyQuote[];
   exchange: STMarketExchange;
   sectorPerformance: STFMSectorPerformance[];
-  stockScreener: STFMStockScreenerResult[];
   lastUpdate?: string;
   lastUpdateTopStocks?: string;
 }

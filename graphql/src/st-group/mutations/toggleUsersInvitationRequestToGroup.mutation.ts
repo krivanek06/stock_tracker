@@ -89,6 +89,10 @@ const denyUser = async (groupId: string): Promise<void> => {
 };
 
 export const acceptUser = async (groupId: string, groupData: api.STGroupAllData, userPublicData: api.STUserPublicData): Promise<void> => {
+	if (groupData.numberOfMembers + 1 > 40) {
+		throw new Error('Maximum allowed number of users in one group is 40');
+	}
+
 	increaseGroupPortfolio(groupData, userPublicData.portfolio);
 
 	await admin

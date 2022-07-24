@@ -3,7 +3,7 @@
 	<mat-icon color="primary">photo_album</mat-icon>
 
 	<span class="text-xl g-color-white"> {{ title }}</span>
-	<span *ngIf="showHoldingNumber" class="text-xl st-font-3">[{{holdings.length}}/45] </span>
+	<span *ngIf="showHoldingNumber" class="text-xl st-font-3" [ngClass]="{'g-color-danger': holdings.length > 35}">[{{holdings.length}}/35] </span>
 </div>
 
 <app-generic-card>

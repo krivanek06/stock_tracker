@@ -15,6 +15,8 @@ class YahooFinanceApi:
         data = self.__parse_json(url, 'ScreenerResultsStore', 'results', 'rows')
         for d in data:
             d['regularMarketClosed'] = d['regularMarketOpen'] - d['regularMarketChange']
+
+        self.__format_crypto(data)
         return data
     def get_company_data(self, ticker):
         try:
@@ -64,3 +66,17 @@ class YahooFinanceApi:
         except Exception as e:
             print('Exception in parse_json , error: ' + str(e) + ' jsonPathArgs: ', jsonPathArgs)
             return []
+
+
+    def __format_crypto(self, dataSet):
+        for data in dataSet:
+            try:
+                data['spark']['indicators'] = data['spark']['indicators']['quote'][0]['close']
+            except:
+                data['spark']['indicators'] = []
+
+            # remove tradingPeriods
+            try:
+                data['spark']['meta']['tradingPeriods'] = data['spark']['meta']['tradingPeriods'][0][0]
+            except:
+                data['spark']['meta']['tradingPeriods'] = {}

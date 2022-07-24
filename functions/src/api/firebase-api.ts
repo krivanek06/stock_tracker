@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin';
+import * as moment from 'moment';
 import * as api from 'stock-tracker-common-interfaces';
 
 export const getStockSummaryFirebase = async (symbol: string): Promise<api.STSummary | null> => {
@@ -38,9 +39,23 @@ export const getAllUserWithExistingHoldingsFirebase = async (): Promise<api.STUs
 	return usersWithHoldings.docs.map((d) => d.data() as api.STUserPublicData);
 };
 
-export const getUsersToUpdatePortfolio = async (date: string): Promise<api.STUserPublicData[]> => {
-	const usersDocs = await admin.firestore().collection('users').where('portfolio.lastPortfolioSnapshot.date', '<', date).limit(30).get();
-	return usersDocs.docs.map((d) => d.data() as api.STUserPublicData);
+/* 
+	get only those users who logged into the application sooner than last 14 days
+	and order by lastPortfolioUpdateDate that  we know who we have to update data
+*/
+export const getUsersToUpdatePortfolio = async (): Promise<api.STUserPublicData[]> => {
+	const midday = moment().startOf('day').add(12, 'hours');
+	const lastSignInDateBreak = moment().startOf('day').subtract(14, 'days');
+
+	const usersDocs = await admin
+		.firestore()
+		.collection('users')
+		.orderBy('lastSignInDate', 'desc')
+		.where('lastSignInDate', '>=', lastSignInDateBreak.toISOString())
+		.orderBy('lastPortfolioUpdateDate', 'asc')
+		.limit(30)
+		.get();
+	return usersDocs.docs.map((d) => d.data() as api.STUserPublicData).filter((user) => user.lastPortfolioUpdateDate < midday.toISOString());
 };
 
 export const getUserHistoricalData = async ({ id }: api.STUserPublicData): Promise<api.STUserHistoricalData> => {

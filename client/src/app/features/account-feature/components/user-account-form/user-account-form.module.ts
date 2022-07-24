@@ -1,22 +1,22 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {UserAccountFormComponent} from "./user-account-form.component";
-import {FormMatInputLockWrapperModule, FormMatInputWrapperModule, UploaderModule} from "@shared";
-import {IonicModule} from "@ionic/angular";
-import {ReactiveFormsModule} from "@angular/forms";
-
-
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { FormMatInputLockWrapperModule, FormMatInputWrapperModule, UploaderModule } from '@shared';
+import { UserAccountFormComponent } from './user-account-form.component';
 
 @NgModule({
-  declarations: [UserAccountFormComponent],
-  imports: [
-    CommonModule,
-    UploaderModule,
-    IonicModule,
-    ReactiveFormsModule,
-    FormMatInputWrapperModule,
-    FormMatInputLockWrapperModule
-  ],
-  exports: [UserAccountFormComponent]
+	declarations: [UserAccountFormComponent],
+	imports: [
+		CommonModule,
+		UploaderModule,
+		MatTooltipModule,
+		MatButtonModule,
+		ReactiveFormsModule,
+		FormMatInputWrapperModule,
+		FormMatInputLockWrapperModule,
+	],
+	exports: [UserAccountFormComponent],
 })
-export class UserAccountFormModule { }
+export class UserAccountFormModule {}

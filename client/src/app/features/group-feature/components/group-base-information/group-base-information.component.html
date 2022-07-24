@@ -31,11 +31,17 @@
 	<div class="flex flex-col xs:flex-row gap-4 xs:gap-8">
 		<div class="flex flex-col gap-4 items-center">
 			<!-- image & follow button -->
-			<button *ngIf="showStopWatchingGroup" mat-button class="g-button-danger-flat c-watch-button" (click)="stopWatchingGroup()">
+			<button *ngIf="showStopWatchingGroup" mat-button class="g-color-warning c-watch-button" (click)="stopWatchingGroup()">
 				<mat-icon>star</mat-icon>
 				Watching group
 			</button>
-			<button *ngIf="showStartWatchingGroup" mat-button class="g-button-warning-flat c-watch-button" (click)="startWatchingGroup()">
+			<button
+				*ngIf="showStartWatchingGroup"
+				mat-button
+				class="g-color-warning c-watch-button"
+				matTooltip="Save group for fast access"
+				(click)="startWatchingGroup()"
+			>
 				<mat-icon>star_border</mat-icon>
 				Watch group
 			</button>
@@ -43,7 +49,7 @@
 		</div>
 		<div class="flex flex-col">
 			<!-- name & info -->
-			<ion-text class="st-font-size-24 st-font-purple" style="margin-bottom: 8px"> {{ groupIdentification.name }} </ion-text>
+			<ion-text class="text-xl g-color-primary mb-2"> {{ groupIdentification.name }} </ion-text>
 			<div class="st-display-flex-center">
 				<ion-text class="st-font-1 st-small-right-space st-font-size-18">Owner:</ion-text>
 				<ion-avatar class="c-owner-image">
@@ -80,45 +86,50 @@
 		<!-- data section -->
 		<div>
 			<div>
-				<ion-text class="st-font-1 st-small-right-space">Created:</ion-text>
-				<ion-text>{{ groupIdentification.createdDate | date: 'dd.MM.YYYY' }}</ion-text>
+				<ion-text class="g-color-secondary st-small-right-space">Created:</ion-text>
+				<ion-text class="g-color-white">{{ groupIdentification.createdDate | date: 'dd.MM.YYYY' }}</ion-text>
 			</div>
 			<div>
-				<ion-text class="st-font-1 st-small-right-space">Start:</ion-text>
-				<ion-text>{{ groupIdentification.startDate | date: 'dd.MM.YYYY' }}</ion-text>
+				<ion-text class="g-color-secondary st-small-right-space">Start:</ion-text>
+				<ion-text class="g-color-white">{{ groupIdentification.startDate | date: 'dd.MM.YYYY' }}</ion-text>
 			</div>
 			<div>
-				<ion-text class="st-font-1 st-small-right-space">End:</ion-text>
-				<ion-text>{{ groupIdentification.isInfinite ? 'Never' : (groupIdentification.endDate | date: 'dd.MM.YYYY') }}</ion-text>
+				<ion-text class="g-color-secondary st-small-right-space">End:</ion-text>
+				<ion-text class="g-color-white">{{ groupIdentification.isInfinite ? 'Never' : (groupIdentification.endDate | date: 'dd.MM.YYYY') }}</ion-text>
 			</div>
 			<div>
-				<ion-text class="st-font-1 st-small-right-space">Open:</ion-text>
-				<ion-text *ngIf="!groupIdentification.isClosed">{{ groupIdentification.startDate | relativeTime }}</ion-text>
+				<ion-text class="g-color-secondary st-small-right-space">Open:</ion-text>
+				<ion-text *ngIf="!groupIdentification.isClosed" class="g-color-white">{{ groupIdentification.startDate | relativeTime }}</ion-text>
 			</div>
 			<div *ngIf="!groupIdentification.isClosed && !groupIdentification.isInfinite ">
-				<ion-text class="st-font-1 st-small-right-space">Closed in:</ion-text>
-				<ion-text> {{ groupIdentification?.endDate | relativeTime: true }} </ion-text>
+				<ion-text class="g-color-secondary st-small-right-space">Closed in:</ion-text>
+				<ion-text class="g-color-white"> {{ groupIdentification?.endDate | relativeTime: true }} </ion-text>
 			</div>
 		</div>
 
 		<!-- data section -->
 		<div>
 			<div>
-				<ion-text class="st-font-1 st-small-right-space">Members:</ion-text>
-				<ion-text>{{ groupIdentification.numberOfMembers }}</ion-text>
+				<ion-text class="g-color-secondary st-small-right-space">Total members:</ion-text>
+				<ion-text class="g-color-white">{{ groupIdentification.numberOfMembers }}</ion-text>
+			</div>
+			<div>
+				<ion-text class="g-color-secondary st-small-right-space">Active Members:</ion-text>
+				<ion-text class="g-color-white">{{ groupIdentification.numberOfMembersActive }} / {{ groupIdentification.numberOfMembers }}</ion-text>
 			</div>
 			<!-- portfolio state -->
 			<div class="flex items-center gap-2">
-				<span class="st-font-2 text-base">Portfolio:</span>
-				<span class="st-font-0 text-base"> {{ groupIdentification.portfolio.lastPortfolioBalance | currency }} </span>
+				<span class="g-color-secondary text-base">Portfolio:</span>
+				<span class="g-color-white text-base"> {{ groupIdentification.portfolio.lastPortfolioBalance | currency }} </span>
 			</div>
 			<!-- portfolio change -->
 			<div class="flex items-center gap-2">
-				<span class="st-font-2 text-base">Change:</span>
+				<span class="g-color-secondary text-base">Change:</span>
 				<app-price-change-item
 					pricePosition="left"
 					[isPercent]="true"
 					[showDollarSignOnPrice]="true"
+					[showNAIfPriceZero]="true"
 					[priceChange]="portfolioChange?.portfolioIncreasePrct"
 					[price]="portfolioChange?.portfolioIncreaseNumber"
 				>
@@ -129,30 +140,30 @@
 		<!-- data section -->
 		<div>
 			<div>
-				<ion-text class="st-font-1 st-small-right-space">Total transactions:</ion-text>
-				<ion-text>
+				<ion-text class="g-color-secondary st-small-right-space">Total transactions:</ion-text>
+				<ion-text class="g-color-white">
 					{{ ( groupIdentification.portfolio.numberOfExecutedBuyTransactions + groupIdentification.portfolio.numberOfExecutedSellTransactions) -
 					groupIdentification.startedPortfolio.numberOfExecutedBuyTransactions - groupIdentification.startedPortfolio.numberOfExecutedSellTransactions
 					}}
 				</ion-text>
 			</div>
 			<div>
-				<ion-text class="st-font-1 st-small-right-space">Buy transactions:</ion-text>
-				<ion-text
+				<ion-text class="g-color-secondary st-small-right-space">Buy transactions:</ion-text>
+				<ion-text class="g-color-white"
 					>{{ groupIdentification.portfolio.numberOfExecutedBuyTransactions -
 					groupIdentification.startedPortfolio.numberOfExecutedBuyTransactions}}</ion-text
 				>
 			</div>
 			<div>
-				<ion-text class="st-font-1 st-small-right-space">Sell transactions:</ion-text>
-				<ion-text
+				<ion-text class="g-color-secondary st-small-right-space">Sell transactions:</ion-text>
+				<ion-text class="g-color-white"
 					>{{ groupIdentification.portfolio.numberOfExecutedSellTransactions -
 					groupIdentification.startedPortfolio.numberOfExecutedSellTransactions}}</ion-text
 				>
 			</div>
 			<div *ngIf="groupIdentification?.lastUpdateDate">
-				<ion-text class="st-font-1 st-small-right-space">Last update:</ion-text>
-				<ion-text>{{ groupIdentification?.lastUpdateDate | date: 'dd.MM.YYYY' }}</ion-text>
+				<ion-text class="g-color-secondary st-small-right-space">Last update:</ion-text>
+				<ion-text class="g-color-white">{{ groupIdentification?.lastUpdateDate | date: 'dd.MM.YYYY' }}</ion-text>
 			</div>
 		</div>
 	</div>

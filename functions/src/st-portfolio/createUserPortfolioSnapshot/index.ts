@@ -11,7 +11,7 @@ import {
 } from '../../api';
 import { calculatePortfolioChange, customSleep } from '../../util';
 /* 
-For each user who already performed a transaction calculate
+For each user who was active within 14days calculate
 - portfolioChange
 - portfolio
 - portfolioRisk
@@ -27,10 +27,7 @@ export const createUserPortfolioSnapshot = functions.pubsub.topic('createUserPor
 	console.log(`Started updating at ${start.toDate()}`);
 
 	// load users who has non empty holdings
-	const yesterday = new Date();
-	yesterday.setHours(12, 0, 0, 0); // today noon
-	console.log('date: ', yesterday.toISOString());
-	const usersWithHoldings = await getUsersToUpdatePortfolio(yesterday.toISOString());
+	const usersWithHoldings = await getUsersToUpdatePortfolio();
 	const total = usersWithHoldings.length;
 	console.log('users with holdings: ', total);
 	console.log(`Starting distinct symbols: ${symbolPriceMap.size}`);

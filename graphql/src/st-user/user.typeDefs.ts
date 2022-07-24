@@ -87,7 +87,6 @@ export const userTypeDefs = gql`
 	input STUserEditDataInput {
 		userId: String
 		finnhubKey: String
-		nickName: String
 		photoURL: String
 	}
 

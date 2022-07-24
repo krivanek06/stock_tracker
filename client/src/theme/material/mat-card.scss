@@ -1,0 +1,37 @@
+@use 'custom-variables' as variables;
+
+mat-card {
+	padding: 22px !important;
+	border: 1px solid variables.$color-gray-100 !important;
+
+	background: linear-gradient(126deg, rgb(5 13 42 / 39%) 0%, rgb(6 15 47 / 60%) 35%, rgb(6 17 52 / 0.7) 100%) !important;
+	background-clip: padding-box !important;
+	backdrop-filter: blur(25px) !important;
+	border: 2px solid transparent !important;
+	color: variables.$color-gray-400 !important;
+
+	mat-card-header {
+		@apply p-1;
+
+		.mat-card-header-text {
+			margin: 0 !important;
+		}
+
+		mat-card-subtitle {
+			margin-top: 16px !important;
+		}
+
+		mat-card-title {
+			@apply flex items-center gap-2 font-bold;
+		}
+	}
+
+	mat-card-content {
+		margin-top: 16px;
+		height: fit-content !important;
+	}
+
+	mat-card-subtitle {
+		color: variables.$color-gray-500 !important;
+	}
+}

@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule, Routes } from '@angular/router';
 import { ComposedSearchedUserDataModule } from '@composed-components-feature';
-import { IonicModule } from '@ionic/angular';
+import { LoaderWrapperModule } from '@shared';
 import { SearchUserPageComponent } from './search-user-page.component';
 
 const routes: Routes = [
@@ -16,6 +16,14 @@ const routes: Routes = [
 
 @NgModule({
 	declarations: [SearchUserPageComponent],
-	imports: [CommonModule, RouterModule.forChild(routes), IonicModule, UserAccountSearchModule, ComposedSearchedUserDataModule, MatButtonModule],
+	imports: [
+		CommonModule,
+		RouterModule.forChild(routes),
+		MatButtonModule,
+		UserAccountSearchModule,
+		ComposedSearchedUserDataModule,
+		MatButtonModule,
+		LoaderWrapperModule,
+	],
 })
 export class SearchUserPageModule {}
