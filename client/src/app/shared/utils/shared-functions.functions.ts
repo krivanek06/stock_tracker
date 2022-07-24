@@ -10,39 +10,39 @@ export const zipArrays = <T extends unknown>(a: T[], b: T[]): T[][] => a.map((k,
 
 export const roundNumber = (num: number) => Math.round(num * 100) / 100;
 
-export const stFormatLargeNumber = (value?: string | number | null, isPercent: boolean = false, showDollarSign: boolean = false) => {
-	if (!value || !stIsNumber(value)) {
+export const stFormatLargeNumber = (value?: string | number | null | unknown, isPercent: boolean = false, showDollarSign: boolean = false) => {
+	if (!value || (!stIsNumber(value) && typeof value !== 'number')) {
 		return 'N/A';
 	}
 
-	value = Number(value);
+	let castedValue = Number(value);
 
 	if (isPercent) {
-		const rounded = Math.round(value * 100 * 100) / 100;
+		const rounded = Math.round(castedValue * 100 * 100) / 100;
 		return `${rounded}%`;
 	}
 
 	let symbol = '';
-	if (Math.abs(value) >= 1000) {
-		value = value / 1000;
+	if (Math.abs(castedValue) >= 1000) {
+		castedValue = castedValue / 1000;
 		symbol = 'K';
 	}
 
-	if (Math.abs(value) >= 1000) {
-		value = value / 1000;
+	if (Math.abs(castedValue) >= 1000) {
+		castedValue = castedValue / 1000;
 		symbol = 'M';
 	}
 
-	if (Math.abs(value) >= 1000) {
-		value = value / 1000;
+	if (Math.abs(castedValue) >= 1000) {
+		castedValue = castedValue / 1000;
 		symbol = 'B';
 	}
 
-	if (Math.abs(value) >= 1000) {
-		value = value / 1000;
+	if (Math.abs(castedValue) >= 1000) {
+		castedValue = castedValue / 1000;
 		symbol = 'T';
 	}
-	let result = value.toFixed(2) + symbol;
+	let result = castedValue.toFixed(2) + symbol;
 
 	if (showDollarSign) {
 		result = `$${result}`;
@@ -50,8 +50,8 @@ export const stFormatLargeNumber = (value?: string | number | null, isPercent: b
 	return result;
 };
 
-export const stIsNumber = (value: string | number): boolean => {
-	return value != null && value !== '' && !isNaN(Number(value.toString()));
+export const stIsNumber = (value: string | number | unknown): boolean => {
+	return value != null && value !== '' && typeof value === 'number' && !isNaN(Number(value.toString()));
 };
 
 // return YYYY-MM-DD

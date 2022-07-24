@@ -112,23 +112,6 @@
 		}
 	}
 
-	.c-slider-always-visible {
-		.mat-slider-thumb-label {
-			transform: rotate(45deg) !important;
-			border-radius: 50% 50% 0 !important;
-		}
-
-		.mat-slider-thumb {
-			transform: scale(0) !important;
-		}
-
-		.mat-slider-thumb-label-text {
-			opacity: 1 !important;
-		}
-
-		margin-top: 1rem;
-	}
-
 	::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
 		background-color: variables.$color-primary-500 !important; /*inner circle color change*/
 	}

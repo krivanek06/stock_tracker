@@ -84,6 +84,7 @@ export const createEmptySTGroupAllData = (groupId: string): api.STGroupAllData =
 		imagePath: null,
 		imageUrl: null,
 		numberOfMembers: 0,
+		numberOfMembersActive: 0,
 		numberOfInvitationReceived: 0,
 		numberOfInvitationSent: 0,
 		topMembers: [],
@@ -148,6 +149,7 @@ export const increaseGroupPortfolio = (group: api.STGroupAllData, addedPortfolio
 	group.portfolio.numberOfExecutedBuyTransactions += addedPortfolio.numberOfExecutedBuyTransactions;
 	group.portfolio.transactionFees += addedPortfolio.transactionFees;
 	group.numberOfMembers += 1;
+	group.numberOfMembersActive += 1;
 };
 
 export const decreaseGroupPortfolio = (group: api.STGroupAllData, addedPortfolio: api.STPortfolioWrapper) => {
@@ -165,4 +167,5 @@ export const decreaseGroupPortfolio = (group: api.STGroupAllData, addedPortfolio
 	group.portfolio.numberOfExecutedBuyTransactions -= addedPortfolio.numberOfExecutedBuyTransactions;
 	group.portfolio.transactionFees -= addedPortfolio.transactionFees;
 	group.numberOfMembers -= 1;
+	group.numberOfMembersActive -= 1;
 };

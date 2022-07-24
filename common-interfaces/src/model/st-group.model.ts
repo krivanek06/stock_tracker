@@ -17,7 +17,7 @@ export interface STGroupIdentification extends STPortfolioEntity {
     isPrivate: boolean; // if true then group is invite only
     isClosed: boolean; // true only if isInfinite === false && endDate < today
     numberOfMembers: number;
-    numberOfMembersActive?: number;
+    numberOfMembersActive: number;
     portfolio: STPortfolioWrapper; // total group portfolio
     startedPortfolio: STPortfolioSnapshotStarted; // accumulation of user's portfolio when they joined group
     topMembers: STGroupUser[];

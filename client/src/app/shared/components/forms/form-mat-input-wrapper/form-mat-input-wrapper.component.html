@@ -138,12 +138,11 @@
 					<div class="flex items-center gap-4">
 						<!-- hint -->
 						<mat-icon *ngIf="hintText" [matTooltip]="hintText | translate" class="helper-text-tooltip-icon" matSuffix> help_outline </mat-icon>
-						<span *ngIf="inputCaption">{{ inputCaption | translate }}: {{ inputTypeSliderConfig.displayValue }}</span>
+						<span *ngIf="inputCaption">{{ inputCaption | translate }}: {{ inputTypeSliderConfig.displayValue | numberFormatter }}</span>
 					</div>
 
 					<mat-slider
 						class="w-full"
-						[class.c-slider-always-visible]="!inputCaption"
 						thumbLabel
 						tickInterval="1"
 						color="primary"
