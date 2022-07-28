@@ -13,6 +13,7 @@ export const convertSTGroupAllDataTOSTGroupIndentification = (group?: api.STGrou
 		isPrivate: group.isPrivate,
 		name: group.name,
 		numberOfMembers: group.numberOfMembers,
+		numberOfMembersActive: group.numberOfMembersActive,
 		owner: { ...group.owner },
 		portfolio: { ...group.portfolio },
 		startDate: group.startDate,

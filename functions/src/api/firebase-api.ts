@@ -203,23 +203,22 @@ export const getOpenGroups = async (getAll = false): Promise<api.STGroupAllData[
 	return [...infiniteGroups.docs, ...notEndedGroups.docs].map((d) => d.data() as api.STGroupAllData);
 };
 
-// export const savePortfolioChange = async (entity: 'users' | 'groups', id: string, portfolioChange: api.STPortfolioChange | null): Promise<void> => {
-// 	if (!portfolioChange) {
-// 		return;
-// 	}
-// 	await admin.firestore().collection(entity).doc(id).set(
-// 		{
-// 			portfolio: {
-// 				portfolioChange,
-// 			},
-// 		},
-// 		{ merge: true }
-// 	);
-// };
+export const getActiveUsersByHighestPortfolio = async (): Promise<api.STUserPublicData[]> => {
+	const lastSignInDateBreak = moment().startOf('day').subtract(14, 'days');
+	const docs = await admin
+		.firestore()
+		.collection('users')
+		.orderBy('lastSignInDate', 'desc')
+		.where('lastSignInDate', '>=', lastSignInDateBreak.toISOString())
+		.orderBy(`portfolio.lastPortfolioBalance`, 'desc')
+		.get();
+	const users = docs.docs.map((d) => d.data() as api.STUserPublicData);
+	return users;
+};
 
-export const getEntityByHighestPortfolio = async <T extends api.STPortfolioEntity>(entityKey: 'users' | 'groups'): Promise<T[]> => {
-	const doc = await admin.firestore().collection(entityKey).orderBy(`portfolio.lastPortfolioBalance`, 'desc').get();
+export const getGroupsByHighestPortfolio = async (): Promise<api.STGroupAllData[]> => {
+	const doc = await admin.firestore().collection('groups').orderBy(`portfolio.lastPortfolioBalance`, 'desc').get();
 
-	const data = doc.docs.map((d) => d.data() as T);
+	const data = doc.docs.map((d) => d.data() as api.STGroupAllData);
 	return data;
 };

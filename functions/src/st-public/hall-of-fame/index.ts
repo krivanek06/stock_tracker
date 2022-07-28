@@ -2,7 +2,8 @@ import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import * as moment from 'moment';
 import * as api from 'stock-tracker-common-interfaces';
-import { getEntityByHighestPortfolio } from '../../api';
+import { getActiveUsersByHighestPortfolio, getGroupsByHighestPortfolio } from '../../api';
+
 import { convertSTGroupAllDataTOSTGroupIndentification, convertSTUserPublicDataToSTUserIndentificationWithPortfolio } from '../../util';
 
 /* 
@@ -30,8 +31,8 @@ export const calculateHallOfFame = functions.pubsub.topic('calculateHallOfFame')
 	try {
 		// get users & groups
 		console.log('Getting users & groups');
-		const usersByHighestPortfolio = await getEntityByHighestPortfolio<api.STUserPublicData>('users');
-		const groupsByHighestPortfolio = await getEntityByHighestPortfolio<api.STGroupAllData>('groups');
+		const usersByHighestPortfolio = await getActiveUsersByHighestPortfolio();
+		const groupsByHighestPortfolio = await getGroupsByHighestPortfolio();
 		console.log(`Received users: ${usersByHighestPortfolio.length}, groups: ${groupsByHighestPortfolio.length}`);
 
 		// update users & groups
@@ -82,8 +83,8 @@ const getEntityHallOfFame = async <T extends EntityIdentification>(
 	collection: api.STPortfolioEntityType,
 	identificationFunction: (entity?: T | null) => api.STPortfolioEntity | null
 ): Promise<api.STHallOfFameEntity<api.STPortfolioEntity>> => {
-	const bestGainers = await getSTHallOfFameEntityGains(collection, 'desc', identificationFunction);
-	const wortGainers = await getSTHallOfFameEntityGains(collection, 'asc', identificationFunction);
+	const bestGainers = collection === 'groups' ? null : await getSTHallOfFameEntityGains(collection, 'desc', identificationFunction);
+	const wortGainers = collection === 'groups' ? null : await getSTHallOfFameEntityGains(collection, 'asc', identificationFunction);
 	return {
 		bestGainers,
 		wortGainers,
@@ -139,22 +140,6 @@ const getSTHallOfFameEntityGains = async <T extends EntityIdentification>(
 		order,
 		identificationFunction
 	);
-	const month_2_change_prct = await getEntityIdentification<T>(collection, 'month_2_change', 'portfolioIncreasePrct', order, identificationFunction);
-	const month_2_change_number = await getEntityIdentification<T>(
-		collection,
-		'month_2_change',
-		'portfolioIncreaseNumber',
-		order,
-		identificationFunction
-	);
-	const month_3_change_prct = await getEntityIdentification<T>(collection, 'month_3_change', 'portfolioIncreasePrct', order, identificationFunction);
-	const month_3_change_number = await getEntityIdentification<T>(
-		collection,
-		'month_3_change',
-		'portfolioIncreaseNumber',
-		order,
-		identificationFunction
-	);
 
 	return {
 		day_1_change_number,
@@ -167,10 +152,6 @@ const getSTHallOfFameEntityGains = async <T extends EntityIdentification>(
 		week_3_change_prct,
 		month_1_change_number,
 		month_1_change_prct,
-		month_2_change_number,
-		month_2_change_prct,
-		month_3_change_number,
-		month_3_change_prct,
 	};
 };
 

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { StPortfolioChange, StPortfolioChangeData, StUserIdentificationDataFragment, StUserIdentificationPortfolioFragmentFragment } from '@core';
+import { MomentService } from '@shared';
 
 @Component({
 	selector: 'app-user-account-info-list',
@@ -23,6 +24,10 @@ export class UserAccountInfoListComponent implements OnInit {
 	@Input() portfolioChangeKey?: keyof StPortfolioChange;
 
 	portfolioChange?: StPortfolioChangeData | null;
+
+	get isAccountInactive(): boolean {
+		return !MomentService.isMoreThan(this.stUserPublicData.lastSignInDate, 14);
+	}
 
 	constructor() {}
 

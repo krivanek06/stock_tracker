@@ -7,7 +7,7 @@ import * as moment from 'moment';
 export class MomentService {
 	constructor() {}
 
-	static isMoreThan(date1?: string, days?: number): boolean {
+	static isMoreThan(date1?: string | null, days?: number): boolean {
 		if (!date1 || !days) {
 			return false;
 		}

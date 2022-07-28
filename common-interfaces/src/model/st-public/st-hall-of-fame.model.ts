@@ -14,16 +14,12 @@ export interface STHallOfFameEntityGains<T> {
     // monthly
     month_1_change_prct: T[];
     month_1_change_number: T[];
-    month_2_change_prct: T[];
-    month_2_change_number: T[];
-    month_3_change_prct: T[];
-    month_3_change_number: T[];
 }
 
 export interface STHallOfFameEntity<T> {
     highestPortfolio: T[];
-    bestGainers: STHallOfFameEntityGains<T>;
-    wortGainers: STHallOfFameEntityGains<T>;
+    bestGainers?: STHallOfFameEntityGains<T> | null;
+    wortGainers?: STHallOfFameEntityGains<T> | null;
     lastUpdateDate: string;
     total: number;
 }

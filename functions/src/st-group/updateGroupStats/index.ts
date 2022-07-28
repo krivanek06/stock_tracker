@@ -248,8 +248,8 @@ const constructGroupHistoricalDataUpdate = (
 	historical: api.STGroupHistoricalData
 ): Partial<api.STGroupHistoricalData> => {
 	const data: Partial<api.STGroupHistoricalData> = {
-		portfolioSnapshots: [...historical.portfolioSnapshots.slice(-120), groupCurrentPortfolio.lastPortfolioSnapshot],
-		transactionSnapshots: [...historical.transactionSnapshots.slice(-120), groupCurrentPortfolio.lastTransactionSnapshot],
+		portfolioSnapshots: [...historical.portfolioSnapshots.slice(-180), groupCurrentPortfolio.lastPortfolioSnapshot],
+		transactionSnapshots: [...historical.transactionSnapshots.slice(-180), groupCurrentPortfolio.lastTransactionSnapshot],
 	};
 
 	return data;
@@ -264,8 +264,12 @@ const constructGroupMembers = (groupMember: api.STGroupUser[], groupMembersCurre
 	const groupMemberWithUpdatedPortfolio = groupMember
 		.map((member) => {
 			// update portfolio for each member
-			const updatedPortfolio = groupMembersCurrentData.find((m) => m.id === member.id)?.portfolio;
-			return { ...member, portfolio: updatedPortfolio ?? member.portfolio } as api.STGroupUser;
+			const foundMemberCurrentData = groupMembersCurrentData.find((m) => m.id === member.id);
+			return {
+				...member,
+				portfolio: foundMemberCurrentData?.portfolio ?? member.portfolio,
+				lastSignInDate: foundMemberCurrentData?.lastSignInDate ?? null,
+			} as api.STGroupUser;
 		})
 		.sort((a, b) => {
 			// sort by higher portfolio balance
