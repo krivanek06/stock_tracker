@@ -25,6 +25,7 @@ export interface STUserIndentificationBase {
 
 export interface STUserIndentification extends STUserIndentificationBase {
     id: string;
+    lastSignInDate: string;
 }
 
 export interface STUserIndentificationWithPortfolio extends STUserIndentification, STPortfolioEntity {

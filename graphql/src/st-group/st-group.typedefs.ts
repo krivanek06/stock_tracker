@@ -9,6 +9,7 @@ export const STGroupTypeDefs = gql`
 		locale: String
 		photoURL: String!
 		accountCreatedDate: String!
+		lastSignInDate: String
 		portfolio: STPortfolioWrapper!
 		startedPortfolio: STPortfolioSnapshotStarted!
 		previousPosition: Float

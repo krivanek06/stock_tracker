@@ -53,10 +53,16 @@
 			<span class="st-font-1-normal" [ngClass]="{'st-font-white': !!useClassStyling}"> Since: </span>
 			<span [ngClass]="[useClassStyling]">{{ groupUser.sinceDate | date: 'dd.MM.YYYY' }}</span>
 		</div>
+
+		<!-- is inactive -->
+		<div *ngIf="isAccountInactive" class="c-wrapper-flex">
+			<span class="st-font-1-normal" [ngClass]="{'st-font-white': !!useClassStyling}"> Account: </span>
+			<span [ngClass]="[useClassStyling]">Inactive</span>
+		</div>
 	</div>
 
 	<!-- Position -->
-	<div class="absolute right-3 top-3 ml-3" *ngIf="groupUser.currentPosition">
+	<div class="absolute right-3 top-3 ml-3 flex items-center gap-2" *ngIf="groupUser.currentPosition">
 		<mat-icon
 			*ngIf="isAccountInactive"
 			class="g-color-danger z-20"

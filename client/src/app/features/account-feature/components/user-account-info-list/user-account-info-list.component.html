@@ -1,5 +1,5 @@
 <!-- contact -->
-<div *ngIf="stUserPublicData" class="user-info-item">
+<div *ngIf="stUserPublicData" class="user-info-item" [ngClass]="{'inactive-account': isAccountInactive}">
 	<div
 		(click)="clickedPerson()"
 		[ngClass]="{
@@ -10,7 +10,17 @@
 	>
 		<ion-img appDefaultImg [src]="stUserPublicData.photoURL"></ion-img>
 		<div class="ml-2">
-			<span class="text-white text-lg">{{ stUserPublicData.nickName }}</span>
+			<div class="flex items-center gap-2">
+				<span class="text-white text-lg">{{ stUserPublicData.nickName }}</span>
+				<!-- inactive icon -->
+				<mat-icon
+					*ngIf="isAccountInactive"
+					class="g-color-danger z-20"
+					[matTooltip]="'Due to more than 14 days of inactivity, this account has been deactivated, meaning user is no longer included in the group statistics since ' +  (stUserPublicData.lastSignInDate| date: 'dd.MM.YYYY'  || 'N/A')"
+				>
+					not_interested
+				</mat-icon>
+			</div>
 
 			<!-- portfolio state -->
 			<div class="flex items-center gap-2">
@@ -22,6 +32,7 @@
 				<span class="st-font-2 text-base">Change:</span>
 				<app-price-change-item
 					pricePosition="left"
+					classText="st-font-0"
 					[isPercent]="true"
 					[showDollarSignOnPrice]="true"
 					[priceChange]="portfolioChange?.portfolioIncreasePrct"
@@ -30,7 +41,15 @@
 				</app-price-change-item>
 			</div>
 
-			<span class="g-color-secondary"> Since: {{ stUserPublicData.accountCreatedDate | date: 'dd.MM.yyyy' }} </span>
+			<!-- last login -->
+			<div class="g-color-secondary text-base">
+				Last login: <span class="g-color-white">{{ stUserPublicData.lastSignInDate | date: 'dd.MM.yyyy' }} </span>
+			</div>
+
+			<!-- since -->
+			<div class="g-color-secondary text-base">
+				Since: <span class="g-color-white">{{ stUserPublicData.accountCreatedDate | date: 'dd.MM.yyyy' }} </span>
+			</div>
 		</div>
 	</div>
 
