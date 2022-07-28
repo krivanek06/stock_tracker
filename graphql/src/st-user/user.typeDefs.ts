@@ -23,6 +23,7 @@ export const userTypeDefs = gql`
 		locale: String
 		photoURL: String!
 		accountCreatedDate: String!
+		lastSignInDate: String
 		portfolio: STPortfolioWrapper!
 	}
 

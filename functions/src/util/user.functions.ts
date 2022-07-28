@@ -7,6 +7,7 @@ export const convertSTUserPublicDataToSTUserIndentification = (publicData: api.S
 		nickName: publicData.nickName,
 		photoURL: publicData.photoURL,
 		id: publicData.id,
+		lastSignInDate: publicData.lastSignInDate,
 	};
 	return identification;
 };
@@ -30,6 +31,7 @@ export const convertSTUserPublicDataToSTUserIndentificationWithPortfolio = (
 export const convertSTUserPublicDataToSTUserGroup = (userPublicData: api.STUserPublicData): api.STGroupUser => {
 	return {
 		accountCreatedDate: userPublicData.accountCreatedDate,
+		lastSignInDate: userPublicData.lastSignInDate,
 		locale: userPublicData.locale,
 		nickName: userPublicData.nickName,
 		photoURL: userPublicData.photoURL,

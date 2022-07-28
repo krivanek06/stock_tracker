@@ -26,7 +26,7 @@
                   'g-first-position': i === 0,
                   'g-second-position': i === 1,
                   'g-third-position': i === 2,
-				  'c-inactive-account': !(groupUser.portfolio.lastPortfolioSnapshot.date | isTimeMoreThan: 14)
+				  'c-inactive-account': !groupUser.lastSignInDate
                 }"
 	>
 		<mat-card-content>

@@ -4,6 +4,7 @@ fragment StUserIdentificationFragment on STUserIdentification {
 	locale
 	photoURL
 	accountCreatedDate
+	lastSignInDate
 }
 
 fragment StUserIdentificationPortfolioFragment on STUserIdentification {
@@ -12,6 +13,7 @@ fragment StUserIdentificationPortfolioFragment on STUserIdentification {
 	locale
 	photoURL
 	accountCreatedDate
+	lastSignInDate
 	portfolio {
 		...STPortfolioWrapperFragment
 	}

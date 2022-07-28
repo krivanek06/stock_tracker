@@ -48,7 +48,7 @@ export const createUserPortfolioSnapshot = functions.pubsub.topic('createUserPor
 			const portfolioChange = calculatePortfolioChange(userHistoricalData.portfolioSnapshots);
 
 			// update user historical data
-			await updateUserHistoricalData(user, { portfolioSnapshots: [...userHistoricalData.portfolioSnapshots.slice(-100), portfolioSnapshot] });
+			await updateUserHistoricalData(user, { portfolioSnapshots: [...userHistoricalData.portfolioSnapshots.slice(-180), portfolioSnapshot] });
 
 			// update user main data
 

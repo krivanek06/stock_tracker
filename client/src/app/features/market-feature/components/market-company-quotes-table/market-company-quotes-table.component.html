@@ -17,7 +17,7 @@
 		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Price</th>
 		<td mat-cell *matCellDef="let row">
 			<div class="flex flex-col">
-				<span [@marketValueChange]="row.price" class="text-right sm:text-left text-gray-200 sm:text-gray-400"> {{ row.price | currency }} </span>
+				<span [@marketValueChange]="row.price" class="text-right sm:text-left"> {{ row.price | currency }} </span>
 				<app-price-compare-item class="table-cell sm:hidden" [compareToPrice]="row.previousClose" [currentPrice]="row.price" pricePosition="right">
 				</app-price-compare-item>
 			</div>

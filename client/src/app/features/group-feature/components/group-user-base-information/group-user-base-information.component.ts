@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { StGroupUser } from '@core';
-import { MomentService, PositionColors } from '@shared';
+import { PositionColors } from '@shared';
 
 @Component({
 	selector: 'app-group-user-base-information',
@@ -16,7 +16,7 @@ export class GroupUserBaseInformationComponent implements OnInit {
 	@Input() clickable: boolean = false;
 
 	get isAccountInactive(): boolean {
-		return !MomentService.isMoreThan(this.groupUser.portfolio.lastPortfolioSnapshot.date, 14);
+		return !this.groupUser.lastSignInDate;
 	}
 
 	constructor() {}
