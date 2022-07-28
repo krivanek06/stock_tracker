@@ -1,48 +1,3 @@
-fragment STHallOfFameEntityGainsGroups on STHallOfFameEntityGainsGroups {
-	day_1_change_prct {
-		...STGroupIdentificationData
-	}
-	day_1_change_number {
-		...STGroupIdentificationData
-	}
-	week_1_change_prct {
-		...STGroupIdentificationData
-	}
-	week_1_change_number {
-		...STGroupIdentificationData
-	}
-	week_2_change_prct {
-		...STGroupIdentificationData
-	}
-	week_2_change_number {
-		...STGroupIdentificationData
-	}
-	week_3_change_prct {
-		...STGroupIdentificationData
-	}
-	week_3_change_number {
-		...STGroupIdentificationData
-	}
-	month_1_change_prct {
-		...STGroupIdentificationData
-	}
-	month_1_change_number {
-		...STGroupIdentificationData
-	}
-	month_2_change_prct {
-		...STGroupIdentificationData
-	}
-	month_2_change_number {
-		...STGroupIdentificationData
-	}
-	month_3_change_prct {
-		...STGroupIdentificationData
-	}
-	month_3_change_number {
-		...STGroupIdentificationData
-	}
-}
-
 fragment STHallOfFameEntityGainsUsers on STHallOfFameEntityGainsUsers {
 	day_1_change_prct {
 		...StUserIdentificationPortfolioFragment
@@ -74,18 +29,6 @@ fragment STHallOfFameEntityGainsUsers on STHallOfFameEntityGainsUsers {
 	month_1_change_number {
 		...StUserIdentificationPortfolioFragment
 	}
-	month_2_change_prct {
-		...StUserIdentificationPortfolioFragment
-	}
-	month_2_change_number {
-		...StUserIdentificationPortfolioFragment
-	}
-	month_3_change_prct {
-		...StUserIdentificationPortfolioFragment
-	}
-	month_3_change_number {
-		...StUserIdentificationPortfolioFragment
-	}
 }
 
 fragment STHallOfFameUsers on STHallOfFameUsers {
@@ -107,12 +50,6 @@ fragment STHallOfFameGroups on STHallOfFameGroups {
 	lastUpdateDate
 	highestPortfolio {
 		...STGroupIdentificationData
-	}
-	bestGainers {
-		...STHallOfFameEntityGainsGroups
-	}
-	wortGainers {
-		...STHallOfFameEntityGainsGroups
 	}
 }
 
