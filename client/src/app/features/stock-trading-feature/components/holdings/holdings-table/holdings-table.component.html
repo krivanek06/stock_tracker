@@ -36,8 +36,8 @@
 
 	<!-- daily change. -->
 	<ng-container matColumnDef="daily">
-		<th mat-header-cell *matHeaderCellDef class="hidden sm:table-cell">Daily +/-</th>
-		<td mat-cell *matCellDef="let row" class="hidden sm:table-cell">
+		<th mat-header-cell *matHeaderCellDef class="hidden md:table-cell">Daily +/-</th>
+		<td mat-cell *matCellDef="let row" class="hidden md:table-cell">
 			<app-price-compare-item [currentPrice]="row.summary.marketPrice * row.units" [compareToPrice]="row.summary.previousClose * row.units">
 			</app-price-compare-item>
 		</td>
