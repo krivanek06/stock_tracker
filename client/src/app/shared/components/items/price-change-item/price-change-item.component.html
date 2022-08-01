@@ -4,7 +4,9 @@
 	<div
 		class="flex gap-x-2"
 		[ngClass]="{
-        'flex-col': pricePosition === 'bottom' || pricePosition === 'top'
+        'flex-col': pricePosition === 'bottom' || pricePosition === 'top',
+		'items-center': pricePosition === 'left' || pricePosition === 'right',
+		'min-w-[125px]': pricePosition === 'left' || pricePosition === 'right'
        }"
 	>
 		<!-- price - position left -->

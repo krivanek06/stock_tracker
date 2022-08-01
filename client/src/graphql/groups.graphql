@@ -13,6 +13,7 @@ fragment STGroupUserFragment on STGroupUser {
 	previousPosition
 	currentPosition
 	sinceDate
+	lastSignInDate
 }
 
 fragment STGroupIdentificationData on STGroupIdentificationInterface {
