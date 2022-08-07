@@ -2,13 +2,13 @@
 	<app-form-mat-input-wrapper class="flex-1" controlName="name" [inputCaption]="label"></app-form-mat-input-wrapper>
 
 	<div class="flex gap-1 pt-1">
-		<button *ngIf="editing" mat-icon-button color="accent" (click)="accept()" matTooltip="Confirm editing">
+		<button *ngIf="editing" mat-icon-button class="g-color-success" (click)="accept()" matTooltip="Confirm editing">
 			<mat-icon>check_circle</mat-icon>
 		</button>
 		<button mat-icon-button class="g-color-warning" (click)="modify()" [matTooltip]="editing ? 'Cancel editing' : 'Edit input'">
 			<mat-icon>edit</mat-icon>
 		</button>
-		<button *ngIf="editing" mat-icon-button color="warn" (click)="remove()" [matTooltip]="'Delete this ' + label">
+		<button *ngIf="editing" mat-icon-button class="g-color-danger" (click)="remove()" [matTooltip]="'Delete this ' + label">
 			<mat-icon>delete</mat-icon>
 		</button>
 	</div>

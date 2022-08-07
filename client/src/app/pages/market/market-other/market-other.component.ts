@@ -14,11 +14,13 @@ export class MarketOtherComponent implements OnInit {
 
 	ChartType = ChartType;
 	chartHeight!: number;
+	chartHeightSectors!: number;
 
 	constructor(private graphqlQueryService: GraphqlQueryService) {}
 
 	ngOnInit() {
 		this.dailyOverview$ = this.graphqlQueryService.queryMarketDailyOverview();
 		this.chartHeight = WindowService.getWindowHeightPrctInPx(45);
+		this.chartHeightSectors = WindowService.getWindowHeightPrctInPx(95);
 	}
 }

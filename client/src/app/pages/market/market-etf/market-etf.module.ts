@@ -9,12 +9,11 @@ import {
 	GenericExtensionPanelModule,
 	PieChartWrapperModule,
 } from '@shared';
-import { MARKET_PAGE_ENUM } from '../market.model';
 import { MarketEtfComponent } from './market-etf.component';
 
 const routes: Routes = [
 	{
-		path: MARKET_PAGE_ENUM.etf,
+		path: '',
 		component: MarketEtfComponent,
 	},
 ];

@@ -10,7 +10,7 @@
 
 <app-loader-wrapper>
 	<div class="c-grid" *ngIf="stockDetailsFinancialGrowth$ | async as stockDetailsFinancialGrowth">
-		<app-generic-card
+		<app-mat-card-wrapper
 			*ngFor="let data of StockDetailsFinancialGrowthDisplay"
 			[title]="data.name + ': ' + (stockDetailsFinancialGrowth | objArrayLastValue: data.id: true: data.isPercent) "
 		>
@@ -21,6 +21,6 @@
 				[series]="stockDetailsFinancialGrowth[data.id] | convertToSeries: data.name "
 			>
 			</app-generic-chart>
-		</app-generic-card>
+		</app-mat-card-wrapper>
 	</div>
 </app-loader-wrapper>

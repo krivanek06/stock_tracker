@@ -2,11 +2,11 @@
 
 :host {
 	.c-group-image {
-		min-width: 100px;
-		min-height: 100px;
+		min-width: 120px;
+		min-height: 120px;
 		@screen xs {
-			max-width: 160px;
-			max-height: 160px;
+			max-width: 120px;
+			max-height: 120px;
 		}
 	}
 	.c-watch-button {

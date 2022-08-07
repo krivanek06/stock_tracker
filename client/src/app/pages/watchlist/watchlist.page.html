@@ -2,9 +2,9 @@
 	<div *ngFor="let watchlist of stockWatchlists" style="margin-bottom: 22px">
 		<app-generic-list [additionalInfo]="'Created at ' + (watchlist.date |  date: 'dd/MM/yyyy') " [iconTitle]="'pie-chart'" [title]="watchlist.name">
 		</app-generic-list>
-		<app-generic-card>
+		<app-mat-card-wrapper>
 			<app-watchlist-table (itemClickedEmitter)="showChartForSymbol($event, watchlist.id)" [watchlist]="watchlist"> </app-watchlist-table>
-		</app-generic-card>
+		</app-mat-card-wrapper>
 	</div>
 </ng-container>
 

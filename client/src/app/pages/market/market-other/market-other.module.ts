@@ -3,7 +3,13 @@ import { NgModule } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterModule, Routes } from '@angular/router';
 import { MarketCompanyQuotesTableModule, MarketSectorHeatMapModule } from '@market-feature';
-import { ChartKeyValueFormatterPipeModule, FinancialChartContainerModule, GenericChartModule, GenericExtensionPanelModule } from '@shared';
+import {
+	ChartKeyValueFormatterPipeModule,
+	FinancialChartContainerModule,
+	GenericChartModule,
+	GenericExtensionPanelModule,
+	MatCardWrapperModule,
+} from '@shared';
 import { MarketOtherComponent } from './market-other.component';
 
 const routes: Routes = [
@@ -25,6 +31,7 @@ const routes: Routes = [
 		MarketSectorHeatMapModule,
 		MatExpansionModule,
 		ChartKeyValueFormatterPipeModule,
+		MatCardWrapperModule,
 	],
 })
 export class MarketOtherModule {}

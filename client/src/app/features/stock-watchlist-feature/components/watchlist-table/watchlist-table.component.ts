@@ -30,7 +30,8 @@ export class WatchlistTableComponent implements OnInit, OnChanges {
 	}
 
 	itemClicked(identification: Summary) {
-		this.itemClickedEmitter.emit({ symbol: identification.symbol, name: identification.companyName });
+		const isEtf = identification.symbolType === 'ETF';
+		this.itemClickedEmitter.emit({ symbol: identification.symbol, name: identification.companyName, isEtf });
 	}
 
 	toggleDailyChange() {

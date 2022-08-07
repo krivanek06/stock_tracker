@@ -16,20 +16,20 @@
 	</div>
 
 	<!-- user registration chart -->
-	<app-generic-card [title]="'User registration'">
+	<app-mat-card-wrapper title="User registration">
 		<app-generic-chart [heightPx]="chartHeight" [series]="[{name: 'Registered users', data: data }]"> </app-generic-chart>
-	</app-generic-card>
+	</app-mat-card-wrapper>
 
 	<!-- latest registered users -->
-	<app-generic-card title="Latest registered users">
-		<div class="flex flex-wrap">
+	<app-mat-card-wrapper title="Latest registered users">
+		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 			<app-user-identification-info
 				*ngFor="let stUserIndetification of adminMainInformations.usersRegistrationSnippets"
 				[stUserIdentification]="stUserIndetification"
 			>
 			</app-user-identification-info>
 		</div>
-	</app-generic-card>
+	</app-mat-card-wrapper>
 
 	<!-- tickets -->
 	<div>

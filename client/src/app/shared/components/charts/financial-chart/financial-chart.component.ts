@@ -136,6 +136,9 @@ export class FinancialChartComponent implements OnInit, OnChanges {
 					type: 'candlestick',
 					yAxis: 0,
 					name: 'price',
+					tooltip: {
+						valueDecimals: 2,
+					},
 				},
 				{
 					type: 'column',
@@ -239,13 +242,14 @@ export class FinancialChartComponent implements OnInit, OnChanges {
 					// No volume
 					if (that.points?.length === 1) {
 						const color = that.points[0].color;
-						const price = that.points[0].y;
+						const price = Math.round(that.points[0].y * 100) / 100;
 						return `<span style="color: #707070">${formattedDate}</span><br/>
                                 <b style="color: ${color}">● Price: </b>$${price}`;
 					}
 
+					// volume + price
 					const open = that.points[0].point.open;
-					const closed = that.points[0].point.close;
+					const closed = Math.round(that.points[0].point.close * 100) / 100;
 					const closedDiff = Math.round((closed - open) * 100) / 100;
 					const closedText = closedDiff > 0 ? '  +$' + closedDiff : '  -$' + Math.abs(closedDiff);
 					const closedColor = open > closed ? 'red' : 'green';

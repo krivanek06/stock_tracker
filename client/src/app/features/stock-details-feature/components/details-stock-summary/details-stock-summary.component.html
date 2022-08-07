@@ -86,7 +86,7 @@
 
 	<div>
 		<div>Sector</div>
-		<div>{{ summary.sector }}</div>
+		<div>{{ summary.sector ?? 'N/A' }}</div>
 	</div>
 
 	<div>
@@ -101,7 +101,7 @@
 
 	<div>
 		<div>Earnings date</div>
-		<div>{{ summary.earningsDate | date: 'dd.MM.YYYY'}}</div>
+		<div>{{ summary.earningsDate ? (summary.earningsDate | date: 'dd.MM.YYYY' ) : 'N/A' }}</div>
 	</div>
 
 	<!--<ion-item>

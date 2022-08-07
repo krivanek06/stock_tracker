@@ -9,7 +9,6 @@ import {
 	signInWithPopup,
 	UserCredential,
 } from '@angular/fire/auth';
-import { environment } from '@environment';
 import { Apollo } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { filter, first, map, takeUntil } from 'rxjs/operators';
@@ -22,7 +21,7 @@ import { UserStorageService } from './storage/user-storage.service';
 })
 export class AuthenticationService {
 	private logout$: Subject<boolean> = new Subject<boolean>();
-
+	private readonly AUTH_KEY = 'AUTH_KEY';
 	constructor(
 		private userStorageService: UserStorageService,
 		private apollo: Apollo,
@@ -65,6 +64,7 @@ export class AuthenticationService {
 		this.userStorageService.setUser(null);
 		this.logout$.next(true);
 		localStorage.removeItem('requesterUserId');
+		localStorage.removeItem(this.AUTH_KEY);
 		// await this.apollo.getClient().clearStore();
 		await this.apollo.client.resetStore();
 		await this.afAuth.signOut();
@@ -77,11 +77,11 @@ export class AuthenticationService {
 		console.log(`Init user ${userId}`);
 
 		// caching user for faster load time on develop
-		console.log('DEVELOP: loading user from localstorage');
-		const userJson = localStorage.getItem('DEV_USER');
+		console.log('Auth: loading user from localstorage');
+		const userJson = localStorage.getItem(this.AUTH_KEY);
 		if (userJson) {
 			const parsedUser = JSON.parse(userJson);
-			console.log('DEVELOP: loaded user from localstorage', parsedUser);
+			console.log('Auth: loaded user from localstorage', parsedUser);
 			this.userStorageService.setUser(parsedUser as StUserPublicData);
 			this.userStorageService.setIsAuthenticating(false);
 		}
@@ -119,10 +119,8 @@ export class AuthenticationService {
 				this.userStorageService.setUser(user as StUserPublicData);
 				this.userStorageService.setIsAuthenticating(false);
 
-				if (!environment.production) {
-					console.log('DEVELOP: persisting user into localstorage');
-					localStorage.setItem('DEV_USER', JSON.stringify(user));
-				}
+				console.log('Auth: persisting user into localstorage');
+				localStorage.setItem(this.AUTH_KEY, JSON.stringify(user));
 			});
 	}
 
