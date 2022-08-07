@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EtfDetails, GraphqlQueryService, UserStorageService } from '@core';
 import { DialogService, SymbolIdentification } from '@shared';
@@ -9,7 +9,7 @@ import { AssetSummaryModalBase } from '../asset-summary-modal-base.directive';
 	selector: 'app-etf-lookup-modal',
 	templateUrl: './etf-lookup-modal.component.html',
 	styleUrls: ['./etf-lookup-modal.component.scss'],
-	changeDetection: ChangeDetectionStrategy.OnPush,
+	//changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EtfLookupModalComponent extends AssetSummaryModalBase<EtfLookupModalComponent> implements OnInit {
 	etfDetails$!: Observable<EtfDetails>;

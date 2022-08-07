@@ -10,7 +10,7 @@
 
 <app-loader-wrapper>
 	<div class="c-grid" *ngIf="stockDetailsKeyMetrics$ | async as stockDetailsKeyMetrics">
-		<app-generic-card
+		<app-mat-card-wrapper
 			*ngFor="let data of StockDetailsKeyMetricsDisplay"
 			[title]="data.name + ': ' + (stockDetailsKeyMetrics| objArrayLastValue: data.id: true: data.isPercent) "
 		>
@@ -21,6 +21,6 @@
 				[series]="stockDetailsKeyMetrics[data.id] | convertToSeries: data.name "
 			>
 			</app-generic-chart>
-		</app-generic-card>
+		</app-mat-card-wrapper>
 	</div>
 </app-loader-wrapper>

@@ -9,13 +9,13 @@
 		'g-third-position': positionNumber === 3
 	}"
 >
-	<div class="flex gap-5 p-3 justify-between">
+	<div class="p-4">
 		<ng-content></ng-content>
 
 		<!-- Position -->
 		<span
 			*ngIf="positionNumber"
-			class="pt-2 text-2xl"
+			class="text-2xl absolute top-4 right-4"
 			[ngClass]="{
                     'st-font-purple': positionNumber !== 1 && positionNumber !== 2 && positionNumber !== 3,
                     'g-first-position-color': positionNumber === 1,

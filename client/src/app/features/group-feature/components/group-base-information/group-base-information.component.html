@@ -1,5 +1,6 @@
 <!-- buttons -->
 <ion-buttons
+	class="w-[85%]"
 	*ngIf="showAcceptButton || showDeclineButton || showDeleteButton || showLeaveButton || showVisitButton || sendInvitation || removeInvitation || showReloadButton"
 >
 	<ion-button *ngIf="showReloadButton" fill="outline" color="primary" shape="round" (click)="reload()">
@@ -49,7 +50,7 @@
 		</div>
 		<div class="flex flex-col">
 			<!-- name & info -->
-			<ion-text class="text-xl g-color-primary mb-2"> {{ groupIdentification.name }} </ion-text>
+			<ion-text class="text-2xl g-color-primary mb-2"> {{ groupIdentification.name }} </ion-text>
 			<div class="st-display-flex-center">
 				<ion-text class="st-font-1 st-small-right-space st-font-size-18">Owner:</ion-text>
 				<ion-avatar class="c-owner-image">

@@ -109,6 +109,7 @@ export class UserAccountFormComponent implements OnInit, OnChanges {
 
 	private initForm() {
 		this.form = this.fb.group({
+			userid: [{ value: this.user.userPrivateData.id, disabled: true }, [requiredValidator]],
 			displayName: [{ value: this.user.userPrivateData.displayName, disabled: true }, [requiredValidator]],
 			email: [{ value: this.user.userPrivateData.email, disabled: true }, [requiredValidator]],
 			finnhubKey: [

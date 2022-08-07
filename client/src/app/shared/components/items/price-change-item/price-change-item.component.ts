@@ -21,6 +21,10 @@ export class PriceChangeItemComponent implements OnInit {
 
 	constructor() {}
 
+	get shouldBeInline(): boolean {
+		return (this.pricePosition === 'left' || this.pricePosition === 'right') && !!this.priceChange && !!this.price;
+	}
+
 	ngOnInit() {
 		// can be infinity
 		this.priceChange = Number.isFinite(this.priceChange) ? this.priceChange : null;

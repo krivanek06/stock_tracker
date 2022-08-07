@@ -5,22 +5,23 @@
 	</app-generic-extension-panel>
 
 	<!-- exchange PE -->
-	<app-generic-extension-panel title="Sector NYSE PE">
-		<div class="grid grid-cols-1 lg:grid-cols-2">
-			<!-- exchange industry pe -->
+	<div class="grid grid-cols-1 gap-4">
+		<!-- exchange industry pe -->
+		<app-mat-card-wrapper title="Exchange industry PE">
 			<app-generic-chart
 				[chartType]="ChartType.bar"
-				[heightPx]="chartHeight"
+				[heightPx]="chartHeightSectors"
 				[series]="[{
-				 colorByPoint: true,
-				 data: dailyOverview.exchange.exchangeIndustryPE | chartKeyValueFormatter: 'industry' : 'pe'
+						colorByPoint: true,
+						data: dailyOverview.exchange.exchangeIndustryPE | chartKeyValueFormatter: 'industry' : 'pe'
 				}]"
 				[showDataLabel]="true"
-				chartTitle="Exchange industry PE"
 			>
 			</app-generic-chart>
+		</app-mat-card-wrapper>
 
-			<!-- exchange sector pe -->
+		<!-- exchange sector pe -->
+		<app-mat-card-wrapper title="Exchange sector PE">
 			<app-generic-chart
 				[chartType]="ChartType.bar"
 				[heightPx]="chartHeight"
@@ -29,11 +30,10 @@
 									data: dailyOverview.exchange.exchangeSectorPE | chartKeyValueFormatter: 'sector' : 'pe'
 								}]"
 				[showDataLabel]="true"
-				chartTitle="Exchange sector PE"
 			>
 			</app-generic-chart>
-		</div>
-	</app-generic-extension-panel>
+		</app-mat-card-wrapper>
+	</div>
 
 	<!-- Mutual funds -->
 	<app-generic-extension-panel title="Mutual funds: Vanguard Total International Stock">

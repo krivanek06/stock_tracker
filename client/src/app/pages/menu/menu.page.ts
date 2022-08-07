@@ -42,7 +42,6 @@ export class MenuPage implements OnInit, OnDestroy {
 	}
 
 	changeHeaderInfo(page: MenuPageInfoInterface): void {
-		console.log(page);
 		this.activePage = page;
 	}
 }
