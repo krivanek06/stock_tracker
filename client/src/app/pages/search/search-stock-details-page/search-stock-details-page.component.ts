@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { componentDestroyed, SymbolStorageService } from '@core';
-import { takeUntil } from 'rxjs/operators';
+import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { SEARCH_PAGE_ENUM, STOCK_SEARCH_DETAILS_PAGES } from '../models/pages.model';
 
 @Component({
@@ -17,23 +16,23 @@ export class SearchStockDetailsPage implements OnInit, OnDestroy {
 	constructor(private stockDetailsService: SymbolStorageService, private route: ActivatedRoute, private router: Router) {}
 
 	ngOnInit() {
-		const symbol = this.route.snapshot.paramMap.get('symbol');
-		this.stockDetailsService.setActiveSymbol(symbol);
-		this.stockDetailsService
-			.getStockDetails()
-			.pipe(takeUntil(componentDestroyed(this)))
-			.subscribe((res) => {
-				console.log('loaded stock details', res);
-			});
+		this.reactOnRouterChange();
 	}
 
 	ngOnDestroy() {}
 
-	onTabChange(event: MatTabChangeEvent) {
-		console.log(event);
-	}
-
 	segmentChanged(data: any) {
 		this.router.navigateByUrl(`menu/search/${SEARCH_PAGE_ENUM.STOCK_DETAILS}/${this.stockDetailsService.activeSymbol}/${data.detail.value}`);
+	}
+
+	private reactOnRouterChange(): void {
+		this.route.paramMap
+			.pipe(
+				map((paramMap) => paramMap.get('symbol')),
+				tap((symbol) => this.stockDetailsService.setActiveSymbol(symbol)),
+				switchMap(() => this.stockDetailsService.getStockDetails()),
+				takeUntil(componentDestroyed(this))
+			)
+			.subscribe();
 	}
 }

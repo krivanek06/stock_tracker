@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Series, StMarketChartDataResultCombined } from '@core';
 import highcharts3D from 'highcharts/highcharts-3d';
 import * as Highcharts from 'highcharts/highstock';
@@ -15,7 +15,7 @@ highcharts3D(Highcharts);
 	styleUrls: ['./generic-chart.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GenericChartComponent implements OnInit, OnChanges {
+export class GenericChartComponent implements OnInit, OnChanges, OnDestroy {
 	@Output() expandEmitter: EventEmitter<any> = new EventEmitter<any>();
 
 	@Input() series!: GenericChartSeries[] | Series[] | StMarketChartDataResultCombined[]; // y-axis
@@ -54,15 +54,27 @@ export class GenericChartComponent implements OnInit, OnChanges {
 	updateFromInput = true;
 	chartCallback: any;
 	chartOptions: any = {}; //  : Highcharts.Options
+
 	constructor() {
 		const self = this;
 
 		this.chartCallback = (chart: any) => {
+			console.log('chartCallback', chart);
 			self.chart = chart; // new Highcharts.Chart(this.chartOptions); //chart;
 		};
 	}
+	ngOnDestroy(): void {
+		console.log('GenericChartComponent: ngOnDestroy()');
+	}
 
 	ngOnChanges(changes: SimpleChanges): void {
+		if (this.chart) {
+			console.log('GenericChartComponent: destoying previous chart');
+			/* to prevent: ERROR TypeError: Cannot assign to read only property '0' of object '[object Array]' */
+			this.chart.series = [];
+			this.chartOptions = {};
+		}
+
 		if (this.addFancyColoring) {
 			this.fancyColoring();
 		}
@@ -71,7 +83,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
 				if (!s || s.data.length === 0) {
 					return s;
 				}
-				if (Number.isNaN(Number(s.data[0]))) {
+				if (s.data.length > 0 && Number.isNaN(Number(s.data[0]))) {
 					return {
 						...s,
 						data: s.data.map((d: any) => {
@@ -81,7 +93,6 @@ export class GenericChartComponent implements OnInit, OnChanges {
 				}
 				return { ...s, data: s.data.map((d) => (!!d && typeof d === 'number' ? d * 100 : d)) };
 			}) as Series[];
-			console.log(this.series);
 		}
 
 		this.initChart();
@@ -165,9 +176,11 @@ export class GenericChartComponent implements OnInit, OnChanges {
 					return `<p><span style="color: ${this.color}; font-weight: bold">● ${this.name}: </span><span>${valueFormat}</span></p><br/>`;
 				},
 			};
-			const data = this.series[0].data as any as GenericChartSeriesData[];
-			this.chartOptions.xAxis.categories = data.map((d) => d.name);
+			const data = this.series.length > 0 ? (this.series[0].data as any as GenericChartSeriesData[]) : [];
+			this.chartOptions.xAxis.categories = [...data.map((d) => d.name)];
 		}
+
+		console.log('series', this.series);
 	}
 
 	ngOnInit() {
@@ -182,7 +195,7 @@ export class GenericChartComponent implements OnInit, OnChanges {
 
 	private initCategories() {
 		this.chartOptions.plotOptions.series.dataLabels.enabled = false;
-		this.chartOptions.xAxis.categories = this.categories;
+		this.chartOptions.xAxis.categories = [...this.categories];
 		this.chartOptions.xAxis.type = 'category';
 		this.chartOptions.xAxis.labels.rotation = -20;
 	}
@@ -411,11 +424,15 @@ export class GenericChartComponent implements OnInit, OnChanges {
 					threshold: null,
 				},
 			},
-			series: this.series,
+			series: [...this.series],
 		};
 	}
 
 	private initAreaChange() {
+		if (this.series.length === 0) {
+			console.warn('Cannot init initAreaChange in Generic chart, empty series');
+			return;
+		}
 		const data = this.series[0].data as number[];
 		const oldestData = data[0] as number;
 		const newestData = data[data.length - 1] as number;

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { StEarningsValuationFormula, StEarningsValuationFormulaVariable, SymbolStorageService } from '@core';
 import { lastElement } from '@shared';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root',
@@ -79,16 +78,10 @@ export class EarningsFormulaService {
 	}
 
 	private watchActiveSymbolChange() {
-		this.symbolStorageService
-			.getActiveSymbol()
-			.pipe(
-				filter((symbol) => !!symbol),
-				switchMap((symbol) => this.symbolStorageService.getStockDetails(symbol))
-			)
-			.subscribe((details) => {
-				const formula = details?.calculatedPredictions?.INTRINSIC_V1 || null;
-				this.formula$.next(formula);
-				this.initialVariablesState = formula?.variable;
-			});
+		this.symbolStorageService.getStockDetails().subscribe((details) => {
+			const formula = details?.calculatedPredictions?.INTRINSIC_V1 || null;
+			this.formula$.next(formula);
+			this.initialVariablesState = formula?.variable;
+		});
 	}
 }

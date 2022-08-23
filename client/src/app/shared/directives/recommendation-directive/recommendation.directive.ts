@@ -29,6 +29,12 @@ export class RecommendationDirective implements OnChanges {
 	private renderRecommendation(recommendationKey: string): void {
 		const recommendation = this.recommendationColors.find((s) => s.value === this.recommendationKey);
 		if (recommendation) {
+			// remove all previous children -> prevent duplicated text
+			Array.from(this.elRef.nativeElement.children).forEach((child) => {
+				console.log('children.length=' + this.elRef.nativeElement.children.length);
+				this.renderer.removeChild(this.elRef.nativeElement, child);
+			});
+
 			// recommendation name
 			const spanRecommendationName = this.renderer.createElement('span');
 			const recommendationName = this.renderer.createText(recommendationKey);
