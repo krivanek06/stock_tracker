@@ -1,33 +1,17 @@
 <div *ngIf="stockDetails as details" class="g-data-item-wrapper">
 	<div>
 		<div>Current ratio</div>
-		<div>{{ details.metric?.currentRatioQuarterly | numberFormatter }}</div>
+		<div>{{ details.companyOutlook.ratios?.currentRatioTTM| numberFormatter }}</div>
 	</div>
 
 	<div>
 		<div>Quick ratio</div>
-		<div>{{ details.metric?.quickRatioQuarterly | numberFormatter }}</div>
+		<div>{{ details.companyOutlook.ratios?.quickRatioTTM| numberFormatter }}</div>
 	</div>
 
 	<div>
 		<div>Short ratio</div>
 		<div>{{ details.companyData?.defaultKeyStatistics?.shortRatio | numberFormatter }}</div>
-	</div>
-
-	<div *ngIf="details.companyData as dk">
-		<div>Floating shares</div>
-		<div>
-			{{ dk?.defaultKeyStatistics?.floatShares | numberFormatter }} ({{dk?.defaultKeyStatistics?.floatShares ? (floatSharesPrct | percent: '1.2-2') :
-			''}})
-		</div>
-	</div>
-
-	<div *ngIf="details.companyData as dk">
-		<div>Shorted shares</div>
-		<div>
-			{{ dk?.defaultKeyStatistics?.sharesShort | numberFormatter }} ({{dk?.defaultKeyStatistics?.sharesShort ? (sharesShortPrct | percent: '1.2-2') :
-			''}})
-		</div>
 	</div>
 
 	<div>
@@ -36,22 +20,52 @@
 	</div>
 
 	<div>
+		<div>OCF to sales ttm.</div>
+		<div>{{ details.companyOutlook.ratios?.operatingCashFlowSalesRatioTTM| numberFormatter }}</div>
+	</div>
+
+	<!-- <div>
 		<div>Long term Debt/Equity</div>
 		<div>{{ details.metric?.longTermDebtequityQuarterly | numberFormatter }}</div>
+	</div> -->
+
+	<div>
+		<div>Debt ratio</div>
+		<div>{{ details.companyOutlook.ratios?.debtRatioTTM | numberFormatter }}</div>
 	</div>
 
 	<div>
 		<div>Total Debt/Equity</div>
-		<div>{{ details.metric?.totalDebttotalEquityQuarterly | numberFormatter }}</div>
+		<div>{{ details.companyOutlook.ratios?.debtEquityRatioTTM | numberFormatter }}</div>
 	</div>
 
 	<div>
-		<div>Net Income/Common</div>
-		<div>{{ details.companyData?.defaultKeyStatistics?.netIncomeToCommon | numberFormatter }}</div>
+		<div>Total Debt/Capitalization</div>
+		<div>{{ details.companyOutlook.ratios?.totalDebtToCapitalizationTTM | numberFormatter }}</div>
 	</div>
 
 	<div>
+		<div>Cash Flow/Debt</div>
+		<div>{{ details.companyOutlook.ratios?.cashFlowToDebtRatioTTM | numberFormatter }}</div>
+	</div>
+
+	<div>
+		<div>Short term ratio</div>
+		<div>{{ details.companyOutlook.ratios?.shortTermCoverageRatiosTTM | numberFormatter }}</div>
+	</div>
+
+	<div>
+		<div>Capital expenditure ratio</div>
+		<div>{{ details.companyOutlook.ratios?.capitalExpenditureCoverageRatioTTM | numberFormatter }}</div>
+	</div>
+
+	<div>
+		<div>Net Income/EBIT</div>
+		<div>{{ details.companyOutlook.ratios?.netIncomePerEBTTTM| numberFormatter }}</div>
+	</div>
+
+	<!-- <div>
 		<div>Net fiscal year end</div>
 		<div>{{ details.companyData?.defaultKeyStatistics?.nextFiscalYearEnd | numberFormatter }}</div>
-	</div>
+	</div> -->
 </div>

@@ -13,18 +13,4 @@ export class DetailsFinancialStrengthRatioComponent implements OnInit {
 	constructor() {}
 
 	ngOnInit() {}
-
-	get floatSharesPrct(): number | null {
-		if (!this.stockDetails.summary.sharesOutstanding || !this.stockDetails.companyData?.defaultKeyStatistics?.floatShares) {
-			return null;
-		}
-		return (1 / this.stockDetails.summary.sharesOutstanding) * this.stockDetails.companyData.defaultKeyStatistics.floatShares;
-	}
-
-	get sharesShortPrct(): number | null {
-		if (!this.stockDetails.summary.sharesOutstanding || !this.stockDetails.companyData?.defaultKeyStatistics?.sharesShort) {
-			return null;
-		}
-		return (1 / this.stockDetails.summary.sharesOutstanding) * this.stockDetails.companyData.defaultKeyStatistics.sharesShort;
-	}
 }

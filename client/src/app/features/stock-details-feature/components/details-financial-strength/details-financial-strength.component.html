@@ -43,4 +43,20 @@
 		<div>EBITDA</div>
 		<div>{{ details.companyData?.financialData?.ebitda | numberFormatter }}</div>
 	</div>
+
+	<div *ngIf="details.companyData as dk">
+		<div>Floating shares</div>
+		<div>
+			{{ dk?.defaultKeyStatistics?.floatShares | numberFormatter }} ({{dk?.defaultKeyStatistics?.floatShares ? (floatSharesPrct | percent: '1.2-2') :
+			''}})
+		</div>
+	</div>
+
+	<div *ngIf="details.companyData as dk">
+		<div>Shorted shares</div>
+		<div>
+			{{ dk?.defaultKeyStatistics?.sharesShort | numberFormatter }} ({{dk?.defaultKeyStatistics?.sharesShort ? (sharesShortPrct | percent: '1.2-2') :
+			''}})
+		</div>
+	</div>
 </div>
