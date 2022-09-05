@@ -121,6 +121,7 @@ export class DetailsEarningsChartComponent implements OnInit, OnChanges {
 					rotation: -20,
 					enabled: true,
 					style: {
+						color: '#a4a4a4',
 						font: '10px Trebuchet MS, Verdana, sans-serif',
 					},
 				},

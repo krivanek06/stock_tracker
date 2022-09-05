@@ -36,7 +36,7 @@
 			<app-mat-card-wrapper title="Financial yearly growth" class="col-span-1 md:col-span-2 lg:col-span-1 2xl:col-span-2">
 				<app-generic-chart
 					[chartType]="ChartType.bar"
-					[heightPx]="chartHeight_35"
+					[heightPx]="425"
 					[isPercentage]="true"
 					[showCategoryNameWithValue]="true"
 					[series]="[{
@@ -49,8 +49,8 @@
 						{name: 'EPS ttm yoy', y: stockDetails.metric?.epsGrowthTTMYoy ? ((stockDetails.metric?.epsGrowthTTMYoy || 1) / 100) : null},
 						{name: 'Capital spending yoy', y: stockDetails.metric?.capitalSpendingGrowthFiveY ? ((stockDetails.metric?.capitalSpendingGrowthFiveY || 1) / 100) : null},
 						{name: 'BV per share 5y', y: stockDetails.metric?.bookValueShareGrowthFiveY ? ((stockDetails.metric?.bookValueShareGrowthFiveY || 1) / 100) : null},
-						{name: 'Assets turnover ttm', y: stockDetails.metric?.assetTurnoverTTM ? ((stockDetails.metric?.assetTurnoverTTM || 1) / 100) : null},
-						{name: 'Inventory turnover ttm',  y: stockDetails.metric?.inventoryTurnoverTTM ? ((stockDetails.metric?.inventoryTurnoverTTM || 1) / 100) : null},
+						{name: 'Effective tax rate', y: stockDetails.companyOutlook.ratios?.effectiveTaxRateTTM},
+						{name: 'Return on capital employed', y: stockDetails.companyOutlook.ratios?.returnOnCapitalEmployedTTM},
 						{name: 'Dividend rate 5y',  y: stockDetails.dividends?.dividendGrowthRateFiveY ? ((stockDetails.dividends?.dividendGrowthRateFiveY || 1) / 100) : null}
 					  ]
 				  }]"
@@ -75,18 +75,23 @@
 			<app-mat-card-wrapper title="Margin" class="col-span-1 md:col-span-2 lg:col-span-1 2xl:col-span-2">
 				<app-generic-chart
 					[chartType]="ChartType.bar"
-					[heightPx]="340"
+					[heightPx]="460"
 					[isPercentage]="true"
 					[showCategoryNameWithValue]="true"
 					[series]="[{
 							colorByPoint: true,
 							 data:[
 							 {name: 'Gross margin ttm.', y: stockDetails.companyData?.financialData?.grossMargins},
-							 {name: 'Net growth margin 5y', y: stockDetails.metric?.netMarginGrowthFiveY  ? (stockDetails.metric?.netMarginGrowthFiveY || 1) / 100 : null},
+							 {name: 'Net growth margin 5y', y: stockDetails.companyOutlook.ratios?.netProfitMarginTTM},
+							 {name: 'Gross profit margin', y: stockDetails.companyOutlook.ratios?.grossProfitMarginTTM},
 							 {name: 'Net profit margin ttm.', y: stockDetails.companyData?.financialData?.profitMargins},
-							 {name: 'Operating margin ttm.', y: stockDetails.metric?.operatingMarginTTM  ? (stockDetails.metric?.operatingMarginTTM || 1) / 100 : null},
-							 {name: 'Pretax margin ttm.', y: stockDetails.metric?.pretaxMarginTTM ? (stockDetails.metric?.pretaxMarginTTM || 1 ) / 100 : null},
-							 {name: 'EBITDA margin ttm.', y: stockDetails.companyData?.financialData?.ebitdaMargins}
+							 {name: 'Operating margin ttm.', y: stockDetails.companyOutlook.ratios?.operatingProfitMarginTTM },
+							 {name: 'Pretax margin ttm.', y: stockDetails.companyOutlook.ratios?.pretaxProfitMarginTTM },
+							 {name: 'EBITDA margin ttm.', y: stockDetails.companyData?.financialData?.ebitdaMargins},
+							 {name: 'Receivables turnover', y: stockDetails.companyOutlook.ratios?.receivablesTurnoverTTM},
+							 {name: 'Payables turnover', y: stockDetails.companyOutlook.ratios?.payablesTurnoverTTM},
+							 {name: 'Inventory turnover', y: stockDetails.companyOutlook.ratios?.inventoryTurnoverTTM},
+							 {name: 'Assets turnover', y: stockDetails.companyOutlook.ratios?.assetTurnoverTTM},
 						  ]
 					  }]"
 					[showDataLabel]="true"
@@ -114,7 +119,7 @@
 								   stockDetails.companyData?.financialData?.returnOnEquity ||
 								   stockDetails.metric?.roiTTM"
 					[chartType]="ChartType.column"
-					[heightPx]="240"
+					[heightPx]="260"
 					[isPercentage]="true"
 					[showCategoryNameWithValue]="true"
 					[series]="[{

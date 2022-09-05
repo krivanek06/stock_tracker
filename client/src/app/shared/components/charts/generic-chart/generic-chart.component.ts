@@ -264,6 +264,7 @@ export class GenericChartComponent implements OnInit, OnChanges, OnDestroy {
 				labels: {
 					rotation: 0,
 					style: {
+						color: '#a4a4a4',
 						font: '10px Trebuchet MS, Verdana, sans-serif',
 					},
 				},
