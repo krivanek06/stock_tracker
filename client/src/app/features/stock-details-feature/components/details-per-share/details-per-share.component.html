@@ -15,18 +15,8 @@
 	</div>
 
 	<div>
-		<div>TBV per share qrt.</div>
-		<div>{{ details.metric?.tangibleBookValuePerShareQuarterly | numberFormatter }}</div>
-	</div>
-
-	<div>
-		<div>TBV per share ann.</div>
-		<div>{{ details.metric?.tangibleBookValuePerShareAnnual | numberFormatter }}</div>
-	</div>
-
-	<div>
-		<div>Cash per share qrt.</div>
-		<div>{{ details.metric?.cashPerSharePerShareQuarterly | numberFormatter }}</div>
+		<div>Cash per share ttm.</div>
+		<div>{{ details.companyOutlook.ratios?.cashPerShareTTM | numberFormatter }}</div>
 	</div>
 
 	<div>
@@ -40,7 +30,32 @@
 	</div>
 
 	<div>
+		<div>OCF per share ttm.</div>
+		<div>{{ details.companyOutlook.ratios?.operatingCashFlowPerShareTTM | numberFormatter }}</div>
+	</div>
+
+	<div>
 		<div>EBITDA per share ttm.</div>
 		<div>{{ details.metric?.ebitdPerShareTTM | numberFormatter }}</div>
+	</div>
+
+	<div>
+		<div>Company equity multiplier</div>
+		<div>{{ details.companyOutlook.ratios?.companyEquityMultiplierTTM | numberFormatter }}</div>
+	</div>
+
+	<div>
+		<div>Interest coverage</div>
+		<div>{{ details.companyOutlook.ratios?.interestCoverageTTM | numberFormatter }}</div>
+	</div>
+
+	<div>
+		<div>Ebit per revenue</div>
+		<div>{{ details.companyOutlook.ratios?.ebitPerRevenueTTM | numberFormatter }}</div>
+	</div>
+
+	<div>
+		<div>Net Income/Common</div>
+		<div>{{ details.companyData?.defaultKeyStatistics?.netIncomeToCommon | numberFormatter }}</div>
 	</div>
 </div>

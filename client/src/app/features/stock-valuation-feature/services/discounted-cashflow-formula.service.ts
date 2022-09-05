@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StDiscountedCashFlowFormula, SymbolStorageService } from '@core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root',
@@ -22,14 +21,8 @@ export class DiscountedCashflowFormulaService {
 	}
 
 	private watchActiveSymbolChange() {
-		this.symbolStorageService
-			.getActiveSymbol()
-			.pipe(
-				filter((symbol) => !!symbol),
-				switchMap((symbol) => this.symbolStorageService.getStockDetails(symbol))
-			)
-			.subscribe((details) => {
-				this.formula$.next(details?.calculatedPredictions?.DCF_V1 || null);
-			});
+		this.symbolStorageService.getStockDetails().subscribe((details) => {
+			this.formula$.next(details?.calculatedPredictions?.DCF_V1 || null);
+		});
 	}
 }

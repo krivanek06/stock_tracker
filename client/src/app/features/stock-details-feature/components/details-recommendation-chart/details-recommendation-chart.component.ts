@@ -56,6 +56,7 @@ export class DetailsRecommendationChartComponent implements OnInit, OnChanges {
 				labels: {
 					rotation: -20,
 					style: {
+						color: '#a4a4a4',
 						font: '10px Trebuchet MS, Verdana, sans-serif',
 					},
 				},

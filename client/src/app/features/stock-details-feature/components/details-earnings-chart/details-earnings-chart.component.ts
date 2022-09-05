@@ -36,6 +36,11 @@ export class DetailsEarningsChartComponent implements OnInit, OnChanges {
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if (this.earnings && this.earnings.quarterly) {
+			// remove old data
+			this.estimatedEarnings = [];
+			this.earnignsDates = [];
+			this.actualEarnings = [];
+
 			const netDate = `${this.earnings.currentQuarterEstimateDate}${this.earnings.currentQuarterEstimateYear}`;
 			this.earnignsDates = [...this.earnings.quarterly.map((data) => data.date), netDate];
 
@@ -116,6 +121,7 @@ export class DetailsEarningsChartComponent implements OnInit, OnChanges {
 					rotation: -20,
 					enabled: true,
 					style: {
+						color: '#a4a4a4',
 						font: '10px Trebuchet MS, Verdana, sans-serif',
 					},
 				},

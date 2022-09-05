@@ -90,6 +90,7 @@ export class PortfolioChangeChartComponent implements OnInit, OnChanges {
 				},
 				labels: {
 					style: {
+						color: '#a4a4a4',
 						fontSize: '10px',
 					},
 				},

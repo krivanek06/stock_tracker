@@ -1,12 +1,19 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import {
-	QueryStockDetailsFinancialGrowthGQL, QueryStockDetailsFinancialRatiosGQL, QueryStockDetailsGQL, QueryStockDetailsKeyMetricsGQL, QueryStockFinancialReportsGQL,
+	QueryStockDetailsFinancialGrowthGQL,
+	QueryStockDetailsFinancialRatiosGQL,
+	QueryStockDetailsGQL,
+	QueryStockDetailsKeyMetricsGQL,
+	QueryStockFinancialReportsGQL,
 	QueryStockSummaryGQL,
-	StDetailsFinancialGrowthFragment, StDetailsFinancialRatiosFragment, StDetailsKeyMetricsFragment, StockDetails,
+	StDetailsFinancialGrowthFragment,
+	StDetailsFinancialRatiosFragment,
+	StDetailsKeyMetricsFragment,
+	StockDetails,
 	StockDetailsFinancialReports,
-	Summary
+	Summary,
 } from '../../graphql-schema';
 import { Period } from '../../model';
 
@@ -15,6 +22,7 @@ import { Period } from '../../model';
 })
 export class SymbolStorageService {
 	private activeSymbol$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+	private activeStock$: BehaviorSubject<StockDetails | null> = new BehaviorSubject<StockDetails | null>(null);
 
 	constructor(
 		private queryStockDetailsGQL: QueryStockDetailsGQL,
@@ -23,7 +31,9 @@ export class SymbolStorageService {
 		private queryStockDetailsFinancialRatiosGQL: QueryStockDetailsFinancialRatiosGQL,
 		private queryStockDetailsFinancialGrowthGQL: QueryStockDetailsFinancialGrowthGQL,
 		private queryStockDetailsKeyMetricsGQL: QueryStockDetailsKeyMetricsGQL
-	) { }
+	) {
+		this.watchActiveStockSymbol();
+	}
 
 	get activeSymbol(): string | null {
 		return this.activeSymbol$.getValue();
@@ -37,48 +47,47 @@ export class SymbolStorageService {
 		this.activeSymbol$.next(symbol);
 	}
 
-	getStockDetails(symbol = this.activeSymbol): Observable<StockDetails | null> {
-		if (!symbol) {
-			return of(null);
-		}
-		return this.queryStockDetailsGQL
-			.fetch({
-				symbol,
-			})
-			.pipe(map((res) => res.data.queryStockDetails as StockDetails));
+	getStockDetails(): Observable<StockDetails | null> {
+		return this.activeStock$.asObservable();
 	}
 
 	queryStockDetailsFinancialGrowth(period: Period = 'quarter', allData = false): Observable<StDetailsFinancialGrowthFragment | null> {
 		if (!this.activeSymbol) {
 			return of(null);
 		}
-		return this.queryStockDetailsFinancialGrowthGQL.fetch({
-			symbol: this.activeSymbol,
-			period,
-			allData
-		}).pipe(map(res => res.data.queryStockDetailsFinancialGrowth as StDetailsFinancialGrowthFragment))
+		return this.queryStockDetailsFinancialGrowthGQL
+			.fetch({
+				symbol: this.activeSymbol,
+				period,
+				allData,
+			})
+			.pipe(map((res) => res.data.queryStockDetailsFinancialGrowth as StDetailsFinancialGrowthFragment));
 	}
 
 	queryStockDetailsKeyMetrics(period: Period = 'quarter', allData = false): Observable<StDetailsKeyMetricsFragment | null> {
 		if (!this.activeSymbol) {
 			return of(null);
 		}
-		return this.queryStockDetailsKeyMetricsGQL.fetch({
-			symbol: this.activeSymbol,
-			period,
-			allData
-		}).pipe(map(res => res.data.queryStockDetailsKeyMetrics as StDetailsKeyMetricsFragment))
+		return this.queryStockDetailsKeyMetricsGQL
+			.fetch({
+				symbol: this.activeSymbol,
+				period,
+				allData,
+			})
+			.pipe(map((res) => res.data.queryStockDetailsKeyMetrics as StDetailsKeyMetricsFragment));
 	}
 
 	queryStockDetailsFinancialRatios(period: Period = 'quarter', allData = false): Observable<StDetailsFinancialRatiosFragment | null> {
 		if (!this.activeSymbol) {
 			return of(null);
 		}
-		return this.queryStockDetailsFinancialRatiosGQL.fetch({
-			symbol: this.activeSymbol,
-			period,
-			allData
-		}).pipe(map(res => res.data.queryStockDetailsFinancialRatios as StDetailsFinancialRatiosFragment))
+		return this.queryStockDetailsFinancialRatiosGQL
+			.fetch({
+				symbol: this.activeSymbol,
+				period,
+				allData,
+			})
+			.pipe(map((res) => res.data.queryStockDetailsFinancialRatios as StDetailsFinancialRatiosFragment));
 	}
 
 	reloadStockDetails(symbol = this.activeSymbol): Observable<any> {
@@ -119,5 +128,25 @@ export class SymbolStorageService {
 				symbol,
 			})
 			.pipe(map((res) => res.data.queryStockFinancialReports as StockDetailsFinancialReports));
+	}
+
+	private watchActiveStockSymbol(): void {
+		this.activeSymbol$
+			.pipe(
+				switchMap((symbol) => {
+					if (!symbol) {
+						return of(null);
+					}
+					return this.queryStockDetailsGQL
+						.fetch({
+							symbol,
+						})
+						.pipe(map((res) => res.data.queryStockDetails as StockDetails));
+				})
+			)
+			.subscribe((stockDetails) => {
+				console.log('received stock details', stockDetails);
+				this.activeStock$.next(stockDetails);
+			});
 	}
 }

@@ -83,6 +83,7 @@ export class PortfolioGrowthChartComponent implements OnInit, OnChanges {
 				},
 				labels: {
 					style: {
+						color: '#a4a4a4',
 						font: '10px Trebuchet MS, Verdana, sans-serif',
 					},
 				},

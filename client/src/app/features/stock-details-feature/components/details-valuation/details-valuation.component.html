@@ -11,12 +11,12 @@
 
 	<div>
 		<div>PEG</div>
-		<div>{{ details.companyData?.defaultKeyStatistics?.pegRatio| numberFormatter }}</div>
+		<div>{{ details.companyOutlook.ratios?.pegRatioTTM | numberFormatter}}</div>
 	</div>
 
 	<div>
 		<div>Price to book</div>
-		<div>{{ details.companyData?.defaultKeyStatistics?.priceToBook| numberFormatter }}</div>
+		<div>{{ details.companyOutlook.ratios?.priceBookValueRatioTTM | numberFormatter }}</div>
 	</div>
 
 	<div>
@@ -31,7 +31,17 @@
 
 	<div>
 		<div>Price to sale</div>
-		<div>{{ details.metric?.psTTM | numberFormatter }}</div>
+		<div>{{ details.companyOutlook.ratios?.priceToSalesRatioTTM | numberFormatter }}</div>
+	</div>
+
+	<div>
+		<div>Price to FCF</div>
+		<div>{{ details.companyOutlook.ratios?.priceToFreeCashFlowsRatioTTM | numberFormatter }}</div>
+	</div>
+
+	<div>
+		<div>Price to OCF</div>
+		<div>{{ details.companyOutlook.ratios?.priceToOperatingCashFlowsRatioTTM | numberFormatter }}</div>
 	</div>
 
 	<div>
