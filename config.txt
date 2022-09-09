@@ -1,41 +1,17 @@
 "stock-tracker-common-interfaces": "file:../common-interfaces"
 
 
-######### firebase change projects
+# Firebase change projects
 - gcloud projects list
-- gcloud config set project XXX
+- gcloud config set project prod
 
-######### build client
-- increase version
-- add change log
-
-########## FLASK
-# before
-- in Dockerfile change last config
-- remove uWSGI from requirements.txt
-
-# deployment - TEST - europe-north1 - 13
-- run :  gcloud builds submit --tag gcr.io/stocktrackertest-e51fc/server_flask
-- run :  gcloud run deploy --image gcr.io/stocktrackertest-e51fc/server_flask --platform managed --max-instances=1
-
-# deployment - PROD - europe-central2 - 12
+# FLASK -  europe-central2 - 12
 - run :  gcloud builds submit --tag gcr.io/stock-tracker-prod/server_flask
 - run :  gcloud run deploy --image gcr.io/stock-tracker-prod/server_flask --platform managed --max-instances=1
 
-
-
-########## GRAPHQL
-# before
-- environments -> production == true, stockDataAPI
-
-# deployment - TEST - europe-north1 - 13
-- run :  gcloud builds submit --tag gcr.io/stocktrackertest-e51fc/server_graphql
-- run :  gcloud run deploy --image gcr.io/stocktrackertest-e51fc/server_graphql --platform managed --max-instances=1
-
-# deployment - PROD - europe-central2 - 12
+# GRAPHQL - europe-central2 - 12
 - run :  gcloud builds submit --tag gcr.io/stock-tracker-prod/server_graphql
 - run :  gcloud run deploy --image gcr.io/stock-tracker-prod/server_graphql --platform managed --max-instances=1
 
-
-########## Functions
+# Cloud functions
 firebase deploy --only functions --project prod
