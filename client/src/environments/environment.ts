@@ -5,30 +5,11 @@
 export const environment = {
 	production: false,
 
-	// docker - outside
-	//graphql: 'http://127.0.0.1:5001/graphql',
-
 	// local
 	graphql: 'http://localhost:4000/graphql',
 
-	// GCP - test
-	// graphql: 'https://servergraphql-eqvqg22pdq-lz.a.run.app/graphql',
-
 	// GCP - prod
 	// graphql: 'https://servergraphql-j6sqew4pvq-lm.a.run.app',
-
-	// TEST
-	// finnhubKEY: 'brsrc5vrh5r9dg9d77pg',
-	// firebase: {
-	// 	apiKey: 'AIzaSyCcIdEPY2ke4Z0SuM69PJrUT5SUlW1nE_U',
-	// 	authDomain: 'stocktrackertest-e51fc.firebaseapp.com',
-	// 	databaseURL: 'https://stocktrackertest-e51fc.firebaseio.com',
-	// 	projectId: 'stocktrackertest-e51fc',
-	// 	storageBucket: 'stocktrackertest-e51fc.appspot.com',
-	// 	messagingSenderId: '514791811531',
-	// 	appId: '1:514791811531:web:c865792582281fc865ae4e',
-	// 	measurementId: 'G-73NKLPNQ5G',
-	// },
 
 	// PROD
 	firebase: {
