@@ -10,7 +10,8 @@ common-interfaces/dist
 common-interfaces/node_modules
 common-interfaces/package-lock.json
 
-
+*firebase_key.json*
+flask/environments_keys.py
 
 functions/dist
 functions/package-lock.json
