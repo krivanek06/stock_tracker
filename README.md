@@ -1,12 +1,10 @@
 # stock_tracker
 
-Application to analyze financial details about publicly listed companies. Project is still in development, so some functions does not work correctly.
+Application to analyze financial details about publicly listed companies. The initial idea came from aggregating stock market data from multiple endpoints into one system. The application was part of the 2022 [master thesis](documents/master_thesis_Eduard_krivanek.pdf) at Comenius University in Bratislava. Project is still in development, so some functions may not work correctly. 
 
-Click to download the [presentation](documents/diplomovka_projektovy_seminar_1.pptx)
+Click to launch the [application](https://stock-tracker-prod.web.app/) 
 
-Click to launch the [application](https://stocktrackertest-e51fc.web.app/)  - Window resize is required after log in to fix charts
-
-testing login:
+Testing login:
 - email: krivanek1234.1@gmail.com
 - password: qwer1234
 
