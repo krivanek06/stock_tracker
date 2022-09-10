@@ -25,6 +25,10 @@
 		}
 	}
 
+	mat-label {
+		color: variables.$color-gray-300;
+	}
+
 	.form-input-tooltip {
 		font-size: 14px;
 		margin: 3px !important;

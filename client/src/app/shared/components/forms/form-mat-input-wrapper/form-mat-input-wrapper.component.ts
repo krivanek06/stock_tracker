@@ -88,16 +88,7 @@ export class FormMatInputWrapperComponent implements OnInit, OnChanges {
 		return this.usedFormControl.errors && (this.usedFormControl.touched || this.usedFormControl.dirty);
 	}
 
-	ngOnInit(): void {
-		// this.formInputControl = this.controlContainer.control?.get(this.controlName) as FormControl;
-		// // create copy - used when filtering
-		// if (this.inputSource && this.copyInputSource.length === 0) {
-		// 	this.copyInputSource = [...this.inputSource];
-		// }
-		// if (this.inputType === 'SLIDER') {
-		// 	this.initSliderConfig();
-		// }
-	}
+	ngOnInit(): void {}
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes?.['controlName']?.currentValue) {

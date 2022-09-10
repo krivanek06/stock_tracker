@@ -15,7 +15,7 @@
 		</app-mat-card-wrapper>
 
 		<!-- reseted account -->
-		<app-mat-card-wrapper title="Account resets">
+		<app-mat-card-wrapper *ngIf="user.userHistoricalData.resetedAccount.length !== 0 || user.userPrivateData.finnhubKey" title="Account resets">
 			<app-user-account-reseted-info
 				*ngIf="user.userPrivateData.finnhubKey"
 				(resetAccountEmitter)="resetAccount()"

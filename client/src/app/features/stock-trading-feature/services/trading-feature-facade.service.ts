@@ -11,7 +11,7 @@ import {
 } from '@core';
 import { ChartType, DialogService, GenericChartSeries, LodashService, zipArrays } from '@shared';
 import * as moment from 'moment';
-import { map, Observable } from 'rxjs';
+import { firstValueFrom, map, Observable } from 'rxjs';
 import { TradeConfirmationPopOverComponent } from '../entry-components';
 import { PortfolioHistoricalWrapper, TIME_INTERVAL_ENUM } from '../models';
 
@@ -47,7 +47,7 @@ export class TradingFeatureFacadeService {
 		const data = (await dialogRef.afterClosed().toPromise()) as StTransactionInput;
 		if (!!data) {
 			DialogService.showNotificationBar(`Your order has been submitted to ${data.operation} symbol: ${data.symbol}`, 'notification');
-			await this.graphqlTradingService.performTransaction(data).toPromise();
+			await firstValueFrom(this.graphqlTradingService.performTransaction(data));
 			DialogService.showNotificationBar(`${data.operation} operation on ${data.symbol} has been completed `);
 		}
 	}

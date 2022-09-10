@@ -119,7 +119,7 @@ export class SideNavigationComponent implements OnInit, OnDestroy {
 						title: 'Trading',
 						url: '/menu/trading',
 						icon: 'analytics',
-						disabled: !user || !user.userPrivateData.finnhubKey,
+						disabled: !user,
 						hidden: false,
 					},
 					{
@@ -145,7 +145,7 @@ export class SideNavigationComponent implements OnInit, OnDestroy {
 						title: 'Groups',
 						url: '/menu/groups',
 						icon: 'people',
-						disabled: !user || !user.userPrivateData.finnhubKey,
+						disabled: !user,
 						hidden: false,
 					},
 					{
@@ -162,13 +162,6 @@ export class SideNavigationComponent implements OnInit, OnDestroy {
 						disabled: !user,
 						hidden: !user || !user.userPrivateData.roles.includes(User_Roles_Enum.RoleAdmin),
 					},
-					/* {
-                     title: 'About',
-                     url: '/menu/about',
-                     icon: 'help-circle-outline',
-                     disabled: false,
-                     hidden: false
-                 },*/
 				];
 			});
 	}

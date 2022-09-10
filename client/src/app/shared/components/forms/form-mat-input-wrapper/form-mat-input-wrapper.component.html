@@ -9,7 +9,7 @@
 			appearance="outline"
 		>
 			<!-- label -->
-			<mat-label> {{ inputCaption | translate }}</mat-label>
+			<mat-label> {{ inputCaption }}</mat-label>
 
 			<!-- textarea -->
 			<textarea
@@ -46,7 +46,7 @@
 				>
 					<mat-select-trigger *ngIf="selectedInputSource" class="flex">
 						<img *ngIf="selectedInputSource?.image" [src]="selectedInputSource?.image" alt="" class="mr-4" />
-						{{ selectedInputSource.caption | translate }}
+						{{ selectedInputSource.caption }}
 					</mat-select-trigger>
 					<input
 						*ngIf="inputType === InputType.SELECTSEARCH || inputType === InputType.MULTISELECT"
@@ -57,9 +57,7 @@
 						tabindex="0"
 					/>
 					<mat-option *ngFor="let optionData of inputSource" [value]="optionData.value">
-						<div class="flex">
-							<img *ngIf="optionData?.image" [src]="optionData.image" alt="" class="mr-4" /> {{ optionData.caption | translate }}
-						</div>
+						<div class="flex"><img *ngIf="optionData?.image" [src]="optionData.image" alt="" class="mr-4" /> {{ optionData.caption }}</div>
 					</mat-option>
 				</mat-select>
 			</ng-template>
@@ -73,9 +71,13 @@
 				</div>
 			</ng-container>
 
+			<!-- number -->
+			<ng-container *ngSwitchCase="'NUMBER'">
+				<input [formControl]="formInputControl" [readOnly]="disabled" type="number" [autocomplete]="inputAutoComplete ? 'on' : 'off'" matInput />
+			</ng-container>
+
 			<!-- text, number, time, email -->
 			<input
-				#defaultElement
 				*ngSwitchDefault
 				[formControl]="formInputControl"
 				[readOnly]="disabled"
@@ -88,7 +90,7 @@
 			<mat-error *ngFor="let inputError of usedFormControl.errors | keyvalue" [id]="''"> {{ inputError.value.errorText }} </mat-error>
 
 			<!-- hint -->
-			<mat-icon *ngIf="hintText" [matTooltip]="hintText | translate" class="helper-text-tooltip-icon" matSuffix> help_outline </mat-icon>
+			<mat-icon *ngIf="hintText" [matTooltip]="hintText" class="helper-text-tooltip-icon" matSuffix> help_outline </mat-icon>
 
 			<!-- postfix close icon -->
 			<button *ngIf="showCloseIcon && inputType === 'TEXT' " matSuffix mat-icon-button aria-label="Clear" (click)="resetValue()">
@@ -106,7 +108,7 @@
 				<div *ngSwitchCase="'BUTTON'" class="w-full mb-2" [matTooltip]="hintText || ''">
 					<button mat-flat-button [color]="formInputControl.value ? 'accent' : 'warn'" class="w-full" (click)="toggleButton()" type="button">
 						<mat-icon *ngIf="prefixIcon">{{ prefixIcon }}</mat-icon>
-						{{ (!!formInputControl.value ? inputCaption : inputCaptionOff ) | translate }}
+						{{ (!!formInputControl.value ? inputCaption : inputCaptionOff ) }}
 					</button>
 				</div>
 
@@ -116,10 +118,10 @@
 					[disableRipple]="disabled"
 					[formControl]="formInputControl"
 					color="primary"
-					[matTooltip]="hintText ? (hintText | translate) : null"
+					[matTooltip]="hintText ? (hintText) : ''"
 					[ngClass]="{'disabled-element': disabled}"
 				>
-					{{ (!!formInputControl.value || !inputCaptionOff ? inputCaption : inputCaptionOff) | translate }}
+					{{ (!!formInputControl.value || !inputCaptionOff ? inputCaption : inputCaptionOff) }}
 				</mat-checkbox>
 
 				<!-- slide toggle -->
@@ -130,15 +132,15 @@
 					[formControl]="formInputControl"
 					[ngClass]="{'disabled-element': disabled}"
 				>
-					{{ (!!formInputControl.value || !inputCaptionOff ? inputCaption : inputCaptionOff) | translate }}
+					{{ (!!formInputControl.value || !inputCaptionOff ? inputCaption : inputCaptionOff) }}
 				</mat-slide-toggle>
 
 				<!-- slider -->
 				<div *ngSwitchCase="'SLIDER'" class="flex flex-col items-center">
 					<div class="flex items-center gap-4">
 						<!-- hint -->
-						<mat-icon *ngIf="hintText" [matTooltip]="hintText | translate" class="helper-text-tooltip-icon" matSuffix> help_outline </mat-icon>
-						<span *ngIf="inputCaption">{{ inputCaption | translate }}: {{ inputTypeSliderConfig.displayValue | numberFormatter }}</span>
+						<mat-icon *ngIf="hintText" [matTooltip]="hintText" class="helper-text-tooltip-icon" matSuffix> help_outline </mat-icon>
+						<span *ngIf="inputCaption">{{ inputCaption }}: {{ inputTypeSliderConfig.displayValue | numberFormatter }}</span>
 					</div>
 
 					<mat-slider
@@ -159,17 +161,15 @@
 				<!-- radio button -->
 				<ng-container *ngSwitchCase="'RADIO'">
 					<!-- label -->
-					<mat-label class="font-bold"> {{ inputCaption | translate }}</mat-label>
+					<mat-label class="font-bold"> {{ inputCaption }}</mat-label>
 
 					<mat-radio-group
 						[formControl]="formInputControl"
-						[matTooltip]="hintText ? (hintText | translate) : null"
+						[matTooltip]="hintText ? (hintText) : ''"
 						[ngClass]="{'disabled-element': disabled}"
 						class="flex flex-col mt-4"
 					>
-						<mat-radio-button *ngFor="let optionData of inputSource" [value]="optionData.value">
-							{{ optionData.caption | translate }}
-						</mat-radio-button>
+						<mat-radio-button *ngFor="let optionData of inputSource" [value]="optionData.value"> {{ optionData.caption }} </mat-radio-button>
 					</mat-radio-group>
 				</ng-container>
 				<!-- errors -->

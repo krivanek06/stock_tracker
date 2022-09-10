@@ -6,6 +6,7 @@ import {
 	InputTypeDateTimePickerConfig,
 	maxLengthValidator,
 	minLengthValidator,
+	MomentService,
 	requiredValidator,
 	UploadedFile,
 	UploaderComponent,
@@ -88,6 +89,10 @@ export class GroupCreateFormComponent implements OnInit {
 	}
 
 	sendInvitation(userPublicData: StUserIdentificationDataFragment) {
+		if (!MomentService.isMoreThan(userPublicData.lastSignInDate, 14)) {
+			DialogService.showNotificationBar(`User ${userPublicData.nickName} has not been active for more than 14 days, cannot be invited`, 'error');
+			return;
+		}
 		if (this.user && this.user.id === userPublicData.id) {
 			DialogService.showNotificationBar(
 				'You cannot invite yourself into the group. If you want to be part of the group, please check "Add me as member" ',
