@@ -12,4 +12,4 @@ import { TradeConfirmationPopOverComponent } from './trade-confirmation-pop-over
 	imports: [IonicModule, CommonModule, ReactiveFormsModule, TradingBidAskModule, FormMatInputWrapperModule, MatDialogModule],
 	exports: [TradeConfirmationPopOverComponent],
 })
-export class TradeConfirmationPopOverModule { }
+export class TradeConfirmationPopOverModule {}

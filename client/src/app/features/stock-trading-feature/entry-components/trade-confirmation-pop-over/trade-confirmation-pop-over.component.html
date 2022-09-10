@@ -46,7 +46,7 @@
 			</ion-item>
 			<ion-item>
 				<ion-label color="warn">Sell all</ion-label>
-				<ion-checkbox class="ion-margin-end" formControlName="sellAll" slot="start"></ion-checkbox>
+				<ion-checkbox class="ion-margin-end" formControlName="sellAll" slot="start" [disabled]="!data.holding"></ion-checkbox>
 			</ion-item>
 		</div>
 
@@ -75,7 +75,7 @@
 			<ion-button
 				class="st-button"
 				(click)="submit(STTransactionOperationEnum.Buy)"
-				[disabled]="form.invalid || sellAll.value"
+				[disabled]="form.invalid || sellAll.value || !hasEnoughCashToBuy"
 				fill="outline"
 				color="success"
 				shape="round"
@@ -86,7 +86,7 @@
 			<ion-button
 				class="st-button"
 				(click)="submit(STTransactionOperationEnum.Sell)"
-				[disabled]="form.invalid || buyAll.value"
+				[disabled]="form.invalid || buyAll.value || !canSellSoManyUnits"
 				fill="outline"
 				color="danger"
 				shape="round"

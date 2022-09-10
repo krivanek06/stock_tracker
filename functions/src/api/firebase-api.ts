@@ -55,7 +55,12 @@ export const getUsersToUpdatePortfolio = async (): Promise<api.STUserPublicData[
 		.orderBy('lastPortfolioUpdateDate', 'asc')
 		.limit(30)
 		.get();
-	return usersDocs.docs.map((d) => d.data() as api.STUserPublicData).filter((user) => user.lastPortfolioUpdateDate < midday.toISOString());
+	return (
+		usersDocs.docs
+			.map((d) => d.data() as api.STUserPublicData)
+			// empty portfolio update (new user) or was already updated
+			.filter((user) => !user.lastPortfolioUpdateDate || user.lastPortfolioUpdateDate < midday.toISOString())
+	);
 };
 
 export const getUserHistoricalData = async ({ id }: api.STUserPublicData): Promise<api.STUserHistoricalData> => {

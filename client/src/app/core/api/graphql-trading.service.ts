@@ -49,8 +49,8 @@ export class GraphqlTradingService {
 
 					if (transactionInput.operation === StTransactionOperationEnum.Buy) {
 						addCash = -(transaction.price * transaction.units) - transaction.transactionFees;
-						if (updatedHoldingIndex >= 0) {
-							userNewHoldings.splice(updatedHoldingIndex, 0, holding as StHolding); // update data
+						if (updatedHoldingIndex !== -1) {
+							userNewHoldings.splice(updatedHoldingIndex, 1, holding as StHolding); // update data
 						} else {
 							userNewHoldings = [...userNewHoldings, holding as StHolding]; // new holding
 						}
@@ -59,7 +59,7 @@ export class GraphqlTradingService {
 						if (!performTransaction.holding) {
 							userNewHoldings.splice(updatedHoldingIndex, 1); // no longer exists
 						} else {
-							userNewHoldings.splice(updatedHoldingIndex, 0, holding as StHolding); // update data
+							userNewHoldings.splice(updatedHoldingIndex, 1, holding as StHolding); // update data
 						}
 					}
 

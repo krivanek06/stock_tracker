@@ -77,7 +77,7 @@ export const StockDetailsFinancialRatiosDisplay: StockDetailsDisplayValue<keyof 
 	{ id: 'totalDebtToCapitalization', name: 'Total debt to capitalization' },
 	{ id: 'interestCoverage', name: 'Interest coverage', isPercent: true },
 	{ id: 'cashFlowToDebtRatio', name: 'Cash flow to debt' },
-	{ id: 'companyEquityMultiplier', name: 'Company equity multiplier' },
+	{ id: 'companyEquityMultiplier', name: 'Equity multiplier' },
 	{ id: 'receivablesTurnover', name: 'Receivables turnover', isPercent: true },
 	{ id: 'payablesTurnover', name: 'Payables turnover' },
 	{ id: 'inventoryTurnover', name: 'Inventory turnover', isPercent: true },

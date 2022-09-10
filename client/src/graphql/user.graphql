@@ -134,6 +134,7 @@ fragment StUserPublicDataSearch on STUserPublicData {
 }
 
 fragment StUserPrivateData on STUserPrivateData {
+	id
 	tradingEnabledDate
 	finnhubKey
 	roles

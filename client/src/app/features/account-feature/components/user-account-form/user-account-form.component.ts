@@ -47,9 +47,9 @@ export class UserAccountFormComponent implements OnInit, OnChanges {
 		return this.form.get('finnhubKey') as AbstractControl;
 	}
 
-	get nickName(): AbstractControl {
-		return this.form.get('nickName') as AbstractControl;
-	}
+	// get nickName(): AbstractControl {
+	// 	return this.form.get('nickName') as AbstractControl;
+	// }
 
 	get photoURL(): AbstractControl {
 		return this.form.get('photoURL') as AbstractControl;
@@ -63,11 +63,11 @@ export class UserAccountFormComponent implements OnInit, OnChanges {
 	}
 
 	ngOnChanges(changes: SimpleChanges) {
-		console.log('changes', changes);
-		if (changes.user && changes.user.previousValue) {
-			const currentUser = changes.user?.currentValue as StUserPublicData;
-			this.nickName.patchValue(currentUser?.nickName);
-		}
+		// console.log('changes', changes);
+		// if (changes.user && changes.user.previousValue) {
+		// 	const currentUser = changes.user?.currentValue as StUserPublicData;
+		// 	this.nickName.patchValue(currentUser?.nickName);
+		// }
 	}
 
 	async submit() {

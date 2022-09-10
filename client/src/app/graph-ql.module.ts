@@ -18,7 +18,9 @@ const errorLink = onError(({ graphQLErrors, networkError, response }) => {
 			DialogService.showNotificationBar(message, 'error', 5000);
 		} else {
 			// server error with status 500 (do not display text)
-			DialogService.showNotificationBar('An error happened on the server, we will be fixing it soon', 'error', 5000);
+			const message = Array.isArray(graphQLErrors[0].message) ? graphQLErrors[0].message[0] : graphQLErrors[0].message;
+			DialogService.showNotificationBar(message, 'error', 5000);
+			//DialogService.showNotificationBar('An error happened on the server, we will be fixing it soon', 'error', 5000);
 		}
 
 		// log errors in console

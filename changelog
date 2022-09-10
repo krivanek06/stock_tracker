@@ -1,3 +1,15 @@
+10.9.2022
+- General: Regenerated private keys
+- Client(trading): disabled selling more units of stocks than is owned
+- Client(trading): disabled buyinh more stocks than cash on hand
+- Client(trading): fixed duplicated data in holdings table
+- Client(trading): allow trading even without finhub API key
+- Client(group): disabled inviting users who has not been active for more than 14 days
+- Client(UI-lib): changed mat-label color
+- Client(UI-lib): fixed changing between different mat wrapper types
+- Client(stock-details): fixed loading stock and regenerating charts
+- Graphql(user): replaced default user image
+
 1.8.2022
 - UI: fixed last sign in date
 
