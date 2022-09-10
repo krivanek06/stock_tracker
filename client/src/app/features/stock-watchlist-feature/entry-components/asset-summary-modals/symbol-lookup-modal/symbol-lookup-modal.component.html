@@ -3,12 +3,12 @@
 	<div class="py-4 flex justify-between">
 		<div>
 			<ng-container *ngIf="data.showAddToWatchlistOption && (user$ | async)">
-				<button mat-button *ngIf="!isSymbolInWatchlist" (click)="addSymbolToWatchlist()">
-					<mat-icon class="g-color-warning">grade</mat-icon>
+				<button matTooltip="Save symbol into your watchlist" mat-button *ngIf="!isSymbolInWatchlist" (click)="addSymbolToWatchlist()">
+					<mat-icon class="g-color-warning">favorite_border</mat-icon>
 					Save symbol
 				</button>
-				<button mat-button *ngIf="isSymbolInWatchlist" (click)="removeSymbolFromWatchlist()">
-					<mat-icon class="g-color-danger">star</mat-icon>
+				<button matTooltip="Remove symbol from your watchlist" mat-button *ngIf="isSymbolInWatchlist" (click)="removeSymbolFromWatchlist()">
+					<mat-icon class="g-color-danger">favorite</mat-icon>
 					Remove symbol
 				</button>
 			</ng-container>

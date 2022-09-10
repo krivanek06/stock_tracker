@@ -44,6 +44,7 @@ export class SymbolStorageService {
 	}
 
 	setActiveSymbol(symbol: string | null) {
+		this.activeSymbol$.next(null); // fixed error with rendering charts on details
 		this.activeSymbol$.next(symbol);
 	}
 
