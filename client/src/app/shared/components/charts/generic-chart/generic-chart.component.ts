@@ -68,13 +68,6 @@ export class GenericChartComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
-		if (this.chart) {
-			console.log('GenericChartComponent: destoying previous chart');
-			/* to prevent: ERROR TypeError: Cannot assign to read only property '0' of object '[object Array]' */
-			this.chart.series = [];
-			this.chartOptions = {};
-		}
-
 		if (this.addFancyColoring) {
 			this.fancyColoring();
 		}
