@@ -1,3 +1,7 @@
+22.9.2022
+- Flask(API): removed fetching data from Finhub - slow API
+- Client(stock-details): adjusted view based on lack of data
+
 10.9.2022
 - General: Regenerated private keys
 - Client(trading): disabled selling more units of stocks than is owned

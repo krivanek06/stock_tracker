@@ -84,12 +84,8 @@ export type DefaultKeyStatistics = {
 export type Dividens = {
   __typename?: 'Dividens';
   currentDividendYieldTTM?: Maybe<Scalars['Float']>;
-  dividendGrowthRateFiveY?: Maybe<Scalars['Float']>;
   dividendPayoutRatioTTM?: Maybe<Scalars['Float']>;
   dividendPerShareAnnual?: Maybe<Scalars['Float']>;
-  dividendPerShareFiveY?: Maybe<Scalars['Float']>;
-  dividendYieldFiveY?: Maybe<Scalars['Float']>;
-  dividendYieldIndicatedAnnual?: Maybe<Scalars['Float']>;
   dividendsPerShareTTM?: Maybe<Scalars['Float']>;
   exDividendDate?: Maybe<Scalars['String']>;
   forwardDividendYield?: Maybe<Scalars['String']>;
@@ -267,132 +263,6 @@ export type HistoricalMetricsData = {
   data: Array<Scalars['Float']>;
   dates: Array<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
-};
-
-export type Metric = {
-  __typename?: 'Metric';
-  assetTurnoverAnnual?: Maybe<Scalars['Float']>;
-  assetTurnoverTTM?: Maybe<Scalars['Float']>;
-  beta?: Maybe<Scalars['Float']>;
-  bookValuePerShareAnnual?: Maybe<Scalars['Float']>;
-  bookValuePerShareQuarterly?: Maybe<Scalars['Float']>;
-  bookValueShareGrowthFiveY?: Maybe<Scalars['Float']>;
-  capitalSpendingGrowthFiveY?: Maybe<Scalars['Float']>;
-  cashFlowPerShareAnnual?: Maybe<Scalars['Float']>;
-  cashFlowPerShareTTM?: Maybe<Scalars['Float']>;
-  cashPerSharePerShareAnnual?: Maybe<Scalars['Float']>;
-  cashPerSharePerShareQuarterly?: Maybe<Scalars['Float']>;
-  currentEvfreeCashFlowAnnual?: Maybe<Scalars['Float']>;
-  currentEvfreeCashFlowTTM?: Maybe<Scalars['Float']>;
-  currentRatioAnnual?: Maybe<Scalars['Float']>;
-  currentRatioQuarterly?: Maybe<Scalars['Float']>;
-  ebitdPerShareTTM?: Maybe<Scalars['Float']>;
-  ebitdaCagrFiveY?: Maybe<Scalars['Float']>;
-  ebitdaInterimCagrFiveY?: Maybe<Scalars['Float']>;
-  epsBasicExclExtraItemsAnnual?: Maybe<Scalars['Float']>;
-  epsBasicExclExtraItemsTTM?: Maybe<Scalars['Float']>;
-  epsExclExtraItemsAnnual?: Maybe<Scalars['Float']>;
-  epsExclExtraItemsTTM?: Maybe<Scalars['Float']>;
-  epsGrowthFiveY?: Maybe<Scalars['Float']>;
-  epsGrowthQuarterlyYoy?: Maybe<Scalars['Float']>;
-  epsGrowthTTMYoy?: Maybe<Scalars['Float']>;
-  epsGrowthThreeY?: Maybe<Scalars['Float']>;
-  epsInclExtraItemsAnnual?: Maybe<Scalars['Float']>;
-  epsInclExtraItemsTTM?: Maybe<Scalars['Float']>;
-  epsNormalizedAnnual?: Maybe<Scalars['Float']>;
-  fiveDayPriceReturnDaily?: Maybe<Scalars['Float']>;
-  fiveTwoWeekHigh?: Maybe<Scalars['Float']>;
-  fiveTwoWeekHighDate?: Maybe<Scalars['String']>;
-  fiveTwoWeekLow?: Maybe<Scalars['Float']>;
-  fiveTwoWeekLowDate?: Maybe<Scalars['String']>;
-  fiveTwoWeekPriceReturnDaily?: Maybe<Scalars['Float']>;
-  focfCagrFiveY?: Maybe<Scalars['Float']>;
-  freeCashFlowAnnual?: Maybe<Scalars['Float']>;
-  freeCashFlowPerShareTTM?: Maybe<Scalars['Float']>;
-  freeCashFlowTTM?: Maybe<Scalars['Float']>;
-  freeOperatingCashFlowrevenueFiveY?: Maybe<Scalars['Float']>;
-  freeOperatingCashFlowrevenueTTM?: Maybe<Scalars['Float']>;
-  grossMarginAnnual?: Maybe<Scalars['Float']>;
-  grossMarginFiveY?: Maybe<Scalars['Float']>;
-  grossMarginTTM?: Maybe<Scalars['Float']>;
-  inventoryTurnoverAnnual?: Maybe<Scalars['Float']>;
-  inventoryTurnoverTTM?: Maybe<Scalars['Float']>;
-  longTermDebtequityAnnual?: Maybe<Scalars['Float']>;
-  longTermDebtequityQuarterly?: Maybe<Scalars['Float']>;
-  marketCapitalization?: Maybe<Scalars['Float']>;
-  monthToDatePriceReturnDaily?: Maybe<Scalars['Float']>;
-  netDebtAnnual?: Maybe<Scalars['Float']>;
-  netDebtInterim?: Maybe<Scalars['Float']>;
-  netIncomeEmployeeAnnual?: Maybe<Scalars['Float']>;
-  netIncomeEmployeeTTM?: Maybe<Scalars['Float']>;
-  netInterestCoverageAnnual?: Maybe<Scalars['Float']>;
-  netInterestCoverageTTM?: Maybe<Scalars['Float']>;
-  netMarginGrowthFiveY?: Maybe<Scalars['Float']>;
-  netProfitMarginAnnual?: Maybe<Scalars['Float']>;
-  netProfitMarginFiveY?: Maybe<Scalars['Float']>;
-  netProfitMarginTTM?: Maybe<Scalars['Float']>;
-  oneDayAverageTradingVolume?: Maybe<Scalars['Float']>;
-  oneThreeWeekPriceReturnDaily?: Maybe<Scalars['Float']>;
-  operatingMarginAnnual?: Maybe<Scalars['Float']>;
-  operatingMarginFiveY?: Maybe<Scalars['Float']>;
-  operatingMarginTTM?: Maybe<Scalars['Float']>;
-  payoutRatioAnnual?: Maybe<Scalars['Float']>;
-  payoutRatioTTM?: Maybe<Scalars['Float']>;
-  pbAnnual?: Maybe<Scalars['Float']>;
-  pbQuarterly?: Maybe<Scalars['Float']>;
-  pcfShareTTM?: Maybe<Scalars['Float']>;
-  peBasicExclExtraTTM?: Maybe<Scalars['Float']>;
-  peExclExtraAnnual?: Maybe<Scalars['Float']>;
-  peExclExtraHighTTM?: Maybe<Scalars['Float']>;
-  peExclExtraTTM?: Maybe<Scalars['Float']>;
-  peExclLowTTM?: Maybe<Scalars['Float']>;
-  peInclExtraTTM?: Maybe<Scalars['Float']>;
-  peNormalizedAnnual?: Maybe<Scalars['Float']>;
-  pfcfShareAnnual?: Maybe<Scalars['Float']>;
-  pfcfShareTTM?: Maybe<Scalars['Float']>;
-  pretaxMarginAnnual?: Maybe<Scalars['Float']>;
-  pretaxMarginFiveY?: Maybe<Scalars['Float']>;
-  pretaxMarginTTM?: Maybe<Scalars['Float']>;
-  priceRelativeToSPFiveFiveTwoWeek?: Maybe<Scalars['Float']>;
-  priceRelativeToSPFiveFourWeek?: Maybe<Scalars['Float']>;
-  priceRelativeToSPFiveOneThreeWeek?: Maybe<Scalars['Float']>;
-  priceRelativeToSPFiveTwoSixWeek?: Maybe<Scalars['Float']>;
-  priceRelativeToSPFiveYtd?: Maybe<Scalars['Float']>;
-  psAnnual?: Maybe<Scalars['Float']>;
-  psTTM?: Maybe<Scalars['Float']>;
-  ptbvAnnual?: Maybe<Scalars['Float']>;
-  ptbvQuarterly?: Maybe<Scalars['Float']>;
-  quickRatioAnnual?: Maybe<Scalars['Float']>;
-  quickRatioQuarterly?: Maybe<Scalars['Float']>;
-  receivablesTurnoverAnnual?: Maybe<Scalars['Float']>;
-  receivablesTurnoverTTM?: Maybe<Scalars['Float']>;
-  revenueEmployeeAnnual?: Maybe<Scalars['Float']>;
-  revenueEmployeeTTM?: Maybe<Scalars['Float']>;
-  revenueGrowthFiveY?: Maybe<Scalars['Float']>;
-  revenueGrowthQuarterlyYoy?: Maybe<Scalars['Float']>;
-  revenueGrowthTTMYoy?: Maybe<Scalars['Float']>;
-  revenueGrowthThreeY?: Maybe<Scalars['Float']>;
-  revenuePerShareAnnual?: Maybe<Scalars['Float']>;
-  revenuePerShareTTM?: Maybe<Scalars['Float']>;
-  revenueShareGrowthFiveY?: Maybe<Scalars['Float']>;
-  roaRfy?: Maybe<Scalars['Float']>;
-  roaaFiveY?: Maybe<Scalars['Float']>;
-  roaeFiveY?: Maybe<Scalars['Float']>;
-  roaeTTM?: Maybe<Scalars['Float']>;
-  roeRfy?: Maybe<Scalars['Float']>;
-  roeTTM?: Maybe<Scalars['Float']>;
-  roiAnnual?: Maybe<Scalars['Float']>;
-  roiFiveY?: Maybe<Scalars['Float']>;
-  roiTTM?: Maybe<Scalars['Float']>;
-  tangibleBookValuePerShareAnnual?: Maybe<Scalars['Float']>;
-  tangibleBookValuePerShareQuarterly?: Maybe<Scalars['Float']>;
-  tbvCagrFiveY?: Maybe<Scalars['Float']>;
-  threeMonthAverageTradingVolume?: Maybe<Scalars['Float']>;
-  totalDebtCagrFiveY?: Maybe<Scalars['Float']>;
-  totalDebttotalEquityAnnual?: Maybe<Scalars['Float']>;
-  totalDebttotalEquityQuarterly?: Maybe<Scalars['Float']>;
-  twoSixWeekPriceReturnDaily?: Maybe<Scalars['Float']>;
-  yearToDatePriceReturnDaily?: Maybe<Scalars['Float']>;
 };
 
 export type Mutation = {
@@ -599,7 +469,6 @@ export type Query = {
   queryStockDetailsFinancialGrowth?: Maybe<StDetailsFinancialGrowth>;
   queryStockDetailsFinancialRatios?: Maybe<StDetailsFinancialRatios>;
   queryStockDetailsKeyMetrics?: Maybe<StDetailsKeyMetrics>;
-  queryStockFinancialReports?: Maybe<StockDetailsFinancialReports>;
   queryStockQuotesByPrefix: Array<Maybe<StfmCompanyQuote>>;
   queryStockScreener?: Maybe<StfmStockScreenerResultWrapper>;
   queryStockSummary?: Maybe<Summary>;
@@ -664,11 +533,6 @@ export type QueryQueryStockDetailsFinancialRatiosArgs = {
 export type QueryQueryStockDetailsKeyMetricsArgs = {
   allData: Scalars['Boolean'];
   period: Scalars['String'];
-  symbol: Scalars['String'];
-};
-
-
-export type QueryQueryStockFinancialReportsArgs = {
   symbol: Scalars['String'];
 };
 
@@ -2201,19 +2065,11 @@ export type StockDetails = {
   historicalMetrics?: Maybe<HistoricalMetrics>;
   id: Scalars['String'];
   institutionalHolders: Array<StfmHolder>;
-  metric?: Maybe<Metric>;
   mutualFundHolders: Array<StfmHolderWithWeight>;
   recommendation: Array<Recommendations>;
   sectorPeers: Array<StfmCompanyQuote>;
   socialSentiment?: Maybe<StfmSocialSentiment>;
   summary: Summary;
-};
-
-export type StockDetailsFinancialReports = {
-  __typename?: 'StockDetailsFinancialReports';
-  allFinancialReportsQuarterly: Array<FinancialReport>;
-  allFinancialReportsYearly: Array<FinancialReport>;
-  id: Scalars['String'];
 };
 
 export type Summary = {
@@ -2626,8 +2482,6 @@ export type StockSummaryFragmentFragment = { __typename?: 'Summary', avgVolume: 
 
 export type FinancialReportStatementDataFragmentFragment = { __typename?: 'FinancialReportStatementData', concept?: string | null, label?: string | null, unit?: string | null, value?: number | null };
 
-export type FinancialReportFragmentFragment = { __typename?: 'FinancialReport', acceptedDate?: string | null, accessNumber?: string | null, cik?: string | null, endDate?: string | null, filedDate?: string | null, form?: string | null, quarter?: number | null, startDate?: string | null, symbol?: string | null, year?: number | null, report?: { __typename?: 'FinancialReportStatement', bs: Array<{ __typename?: 'FinancialReportStatementData', concept?: string | null, label?: string | null, unit?: string | null, value?: number | null } | null>, cf: Array<{ __typename?: 'FinancialReportStatementData', concept?: string | null, label?: string | null, unit?: string | null, value?: number | null } | null>, ic: Array<{ __typename?: 'FinancialReportStatementData', concept?: string | null, label?: string | null, unit?: string | null, value?: number | null } | null> } | null };
-
 export type RecommendationFragmentFragment = { __typename?: 'Recommendations', buy?: number | null, hold?: number | null, period?: string | null, sell?: number | null, strongBuy?: number | null, strongSell?: number | null, symbol?: string | null };
 
 export type NewsArticleFragmentFragment = { __typename?: 'NewsArticle', datetime?: number | null, headline?: string | null, image?: string | null, sourceName?: string | null, summary?: string | null, url?: string | null };
@@ -2640,9 +2494,7 @@ export type DefaultKeyStatisticsFragmentFragment = { __typename?: 'DefaultKeySta
 
 export type FinancialDataFragmentFragment = { __typename?: 'FinancialData', currentPrice?: number | null, currentRatio?: number | null, debtToEquity?: number | null, earningsGrowth?: number | null, ebitda?: number | null, ebitdaMargins?: number | null, financialCurrency?: string | null, freeCashflow?: number | null, grossMargins?: number | null, grossProfits?: number | null, numberOfAnalystOpinions?: number | null, operatingCashflow?: number | null, operatingMargins?: number | null, profitMargins?: number | null, quickRatio?: number | null, recommendationKey?: string | null, recommendationMean?: number | null, returnOnAssets?: number | null, returnOnEquity?: number | null, revenueGrowth?: number | null, revenuePerShare?: number | null, targetHighPrice?: number | null, targetLowPrice?: number | null, targetMeanPrice?: number | null, targetMedianPrice?: number | null, totalCash?: number | null, totalCashPerShare?: number | null, totalDebt?: number | null, totalRevenue?: number | null };
 
-export type MetricFragmentFragment = { __typename?: 'Metric', fiveDayPriceReturnDaily?: number | null, fiveTwoWeekHigh?: number | null, fiveTwoWeekHighDate?: string | null, fiveTwoWeekLow?: number | null, fiveTwoWeekLowDate?: string | null, fiveTwoWeekPriceReturnDaily?: number | null, oneDayAverageTradingVolume?: number | null, oneThreeWeekPriceReturnDaily?: number | null, threeMonthAverageTradingVolume?: number | null, twoSixWeekPriceReturnDaily?: number | null, assetTurnoverAnnual?: number | null, assetTurnoverTTM?: number | null, beta?: number | null, bookValuePerShareAnnual?: number | null, bookValuePerShareQuarterly?: number | null, bookValueShareGrowthFiveY?: number | null, capitalSpendingGrowthFiveY?: number | null, cashFlowPerShareAnnual?: number | null, cashFlowPerShareTTM?: number | null, cashPerSharePerShareAnnual?: number | null, cashPerSharePerShareQuarterly?: number | null, currentEvfreeCashFlowAnnual?: number | null, currentEvfreeCashFlowTTM?: number | null, currentRatioAnnual?: number | null, currentRatioQuarterly?: number | null, ebitdPerShareTTM?: number | null, ebitdaCagrFiveY?: number | null, ebitdaInterimCagrFiveY?: number | null, epsBasicExclExtraItemsAnnual?: number | null, epsBasicExclExtraItemsTTM?: number | null, epsExclExtraItemsAnnual?: number | null, epsExclExtraItemsTTM?: number | null, epsGrowthFiveY?: number | null, epsGrowthQuarterlyYoy?: number | null, epsGrowthTTMYoy?: number | null, epsGrowthThreeY?: number | null, epsInclExtraItemsAnnual?: number | null, epsInclExtraItemsTTM?: number | null, epsNormalizedAnnual?: number | null, focfCagrFiveY?: number | null, freeCashFlowAnnual?: number | null, freeCashFlowPerShareTTM?: number | null, freeCashFlowTTM?: number | null, freeOperatingCashFlowrevenueFiveY?: number | null, freeOperatingCashFlowrevenueTTM?: number | null, grossMarginAnnual?: number | null, grossMarginFiveY?: number | null, grossMarginTTM?: number | null, inventoryTurnoverAnnual?: number | null, inventoryTurnoverTTM?: number | null, longTermDebtequityAnnual?: number | null, longTermDebtequityQuarterly?: number | null, marketCapitalization?: number | null, monthToDatePriceReturnDaily?: number | null, netDebtAnnual?: number | null, netDebtInterim?: number | null, netIncomeEmployeeAnnual?: number | null, netIncomeEmployeeTTM?: number | null, netInterestCoverageAnnual?: number | null, netInterestCoverageTTM?: number | null, netMarginGrowthFiveY?: number | null, netProfitMarginAnnual?: number | null, netProfitMarginFiveY?: number | null, netProfitMarginTTM?: number | null, operatingMarginAnnual?: number | null, operatingMarginFiveY?: number | null, operatingMarginTTM?: number | null, payoutRatioAnnual?: number | null, payoutRatioTTM?: number | null, pbAnnual?: number | null, pbQuarterly?: number | null, pcfShareTTM?: number | null, peBasicExclExtraTTM?: number | null, peExclExtraAnnual?: number | null, peExclExtraHighTTM?: number | null, peExclExtraTTM?: number | null, peExclLowTTM?: number | null, peInclExtraTTM?: number | null, peNormalizedAnnual?: number | null, pfcfShareAnnual?: number | null, pfcfShareTTM?: number | null, pretaxMarginAnnual?: number | null, pretaxMarginFiveY?: number | null, pretaxMarginTTM?: number | null, priceRelativeToSPFiveFiveTwoWeek?: number | null, priceRelativeToSPFiveFourWeek?: number | null, priceRelativeToSPFiveOneThreeWeek?: number | null, priceRelativeToSPFiveTwoSixWeek?: number | null, priceRelativeToSPFiveYtd?: number | null, psAnnual?: number | null, psTTM?: number | null, ptbvAnnual?: number | null, ptbvQuarterly?: number | null, quickRatioAnnual?: number | null, quickRatioQuarterly?: number | null, receivablesTurnoverAnnual?: number | null, receivablesTurnoverTTM?: number | null, revenueEmployeeAnnual?: number | null, revenueEmployeeTTM?: number | null, revenueGrowthFiveY?: number | null, revenueGrowthQuarterlyYoy?: number | null, revenueGrowthTTMYoy?: number | null, revenueGrowthThreeY?: number | null, revenuePerShareAnnual?: number | null, revenuePerShareTTM?: number | null, revenueShareGrowthFiveY?: number | null, roaRfy?: number | null, roaaFiveY?: number | null, roaeFiveY?: number | null, roaeTTM?: number | null, roeRfy?: number | null, roeTTM?: number | null, roiAnnual?: number | null, roiFiveY?: number | null, roiTTM?: number | null, tangibleBookValuePerShareAnnual?: number | null, tangibleBookValuePerShareQuarterly?: number | null, tbvCagrFiveY?: number | null, totalDebtCagrFiveY?: number | null, totalDebttotalEquityAnnual?: number | null, totalDebttotalEquityQuarterly?: number | null, yearToDatePriceReturnDaily?: number | null };
-
-export type DividensFragmentFragment = { __typename?: 'Dividens', currentDividendYieldTTM?: number | null, dividendGrowthRateFiveY?: number | null, dividendPerShareAnnual?: number | null, dividendPerShareFiveY?: number | null, dividendYieldFiveY?: number | null, dividendYieldIndicatedAnnual?: number | null, dividendPayoutRatioTTM?: number | null, dividendsPerShareTTM?: number | null, exDividendDate?: string | null, trailingAnnualDividendRate?: string | null, trailingAnnualDividendYield?: string | null, forwardDividendYield?: string | null };
+export type DividensFragmentFragment = { __typename?: 'Dividens', currentDividendYieldTTM?: number | null, dividendPerShareAnnual?: number | null, dividendPayoutRatioTTM?: number | null, dividendsPerShareTTM?: number | null, exDividendDate?: string | null, trailingAnnualDividendRate?: string | null, trailingAnnualDividendYield?: string | null, forwardDividendYield?: string | null };
 
 export type EarningsChartFragmentFragment = { __typename?: 'EarningsChart', currentQuarterEstimate?: number | null, currentQuarterEstimateDate?: string | null, currentQuarterEstimateYear?: number | null, earningsDate: Array<number>, quarterly: Array<{ __typename?: 'EarningsChartData', actual?: number | null, date: string, estimate: number }> };
 
@@ -2673,14 +2525,7 @@ export type QueryStockDetailsQueryVariables = Exact<{
 }>;
 
 
-export type QueryStockDetailsQuery = { __typename?: 'Query', queryStockDetails?: { __typename?: 'StockDetails', id: string, recommendation: Array<{ __typename?: 'Recommendations', buy?: number | null, hold?: number | null, period?: string | null, sell?: number | null, strongBuy?: number | null, strongSell?: number | null, symbol?: string | null }>, companyData?: { __typename?: 'CompanyData', defaultKeyStatistics?: { __typename?: 'DefaultKeyStatistics', bookValue?: number | null, dateShortInterest?: number | null, earningsQuarterlyGrowth?: number | null, enterpriseToEbitda?: number | null, enterpriseToRevenue?: number | null, enterpriseValue?: number | null, fiveYearAverageReturn?: number | null, floatShares?: number | null, forwardEps?: number | null, forwardPE?: number | null, heldPercentInsiders?: number | null, heldPercentInstitutions?: number | null, lastFiscalYearEnd?: number | null, lastSplitDate?: number | null, lastSplitFactor?: string | null, mostRecentQuarter?: number | null, netIncomeToCommon?: number | null, nextFiscalYearEnd?: number | null, pegRatio?: number | null, priceHint?: number | null, priceToBook?: number | null, profitMargins?: number | null, sharesOutstanding: number, sharesPercentSharesOut?: number | null, sharesShort?: number | null, sharesShortPreviousMonthDate?: number | null, sharesShortPriorMonth?: number | null, shortPercentOfFloat?: number | null, shortRatio?: number | null, trailingEps?: number | null } | null, earnings?: { __typename?: 'Earnings', financialCurrency: string, earningsChart: { __typename?: 'EarningsChart', currentQuarterEstimate?: number | null, currentQuarterEstimateDate?: string | null, currentQuarterEstimateYear?: number | null, earningsDate: Array<number>, quarterly: Array<{ __typename?: 'EarningsChartData', actual?: number | null, date: string, estimate: number }> }, financialsChart: { __typename?: 'FinancialsChart', quarterly?: { __typename?: 'FinancialsChartData', categories: Array<string>, series: Array<{ __typename?: 'Series', data: Array<number | null>, name?: string | null }> } | null, yearly?: { __typename?: 'FinancialsChartData', categories: Array<string>, series: Array<{ __typename?: 'Series', data: Array<number | null>, name?: string | null }> } | null } } | null, financialData?: { __typename?: 'FinancialData', currentPrice?: number | null, currentRatio?: number | null, debtToEquity?: number | null, earningsGrowth?: number | null, ebitda?: number | null, ebitdaMargins?: number | null, financialCurrency?: string | null, freeCashflow?: number | null, grossMargins?: number | null, grossProfits?: number | null, numberOfAnalystOpinions?: number | null, operatingCashflow?: number | null, operatingMargins?: number | null, profitMargins?: number | null, quickRatio?: number | null, recommendationKey?: string | null, recommendationMean?: number | null, returnOnAssets?: number | null, returnOnEquity?: number | null, revenueGrowth?: number | null, revenuePerShare?: number | null, targetHighPrice?: number | null, targetLowPrice?: number | null, targetMeanPrice?: number | null, targetMedianPrice?: number | null, totalCash?: number | null, totalCashPerShare?: number | null, totalDebt?: number | null, totalRevenue?: number | null } | null, pageViews?: { __typename?: 'PageViews', longTermTrend: string, midTermTrend: string, shortTermTrend: string } | null, upgradeDowngradeHistory: Array<{ __typename?: 'UpgradeDowngradeHistory', action: string, epochGradeDate: number, firm: string, fromGrade?: string | null, toGrade?: string | null }>, esgScores?: { __typename?: 'EsgScores', totalEsg?: number | null, environmentScore?: number | null, governanceScore?: number | null, highestControversy?: number | null, esgPerformance?: string | null, socialScore?: number | null, peerCount?: number | null, percentile?: number | null, peerGroup?: string | null, relatedControversy?: Array<string | null> | null, peerEnvironmentPerformance?: { __typename?: 'Calculation', avg?: number | null, max?: number | null, min?: number | null } | null, peerEsgScorePerformance?: { __typename?: 'Calculation', avg?: number | null, max?: number | null, min?: number | null } | null, peerGovernancePerformance?: { __typename?: 'Calculation', avg?: number | null, max?: number | null, min?: number | null } | null, peerHighestControversyPerformance?: { __typename?: 'Calculation', avg?: number | null, max?: number | null, min?: number | null } | null, peerSocialPerformance?: { __typename?: 'Calculation', avg?: number | null, max?: number | null, min?: number | null } | null } | null } | null, summary: { __typename?: 'Summary', avgVolume: number, ceo?: string | null, companyName: string, currency: string, dividendDate?: string | null, ePSTTM?: number | null, earningsDate?: string | null, exDividendDate?: string | null, exchangeName?: string | null, fiveTwoWeekRange?: string | null, forwardDividendRate?: number | null, forwardDividendYield?: number | null, forwardEPS?: number | null, forwardPE?: number | null, fullTimeEmployees?: string | null, id: string, symbolType?: SymbolType | null, industry?: string | null, ipoDate?: string | null, beta?: number | null, countryFullName?: string | null, lastSplitDate?: string | null, lastSplitFactor?: string | null, logo_url?: string | null, longBusinessSummary?: string | null, marketCap?: number | null, marketPrice: number, oneyTargetEst?: number | null, pERatioTTM?: number | null, previousClose: number, recommendationKey?: string | null, recommendationMean?: number | null, sandPFiveTwoWeekChange?: number | null, sector?: string | null, sharesOutstanding?: number | null, shortRatio?: number | null, symbol: string, targetEstOneyPercent?: number | null, volume: number, website?: string | null, weekRangeFiveTwoMax: number, weekRangeFiveTwoMin: number, yearToDatePrice: number, yearToDatePriceReturn?: number | null, isActivelyTrading?: boolean | null, residance?: { __typename?: 'SummaryResidance', city?: string | null, state?: string | null, country?: string | null, addressOne?: string | null, zip?: string | null } | null }, metric?: { __typename?: 'Metric', fiveDayPriceReturnDaily?: number | null, fiveTwoWeekHigh?: number | null, fiveTwoWeekHighDate?: string | null, fiveTwoWeekLow?: number | null, fiveTwoWeekLowDate?: string | null, fiveTwoWeekPriceReturnDaily?: number | null, oneDayAverageTradingVolume?: number | null, oneThreeWeekPriceReturnDaily?: number | null, threeMonthAverageTradingVolume?: number | null, twoSixWeekPriceReturnDaily?: number | null, assetTurnoverAnnual?: number | null, assetTurnoverTTM?: number | null, beta?: number | null, bookValuePerShareAnnual?: number | null, bookValuePerShareQuarterly?: number | null, bookValueShareGrowthFiveY?: number | null, capitalSpendingGrowthFiveY?: number | null, cashFlowPerShareAnnual?: number | null, cashFlowPerShareTTM?: number | null, cashPerSharePerShareAnnual?: number | null, cashPerSharePerShareQuarterly?: number | null, currentEvfreeCashFlowAnnual?: number | null, currentEvfreeCashFlowTTM?: number | null, currentRatioAnnual?: number | null, currentRatioQuarterly?: number | null, ebitdPerShareTTM?: number | null, ebitdaCagrFiveY?: number | null, ebitdaInterimCagrFiveY?: number | null, epsBasicExclExtraItemsAnnual?: number | null, epsBasicExclExtraItemsTTM?: number | null, epsExclExtraItemsAnnual?: number | null, epsExclExtraItemsTTM?: number | null, epsGrowthFiveY?: number | null, epsGrowthQuarterlyYoy?: number | null, epsGrowthTTMYoy?: number | null, epsGrowthThreeY?: number | null, epsInclExtraItemsAnnual?: number | null, epsInclExtraItemsTTM?: number | null, epsNormalizedAnnual?: number | null, focfCagrFiveY?: number | null, freeCashFlowAnnual?: number | null, freeCashFlowPerShareTTM?: number | null, freeCashFlowTTM?: number | null, freeOperatingCashFlowrevenueFiveY?: number | null, freeOperatingCashFlowrevenueTTM?: number | null, grossMarginAnnual?: number | null, grossMarginFiveY?: number | null, grossMarginTTM?: number | null, inventoryTurnoverAnnual?: number | null, inventoryTurnoverTTM?: number | null, longTermDebtequityAnnual?: number | null, longTermDebtequityQuarterly?: number | null, marketCapitalization?: number | null, monthToDatePriceReturnDaily?: number | null, netDebtAnnual?: number | null, netDebtInterim?: number | null, netIncomeEmployeeAnnual?: number | null, netIncomeEmployeeTTM?: number | null, netInterestCoverageAnnual?: number | null, netInterestCoverageTTM?: number | null, netMarginGrowthFiveY?: number | null, netProfitMarginAnnual?: number | null, netProfitMarginFiveY?: number | null, netProfitMarginTTM?: number | null, operatingMarginAnnual?: number | null, operatingMarginFiveY?: number | null, operatingMarginTTM?: number | null, payoutRatioAnnual?: number | null, payoutRatioTTM?: number | null, pbAnnual?: number | null, pbQuarterly?: number | null, pcfShareTTM?: number | null, peBasicExclExtraTTM?: number | null, peExclExtraAnnual?: number | null, peExclExtraHighTTM?: number | null, peExclExtraTTM?: number | null, peExclLowTTM?: number | null, peInclExtraTTM?: number | null, peNormalizedAnnual?: number | null, pfcfShareAnnual?: number | null, pfcfShareTTM?: number | null, pretaxMarginAnnual?: number | null, pretaxMarginFiveY?: number | null, pretaxMarginTTM?: number | null, priceRelativeToSPFiveFiveTwoWeek?: number | null, priceRelativeToSPFiveFourWeek?: number | null, priceRelativeToSPFiveOneThreeWeek?: number | null, priceRelativeToSPFiveTwoSixWeek?: number | null, priceRelativeToSPFiveYtd?: number | null, psAnnual?: number | null, psTTM?: number | null, ptbvAnnual?: number | null, ptbvQuarterly?: number | null, quickRatioAnnual?: number | null, quickRatioQuarterly?: number | null, receivablesTurnoverAnnual?: number | null, receivablesTurnoverTTM?: number | null, revenueEmployeeAnnual?: number | null, revenueEmployeeTTM?: number | null, revenueGrowthFiveY?: number | null, revenueGrowthQuarterlyYoy?: number | null, revenueGrowthTTMYoy?: number | null, revenueGrowthThreeY?: number | null, revenuePerShareAnnual?: number | null, revenuePerShareTTM?: number | null, revenueShareGrowthFiveY?: number | null, roaRfy?: number | null, roaaFiveY?: number | null, roaeFiveY?: number | null, roaeTTM?: number | null, roeRfy?: number | null, roeTTM?: number | null, roiAnnual?: number | null, roiFiveY?: number | null, roiTTM?: number | null, tangibleBookValuePerShareAnnual?: number | null, tangibleBookValuePerShareQuarterly?: number | null, tbvCagrFiveY?: number | null, totalDebtCagrFiveY?: number | null, totalDebttotalEquityAnnual?: number | null, totalDebttotalEquityQuarterly?: number | null, yearToDatePriceReturnDaily?: number | null } | null, dividends?: { __typename?: 'Dividens', currentDividendYieldTTM?: number | null, dividendGrowthRateFiveY?: number | null, dividendPerShareAnnual?: number | null, dividendPerShareFiveY?: number | null, dividendYieldFiveY?: number | null, dividendYieldIndicatedAnnual?: number | null, dividendPayoutRatioTTM?: number | null, dividendsPerShareTTM?: number | null, exDividendDate?: string | null, trailingAnnualDividendRate?: string | null, trailingAnnualDividendYield?: string | null, forwardDividendYield?: string | null } | null, historicalMetrics?: { __typename?: 'HistoricalMetrics', cashRatio?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, currentRatio?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, ebitPerShare?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, eps?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, grossMargin?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, longtermDebtTotalAsset?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, longtermDebtTotalCapital?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, longtermDebtTotalEquity?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, netDebtToTotalCapital?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, netDebtToTotalEquity?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, netMargin?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, operatingMargin?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, pretaxMargin?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, salesPerShare?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, sgaToSale?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, totalDebtToEquity?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, totalDebtToTotalAsset?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, totalDebtToTotalCapital?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, totalRatio?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null } | null, calculations?: { __typename?: 'STStockDetailsCalculations', symbol?: string | null, date?: string | null, alpha?: number | null, beta?: number | null, sharpRatio?: number | null, volatility?: { __typename?: 'STStockRiskCalculationsVolatility', benchmarkYearlyReturnPrct?: number | null, meanPrice?: number | null, stdDailyPrct?: number | null, stdDailyPrice?: number | null, stdYearlyPrct?: number | null, stdYearlyPrice?: number | null, symbolYearlyPriceReturnPrct?: number | null, volatilityPrct?: number | null, date?: string | null } | null, CAPM?: { __typename?: 'CAPM', beta?: number | null, Rf?: number | null, Rm?: number | null, result?: number | null } | null, WACC?: { __typename?: 'WACC', Rd?: number | null, Re?: number | null, Wd?: number | null, We?: number | null, result?: number | null, taxRate?: number | null, CAPM?: { __typename?: 'CAPM', beta?: number | null, Rf?: number | null, Rm?: number | null, result?: number | null } | null } | null } | null, socialSentiment?: { __typename?: 'STFMSocialSentiment', absoluteIndex?: number | null, date?: string | null, generalPerception?: number | null, redditCommentMentions?: number | null, redditCommentSentiment?: number | null, redditPostMentions?: number | null, redditPostSentiment?: number | null, relativeIndex?: number | null, sentiment?: number | null, stocktwitsPostMentions?: number | null, stocktwitsPostSentiment?: number | null, symbol?: string | null, tweetMentions?: number | null, tweetSentiment?: number | null, yahooFinanceCommentMentions?: number | null, yahooFinanceCommentSentiment?: number | null } | null, analystEstimates: Array<{ __typename?: 'STAnalystEstimates', date?: string | null, estimatedEbitAvg?: number | null, estimatedEbitHigh?: number | null, estimatedEbitLow?: number | null, estimatedEbitdaAvg?: number | null, estimatedEbitdaHigh?: number | null, estimatedEbitdaLow?: number | null, estimatedEpsAvg?: number | null, estimatedEpsHigh?: number | null, estimatedEpsLow?: number | null, estimatedNetIncomeAvg?: number | null, estimatedNetIncomeHigh?: number | null, estimatedNetIncomeLow?: number | null, estimatedRevenueAvg?: number | null, estimatedRevenueHigh?: number | null, estimatedRevenueLow?: number | null, estimatedSgaExpenseAvg?: number | null, estimatedSgaExpenseHigh?: number | null, estimatedSgaExpenseLow?: number | null, numberAnalystEstimatedRevenue?: number | null, numberAnalystsEstimatedEps?: number | null, symbol?: string | null }>, calculatedPredictions: { __typename?: 'STStockDetailsCalculatedPredictions', DCF_V1?: { __typename?: 'STDiscountedCashFlowFormula', estimatedCompanyTodayValue: number, estimatedDiscountedFactors: Array<number>, estimatedDiscountedTerminalValue: number, estimatedFreeCashFlowRate: number, estimatedFreeCashFlowRates: Array<number>, estimatedFreeCashFlows: Array<number>, estimatedIntrinsicValue: number, estimatedNetIncomeMargin: number, estimatedNetIncomes: Array<number>, estimatedPresentValueOfFutureCashFlows: Array<number | null>, estimatedRevenueGrowthRate: number, estimatedRevenues: Array<number>, estimatedTerminalValue: number, years: Array<string | null>, historical: { __typename?: 'STDiscountedCashFlowFormulaHistorical', freeCashFlows: Array<number>, sharesOutstanding: number, netIncomeMargins: Array<number>, netIncome: Array<number>, revenue: Array<number>, revenueGrowthRates: Array<number | null>, historicalYears: Array<string> }, variable: { __typename?: 'STDiscountedCashFlowFormulaVariable', perpetualGrowthRate: number, requiredRateOfReturn: number } } | null, DDF_V1?: { __typename?: 'STDividendDiscountedFormula', dividendGrowthRate: number, dividendsPerShareTTM: number, minimumRateReturn: number, estimatedIntrinsicValue: number } | null, FCF_V1?: { __typename?: 'STFreeCashFlowFormula', avgFcf: number, estimatedIntrinsicMarketCap: number, estimatedIntrinsicValue: number, historicalYears: Array<string>, minimumRateReturn: number, operatingActivities: Array<number>, capitalExpenditures: Array<number>, freeCashFlows: Array<number>, sharesOutstanding: number } | null, INTRINSIC_V1?: { __typename?: 'STEarningsValuationFormula', dates: Array<string | null>, eps: number, estimatedDiscountedPV: Array<number | null>, estimatedEarnings: Array<number | null>, estimatedIntrinsicValue: number, variable: { __typename?: 'STEarningsValuationFormulaVariable', growthRateFrom5yTo10y: number, growthRateNext5y: number, minimumRateReturn: number, terminalMultiple: number } } | null }, allFinancialReportsYearly: Array<{ __typename?: 'FinancialReport', acceptedDate?: string | null, accessNumber?: string | null, cik?: string | null, endDate?: string | null, filedDate?: string | null, form?: string | null, quarter?: number | null, startDate?: string | null, symbol?: string | null, year?: number | null, report?: { __typename?: 'FinancialReportStatement', bs: Array<{ __typename?: 'FinancialReportStatementData', concept?: string | null, label?: string | null, unit?: string | null, value?: number | null } | null>, cf: Array<{ __typename?: 'FinancialReportStatementData', concept?: string | null, label?: string | null, unit?: string | null, value?: number | null } | null>, ic: Array<{ __typename?: 'FinancialReportStatementData', concept?: string | null, label?: string | null, unit?: string | null, value?: number | null } | null> } | null }>, allFinancialReportsQuarterly: Array<{ __typename?: 'FinancialReport', acceptedDate?: string | null, accessNumber?: string | null, cik?: string | null, endDate?: string | null, filedDate?: string | null, form?: string | null, quarter?: number | null, startDate?: string | null, symbol?: string | null, year?: number | null, report?: { __typename?: 'FinancialReportStatement', bs: Array<{ __typename?: 'FinancialReportStatementData', concept?: string | null, label?: string | null, unit?: string | null, value?: number | null } | null>, cf: Array<{ __typename?: 'FinancialReportStatementData', concept?: string | null, label?: string | null, unit?: string | null, value?: number | null } | null>, ic: Array<{ __typename?: 'FinancialReportStatementData', concept?: string | null, label?: string | null, unit?: string | null, value?: number | null } | null> } | null }>, institutionalHolders: Array<{ __typename?: 'STFMHolder', change?: number | null, dateReported?: string | null, holder?: string | null, shares?: number | null }>, mutualFundHolders: Array<{ __typename?: 'STFMHolderWithWeight', change?: number | null, dateReported?: string | null, holder?: string | null, shares?: number | null, weightPercent?: number | null }>, companyOutlook: { __typename?: 'STFMCompanyOutlook', financialsAnnual: { __typename?: 'STFMFinancials', balance: Array<{ __typename?: 'STFMBalanceSheet', acceptedDate: string, accountPayables?: number | null, accumulatedOtherComprehensiveIncomeLoss?: number | null, capitalLeaseObligations?: number | null, cashAndCashEquivalents?: number | null, cashAndShortTermInvestments?: number | null, commonStock?: number | null, date?: string | null, deferredRevenue?: number | null, deferredRevenueNonCurrent?: number | null, deferredTaxLiabilitiesNonCurrent?: number | null, fillingDate?: string | null, finalLink?: string | null, goodwill?: number | null, goodwillAndIntangibleAssets?: number | null, intangibleAssets?: number | null, inventory?: number | null, link?: string | null, longTermDebt?: number | null, longTermInvestments?: number | null, minorityInterest?: number | null, netDebt?: number | null, netReceivables?: number | null, otherAssets?: number | null, otherCurrentAssets?: number | null, otherCurrentLiabilities?: number | null, otherLiabilities?: number | null, otherNonCurrentAssets?: number | null, otherNonCurrentLiabilities?: number | null, othertotalStockholdersEquity?: number | null, totalEquity?: number | null, totalLiabilitiesAndTotalEquity?: number | null, period: string, propertyPlantEquipmentNet?: number | null, reportedCurrency?: string | null, retainedEarnings?: number | null, shortTermDebt?: number | null, shortTermInvestments?: number | null, symbol?: string | null, taxAssets?: number | null, taxPayables?: number | null, totalAssets?: number | null, totalCurrentAssets?: number | null, totalCurrentLiabilities?: number | null, totalDebt?: number | null, totalInvestments?: number | null, totalLiabilities?: number | null, totalLiabilitiesAndStockholdersEquity?: number | null, totalNonCurrentAssets?: number | null, totalNonCurrentLiabilities?: number | null, totalStockholdersEquity?: number | null }>, cash: Array<{ __typename?: 'STFMCashFlow', acceptedDate: string, accountsPayables?: number | null, accountsReceivables?: number | null, acquisitionsNet?: number | null, capitalExpenditure?: number | null, cashAtBeginningOfPeriod?: number | null, cashAtEndOfPeriod?: number | null, changeInWorkingCapital?: number | null, commonStockIssued?: number | null, commonStockRepurchased?: number | null, date?: string | null, debtRepayment?: number | null, deferredIncomeTax?: number | null, depreciationAndAmortization?: number | null, dividendsPaid?: number | null, effectOfForexChangesOnCash?: number | null, fillingDate?: string | null, finalLink?: string | null, freeCashFlow?: number | null, inventory?: number | null, investmentsInPropertyPlantAndEquipment?: number | null, link?: string | null, netCashProvidedByOperatingActivities?: number | null, netCashUsedForInvestingActivites?: number | null, netCashUsedProvidedByFinancingActivities?: number | null, netChangeInCash?: number | null, netIncome?: number | null, operatingCashFlow?: number | null, otherFinancingActivites?: number | null, otherInvestingActivites?: number | null, otherNonCashItems?: number | null, otherWorkingCapital?: number | null, period: string, purchasesOfInvestments?: number | null, reportedCurrency?: string | null, salesMaturitiesOfInvestments?: number | null, stockBasedCompensation?: number | null, symbol?: string | null }>, income: Array<{ __typename?: 'STFMIncomeStatement', acceptedDate: string, costAndExpenses?: number | null, costOfRevenue?: number | null, date?: string | null, depreciationAndAmortization?: number | null, ebitda?: number | null, ebitdaratio?: number | null, eps?: number | null, epsdiluted?: number | null, fillingDate?: string | null, finalLink?: string | null, generalAndAdministrativeExpenses?: number | null, grossProfit?: number | null, grossProfitRatio?: number | null, incomeBeforeTax?: number | null, incomeBeforeTaxRatio?: number | null, incomeTaxExpense?: number | null, interestExpense?: number | null, interestIncome?: number | null, link?: string | null, netIncome?: number | null, netIncomeRatio?: number | null, operatingExpenses?: number | null, operatingIncome?: number | null, operatingIncomeRatio?: number | null, otherExpenses?: number | null, period: string, reportedCurrency?: string | null, researchAndDevelopmentExpenses?: number | null, revenue?: number | null, sellingAndMarketingExpenses?: number | null, sellingGeneralAndAdministrativeExpenses?: number | null, symbol?: string | null, totalOtherIncomeExpensesNet?: number | null, weightedAverageShsOut?: number | null, weightedAverageShsOutDil?: number | null }> }, financialsQuarter: { __typename?: 'STFMFinancials', balance: Array<{ __typename?: 'STFMBalanceSheet', acceptedDate: string, accountPayables?: number | null, accumulatedOtherComprehensiveIncomeLoss?: number | null, capitalLeaseObligations?: number | null, cashAndCashEquivalents?: number | null, cashAndShortTermInvestments?: number | null, commonStock?: number | null, date?: string | null, deferredRevenue?: number | null, deferredRevenueNonCurrent?: number | null, deferredTaxLiabilitiesNonCurrent?: number | null, fillingDate?: string | null, finalLink?: string | null, goodwill?: number | null, goodwillAndIntangibleAssets?: number | null, intangibleAssets?: number | null, inventory?: number | null, link?: string | null, longTermDebt?: number | null, longTermInvestments?: number | null, minorityInterest?: number | null, netDebt?: number | null, netReceivables?: number | null, otherAssets?: number | null, otherCurrentAssets?: number | null, otherCurrentLiabilities?: number | null, otherLiabilities?: number | null, otherNonCurrentAssets?: number | null, otherNonCurrentLiabilities?: number | null, othertotalStockholdersEquity?: number | null, totalEquity?: number | null, totalLiabilitiesAndTotalEquity?: number | null, period: string, propertyPlantEquipmentNet?: number | null, reportedCurrency?: string | null, retainedEarnings?: number | null, shortTermDebt?: number | null, shortTermInvestments?: number | null, symbol?: string | null, taxAssets?: number | null, taxPayables?: number | null, totalAssets?: number | null, totalCurrentAssets?: number | null, totalCurrentLiabilities?: number | null, totalDebt?: number | null, totalInvestments?: number | null, totalLiabilities?: number | null, totalLiabilitiesAndStockholdersEquity?: number | null, totalNonCurrentAssets?: number | null, totalNonCurrentLiabilities?: number | null, totalStockholdersEquity?: number | null }>, cash: Array<{ __typename?: 'STFMCashFlow', acceptedDate: string, accountsPayables?: number | null, accountsReceivables?: number | null, acquisitionsNet?: number | null, capitalExpenditure?: number | null, cashAtBeginningOfPeriod?: number | null, cashAtEndOfPeriod?: number | null, changeInWorkingCapital?: number | null, commonStockIssued?: number | null, commonStockRepurchased?: number | null, date?: string | null, debtRepayment?: number | null, deferredIncomeTax?: number | null, depreciationAndAmortization?: number | null, dividendsPaid?: number | null, effectOfForexChangesOnCash?: number | null, fillingDate?: string | null, finalLink?: string | null, freeCashFlow?: number | null, inventory?: number | null, investmentsInPropertyPlantAndEquipment?: number | null, link?: string | null, netCashProvidedByOperatingActivities?: number | null, netCashUsedForInvestingActivites?: number | null, netCashUsedProvidedByFinancingActivities?: number | null, netChangeInCash?: number | null, netIncome?: number | null, operatingCashFlow?: number | null, otherFinancingActivites?: number | null, otherInvestingActivites?: number | null, otherNonCashItems?: number | null, otherWorkingCapital?: number | null, period: string, purchasesOfInvestments?: number | null, reportedCurrency?: string | null, salesMaturitiesOfInvestments?: number | null, stockBasedCompensation?: number | null, symbol?: string | null }>, income: Array<{ __typename?: 'STFMIncomeStatement', acceptedDate: string, costAndExpenses?: number | null, costOfRevenue?: number | null, date?: string | null, depreciationAndAmortization?: number | null, ebitda?: number | null, ebitdaratio?: number | null, eps?: number | null, epsdiluted?: number | null, fillingDate?: string | null, finalLink?: string | null, generalAndAdministrativeExpenses?: number | null, grossProfit?: number | null, grossProfitRatio?: number | null, incomeBeforeTax?: number | null, incomeBeforeTaxRatio?: number | null, incomeTaxExpense?: number | null, interestExpense?: number | null, interestIncome?: number | null, link?: string | null, netIncome?: number | null, netIncomeRatio?: number | null, operatingExpenses?: number | null, operatingIncome?: number | null, operatingIncomeRatio?: number | null, otherExpenses?: number | null, period: string, reportedCurrency?: string | null, researchAndDevelopmentExpenses?: number | null, revenue?: number | null, sellingAndMarketingExpenses?: number | null, sellingGeneralAndAdministrativeExpenses?: number | null, symbol?: string | null, totalOtherIncomeExpensesNet?: number | null, weightedAverageShsOut?: number | null, weightedAverageShsOutDil?: number | null }> }, insideTrades: Array<{ __typename?: 'STFMInsideTrade', acquistionOrDisposition: string, companyCik: string, formType: string, link: string, price?: number | null, reportingCik: string, reportingName: string, securitiesOwned: number, securitiesTransacted: number, securityName: string, symbol: string, transactionDate: string, transactionType: string, typeOfOwner: string }>, keyExecutives: Array<{ __typename?: 'STFMKeyExecutive', currencyPay?: string | null, gender?: string | null, name?: string | null, pay?: number | null, title?: string | null }>, rating?: { __typename?: 'STFMRating', date: string, rating: string, ratingDetailsDCFRecommendation: string, ratingDetailsDCFScore: number, ratingDetailsDERecommendation: string, ratingDetailsDEScore: number, ratingDetailsPBRecommendation: string, ratingDetailsPBScore: number, ratingDetailsPERecommendation: string, ratingDetailsPEScore: number, ratingDetailsROARecommendation: string, ratingDetailsROAScore: number, ratingDetailsROERecommendation: string, ratingDetailsROEScore: number, ratingRecommendation: string, ratingScore: number, symbol: string } | null, ratios?: { __typename?: 'STFMRatios', assetTurnoverTTM?: number | null, capitalExpenditureCoverageRatioTTM?: number | null, cashConversionCycleTTM?: number | null, cashFlowCoverageRatiosTTM?: number | null, cashFlowToDebtRatioTTM?: number | null, cashPerShareTTM?: number | null, cashRatioTTM?: number | null, companyEquityMultiplierTTM?: number | null, currentRatioTTM?: number | null, daysOfInventoryOutstandingTTM?: number | null, daysOfPayablesOutstandingTTM?: number | null, daysOfSalesOutstandingTTM?: number | null, debtEquityRatioTTM?: number | null, debtRatioTTM?: number | null, dividendPaidAndCapexCoverageRatioTTM?: number | null, dividendPerShareTTM?: number | null, dividendYielPercentageTTM?: number | null, dividendYielTTM?: number | null, dividendYieldTTM?: number | null, ebitPerRevenueTTM?: number | null, ebtPerEbitTTM?: number | null, effectiveTaxRateTTM?: number | null, enterpriseValueMultipleTTM?: number | null, fixedAssetTurnoverTTM?: number | null, freeCashFlowOperatingCashFlowRatioTTM?: number | null, freeCashFlowPerShareTTM?: number | null, grossProfitMarginTTM?: number | null, interestCoverageTTM?: number | null, inventoryTurnoverTTM?: number | null, longTermDebtToCapitalizationTTM?: number | null, netIncomePerEBTTTM?: number | null, netProfitMarginTTM?: number | null, operatingCashFlowPerShareTTM?: number | null, operatingCashFlowSalesRatioTTM?: number | null, operatingCycleTTM?: number | null, operatingProfitMarginTTM?: number | null, payablesTurnoverTTM?: number | null, payoutRatioTTM?: number | null, peRatioTTM?: number | null, pegRatioTTM?: number | null, pretaxProfitMarginTTM?: number | null, priceBookValueRatioTTM?: number | null, priceCashFlowRatioTTM?: number | null, priceEarningsRatioTTM?: number | null, priceEarningsToGrowthRatioTTM?: number | null, priceFairValueTTM?: number | null, priceSalesRatioTTM?: number | null, priceToBookRatioTTM?: number | null, priceToFreeCashFlowsRatioTTM?: number | null, priceToOperatingCashFlowsRatioTTM?: number | null, priceToSalesRatioTTM?: number | null, quickRatioTTM?: number | null, receivablesTurnoverTTM?: number | null, returnOnAssetsTTM?: number | null, returnOnCapitalEmployedTTM?: number | null, returnOnEquityTTM?: number | null, shortTermCoverageRatiosTTM?: number | null, totalDebtToCapitalizationTTM?: number | null } | null, splitHistory: Array<{ __typename?: 'STFMSplitHistory', date?: string | null, denominator?: number | null, label?: string | null, numerator?: number | null, symbol?: string | null }>, stockDividend: Array<{ __typename?: 'STFMStockDividend', adjDividend?: number | null, date?: string | null, declarationDate?: string | null, dividend?: number | null, label?: string | null, paymentDate?: string | null, recordDate?: string | null, symbol?: string | null }>, stockNews: Array<{ __typename?: 'STFMStockNew', image?: string | null, publishedDate?: string | null, site?: string | null, symbol?: string | null, text?: string | null, title?: string | null, url?: string | null }> }, sectorPeers: Array<{ __typename?: 'STFMCompanyQuote', avgVolume: number, change: number, changesPercentage: number, dayHigh?: number | null, dayLow?: number | null, earningsAnnouncement?: string | null, eps?: number | null, exchange: string, marketCap?: number | null, name: string, open: number, pe?: number | null, previousClose?: number | null, price?: number | null, priceAvg200?: number | null, priceAvg50?: number | null, sharesOutstanding?: number | null, symbol: string, timestamp: number, volume: number, yearHigh: number, yearLow: number, image?: string | null }> } | null };
-
-export type QueryStockFinancialReportsQueryVariables = Exact<{
-  symbol: Scalars['String'];
-}>;
-
-
-export type QueryStockFinancialReportsQuery = { __typename?: 'Query', queryStockFinancialReports?: { __typename?: 'StockDetailsFinancialReports', id: string, allFinancialReportsQuarterly: Array<{ __typename?: 'FinancialReport', acceptedDate?: string | null, accessNumber?: string | null, cik?: string | null, endDate?: string | null, filedDate?: string | null, form?: string | null, quarter?: number | null, startDate?: string | null, symbol?: string | null, year?: number | null, report?: { __typename?: 'FinancialReportStatement', bs: Array<{ __typename?: 'FinancialReportStatementData', concept?: string | null, label?: string | null, unit?: string | null, value?: number | null } | null>, cf: Array<{ __typename?: 'FinancialReportStatementData', concept?: string | null, label?: string | null, unit?: string | null, value?: number | null } | null>, ic: Array<{ __typename?: 'FinancialReportStatementData', concept?: string | null, label?: string | null, unit?: string | null, value?: number | null } | null> } | null }>, allFinancialReportsYearly: Array<{ __typename?: 'FinancialReport', acceptedDate?: string | null, accessNumber?: string | null, cik?: string | null, endDate?: string | null, filedDate?: string | null, form?: string | null, quarter?: number | null, startDate?: string | null, symbol?: string | null, year?: number | null, report?: { __typename?: 'FinancialReportStatement', bs: Array<{ __typename?: 'FinancialReportStatementData', concept?: string | null, label?: string | null, unit?: string | null, value?: number | null } | null>, cf: Array<{ __typename?: 'FinancialReportStatementData', concept?: string | null, label?: string | null, unit?: string | null, value?: number | null } | null>, ic: Array<{ __typename?: 'FinancialReportStatementData', concept?: string | null, label?: string | null, unit?: string | null, value?: number | null } | null> } | null }> } | null };
+export type QueryStockDetailsQuery = { __typename?: 'Query', queryStockDetails?: { __typename?: 'StockDetails', id: string, companyData?: { __typename?: 'CompanyData', defaultKeyStatistics?: { __typename?: 'DefaultKeyStatistics', bookValue?: number | null, dateShortInterest?: number | null, earningsQuarterlyGrowth?: number | null, enterpriseToEbitda?: number | null, enterpriseToRevenue?: number | null, enterpriseValue?: number | null, fiveYearAverageReturn?: number | null, floatShares?: number | null, forwardEps?: number | null, forwardPE?: number | null, heldPercentInsiders?: number | null, heldPercentInstitutions?: number | null, lastFiscalYearEnd?: number | null, lastSplitDate?: number | null, lastSplitFactor?: string | null, mostRecentQuarter?: number | null, netIncomeToCommon?: number | null, nextFiscalYearEnd?: number | null, pegRatio?: number | null, priceHint?: number | null, priceToBook?: number | null, profitMargins?: number | null, sharesOutstanding: number, sharesPercentSharesOut?: number | null, sharesShort?: number | null, sharesShortPreviousMonthDate?: number | null, sharesShortPriorMonth?: number | null, shortPercentOfFloat?: number | null, shortRatio?: number | null, trailingEps?: number | null } | null, earnings?: { __typename?: 'Earnings', financialCurrency: string, earningsChart: { __typename?: 'EarningsChart', currentQuarterEstimate?: number | null, currentQuarterEstimateDate?: string | null, currentQuarterEstimateYear?: number | null, earningsDate: Array<number>, quarterly: Array<{ __typename?: 'EarningsChartData', actual?: number | null, date: string, estimate: number }> }, financialsChart: { __typename?: 'FinancialsChart', quarterly?: { __typename?: 'FinancialsChartData', categories: Array<string>, series: Array<{ __typename?: 'Series', data: Array<number | null>, name?: string | null }> } | null, yearly?: { __typename?: 'FinancialsChartData', categories: Array<string>, series: Array<{ __typename?: 'Series', data: Array<number | null>, name?: string | null }> } | null } } | null, financialData?: { __typename?: 'FinancialData', currentPrice?: number | null, currentRatio?: number | null, debtToEquity?: number | null, earningsGrowth?: number | null, ebitda?: number | null, ebitdaMargins?: number | null, financialCurrency?: string | null, freeCashflow?: number | null, grossMargins?: number | null, grossProfits?: number | null, numberOfAnalystOpinions?: number | null, operatingCashflow?: number | null, operatingMargins?: number | null, profitMargins?: number | null, quickRatio?: number | null, recommendationKey?: string | null, recommendationMean?: number | null, returnOnAssets?: number | null, returnOnEquity?: number | null, revenueGrowth?: number | null, revenuePerShare?: number | null, targetHighPrice?: number | null, targetLowPrice?: number | null, targetMeanPrice?: number | null, targetMedianPrice?: number | null, totalCash?: number | null, totalCashPerShare?: number | null, totalDebt?: number | null, totalRevenue?: number | null } | null, pageViews?: { __typename?: 'PageViews', longTermTrend: string, midTermTrend: string, shortTermTrend: string } | null, upgradeDowngradeHistory: Array<{ __typename?: 'UpgradeDowngradeHistory', action: string, epochGradeDate: number, firm: string, fromGrade?: string | null, toGrade?: string | null }>, esgScores?: { __typename?: 'EsgScores', totalEsg?: number | null, environmentScore?: number | null, governanceScore?: number | null, highestControversy?: number | null, esgPerformance?: string | null, socialScore?: number | null, peerCount?: number | null, percentile?: number | null, peerGroup?: string | null, relatedControversy?: Array<string | null> | null, peerEnvironmentPerformance?: { __typename?: 'Calculation', avg?: number | null, max?: number | null, min?: number | null } | null, peerEsgScorePerformance?: { __typename?: 'Calculation', avg?: number | null, max?: number | null, min?: number | null } | null, peerGovernancePerformance?: { __typename?: 'Calculation', avg?: number | null, max?: number | null, min?: number | null } | null, peerHighestControversyPerformance?: { __typename?: 'Calculation', avg?: number | null, max?: number | null, min?: number | null } | null, peerSocialPerformance?: { __typename?: 'Calculation', avg?: number | null, max?: number | null, min?: number | null } | null } | null } | null, summary: { __typename?: 'Summary', avgVolume: number, ceo?: string | null, companyName: string, currency: string, dividendDate?: string | null, ePSTTM?: number | null, earningsDate?: string | null, exDividendDate?: string | null, exchangeName?: string | null, fiveTwoWeekRange?: string | null, forwardDividendRate?: number | null, forwardDividendYield?: number | null, forwardEPS?: number | null, forwardPE?: number | null, fullTimeEmployees?: string | null, id: string, symbolType?: SymbolType | null, industry?: string | null, ipoDate?: string | null, beta?: number | null, countryFullName?: string | null, lastSplitDate?: string | null, lastSplitFactor?: string | null, logo_url?: string | null, longBusinessSummary?: string | null, marketCap?: number | null, marketPrice: number, oneyTargetEst?: number | null, pERatioTTM?: number | null, previousClose: number, recommendationKey?: string | null, recommendationMean?: number | null, sandPFiveTwoWeekChange?: number | null, sector?: string | null, sharesOutstanding?: number | null, shortRatio?: number | null, symbol: string, targetEstOneyPercent?: number | null, volume: number, website?: string | null, weekRangeFiveTwoMax: number, weekRangeFiveTwoMin: number, yearToDatePrice: number, yearToDatePriceReturn?: number | null, isActivelyTrading?: boolean | null, residance?: { __typename?: 'SummaryResidance', city?: string | null, state?: string | null, country?: string | null, addressOne?: string | null, zip?: string | null } | null }, dividends?: { __typename?: 'Dividens', currentDividendYieldTTM?: number | null, dividendPerShareAnnual?: number | null, dividendPayoutRatioTTM?: number | null, dividendsPerShareTTM?: number | null, exDividendDate?: string | null, trailingAnnualDividendRate?: string | null, trailingAnnualDividendYield?: string | null, forwardDividendYield?: string | null } | null, historicalMetrics?: { __typename?: 'HistoricalMetrics', cashRatio?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, currentRatio?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, ebitPerShare?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, eps?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, grossMargin?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, longtermDebtTotalAsset?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, longtermDebtTotalCapital?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, longtermDebtTotalEquity?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, netDebtToTotalCapital?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, netDebtToTotalEquity?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, netMargin?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, operatingMargin?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, pretaxMargin?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, salesPerShare?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, sgaToSale?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, totalDebtToEquity?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, totalDebtToTotalAsset?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, totalDebtToTotalCapital?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null, totalRatio?: { __typename?: 'HistoricalMetricsData', name?: string | null, dates: Array<string>, data: Array<number> } | null } | null, calculations?: { __typename?: 'STStockDetailsCalculations', symbol?: string | null, date?: string | null, alpha?: number | null, beta?: number | null, sharpRatio?: number | null, volatility?: { __typename?: 'STStockRiskCalculationsVolatility', benchmarkYearlyReturnPrct?: number | null, meanPrice?: number | null, stdDailyPrct?: number | null, stdDailyPrice?: number | null, stdYearlyPrct?: number | null, stdYearlyPrice?: number | null, symbolYearlyPriceReturnPrct?: number | null, volatilityPrct?: number | null, date?: string | null } | null, CAPM?: { __typename?: 'CAPM', beta?: number | null, Rf?: number | null, Rm?: number | null, result?: number | null } | null, WACC?: { __typename?: 'WACC', Rd?: number | null, Re?: number | null, Wd?: number | null, We?: number | null, result?: number | null, taxRate?: number | null, CAPM?: { __typename?: 'CAPM', beta?: number | null, Rf?: number | null, Rm?: number | null, result?: number | null } | null } | null } | null, socialSentiment?: { __typename?: 'STFMSocialSentiment', absoluteIndex?: number | null, date?: string | null, generalPerception?: number | null, redditCommentMentions?: number | null, redditCommentSentiment?: number | null, redditPostMentions?: number | null, redditPostSentiment?: number | null, relativeIndex?: number | null, sentiment?: number | null, stocktwitsPostMentions?: number | null, stocktwitsPostSentiment?: number | null, symbol?: string | null, tweetMentions?: number | null, tweetSentiment?: number | null, yahooFinanceCommentMentions?: number | null, yahooFinanceCommentSentiment?: number | null } | null, analystEstimates: Array<{ __typename?: 'STAnalystEstimates', date?: string | null, estimatedEbitAvg?: number | null, estimatedEbitHigh?: number | null, estimatedEbitLow?: number | null, estimatedEbitdaAvg?: number | null, estimatedEbitdaHigh?: number | null, estimatedEbitdaLow?: number | null, estimatedEpsAvg?: number | null, estimatedEpsHigh?: number | null, estimatedEpsLow?: number | null, estimatedNetIncomeAvg?: number | null, estimatedNetIncomeHigh?: number | null, estimatedNetIncomeLow?: number | null, estimatedRevenueAvg?: number | null, estimatedRevenueHigh?: number | null, estimatedRevenueLow?: number | null, estimatedSgaExpenseAvg?: number | null, estimatedSgaExpenseHigh?: number | null, estimatedSgaExpenseLow?: number | null, numberAnalystEstimatedRevenue?: number | null, numberAnalystsEstimatedEps?: number | null, symbol?: string | null }>, calculatedPredictions: { __typename?: 'STStockDetailsCalculatedPredictions', DCF_V1?: { __typename?: 'STDiscountedCashFlowFormula', estimatedCompanyTodayValue: number, estimatedDiscountedFactors: Array<number>, estimatedDiscountedTerminalValue: number, estimatedFreeCashFlowRate: number, estimatedFreeCashFlowRates: Array<number>, estimatedFreeCashFlows: Array<number>, estimatedIntrinsicValue: number, estimatedNetIncomeMargin: number, estimatedNetIncomes: Array<number>, estimatedPresentValueOfFutureCashFlows: Array<number | null>, estimatedRevenueGrowthRate: number, estimatedRevenues: Array<number>, estimatedTerminalValue: number, years: Array<string | null>, historical: { __typename?: 'STDiscountedCashFlowFormulaHistorical', freeCashFlows: Array<number>, sharesOutstanding: number, netIncomeMargins: Array<number>, netIncome: Array<number>, revenue: Array<number>, revenueGrowthRates: Array<number | null>, historicalYears: Array<string> }, variable: { __typename?: 'STDiscountedCashFlowFormulaVariable', perpetualGrowthRate: number, requiredRateOfReturn: number } } | null, DDF_V1?: { __typename?: 'STDividendDiscountedFormula', dividendGrowthRate: number, dividendsPerShareTTM: number, minimumRateReturn: number, estimatedIntrinsicValue: number } | null, FCF_V1?: { __typename?: 'STFreeCashFlowFormula', avgFcf: number, estimatedIntrinsicMarketCap: number, estimatedIntrinsicValue: number, historicalYears: Array<string>, minimumRateReturn: number, operatingActivities: Array<number>, capitalExpenditures: Array<number>, freeCashFlows: Array<number>, sharesOutstanding: number } | null, INTRINSIC_V1?: { __typename?: 'STEarningsValuationFormula', dates: Array<string | null>, eps: number, estimatedDiscountedPV: Array<number | null>, estimatedEarnings: Array<number | null>, estimatedIntrinsicValue: number, variable: { __typename?: 'STEarningsValuationFormulaVariable', growthRateFrom5yTo10y: number, growthRateNext5y: number, minimumRateReturn: number, terminalMultiple: number } } | null }, institutionalHolders: Array<{ __typename?: 'STFMHolder', change?: number | null, dateReported?: string | null, holder?: string | null, shares?: number | null }>, mutualFundHolders: Array<{ __typename?: 'STFMHolderWithWeight', change?: number | null, dateReported?: string | null, holder?: string | null, shares?: number | null, weightPercent?: number | null }>, companyOutlook: { __typename?: 'STFMCompanyOutlook', financialsAnnual: { __typename?: 'STFMFinancials', balance: Array<{ __typename?: 'STFMBalanceSheet', acceptedDate: string, accountPayables?: number | null, accumulatedOtherComprehensiveIncomeLoss?: number | null, capitalLeaseObligations?: number | null, cashAndCashEquivalents?: number | null, cashAndShortTermInvestments?: number | null, commonStock?: number | null, date?: string | null, deferredRevenue?: number | null, deferredRevenueNonCurrent?: number | null, deferredTaxLiabilitiesNonCurrent?: number | null, fillingDate?: string | null, finalLink?: string | null, goodwill?: number | null, goodwillAndIntangibleAssets?: number | null, intangibleAssets?: number | null, inventory?: number | null, link?: string | null, longTermDebt?: number | null, longTermInvestments?: number | null, minorityInterest?: number | null, netDebt?: number | null, netReceivables?: number | null, otherAssets?: number | null, otherCurrentAssets?: number | null, otherCurrentLiabilities?: number | null, otherLiabilities?: number | null, otherNonCurrentAssets?: number | null, otherNonCurrentLiabilities?: number | null, othertotalStockholdersEquity?: number | null, totalEquity?: number | null, totalLiabilitiesAndTotalEquity?: number | null, period: string, propertyPlantEquipmentNet?: number | null, reportedCurrency?: string | null, retainedEarnings?: number | null, shortTermDebt?: number | null, shortTermInvestments?: number | null, symbol?: string | null, taxAssets?: number | null, taxPayables?: number | null, totalAssets?: number | null, totalCurrentAssets?: number | null, totalCurrentLiabilities?: number | null, totalDebt?: number | null, totalInvestments?: number | null, totalLiabilities?: number | null, totalLiabilitiesAndStockholdersEquity?: number | null, totalNonCurrentAssets?: number | null, totalNonCurrentLiabilities?: number | null, totalStockholdersEquity?: number | null }>, cash: Array<{ __typename?: 'STFMCashFlow', acceptedDate: string, accountsPayables?: number | null, accountsReceivables?: number | null, acquisitionsNet?: number | null, capitalExpenditure?: number | null, cashAtBeginningOfPeriod?: number | null, cashAtEndOfPeriod?: number | null, changeInWorkingCapital?: number | null, commonStockIssued?: number | null, commonStockRepurchased?: number | null, date?: string | null, debtRepayment?: number | null, deferredIncomeTax?: number | null, depreciationAndAmortization?: number | null, dividendsPaid?: number | null, effectOfForexChangesOnCash?: number | null, fillingDate?: string | null, finalLink?: string | null, freeCashFlow?: number | null, inventory?: number | null, investmentsInPropertyPlantAndEquipment?: number | null, link?: string | null, netCashProvidedByOperatingActivities?: number | null, netCashUsedForInvestingActivites?: number | null, netCashUsedProvidedByFinancingActivities?: number | null, netChangeInCash?: number | null, netIncome?: number | null, operatingCashFlow?: number | null, otherFinancingActivites?: number | null, otherInvestingActivites?: number | null, otherNonCashItems?: number | null, otherWorkingCapital?: number | null, period: string, purchasesOfInvestments?: number | null, reportedCurrency?: string | null, salesMaturitiesOfInvestments?: number | null, stockBasedCompensation?: number | null, symbol?: string | null }>, income: Array<{ __typename?: 'STFMIncomeStatement', acceptedDate: string, costAndExpenses?: number | null, costOfRevenue?: number | null, date?: string | null, depreciationAndAmortization?: number | null, ebitda?: number | null, ebitdaratio?: number | null, eps?: number | null, epsdiluted?: number | null, fillingDate?: string | null, finalLink?: string | null, generalAndAdministrativeExpenses?: number | null, grossProfit?: number | null, grossProfitRatio?: number | null, incomeBeforeTax?: number | null, incomeBeforeTaxRatio?: number | null, incomeTaxExpense?: number | null, interestExpense?: number | null, interestIncome?: number | null, link?: string | null, netIncome?: number | null, netIncomeRatio?: number | null, operatingExpenses?: number | null, operatingIncome?: number | null, operatingIncomeRatio?: number | null, otherExpenses?: number | null, period: string, reportedCurrency?: string | null, researchAndDevelopmentExpenses?: number | null, revenue?: number | null, sellingAndMarketingExpenses?: number | null, sellingGeneralAndAdministrativeExpenses?: number | null, symbol?: string | null, totalOtherIncomeExpensesNet?: number | null, weightedAverageShsOut?: number | null, weightedAverageShsOutDil?: number | null }> }, financialsQuarter: { __typename?: 'STFMFinancials', balance: Array<{ __typename?: 'STFMBalanceSheet', acceptedDate: string, accountPayables?: number | null, accumulatedOtherComprehensiveIncomeLoss?: number | null, capitalLeaseObligations?: number | null, cashAndCashEquivalents?: number | null, cashAndShortTermInvestments?: number | null, commonStock?: number | null, date?: string | null, deferredRevenue?: number | null, deferredRevenueNonCurrent?: number | null, deferredTaxLiabilitiesNonCurrent?: number | null, fillingDate?: string | null, finalLink?: string | null, goodwill?: number | null, goodwillAndIntangibleAssets?: number | null, intangibleAssets?: number | null, inventory?: number | null, link?: string | null, longTermDebt?: number | null, longTermInvestments?: number | null, minorityInterest?: number | null, netDebt?: number | null, netReceivables?: number | null, otherAssets?: number | null, otherCurrentAssets?: number | null, otherCurrentLiabilities?: number | null, otherLiabilities?: number | null, otherNonCurrentAssets?: number | null, otherNonCurrentLiabilities?: number | null, othertotalStockholdersEquity?: number | null, totalEquity?: number | null, totalLiabilitiesAndTotalEquity?: number | null, period: string, propertyPlantEquipmentNet?: number | null, reportedCurrency?: string | null, retainedEarnings?: number | null, shortTermDebt?: number | null, shortTermInvestments?: number | null, symbol?: string | null, taxAssets?: number | null, taxPayables?: number | null, totalAssets?: number | null, totalCurrentAssets?: number | null, totalCurrentLiabilities?: number | null, totalDebt?: number | null, totalInvestments?: number | null, totalLiabilities?: number | null, totalLiabilitiesAndStockholdersEquity?: number | null, totalNonCurrentAssets?: number | null, totalNonCurrentLiabilities?: number | null, totalStockholdersEquity?: number | null }>, cash: Array<{ __typename?: 'STFMCashFlow', acceptedDate: string, accountsPayables?: number | null, accountsReceivables?: number | null, acquisitionsNet?: number | null, capitalExpenditure?: number | null, cashAtBeginningOfPeriod?: number | null, cashAtEndOfPeriod?: number | null, changeInWorkingCapital?: number | null, commonStockIssued?: number | null, commonStockRepurchased?: number | null, date?: string | null, debtRepayment?: number | null, deferredIncomeTax?: number | null, depreciationAndAmortization?: number | null, dividendsPaid?: number | null, effectOfForexChangesOnCash?: number | null, fillingDate?: string | null, finalLink?: string | null, freeCashFlow?: number | null, inventory?: number | null, investmentsInPropertyPlantAndEquipment?: number | null, link?: string | null, netCashProvidedByOperatingActivities?: number | null, netCashUsedForInvestingActivites?: number | null, netCashUsedProvidedByFinancingActivities?: number | null, netChangeInCash?: number | null, netIncome?: number | null, operatingCashFlow?: number | null, otherFinancingActivites?: number | null, otherInvestingActivites?: number | null, otherNonCashItems?: number | null, otherWorkingCapital?: number | null, period: string, purchasesOfInvestments?: number | null, reportedCurrency?: string | null, salesMaturitiesOfInvestments?: number | null, stockBasedCompensation?: number | null, symbol?: string | null }>, income: Array<{ __typename?: 'STFMIncomeStatement', acceptedDate: string, costAndExpenses?: number | null, costOfRevenue?: number | null, date?: string | null, depreciationAndAmortization?: number | null, ebitda?: number | null, ebitdaratio?: number | null, eps?: number | null, epsdiluted?: number | null, fillingDate?: string | null, finalLink?: string | null, generalAndAdministrativeExpenses?: number | null, grossProfit?: number | null, grossProfitRatio?: number | null, incomeBeforeTax?: number | null, incomeBeforeTaxRatio?: number | null, incomeTaxExpense?: number | null, interestExpense?: number | null, interestIncome?: number | null, link?: string | null, netIncome?: number | null, netIncomeRatio?: number | null, operatingExpenses?: number | null, operatingIncome?: number | null, operatingIncomeRatio?: number | null, otherExpenses?: number | null, period: string, reportedCurrency?: string | null, researchAndDevelopmentExpenses?: number | null, revenue?: number | null, sellingAndMarketingExpenses?: number | null, sellingGeneralAndAdministrativeExpenses?: number | null, symbol?: string | null, totalOtherIncomeExpensesNet?: number | null, weightedAverageShsOut?: number | null, weightedAverageShsOutDil?: number | null }> }, insideTrades: Array<{ __typename?: 'STFMInsideTrade', acquistionOrDisposition: string, companyCik: string, formType: string, link: string, price?: number | null, reportingCik: string, reportingName: string, securitiesOwned: number, securitiesTransacted: number, securityName: string, symbol: string, transactionDate: string, transactionType: string, typeOfOwner: string }>, keyExecutives: Array<{ __typename?: 'STFMKeyExecutive', currencyPay?: string | null, gender?: string | null, name?: string | null, pay?: number | null, title?: string | null }>, rating?: { __typename?: 'STFMRating', date: string, rating: string, ratingDetailsDCFRecommendation: string, ratingDetailsDCFScore: number, ratingDetailsDERecommendation: string, ratingDetailsDEScore: number, ratingDetailsPBRecommendation: string, ratingDetailsPBScore: number, ratingDetailsPERecommendation: string, ratingDetailsPEScore: number, ratingDetailsROARecommendation: string, ratingDetailsROAScore: number, ratingDetailsROERecommendation: string, ratingDetailsROEScore: number, ratingRecommendation: string, ratingScore: number, symbol: string } | null, ratios?: { __typename?: 'STFMRatios', assetTurnoverTTM?: number | null, capitalExpenditureCoverageRatioTTM?: number | null, cashConversionCycleTTM?: number | null, cashFlowCoverageRatiosTTM?: number | null, cashFlowToDebtRatioTTM?: number | null, cashPerShareTTM?: number | null, cashRatioTTM?: number | null, companyEquityMultiplierTTM?: number | null, currentRatioTTM?: number | null, daysOfInventoryOutstandingTTM?: number | null, daysOfPayablesOutstandingTTM?: number | null, daysOfSalesOutstandingTTM?: number | null, debtEquityRatioTTM?: number | null, debtRatioTTM?: number | null, dividendPaidAndCapexCoverageRatioTTM?: number | null, dividendPerShareTTM?: number | null, dividendYielPercentageTTM?: number | null, dividendYielTTM?: number | null, dividendYieldTTM?: number | null, ebitPerRevenueTTM?: number | null, ebtPerEbitTTM?: number | null, effectiveTaxRateTTM?: number | null, enterpriseValueMultipleTTM?: number | null, fixedAssetTurnoverTTM?: number | null, freeCashFlowOperatingCashFlowRatioTTM?: number | null, freeCashFlowPerShareTTM?: number | null, grossProfitMarginTTM?: number | null, interestCoverageTTM?: number | null, inventoryTurnoverTTM?: number | null, longTermDebtToCapitalizationTTM?: number | null, netIncomePerEBTTTM?: number | null, netProfitMarginTTM?: number | null, operatingCashFlowPerShareTTM?: number | null, operatingCashFlowSalesRatioTTM?: number | null, operatingCycleTTM?: number | null, operatingProfitMarginTTM?: number | null, payablesTurnoverTTM?: number | null, payoutRatioTTM?: number | null, peRatioTTM?: number | null, pegRatioTTM?: number | null, pretaxProfitMarginTTM?: number | null, priceBookValueRatioTTM?: number | null, priceCashFlowRatioTTM?: number | null, priceEarningsRatioTTM?: number | null, priceEarningsToGrowthRatioTTM?: number | null, priceFairValueTTM?: number | null, priceSalesRatioTTM?: number | null, priceToBookRatioTTM?: number | null, priceToFreeCashFlowsRatioTTM?: number | null, priceToOperatingCashFlowsRatioTTM?: number | null, priceToSalesRatioTTM?: number | null, quickRatioTTM?: number | null, receivablesTurnoverTTM?: number | null, returnOnAssetsTTM?: number | null, returnOnCapitalEmployedTTM?: number | null, returnOnEquityTTM?: number | null, shortTermCoverageRatiosTTM?: number | null, totalDebtToCapitalizationTTM?: number | null } | null, splitHistory: Array<{ __typename?: 'STFMSplitHistory', date?: string | null, denominator?: number | null, label?: string | null, numerator?: number | null, symbol?: string | null }>, stockDividend: Array<{ __typename?: 'STFMStockDividend', adjDividend?: number | null, date?: string | null, declarationDate?: string | null, dividend?: number | null, label?: string | null, paymentDate?: string | null, recordDate?: string | null, symbol?: string | null }>, stockNews: Array<{ __typename?: 'STFMStockNew', image?: string | null, publishedDate?: string | null, site?: string | null, symbol?: string | null, text?: string | null, title?: string | null, url?: string | null }> }, sectorPeers: Array<{ __typename?: 'STFMCompanyQuote', avgVolume: number, change: number, changesPercentage: number, dayHigh?: number | null, dayLow?: number | null, earningsAnnouncement?: string | null, eps?: number | null, exchange: string, marketCap?: number | null, name: string, open: number, pe?: number | null, previousClose?: number | null, price?: number | null, priceAvg200?: number | null, priceAvg50?: number | null, sharesOutstanding?: number | null, symbol: string, timestamp: number, volume: number, yearHigh: number, yearLow: number, image?: string | null }> } | null };
 
 export type QueryStockSummaryQueryVariables = Exact<{
   symbol: Scalars['String'];
@@ -3892,31 +3737,6 @@ export const FinancialReportStatementDataFragmentFragmentDoc = gql`
   value
 }
     `;
-export const FinancialReportFragmentFragmentDoc = gql`
-    fragment FinancialReportFragment on FinancialReport {
-  acceptedDate
-  accessNumber
-  cik
-  endDate
-  filedDate
-  form
-  quarter
-  startDate
-  symbol
-  year
-  report {
-    bs {
-      ...FinancialReportStatementDataFragment
-    }
-    cf {
-      ...FinancialReportStatementDataFragment
-    }
-    ic {
-      ...FinancialReportStatementDataFragment
-    }
-  }
-}
-    ${FinancialReportStatementDataFragmentFragmentDoc}`;
 export const RecommendationFragmentFragmentDoc = gql`
     fragment recommendationFragment on Recommendations {
   buy
@@ -4041,140 +3861,10 @@ export const FinancialDataFragmentFragmentDoc = gql`
   totalRevenue
 }
     `;
-export const MetricFragmentFragmentDoc = gql`
-    fragment metricFragment on Metric {
-  fiveDayPriceReturnDaily
-  fiveTwoWeekHigh
-  fiveTwoWeekHighDate
-  fiveTwoWeekLow
-  fiveTwoWeekLowDate
-  fiveTwoWeekPriceReturnDaily
-  oneDayAverageTradingVolume
-  oneThreeWeekPriceReturnDaily
-  threeMonthAverageTradingVolume
-  twoSixWeekPriceReturnDaily
-  assetTurnoverAnnual
-  assetTurnoverTTM
-  beta
-  bookValuePerShareAnnual
-  bookValuePerShareQuarterly
-  bookValueShareGrowthFiveY
-  capitalSpendingGrowthFiveY
-  cashFlowPerShareAnnual
-  cashFlowPerShareTTM
-  cashPerSharePerShareAnnual
-  cashPerSharePerShareQuarterly
-  currentEvfreeCashFlowAnnual
-  currentEvfreeCashFlowTTM
-  currentRatioAnnual
-  currentRatioQuarterly
-  ebitdPerShareTTM
-  ebitdaCagrFiveY
-  ebitdaInterimCagrFiveY
-  epsBasicExclExtraItemsAnnual
-  epsBasicExclExtraItemsTTM
-  epsExclExtraItemsAnnual
-  epsExclExtraItemsTTM
-  epsGrowthFiveY
-  epsGrowthQuarterlyYoy
-  epsGrowthTTMYoy
-  epsGrowthThreeY
-  epsInclExtraItemsAnnual
-  epsInclExtraItemsTTM
-  epsNormalizedAnnual
-  focfCagrFiveY
-  freeCashFlowAnnual
-  freeCashFlowPerShareTTM
-  freeCashFlowTTM
-  freeOperatingCashFlowrevenueFiveY
-  freeOperatingCashFlowrevenueTTM
-  grossMarginAnnual
-  grossMarginFiveY
-  grossMarginTTM
-  inventoryTurnoverAnnual
-  inventoryTurnoverTTM
-  longTermDebtequityAnnual
-  longTermDebtequityQuarterly
-  marketCapitalization
-  monthToDatePriceReturnDaily
-  netDebtAnnual
-  netDebtInterim
-  netIncomeEmployeeAnnual
-  netIncomeEmployeeTTM
-  netInterestCoverageAnnual
-  netInterestCoverageTTM
-  netMarginGrowthFiveY
-  netProfitMarginAnnual
-  netProfitMarginFiveY
-  netProfitMarginTTM
-  operatingMarginAnnual
-  operatingMarginFiveY
-  operatingMarginTTM
-  payoutRatioAnnual
-  payoutRatioTTM
-  pbAnnual
-  pbQuarterly
-  pcfShareTTM
-  peBasicExclExtraTTM
-  peExclExtraAnnual
-  peExclExtraHighTTM
-  peExclExtraTTM
-  peExclLowTTM
-  peInclExtraTTM
-  peNormalizedAnnual
-  pfcfShareAnnual
-  pfcfShareTTM
-  pretaxMarginAnnual
-  pretaxMarginFiveY
-  pretaxMarginTTM
-  priceRelativeToSPFiveFiveTwoWeek
-  priceRelativeToSPFiveFourWeek
-  priceRelativeToSPFiveOneThreeWeek
-  priceRelativeToSPFiveTwoSixWeek
-  priceRelativeToSPFiveYtd
-  psAnnual
-  psTTM
-  ptbvAnnual
-  ptbvQuarterly
-  quickRatioAnnual
-  quickRatioQuarterly
-  receivablesTurnoverAnnual
-  receivablesTurnoverTTM
-  revenueEmployeeAnnual
-  revenueEmployeeTTM
-  revenueGrowthFiveY
-  revenueGrowthQuarterlyYoy
-  revenueGrowthTTMYoy
-  revenueGrowthThreeY
-  revenuePerShareAnnual
-  revenuePerShareTTM
-  revenueShareGrowthFiveY
-  roaRfy
-  roaaFiveY
-  roaeFiveY
-  roaeTTM
-  roeRfy
-  roeTTM
-  roiAnnual
-  roiFiveY
-  roiTTM
-  tangibleBookValuePerShareAnnual
-  tangibleBookValuePerShareQuarterly
-  tbvCagrFiveY
-  totalDebtCagrFiveY
-  totalDebttotalEquityAnnual
-  totalDebttotalEquityQuarterly
-  yearToDatePriceReturnDaily
-}
-    `;
 export const DividensFragmentFragmentDoc = gql`
     fragment dividensFragment on Dividens {
   currentDividendYieldTTM
-  dividendGrowthRateFiveY
   dividendPerShareAnnual
-  dividendPerShareFiveY
-  dividendYieldFiveY
-  dividendYieldIndicatedAnnual
   dividendPayoutRatioTTM
   dividendsPerShareTTM
   exDividendDate
@@ -5299,9 +4989,6 @@ export const QueryStockDetailsDocument = gql`
     query QueryStockDetails($symbol: String!, $reload: Boolean) {
   queryStockDetails(symbol: $symbol, reload: $reload) {
     id
-    recommendation {
-      ...recommendationFragment
-    }
     companyData {
       defaultKeyStatistics {
         ...defaultKeyStatisticsFragment
@@ -5330,9 +5017,6 @@ export const QueryStockDetailsDocument = gql`
     }
     summary {
       ...StockSummaryFragment
-    }
-    metric {
-      ...metricFragment
     }
     dividends {
       ...dividensFragment
@@ -5466,12 +5150,6 @@ export const QueryStockDetailsDocument = gql`
         }
       }
     }
-    allFinancialReportsYearly {
-      ...FinancialReportFragment
-    }
-    allFinancialReportsQuarterly {
-      ...FinancialReportFragment
-    }
     institutionalHolders {
       ...STFMHolderFragment
     }
@@ -5528,19 +5206,16 @@ export const QueryStockDetailsDocument = gql`
     }
   }
 }
-    ${RecommendationFragmentFragmentDoc}
-${DefaultKeyStatisticsFragmentFragmentDoc}
+    ${DefaultKeyStatisticsFragmentFragmentDoc}
 ${EarningsFragmentFragmentDoc}
 ${FinancialDataFragmentFragmentDoc}
 ${EsgScoreFragmentFragmentDoc}
 ${StockSummaryFragmentFragmentDoc}
-${MetricFragmentFragmentDoc}
 ${DividensFragmentFragmentDoc}
 ${HistoricalMetricsDataFragmentFragmentDoc}
 ${StStockDetailsCalculationsFragmentDoc}
 ${StfmSocialSentimentFragmentFragmentDoc}
 ${StAnalystEstimatesFragmentFragmentDoc}
-${FinancialReportFragmentFragmentDoc}
 ${StfmHolderFragmentFragmentDoc}
 ${StfmHolderWithWeightFragmentFragmentDoc}
 ${StfmBalanceSheetFragmentFragmentDoc}
@@ -5560,30 +5235,6 @@ ${StfmCompanyQuoteFragmentFragmentDoc}`;
   })
   export class QueryStockDetailsGQL extends Apollo.Query<QueryStockDetailsQuery, QueryStockDetailsQueryVariables> {
     override document = QueryStockDetailsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const QueryStockFinancialReportsDocument = gql`
-    query QueryStockFinancialReports($symbol: String!) {
-  queryStockFinancialReports(symbol: $symbol) {
-    id
-    allFinancialReportsQuarterly {
-      ...FinancialReportFragment
-    }
-    allFinancialReportsYearly {
-      ...FinancialReportFragment
-    }
-  }
-}
-    ${FinancialReportFragmentFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class QueryStockFinancialReportsGQL extends Apollo.Query<QueryStockFinancialReportsQuery, QueryStockFinancialReportsQueryVariables> {
-    override document = QueryStockFinancialReportsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -6,13 +6,11 @@ import {
 	QueryStockDetailsFinancialRatiosGQL,
 	QueryStockDetailsGQL,
 	QueryStockDetailsKeyMetricsGQL,
-	QueryStockFinancialReportsGQL,
 	QueryStockSummaryGQL,
 	StDetailsFinancialGrowthFragment,
 	StDetailsFinancialRatiosFragment,
 	StDetailsKeyMetricsFragment,
 	StockDetails,
-	StockDetailsFinancialReports,
 	Summary,
 } from '../../graphql-schema';
 import { Period } from '../../model';
@@ -27,7 +25,6 @@ export class SymbolStorageService {
 	constructor(
 		private queryStockDetailsGQL: QueryStockDetailsGQL,
 		private queryStockSummaryGQL: QueryStockSummaryGQL,
-		private queryStockFinancialReportsGQL: QueryStockFinancialReportsGQL,
 		private queryStockDetailsFinancialRatiosGQL: QueryStockDetailsFinancialRatiosGQL,
 		private queryStockDetailsFinancialGrowthGQL: QueryStockDetailsFinancialGrowthGQL,
 		private queryStockDetailsKeyMetricsGQL: QueryStockDetailsKeyMetricsGQL
@@ -119,18 +116,6 @@ export class SymbolStorageService {
 			})
 			.pipe(map((res) => res.data.queryStockSummary as Summary));
 	}
-
-	getStockFinancialReports(symbol = this.activeSymbol): Observable<StockDetailsFinancialReports | null> {
-		if (!symbol) {
-			return of(null);
-		}
-		return this.queryStockFinancialReportsGQL
-			.fetch({
-				symbol,
-			})
-			.pipe(map((res) => res.data.queryStockFinancialReports as StockDetailsFinancialReports));
-	}
-
 	private watchActiveStockSymbol(): void {
 		this.activeSymbol$
 			.pipe(

@@ -1,3 +1,5 @@
+from functools import reduce
+
 from Utils import characterModificationUtil
 
 
@@ -26,8 +28,12 @@ class FundamentalServiceFormatter:
         self._formatMutualFundHolders()
         self._formatInstitutionalHolder()
         self._formatCompanyOutlook()
-        self.data['recommendation'].reverse()
-        self.data['analystEstimates'].reverse()
+
+        if self.data.get('recommendation'):
+            self.data['recommendation'].reverse()
+        
+        if self.data.get('analystEstimates'):
+            self.data['analystEstimates'].reverse()
 
         # change: nan, infinity -> null
         self.data = characterModificationUtil.check_value_correction(self.data)
@@ -57,7 +63,7 @@ class FundamentalServiceFormatter:
                                                 reverse=True)[0:15]
 
     def _formatHistoricalMetrics(self):
-        if self.data['historicalMetrics'] is None:
+        if self.data.get('historicalMetrics') is None:
             return None
 
         result = {}
@@ -181,16 +187,16 @@ class FundamentalServiceFormatter:
     def _formatDividends(self):
         try:
             summaryDetail = self.data.get('companyData', {}).get('summaryDetail', {})
-            metric = self.data.get('metric', {})
+            companyOutlook  = self.data.get('companyOutlook', {})
+            ratios = companyOutlook.get('ratios', [{}])[0]
+            stockDividend = list(map(lambda x: x.get('adjDividend'), companyOutlook.get('stockDividend', [])[:4]))
+            stockDividendAnnual = reduce(lambda acc, val: acc + val, stockDividend)
+            ePSTTM = self.data.get('summary', {}).get('ePSTTM', None)
             self.data['dividends'] = {
-                'dividendGrowthRateFiveY': metric.get('dividendGrowthRateFiveY'),
-                'currentDividendYieldTTM': metric.get('currentDividendYieldTTM'),
-                'dividendPerShareAnnual': metric.get('dividendPerShareAnnual'),
-                'dividendPerShareFiveY': metric.get('dividendPerShareFiveY'),
-                'dividendYieldFiveY': metric.get('dividendYieldFiveY'),
-                'dividendPayoutRatioTTM': metric.get('payoutRatioTTM'),
-                'dividendYieldIndicatedAnnual': metric.get('dividendYieldIndicatedAnnual'),
-                'dividendsPerShareTTM': metric.get('dividendsPerShareTTM'),
+                'currentDividendYieldTTM': ratios.get('dividendYielTTM'),
+                'dividendPerShareAnnual': ratios.get('dividendPerShareTTM'),
+                'dividendPayoutRatioTTM':  stockDividendAnnual / ePSTTM if ePSTTM is not None else 0,
+                'dividendsPerShareTTM': stockDividendAnnual,
                 'exDividendDate': self.data['summary'].get('exDividendDate'),
                 'forwardDividendYield': self.data['summary'].get('forwardDividendYield'),
                 'trailingAnnualDividendRate': summaryDetail.get('trailingAnnualDividendRate'),
@@ -209,16 +215,5 @@ class FundamentalServiceFormatter:
                 self.data['companyData'].pop("quoteType", None)
                 self.data['companyData'].pop("price", None)
                 self.data['companyData'].pop("summaryDetail", None)
-
-            metric = self.data.get('metric', {})
-            metric.pop("currentDividendYieldTTM", None)
-            metric.pop("dividendGrowthRateFiveY", None)
-            metric.pop("dividendPerShareAnnual", None)
-            metric.pop("dividendPerShareFiveY", None)
-            metric.pop("dividendYieldFiveY", None)
-            metric.pop("dividendYieldIndicatedAnnual", None)
-            metric.pop("dividendsPerShareTTM", None)
-            metric.pop("forwardAnnualDividendYieldFour", None)
-            metric.pop("trailingAnnualDividendRateThree", None)
         except Exception as e:
             print('Exception in removeUnnecessaryData: ' + str(e))

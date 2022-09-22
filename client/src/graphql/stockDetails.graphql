@@ -67,30 +67,6 @@ fragment FinancialReportStatementDataFragment on FinancialReportStatementData {
 	value
 }
 
-fragment FinancialReportFragment on FinancialReport {
-	acceptedDate
-	accessNumber
-	cik
-	endDate
-	filedDate
-	form
-	quarter
-	startDate
-	symbol
-	year
-	report {
-		bs {
-			...FinancialReportStatementDataFragment
-		}
-		cf {
-			...FinancialReportStatementDataFragment
-		}
-		ic {
-			...FinancialReportStatementDataFragment
-		}
-	}
-}
-
 fragment recommendationFragment on Recommendations {
 	buy
 	hold
@@ -209,138 +185,9 @@ fragment financialDataFragment on FinancialData {
 	totalRevenue
 }
 
-fragment metricFragment on Metric {
-	fiveDayPriceReturnDaily
-	fiveTwoWeekHigh
-	fiveTwoWeekHighDate
-	fiveTwoWeekLow
-	fiveTwoWeekLowDate
-	fiveTwoWeekPriceReturnDaily
-	oneDayAverageTradingVolume
-	oneThreeWeekPriceReturnDaily
-	threeMonthAverageTradingVolume
-	twoSixWeekPriceReturnDaily
-	assetTurnoverAnnual
-	assetTurnoverTTM
-	beta
-	bookValuePerShareAnnual
-	bookValuePerShareQuarterly
-	bookValueShareGrowthFiveY
-	capitalSpendingGrowthFiveY
-	cashFlowPerShareAnnual
-	cashFlowPerShareTTM
-	cashPerSharePerShareAnnual
-	cashPerSharePerShareQuarterly
-	currentEvfreeCashFlowAnnual
-	currentEvfreeCashFlowTTM
-	currentRatioAnnual
-	currentRatioQuarterly
-	ebitdPerShareTTM
-	ebitdaCagrFiveY
-	ebitdaInterimCagrFiveY
-	epsBasicExclExtraItemsAnnual
-	epsBasicExclExtraItemsTTM
-	epsExclExtraItemsAnnual
-	epsExclExtraItemsTTM
-	epsGrowthFiveY
-	epsGrowthQuarterlyYoy
-	epsGrowthTTMYoy
-	epsGrowthThreeY
-	epsInclExtraItemsAnnual
-	epsInclExtraItemsTTM
-	epsNormalizedAnnual
-	focfCagrFiveY
-	freeCashFlowAnnual
-	freeCashFlowPerShareTTM
-	freeCashFlowTTM
-	freeOperatingCashFlowrevenueFiveY
-	freeOperatingCashFlowrevenueTTM
-	grossMarginAnnual
-	grossMarginFiveY
-	grossMarginTTM
-	inventoryTurnoverAnnual
-	inventoryTurnoverTTM
-	longTermDebtequityAnnual
-	longTermDebtequityQuarterly
-	marketCapitalization
-	monthToDatePriceReturnDaily
-	netDebtAnnual
-	netDebtInterim
-	netIncomeEmployeeAnnual
-	netIncomeEmployeeTTM
-	netInterestCoverageAnnual
-	netInterestCoverageTTM
-	netMarginGrowthFiveY
-	netProfitMarginAnnual
-	netProfitMarginFiveY
-	netProfitMarginTTM
-	operatingMarginAnnual
-	operatingMarginFiveY
-	operatingMarginTTM
-	payoutRatioAnnual
-	payoutRatioTTM
-	pbAnnual
-	pbQuarterly
-	pcfShareTTM
-	peBasicExclExtraTTM
-	peExclExtraAnnual
-	peExclExtraHighTTM
-	peExclExtraTTM
-	peExclLowTTM
-	peInclExtraTTM
-	peNormalizedAnnual
-	pfcfShareAnnual
-	pfcfShareTTM
-	pretaxMarginAnnual
-	pretaxMarginFiveY
-	pretaxMarginTTM
-	priceRelativeToSPFiveFiveTwoWeek
-	priceRelativeToSPFiveFourWeek
-	priceRelativeToSPFiveOneThreeWeek
-	priceRelativeToSPFiveTwoSixWeek
-	priceRelativeToSPFiveYtd
-	psAnnual
-	psTTM
-	ptbvAnnual
-	ptbvQuarterly
-	quickRatioAnnual
-	quickRatioQuarterly
-	receivablesTurnoverAnnual
-	receivablesTurnoverTTM
-	revenueEmployeeAnnual
-	revenueEmployeeTTM
-	revenueGrowthFiveY
-	revenueGrowthQuarterlyYoy
-	revenueGrowthTTMYoy
-	revenueGrowthThreeY
-	revenuePerShareAnnual
-	revenuePerShareTTM
-	revenueShareGrowthFiveY
-	roaRfy
-	roaaFiveY
-	roaeFiveY
-	roaeTTM
-	roeRfy
-	roeTTM
-	roiAnnual
-	roiFiveY
-	roiTTM
-	tangibleBookValuePerShareAnnual
-	tangibleBookValuePerShareQuarterly
-	tbvCagrFiveY
-	totalDebtCagrFiveY
-	totalDebttotalEquityAnnual
-	totalDebttotalEquityQuarterly
-	yearToDatePriceReturnDaily
-}
-
 fragment dividensFragment on Dividens {
 	currentDividendYieldTTM
-	dividendGrowthRateFiveY
 	dividendPerShareAnnual
-	dividendPerShareFiveY
-	dividendYieldFiveY
-	dividendYieldIndicatedAnnual
 	dividendPayoutRatioTTM
 	dividendsPerShareTTM
 	exDividendDate
@@ -607,9 +454,9 @@ query QueryEtfDetails($symbol: String!) {
 query QueryStockDetails($symbol: String!, $reload: Boolean) {
 	queryStockDetails(symbol: $symbol, reload: $reload) {
 		id
-		recommendation {
-			...recommendationFragment
-		}
+		# recommendation {
+		# 	...recommendationFragment
+		# }
 		companyData {
 			defaultKeyStatistics {
 				...defaultKeyStatisticsFragment
@@ -638,9 +485,6 @@ query QueryStockDetails($symbol: String!, $reload: Boolean) {
 		}
 		summary {
 			...StockSummaryFragment
-		}
-		metric {
-			...metricFragment
 		}
 		dividends {
 			...dividensFragment
@@ -774,12 +618,6 @@ query QueryStockDetails($symbol: String!, $reload: Boolean) {
 				}
 			}
 		}
-		allFinancialReportsYearly {
-			...FinancialReportFragment
-		}
-		allFinancialReportsQuarterly {
-			...FinancialReportFragment
-		}
 		institutionalHolders {
 			...STFMHolderFragment
 		}
@@ -833,18 +671,6 @@ query QueryStockDetails($symbol: String!, $reload: Boolean) {
 		}
 		sectorPeers {
 			...STFMCompanyQuoteFragment
-		}
-	}
-}
-
-query QueryStockFinancialReports($symbol: String!) {
-	queryStockFinancialReports(symbol: $symbol) {
-		id
-		allFinancialReportsQuarterly {
-			...FinancialReportFragment
-		}
-		allFinancialReportsYearly {
-			...FinancialReportFragment
 		}
 	}
 }

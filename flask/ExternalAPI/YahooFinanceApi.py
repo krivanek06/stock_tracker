@@ -41,10 +41,9 @@ class YahooFinanceApi:
                 if data['summaryProfile'] is None:
                     data['summaryProfile'] = {}
                 data['summaryProfile']['logo_url'] = None
-
-            return {'companyData': data}
+            return  data
         except:
-            return {'companyData': None}
+            return  None
 
     def __parse_json(self, url, *jsonPathArgs):
         try:

@@ -101,7 +101,7 @@ class FundamentalServiceEstimation:
         try:
             minimumRateReturn = self.data['calculations']['WACC']['result']
             dividendsPerShareTTM = self.data['dividends']['dividendsPerShareTTM']
-            dividendGrowthRate = self.data['dividends']['dividendGrowthRateFiveY'] / 100
+            dividendGrowthRate = self.data['dividends']['forwardDividendYield']
 
             minimumRateReturn = dividendGrowthRate * 1.125 if dividendGrowthRate > minimumRateReturn else minimumRateReturn
 

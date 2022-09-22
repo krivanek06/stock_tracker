@@ -1,15 +1,17 @@
 from calendar import timegm
 from datetime import datetime
-from requests import get
+from os import environ
 
+from dotenv import load_dotenv
+from requests import get
 from Services import FileManagerService
 from Utils import characterModificationUtil
-import environments_keys
 
+load_dotenv()
 
 class QuandlApi:
     def __init__(self):
-        self.APIKEY = environments_keys.QUANDL_SECRET_KEY
+        self.APIKEY = environ.get('QUANDL_SECRET_KEY')
         self.fileManager = FileManagerService.FileManagerService()
 
     def getAllDataForDocumentKey(self, documentKey):

@@ -1,17 +1,12 @@
 <div *ngIf="stockDetails as details" class="g-data-item-wrapper">
 	<div>
-		<div>Revenue per share ttm.</div>
-		<div>{{ details.metric?.revenuePerShareTTM | numberFormatter}}</div>
+		<div>Revenue per share</div>
+		<div>{{ details.companyData?.financialData?.revenuePerShare | numberFormatter}}</div>
 	</div>
 
 	<div>
-		<div>BV per share qrt.</div>
-		<div>{{ details.metric?.bookValuePerShareQuarterly | numberFormatter }}</div>
-	</div>
-
-	<div>
-		<div>BV per share ann.</div>
-		<div>{{ details.metric?.bookValuePerShareAnnual | numberFormatter }}</div>
+		<div>BV per share</div>
+		<div>{{ details.companyData?.defaultKeyStatistics?.bookValue | numberFormatter }}</div>
 	</div>
 
 	<div>
@@ -20,24 +15,14 @@
 	</div>
 
 	<div>
-		<div>CF per share ttm.</div>
-		<div>{{ details.metric?.cashFlowPerShareTTM | numberFormatter }}</div>
-	</div>
-
-	<div>
-		<div>FCF per share ttm.</div>
-		<div>{{ details.metric?.freeCashFlowPerShareTTM | numberFormatter }}</div>
-	</div>
-
-	<div>
 		<div>OCF per share ttm.</div>
 		<div>{{ details.companyOutlook.ratios?.operatingCashFlowPerShareTTM | numberFormatter }}</div>
 	</div>
 
-	<div>
+	<!-- <div>
 		<div>EBITDA per share ttm.</div>
 		<div>{{ details.metric?.ebitdPerShareTTM | numberFormatter }}</div>
-	</div>
+	</div> -->
 
 	<div>
 		<div>Equity multiplier</div>
@@ -57,5 +42,10 @@
 	<div>
 		<div>Net Income/Common</div>
 		<div>{{ details.companyData?.defaultKeyStatistics?.netIncomeToCommon | numberFormatter }}</div>
+	</div>
+
+	<div>
+		<div>Net Income/EBIT</div>
+		<div>{{ details.companyOutlook.ratios?.netIncomePerEBTTTM| numberFormatter }}</div>
 	</div>
 </div>

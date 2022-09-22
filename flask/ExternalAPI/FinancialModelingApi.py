@@ -1,13 +1,15 @@
 from datetime import datetime, timedelta
+from os import environ
 
-import environments_keys
 from dateutil.relativedelta import relativedelta
+from dotenv import load_dotenv
 from requests import get
 
+load_dotenv()
 
 class FinancialModelingApi:
     def __init__(self):
-        self.API_KEY = environments_keys.FINANCIAL_MODELING_API_KEY
+        self.API_KEY = environ.get('FINANCIAL_MODELING_API_KEY')
         self.url = 'https://financialmodelingprep.com/api'
 
     def _makeRequest(self, path: str, symbol: str, params: {} = {}, version='v3'):

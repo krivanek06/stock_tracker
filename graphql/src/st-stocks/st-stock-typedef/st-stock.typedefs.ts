@@ -7,12 +7,6 @@ export const stockDetailsTypeDefs = gql`
 		summaries: [Summary]!
 	}
 
-	type StockDetailsFinancialReports {
-		id: String!
-		allFinancialReportsQuarterly: [FinancialReport!]!
-		allFinancialReportsYearly: [FinancialReport!]!
-	}
-
 	enum SymbolType {
 		STOCK
 		ETF
@@ -31,7 +25,6 @@ export const stockDetailsTypeDefs = gql`
 		recommendation: [Recommendations!]!
 		companyData: CompanyData
 		summary: Summary!
-		metric: Metric
 		dividends: Dividens
 		historicalMetrics: HistoricalMetrics
 		calculations: STStockDetailsCalculations
@@ -404,142 +397,13 @@ export const stockDetailsTypeDefs = gql`
 
 	type Dividens {
 		currentDividendYieldTTM: Float
-		dividendGrowthRateFiveY: Float
 		dividendPerShareAnnual: Float
-		dividendPerShareFiveY: Float
-		dividendYieldFiveY: Float
-		dividendYieldIndicatedAnnual: Float
 		dividendPayoutRatioTTM: Float
 		dividendsPerShareTTM: Float
 		exDividendDate: String
 		trailingAnnualDividendRate: String
 		trailingAnnualDividendYield: String
 		forwardDividendYield: String
-	}
-
-	type Metric {
-		fiveDayPriceReturnDaily: Float
-		fiveTwoWeekHigh: Float
-		fiveTwoWeekHighDate: String
-		fiveTwoWeekLow: Float
-		fiveTwoWeekLowDate: String
-		fiveTwoWeekPriceReturnDaily: Float
-		oneDayAverageTradingVolume: Float
-		oneThreeWeekPriceReturnDaily: Float
-		threeMonthAverageTradingVolume: Float
-		twoSixWeekPriceReturnDaily: Float
-		assetTurnoverAnnual: Float
-		assetTurnoverTTM: Float
-		beta: Float
-		bookValuePerShareAnnual: Float
-		bookValuePerShareQuarterly: Float
-		bookValueShareGrowthFiveY: Float
-		capitalSpendingGrowthFiveY: Float
-		cashFlowPerShareAnnual: Float
-		cashFlowPerShareTTM: Float
-		cashPerSharePerShareAnnual: Float
-		cashPerSharePerShareQuarterly: Float
-		currentEvfreeCashFlowAnnual: Float
-		currentEvfreeCashFlowTTM: Float
-		currentRatioAnnual: Float
-		currentRatioQuarterly: Float
-		ebitdPerShareTTM: Float
-		ebitdaCagrFiveY: Float
-		ebitdaInterimCagrFiveY: Float
-		epsBasicExclExtraItemsAnnual: Float
-		epsBasicExclExtraItemsTTM: Float
-		epsExclExtraItemsAnnual: Float
-		epsExclExtraItemsTTM: Float
-		epsGrowthFiveY: Float
-		epsGrowthQuarterlyYoy: Float
-		epsGrowthTTMYoy: Float
-		epsGrowthThreeY: Float
-		epsInclExtraItemsAnnual: Float
-		epsInclExtraItemsTTM: Float
-		epsNormalizedAnnual: Float
-		focfCagrFiveY: Float
-		freeCashFlowAnnual: Float
-		freeCashFlowPerShareTTM: Float
-		freeCashFlowTTM: Float
-		freeOperatingCashFlowrevenueFiveY: Float
-		freeOperatingCashFlowrevenueTTM: Float
-		grossMarginAnnual: Float
-		grossMarginFiveY: Float
-		grossMarginTTM: Float
-		inventoryTurnoverAnnual: Float
-		inventoryTurnoverTTM: Float
-		longTermDebtequityAnnual: Float
-		longTermDebtequityQuarterly: Float
-		marketCapitalization: Float
-		monthToDatePriceReturnDaily: Float
-		netDebtAnnual: Float
-		netDebtInterim: Float
-		netIncomeEmployeeAnnual: Float
-		netIncomeEmployeeTTM: Float
-		netInterestCoverageAnnual: Float
-		netInterestCoverageTTM: Float
-		netMarginGrowthFiveY: Float
-		netProfitMarginAnnual: Float
-		netProfitMarginFiveY: Float
-		netProfitMarginTTM: Float
-		operatingMarginAnnual: Float
-		operatingMarginFiveY: Float
-		operatingMarginTTM: Float
-		payoutRatioAnnual: Float
-		payoutRatioTTM: Float
-		pbAnnual: Float
-		pbQuarterly: Float
-		pcfShareTTM: Float
-		peBasicExclExtraTTM: Float
-		peExclExtraAnnual: Float
-		peExclExtraHighTTM: Float
-		peExclExtraTTM: Float
-		peExclLowTTM: Float
-		peInclExtraTTM: Float
-		peNormalizedAnnual: Float
-		pfcfShareAnnual: Float
-		pfcfShareTTM: Float
-		pretaxMarginAnnual: Float
-		pretaxMarginFiveY: Float
-		pretaxMarginTTM: Float
-		priceRelativeToSPFiveFiveTwoWeek: Float
-		priceRelativeToSPFiveFourWeek: Float
-		priceRelativeToSPFiveOneThreeWeek: Float
-		priceRelativeToSPFiveTwoSixWeek: Float
-		priceRelativeToSPFiveYtd: Float
-		psAnnual: Float
-		psTTM: Float
-		ptbvAnnual: Float
-		ptbvQuarterly: Float
-		quickRatioAnnual: Float
-		quickRatioQuarterly: Float
-		receivablesTurnoverAnnual: Float
-		receivablesTurnoverTTM: Float
-		revenueEmployeeAnnual: Float
-		revenueEmployeeTTM: Float
-		revenueGrowthFiveY: Float
-		revenueGrowthQuarterlyYoy: Float
-		revenueGrowthTTMYoy: Float
-		revenueGrowthThreeY: Float
-		revenuePerShareAnnual: Float
-		revenuePerShareTTM: Float
-		revenueShareGrowthFiveY: Float
-		roaRfy: Float
-		roaaFiveY: Float
-		roaeFiveY: Float
-		roaeTTM: Float
-		roeRfy: Float
-		roeTTM: Float
-		roiAnnual: Float
-		roiFiveY: Float
-		roiTTM: Float
-		tangibleBookValuePerShareAnnual: Float
-		tangibleBookValuePerShareQuarterly: Float
-		tbvCagrFiveY: Float
-		totalDebtCagrFiveY: Float
-		totalDebttotalEquityAnnual: Float
-		totalDebttotalEquityQuarterly: Float
-		yearToDatePriceReturnDaily: Float
 	}
 
 	type NewsArticle {
