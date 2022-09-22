@@ -1,7 +1,7 @@
 <div class="g-data-item-wrapper">
 	<div>
 		<div>Yield</div>
-		<div>{{ dividends.dividendsPerShareTTM | numberFormatter }} ({{ dividends.currentDividendYieldTTM | number: '1.2-2' }}%)</div>
+		<div>{{ dividends.dividendsPerShareTTM | numberFormatter }} ({{ dividends.currentDividendYieldTTM | percent: '1.2-2' }})</div>
 	</div>
 
 	<div>
@@ -15,13 +15,8 @@
 	</div>
 
 	<div>
-		<div>5y yield & growth</div>
-		<div>{{ dividends.dividendPerShareFiveY | numberFormatter }} ({{ dividends.dividendYieldFiveY | number: '1.2-2' }}%)</div>
-	</div>
-
-	<div>
 		<div>Payout ratio</div>
-		<div>{{ dividends.dividendPayoutRatioTTM | number: '1.2-2' }}%</div>
+		<div>{{ dividends.dividendPayoutRatioTTM | percent: '1.2-2' }}%</div>
 	</div>
 
 	<div>

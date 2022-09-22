@@ -47,7 +47,6 @@ import {
 	queryStockDetailsFinancialGrowth,
 	queryStockDetailsFinancialRatios,
 	queryStockDetailsKeyMetrics,
-	queryStockFinancialReports,
 	queryStockQuotesByPrefix,
 	queryStockSummary,
 	setForceReloadStockDetails,
@@ -100,7 +99,6 @@ const mainTypeDefs = gql`
 		queryEtfDetails(symbol: String!, reload: Boolean): EtfDetails
 		queryStockSummary(symbol: String!, allowReload: Boolean): Summary
 		queryStockQuotesByPrefix(symbolPrefix: String!): [STFMCompanyQuote]!
-		queryStockFinancialReports(symbol: String!): StockDetailsFinancialReports
 		querySymbolHistoricalPrices(symbol: String!, period: String!): SymbolHistoricalPrices
 		queryStockDetailsFinancialRatios(symbol: String!, period: String!, allData: Boolean!): STDetailsFinancialRatios
 		queryStockDetailsFinancialGrowth(symbol: String!, period: String!, allData: Boolean!): STDetailsFinancialGrowth
@@ -188,7 +186,6 @@ const mainResolver = {
 		queryEtfDetails: async (_: null, args: { symbol: string; reload: boolean }) => await queryEtfDetails(args.symbol, args.reload),
 		queryStockSummary: async (_: null, args: { symbol: string; allowReload?: boolean }) => await queryStockSummary(args.symbol, args.allowReload),
 		queryStockQuotesByPrefix: async (_: null, args: { symbolPrefix: string }) => await queryStockQuotesByPrefix(args.symbolPrefix),
-		queryStockFinancialReports: async (_: null, args: { symbol: string }) => await queryStockFinancialReports(args.symbol),
 		querySymbolHistoricalPrices: async (_: null, args: { symbol: string; period: string }) =>
 			await querySymbolHistoricalPrices(args.symbol, args.period),
 		queryStockDetailsFinancialRatios: async (_: null, args: { symbol: string; period: 'quarter' | 'year'; allData: boolean }) =>

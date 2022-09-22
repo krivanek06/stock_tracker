@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+from flask_cors import CORS
 from flask_json import FlaskJSON
 from werkzeug.exceptions import NotFound
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
@@ -8,6 +10,7 @@ from Controllers.fundamentals import app as fundamentals
 from Controllers.search import app as search
 from flask import Flask
 
+load_dotenv('./env')
 app = Flask(__name__)
 FlaskJSON(app)
 # CORS(app, resources={r"*": {"origins": "*"}})

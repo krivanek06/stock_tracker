@@ -31,15 +31,6 @@ export const queryStockDetails = async (symbol: string, reload = false): Promise
 				return null;
 			}
 
-			// if not mutual fund or etf when it should have financial repots
-			if (details.summary.symbolType === api.SymbolType.STOCK || details.summary.symbolType === api.SymbolType.ADR) {
-				await saveFinancialReports(symbol, details);
-
-				// remove FinancialReportStatement
-				details.allFinancialReportsQuarterly = modifyFinancialReports(details.allFinancialReportsQuarterly);
-				details.allFinancialReportsYearly = modifyFinancialReports(details.allFinancialReportsYearly);
-			}
-
 			await saveDataIntoFirestore(symbol, details);
 
 			return details;
@@ -69,25 +60,6 @@ const removeAllStockFromFirestore = async () => {
 		});
 	});
 	console.log('Deleting done');
-};
-
-const saveFinancialReports = async (symbol: string, details: api.StockDetails) => {
-	admin
-		.firestore()
-		.collection(api.ST_STOCK_DATA_COLLECTION)
-		.doc(symbol)
-		.collection(api.ST_STOCK_DATA_COLLECTION_MORE_INFORMATION)
-		.doc(api.ST_STOCK_DATA_DOCUMENT_FINACIAL_REPORTS)
-		.set({
-			allFinancialReportsQuarterly: details.allFinancialReportsQuarterly,
-			allFinancialReportsYearly: details.allFinancialReportsYearly,
-		});
-};
-
-const modifyFinancialReports = (financialReports: api.STFinancialReport[]): api.STFinancialReport[] => {
-	return financialReports.map((financialReport) => {
-		return { ...financialReport, report: null };
-	});
 };
 
 const getAndSaveStockNewsFromApi = async (symbol: string, data: api.StockDetailsWrapper): Promise<api.STFMStockNew[]> => {

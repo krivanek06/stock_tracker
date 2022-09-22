@@ -20,6 +20,7 @@ __pycache__/
 # virtualenv
 venv/
 ENV/
+env/
 
 #custom
 private_data/
