@@ -24,10 +24,10 @@
 		<div>{{ details.companyData?.defaultKeyStatistics?.trailingEps | numberFormatter }}</div>
 	</div>
 
-	<div>
+	<!-- <div>
 		<div>Evaluation to FCF ttm.</div>
 		<div>{{ details.metric?.currentEvfreeCashFlowTTM | numberFormatter }}</div>
-	</div>
+	</div> -->
 
 	<div>
 		<div>Price to sale</div>
@@ -52,5 +52,15 @@
 	<div>
 		<div>Enterprise to EBITDA</div>
 		<div>{{ details.companyData?.defaultKeyStatistics?.enterpriseToEbitda | numberFormatter }}</div>
+	</div>
+
+	<div>
+		<div>Operating CF to revenue ttm.</div>
+		<div>{{ details.companyOutlook.ratios?.freeCashFlowOperatingCashFlowRatioTTM | numberFormatter }}</div>
+	</div>
+
+	<div>
+		<div>Operating CF to sales ttm.</div>
+		<div>{{ details.companyOutlook.ratios?.operatingCashFlowSalesRatioTTM| numberFormatter }}</div>
 	</div>
 </div>

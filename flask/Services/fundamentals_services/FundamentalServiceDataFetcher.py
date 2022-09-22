@@ -44,7 +44,7 @@ class FundamentalServiceDataFetcher:
             return merge
 
         # Yahoo finance
-        t4 = Thread(target=lambda q, arg1: q.put(self.yRequester.get_company_data(arg1)), args=(que, symbol))
+        t4 = Thread(target=lambda q, arg1: q.put({'companyData': self.yRequester.get_company_data(arg1)}), args=(que, symbol))
 
         # Financial modeling getMutualFundHolders
         t2 = Thread(target=lambda q, arg1: q.put({'mutualFundHolders': self.financialModeling.getMutualFundHolders(arg1)}), args=(que, symbol))
@@ -55,9 +55,7 @@ class FundamentalServiceDataFetcher:
         tSector = Thread(target=lambda q, arg1: q.put({'sectorPeers': self.__getSectorPeers(arg1)}), args=(que, symbol))
 
         # Finhub
-        t6 = Thread(target=lambda q, arg1: q.put(self.finhub.getRecomendationForSymbol(arg1)), args=(que, symbol))
-        t7 = Thread(target=lambda q, arg1: q.put(self.finhub.getStockYearlyFinancialReport(arg1)), args=(que, symbol))
-        t11 = Thread(target=lambda q, arg1: q.put(self.finhub.getStockMetrics(arg1)), args=(que, symbol))
+        # t6 = Thread(target=lambda q, arg1: q.put({'recommendation': self.finhub.getRecomendationForSymbol(arg1)}), args=(que, symbol))
 
         # start threads
         t2.start()
@@ -66,9 +64,7 @@ class FundamentalServiceDataFetcher:
         tAnalyst.start()
         tSocialSentiment.start()
         t4.start()
-        t6.start()
-        t7.start()
-        t11.start()
+        # t6.start()
 
         # wait threads to finish
         t2.join()
@@ -77,9 +73,7 @@ class FundamentalServiceDataFetcher:
         tAnalyst.join()
         tSocialSentiment.join()
         t4.join()
-        t6.join()
-        t7.join()
-        t11.join()
+        # t6.join()
 
         return self.__getMergeResult(que, merge)
     
