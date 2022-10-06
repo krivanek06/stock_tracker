@@ -18,6 +18,7 @@
 					[price]="balanceSheet[i][data.data]"
 					[pricePosition]="pricePositionBreakPoint? 'top' : 'left'"
 					[showNAIfPriceZero]="true"
+					[isPercent]="true"
 				>
 				</app-price-change-item>
 			</div>
@@ -39,6 +40,7 @@
 							[price]="balanceSheet[i][dataContainer.data]"
 							[pricePosition]="pricePositionBreakPointMobile ? 'top' : 'left'"
 							[showNAIfPriceZero]="true"
+							[isPercent]="true"
 						>
 						</app-price-change-item>
 					</div>
