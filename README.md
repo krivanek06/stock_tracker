@@ -4,10 +4,6 @@ Application to analyze financial details about publicly listed companies. The in
 
 Click to launch the [application](https://stock-tracker-prod.web.app/) 
 
-Testing login:
-- email: krivanek1234.1@gmail.com
-- password: qwer1234
-
 
 ![Dashboard](images/dashboard.png)
 ![Details_1](images/portal_detail_1.png)
