@@ -15,7 +15,7 @@ export const MARKET_PAGE_PATH: NameValueContainer<string>[] = [
 	{ name: 'overview', value: MARKET_PAGE_ENUM.overview },
 	{ name: 'crypto', value: MARKET_PAGE_ENUM.crypto },
 	{ name: 'news', value: MARKET_PAGE_ENUM.news },
-	{ name: 'calendar', value: MARKET_PAGE_ENUM.calendar },
+	//{ name: 'calendar', value: MARKET_PAGE_ENUM.calendar },
 	{ name: 'etf', value: MARKET_PAGE_ENUM.etf },
 	{ name: 'other', value: MARKET_PAGE_ENUM.other },
 ];

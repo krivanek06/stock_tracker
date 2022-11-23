@@ -93,26 +93,6 @@ query QueryMarketDailyOverview {
 		news {
 			...STFMStockNewFragment
 		}
-		calendar {
-			calendarEconomic {
-				...STFMCalendarEconomicFragment
-			}
-			calendarDividend {
-				...STFMStockDividendFragment
-			}
-			calendarSplit {
-				...STFMSplitHistoryFragment
-			}
-			calendarIpo {
-				...STFMCalendarIpoFragment
-			}
-			calendarEarnings {
-				...STFMCalendarEarningsFragment
-			}
-		}
-		mutulaFunds {
-			...STFMCompanyQuoteFragment
-		}
 		etfs {
 			...STFMCompanyQuoteFragment
 		}
