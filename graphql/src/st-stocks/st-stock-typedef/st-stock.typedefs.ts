@@ -347,7 +347,7 @@ export const stockDetailsTypeDefs = gql`
 	}
 
 	type Summary {
-		avgVolume: Float!
+		avgVolume: Float
 		ceo: String
 		companyName: String!
 		currency: String!

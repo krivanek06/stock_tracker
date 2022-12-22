@@ -20,7 +20,12 @@ class FundamentalServiceDataFetcher:
 
     def __getSectorPeers(self, symbol):
         searchedResult = self.financialModeling.getSectorPeers(symbol)  # 10 peers
-        return [] if not searchedResult else self.financialModeling.getCompanyQuoteBatch(searchedResult[0]['peersList'])
+        if not searchedResult:
+            return []
+        data = self.financialModeling.getCompanyQuoteBatch(searchedResult[0]['peersList'])
+        filteredData = list(filter(lambda x: x['change'] is not None, data))
+        return filteredData
+
 
     def __fetchStockDetails(self, symbol):
         # get result from threads into one dict
