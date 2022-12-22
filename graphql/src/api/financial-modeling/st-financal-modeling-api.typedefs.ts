@@ -349,17 +349,14 @@ export const STFinancialModelingAPITypeDefs = gql`
 	}
 
 	type STFMCompanyQuote {
-		avgVolume: Float!
-		change: Float!
-		changesPercentage: Float!
-		dayHigh: Float
-		dayLow: Float
+		avgVolume: Float
+		change: Float
+		changesPercentage: Float
 		earningsAnnouncement: String
 		eps: Float
 		exchange: String!
 		marketCap: Float
 		name: String!
-		open: Float!
 		pe: Float
 		previousClose: Float
 		price: Float

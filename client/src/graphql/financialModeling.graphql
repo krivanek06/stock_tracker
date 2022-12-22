@@ -286,19 +286,14 @@ fragment STFMCompanyQuoteFragment on STFMCompanyQuote {
 	avgVolume
 	change
 	changesPercentage
-	dayHigh
-	dayLow
 	earningsAnnouncement
 	eps
 	exchange
 	marketCap
 	name
-	open
 	pe
 	previousClose
 	price
-	priceAvg200
-	priceAvg50
 	sharesOutstanding
 	symbol
 	timestamp
