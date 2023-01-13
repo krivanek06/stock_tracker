@@ -1,6 +1,6 @@
 <app-loader-wrapper>
 	<div *ngIf="stockDetails$ | async as stockDetails" class="flex flex-col gap-2">
-		<div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+		<div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
 			<!-- stock chart -->
 			<app-financial-chart-container
 				class="col-span-2"
@@ -21,7 +21,7 @@
 			</div>
 		</div>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+		<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
 			<!-- financial strength -->
 			<app-mat-card-wrapper title="Financial strength">
 				<app-details-financial-strength [stockDetails]="stockDetails"> </app-details-financial-strength>
@@ -82,7 +82,7 @@
 			</div>
 		</div>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+		<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
 			<!-- financial ratio -->
 			<app-mat-card-wrapper title="Financial ratio">
 				<app-details-financial-strength-ratio [stockDetails]="stockDetails"></app-details-financial-strength-ratio>
@@ -118,8 +118,8 @@
 			</app-mat-card-wrapper>
 		</div>
 
-		<div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
-			<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-2">
+		<div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
+			<div class="grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-1">
 				<!-- rating -->
 				<app-mat-card-wrapper title="Rating">
 					<app-details-rating *ngIf="stockDetails.companyOutlook.rating" [rating]="stockDetails.companyOutlook.rating"> </app-details-rating>
@@ -135,7 +135,7 @@
 				</app-mat-card-wrapper>
 			</div>
 
-			<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-2">
+			<div class="grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-1">
 				<!-- dividends -->
 				<app-mat-card-wrapper title="Dividend">
 					<app-details-dividend *ngIf="stockDetails.dividends as  dividends" [dividends]="dividends"> </app-details-dividend>
@@ -149,7 +149,7 @@
 			</div>
 		</div>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+		<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 			<!-- Financial yearly -->
 			<app-mat-card-wrapper title="Financial yearly">
 				<ng-container *ngIf="stockDetails.companyData?.earnings?.financialsChart as fc">
@@ -191,16 +191,15 @@
 			</app-mat-card-wrapper>
 		</div>
 
-		<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+		<div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
 			<div class="grid grid-cols-1 gap-2">
-				<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+				<div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
 					<!--  Current price to 1y target -->
 					<app-mat-card-wrapper title="Price to 1y target">
 						<app-gauge-chart
-							*ngIf="stockDetails.summary.oneyTargetEst"
 							[currentPoint]="stockDetails.summary.marketPrice"
 							[displayValue]="stockDetails.summary.targetEstOneyPercent | percent: '1.2'"
-							[endingPoint]="stockDetails.summary.oneyTargetEst"
+							[endingPoint]="stockDetails.summary?.oneyTargetEst || null"
 							[height]="140"
 							[startingPoint]="0"
 							[tooltipName]="'Target'"
@@ -231,7 +230,7 @@
 				</app-mat-card-wrapper>
 			</div>
 
-			<!--  grading history -->
+			<!-- grading history -->
 			<app-mat-card-wrapper title="Stock grading">
 				<ng-container *ngIf="stockDetails.companyData?.upgradeDowngradeHistory as upgradeDowngradeHistory">
 					<div *ngIf="upgradeDowngradeHistory.length > 0" class="mb-4">
@@ -244,7 +243,7 @@
 			</app-mat-card-wrapper>
 		</div>
 
-		<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+		<div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
 			<!-- Institutional holders -->
 			<app-mat-card-wrapper title="Institutional holders">
 				<app-details-holders
@@ -276,7 +275,7 @@
 			</ng-container>
 		</app-mat-card-wrapper>
 
-		<div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+		<div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
 			<!-- key executives -->
 			<app-mat-card-wrapper *ngIf="stockDetails.companyOutlook.keyExecutives as keyExecutives" title="Key executives">
 				<app-details-key-executives *ngIf="keyExecutives.length > 0" [keyExecutives]="keyExecutives | slice: 0 : 8"> </app-details-key-executives>
@@ -291,8 +290,8 @@
 		<!-- news -->
 		<div *ngIf="stockDetails.companyOutlook.stockNews as stockNews" class="mt-6">
 			<ng-container *ngIf="stockNews.length > 0">
-				<div class="g-color-white text-xl">News</div>
-				<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4">
+				<div class="text-xl g-color-white">News</div>
+				<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4">
 					<app-market-stock-news *ngFor="let article of stockDetails.companyOutlook.stockNews" [stockArticle]="article"> </app-market-stock-news>
 				</div>
 			</ng-container>

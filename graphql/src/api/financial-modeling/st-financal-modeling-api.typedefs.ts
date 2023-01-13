@@ -364,8 +364,8 @@ export const STFinancialModelingAPITypeDefs = gql`
 		priceAvg50: Float
 		sharesOutstanding: Float
 		symbol: String!
-		timestamp: Float!
-		volume: Float!
+		timestamp: Float
+		volume: Float
 		yearHigh: Float!
 		yearLow: Float!
 		image: String
