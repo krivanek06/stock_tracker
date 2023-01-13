@@ -14,7 +14,7 @@ HighchartsSolidGauge(Highcharts);
 })
 export class GaugeChartComponent implements OnInit, OnChanges {
 	@Input() startingPoint!: number;
-	@Input() endingPoint!: number;
+	@Input() endingPoint?: number | null;
 	@Input() currentPoint!: number;
 	@Input() displayValue: any;
 	@Input() height = 350;

@@ -18,6 +18,7 @@ class YahooFinanceApi:
 
         self.__format_crypto(data)
         return data
+
     def get_company_data(self, ticker):
         try:
             site = "https://finance.yahoo.com/quote/" + ticker + "?p=" + ticker
