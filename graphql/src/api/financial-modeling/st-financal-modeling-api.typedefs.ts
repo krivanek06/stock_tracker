@@ -354,7 +354,7 @@ export const STFinancialModelingAPITypeDefs = gql`
 		changesPercentage: Float
 		earningsAnnouncement: String
 		eps: Float
-		exchange: String!
+		exchange: String
 		marketCap: Float
 		name: String!
 		pe: Float
@@ -366,8 +366,8 @@ export const STFinancialModelingAPITypeDefs = gql`
 		symbol: String!
 		timestamp: Float
 		volume: Float
-		yearHigh: Float!
-		yearLow: Float!
+		yearHigh: Float
+		yearLow: Float
 		image: String
 	}
 
