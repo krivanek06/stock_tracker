@@ -15,3 +15,5 @@
 
 # Cloud functions
 firebase deploy --only functions --project prod
+
+gcloud run deploy --image ss --platform managed --max-instances=1
